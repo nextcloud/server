@@ -9,12 +9,17 @@ declare(strict_types=1);
 namespace OCA\Dashboard\Service;
 
 use JsonException;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IConfig;
+use OCP\IUserManager;
 
 class DashboardService {
 	public function __construct(
 		private IConfig $config,
 		private ?string $userId,
+		private IUserManager $userManager,
+		private IAccountManager $accountManager,
 	) {
 
 	}
@@ -41,5 +46,26 @@ class DashboardService {
 		} catch (JsonException $e) {
 			return array_values(array_filter(explode(',', $configStatuses), fn (string $value) => $value !== ''));
 		}
+	}
+
+	public function getBirthdate(): string {
+		if ($this->userId === null) {
+			return '';
+		}
+
+		$user = $this->userManager->get($this->userId);
+		if ($user === null) {
+			return '';
+		}
+
+		$account = $this->accountManager->getAccount($user);
+
+		try {
+			$birthdate = $account->getProperty(IAccountManager::PROPERTY_BIRTHDATE);
+		} catch (PropertyDoesNotExistException) {
+			return '';
+		}
+
+		return $birthdate->getValue();
 	}
 }

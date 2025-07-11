@@ -22,7 +22,6 @@ namespace OCA\UserStatus;
  *     icon: string,
  *     message: string,
  *     clearAt: ?UserStatusClearAt,
- *     visible: ?bool,
  * }
  *
  * @psalm-type UserStatusType = "online"|"away"|"dnd"|"busy"|"offline"|"invisible"

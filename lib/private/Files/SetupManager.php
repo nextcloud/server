@@ -21,20 +21,21 @@ use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
 use OC\Share\Share;
 use OC\Share20\ShareDisableChecker;
-use OC_App;
 use OC_Hook;
-use OC_Util;
-use OCA\Files_External\Config\ConfigAdapter;
+use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_Sharing\External\Mount;
 use OCA\Files_Sharing\ISharedMountPoint;
 use OCA\Files_Sharing\SharedMount;
+use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Events\Node\FilesystemTornDownEvent;
 use OCP\Files\Mount\IMountManager;
@@ -80,6 +81,7 @@ class SetupManager {
 		private LoggerInterface $logger,
 		private IConfig $config,
 		private ShareDisableChecker $shareDisableChecker,
+		private IAppManager $appManager,
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -103,7 +105,7 @@ class SetupManager {
 		$this->setupBuiltinWrappersDone = true;
 
 		// load all filesystem apps before, so no setup-hook gets lost
-		OC_App::loadApps(['filesystem']);
+		$this->appManager->loadApps(['filesystem']);
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		Filesystem::addStorageWrapper('mount_options', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
@@ -134,7 +136,7 @@ class SetupManager {
 
 		// install storage availability wrapper, before most other wrappers
 		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			$externalMount = $mount instanceof ConfigAdapter || $mount instanceof Mount;
+			$externalMount = $mount instanceof ExternalMountPoint || $mount instanceof Mount;
 			if ($externalMount && !$storage->isLocal()) {
 				return new Availability(['storage' => $storage]);
 			}
@@ -155,7 +157,7 @@ class SetupManager {
 			if ($mount instanceof HomeMountPoint) {
 				$user = $mount->getUser();
 				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-					return OC_Util::getUserQuota($user);
+					return $user->getQuotaBytes();
 				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
 			}
 
@@ -170,9 +172,9 @@ class SetupManager {
 				return new PermissionsMask([
 					'storage' => $storage,
 					'mask' => Constants::PERMISSION_ALL & ~(
-						Constants::PERMISSION_UPDATE |
-						Constants::PERMISSION_CREATE |
-						Constants::PERMISSION_DELETE
+						Constants::PERMISSION_UPDATE
+						| Constants::PERMISSION_CREATE
+						| Constants::PERMISSION_DELETE
 					),
 				]);
 			}
@@ -227,7 +229,11 @@ class SetupManager {
 
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
+		// TODO remove hook
 		OC_Hook::emit('OC_Filesystem', 'preSetup', ['user' => $user->getUID()]);
+
+		$event = new BeforeFileSystemSetupEvent($user);
+		$this->eventDispatcher->dispatchTyped($event);
 
 		Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 
@@ -275,9 +281,13 @@ class SetupManager {
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot) {
 			return str_starts_with($mount->getMountPoint(), $userRoot);
 		});
-		$allProviders = array_map(function (IMountProvider $provider) {
+		$allProviders = array_map(function (IMountProvider|IHomeMountProvider|IRootMountProvider $provider) {
 			return get_class($provider);
-		}, $this->mountProviderCollection->getProviders());
+		}, array_merge(
+			$this->mountProviderCollection->getProviders(),
+			$this->mountProviderCollection->getHomeProviders(),
+			$this->mountProviderCollection->getRootProviders(),
+		));
 		$newProviders = array_diff($allProviders, $previouslySetupProviders);
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($previouslySetupProviders) {
 			return !in_array($mount->getMountProvider(), $previouslySetupProviders);

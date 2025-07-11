@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,6 +13,7 @@ use OC\Log\LogFactory;
 use OC\Log\Syslog;
 use OC\Log\Systemdlog;
 use OC\SystemConfig;
+use OCP\AppFramework\QueryException;
 use OCP\IServerContainer;
 use Test\TestCase;
 
@@ -39,7 +41,7 @@ class LogFactoryTest extends TestCase {
 		$this->factory = new LogFactory($this->c, $this->systemConfig);
 	}
 
-	public function fileTypeProvider(): array {
+	public static function fileTypeProvider(): array {
 		return [
 			[
 				'file'
@@ -58,23 +60,26 @@ class LogFactoryTest extends TestCase {
 
 	/**
 	 * @param string $type
-	 * @dataProvider fileTypeProvider
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileTypeProvider')]
 	public function testFile(string $type): void {
 		$datadir = \OC::$SERVERROOT . '/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
 		$this->systemConfig->expects($this->exactly(3))
 			->method('getValue')
-			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog], ['logfilemode', 0640])
-			->willReturnOnConsecutiveCalls($datadir, $defaultLog, 0640);
+			->willReturnMap([
+				['datadirectory', $datadir, $datadir],
+				['logfile', $defaultLog, $defaultLog],
+				['logfilemode', 0640, 0640],
+			]);
 
 		$log = $this->factory->get($type);
 		$this->assertInstanceOf(File::class, $log);
 	}
 
-	public function logFilePathProvider():array {
+	public static function logFilePathProvider():array {
 		return [
 			[
 				'/dev/null',
@@ -88,17 +93,20 @@ class LogFactoryTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider logFilePathProvider
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('logFilePathProvider')]
 	public function testFileCustomPath($path, $expected): void {
 		$datadir = \OC::$SERVERROOT . '/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
 		$this->systemConfig->expects($this->exactly(3))
 			->method('getValue')
-			->withConsecutive(['datadirectory', $datadir], ['logfile', $defaultLog], ['logfilemode', 0640])
-			->willReturnOnConsecutiveCalls($datadir, $path, 0640);
+			->willReturnMap([
+				['datadirectory', $datadir, $datadir],
+				['logfile', $defaultLog, $path],
+				['logfilemode', 0640, 0640],
+			]);
 
 		$log = $this->factory->get('file');
 		$this->assertInstanceOf(File::class, $log);
@@ -106,7 +114,7 @@ class LogFactoryTest extends TestCase {
 	}
 
 	/**
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	public function testErrorLog(): void {
 		$log = $this->factory->get('errorlog');
@@ -114,7 +122,7 @@ class LogFactoryTest extends TestCase {
 	}
 
 	/**
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	public function testSystemLog(): void {
 		$this->c->expects($this->once())
@@ -127,7 +135,7 @@ class LogFactoryTest extends TestCase {
 	}
 
 	/**
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	public function testSystemdLog(): void {
 		$this->c->expects($this->once())

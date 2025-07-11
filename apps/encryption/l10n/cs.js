@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Povolení tohoto nastavení zašifruje všechny soubory uložené v hlavním úložišti, jinak budou šifrovány pouze soubory na externích úložištích.",
     "Enable recovery key" : "Povolit záchranný klíč",
     "Disable recovery key" : "Vypnout záchranný klíč",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Záchranný klíč je dodatečný šifrovací klíč sloužící pro šifrování souborů. Slouží k obnovení souborů z účtu, pokud dojde k zapomenutí hesla.",
     "Recovery key password" : "Heslo ke klíči pro obnovu",
     "Repeat recovery key password" : "Zopakovat heslo záchranného klíče",
     "Change recovery key password:" : "Změna hesla klíče pro obnovu:",
@@ -52,14 +53,13 @@ OC.L10N.register(
     "Basic encryption module" : "Základní šifrovací modul",
     "Your private key password no longer matches your log-in password." : "Heslo k vašemu soukromému klíči se už neshoduje s vaším přihlašovacím heslem.",
     "Set your old private key password to your current log-in password:" : "Změňte své staré heslo soukromého klíče na stejné, jako je vaše současné přihlašovací heslo:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Pokud si nepamatujete své původní heslo, můžete požádat správce o obnovu vašich souborů.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Pokud si nepamatujete své původní heslo, můžete požádat správce o obnovu vašich souborů.",
     "Old log-in password" : "Původní přihlašovací heslo",
     "Current log-in password" : "Stávající přihlašovací heslo",
     "Update Private Key Password" : "Změnit heslo k soukromé části klíče",
     "Enable password recovery:" : "Povolit obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
     "Enabled" : "Povoleno",
-    "Disabled" : "Zakázáno",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Záchranný klíč je dodatečný šifrovací klíč použitý pro\nšifrování souborů. S jeho pomocí lze obnovit soubory uživatele při zapomenutí hesla."
+    "Disabled" : "Zakázáno"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

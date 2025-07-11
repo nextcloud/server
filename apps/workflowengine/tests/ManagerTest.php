@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,6 +25,7 @@ use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\WorkflowEngine\Events\RegisterEntitiesEvent;
 use OCP\WorkflowEngine\ICheck;
@@ -64,7 +66,7 @@ class ManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = Server::get(IDBConnection::class);
 		$this->container = $this->createMock(IServerContainer::class);
 		/** @var IL10N|MockObject $l */
 		$this->l = $this->createMock(IL10N::class);
@@ -80,7 +82,7 @@ class ManagerTest extends TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 
 		$this->manager = new Manager(
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
 			$this->container,
 			$this->l,
 			$this->logger,
@@ -309,12 +311,12 @@ class ManagerTest extends TestCase {
 		$userOps = $this->manager->getOperations('OCA\WFE\TestOp', $userScope);
 
 		$this->assertSame(1, count($adminOps));
-		array_walk($adminOps, function ($op) {
+		array_walk($adminOps, function ($op): void {
 			$this->assertTrue($op['class'] === 'OCA\WFE\TestOp');
 		});
 
 		$this->assertSame(2, count($userOps));
-		array_walk($userOps, function ($op) {
+		array_walk($userOps, function ($op): void {
 			$this->assertTrue($op['class'] === 'OCA\WFE\TestOp');
 		});
 	}
@@ -517,7 +519,7 @@ class ManagerTest extends TestCase {
 
 		$this->dispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->willReturnCallback(function (RegisterEntitiesEvent $e) use ($extraEntity) {
+			->willReturnCallback(function (RegisterEntitiesEvent $e) use ($extraEntity): void {
 				$this->manager->registerEntity($extraEntity);
 			});
 

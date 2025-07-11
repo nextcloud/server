@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Middleware\Security\Mock;
 
-class NormalController extends \OCP\AppFramework\Controller {
+use OCP\AppFramework\Controller;
+
+class NormalController extends Controller {
 	public function foo() {
 	}
 }

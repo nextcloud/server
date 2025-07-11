@@ -27,6 +27,9 @@ export const entry = {
 		if (isPublicShare()) {
 			return false
 		}
+		if (!sharingConfig.isPublicUploadEnabled) {
+			return false
+		}
 		// We will check for the folder permission on the dialog
 		return sharingConfig.isPublicShareAllowed
 	},

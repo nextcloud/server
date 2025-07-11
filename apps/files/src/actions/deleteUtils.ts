@@ -43,20 +43,6 @@ export const isAllFolders = (nodes: Node[]) => {
 
 export const displayName = (nodes: Node[], view: View) => {
 	/**
-	 * If we're in the trashbin, we can only delete permanently
-	 */
-	if (view.id === 'trashbin' || !isTrashbinEnabled()) {
-		return t('files', 'Delete permanently')
-	}
-
-	/**
-	 * If we're in the sharing view, we can only unshare
-	 */
-	if (isMixedUnshareAndDelete(nodes)) {
-		return t('files', 'Delete and unshare')
-	}
-
-	/**
 	 * If those nodes are all the root node of a
 	 * share, we can only unshare them.
 	 */
@@ -76,6 +62,20 @@ export const displayName = (nodes: Node[], view: View) => {
 			return t('files', 'Disconnect storage')
 		}
 		return t('files', 'Disconnect storages')
+	}
+
+	/**
+	 * If we're in the trashbin, we can only delete permanently
+	 */
+	if (view.id === 'trashbin' || !isTrashbinEnabled()) {
+		return t('files', 'Delete permanently')
+	}
+
+	/**
+	 * If we're in the sharing view, we can only unshare
+	 */
+	if (isMixedUnshareAndDelete(nodes)) {
+		return t('files', 'Delete and unshare')
 	}
 
 	/**

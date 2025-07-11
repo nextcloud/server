@@ -88,10 +88,17 @@ class AvailabilityCoordinatorTest extends TestCase {
 			->method('getAbsence')
 			->with($user->getUID())
 			->willReturn($absence);
+
+		$calls = [
+			[$user->getUID() . '_timezone', 'Europe/Berlin', 3600],
+			[$user->getUID(), '{"id":"420","startDate":1696111200,"endDate":1696802340,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}', 300],
+		];
 		$this->cache->expects(self::exactly(2))
 			->method('set')
-			->withConsecutive([$user->getUID() . '_timezone', 'Europe/Berlin', 3600],
-				[$user->getUID(), '{"id":"420","startDate":1696111200,"endDate":1696802340,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}', 300]);
+			->willReturnCallback(static function () use (&$calls): void {
+				$expected = array_shift($calls);
+				self::assertEquals($expected, func_get_args());
+			});
 
 		$expected = new OutOfOfficeData(
 			'420',

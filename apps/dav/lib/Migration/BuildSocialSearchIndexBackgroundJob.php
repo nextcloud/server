@@ -71,7 +71,11 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 		// refresh identified contacts in order to re-index
 		foreach ($social_cards as $contact) {
 			$offset = $contact['id'];
-			$this->davBackend->updateCard($contact['addressbookid'], $contact['uri'], $contact['carddata']);
+			$cardData = $contact['carddata'];
+			if (is_resource($cardData) && (get_resource_type($cardData) === 'stream')) {
+				$cardData = stream_get_contents($cardData);
+			}
+			$this->davBackend->updateCard($contact['addressbookid'], $contact['uri'], $cardData);
 
 			// stop after 15sec (to be continued with next chunk)
 			if (($this->time->getTime() - $startTime) > 15) {

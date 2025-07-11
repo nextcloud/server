@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Core\BackgroundJobs;
 
+use OC\Files\Mount\MoveableMount;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
@@ -36,8 +37,8 @@ class GenerateMetadataJob extends TimedJob {
 	) {
 		parent::__construct($time);
 
-		$this->setTimeSensitivity(\OCP\BackgroundJob\IJob::TIME_INSENSITIVE);
-		$this->setInterval(24 * 3600);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
+		$this->setInterval(24 * 60 * 60);
 	}
 
 	protected function run(mixed $argument): void {
@@ -83,7 +84,7 @@ class GenerateMetadataJob extends TimedJob {
 
 	private function scanFolder(Folder $folder): void {
 		// Do not scan share and other moveable mounts.
-		if ($folder->getMountPoint() instanceof \OC\Files\Mount\MoveableMount) {
+		if ($folder->getMountPoint() instanceof MoveableMount) {
 			return;
 		}
 

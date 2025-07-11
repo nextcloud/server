@@ -185,24 +185,15 @@ class Comment implements IComment {
 	 * returns an array containing mentions that are included in the comment
 	 *
 	 * @return array each mention provides a 'type' and an 'id', see example below
+	 * @psalm-return list<array{type: 'guest'|'email'|'federated_group'|'group'|'federated_team'|'team'|'federated_user'|'user', id: non-empty-lowercase-string}>
+	 * @since 30.0.2 Type 'email' is supported
+	 * @since 29.0.0 Types 'federated_group', 'federated_team', 'team' and 'federated_user' are supported
+	 * @since 23.0.0 Type 'group' is supported
+	 * @since 17.0.0 Type 'guest' is supported
 	 * @since 11.0.0
-	 *
-	 * The return array looks like:
-	 * [
-	 *   [
-	 *     'type' => 'user',
-	 *     'id' => 'citizen4'
-	 *   ],
-	 *   [
-	 *     'type' => 'group',
-	 *     'id' => 'media'
-	 *   ],
-	 *   …
-	 * ]
-	 *
 	 */
 	public function getMentions(): array {
-		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"(guest|email)\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
 		if (!$ok || !isset($mentions[0])) {
 			return [];
 		}
@@ -213,20 +204,35 @@ class Comment implements IComment {
 		$result = [];
 		foreach ($mentionIds as $mentionId) {
 			// Cut-off the @ and remove wrapping double-quotes
+			/** @var non-empty-lowercase-string $cleanId */
 			$cleanId = trim(substr($mentionId, 1), '"');
 
 			if (str_starts_with($cleanId, 'guest/')) {
 				$result[] = ['type' => 'guest', 'id' => $cleanId];
+			} elseif (str_starts_with($cleanId, 'email/')) {
+				/** @var non-empty-lowercase-string $cleanId */
+				$cleanId = substr($cleanId, 6);
+				$result[] = ['type' => 'email', 'id' => $cleanId];
 			} elseif (str_starts_with($cleanId, 'federated_group/')) {
-				$result[] = ['type' => 'federated_group', 'id' => substr($cleanId, 16)];
+				/** @var non-empty-lowercase-string $cleanId */
+				$cleanId = substr($cleanId, 16);
+				$result[] = ['type' => 'federated_group', 'id' => $cleanId];
 			} elseif (str_starts_with($cleanId, 'group/')) {
-				$result[] = ['type' => 'group', 'id' => substr($cleanId, 6)];
+				/** @var non-empty-lowercase-string $cleanId */
+				$cleanId = substr($cleanId, 6);
+				$result[] = ['type' => 'group', 'id' => $cleanId];
 			} elseif (str_starts_with($cleanId, 'federated_team/')) {
-				$result[] = ['type' => 'federated_team', 'id' => substr($cleanId, 15)];
+				/** @var non-empty-lowercase-string $cleanId */
+				$cleanId = substr($cleanId, 15);
+				$result[] = ['type' => 'federated_team', 'id' => $cleanId];
 			} elseif (str_starts_with($cleanId, 'team/')) {
-				$result[] = ['type' => 'team', 'id' => substr($cleanId, 5)];
+				/** @var non-empty-lowercase-string $cleanId */
+				$cleanId = substr($cleanId, 5);
+				$result[] = ['type' => 'team', 'id' => $cleanId];
 			} elseif (str_starts_with($cleanId, 'federated_user/')) {
-				$result[] = ['type' => 'federated_user', 'id' => substr($cleanId, 15)];
+				/** @var non-empty-lowercase-string $cleanId */
+				$cleanId = substr($cleanId, 15);
+				$result[] = ['type' => 'federated_user', 'id' => $cleanId];
 			} else {
 				$result[] = ['type' => 'user', 'id' => $cleanId];
 			}

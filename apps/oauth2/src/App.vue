@@ -68,11 +68,11 @@ import axios from '@nextcloud/axios'
 import OAuthItem from './components/OAuthItem.vue'
 import { generateUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import { loadState } from '@nextcloud/initial-state'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default {
 	name: 'App',
@@ -148,10 +148,12 @@ export default {
 		min-height: 34px !important;
 		display: inline-flex !important;
 	}
+
 	.oauth2-form {
 		display: flex;
 		flex-direction: row;
 	}
+
 	.oauth2-form--input {
 		max-width: 200px;
 		margin-inline-end: 10px;

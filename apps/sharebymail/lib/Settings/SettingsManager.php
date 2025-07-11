@@ -12,15 +12,13 @@ use OCP\IConfig;
 
 class SettingsManager {
 
-	/** @var IConfig */
-	private $config;
-
 	private $sendPasswordByMailDefault = 'yes';
 
 	private $replyToInitiatorDefault = 'yes';
 
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+	) {
 	}
 
 	/**

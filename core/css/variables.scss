@@ -1,14 +1,16 @@
+@use 'sass:color';
+
 /*!
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // SCSS darken/lighten function override
 @function nc-darken($color, $value) {
-	@return darken($color, $value);
+	@return color.adjust($color, $lightness: - $value, $space: hsl);
 }
 
 @function nc-lighten($color, $value) {
-	@return lighten($color, $value);
+	@return color.adjust($color, $lightness: $value, $space: hsl);
 }
 
 // SCSS variables
@@ -26,26 +28,26 @@ $color-placeholder-light: nc-darken($color-main-background, 10%) !default;
 $color-placeholder-dark: nc-darken($color-main-background, 20%) !default;
 
 $color-primary: #0082c9 !default;
-$color-primary-hover: mix($color-primary, $color-main-background, 80%) !default;
+$color-primary-hover: color.mix($color-primary, $color-main-background, 80%) !default;
 
-$color-primary-light: mix($color-primary, $color-main-background, 10%) !default;
+$color-primary-light: color.mix($color-primary, $color-main-background, 10%) !default;
 $color-primary-light-text: $color-primary !default;
-$color-primary-light-hover: mix($color-primary-light, $color-main-text, 95%) !default;
+$color-primary-light-hover: color.mix($color-primary-light, $color-main-text, 95%) !default;
 
 $color-primary-text: #ffffff !default;
 // do not use nc-darken/lighten in case of overriding because
 // primary-text is independent of color-main-text
-$color-primary-element-text-dark: darken($color-primary-text, 7%) !default;
+$color-primary-element-text-dark: color.adjust($color-primary-text, $lightness: -7%, $space: hsl) !default;
 $color-primary-element: $color-primary !default;
-$color-primary-element-hover: mix($color-primary-element, $color-main-background, 80%) !default;
-$color-primary-element-light: lighten($color-primary-element, 15%) !default;
+$color-primary-element-hover: color.mix($color-primary-element, $color-main-background, 80%) !default;
+$color-primary-element-light: color.adjust($color-primary-element, $lightness: 15%, $space: hsl) !default;
 
 $color-error: #e9322d;
-$color-error-hover: mix($color-error, $color-main-background, 80%) !default;
+$color-error-hover: color.mix($color-error, $color-main-background, 80%) !default;
 $color-warning: #eca700;
-$color-warning-hover: mix($color-warning, $color-main-background, 80%) !default;
+$color-warning-hover: color.mix($color-warning, $color-main-background, 80%) !default;
 $color-success: #46ba61;
-$color-success-hover: mix($color-success, $color-main-background, 80%) !default;
+$color-success-hover: color.mix($color-success, $color-main-background, 80%) !default;
 // used for svg
 $color-white: #fff;
 $color-black: #000;
@@ -66,7 +68,7 @@ $image-favicon: url('../img/logo/logo.svg?v=1') !default;
 $color-loading-light: #ccc !default;
 $color-loading-dark: #444 !default;
 
-$color-box-shadow: transparentize(nc-darken($color-main-background, 70%), 0.5) !default;
+$color-box-shadow: color.adjust(nc-darken($color-main-background, 70%), $alpha: -0.5, $space: hsl) !default;
 
 // light border like file table or app-content list
 $color-border: nc-darken($color-main-background, 7%) !default;

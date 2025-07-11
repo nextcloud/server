@@ -17,9 +17,9 @@
 				{{ t('core', 'Please contact your administrator.') }}
 			</NcNoteCard>
 			<NcNoteCard v-if="csrfCheckFailed"
-				:heading="t('core', 'Temporary error')"
+				:heading="t('core', 'Session error')"
 				type="error">
-				{{ t('core', 'Please try again.') }}
+				{{ t('core', 'It appears your session token has expired, please refresh the page and try again.') }}
 			</NcNoteCard>
 			<NcNoteCard v-if="messages.length > 0">
 				<div v-for="(message, index) in messages"
@@ -103,9 +103,9 @@ import { translate as t } from '@nextcloud/l10n'
 import { generateUrl, imagePath } from '@nextcloud/router'
 import debounce from 'debounce'
 
-import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import AuthMixin from '../../mixins/auth.js'
 import LoginButton from './LoginButton.vue'
@@ -292,6 +292,7 @@ export default {
 .login-form {
 	text-align: start;
 	font-size: 1rem;
+	margin: 0;
 
 	&__fieldset {
 		width: 100%;
@@ -303,6 +304,11 @@ export default {
 	&__headline {
 		text-align: center;
 		overflow-wrap: anywhere;
+	}
+
+	// Only show the error state if the user interacted with the login box
+	:deep(input:invalid:not(:user-invalid)) {
+		border-color: var(--color-border-maxcontrast) !important;
 	}
 }
 </style>

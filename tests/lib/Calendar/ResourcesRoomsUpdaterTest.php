@@ -112,11 +112,11 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 		$backend2->method('getBackendIdentifier')
 			->willReturn('backend2');
 		$backend2->method('listAllResources')
-			->will($this->throwException(new BackendTemporarilyUnavailableException()));
+			->willThrowException(new BackendTemporarilyUnavailableException());
 		$backend2->method('getResource')
-			->will($this->throwException(new BackendTemporarilyUnavailableException()));
+			->willThrowException(new BackendTemporarilyUnavailableException());
 		$backend2->method('getAllResources')
-			->will($this->throwException(new BackendTemporarilyUnavailableException()));
+			->willThrowException(new BackendTemporarilyUnavailableException());
 		$backend3->method('getBackendIdentifier')
 			->willReturn('backend3');
 		$backend3->method('listAllResources')

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -96,7 +97,7 @@ class NullStorageTest extends TestCase {
 	}
 
 	public function testGetPermissions(): void {
-		$this->assertNull($this->storage->getPermissions('foo'));
+		$this->assertEquals(0, $this->storage->getPermissions('foo'));
 	}
 
 	public function testFile_exists(): void {

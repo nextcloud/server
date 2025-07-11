@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,8 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
+use OCP\ITempManager;
+use OCP\Server;
 use Test\Traits\EncryptionTrait;
 
 /**
@@ -15,13 +18,27 @@ use Test\Traits\EncryptionTrait;
 class EncryptedSizePropagationTest extends SizePropagationTest {
 	use EncryptionTrait;
 
+	protected function setUp(): void {
+		parent::setUp();
+		$this->config->setAppValue('encryption', 'useMasterKey', '0');
+	}
+
 	protected function setupUser($name, $password = '') {
 		$this->createUser($name, $password);
-		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
-		$this->config->setAppValue('encryption', 'useMasterKey', '0');
+		$this->registerMountForUser($name);
 		$this->setupForUser($name, $password);
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
+	}
+
+	private function registerMountForUser($user): void {
+		$tmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
+		$this->registerMount($user, '\OC\Files\Storage\Local', '/' . $user, ['datadir' => $tmpFolder]);
+	}
+
+	protected function loginHelper($user, $create = false, $password = false) {
+		$this->registerMountForUser($user);
+		$this->setupForUser($user, $password);
+		parent::loginHelper($user, $create, $password);
 	}
 }

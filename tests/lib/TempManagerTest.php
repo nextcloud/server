@@ -9,6 +9,8 @@
 namespace Test;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\TempManager;
+use OCP\Files;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
@@ -26,7 +28,7 @@ class TempManagerTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		if ($this->baseDir !== null) {
-			\OC_Helper::rmdirr($this->baseDir);
+			Files::rmdirr($this->baseDir);
 		}
 		$this->baseDir = null;
 		parent::tearDown();
@@ -48,7 +50,7 @@ class TempManagerTest extends \Test\TestCase {
 				->willReturn('/tmp');
 		}
 		$iniGetWrapper = $this->createMock(IniGetWrapper::class);
-		$manager = new \OC\TempManager($logger, $config, $iniGetWrapper);
+		$manager = new TempManager($logger, $config, $iniGetWrapper);
 		if ($this->baseDir) {
 			$manager->overrideTempBaseDir($this->baseDir);
 		}
@@ -154,34 +156,23 @@ class TempManagerTest extends \Test\TestCase {
 		$this->assertFalse($manager->getTemporaryFolder());
 	}
 
-	public function testBuildFileNameWithPostfix(): void {
+	public function testGenerateTemporaryPathWithPostfix(): void {
 		$logger = $this->createMock(LoggerInterface::class);
 		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
-			'buildFileNameWithSuffix',
-			['/tmp/myTemporaryFile', 'postfix']
+			'generateTemporaryPath',
+			['postfix']
 		);
 
-		$this->assertEquals('/tmp/myTemporaryFile-.postfix', $tmpManager);
+		$this->assertStringEndsWith('.postfix', $tmpManager);
 	}
 
-	public function testBuildFileNameWithoutPostfix(): void {
+	public function testGenerateTemporaryPathTraversal(): void {
 		$logger = $this->createMock(LoggerInterface::class);
 		$tmpManager = self::invokePrivate(
 			$this->getManager($logger),
-			'buildFileNameWithSuffix',
-			['/tmp/myTemporaryFile', '']
-		);
-
-		$this->assertEquals('/tmp/myTemporaryFile', $tmpManager);
-	}
-
-	public function testBuildFileNameWithSuffixPathTraversal(): void {
-		$logger = $this->createMock(LoggerInterface::class);
-		$tmpManager = self::invokePrivate(
-			$this->getManager($logger),
-			'buildFileNameWithSuffix',
-			['foo', '../Traversal\\../FileName']
+			'generateTemporaryPath',
+			['../Traversal\\../FileName']
 		);
 
 		$this->assertStringEndsNotWith('./Traversal\\../FileName', $tmpManager);

@@ -3,34 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getNavigation, registerFileAction, registerFileListAction } from '@nextcloud/files'
+import { restoreAction } from './files_actions/restoreAction.ts'
+import { emptyTrashAction } from './files_listActions/emptyTrashAction.ts'
+import { trashbinView } from './files_views/trashbinView.ts'
+
 import './trashbin.scss'
 
-import { translate as t } from '@nextcloud/l10n'
-import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
-
-import { getContents } from './services/trashbin'
-import { columns } from './columns.ts'
-
-// Register restore action
-import './actions/restoreAction'
-import { View, getNavigation } from '@nextcloud/files'
-
 const Navigation = getNavigation()
-Navigation.register(new View({
-	id: 'trashbin',
-	name: t('files_trashbin', 'Deleted files'),
-	caption: t('files_trashbin', 'List of files that have been deleted.'),
+Navigation.register(trashbinView)
 
-	emptyTitle: t('files_trashbin', 'No deleted files'),
-	emptyCaption: t('files_trashbin', 'Files and folders you have deleted will show up here'),
-
-	icon: DeleteSvg,
-	order: 50,
-	sticky: true,
-
-	defaultSortKey: 'deleted',
-
-	columns,
-
-	getContents,
-}))
+registerFileListAction(emptyTrashAction)
+registerFileAction(restoreAction)

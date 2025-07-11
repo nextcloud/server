@@ -31,6 +31,7 @@ use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\ServerVersion;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -53,6 +54,7 @@ class Updater extends BasicEmitter {
 	];
 
 	public function __construct(
+		private ServerVersion $serverVersion,
 		private IConfig $config,
 		private IAppConfig $appConfig,
 		private Checker $checker,
@@ -82,14 +84,14 @@ class Updater extends BasicEmitter {
 		}
 
 		// Clear CAN_INSTALL file if not on git
-		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir . '/CAN_INSTALL')) {
+		if ($this->serverVersion->getChannel() !== 'git' && is_file(\OC::$configDir . '/CAN_INSTALL')) {
 			if (!unlink(\OC::$configDir . '/CAN_INSTALL')) {
 				$this->log->error('Could not cleanup CAN_INSTALL from your config folder. Please remove this file manually.');
 			}
 		}
 
 		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
-		$currentVersion = implode('.', \OCP\Util::getVersion());
+		$currentVersion = implode('.', $this->serverVersion->getVersion());
 
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, ['app' => 'core']);
 
@@ -165,8 +167,8 @@ class Updater extends BasicEmitter {
 
 		// Vendor was not set correctly on install, so we have to white-list known versions
 		if ($currentVendor === '' && (
-			isset($allowedPreviousVersions['owncloud'][$oldVersion]) ||
-			isset($allowedPreviousVersions['owncloud'][$majorMinor])
+			isset($allowedPreviousVersions['owncloud'][$oldVersion])
+			|| isset($allowedPreviousVersions['owncloud'][$majorMinor])
 		)) {
 			$currentVendor = 'owncloud';
 			$this->config->setAppValue('core', 'vendor', $currentVendor);
@@ -174,13 +176,13 @@ class Updater extends BasicEmitter {
 
 		if ($currentVendor === 'nextcloud') {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
-				&& (version_compare($oldVersion, $newVersion, '<=') ||
-					$this->config->getSystemValueBool('debug', false));
+				&& (version_compare($oldVersion, $newVersion, '<=')
+					|| $this->config->getSystemValueBool('debug', false));
 		}
 
 		// Check if the instance can be migrated
-		return isset($allowedPreviousVersions[$currentVendor][$majorMinor]) ||
-			isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
+		return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
+			|| isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
 	}
 
 	/**
@@ -240,7 +242,7 @@ class Updater extends BasicEmitter {
 		$appManager = \OC::$server->getAppManager();
 
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps($appManager->getInstalledApps());
+		$this->upgradeAppStoreApps($appManager->getEnabledApps());
 		$autoDisabledApps = $appManager->getAutoDisabledApps();
 		if (!empty($autoDisabledApps)) {
 			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);

@@ -15,9 +15,11 @@ const WorkboxPlugin = require('workbox-webpack-plugin')
 const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.js')
 
 const modules = require('./webpack.modules.js')
+const { codecovWebpackPlugin } = require('@codecov/webpack-plugin')
 
 const appVersion = readFileSync('./version.php').toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
 const isDev = process.env.NODE_ENV === 'development'
+const isTesting = process.env.TESTING === "true"
 
 const formatOutputFromModules = (modules) => {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -169,7 +171,9 @@ const config = {
 
 	plugins: [
 		new VueLoaderPlugin(),
-		new NodePolyfillPlugin(),
+		new NodePolyfillPlugin({
+			additionalAliases: ['process'],
+		}),
 		new webpack.ProvidePlugin({
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
@@ -222,6 +226,11 @@ const config = {
 		new webpack.IgnorePlugin({
 			resourceRegExp: /^\.\/locale$/,
 			contextRegExp: /moment\/min$/,
+		}),
+		codecovWebpackPlugin({
+			enableBundleAnalysis: !isDev && !isTesting,
+			bundleName: 'nextcloud',
+			telemetry: false,
 		}),
 	],
 	externals: {

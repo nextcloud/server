@@ -1,0 +1,352 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: BSD-2-Clause
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
+SPDX-FileCopyrightText: inline-style-parser developers
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
+SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Roeland Jago Douma
+SPDX-FileCopyrightText: Richie Bendall
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
+SPDX-FileCopyrightText: OpenJS Foundation and other contributors
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Max <max@nextcloud.com>
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
+SPDX-FileCopyrightText: Mapbox
+SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
+SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
+SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Andrea Giammarchi
+
+
+This file is generated from multiple sources. Included packages:
+- @floating-ui/core
+	- version: 1.6.5
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.5
+	- license: MIT
+- unist-util-is
+	- version: 3.0.0
+	- license: MIT
+- unist-util-visit-parents
+	- version: 2.1.2
+	- license: MIT
+- unist-util-visit
+	- version: 1.4.1
+	- license: MIT
+- @mapbox/hast-util-table-cell-style
+	- version: 0.2.1
+	- license: BSD-2-Clause
+- @nextcloud/auth
+	- version: 2.5.1
+	- license: GPL-3.0-or-later
+- @nextcloud/axios
+	- version: 2.5.1
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.4.0
+	- license: GPL-3.0-or-later
+- @nextcloud/capabilities
+	- version: 1.2.0
+	- license: GPL-3.0-or-later
+- semver
+	- version: 7.6.3
+	- license: ISC
+- @nextcloud/event-bus
+	- version: 3.3.2
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.3.0
+	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.2
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.0.1
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.2.4
+	- license: GPL-3.0-or-later
+- @nextcloud/vue-select
+	- version: 3.25.1
+	- license: MIT
+- @nextcloud/vue
+	- version: 8.27.0
+	- license: AGPL-3.0-or-later
+- @ungap/structured-clone
+	- version: 1.2.0
+	- license: ISC
+- @vueuse/components
+	- version: 11.3.0
+	- license: MIT
+- @vueuse/core
+	- version: 11.3.0
+	- license: MIT
+- @vueuse/shared
+	- version: 11.3.0
+	- license: MIT
+- axios
+	- version: 1.9.0
+	- license: MIT
+- base64-js
+	- version: 1.5.1
+	- license: MIT
+- char-regex
+	- version: 2.0.1
+	- license: MIT
+- charenc
+	- version: 0.0.2
+	- license: BSD-3-Clause
+- comma-separated-tokens
+	- version: 2.0.3
+	- license: MIT
+- crypt
+	- version: 0.0.2
+	- license: BSD-3-Clause
+- css-loader
+	- version: 7.1.2
+	- license: MIT
+- debounce
+	- version: 2.2.0
+	- license: MIT
+- decode-named-character-reference
+	- version: 1.1.0
+	- license: MIT
+- devlop
+	- version: 1.1.0
+	- license: MIT
+- dompurify
+	- version: 3.2.6
+	- license: (MPL-2.0 OR Apache-2.0)
+- emoji-mart-vue-fast
+	- version: 15.0.4
+	- license: BSD-3-Clause
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- extend
+	- version: 3.0.2
+	- license: MIT
+- floating-vue
+	- version: 1.0.0-beta.19
+	- license: MIT
+- focus-trap
+	- version: 7.6.5
+	- license: MIT
+- hast-to-hyperscript
+	- version: 10.0.3
+	- license: MIT
+- hast-util-is-element
+	- version: 3.0.0
+	- license: MIT
+- hast-util-whitespace
+	- version: 2.0.1
+	- license: MIT
+- ieee754
+	- version: 1.2.1
+	- license: BSD-3-Clause
+- inline-style-parser
+	- version: 0.1.1
+	- license: MIT
+- is-absolute-url
+	- version: 4.0.1
+	- license: MIT
+- is-buffer
+	- version: 1.1.6
+	- license: MIT
+- jquery
+	- version: 3.7.1
+	- license: MIT
+- md5
+	- version: 2.3.0
+	- license: BSD-3-Clause
+- mdast-squeeze-paragraphs
+	- version: 6.0.0
+	- license: MIT
+- escape-string-regexp
+	- version: 5.0.0
+	- license: MIT
+- mdast-util-find-and-replace
+	- version: 3.0.1
+	- license: MIT
+- mdast-util-from-markdown
+	- version: 2.0.2
+	- license: MIT
+- mdast-util-newline-to-break
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-to-hast
+	- version: 13.2.0
+	- license: MIT
+- mdast-util-to-string
+	- version: 4.0.0
+	- license: MIT
+- micromark-core-commonmark
+	- version: 2.0.3
+	- license: MIT
+- micromark-factory-destination
+	- version: 2.0.1
+	- license: MIT
+- micromark-factory-label
+	- version: 2.0.1
+	- license: MIT
+- micromark-factory-space
+	- version: 2.0.1
+	- license: MIT
+- micromark-factory-title
+	- version: 2.0.1
+	- license: MIT
+- micromark-factory-whitespace
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-character
+	- version: 2.1.0
+	- license: MIT
+- micromark-util-chunked
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-classify-character
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-combine-extensions
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-decode-numeric-character-reference
+	- version: 2.0.2
+	- license: MIT
+- micromark-util-decode-string
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-encode
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-html-tag-name
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-normalize-identifier
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-resolve-all
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-sanitize-uri
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-subtokenize
+	- version: 2.1.0
+	- license: MIT
+- micromark
+	- version: 4.0.2
+	- license: MIT
+- buffer
+	- version: 6.0.3
+	- license: MIT
+- process
+	- version: 0.11.10
+	- license: MIT
+- property-information
+	- version: 6.5.0
+	- license: MIT
+- rehype-external-links
+	- version: 3.0.0
+	- license: MIT
+- rehype-react
+	- version: 7.2.0
+	- license: MIT
+- remark-breaks
+	- version: 4.0.0
+	- license: MIT
+- remark-parse
+	- version: 11.0.0
+	- license: MIT
+- remark-rehype
+	- version: 11.1.0
+	- license: MIT
+- remark-unlink-protocols
+	- version: 1.0.0
+	- license: MIT
+- space-separated-tokens
+	- version: 2.0.2
+	- license: MIT
+- striptags
+	- version: 3.2.0
+	- license: MIT
+- style-loader
+	- version: 4.0.0
+	- license: MIT
+- style-to-object
+	- version: 0.4.4
+	- license: MIT
+- tabbable
+	- version: 6.2.0
+	- license: MIT
+- trim-lines
+	- version: 3.0.1
+	- license: MIT
+- trough
+	- version: 2.2.0
+	- license: MIT
+- unified
+	- version: 11.0.5
+	- license: MIT
+- unist-builder
+	- version: 4.0.0
+	- license: MIT
+- unist-util-is
+	- version: 6.0.0
+	- license: MIT
+- unist-util-position
+	- version: 5.0.0
+	- license: MIT
+- unist-util-stringify-position
+	- version: 4.0.0
+	- license: MIT
+- unist-util-visit-parents
+	- version: 6.0.1
+	- license: MIT
+- unist-util-visit
+	- version: 5.0.0
+	- license: MIT
+- vfile-message
+	- version: 4.0.2
+	- license: MIT
+- vfile
+	- version: 6.0.2
+	- license: MIT
+- vue-router
+	- version: 3.6.5
+	- license: MIT
+- vue
+	- version: 2.7.16
+	- license: MIT
+- web-namespaces
+	- version: 2.0.1
+	- license: MIT

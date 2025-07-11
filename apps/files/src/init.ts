@@ -6,7 +6,7 @@ import { addNewFileMenuEntry, registerDavProperty, registerFileAction } from '@n
 
 import { action as deleteAction } from './actions/deleteAction'
 import { action as downloadAction } from './actions/downloadAction'
-import { action as editLocallyAction } from './actions/editLocallyAction'
+import { action as editLocallyAction } from './actions/openLocallyAction.ts'
 import { action as favoriteAction } from './actions/favoriteAction'
 import { action as moveOrCopyAction } from './actions/moveOrCopyAction'
 import { action as openFolderAction } from './actions/openFolderAction'
@@ -25,15 +25,21 @@ import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
 
 import { registerFavoritesView } from './views/favorites.ts'
 import registerRecentView from './views/recent'
-import registerPersonalFilesView from './views/personal-files'
-import registerFilesView from './views/files'
+import { registerPersonalFilesView } from './views/personal-files'
+import { registerFilesView } from './views/files'
 import { registerFolderTreeView } from './views/folderTree.ts'
+import { registerSearchView } from './views/search.ts'
+
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 
 import { initLivePhotos } from './services/LivePhotos'
 import { isPublicShare } from '@nextcloud/sharing/public'
+import { registerConvertActions } from './actions/convertAction.ts'
+import { registerFilenameFilter } from './filters/FilenameFilter.ts'
+import { registerFilterToSearchToggle } from './filters/SearchFilter.ts'
 
 // Register file actions
+registerConvertActions()
 registerFileAction(deleteAction)
 registerFileAction(downloadAction)
 registerFileAction(editLocallyAction)
@@ -54,8 +60,9 @@ registerTemplateEntries()
 if (isPublicShare() === false) {
 	registerFavoritesView()
 	registerFilesView()
-	registerRecentView()
 	registerPersonalFilesView()
+	registerRecentView()
+	registerSearchView()
 	registerFolderTreeView()
 }
 
@@ -63,6 +70,8 @@ if (isPublicShare() === false) {
 registerHiddenFilesFilter()
 registerTypeFilter()
 registerModifiedFilter()
+registerFilenameFilter()
+registerFilterToSearchToggle()
 
 // Register preview service worker
 registerPreviewServiceWorker()

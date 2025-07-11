@@ -16,14 +16,12 @@ use OCP\Migration\SimpleMigrationStep;
 
 class Version1002Date20170607113030 extends SimpleMigrationStep {
 
-	/** @var IDBConnection */
-	protected $connection;
-
 	/**
 	 * @param IDBConnection $connection
 	 */
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		protected IDBConnection $connection,
+	) {
 	}
 
 	/**

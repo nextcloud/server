@@ -4,6 +4,9 @@
 Feature: provisioning
   Background:
     Given using api version "1"
+    Given parameter "whitelist_0" of app "bruteForce" is set to "127.0.0.1"
+    Given parameter "whitelist_1" of app "bruteForce" is set to "::1"
+    Given parameter "apply_allowlist_to_ratelimit" of app "bruteforcesettings" is set to "true"
 
   Scenario: Getting an not existing user
     Given As an "admin"
@@ -166,6 +169,35 @@ Feature: provisioning
       | address | Foo Bar Town |
       | website | https://nextcloud.com |
       | twitter | Nextcloud |
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | organisation |
+      | value | Nextcloud GmbH |
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | role |
+      | value | Engineer |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has the following profile data
+      | userId | brand-new-user |
+      | displayname | Brand New User |
+      | organisation | Nextcloud GmbH |
+      | role | Engineer |
+      | address | Foo Bar Town |
+      | timezone | UTC |
+      | timezoneOffset | 0 |
+      | pronouns | NULL |
+
+  Scenario: Edit a user with mixed case emails
+    Given As an "admin"
+    And user "brand-new-user" exists
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | email |
+      | value | mixed-CASE@Nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has
+      | id | brand-new-user |
+      | email | mixed-case@nextcloud.com |
 
   Scenario: Edit a user account properties scopes
     Given user "brand-new-user" exists
@@ -190,21 +222,6 @@ Feature: provisioning
       | value | v2-published |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | websiteScope |
-      | value | public |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | displaynameScope |
-      | value | contacts |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | avatarScope |
-      | value | private |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | email |
       | value | no-reply@nextcloud.com |
@@ -214,7 +231,7 @@ Feature: provisioning
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
       | value | no-reply@nextcloud.com |
-    And the OCS status code should be "102"
+    And the OCS status code should be "101"
     And the HTTP status code should be "200"
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
@@ -225,7 +242,7 @@ Feature: provisioning
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | additional_mail |
       | value | no.reply2@nextcloud.com |
-    And the OCS status code should be "102"
+    And the OCS status code should be "101"
     And the HTTP status code should be "200"
     Then user "brand-new-user" has
       | id | brand-new-user |
@@ -233,9 +250,6 @@ Feature: provisioning
       | twitterScope | v2-local |
       | addressScope | v2-federated |
       | emailScope | v2-published |
-      | websiteScope | v2-published |
-      | displaynameScope | v2-federated |
-      | avatarScope | v2-local |
 
   Scenario: Edit a user account multivalue property scopes
     Given user "brand-new-user" exists
@@ -270,17 +284,17 @@ Feature: provisioning
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | phoneScope |
       | value | invalid |
-    Then the OCS status code should be "102"
+    Then the OCS status code should be "101"
     And the HTTP status code should be "200"
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | displaynameScope |
       | value | v2-private |
-    Then the OCS status code should be "102"
+    Then the OCS status code should be "101"
     And the HTTP status code should be "200"
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | emailScope |
       | value | v2-private |
-    Then the OCS status code should be "102"
+    Then the OCS status code should be "101"
     And the HTTP status code should be "200"
 
   Scenario: Edit a user account multi-value property scopes with invalid or unsupported value
@@ -326,7 +340,7 @@ Feature: provisioning
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | phoneScope |
       | value | v2-private |
-    Then the OCS status code should be "103"
+    Then the OCS status code should be "113"
     And the HTTP status code should be "200"
 
   Scenario: Search by phone number
@@ -450,6 +464,7 @@ Feature: provisioning
     Then groups returned are
       | España |
       | admin |
+      | hidden_group |
       | new-group |
 
   Scenario: create a subadmin
@@ -599,10 +614,12 @@ Feature: provisioning
       | files_trashbin |
       | files_versions |
       | lookup_server_connector |
+      | profile |
       | provisioning_api |
       | settings |
       | sharebymail |
       | systemtags |
+      | testing |
       | theming |
       | twofactor_backupcodes |
       | updatenotification |
@@ -628,6 +645,7 @@ Feature: provisioning
     And the HTTP status code should be "200"
 
   Scenario: enable an app
+    Given invoking occ with "app:disable testing"
     Given As an "admin"
     And app "testing" is disabled
     When sending "POST" to "/cloud/apps/testing"
@@ -642,12 +660,14 @@ Feature: provisioning
     And the HTTP status code should be "200"
 
   Scenario: disable an app
+    Given invoking occ with "app:enable testing"
     Given As an "admin"
     And app "testing" is enabled
     When sending "DELETE" to "/cloud/apps/testing"
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And app "testing" is disabled
+    Given invoking occ with "app:enable testing"
 
   Scenario: disable an user
     Given As an "admin"

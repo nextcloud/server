@@ -43,13 +43,13 @@
 import type { ComponentPublicInstance } from 'vue'
 import { mdiCloudSearch, mdiClose } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
-import { useIsMobile } from '@nextcloud/vue/dist/Composables/useIsMobile.js'
+import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
+import { useElementSize } from '@vueuse/core'
 import { computed, ref, watchEffect } from 'vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import { useElementSize } from '@vueuse/core'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
 
 const props = defineProps<{
 	query: string,
@@ -93,7 +93,6 @@ function clearAndCloseSearch() {
 <style scoped lang="scss">
 .local-unified-search {
 	--local-search-width: min(calc(250px + v-bind('searchGlobalButtonCSSWidth')), 95vw);
-
 	box-sizing: border-box;
 	position: relative;
 	height: var(--header-height);
@@ -124,7 +123,7 @@ function clearAndCloseSearch() {
 		// this can break at any time the component library changes
 		:deep(input) {
 			// search global width + close button width
-			padding-inline-end: calc(v-bind('searchGlobalButtonWidth') + var(--default-clickable-area));
+			padding-inline-end: calc(v-bind('searchGlobalButtonCSSWidth') + var(--default-clickable-area));
 		}
 	}
 }
@@ -133,8 +132,8 @@ function clearAndCloseSearch() {
 	transition: width var(--animation-quick) linear;
 }
 
-// Make the position absolut during the transition
-// this is needed to "hide" the button begind it
+// Make the position absolute during the transition
+// this is needed to "hide" the button behind it
 .v-leave-active {
 	position: absolute !important;
 }
@@ -142,7 +141,7 @@ function clearAndCloseSearch() {
 .v-enter,
 .v-leave-to {
 	&.local-unified-search {
-		// Start with only the overlayed button
+		// Start with only the overlay button
 		--local-search-width: var(--clickable-area-large);
 	}
 }

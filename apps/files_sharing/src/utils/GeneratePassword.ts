@@ -13,9 +13,9 @@ const config = new Config()
 const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
 
 /**
- * Generate a valid policy password or
- * request a valid password if password_policy
- * is enabled
+ * Generate a valid policy password or request a valid password if password_policy is enabled
+ *
+ * @param {boolean} verbose If enabled the the status is shown to the user via toast
  */
 export default async function(verbose = false): Promise<string> {
 	// password policy is enabled, let's request a pass

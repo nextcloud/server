@@ -19,17 +19,16 @@ let ActivityTabPluginInstance
  */
 export function registerCommentsPlugins() {
 	window.OCA.Activity.registerSidebarAction({
-		mount: async (el, { context, fileInfo, reload }) => {
+		mount: async (el, { fileInfo, reload }) => {
 			const pinia = createPinia()
 
 			if (!ActivityTabPluginView) {
 				const { default: ActivityCommentAction } = await import('./views/ActivityCommentAction.vue')
-				/** @ts-expect-error Types are broken for Vue2 */
+				// @ts-expect-error Types are broken for Vue2
 				ActivityTabPluginView = Vue.extend(ActivityCommentAction)
 			}
 			ActivityTabPluginInstance = new ActivityTabPluginView({
 				el,
-				parent: context,
 				pinia,
 				propsData: {
 					reloadCallback: reload,
@@ -50,7 +49,7 @@ export function registerCommentsPlugins() {
 		const { data: comments } = await getComments({ resourceType: 'files', resourceId: fileInfo.id }, { limit, offset })
 		logger.debug('Loaded comments', { fileInfo, comments })
 		const { default: CommentView } = await import('./views/ActivityCommentEntry.vue')
-		/** @ts-expect-error Types are broken for Vue2 */
+		// @ts-expect-error Types are broken for Vue2
 		const CommentsViewObject = Vue.extend(CommentView)
 
 		return comments.map((comment) => ({
@@ -58,10 +57,9 @@ export function registerCommentsPlugins() {
 
 			timestamp: moment(comment.props?.creationDateTime).toDate().getTime(),
 
-			mount(element: HTMLElement, { context, reload }) {
+			mount(element: HTMLElement, { reload }) {
 				this._CommentsViewInstance = new CommentsViewObject({
 					el: element,
-					parent: context,
 					propsData: {
 						comment,
 						resourceId: fileInfo.id,

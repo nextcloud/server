@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,6 +13,8 @@ use OC\AppFramework\OCS\V1Response;
 use OC\AppFramework\OCS\V2Response;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -32,49 +35,35 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function dataAfterException() {
-		$OCSController = $this->getMockBuilder(OCSController::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$controller = $this->getMockBuilder(Controller::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+	public static function dataAfterException(): array {
 		return [
-			[$OCSController, new \Exception(), true],
-			[$OCSController, new OCSException(), false, '', Http::STATUS_INTERNAL_SERVER_ERROR],
-			[$OCSController, new OCSException('foo'), false, 'foo', Http::STATUS_INTERNAL_SERVER_ERROR],
-			[$OCSController, new OCSException('foo', Http::STATUS_IM_A_TEAPOT), false, 'foo', Http::STATUS_IM_A_TEAPOT],
-			[$OCSController, new OCSBadRequestException(), false, '', Http::STATUS_BAD_REQUEST],
-			[$OCSController, new OCSBadRequestException('foo'), false, 'foo', Http::STATUS_BAD_REQUEST],
-			[$OCSController, new OCSForbiddenException(), false, '', Http::STATUS_FORBIDDEN],
-			[$OCSController, new OCSForbiddenException('foo'), false, 'foo', Http::STATUS_FORBIDDEN],
-			[$OCSController, new OCSNotFoundException(), false, '', Http::STATUS_NOT_FOUND],
-			[$OCSController, new OCSNotFoundException('foo'), false, 'foo', Http::STATUS_NOT_FOUND],
+			[OCSController::class, new \Exception(), true],
+			[OCSController::class, new OCSException(), false, '', Http::STATUS_INTERNAL_SERVER_ERROR],
+			[OCSController::class, new OCSException('foo'), false, 'foo', Http::STATUS_INTERNAL_SERVER_ERROR],
+			[OCSController::class, new OCSException('foo', Http::STATUS_IM_A_TEAPOT), false, 'foo', Http::STATUS_IM_A_TEAPOT],
+			[OCSController::class, new OCSBadRequestException(), false, '', Http::STATUS_BAD_REQUEST],
+			[OCSController::class, new OCSBadRequestException('foo'), false, 'foo', Http::STATUS_BAD_REQUEST],
+			[OCSController::class, new OCSForbiddenException(), false, '', Http::STATUS_FORBIDDEN],
+			[OCSController::class, new OCSForbiddenException('foo'), false, 'foo', Http::STATUS_FORBIDDEN],
+			[OCSController::class, new OCSNotFoundException(), false, '', Http::STATUS_NOT_FOUND],
+			[OCSController::class, new OCSNotFoundException('foo'), false, 'foo', Http::STATUS_NOT_FOUND],
 
-			[$controller, new \Exception(), true],
-			[$controller, new OCSException(), true],
-			[$controller, new OCSException('foo'), true],
-			[$controller, new OCSException('foo', Http::STATUS_IM_A_TEAPOT), true],
-			[$controller, new OCSBadRequestException(), true],
-			[$controller, new OCSBadRequestException('foo'), true],
-			[$controller, new OCSForbiddenException(), true],
-			[$controller, new OCSForbiddenException('foo'), true],
-			[$controller, new OCSNotFoundException(), true],
-			[$controller, new OCSNotFoundException('foo'), true],
+			[Controller::class, new \Exception(), true],
+			[Controller::class, new OCSException(), true],
+			[Controller::class, new OCSException('foo'), true],
+			[Controller::class, new OCSException('foo', Http::STATUS_IM_A_TEAPOT), true],
+			[Controller::class, new OCSBadRequestException(), true],
+			[Controller::class, new OCSBadRequestException('foo'), true],
+			[Controller::class, new OCSForbiddenException(), true],
+			[Controller::class, new OCSForbiddenException('foo'), true],
+			[Controller::class, new OCSNotFoundException(), true],
+			[Controller::class, new OCSNotFoundException('foo'), true],
 		];
 	}
 
-	/**
-	 * @dataProvider dataAfterException
-	 *
-	 * @param Controller $controller
-	 * @param \Exception $exception
-	 * @param bool $forward
-	 * @param string $message
-	 * @param int $code
-	 */
-	public function testAfterExceptionOCSv1($controller, $exception, $forward, $message = '', $code = 0): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAfterException')]
+	public function testAfterExceptionOCSv1(string $controller, \Exception $exception, bool $forward, string $message = '', int $code = 0): void {
+		$controller = $this->createMock($controller);
 		$this->request
 			->method('getScriptName')
 			->willReturn('/ocs/v1.php');
@@ -93,7 +82,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 		$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
 
 		if ($exception->getCode() === 0) {
-			$this->assertSame(\OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
+			$this->assertSame(OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
 		} else {
 			$this->assertSame($code, $result->getOCSStatus());
 		}
@@ -101,16 +90,9 @@ class OCSMiddlewareTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_OK, $result->getStatus());
 	}
 
-	/**
-	 * @dataProvider dataAfterException
-	 *
-	 * @param Controller $controller
-	 * @param \Exception $exception
-	 * @param bool $forward
-	 * @param string $message
-	 * @param int $code
-	 */
-	public function testAfterExceptionOCSv2($controller, $exception, $forward, $message = '', $code = 0): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAfterException')]
+	public function testAfterExceptionOCSv2(string $controller, \Exception $exception, bool $forward, string $message = '', int $code = 0): void {
+		$controller = $this->createMock($controller);
 		$this->request
 			->method('getScriptName')
 			->willReturn('/ocs/v2.php');
@@ -128,23 +110,16 @@ class OCSMiddlewareTest extends \Test\TestCase {
 
 		$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
 		if ($exception->getCode() === 0) {
-			$this->assertSame(\OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
+			$this->assertSame(OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
 		} else {
 			$this->assertSame($code, $result->getOCSStatus());
 		}
 		$this->assertSame($code, $result->getStatus());
 	}
 
-	/**
-	 * @dataProvider dataAfterException
-	 *
-	 * @param Controller $controller
-	 * @param \Exception $exception
-	 * @param bool $forward
-	 * @param string $message
-	 * @param int $code
-	 */
-	public function testAfterExceptionOCSv2SubFolder($controller, $exception, $forward, $message = '', $code = 0): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAfterException')]
+	public function testAfterExceptionOCSv2SubFolder(string $controller, \Exception $exception, bool $forward, string $message = '', int $code = 0): void {
+		$controller = $this->createMock($controller);
 		$this->request
 			->method('getScriptName')
 			->willReturn('/mysubfolder/ocs/v2.php');
@@ -152,7 +127,7 @@ class OCSMiddlewareTest extends \Test\TestCase {
 		$OCSMiddleware->beforeController($controller, 'method');
 
 		if ($forward) {
-			$this->expectException(get_class($exception));
+			$this->expectException($exception::class);
 			$this->expectExceptionMessage($exception->getMessage());
 		}
 
@@ -162,46 +137,33 @@ class OCSMiddlewareTest extends \Test\TestCase {
 
 		$this->assertSame($message, $this->invokePrivate($result, 'statusMessage'));
 		if ($exception->getCode() === 0) {
-			$this->assertSame(\OCP\AppFramework\OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
+			$this->assertSame(OCSController::RESPOND_UNKNOWN_ERROR, $result->getOCSStatus());
 		} else {
 			$this->assertSame($code, $result->getOCSStatus());
 		}
 		$this->assertSame($code, $result->getStatus());
 	}
 
-	public function dataAfterController() {
-		$OCSController = $this->getMockBuilder(OCSController::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$controller = $this->getMockBuilder(Controller::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+	public static function dataAfterController(): array {
 		return [
-			[$OCSController, new Http\Response(), false],
-			[$OCSController, new Http\JSONResponse(), false],
-			[$OCSController, new Http\JSONResponse(['message' => 'foo']), false],
-			[$OCSController, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), true, OCSController::RESPOND_UNAUTHORISED],
-			[$OCSController, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), true],
+			[OCSController::class, new Response(), false],
+			[OCSController::class, new JSONResponse(), false],
+			[OCSController::class, new JSONResponse(['message' => 'foo']), false],
+			[OCSController::class, new JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), true, OCSController::RESPOND_UNAUTHORISED],
+			[OCSController::class, new JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), true],
 
-			[$controller, new Http\Response(), false],
-			[$controller, new Http\JSONResponse(), false],
-			[$controller, new Http\JSONResponse(['message' => 'foo']), false],
-			[$controller, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), false],
-			[$controller, new Http\JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), false],
+			[Controller::class, new Response(), false],
+			[Controller::class, new JSONResponse(), false],
+			[Controller::class, new JSONResponse(['message' => 'foo']), false],
+			[Controller::class, new JSONResponse(['message' => 'foo'], Http::STATUS_UNAUTHORIZED), false],
+			[Controller::class, new JSONResponse(['message' => 'foo'], Http::STATUS_FORBIDDEN), false],
 
 		];
 	}
 
-	/**
-	 * @dataProvider dataAfterController
-	 *
-	 * @param Controller $controller
-	 * @param Http\Response $response
-	 * @param bool $converted
-	 * @param int $convertedOCSStatus
-	 */
-	public function testAfterController($controller, $response, $converted, $convertedOCSStatus = 0): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAfterController')]
+	public function testAfterController(string $controller, Response $response, bool $converted, int $convertedOCSStatus = 0): void {
+		$controller = $this->createMock($controller);
 		$OCSMiddleware = new OCSMiddleware($this->request);
 		$newResponse = $OCSMiddleware->afterController($controller, 'foo', $response);
 

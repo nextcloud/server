@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getCurrentUser } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
 import $ from 'jquery'
-
-import OC from '../OC/index.js'
 
 /**
  * This plugin inserts the right avatar for the user, depending on, whether a
@@ -90,8 +90,8 @@ $.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
 	let url
 
 	// If this is our own avatar we have to use the version attribute
-	if (user === OC.getCurrentUser().uid) {
-		url = OC.generateUrl(
+	if (user === getCurrentUser()?.uid) {
+		url = generateUrl(
 			'/avatar/{user}/{size}?v={version}',
 			{
 				user,
@@ -99,7 +99,7 @@ $.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
 				version: oc_userconfig.avatar.version,
 			})
 	} else {
-		url = OC.generateUrl(
+		url = generateUrl(
 			'/avatar/{user}/{size}',
 			{
 				user,

@@ -45,10 +45,10 @@
 import { defineComponent } from 'vue'
 import { t } from '@nextcloud/l10n'
 
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default defineComponent({
 	name: 'CredentialsDialog',
@@ -76,7 +76,7 @@ export default defineComponent({
 	computed: {
 		dialogButtons() {
 			return [{
-				label: t('files_external', 'Submit'),
+				label: t('files_external', 'Confirm'),
 				type: 'primary',
 				nativeType: 'submit',
 			}]

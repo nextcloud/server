@@ -55,6 +55,9 @@ class ShardQueryRunner {
 	private function getLikelyShards(array $primaryKeys): array {
 		$shards = [];
 		foreach ($primaryKeys as $primaryKey) {
+			if ($primaryKey < $this->shardDefinition->fromFileId && !in_array(ShardDefinition::MIGRATION_SHARD, $shards)) {
+				$shards[] = ShardDefinition::MIGRATION_SHARD;
+			}
 			$encodedShard = $primaryKey & ShardDefinition::PRIMARY_KEY_SHARD_MASK;
 			if ($encodedShard < count($this->shardDefinition->shards) && !in_array($encodedShard, $shards)) {
 				$shards[] = $encodedShard;
@@ -77,12 +80,12 @@ class ShardQueryRunner {
 	 */
 	public function executeQuery(
 		IQueryBuilder $query,
-		bool          $allShards,
-		array         $shardKeys,
-		array         $primaryKeys,
-		?array        $sortList = null,
-		?int          $limit = null,
-		?int          $offset = null,
+		bool $allShards,
+		array $shardKeys,
+		array $primaryKeys,
+		?array $sortList = null,
+		?int $limit = null,
+		?int $offset = null,
 	): IResult {
 		$shards = $this->getShards($allShards, $shardKeys);
 		$results = [];

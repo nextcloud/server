@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,6 +17,8 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\ServerVersion;
+use OCP\Util;
 
 class OCSController extends \OCP\AppFramework\OCSController {
 	public function __construct(
@@ -25,6 +28,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		private IUserSession $userSession,
 		private IUserManager $userManager,
 		private Manager $keyManager,
+		private ServerVersion $serverVersion,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -55,14 +59,13 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/capabilities', root: '/cloud')]
 	public function getCapabilities(): DataResponse {
 		$result = [];
-		[$major, $minor, $micro] = \OCP\Util::getVersion();
 		$result['version'] = [
-			'major' => (int)$major,
-			'minor' => (int)$minor,
-			'micro' => (int)$micro,
-			'string' => \OC_Util::getVersionString(),
+			'major' => $this->serverVersion->getMajorVersion(),
+			'minor' => $this->serverVersion->getMinorVersion(),
+			'micro' => $this->serverVersion->getPatchVersion(),
+			'string' => $this->serverVersion->getVersionString(),
 			'edition' => '',
-			'extendedSupport' => \OCP\Util::hasExtendedSupport()
+			'extendedSupport' => Util::hasExtendedSupport()
 		];
 
 		if ($this->userSession->isLoggedIn()) {

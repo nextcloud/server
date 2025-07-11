@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -123,7 +124,13 @@ class Instance implements IInstance {
 	private function downloadStatus($url) {
 		try {
 			$request = $this->clientService->newClient()->get($url);
-			return $request->getBody();
+			$content = $request->getBody();
+
+			// IResponse.getBody responds with null|resource if returning a stream response was requested.
+			// As that's not the case here, we can just ignore the psalm warning by adding an assertion.
+			assert(is_string($content));
+
+			return $content;
 		} catch (\Exception $e) {
 			return false;
 		}

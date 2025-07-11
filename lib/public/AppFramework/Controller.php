@@ -137,7 +137,7 @@ abstract class Controller {
 
 			return $responder($response);
 		}
-		throw new \DomainException('No responder registered for format ' .
-			$format . '!');
+		throw new \DomainException('No responder registered for format '
+			. $format . '!');
 	}
 }

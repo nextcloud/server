@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,16 +22,14 @@ class ClassA2 implements Interface1 {
 }
 
 class ClassB {
-	/** @var Interface1 */
-	public $interface1;
-
 	/**
 	 * ClassB constructor.
 	 *
 	 * @param Interface1 $interface1
 	 */
-	public function __construct(Interface1 $interface1) {
-		$this->interface1 = $interface1;
+	public function __construct(
+		public Interface1 $interface1,
+	) {
 	}
 }
 

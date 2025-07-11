@@ -64,7 +64,8 @@ class Dispatcher {
 	 * @param LoggerInterface $logger
 	 * @param IEventLogger $eventLogger
 	 */
-	public function __construct(Http $protocol,
+	public function __construct(
+		Http $protocol,
 		MiddlewareDispatcher $middlewareDispatcher,
 		ControllerMethodReflector $reflector,
 		IRequest $request,
@@ -72,7 +73,8 @@ class Dispatcher {
 		ConnectionAdapter $connection,
 		LoggerInterface $logger,
 		IEventLogger $eventLogger,
-		ContainerInterface $appContainer) {
+		ContainerInterface $appContainer,
+	) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
 		$this->reflector = $reflector;
@@ -90,9 +92,11 @@ class Dispatcher {
 	 * @param Controller $controller the controller which will be called
 	 * @param string $methodName the method name which will be called on
 	 *                           the controller
-	 * @return array $array[0] contains a string with the http main header,
-	 *               $array[1] contains headers in the form: $key => value, $array[2] contains
-	 *               the response output
+	 * @return array $array[0] contains the http status header as a string,
+	 *               $array[1] contains response headers as an array,
+	 *               $array[2] contains response cookies as an array,
+	 *               $array[3] contains the response output as a string,
+	 *               $array[4] contains the response object
 	 * @throws \Exception
 	 */
 	public function dispatch(Controller $controller, string $methodName): array {
@@ -183,16 +187,8 @@ class Dispatcher {
 			$value = $this->request->getParam($param, $default);
 			$type = $this->reflector->getType($param);
 
-			// if this is submitted using GET or a POST form, 'false' should be
-			// converted to false
-			if (($type === 'bool' || $type === 'boolean') &&
-				$value === 'false' &&
-				(
-					$this->request->method === 'GET' ||
-					str_contains($this->request->getHeader('Content-Type'),
-						'application/x-www-form-urlencoded')
-				)
-			) {
+			// Converted the string `'false'` to false when the controller wants a boolean
+			if ($value === 'false' && ($type === 'bool' || $type === 'boolean')) {
 				$value = false;
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
@@ -207,6 +203,10 @@ class Dispatcher {
 		$this->eventLogger->start('controller:' . get_class($controller) . '::' . $methodName, 'App framework controller execution');
 		$response = \call_user_func_array([$controller, $methodName], $arguments);
 		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
+
+		if (!($response instanceof Response)) {
+			$this->logger->debug($controller::class . '::' . $methodName . ' returned raw data. Please wrap it in a Response or one of it\'s inheritors.');
+		}
 
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {

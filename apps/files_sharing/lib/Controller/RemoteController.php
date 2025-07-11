@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,7 @@
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OC\Files\View;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
@@ -40,7 +42,7 @@ class RemoteController extends OCSController {
 	/**
 	 * Get list of pending remote shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingRemoteShare>, array{}>
 	 *
 	 * 200: Pending remote shares returned
 	 */
@@ -53,7 +55,7 @@ class RemoteController extends OCSController {
 	 * Accept a remote share
 	 *
 	 * @param int $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share accepted successfully
@@ -74,7 +76,7 @@ class RemoteController extends OCSController {
 	 * Decline a remote share
 	 *
 	 * @param int $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 *
 	 * 200: Share declined successfully
@@ -96,7 +98,7 @@ class RemoteController extends OCSController {
 	 * @return array enriched share info with data from the filecache
 	 */
 	private static function extendShareInfo($share) {
-		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/files/');
+		$view = new View('/' . \OC_User::getUser() . '/files/');
 		$info = $view->getFileInfo($share['mountpoint']);
 
 		if ($info === false) {
@@ -115,14 +117,14 @@ class RemoteController extends OCSController {
 	/**
 	 * Get a list of accepted remote shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingRemoteShare>, array{}>
 	 *
 	 * 200: Accepted remote shares returned
 	 */
 	#[NoAdminRequired]
 	public function getShares() {
 		$shares = $this->externalManager->getAcceptedShares();
-		$shares = array_map('self::extendShareInfo', $shares);
+		$shares = array_map(self::extendShareInfo(...), $shares);
 
 		return new DataResponse($shares);
 	}
@@ -152,7 +154,7 @@ class RemoteController extends OCSController {
 	 * Unshare a remote share
 	 *
 	 * @param int $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSNotFoundException Share not found
 	 * @throws OCSForbiddenException Unsharing is not possible
 	 *

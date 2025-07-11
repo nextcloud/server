@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 import { mdiCheck, mdiStarShooting } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,7 +11,9 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Server;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class DeletedUsersIndexTest
@@ -19,26 +23,18 @@ use OCP\Share\IManager;
  * @package OCA\User_LDAP\Tests\User
  */
 class DeletedUsersIndexTest extends \Test\TestCase {
-	/** @var DeletedUsersIndex */
-	protected $dui;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IDBConnection */
-	protected $db;
-
-	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
-	protected $mapping;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $shareManager;
+	protected DeletedUsersIndex $dui;
+	protected IConfig $config;
+	protected IDBConnection $db;
+	protected UserMapping&MockObject $mapping;
+	protected IManager&MockObject $shareManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		// no mocks for those as tests go against DB
-		$this->config = \OC::$server->getConfig();
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->config = Server::get(IConfig::class);
+		$this->db = Server::get(IDBConnection::class);
 
 		// ensure a clean database
 		$this->config->deleteAppFromAllUsers('user_ldap');

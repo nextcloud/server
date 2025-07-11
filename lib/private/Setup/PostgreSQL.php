@@ -16,10 +16,9 @@ class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
 	/**
-	 * @param string $username
 	 * @throws \OC\DatabaseSetupException
 	 */
-	public function setupDatabase($username) {
+	public function setupDatabase() {
 		try {
 			$connection = $this->connect([
 				'dbname' => 'postgres'
@@ -46,7 +45,7 @@ class PostgreSQL extends AbstractDatabase {
 					//use the admin login data for the new database user
 
 					//add prefix to the postgresql user name to prevent collisions
-					$this->dbUser = 'oc_' . strtolower($username);
+					$this->dbUser = 'oc_admin';
 					//create a new password so we don't need to store the admin config in the config file
 					$this->dbPassword = \OC::$server->get(ISecureRandom::class)->generate(30, ISecureRandom::CHAR_ALPHANUMERIC);
 
@@ -131,7 +130,7 @@ class PostgreSQL extends AbstractDatabase {
 		$query = $builder->select('*')
 			->from('pg_roles')
 			->where($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 
@@ -141,7 +140,7 @@ class PostgreSQL extends AbstractDatabase {
 		$query = $builder->select('datname')
 			->from('pg_database')
 			->where($builder->expr()->eq('datname', $builder->createNamedParameter($this->dbName)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		return $result->rowCount() > 0;
 	}
 

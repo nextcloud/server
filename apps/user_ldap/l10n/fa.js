@@ -6,12 +6,10 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Invalid configuration: Anonymous binding is not allowed.",
     "Valid configuration, connection established!" : "Valid configuration, connection established!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Valid configuration, but binding failed. Please check the server settings and credentials.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Invalid configuration. Please have a look at the logs for further details.",
     "No action specified" : "فعالیتی مشخص نشده است",
     "No configuration specified" : "هیچ پیکربندی مشخص نشده است",
     "No data specified" : "داده ای مشخص نشده است",
     "Invalid data specified" : "Invalid data specified",
-    " Could not set configuration %s" : " Could not set configuration %s",
     "Action does not exist" : "Action does not exist",
     "Renewing …" : "Renewing …",
     "Very weak password" : "رمز عبور بسیار ضعیف",
@@ -54,7 +52,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD.",
     "Please provide a login name to test against" : "Please provide a login name to test against",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "The group box was disabled, because the LDAP/AD server does not support memberOf.",
-    "Password change rejected. Hint: " : "Password change rejected. Hint: ",
     "Please login with the new password" : "Please login with the new password",
     "LDAP User backend" : "LDAP User backend",
     "Your password will expire tomorrow." : "Your password will expire tomorrow.",
@@ -206,6 +203,6 @@ OC.L10N.register(
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage.",
     "Clear Username-LDAP User Mapping" : "پاک کردن نام کاربری- LDAP  نگاشت کاربر ",
     "Clear Groupname-LDAP Group Mapping" : "پاک کردن نام گروه -LDAP گروه نقشه برداری",
-    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them."
+    "Invalid configuration. Please have a look at the logs for further details." : "Invalid configuration. Please have a look at the logs for further details."
 },
 "nplurals=2; plural=(n > 1);");

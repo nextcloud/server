@@ -106,7 +106,7 @@ class EmptyContentSecurityPolicy {
 	 * @param bool $state
 	 * @return $this
 	 * @since 8.1.0
-	 * @deprecated Eval should not be used anymore. Please update your scripts. This function will stop functioning in a future version of Nextcloud.
+	 * @deprecated 17.0.0 Eval should not be used anymore. Please update your scripts. This function will stop functioning in a future version of Nextcloud.
 	 */
 	public function allowEvalScript(bool $state = true) {
 		$this->evalScriptAllowed = $state;

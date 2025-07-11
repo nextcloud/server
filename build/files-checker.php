@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,6 +11,7 @@ $expectedFiles = [
 	'..',
 	'.devcontainer',
 	'.editorconfig',
+	'.envrc',
 	'.eslintignore',
 	'.eslintrc.js',
 	'.git',
@@ -25,7 +28,6 @@ $expectedFiles = [
 	'.php-cs-fixer.dist.php',
 	'.pre-commit-config.yaml',
 	'.reuse',
-	'.scrutinizer.yml',
 	'.tag',
 	'.tx',
 	'.user.ini',
@@ -60,6 +62,8 @@ $expectedFiles = [
 	'cypress.d.ts',
 	'cypress',
 	'dist',
+	'flake.lock',
+	'flake.nix',
 	'index.html',
 	'index.php',
 	'lib',
@@ -67,8 +71,10 @@ $expectedFiles = [
 	'occ',
 	'ocs',
 	'ocs-provider',
+	'openapi.json',
 	'package-lock.json',
 	'package.json',
+	'psalm-ncu.xml',
 	'psalm-ocp.xml',
 	'psalm.xml',
 	'public.php',
@@ -82,7 +88,7 @@ $expectedFiles = [
 	'tsconfig.json',
 	'vendor-bin',
 	'version.php',
-	'vitest.config.ts',
+	'vitest.config.mts',
 	'webpack.common.js',
 	'webpack.config.js',
 	'webpack.modules.js',

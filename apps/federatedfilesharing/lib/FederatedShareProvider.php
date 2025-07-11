@@ -17,6 +17,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -25,6 +26,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -32,7 +34,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\FederatedFileSharing
  */
-class FederatedShareProvider implements IShareProvider {
+class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAllSharesInFolder {
 	public const SHARE_TYPE_REMOTE = 6;
 
 	/** @var string */
@@ -86,8 +88,8 @@ class FederatedShareProvider implements IShareProvider {
 		$shareType = $share->getShareType();
 		$expirationDate = $share->getExpirationDate();
 
-		if ($shareType === IShare::TYPE_REMOTE_GROUP &&
-			!$this->isOutgoingServer2serverGroupShareEnabled()
+		if ($shareType === IShare::TYPE_REMOTE_GROUP
+			&& !$this->isOutgoingServer2serverGroupShareEnabled()
 		) {
 			$message = 'It is not allowed to send federated group shares from this server.';
 			$message_t = $this->l->t('It is not allowed to send federated group shares from this server.');
@@ -249,7 +251,8 @@ class FederatedShareProvider implements IShareProvider {
 			$remote,
 			$shareWith,
 			$share->getPermissions(),
-			$share->getNode()->getName()
+			$share->getNode()->getName(),
+			$share->getShareType(),
 		);
 
 		return [$token, $remoteId];
@@ -267,7 +270,7 @@ class FederatedShareProvider implements IShareProvider {
 		$query->select('*')->from($this->externalShareTable)
 			->where($query->expr()->eq('user', $query->createNamedParameter($share->getShareOwner())))
 			->andWhere($query->expr()->eq('mountpoint', $query->createNamedParameter($share->getTarget())));
-		$qResult = $query->execute();
+		$qResult = $query->executeQuery();
 		$result = $qResult->fetchAll();
 		$qResult->closeCursor();
 
@@ -303,7 +306,7 @@ class FederatedShareProvider implements IShareProvider {
 			->setValue('uid_owner', $qb->createNamedParameter($uidOwner))
 			->setValue('uid_initiator', $qb->createNamedParameter($sharedBy))
 			->setValue('permissions', $qb->createNamedParameter($permissions))
-			->setValue('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATE))
+			->setValue('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATETIME_MUTABLE))
 			->setValue('token', $qb->createNamedParameter($token))
 			->setValue('stime', $qb->createNamedParameter(time()));
 
@@ -313,7 +316,7 @@ class FederatedShareProvider implements IShareProvider {
 		 */
 		$qb->setValue('file_target', $qb->createNamedParameter(''));
 
-		$qb->execute();
+		$qb->executeStatement();
 		return $qb->getLastInsertId();
 	}
 
@@ -333,8 +336,8 @@ class FederatedShareProvider implements IShareProvider {
 			->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 			->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 			->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
-			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
-			->execute();
+			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATETIME_MUTABLE))
+			->executeStatement();
 
 		// send the updated permission to the owner/initiator, if they are not the same
 		if ($share->getShareOwner() !== $share->getSharedBy()) {
@@ -349,7 +352,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OCP\HintException
+	 * @throws HintException
 	 */
 	protected function sendPermissionUpdate(IShare $share) {
 		$remoteId = $this->getRemoteId($share);
@@ -374,7 +377,7 @@ class FederatedShareProvider implements IShareProvider {
 		$query->update('share')
 			->where($query->expr()->eq('id', $query->createNamedParameter($shareId)))
 			->set('token', $query->createNamedParameter($token))
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -392,7 +395,7 @@ class FederatedShareProvider implements IShareProvider {
 					'remote_id' => $query->createNamedParameter($remoteId),
 				]
 			);
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -406,7 +409,7 @@ class FederatedShareProvider implements IShareProvider {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->select('remote_id')->from('federated_reshares')
 			->where($query->expr()->eq('share_id', $query->createNamedParameter((int)$share->getId())));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$data = $result->fetch();
 		$result->closeCursor();
 
@@ -444,7 +447,7 @@ class FederatedShareProvider implements IShareProvider {
 			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
 			->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetch()) {
 			$children[] = $this->createShareObject($data);
 		}
@@ -458,7 +461,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OCP\HintException
+	 * @throws HintException
 	 */
 	public function delete(IShare $share) {
 		[, $remote] = $this->addressHandler->splitUserRemote($share->getSharedWith());
@@ -485,7 +488,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IShare $share
 	 * @param bool $isOwner the user can either be the owner or the user who re-sahred it
 	 * @throws ShareNotFound
-	 * @throws \OCP\HintException
+	 * @throws HintException
 	 */
 	protected function revokeShare($share, $isOwner) {
 		if ($this->userManager->userExists($share->getShareOwner()) && $this->userManager->userExists($share->getSharedBy())) {
@@ -524,12 +527,12 @@ class FederatedShareProvider implements IShareProvider {
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId)))
 			->andWhere($qb->expr()->neq('share_type', $qb->createNamedParameter(IShare::TYPE_CIRCLE)));
-		$qb->execute();
+		$qb->executeStatement();
 
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('federated_reshares')
 			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($shareId)));
-		$qb->execute();
+		$qb->executeStatement();
 	}
 
 	/**
@@ -551,30 +554,39 @@ class FederatedShareProvider implements IShareProvider {
 		if (!$shallow) {
 			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
 		}
+		return $this->getSharesInFolderInternal($userId, $node, $reshares);
+	}
 
+	public function getAllSharesInFolder(Folder $node): array {
+		return $this->getSharesInFolderInternal(null, $node, null);
+	}
+
+	/**
+	 * @return array<int, list<IShare>>
+	 */
+	private function getSharesInFolderInternal(?string $userId, Folder $node, ?bool $reshares): array {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('*')
 			->from('share', 's')
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			))
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
 			->andWhere(
 				$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_REMOTE))
 			);
 
-		/**
-		 * Reshares for this user are shares where they are the owner.
-		 */
-		if ($reshares === false) {
-			$qb->andWhere($qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)));
-		} else {
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
-					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId))
-				)
-			);
+		if ($userId !== null) {
+			/**
+			 * Reshares for this user are shares where they are the owner.
+			 */
+			if ($reshares !== true) {
+				$qb->andWhere($qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)));
+			} else {
+				$qb->andWhere(
+					$qb->expr()->orX(
+						$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
+						$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId))
+					)
+				);
+			}
 		}
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
@@ -583,7 +595,7 @@ class FederatedShareProvider implements IShareProvider {
 
 		$qb->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetch()) {
 			$shares[$data['fileid']][] = $this->createShareObject($data);
@@ -639,7 +651,7 @@ class FederatedShareProvider implements IShareProvider {
 		$qb->setFirstResult($offset);
 		$qb->orderBy('id');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$shares = [];
 		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShareObject($data);
@@ -660,7 +672,7 @@ class FederatedShareProvider implements IShareProvider {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -680,7 +692,7 @@ class FederatedShareProvider implements IShareProvider {
 	/**
 	 * Get shares for a given path
 	 *
-	 * @param \OCP\Files\Node $path
+	 * @param Node $path
 	 * @return IShare[]
 	 */
 	public function getSharesByPath(Node $path) {
@@ -691,7 +703,7 @@ class FederatedShareProvider implements IShareProvider {
 			->from('share')
 			->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($path->getId())))
 			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
-			->execute();
+			->executeQuery();
 
 		$shares = [];
 		while ($data = $cursor->fetch()) {
@@ -731,7 +743,7 @@ class FederatedShareProvider implements IShareProvider {
 			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
 		}
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 
 		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShareObject($data);
@@ -756,7 +768,7 @@ class FederatedShareProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
 			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
-			->execute();
+			->executeQuery();
 
 		$data = $cursor->fetch();
 
@@ -787,7 +799,7 @@ class FederatedShareProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
 
@@ -813,6 +825,7 @@ class FederatedShareProvider implements IShareProvider {
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])
 			->setMailSend((bool)$data['mail_send'])
+			->setStatus((int)$data['accepted'])
 			->setToken($data['token']);
 
 		$shareTime = new \DateTime();
@@ -850,7 +863,7 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param string $userId
 	 * @param int $id
-	 * @return \OCP\Files\Node
+	 * @return Node
 	 * @throws InvalidShare
 	 */
 	private function getNode($userId, $id) {
@@ -880,126 +893,151 @@ class FederatedShareProvider implements IShareProvider {
 		//TODO: probably a good idea to send unshare info to remote servers
 
 		$qb = $this->dbConnection->getQueryBuilder();
-
 		$qb->delete('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_REMOTE)))
 			->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)))
-			->execute();
+			->executeStatement();
+
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->delete('share_external')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($uid)))
+			->executeStatement();
 	}
 
-	/**
-	 * This provider does not handle groups
-	 *
-	 * @param string $gid
-	 */
 	public function groupDeleted($gid) {
-		// We don't handle groups here
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('id')
+			->from('share_external')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+			// This is not a typo, the group ID is really stored in the 'user' column
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($gid)));
+		$cursor = $qb->executeQuery();
+		$parentShareIds = $cursor->fetchAll(\PDO::FETCH_COLUMN);
+		$cursor->closeCursor();
+		if ($parentShareIds === []) {
+			return;
+		}
+
+		$qb = $this->dbConnection->getQueryBuilder();
+		$parentShareIdsParam = $qb->createNamedParameter($parentShareIds, IQueryBuilder::PARAM_INT_ARRAY);
+		$qb->delete('share_external')
+			->where($qb->expr()->in('id', $parentShareIdsParam))
+			->orWhere($qb->expr()->in('parent', $parentShareIdsParam))
+			->executeStatement();
 	}
 
-	/**
-	 * This provider does not handle groups
-	 *
-	 * @param string $uid
-	 * @param string $gid
-	 */
 	public function userDeletedFromGroup($uid, $gid) {
-		// We don't handle groups here
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('id')
+			->from('share_external')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
+			// This is not a typo, the group ID is really stored in the 'user' column
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($gid)));
+		$cursor = $qb->executeQuery();
+		$parentShareIds = $cursor->fetchAll(\PDO::FETCH_COLUMN);
+		$cursor->closeCursor();
+		if ($parentShareIds === []) {
+			return;
+		}
+
+		$qb = $this->dbConnection->getQueryBuilder();
+		$parentShareIdsParam = $qb->createNamedParameter($parentShareIds, IQueryBuilder::PARAM_INT_ARRAY);
+		$qb->delete('share_external')
+			->where($qb->expr()->in('parent', $parentShareIdsParam))
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($uid)))
+			->executeStatement();
 	}
 
 	/**
-	 * check if users from other Nextcloud instances are allowed to mount public links share by this instance
-	 *
-	 * @return bool
+	 * Check if users from other Nextcloud instances are allowed to mount public links share by this instance
 	 */
-	public function isOutgoingServer2serverShareEnabled() {
+	public function isOutgoingServer2serverShareEnabled(): bool {
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 	/**
-	 * check if users are allowed to mount public links from other Nextclouds
-	 *
-	 * @return bool
+	 * Check if users are allowed to mount public links from other Nextclouds
 	 */
-	public function isIncomingServer2serverShareEnabled() {
+	public function isIncomingServer2serverShareEnabled(): bool {
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 
 	/**
-	 * check if users from other Nextcloud instances are allowed to send federated group shares
-	 *
-	 * @return bool
+	 * Check if users from other Nextcloud instances are allowed to send federated group shares
 	 */
-	public function isOutgoingServer2serverGroupShareEnabled() {
+	public function isOutgoingServer2serverGroupShareEnabled(): bool {
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 	/**
-	 * check if users are allowed to receive federated group shares
-	 *
-	 * @return bool
+	 * Check if users are allowed to receive federated group shares
 	 */
-	public function isIncomingServer2serverGroupShareEnabled() {
+	public function isIncomingServer2serverGroupShareEnabled(): bool {
 		if ($this->gsConfig->onlyInternalFederation()) {
 			return false;
 		}
 		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_group_share_enabled', 'no');
-		return ($result === 'yes');
+		return $result === 'yes';
 	}
 
 	/**
-	 * check if federated group sharing is supported, therefore the OCM API need to be enabled
-	 *
-	 * @return bool
+	 * Check if federated group sharing is supported, therefore the OCM API need to be enabled
 	 */
-	public function isFederatedGroupSharingSupported() {
+	public function isFederatedGroupSharingSupported(): bool {
 		return $this->cloudFederationProviderManager->isReady();
 	}
 
 	/**
 	 * Check if querying sharees on the lookup server is enabled
-	 *
-	 * @return bool
 	 */
-	public function isLookupServerQueriesEnabled() {
+	public function isLookupServerQueriesEnabled(): bool {
 		// in a global scale setup we should always query the lookup server
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return true;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes');
-		return ($result === 'yes');
+		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
+		// TODO: Reenable if lookup server is used again
+		// return $result;
+		return false;
 	}
 
 
 	/**
 	 * Check if it is allowed to publish user specific data to the lookup server
-	 *
-	 * @return bool
 	 */
-	public function isLookupServerUploadEnabled() {
+	public function isLookupServerUploadEnabled(): bool {
 		// in a global scale setup the admin is responsible to keep the lookup server up-to-date
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return false;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes');
-		return ($result === 'yes');
+		$result = $this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'no') === 'yes';
+		// TODO: Reenable if lookup server is used again
+		// return $result;
+		return false;
 	}
 
 	/**
-	 * @inheritdoc
+	 * Check if auto accepting incoming shares from trusted servers is enabled
 	 */
+	public function isFederatedTrustedShareAutoAccept(): bool {
+		$result = $this->config->getAppValue('files_sharing', 'federatedTrustedShareAutoAccept', 'yes');
+		return $result === 'yes';
+	}
+
 	public function getAccessList($nodes, $currentAccess) {
 		$ids = [];
 		foreach ($nodes as $node) {
@@ -1011,11 +1049,8 @@ class FederatedShareProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_REMOTE)))
 			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			));
-		$cursor = $qb->execute();
+			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)));
+		$cursor = $qb->executeQuery();
 
 		if ($currentAccess === false) {
 			$remote = $cursor->fetch() !== false;
@@ -1041,14 +1076,9 @@ class FederatedShareProvider implements IShareProvider {
 
 		$qb->select('*')
 			->from('share')
-			->where(
-				$qb->expr()->orX(
-					$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share\IShare::TYPE_REMOTE)),
-					$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share\IShare::TYPE_REMOTE_GROUP))
-				)
-			);
+			->where($qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_REMOTE_GROUP, IShare::TYPE_REMOTE], IQueryBuilder::PARAM_INT_ARRAY)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		while ($data = $cursor->fetch()) {
 			try {
 				$share = $this->createShareObject($data);

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -34,21 +36,11 @@ use Sabre\Xml\Service;
 use Test\TestCase;
 
 class PluginTest extends TestCase {
-
-	/** @var Plugin */
-	private $plugin;
-
-	/** @var Server|MockObject */
-	private $server;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var LoggerInterface&MockObject */
-	private $logger;
-
-	/** @var DefaultCalendarValidator */
-	private $calendarValidator;
+	private Plugin $plugin;
+	private Server&MockObject $server;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
+	private DefaultCalendarValidator $calendarValidator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -58,9 +50,7 @@ class PluginTest extends TestCase {
 		$this->calendarValidator = new DefaultCalendarValidator();
 
 		$this->server = $this->createMock(Server::class);
-		$this->server->httpResponse = $this->getMockBuilder(ResponseInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->server->httpResponse = $this->createMock(ResponseInterface::class);
 		$this->server->xml = new Service();
 
 		$this->plugin = new Plugin($this->config, $this->logger, $this->calendarValidator);
@@ -68,23 +58,26 @@ class PluginTest extends TestCase {
 	}
 
 	public function testInitialize(): void {
-
-		$this->server->expects($this->exactly(10))
+		$calls = [
+			// Sabre\CalDAV\Schedule\Plugin events
+			['method:POST', [$this->plugin, 'httpPost'], 100],
+			['propFind', [$this->plugin, 'propFind'], 100],
+			['propPatch', [$this->plugin, 'propPatch'], 100],
+			['calendarObjectChange', [$this->plugin, 'calendarObjectChange'], 100],
+			['beforeUnbind', [$this->plugin, 'beforeUnbind'], 100],
+			['schedule', [$this->plugin, 'scheduleLocalDelivery'], 100],
+			['getSupportedPrivilegeSet', [$this->plugin, 'getSupportedPrivilegeSet'], 100],
+			// OCA\DAV\CalDAV\Schedule\Plugin events
+			['propFind', [$this->plugin, 'propFindDefaultCalendarUrl'], 90],
+			['afterWriteContent', [$this->plugin, 'dispatchSchedulingResponses'], 100],
+			['afterCreateFile', [$this->plugin, 'dispatchSchedulingResponses'], 100],
+		];
+		$this->server->expects($this->exactly(count($calls)))
 			->method('on')
-			->withConsecutive(
-				// Sabre\CalDAV\Schedule\Plugin events
-				['method:POST', [$this->plugin, 'httpPost']],
-				['propFind', [$this->plugin, 'propFind']],
-				['propPatch', [$this->plugin, 'propPatch']],
-				['calendarObjectChange', [$this->plugin, 'calendarObjectChange']],
-				['beforeUnbind', [$this->plugin, 'beforeUnbind']],
-				['schedule', [$this->plugin, 'scheduleLocalDelivery']],
-				['getSupportedPrivilegeSet', [$this->plugin, 'getSupportedPrivilegeSet']],
-				// OCA\DAV\CalDAV\Schedule\Plugin events
-				['propFind', [$this->plugin, 'propFindDefaultCalendarUrl'], 90],
-				['afterWriteContent', [$this->plugin, 'dispatchSchedulingResponses']],
-				['afterCreateFile', [$this->plugin, 'dispatchSchedulingResponses']]
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$this->plugin->initialize($this->server);
 	}
@@ -167,7 +160,7 @@ class PluginTest extends TestCase {
 		$this->assertFalse($this->invokePrivate($this->plugin, 'getAttendeeRSVP', [$property3]));
 	}
 
-	public function propFindDefaultCalendarUrlProvider(): array {
+	public static function propFindDefaultCalendarUrlProvider(): array {
 		return [
 			[
 				'principals/users/myuser',
@@ -258,9 +251,7 @@ class PluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider propFindDefaultCalendarUrlProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('propFindDefaultCalendarUrlProvider')]
 	public function testPropFindDefaultCalendarUrl(string $principalUri, ?string $calendarHome, bool $isResource, string $calendarUri, string $displayName, bool $exists, bool $deleted = false, bool $hasExistingCalendars = false, bool $propertiesForPath = true): void {
 		$propFind = new PropFind(
 			$principalUri,
@@ -269,7 +260,7 @@ class PluginTest extends TestCase {
 			],
 			0
 		);
-		/** @var IPrincipal|MockObject $node */
+		/** @var IPrincipal&MockObject $node */
 		$node = $this->getMockBuilder(IPrincipal::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -352,7 +343,7 @@ class PluginTest extends TestCase {
 						'{DAV:}displayname' => $displayName,
 					]);
 
-				$calendarHomeObject->expects($this->once())
+				$calendarHomeObject->expects($this->exactly($deleted ? 2 : 1))
 					->method('getCalDAVBackend')
 					->with()
 					->willReturn($calendarBackend);
@@ -366,7 +357,7 @@ class PluginTest extends TestCase {
 			}
 		}
 
-		/** @var Tree|MockObject $tree */
+		/** @var Tree&MockObject $tree */
 		$tree = $this->createMock(Tree::class);
 		$tree->expects($this->once())
 			->method('getNodeForPath')
@@ -738,4 +729,42 @@ class PluginTest extends TestCase {
 
 	}
 
+	/**
+	 * Test Calendar Event Creation with iTip and iMip disabled
+	 *
+	 * Should generate 2 messages for attendees User 2 and User External
+	 */
+	public function testCalendarObjectChangeWithSchedulingDisabled(): void {
+		// construct server request
+		$request = new Request(
+			'PUT',
+			'/remote.php/dav/calendars/user1/personal/B0DC78AE-6DD7-47E3-80BE-89F23E6D5383.ics',
+			['x-nc-scheduling' => 'false']
+		);
+		$request->setBaseUrl('/remote.php/dav/');
+		// construct server response
+		$response = new Response();
+		// construct server tree
+		$tree = $this->createMock(Tree::class);
+		$tree->expects($this->never())
+			->method('getNodeForPath');
+		// construct server properties and returns
+		$this->server->httpRequest = $request;
+		$this->server->tree = $tree;
+		// construct empty calendar event
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		// define flags
+		$newFlag = true;
+		$modifiedFlag = false;
+		// execute method
+		$this->plugin->calendarObjectChange(
+			$request,
+			$response,
+			$vCalendar,
+			'calendars/user1/personal',
+			$modifiedFlag,
+			$newFlag
+		);
+	}
 }

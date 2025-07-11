@@ -37,9 +37,9 @@ import { generateUrl } from '@nextcloud/router'
 import { defineAsyncComponent, defineComponent, onBeforeMount, ref } from 'vue'
 
 import axios from '@nextcloud/axios'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import logger from '../../logger'
 import { parseApiResponse, filterElements } from '../../utils/appDiscoverParser.ts'

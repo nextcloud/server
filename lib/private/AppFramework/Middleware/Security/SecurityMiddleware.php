@@ -156,7 +156,7 @@ class SecurityMiddleware extends Middleware {
 					throw new NotAdminException($this->l10n->t('Logged in account must be an admin, a sub admin or gotten special right to access this setting'));
 				}
 				if (!$this->remoteAddress->allowsAdminActions()) {
-					throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn’t allow you to perform admin actions'));
+					throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
 				}
 			}
 			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
@@ -173,19 +173,19 @@ class SecurityMiddleware extends Middleware {
 			}
 			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->remoteAddress->allowsAdminActions()) {
-				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn’t allow you to perform admin actions'));
+				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
 			}
 			if (!$this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
 				&& !$this->remoteAddress->allowsAdminActions()) {
-				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn’t allow you to perform admin actions'));
+				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn\'t allow you to perform admin actions'));
 			}
 
 		}
 
 		// Check for strict cookie requirement
-		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'StrictCookieRequired', StrictCookiesRequired::class) ||
-			!$this->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'StrictCookieRequired', StrictCookiesRequired::class)
+			|| !$this->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
 			if (!$this->request->passesStrictCookieCheck()) {
 				throw new StrictCookieMissingException();
 			}

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,24 +11,17 @@ use OCA\ShareByMail\Capabilities;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCP\App\IAppManager;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CapabilitiesTest extends TestCase {
-	/** @var Capabilities */
-	private $capabilities;
-
-	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $manager;
-
-	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $settingsManager;
-
-	/** @var IAppManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
+	private IManager&MockObject $manager;
+	private SettingsManager&MockObject $settingsManager;
+	private IAppManager&MockObject $appManager;
+	private Capabilities $capabilities;
 
 	protected function setUp(): void {
 		parent::setUp();
-
 
 		$this->manager = $this::createMock(IManager::class);
 		$this->settingsManager = $this::createMock(SettingsManager::class);
@@ -47,24 +42,23 @@ class CapabilitiesTest extends TestCase {
 			->willReturn(true);
 
 		$capabilities = [
-			'files_sharing' =>
-				[
-					'sharebymail' =>
-						[
+			'files_sharing'
+				=> [
+					'sharebymail' => [
+						'enabled' => true,
+						'send_password_by_mail' => true,
+						'upload_files_drop' => [
 							'enabled' => true,
-							'send_password_by_mail' => true,
-							'upload_files_drop' => [
-								'enabled' => true,
-							],
-							'password' => [
-								'enabled' => true,
-								'enforced' => false,
-							],
-							'expire_date' => [
-								'enabled' => true,
-								'enforced' => false,
-							],
-						]
+						],
+						'password' => [
+							'enabled' => true,
+							'enforced' => false,
+						],
+						'expire_date' => [
+							'enabled' => true,
+							'enforced' => false,
+						],
+					]
 				]
 		];
 

@@ -16,7 +16,7 @@ use OCP\Security\ISecureRandom;
 class MySQL extends AbstractDatabase {
 	public $dbprettyname = 'MySQL/MariaDB';
 
-	public function setupDatabase($username) {
+	public function setupDatabase() {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
 
@@ -28,7 +28,7 @@ class MySQL extends AbstractDatabase {
 		}
 
 		if ($this->tryCreateDbUser) {
-			$this->createSpecificUser($username, new ConnectionAdapter($connection));
+			$this->createSpecificUser('oc_admin', new ConnectionAdapter($connection));
 		}
 
 		$this->config->setValues([
@@ -59,7 +59,7 @@ class MySQL extends AbstractDatabase {
 	/**
 	 * @param \OC\DB\Connection $connection
 	 */
-	private function createDatabase($connection) {
+	private function createDatabase($connection): void {
 		try {
 			$name = $this->dbName;
 			$user = $this->dbUser;
@@ -91,7 +91,7 @@ class MySQL extends AbstractDatabase {
 	 * @param IDBConnection $connection
 	 * @throws \OC\DatabaseSetupException
 	 */
-	private function createDBUser($connection) {
+	private function createDBUser($connection): void {
 		try {
 			$name = $this->dbUser;
 			$password = $this->dbPassword;
@@ -99,15 +99,15 @@ class MySQL extends AbstractDatabase {
 			// the anonymous user would take precedence when there is one.
 
 			if ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
-				$query = "CREATE USER '$name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
-				$query = "CREATE USER '$name'@'%' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
+				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH mysql_native_password BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
+				$query = "CREATE USER ?@'%' IDENTIFIED WITH mysql_native_password BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
 			} else {
-				$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
-				$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
+				$query = "CREATE USER ?@'localhost' IDENTIFIED BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
+				$query = "CREATE USER ?@'%' IDENTIFIED BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
 			}
 		} catch (\Exception $ex) {
 			$this->logger->error('Database user creation failed.', [
@@ -119,7 +119,7 @@ class MySQL extends AbstractDatabase {
 	}
 
 	/**
-	 * @param $username
+	 * @param string $username
 	 * @param IDBConnection $connection
 	 */
 	private function createSpecificUser($username, $connection): void {

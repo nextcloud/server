@@ -47,20 +47,36 @@ class UpcomingEventsService {
 			$this->userManager->get($userId),
 		);
 
-		return array_map(fn (array $event) => new UpcomingEvent(
-			$event['uri'],
-			($event['objects'][0]['RECURRENCE-ID'][0] ?? null)?->getTimeStamp(),
-			$event['calendar-uri'],
-			$event['objects'][0]['DTSTART'][0]?->getTimestamp(),
-			$event['objects'][0]['SUMMARY'][0] ?? null,
-			$event['objects'][0]['LOCATION'][0] ?? null,
-			match ($calendarAppEnabled) {
-				// TODO: create a named, deep route in calendar
-				// TODO: it's a code smell to just assume this route exists, find an abstraction
-				true => $this->urlGenerator->linkToRouteAbsolute('calendar.view.index'),
-				false => null,
-			},
-		), $events);
+		return array_map(function (array $event) use ($userId, $calendarAppEnabled) {
+			$calendarAppUrl = null;
+
+			if ($calendarAppEnabled) {
+				$arguments = [
+					'objectId' => base64_encode($this->urlGenerator->getWebroot() . '/remote.php/dav/calendars/' . $userId . '/' . $event['calendar-uri'] . '/' . $event['uri']),
+				];
+
+				if (isset($event['RECURRENCE-ID'])) {
+					$arguments['recurrenceId'] = $event['RECURRENCE-ID'][0];
+				}
+				/**
+				 * TODO: create a named, deep route in calendar (it's a code smell to just assume this route exists, find an abstraction)
+				 * When changing, also adjust for:
+				 * - spreed/lib/Service/CalendarIntegrationService.php#getDashboardEvents
+				 * - spreed/lib/Service/CalendarIntegrationService.php#getMutualEvents
+				 */
+				$calendarAppUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.view.indexdirect.edit', $arguments);
+			}
+
+			return new UpcomingEvent(
+				$event['uri'],
+				($event['objects'][0]['RECURRENCE-ID'][0] ?? null)?->getTimeStamp(),
+				$event['calendar-uri'],
+				$event['objects'][0]['DTSTART'][0]?->getTimestamp(),
+				$event['objects'][0]['SUMMARY'][0] ?? null,
+				$event['objects'][0]['LOCATION'][0] ?? null,
+				$calendarAppUrl,
+			);
+		}, $events);
 	}
 
 }

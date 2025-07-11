@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,8 @@
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
+use OC\Files\Storage\Storage;
+use OCA\Files_Sharing\External\Cache;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -28,12 +31,12 @@ class CacheTest extends TestCase {
 	protected $contactsManager;
 
 	/**
-	 * @var \OC\Files\Storage\Storage
+	 * @var Storage
 	 **/
 	private $storage;
 
 	/**
-	 * @var \OCA\Files_Sharing\External\Cache
+	 * @var Cache
 	 */
 	private $cache;
 
@@ -71,7 +74,7 @@ class CacheTest extends TestCase {
 			->method('search')
 			->willReturn([]);
 
-		$this->cache = new \OCA\Files_Sharing\External\Cache(
+		$this->cache = new Cache(
 			$this->storage,
 			$this->cloudIdManager->getCloudId($this->remoteUser, 'http://example.com/owncloud')
 		);

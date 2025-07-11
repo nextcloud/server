@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,23 +7,20 @@
 
 namespace Test\Repair;
 
+use OC\Repair\ClearFrontendCaches;
 use OC\Template\JSCombiner;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ClearFrontendCachesTest extends \Test\TestCase {
-	/** @var ICacheFactory */
-	private $cacheFactory;
 
-	/** @var JSCombiner */
-	private $jsCombiner;
+	private ICacheFactory&MockObject $cacheFactory;
+	private JSCombiner&MockObject $jsCombiner;
+	private IOutput&MockObject $outputMock;
 
-	/** @var \OC\Repair\ClearFrontendCaches */
-	protected $repair;
-
-	/** @var IOutput */
-	private $outputMock;
+	protected ClearFrontendCaches $repair;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -32,7 +30,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->jsCombiner = $this->createMock(JSCombiner::class);
 
-		$this->repair = new \OC\Repair\ClearFrontendCaches($this->cacheFactory, $this->jsCombiner);
+		$this->repair = new ClearFrontendCaches($this->cacheFactory, $this->jsCombiner);
 	}
 
 

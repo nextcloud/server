@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace Test\Files\Storage;
 
 use OC\Files\Cache\Watcher;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 
@@ -49,9 +51,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertTrue($this->instance->test());
 	}
 
-	/**
-	 * @dataProvider directoryProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('directoryProvider')]
 	public function testDirectories($directory): void {
 		$this->assertFalse($this->instance->file_exists('/' . $directory));
 
@@ -108,7 +108,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertEquals([], $content);
 	}
 
-	public function fileNameProvider() {
+	public static function fileNameProvider(): array {
 		return [
 			['file.txt'],
 			[' file.txt'],
@@ -119,7 +119,7 @@ abstract class Storage extends \Test\TestCase {
 		];
 	}
 
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		return [
 			['folder'],
 			[' folder'],
@@ -130,7 +130,7 @@ abstract class Storage extends \Test\TestCase {
 		];
 	}
 
-	public function loremFileProvider() {
+	public static function loremFileProvider(): array {
 		$root = \OC::$SERVERROOT . '/tests/data/';
 		return [
 			// small file
@@ -142,9 +142,8 @@ abstract class Storage extends \Test\TestCase {
 
 	/**
 	 * test the various uses of file_get_contents and file_put_contents
-	 *
-	 * @dataProvider loremFileProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('loremFileProvider')]
 	public function testGetPutContents($sourceFile): void {
 		$sourceText = file_get_contents($sourceFile);
 
@@ -179,7 +178,7 @@ abstract class Storage extends \Test\TestCase {
 	}
 
 
-	public function copyAndMoveProvider() {
+	public static function copyAndMoveProvider(): array {
 		return [
 			['/source.txt', '/target.txt'],
 			['/source.txt', '/target with space.txt'],
@@ -210,9 +209,7 @@ abstract class Storage extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider copyAndMoveProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
 	public function testCopy($source, $target): void {
 		$this->initSourceAndTarget($source);
 
@@ -223,9 +220,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertTrue($this->instance->file_exists($source), $source . ' was deleted');
 	}
 
-	/**
-	 * @dataProvider copyAndMoveProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
 	public function testMove($source, $target): void {
 		$this->initSourceAndTarget($source);
 
@@ -237,9 +232,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertSameAsLorem($target);
 	}
 
-	/**
-	 * @dataProvider copyAndMoveProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
 	public function testCopyOverwrite($source, $target): void {
 		$this->initSourceAndTarget($source, $target);
 
@@ -251,9 +244,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertSameAsLorem($source);
 	}
 
-	/**
-	 * @dataProvider copyAndMoveProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
 	public function testMoveOverwrite($source, $target): void {
 		$this->initSourceAndTarget($source, $target);
 
@@ -327,7 +318,7 @@ abstract class Storage extends \Test\TestCase {
 	 * no change.
 	 */
 	public function testCheckUpdate(): void {
-		if ($this->instance instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+		if ($this->instance instanceof Wrapper) {
 			$this->markTestSkipped('Cannot test update check on wrappers');
 		}
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
@@ -350,9 +341,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertFalse($this->instance->file_exists('/lorem.txt'));
 	}
 
-	/**
-	 * @dataProvider fileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileNameProvider')]
 	public function testFOpen($fileName): void {
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 
@@ -414,7 +403,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertFalse($this->instance->file_exists('folder'));
 	}
 
-	public function hashProvider() {
+	public static function hashProvider(): array {
 		return [
 			['Foobar', 'md5'],
 			['Foobar', 'sha1'],
@@ -422,9 +411,7 @@ abstract class Storage extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider hashProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProvider')]
 	public function testHash($data, $type): void {
 		$this->instance->file_put_contents('hash.txt', $data);
 		$this->assertEquals(hash($type, $data), $this->instance->hash($type, 'hash.txt'));
@@ -557,7 +544,7 @@ abstract class Storage extends \Test\TestCase {
 
 		$this->instance->copy('source', 'target');
 
-		$this->assertFalse($this->instance->file_exists('target/test2.txt'));
+		$this->assertFalse($this->instance->file_exists('target/test2.txt'), 'File target/test2.txt should no longer exist, but does');
 		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
 	}
 
@@ -578,9 +565,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertFalse($this->instance->instanceOfStorage('\OC'));
 	}
 
-	/**
-	 * @dataProvider copyAndMoveProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
 	public function testCopyFromSameStorage($source, $target): void {
 		$this->initSourceAndTarget($source);
 

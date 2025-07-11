@@ -11,9 +11,11 @@ declare(strict_types=1);
 namespace Test\Security;
 
 use OC\Security\Crypto;
+use OCP\IConfig;
+use OCP\Server;
 
 class CryptoTest extends \Test\TestCase {
-	public function defaultEncryptionProvider() {
+	public static function defaultEncryptionProvider(): array {
 		return [
 			['Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.'],
 			[''],
@@ -26,12 +28,10 @@ class CryptoTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->crypto = new Crypto(\OC::$server->getConfig());
+		$this->crypto = new Crypto(Server::get(IConfig::class));
 	}
 
-	/**
-	 * @dataProvider defaultEncryptionProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('defaultEncryptionProvider')]
 	public function testDefaultEncrypt($stringToEncrypt): void {
 		$ciphertext = $this->crypto->encrypt($stringToEncrypt);
 		$this->assertEquals($stringToEncrypt, $this->crypto->decrypt($ciphertext));
@@ -84,6 +84,19 @@ class CryptoTest extends \Test\TestCase {
 			$this->crypto->decrypt(
 				'be006387f753e8728717e43cfc5526c37adf7b2c9b4a113ceec03b7b0bccfebee74e0acfa0015c5712b4376dacbd7bce26a8fbca916fdccee46203d8289f6b2e4c19318044d375edfc67c72e6c3ae329d4c276b8d866ac1b281844e81f7681fe83d90bc4b6fffa4f3cbc157d64257a493b67fd2af3c8976cb76df520f5739305|02e78ea7c73a32f3b407c54227a9d2ce|3e7a09628f818b7b1cd7724467f5b1b33135de6d2ec62d8c0361be4f2c5203385f10babdcae017d7b30abe5be2117803e3195fb6d9ef20949fe35dad5e9241ea|2',
 				'insecure-static-password'
+			)
+		);
+	}
+
+	/**
+	 * Test data taken from https://github.com/owncloud/core/blob/9deb8196b20354c8de0cd720ad4d18d52ccc96d8/tests/lib/Security/CryptoTest.php#L56-L60
+	 */
+	public function testOcVersion2CiphertextDecryptsToCorrectPlaintext(): void {
+		$this->assertSame(
+			'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.',
+			$this->crypto->decrypt(
+				'v2|d57dbe4d1317cdf19d4ddc2df807f6b5d63ab1e119c46590ce54bae56a9cd3969168c4ec1600ac9758dd7e7afb9c4c962dd23072c1463add1d9c77c467723b37bb768ef00e3c50898e59247cbb59ce56b74ce5990648ffe9e40d0e95076c27a785bdcf32c219ea4ad5c316b1f12f48c1|6bd21db258a5e406a2c288a444de195f|a19111a4cf1a11ee95fc1734699c20964eaa05bb007e1cecc4cc6872f827a4b7deedc977c13b138d728d68116aa3d82f9673e20c7e447a9788aa3be994b67cd6',
+				'ThisIsAVeryS3cur3P4ssw0rd'
 			)
 		);
 	}

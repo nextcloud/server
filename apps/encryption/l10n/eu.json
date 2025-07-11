@@ -40,6 +40,7 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Aukera hau gaituz gero, biltegi orokorreko fitxategi guztiak zifratuko dira, bestela kanpo biltegian daudenak bakarrik zifratuko dira",
     "Enable recovery key" : "Berreskuratze gakoa gaitu",
     "Disable recovery key" : "Berreskuratze gakoa desgaitu",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Berreskuratze-gakoa fitxategiak zifratzeko erabiltzen den zifratze-gako gehigarria da. Pasahitza ahazten bada kontu bateko fitxategiak berreskuratzeko erabiltzen da.",
     "Recovery key password" : "Berreskuratze gako pasahitza",
     "Repeat recovery key password" : "Berreskuratze gakoaren pasahitza errepikatu",
     "Change recovery key password:" : "Aldatu berreskuratze gako pasahitza:",
@@ -50,14 +51,12 @@
     "Basic encryption module" : "Oinarrizko zifratze-modulua",
     "Your private key password no longer matches your log-in password." : "Zure gako pasahitza pribatua ez da dagoeneko bat etortzen zure sartzeko pasahitzarekin.",
     "Set your old private key password to your current log-in password:" : "Ezarri zure gako pasahitz zaharra orain duzun  sartzeko pasahitzan:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Ez baduzu zure pasahitz zaharra gogoratzen eskatu zure administratzaileari zure fitxategiak berreskuratzeko.",
     "Old log-in password" : "Sartzeko pasahitz zaharra",
     "Current log-in password" : "Sartzeko oraingo pasahitza",
     "Update Private Key Password" : "Eguneratu gako pasahitza pribatua",
     "Enable password recovery:" : "Gaitu pasahitzaren berreskuratzea:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aukera hau gaituz, zure zifratutako fitxategiak berreskuratu ahal izango dituzu pasahitza galtzekotan",
     "Enabled" : "Gaitua",
-    "Disabled" : "Ez-gaitua",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Berreskuratze gakoa fitxategiak zifratzeko gako gehigarri bat da. Erabiltzailearen fitxategiak berreskuratzea baimentzen du bere pasahitza galduz gero."
+    "Disabled" : "Ez-gaitua"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

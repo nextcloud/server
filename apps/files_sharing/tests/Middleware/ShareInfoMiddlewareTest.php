@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,6 +12,7 @@ use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Share\IManager as ShareManager;
 use Test\TestCase;
 
@@ -86,7 +88,7 @@ class ShareInfoMiddlewareTest extends TestCase {
 	}
 
 	public function testAfterControllerNoShareInfo(): void {
-		$response = $this->createMock(Http\Response::class);
+		$response = $this->createMock(Response::class);
 
 		$this->assertEquals(
 			$response,
@@ -95,7 +97,7 @@ class ShareInfoMiddlewareTest extends TestCase {
 	}
 
 	public function testAfterControllerNoJSON(): void {
-		$response = $this->createMock(Http\Response::class);
+		$response = $this->createMock(Response::class);
 
 		$this->assertEquals(
 			$response,

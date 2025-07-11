@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "v3.5.4",
-            "version_normalized": "3.5.4.0",
+            "version": "v3.7.0",
+            "version_normalized": "3.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "76995aa11c14e39bccd0f2370ed63b2f8f623a6d"
+                "reference": "e6904cbe75f678335092f4861c60c656b1a99e84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/76995aa11c14e39bccd0f2370ed63b2f8f623a6d",
-                "reference": "76995aa11c14e39bccd0f2370ed63b2f8f623a6d",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/e6904cbe75f678335092f4861c60c656b1a99e84",
+                "reference": "e6904cbe75f678335092f4861c60c656b1a99e84",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,7 @@
                 "phpunit/phpunit": "^8.5|^9.3.8",
                 "psalm/phar": "^4.3"
             },
-            "time": "2022-05-30T15:18:19+00:00",
+            "time": "2024-11-11T14:08:34+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -46,7 +46,7 @@
             "description": "php wrapper for smbclient and libsmbclient-php",
             "support": {
                 "issues": "https://github.com/icewind1991/SMB/issues",
-                "source": "https://github.com/icewind1991/SMB/tree/v3.5.4"
+                "source": "https://github.com/icewind1991/SMB/tree/v3.7.0"
             },
             "install-path": "../icewind/smb"
         },

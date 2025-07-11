@@ -7,15 +7,14 @@
     "Use backup code" : "Imprea còdighe de còpia de seguresa",
     "Two factor backup codes" : "Còdighes còpia de seguresa a duos fatores",
     "A two-factor auth backup codes provider" : "Unu frunidore de autenticatzione de còdighes de còpia de seguresa a duos fatores",
+    "An error occurred while generating your backup codes" : "Ddoe at àpidu un'errore in sa creatzione de is còdighes de còpia de seguresa",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Is còdighes de còpia de seguresa si sunt generados. {used} de {total} còdighes sunt istados impreados.",
     "Save backup codes" : "Sarva còdighes de còpia de seguresa",
     "Print backup codes" : "Imprenta còdighes de còpia de seguresa",
     "Regenerate backup codes" : "Torra a generare còdighes de còpia de seguresa",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si torras a generare is còdighes de còpia de seguresa, in automàticu is còdighes betzos non sunt prus vàlidos.",
-    "An error occurred while generating your backup codes" : "Ddoe at àpidu un'errore in sa creatzione de is còdighes de còpia de seguresa",
     "{name} backup codes" : "{name} còdighes de còpia de seguresa",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Imprea unu de is còdighes de còpia de seguresa chi as sarvadu cando cunfiguras s'autenticatzione a duos fatores.",
-    "Submit" : "Imbia",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Custos sunt is còdighes de còpia de seguresa tuos. Sarva·ddos e/o imprenta·ddos ca non ddos as a pòdere bìdere àteras bortas"
+    "Submit" : "Imbia"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -338,6 +338,21 @@ class RepairMimeTypes implements IRepairStep {
 	}
 
 	/**
+	 * @throws Exception
+	 * @since 32.0.0
+	 */
+	private function introduceMusicxmlType(): IResult|int|null {
+		$updatedMimetypes = [
+			'mxl' => 'application/vnd.recordare.musicxml',
+			'musicxml' => 'application/vnd.recordare.musicxml+xml',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+
+
+	/**
 	 * Check if there are any migrations available
 	 *
 	 * @throws Exception
@@ -445,6 +460,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($mimeTypeVersion, '31.0.0.0', '<') && $this->introduceZstType()) {
 			$out->info('Fixed zst mime type');
+		}
+
+		if (version_compare($mimeTypeVersion, '32.0.0.0', '<') && $this->introduceMusicxmlType()) {
+			$out->info('Fixed musicxml mime type');
 		}
 
 		if (!$this->dryRun) {

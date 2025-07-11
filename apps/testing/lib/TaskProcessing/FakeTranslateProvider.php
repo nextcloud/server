@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,8 +10,10 @@ declare(strict_types=1);
 namespace OCA\Testing\TaskProcessing;
 
 use OCA\Testing\AppInfo\Application;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
+use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\ShapeEnumValue;
@@ -21,6 +24,7 @@ class FakeTranslateProvider implements ISynchronousProvider {
 
 	public function __construct(
 		private IFactory $l10nFactory,
+		protected IAppConfig $appConfig,
 	) {
 	}
 
@@ -113,6 +117,10 @@ class FakeTranslateProvider implements ISynchronousProvider {
 	}
 
 	public function process(?string $userId, array $input, callable $reportProgress): array {
+		if ($this->appConfig->getAppValueBool('fail-' . $this->getId())) {
+			throw new ProcessingException('Failing as set by AppConfig');
+		}
+
 		if (isset($input['model']) && is_string($input['model'])) {
 			$model = $input['model'];
 		} else {

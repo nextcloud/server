@@ -7,6 +7,7 @@
 namespace Icewind\SMB\Native;
 
 use Icewind\SMB\Exception\AlreadyExistsException;
+use Icewind\SMB\Exception\ConnectionException;
 use Icewind\SMB\Exception\ConnectionRefusedException;
 use Icewind\SMB\Exception\ConnectionResetException;
 use Icewind\SMB\Exception\Exception;
@@ -30,9 +31,6 @@ use Icewind\SMB\IOptions;
 class NativeState {
 	/** @var resource|null */
 	protected $state = null;
-
-	/** @var bool */
-	protected $handlerSet = false;
 
 	/** @var bool */
 	protected $connected = false;
@@ -66,7 +64,9 @@ class NativeState {
 	];
 
 	protected function handleError(?string $path): void {
-		/** @var int $error */
+		if (!$this->state) {
+			return;
+		}
 		$error = smbclient_state_errno($this->state);
 		if ($error === 0) {
 			return;
@@ -119,7 +119,6 @@ class NativeState {
 		// __deconstruct() of KerberosAuth should not caled too soon
 		$this->auth = $auth;
 
-		/** @var bool $result */
 		$result = @smbclient_state_init($this->state, $auth->getWorkgroup(), $auth->getUsername(), $auth->getPassword());
 
 		$this->testResult($result, '');
@@ -132,6 +131,9 @@ class NativeState {
 	 * @return resource
 	 */
 	public function opendir(string $uri) {
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		/** @var resource $result */
 		$result = @smbclient_opendir($this->state, $uri);
 
@@ -145,6 +147,9 @@ class NativeState {
 	 * @return array{"type": string, "comment": string, "name": string}|false
 	 */
 	public function readdir($dir, string $path) {
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		/** @var array{"type": string, "comment": string, "name": string}|false $result */
 		$result = @smbclient_readdir($this->state, $dir);
 
@@ -158,8 +163,10 @@ class NativeState {
 	 * @return bool
 	 */
 	public function closedir($dir, string $path): bool {
-		/** @var bool $result */
-		$result = smbclient_closedir($this->state, $dir);
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
+		$result = @smbclient_closedir($this->state, $dir);
 
 		$this->testResult($result, $path);
 		return $result;
@@ -171,7 +178,9 @@ class NativeState {
 	 * @return bool
 	 */
 	public function rename(string $old, string $new): bool {
-		/** @var bool $result */
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		$result = @smbclient_rename($this->state, $old, $this->state, $new);
 
 		$this->testResult($result, $new);
@@ -183,7 +192,9 @@ class NativeState {
 	 * @return bool
 	 */
 	public function unlink(string $uri): bool {
-		/** @var bool $result */
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		$result = @smbclient_unlink($this->state, $uri);
 
 		$this->testResult($result, $uri);
@@ -196,7 +207,9 @@ class NativeState {
 	 * @return bool
 	 */
 	public function mkdir(string $uri, int $mask = 0777): bool {
-		/** @var bool $result */
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		$result = @smbclient_mkdir($this->state, $uri, $mask);
 
 		$this->testResult($result, $uri);
@@ -208,7 +221,9 @@ class NativeState {
 	 * @return bool
 	 */
 	public function rmdir(string $uri): bool {
-		/** @var bool $result */
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		$result = @smbclient_rmdir($this->state, $uri);
 
 		$this->testResult($result, $uri);
@@ -220,6 +235,9 @@ class NativeState {
 	 * @return array{"mtime": int, "size": int, "mode": int}
 	 */
 	public function stat(string $uri): array {
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		/** @var array{"mtime": int, "size": int, "mode": int} $result */
 		$result = @smbclient_stat($this->state, $uri);
 
@@ -233,6 +251,9 @@ class NativeState {
 	 * @return array{"mtime": int, "size": int, "mode": int}
 	 */
 	public function fstat($file, string $path): array {
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		/** @var array{"mtime": int, "size": int, "mode": int} $result */
 		$result = @smbclient_fstat($this->state, $file);
 
@@ -247,6 +268,9 @@ class NativeState {
 	 * @return resource
 	 */
 	public function open(string $uri, string $mode, int $mask = 0666) {
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		/** @var resource $result */
 		$result = @smbclient_open($this->state, $uri, $mode, $mask);
 
@@ -260,6 +284,9 @@ class NativeState {
 	 * @return resource
 	 */
 	public function create(string $uri, int $mask = 0666) {
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		/** @var resource $result */
 		$result = @smbclient_creat($this->state, $uri, $mask);
 
@@ -274,6 +301,9 @@ class NativeState {
 	 * @return string
 	 */
 	public function read($file, int $bytes, string $path): string {
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		/** @var string $result */
 		$result = @smbclient_read($this->state, $file, $bytes);
 
@@ -289,10 +319,19 @@ class NativeState {
 	 * @return int
 	 */
 	public function write($file, string $data, string $path, ?int $length = null): int {
-		/** @var int $result */
-		$result = @smbclient_write($this->state, $file, $data, $length);
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
+		if ($length) {
+			$result = @smbclient_write($this->state, $file, $data, $length);
+		} else {
+			$result = @smbclient_write($this->state, $file, $data);
+		}
 
 		$this->testResult($result, $path);
+		if ($result === false) {
+			return 0;
+		}
 		return $result;
 	}
 
@@ -301,10 +340,18 @@ class NativeState {
 	 * @param int $offset
 	 * @param int $whence SEEK_SET | SEEK_CUR | SEEK_END
 	 * @param string|null $path
-	 * @return int|false new file offset as measured from the start of the file on success.
+	 *
+	 * @return false|int new file offset as measured from the start of the file on success.
 	 */
 	public function lseek($file, int $offset, int $whence = SEEK_SET, string $path = null) {
-		/** @var int|false $result */
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
+		// psalm doesn't think int|false == int|false for some reason, so we do a needless annotation to help it out
+		/**
+		 * @psalm-suppress UnnecessaryVarAnnotation
+		 * @var int|false $result
+		 */
 		$result = @smbclient_lseek($this->state, $file, $offset, $whence);
 
 		$this->testResult($result, $path);
@@ -318,7 +365,9 @@ class NativeState {
 	 * @return bool
 	 */
 	public function ftruncate($file, int $size, string $path): bool {
-		/** @var bool $result */
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		$result = @smbclient_ftruncate($this->state, $file, $size);
 
 		$this->testResult($result, $path);
@@ -331,7 +380,9 @@ class NativeState {
 	 * @return bool
 	 */
 	public function close($file, string $path): bool {
-		/** @var bool $result */
+		if (!$this->state) {
+			return false;
+		}
 		$result = @smbclient_close($this->state, $file);
 
 		$this->testResult($result, $path);
@@ -344,6 +395,9 @@ class NativeState {
 	 * @return string
 	 */
 	public function getxattr(string $uri, string $key) {
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		/** @var string $result */
 		$result = @smbclient_getxattr($this->state, $uri, $key);
 
@@ -359,6 +413,9 @@ class NativeState {
 	 * @return bool
 	 */
 	public function setxattr(string $uri, string $key, string $value, int $flags = 0) {
+		if (!$this->state) {
+			throw new ConnectionException("Not connected");
+		}
 		/** @var bool $result */
 		$result = @smbclient_setxattr($this->state, $uri, $key, $value, $flags);
 
@@ -367,7 +424,7 @@ class NativeState {
 	}
 
 	public function __destruct() {
-		if ($this->connected) {
+		if ($this->connected && $this->state) {
 			if (smbclient_state_free($this->state) === false) {
 				throw new Exception("Failed to free smb state");
 			}

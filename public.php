@@ -1,18 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
+use OC\ServiceUnavailableException;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OCP\App\IAppManager;
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\Server;
+use OCP\Template\ITemplateManager;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
-/**
- * @param $service
- * @return string
- */
 function resolveService(string $service): string {
 	$services = [
 		'webdav' => 'dav/appinfo/v1/publicwebdav.php',
@@ -22,7 +29,7 @@ function resolveService(string $service): string {
 		return $services[$service];
 	}
 
-	return \OC::$server->getConfig()->getAppValue('core', 'remote_' . $service);
+	return Server::get(IConfig::class)->getAppValue('core', 'remote_' . $service);
 }
 
 try {
@@ -34,13 +41,13 @@ try {
 	header("Content-Security-Policy: default-src 'none';");
 
 	// Check if Nextcloud is in maintenance mode
-	if (\OCP\Util::needUpgrade()) {
+	if (Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
 		throw new \Exception('Service unavailable', 503);
 	}
 
-	$request = \OC::$server->getRequest();
+	$request = Server::get(IRequest::class);
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
 		throw new \Exception('Path not found', 404);
@@ -64,32 +71,33 @@ try {
 	$app = $parts[0];
 
 	// Load all required applications
+	$appManager = Server::get(IAppManager::class);
 	\OC::$REQUESTEDAPP = $app;
-	OC_App::loadApps(['authentication']);
-	OC_App::loadApps(['extended_authentication']);
-	OC_App::loadApps(['filesystem', 'logging']);
+	$appManager->loadApps(['authentication']);
+	$appManager->loadApps(['extended_authentication']);
+	$appManager->loadApps(['filesystem', 'logging']);
 
 	// Check if the app is enabled
-	if (!\OC::$server->getAppManager()->isInstalled($app)) {
+	if (!$appManager->isEnabledForUser($app)) {
 		throw new \Exception('App not installed: ' . $app);
 	}
 
 	// Load the app
-	OC_App::loadApp($app);
+	$appManager->loadApp($app);
 	OC_User::setIncognitoMode(true);
 
 	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
 	require_once $file;
 } catch (Exception $ex) {
 	$status = 500;
-	if ($ex instanceof \OC\ServiceUnavailableException) {
+	if ($ex instanceof ServiceUnavailableException) {
 		$status = 503;
 	}
 	//show the user a detailed error page
-	\OCP\Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
-	OC_Template::printExceptionErrorPage($ex, $status);
+	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, $status);
 } catch (Error $ex) {
 	//show the user a detailed error page
-	\OCP\Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
-	OC_Template::printExceptionErrorPage($ex, 500);
+	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
 }

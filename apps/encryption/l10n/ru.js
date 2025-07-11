@@ -53,14 +53,12 @@ OC.L10N.register(
     "Basic encryption module" : "Базовый модуль шифрования",
     "Your private key password no longer matches your log-in password." : "Пароль закрытого ключа больше не соответствует паролю вашей учетной записи.",
     "Set your old private key password to your current log-in password:" : "Замените старый пароль закрытого ключа на текущий пароль учётной записи.",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Если вы не помните свой старый пароль, вы можете попросить своего администратора восстановить ваши файлы",
     "Old log-in password" : "Старый пароль учётной записи",
     "Current log-in password" : "Текущий пароль учётной записи",
     "Update Private Key Password" : "Обновить пароль закрытого ключа",
     "Enable password recovery:" : "Включить восстановление пароля:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля",
     "Enabled" : "Включено",
-    "Disabled" : "Отключено",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Ключ восстановления -  это дополнительный ключ, который используется для шифрования файлов. Он позволяет восстановить пользовательские файлы в случае утери пароля."
+    "Disabled" : "Отключено"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

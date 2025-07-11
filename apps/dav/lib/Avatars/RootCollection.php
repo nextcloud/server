@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
@@ -7,6 +8,7 @@
 namespace OCA\DAV\Avatars;
 
 use OCP\IAvatarManager;
+use OCP\Server;
 use Sabre\DAVACL\AbstractPrincipalCollection;
 
 class RootCollection extends AbstractPrincipalCollection {
@@ -22,7 +24,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @return AvatarHome
 	 */
 	public function getChildForPrincipal(array $principalInfo) {
-		$avatarManager = \OC::$server->get(IAvatarManager::class);
+		$avatarManager = Server::get(IAvatarManager::class);
 		return new AvatarHome($principalInfo, $avatarManager);
 	}
 

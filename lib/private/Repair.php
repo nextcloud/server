@@ -7,10 +7,10 @@
  */
 namespace OC;
 
-use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
 use OC\Repair\AddAppConfigLazyMigration;
 use OC\Repair\AddBruteForceCleanupJob;
+use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
 use OC\Repair\AddRemoveOldTasksBackgroundJob;
@@ -37,10 +37,10 @@ use OC\Repair\NC20\EncryptionLegacyCipher;
 use OC\Repair\NC20\EncryptionMigration;
 use OC\Repair\NC20\ShippedDashboardEnable;
 use OC\Repair\NC21\AddCheckForUserCertificatesJob;
-use OC\Repair\NC21\ValidatePhoneNumber;
 use OC\Repair\NC22\LookupServerSendCheck;
 use OC\Repair\NC24\AddTokenCleanupJob;
 use OC\Repair\NC25\AddMissingSecretJob;
+use OC\Repair\NC29\SanitizeAccountProperties;
 use OC\Repair\NC30\RemoveLegacyDatadirFile;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
@@ -49,6 +49,7 @@ use OC\Repair\Owncloud\MigrateOauthTables;
 use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
+use OC\Repair\RemoveBrokenProperties;
 use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
@@ -60,6 +61,7 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -165,14 +167,14 @@ class Repair implements IOutput {
 				\OC::$server->getUserManager(),
 				\OC::$server->getConfig()
 			),
-			new MigrateOauthTables(\OC::$server->get(Connection::class)),
+			\OC::$server->get(MigrateOauthTables::class),
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OCP\Server::get(JSCombiner::class)),
 			\OCP\Server::get(ClearGeneratedAvatarCache::class),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
-			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->get(LoggerInterface::class)),
+			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OCP\Server::get(IAppDataFactory::class), \OC::$server->get(LoggerInterface::class)),
 			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
 			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->get(INotificationManager::class), \OCP\Server::get(ITimeFactory::class)),
 			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OCP\Server::get(IManager::class)),
@@ -192,6 +194,8 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddAppConfigLazyMigration::class),
 			\OCP\Server::get(RepairLogoDimension::class),
 			\OCP\Server::get(RemoveLegacyDatadirFile::class),
+			\OCP\Server::get(AddCleanupDeletedUsersBackgroundJob::class),
+			\OCP\Server::get(SanitizeAccountProperties::class),
 		];
 	}
 
@@ -204,13 +208,13 @@ class Repair implements IOutput {
 	public static function getExpensiveRepairSteps() {
 		return [
 			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
+			new RemoveBrokenProperties(\OCP\Server::get(IDBConnection::class)),
 			new RepairMimeTypes(
 				\OCP\Server::get(IConfig::class),
 				\OCP\Server::get(IAppConfig::class),
 				\OCP\Server::get(IDBConnection::class)
 			),
-			\OC::$server->get(ValidatePhoneNumber::class),
-			\OC::$server->get(DeleteSchedulingObjects::class),
+			\OCP\Server::get(DeleteSchedulingObjects::class),
 		];
 	}
 

@@ -9,12 +9,14 @@
 namespace Test\AppFramework\Http;
 
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
 
 class ResponseTest extends \Test\TestCase {
 	/**
-	 * @var \OCP\AppFramework\Http\Response
+	 * @var Response
 	 */
 	private $childResponse;
 
@@ -54,7 +56,7 @@ class ResponseTest extends \Test\TestCase {
 		$expected = [
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self' 'unsafe-inline';style-src 'self' 'unsafe-inline';img-src 'self';font-src 'self' data:;connect-src 'self';media-src 'self'",
 		];
-		$policy = new Http\ContentSecurityPolicy();
+		$policy = new ContentSecurityPolicy();
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$headers = $this->childResponse->getHeaders();
@@ -63,14 +65,14 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 	public function testGetCsp(): void {
-		$policy = new Http\ContentSecurityPolicy();
+		$policy = new ContentSecurityPolicy();
 
 		$this->childResponse->setContentSecurityPolicy($policy);
 		$this->assertEquals($policy, $this->childResponse->getContentSecurityPolicy());
 	}
 
 	public function testGetCspEmpty(): void {
-		$this->assertEquals(new Http\EmptyContentSecurityPolicy(), $this->childResponse->getContentSecurityPolicy());
+		$this->assertEquals(new EmptyContentSecurityPolicy(), $this->childResponse->getContentSecurityPolicy());
 	}
 
 	public function testAddHeaderValueNullDeletesIt(): void {
@@ -229,7 +231,7 @@ class ResponseTest extends \Test\TestCase {
 
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('private, max-age=33, must-revalidate', $headers['Cache-Control']);
-		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 +0000', $headers['Expires']);
+		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 GMT', $headers['Expires']);
 	}
 
 
@@ -239,7 +241,7 @@ class ResponseTest extends \Test\TestCase {
 		$lastModified->setTimestamp(1);
 		$this->childResponse->setLastModified($lastModified);
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 +0000', $headers['Last-Modified']);
+		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 GMT', $headers['Last-Modified']);
 	}
 
 	public function testChainability(): void {
@@ -257,7 +259,7 @@ class ResponseTest extends \Test\TestCase {
 		$this->assertEquals('world', $headers['hello']);
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->childResponse->getStatus());
 		$this->assertEquals('hi', $this->childResponse->getEtag());
-		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 +0000', $headers['Last-Modified']);
+		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 GMT', $headers['Last-Modified']);
 		$this->assertEquals('private, max-age=33, must-revalidate',
 			$headers['Cache-Control']);
 	}

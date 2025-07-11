@@ -37,6 +37,15 @@ class RichTextField extends Field {
 	}
 
 	/**
+	 * @return array{
+	 *     index: string,
+	 *     type: string,
+	 *     alias: ?string,
+	 *     tag: ?string,
+	 *     id: ?int,
+	 *     content?: string,
+	 *     checked?: bool,
+	 * }
 	 * @since 30.0.0
 	 */
 	public function jsonSerialize(): array {

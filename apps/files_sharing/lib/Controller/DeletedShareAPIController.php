@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Controller;
 
+use OCA\Deck\Sharing\ShareAPIHelper;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -17,12 +18,13 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\QueryException;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
@@ -33,45 +35,17 @@ use OCP\Share\IShare;
  */
 class DeletedShareAPIController extends OCSController {
 
-	/** @var ShareManager */
-	private $shareManager;
-
-	/** @var string */
-	private $userId;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IServerContainer */
-	private $serverContainer;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		ShareManager $shareManager,
-		string $UserId,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IRootFolder $rootFolder,
-		IAppManager $appManager,
-		IServerContainer $serverContainer) {
+		private ShareManager $shareManager,
+		private ?string $userId,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IRootFolder $rootFolder,
+		private IAppManager $appManager,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->shareManager = $shareManager;
-		$this->userId = $UserId;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->rootFolder = $rootFolder;
-		$this->appManager = $appManager;
-		$this->serverContainer = $serverContainer;
 	}
 
 	/**
@@ -105,7 +79,7 @@ class DeletedShareAPIController extends OCSController {
 		}
 
 		$result['path'] = $userFolder->getRelativePath($node->getPath());
-		if ($node instanceof \OCP\Files\Folder) {
+		if ($node instanceof Folder) {
 			$result['item_type'] = 'folder';
 		} else {
 			$result['item_type'] = 'file';
@@ -161,22 +135,23 @@ class DeletedShareAPIController extends OCSController {
 	/**
 	 * Get a list of all deleted shares
 	 *
-	 * @return DataResponse<Http::STATUS_OK, Files_SharingDeletedShare[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<Files_SharingDeletedShare>, array{}>
 	 *
 	 * 200: Deleted shares returned
 	 */
 	#[NoAdminRequired]
 	public function index(): DataResponse {
 		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);
+		$teamShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_CIRCLE, null, -1, 0);
 		$roomShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_ROOM, null, -1, 0);
 		$deckShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_DECK, null, -1, 0);
 		$sciencemeshShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_SCIENCEMESH, null, -1, 0);
 
-		$shares = array_merge($groupShares, $roomShares, $deckShares, $sciencemeshShares);
+		$shares = array_merge($groupShares, $teamShares, $roomShares, $deckShares, $sciencemeshShares);
 
-		$shares = array_map(function (IShare $share) {
+		$shares = array_values(array_map(function (IShare $share) {
 			return $this->formatShare($share);
-		}, $shares);
+		}, $shares));
 
 		return new DataResponse($shares);
 	}
@@ -185,7 +160,7 @@ class DeletedShareAPIController extends OCSController {
 	 * Undelete a deleted share
 	 *
 	 * @param string $id ID of the share
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 * @throws OCSNotFoundException Share not found
 	 *
@@ -226,7 +201,7 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->get('\OCA\Talk\Share\Helper\DeletedShareAPIController');
+		return Server::get('\OCA\Talk\Share\Helper\DeletedShareAPIController');
 	}
 
 	/**
@@ -235,7 +210,7 @@ class DeletedShareAPIController extends OCSController {
 	 * If the Deck application is not enabled or the helper is not available
 	 * a QueryException is thrown instead.
 	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @return ShareAPIHelper
 	 * @throws QueryException
 	 */
 	private function getDeckShareHelper() {
@@ -243,7 +218,7 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->get('\OCA\Deck\Sharing\ShareAPIHelper');
+		return Server::get('\OCA\Deck\Sharing\ShareAPIHelper');
 	}
 
 	/**
@@ -252,7 +227,7 @@ class DeletedShareAPIController extends OCSController {
 	 * If the sciencemesh application is not enabled or the helper is not available
 	 * a QueryException is thrown instead.
 	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @return ShareAPIHelper
 	 * @throws QueryException
 	 */
 	private function getSciencemeshShareHelper() {
@@ -260,6 +235,6 @@ class DeletedShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->get('\OCA\ScienceMesh\Sharing\ShareAPIHelper');
+		return Server::get('\OCA\ScienceMesh\Sharing\ShareAPIHelper');
 	}
 }

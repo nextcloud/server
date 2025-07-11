@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,13 +11,6 @@ use ImagickPixel;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class IconBuilder {
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var Util */
-	private $util;
-	/** @var ImageManager */
-	private $imageManager;
-
 	/**
 	 * IconBuilder constructor.
 	 *
@@ -25,13 +19,10 @@ class IconBuilder {
 	 * @param ImageManager $imageManager
 	 */
 	public function __construct(
-		ThemingDefaults $themingDefaults,
-		Util $util,
-		ImageManager $imageManager,
+		private ThemingDefaults $themingDefaults,
+		private Util $util,
+		private ImageManager $imageManager,
 	) {
-		$this->themingDefaults = $themingDefaults;
-		$this->util = $util;
-		$this->imageManager = $imageManager;
 	}
 
 	/**
@@ -100,18 +91,17 @@ class IconBuilder {
 	 * Render app icon on themed background color
 	 * fallback to logo
 	 *
-	 * @param $app string app name
-	 * @param $size int size of the icon in px
+	 * @param string $app app name
+	 * @param int $size size of the icon in px
 	 * @return Imagick|false
 	 */
 	public function renderAppIcon($app, $size) {
 		$appIcon = $this->util->getAppIcon($app);
-		if ($appIcon === false) {
-			return false;
-		}
 		if ($appIcon instanceof ISimpleFile) {
 			$appIconContent = $appIcon->getContent();
 			$mime = $appIcon->getMimeType();
+		} elseif (!file_exists($appIcon)) {
+			return false;
 		} else {
 			$appIconContent = file_get_contents($appIcon);
 			$mime = mime_content_type($appIcon);
@@ -125,10 +115,10 @@ class IconBuilder {
 
 		// generate background image with rounded corners
 		$cornerRadius = 0.2 * $size;
-		$background = '<?xml version="1.0" encoding="UTF-8"?>' .
-			'<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" width="' . $size . '" height="' . $size . '" xmlns:xlink="http://www.w3.org/1999/xlink">' .
-			'<rect x="0" y="0" rx="' . $cornerRadius . '" ry="' . $cornerRadius . '" width="' . $size . '" height="' . $size . '" style="fill:' . $color . ';" />' .
-			'</svg>';
+		$background = '<?xml version="1.0" encoding="UTF-8"?>'
+			. '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:cc="http://creativecommons.org/ns#" width="' . $size . '" height="' . $size . '" xmlns:xlink="http://www.w3.org/1999/xlink">'
+			. '<rect x="0" y="0" rx="' . $cornerRadius . '" ry="' . $cornerRadius . '" width="' . $size . '" height="' . $size . '" style="fill:' . $color . ';" />'
+			. '</svg>';
 		// resize svg magic as this seems broken in Imagemagick
 		if ($mime === 'image/svg+xml' || substr($appIconContent, 0, 4) === '<svg') {
 			if (substr($appIconContent, 0, 5) !== '<?xml') {
@@ -197,13 +187,13 @@ class IconBuilder {
 	}
 
 	/**
-	 * @param $app string app name
-	 * @param $image string relative path to svg file in app directory
+	 * @param string $app app name
+	 * @param string $image relative path to svg file in app directory
 	 * @return string|false content of a colorized svg file
 	 */
 	public function colorSvg($app, $image) {
 		$imageFile = $this->util->getAppImage($app, $image);
-		if ($imageFile === false || $imageFile === '') {
+		if ($imageFile === false || $imageFile === '' || !file_exists($imageFile)) {
 			return false;
 		}
 		$svg = file_get_contents($imageFile);

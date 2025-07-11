@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,38 +9,35 @@
 
 namespace Tests\Core\Command\Config\App;
 
+use OC\Config\ConfigManager;
 use OC\Core\Command\Config\App\DeleteConfig;
-use OCP\IConfig;
+use OCP\IAppConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DeleteConfigTest extends TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
-
-	/** @var \Symfony\Component\Console\Command\Command */
-	protected $command;
+	protected IAppConfig&MockObject $appConfig;
+	protected ConfigManager&MockObject $configManager;
+	protected InputInterface&MockObject $consoleInput;
+	protected OutputInterface&MockObject $consoleOutput;
+	protected Command $command;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->configManager = $this->createMock(ConfigManager::class);
+		$this->consoleInput = $this->createMock(InputInterface::class);
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
-		$this->command = new DeleteConfig($this->config);
+		$this->command = new DeleteConfig($this->appConfig, $this->configManager);
 	}
 
 
-	public function deleteData() {
+	public static function dataDelete(): array {
 		return [
 			[
 				'name',
@@ -71,23 +70,15 @@ class DeleteConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider deleteData
-	 *
-	 * @param string $configName
-	 * @param bool $configExists
-	 * @param bool $checkIfExists
-	 * @param int $expectedReturn
-	 * @param string $expectedMessage
-	 */
-	public function testDelete($configName, $configExists, $checkIfExists, $expectedReturn, $expectedMessage): void {
-		$this->config->expects(($checkIfExists) ? $this->once() : $this->never())
-			->method('getAppKeys')
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDelete')]
+	public function testDelete(string $configName, bool $configExists, bool $checkIfExists, int $expectedReturn, string $expectedMessage): void {
+		$this->appConfig->expects(($checkIfExists) ? $this->once() : $this->never())
+			->method('getKeys')
 			->with('app-name')
 			->willReturn($configExists ? [$configName] : []);
 
-		$this->config->expects(($expectedReturn === 0) ? $this->once() : $this->never())
-			->method('deleteAppValue')
+		$this->appConfig->expects(($expectedReturn === 0) ? $this->once() : $this->never())
+			->method('deleteKey')
 			->with('app-name', $configName);
 
 		$this->consoleInput->expects($this->exactly(2))
@@ -96,15 +87,13 @@ class DeleteConfigTest extends TestCase {
 				['app', 'app-name'],
 				['name', $configName],
 			]);
-		$this->consoleInput->expects($this->any())
-			->method('hasParameterOption')
+		$this->consoleInput->method('hasParameterOption')
 			->with('--error-if-not-exists')
 			->willReturn($checkIfExists);
 
-		$this->consoleOutput->expects($this->any())
-			->method('writeln')
+		$this->consoleOutput->method('writeln')
 			->with($this->stringContains($expectedMessage));
 
-		$this->assertSame($expectedReturn, $this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+		$this->assertSame($expectedReturn, self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 }

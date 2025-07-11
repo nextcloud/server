@@ -39,7 +39,7 @@ class KnownUserService {
 	}
 
 	/**
-	 * Store a match because $knownTo has $contactUserId in his phonebook
+	 * Store a match because $knownTo has $contactUserId in their phonebook
 	 *
 	 * @param string $knownTo User id of the owner of the phonebook
 	 * @param string $contactUserId User id of the contact in the phonebook

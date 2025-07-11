@@ -35,7 +35,9 @@ p($theme->getTitle());
 		<?php emit_script_loading_tags($_); ?>
 		<?php print_unescaped($_['headers']); ?>
 	</head>
-	<body id="<?php p($_['bodyid']);?>">
+	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
+		p("data-theme-$themeId ");
+	}?> data-themes="<?php p(join(',', $_['enabledThemes'])) ?>">
 		<?php include 'layout.noscript.warning.php'; ?>
 		<?php include 'layout.initial-state.php'; ?>
 		<div class="wrapper">
@@ -47,12 +49,12 @@ p($theme->getTitle());
 						</div>
 					</header>
 				<?php endif; ?>
-				<main>
+				<div>
 					<h1 class="hidden-visually">
 						<?php p($theme->getName()); ?>
 					</h1>
 					<?php print_unescaped($_['content']); ?>
-				</main>
+				</div>
 			</div>
 		</div>
 		<?php

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -28,8 +29,6 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 			$this->baseUrl = substr($testServerUrl, 0, -5);
 		}
 	}
-
-
 
 	/**
 	 * get a named entry from response instead of picking a random entry from values

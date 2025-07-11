@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
 	name: 'Operation',
@@ -40,5 +40,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	@import "./../styles/operation";
+@use "./../styles/operation" as *;
 </style>

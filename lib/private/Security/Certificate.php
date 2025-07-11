@@ -42,6 +42,16 @@ class Certificate implements ICertificate {
 
 		$info = openssl_x509_parse($data);
 		if (!is_array($info)) {
+			// There is a non-standardized certificate format only used by OpenSSL. Replace all
+			// separators and try again.
+			$data = str_replace(
+				['-----BEGIN TRUSTED CERTIFICATE-----', '-----END TRUSTED CERTIFICATE-----'],
+				['-----BEGIN CERTIFICATE-----', '-----END CERTIFICATE-----'],
+				$data,
+			);
+			$info = openssl_x509_parse($data);
+		}
+		if (!is_array($info)) {
 			throw new \Exception('Certificate could not get parsed.');
 		}
 

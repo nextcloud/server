@@ -14,7 +14,7 @@ use OCP\ICache;
  *
  * Uses a simple FIFO expiry mechanism
  * @template T
- * @deprecated use OCP\Cache\CappedMemoryCache instead
+ * @deprecated 25.0.0 use OCP\Cache\CappedMemoryCache instead
  */
 class CappedMemoryCache implements ICache, \ArrayAccess {
 	private $capacity;

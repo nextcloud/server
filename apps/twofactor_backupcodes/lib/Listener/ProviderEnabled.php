@@ -18,16 +18,10 @@ use OCP\EventDispatcher\IEventListener;
 /** @template-implements IEventListener<TwoFactorProviderForUserRegistered> */
 class ProviderEnabled implements IEventListener {
 
-	/** @var IRegistry */
-	private $registry;
-
-	/** @var IJobList */
-	private $jobList;
-
-	public function __construct(IRegistry $registry,
-		IJobList $jobList) {
-		$this->registry = $registry;
-		$this->jobList = $jobList;
+	public function __construct(
+		private IRegistry $registry,
+		private IJobList $jobList,
+	) {
 	}
 
 	public function handle(Event $event): void {

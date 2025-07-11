@@ -14,10 +14,7 @@ use OC\OCS\ApiHelper;
 use OCP\IRequest;
 
 class ApiHelperTest extends \Test\TestCase {
-	/**
-	 * @return array
-	 */
-	public function versionDataScriptNameProvider(): array {
+	public static function versionDataScriptNameProvider(): array {
 		return [
 			// Valid script name
 			[
@@ -37,9 +34,7 @@ class ApiHelperTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider versionDataScriptNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionDataScriptNameProvider')]
 	public function testIsV2(string $scriptName, bool $expected): void {
 		$request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()

@@ -19,41 +19,12 @@
  */
 
 if (!process.env.CHROMIUM_BIN) {
-	process.env.CHROMIUM_BIN = require('puppeteer').executablePath()
+	const chrome = require('puppeteer').executablePath()
+	process.env.CHROMIUM_BIN = chrome
 }
 
 /* jshint node: true */
 module.exports = function(config) {
-	function findApps() {
-		/*
-		var fs = require('fs');
-		var apps = fs.readdirSync('apps');
-		return apps;
-		*/
-		// other apps tests don't run yet... needs further research / clean up
-		return [
-			'files',
-			'files_versions',
-			{
-				name: 'files_sharing',
-				srcFiles: [
-					// only test these files, others are not ready and mess
-					// up with the global namespace/classes/state
-					'dist/files_sharing-additionalScripts.js',
-					'dist/files_sharing-files_sharing_tab.js',
-					'dist/files_sharing-files_sharing.js',
-					'dist/files_sharing-main.js',
-					'apps/files_sharing/js/files_drop.js',
-					'apps/files_sharing/js/public.js',
-					'apps/files_sharing/js/sharedfilelist.js',
-					'apps/files_sharing/js/templates.js',
-				],
-				testFiles: ['apps/files_sharing/tests/js/*.js']
-			},
-			'files_trashbin',
-		];
-	}
-
 	// respect NOCOVERAGE env variable
 	// it is useful to disable coverage for debugging
 	// because the coverage preprocessor will wrap the JS files somehow
@@ -63,33 +34,17 @@ module.exports = function(config) {
 		enableCoverage ? 'enabled' : 'disabled'
 	);
 
-	// default apps to test when none is specified (TODO: read from filesystem ?)
-	let appsToTest = []
-	if (process.env.KARMA_TESTSUITE) {
-		appsToTest = process.env.KARMA_TESTSUITE.split(' ');
-	} else {
-		appsToTest = ['core'].concat(findApps());
-	}
-
-	console.log('Apps to test: ', appsToTest);
-
 	// read core files from core.json,
 	// these are required by all apps so always need to be loaded
 	// note that the loading order is important that's why they
 	// are specified in a separate file
 	var corePath = 'dist/';
 	var coreModule = require('../core/js/core.json');
-	var testCore = false;
-	var files = [];
-	var index;
+	var files = [
+		// core mocks
+		'core/js/tests/specHelper.js',
+	];
 	var preprocessors = {};
-
-	// find out what apps to test from appsToTest
-	index = appsToTest.indexOf('core');
-	if (index > -1) {
-		appsToTest.splice(index, 1);
-		testCore = true;
-	}
 
 	var srcFile, i;
 	// add core library files
@@ -104,9 +59,6 @@ module.exports = function(config) {
 	files.push('dist/core-files_client.js');
 	files.push('dist/core-systemtags.js');
 
-	// core mocks
-	files.push('core/js/tests/specHelper.js');
-
 	// add core modules files
 	for (i = 0; i < coreModule.modules.length; i++) {
 		srcFile = corePath + coreModule.modules[i];
@@ -116,40 +68,8 @@ module.exports = function(config) {
 		}
 	}
 
-	// TODO: settings pages
-
-	// need to test the core app as well ?
-	if (testCore) {
-		// core tests
-		files.push('core/js/tests/specs/**/*.js');
-	}
-
-	function addApp(app) {
-		// if only a string was specified, expand to structure
-		if (typeof app === 'string') {
-			app = {
-				srcFiles: ['dist/' + app + '-*.js', 'apps/' + app + '/js/**/*.js'],
-				testFiles: 'apps/' + app + '/tests/js/**/*.js'
-			};
-		}
-
-		// add source files/patterns
-		files = files.concat(app.srcFiles || []);
-		// add test files/patterns
-		files = files.concat(app.testFiles || []);
-		if (enableCoverage) {
-			// add coverage entry for each file/pattern
-			for (var i = 0; i < app.srcFiles.length; i++) {
-				preprocessors[app.srcFiles[i]] = 'coverage';
-			}
-		}
-	}
-
-	// add source files for apps to test
-	for (i = 0; i < appsToTest.length; i++) {
-		addApp(appsToTest[i]);
-	}
-
+	// core tests
+	files.push('core/js/tests/specs/**/*.js');
 	// serve images to avoid warnings
 	files.push({
 		pattern: 'core/img/**/*',
@@ -184,7 +104,7 @@ module.exports = function(config) {
 		frameworks: ['jasmine', 'jasmine-sinon', 'viewport'],
 
 		// list of files / patterns to load in the browser
-		files: files,
+		files,
 
 		// list of files to exclude
 		exclude: [],
@@ -249,14 +169,19 @@ module.exports = function(config) {
 		// - PhantomJS
 		// - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
 		// use PhantomJS_debug for extra local debug
-		browsers: ['ChromiumHeadless'],
+		browsers: ['Chrome_without_sandbox'],
 
 		// you can define custom flags
 		customLaunchers: {
 			PhantomJS_debug: {
 				base: 'PhantomJS',
 				debug: true
-			}
+			},
+			// fix CI
+			Chrome_without_sandbox: {
+				base: 'ChromiumHeadless',
+				flags: ['--no-sandbox'],
+			},
 		},
 
 		// If browser does not capture in given timeout [ms], kill it

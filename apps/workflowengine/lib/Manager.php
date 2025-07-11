@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -99,7 +100,7 @@ class Manager implements IManager {
 			->where($query->expr()->neq('events', $query->createNamedParameter('[]'), IQueryBuilder::PARAM_STR))
 			->groupBy('class', 'entity', $query->expr()->castColumn('events', IQueryBuilder::PARAM_STR));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$operations = [];
 		while ($row = $result->fetch()) {
 			$eventNames = \json_decode($row['events']);
@@ -145,7 +146,7 @@ class Manager implements IManager {
 			->where($query->expr()->eq('o.class', $query->createParameter('operationClass')));
 
 		$query->setParameters(['operationClass' => $operationClass]);
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$scopesByOperation[$operationClass] = [];
 		while ($row = $result->fetch()) {
@@ -180,7 +181,7 @@ class Manager implements IManager {
 		}
 
 		$query->setParameters(['scope' => $scopeContext->getScope(), 'scopeId' => $scopeContext->getScopeId()]);
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$this->operations[$scopeContext->getHash()] = [];
 		while ($row = $result->fetch()) {
@@ -221,7 +222,7 @@ class Manager implements IManager {
 		$query->select('*')
 			->from('flow_operations')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
@@ -250,7 +251,7 @@ class Manager implements IManager {
 				'entity' => $query->createNamedParameter($entity),
 				'events' => $query->createNamedParameter(json_encode($events))
 			]);
-		$query->execute();
+		$query->executeStatement();
 
 		$this->cacheFactory->createDistributed('flow')->remove('events');
 
@@ -313,7 +314,7 @@ class Manager implements IManager {
 		}
 
 		$qb->setParameters(['scope' => $scopeContext->getScope(), 'scopeId' => $scopeContext->getScopeId()]);
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 
 		$operations = [];
 		while (($opId = $result->fetchOne()) !== false) {
@@ -393,12 +394,12 @@ class Manager implements IManager {
 			$this->connection->beginTransaction();
 			$result = (bool)$query->delete('flow_operations')
 				->where($query->expr()->eq('id', $query->createNamedParameter($id)))
-				->execute();
+				->executeStatement();
 			if ($result) {
 				$qb = $this->connection->getQueryBuilder();
 				$result &= (bool)$qb->delete('flow_operations_scope')
 					->where($qb->expr()->eq('operation_id', $qb->createNamedParameter($id)))
-					->execute();
+					->executeStatement();
 			}
 			$this->connection->commit();
 		} catch (Exception $e) {
@@ -537,7 +538,7 @@ class Manager implements IManager {
 		$query->select('*')
 			->from('flow_checks')
 			->where($query->expr()->in('id', $query->createNamedParameter($checkIds, IQueryBuilder::PARAM_INT_ARRAY)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		while ($row = $result->fetch()) {
 			$this->checks[(int)$row['id']] = $row;
@@ -568,7 +569,7 @@ class Manager implements IManager {
 		$query->select('id')
 			->from('flow_checks')
 			->where($query->expr()->eq('hash', $query->createNamedParameter($hash)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		if ($row = $result->fetch()) {
 			$result->closeCursor();
@@ -583,7 +584,7 @@ class Manager implements IManager {
 				'value' => $query->createNamedParameter($value),
 				'hash' => $query->createNamedParameter($hash),
 			]);
-		$query->execute();
+		$query->executeStatement();
 
 		return $query->getLastInsertId();
 	}
@@ -597,7 +598,7 @@ class Manager implements IManager {
 			'type' => $query->createNamedParameter($scope->getScope()),
 			'value' => $query->createNamedParameter($scope->getScopeId()),
 		]);
-		$insertQuery->execute();
+		$insertQuery->executeStatement();
 	}
 
 	public function formatOperation(array $operation): array {

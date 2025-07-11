@@ -7,14 +7,14 @@
  */
 namespace OCA\Encryption\AppInfo;
 
+use OC\Core\Events\BeforePasswordResetEvent;
+use OC\Core\Events\PasswordResetEvent;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Crypto\DecryptAll;
 use OCA\Encryption\Crypto\EncryptAll;
 use OCA\Encryption\Crypto\Encryption;
-use OCA\Encryption\HookManager;
-use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;
-use OCA\Encryption\Recovery;
+use OCA\Encryption\Listeners\UserEventsListener;
 use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
@@ -23,7 +23,17 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Encryption\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IUserSession;
+use OCP\User\Events\BeforePasswordUpdatedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserCreatedEvent;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
+use OCP\User\Events\UserLoggedOutEvent;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
@@ -39,7 +49,7 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		\OCP\Util::addScript(self::APP_ID, 'encryption');
 
-		$context->injectFn(function (IManager $encryptionManager) use ($context) {
+		$context->injectFn(function (IManager $encryptionManager) use ($context): void {
 			if (!($encryptionManager instanceof \OC\Encryption\Manager)) {
 				return;
 			}
@@ -49,7 +59,7 @@ class Application extends App implements IBootstrap {
 			}
 
 			$context->injectFn($this->registerEncryptionModule(...));
-			$context->injectFn($this->registerHooks(...));
+			$context->injectFn($this->registerEventListeners(...));
 			$context->injectFn($this->setUp(...));
 		});
 	}
@@ -57,41 +67,45 @@ class Application extends App implements IBootstrap {
 	public function setUp(IManager $encryptionManager) {
 		if ($encryptionManager->isEnabled()) {
 			/** @var Setup $setup */
-			$setup = $this->getContainer()->query(Setup::class);
+			$setup = $this->getContainer()->get(Setup::class);
 			$setup->setupSystem();
 		}
 	}
 
-	/**
-	 * register hooks
-	 */
-	public function registerHooks(IConfig $config) {
-		if (!$config->getSystemValueBool('maintenance')) {
-			$container = $this->getContainer();
-			$server = $container->getServer();
-			// Register our hooks and fire them.
-			$hookManager = new HookManager();
+	public function registerEventListeners(
+		IConfig $config,
+		IEventDispatcher $eventDispatcher,
+		IManager $encryptionManager,
+		Util $util,
+	): void {
+		if (!$encryptionManager->isEnabled()) {
+			return;
+		}
 
-			$hookManager->registerHook([
-				new UserHooks($container->query(KeyManager::class),
-					$server->getUserManager(),
-					$server->get(LoggerInterface::class),
-					$container->query(Setup::class),
-					$server->getUserSession(),
-					$container->query(Util::class),
-					$container->query(Session::class),
-					$container->query(Crypt::class),
-					$container->query(Recovery::class))
-			]);
-
-			$hookManager->fireHooks();
-		} else {
+		if ($config->getSystemValueBool('maintenance')) {
 			// Logout user if we are in maintenance to force re-login
-			$this->getContainer()->getServer()->getUserSession()->logout();
+			$this->getContainer()->get(IUserSession::class)->logout();
+			return;
+		}
+
+		// No maintenance so register all events
+		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedInWithCookieEvent::class, UserEventsListener::class);
+		$eventDispatcher->addServiceListener(UserLoggedOutEvent::class, UserEventsListener::class);
+		if (!$util->isMasterKeyEnabled()) {
+			// Only make sense if no master key is used
+			$eventDispatcher->addServiceListener(UserCreatedEvent::class, UserEventsListener::class);
+			$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserEventsListener::class);
+			$eventDispatcher->addServiceListener(BeforePasswordUpdatedEvent::class, UserEventsListener::class);
+			$eventDispatcher->addServiceListener(PasswordUpdatedEvent::class, UserEventsListener::class);
+			$eventDispatcher->addServiceListener(BeforePasswordResetEvent::class, UserEventsListener::class);
+			$eventDispatcher->addServiceListener(PasswordResetEvent::class, UserEventsListener::class);
 		}
 	}
 
-	public function registerEncryptionModule(IManager $encryptionManager) {
+	public function registerEncryptionModule(
+		IManager $encryptionManager,
+	) {
 		$container = $this->getContainer();
 
 		$encryptionManager->registerEncryptionModule(
@@ -99,14 +113,14 @@ class Application extends App implements IBootstrap {
 			Encryption::DISPLAY_NAME,
 			function () use ($container) {
 				return new Encryption(
-					$container->query(Crypt::class),
-					$container->query(KeyManager::class),
-					$container->query(Util::class),
-					$container->query(Session::class),
-					$container->query(EncryptAll::class),
-					$container->query(DecryptAll::class),
-					$container->getServer()->get(LoggerInterface::class),
-					$container->getServer()->getL10N($container->getAppName())
+					$container->get(Crypt::class),
+					$container->get(KeyManager::class),
+					$container->get(Util::class),
+					$container->get(Session::class),
+					$container->get(EncryptAll::class),
+					$container->get(DecryptAll::class),
+					$container->get(LoggerInterface::class),
+					$container->get(IL10N::class),
 				);
 			});
 	}

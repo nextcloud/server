@@ -9,16 +9,15 @@ OC.L10N.register(
     "Use backup code" : "Úsáid cód cúltaca",
     "Two factor backup codes" : "Cóid chúltaca dhá fhachtóir",
     "A two-factor auth backup codes provider" : "Soláthraí cóid chúltaca údaráis dhá-fhachtóir",
+    "An error occurred while generating your backup codes" : "Tharla earráid agus do chóid chúltaca á nginiúint",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Gineadh cóid chúltaca. Baineadh úsáid as {used} as {total} cóid.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Seo iad do chóid chúltaca. Sábháil agus/nó priontáil iad mar ní bheidh tú in ann na cóid a léamh arís ar ball le do thoil.",
     "Save backup codes" : "Sábháil cóid chúltaca",
     "Print backup codes" : "Priontáil cóid chúltaca",
     "Regenerate backup codes" : "Athghin cóid chúltaca",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Má athghineann tú cóid chúltaca, déanann tú sean-chóid neamhbhailí go huathoibríoch.",
-    "An error occurred while generating your backup codes" : "Tharla earráid agus do chóid chúltaca á nginiúint",
     "{name} backup codes" : "cóid chúltaca {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Bain úsáid as ceann de na cóid chúltaca a shábháil tú agus fíordheimhniú dhá-fhachtóir á socrú agat.",
-    "Submit" : "Cuir isteach",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Seo iad do chóid chúltaca. Sábháil agus/nó priontáil iad mar ní bheidh tú in ann na cóid a léamh arís ar ball le do thoil"
+    "Submit" : "Cuir isteach"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

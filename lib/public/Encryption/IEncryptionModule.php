@@ -125,7 +125,7 @@ interface IEncryptionModule {
 	 * e.g. if all encryption keys exists
 	 *
 	 * @param string $path
-	 * @param string $uid user for whom we want to check if he can read the file
+	 * @param string $uid user for whom we want to check if they can read the file
 	 * @return boolean
 	 * @since 8.1.0
 	 */

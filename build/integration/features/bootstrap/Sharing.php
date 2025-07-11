@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -54,8 +55,12 @@ trait Sharing {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)) {
 				$dateModification = $fd['expireDate'];
-				if (!empty($dateModification)) {
+				if ($dateModification === 'null') {
+					$fd['expireDate'] = null;
+				} elseif (!empty($dateModification)) {
 					$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+				} else {
+					$fd['expireDate'] = '';
 				}
 			}
 			$options['form_params'] = $fd;
@@ -557,18 +562,18 @@ trait Sharing {
 		];
 		$expectedFields = array_merge($defaultExpectedFields, $body->getRowsHash());
 
-		if (!array_key_exists('uid_file_owner', $expectedFields) &&
-				array_key_exists('uid_owner', $expectedFields)) {
+		if (!array_key_exists('uid_file_owner', $expectedFields)
+				&& array_key_exists('uid_owner', $expectedFields)) {
 			$expectedFields['uid_file_owner'] = $expectedFields['uid_owner'];
 		}
-		if (!array_key_exists('displayname_file_owner', $expectedFields) &&
-				array_key_exists('displayname_owner', $expectedFields)) {
+		if (!array_key_exists('displayname_file_owner', $expectedFields)
+				&& array_key_exists('displayname_owner', $expectedFields)) {
 			$expectedFields['displayname_file_owner'] = $expectedFields['displayname_owner'];
 		}
 
-		if (array_key_exists('share_type', $expectedFields) &&
-				$expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */ &&
-				array_key_exists('share_with', $expectedFields)) {
+		if (array_key_exists('share_type', $expectedFields)
+				&& $expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */
+				&& array_key_exists('share_with', $expectedFields)) {
 			if ($expectedFields['share_with'] === 'private_conversation') {
 				$expectedFields['share_with'] = 'REGEXP /^private_conversation_[0-9a-f]{6}$/';
 			} else {

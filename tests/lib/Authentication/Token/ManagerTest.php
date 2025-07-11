@@ -128,10 +128,10 @@ class ManagerTest extends TestCase {
 		$this->assertSame(121, mb_strlen($actual->getName()));
 	}
 
-	public function tokenData(): array {
+	public static function tokenData(): array {
 		return [
 			[new PublicKeyToken()],
-			[$this->createMock(IToken::class)],
+			[IToken::class],
 		];
 	}
 
@@ -157,10 +157,12 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
-	public function testUpdateToken(IToken $token): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
+	public function testUpdateToken(IToken|string $token): void {
+		if (is_string($token)) {
+			$token = $this->createMock($token);
+		}
+
 		$this->setNoCall($token);
 		$this->setCall($token, 'updateToken');
 		$this->setException($token);
@@ -168,10 +170,12 @@ class ManagerTest extends TestCase {
 		$this->manager->updateToken($token);
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
-	public function testUpdateTokenActivity(IToken $token): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
+	public function testUpdateTokenActivity(IToken|string $token): void {
+		if (is_string($token)) {
+			$token = $this->createMock($token);
+		}
+
 		$this->setNoCall($token);
 		$this->setCall($token, 'updateTokenActivity');
 		$this->setException($token);
@@ -179,10 +183,12 @@ class ManagerTest extends TestCase {
 		$this->manager->updateTokenActivity($token);
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
-	public function testGetPassword(IToken $token): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
+	public function testGetPassword(IToken|string $token): void {
+		if (is_string($token)) {
+			$token = $this->createMock($token);
+		}
+
 		$this->setNoCall($token);
 		$this->setCall($token, 'getPassword', 'password');
 		$this->setException($token);
@@ -192,10 +198,12 @@ class ManagerTest extends TestCase {
 		$this->assertSame('password', $result);
 	}
 
-	/**
-	 * @dataProvider tokenData
-	 */
-	public function testSetPassword(IToken $token): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('tokenData')]
+	public function testSetPassword(IToken|string $token): void {
+		if (is_string($token)) {
+			$token = $this->createMock($token);
+		}
+
 		$this->setNoCall($token);
 		$this->setCall($token, 'setPassword');
 		$this->setException($token);
@@ -358,13 +366,18 @@ class ManagerTest extends TestCase {
 			->method('getTokenByUser')
 			->with('theUser')
 			->willReturn([$t1, $t2]);
+
+		$calls = [
+			['theUser', 123],
+			['theUser', 456],
+		];
 		$this->publicKeyTokenProvider
 			->expects($this->exactly(2))
 			->method('invalidateTokenById')
-			->withConsecutive(
-				['theUser', 123],
-				['theUser', 456],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->manager->invalidateTokensOfUser('theUser', null);
 	}
 

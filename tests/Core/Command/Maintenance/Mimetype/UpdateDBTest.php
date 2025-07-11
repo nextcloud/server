@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -33,15 +34,10 @@ class UpdateDBTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->detector = $this->getMockBuilder(Detection::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->loader = $this->getMockBuilder(Loader::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
+		$this->detector = $this->createMock(Detection::class);
+		$this->loader = $this->createMock(Loader::class);
+		$this->consoleInput = $this->createMock(InputInterface::class);
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 
 		$this->command = new UpdateDB($this->detector, $this->loader);
 	}
@@ -64,12 +60,16 @@ class UpdateDBTest extends TestCase {
 		$this->loader->expects($this->never())
 			->method('updateFilecache');
 
+		$calls = [
+			'Added 0 new mimetypes',
+			'Updated 0 filecache rows',
+		];
 		$this->consoleOutput->expects($this->exactly(2))
 			->method('writeln')
-			->withConsecutive(
-				['Added 0 new mimetypes'],
-				['Updated 0 filecache rows'],
-			);
+			->willReturnCallback(function ($message) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertStringContainsString($expected, $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
@@ -103,14 +103,18 @@ class UpdateDBTest extends TestCase {
 			->with('new', 2)
 			->willReturn(3);
 
+		$calls = [
+			'Added mimetype "testing/newmimetype" to database',
+			'Updated 3 filecache rows for mimetype "testing/newmimetype"',
+			'Added 1 new mimetypes',
+			'Updated 3 filecache rows',
+		];
 		$this->consoleOutput->expects($this->exactly(4))
 			->method('writeln')
-			->withConsecutive(
-				['Added mimetype "testing/newmimetype" to database'],
-				['Updated 3 filecache rows for mimetype "testing/newmimetype"'],
-				['Added 1 new mimetypes'],
-				['Updated 3 filecache rows'],
-			);
+			->willReturnCallback(function ($message) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertStringContainsString($expected, $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
@@ -153,13 +157,17 @@ class UpdateDBTest extends TestCase {
 			->with('ext', 1)
 			->willReturn(3);
 
+		$calls = [
+			'Updated 3 filecache rows for mimetype "testing/existingmimetype"',
+			'Added 0 new mimetypes',
+			'Updated 3 filecache rows',
+		];
 		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->withConsecutive(
-				['Updated 3 filecache rows for mimetype "testing/existingmimetype"'],
-				['Added 0 new mimetypes'],
-				['Updated 3 filecache rows'],
-			);
+			->willReturnCallback(function ($message) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertStringContainsString($expected, $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

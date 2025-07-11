@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,24 +8,21 @@
 namespace OCA\Files_External\Tests\Settings;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Encryption\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var Admin */
-	private $admin;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $encryptionManager;
-	/** @var GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject */
-	private $globalStoragesService;
-	/** @var BackendService|\PHPUnit\Framework\MockObject\MockObject */
-	private $backendService;
-	/** @var GlobalAuth|\PHPUnit\Framework\MockObject\MockObject */
-	private $globalAuth;
+	private IManager&MockObject $encryptionManager;
+	private GlobalStoragesService&MockObject $globalStoragesService;
+	private BackendService&MockObject $backendService;
+	private GlobalAuth&MockObject $globalAuth;
+	private Admin $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -76,7 +75,7 @@ class AdminTest extends TestCase {
 			'storages' => ['a', 'b', 'c'],
 			'backends' => ['d', 'e', 'f'],
 			'authMechanisms' => ['g', 'h', 'i'],
-			'dependencies' => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
+			'dependencies' => MountConfig::dependencyMessage($this->backendService->getBackends()),
 			'allowUserMounting' => true,
 			'globalCredentials' => 'asdf:asdf',
 			'globalCredentialsUid' => '',

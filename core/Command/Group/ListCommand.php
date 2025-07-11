@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,6 +9,7 @@ namespace OC\Core\Command\Group;
 use OC\Core\Command\Base;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,6 +25,12 @@ class ListCommand extends Base {
 		$this
 			->setName('group:list')
 			->setDescription('list configured groups')
+			->addArgument(
+				'searchstring',
+				InputArgument::OPTIONAL,
+				'Filter the groups to only those matching the search string',
+				''
+			)
 			->addOption(
 				'limit',
 				'l',
@@ -50,7 +58,7 @@ class ListCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$groups = $this->groupManager->search('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
+		$groups = $this->groupManager->search((string)$input->getArgument('searchstring'), (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups, (bool)$input->getOption('info')));
 		return 0;
 	}

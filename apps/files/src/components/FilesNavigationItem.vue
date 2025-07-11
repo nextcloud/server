@@ -42,8 +42,8 @@ import type { View } from '@nextcloud/files'
 import { defineComponent } from 'vue'
 import { Fragment } from 'vue-frag'
 
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
 import { useNavigation } from '../composables/useNavigation.js'
 import { useViewConfigStore } from '../store/viewConfig.js'
@@ -89,7 +89,7 @@ export default defineComponent({
 				return (Object.values(this.views).reduce((acc, views) => [...acc, ...views], []) as View[])
 					.filter(view => view.params?.dir.startsWith(this.parent.params?.dir))
 			}
-			return this.views[this.parent.id] ?? [] // Root level views have `undefined` parent ids
+			return this.filterVisible(this.views[this.parent.id] ?? [])
 		},
 
 		style() {
@@ -103,11 +103,15 @@ export default defineComponent({
 	},
 
 	methods: {
+		filterVisible(views: View[]) {
+			return views.filter(({ id, hidden }) => id === this.currentView?.id || hidden !== true)
+		},
+
 		hasChildViews(view: View): boolean {
 			if (this.level >= maxLevel) {
 				return false
 			}
-			return this.views[view.id]?.length > 0
+			return this.filterVisible(this.views[view.id] ?? []).length > 0
 		},
 
 		/**

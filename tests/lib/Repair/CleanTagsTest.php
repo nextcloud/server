@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,9 +8,13 @@
 
 namespace Test\Repair;
 
+use OC\Repair\CleanTags;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests for the cleaning the tags tables
@@ -19,25 +24,18 @@ use OCP\Migration\IOutput;
  * @see \OC\Repair\CleanTags
  */
 class CleanTagsTest extends \Test\TestCase {
-	/** @var \OC\Repair\CleanTags */
-	protected $repair;
 
-	/** @var \OCP\IDBConnection */
-	protected $connection;
+	private ?int $createdFile = null;
+	private CleanTags $repair;
+	private IDBConnection $connection;
 
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-
-	/** @var int */
-	protected $createdFile;
-
-	/** @var IOutput */
-	private $outputMock;
+	private IUserManager&MockObject $userManager;
+	private IOutput&MockObject $outputMock;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+		$this->outputMock = $this->getMockBuilder(IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -45,8 +43,8 @@ class CleanTagsTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->repair = new \OC\Repair\CleanTags($this->connection, $this->userManager);
+		$this->connection = Server::get(IDBConnection::class);
+		$this->repair = new CleanTags($this->connection, $this->userManager);
 		$this->cleanUpTables();
 	}
 
@@ -59,14 +57,14 @@ class CleanTagsTest extends \Test\TestCase {
 	protected function cleanUpTables() {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('vcategory')
-			->execute();
+			->executeStatement();
 
 		$qb->delete('vcategory_to_object')
-			->execute();
+			->executeStatement();
 
 		$qb->delete('filecache')
 			->runAcrossAllShards()
-			->execute();
+			->executeStatement();
 	}
 
 	public function testRun(): void {
@@ -119,7 +117,7 @@ class CleanTagsTest extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$result = $qb->select($qb->func()->count('*'))
 			->from($tableName)
-			->execute();
+			->executeQuery();
 
 		$this->assertEquals($expected, $result->fetchOne(), $message);
 	}
@@ -140,7 +138,7 @@ class CleanTagsTest extends \Test\TestCase {
 				'category' => $qb->createNamedParameter($category),
 				'type' => $qb->createNamedParameter($type),
 			])
-			->execute();
+			->executeStatement();
 
 		return $qb->getLastInsertId();
 	}
@@ -159,7 +157,7 @@ class CleanTagsTest extends \Test\TestCase {
 				'categoryid' => $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT),
 				'type' => $qb->createNamedParameter($type),
 			])
-			->execute();
+			->executeStatement();
 	}
 
 	/**
@@ -167,7 +165,7 @@ class CleanTagsTest extends \Test\TestCase {
 	 * @return int
 	 */
 	protected function getFileID() {
-		if ($this->createdFile) {
+		if ($this->createdFile !== null) {
 			return $this->createdFile;
 		}
 
@@ -181,7 +179,7 @@ class CleanTagsTest extends \Test\TestCase {
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])
-			->execute();
+			->executeStatement();
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
 		$qb->insert('filecache')
 			->values([
@@ -189,7 +187,7 @@ class CleanTagsTest extends \Test\TestCase {
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])
-			->execute();
+			->executeStatement();
 
 		$this->createdFile = $qb->getLastInsertId();
 		return $this->createdFile;

@@ -86,14 +86,7 @@ class AddMissingIndices extends Command {
 				if ($schema->hasTable($toReplaceIndex['tableName'])) {
 					$table = $schema->getTable($toReplaceIndex['tableName']);
 
-					$allOldIndicesExists = true;
-					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
-						if (!$table->hasIndex($oldIndexName)) {
-							$allOldIndicesExists = false;
-						}
-					}
-
-					if (!$allOldIndicesExists) {
+					if ($table->hasIndex($toReplaceIndex['newIndexName'])) {
 						continue;
 					}
 
@@ -110,8 +103,10 @@ class AddMissingIndices extends Command {
 					}
 
 					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
-						$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
-						$table->dropIndex($oldIndexName);
+						if ($table->hasIndex($oldIndexName)) {
+							$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
+							$table->dropIndex($oldIndexName);
+						}
 					}
 
 					if (!$dryRun) {

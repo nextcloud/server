@@ -1,0 +1,5 @@
+{ "translations": {
+    "Webhooks" : "Veebihaagid",
+    "Nextcloud webhook support" : "Veebihaakide (webhook) tugi Nextcloudi jaoks"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

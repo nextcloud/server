@@ -82,7 +82,7 @@ export default {
 section {
 	padding: 10px 10px;
 
-	&::v-deep button:disabled {
+	&:deep(button:disabled) {
 		cursor: default;
 	}
 }

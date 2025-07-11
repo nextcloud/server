@@ -12,6 +12,7 @@ use OCA\ContactsInteraction\Db\RecentContact;
 use OCA\ContactsInteraction\Db\RecentContactMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IUser;
+use OCP\Server;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\UUIDUtil;
 use Test\TestCase;
@@ -20,18 +21,14 @@ use Test\TestCase;
  * @group DB
  */
 class RecentContactMapperTest extends TestCase {
-
-	/** @var RecentContactMapper */
-	private $recentContactMapper;
-
-	/** @var ITimeFactory */
-	private $time;
+	private RecentContactMapper $recentContactMapper;
+	private ITimeFactory $time;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->recentContactMapper = \OC::$server->get(RecentContactMapper::class);
-		$this->time = \OC::$server->get(ITimeFactory::class);
+		$this->recentContactMapper = Server::get(RecentContactMapper::class);
+		$this->time = Server::get(ITimeFactory::class);
 	}
 
 	protected function tearDown(): void {

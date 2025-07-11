@@ -116,6 +116,12 @@ source_file = translationfiles/templates/oauth2.pot
 source_lang = en
 type        = PO
 
+[o:nextcloud:p:nextcloud:r:profile]
+file_filter = translationfiles/<lang>/profile.po
+source_file = translationfiles/templates/profile.pot
+source_lang = en
+type        = PO
+
 [o:nextcloud:p:nextcloud:r:provisioning_api]
 file_filter = translationfiles/<lang>/provisioning_api.po
 source_file = translationfiles/templates/provisioning_api.pot

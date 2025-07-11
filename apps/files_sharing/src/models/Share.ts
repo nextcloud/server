@@ -21,6 +21,10 @@ export default class Share {
 			ocsData = ocsData.ocs.data[0]
 		}
 
+		// string to int
+		if (typeof ocsData.id === 'string') {
+			ocsData.id = Number.parseInt(ocsData.id)
+		}
 		// convert int into boolean
 		ocsData.hide_download = !!ocsData.hide_download
 		ocsData.mail_send = !!ocsData.mail_send
@@ -77,7 +81,7 @@ export default class Share {
 	 * Get the share attributes
 	 */
 	get attributes(): Array<ShareAttribute> {
-		return this._share.attributes
+		return this._share.attributes || []
 	}
 
 	/**
@@ -193,6 +197,13 @@ export default class Share {
 	}
 
 	/**
+	 * Set the public share token
+	 */
+	set token(token: string) {
+		this._share.token = token
+	}
+
+	/**
 	 * Get the share note if any
 	 */
 	get note(): string {
@@ -234,12 +245,22 @@ export default class Share {
 	 */
 	get hideDownload(): boolean {
 		return this._share.hide_download === true
+			|| this.attributes.find?.(({ scope, key, value }) => scope === 'permissions' && key === 'download' && !value) !== undefined
 	}
 
 	/**
 	 * Hide the download button on public page
 	 */
 	set hideDownload(state: boolean) {
+		// disabling hide-download also enables the download permission
+		// needed for regression in Nextcloud 31.0.0 until (incl.) 31.0.3
+		if (!state) {
+			const attribute = this.attributes.find(({ key, scope }) => key === 'download' && scope === 'permissions')
+			if (attribute) {
+				attribute.value = true
+			}
+		}
+
 		this._share.hide_download = state === true
 	}
 
@@ -314,7 +335,7 @@ export default class Share {
 
 	/**
 	 * Get the shared item id
-		 */
+	 */
 	get fileSource(): number {
 		return this._share.file_source
 	}

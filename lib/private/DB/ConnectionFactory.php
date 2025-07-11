@@ -108,7 +108,7 @@ class ConnectionFactory {
 		$normalizedType = $this->normalizeType($type);
 		$eventManager = new EventManager();
 		$eventManager->addEventSubscriber(new SetTransactionIsolationLevel());
-		$connectionParams = $this->createConnectionParams('', $additionalConnectionParams);
+		$connectionParams = $this->createConnectionParams('', $additionalConnectionParams, $type);
 		switch ($normalizedType) {
 			case 'pgsql':
 				// pg_connect used by Doctrine DBAL does not support URI notation (enclosed in brackets)
@@ -175,12 +175,10 @@ class ConnectionFactory {
 
 	/**
 	 * Create the connection parameters for the config
-	 *
-	 * @param string $configPrefix
-	 * @return array
 	 */
-	public function createConnectionParams(string $configPrefix = '', array $additionalConnectionParams = []) {
-		$type = $this->config->getValue('dbtype', 'sqlite');
+	public function createConnectionParams(string $configPrefix = '', array $additionalConnectionParams = [], ?string $type = null) {
+		// use provided type or if null use type from config
+		$type = $type ?? $this->config->getValue('dbtype', 'sqlite');
 
 		$connectionParams = array_merge($this->getDefaultConnectionParams($type), [
 			'user' => $this->config->getValue($configPrefix . 'dbuser', $this->config->getValue('dbuser', '')),
@@ -212,7 +210,7 @@ class ConnectionFactory {
 			'tablePrefix' => $connectionParams['tablePrefix']
 		];
 
-		if ($this->config->getValue('mysql.utf8mb4', false)) {
+		if ($type === 'mysql' && $this->config->getValue('mysql.utf8mb4', false)) {
 			$connectionParams['defaultTableOptions'] = [
 				'collate' => 'utf8mb4_bin',
 				'charset' => 'utf8mb4',

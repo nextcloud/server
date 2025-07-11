@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,6 +15,8 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
+use OCP\Server;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -28,12 +32,12 @@ class UtilTest extends TestCase {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->appData = $this->createMock(IAppData::class);
-		$this->appManager = \OCP\Server::get(IAppManager::class);
+		$this->appManager = Server::get(IAppManager::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
-		$this->util = new Util($this->config, $this->appManager, $this->appData, $this->imageManager);
+		$this->util = new Util($this->createMock(ServerVersion::class), $this->config, $this->appManager, $this->appData, $this->imageManager);
 	}
 
-	public function dataColorContrast() {
+	public static function dataColorContrast(): array {
 		return [
 			['#ffffff', '#FFFFFF', 1],
 			['#000000', '#000000', 1],
@@ -44,14 +48,12 @@ class UtilTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataColorContrast
-	 */
-	public function testColorContrast(string $color1, string $color2, $contrast): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataColorContrast')]
+	public function testColorContrast(string $color1, string $color2, int|float $contrast): void {
 		$this->assertEqualsWithDelta($contrast, $this->util->colorContrast($color1, $color2), .001);
 	}
 
-	public function dataInvertTextColor() {
+	public static function dataInvertTextColor(): array {
 		return [
 			['#ffffff', true],
 			['#000000', false],
@@ -59,10 +61,8 @@ class UtilTest extends TestCase {
 			['#ffff00', true],
 		];
 	}
-	/**
-	 * @dataProvider dataInvertTextColor
-	 */
-	public function testInvertTextColor($color, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataInvertTextColor')]
+	public function testInvertTextColor(string $color, bool $expected): void {
 		$invert = $this->util->invertTextColor($color);
 		$this->assertEquals($expected, $invert);
 	}
@@ -139,10 +139,8 @@ class UtilTest extends TestCase {
 		$this->assertEquals($expected, $button);
 	}
 
-	/**
-	 * @dataProvider dataGetAppIcon
-	 */
-	public function testGetAppIcon($app, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAppIcon')]
+	public function testGetAppIcon(string $app, string $expected): void {
 		$this->appData->expects($this->any())
 			->method('getFolder')
 			->with('global/images')
@@ -151,11 +149,11 @@ class UtilTest extends TestCase {
 		$this->assertEquals($expected, $icon);
 	}
 
-	public function dataGetAppIcon() {
+	public static function dataGetAppIcon(): array {
 		return [
-			['user_ldap', \OCP\Server::get(IAppManager::class)->getAppPath('user_ldap') . '/img/app.svg'],
+			['user_ldap', Server::get(IAppManager::class)->getAppPath('user_ldap') . '/img/app.svg'],
 			['noapplikethis', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
-			['comments', \OCP\Server::get(IAppManager::class)->getAppPath('comments') . '/img/comments.svg'],
+			['comments', Server::get(IAppManager::class)->getAppPath('comments') . '/img/comments.svg'],
 		];
 	}
 
@@ -174,14 +172,12 @@ class UtilTest extends TestCase {
 		$this->assertEquals($file, $icon);
 	}
 
-	/**
-	 * @dataProvider dataGetAppImage
-	 */
-	public function testGetAppImage($app, $image, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAppImage')]
+	public function testGetAppImage(string $app, string $image, string|bool $expected): void {
 		$this->assertEquals($expected, $this->util->getAppImage($app, $image));
 	}
 
-	public function dataGetAppImage() {
+	public static function dataGetAppImage(): array {
 		return [
 			['core', 'logo/logo.svg', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
 			['files', 'folder', \OC::$SERVERROOT . '/apps/files/img/folder.svg'],
@@ -215,17 +211,15 @@ class UtilTest extends TestCase {
 		$this->assertTrue($actual);
 	}
 
-	public function dataIsBackgroundThemed() {
+	public static function dataIsBackgroundThemed(): array {
 		return [
 			['', false],
 			['png', true],
 			['backgroundColor', false],
 		];
 	}
-	/**
-	 * @dataProvider dataIsBackgroundThemed
-	 */
-	public function testIsBackgroundThemed($backgroundMime, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsBackgroundThemed')]
+	public function testIsBackgroundThemed(string $backgroundMime, bool $expected): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('theming', 'backgroundMime', '')

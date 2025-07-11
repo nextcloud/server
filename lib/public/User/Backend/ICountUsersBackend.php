@@ -10,6 +10,7 @@ namespace OCP\User\Backend;
 
 /**
  * @since 14.0.0
+ * @deprecated 31.0.0 use and implement ILimitAwareCountUsersBackend instead.
  */
 interface ICountUsersBackend {
 	/**

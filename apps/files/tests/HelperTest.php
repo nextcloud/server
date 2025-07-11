@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+use OC\Files\FileInfo;
+use OCA\Files\Helper;
+
 class HelperTest extends \Test\TestCase {
-	private function makeFileInfo($name, $size, $mtime, $isDir = false) {
-		return new \OC\Files\FileInfo(
+	private static function makeFileInfo($name, $size, $mtime, $isDir = false): FileInfo {
+		return new FileInfo(
 			'/' . $name,
 			null,
 			'/',
@@ -25,7 +30,7 @@ class HelperTest extends \Test\TestCase {
 	/**
 	 * Returns a file list for testing
 	 */
-	private function getTestFileList() {
+	private static function getTestFileList(): array {
 		return [
 			self::makeFileInfo('a.txt', 4, 2.3 * pow(10, 9)),
 			self::makeFileInfo('q.txt', 5, 150),
@@ -36,7 +41,7 @@ class HelperTest extends \Test\TestCase {
 		];
 	}
 
-	public function sortDataProvider() {
+	public static function sortDataProvider(): array {
 		return [
 			[
 				'name',
@@ -71,15 +76,13 @@ class HelperTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider sortDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sortDataProvider')]
 	public function testSortByName(string $sort, bool $sortDescending, array $expectedOrder): void {
 		if (($sort === 'mtime') && (PHP_INT_SIZE < 8)) {
 			$this->markTestSkipped('Skip mtime sorting on 32bit');
 		}
 		$files = self::getTestFileList();
-		$files = \OCA\Files\Helper::sortFiles($files, $sort, $sortDescending);
+		$files = Helper::sortFiles($files, $sort, $sortDescending);
 		$fileNames = [];
 		foreach ($files as $fileInfo) {
 			$fileNames[] = $fileInfo->getName();
@@ -88,37 +91,5 @@ class HelperTest extends \Test\TestCase {
 			$expectedOrder,
 			$fileNames
 		);
-	}
-
-	public function testPopulateTags(): void {
-		$tagManager = $this->createMock(\OCP\ITagManager::class);
-		$tagger = $this->createMock(\OCP\ITags::class);
-
-		$tagManager->method('load')
-			->with('files')
-			->willReturn($tagger);
-
-		$data = [
-			['id' => 10],
-			['id' => 22, 'foo' => 'bar'],
-			['id' => 42, 'x' => 'y'],
-		];
-
-		$tags = [
-			10 => ['tag3'],
-			42 => ['tag1', 'tag2'],
-		];
-
-		$tagger->method('getTagsForObjects')
-			->with([10, 22, 42])
-			->willReturn($tags);
-
-		$result = \OCA\Files\Helper::populateTags($data, 'id', $tagManager);
-
-		$this->assertSame([
-			['id' => 10, 'tags' => ['tag3']],
-			['id' => 22, 'foo' => 'bar', 'tags' => []],
-			['id' => 42, 'x' => 'y', 'tags' => ['tag1', 'tag2']],
-		], $result);
 	}
 }

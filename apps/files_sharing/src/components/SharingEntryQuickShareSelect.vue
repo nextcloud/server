@@ -8,6 +8,7 @@
 		:menu-name="selectedOption"
 		:aria-label="ariaLabel"
 		type="tertiary-no-background"
+		:disabled="!share.canEdit"
 		force-name>
 		<template #icon>
 			<DropdownIcon :size="15" />
@@ -27,12 +28,13 @@
 </template>
 
 <script>
+import { ShareType } from '@nextcloud/sharing'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import DropdownIcon from 'vue-material-design-icons/TriangleSmallDown.vue'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
-import ShareTypes from '../mixins/ShareTypes.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import IconEyeOutline from 'vue-material-design-icons/EyeOutline.vue'
 import IconPencil from 'vue-material-design-icons/Pencil.vue'
 import IconFileUpload from 'vue-material-design-icons/FileUpload.vue'
@@ -52,7 +54,7 @@ export default {
 		NcActionButton,
 	},
 
-	mixins: [SharesMixin, ShareDetails, ShareTypes],
+	mixins: [SharesMixin, ShareDetails],
 
 	props: {
 		share: {
@@ -122,7 +124,7 @@ export default {
 		supportsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
 				const shareType = this.share.type ?? this.share.shareType
-				return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
+				return [ShareType.Link, ShareType.Email].includes(shareType)
 			}
 			return false
 		},
@@ -144,7 +146,17 @@ export default {
 	created() {
 		this.selectedOption = this.preSelectedOption
 	},
-
+	mounted() {
+		subscribe('update:share', (share) => {
+			if (share.id === this.share.id) {
+				this.share.permissions = share.permissions
+				this.selectedOption = this.preSelectedOption
+			}
+		})
+	},
+	unmounted() {
+		unsubscribe('update:share')
+	},
 	methods: {
 		selectOption(optionLabel) {
 			this.selectedOption = optionLabel

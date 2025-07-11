@@ -17,13 +17,14 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\PreConditionNotMetException;
 use OCP\Translation\CouldNotTranslateException;
 use OCP\Translation\ITranslationManager;
 
-class TranslationApiController extends \OCP\AppFramework\OCSController {
+class TranslationApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -36,7 +37,7 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Get the list of supported languages
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{languages: array{from: string, fromLabel: string, to: string, toLabel: string}[], languageDetection: bool}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{languages: list<array{from: string, fromLabel: string, to: string, toLabel: string}>, languageDetection: bool}, array{}>
 	 *
 	 * 200: Supported languages returned
 	 */
@@ -44,7 +45,7 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/languages', root: '/translation')]
 	public function languages(): DataResponse {
 		return new DataResponse([
-			'languages' => array_map(fn ($lang) => $lang->jsonSerialize(), $this->translationManager->getLanguages()),
+			'languages' => array_values(array_map(fn ($lang) => $lang->jsonSerialize(), $this->translationManager->getLanguages())),
 			'languageDetection' => $this->translationManager->canDetectLanguage(),
 		]);
 	}

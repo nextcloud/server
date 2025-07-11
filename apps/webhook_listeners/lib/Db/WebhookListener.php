@@ -11,6 +11,7 @@ namespace OCA\WebhookListeners\Db;
 
 use OCP\AppFramework\Db\Entity;
 use OCP\Security\ICrypto;
+use OCP\Server;
 
 /**
  * @method void setUserId(?string $userId)
@@ -89,7 +90,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 		?ICrypto $crypto = null,
 	) {
 		if ($crypto === null) {
-			$crypto = \OCP\Server::get(ICrypto::class);
+			$crypto = Server::get(ICrypto::class);
 		}
 		$this->crypto = $crypto;
 		$this->addType('appId', 'string');

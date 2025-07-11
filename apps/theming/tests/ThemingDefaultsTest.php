@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -27,29 +29,17 @@ class ThemingDefaultsTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private IConfig&MockObject $config;
 	private \OC_Defaults $defaults;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $cacheFactory;
-	/** @var ThemingDefaults */
-	private $template;
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
-	private $util;
-	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
-	private $cache;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-	/** @var ImageManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $imageManager;
-	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $navigationManager;
-	/** @var BackgroundService|\PHPUnit\Framework\MockObject\MockObject */
-	private $backgroundService;
+	private IL10N|MockObject $l10n;
+	private IUserSession&MockObject $userSession;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ICacheFactory&MockObject $cacheFactory;
+	private Util&MockObject $util;
+	private ICache&MockObject $cache;
+	private IAppManager&MockObject $appManager;
+	private ImageManager&MockObject $imageManager;
+	private INavigationManager&MockObject $navigationManager;
+	private BackgroundService&MockObject $backgroundService;
+	private ThemingDefaults $template;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -186,18 +176,15 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('https://example.com/', $this->template->getBaseUrl());
 	}
 
-	public function legalUrlProvider() {
+	public static function legalUrlProvider(): array {
 		return [
-			[ '' ],
-			[ 'https://example.com/legal.html']
+			[''],
+			['https://example.com/legal.html'],
 		];
 	}
 
-	/**
-	 * @param $imprintUrl
-	 * @dataProvider legalUrlProvider
-	 */
-	public function testGetImprintURL($imprintUrl): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('legalUrlProvider')]
+	public function testGetImprintURL(string $imprintUrl): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -207,11 +194,8 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals($imprintUrl, $this->template->getImprintUrl());
 	}
 
-	/**
-	 * @param $privacyUrl
-	 * @dataProvider legalUrlProvider
-	 */
-	public function testGetPrivacyURL($privacyUrl): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('legalUrlProvider')]
+	public function testGetPrivacyURL(string $privacyUrl): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -351,18 +335,15 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a></span>', $this->template->getShortFooter());
 	}
 
-	public function invalidLegalUrlProvider() {
+	public static function invalidLegalUrlProvider(): array {
 		return [
 			['example.com/legal'],  # missing scheme
 			['https:///legal'],     # missing host
 		];
 	}
 
-	/**
-	 * @param $invalidImprintUrl
-	 * @dataProvider invalidLegalUrlProvider
-	 */
-	public function testGetShortFooterInvalidImprint($invalidImprintUrl): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidLegalUrlProvider')]
+	public function testGetShortFooterInvalidImprint(string $invalidImprintUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -378,11 +359,8 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan', $this->template->getShortFooter());
 	}
 
-	/**
-	 * @param $invalidPrivacyUrl
-	 * @dataProvider invalidLegalUrlProvider
-	 */
-	public function testGetShortFooterInvalidPrivacy($invalidPrivacyUrl): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidLegalUrlProvider')]
+	public function testGetShortFooterInvalidPrivacy(string $invalidPrivacyUrl): void {
 		$this->navigationManager->expects($this->once())->method('getAll')->with(INavigationManager::TYPE_GUEST)->willReturn([]);
 		$this->config
 			->expects($this->exactly(5))
@@ -428,7 +406,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
 
-	public function dataGetColorPrimary() {
+	public static function dataGetColorPrimary(): array {
 		return [
 			'with fallback default' => [
 				'disableTheming' => false,
@@ -469,9 +447,7 @@ class ThemingDefaultsTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetColorPrimary
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetColorPrimary')]
 	public function testGetColorPrimary(bool $disableTheming, string $primaryColor, string $userPrimaryColor, string $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -500,13 +476,18 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testSet(): void {
+		$expectedCalls = [
+			['theming', 'MySetting', 'MyValue'],
+			['theming', 'cachebuster', 16],
+		];
+		$i = 0;
 		$this->config
 			->expects($this->exactly(2))
 			->method('setAppValue')
-			->withConsecutive(
-				['theming', 'MySetting', 'MyValue'],
-				['theming', 'cachebuster', 16],
-			);
+			->willReturnCallback(function () use ($expectedCalls, &$i): void {
+				$this->assertEquals($expectedCalls[$i], func_get_args());
+				$i++;
+			});
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
@@ -515,11 +496,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->cacheFactory
 			->expects($this->exactly(2))
 			->method('createDistributed')
-			->withConsecutive(
-				['theming-'],
-				['imagePath'],
-			)
-			->willReturn($this->cache);
+			->willReturnMap([
+				['theming-', $this->cache],
+				['imagePath', $this->cache],
+			]);
 		$this->cache
 			->expects($this->any())
 			->method('clear')
@@ -535,13 +515,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'name', 'Nextcloud'],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				'Nextcloud',
-			);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '15'],
+				['theming', 'name', 'Nextcloud', 'Nextcloud'],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
@@ -558,13 +535,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'url', $this->defaults->getBaseUrl()],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				$this->defaults->getBaseUrl(),
-			);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '15'],
+				['theming', 'url', $this->defaults->getBaseUrl(), $this->defaults->getBaseUrl()],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
@@ -581,13 +555,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'slogan', $this->defaults->getSlogan()],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				$this->defaults->getSlogan(),
-			);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '15'],
+				['theming', 'slogan', $this->defaults->getSlogan(), $this->defaults->getSlogan()],
+			]);
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
@@ -649,13 +620,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'logoMime'],
-				['theming', 'cachebuster', '0'],
-			)->willReturnOnConsecutiveCalls(
-				'',
-				'0'
-			);
+			->willReturnMap([
+				['theming', 'logoMime', '', ''],
+				['theming', 'cachebuster', '0', '0'],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', $withName)
@@ -675,13 +643,10 @@ class ThemingDefaultsTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'logoMime', false],
-				['theming', 'cachebuster', '0'],
-			)->willReturnOnConsecutiveCalls(
-				'image/svg+xml',
-				'0',
-			);
+			->willReturnMap([
+				['theming', 'logoMime', '', 'image/svg+xml'],
+				['theming', 'cachebuster', '0', '0'],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('theming.Theming.getImage')
@@ -710,7 +675,7 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'logoheaderMime', '', 'jpeg'],
 				['theming', 'faviconMime', '', 'jpeg'],
 			]);
-		
+
 		$this->appConfig
 			->expects(self::atLeastOnce())
 			->method('getValueString')
@@ -814,7 +779,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertEquals('1234567890', $this->template->getiTunesAppId());
 	}
 
-	public function dataReplaceImagePath() {
+	public static function dataReplaceImagePath(): array {
 		return [
 			['core', 'test.png', false],
 			['core', 'manifest.json'],
@@ -823,8 +788,8 @@ class ThemingDefaultsTest extends TestCase {
 		];
 	}
 
-	/** @dataProvider dataReplaceImagePath */
-	public function testReplaceImagePath($app, $image, $result = 'themingRoute?v=1234abcd'): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataReplaceImagePath')]
+	public function testReplaceImagePath(string $app, string $image, string|bool $result = 'themingRoute?v=1234abcd'): void {
 		$this->cache->expects($this->any())
 			->method('get')
 			->with('shouldReplaceIcons')

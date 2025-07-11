@@ -17,32 +17,19 @@ use OCP\EventDispatcher\Event;
  * @since 27.0.0
  */
 class CardMovedEvent extends Event {
-	private int $sourceAddressBookId;
-	private array $sourceAddressBookData;
-	private int $targetAddressBookId;
-	private array $targetAddressBookData;
-	private array $sourceShares;
-	private array $targetShares;
-	private array $objectData;
-
 	/**
 	 * @since 27.0.0
 	 */
-	public function __construct(int $sourceAddressBookId,
-		array $sourceAddressBookData,
-		int $targetAddressBookId,
-		array $targetAddressBookData,
-		array $sourceShares,
-		array $targetShares,
-		array $objectData) {
+	public function __construct(
+		private int $sourceAddressBookId,
+		private array $sourceAddressBookData,
+		private int $targetAddressBookId,
+		private array $targetAddressBookData,
+		private array $sourceShares,
+		private array $targetShares,
+		private array $objectData,
+	) {
 		parent::__construct();
-		$this->sourceAddressBookId = $sourceAddressBookId;
-		$this->sourceAddressBookData = $sourceAddressBookData;
-		$this->targetAddressBookId = $targetAddressBookId;
-		$this->targetAddressBookData = $targetAddressBookData;
-		$this->sourceShares = $sourceShares;
-		$this->targetShares = $targetShares;
-		$this->objectData = $objectData;
 	}
 
 	/**

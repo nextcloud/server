@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,7 @@ namespace OCA\Files_External\Controller;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -69,6 +71,7 @@ class GlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
+	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
 		$mountPoint,
 		$backend,
@@ -134,6 +137,7 @@ class GlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
 		$id,
 		$mountPoint,

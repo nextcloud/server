@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Command;
 
+use OCA\Files_Sharing\OrphanHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 use OCP\Notification\IManager as NotificationManager;
@@ -18,25 +19,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExiprationNotification extends Command {
-	/** @var NotificationManager */
-	private $notificationManager;
-	/** @var IDBConnection */
-	private $connection;
-	/** @var ITimeFactory */
-	private $time;
-	/** @var ShareManager */
-	private $shareManager;
-
-	public function __construct(ITimeFactory $time,
-		NotificationManager $notificationManager,
-		IDBConnection $connection,
-		ShareManager $shareManager) {
+	public function __construct(
+		private ITimeFactory $time,
+		private NotificationManager $notificationManager,
+		private IDBConnection $connection,
+		private ShareManager $shareManager,
+		private OrphanHelper $orphanHelper,
+	) {
 		parent::__construct();
-
-		$this->notificationManager = $notificationManager;
-		$this->connection = $connection;
-		$this->time = $time;
-		$this->shareManager = $shareManager;
 	}
 
 	protected function configure() {
@@ -62,7 +52,8 @@ class ExiprationNotification extends Command {
 		foreach ($shares as $share) {
 			if ($share->getExpirationDate() === null
 				|| $share->getExpirationDate()->getTimestamp() < $minTime->getTimestamp()
-				|| $share->getExpirationDate()->getTimestamp() > $maxTime->getTimestamp()) {
+				|| $share->getExpirationDate()->getTimestamp() > $maxTime->getTimestamp()
+				|| !$this->orphanHelper->isShareValid($share->getSharedBy(), $share->getNodeId())) {
 				continue;
 			}
 

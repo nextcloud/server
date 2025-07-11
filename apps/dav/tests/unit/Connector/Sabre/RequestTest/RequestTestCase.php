@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,9 +12,16 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IRequestId;
+use OCP\ITagManager;
+use OCP\ITempManager;
+use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 use Sabre\HTTP\Request;
 use Test\TestCase;
@@ -23,11 +31,7 @@ use Test\Traits\UserTrait;
 abstract class RequestTestCase extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
-
-	/**
-	 * @var \OCA\DAV\Connector\Sabre\ServerFactory
-	 */
-	protected $serverFactory;
+	protected ServerFactory $serverFactory;
 
 	protected function getStream($string) {
 		$stream = fopen('php://temp', 'r+');
@@ -40,31 +44,29 @@ abstract class RequestTestCase extends TestCase {
 		parent::setUp();
 
 		$this->serverFactory = new ServerFactory(
-			\OC::$server->getConfig(),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getUserSession(),
-			\OC::$server->getMountManager(),
-			\OC::$server->getTagManager(),
-			$this->getMockBuilder(IRequest::class)
-				->disableOriginalConstructor()
-				->getMock(),
-			\OC::$server->getPreviewManager(),
-			\OC::$server->get(IEventDispatcher::class),
-			\OC::$server->getL10N('dav')
+			\OCP\Server::get(IConfig::class),
+			\OCP\Server::get(LoggerInterface::class),
+			\OCP\Server::get(IDBConnection::class),
+			\OCP\Server::get(IUserSession::class),
+			\OCP\Server::get(IMountManager::class),
+			\OCP\Server::get(ITagManager::class),
+			$this->createMock(IRequest::class),
+			\OCP\Server::get(IPreview::class),
+			\OCP\Server::get(IEventDispatcher::class),
+			\OCP\Server::get(IFactory::class)->get('dav'),
 		);
 	}
 
-	protected function setupUser($name, $password) {
+	protected function setupUser($name, $password): View {
 		$this->createUser($name, $password);
-		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpFolder = \OCP\Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
-		$this->loginAsUser($name);
+		self::loginAsUser($name);
 		return new View('/' . $name . '/files');
 	}
 
 	/**
-	 * @param \OC\Files\View $view the view to run the webdav server against
+	 * @param View $view the view to run the webdav server against
 	 * @param string $user
 	 * @param string $password
 	 * @param string $method
@@ -79,7 +81,7 @@ abstract class RequestTestCase extends TestCase {
 			$body = $this->getStream($body);
 		}
 		$this->logout();
-		$exceptionPlugin = new ExceptionPlugin('webdav', \OC::$server->get(LoggerInterface::class));
+		$exceptionPlugin = new ExceptionPlugin('webdav', \OCP\Server::get(LoggerInterface::class));
 		$server = $this->getSabreServer($view, $user, $password, $exceptionPlugin);
 		$request = new Request($method, $url, $headers, $body);
 
@@ -131,7 +133,7 @@ abstract class RequestTestCase extends TestCase {
 		$authBackend = new Auth($user, $password);
 		$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
-		$server = $this->serverFactory->createServer('/', 'dummy', $authPlugin, function () use ($view) {
+		$server = $this->serverFactory->createServer(false, '/', 'dummy', $authPlugin, function () use ($view) {
 			return $view;
 		});
 		$server->addPlugin($exceptionPlugin);

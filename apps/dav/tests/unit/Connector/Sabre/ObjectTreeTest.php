@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,9 +11,12 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\Mount\Manager;
+use OC\Files\Storage\Common;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\ObjectTree;
 use OCP\Files\Mount\IMountManager;
 
@@ -24,7 +28,7 @@ use OCP\Files\Mount\IMountManager;
  * @package OCA\DAV\Tests\Unit\Connector\Sabre
  */
 class ObjectTreeTest extends \Test\TestCase {
-	public function copyDataProvider() {
+	public static function copyDataProvider(): array {
 		return [
 			// copy into same dir
 			['a', 'b', ''],
@@ -35,10 +39,8 @@ class ObjectTreeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider copyDataProvider
-	 */
-	public function testCopy($sourcePath, $targetPath, $targetParent): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyDataProvider')]
+	public function testCopy(string $sourcePath, string $targetPath, string $targetParent): void {
 		$view = $this->createMock(View::class);
 		$view->expects($this->once())
 			->method('verifyPath')
@@ -64,7 +66,7 @@ class ObjectTreeTest extends \Test\TestCase {
 
 		$rootDir = new Directory($view, $info);
 		$objectTree = $this->getMockBuilder(ObjectTree::class)
-			->setMethods(['nodeExists', 'getNodeForPath'])
+			->onlyMethods(['nodeExists', 'getNodeForPath'])
 			->setConstructorArgs([$rootDir, $view])
 			->getMock();
 
@@ -73,15 +75,13 @@ class ObjectTreeTest extends \Test\TestCase {
 			->with($this->identicalTo($sourcePath))
 			->willReturn(false);
 
-		/** @var \OCA\DAV\Connector\Sabre\ObjectTree $objectTree */
+		/** @var ObjectTree $objectTree */
 		$mountManager = Filesystem::getMountManager();
 		$objectTree->init($rootDir, $view, $mountManager);
 		$objectTree->copy($sourcePath, $targetPath);
 	}
 
-	/**
-	 * @dataProvider copyDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyDataProvider')]
 	public function testCopyFailNotCreatable($sourcePath, $targetPath, $targetParent): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -107,52 +107,42 @@ class ObjectTreeTest extends \Test\TestCase {
 
 		$rootDir = new Directory($view, $info);
 		$objectTree = $this->getMockBuilder(ObjectTree::class)
-			->setMethods(['nodeExists', 'getNodeForPath'])
+			->onlyMethods(['nodeExists', 'getNodeForPath'])
 			->setConstructorArgs([$rootDir, $view])
 			->getMock();
 
 		$objectTree->expects($this->never())
 			->method('getNodeForPath');
 
-		/** @var \OCA\DAV\Connector\Sabre\ObjectTree $objectTree */
+		/** @var ObjectTree $objectTree */
 		$mountManager = Filesystem::getMountManager();
 		$objectTree->init($rootDir, $view, $mountManager);
 		$objectTree->copy($sourcePath, $targetPath);
 	}
 
-	/**
-	 * @dataProvider nodeForPathProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('nodeForPathProvider')]
 	public function testGetNodeForPath(
-		$inputFileName,
-		$fileInfoQueryPath,
-		$outputFileName,
-		$type,
+		string $inputFileName,
+		string $fileInfoQueryPath,
+		string $outputFileName,
+		string $type,
 	): void {
-		$rootNode = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$mountManager = $this->getMockBuilder(Manager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$view = $this->getMockBuilder(View::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$fileInfo = $this->getMockBuilder(FileInfo::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$rootNode = $this->createMock(Directory::class);
+		$mountManager = $this->createMock(Manager::class);
+		$view = $this->createMock(View::class);
+		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->method('getType')
 			->willReturn($type);
 		$fileInfo->method('getName')
 			->willReturn($outputFileName);
 		$fileInfo->method('getStorage')
-			->willReturn($this->createMock(\OC\Files\Storage\Common::class));
+			->willReturn($this->createMock(Common::class));
 
 		$view->method('getFileInfo')
 			->with($fileInfoQueryPath)
 			->willReturn($fileInfo);
 
-		$tree = new \OCA\DAV\Connector\Sabre\ObjectTree();
+		$tree = new ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);
 
 		$node = $tree->getNodeForPath($inputFileName);
@@ -161,13 +151,13 @@ class ObjectTreeTest extends \Test\TestCase {
 		$this->assertEquals($outputFileName, $node->getName());
 
 		if ($type === 'file') {
-			$this->assertTrue($node instanceof \OCA\DAV\Connector\Sabre\File);
+			$this->assertInstanceOf(File::class, $node);
 		} else {
-			$this->assertTrue($node instanceof \OCA\DAV\Connector\Sabre\Directory);
+			$this->assertInstanceOf(Directory::class, $node);
 		}
 	}
 
-	public function nodeForPathProvider() {
+	public static function nodeForPathProvider(): array {
 		return [
 			// regular file
 			[
@@ -202,7 +192,7 @@ class ObjectTreeTest extends \Test\TestCase {
 
 
 	public function testGetNodeForPathInvalidPath(): void {
-		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+		$this->expectException(InvalidPath::class);
 
 		$path = '/foo\bar';
 
@@ -210,7 +200,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$storage = new Temporary([]);
 
 		$view = $this->getMockBuilder(View::class)
-			->setMethods(['resolvePath'])
+			->onlyMethods(['resolvePath'])
 			->getMock();
 		$view->expects($this->once())
 			->method('resolvePath')
@@ -218,12 +208,10 @@ class ObjectTreeTest extends \Test\TestCase {
 				return [$storage, ltrim($path, '/')];
 			});
 
-		$rootNode = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$rootNode = $this->createMock(Directory::class);
 		$mountManager = $this->createMock(IMountManager::class);
 
-		$tree = new \OCA\DAV\Connector\Sabre\ObjectTree();
+		$tree = new ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);
 
 		$tree->getNodeForPath($path);
@@ -236,7 +224,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$storage = new Temporary([]);
 
 		$view = $this->getMockBuilder(View::class)
-			->setMethods(['resolvePath'])
+			->onlyMethods(['resolvePath'])
 			->getMock();
 		$view->expects($this->any())
 			->method('resolvePath')
@@ -244,12 +232,10 @@ class ObjectTreeTest extends \Test\TestCase {
 				return [$storage, ltrim($path, '/')];
 			});
 
-		$rootNode = $this->getMockBuilder(Directory::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$rootNode = $this->createMock(Directory::class);
 		$mountManager = $this->createMock(IMountManager::class);
 
-		$tree = new \OCA\DAV\Connector\Sabre\ObjectTree();
+		$tree = new ObjectTree();
 		$tree->init($rootNode, $view, $mountManager);
 
 		$this->assertInstanceOf('\Sabre\DAV\INode', $tree->getNodeForPath($path));

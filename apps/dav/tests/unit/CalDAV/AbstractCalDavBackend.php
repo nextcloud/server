@@ -25,6 +25,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\IManager as ShareManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -43,12 +44,12 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 
 	protected CalDavBackend $backend;
-	protected Principal|MockObject $principal;
-	protected IUserManager|MockObject $userManager;
-	protected IGroupManager|MockObject $groupManager;
-	protected IEventDispatcher|MockObject $dispatcher;
-	private LoggerInterface|MockObject $logger;
-	private IConfig|MockObject $config;
+	protected Principal&MockObject $principal;
+	protected IUserManager&MockObject $userManager;
+	protected IGroupManager&MockObject $groupManager;
+	protected IEventDispatcher&MockObject $dispatcher;
+	private LoggerInterface&MockObject $logger;
+	private IConfig&MockObject $config;
 	private ISecureRandom $random;
 	protected SharingBackend $sharingBackend;
 	protected IDBConnection $db;
@@ -76,7 +77,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(IConfig::class),
 				$this->createMock(IFactory::class)
 			])
-			->setMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
+			->onlyMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
 		$this->principal->expects($this->any())->method('getPrincipalByPath')
 			->willReturn([
@@ -87,8 +88,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
 
-		$this->db = \OC::$server->getDatabaseConnection();
-		$this->random = \OC::$server->getSecureRandom();
+		$this->db = Server::get(IDBConnection::class);
+		$this->random = Server::get(ISecureRandom::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->sharingBackend = new SharingBackend(
@@ -142,7 +143,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		}
 	}
 
-	protected function createTestCalendar() {
+	protected function createTestCalendar(): int {
 		$this->dispatcher->expects(self::any())
 			->method('dispatchTyped');
 
@@ -159,9 +160,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->assertEquals('#1C4587FF', $color);
 		$this->assertEquals('Example', $calendars[0]['uri']);
 		$this->assertEquals('Example', $calendars[0]['{DAV:}displayname']);
-		$calendarId = $calendars[0]['id'];
-
-		return $calendarId;
+		return (int)$calendars[0]['id'];
 	}
 
 	protected function createTestSubscription() {

@@ -9,16 +9,15 @@ OC.L10N.register(
     "Use backup code" : "Використати резервний код",
     "Two factor backup codes" : "Резервні коди двофакторної авторизації",
     "A two-factor auth backup codes provider" : "Постачальник резервних кодів двофакторної авторизації",
+    "An error occurred while generating your backup codes" : "Помилка під час створення резервних кодів",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Створено резервні коди. Ви вже використали {used} із {total} кодів.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Це резервні коди. Будь ласка, збережіть їх та/або надрукуйте, оскільки вони подалі будуть недоступні.",
     "Save backup codes" : "Зберегти резервні коди",
     "Print backup codes" : "Друк резервних кодів",
     "Regenerate backup codes" : "Перестворити резервні коди",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Після повторного створення резервних кодів попередні автоматично стануть недійсними",
-    "An error occurred while generating your backup codes" : "Помилка під час створення резервних кодів",
     "{name} backup codes" : "Резервні коди {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Скористайтеся одним з резервних кодів, які ви зберегли під час встановлення двофакторної авторизації.",
-    "Submit" : "Гаразд",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Це ваші резервні коди. Будь ласка, збережіть їх, у разі потреби роздрукуйте, оскільки подалі вони ніде не будуть показуватися."
+    "Submit" : "Гаразд"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

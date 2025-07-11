@@ -167,13 +167,13 @@ import { getLoggerBuilder } from '@nextcloud/logger'
 import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
 
 import axios from '@nextcloud/axios'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionCaption from '@nextcloud/vue/components/NcActionCaption'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import IconChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import IconCloudCheckVariant from 'vue-material-design-icons/CloudCheckVariant.vue'
 import IconLink from 'vue-material-design-icons/Link.vue'
@@ -357,10 +357,10 @@ export default {
 				this.missingAppUpdates = data.ocs.data.missing
 				this.isListFetched = true
 				this.appStoreFailed = false
-			}).catch(({ data }) => {
+			}).catch(({ response }) => {
 				this.availableAppUpdates = []
 				this.missingAppUpdates = []
-				this.appStoreDisabled = data.ocs.data.appstore_disabled
+				this.appStoreDisabled = response.data.ocs.data.appstore_disabled
 				this.isListFetched = true
 				this.appStoreFailed = true
 			})

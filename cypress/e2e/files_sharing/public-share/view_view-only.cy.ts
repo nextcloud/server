@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getActionsForFile, getRowForFile, navigateToFolder } from '../../files/FilesUtils.ts'
+import { getActionButtonForFile, getRowForFile, navigateToFolder } from '../../files/FilesUtils.ts'
 import { openSharingPanel } from '../FilesSharingUtils.ts'
 
 describe('files_sharing: Public share - View only', { testIsolation: true }, () => {
@@ -78,14 +78,10 @@ describe('files_sharing: Public share - View only', { testIsolation: true }, () 
 		// wait for file list to be ready
 		getRowForFile('foo.txt')
 			.should('be.visible')
-
-		cy.contains('button', 'New')
-			.should('be.visible')
-			.and('be.disabled')
 	})
 
 	it('Only download action is actions available', () => {
-		getActionsForFile('foo.txt')
+		getActionButtonForFile('foo.txt')
 			.should('be.visible')
 			.click()
 

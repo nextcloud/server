@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -83,9 +84,7 @@ class AddTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider addEmailDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('addEmailDataProvider')]
 	public function testAddEmail(
 		?string $email,
 		bool $isEmailValid,
@@ -111,11 +110,11 @@ class AddTest extends TestCase {
 			->method('sendMail');
 
 		$this->consoleInput->method('getOption')
-			->will(static::returnValueMap([
+			->willReturnMap([
 				['generate-password', 'true'],
 				['email', $email],
 				['group', []],
-			]));
+			]);
 
 		$this->invokePrivate($this->addCommand, 'execute', [
 			$this->consoleInput,
@@ -126,7 +125,7 @@ class AddTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function addEmailDataProvider(): array {
+	public static function addEmailDataProvider(): array {
 		return [
 			'Valid E-Mail' => [
 				'info@example.com',

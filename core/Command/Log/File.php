@@ -8,6 +8,7 @@
 namespace OC\Core\Command\Log;
 
 use OCP\IConfig;
+use OCP\Util;
 
 use Stecman\Component\Symfony\Console\BashCompletion\Completion;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\ShellPathCompletion;
@@ -61,7 +62,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		}
 
 		if (($rotateSize = $input->getOption('rotate-size')) !== null) {
-			$rotateSize = \OCP\Util::computerFileSize($rotateSize);
+			$rotateSize = Util::computerFileSize($rotateSize);
 			$this->validateRotateSize($rotateSize);
 			$toBeSet['log_rotate_size'] = $rotateSize;
 		}
@@ -87,7 +88,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 
 		$rotateSize = $this->config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
 		if ($rotateSize) {
-			$rotateString = \OCP\Util::humanFileSize($rotateSize);
+			$rotateString = Util::humanFileSize($rotateSize);
 		} else {
 			$rotateString = 'disabled';
 		}

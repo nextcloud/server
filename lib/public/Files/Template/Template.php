@@ -24,7 +24,7 @@ final class Template implements \JsonSerializable {
 	private $hasPreview = false;
 	/** @var string|null */
 	private $previewUrl = null;
-	/** @var array */
+	/** @var list<Field> */
 	private $fields = [];
 
 	/**
@@ -51,6 +51,7 @@ final class Template implements \JsonSerializable {
 	}
 
 	/**
+	 * @param list<Field> $fields
 	 * @since 30.0.0
 	 */
 	public function setFields(array $fields): void {
@@ -58,6 +59,29 @@ final class Template implements \JsonSerializable {
 	}
 
 	/**
+	 * @return array{
+	 *     templateType: string,
+	 *     templateId: string,
+	 *     basename: string,
+	 *     etag: string,
+	 *     fileid: int,
+	 *     filename: string,
+	 *     lastmod: int,
+	 *     mime: string,
+	 *     size: int|float,
+	 *     type: string,
+	 *     hasPreview: bool,
+	 *     previewUrl: ?string,
+	 *     fields: list<array{
+	 *         index: string,
+	 *         type: string,
+	 *         alias: ?string,
+	 *         tag: ?string,
+	 *         id: ?int,
+	 *     	   content?: string,
+	 *         checked?: bool,
+	 *     }>,
+	 * }
 	 * @since 21.0.0
 	 */
 	public function jsonSerialize(): array {
@@ -74,7 +98,7 @@ final class Template implements \JsonSerializable {
 			'type' => $this->file->getType(),
 			'hasPreview' => $this->hasPreview,
 			'previewUrl' => $this->previewUrl,
-			'fields' => $this->fields
+			'fields' => array_map(static fn (Field $field) => $field->jsonSerialize(), $this->fields),
 		];
 	}
 }

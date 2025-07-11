@@ -14,10 +14,10 @@ use OCP\AppFramework\Http;
  * for responders to transform
  * @since 8.0.0
  * @psalm-type DataResponseType = array|int|float|string|bool|object|null|\stdClass|\JsonSerializable
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template-covariant T of DataResponseType
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class DataResponse extends Response {
 	/**

@@ -44,7 +44,7 @@ class AppConfigController extends OCSController {
 	/**
 	 * Get a list of apps
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{data: string[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{data: list<string>}, array{}>
 	 *
 	 * 200: Apps returned
 	 */
@@ -58,7 +58,7 @@ class AppConfigController extends OCSController {
 	 * Get the config keys of an app
 	 *
 	 * @param string $app ID of the app
-	 * @return DataResponse<Http::STATUS_OK, array{data: string[]}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{data: list<string>}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
 	 *
 	 * 200: Keys returned
 	 * 403: App is not allowed
@@ -105,7 +105,7 @@ class AppConfigController extends OCSController {
 	 * @param string $app ID of the app
 	 * @param string $key Key to update
 	 * @param string $value New value for the key
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
 	 *
 	 * 200: Value updated successfully
 	 * 403: App or key is not allowed
@@ -154,7 +154,7 @@ class AppConfigController extends OCSController {
 	 *
 	 * @param string $app ID of the app
 	 * @param string $key Key to delete
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
 	 *
 	 * 200: Key deleted successfully
 	 * 403: App or key is not allowed

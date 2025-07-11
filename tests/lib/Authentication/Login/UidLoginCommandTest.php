@@ -13,7 +13,7 @@ use OC\Authentication\Login\UidLoginCommand;
 use OC\User\Manager;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class UidLoginCommandTest extends ALoginCommandTest {
+class UidLoginCommandTest extends ALoginTestCommand {
 	/** @var Manager|MockObject */
 	private $userManager;
 

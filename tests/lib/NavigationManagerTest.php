@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,6 +12,7 @@ use OC\App\AppManager;
 use OC\Group\Manager;
 use OC\NavigationManager;
 use OC\SubAdmin;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -18,6 +20,9 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use OCP\Util;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class NavigationManagerTest extends TestCase {
@@ -34,7 +39,9 @@ class NavigationManagerTest extends TestCase {
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var \OC\NavigationManager */
+	protected IEVentDispatcher|MockObject $dispatcher;
+
+	/** @var NavigationManager */
 	protected $navigationManager;
 	protected LoggerInterface $logger;
 
@@ -48,6 +55,7 @@ class NavigationManagerTest extends TestCase {
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->navigationManager = new NavigationManager(
 			$this->appManager,
 			$this->urlGenerator,
@@ -56,15 +64,16 @@ class NavigationManagerTest extends TestCase {
 			$this->groupManager,
 			$this->config,
 			$this->logger,
+			$this->dispatcher,
 		);
 
 		$this->navigationManager->clear(false);
 	}
 
-	public function addArrayData() {
+	public static function addArrayData(): array {
 		return [
 			[
-				'entry id' => [
+				'entry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -74,7 +83,7 @@ class NavigationManagerTest extends TestCase {
 					'classes' => '',
 					'unread' => 0
 				],
-				'entry id2' => [
+				'expectedEntry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -87,7 +96,7 @@ class NavigationManagerTest extends TestCase {
 				]
 			],
 			[
-				'entry id' => [
+				'entry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -96,7 +105,7 @@ class NavigationManagerTest extends TestCase {
 					'active' => true,
 					'unread' => 0,
 				],
-				'entry id2' => [
+				'expectedEntry' => [
 					'id' => 'entry id',
 					'name' => 'link text',
 					'order' => 1,
@@ -113,11 +122,11 @@ class NavigationManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider addArrayData
 	 *
 	 * @param array $entry
 	 * @param array $expectedEntry
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('addArrayData')]
 	public function testAddArray(array $entry, array $expectedEntry): void {
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists');
 		$this->navigationManager->add($entry);
@@ -131,11 +140,11 @@ class NavigationManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider addArrayData
 	 *
 	 * @param array $entry
 	 * @param array $expectedEntry
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('addArrayData')]
 	public function testAddClosure(array $entry, array $expectedEntry): void {
 		global $testAddClosureNumberOfCalls;
 		$testAddClosureNumberOfCalls = 0;
@@ -206,9 +215,7 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEquals(0, $testAddClosureNumberOfCalls, 'Expected that the closure is not called by getAll()');
 	}
 
-	/**
-	 * @dataProvider providesNavigationConfig
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesNavigationConfig')]
 	public function testWithAppManager($expected, $navigation, $isAdmin = false): void {
 		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())->method('t')->willReturnCallback(function ($text, $parameters = []) {
@@ -256,11 +263,16 @@ class NavigationManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
 
 		$this->navigationManager->clear();
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event): void {
+				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
+			});
 		$entries = $this->navigationManager->getAll('all');
 		$this->assertEquals($expected, $entries);
 	}
 
-	public function providesNavigationConfig() {
+	public static function providesNavigationConfig(): array {
 		$apps = [
 			'core_apps' => [
 				'id' => 'core_apps',
@@ -311,7 +323,7 @@ class NavigationManagerTest extends TestCase {
 			'logout' => [
 				'id' => 'logout',
 				'order' => 99999,
-				'href' => 'https://example.com/logout?requesttoken=' . urlencode(\OCP\Util::callRegister()),
+				'href' => 'https://example.com/logout?requesttoken=' . urlencode(Util::callRegister()),
 				'icon' => '/apps/core/img/actions/logout.svg',
 				'name' => 'Log out',
 				'active' => false,
@@ -558,6 +570,11 @@ class NavigationManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
 
 		$this->navigationManager->clear();
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event): void {
+				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
+			});
 		$entries = $this->navigationManager->getAll();
 		$this->assertEquals($expected, $entries);
 	}
@@ -687,30 +704,62 @@ class NavigationManagerTest extends TestCase {
 				true,
 				'settings',
 			],
+			// closure navigation entries are also resolved
+			[
+				'closure2',
+				'',
+				'',
+				true,
+				'closure2',
+			],
+			[
+				'',
+				'closure2',
+				'',
+				true,
+				'closure2',
+			],
+			[
+				'',
+				'',
+				'{"closure2":{"order":1,"app":"closure2","href":"/closure2"}}',
+				true,
+				'closure2',
+			],
 		];
 	}
 
-	/**
-	 * @dataProvider provideDefaultEntries
-	 */
-	public function testGetDefaultEntryIdForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideDefaultEntries')]
+	public function testGetDefaultEntryIdForUser(string $defaultApps, string $userDefaultApps, string $userApporder, bool $withFallbacks, string $expectedApp): void {
 		$this->navigationManager->add([
 			'id' => 'files',
 		]);
 		$this->navigationManager->add([
 			'id' => 'settings',
 		]);
+		$this->navigationManager->add(static function (): array {
+			return [
+				'id' => 'closure1',
+				'href' => '/closure1',
+			];
+		});
+		$this->navigationManager->add(static function (): array {
+			return [
+				'id' => 'closure2',
+				'href' => '/closure2',
+			];
+		});
 
-		$this->appManager->method('getInstalledApps')->willReturn([]);
+		$this->appManager->method('getEnabledApps')->willReturn([]);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');
 
-		$this->userSession->expects($this->once())
+		$this->userSession->expects($this->atLeastOnce())
 			->method('getUser')
 			->willReturn($user);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->atLeastOnce())
 			->method('getSystemValueString')
 			->with('defaultapp', $this->anything())
 			->willReturn($defaultApps);
@@ -726,7 +775,7 @@ class NavigationManagerTest extends TestCase {
 	}
 
 	public function testDefaultEntryUpdated(): void {
-		$this->appManager->method('getInstalledApps')->willReturn([]);
+		$this->appManager->method('getEnabledApps')->willReturn([]);
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user1');

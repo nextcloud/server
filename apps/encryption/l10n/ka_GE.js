@@ -44,14 +44,12 @@ OC.L10N.register(
     "Basic encryption module" : "მარტივი შიფრაციის მოდული",
     "Your private key password no longer matches your log-in password." : "თქვენი პირადი გასაღების პაროლი აღარ ემთხვევა ლოგინის პაროლს.",
     "Set your old private key password to your current log-in password:" : "დააყენეთ თქვენი ძველი პირადი გასაღების პაროლი ამჟამინდელ ლოგინის პაროლზე:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "თუ არ გახსოვთ თქვენი ძველი პაროლი, შეგიძლიათ მისი აღდგენა სთხოვოთ ადმინისტრატორს.",
     "Old log-in password" : "ძველი ლოგინის პაროლი",
     "Current log-in password" : "ამჟამინდელი ლოგინის პაროლი",
     "Update Private Key Password" : "განაახლეთ პირადი გასაღების პაროლი",
     "Enable password recovery:" : "აამოქმედეთ პაროლის აღდგენა:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "ამ არჩევნის ამოქმედება, პაროლის დაკარგვის შემთხვევაში, საშუალებას მოგცემთ ახლიდან მოიპოვოთ წვდომა თქვენს დაშიფრულ ფაილებზე",
     "Enabled" : "მოქმედია",
-    "Disabled" : "არაა მოქმედი",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "აღდგენის გასაღები დამატებითი შიფრაციის გასაღებია, რომელიც გამოიყენებიან ფაილების დასაშიფრად. ეს იძლევა მომხმარებლის ფაილის აღდგენის უფლებას, იმ შემთხვევაში თუ მას დაავიწყდება პაროლი."
+    "Disabled" : "არაა მოქმედი"
 },
 "nplurals=2; plural=(n!=1);");

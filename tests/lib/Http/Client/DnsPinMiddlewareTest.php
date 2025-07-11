@@ -273,7 +273,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -320,7 +320,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -367,7 +367,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -457,7 +457,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('No DNS record found for www.example.com');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -480,7 +480,7 @@ class DnsPinMiddlewareTest extends TestCase {
 
 	public function testIgnoreSubdomainForSoaQuery(): void {
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -537,10 +537,11 @@ class DnsPinMiddlewareTest extends TestCase {
 			['nextcloud' => ['allow_local_address' => false]]
 		);
 
-		$this->assertCount(4, $dnsQueries);
+		$this->assertCount(3, $dnsQueries);
 		$this->assertContains('example.com' . DNS_SOA, $dnsQueries);
 		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_A, $dnsQueries);
 		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_AAAA, $dnsQueries);
-		$this->assertContains('subsubdomain.subdomain.example.com' . DNS_CNAME, $dnsQueries);
+		// CNAME should not be queried if A or AAAA succeeded already
+		$this->assertNotContains('subsubdomain.subdomain.example.com' . DNS_CNAME, $dnsQueries);
 	}
 }

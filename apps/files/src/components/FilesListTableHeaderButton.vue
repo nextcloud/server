@@ -9,6 +9,7 @@
 		}]"
 		:alignment="mode === 'size' ? 'end' : 'start-reverse'"
 		type="tertiary"
+		:title="name"
 		@click="toggleSortBy(mode)">
 		<template #icon>
 			<MenuUp v-if="sortingMode !== mode || isAscSorting" class="files-list__column-sort-button-icon" />
@@ -24,7 +25,7 @@ import { defineComponent } from 'vue'
 
 import MenuDown from 'vue-material-design-icons/MenuDown.vue'
 import MenuUp from 'vue-material-design-icons/MenuUp.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 import filesSortingMixin from '../mixins/filesSorting.ts'
 

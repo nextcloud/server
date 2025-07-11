@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,11 +13,6 @@ use OCP\Files\Notify\INotifyHandler;
 
 class SMBNotifyHandler implements INotifyHandler {
 	/**
-	 * @var \Icewind\SMB\INotifyHandler
-	 */
-	private $shareNotifyHandler;
-
-	/**
 	 * @var string
 	 */
 	private $root;
@@ -29,8 +25,10 @@ class SMBNotifyHandler implements INotifyHandler {
 	 * @param \Icewind\SMB\INotifyHandler $shareNotifyHandler
 	 * @param string $root
 	 */
-	public function __construct(\Icewind\SMB\INotifyHandler $shareNotifyHandler, $root) {
-		$this->shareNotifyHandler = $shareNotifyHandler;
+	public function __construct(
+		private \Icewind\SMB\INotifyHandler $shareNotifyHandler,
+		$root,
+	) {
 		$this->root = str_replace('\\', '/', $root);
 	}
 

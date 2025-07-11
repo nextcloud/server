@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -23,21 +24,6 @@ use OCP\Lock\LockedException;
 
 class LockingController extends OCSController {
 
-	/** @var ILockingProvider */
-	protected $lockingProvider;
-
-	/** @var FakeDBLockingProvider */
-	protected $fakeDBLockingProvider;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -47,20 +33,16 @@ class LockingController extends OCSController {
 	 * @param IConfig $config
 	 * @param IRootFolder $rootFolder
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
-		ILockingProvider $lockingProvider,
-		FakeDBLockingProvider $fakeDBLockingProvider,
-		IDBConnection $connection,
-		IConfig $config,
-		IRootFolder $rootFolder) {
+		protected ILockingProvider $lockingProvider,
+		protected FakeDBLockingProvider $fakeDBLockingProvider,
+		protected IDBConnection $connection,
+		protected IConfig $config,
+		protected IRootFolder $rootFolder,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->lockingProvider = $lockingProvider;
-		$this->fakeDBLockingProvider = $fakeDBLockingProvider;
-		$this->connection = $connection;
-		$this->config = $config;
-		$this->rootFolder = $rootFolder;
 	}
 
 	/**

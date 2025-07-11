@@ -26,30 +26,15 @@ use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\ISpecificOperation;
 
 abstract class ASettings implements ISettings {
-	private IL10N $l10n;
-	private string $appName;
-	private IEventDispatcher $eventDispatcher;
-	protected Manager $manager;
-	private IInitialState $initialStateService;
-	private IConfig $config;
-	private IURLGenerator $urlGenerator;
-
 	public function __construct(
-		string $appName,
-		IL10N $l,
-		IEventDispatcher $eventDispatcher,
-		Manager $manager,
-		IInitialState $initialStateService,
-		IConfig $config,
-		IURLGenerator $urlGenerator,
+		private string $appName,
+		private IL10N $l10n,
+		private IEventDispatcher $eventDispatcher,
+		protected Manager $manager,
+		private IInitialState $initialStateService,
+		private IConfig $config,
+		private IURLGenerator $urlGenerator,
 	) {
-		$this->appName = $appName;
-		$this->l10n = $l;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->manager = $manager;
-		$this->initialStateService = $initialStateService;
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	abstract public function getScope(): int;

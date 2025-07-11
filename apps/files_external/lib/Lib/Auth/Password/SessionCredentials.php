@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,7 @@
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\SessionStorageWrapper;
 use OCA\Files_External\Lib\StorageConfig;
@@ -22,16 +24,19 @@ use OCP\IUser;
  */
 class SessionCredentials extends AuthMechanism {
 
-	/** @var CredentialsStore */
-	private $credentialsStore;
-
-	public function __construct(IL10N $l, CredentialsStore $credentialsStore) {
-		$this->credentialsStore = $credentialsStore;
-
+	public function __construct(
+		IL10N $l,
+		private CredentialsStore $credentialsStore,
+	) {
 		$this->setIdentifier('password::sessioncredentials')
 			->setScheme(self::SCHEME_PASSWORD)
 			->setText($l->t('Log-in credentials, save in session'))
-			->addParameters([]);
+			->addParameters([
+				(new DefinitionParameter('password', $l->t('Password')))
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+			]);
 	}
 
 	/**

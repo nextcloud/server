@@ -8,42 +8,28 @@
 namespace Test\Support\Subscription;
 
 use OC\Support\Subscription\Registry;
-use OC\User\Database;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
-use OCP\User\Backend\ICountUsersBackend;
-use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-	/** @var Registry */
-	private $registry;
+	private Registry $registry;
 
-	/** @var MockObject|IConfig */
-	private $config;
-
-	/** @var MockObject|IServerContainer */
-	private $serverContainer;
-
-	/** @var MockObject|IUserManager */
-	private $userManager;
-
-	/** @var MockObject|IGroupManager */
-	private $groupManager;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var MockObject|IManager */
-	private $notificationManager;
+	private MockObject&IConfig $config;
+	private MockObject&IServerContainer $serverContainer;
+	private MockObject&IUserManager $userManager;
+	private MockObject&IGroupManager $groupManager;
+	private MockObject&LoggerInterface $logger;
+	private MockObject&IManager $notificationManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -73,7 +59,7 @@ class RegistryTest extends TestCase {
 
 
 	public function testDoubleRegistration(): void {
-		$this->expectException(\OCP\Support\Subscription\Exception\AlreadyRegisteredException::class);
+		$this->expectException(AlreadyRegisteredException::class);
 
 		/* @var ISubscription $subscription1 */
 		$subscription1 = $this->createMock(ISubscription::class);
@@ -172,7 +158,7 @@ class RegistryTest extends TestCase {
 		$this->assertSame(false, $this->registry->delegateIsHardUserLimitReached($this->notificationManager));
 	}
 
-	public function dataForUserLimitCheck() {
+	public static function dataForUserLimitCheck(): array {
 		return [
 			// $userLimit, $userCount, $disabledUsers, $expectedResult
 			[35, 15, 2, false],
@@ -182,9 +168,7 @@ class RegistryTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataForUserLimitCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataForUserLimitCheck')]
 	public function testDelegateIsHardUserLimitReachedWithoutSupportAppAndUserCount($userLimit, $userCount, $disabledUsers, $expectedResult): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')
@@ -198,17 +182,9 @@ class RegistryTest extends TestCase {
 			->method('getUsersForUserValue')
 			->with('core', 'enabled', 'false')
 			->willReturn(array_fill(0, $disabledUsers, ''));
-		/* @var UserInterface|ICountUsersBackend|\PHPUnit\Framework\MockObject\MockObject $dummyBackend */
-		$dummyBackend = $this->createMock(Database::class);
-		$dummyBackend->expects($this->once())
-			->method('implementsActions')
-			->willReturn(true);
-		$dummyBackend->expects($this->once())
-			->method('countUsers')
-			->willReturn($userCount);
 		$this->userManager->expects($this->once())
-			->method('getBackends')
-			->willReturn([$dummyBackend]);
+			->method('countUsersTotal')
+			->willReturn($userCount);
 
 		if ($expectedResult) {
 			$dummyGroup = $this->createMock(IGroup::class);

@@ -20,24 +20,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CheckBackupCodeTest extends TestCase {
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var IJobList|MockObject */
-	private $jobList;
-
-	/** @var IRegistry|MockObject */
-	private $registry;
-
-	/** @var Manager|MockObject */
-	private $manager;
-
-	/** @var IUser|MockObject */
-	private $user;
-
-	/** @var CheckBackupCodes */
-	private $checkBackupCodes;
+	private IUserManager&MockObject $userManager;
+	private IJobList&MockObject $jobList;
+	private IRegistry&MockObject $registry;
+	private Manager&MockObject $manager;
+	private IUser&MockObject $user;
+	private CheckBackupCodes $checkBackupCodes;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -50,7 +38,7 @@ class CheckBackupCodeTest extends TestCase {
 		$this->user = $this->createMock(IUser::class);
 
 		$this->userManager->method('callForSeenUsers')
-			->willReturnCallback(function (\Closure $e) {
+			->willReturnCallback(function (\Closure $e): void {
 				$e($this->user);
 			});
 

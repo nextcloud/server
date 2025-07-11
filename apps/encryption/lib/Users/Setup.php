@@ -11,15 +11,11 @@ use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 
 class Setup {
-	/** @var Crypt */
-	private $crypt;
-	/** @var KeyManager */
-	private $keyManager;
 
-	public function __construct(Crypt $crypt,
-		KeyManager $keyManager) {
-		$this->crypt = $crypt;
-		$this->keyManager = $keyManager;
+	public function __construct(
+		private Crypt $crypt,
+		private KeyManager $keyManager,
+	) {
 	}
 
 	/**

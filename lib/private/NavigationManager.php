@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use OC\App\AppManager;
 use OC\Group\Manager;
 use OCP\App\IAppManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
@@ -18,6 +19,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -56,6 +58,7 @@ class NavigationManager implements INavigationManager {
 		IGroupManager $groupManager,
 		IConfig $config,
 		LoggerInterface $logger,
+		protected IEventDispatcher $eventDispatcher,
 	) {
 		$this->appManager = $appManager;
 		$this->urlGenerator = $urlGenerator;
@@ -74,7 +77,7 @@ class NavigationManager implements INavigationManager {
 			$this->closureEntries[] = $entry;
 			return;
 		}
-		$this->init();
+		$this->init(false);
 
 		$id = $entry['id'];
 
@@ -107,9 +110,10 @@ class NavigationManager implements INavigationManager {
 	}
 
 	private function updateDefaultEntries() {
+		$defaultEntryId = $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
 		foreach ($this->entries as $id => $entry) {
 			if ($entry['type'] === 'link') {
-				$this->entries[$id]['default'] = $id === $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
+				$this->entries[$id]['default'] = $id === $defaultEntryId;
 			}
 		}
 	}
@@ -119,10 +123,6 @@ class NavigationManager implements INavigationManager {
 	 */
 	public function getAll(string $type = 'link'): array {
 		$this->init();
-		foreach ($this->closureEntries as $c) {
-			$this->add($c());
-		}
-		$this->closureEntries = [];
 
 		$result = $this->entries;
 		if ($type !== 'all') {
@@ -208,7 +208,13 @@ class NavigationManager implements INavigationManager {
 		return $this->activeEntry;
 	}
 
-	private function init() {
+	private function init(bool $resolveClosures = true): void {
+		if ($resolveClosures) {
+			while ($c = array_pop($this->closureEntries)) {
+				$this->add($c());
+			}
+		}
+
 		if ($this->init) {
 			return;
 		}
@@ -233,7 +239,7 @@ class NavigationManager implements INavigationManager {
 				'id' => 'profile',
 				'order' => 1,
 				'href' => $this->urlGenerator->linkToRoute(
-					'core.ProfilePage.index',
+					'profile.ProfilePage.index',
 					['targetUserId' => $this->userSession->getUser()->getUID()],
 				),
 				'name' => $l->t('View profile'),
@@ -318,13 +324,14 @@ class NavigationManager implements INavigationManager {
 				]);
 			}
 		}
+		$this->eventDispatcher->dispatchTyped(new LoadAdditionalEntriesEvent());
 
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 			$apps = $this->appManager->getEnabledAppsForUser($user);
 			$this->customAppOrder = json_decode($this->config->getUserValue($user->getUID(), 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR);
 		} else {
-			$apps = $this->appManager->getInstalledApps();
+			$apps = $this->appManager->getEnabledApps();
 			$this->customAppOrder = [];
 		}
 
@@ -415,11 +422,6 @@ class NavigationManager implements INavigationManager {
 
 	public function get(string $id): ?array {
 		$this->init();
-		foreach ($this->closureEntries as $c) {
-			$this->add($c());
-		}
-		$this->closureEntries = [];
-
 		return $this->entries[$id];
 	}
 

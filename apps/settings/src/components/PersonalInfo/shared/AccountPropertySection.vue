@@ -46,8 +46,8 @@
 
 <script>
 import debounce from 'debounce'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 
 import HeaderBar from './HeaderBar.vue'
 
@@ -155,6 +155,7 @@ export default {
 	methods: {
 		async updateProperty(value) {
 			try {
+				this.hasError = false
 				const responseData = await savePrimaryAccountProperty(
 					this.name,
 					value,
@@ -180,10 +181,8 @@ export default {
 				this.isSuccess = true
 				setTimeout(() => { this.isSuccess = false }, 2000)
 			} else {
-				this.$emit('update:value', this.initialValue)
 				handleError(error, errorMessage)
 				this.hasError = true
-				setTimeout(() => { this.hasError = false }, 2000)
 			}
 		},
 	},

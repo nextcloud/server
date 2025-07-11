@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,9 +8,15 @@
 
 namespace Test;
 
+use OC\Tagging\TagMapper;
+use OC\TagManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
+use OCP\ITagManager;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -19,23 +26,23 @@ use Psr\Log\LoggerInterface;
  */
 class TagsTest extends \Test\TestCase {
 	protected $objectType;
-	/** @var \OCP\IUser */
+	/** @var IUser */
 	protected $user;
-	/** @var \OCP\IUserSession */
+	/** @var IUserSession */
 	protected $userSession;
 	protected $backupGlobals = false;
 	/** @var \OC\Tagging\TagMapper */
 	protected $tagMapper;
-	/** @var \OCP\ITagManager */
+	/** @var ITagManager */
 	protected $tagMgr;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		\OC_User::clearBackends();
-		\OC_User::useBackend('dummy');
+		Server::get(IUserManager::class)->clearBackends();
+		Server::get(IUserManager::class)->registerBackend(new \Test\Util\User\Dummy());
 		$userId = $this->getUniqueID('user_');
-		\OC::$server->getUserManager()->createUser($userId, 'pass');
+		Server::get(IUserManager::class)->createUser($userId, 'pass');
 		\OC_User::setUserId($userId);
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')
@@ -47,12 +54,12 @@ class TagsTest extends \Test\TestCase {
 			->willReturn($this->user);
 
 		$this->objectType = $this->getUniqueID('type_');
-		$this->tagMapper = new \OC\Tagging\TagMapper(\OC::$server->get(IDBConnection::class));
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->get(IDBConnection::class), \OC::$server->get(LoggerInterface::class));
+		$this->tagMapper = new TagMapper(Server::get(IDBConnection::class));
+		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class));
 	}
 
 	protected function tearDown(): void {
-		$conn = \OC::$server->getDatabaseConnection();
+		$conn = Server::get(IDBConnection::class);
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory_to_object`');
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory`');
 
@@ -65,7 +72,7 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn(null);
-		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession, \OC::$server->getDatabaseConnection(), \OC::$server->get(LoggerInterface::class));
+		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class));
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}
 
@@ -191,11 +198,11 @@ class TagsTest extends \Test\TestCase {
 		$tagId = $tagData[0]['id'];
 		$tagType = $tagData[0]['type'];
 
-		$conn = \OC::$server->getDatabaseConnection();
+		$conn = Server::get(IDBConnection::class);
 		$statement = $conn->prepare(
-			'INSERT INTO `*PREFIX*vcategory_to_object` ' .
-			'(`objid`, `categoryid`, `type`) VALUES ' .
-			'(?, ?, ?)'
+			'INSERT INTO `*PREFIX*vcategory_to_object` '
+			. '(`objid`, `categoryid`, `type`) VALUES '
+			. '(?, ?, ?)'
 		);
 
 		// insert lots of entries

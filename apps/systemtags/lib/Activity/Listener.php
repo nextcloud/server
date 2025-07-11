@@ -25,25 +25,6 @@ use OCP\SystemTag\MapperEvent;
 use OCP\SystemTag\TagNotFoundException;
 
 class Listener {
-	/** @var IGroupManager */
-	protected $groupManager;
-	/** @var IManager */
-	protected $activityManager;
-	/** @var IUserSession */
-	protected $session;
-	/** @var IConfig */
-	protected $config;
-	/** @var \OCP\SystemTag\ISystemTagManager */
-	protected $tagManager;
-	/** @var \OCP\App\IAppManager */
-	protected $appManager;
-	/** @var \OCP\Files\Config\IMountProviderCollection */
-	protected $mountCollection;
-	/** @var \OCP\Files\IRootFolder */
-	protected $rootFolder;
-	/** @var IShareHelper */
-	protected $shareHelper;
-
 	/**
 	 * Listener constructor.
 	 *
@@ -57,24 +38,17 @@ class Listener {
 	 * @param IRootFolder $rootFolder
 	 * @param IShareHelper $shareHelper
 	 */
-	public function __construct(IGroupManager $groupManager,
-		IManager $activityManager,
-		IUserSession $session,
-		IConfig $config,
-		ISystemTagManager $tagManager,
-		IAppManager $appManager,
-		IMountProviderCollection $mountCollection,
-		IRootFolder $rootFolder,
-		IShareHelper $shareHelper) {
-		$this->groupManager = $groupManager;
-		$this->activityManager = $activityManager;
-		$this->session = $session;
-		$this->config = $config;
-		$this->tagManager = $tagManager;
-		$this->appManager = $appManager;
-		$this->mountCollection = $mountCollection;
-		$this->rootFolder = $rootFolder;
-		$this->shareHelper = $shareHelper;
+	public function __construct(
+		protected IGroupManager $groupManager,
+		protected IManager $activityManager,
+		protected IUserSession $session,
+		protected IConfig $config,
+		protected ISystemTagManager $tagManager,
+		protected IAppManager $appManager,
+		protected IMountProviderCollection $mountCollection,
+		protected IRootFolder $rootFolder,
+		protected IShareHelper $shareHelper,
+	) {
 	}
 
 	/**
@@ -135,7 +109,7 @@ class Listener {
 		$tagIds = $event->getTags();
 		if ($event->getObjectType() !== 'files' || empty($tagIds)
 			|| !in_array($event->getEvent(), [MapperEvent::EVENT_ASSIGN, MapperEvent::EVENT_UNASSIGN])
-			|| !$this->appManager->isInstalled('activity')) {
+			|| !$this->appManager->isEnabledForAnyone('activity')) {
 			// System tags not for files, no tags, not (un-)assigning or no activity-app enabled (save the energy)
 			return;
 		}

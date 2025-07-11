@@ -144,14 +144,17 @@ describe('files_sharing: Public share - File drop', { testIsolation: true }, () 
 	})
 
 	describe('Terms of service', { testIsolation: true }, () => {
-		before(() => cy.runOccCommand('config:app:set --value "TEST: Some disclaimer text" --type string core shareapi_public_link_disclaimertext'))
+		before(() => cy.runOccCommand('config:app:set --value \'TEST: Some disclaimer text\' --type string core shareapi_public_link_disclaimertext'))
 		beforeEach(() => cy.visit(shareUrl))
 		after(() => cy.runOccCommand('config:app:delete core shareapi_public_link_disclaimertext'))
 
 		it('shows ToS on file-drop view', () => {
-			cy.contains(`Upload files to ${shareName}`)
+			cy.get('[data-cy-files-sharing-file-drop]')
+				.contains(`Upload files to ${shareName}`)
 				.should('be.visible')
-				.should('contain.text', 'agree to the terms of service')
+			cy.get('[data-cy-files-sharing-file-drop]')
+				.contains('agree to the terms of service')
+				.should('be.visible')
 			cy.findByRole('button', { name: /Terms of service/i })
 				.should('be.visible')
 				.click()

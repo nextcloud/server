@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,23 +26,6 @@ use function array_values;
 
 abstract class AbstractPrincipalBackend implements BackendInterface {
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	private LoggerInterface $logger;
-
-	/** @var ProxyMapper */
-	private $proxyMapper;
-
-	/** @var string */
-	private $principalPrefix;
-
 	/** @var string */
 	private $dbTableName;
 
@@ -51,27 +35,19 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	/** @var string */
 	private $dbForeignKeyName;
 
-	/** @var string */
-	private $cuType;
-
-	public function __construct(IDBConnection $dbConnection,
-		IUserSession $userSession,
-		IGroupManager $groupManager,
-		LoggerInterface $logger,
-		ProxyMapper $proxyMapper,
-		string $principalPrefix,
+	public function __construct(
+		private IDBConnection $db,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private LoggerInterface $logger,
+		private ProxyMapper $proxyMapper,
+		private string $principalPrefix,
 		string $dbPrefix,
-		string $cuType) {
-		$this->db = $dbConnection;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->logger = $logger;
-		$this->proxyMapper = $proxyMapper;
-		$this->principalPrefix = $principalPrefix;
+		private string $cuType,
+	) {
 		$this->dbTableName = 'calendar_' . $dbPrefix . 's';
 		$this->dbMetaDataTableName = $this->dbTableName . '_md';
 		$this->dbForeignKeyName = $dbPrefix . '_id';
-		$this->cuType = $cuType;
 	}
 
 	use PrincipalProxyTrait;
@@ -110,8 +86,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 					$metaDataById[$metaDataRow[$this->dbForeignKeyName]] = [];
 				}
 
-				$metaDataById[$metaDataRow[$this->dbForeignKeyName]][$metaDataRow['key']] =
-					$metaDataRow['value'];
+				$metaDataById[$metaDataRow[$this->dbForeignKeyName]][$metaDataRow['key']]
+					= $metaDataRow['value'];
 			}
 
 			while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -495,9 +471,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @return bool
 	 */
 	private function isAllowedToAccessResource(array $row, array $userGroups): bool {
-		if (!isset($row['group_restrictions']) ||
-			$row['group_restrictions'] === null ||
-			$row['group_restrictions'] === '') {
+		if (!isset($row['group_restrictions'])
+			|| $row['group_restrictions'] === null
+			|| $row['group_restrictions'] === '') {
 			return true;
 		}
 

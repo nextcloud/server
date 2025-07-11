@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 
@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './shared/field.scss';
+@use './shared/field' as *;
 
 .field {
 	&__description {

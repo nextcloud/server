@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,20 +15,12 @@ use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
 
-	/** @var IConfig */
-	private $config;
-	/** @var Session */
-	private $session;
-	/** @var Util */
-	private $util;
-	/** @var IUserSession */
-	private $userSession;
-
-	public function __construct(IConfig $config, Session $session, Util $util, IUserSession $userSession) {
-		$this->config = $config;
-		$this->session = $session;
-		$this->util = $util;
-		$this->userSession = $userSession;
+	public function __construct(
+		private IConfig $config,
+		private Session $session,
+		private Util $util,
+		private IUserSession $userSession,
+	) {
 	}
 
 	/**

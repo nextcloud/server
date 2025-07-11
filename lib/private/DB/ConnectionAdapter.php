@@ -50,7 +50,7 @@ class ConnectionAdapter implements IDBConnection {
 				$this->inner->executeQuery($sql, $params, $types)
 			);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -58,7 +58,7 @@ class ConnectionAdapter implements IDBConnection {
 		try {
 			return $this->inner->executeUpdate($sql, $params, $types);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -66,7 +66,7 @@ class ConnectionAdapter implements IDBConnection {
 		try {
 			return $this->inner->executeStatement($sql, $params, $types);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -184,6 +184,14 @@ class ConnectionAdapter implements IDBConnection {
 	public function dropTable(string $table): void {
 		try {
 			$this->inner->dropTable($table);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
+	public function truncateTable(string $table, bool $cascade): void {
+		try {
+			$this->inner->truncateTable($table, $cascade);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);
 		}

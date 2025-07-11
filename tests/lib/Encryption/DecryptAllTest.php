@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -44,7 +45,7 @@ class DecryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
 	protected $outputInterface;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\UserInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|UserInterface */
 	protected $userInterface;
 
 	/** @var DecryptAll */
@@ -82,7 +83,7 @@ class DecryptAllTest extends TestCase {
 		$this->invokePrivate($this->instance, 'output', [$this->outputInterface]);
 	}
 
-	public function dataDecryptAll() {
+	public static function dataDecryptAll(): array {
 		return [
 			[true, 'user1', true],
 			[false, 'user1', true],
@@ -93,11 +94,11 @@ class DecryptAllTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDecryptAll
 	 * @param bool $prepareResult
 	 * @param string $user
 	 * @param bool $userExistsChecked
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDecryptAll')]
 	public function testDecryptAll($prepareResult, $user, $userExistsChecked): void {
 		if ($userExistsChecked) {
 			$this->userManager->expects($this->once())->method('userExists')->willReturn(true);
@@ -113,7 +114,7 @@ class DecryptAllTest extends TestCase {
 					$this->view
 				]
 			)
-			->setMethods(['prepareEncryptionModules', 'decryptAllUsersFiles'])
+			->onlyMethods(['prepareEncryptionModules', 'decryptAllUsersFiles'])
 			->getMock();
 
 		$instance->expects($this->once())
@@ -145,7 +146,7 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
-	public function dataTrueFalse() {
+	public static function dataTrueFalse(): array {
 		return [
 			[true],
 			[false],
@@ -153,9 +154,9 @@ class DecryptAllTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTrueFalse
 	 * @param bool $success
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTrueFalse')]
 	public function testPrepareEncryptionModules($success): void {
 		$user = 'user1';
 
@@ -185,9 +186,7 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestDecryptAllUsersFiles
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDecryptAllUsersFiles')]
 	public function testDecryptAllUsersFiles($user): void {
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject |  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
@@ -198,7 +197,7 @@ class DecryptAllTest extends TestCase {
 					$this->view
 				]
 			)
-			->setMethods(['decryptUsersFiles'])
+			->onlyMethods(['decryptUsersFiles'])
 			->getMock();
 
 		$this->invokePrivate($instance, 'input', [$this->inputInterface]);
@@ -211,12 +210,16 @@ class DecryptAllTest extends TestCase {
 			$this->userInterface->expects($this->any())
 				->method('getUsers')
 				->willReturn(['user1', 'user2']);
+			$calls = [
+				'user1',
+				'user2',
+			];
 			$instance->expects($this->exactly(2))
 				->method('decryptUsersFiles')
-				->withConsecutive(
-					['user1'],
-					['user2'],
-				);
+				->willReturnCallback(function ($user) use (&$calls): void {
+					$expected = array_shift($calls);
+					$this->assertEquals($expected, $user);
+				});
 		} else {
 			$instance->expects($this->once())
 				->method('decryptUsersFiles')
@@ -226,7 +229,7 @@ class DecryptAllTest extends TestCase {
 		$this->invokePrivate($instance, 'decryptAllUsersFiles', [$user]);
 	}
 
-	public function dataTestDecryptAllUsersFiles() {
+	public static function dataTestDecryptAllUsersFiles(): array {
 		return [
 			['user1'],
 			['']
@@ -243,7 +246,7 @@ class DecryptAllTest extends TestCase {
 					$this->view
 				]
 			)
-			->setMethods(['decryptFile'])
+			->onlyMethods(['decryptFile'])
 			->getMock();
 
 		$storage = $this->getMockBuilder(IStorage::class)
@@ -253,25 +256,29 @@ class DecryptAllTest extends TestCase {
 		$sharedStorage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()->getMock();
 
-		$sharedStorage->expects($this->once())->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\SharedStorage')->willReturn(true);
+		$sharedStorage->expects($this->once())
+			->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\SharedStorage')
+			->willReturn(true);
 
 		$this->view->expects($this->exactly(2))
 			->method('getDirectoryContent')
-			->withConsecutive(
-				['/user1/files'],
-				['/user1/files/foo']
-			)
-			->willReturnOnConsecutiveCalls(
+			->willReturnMap([
 				[
-					new FileInfo('path', $storage, 'intPath', ['name' => 'foo', 'type' => 'dir'], null),
-					new FileInfo('path', $storage, 'intPath', ['name' => 'bar', 'type' => 'file', 'encrypted' => true], null),
-					new FileInfo('path', $sharedStorage, 'intPath', ['name' => 'shared', 'type' => 'file', 'encrypted' => true], null),
+					'/user1/files', '', null,
+					[
+						new FileInfo('path', $storage, 'intPath', ['name' => 'foo', 'type' => 'dir'], null),
+						new FileInfo('path', $storage, 'intPath', ['name' => 'bar', 'type' => 'file', 'encrypted' => true], null),
+						new FileInfo('path', $sharedStorage, 'intPath', ['name' => 'shared', 'type' => 'file', 'encrypted' => true], null),
+					],
 				],
 				[
-					new FileInfo('path', $storage, 'intPath', ['name' => 'subfile', 'type' => 'file', 'encrypted' => true], null)
-				]
-			);
+					'/user1/files/foo', '', null,
+					[
+						new FileInfo('path', $storage, 'intPath', ['name' => 'subfile', 'type' => 'file', 'encrypted' => true], null)
+					],
+				],
+			]);
 
 		$this->view->expects($this->any())->method('is_dir')
 			->willReturnCallback(
@@ -283,12 +290,16 @@ class DecryptAllTest extends TestCase {
 				}
 			);
 
+		$calls = [
+			'/user1/files/bar',
+			'/user1/files/foo/subfile',
+		];
 		$instance->expects($this->exactly(2))
 			->method('decryptFile')
-			->withConsecutive(
-				['/user1/files/bar'],
-				['/user1/files/foo/subfile'],
-			);
+			->willReturnCallback(function ($path) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, $path);
+			});
 
 
 		/* We need format method to return a string */
@@ -305,9 +316,7 @@ class DecryptAllTest extends TestCase {
 		$this->invokePrivate($instance, 'decryptUsersFiles', ['user1', $progressBar, '']);
 	}
 
-	/**
-	 * @dataProvider dataTrueFalse
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTrueFalse')]
 	public function testDecryptFile($isEncrypted): void {
 		$path = 'test.txt';
 
@@ -320,7 +329,7 @@ class DecryptAllTest extends TestCase {
 					$this->view
 				]
 			)
-			->setMethods(['getTimestamp'])
+			->onlyMethods(['getTimestamp'])
 			->getMock();
 
 		$fileInfo = $this->createMock(FileInfo::class);
@@ -360,7 +369,7 @@ class DecryptAllTest extends TestCase {
 					$this->view
 				]
 			)
-			->setMethods(['getTimestamp'])
+			->onlyMethods(['getTimestamp'])
 			->getMock();
 
 
@@ -375,7 +384,7 @@ class DecryptAllTest extends TestCase {
 		$this->view->expects($this->once())
 			->method('copy')
 			->with($path, $path . '.decrypted.42')
-			->willReturnCallback(function () {
+			->willReturnCallback(function (): void {
 				throw new DecryptionFailedException();
 			});
 

@@ -9,7 +9,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission, davGetRecentSearch, davRootPath, davRemoteURL, davResultToNode } from '@nextcloud/files'
 import { CancelablePromise } from 'cancelable-promise'
 import { useUserConfigStore } from '../store/userconfig.ts'
-import { pinia } from '../store/index.ts'
+import { getPinia } from '../store/index.ts'
 import { client } from './WebdavClient.ts'
 import { getBaseUrl } from '@nextcloud/router'
 
@@ -32,7 +32,7 @@ const resultToNode = (stat: FileStat) => davResultToNode(stat, davRootPath, getB
  * @param path Path to search for recent changes
  */
 export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => {
-	const store = useUserConfigStore(pinia)
+	const store = useUserConfigStore(getPinia())
 
 	/**
 	 * Filter function that returns only the visible nodes - or hidden if explicitly configured

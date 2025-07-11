@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,8 +7,13 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\SystemConfig;
 use OCA\Files_Sharing\ExpireSharesJob;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Constants;
+use OCP\IDBConnection;
+use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
@@ -23,7 +29,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	/** @var ExpireSharesJob */
 	private $job;
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	private $connection;
 
 	/** @var string */
@@ -35,26 +41,26 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		// clear occasional leftover shares from other tests
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
 		$this->user1 = $this->getUniqueID('user1_');
 		$this->user2 = $this->getUniqueID('user2_');
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$userManager->createUser($this->user1, 'longrandompassword');
 		$userManager->createUser($this->user2, 'longrandompassword');
 
-		\OC::registerShareHooks(\OC::$server->getSystemConfig());
+		\OC::registerShareHooks(Server::get(SystemConfig::class));
 
-		$this->job = new ExpireSharesJob(\OC::$server->get(ITimeFactory::class), \OC::$server->get(IManager::class), $this->connection);
+		$this->job = new ExpireSharesJob(Server::get(ITimeFactory::class), Server::get(IManager::class), $this->connection);
 	}
 
 	protected function tearDown(): void {
 		$this->connection->executeUpdate('DELETE FROM `*PREFIX*share`');
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->get($this->user1);
 		if ($user1) {
 			$user1->delete();
@@ -84,7 +90,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		return $shares;
 	}
 
-	public function dataExpireLinkShare() {
+	public static function dataExpireLinkShare() {
 		return [
 			[false,   '', false, false],
 			[false,   '',  true, false],
@@ -100,25 +106,25 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataExpireLinkShare
 	 *
 	 * @param bool addExpiration Should we add an expire date
 	 * @param string $interval The dateInterval
 	 * @param bool $addInterval If true add to the current time if false subtract
 	 * @param bool $shouldExpire Should this share be expired
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExpireLinkShare')]
 	public function testExpireLinkShare($addExpiration, $interval, $addInterval, $shouldExpire): void {
 		$this->loginAsUser($this->user1);
 
 		$user1Folder = \OC::$server->getUserFolder($this->user1);
 		$testFolder = $user1Folder->newFolder('test');
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = Server::get(\OCP\Share\IManager::class);
 		$share = $shareManager->newShare();
 
 		$share->setNode($testFolder)
 			->setShareType(IShare::TYPE_LINK)
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setSharedBy($this->user1);
 
 		$shareManager->createShare($share);
@@ -170,12 +176,12 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$user1Folder = \OC::$server->getUserFolder($this->user1);
 		$testFolder = $user1Folder->newFolder('test');
 
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = Server::get(\OCP\Share\IManager::class);
 		$share = $shareManager->newShare();
 
 		$share->setNode($testFolder)
 			->setShareType(IShare::TYPE_USER)
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setSharedBy($this->user1)
 			->setSharedWith($this->user2);
 

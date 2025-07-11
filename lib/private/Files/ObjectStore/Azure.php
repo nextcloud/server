@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -27,7 +28,7 @@ class Azure implements IObjectStore {
 	/**
 	 * @param array $parameters
 	 */
-	public function __construct($parameters) {
+	public function __construct(array $parameters) {
 		$this->containerName = $parameters['container'];
 		$this->accountName = $parameters['account_name'];
 		$this->accountKey = $parameters['account_key'];

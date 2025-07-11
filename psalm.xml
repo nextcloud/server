@@ -10,7 +10,7 @@
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config https://getpsalm.org/schema/config"
 	errorBaseline="build/psalm-baseline.xml"
-	findUnusedBaselineEntry="false"
+	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
 	phpVersion="8.1"
 >
@@ -30,11 +30,13 @@
 		<directory name="apps/federation"/>
 		<directory name="apps/files"/>
 		<directory name="apps/files_external"/>
+		<directory name="apps/files_reminders"/>
 		<directory name="apps/files_sharing"/>
 		<directory name="apps/files_trashbin"/>
 		<directory name="apps/files_versions"/>
 		<directory name="apps/lookup_server_connector"/>
 		<directory name="apps/oauth2"/>
+		<directory name="apps/profile"/>
 		<directory name="apps/provisioning_api"/>
 		<directory name="apps/settings"/>
 		<directory name="apps/sharebymail"/>
@@ -64,6 +66,7 @@
 			<directory name="apps/files_external/3rdparty"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
+			<directory name="3rdparty"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
@@ -72,6 +75,7 @@
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>
+		<file name="build/stubs/excimer.php"/>
 		<file name="build/stubs/gd.php"/>
 		<file name="build/stubs/imagick.php"/>
 		<file name="build/stubs/intl.php"/>
@@ -105,6 +109,7 @@
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
+				<referencedClass name="OCA\Guests\UserBackend"/>
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>
@@ -158,5 +163,40 @@
 				<referencedConstant name="OC\Memcache\LoggerWrapperCache::DEFAULT_TTL" />
 			</errorLevel>
 		</AmbiguousConstantInheritance>
+		<DeprecatedClass>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedClass>
+		<DeprecatedConstant>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedConstant>
+		<DeprecatedFunction>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedFunction>
+		<DeprecatedInterface>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedInterface>
+		<DeprecatedMethod>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedMethod>
+		<DeprecatedProperty>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedProperty>
+		<DeprecatedTrait>
+			<errorLevel type="suppress">
+				<directory name="lib" />
+			</errorLevel>
+		</DeprecatedTrait>
 	</issueHandlers>
 </psalm>

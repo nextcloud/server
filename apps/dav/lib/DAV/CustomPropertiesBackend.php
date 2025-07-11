@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -92,6 +93,11 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{http://nextcloud.org/ns}lock-time',
 		'{http://nextcloud.org/ns}lock-timeout',
 		'{http://nextcloud.org/ns}lock-token',
+		// photos
+		'{http://nextcloud.org/ns}realpath',
+		'{http://nextcloud.org/ns}nbItems',
+		'{http://nextcloud.org/ns}face-detections',
+		'{http://nextcloud.org/ns}face-preview-image',
 	];
 
 	/**
@@ -113,30 +119,12 @@ class CustomPropertiesBackend implements BackendInterface {
 	];
 
 	/**
-	 * @var Tree
-	 */
-	private $tree;
-
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	/**
-	 * @var IUser
-	 */
-	private $user;
-
-	/**
 	 * Properties cache
 	 *
 	 * @var array
 	 */
 	private $userCache = [];
-
-	private Server $server;
 	private XmlService $xmlService;
-	private DefaultCalendarValidator $defaultCalendarValidator;
 
 	/**
 	 * @param Tree $tree node tree
@@ -144,22 +132,17 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * @param IUser $user owner of the tree and properties
 	 */
 	public function __construct(
-		Server $server,
-		Tree $tree,
-		IDBConnection $connection,
-		IUser $user,
-		DefaultCalendarValidator $defaultCalendarValidator,
+		private Server $server,
+		private Tree $tree,
+		private IDBConnection $connection,
+		private IUser $user,
+		private DefaultCalendarValidator $defaultCalendarValidator,
 	) {
-		$this->server = $server;
-		$this->tree = $tree;
-		$this->connection = $connection;
-		$this->user = $user;
 		$this->xmlService = new XmlService();
 		$this->xmlService->elementMap = array_merge(
 			$this->xmlService->elementMap,
 			self::COMPLEX_XML_ELEMENT_MAP,
 		);
-		$this->defaultCalendarValidator = $defaultCalendarValidator;
 	}
 
 	/**
@@ -300,8 +283,8 @@ class CustomPropertiesBackend implements BackendInterface {
 	 */
 	public function move($source, $destination) {
 		$statement = $this->connection->prepare(
-			'UPDATE `*PREFIX*properties` SET `propertypath` = ?' .
-			' WHERE `userid` = ? AND `propertypath` = ?'
+			'UPDATE `*PREFIX*properties` SET `propertypath` = ?'
+			. ' WHERE `userid` = ? AND `propertypath` = ?'
 		);
 		$statement->execute([$this->formatPath($destination), $this->user->getUID(), $this->formatPath($source)]);
 		$statement->closeCursor();
@@ -373,7 +356,10 @@ class CustomPropertiesBackend implements BackendInterface {
 			)),
 			)
 			->where($query->expr()->eq('parent', $query->createNamedParameter($node->getInternalFileId(), IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->eq('p.userid', $query->createNamedParameter($this->user->getUID())));
+			->andWhere($query->expr()->orX(
+				$query->expr()->eq('p.userid', $query->createNamedParameter($this->user->getUID())),
+				$query->expr()->isNull('p.userid'),
+			));
 		$result = $query->executeQuery();
 
 		$propsByPath = [];
@@ -542,7 +528,9 @@ class CustomPropertiesBackend implements BackendInterface {
 			$value = $value->getHref();
 		} else {
 			$valueType = self::PROPERTY_TYPE_OBJECT;
-			$value = serialize($value);
+			// serialize produces null character
+			// these can not be properly stored in some databases and need to be replaced
+			$value = str_replace(chr(0), '\x00', serialize($value));
 		}
 		return [$value, $valueType];
 	}
@@ -557,7 +545,9 @@ class CustomPropertiesBackend implements BackendInterface {
 			case self::PROPERTY_TYPE_HREF:
 				return new Href($value);
 			case self::PROPERTY_TYPE_OBJECT:
-				return unserialize($value);
+				// some databases can not handel null characters, these are custom encoded during serialization
+				// this custom encoding needs to be first reversed before unserializing
+				return unserialize(str_replace('\x00', chr(0), $value));
 			case self::PROPERTY_TYPE_STRING:
 			default:
 				return $value;

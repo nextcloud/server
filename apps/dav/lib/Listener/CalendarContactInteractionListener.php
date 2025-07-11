@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace OCA\DAV\Listener;
 
 use OCA\DAV\Connector\Sabre\Principal;
-use OCA\DAV\Events\CalendarObjectCreatedEvent;
-use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
+use OCP\Calendar\Events\CalendarObjectCreatedEvent;
+use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -32,31 +32,13 @@ use function substr;
 class CalendarContactInteractionListener implements IEventListener {
 	private const URI_USERS = 'principals/users/';
 
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var Principal */
-	private $principalConnector;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IEventDispatcher $dispatcher,
-		IUserSession $userSession,
-		Principal $principalConnector,
-		IMailer $mailer,
-		LoggerInterface $logger) {
-		$this->dispatcher = $dispatcher;
-		$this->userSession = $userSession;
-		$this->principalConnector = $principalConnector;
-		$this->mailer = $mailer;
-		$this->logger = $logger;
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+		private IUserSession $userSession,
+		private Principal $principalConnector,
+		private IMailer $mailer,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {

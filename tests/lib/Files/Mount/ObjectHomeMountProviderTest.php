@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,9 @@
 namespace Test\Files\Mount;
 
 use OC\Files\Mount\ObjectHomeMountProvider;
+use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
+use OCP\App\IAppManager;
+use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -31,51 +35,54 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->user = $this->createMock(IUser::class);
 		$this->loader = $this->createMock(IStorageFactory::class);
 
-		$this->provider = new ObjectHomeMountProvider($this->config);
+		$objectStoreConfig = new PrimaryObjectStoreConfig($this->config, $this->createMock(IAppManager::class));
+		$this->provider = new ObjectHomeMountProvider($objectStoreConfig);
 	}
 
 	public function testSingleBucket(): void {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with($this->equalTo('objectstore'), '')
-			->willReturn([
-				'class' => 'Test\Files\Mount\FakeObjectStore',
-			]);
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'objectstore') {
+					return [
+						'class' => 'Test\Files\Mount\FakeObjectStore',
+						'arguments' => [
+							'foo' => 'bar'
+						],
+					];
+				} else {
+					return $default;
+				}
+			});
 
-		$this->user->expects($this->never())->method($this->anything());
-		$this->loader->expects($this->never())->method($this->anything());
+		$mount = $this->provider->getHomeMountForUser($this->user, $this->loader);
+		$arguments = $this->invokePrivate($mount, 'arguments');
 
-		$config = $this->invokePrivate($this->provider, 'getSingleBucketObjectStoreConfig', [$this->user, $this->loader]);
-
-		$this->assertArrayHasKey('class', $config);
-		$this->assertEquals($config['class'], 'Test\Files\Mount\FakeObjectStore');
-		$this->assertArrayHasKey('arguments', $config);
-		$this->assertArrayHasKey('user', $config['arguments']);
-		$this->assertSame($this->user, $config['arguments']['user']);
-		$this->assertArrayHasKey('objectstore', $config['arguments']);
-		$this->assertInstanceOf('Test\Files\Mount\FakeObjectStore', $config['arguments']['objectstore']);
+		$objectStore = $arguments['objectstore'];
+		$this->assertInstanceOf(FakeObjectStore::class, $objectStore);
+		$this->assertEquals(['foo' => 'bar', 'multibucket' => false], $objectStore->getArguments());
 	}
 
 	public function testMultiBucket(): void {
-		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
-			->with($this->equalTo('objectstore_multibucket'), '')
-			->willReturn([
-				'class' => 'Test\Files\Mount\FakeObjectStore',
-			]);
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'objectstore_multibucket') {
+					return [
+						'class' => 'Test\Files\Mount\FakeObjectStore',
+						'arguments' => [
+							'foo' => 'bar'
+						],
+					];
+				} else {
+					return $default;
+				}
+			});
 
 		$this->user->method('getUID')
 			->willReturn('uid');
 		$this->loader->expects($this->never())->method($this->anything());
 
-		$this->config->expects($this->once())
-			->method('getUserValue')
-			->with(
-				$this->equalTo('uid'),
-				$this->equalTo('homeobjectstore'),
-				$this->equalTo('bucket'),
-				$this->equalTo(null)
-			)->willReturn(null);
+		$this->config->method('getUserValue')
+			->willReturn(null);
 
 		$this->config->expects($this->once())
 			->method('setUserValue')
@@ -87,42 +94,37 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 				$this->equalTo(null)
 			);
 
-		$config = $this->invokePrivate($this->provider, 'getMultiBucketObjectStoreConfig', [$this->user, $this->loader]);
+		$mount = $this->provider->getHomeMountForUser($this->user, $this->loader);
+		$arguments = $this->invokePrivate($mount, 'arguments');
 
-		$this->assertArrayHasKey('class', $config);
-		$this->assertEquals($config['class'], 'Test\Files\Mount\FakeObjectStore');
-		$this->assertArrayHasKey('arguments', $config);
-		$this->assertArrayHasKey('user', $config['arguments']);
-		$this->assertSame($this->user, $config['arguments']['user']);
-		$this->assertArrayHasKey('objectstore', $config['arguments']);
-		$this->assertInstanceOf('Test\Files\Mount\FakeObjectStore', $config['arguments']['objectstore']);
-		$this->assertArrayHasKey('bucket', $config['arguments']);
-		$this->assertEquals('49', $config['arguments']['bucket']);
+		$objectStore = $arguments['objectstore'];
+		$this->assertInstanceOf(FakeObjectStore::class, $objectStore);
+		$this->assertEquals(['foo' => 'bar', 'bucket' => 49, 'multibucket' => true], $objectStore->getArguments());
 	}
 
 	public function testMultiBucketWithPrefix(): void {
-		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
-			->with('objectstore_multibucket')
-			->willReturn([
-				'class' => 'Test\Files\Mount\FakeObjectStore',
-				'arguments' => [
-					'bucket' => 'myBucketPrefix',
-				],
-			]);
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'objectstore_multibucket') {
+					return [
+						'class' => 'Test\Files\Mount\FakeObjectStore',
+						'arguments' => [
+							'foo' => 'bar',
+							'bucket' => 'myBucketPrefix',
+						],
+					];
+				} else {
+					return $default;
+				}
+			});
 
 		$this->user->method('getUID')
 			->willReturn('uid');
 		$this->loader->expects($this->never())->method($this->anything());
 
-		$this->config->expects($this->once())
+		$this->config
 			->method('getUserValue')
-			->with(
-				$this->equalTo('uid'),
-				$this->equalTo('homeobjectstore'),
-				$this->equalTo('bucket'),
-				$this->equalTo(null)
-			)->willReturn(null);
+			->willReturn(null);
 
 		$this->config->expects($this->once())
 			->method('setUserValue')
@@ -134,66 +136,70 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 				$this->equalTo(null)
 			);
 
-		$config = $this->invokePrivate($this->provider, 'getMultiBucketObjectStoreConfig', [$this->user, $this->loader]);
+		$mount = $this->provider->getHomeMountForUser($this->user, $this->loader);
+		$arguments = $this->invokePrivate($mount, 'arguments');
 
-		$this->assertArrayHasKey('class', $config);
-		$this->assertEquals($config['class'], 'Test\Files\Mount\FakeObjectStore');
-		$this->assertArrayHasKey('arguments', $config);
-		$this->assertArrayHasKey('user', $config['arguments']);
-		$this->assertSame($this->user, $config['arguments']['user']);
-		$this->assertArrayHasKey('objectstore', $config['arguments']);
-		$this->assertInstanceOf('Test\Files\Mount\FakeObjectStore', $config['arguments']['objectstore']);
-		$this->assertArrayHasKey('bucket', $config['arguments']);
-		$this->assertEquals('myBucketPrefix49', $config['arguments']['bucket']);
+		$objectStore = $arguments['objectstore'];
+		$this->assertInstanceOf(FakeObjectStore::class, $objectStore);
+		$this->assertEquals(['foo' => 'bar', 'bucket' => 'myBucketPrefix49', 'multibucket' => true], $objectStore->getArguments());
 	}
 
 	public function testMultiBucketBucketAlreadySet(): void {
-		$this->config->expects($this->once())
-			->method('getSystemValue')
-			->with('objectstore_multibucket')
-			->willReturn([
-				'class' => 'Test\Files\Mount\FakeObjectStore',
-				'arguments' => [
-					'bucket' => 'myBucketPrefix',
-				],
-			]);
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'objectstore_multibucket') {
+					return [
+						'class' => 'Test\Files\Mount\FakeObjectStore',
+						'arguments' => [
+							'foo' => 'bar',
+							'bucket' => 'myBucketPrefix',
+						],
+					];
+				} else {
+					return $default;
+				}
+			});
 
 		$this->user->method('getUID')
 			->willReturn('uid');
 		$this->loader->expects($this->never())->method($this->anything());
 
-		$this->config->expects($this->once())
+		$this->config
 			->method('getUserValue')
-			->with(
-				$this->equalTo('uid'),
-				$this->equalTo('homeobjectstore'),
-				$this->equalTo('bucket'),
-				$this->equalTo(null)
-			)->willReturn('awesomeBucket1');
+			->willReturnCallback(function ($uid, $app, $key, $default) {
+				if ($uid === 'uid' && $app === 'homeobjectstore' && $key === 'bucket') {
+					return 'awesomeBucket1';
+				} else {
+					return $default;
+				}
+			});
 
 		$this->config->expects($this->never())
 			->method('setUserValue');
 
-		$config = $this->invokePrivate($this->provider, 'getMultiBucketObjectStoreConfig', [$this->user, $this->loader]);
+		$mount = $this->provider->getHomeMountForUser($this->user, $this->loader);
+		$arguments = $this->invokePrivate($mount, 'arguments');
 
-		$this->assertArrayHasKey('class', $config);
-		$this->assertEquals($config['class'], 'Test\Files\Mount\FakeObjectStore');
-		$this->assertArrayHasKey('arguments', $config);
-		$this->assertArrayHasKey('user', $config['arguments']);
-		$this->assertSame($this->user, $config['arguments']['user']);
-		$this->assertArrayHasKey('objectstore', $config['arguments']);
-		$this->assertInstanceOf('Test\Files\Mount\FakeObjectStore', $config['arguments']['objectstore']);
-		$this->assertArrayHasKey('bucket', $config['arguments']);
-		$this->assertEquals('awesomeBucket1', $config['arguments']['bucket']);
+		$objectStore = $arguments['objectstore'];
+		$this->assertInstanceOf(FakeObjectStore::class, $objectStore);
+		$this->assertEquals(['foo' => 'bar', 'bucket' => 'awesomeBucket1', 'multibucket' => true], $objectStore->getArguments());
 	}
 
 	public function testMultiBucketConfigFirst(): void {
-		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
-			->with('objectstore_multibucket')
-			->willReturn([
-				'class' => 'Test\Files\Mount\FakeObjectStore',
-			]);
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) {
+				if ($key === 'objectstore_multibucket') {
+					return [
+						'class' => 'Test\Files\Mount\FakeObjectStore',
+						'arguments' => [
+							'foo' => 'bar',
+							'bucket' => 'myBucketPrefix',
+						],
+					];
+				} else {
+					return $default;
+				}
+			});
 
 		$this->user->method('getUID')
 			->willReturn('uid');
@@ -204,17 +210,17 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testMultiBucketConfigFirstFallBackSingle(): void {
-		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
-			->withConsecutive(
-				[$this->equalTo('objectstore_multibucket')],
-				[$this->equalTo('objectstore')],
-			)->willReturnOnConsecutiveCalls(
-				'',
-				[
+		$this->config
+			->method('getSystemValue')->willReturnMap([
+				['objectstore_multibucket', null, null],
+				['objectstore', null, [
 					'class' => 'Test\Files\Mount\FakeObjectStore',
-				],
-			);
+					'arguments' => [
+						'foo' => 'bar',
+						'bucket' => 'myBucketPrefix',
+					],
+				]],
+			]);
 
 		$this->user->method('getUID')
 			->willReturn('uid');
@@ -225,23 +231,41 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testNoObjectStore(): void {
-		$this->config->expects($this->exactly(2))
-			->method('getSystemValue')
-			->willReturn('');
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) {
+				return $default;
+			});
 
 		$mount = $this->provider->getHomeMountForUser($this->user, $this->loader);
 		$this->assertNull($mount);
 	}
 }
 
-class FakeObjectStore {
-	private $arguments;
-
-	public function __construct(array $arguments) {
-		$this->arguments = $arguments;
+class FakeObjectStore implements IObjectStore {
+	public function __construct(
+		private array $arguments,
+	) {
 	}
 
 	public function getArguments() {
 		return $this->arguments;
+	}
+
+	public function getStorageId() {
+	}
+
+	public function readObject($urn) {
+	}
+
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
+	}
+
+	public function deleteObject($urn) {
+	}
+
+	public function objectExists($urn) {
+	}
+
+	public function copyObject($from, $to) {
 	}
 }

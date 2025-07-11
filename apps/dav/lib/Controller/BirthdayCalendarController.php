@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,31 +23,6 @@ use OCP\IUserManager;
 class BirthdayCalendarController extends Controller {
 
 	/**
-	 * @var IDBConnection
-	 */
-	protected $db;
-
-	/**
-	 * @var IConfig
-	 */
-	protected $config;
-
-	/**
-	 * @var IUserManager
-	 */
-	protected $userManager;
-
-	/**
-	 * @var CalDavBackend
-	 */
-	protected $caldavBackend;
-
-	/**
-	 * @var IJobList
-	 */
-	protected $jobList;
-
-	/**
 	 * BirthdayCalendar constructor.
 	 *
 	 * @param string $appName
@@ -55,19 +31,18 @@ class BirthdayCalendarController extends Controller {
 	 * @param IConfig $config
 	 * @param IJobList $jobList
 	 * @param IUserManager $userManager
-	 * @param CalDavBackend $calDavBackend
+	 * @param CalDavBackend $caldavBackend
 	 */
-	public function __construct($appName, IRequest $request,
-		IDBConnection $db, IConfig $config,
-		IJobList $jobList,
-		IUserManager $userManager,
-		CalDavBackend $calDavBackend) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		protected IDBConnection $db,
+		protected IConfig $config,
+		protected IJobList $jobList,
+		protected IUserManager $userManager,
+		protected CalDavBackend $caldavBackend,
+	) {
 		parent::__construct($appName, $request);
-		$this->db = $db;
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->jobList = $jobList;
-		$this->caldavBackend = $calDavBackend;
 	}
 
 	/**
@@ -78,7 +53,7 @@ class BirthdayCalendarController extends Controller {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'yes');
 
 		// add background job for each user
-		$this->userManager->callForSeenUsers(function (IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user): void {
 			$this->jobList->add(GenerateBirthdayCalendarBackgroundJob::class, [
 				'userId' => $user->getUID(),
 			]);

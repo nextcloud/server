@@ -23,24 +23,19 @@ use OCP\IRequest;
  * @psalm-import-type DAVUpcomingEvent from ResponseDefinitions
  */
 class UpcomingEventsController extends OCSController {
-	private ?string $userId;
-	private UpcomingEventsService $service;
-
 	public function __construct(
 		IRequest $request,
-		?string $userId,
-		UpcomingEventsService $service) {
+		private ?string $userId,
+		private UpcomingEventsService $service,
+	) {
 		parent::__construct(Application::APP_ID, $request);
-
-		$this->userId = $userId;
-		$this->service = $service;
 	}
 
 	/**
 	 * Get information about upcoming events
 	 *
 	 * @param string|null $location location/URL to filter by
-	 * @return DataResponse<Http::STATUS_OK, array{events: DAVUpcomingEvent[]}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{events: list<DAVUpcomingEvent>}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>
 	 *
 	 * 200: Upcoming events
 	 * 401: When not authenticated
@@ -52,10 +47,10 @@ class UpcomingEventsController extends OCSController {
 		}
 
 		return new DataResponse([
-			'events' => array_map(fn (UpcomingEvent $e) => $e->jsonSerialize(), $this->service->getEvents(
+			'events' => array_values(array_map(fn (UpcomingEvent $e) => $e->jsonSerialize(), $this->service->getEvents(
 				$this->userId,
 				$location,
-			)),
+			))),
 		]);
 	}
 

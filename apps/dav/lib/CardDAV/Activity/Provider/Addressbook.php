@@ -27,25 +27,15 @@ class Addressbook extends Base {
 	public const SUBJECT_UNSHARE_USER = 'addressbook_user_unshare';
 	public const SUBJECT_UNSHARE_GROUP = 'addressbook_group_unshare';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	public function __construct(IFactory $languageFactory,
+	public function __construct(
+		protected IFactory $languageFactory,
 		IURLGenerator $url,
-		IManager $activityManager,
+		protected IManager $activityManager,
 		IUserManager $userManager,
 		IGroupManager $groupManager,
-		IEventMerger $eventMerger) {
+		protected IEventMerger $eventMerger,
+	) {
 		parent::__construct($userManager, $groupManager, $url);
-		$this->languageFactory = $languageFactory;
-		$this->activityManager = $activityManager;
-		$this->eventMerger = $eventMerger;
 	}
 
 	/**

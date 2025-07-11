@@ -50,7 +50,7 @@ class WebhooksController extends OCSController {
 	 * List registered webhooks
 	 *
 	 * @param string|null $uri The callback URI to filter by
-	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<WebhookListenersWebhookInfo>, array{}>
 	 * @throws OCSException Other internal error
 	 *
 	 * 200: Webhook registrations returned
@@ -66,12 +66,10 @@ class WebhooksController extends OCSController {
 				$webhookListeners = $this->mapper->getAll();
 			}
 
-			return new DataResponse(
-				array_map(
-					fn (WebhookListener $listener): array => $listener->jsonSerialize(),
-					$webhookListeners
-				)
-			);
+			return new DataResponse(array_values(array_map(
+				fn (WebhookListener $listener): array => $listener->jsonSerialize(),
+				$webhookListeners
+			)));
 		} catch (\Exception $e) {
 			$this->logger->error('Error when listing webhooks', ['exception' => $e]);
 			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
@@ -112,7 +110,7 @@ class WebhooksController extends OCSController {
 	 * @param ?array<string,mixed> $eventFilter Mongo filter to apply to the serialized data to decide if firing
 	 * @param ?string $userIdFilter User id to filter on. The webhook will only be called by requests from this user. Empty or null means no filtering.
 	 * @param ?array<string,string> $headers Array of headers to send
-	 * @param "none"|"headers"|null $authMethod Authentication method to use
+	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
@@ -139,7 +137,7 @@ class WebhooksController extends OCSController {
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
-			$appId = $this->request->getHeader('EX-APP-ID');
+			$appId = $this->request->getHeader('ex-app-id');
 		}
 		try {
 			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);
@@ -180,7 +178,7 @@ class WebhooksController extends OCSController {
 	 * @param ?array<string,mixed> $eventFilter Mongo filter to apply to the serialized data to decide if firing
 	 * @param ?string $userIdFilter User id to filter on. The webhook will only be called by requests from this user. Empty or null means no filtering.
 	 * @param ?array<string,string> $headers Array of headers to send
-	 * @param "none"|"headers"|null $authMethod Authentication method to use
+	 * @param "none"|"header"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
@@ -208,7 +206,7 @@ class WebhooksController extends OCSController {
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
-			$appId = $this->request->getHeader('EX-APP-ID');
+			$appId = $this->request->getHeader('ex-app-id');
 		}
 		try {
 			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);
@@ -273,7 +271,7 @@ class WebhooksController extends OCSController {
 	/**
 	 * Remove all existing webhook registration mapped to an AppAPI app id
 	 *
-	 * @param string $appid id of the app, as in the EX-APP-ID for creation
+	 * @param string $appid id of the app, as in the ex-app-id for creation
 	 *
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>
 	 *

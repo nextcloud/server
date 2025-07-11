@@ -70,7 +70,7 @@ class WeatherStatusService {
 
 	/**
 	 * Get favorites list
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function getFavorites(): array {
 		$favoritesJson = $this->config->getUserValue($this->userId, Application::APP_ID, 'favorites', '');
@@ -79,7 +79,7 @@ class WeatherStatusService {
 
 	/**
 	 * Set favorites list
-	 * @param string[] $favorites
+	 * @param list<string> $favorites
 	 * @return WeatherStatusSuccess success state
 	 */
 	public function setFavorites(array $favorites): array {
@@ -257,12 +257,19 @@ class WeatherStatusService {
 		];
 		$url = 'https://nominatim.openstreetmap.org/search';
 		$results = $this->requestJSON($url, $params);
-		if ($results['error'] !== null) {
-			return $results;
+
+		if (isset($results['error'])) {
+			return ['error' => (string)$results['error']];
 		}
-		if (count($results) > 0) {
-			return $results[0];
+
+		if (count($results) > 0 && is_array($results[0])) {
+			return [
+				'display_name' => (string)($results[0]['display_name'] ?? null),
+				'lat' => (string)($results[0]['lat'] ?? null),
+				'lon' => (string)($results[0]['lon'] ?? null),
+			];
 		}
+
 		return ['error' => $this->l10n->t('No result.')];
 	}
 
@@ -287,7 +294,7 @@ class WeatherStatusService {
 	/**
 	 * Get forecast for current location
 	 *
-	 * @return WeatherStatusForecast[]|array{error: string}|WeatherStatusSuccess which contains success state and filtered forecast data
+	 * @return list<WeatherStatusForecast>|array{error: string}|WeatherStatusSuccess which contains success state and filtered forecast data
 	 */
 	public function getForecast(): array {
 		$lat = $this->config->getUserValue($this->userId, Application::APP_ID, 'lat', '');
@@ -310,7 +317,7 @@ class WeatherStatusService {
 	 * @param float $lon Longitude of requested forecast, in decimal degree format
 	 * @param float $altitude Altitude of requested forecast, in meter
 	 * @param int $nbValues Number of forecast values (hours)
-	 * @return WeatherStatusForecast[]|array{error: string} Filtered forecast data
+	 * @return list<WeatherStatusForecast>|array{error: string} Filtered forecast data
 	 */
 	private function forecastRequest(float $lat, float $lon, float $altitude, int $nbValues = 10): array {
 		$params = [

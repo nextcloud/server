@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,7 @@
 
 namespace Tests\Core\Command\Config;
 
+use OC\Config\ConfigManager;
 use OC\Core\Command\Config\ListConfigs;
 use OC\SystemConfig;
 use OCP\IAppConfig;
@@ -20,6 +22,8 @@ class ListConfigsTest extends TestCase {
 	protected $appConfig;
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $systemConfig;
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
+	protected $configManager;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
@@ -38,15 +42,20 @@ class ListConfigsTest extends TestCase {
 		$appConfig = $this->appConfig = $this->getMockBuilder(IAppConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$configManager = $this->configManager = $this->getMockBuilder(ConfigManager::class)
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OC\SystemConfig $systemConfig */
 		/** @var \OCP\IAppConfig $appConfig */
-		$this->command = new ListConfigs($systemConfig, $appConfig);
+		/** @var ConfigManager $configManager */
+		$this->command = new ListConfigs($systemConfig, $appConfig, $configManager);
 	}
 
-	public function listData() {
+	public static function listData(): array {
 		return [
 			[
 				'all',
@@ -253,7 +262,6 @@ class ListConfigsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider listData
 	 *
 	 * @param string $app
 	 * @param array $systemConfigs
@@ -262,6 +270,7 @@ class ListConfigsTest extends TestCase {
 	 * @param bool $private
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('listData')]
 	public function testList($app, $systemConfigs, $systemConfigMap, $appConfig, $private, $expected): void {
 		$this->systemConfig->expects($this->any())
 			->method('getKeys')

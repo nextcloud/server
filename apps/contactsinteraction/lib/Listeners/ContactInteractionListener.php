@@ -54,7 +54,7 @@ class ContactInteractionListener implements IEventListener {
 			return;
 		}
 
-		$this->atomic(function () use ($event) {
+		$this->atomic(function () use ($event): void {
 			$uid = $event->getUid();
 			$email = $event->getEmail();
 			$federatedCloudId = $event->getFederatedCloudId();

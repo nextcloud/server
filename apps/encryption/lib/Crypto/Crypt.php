@@ -83,7 +83,7 @@ class Crypt {
 	/**
 	 * create new private/public key-pair for user
 	 *
-	 * @return array|bool
+	 * @return array{publicKey: string, privateKey: string}|false
 	 */
 	public function createKeyPair() {
 		$res = $this->getOpenSSLPKey();

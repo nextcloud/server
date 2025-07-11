@@ -17,12 +17,19 @@
 		@closing="handleClosing"
 		@closed="handleClosed">
 		<template v-if="fileInfo" #subname>
-			<NcIconSvgWrapper v-if="fileInfo.isFavourited"
-				:path="mdiStar"
-				:name="t('files', 'Favorite')"
-				inline />
-			{{ size }}
-			<NcDateTime :timestamp="fileInfo.mtime" />
+			<div class="sidebar__subname">
+				<NcIconSvgWrapper v-if="fileInfo.isFavourited"
+					:path="mdiStar"
+					:name="t('files', 'Favorite')"
+					inline />
+				<span>{{ size }}</span>
+				<span class="sidebar__subname-separator">•</span>
+				<NcDateTime :timestamp="fileInfo.mtime" />
+				<span class="sidebar__subname-separator">•</span>
+				<span>{{ t('files', 'Owner') }}</span>
+				<NcUserBubble :user="ownerId"
+					:display-name="nodeOwnerLabel" />
+			</div>
 		</template>
 
 		<!-- TODO: create a standard to allow multiple elements here? -->
@@ -31,8 +38,7 @@
 				<SystemTags v-if="isSystemTagsEnabled && showTagsDefault"
 					v-show="showTags"
 					:disabled="!fileInfo?.canEdit()"
-					:file-id="fileInfo.id"
-					@has-tags="value => showTags = value" />
+					:file-id="fileInfo.id" />
 				<LegacyView v-for="view in views"
 					:key="view.cid"
 					:component="view"
@@ -86,24 +92,27 @@
 		</template>
 	</NcAppSidebar>
 </template>
-<script>
-import { getCurrentUser } from '@nextcloud/auth'
-import { getCapabilities } from '@nextcloud/capabilities'
-import { showError } from '@nextcloud/dialogs'
+<script lang="ts">
+import { davRemoteURL, davRootPath, File, Folder, formatFileSize } from '@nextcloud/files'
+import { defineComponent } from 'vue'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { File, Folder, davRemoteURL, davRootPath, formatFileSize } from '@nextcloud/files'
 import { encodePath } from '@nextcloud/paths'
+import { fetchNode } from '../services/WebdavClient.ts'
 import { generateUrl } from '@nextcloud/router'
-import { ShareType } from '@nextcloud/sharing'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { getCurrentUser } from '@nextcloud/auth'
 import { mdiStar, mdiStarOutline } from '@mdi/js'
-import axios from '@nextcloud/axios'
+import { ShareType } from '@nextcloud/sharing'
+import { showError } from '@nextcloud/dialogs'
 import $ from 'jquery'
+import axios from '@nextcloud/axios'
 
-import NcAppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 
 import FileInfo from '../services/FileInfo.js'
 import LegacyView from '../components/LegacyView.vue'
@@ -111,7 +120,7 @@ import SidebarTab from '../components/SidebarTab.vue'
 import SystemTags from '../../../systemtags/src/components/SystemTags.vue'
 import logger from '../logger.ts'
 
-export default {
+export default defineComponent({
 	name: 'Sidebar',
 
 	components: {
@@ -123,6 +132,7 @@ export default {
 		NcIconSvgWrapper,
 		SidebarTab,
 		SystemTags,
+		NcUserBubble,
 	},
 
 	setup() {
@@ -146,6 +156,7 @@ export default {
 			error: null,
 			loading: true,
 			fileInfo: null,
+			node: null,
 			isFullScreen: false,
 			hasLowHeight: false,
 		}
@@ -187,7 +198,7 @@ export default {
 		 * @return {string}
 		 */
 		davPath() {
-			return `${davRemoteURL}/${davRootPath}${encodePath(this.file)}`
+			return `${davRemoteURL}${davRootPath}${encodePath(this.file)}`
 		},
 
 		/**
@@ -234,8 +245,8 @@ export default {
 					},
 					compact: this.hasLowHeight || !this.fileInfo.hasPreview || this.isFullScreen,
 					loading: this.loading,
-					name: this.fileInfo.name,
-					title: this.fileInfo.name,
+					name: this.node?.displayname ?? this.fileInfo.name,
+					title: this.node?.displayname ?? this.fileInfo.name,
 				}
 			} else if (this.error) {
 				return {
@@ -286,6 +297,25 @@ export default {
 
 		isSystemTagsEnabled() {
 			return getCapabilities()?.systemtags?.enabled === true
+		},
+		ownerId() {
+			return this.node?.attributes?.['owner-id'] ?? this.currentUser.uid
+		},
+		currentUserIsOwner() {
+			return this.ownerId === this.currentUser.uid
+		},
+		nodeOwnerLabel() {
+			let ownerDisplayName = this.node?.attributes?.['owner-display-name']
+			if (this.currentUserIsOwner) {
+				ownerDisplayName = `${ownerDisplayName} (${t('files', 'You')})`
+			}
+			return ownerDisplayName
+		},
+		sharedMultipleTimes() {
+			if (Array.isArray(node.attributes?.['share-types']) && node.attributes?.['share-types'].length > 1) {
+				return t('files', 'Shared multiple times with different people')
+			}
+			return null
 		},
 	},
 	created() {
@@ -374,10 +404,10 @@ export default {
 		},
 
 		/**
-		 * Toggle favourite state
+		 * Toggle favorite state
 		 * TODO: better implementation
 		 *
-		 * @param {boolean} state favourited or not
+		 * @param {boolean} state is favorite or not
 		 */
 		async toggleStarred(state) {
 			try {
@@ -400,17 +430,21 @@ export default {
 				 */
 				const isDir = this.fileInfo.type === 'dir'
 				const Node = isDir ? Folder : File
-				emit(state ? 'files:favorites:added' : 'files:favorites:removed', new Node({
+				const node = new Node({
 					fileid: this.fileInfo.id,
-					source: this.davPath,
-					root: `/files/${getCurrentUser().uid}`,
+					source: `${davRemoteURL}${davRootPath}${this.file}`,
+					root: davRootPath,
 					mime: isDir ? undefined : this.fileInfo.mimetype,
-				}))
+					attributes: {
+						favorite: 1,
+					},
+				})
+				emit(state ? 'files:favorites:added' : 'files:favorites:removed', node)
 
 				this.fileInfo.isFavourited = state
 			} catch (error) {
-				showError(t('files', 'Unable to change the favourite state of the file'))
-				logger.error('Unable to change favourite state', { error })
+				showError(t('files', 'Unable to change the favorite state of the file'))
+				logger.error('Unable to change favorite state', { error })
 			}
 		},
 
@@ -430,7 +464,10 @@ export default {
 		 * Toggle the tags selector
 		 */
 		toggleTags() {
-			this.showTagsDefault = this.showTags = !this.showTags
+			// toggle
+			this.showTags = !this.showTags
+			// save the new state
+			this.setShowTagsDefault(this.showTags)
 		},
 
 		/**
@@ -457,7 +494,8 @@ export default {
 			this.loading = true
 
 			try {
-				this.fileInfo = await FileInfo(this.davPath)
+				this.node = await fetchNode(this.file)
+				this.fileInfo = FileInfo(this.node)
 				// adding this as fallback because other apps expect it
 				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
 
@@ -550,7 +588,7 @@ export default {
 			this.hasLowHeight = document.documentElement.clientHeight < 1024
 		},
 	},
-}
+})
 </script>
 <style lang="scss" scoped>
 .app-sidebar {
@@ -581,7 +619,7 @@ export default {
 	}
 
 	.svg-icon {
-		::v-deep svg {
+		:deep(svg) {
 			width: 20px;
 			height: 20px;
 			fill: currentColor;
@@ -589,10 +627,25 @@ export default {
 	}
 }
 
-.sidebar__description {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	gap: 8px 0;
+.sidebar__subname {
+  display: flex;
+  align-items: center;
+  gap: 0 8px;
+
+  &-separator {
+    display: inline-block;
+    font-weight: bold !important;
+  }
+
+  .user-bubble__wrapper {
+	display: inline-flex;
+  }
 }
+
+.sidebar__description {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		gap: 8px 0;
+	}
 </style>

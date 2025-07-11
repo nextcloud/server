@@ -7,7 +7,7 @@
 		class="files-navigation"
 		:aria-label="t('files', 'Files')">
 		<template #search>
-			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter filenames…')" />
+			<FilesNavigationSearch />
 		</template>
 		<template #default>
 			<NcAppNavigationList class="files-navigation__list"
@@ -16,7 +16,7 @@
 			</NcAppNavigationList>
 
 			<!-- Settings modal-->
-			<SettingsModal :open="settingsOpened"
+			<SettingsModal :open.sync="settingsOpened"
 				data-cy-files-navigation-settings
 				@close="onSettingsClose" />
 		</template>
@@ -42,21 +42,21 @@
 import type { View } from '@nextcloud/files'
 import type { ViewConfig } from '../types.ts'
 
-import { defineComponent } from 'vue'
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { translate as t, getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
+import { getNavigation } from '@nextcloud/files'
+import { t, getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
 
 import IconCog from 'vue-material-design-icons/Cog.vue'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcAppNavigationList from '@nextcloud/vue/dist/Components/NcAppNavigationList.js'
-import NcAppNavigationSearch from '@nextcloud/vue/dist/Components/NcAppNavigationSearch.js'
+import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
 import FilesNavigationItem from '../components/FilesNavigationItem.vue'
+import FilesNavigationSearch from '../components/FilesNavigationSearch.vue'
 
 import { useNavigation } from '../composables/useNavigation'
-import { useFilenameFilter } from '../composables/useFilenameFilter'
 import { useFiltersStore } from '../store/filters.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.ts'
@@ -75,12 +75,12 @@ export default defineComponent({
 	components: {
 		IconCog,
 		FilesNavigationItem,
+		FilesNavigationSearch,
 
 		NavigationQuota,
 		NcAppNavigation,
 		NcAppNavigationItem,
 		NcAppNavigationList,
-		NcAppNavigationSearch,
 		SettingsModal,
 	},
 
@@ -88,11 +88,9 @@ export default defineComponent({
 		const filtersStore = useFiltersStore()
 		const viewConfigStore = useViewConfigStore()
 		const { currentView, views } = useNavigation()
-		const { searchQuery } = useFilenameFilter()
 
 		return {
 			currentView,
-			searchQuery,
 			t,
 			views,
 
@@ -159,14 +157,12 @@ export default defineComponent({
 
 	methods: {
 		async loadExpandedViews() {
-			const viewConfigs = this.viewConfigStore.getConfigs()
-			const viewsToLoad: View[] = (Object.entries(viewConfigs) as Array<[string, ViewConfig]>)
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-				.filter(([viewId, config]) => config.expanded === true)
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-				.map(([viewId, config]) => this.$navigation.views.find(view => view.id === viewId))
-				.filter(Boolean) // Only registered views
-				.filter(view => view.loadChildViews && !view.loaded)
+			const viewsToLoad: View[] = (Object.entries(this.viewConfigStore.viewConfigs) as Array<[string, ViewConfig]>)
+				.filter(([, config]) => config.expanded === true)
+				.map(([viewId]) => this.views.find(view => view.id === viewId))
+				// eslint-disable-next-line no-use-before-define
+				.filter(Boolean as unknown as ((u: unknown) => u is View))
+				.filter((view) => view.loadChildViews && !view.loaded)
 			for (const view of viewsToLoad) {
 				await view.loadChildViews(view)
 			}
@@ -179,7 +175,7 @@ export default defineComponent({
 		showView(view: View) {
 			// Closing any opened sidebar
 			window.OCA?.Files?.Sidebar?.close?.()
-			this.$navigation.setActive(view)
+			getNavigation().setActive(view)
 			emit('files:navigation:changed', view)
 		},
 
@@ -201,19 +197,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-// TODO: remove when https://github.com/nextcloud/nextcloud-vue/pull/3539 is in
-.app-navigation::v-deep .app-navigation-entry-icon {
-	background-repeat: no-repeat;
-	background-position: center;
-}
+.app-navigation {
+	:deep(.app-navigation-entry.active .button-vue.icon-collapse:not(:hover)) {
+		color: var(--color-primary-element-text);
+	}
 
-.app-navigation::v-deep .app-navigation-entry.active .button-vue.icon-collapse:not(:hover) {
-	color: var(--color-primary-element-text);
-}
-
-.app-navigation > ul.app-navigation__list {
-	// Use flex gap value for more elegant spacing
-	padding-bottom: var(--default-grid-baseline, 4px);
+	> ul.app-navigation__list {
+		// Use flex gap value for more elegant spacing
+		padding-bottom: var(--default-grid-baseline, 4px);
+	}
 }
 
 .app-navigation-entry__settings {

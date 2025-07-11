@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,22 +9,20 @@
  */
 namespace OCA\Encryption\Tests;
 
+use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\Session;
 use OCP\ISession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SessionTest extends TestCase {
 	private static $tempStorage = [];
-	/**
-	 * @var Session
-	 */
-	private $instance;
-	/** @var \OCP\ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $sessionMock;
 
+	protected Session $instance;
+	protected ISession&MockObject $sessionMock;
 
 	public function testThatGetPrivateKeyThrowsExceptionWhenNotSet(): void {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+		$this->expectException(PrivateKeyMissingException::class);
 		$this->expectExceptionMessage('Private Key missing for user: please try to log-out and log-in again');
 
 		$this->instance->getPrivateKey();
@@ -84,7 +84,7 @@ class SessionTest extends TestCase {
 	 * @expectExceptionMessage 'Please activate decrypt all mode first'
 	 */
 	public function testGetDecryptAllKeyException(): void {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+		$this->expectException(PrivateKeyMissingException::class);
 
 		$this->instance->getDecryptAllKey();
 	}
@@ -93,7 +93,7 @@ class SessionTest extends TestCase {
 	 * @expectExceptionMessage 'No key found while in decrypt all mode'
 	 */
 	public function testGetDecryptAllKeyException2(): void {
-		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+		$this->expectException(PrivateKeyMissingException::class);
 
 		$this->instance->prepareDecryptAll('user', null);
 		$this->instance->getDecryptAllKey();
@@ -115,16 +115,17 @@ class SessionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsReady
 	 *
 	 * @param int $status
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsReady')]
 	public function testIsReady($status, $expected): void {
-		/** @var Session | \PHPUnit\Framework\MockObject\MockObject $instance */
+		/** @var Session&MockObject $instance */
 		$instance = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$this->sessionMock])
-			->setMethods(['getStatus'])->getMock();
+			->onlyMethods(['getStatus'])
+			->getMock();
 
 		$instance->expects($this->once())->method('getStatus')
 			->willReturn($status);
@@ -132,7 +133,7 @@ class SessionTest extends TestCase {
 		$this->assertSame($expected, $instance->isReady());
 	}
 
-	public function dataTestIsReady() {
+	public static function dataTestIsReady(): array {
 		return [
 			[Session::INIT_SUCCESSFUL, true],
 			[Session::INIT_EXECUTED, false],

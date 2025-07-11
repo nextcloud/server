@@ -18,13 +18,13 @@ use OCP\Files\Search\ISearchOperator;
 class SplitLargeIn extends ReplacingOptimizerStep {
 	public function processOperator(ISearchOperator &$operator): bool {
 		if (
-			$operator instanceof ISearchComparison &&
-			$operator->getType() === ISearchComparison::COMPARE_IN &&
-			count($operator->getValue()) > 1000
+			$operator instanceof ISearchComparison
+			&& $operator->getType() === ISearchComparison::COMPARE_IN
+			&& count($operator->getValue()) > 1000
 		) {
 			$chunks = array_chunk($operator->getValue(), 1000);
 			$chunkComparisons = array_map(function (array $values) use ($operator) {
-				return new SearchComparison(ISearchComparison::COMPARE_IN, $operator->getField(), $values);
+				return new SearchComparison(ISearchComparison::COMPARE_IN, $operator->getField(), $values, $operator->getExtra());
 			}, $chunks);
 
 			$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $chunkComparisons);

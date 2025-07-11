@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,16 +11,13 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 
 class MountProvider implements IMountProvider {
 	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
-
-	/**
-	 * @var \OCP\IDBConnection
-	 */
-	private $connection;
 
 	/**
 	 * @var callable
@@ -27,19 +25,16 @@ class MountProvider implements IMountProvider {
 	private $managerProvider;
 
 	/**
-	 * @var ICloudIdManager
-	 */
-	private $cloudIdManager;
-
-	/**
-	 * @param \OCP\IDBConnection $connection
+	 * @param IDBConnection $connection
 	 * @param callable $managerProvider due to setup order we need a callable that return the manager instead of the manager itself
 	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct(IDBConnection $connection, callable $managerProvider, ICloudIdManager $cloudIdManager) {
-		$this->connection = $connection;
+	public function __construct(
+		private IDBConnection $connection,
+		callable $managerProvider,
+		private ICloudIdManager $cloudIdManager,
+	) {
 		$this->managerProvider = $managerProvider;
-		$this->cloudIdManager = $cloudIdManager;
 	}
 
 	public function getMount(IUser $user, $data, IStorageFactory $storageFactory) {
@@ -50,7 +45,7 @@ class MountProvider implements IMountProvider {
 		$data['mountpoint'] = $mountPoint;
 		$data['cloudId'] = $this->cloudIdManager->getCloudId($data['owner'], $data['remote']);
 		$data['certificateManager'] = \OC::$server->getCertificateManager();
-		$data['HttpClientService'] = \OC::$server->getHTTPClientService();
+		$data['HttpClientService'] = Server::get(IClientService::class);
 		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
 	}
 

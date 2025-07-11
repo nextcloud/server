@@ -11,7 +11,7 @@ namespace OCA\Settings\Settings\Personal;
 
 use OC\Profile\ProfileManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCA\Provisioning_API\Controller\AUserData;
+use OCA\Provisioning_API\Controller\AUserDataOCSController;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
@@ -27,62 +27,28 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Notification\IManager;
+use OCP\Server;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class PersonalInfo implements ISettings {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IAccountManager */
-	private $accountManager;
 
 	/** @var ProfileManager */
 	private $profileManager;
 
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var IInitialState */
-	private $initialStateService;
-
-	/** @var IManager */
-	private $manager;
-
 	public function __construct(
-		IConfig $config,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IAccountManager $accountManager,
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IAccountManager $accountManager,
 		ProfileManager $profileManager,
-		IAppManager $appManager,
-		IFactory $l10nFactory,
-		IL10N $l,
-		IInitialState $initialStateService,
-		IManager $manager,
+		private IAppManager $appManager,
+		private IFactory $l10nFactory,
+		private IL10N $l,
+		private IInitialState $initialStateService,
+		private IManager $manager,
 	) {
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->accountManager = $accountManager;
 		$this->profileManager = $profileManager;
-		$this->groupManager = $groupManager;
-		$this->appManager = $appManager;
-		$this->l10nFactory = $l10nFactory;
-		$this->l = $l;
-		$this->initialStateService = $initialStateService;
-		$this->manager = $manager;
 	}
 
 	public function getForm(): TemplateResponse {
@@ -91,7 +57,7 @@ class PersonalInfo implements ISettings {
 		$lookupServerUploadEnabled = false;
 		if ($federatedFileSharingEnabled) {
 			/** @var FederatedShareProvider $shareProvider */
-			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
+			$shareProvider = Server::get(FederatedShareProvider::class);
 			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
 		}
 
@@ -106,7 +72,7 @@ class PersonalInfo implements ISettings {
 		if ($storageInfo['quota'] === FileInfo::SPACE_UNLIMITED) {
 			$totalSpace = $this->l->t('Unlimited');
 		} else {
-			$totalSpace = \OC_Helper::humanFileSize($storageInfo['total']);
+			$totalSpace = Util::humanFileSize($storageInfo['total']);
 		}
 
 		$messageParameters = $this->getMessageParameters($account);
@@ -123,7 +89,7 @@ class PersonalInfo implements ISettings {
 			'groups' => $this->getGroups($user),
 			'quota' => $storageInfo['quota'],
 			'totalSpace' => $totalSpace,
-			'usage' => \OC_Helper::humanFileSize($storageInfo['used']),
+			'usage' => Util::humanFileSize($storageInfo['used']),
 			'usageRelative' => round($storageInfo['relative']),
 			'displayName' => $this->getProperty($account, IAccountManager::PROPERTY_DISPLAYNAME),
 			'emailMap' => $this->getEmailMap($account),
@@ -142,13 +108,14 @@ class PersonalInfo implements ISettings {
 			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
-			'firstDayOfWeek' => $this->config->getUserValue($uid, 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK),
+			'firstDayOfWeek' => $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK),
 			'pronouns' => $this->getProperty($account, IAccountManager::PROPERTY_PRONOUNS),
 		];
 
 		$accountParameters = [
 			'avatarChangeSupported' => $user->canChangeAvatar(),
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
+			'emailChangeSupported' => $user->canChangeEmail(),
 			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 		];
@@ -301,8 +268,8 @@ class PersonalInfo implements ISettings {
 		}
 
 		$uid = $user->getUID();
-		$userLocaleString = $this->config->getUserValue($uid, 'core', 'locale', $this->l10nFactory->findLocale());
 		$userLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
+		$userLocaleString = $this->config->getUserValue($uid, 'core', 'locale', $this->l10nFactory->findLocale($userLang));
 		$localeCodes = $this->l10nFactory->findAvailableLocales();
 		$userLocale = array_filter($localeCodes, fn ($value) => $userLocaleString === $value['code']);
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -27,7 +28,7 @@ class MessageTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function mailAddressProvider() {
+	public static function mailAddressProvider(): array {
 		return [
 			[
 				['lukas@owncloud.com' => 'Lukas Reschke'],
@@ -65,18 +66,17 @@ class MessageTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->symfonyEmail = $this->getMockBuilder(Email::class)
-			->disableOriginalConstructor()->getMock();
+		$this->symfonyEmail = $this->createMock(Email::class);
 
 		$this->message = new Message($this->symfonyEmail, false);
 	}
 
 	/**
-	 * @dataProvider mailAddressProvider
 	 *
 	 * @param string $unconverted
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('mailAddressProvider')]
 	public function testConvertAddresses($unconverted, $expected): void {
 		$this->assertEquals($expected, self::invokePrivate($this->message, 'convertAddresses', [$unconverted]));
 	}
@@ -91,23 +91,23 @@ class MessageTest extends TestCase {
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('from')
-			->willReturn(new Address('pierres-general-store@stardewvalley.com', 'Pierres General Store'));
+			->with(new Address('pierres-general-store@stardewvalley.com', 'Pierres General Store'));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('to')
-			->willReturn(new Address('lewis-tent@stardewvalley.com', "Lewis' Tent Life"));
+			->with(new Address('lewis-tent@stardewvalley.com', "Lewis' Tent Life"));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('replyTo')
-			->willReturn(new Address('penny@stardewvalley-library.co.edu', 'Penny'));
+			->with(new Address('penny@stardewvalley-library.co.edu', 'Penny'));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('cc')
-			->willReturn(new Address('gunther@stardewvalley-library.co.edu', 'Gunther'));
+			->with(new Address('gunther@stardewvalley-library.co.edu', 'Gunther'));
 		$this->symfonyEmail
 			->expects($this->once())
 			->method('bcc')
-			->willReturn(new Address('pam@stardewvalley-bus.com', 'Pam'));
+			->with(new Address('pam@stardewvalley-bus.com', 'Pam'));
 
 		$this->message->setRecipients();
 	}

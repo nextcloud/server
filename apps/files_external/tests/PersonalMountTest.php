@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,21 +10,19 @@ namespace OCA\Files_External\Tests;
 
 use OC\Files\Mount\Manager;
 use OC\Files\SetupManagerFactory;
+use OC\Files\Storage\Storage;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Service\UserStoragesService;
 use Test\TestCase;
 
 class PersonalMountTest extends TestCase {
 	public function testFindByStorageId(): void {
 		$storageConfig = $this->createMock(StorageConfig::class);
-		/** @var \OCA\Files_External\Service\UserStoragesService $storageService */
-		$storageService = $this->getMockBuilder('\OCA\Files_External\Service\UserStoragesService')
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var UserStoragesService $storageService */
+		$storageService = $this->createMock(UserStoragesService::class);
 
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
-			->disableOriginalConstructor()
-			->getMock();
+		$storage = $this->createMock(Storage::class);
 
 		$storage->expects($this->any())
 			->method('getId')

@@ -1,24 +1,23 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Tests\Check;
 
+use OCA\WorkflowEngine\Check\RequestTime;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class RequestTimeTest extends \Test\TestCase {
+	protected ITimeFactory&MockObject $timeFactory;
 
-	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $timeFactory;
-
-	/**
-	 * @return \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	protected function getL10NMock() {
-		$l = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()
-			->getMock();
+	protected function getL10NMock(): IL10N&MockObject {
+		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($string, $args) {
@@ -30,11 +29,10 @@ class RequestTimeTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
-			->getMock();
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 	}
 
-	public function dataExecuteCheck() {
+	public static function dataExecuteCheck(): array {
 		return [
 			[json_encode(['08:00 Europe/Berlin', '17:00 Europe/Berlin']), 1467870105, false], // 2016-07-07T07:41:45+02:00
 			[json_encode(['08:00 Europe/Berlin', '17:00 Europe/Berlin']), 1467873705, true], // 2016-07-07T08:41:45+02:00
@@ -65,14 +63,9 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecuteCheck
-	 * @param string $value
-	 * @param int $timestamp
-	 * @param bool $expected
-	 */
-	public function testExecuteCheckIn($value, $timestamp, $expected): void {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheck')]
+	public function testExecuteCheckIn(string $value, int $timestamp, bool $expected): void {
+		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
@@ -81,14 +74,9 @@ class RequestTimeTest extends \Test\TestCase {
 		$this->assertEquals($expected, $check->executeCheck('in', $value));
 	}
 
-	/**
-	 * @dataProvider dataExecuteCheck
-	 * @param string $value
-	 * @param int $timestamp
-	 * @param bool $expected
-	 */
-	public function testExecuteCheckNotIn($value, $timestamp, $expected): void {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheck')]
+	public function testExecuteCheckNotIn(string $value, int $timestamp, bool $expected): void {
+		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
@@ -97,7 +85,7 @@ class RequestTimeTest extends \Test\TestCase {
 		$this->assertEquals(!$expected, $check->executeCheck('!in', $value));
 	}
 
-	public function dataValidateCheck() {
+	public static function dataValidateCheck(): array {
 		return [
 			['in', '["08:00 Europe/Berlin","17:00 Europe/Berlin"]'],
 			['!in', '["08:00 Europe/Berlin","17:00 America/North_Dakota/Beulah"]'],
@@ -105,18 +93,14 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheck
-	 * @param string $operator
-	 * @param string $value
-	 */
-	public function testValidateCheck($operator, $value): void {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheck')]
+	public function testValidateCheck(string $operator, string $value): void {
+		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 		$check->validateCheck($operator, $value);
 		$this->addToAssertionCount(1);
 	}
 
-	public function dataValidateCheckInvalid() {
+	public static function dataValidateCheckInvalid(): array {
 		return [
 			['!!in', '["08:00 Europe/Berlin","17:00 Europe/Berlin"]', 1, 'The given operator is invalid'],
 			['in', '["28:00 Europe/Berlin","17:00 Europe/Berlin"]', 2, 'The given time span is invalid'],
@@ -128,15 +112,9 @@ class RequestTimeTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheckInvalid
-	 * @param string $operator
-	 * @param string $value
-	 * @param int $exceptionCode
-	 * @param string $exceptionMessage
-	 */
-	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage): void {
-		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheckInvalid')]
+	public function testValidateCheckInvalid(string $operator, string $value, int $exceptionCode, string $exceptionMessage): void {
+		$check = new RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		try {
 			$check->validateCheck($operator, $value);

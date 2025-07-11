@@ -1,0 +1,5 @@
+{ "translations": {
+    "Webhooks" : "Webhooks",
+    "Nextcloud webhook support" : "Nextcloud ondersteuning voor webhooks"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

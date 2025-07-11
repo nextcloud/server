@@ -18,18 +18,6 @@ use OCP\EventDispatcher\Event;
  */
 class AddressBookUpdatedEvent extends Event {
 
-	/** @var int */
-	private $addressBookId;
-
-	/** @var array */
-	private $addressBookData;
-
-	/** @var array */
-	private $shares;
-
-	/** @var array */
-	private $mutations;
-
 	/**
 	 * AddressBookUpdatedEvent constructor.
 	 *
@@ -39,15 +27,13 @@ class AddressBookUpdatedEvent extends Event {
 	 * @param array $mutations
 	 * @since 20.0.0
 	 */
-	public function __construct(int $addressBookId,
-		array $addressBookData,
-		array $shares,
-		array $mutations) {
+	public function __construct(
+		private int $addressBookId,
+		private array $addressBookData,
+		private array $shares,
+		private array $mutations,
+	) {
 		parent::__construct();
-		$this->addressBookId = $addressBookId;
-		$this->addressBookData = $addressBookData;
-		$this->shares = $shares;
-		$this->mutations = $mutations;
 	}
 
 	/**

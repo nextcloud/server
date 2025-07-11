@@ -13,6 +13,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Share\IShare;
@@ -20,7 +21,7 @@ use OCP\Share\IShare;
 /**
  * @psalm-import-type CoreContactsAction from ResponseDefinitions
  */
-class HoverCardController extends \OCP\AppFramework\OCSController {
+class HoverCardController extends OCSController {
 	public function __construct(
 		IRequest $request,
 		private IUserSession $userSession,
@@ -33,7 +34,7 @@ class HoverCardController extends \OCP\AppFramework\OCSController {
 	 * Get the account details for a hovercard
 	 *
 	 * @param string $userId ID of the user
-	 * @return DataResponse<Http::STATUS_OK, array{userId: string, displayName: string, actions: CoreContactsAction[]}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{userId: string, displayName: string, actions: list<CoreContactsAction>}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>
 	 *
 	 * 200: Account details returned
 	 * 404: Account not found
@@ -54,7 +55,7 @@ class HoverCardController extends \OCP\AppFramework\OCSController {
 			array_unshift($actions, $data['topAction']);
 		}
 
-		/** @var CoreContactsAction[] $actions */
+		/** @var list<CoreContactsAction> $actions */
 		return new DataResponse([
 			'userId' => $userId,
 			'displayName' => $contact->getFullName(),

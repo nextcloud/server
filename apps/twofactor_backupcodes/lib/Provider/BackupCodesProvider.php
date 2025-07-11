@@ -17,23 +17,13 @@ use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUser;
-use OCP\Template;
+use OCP\Template\ITemplate;
+use OCP\Template\ITemplateManager;
 
 class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSettings {
 
-	/** @var string */
-	private $appName;
-
-	/** @var BackupCodeStorage */
-	private $storage;
-
-	/** @var IL10N */
-	private $l10n;
-
 	/** @var AppManager */
 	private $appManager;
-	/** @var IInitialStateService */
-	private $initialStateService;
 
 	/**
 	 * @param string $appName
@@ -41,16 +31,15 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 * @param IL10N $l10n
 	 * @param AppManager $appManager
 	 */
-	public function __construct(string $appName,
-		BackupCodeStorage $storage,
-		IL10N $l10n,
+	public function __construct(
+		private string $appName,
+		private BackupCodeStorage $storage,
+		private IL10N $l10n,
 		AppManager $appManager,
-		IInitialStateService $initialStateService) {
-		$this->appName = $appName;
-		$this->l10n = $l10n;
-		$this->storage = $storage;
+		private IInitialStateService $initialStateService,
+		private ITemplateManager $templateManager,
+	) {
 		$this->appManager = $appManager;
-		$this->initialStateService = $initialStateService;
 	}
 
 	/**
@@ -84,10 +73,10 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 * Get the template for rending the 2FA provider view
 	 *
 	 * @param IUser $user
-	 * @return Template
+	 * @return ITemplate
 	 */
-	public function getTemplate(IUser $user): Template {
-		return new Template('twofactor_backupcodes', 'challenge');
+	public function getTemplate(IUser $user): ITemplate {
+		return $this->templateManager->getTemplate('twofactor_backupcodes', 'challenge');
 	}
 
 	/**

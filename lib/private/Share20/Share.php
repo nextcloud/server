@@ -14,8 +14,10 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 use OCP\Share\IAttributes;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 
 class Share implements IShare {
@@ -66,14 +68,13 @@ class Share implements IShare {
 	private $shareTime;
 	/** @var bool */
 	private $mailSend;
-	/** @var string */
-	private $label = '';
 	/** @var ICacheEntry|null */
 	private $nodeCacheEntry;
 	/** @var bool */
 	private $hideDownload = false;
 	private bool $reminderSent = false;
 
+	private string $label = '';
 	private bool $noExpirationDate = false;
 
 	public function __construct(
@@ -419,8 +420,8 @@ class Share implements IShare {
 	 * @inheritdoc
 	 */
 	public function isExpired() {
-		return $this->getExpirationDate() !== null &&
-			$this->getExpirationDate() <= new \DateTime();
+		return $this->getExpirationDate() !== null
+			&& $this->getExpirationDate() <= new \DateTime();
 	}
 
 	/**
@@ -530,7 +531,7 @@ class Share implements IShare {
 	 *
 	 * @param int $parent
 	 * @return IShare
-	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
+	 * @deprecated 12.0.0 The new shares do not have parents. This is just here for legacy reasons.
 	 */
 	public function setParent($parent) {
 		$this->parent = $parent;
@@ -541,7 +542,7 @@ class Share implements IShare {
 	 * Get the parent of this share.
 	 *
 	 * @return int
-	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
+	 * @deprecated 12.0.0 The new shares do not have parents. This is just here for legacy reasons.
 	 */
 	public function getParent() {
 		return $this->parent;
@@ -622,5 +623,24 @@ class Share implements IShare {
 
 	public function getReminderSent(): bool {
 		return $this->reminderSent;
+	}
+
+	public function canSeeContent(): bool {
+		$shareManager = Server::get(IManager::class);
+
+		$allowViewWithoutDownload = $shareManager->allowViewWithoutDownload();
+		// If the share manager allows viewing without download, we can always see the content.
+		if ($allowViewWithoutDownload) {
+			return true;
+		}
+
+		// No "allow preview" header set, so we must check if
+		// the share has not explicitly disabled download permissions
+		$attributes = $this->getAttributes();
+		if ($attributes?->getAttribute('permissions', 'download') === false) {
+			return false;
+		}
+
+		return true;
 	}
 }

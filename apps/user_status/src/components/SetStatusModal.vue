@@ -78,8 +78,8 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 import { generateUrl } from '@nextcloud/router'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import { getAllStatusOptions } from '../services/statusOptionsService.js'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin.js'
 import PredefinedStatusesList from './PredefinedStatusesList.vue'

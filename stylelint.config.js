@@ -19,6 +19,28 @@ const config = {
 			},
 		],
 	},
+	overrides: [
+		{
+			files: ['**/*.vue'],
+			// Override the nextcloud rules to also allow :global (we should put this into the config...)
+			rules: {
+				'selector-pseudo-element-no-unknown': [
+					true,
+					{
+						// Vue deep and global pseudo-element
+						ignorePseudoElements: ['deep', 'global'],
+					},
+				],
+				'selector-pseudo-class-no-unknown': [
+					true,
+					{
+						// vue deep and global pseudo-class
+						ignorePseudoClasses: ['deep', 'global'],
+					},
+				],
+			}
+		}
+	],
 }
 
 module.exports = config

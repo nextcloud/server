@@ -41,10 +41,6 @@
     "Legal notice" : "Teisinis pranešimas",
     "Privacy policy" : "Privatumo politika",
     "Adjust the Nextcloud theme" : "Derinti Nextcloud apipavidalinimą",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Apipavidalinimai leidžia lengvai tinkinti jūsų egzemplioriaus ir palaikomų klientų išvaizdą bei turinį. Tai bus matoma visiems naudotojams.",
-    "Upload new logo" : "Įkelti naują logotipą",
-    "Logo" : "Logotipas",
-    "Advanced options" : "Išplėstinės parinktys",
     "Name" : "Pavadinimas",
     "Web link" : "Internetinė nuoroda",
     "a safe home for all your data" : "saugūs namai visiems jūsų duomenims",
@@ -56,9 +52,12 @@
     "Favicon" : "Svetainės piktograma",
     "Upload new favicon" : "Įkelti naują svetainės piktogramą",
     "User settings" : "Naudotojo nustatymai",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Apipavidalinimai leidžia lengvai tinkinti jūsų egzemplioriaus ir palaikomų klientų išvaizdą bei turinį. Tai bus matoma visiems naudotojams.",
+    "Upload new logo" : "Įkelti naują logotipą",
+    "Logo" : "Logotipas",
+    "Advanced options" : "Išplėstinės parinktys",
     "Customization has been disabled by your administrator" : "Administratorius yra išjungęs tinkinimus",
     "Keyboard shortcuts" : "Spartieji klavišai",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Mums universalioji prieiga yra labai svarbi. Mes sekame saityno standartus ir stengiamės, kad būtų galima viskuobe pelės ir pagalbinės programinės įrangos, tokios kaip ekrano skaitytuvė. Stengiamės atitikti {guidelines}Saityno turinio prieinamumo gairėms{linkend} 2.1 pagal AA lygmenį, o su didelio kontrasto apipavidalinimu netgi pagal AAA lygmenį.",
     "Move up" : "Pakelti",
     "Move down" : "Nuleisti",
     "Custom background" : "Tinkintas fonas",
@@ -67,9 +66,6 @@
     "Reset to default" : "Atstatyti į numatytąjį",
     "Upload" : "Įkelti",
     "Remove background image" : "Šalinti foninį paveikslą",
-    "Color" : "Spalva",
-    "Background" : "Fonas",
-    "Set a custom background" : "Nustatyti tinkintą foną",
-    "Change color" : "Keisti spalvą"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Mums universalioji prieiga yra labai svarbi. Mes sekame saityno standartus ir stengiamės, kad būtų galima viskuobe pelės ir pagalbinės programinės įrangos, tokios kaip ekrano skaitytuvė. Stengiamės atitikti {guidelines}Saityno turinio prieinamumo gairėms{linkend} 2.1 pagal AA lygmenį, o su didelio kontrasto apipavidalinimu netgi pagal AAA lygmenį."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

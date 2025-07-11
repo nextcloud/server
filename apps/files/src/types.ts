@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Folder, Node } from '@nextcloud/files'
+import type { FileAction, Folder, Node, View } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 
 // Global definitions
@@ -50,8 +50,18 @@ export interface PathOptions {
 
 // User config store
 export interface UserConfig {
-	[key: string]: boolean
+	[key: string]: boolean | string | undefined
+
+	crop_image_previews: boolean
+	default_view: 'files' | 'personal'
+	grid_view: boolean
+	show_dialog_file_extension: boolean,
+	show_hidden: boolean
+	show_mime_column: boolean
+	sort_favorites_first: boolean
+	sort_folders_first: boolean
 }
+
 export interface UserConfigStore {
 	userConfig: UserConfig
 }
@@ -94,6 +104,19 @@ export interface UploaderStore {
 export interface DragAndDropStore {
 	dragging: FileSource[]
 }
+
+// Active node store
+export interface ActiveStore {
+	activeAction: FileAction|null
+	activeFolder: Folder|null
+	activeNode: Node|null
+	activeView: View|null
+}
+
+/**
+ * Search scope for the in-files-search
+ */
+export type SearchScope = 'filter'|'globally'
 
 export interface TemplateFile {
 	app: string

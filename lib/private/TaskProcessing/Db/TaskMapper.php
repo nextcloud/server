@@ -114,7 +114,7 @@ class TaskMapper extends QBMapper {
 		if ($customId !== null) {
 			$qb->andWhere($qb->expr()->eq('custom_id', $qb->createPositionalParameter($customId)));
 		}
-		return array_values($this->findEntities($qb));
+		return $this->findEntities($qb);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class TaskMapper extends QBMapper {
 		if ($customId !== null) {
 			$qb->andWhere($qb->expr()->eq('custom_id', $qb->createPositionalParameter($customId)));
 		}
-		return array_values($this->findEntities($qb));
+		return $this->findEntities($qb);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class TaskMapper extends QBMapper {
 			$qb->andWhere($qb->expr()->isNotNull('ended_at'));
 			$qb->andWhere($qb->expr()->lt('ended_at', $qb->createPositionalParameter($endedBefore, IQueryBuilder::PARAM_INT)));
 		}
-		return array_values($this->findEntities($qb));
+		return $this->findEntities($qb);
 	}
 
 	/**

@@ -14,8 +14,10 @@ use OCA\DAV\BackgroundJob\UserStatusAutomation;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\User\IAvailabilityCoordinator;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IUserStatus;
@@ -27,14 +29,13 @@ use Test\TestCase;
  * @group DB
  */
 class UserStatusAutomationTest extends TestCase {
-
-	protected MockObject|ITimeFactory $time;
-	protected MockObject|IJobList $jobList;
-	protected MockObject|LoggerInterface $logger;
-	protected MockObject|IManager $statusManager;
-	protected MockObject|IConfig $config;
-	private IAvailabilityCoordinator|MockObject $coordinator;
-	private IUserManager|MockObject $userManager;
+	protected ITimeFactory&MockObject $time;
+	protected IJobList&MockObject $jobList;
+	protected LoggerInterface&MockObject $logger;
+	protected IManager&MockObject $statusManager;
+	protected IConfig&MockObject $config;
+	private IAvailabilityCoordinator&MockObject $coordinator;
+	private IUserManager&MockObject $userManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -53,7 +54,7 @@ class UserStatusAutomationTest extends TestCase {
 		if (empty($methods)) {
 			return new UserStatusAutomation(
 				$this->time,
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->jobList,
 				$this->logger,
 				$this->statusManager,
@@ -66,7 +67,7 @@ class UserStatusAutomationTest extends TestCase {
 		return $this->getMockBuilder(UserStatusAutomation::class)
 			->setConstructorArgs([
 				$this->time,
-				\OC::$server->getDatabaseConnection(),
+				Server::get(IDBConnection::class),
 				$this->jobList,
 				$this->logger,
 				$this->statusManager,
@@ -74,11 +75,11 @@ class UserStatusAutomationTest extends TestCase {
 				$this->coordinator,
 				$this->userManager,
 			])
-			->setMethods($methods)
+			->onlyMethods($methods)
 			->getMock();
 	}
 
-	public function dataRun(): array {
+	public static function dataRun(): array {
 		return [
 			['20230217', '2023-02-24 10:49:36.613834', true],
 			['20230224', '2023-02-24 10:49:36.613834', true],
@@ -87,9 +88,7 @@ class UserStatusAutomationTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataRun
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataRun')]
 	public function testRunNoOOO(string $ruleDay, string $currentTime, bool $isAvailable): void {
 		$user = $this->createConfiguredMock(IUser::class, [
 			'getUID' => 'user'

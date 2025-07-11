@@ -22,7 +22,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	line-height: 22px; // min-size - 2 * 5px padding
+	line-height: 20px; // min-size - 2 * 5px padding - 2 * 1px border
 	text-align: center;
 
 	&--more {
@@ -33,6 +33,14 @@
 	// Proper spacing if multiple shown
 	& + .files-list__system-tag {
 		margin-inline-start: 5px;
+	}
+
+	// With color
+	&[data-systemtag-color] {
+		border-color: var(--systemtag-color);
+		color: var(--systemtag-color);
+		border-width: 2px;
+		line-height: 18px; // min-size - 2 * 5px padding - 2 * 2px border
 	}
 }
 

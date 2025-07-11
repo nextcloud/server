@@ -16,9 +16,11 @@ use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -27,14 +29,18 @@ use Test\TestCase;
 
 class SyncServiceTest extends TestCase {
 
-	protected CardDavBackend $backend;
-	protected IUserManager $userManager;
-	protected IDBConnection $dbConnection;
+	protected CardDavBackend&MockObject $backend;
+	protected IUserManager&MockObject $userManager;
+	protected IDBConnection&MockObject $dbConnection;
 	protected LoggerInterface $logger;
-	protected Converter $converter;
-	protected IClient $client;
+	protected Converter&MockObject $converter;
+	protected IClient&MockObject $client;
+	protected IConfig&MockObject $config;
 	protected SyncService $service;
+
 	public function setUp(): void {
+		parent::setUp();
+
 		$addressBook = [
 			'id' => 1,
 			'uri' => 'system',
@@ -53,6 +59,7 @@ class SyncServiceTest extends TestCase {
 		$this->logger = new NullLogger();
 		$this->converter = $this->createMock(Converter::class);
 		$this->client = $this->createMock(IClient::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$clientService = $this->createMock(IClientService::class);
 		$clientService->method('newClient')
@@ -64,7 +71,8 @@ class SyncServiceTest extends TestCase {
 			$this->dbConnection,
 			$this->logger,
 			$this->converter,
-			$clientService
+			$clientService,
+			$this->config
 		);
 	}
 
@@ -289,8 +297,8 @@ END:VCARD';
 	}
 
 	public function testEnsureSystemAddressBookExists(): void {
-		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
-		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		/** @var CardDavBackend&MockObject $backend */
+		$backend = $this->createMock(CardDavBackend::class);
 		$backend->expects($this->exactly(1))->method('createAddressBook');
 		$backend->expects($this->exactly(2))
 			->method('getAddressBooksByUri')
@@ -299,35 +307,27 @@ END:VCARD';
 				[],
 			);
 
-		/** @var IUserManager $userManager */
-		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
+		$userManager = $this->createMock(IUserManager::class);
 		$dbConnection = $this->createMock(IDBConnection::class);
-		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
+		$logger = $this->createMock(LoggerInterface::class);
 		$converter = $this->createMock(Converter::class);
 		$clientService = $this->createMock(IClientService::class);
+		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
-	public function dataActivatedUsers() {
+	public static function dataActivatedUsers(): array {
 		return [
 			[true, 1, 1, 1],
 			[false, 0, 0, 3],
 		];
 	}
 
-	/**
-	 * @dataProvider dataActivatedUsers
-	 *
-	 * @param boolean $activated
-	 * @param integer $createCalls
-	 * @param integer $updateCalls
-	 * @param integer $deleteCalls
-	 * @return void
-	 */
-	public function testUpdateAndDeleteUser($activated, $createCalls, $updateCalls, $deleteCalls): void {
-		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataActivatedUsers')]
+	public function testUpdateAndDeleteUser(bool $activated, int $createCalls, int $updateCalls, int $deleteCalls): void {
+		/** @var CardDavBackend | MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 
@@ -343,12 +343,9 @@ END:VCARD';
 			->with('principals/system/system', 'system')
 			->willReturn(['id' => -1]);
 
-		/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject $userManager */
-		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
+		$userManager = $this->createMock(IUserManager::class);
 		$dbConnection = $this->createMock(IDBConnection::class);
-
-		/** @var IUser | \PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->method('getBackendClassName')->willReturn('unittest');
 		$user->method('getUID')->willReturn('test-user');
 		$user->method('getCloudId')->willReturn('cloudId');
@@ -360,8 +357,9 @@ END:VCARD';
 			->willReturn($this->createMock(VCard::class));
 
 		$clientService = $this->createMock(IClientService::class);
+		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
 		$ss->updateUser($user);
 
 		$ss->updateUser($user);
@@ -425,5 +423,58 @@ END:VCARD';
 			'principals/system/system',
 			[]
 		);
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerUseAbsoluteUriReport')]
+	public function testUseAbsoluteUriReport(string $host, string $expected): void {
+		$body = '<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
+    <d:sync-token>http://sabre.io/ns/sync/1</d:sync-token>
+</d:multistatus>';
+
+		$requestResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+
+		$this->client
+			->method('request')
+			->with(
+				'REPORT',
+				$this->callback(function ($uri) use ($expected) {
+					$this->assertEquals($expected, $uri);
+					return true;
+				}),
+				$this->callback(function ($options) {
+					$this->assertIsArray($options);
+					return true;
+				}),
+			)
+			->willReturn($requestResponse);
+
+		$this->service->syncRemoteAddressBook(
+			$host,
+			'system',
+			'remote.php/dav/addressbooks/system/system/system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		);
+	}
+
+	public static function providerUseAbsoluteUriReport(): array {
+		return [
+			['https://server.internal', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal/', 'https://server.internal/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal/nextcloud', 'https://server.internal/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal/nextcloud/', 'https://server.internal/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080', 'https://server.internal:8080/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080/', 'https://server.internal:8080/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080/nextcloud', 'https://server.internal:8080/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+			['https://server.internal:8080/nextcloud/', 'https://server.internal:8080/nextcloud/remote.php/dav/addressbooks/system/system/system'],
+		];
 	}
 }

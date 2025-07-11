@@ -22,7 +22,6 @@ use OCP\BackgroundJob\Job;
  */
 class RetryJob extends Job {
 	private bool $retainJob = true;
-	private Notifications $notifications;
 
 	/** @var int max number of attempts to send the request */
 	private int $maxTry = 20;
@@ -30,10 +29,11 @@ class RetryJob extends Job {
 	/** @var int how much time should be between two tries (10 minutes) */
 	private int $interval = 600;
 
-	public function __construct(Notifications $notifications,
-		ITimeFactory $time) {
+	public function __construct(
+		private Notifications $notifications,
+		ITimeFactory $time,
+	) {
 		parent::__construct($time);
-		$this->notifications = $notifications;
 	}
 
 	/**

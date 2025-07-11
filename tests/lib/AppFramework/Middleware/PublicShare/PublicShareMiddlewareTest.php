@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -58,7 +59,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->assertTrue(true);
 	}
 
-	public function dataShareApi() {
+	public static function dataShareApi(): array {
 		return [
 			['no', 'no',],
 			['no', 'yes',],
@@ -66,9 +67,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataShareApi
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataShareApi')]
 	public function testBeforeControllerShareApiDisabled(string $shareApi, string $shareLinks): void {
 		$controller = $this->createMock(PublicShareController::class);
 

@@ -36,9 +36,16 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 			ocsEntry.item_mtime = ocsEntry.mtime
 			ocsEntry.file_target = ocsEntry.file_target || ocsEntry.mountpoint
 
-			// Need to set permissions to NONE for federated shares
-			ocsEntry.item_permissions = Permission.NONE
-			ocsEntry.permissions = Permission.NONE
+			if (ocsEntry.file_target.includes('TemporaryMountPointName')) {
+				ocsEntry.file_target = ocsEntry.name
+			}
+
+			// If the share is not accepted yet we don't know which permissions it will have
+			if (!ocsEntry.accepted) {
+				// Need to set permissions to NONE for federated shares
+				ocsEntry.item_permissions = Permission.NONE
+				ocsEntry.permissions = Permission.NONE
+			}
 
 			ocsEntry.uid_owner = ocsEntry.owner
 			// TODO: have the real display name stored somewhere
@@ -64,6 +71,17 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 			mtime = new Date((ocsEntry.stime) * 1000)
 		}
 
+		let sharees: { sharee: object } | undefined
+		if ('share_with' in ocsEntry) {
+			sharees = {
+				sharee: {
+					id: ocsEntry.share_with,
+					'display-name': ocsEntry.share_with_displayname || ocsEntry.share_with,
+					type: ocsEntry.share_type,
+				},
+			}
+		}
+
 		return new Node({
 			id: fileid,
 			source,
@@ -76,12 +94,14 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 			attributes: {
 				...ocsEntry,
 				'has-preview': hasPreview,
+				'hide-download': ocsEntry?.hide_download === 1,
 				// Also check the sharingStatusAction.ts code
 				'owner-id': ocsEntry?.uid_owner,
 				'owner-display-name': ocsEntry?.displayname_owner,
 				'share-types': ocsEntry?.share_type,
 				'share-attributes': ocsEntry?.attributes || '[]',
-				favorite: ocsEntry?.tags?.includes((window.OC as Nextcloud.v29.OC & { TAG_FAVORITE: string }).TAG_FAVORITE) ? 1 : 0,
+				sharees,
+				favorite: ocsEntry?.tags?.includes((window.OC as { TAG_FAVORITE: string }).TAG_FAVORITE) ? 1 : 0,
 			},
 		})
 	} catch (error) {

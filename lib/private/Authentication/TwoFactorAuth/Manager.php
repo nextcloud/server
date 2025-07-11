@@ -12,6 +12,7 @@ use BadMethodCallException;
 use Exception;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCP\Activity\IManager;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
@@ -307,8 +308,8 @@ class Manager {
 		// First check if the session tells us we should do 2FA (99% case)
 		if (!$this->session->exists(self::SESSION_UID_KEY)) {
 			// Check if the session tells us it is 2FA authenticated already
-			if ($this->session->exists(self::SESSION_UID_DONE) &&
-				$this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
+			if ($this->session->exists(self::SESSION_UID_DONE)
+				&& $this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
 				return false;
 			}
 
@@ -366,7 +367,12 @@ class Manager {
 		$tokensNeeding2FA = $this->config->getUserKeys($userId, 'login_token_2fa');
 
 		foreach ($tokensNeeding2FA as $tokenId) {
-			$this->tokenProvider->invalidateTokenById($userId, (int)$tokenId);
+			$this->config->deleteUserValue($userId, 'login_token_2fa', $tokenId);
+
+			try {
+				$this->tokenProvider->invalidateTokenById($userId, (int)$tokenId);
+			} catch (DoesNotExistException $e) {
+			}
 		}
 	}
 }

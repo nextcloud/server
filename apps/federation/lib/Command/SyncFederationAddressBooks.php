@@ -14,12 +14,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncFederationAddressBooks extends Command {
-	private SyncService $syncService;
-
-	public function __construct(SyncService $syncService) {
+	public function __construct(
+		private SyncService $syncService,
+	) {
 		parent::__construct();
-
-		$this->syncService = $syncService;
 	}
 
 	protected function configure() {
@@ -31,7 +29,7 @@ class SyncFederationAddressBooks extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$progress = new ProgressBar($output);
 		$progress->start();
-		$this->syncService->syncThemAll(function ($url, $ex) use ($progress, $output) {
+		$this->syncService->syncThemAll(function ($url, $ex) use ($progress, $output): void {
 			if ($ex instanceof \Exception) {
 				$output->writeln("Error while syncing $url : " . $ex->getMessage());
 			} else {

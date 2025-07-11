@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -98,13 +99,19 @@ class BruteForceMiddlewareTest extends TestCase {
 			->expects($this->once())
 			->method('getRemoteAddress')
 			->willReturn('::1');
+
+		$calls = [
+			['::1', 'first'],
+			['::1', 'second'],
+		];
 		$this->throttler
 			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
-			->withConsecutive(
-				['::1', 'first'],
-				['::1', 'second'],
-			);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return 0;
+			});
 
 		$controller = new TestController('test', $this->request);
 		$this->reflector->reflect($controller, 'multipleAttributes');
@@ -221,20 +228,31 @@ class BruteForceMiddlewareTest extends TestCase {
 			->expects($this->once())
 			->method('getRemoteAddress')
 			->willReturn('::1');
+
+		$sleepCalls = [
+			['::1', 'first'],
+			['::1', 'second'],
+		];
 		$this->throttler
 			->expects($this->exactly(2))
 			->method('sleepDelayOrThrowOnMax')
-			->withConsecutive(
-				['::1', 'first'],
-				['::1', 'second'],
-			);
+			->willReturnCallback(function () use (&$sleepCalls) {
+				$expected = array_shift($sleepCalls);
+				$this->assertEquals($expected, func_get_args());
+				return 0;
+			});
+
+		$attemptCalls = [
+			['first', '::1', []],
+			['second', '::1', []],
+		];
 		$this->throttler
 			->expects($this->exactly(2))
 			->method('registerAttempt')
-			->withConsecutive(
-				['first', '::1'],
-				['second', '::1'],
-			);
+			->willReturnCallback(function () use (&$attemptCalls): void {
+				$expected = array_shift($attemptCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$controller = new TestController('test', $this->request);
 		$this->reflector->reflect($controller, 'multipleAttributes');

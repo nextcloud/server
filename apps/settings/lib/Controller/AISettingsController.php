@@ -38,7 +38,7 @@ class AISettingsController extends Controller {
 	 */
 	#[AuthorizedAdminSetting(settings: ArtificialIntelligence::class)]
 	public function update($settings) {
-		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.taskprocessing_provider_preferences', 'ai.translation_provider_preferences', 'ai.text2image_provider'];
+		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.taskprocessing_provider_preferences','ai.taskprocessing_type_preferences', 'ai.translation_provider_preferences', 'ai.text2image_provider', 'ai.taskprocessing_guests'];
 		foreach ($keys as $key) {
 			if (!isset($settings[$key])) {
 				continue;

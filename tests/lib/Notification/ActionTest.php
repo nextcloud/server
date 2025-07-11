@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,7 +21,7 @@ class ActionTest extends TestCase {
 		$this->action = new Action();
 	}
 
-	public function dataSetLabel() {
+	public static function dataSetLabel(): array {
 		return [
 			['test1'],
 			[str_repeat('a', 1)],
@@ -29,16 +30,16 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLabel
 	 * @param string $label
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLabel')]
 	public function testSetLabel($label): void {
 		$this->assertSame('', $this->action->getLabel());
 		$this->assertSame($this->action, $this->action->setLabel($label));
 		$this->assertSame($label, $this->action->getLabel());
 	}
 
-	public function dataSetLabelInvalid() {
+	public static function dataSetLabelInvalid(): array {
 		return [
 			[''],
 			[str_repeat('a', 33)],
@@ -46,17 +47,17 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLabelInvalid
 	 * @param mixed $label
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLabelInvalid')]
 	public function testSetLabelInvalid($label): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->action->setLabel($label);
 	}
 
-	public function dataSetParsedLabel() {
+	public static function dataSetParsedLabel(): array {
 		return [
 			['test1'],
 			[str_repeat('a', 1)],
@@ -65,33 +66,33 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetParsedLabel
 	 * @param string $label
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetParsedLabel')]
 	public function testSetParsedLabel($label): void {
 		$this->assertSame('', $this->action->getParsedLabel());
 		$this->assertSame($this->action, $this->action->setParsedLabel($label));
 		$this->assertSame($label, $this->action->getParsedLabel());
 	}
 
-	public function dataSetParsedLabelInvalid() {
+	public static function dataSetParsedLabelInvalid(): array {
 		return [
 			[''],
 		];
 	}
 
 	/**
-	 * @dataProvider dataSetParsedLabelInvalid
 	 * @param mixed $label
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetParsedLabelInvalid')]
 	public function testSetParsedLabelInvalid($label): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->action->setParsedLabel($label);
 	}
 
-	public function dataSetLink() {
+	public static function dataSetLink(): array {
 		return [
 			['test1', 'GET'],
 			['test2', 'POST'],
@@ -101,10 +102,10 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLink
 	 * @param string $link
 	 * @param string $type
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLink')]
 	public function testSetLink($link, $type): void {
 		$this->assertSame('', $this->action->getLink());
 		$this->assertSame($this->action, $this->action->setLink($link, $type));
@@ -112,7 +113,7 @@ class ActionTest extends TestCase {
 		$this->assertSame($type, $this->action->getRequestType());
 	}
 
-	public function dataSetLinkInvalid() {
+	public static function dataSetLinkInvalid(): array {
 		return [
 			// Invalid link
 			['', 'GET'],
@@ -124,18 +125,18 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLinkInvalid
 	 * @param mixed $link
 	 * @param mixed $type
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLinkInvalid')]
 	public function testSetLinkInvalid($link, $type): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->action->setLink($link, $type);
 	}
 
-	public function dataSetPrimary() {
+	public static function dataSetPrimary(): array {
 		return [
 			[true],
 			[false],
@@ -143,9 +144,9 @@ class ActionTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetPrimary
 	 * @param bool $primary
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetPrimary')]
 	public function testSetPrimary($primary): void {
 		$this->assertSame(false, $this->action->isPrimary());
 		$this->assertSame($this->action, $this->action->setPrimary($primary));

@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use OC\Files\SetupManager;
+use OC\Session\CryptoWrapper;
+use OC\Session\Memory;
+use OCP\ILogger;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -32,6 +37,7 @@ Usage:
 
 Arguments:
   job-classes                  Optional job class list to only run those jobs
+                               Providing a class will ignore the time-sensitivity restriction
 
 Options:
   -h, --help                 Display this help message
@@ -63,8 +69,8 @@ Options:
 	$verbose = isset($argv[1]) && ($argv[1] === '-v' || $argv[1] === '--verbose');
 
 	// initialize a dummy memory session
-	$session = new \OC\Session\Memory();
-	$cryptoWrapper = \OC::$server->getSessionCryptoWrapper();
+	$session = new Memory();
+	$cryptoWrapper = Server::get(CryptoWrapper::class);
 	$session = $cryptoWrapper->wrapSession($session);
 	\OC::$server->setSession($session);
 
@@ -112,10 +118,14 @@ Options:
 			$appConfig->setValueString('core', 'backgroundjobs_mode', 'cron');
 		}
 
+		// a specific job class list can optionally be given as argument
+		$jobClasses = array_slice($argv, $verbose ? 2 : 1);
+		$jobClasses = empty($jobClasses) ? null : $jobClasses;
+
 		// Low-load hours
 		$onlyTimeSensitive = false;
 		$startHour = $config->getSystemValueInt('maintenance_window_start', 100);
-		if ($startHour <= 23) {
+		if ($jobClasses === null && $startHour <= 23) {
 			$date = new \DateTime('now', new \DateTimeZone('UTC'));
 			$currentHour = (int)$date->format('G');
 			$endHour = $startHour + 4;
@@ -143,9 +153,6 @@ Options:
 		$endTime = time() + 14 * 60;
 
 		$executedJobs = [];
-		// a specific job class list can optionally be given as argument
-		$jobClasses = array_slice($argv, $verbose ? 2 : 1);
-		$jobClasses = empty($jobClasses) ? null : $jobClasses;
 
 		while ($job = $jobList->getNext($onlyTimeSensitive, $jobClasses)) {
 			if (isset($executedJobs[$job->getId()])) {
@@ -159,7 +166,7 @@ Options:
 			$timeBefore = time();
 			$memoryBefore = memory_get_usage();
 			$memoryPeakBefore = memory_get_peak_usage();
-			
+
 			if ($verbose) {
 				echo 'Starting job ' . $jobDetails . PHP_EOL;
 			}
@@ -175,11 +182,11 @@ Options:
 			$timeSpent = $timeAfter - $timeBefore;
 			if ($timeSpent > $cronInterval) {
 				$logLevel = match (true) {
-					$timeSpent > $cronInterval * 128 => \OCP\ILogger::FATAL,
-					$timeSpent > $cronInterval * 64 => \OCP\ILogger::ERROR,
-					$timeSpent > $cronInterval * 16 => \OCP\ILogger::WARN,
-					$timeSpent > $cronInterval * 8 => \OCP\ILogger::INFO,
-					default => \OCP\ILogger::DEBUG,
+					$timeSpent > $cronInterval * 128 => ILogger::FATAL,
+					$timeSpent > $cronInterval * 64 => ILogger::ERROR,
+					$timeSpent > $cronInterval * 16 => ILogger::WARN,
+					$timeSpent > $cronInterval * 8 => ILogger::INFO,
+					default => ILogger::DEBUG,
 				};
 				$logger->log(
 					$logLevel,
@@ -204,7 +211,7 @@ Options:
 			}
 
 			// clean up after unclean jobs
-			Server::get(\OC\Files\SetupManager::class)->tearDown();
+			Server::get(SetupManager::class)->tearDown();
 			$tempManager->clean();
 
 			if ($verbose) {

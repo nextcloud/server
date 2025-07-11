@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,8 @@
  */
 
 namespace Test\Group;
+
+use OC\Group\Database;
 
 /**
  * Class Database
@@ -27,7 +30,7 @@ class DatabaseTest extends Backend {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->backend = new \OC\Group\Database();
+		$this->backend = new Database();
 	}
 
 	protected function tearDown(): void {
@@ -42,7 +45,7 @@ class DatabaseTest extends Backend {
 
 		$this->backend->createGroup($group);
 
-		$backend = new \OC\Group\Database();
+		$backend = new Database();
 		$this->assertNull($backend->createGroup($group));
 	}
 

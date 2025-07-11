@@ -3,9 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /* eslint-disable n/no-extraneous-import */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { OCSResponse } from '@nextcloud/typings/ocs'
-import { Folder, Navigation, View, getNavigation } from '@nextcloud/files'
+
 import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { Folder, Navigation, View, getNavigation } from '@nextcloud/files'
+import * as ncInitialState from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 
 import '../main'
@@ -70,6 +73,27 @@ describe('Sharing views definition', () => {
 			expect(view?.columns).toStrictEqual([])
 			expect(view?.getContents).toBeDefined()
 		})
+	})
+
+	test('Shared with others view is not registered if user has no storage quota', () => {
+		vi.spyOn(Navigation, 'register')
+		const spy = vi.spyOn(ncInitialState, 'loadState').mockImplementationOnce(() => ({ quota: 0 }))
+
+		expect(Navigation.views.length).toBe(0)
+		registerSharingViews()
+		expect(Navigation.register).toHaveBeenCalledTimes(6)
+		expect(Navigation.views.length).toBe(6)
+
+		const shareOverviewView = Navigation.views.find(view => view.id === 'shareoverview') as View
+		const sharesChildViews = Navigation.views.filter(view => view.parent === 'shareoverview') as View[]
+		expect(shareOverviewView).toBeDefined()
+		expect(sharesChildViews.length).toBe(5)
+
+		expect(spy).toHaveBeenCalled()
+		expect(spy).toHaveBeenCalledWith('files', 'storageStats', { quota: -1 })
+
+		const sharedWithOthersView = Navigation.views.find(view => view.id === 'sharingout')
+		expect(sharedWithOthersView).toBeUndefined()
 	})
 })
 

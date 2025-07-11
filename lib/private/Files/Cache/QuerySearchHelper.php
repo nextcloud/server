@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -88,7 +89,7 @@ class QuerySearchHelper {
 
 		$this->applySearchConstraints($query, $searchQuery, $caches);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$tags = $result->fetchAll();
 		$result->closeCursor();
 		return $tags;
@@ -167,7 +168,7 @@ class QuerySearchHelper {
 
 		$this->applySearchConstraints($query, $searchQuery, $caches, $metadataQuery);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$files = $result->fetchAll();
 
 		$rawEntries = array_map(function (array $data) use ($metadataQuery) {

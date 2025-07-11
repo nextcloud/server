@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,24 +22,14 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ImageManagerTest extends TestCase {
-	/** @var IConfig|MockObject */
-	protected $config;
-	/** @var IAppData|MockObject */
-	protected $appData;
-	/** @var ImageManager */
-	protected $imageManager;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var ICacheFactory|MockObject */
-	private $cacheFactory;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-	/** @var ITempManager|MockObject */
-	private $tempManager;
-	/** @var ISimpleFolder|MockObject */
-	private $rootFolder;
-	/** @var BackgroundService|MockObject */
-	private $backgroundService;
+	protected IConfig&MockObject $config;
+	protected IAppData&MockObject $appData;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ICacheFactory&MockObject $cacheFactory;
+	private LoggerInterface&MockObject $logger;
+	private ITempManager&MockObject $tempManager;
+	private ISimpleFolder&MockObject $rootFolder;
+	protected ImageManager $imageManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -48,7 +40,7 @@ class ImageManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->tempManager = $this->createMock(ITempManager::class);
 		$this->rootFolder = $this->createMock(ISimpleFolder::class);
-		$this->backgroundService = $this->createMock(BackgroundService::class);
+		$backgroundService = $this->createMock(BackgroundService::class);
 		$this->imageManager = new ImageManager(
 			$this->config,
 			$this->appData,
@@ -56,7 +48,7 @@ class ImageManagerTest extends TestCase {
 			$this->cacheFactory,
 			$this->logger,
 			$this->tempManager,
-			$this->backgroundService,
+			$backgroundService,
 		);
 		$this->appData
 			->expects($this->any())
@@ -92,13 +84,10 @@ class ImageManagerTest extends TestCase {
 				->willReturn(file_get_contents(__DIR__ . '/../../../tests/data/testimage.png'));
 			$folder->expects($this->exactly(2))
 				->method('fileExists')
-				->withConsecutive(
-					['logo'],
-					['logo.png'],
-				)->willReturnOnConsecutiveCalls(
-					true,
-					false,
-				);
+				->willReturnMap([
+					['logo', true],
+					['logo.png', false],
+				]);
 			$folder->expects($this->once())
 				->method('getFile')
 				->with('logo')
@@ -119,14 +108,12 @@ class ImageManagerTest extends TestCase {
 
 	public function testGetImageUrl(): void {
 		$this->checkImagick();
-		$file = $this->createMock(ISimpleFile::class);
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'logoMime', '']
-			)
-			->willReturn(0);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '0'],
+				['theming', 'logoMime', '', '0'],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->willReturn('url-to-image');
@@ -136,11 +123,10 @@ class ImageManagerTest extends TestCase {
 	public function testGetImageUrlDefault(): void {
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'logoMime', '']
-			)
-			->willReturnOnConsecutiveCalls(0, '');
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '0'],
+				['theming', 'logoMime', '', ''],
+			]);
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', 'logo/logo.png')
@@ -150,14 +136,12 @@ class ImageManagerTest extends TestCase {
 
 	public function testGetImageUrlAbsolute(): void {
 		$this->checkImagick();
-		$file = $this->createMock(ISimpleFile::class);
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'logoMime', '']
-			)
-			->willReturnOnConsecutiveCalls(0, 0);
+			->willReturnMap([
+				['theming', 'cachebuster', '0', '0'],
+				['theming', 'logoMime', '', ''],
+			]);
 		$this->urlGenerator->expects($this->any())
 			->method('getAbsoluteUrl')
 			->willReturn('url-to-image-absolute?v=0');
@@ -176,7 +160,7 @@ class ImageManagerTest extends TestCase {
 
 
 	public function testGetImageUnset(): void {
-		$this->expectException(\OCP\Files\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$this->config->expects($this->once())
 			->method('getAppValue')->with('theming', 'logoMime', false)
@@ -231,13 +215,13 @@ class ImageManagerTest extends TestCase {
 
 
 	public function testGetCachedImageNotFound(): void {
-		$this->expectException(\OCP\Files\NotFoundException::class);
+		$this->expectException(NotFoundException::class);
 
 		$folder = $this->setupCacheFolder();
 		$folder->expects($this->once())
 			->method('getFile')
 			->with('filename')
-			->will($this->throwException(new \OCP\Files\NotFoundException()));
+			->willThrowException(new NotFoundException());
 		$image = $this->imageManager->getCachedImage('filename');
 	}
 
@@ -317,7 +301,7 @@ class ImageManagerTest extends TestCase {
 	}
 
 
-	public function dataUpdateImage() {
+	public static function dataUpdateImage(): array {
 		return [
 			['background', __DIR__ . '/../../../tests/data/testimage.png', true, false],
 			['background', __DIR__ . '/../../../tests/data/testimage.png', false, false],
@@ -329,10 +313,8 @@ class ImageManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateImage
-	 */
-	public function testUpdateImage($key, $tmpFile, $folderExists, $shouldConvert): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateImage')]
+	public function testUpdateImage(string $key, string $tmpFile, bool $folderExists, bool $shouldConvert): void {
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$oldFile = $this->createMock(ISimpleFile::class);

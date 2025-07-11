@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -186,7 +187,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 
-	public function dataGetAvatarScopes() {
+	public static function dataGetAvatarScopes(): array {
 		return [
 			// public access cannot see real avatar
 			[IAccountManager::SCOPE_PRIVATE, true, false, true],
@@ -203,9 +204,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetAvatarScopes
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAvatarScopes')]
 	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder): void {
 		if ($isPublicCall) {
 			$requestingUser = null;

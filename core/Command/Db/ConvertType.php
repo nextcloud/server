@@ -13,9 +13,12 @@ use Doctrine\DBAL\Schema\Table;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
+use OC\DB\PgSqlTools;
+use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IConfig;
+use OCP\Server;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;
@@ -36,6 +39,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	public function __construct(
 		protected IConfig $config,
 		protected ConnectionFactory $connectionFactory,
+		protected IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
@@ -155,18 +159,11 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		// WARNING:
-		// Leave in place until #45257 is addressed to prevent data loss (hopefully in time for the next maintenance release)
-		//
-		throw new \InvalidArgumentException(
-			'This command is temporarily disabled (until the next maintenance release).'
-		);
-
 		$this->validateInput($input, $output);
 		$this->readPassword($input, $output);
 
 		/** @var Connection $fromDB */
-		$fromDB = \OC::$server->get(Connection::class);
+		$fromDB = Server::get(Connection::class);
 		$toDB = $this->getToDBConnection($input, $output);
 
 		if ($input->getOption('clear-schema')) {
@@ -213,11 +210,13 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$toMS->migrate($currentMigration);
 		}
 
-		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
+		$apps = $input->getOption('all-apps')
+			? $this->appManager->getAllAppsInAppsFolders()
+			: $this->appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			$output->writeln('<info> - ' . $app . '</info>');
 			// Make sure autoloading works...
-			\OC_App::loadApp($app);
+			$this->appManager->loadApp($app);
 			$fromMS = new MigrationService($app, $fromDB);
 			$currentMigration = $fromMS->getMigration('current');
 			if ($currentMigration !== '0') {
@@ -229,7 +228,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 	protected function getToDBConnection(InputInterface $input, OutputInterface $output) {
 		$type = $input->getArgument('type');
-		$connectionParams = $this->connectionFactory->createConnectionParams();
+		$connectionParams = $this->connectionFactory->createConnectionParams(type: $type);
 		$connectionParams = array_merge($connectionParams, [
 			'host' => $input->getArgument('hostname'),
 			'user' => $input->getArgument('username'),
@@ -243,7 +242,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 
 		// parse hostname for unix socket
-		if (preg_match('/^(.+)(:(\d+|[^:]+))?$/', $input->getOption('hostname'), $matches)) {
+		if (preg_match('/^(.+)(:(\d+|[^:]+))?$/', $input->getArgument('hostname'), $matches)) {
 			$connectionParams['host'] = $matches[1];
 			if (isset($matches[3])) {
 				if (is_numeric($matches[3])) {
@@ -298,7 +297,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$query->automaticTablePrefix(false);
 		$query->select($query->func()->count('*', 'num_entries'))
 			->from($table->getName());
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$count = $result->fetchOne();
 		$result->closeCursor();
 
@@ -337,7 +336,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		for ($chunk = 0; $chunk < $numChunks; $chunk++) {
 			$query->setFirstResult($chunk * $chunkSize);
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 
 			try {
 				$toDB->beginTransaction();
@@ -408,7 +407,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 				$this->copyTable($fromDB, $toDB, $schema->getTable($table), $input, $output);
 			}
 			if ($input->getArgument('type') === 'pgsql') {
-				$tools = new \OC\DB\PgSqlTools($this->config);
+				$tools = new PgSqlTools($this->config);
 				$tools->resynchronizeDatabaseSequences($toDB);
 			}
 			// save new database config

@@ -45,14 +45,12 @@ OC.L10N.register(
     "Basic encryption module" : "Grunn-dulritunareining",
     "Your private key password no longer matches your log-in password." : "Lykilorð einkalykilsins þíns samsvarar ekki lengur innskráningarlykilorðinu þínu.",
     "Set your old private key password to your current log-in password:" : "Settu eldra lykilorð einkalykilsins þíns á að vera það sama og núgildandi innskráningarlykilorðið þitt:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : " Ef þú manst ekki gamla lykilorðið þitt geturðu beðið kerfisstjórann þinn um að endurheimta skrárnar þínar.",
     "Old log-in password" : "Gamla innskráningarlykilorðið",
     "Current log-in password" : "Núgildandi innskráningarlykilorð",
     "Update Private Key Password" : "Uppfæra lykilorð einkalykils:",
     "Enable password recovery:" : "Virkja endurheimtingu lykilorðs:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ef þessi kostur er virkur gerir það þér kleift að endurheimta aðgang að skránum þínum ef þú tapar lykilorðinu",
     "Enabled" : "Virkt",
-    "Disabled" : "Óvirkt",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Endurheimtingarlykill er auka-dulritunarlykill sem er notaður til að dulrita skrár. Hann gefur möguleika á að endurheimta skrár ef notandi gleymir lykilorðinu sínu."
+    "Disabled" : "Óvirkt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

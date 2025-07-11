@@ -18,26 +18,13 @@ use Sabre\DAVACL\IACL;
 class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	use ACLTrait;
 
-	/** @var string */
-	private $name;
-
-	/** @var mixed[] */
-	private $objectData;
-
-	/** @var string */
-	private $principalUri;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	public function __construct(string $name,
-		array $objectData,
-		string $principalUri,
-		CalDavBackend $calDavBackend) {
-		$this->name = $name;
-		$this->objectData = $objectData;
-		$this->calDavBackend = $calDavBackend;
-		$this->principalUri = $principalUri;
+	public function __construct(
+		private string $name,
+		/** @var mixed[] */
+		private array $objectData,
+		private string $principalUri,
+		private CalDavBackend $calDavBackend,
+	) {
 	}
 
 	public function delete() {

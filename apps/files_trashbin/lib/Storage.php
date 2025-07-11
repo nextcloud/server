@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,66 +11,47 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCP\App\IAppManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
+use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Storage extends Wrapper {
 	private string $mountPoint;
-	private IUserManager$userManager;
-	private LoggerInterface $logger;
-	private IEventDispatcher $eventDispatcher;
-	private IRootFolder $rootFolder;
-	private ITrashManager $trashManager;
 	private bool $trashEnabled = true;
 
 	/**
 	 * Storage constructor.
-	 *
 	 * @param array $parameters
-	 * @param ITrashManager|null $trashManager
-	 * @param IUserManager|null $userManager
-	 * @param LoggerInterface|null $logger
-	 * @param IEventDispatcher|null $eventDispatcher
-	 * @param IRootFolder|null $rootFolder
 	 */
 	public function __construct(
 		$parameters,
-		?ITrashManager $trashManager = null,
-		?IUserManager $userManager = null,
-		?LoggerInterface $logger = null,
-		?IEventDispatcher $eventDispatcher = null,
-		?IRootFolder $rootFolder = null,
+		private ?ITrashManager $trashManager = null,
+		private ?IUserManager $userManager = null,
+		private ?LoggerInterface $logger = null,
+		private ?IEventDispatcher $eventDispatcher = null,
+		private ?IRootFolder $rootFolder = null,
+		private ?IRequest $request = null,
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
-		$this->trashManager = $trashManager;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->rootFolder = $rootFolder;
 		parent::__construct($parameters);
 	}
 
-	/**
-	 * Deletes the given file by moving it into the trashbin.
-	 *
-	 * @param string $path path of file or folder to delete
-	 *
-	 * @return bool true if the operation succeeded, false otherwise
-	 */
-	public function unlink($path) {
+	public function unlink(string $path): bool {
 		if ($this->trashEnabled) {
 			try {
 				return $this->doDelete($path, 'unlink');
 			} catch (GenericEncryptionException $e) {
 				// in case of a encryption exception we delete the file right away
 				$this->logger->info(
-					"Can't move file " . $path .
-					' to the trash bin, therefore it was deleted right away');
+					"Can't move file " . $path
+					. ' to the trash bin, therefore it was deleted right away');
 
 				return $this->storage->unlink($path);
 			}
@@ -78,14 +60,7 @@ class Storage extends Wrapper {
 		}
 	}
 
-	/**
-	 * Deletes the given folder by moving it into the trashbin.
-	 *
-	 * @param string $path path of folder to delete
-	 *
-	 * @return bool true if the operation succeeded, false otherwise
-	 */
-	public function rmdir($path) {
+	public function rmdir(string $path): bool {
 		if ($this->trashEnabled) {
 			return $this->doDelete($path, 'rmdir');
 		} else {
@@ -96,11 +71,8 @@ class Storage extends Wrapper {
 	/**
 	 * check if it is a file located in data/user/files only files in the
 	 * 'files' directory should be moved to the trash
-	 *
-	 * @param $path
-	 * @return bool
 	 */
-	protected function shouldMoveToTrash($path) {
+	protected function shouldMoveToTrash(string $path): bool {
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$parts = explode('/', $normalized);
 		if (count($parts) < 4 || strpos($normalized, '/appdata_') === 0) {
@@ -138,7 +110,7 @@ class Storage extends Wrapper {
 	 * @param Node $node
 	 * @return MoveToTrashEvent
 	 */
-	protected function createMoveToTrashEvent(Node $node) {
+	protected function createMoveToTrashEvent(Node $node): MoveToTrashEvent {
 		return new MoveToTrashEvent($node);
 	}
 
@@ -150,41 +122,42 @@ class Storage extends Wrapper {
 	 *
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
-	private function doDelete($path, $method) {
-		if (
-			!\OC::$server->getAppManager()->isEnabledForUser('files_trashbin')
-			|| (pathinfo($path, PATHINFO_EXTENSION) === 'part')
-			|| $this->shouldMoveToTrash($path) === false
-		) {
-			return call_user_func([$this->storage, $method], $path);
+	private function doDelete(string $path, string $method): bool {
+		$isTrashbinEnabled = Server::get(IAppManager::class)->isEnabledForUser('files_trashbin');
+		$isPartFile = pathinfo($path, PATHINFO_EXTENSION) === 'part';
+		$isSkipTrashHeaderSet = $this->request !== null && $this->request->getHeader('X-NC-Skip-Trashbin') === 'true';
+		// We keep the shouldMoveToTrash call at the end to prevent emitting unnecessary event.
+		$shouldMoveToTrash = $isTrashbinEnabled && !$isPartFile && !$isSkipTrashHeaderSet && $this->shouldMoveToTrash($path);
+
+		if ($shouldMoveToTrash) {
+			// check permissions before we continue, this is especially important for
+			// shared files
+			if (!$this->isDeletable($path)) {
+				return false;
+			}
+
+			$isMovedToTrash = $this->trashManager->moveToTrash($this, $path);
+			if ($isMovedToTrash) {
+				return true;
+			}
 		}
 
-		// check permissions before we continue, this is especially important for
-		// shared files
-		if (!$this->isDeletable($path)) {
-			return false;
-		}
-
-		$isMovedToTrash = $this->trashManager->moveToTrash($this, $path);
-		if (!$isMovedToTrash) {
-			return call_user_func([$this->storage, $method], $path);
-		} else {
-			return true;
-		}
+		return call_user_func([$this->storage, $method], $path);
 	}
 
 	/**
 	 * Setup the storage wrapper callback
 	 */
-	public static function setupStorage() {
-		$trashManager = \OC::$server->get(ITrashManager::class);
-		$userManager = \OC::$server->get(IUserManager::class);
-		$logger = \OC::$server->get(LoggerInterface::class);
-		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
-		$rootFolder = \OC::$server->get(IRootFolder::class);
+	public static function setupStorage(): void {
+		$trashManager = Server::get(ITrashManager::class);
+		$userManager = Server::get(IUserManager::class);
+		$logger = Server::get(LoggerInterface::class);
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$rootFolder = Server::get(IRootFolder::class);
+		$request = Server::get(IRequest::class);
 		Filesystem::addStorageWrapper(
 			'oc_trashbin',
-			function (string $mountPoint, IStorage $storage) use ($trashManager, $userManager, $logger, $eventDispatcher, $rootFolder) {
+			function (string $mountPoint, IStorage $storage) use ($trashManager, $userManager, $logger, $eventDispatcher, $rootFolder, $request) {
 				return new Storage(
 					['storage' => $storage, 'mountPoint' => $mountPoint],
 					$trashManager,
@@ -192,6 +165,7 @@ class Storage extends Wrapper {
 					$logger,
 					$eventDispatcher,
 					$rootFolder,
+					$request,
 				);
 			},
 			1);
@@ -201,7 +175,7 @@ class Storage extends Wrapper {
 		return $this->mountPoint;
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath): bool {
 		$sourceIsTrashbin = $sourceStorage->instanceOfStorage(Storage::class);
 		try {
 			// the fallback for moving between storage involves a copy+delete
@@ -225,11 +199,11 @@ class Storage extends Wrapper {
 		}
 	}
 
-	protected function disableTrash() {
+	protected function disableTrash(): void {
 		$this->trashEnabled = false;
 	}
 
-	protected function enableTrash() {
+	protected function enableTrash(): void {
 		$this->trashEnabled = true;
 	}
 }

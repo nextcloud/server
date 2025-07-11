@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
@@ -67,13 +68,13 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesPhpVersion
 	 *
 	 * @param string $expectedMissing
 	 * @param string $minVersion
 	 * @param string $maxVersion
 	 * @param string $intSize
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesPhpVersion')]
 	public function testPhpVersion($expectedMissing, $minVersion, $maxVersion, $intSize): void {
 		$app = [
 			'dependencies' => [
@@ -96,10 +97,10 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesDatabases
 	 * @param $expectedMissing
 	 * @param $databases
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesDatabases')]
 	public function testDatabases($expectedMissing, $databases): void {
 		$app = [
 			'dependencies' => [
@@ -115,11 +116,11 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesCommands
 	 *
 	 * @param string $expectedMissing
 	 * @param string|null $commands
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesCommands')]
 	public function testCommand($expectedMissing, $commands): void {
 		$app = [
 			'dependencies' => [
@@ -135,10 +136,10 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesLibs
 	 * @param $expectedMissing
 	 * @param $libs
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesLibs')]
 	public function testLibs($expectedMissing, $libs): void {
 		$app = [
 			'dependencies' => [
@@ -155,10 +156,10 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesOS
 	 * @param $expectedMissing
 	 * @param $oss
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesOS')]
 	public function testOS($expectedMissing, $oss): void {
 		$app = [
 			'dependencies' => []
@@ -174,10 +175,10 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesOC
 	 * @param $expectedMissing
 	 * @param $oc
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesOC')]
 	public function testOC($expectedMissing, $oc): void {
 		$app = [
 			'dependencies' => []
@@ -195,7 +196,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesOC() {
+	public static function providesOC(): array {
 		return [
 			// no version -> no missing dependency
 			[
@@ -272,18 +273,6 @@ class DependencyAnalyzerTest extends TestCase {
 					'owncloud' => [
 						'@attributes' => [
 							'min-version' => '9'
-						],
-					],
-				],
-			],
-			[
-				[
-					'Server version 10 or higher is required.',
-				],
-				[
-					'nextcloud' => [
-						'@attributes' => [
-							'min-version' => '9.1',
 						],
 					],
 				],
@@ -383,18 +372,6 @@ class DependencyAnalyzerTest extends TestCase {
 			],
 			[
 				[
-					'Server version 10 or higher is required.',
-				],
-				[
-					'owncloud' => [
-						'@attributes' => [
-							'min-version' => '9.1',
-						],
-					],
-				],
-			],
-			[
-				[
 					'Server version 9.2 or higher is required.',
 				],
 				[
@@ -423,7 +400,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesOS() {
+	public static function providesOS(): array {
 		return [
 			[[], null],
 			[[], []],
@@ -435,7 +412,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesLibs() {
+	public static function providesLibs(): array {
 		return [
 			// we expect curl to exist
 			[[], 'curl'],
@@ -465,7 +442,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesCommands() {
+	public static function providesCommands(): array {
 		return [
 			[[], null],
 			// grep is known on linux
@@ -483,7 +460,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesDatabases() {
+	public static function providesDatabases(): array {
 		return [
 			// non BC - in case on databases are defined -> all are supported
 			[[], null],
@@ -496,7 +473,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesPhpVersion() {
+	public static function providesPhpVersion(): array {
 		return [
 			[[], null, null, null],
 			[[], '5.4', null, null],

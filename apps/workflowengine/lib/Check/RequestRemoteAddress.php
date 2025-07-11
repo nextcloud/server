@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,19 +12,14 @@ use OCP\WorkflowEngine\ICheck;
 
 class RequestRemoteAddress implements ICheck {
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IRequest */
-	protected $request;
-
 	/**
 	 * @param IL10N $l
 	 * @param IRequest $request
 	 */
-	public function __construct(IL10N $l, IRequest $request) {
-		$this->l = $l;
-		$this->request = $request;
+	public function __construct(
+		protected IL10N $l,
+		protected IRequest $request,
+	) {
 	}
 
 	/**

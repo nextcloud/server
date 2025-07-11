@@ -119,12 +119,17 @@ class RegistryTest extends TestCase {
 					'provider_id' => 'twofactor_u2f',
 				]
 			]);
+
+		$calls = [
+			[new TwoFactorProviderDisabled('twofactor_u2f')],
+			[new TwoFactorProviderUserDeleted($user, 'twofactor_u2f')],
+		];
 		$this->dispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->withConsecutive(
-				[new TwoFactorProviderDisabled('twofactor_u2f')],
-				[new TwoFactorProviderUserDeleted($user, 'twofactor_u2f')],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$this->registry->deleteUserData($user);
 	}

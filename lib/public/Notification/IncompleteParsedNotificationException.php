@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\Notification;
 
+use OCP\AppFramework\Attribute\Catchable;
+
 /**
  * Thrown when {@see \OCP\Notification\IManager::prepare()} is called with a notification
  * that does not have all required fields set at the end of the manager or after a INotifier
@@ -22,8 +24,7 @@ namespace OCP\Notification;
  * - objectType
  * - objectId
  * - parsedSubject
- *
- * @since 30.0.0
  */
+#[Catchable(since: '30.0.0')]
 class IncompleteParsedNotificationException extends \InvalidArgumentException {
 }

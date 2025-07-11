@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Settings;
 
-use OC\User\Backend;
+use OCA\UpdateNotification\AppInfo\Application;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -18,10 +18,9 @@ use OCP\IDateTimeFormatter;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\ServerVersion;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;
-use OCP\User\Backend\ICountUsersBackend;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
@@ -36,6 +35,7 @@ class Admin implements ISettings {
 		private IUserManager $userManager,
 		private LoggerInterface $logger,
 		private IInitialState $initialState,
+		private ServerVersion $serverVersion,
 	) {
 	}
 
@@ -49,14 +49,14 @@ class Admin implements ISettings {
 			'stable',
 			'production',
 		];
-		$currentChannel = Util::getChannel();
+		$currentChannel = $this->serverVersion->getChannel();
 		if ($currentChannel === 'git') {
 			$channels[] = 'git';
 		}
 
 		$updateState = $this->updateChecker->getUpdateState();
 
-		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
+		$notifyGroups = $this->appConfig->getValueArray(Application::APP_NAME, 'notify_groups', ['admin']);
 
 		$defaultUpdateServerURL = 'https://updates.nextcloud.com/updater_server/';
 		$updateServerURL = $this->config->getSystemValue('updater.server.url', $defaultUpdateServerURL);
@@ -114,7 +114,7 @@ class Admin implements ISettings {
 	}
 
 	/**
-	 * @param list<string> $groupIds
+	 * @param string[] $groupIds
 	 * @return list<array{id: string, displayname: string}>
 	 */
 	protected function getSelectedGroups(array $groupIds): array {
@@ -132,7 +132,12 @@ class Admin implements ISettings {
 		return $result;
 	}
 
-	public function getSection(): string {
+	public function getSection(): ?string {
+		if (!$this->config->getSystemValueBool('updatechecker', true)) {
+			// update checker is disabled so we do not show the section at all
+			return null;
+		}
+
 		return 'overview';
 	}
 
@@ -141,26 +146,6 @@ class Admin implements ISettings {
 	}
 
 	private function isWebUpdaterRecommended(): bool {
-		return $this->getUserCount() < 100;
-	}
-
-	/**
-	 * @see https://github.com/nextcloud/server/blob/39494fbf794d982f6f6551c984e6ca4c4e947d01/lib/private/Support/Subscription/Registry.php#L188-L216 implementation reference
-	 */
-	private function getUserCount(): int {
-		$userCount = 0;
-		$backends = $this->userManager->getBackends();
-		foreach ($backends as $backend) {
-			// TODO: change below to 'if ($backend instanceof ICountUsersBackend) {'
-			if ($backend->implementsActions(Backend::COUNT_USERS)) {
-				/** @var ICountUsersBackend $backend */
-				$backendUsers = $backend->countUsers();
-				if ($backendUsers !== false) {
-					$userCount += $backendUsers;
-				}
-			}
-		}
-
-		return $userCount;
+		return (int)$this->userManager->countUsersTotal(100) < 100;
 	}
 }

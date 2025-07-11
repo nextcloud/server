@@ -86,6 +86,9 @@ watch(() => props.app.name, calculateSize)
 		overflow: hidden;
 		letter-spacing: -0.5px;
 	}
+	body[dir=rtl] &__label {
+		transform: translateX(50%) !important;
+	}
 
 	&__icon {
 		font-size: var(--app-menu-entry-font-size);
@@ -113,6 +116,9 @@ watch(() => props.app.name, calculateSize)
 			display: block;
 			transition: all var(--animation-quick) ease-in-out;
 			opacity: 1;
+		}
+		body[dir=rtl] &::before {
+			transform: translateX(50%) !important;
 		}
 	}
 

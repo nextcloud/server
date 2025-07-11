@@ -7,6 +7,8 @@
  */
 namespace OCA\User_LDAP;
 
+use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -91,11 +93,6 @@ class Configuration {
 	public const LDAP_SERVER_FEATURE_UNKNOWN = 'unknown';
 	public const LDAP_SERVER_FEATURE_AVAILABLE = 'available';
 	public const LDAP_SERVER_FEATURE_UNAVAILABLE = 'unavailable';
-
-	/**
-	 * @var string
-	 */
-	protected $configPrefix;
 	/**
 	 * @var bool
 	 */
@@ -184,8 +181,10 @@ class Configuration {
 		'ldapAttributePronouns' => null,
 	];
 
-	public function __construct(string $configPrefix, bool $autoRead = true) {
-		$this->configPrefix = $configPrefix;
+	public function __construct(
+		protected string $configPrefix,
+		bool $autoRead = true,
+	) {
 		if ($autoRead) {
 			$this->readConfiguration();
 		}
@@ -441,7 +440,7 @@ class Configuration {
 
 	protected function getSystemValue(string $varName): string {
 		//FIXME: if another system value is added, softcode the default value
-		return \OC::$server->getConfig()->getSystemValue($varName, false);
+		return Server::get(IConfig::class)->getSystemValue($varName, false);
 	}
 
 	protected function getValue(string $varName): string {
@@ -449,7 +448,7 @@ class Configuration {
 		if (is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
-		return \OC::$server->getConfig()->getAppValue('user_ldap',
+		return Server::get(IConfig::class)->getAppValue('user_ldap',
 			$this->configPrefix . $varName,
 			$defaults[$varName]);
 	}
@@ -478,7 +477,7 @@ class Configuration {
 	}
 
 	protected function saveValue(string $varName, string $value): bool {
-		\OC::$server->getConfig()->setAppValue(
+		Server::get(IConfig::class)->setAppValue(
 			'user_ldap',
 			$this->configPrefix . $varName,
 			$value
@@ -673,7 +672,7 @@ class Configuration {
 			return [strtolower($attribute)];
 		}
 		if ($value !== self::AVATAR_PREFIX_DEFAULT) {
-			\OCP\Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+			Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
 		}
 		return $defaultAttributes;
 	}

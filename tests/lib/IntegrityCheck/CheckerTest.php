@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace Test\IntegrityCheck;
 
 use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
+use OC\Files\Type\Detection;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
@@ -17,11 +19,14 @@ use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\ServerVersion;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 use Test\TestCase;
 
 class CheckerTest extends TestCase {
+	/** @var ServerVersion|\PHPUnit\Framework\MockObject\MockObject */
+	private $serverVersion;
 	/** @var EnvironmentHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $environmentHelper;
 	/** @var AppLocator|\PHPUnit\Framework\MockObject\MockObject */
@@ -43,6 +48,7 @@ class CheckerTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->environmentHelper = $this->createMock(EnvironmentHelper::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
 		$this->appLocator = $this->createMock(AppLocator::class);
@@ -50,7 +56,7 @@ class CheckerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->mimeTypeDetector = $this->createMock(\OC\Files\Type\Detection::class);
+		$this->mimeTypeDetector = $this->createMock(Detection::class);
 
 		$this->config->method('getAppValue')
 			->willReturnArgument(2);
@@ -62,6 +68,7 @@ class CheckerTest extends TestCase {
 			->willReturn(new NullCache());
 
 		$this->checker = new Checker(
+			$this->serverVersion,
 			$this->environmentHelper,
 			$this->fileAccessHelper,
 			$this->appLocator,
@@ -106,7 +113,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('file_put_contents')
-			->will($this->throwException(new \Exception('Exception message')));
+			->willThrowException(new \Exception('Exception message'));
 
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
@@ -149,7 +156,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithoutSignatureData(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -169,7 +176,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithValidSignatureData(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -195,20 +202,16 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json'],
-				['/resources/codesigning/root.crt'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json', $signatureDataFile],
+				['/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$this->assertSame([], $this->checker->verifyAppSignature('SomeApp'));
 	}
 
 	public function testVerifyAppSignatureWithTamperedSignatureData(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -234,14 +237,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json'],
-				['/resources/codesigning/root.crt'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json', $signatureDataFile],
+				['/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$expected = [
 			'EXCEPTION' => [
@@ -253,7 +252,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithTamperedFiles(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -279,14 +278,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//appinfo/signature.json'],
-				['/resources/codesigning/root.crt'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//appinfo/signature.json', $signatureDataFile],
+				['/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 
 		$expected = [
@@ -314,7 +309,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithTamperedFilesAndAlternatePath(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -339,15 +334,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//appinfo/signature.json'],
-				['/resources/codesigning/root.crt'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
-
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//appinfo/signature.json', $signatureDataFile],
+				['/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$expected = [
 			'INVALID_HASH' => [
@@ -374,7 +364,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppWithDifferentScope(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -400,13 +390,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//appinfo/signature.json'],
-				['/resources/codesigning/root.crt'],
-			)->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//appinfo/signature.json', $signatureDataFile],
+				['/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$expected = [
 			'EXCEPTION' => [
@@ -418,7 +405,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppWithDifferentScopeAndAlwaysTrustedCore(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -444,13 +431,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json'],
-				['/resources/codesigning/root.crt'],
-			)->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json', $signatureDataFile],
+				['/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$this->assertSame([], $this->checker->verifyAppSignature('SomeApp'));
 	}
@@ -463,7 +447,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('assertDirectoryExists')
-			->will($this->throwException(new \Exception('Exception message')));
+			->willThrowException(new \Exception('Exception message'));
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('is_writable')
@@ -487,7 +471,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('assertDirectoryExists')
-			->will($this->throwException(new \Exception('Exception message')));
+			->willThrowException(new \Exception('Exception message'));
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('is_writable')
@@ -639,7 +623,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithoutSignatureData(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -659,7 +643,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithValidSignatureData(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -684,19 +668,16 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json'],
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//resources/codesigning/root.crt'],
-			)->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json', $signatureDataFile],
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
 
 	public function testVerifyCoreSignatureWithValidModifiedHtaccessSignatureData(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -721,14 +702,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent/core/signature.json'],
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent/resources/codesigning/root.crt'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent/core/signature.json', $signatureDataFile],
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent/resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
@@ -738,7 +715,9 @@ class CheckerTest extends TestCase {
 	 */
 	public function testVerifyCoreSignatureWithModifiedMimetypelistSignatureData(): void {
 		$shippedMimetypeAliases = (array)json_decode(file_get_contents(\OC::$SERVERROOT . '/resources/config/mimetypealiases.dist.json'));
+		$shippedMimetypeNames = (array)json_decode(file_get_contents(\OC::$SERVERROOT . '/resources/config/mimetypenames.dist.json'));
 		$allAliases = array_merge($shippedMimetypeAliases, ['my-custom/mimetype' => 'custom']);
+		$allMimetypeNames = array_merge($shippedMimetypeNames, ['my-custom/mimetype' => 'Custom Document']);
 
 		$this->mimeTypeDetector
 			->method('getOnlyDefaultAliases')
@@ -748,9 +727,14 @@ class CheckerTest extends TestCase {
 			->method('getAllAliases')
 			->willReturn($allAliases);
 
+		$this->mimeTypeDetector
+			->method('getAllNamings')
+			->willReturn($allMimetypeNames);
+
 		$oldMimetypeList = new GenerateMimetypeFileBuilder();
 		$all = $this->mimeTypeDetector->getAllAliases();
-		$newFile = $oldMimetypeList->generateFile($all);
+		$namings = $this->mimeTypeDetector->getAllNamings();
+		$newFile = $oldMimetypeList->generateFile($all, $namings);
 
 		// When updating the mimetype list the test assets need to be updated as well
 		// 1. Update core/js/mimetypelist.js with the new generated js by running the test with the next line uncommented:
@@ -759,7 +743,7 @@ class CheckerTest extends TestCase {
 		// occ integrity:sign-core --privateKey=./tests/data/integritycheck/core.key --certificate=./tests/data/integritycheck/core.crt --path=./tests/data/integritycheck/mimetypeListModified
 		self::assertEquals($newFile, file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/js/mimetypelist.js'));
 
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -786,7 +770,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithValidSignatureDataAndNotAlphabeticOrder(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -811,19 +795,16 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json'],
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//resources/codesigning/root.crt'],
-			)->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json', $signatureDataFile],
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
 
 	public function testVerifyCoreSignatureWithTamperedSignatureData(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -848,13 +829,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//core/signature.json'],
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//resources/codesigning/root.crt'],
-			)->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//core/signature.json', $signatureDataFile],
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$expected = [
 			'EXCEPTION' => [
@@ -866,7 +844,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithTamperedFiles(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -891,13 +869,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//core/signature.json'],
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//resources/codesigning/root.crt'],
-			)->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//core/signature.json', $signatureDataFile],
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData//resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$expected = [
 			'INVALID_HASH' => [
@@ -924,7 +899,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreWithInvalidCertificate(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -949,13 +924,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json'],
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//resources/codesigning/root.crt'],
-			)->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json', $signatureDataFile],
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$expected = [
 			'EXCEPTION' => [
@@ -967,7 +939,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreWithDifferentScope(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -992,13 +964,10 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_get_contents')
-			->withConsecutive(
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json'],
-				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//resources/codesigning/root.crt'],
-			)->willReturnOnConsecutiveCalls(
-				$signatureDataFile,
-				file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')
-			);
+			->willReturnMap([
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json', $signatureDataFile],
+				[\OC::$SERVERROOT . '/tests/data/integritycheck/app//resources/codesigning/root.crt', file_get_contents(__DIR__ . '/../../data/integritycheck/root.crt')],
+			]);
 
 		$expected = [
 			'EXCEPTION' => [
@@ -1012,6 +981,7 @@ class CheckerTest extends TestCase {
 	public function testRunInstanceVerification(): void {
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 			->setConstructorArgs([
+				$this->serverVersion,
 				$this->environmentHelper,
 				$this->fileAccessHelper,
 				$this->appLocator,
@@ -1021,7 +991,7 @@ class CheckerTest extends TestCase {
 				$this->appManager,
 				$this->mimeTypeDetector,
 			])
-			->setMethods([
+			->onlyMethods([
 				'verifyCoreSignature',
 				'verifyAppSignature',
 			])
@@ -1042,45 +1012,40 @@ class CheckerTest extends TestCase {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isShipped')
-			->withConsecutive(
-				['files'],
-				['calendar'],
-				['contacts'],
-				['dav'],
-			)->willReturnOnConsecutiveCalls(
-				true,
-				false,
-				false,
-				true,
-			);
+			->willReturnMap([
+				['files', true],
+				['calendar', false],
+				['contacts', false],
+				['dav', true],
+			]);
+
+		$calls = [
+			'files',
+			'calendar',
+			'dav',
+		];
 		$this->checker
 			->expects($this->exactly(3))
 			->method('verifyAppSignature')
-			->withConsecutive(
-				['files'],
-				['calendar'],
-				['dav'],
-			);
+			->willReturnCallback(function ($app) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertSame($expected, $app);
+				return [];
+			});
 		$this->appLocator
 			->expects($this->exactly(2))
 			->method('getAppPath')
-			->withConsecutive(
-				['calendar'],
-				['contacts'],
-			)->willReturnOnConsecutiveCalls(
-				'/apps/calendar',
-				'/apps/contacts',
-			);
+			->willReturnMap([
+				['calendar', '/apps/calendar'],
+				['contacts', '/apps/contacts'],
+			]);
 		$this->fileAccessHelper
 			->expects($this->exactly(2))
 			->method('file_exists')
-			->withConsecutive(
-				['/apps/calendar/appinfo/signature.json'],
-				['/apps/contacts/appinfo/signature.json'],
-			)->willReturnOnConsecutiveCalls(
-				true,
-				false,
-			);
+			->willReturnMap([
+				['/apps/calendar/appinfo/signature.json', true],
+				['/apps/contacts/appinfo/signature.json', false],
+			]);
 		$this->appConfig
 			->expects($this->once())
 			->method('deleteKey')
@@ -1090,7 +1055,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithoutSignatureDataAndCodeCheckerDisabled(): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn('stable');
@@ -1104,10 +1069,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	/**
-	 * @return array
-	 */
-	public function channelDataProvider() {
+	public static function channelDataProvider(): array {
 		return [
 			['stable', true],
 			['git', false],
@@ -1117,10 +1079,10 @@ class CheckerTest extends TestCase {
 	/**
 	 * @param string $channel
 	 * @param bool $isCodeSigningEnforced
-	 * @dataProvider channelDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);
@@ -1135,10 +1097,10 @@ class CheckerTest extends TestCase {
 
 	/**
 	 * @param string $channel
-	 * @dataProvider channelDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel): void {
-		$this->environmentHelper
+		$this->serverVersion
 			->expects($this->once())
 			->method('getChannel')
 			->willReturn($channel);

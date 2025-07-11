@@ -30,7 +30,7 @@ import { saveProfileDefault } from '../../service/ProfileService.js'
 import { validateBoolean } from '../../utils/validate.js'
 import logger from '../../logger.ts'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 const profileEnabledByDefault = loadState('settings', 'profileEnabledByDefault', true)
 
@@ -80,6 +80,3 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

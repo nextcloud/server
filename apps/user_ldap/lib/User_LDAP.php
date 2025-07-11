@@ -17,33 +17,24 @@ use OCA\User_LDAP\User\User;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
-use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
-	protected INotificationManager $notificationManager;
-	protected UserPluginManager $userPluginManager;
-	protected LoggerInterface $logger;
-	protected DeletedUsersIndex $deletedUsersIndex;
-
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
 	public function __construct(
 		Access $access,
-		INotificationManager $notificationManager,
-		UserPluginManager $userPluginManager,
-		LoggerInterface $logger,
-		DeletedUsersIndex $deletedUsersIndex,
+		protected INotificationManager $notificationManager,
+		protected UserPluginManager $userPluginManager,
+		protected LoggerInterface $logger,
+		protected DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($access);
-		$this->notificationManager = $notificationManager;
-		$this->userPluginManager = $userPluginManager;
-		$this->logger = $logger;
-		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	/**
-	 * checks whether the user is allowed to change his avatar in Nextcloud
+	 * checks whether the user is allowed to change their avatar in Nextcloud
 	 *
 	 * @param string $uid the Nextcloud user name
 	 * @return boolean either the user can or cannot
@@ -128,8 +119,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		$attrs = $this->access->userManager->getAttributes();
 		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
 		if (count($users) < 1) {
-			throw new NotOnLDAP('No user available for the given login name on ' .
-				$this->access->connection->ldapHost . ':' . $this->access->connection->ldapPort);
+			throw new NotOnLDAP('No user available for the given login name on '
+				. $this->access->connection->ldapHost . ':' . $this->access->connection->ldapPort);
 		}
 		return $users[0];
 	}
@@ -151,8 +142,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 
 		if (!$user instanceof User) {
 			$this->logger->warning(
-				'LDAP Login: Could not get user object for DN ' . $dn .
-				'. Maybe the LDAP entry has no set display name attribute?',
+				'LDAP Login: Could not get user object for DN ' . $dn
+				. '. Maybe the LDAP entry has no set display name attribute?',
 				['app' => 'user_ldap']
 			);
 			return false;
@@ -186,8 +177,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		$user = $this->access->userManager->get($uid);
 
 		if (!$user instanceof User) {
-			throw new \Exception('LDAP setPassword: Could not get user object for uid ' . $uid .
-				'. Maybe the LDAP entry has no set display name attribute?');
+			throw new \Exception('LDAP setPassword: Could not get user object for uid ' . $uid
+				. '. Maybe the LDAP entry has no set display name attribute?');
 		}
 		if ($user->getUsername() !== false && $this->access->setPassword($user->getDN(), $password)) {
 			$ldapDefaultPPolicyDN = $this->access->connection->ldapDefaultPPolicyDN;
@@ -258,8 +249,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	/**
 	 * checks whether a user is still available on LDAP
 	 *
-	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
-	 *                                              name or an instance of that user
+	 * @param string|User $user either the Nextcloud user
+	 *                          name or an instance of that user
 	 * @throws \Exception
 	 * @throws \OC\ServerNotAvailableException
 	 */
@@ -459,7 +450,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 
 			$user = $this->access->userManager->get($uid);
 			if ($user instanceof User) {
-				$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+				$displayName = $user->composeAndStoreDisplayName($displayName, (string)$displayName2);
 				$this->access->connection->writeToCache($cacheKey, $displayName);
 			}
 			if ($user instanceof OfflineUser) {
@@ -537,20 +528,18 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 
 	/**
 	 * counts the users in LDAP
-	 *
-	 * @return int|false
 	 */
-	public function countUsers() {
+	public function countUsers(int $limit = 0): int|false {
 		if ($this->userPluginManager->implementsActions(Backend::COUNT_USERS)) {
 			return $this->userPluginManager->countUsers();
 		}
 
 		$filter = $this->access->getFilterForUserCount();
-		$cacheKey = 'countUsers-' . $filter;
+		$cacheKey = 'countUsers-' . $filter . '-' . $limit;
 		if (!is_null($entries = $this->access->connection->getFromCache($cacheKey))) {
 			return $entries;
 		}
-		$entries = $this->access->countUsers($filter);
+		$entries = $this->access->countUsers($filter, limit:$limit);
 		$this->access->connection->writeToCache($cacheKey, $entries);
 		return $entries;
 	}

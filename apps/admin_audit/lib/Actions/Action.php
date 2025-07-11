@@ -37,11 +37,8 @@ class Action {
 					);
 				} else {
 					$this->logger->critical(
-						sprintf(
-							'$params["' . $element . '"] was missing. Transferred value: %s',
-							print_r($params, true)
-						),
-						['app' => 'admin_audit']
+						'$params["' . $element . '"] was missing. Transferred value: {params}',
+						['app' => 'admin_audit', 'params' => $params]
 					);
 				}
 				return;

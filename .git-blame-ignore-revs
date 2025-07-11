@@ -15,3 +15,7 @@ af6de04e9e141466dc229e444ff3f146f4a34765
 9836e9b16484582d309c8437ab46d82e34956941
 # Automated refactorings
 49dd79eabb2b8902559a7a4e8f8fcad54f46b604
+# @nextcloud/vue import paths
+b06f5ba4c47450f355a8903c1a93ac68e8c6cfc2
+# Update to coding-standard 1.4.0
+5981b7eb512aa411f51cad541d01c5c6e93476f0

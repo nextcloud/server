@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -63,7 +64,7 @@ class ListCalendars extends Command {
 
 		if (count($calendarTableData) > 0) {
 			$table = new Table($output);
-			$table->setHeaders(['uri', 'displayname', 'owner\'s userid', 'owner\'s displayname', 'writable'])
+			$table->setHeaders(['URI', 'Displayname', 'Owner principal', 'Owner displayname', 'Writable'])
 				->setRows($calendarTableData);
 
 			$table->render();

@@ -12,11 +12,10 @@ use OCP\LDAP\ILDAPProvider;
 use OCP\LDAP\ILDAPProviderFactory;
 
 class LDAPProviderFactory implements ILDAPProviderFactory {
-	/** * @var IServerContainer */
-	private $serverContainer;
-
-	public function __construct(IServerContainer $serverContainer) {
-		$this->serverContainer = $serverContainer;
+	public function __construct(
+		/** * @var IServerContainer */
+		private IServerContainer $serverContainer,
+	) {
 	}
 
 	public function getLDAPProvider(): ILDAPProvider {

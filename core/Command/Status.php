@@ -7,9 +7,9 @@
  */
 namespace OC\Core\Command;
 
-use OC_Util;
 use OCP\Defaults;
 use OCP\IConfig;
+use OCP\ServerVersion;
 use OCP\Util;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,6 +19,7 @@ class Status extends Base {
 	public function __construct(
 		private IConfig $config,
 		private Defaults $themingDefaults,
+		private ServerVersion $serverVersion,
 	) {
 		parent::__construct('status');
 	}
@@ -41,8 +42,8 @@ class Status extends Base {
 		$needUpgrade = Util::needUpgrade();
 		$values = [
 			'installed' => $this->config->getSystemValueBool('installed', false),
-			'version' => implode('.', Util::getVersion()),
-			'versionstring' => OC_Util::getVersionString(),
+			'version' => implode('.', $this->serverVersion->getVersion()),
+			'versionstring' => $this->serverVersion->getVersionString(),
 			'edition' => '',
 			'maintenance' => $maintenanceMode,
 			'needsDbUpgrade' => $needUpgrade,

@@ -22,38 +22,14 @@ use Sabre\DAV\ICollection;
 
 class DirectHome implements ICollection {
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var DirectMapper */
-	private $mapper;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IThrottler */
-	private $throttler;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
 	public function __construct(
-		IRootFolder $rootFolder,
-		DirectMapper $mapper,
-		ITimeFactory $timeFactory,
-		IThrottler $throttler,
-		IRequest $request,
-		IEventDispatcher $eventDispatcher,
+		private IRootFolder $rootFolder,
+		private DirectMapper $mapper,
+		private ITimeFactory $timeFactory,
+		private IThrottler $throttler,
+		private IRequest $request,
+		private IEventDispatcher $eventDispatcher,
 	) {
-		$this->rootFolder = $rootFolder;
-		$this->mapper = $mapper;
-		$this->timeFactory = $timeFactory;
-		$this->throttler = $throttler;
-		$this->request = $request;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	public function createFile($name, $data = null) {
@@ -77,7 +53,7 @@ class DirectHome implements ICollection {
 		} catch (DoesNotExistException $e) {
 			// Since the token space is so huge only throttle on non-existing token
 			$this->throttler->registerAttempt('directlink', $this->request->getRemoteAddress());
-			$this->throttler->sleepDelay($this->request->getRemoteAddress(), 'directlink');
+			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), 'directlink');
 
 			throw new NotFound();
 		}

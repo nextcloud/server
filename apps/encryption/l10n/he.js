@@ -45,14 +45,12 @@ OC.L10N.register(
     "Basic encryption module" : "מודול הצפנה בסיסי",
     "Your private key password no longer matches your log-in password." : "סיסמת המפתח האישי שלך כבר אינה מתאימה לסיסמת ההתחברות שלך.",
     "Set your old private key password to your current log-in password:" : "יש להחליף את סיסמת המפתח האישי הישנה בסיסמת ההתחברות הנוכחית:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "אם הסיסמא הישנה נשכחה ניתן לפנות למנהל על מנת שישחזר את הקבצים שלך.",
     "Old log-in password" : "סיסמת התחברות ישנה",
     "Current log-in password" : "סיסמת התחברות נוכחית",
     "Update Private Key Password" : "עדכון סיסמת המפתח האישי",
     "Enable password recovery:" : "מאפשר שחזור סיסמא:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "הפעלת אפשרות זו תאפשר לך לקבל מחדש גישה לקבצים המוצפנים שלך במקרה שסיסמא נשכחת",
     "Enabled" : "מופעל",
-    "Disabled" : "מנוטרל",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "מפתח השחזור הנו מפתח הצפנה נוסף לשימוש לצורך הצפנת הקבצים. הוא מאפשר את שחזור קבצי המשתמש אם המשתמש שוכח את הסיסמא שלו."
+    "Disabled" : "מנוטרל"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

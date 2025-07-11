@@ -85,7 +85,7 @@ export default defineComponent({
 			if (this.isQuotaExceeded) {
 				return this.t('files', 'Your have used your space quota and cannot upload files anymore')
 			} else if (!this.canUpload) {
-				return this.t('files', 'You don’t have permission to upload or create files here')
+				return this.t('files', 'You do not have permission to upload or create files here.')
 			}
 			return null
 		},

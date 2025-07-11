@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,6 +14,8 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\Server;
+use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
 
@@ -207,7 +210,7 @@ abstract class Fetcher {
 	 */
 	protected function getChannel() {
 		if ($this->channel === null) {
-			$this->channel = \OC_Util::getChannel();
+			$this->channel = Server::get(ServerVersion::class)->getChannel();
 		}
 		return $this->channel;
 	}

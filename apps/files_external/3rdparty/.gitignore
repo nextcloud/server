@@ -11,6 +11,7 @@ icewind/smb/.scrutinizer.yml
 icewind/smb/example-apache-kerberos.php
 icewind/smb/codecov.yml
 icewind/streams/tests
+icewind/**/example*.php
 .github
 .php_cs*
 psalm.xml

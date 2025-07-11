@@ -43,10 +43,6 @@ article, aside, dialog, figure, footer, header, hgroup, nav, section {
 	display: block;
 }
 
-body {
-	line-height: 1.5;
-}
-
 table {
 	border-collapse: separate;
 	border-spacing: 0;
@@ -267,6 +263,7 @@ body[dir='rtl'] #dbpassword {
 #show:checked + label, #dbpassword:checked + label, #personal-show:checked + label {
 	opacity: .8;
 }
+
 #show:focus-visible + label, #dbpassword-toggle:focus-visible + label, #personal-show:focus-visible + label {
 	box-shadow: var(--color-primary-element) 0 0 0 2px;
 	opacity: 1;
@@ -308,6 +305,7 @@ body[dir='rtl'] #dbpassword {
 	display: inline-block;
 	margin-inline-end: 6px;
 }
+
 #personal-show + label {
 	display: block;
 	inset-inline-end: 0;
@@ -385,6 +383,16 @@ tr .action:not(.permanent), .selectedActions > a {
 }
 
 tr {
+	.action {
+		width: 16px;
+		height: 16px;
+	}
+
+	&:hover .action:hover,
+	&:focus .action:focus {
+		opacity: 1;
+	}
+
 	&:hover .action:not(.menuitem),
 	&:focus .action:not(.menuitem),
 	.action.permanent:not(.menuitem) {
@@ -402,21 +410,6 @@ tr {
 	}
 }
 
-tr .action {
-	width: 16px;
-	height: 16px;
-}
-
-.header-action {
-	opacity: .8;
-}
-
-tr {
-	&:hover .action:hover, &:focus .action:focus {
-		opacity: 1;
-	}
-}
-
 .selectedActions a {
 	&:hover, &:focus {
 		opacity: 1;
@@ -424,6 +417,8 @@ tr {
 }
 
 .header-action {
+	opacity: .8;
+
 	&:hover, &:focus {
 		opacity: 1;
 	}
@@ -718,6 +713,7 @@ span.ui-icon {
 	display: inline-flex;
 	height: 50px;
 }
+
 li.crumb {
 	display: inline-flex;
 	background-image: url('../img/breadcrumb.svg?v=1');
@@ -786,8 +782,7 @@ li.crumb {
 		padding: 0;
 		width: 44px;
 	}
-	&:not(:first-child) a {
-	}
+
 	&:last-child {
 		font-weight: bold;
 		margin-inline-end: 10px;

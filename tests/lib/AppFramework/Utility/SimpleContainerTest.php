@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Test\AppFramework\Utility;
 
 use OC\AppFramework\Utility\SimpleContainer;
+use OCP\AppFramework\QueryException;
 use Psr\Container\NotFoundExceptionInterface;
 
 interface TestInterface {
@@ -20,40 +21,40 @@ class ClassEmptyConstructor implements IInterfaceConstructor {
 }
 
 class ClassSimpleConstructor implements IInterfaceConstructor {
-	public $test;
-	public function __construct($test) {
-		$this->test = $test;
+	public function __construct(
+		public $test,
+	) {
 	}
 }
 
 class ClassComplexConstructor {
-	public $class;
-	public $test;
-	public function __construct(ClassSimpleConstructor $class, $test) {
-		$this->class = $class;
-		$this->test = $test;
+	public function __construct(
+		public ClassSimpleConstructor $class,
+		public $test,
+	) {
 	}
 }
 
 class ClassNullableUntypedConstructorArg {
-	public function __construct($class) {
+	public function __construct(
+		public $class,
+	) {
 	}
 }
 class ClassNullableTypedConstructorArg {
-	public $class;
-	public function __construct(?\Some\Class $class) {
-		$this->class = $class;
+	public function __construct(
+		public ?\Some\Class $class,
+	) {
 	}
 }
 
 interface IInterfaceConstructor {
 }
 class ClassInterfaceConstructor {
-	public $class;
-	public $test;
-	public function __construct(IInterfaceConstructor $class, $test) {
-		$this->class = $class;
-		$this->test = $test;
+	public function __construct(
+		public IInterfaceConstructor $class,
+		public $test,
+	) {
 	}
 }
 
@@ -81,7 +82,7 @@ class SimpleContainerTest extends \Test\TestCase {
 			$this->container->query('something really hard', false);
 			$this->fail('Expected `QueryException` exception was not thrown');
 		} catch (\Throwable $exception) {
-			$this->assertInstanceOf(\OCP\AppFramework\QueryException::class, $exception);
+			$this->assertInstanceOf(QueryException::class, $exception);
 			$this->assertInstanceOf(NotFoundExceptionInterface::class, $exception);
 		}
 	}
@@ -95,7 +96,7 @@ class SimpleContainerTest extends \Test\TestCase {
 			$this->container->query('something really hard');
 			$this->fail('Expected `QueryException` exception was not thrown');
 		} catch (\Throwable $exception) {
-			$this->assertInstanceOf(\OCP\AppFramework\QueryException::class, $exception);
+			$this->assertInstanceOf(QueryException::class, $exception);
 			$this->assertInstanceOf(NotFoundExceptionInterface::class, $exception);
 		}
 	}
@@ -103,7 +104,7 @@ class SimpleContainerTest extends \Test\TestCase {
 
 
 	public function testNotAClass(): void {
-		$this->expectException(\OCP\AppFramework\QueryException::class);
+		$this->expectException(QueryException::class);
 
 		$this->container->query('Test\AppFramework\Utility\TestInterface');
 	}
@@ -191,7 +192,7 @@ class SimpleContainerTest extends \Test\TestCase {
 			$this->container->query('test'), $this->container->query('test1'));
 	}
 
-	public function sanitizeNameProvider() {
+	public static function sanitizeNameProvider(): array {
 		return [
 			['ABC\\Foo', 'ABC\\Foo'],
 			['\\ABC\\Foo', '\\ABC\\Foo'],
@@ -200,9 +201,7 @@ class SimpleContainerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider sanitizeNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sanitizeNameProvider')]
 	public function testSanitizeName($register, $query): void {
 		$this->container->registerService($register, function () {
 			return 'abc';
@@ -212,11 +211,13 @@ class SimpleContainerTest extends \Test\TestCase {
 
 
 	public function testConstructorComplexNoTestParameterFound(): void {
-		$this->expectException(\OCP\AppFramework\QueryException::class);
+		$this->expectException(QueryException::class);
 
 		$object = $this->container->query(
 			'Test\AppFramework\Utility\ClassComplexConstructor'
 		);
+		/* Use the object to trigger DI on PHP >= 8.4 */
+		get_object_vars($object);
 	}
 
 	public function testRegisterFactory(): void {
@@ -241,9 +242,13 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 	public function testQueryUntypedNullable(): void {
-		$this->expectException(\OCP\AppFramework\QueryException::class);
+		$this->expectException(QueryException::class);
 
-		$this->container->query(ClassNullableUntypedConstructorArg::class);
+		$object = $this->container->query(
+			ClassNullableUntypedConstructorArg::class
+		);
+		/* Use the object to trigger DI on PHP >= 8.4 */
+		get_object_vars($object);
 	}
 
 	public function testQueryTypedNullable(): void {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,8 +16,8 @@ use OCP\IInitialStateService;
  *
  * @since 14.0.0
  * @template H of array<string, mixed>
- * @template S of int
- * @template-extends TemplateResponse<int, array<string, mixed>>
+ * @template S of Http::STATUS_*
+ * @template-extends TemplateResponse<Http::STATUS_*, array<string, mixed>>
  */
 class PublicTemplateResponse extends TemplateResponse {
 	private $headerTitle = '';
@@ -44,6 +45,7 @@ class PublicTemplateResponse extends TemplateResponse {
 	) {
 		parent::__construct($appName, $templateName, $params, 'public', $status, $headers);
 		\OCP\Util::addScript('core', 'public-page-menu');
+		\OCP\Util::addScript('core', 'public-page-user-menu');
 
 		$state = \OCP\Server::get(IInitialStateService::class);
 		$state->provideLazyInitialState('core', 'public-page-menu', function () {

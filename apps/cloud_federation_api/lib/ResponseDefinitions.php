@@ -20,10 +20,10 @@ namespace OCA\CloudFederationAPI;
  * }
  *
  * @psalm-type CloudFederationAPIValidationError = CloudFederationAPIError&array{
- *     validationErrors: array{
+ *     validationErrors: list<array{
  *          name: string,
  *          message: string|null,
- *     }[],
+ *     }>,
  * }
  */
 class ResponseDefinitions {

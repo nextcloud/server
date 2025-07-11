@@ -12,6 +12,7 @@ use OCA\Files_Versions\Expiration;
 use OCA\Files_Versions\Storage;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Server;
 use Test\TestCase;
 use Test\Traits\UserTrait;
 
@@ -23,7 +24,7 @@ class StorageTest extends TestCase {
 
 	private $versionsRoot;
 	private $userFolder;
-	private $expireTimestamp = 10;
+	private int $expireTimestamp = 10;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -40,18 +41,18 @@ class StorageTest extends TestCase {
 		$this->createUser('version_test', '');
 		$this->loginAsUser('version_test');
 		/** @var IRootFolder $root */
-		$root = \OC::$server->get(IRootFolder::class);
+		$root = Server::get(IRootFolder::class);
 		$this->userFolder = $root->getUserFolder('version_test');
 	}
 
 
-	protected function createPastFile(string $path, int $mtime) {
+	protected function createPastFile(string $path, int $mtime): void {
 		try {
 			$file = $this->userFolder->get($path);
+			$file->putContent((string)$mtime);
 		} catch (NotFoundException $e) {
-			$file = $this->userFolder->newFile($path);
+			$file = $this->userFolder->newFile($path, (string)$mtime);
 		}
-		$file->putContent((string)$mtime);
 		$file->touch($mtime);
 	}
 

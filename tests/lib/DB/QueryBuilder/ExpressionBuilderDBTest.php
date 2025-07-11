@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,10 +8,11 @@
 namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Schema\SchemaException;
-use Doctrine\DBAL\Types\Types;
 use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Server;
 use Test\TestCase;
 
@@ -18,19 +20,19 @@ use Test\TestCase;
  * @group DB
  */
 class ExpressionBuilderDBTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|\OCP\IDBConnection */
+	/** @var \Doctrine\DBAL\Connection|IDBConnection */
 	protected $connection;
 	protected $schemaSetup = false;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->prepareTestingTable();
 	}
 
-	public function likeProvider() {
-		$connection = \OC::$server->getDatabaseConnection();
+	public static function likeProvider(): array {
+		$connection = Server::get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],
@@ -46,12 +48,12 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider likeProvider
 	 *
 	 * @param string $param1
 	 * @param string $param2
 	 * @param boolean $match
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('likeProvider')]
 	public function testLike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -65,8 +67,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		$this->assertEquals($match, $column);
 	}
 
-	public function ilikeProvider() {
-		$connection = \OC::$server->getDatabaseConnection();
+	public static function ilikeProvider(): array {
+		$connection = Server::get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],
@@ -83,12 +85,12 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider ilikeProvider
 	 *
 	 * @param string $param1
 	 * @param string $param2
 	 * @param boolean $match
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('ilikeProvider')]
 	public function testILike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -145,13 +147,13 @@ class ExpressionBuilderDBTest extends TestCase {
 		$dateTime = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
-			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)])
 			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('*')
 			->from('testing')
-			->where($query->expr()->eq('datetime', $query->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)))
+			->where($query->expr()->eq('datetime', $query->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
@@ -163,13 +165,13 @@ class ExpressionBuilderDBTest extends TestCase {
 		$dateTimeCompare = new \DateTime('2022-01-02');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
-			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)])
 			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('*')
 			->from('testing')
-			->where($query->expr()->lt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATE)))
+			->where($query->expr()->lt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
@@ -181,13 +183,13 @@ class ExpressionBuilderDBTest extends TestCase {
 		$dateTimeCompare = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
-			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)])
 			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('*')
 			->from('testing')
-			->where($query->expr()->gt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATE)))
+			->where($query->expr()->gt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
@@ -223,7 +225,7 @@ class ExpressionBuilderDBTest extends TestCase {
 				'notnull' => true,
 			]);
 
-			$table->addColumn('datetime', Types::DATETIME_MUTABLE, [
+			$table->addColumn('datetime', Types::DATETIME, [
 				'notnull' => false,
 			]);
 

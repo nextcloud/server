@@ -7,16 +7,15 @@
     "Use backup code" : "Bruker sikkerhetskode",
     "Two factor backup codes" : "Sikkerhetskoder for to-faktor",
     "A two-factor auth backup codes provider" : "En tilbyder av sikkerhetskoder for to-faktor autentisering",
+    "An error occurred while generating your backup codes" : "En feil oppsto under generering av sikkerhetskodene",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Sikkerhetskoder er generert. {used} av {total} koder er brukt.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Dette er reservekodene dine. Lagre og/eller skriv dem ut, da du ikke vil kunne lese kodene igjen senere.",
     "Save backup codes" : "Lagre sikkerhetskodene",
     "Print backup codes" : "Skriv ut sikkerhetskoder",
     "Regenerate backup codes" : "Lag sikkerhetskoder på nytt",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Hvis du regenererer nye sikkerhetskoder, blir de gamle kodene ugyldige.",
-    "An error occurred while generating your backup codes" : "En feil oppsto under generering av sikkerhetskodene",
     "{name} backup codes" : "{name} sikkerhetskoder",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Bruk en av sikkerhetskodene du lagret når du opprettet to-faktor autentisering.",
-    "Submit" : "Send",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dette er sikkerhetskodene. Lagre og/eller skriv dem ut siden du ikke kan se disse her igjen"
+    "Submit" : "Send"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

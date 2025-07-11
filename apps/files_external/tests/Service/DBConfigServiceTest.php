@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,28 +10,23 @@ namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Service\DBConfigService;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
+use OCP\Server;
 use Test\TestCase;
 
 /**
  * @group DB
  */
 class DBConfigServiceTest extends TestCase {
-	/**
-	 * @var DBConfigService
-	 */
-	private $dbConfig;
+	private IDBConnection $connection;
+	private DBConfigService $dbConfig;
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	private $mounts = [];
+	private array $mounts = [];
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->dbConfig = new DBConfigService($this->connection, \OC::$server->getCrypto());
+		$this->connection = Server::get(IDBConnection::class);
+		$this->dbConfig = new DBConfigService($this->connection, Server::get(ICrypto::class));
 	}
 
 	protected function tearDown(): void {
@@ -37,9 +34,10 @@ class DBConfigServiceTest extends TestCase {
 			$this->dbConfig->removeMount($mount);
 		}
 		$this->mounts = [];
+		parent::tearDown();
 	}
 
-	private function addMount($mountPoint, $storageBackend, $authBackend, $priority, $type) {
+	private function addMount(string $mountPoint, string $storageBackend, string $authBackend, int $priority, int $type) {
 		$id = $this->dbConfig->addMount($mountPoint, $storageBackend, $authBackend, $priority, $type);
 		$this->mounts[] = $id;
 		return $id;
@@ -72,7 +70,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 
 		$mount = $this->dbConfig->getMountById($id);
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			['type' => DBConfigService::APPLICABLE_TYPE_USER, 'value' => 'test', 'mount_id' => $id],
 			['type' => DBConfigService::APPLICABLE_TYPE_GROUP, 'value' => 'bar', 'mount_id' => $id],
 			['type' => DBConfigService::APPLICABLE_TYPE_GLOBAL, 'value' => null, 'mount_id' => $id]

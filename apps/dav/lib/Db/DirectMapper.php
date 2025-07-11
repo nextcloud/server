@@ -45,6 +45,6 @@ class DirectMapper extends QBMapper {
 				$qb->expr()->lt('expiration', $qb->createNamedParameter($expiration))
 			);
 
-		$qb->execute();
+		$qb->executeStatement();
 	}
 }

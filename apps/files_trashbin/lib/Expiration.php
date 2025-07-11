@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,9 +16,6 @@ class Expiration {
 	public const DEFAULT_RETENTION_OBLIGATION = 30;
 	public const NO_OBLIGATION = -1;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
-
 	/** @var string */
 	private $retentionObligation;
 
@@ -30,8 +28,10 @@ class Expiration {
 	/** @var bool */
 	private $canPurgeToSaveSpace;
 
-	public function __construct(IConfig $config, ITimeFactory $timeFactory) {
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		IConfig $config,
+		private ITimeFactory $timeFactory,
+	) {
 		$this->setRetentionObligation($config->getSystemValue('trashbin_retention_obligation', 'auto'));
 	}
 
@@ -92,6 +92,20 @@ class Expiration {
 		}
 
 		return $isOlderThanMax || $isMinReached;
+	}
+
+	/**
+	 * Get minimal retention obligation as a timestamp
+	 *
+	 * @return int|false
+	 */
+	public function getMinAgeAsTimestamp() {
+		$minAge = false;
+		if ($this->isEnabled() && $this->minAge !== self::NO_OBLIGATION) {
+			$time = $this->timeFactory->getTime();
+			$minAge = $time - ($this->minAge * 86400);
+		}
+		return $minAge;
 	}
 
 	/**

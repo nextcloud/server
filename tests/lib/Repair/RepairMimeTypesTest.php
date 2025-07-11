@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,7 +15,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+use OCP\Server;
 
 /**
  * Tests for the converting of legacy storages to home storages.
@@ -24,21 +25,18 @@ use OCP\Migration\IRepairStep;
  * @see \OC\Repair\RepairMimeTypes
  */
 class RepairMimeTypesTest extends \Test\TestCase {
-	/** @var IRepairStep */
-	private $repair;
 
-	/** @var Temporary */
-	private $storage;
-
-	/** @var IMimeTypeLoader */
-	private $mimetypeLoader;
+	private RepairMimeTypes $repair;
+	private Temporary $storage;
+	private IMimeTypeLoader $mimetypeLoader;
+	private IDBConnection $db;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
+		$this->mimetypeLoader = Server::get(IMimeTypeLoader::class);
+		$this->db = Server::get(IDBConnection::class);
 
-		/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -59,17 +57,17 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$this->repair = new RepairMimeTypes(
 			$config,
 			$appConfig,
-			\OCP\Server::get(IDBConnection::class),
+			Server::get(IDBConnection::class),
 		);
 	}
 
 	protected function tearDown(): void {
 		$this->storage->getCache()->clear();
 
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->delete('storages')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($this->storage->getId())));
-		$qb->execute();
+		$qb->executeStatement();
 
 		$this->clearMimeTypes();
 
@@ -77,9 +75,9 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	}
 
 	private function clearMimeTypes() {
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->delete('mimetypes');
-		$qb->execute();
+		$qb->executeStatement();
 
 		$this->mimetypeLoader->reset();
 	}

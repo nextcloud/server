@@ -13,7 +13,7 @@ declare(strict_types=1);
 	<?php foreach ($_['providers'] as $provider): ?>
 		<li>
 			<a class="two-factor-provider"
-			   href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.setupProvider',
+			   href="<?php p(\OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.setupProvider',
 			   	[
 			   		'providerId' => $provider->getId(),
 			   		'redirect_url' => $_['redirect_url'],
@@ -35,7 +35,7 @@ declare(strict_types=1);
 		</li>
 	<?php endforeach; ?>
 	</ul>
-	<p><a class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
+	<p><a id="cancel-login" class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
 		<?php p($l->t('Cancel login')) ?>
 	</a></p>
 </div>

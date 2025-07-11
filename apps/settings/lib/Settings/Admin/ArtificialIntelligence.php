@@ -24,6 +24,7 @@ use OCP\Translation\ITranslationProviderWithId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 class ArtificialIntelligence implements IDelegatedSettings {
 	public function __construct(
@@ -36,6 +37,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		private ContainerInterface $container,
 		private \OCP\TextToImage\IManager $text2imageManager,
 		private \OCP\TaskProcessing\IManager $taskProcessingManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -113,13 +115,16 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			}
 		}
 		$taskProcessingTaskTypes = [];
-		foreach ($this->taskProcessingManager->getAvailableTaskTypes() as $taskTypeId => $taskTypeDefinition) {
+		$taskProcessingTypeSettings = [];
+		foreach ($this->taskProcessingManager->getAvailableTaskTypes(true) as $taskTypeId => $taskTypeDefinition) {
 			$taskProcessingTaskTypes[] = [
 				'id' => $taskTypeId,
 				'name' => $taskTypeDefinition['name'],
 				'description' => $taskTypeDefinition['description'],
 			];
+			$taskProcessingTypeSettings[$taskTypeId] = true;
 		}
+
 
 		$this->initialState->provideInitialState('ai-stt-providers', $sttProviders);
 		$this->initialState->provideInitialState('ai-translation-providers', $translationProviders);
@@ -135,14 +140,30 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			'ai.textprocessing_provider_preferences' => $textProcessingSettings,
 			'ai.text2image_provider' => count($text2imageProviders) > 0 ? $text2imageProviders[0]['id'] : null,
 			'ai.taskprocessing_provider_preferences' => $taskProcessingSettings,
+			'ai.taskprocessing_type_preferences' => $taskProcessingTypeSettings,
+			'ai.taskprocessing_guests' => false,
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;
 			$json = $this->config->getAppValue('core', $key, '');
 			if ($json !== '') {
-				$value = json_decode($json, true);
+				try {
+					$value = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
+				} catch (\JsonException $e) {
+					$this->logger->error('Failed to get settings. JSON Error in ' . $key, ['exception' => $e]);
+					if ($key === 'ai.taskprocessing_type_preferences') {
+						$value = [];
+						foreach ($taskProcessingTypeSettings as $taskTypeId => $taskTypeValue) {
+							$value[$taskTypeId] = false;
+						}
+						$settings[$key] = $value;
+					}
+					continue;
+				}
+
 				switch ($key) {
 					case 'ai.taskprocessing_provider_preferences':
+					case 'ai.taskprocessing_type_preferences':
 					case 'ai.textprocessing_provider_preferences':
 						// fill $value with $defaultValue values
 						$value = array_merge($defaultValue, $value);

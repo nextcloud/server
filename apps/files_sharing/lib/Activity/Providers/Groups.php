@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,22 +26,20 @@ class Groups extends Base {
 
 	public const SUBJECT_EXPIRED_GROUP = 'expired_group';
 
-	/** @var IGroupManager */
-	protected $groupManager;
-
 	/** @var string[] */
 	protected $groupDisplayNames = [];
 
-	public function __construct(IFactory $languageFactory,
+	public function __construct(
+		IFactory $languageFactory,
 		IURLGenerator $url,
 		IManager $activityManager,
 		IUserManager $userManager,
 		ICloudIdManager $cloudIdManager,
 		IContactsManager $contactsManager,
 		IEventMerger $eventMerger,
-		IGroupManager $groupManager) {
+		protected IGroupManager $groupManager,
+	) {
 		parent::__construct($languageFactory, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager, $eventMerger);
-		$this->groupManager = $groupManager;
 	}
 
 	/**

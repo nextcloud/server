@@ -24,12 +24,10 @@ use Sabre\HTTP\RequestInterface;
  */
 class ViewOnlyPlugin extends ServerPlugin {
 	private ?Server $server = null;
-	private ?Folder $userFolder;
 
 	public function __construct(
-		?Folder $userFolder,
+		private ?Folder $userFolder,
 	) {
-		$this->userFolder = $userFolder;
 	}
 
 	/**
@@ -46,6 +44,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 		//Sabre\DAV\CorePlugin::httpGet
 		$this->server->on('method:GET', [$this, 'checkViewOnly'], 90);
 		$this->server->on('method:COPY', [$this, 'checkViewOnly'], 90);
+		$this->server->on('method:MOVE', [$this, 'checkViewOnly'], 90);
 	}
 
 	/**
@@ -85,18 +84,25 @@ class ViewOnlyPlugin extends ServerPlugin {
 			if (!$storage->instanceOfStorage(ISharedStorage::class)) {
 				return true;
 			}
+
 			// Extract extra permissions
 			/** @var ISharedStorage $storage */
 			$share = $storage->getShare();
-
 			$attributes = $share->getAttributes();
 			if ($attributes === null) {
 				return true;
 			}
 
-			// Check if read-only and on whether permission can download is both set and disabled.
+			// We have two options here, if download is disabled, but viewing is allowed,
+			// we still allow the GET request to return the file content.
 			$canDownload = $attributes->getAttribute('permissions', 'download');
-			if ($canDownload !== null && !$canDownload) {
+			if (!$share->canSeeContent()) {
+				throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
+			}
+
+			// If download is disabled, we disable the COPY and MOVE methods even if the
+			// shareapi_allow_view_without_download is set to true.
+			if ($request->getMethod() !== 'GET' && ($canDownload !== null && !$canDownload)) {
 				throw new Forbidden('Access to this shared resource has been denied because its download permission is disabled.');
 			}
 		} catch (NotFound $e) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -11,7 +12,7 @@ use OC\Core\Data\LoginFlowV2Credentials;
 use Test\TestCase;
 
 class LoginFlowV2CredentialsTest extends TestCase {
-	/** @var \OC\Core\Data\LoginFlowV2Credentials */
+	/** @var LoginFlowV2Credentials */
 	private $fixture;
 
 	public function setUp(): void {

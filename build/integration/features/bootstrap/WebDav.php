@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -239,12 +240,79 @@ trait WebDav {
 	}
 
 	/**
+	 * @When Downloading folder :folderName
+	 */
+	public function downloadingFolder(string $folderName) {
+		try {
+			$this->response = $this->makeDavRequest($this->currentUser, 'GET', $folderName, ['Accept' => 'application/zip']);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When Downloading public folder :folderName
+	 */
+	public function downloadPublicFolder(string $folderName) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$folderName";
+
+		$client = new GClient();
+		$options = [];
+		$options['headers'] = [
+			'Accept' => 'application/zip'
+		];
+
+		try {
+			$this->response = $client->request('GET', $fullUrl, $options);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @When Downloading file :fileName
 	 * @param string $fileName
 	 */
 	public function downloadingFile($fileName) {
 		try {
 			$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When Downloading public file :filename
+	 */
+	public function downloadingPublicFile(string $filename) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$filename";
+
+		$client = new GClient();
+		$options = [
+			'headers' => [
+				'X-Requested-With' => 'XMLHttpRequest',
+			]
+		];
+
+		try {
+			$this->response = $client->request('GET', $fullUrl, $options);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When Downloading public file :filename without ajax header
+	 */
+	public function downloadingPublicFileWithoutHeader(string $filename) {
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/dav/files/$token/$filename";
+
+		$client = new GClient();
+		try {
+			$this->response = $client->request('GET', $fullUrl);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}

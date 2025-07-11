@@ -7,10 +7,17 @@
  */
 namespace OCA\Provisioning_API\Tests\Controller;
 
+use OC\Installer;
 use OCA\Provisioning_API\Controller\AppsController;
+use OCA\Provisioning_API\Tests\TestCase;
 use OCP\App\IAppManager;
+use OCP\AppFramework\OCS\OCSException;
+use OCP\IAppConfig;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class AppsTest
@@ -19,29 +26,30 @@ use OCP\IUserSession;
  *
  * @package OCA\Provisioning_API\Tests
  */
-class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
-	/** @var IAppManager */
-	private $appManager;
-	/** @var AppsController */
-	private $api;
-	/** @var IUserSession */
-	private $userSession;
+class AppsControllerTest extends TestCase {
+	private IAppManager $appManager;
+	private IAppConfig&MockObject $appConfig;
+	private Installer&MockObject $installer;
+	private AppsController $api;
+	private IUserSession $userSession;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->appManager = \OC::$server->getAppManager();
-		$this->groupManager = \OC::$server->getGroupManager();
-		$this->userSession = \OC::$server->getUserSession();
+		$this->appManager = Server::get(IAppManager::class);
+		$this->groupManager = Server::get(IGroupManager::class);
+		$this->userSession = Server::get(IUserSession::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->installer = $this->createMock(Installer::class);
 
-		$request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$request = $this->createMock(IRequest::class);
 
 		$this->api = new AppsController(
 			'provisioning_api',
 			$request,
-			$this->appManager
+			$this->appManager,
+			$this->installer,
+			$this->appConfig,
 		);
 	}
 
@@ -57,7 +65,7 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 
 
 	public function testGetAppInfoOnBadAppID(): void {
-		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(998);
 
 		$this->api->getAppInfo('not_provisioning_api');
@@ -92,9 +100,9 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 		$this->assertEquals(count($disabled), count($data['apps']));
 	}
 
-	
+
 	public function testGetAppsInvalidFilter(): void {
-		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
+		$this->expectException(OCSException::class);
 		$this->expectExceptionCode(101);
 
 		$this->api->getApps('foo');

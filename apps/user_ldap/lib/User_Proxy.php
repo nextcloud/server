@@ -13,61 +13,35 @@ use OCA\User_LDAP\User\User;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
-use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\ILimitAwareCountUsersBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
-	/** @var User_LDAP[] */
-	private array $backends = [];
-	private ?User_LDAP $refBackend = null;
-
-	private bool $isSetUp = false;
-	private Helper $helper;
-	private INotificationManager $notificationManager;
-	private UserPluginManager $userPluginManager;
-	private LoggerInterface $logger;
-	private DeletedUsersIndex $deletedUsersIndex;
-
+/**
+ * @template-extends Proxy<User_LDAP>
+ */
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
 	public function __construct(
-		Helper $helper,
+		private Helper $helper,
 		ILDAPWrapper $ldap,
 		AccessFactory $accessFactory,
-		INotificationManager $notificationManager,
-		UserPluginManager $userPluginManager,
-		LoggerInterface $logger,
-		DeletedUsersIndex $deletedUsersIndex,
+		private INotificationManager $notificationManager,
+		private UserPluginManager $userPluginManager,
+		private LoggerInterface $logger,
+		private DeletedUsersIndex $deletedUsersIndex,
 	) {
-		parent::__construct($ldap, $accessFactory);
-		$this->helper = $helper;
-		$this->notificationManager = $notificationManager;
-		$this->userPluginManager = $userPluginManager;
-		$this->logger = $logger;
-		$this->deletedUsersIndex = $deletedUsersIndex;
+		parent::__construct($helper, $ldap, $accessFactory);
 	}
 
-	protected function setup(): void {
-		if ($this->isSetUp) {
-			return;
-		}
-
-		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
-		foreach ($serverConfigPrefixes as $configPrefix) {
-			$this->backends[$configPrefix] = new User_LDAP(
-				$this->getAccess($configPrefix),
-				$this->notificationManager,
-				$this->userPluginManager,
-				$this->logger,
-				$this->deletedUsersIndex,
-			);
-
-			if (is_null($this->refBackend)) {
-				$this->refBackend = $this->backends[$configPrefix];
-			}
-		}
-
-		$this->isSetUp = true;
+	protected function newInstance(string $configPrefix): User_LDAP {
+		return new User_LDAP(
+			$this->getAccess($configPrefix),
+			$this->notificationManager,
+			$this->userPluginManager,
+			$this->logger,
+			$this->deletedUsersIndex,
+		);
 	}
 
 	/**
@@ -220,8 +194,8 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	/**
 	 * check if a user exists on LDAP
 	 *
-	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
-	 *                                              name or an instance of that user
+	 * @param string|User $user either the Nextcloud user
+	 *                          name or an instance of that user
 	 */
 	public function userExistsOnLDAP($user, bool $ignoreCache = false): bool {
 		$id = ($user instanceof User) ? $user->getUsername() : $user;
@@ -295,7 +269,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	}
 
 	/**
-	 * checks whether the user is allowed to change his avatar in Nextcloud
+	 * checks whether the user is allowed to change their avatar in Nextcloud
 	 *
 	 * @param string $uid the Nextcloud user name
 	 * @return boolean either the user can or cannot
@@ -360,17 +334,21 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 
 	/**
 	 * Count the number of users
-	 *
-	 * @return int|false
 	 */
-	public function countUsers() {
+	public function countUsers(int $limit = 0): int|false {
 		$this->setup();
 
 		$users = false;
 		foreach ($this->backends as $backend) {
-			$backendUsers = $backend->countUsers();
+			$backendUsers = $backend->countUsers($limit);
 			if ($backendUsers !== false) {
 				$users = (int)$users + $backendUsers;
+				if ($limit > 0) {
+					if ($users >= $limit) {
+						break;
+					}
+					$limit -= $users;
+				}
 			}
 		}
 		return $users;
@@ -437,11 +415,11 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		if ($search !== '') {
 			$disabledUsers = array_filter(
 				$disabledUsers,
-				fn (OfflineUser $user): bool =>
-					mb_stripos($user->getOCName(), $search) !== false ||
-					mb_stripos($user->getUID(), $search) !== false ||
-					mb_stripos($user->getDisplayName(), $search) !== false ||
-					mb_stripos($user->getEmail(), $search) !== false,
+				fn (OfflineUser $user): bool
+					=> mb_stripos($user->getOCName(), $search) !== false
+					|| mb_stripos($user->getUID(), $search) !== false
+					|| mb_stripos($user->getDisplayName(), $search) !== false
+					|| mb_stripos($user->getEmail(), $search) !== false,
 			);
 		}
 		return array_map(

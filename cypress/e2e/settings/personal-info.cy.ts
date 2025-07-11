@@ -98,13 +98,19 @@ const checkSettingsVisibility = (property: string, defaultVisibility: Visibility
 	}) */
 }
 
-const genericProperties = ['Location', 'X (formerly Twitter)', 'Fediverse']
+const genericProperties = [
+	['Location', 'Berlin'],
+	['X (formerly Twitter)', 'nextclouders'],
+	['Fediverse', 'nextcloud@mastodon.xyz'],
+]
 const nonfederatedProperties = ['Organisation', 'Role', 'Headline', 'About']
 
 describe('Settings: Change personal information', { testIsolation: true }, () => {
 	let snapshot: string = ''
 
 	before(() => {
+		// make sure the fediverse check does not do http requests
+		cy.runOccCommand('config:system:set has_internet_connection --type bool --value false')
 		// ensure we can set locale and language
 		cy.runOccCommand('config:system:delete force_language')
 		cy.runOccCommand('config:system:delete force_locale')
@@ -112,16 +118,21 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 			user = $user
 			cy.modifyUser(user, 'language', 'en')
 			cy.modifyUser(user, 'locale', 'en_US')
-		})
 
-		cy.wait(500)
+			// Make sure the user is logged in at least once
+			// before the snapshot is taken to speed up the tests
+			cy.login(user)
+			cy.visit('/settings/user')
 
-		cy.backupDB().then(($snapshot) => {
-			snapshot = $snapshot
+			cy.saveState().then(($snapshot) => {
+				snapshot = $snapshot
+			})
 		})
 	})
 
 	after(() => {
+		cy.runOccCommand('config:system:delete has_internet_connection')
+
 		cy.runOccCommand('config:system:set force_language --value en')
 		cy.runOccCommand('config:system:set force_locale --value en_US')
 	})
@@ -133,7 +144,7 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 	})
 
 	afterEach(() => {
-		cy.restoreDB(snapshot)
+		cy.restoreState(snapshot)
 	})
 
 	it('Can dis- and enable the profile', () => {
@@ -325,6 +336,57 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 		cy.get('a[href="tel:+498972101099701"]').should('be.visible')
 	})
 
+	it('Can set phone number with phone region', () => {
+		cy.contains('label', 'Phone number').scrollIntoView()
+		inputForLabel('Phone number').type('{selectAll}0 40 428990')
+		inputForLabel('Phone number').should('have.attr', 'class').and('contain', '--error')
+
+		cy.runOccCommand('config:system:set default_phone_region --value DE')
+		cy.reload()
+
+		cy.contains('label', 'Phone number').scrollIntoView()
+		inputForLabel('Phone number').type('{selectAll}0 40 428990')
+		handlePasswordConfirmation(user.password)
+
+		cy.wait('@submitSetting')
+		cy.reload()
+		inputForLabel('Phone number').should('have.value', '+4940428990')
+	})
+
+	it('Can reset phone number', () => {
+		cy.contains('label', 'Phone number').scrollIntoView()
+		inputForLabel('Phone number').type('{selectAll}+49 40 428990')
+		handlePasswordConfirmation(user.password)
+
+		cy.wait('@submitSetting')
+		cy.reload()
+		inputForLabel('Phone number').should('have.value', '+4940428990')
+
+		inputForLabel('Phone number').clear()
+		handlePasswordConfirmation(user.password)
+
+		cy.wait('@submitSetting')
+		cy.reload()
+		inputForLabel('Phone number').should('have.value', '')
+	})
+
+	it('Can reset social media property', () => {
+		cy.contains('label', 'Fediverse').scrollIntoView()
+		inputForLabel('Fediverse').type('{selectAll}@nextcloud@mastodon.social')
+		handlePasswordConfirmation(user.password)
+
+		cy.wait('@submitSetting')
+		cy.reload()
+		inputForLabel('Fediverse').should('have.value', 'nextcloud@mastodon.social')
+
+		inputForLabel('Fediverse').clear()
+		handlePasswordConfirmation(user.password)
+
+		cy.wait('@submitSetting')
+		cy.reload()
+		inputForLabel('Fediverse').should('have.value', '')
+	})
+
 	it('Can set Website and change its visibility', () => {
 		cy.contains('label', 'Website').scrollIntoView()
 		// Check invalid input
@@ -346,22 +408,21 @@ describe('Settings: Change personal information', { testIsolation: true }, () =>
 	})
 
 	// Check generic properties that allow any visibility and any value
-	genericProperties.forEach((property) => {
+	genericProperties.forEach(([property, value]) => {
 		it(`Can set ${property} and change its visibility`, () => {
-			const uniqueValue = `${property.toUpperCase()} ${property.toLowerCase()}`
 			cy.contains('label', property).scrollIntoView()
-			inputForLabel(property).type(uniqueValue)
+			inputForLabel(property).type(value)
 			handlePasswordConfirmation(user.password)
 
 			cy.wait('@submitSetting')
 			cy.reload()
-			inputForLabel(property).should('have.value', uniqueValue)
+			inputForLabel(property).should('have.value', value)
 
 			checkSettingsVisibility(property)
 
 			// check it is visible on the profile
 			cy.visit(`/u/${user.userId}`)
-			cy.contains(uniqueValue).should('be.visible')
+			cy.contains(value).should('be.visible')
 		})
 	})
 

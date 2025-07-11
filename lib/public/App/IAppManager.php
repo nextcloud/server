@@ -25,12 +25,20 @@ interface IAppManager {
 	public const BACKEND_CALDAV = 'caldav';
 
 	/**
-	 * Returns the app information from "appinfo/info.xml".
+	 * Returns the app information from "appinfo/info.xml" for an app
 	 *
 	 * @return array|null
 	 * @since 14.0.0
+	 * @since 31.0.0 Usage of $path is discontinued and throws an \InvalidArgumentException, use {@see self::getAppInfoByPath} instead.
 	 */
 	public function getAppInfo(string $appId, bool $path = false, ?string $lang = null);
+
+	/**
+	 * Returns the app information from a given path ending with "/appinfo/info.xml"
+	 *
+	 * @since 31.0.0
+	 */
+	public function getAppInfoByPath(string $path, ?string $lang = null): ?array;
 
 	/**
 	 * Returns the app information from "appinfo/info.xml".
@@ -41,6 +49,14 @@ interface IAppManager {
 	 * @since 14.0.0
 	 */
 	public function getAppVersion(string $appId, bool $useCache = true): string;
+
+	/**
+	 * Returns the installed version of all apps
+	 *
+	 * @return array<string, string>
+	 * @since 32.0.0
+	 */
+	public function getAppInstalledVersions(bool $onlyEnabled = false): array;
 
 	/**
 	 * Returns the app icon or null if none is found
@@ -69,8 +85,16 @@ interface IAppManager {
 	 * @param string $appId
 	 * @return bool
 	 * @since 8.0.0
+	 * @deprecated 32.0.0 Use either {@see self::isEnabledForUser} or {@see self::isEnabledForAnyone}
 	 */
 	public function isInstalled(string $appId);
+
+	/**
+	 * Check if an app is enabled in the instance, either for everyone or for specific groups
+	 *
+	 * @since 32.0.0
+	 */
+	public function isEnabledForAnyone(string $appId): bool;
 
 	/**
 	 * Check if an app should be enabled by default
@@ -134,7 +158,7 @@ interface IAppManager {
 	 * @param bool $automaticDisabled
 	 * @since 8.0.0
 	 */
-	public function disableApp(string $appId, bool $automaticDisabled = false);
+	public function disableApp(string $appId, bool $automaticDisabled = false): void;
 
 	/**
 	 * Get the directory for the given app.
@@ -158,7 +182,7 @@ interface IAppManager {
 	 * List all apps enabled for a user
 	 *
 	 * @param IUser $user
-	 * @return string[]
+	 * @return list<string>
 	 * @since 8.1.0
 	 */
 	public function getEnabledAppsForUser(IUser $user);
@@ -168,14 +192,23 @@ interface IAppManager {
 	 *
 	 * @return string[]
 	 * @since 8.1.0
+	 * @deprecated 32.0.0 Use either {@see self::getEnabledApps} or {@see self::getEnabledAppsForUser}
 	 */
 	public function getInstalledApps();
+
+	/**
+	 * List all apps enabled, either for everyone or for specific groups only
+	 *
+	 * @return list<string>
+	 * @since 32.0.0
+	 */
+	public function getEnabledApps(): array;
 
 	/**
 	 * Clear the cached list of apps when enabling/disabling an app
 	 * @since 8.1.0
 	 */
-	public function clearAppsCache();
+	public function clearAppsCache(): void;
 
 	/**
 	 * @param string $appId
@@ -191,7 +224,7 @@ interface IAppManager {
 	 * @return bool
 	 *
 	 * This function walks through the Nextcloud directory and loads all apps
-	 * it can find. A directory contains an app if the file /appinfo/info.xml
+	 * it can find. A directory contains an app if the file `/appinfo/info.xml`
 	 * exists.
 	 *
 	 * if $types is set to non-empty array, only apps of those types will be loaded
@@ -261,7 +294,7 @@ interface IAppManager {
 	/**
 	 * Set the global default apps with fallbacks
 	 *
-	 * @param string[] $appId
+	 * @param string[] $defaultApps
 	 * @throws \InvalidArgumentException If any of the apps is not installed
 	 * @since 28.0.0
 	 * @deprecated 31.0.0
@@ -282,10 +315,17 @@ interface IAppManager {
 	/**
 	 * Clean the appId from forbidden characters
 	 *
+	 * @psalm-taint-escape callable
+	 * @psalm-taint-escape cookie
 	 * @psalm-taint-escape file
-	 * @psalm-taint-escape include
-	 * @psalm-taint-escape html
 	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape header
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape include
+	 * @psalm-taint-escape ldap
+	 * @psalm-taint-escape shell
+	 * @psalm-taint-escape sql
+	 * @psalm-taint-escape unserialize
 	 *
 	 * @since 31.0.0
 	 */

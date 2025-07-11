@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -50,10 +51,6 @@ class LegacyBackend extends Backend {
 					break;
 				case '*':
 					$type = DefinitionParameter::VALUE_PASSWORD;
-					$placeholder = substr($placeholder, 1);
-					break;
-				case '#':
-					$type = DefinitionParameter::VALUE_HIDDEN;
 					$placeholder = substr($placeholder, 1);
 					break;
 			}

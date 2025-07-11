@@ -16,6 +16,11 @@ use InvalidArgumentException;
  */
 interface IUser {
 	/**
+	 * @since 32.0.0
+	 */
+	public const MAX_USERID_LENGTH = 64;
+
+	/**
 	 * get the user id
 	 *
 	 * @return string
@@ -50,13 +55,22 @@ interface IUser {
 	 * @return int
 	 * @since 8.0.0
 	 */
-	public function getLastLogin();
+	public function getLastLogin(): int;
 
 	/**
-	 * updates the timestamp of the most recent login of this user
+	 * Returns the timestamp of the user's first login, 0 if the user did never login, or -1 if the data is unknown (first login was on an older version)
+	 *
+	 * @since 31.0.0
+	 */
+	public function getFirstLogin(): int;
+
+	/**
+	 * Updates the timestamp of the most recent login of this user (and first login if needed)
+	 *
+	 * @return bool whether this is the first login
 	 * @since 8.0.0
 	 */
-	public function updateLastLoginTimestamp();
+	public function updateLastLoginTimestamp(): bool;
 
 	/**
 	 * Delete the user
@@ -117,7 +131,7 @@ interface IUser {
 	public function getBackend();
 
 	/**
-	 * check if the backend allows the user to change his avatar on Personal page
+	 * check if the backend allows the user to change their avatar on Personal page
 	 *
 	 * @return bool
 	 * @since 8.0.0
@@ -139,6 +153,13 @@ interface IUser {
 	 * @since 8.0.0
 	 */
 	public function canChangeDisplayName();
+
+	/**
+	 * Check if the backend supports changing email
+	 *
+	 * @since 32.0.0
+	 */
+	public function canChangeEmail(): bool;
 
 	/**
 	 * check if the user is enabled
@@ -258,6 +279,15 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function getQuota();
+
+	/**
+	 * Get the users' quota in machine readable form. If a specific quota is set
+	 * for the user, then the quota is returned in bytes. Otherwise the default value is returned.
+	 * If a default setting was not set, it is return as `\OCP\Files\FileInfo::SPACE_UNLIMITED`, i.e. quota is not limited.
+	 *
+	 * @since 32.0.0
+	 */
+	public function getQuotaBytes(): int|float;
 
 	/**
 	 * set the users' quota

@@ -16,11 +16,9 @@ use OCP\WorkflowEngine\IManager;
 
 class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $dbc;
-
-	public function __construct(IDBConnection $dbc) {
-		$this->dbc = $dbc;
+	public function __construct(
+		private IDBConnection $dbc,
+	) {
 	}
 
 	public function getName() {
@@ -41,7 +39,7 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		$insertQuery = $qb->insert('flow_operations_scope');
 		while (($id = $ids->fetchOne()) !== false) {
 			$insertQuery->values(['operation_id' => $qb->createNamedParameter($id), 'type' => IManager::SCOPE_ADMIN]);
-			$insertQuery->execute();
+			$insertQuery->executeStatement();
 		}
 	}
 
@@ -55,7 +53,7 @@ class PopulateNewlyIntroducedDatabaseFields implements IRepairStep {
 		// in case the repair step is executed multiple times for whatever reason.
 
 		/** @var IResult $result */
-		$result = $selectQuery->execute();
+		$result = $selectQuery->executeQuery();
 		return $result;
 	}
 }

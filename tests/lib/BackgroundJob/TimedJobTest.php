@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,20 +9,7 @@
 namespace Test\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\TimedJob;
-
-class TestTimedJobNew extends TimedJob {
-	public bool $ran = false;
-
-	public function __construct(ITimeFactory $timeFactory) {
-		parent::__construct($timeFactory);
-		$this->setInterval(10);
-	}
-
-	public function run($argument) {
-		$this->ran = true;
-	}
-}
+use OCP\Server;
 
 class TimedJobTest extends \Test\TestCase {
 	private DummyJobList $jobList;
@@ -31,7 +19,7 @@ class TimedJobTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->jobList = new DummyJobList();
-		$this->time = \OCP\Server::get(ITimeFactory::class);
+		$this->time = Server::get(ITimeFactory::class);
 	}
 
 	public function testShouldRunAfterIntervalNew(): void {

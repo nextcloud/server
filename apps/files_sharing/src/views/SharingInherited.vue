@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<ul id="sharing-inherited-shares">
+	<ul v-if="shares.length" id="sharing-inherited-shares">
 		<!-- Main collapsible entry -->
 		<SharingEntrySimple class="sharing-entry__inherited"
 			:title="mainTitle"
@@ -30,7 +30,7 @@
 
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import axios from '@nextcloud/axios'
 
 import Share from '../models/Share.ts'

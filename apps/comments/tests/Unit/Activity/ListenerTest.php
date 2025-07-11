@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,30 +23,17 @@ use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IShareHelper;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ListenerTest extends TestCase {
-
-	/** @var Listener */
-	protected $listener;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $activityManager;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appManager;
-
-	/** @var IMountProviderCollection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $mountProviderCollection;
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	protected $rootFolder;
-
-	/** @var IShareHelper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $shareHelper;
+	protected IManager&MockObject $activityManager;
+	protected IUserSession&MockObject $session;
+	protected IAppManager&MockObject $appManager;
+	protected IMountProviderCollection&MockObject $mountProviderCollection;
+	protected IRootFolder&MockObject $rootFolder;
+	protected IShareHelper&MockObject $shareHelper;
+	protected Listener $listener;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -67,7 +57,7 @@ class ListenerTest extends TestCase {
 
 	public function testCommentEvent(): void {
 		$this->appManager->expects($this->any())
-			->method('isInstalled')
+			->method('isEnabledForAnyone')
 			->with('activity')
 			->willReturn(true);
 
@@ -76,7 +66,7 @@ class ListenerTest extends TestCase {
 			->method('getObjectType')
 			->willReturn('files');
 
-		/** @var CommentsEvent|\PHPUnit\Framework\MockObject\MockObject $event */
+		/** @var CommentsEvent|MockObject $event */
 		$event = $this->createMock(CommentsEvent::class);
 		$event->expects($this->any())
 			->method('getComment')
@@ -85,13 +75,13 @@ class ListenerTest extends TestCase {
 			->method('getEvent')
 			->willReturn(CommentsEvent::EVENT_ADD);
 
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $ownerUser */
+		/** @var IUser|MockObject $ownerUser */
 		$ownerUser = $this->createMock(IUser::class);
 		$ownerUser->expects($this->any())
 			->method('getUID')
 			->willReturn('937393');
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject $mount */
+		/** @var MockObject $mount */
 		$mount = $this->createMock(ICachedMountFileInfo::class);
 		$mount->expects($this->any())
 			->method('getUser')
@@ -133,7 +123,7 @@ class ListenerTest extends TestCase {
 			->method('getUser')
 			->willReturn($ownerUser);
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject $activity */
+		/** @var MockObject $activity */
 		$activity = $this->createMock(IEvent::class);
 		$activity->expects($this->exactly(count($al['users'])))
 			->method('setAffectedUser');

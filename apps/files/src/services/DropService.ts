@@ -178,8 +178,7 @@ export const onDropInternalFiles = async (nodes: Node[], destination: Folder, co
 
 	for (const node of nodes) {
 		Vue.set(node, 'status', NodeStatus.LOADING)
-		// TODO: resolve potential conflicts prior and force overwrite
-		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE))
+		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
 	}
 
 	// Wait for all promises to settle

@@ -15,11 +15,12 @@ use OCA\Theming\Jobs\RestoreBackgroundImageColor;
 use OCP\BackgroundJob\IJobList;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
+use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
 
 // This can only be executed once because `background_color` is again used with Nextcloud 30,
 // so this part only works when updating -> Nextcloud 29 -> 30
-class Version2006Date20240905111627 implements \OCP\Migration\IMigrationStep {
+class Version2006Date20240905111627 implements IMigrationStep {
 
 	public function __construct(
 		private IJobList $jobList,
@@ -82,7 +83,45 @@ class Version2006Date20240905111627 implements \OCP\Migration\IMigrationStep {
 			->set('configkey', $qb->createNamedParameter('primary_color'))
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter(Application::APP_ID)))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('background_color')));
-		$qb->executeStatement();
+
+		try {
+			$qb->executeStatement();
+		} catch (\Exception) {
+			$output->debug('Some users already configured the background color');
+			$this->restoreUserColorsFallback($output);
+		}
+
 		$output->info('Primary color of users restored');
+	}
+
+	/**
+	 * Similar to restoreUserColors but also works if some users already setup a new value.
+	 * This is only called if the first approach fails as this takes much longer on the DB.
+	 */
+	private function restoreUserColorsFallback(IOutput $output): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb2 = $this->connection->getQueryBuilder();
+
+		$qb2->select('userid')
+			->from('preferences')
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter(Application::APP_ID)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('primary_color')));
+
+		// MySQL does not update on select of the same table, so this is a workaround:
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL) {
+			$subquery = 'SELECT * from ( ' . $qb2->getSQL() . ' ) preferences_alias';
+		} else {
+			$subquery = $qb2->getSQL();
+		}
+
+		$qb->update('preferences')
+			->set('configkey', $qb->createNamedParameter('primary_color'))
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter(Application::APP_ID)))
+			->andWhere(
+				$qb->expr()->eq('configkey', $qb->createNamedParameter('background_color')),
+				$qb->expr()->notIn('userid', $qb->createFunction($subquery)),
+			);
+
+		$qb->executeStatement();
 	}
 }

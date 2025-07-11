@@ -33,24 +33,24 @@ use Psr\Log\LoggerInterface;
  * Send a reminder via email to the sharee(s) if the folder is still empty a predefined time before the expiration date
  */
 class SharesReminderJob extends TimedJob {
-	private const SECONDS_BEFORE_REMINDER = 86400;
+	private const SECONDS_BEFORE_REMINDER = 24 * 60 * 60;
 	private const CHUNK_SIZE = 1000;
 	private int $folderMimeTypeId;
 
 	public function __construct(
-		ITimeFactory                     $time,
-		private readonly IDBConnection   $db,
-		private readonly IManager        $shareManager,
-		private readonly IUserManager    $userManager,
+		ITimeFactory $time,
+		private readonly IDBConnection $db,
+		private readonly IManager $shareManager,
+		private readonly IUserManager $userManager,
 		private readonly LoggerInterface $logger,
-		private readonly IURLGenerator   $urlGenerator,
-		private readonly IFactory        $l10nFactory,
-		private readonly IMailer         $mailer,
-		private readonly Defaults        $defaults,
-		IMimeTypeLoader                  $mimeTypeLoader,
+		private readonly IURLGenerator $urlGenerator,
+		private readonly IFactory $l10nFactory,
+		private readonly IMailer $mailer,
+		private readonly Defaults $defaults,
+		IMimeTypeLoader $mimeTypeLoader,
 	) {
 		parent::__construct($time);
-		$this->setInterval(3600);
+		$this->setInterval(60 * 60);
 		$this->folderMimeTypeId = $mimeTypeLoader->getId(ICacheEntry::DIRECTORY_MIMETYPE);
 	}
 

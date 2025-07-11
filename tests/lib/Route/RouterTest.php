@@ -35,7 +35,7 @@ class RouterTest extends TestCase {
 		$logger = $this->createMock(LoggerInterface::class);
 		$logger->method('info')
 			->willReturnCallback(
-				function (string $message, array $data) {
+				function (string $message, array $data): void {
 					$this->fail('Unexpected info log: ' . (string)($data['exception'] ?? $message));
 				}
 			);
@@ -63,6 +63,9 @@ class RouterTest extends TestCase {
 		$this->appManager->expects(self::atLeastOnce())
 			->method('getAppPath')
 			->willReturnCallback(fn (string $appid): string => \OC::$SERVERROOT . '/apps/' . $appid);
+		$this->appManager->expects(self::atLeastOnce())
+			->method('isAppLoaded')
+			->willReturn(true);
 
 		$this->assertEquals('/index.php/apps/files/', $this->router->generate('files.view.index'));
 

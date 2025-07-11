@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,8 +8,8 @@
 namespace OCA\Files_Sharing;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -19,21 +20,16 @@ use OCP\Share\IShare;
  */
 class ExpireSharesJob extends TimedJob {
 
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var IDBConnection */
-	private $db;
-
-	public function __construct(ITimeFactory $time, IManager $shareManager, IDBConnection $db) {
-		$this->shareManager = $shareManager;
-		$this->db = $db;
-
+	public function __construct(
+		ITimeFactory $time,
+		private IManager $shareManager,
+		private IDBConnection $db,
+	) {
 		parent::__construct($time);
 
 		// Run once a day
 		$this->setInterval(24 * 60 * 60);
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 
@@ -55,15 +51,9 @@ class ExpireSharesJob extends TimedJob {
 			->from('share')
 			->where(
 				$qb->expr()->andX(
-					$qb->expr()->orX(
-						$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_LINK)),
-						$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_EMAIL))
-					),
+					$qb->expr()->in('share_type', $qb->createNamedParameter([IShare::TYPE_LINK, IShare::TYPE_EMAIL], IQueryBuilder::PARAM_INT_ARRAY)),
 					$qb->expr()->lte('expiration', $qb->expr()->literal($now)),
-					$qb->expr()->orX(
-						$qb->expr()->eq('item_type', $qb->expr()->literal('file')),
-						$qb->expr()->eq('item_type', $qb->expr()->literal('folder'))
-					)
+					$qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY))
 				)
 			);
 

@@ -19,8 +19,11 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\User\Events\UserIdAssignedEvent;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use function strlen;
 use function substr;
@@ -260,7 +263,7 @@ class Access extends LDAPUtility {
 			return false;
 		}
 		//LDAP attributes are not case sensitive
-		$result = \OCP\Util::mb_array_change_key_case(
+		$result = Util::mb_array_change_key_case(
 			$this->invokeLDAPMethod('getAttributes', $er), MB_CASE_LOWER, 'UTF-8');
 
 		return $result;
@@ -338,10 +341,10 @@ class Access extends LDAPUtility {
 		$cr = $this->connection->getConnectionResource();
 		try {
 			// try PASSWD extended operation first
-			return @$this->invokeLDAPMethod('exopPasswd', $userDN, '', $password) ||
-				@$this->invokeLDAPMethod('modReplace', $userDN, $password);
+			return @$this->invokeLDAPMethod('exopPasswd', $userDN, '', $password)
+				|| @$this->invokeLDAPMethod('modReplace', $userDN, $password);
 		} catch (ConstraintViolationException $e) {
-			throw new HintException('Password change rejected.', \OCP\Util::getL10N('user_ldap')->t('Password change rejected. Hint: ') . $e->getMessage(), (int)$e->getCode());
+			throw new HintException('Password change rejected.', Util::getL10N('user_ldap')->t('Password change rejected. Hint: %s', $e->getMessage()), (int)$e->getCode());
 		}
 	}
 
@@ -435,10 +438,11 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string $fdn the dn of the group object
 	 * @param string $ldapName optional, the display name of the object
+	 * @param bool $autoMapping Should the group be mapped if not yet mapped
 	 * @return string|false with the name to use in Nextcloud, false on DN outside of search DN
 	 * @throws \Exception
 	 */
-	public function dn2groupname($fdn, $ldapName = null) {
+	public function dn2groupname($fdn, $ldapName = null, bool $autoMapping = true) {
 		//To avoid bypassing the base DN settings under certain circumstances
 		//with the group support, check whether the provided DN matches one of
 		//the given Bases
@@ -446,7 +450,7 @@ class Access extends LDAPUtility {
 			return false;
 		}
 
-		return $this->dn2ocname($fdn, $ldapName, false);
+		return $this->dn2ocname($fdn, $ldapName, false, autoMapping:$autoMapping);
 	}
 
 	/**
@@ -476,10 +480,11 @@ class Access extends LDAPUtility {
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
 	 * @param bool|null $newlyMapped
 	 * @param array|null $record
+	 * @param bool $autoMapping Should the group be mapped if not yet mapped
 	 * @return false|string with with the name to use in Nextcloud
 	 * @throws \Exception
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, ?array $record = null) {
+	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, ?array $record = null, bool $autoMapping = true) {
 		static $intermediates = [];
 		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
 			return false; // is a known intermediate
@@ -496,6 +501,11 @@ class Access extends LDAPUtility {
 		$ncName = $mapper->getNameByDN($fdn);
 		if (is_string($ncName)) {
 			return $ncName;
+		}
+
+		if (!$autoMapping) {
+			/* If no auto mapping, stop there */
+			return false;
 		}
 
 		if ($isUser) {
@@ -586,7 +596,7 @@ class Access extends LDAPUtility {
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
 		if ($intName !== ''
 			&& (($isUser && !$this->ncUserManager->userExists($intName))
-				|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))
+				|| (!$isUser && !Server::get(IGroupManager::class)->groupExists($intName))
 			)
 		) {
 			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
@@ -820,7 +830,7 @@ class Access extends LDAPUtility {
 			// Check to be really sure it is unique
 			// while loop is just a precaution. If a name is not generated within
 			// 20 attempts, something else is very wrong. Avoids infinite loop.
-			if (!\OC::$server->getGroupManager()->groupExists($altName)) {
+			if (!Server::get(IGroupManager::class)->groupExists($altName)) {
 				return $altName;
 			}
 			$altName = $name . '_' . ($lastNo + $attempts);
@@ -948,22 +958,6 @@ class Access extends LDAPUtility {
 		}
 		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
 
-		$listOfDNs = array_reduce($groupRecords, function ($listOfDNs, $entry) {
-			$listOfDNs[] = $entry['dn'][0];
-			return $listOfDNs;
-		}, []);
-		$idsByDn = $this->getGroupMapper()->getListOfIdsByDn($listOfDNs);
-
-		array_walk($groupRecords, function (array $record) use ($idsByDn) {
-			$newlyMapped = false;
-			$gid = $idsByDn[$record['dn'][0]] ?? null;
-			if ($gid === null) {
-				$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
-			}
-			if (!$newlyMapped && is_string($gid)) {
-				$this->cacheGroupExists($gid);
-			}
-		});
 		$listOfGroups = $this->fetchList($groupRecords, $this->manyAttributes($attr));
 		$this->connection->writeToCache($cacheKey, $listOfGroups);
 		return $listOfGroups;
@@ -1172,7 +1166,7 @@ class Access extends LDAPUtility {
 				return false;
 			}
 			// if count is bigger, then the server does not support
-			// paged search. Instead, he did a normal search. We set a
+			// paged search. Instead, they did a normal search. We set a
 			// flag here, so the callee knows how to deal with it.
 			if ($foundItems <= $limit) {
 				$this->pagedSearchedSuccessful = true;
@@ -1329,7 +1323,7 @@ class Access extends LDAPUtility {
 				if (!is_array($item)) {
 					continue;
 				}
-				$item = \OCP\Util::mb_array_change_key_case($item, MB_CASE_LOWER, 'UTF-8');
+				$item = Util::mb_array_change_key_case($item, MB_CASE_LOWER, 'UTF-8');
 				foreach ($attr as $key) {
 					if (isset($item[$key])) {
 						if (is_array($item[$key]) && isset($item[$key]['count'])) {
@@ -1578,7 +1572,7 @@ class Access extends LDAPUtility {
 	 * a *
 	 */
 	private function prepareSearchTerm(string $term): string {
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 
 		$allowEnum = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');
 
@@ -1817,8 +1811,8 @@ class Access extends LDAPUtility {
 			 * user. Instead we write a log message.
 			 */
 			$this->logger->info(
-				'Passed string does not resemble a valid GUID. Known UUID ' .
-				'({uuid}) probably does not match UUID configuration.',
+				'Passed string does not resemble a valid GUID. Known UUID '
+				. '({uuid}) probably does not match UUID configuration.',
 				['app' => 'user_ldap', 'uuid' => $guid]
 			);
 			return $guid;

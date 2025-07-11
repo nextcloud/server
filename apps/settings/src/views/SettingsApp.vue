@@ -12,5 +12,5 @@
 </template>
 
 <script setup lang="ts">
-import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import NcContent from '@nextcloud/vue/components/NcContent'
 </script>

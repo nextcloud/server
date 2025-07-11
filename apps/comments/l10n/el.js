@@ -17,16 +17,15 @@ OC.L10N.register(
     "Cancel edit" : "Ακύρωση επεξεργασίας",
     "New comment" : "Νέο σχόλιο",
     "Post comment" : "Αναρτήστε σχόλιο",
+    "Unable to load the comments list" : "Δεν είναι δυνατή η μεταφόρτωση της λίστας σχολίων.",
     "No comments yet, start the conversation!" : "Δεν υπάρχουν σχόλια, ξεκινήστε την συζήτηση!",
     "No more messages" : "Δεν υπάρχουν άλλα μηνύματα",
     "Retry" : "Δοκιμή ξανά",
-    "Unable to load the comments list" : "Δεν είναι δυνατή η μεταφόρτωση της λίστας σχολίων.",
     "_1 new comment_::_{unread} new comments_" : ["1 νέο σχόλιο","{unread} νέα σχόλια"],
     "Comment" : "Σχόλιο",
     "An error occurred while trying to edit the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια επεξεργασίας του σχολίου",
     "Comment deleted" : "Το σχόλιο διαγράφηκε",
     "An error occurred while trying to delete the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια διαγραφής του σχολίου",
-    "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Το όνομά σας αναφέρθηκε στο “{file}”, σε σχόλιο ενός χρήστη ο οποίος έχει πλέον διαγραφεί"
+    "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου"
 },
 "nplurals=2; plural=(n != 1);");

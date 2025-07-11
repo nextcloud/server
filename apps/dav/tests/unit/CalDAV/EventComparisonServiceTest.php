@@ -14,8 +14,7 @@ use Sabre\VObject\Component\VCalendar;
 use Test\TestCase;
 
 class EventComparisonServiceTest extends TestCase {
-	/** @var EventComparisonService */
-	private $eventComparisonService;
+	private EventComparisonService $eventComparisonService;
 
 	protected function setUp(): void {
 		$this->eventComparisonService = new EventComparisonService();

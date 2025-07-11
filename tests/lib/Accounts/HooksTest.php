@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -43,7 +44,6 @@ class HooksTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestChangeUserHook
 	 *
 	 * @param $params
 	 * @param $data
@@ -51,6 +51,7 @@ class HooksTest extends TestCase {
 	 * @param $setDisplayName
 	 * @param $error
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestChangeUserHook')]
 	public function testChangeUserHook($params, $data, $setEmail, $setDisplayName, $error): void {
 		if ($error) {
 			$this->accountManager->expects($this->never())->method('updateAccount');
@@ -96,14 +97,14 @@ class HooksTest extends TestCase {
 			}
 		}
 
+		$params['user'] = $this->createMock(IUser::class);
 		$this->hooks->changeUserHook($params['user'], $params['feature'], $params['value']);
 	}
 
-	public function dataTestChangeUserHook() {
-		$user = $this->createMock(IUser::class);
+	public static function dataTestChangeUserHook(): array {
 		return [
 			[
-				['user' => $user, 'feature' => '', 'value' => ''],
+				['feature' => '', 'value' => ''],
 				[
 					IAccountManager::PROPERTY_EMAIL => ['value' => ''],
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => '']
@@ -111,7 +112,7 @@ class HooksTest extends TestCase {
 				false, false, true
 			],
 			[
-				['user' => $user, 'feature' => 'foo', 'value' => 'bar'],
+				['feature' => 'foo', 'value' => 'bar'],
 				[
 					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
@@ -119,7 +120,7 @@ class HooksTest extends TestCase {
 				false, false, false
 			],
 			[
-				['user' => $user, 'feature' => 'eMailAddress', 'value' => 'newMail@example.com'],
+				['feature' => 'eMailAddress', 'value' => 'newMail@example.com'],
 				[
 					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']
@@ -127,7 +128,7 @@ class HooksTest extends TestCase {
 				true, false, false
 			],
 			[
-				['user' => $user, 'feature' => 'displayName', 'value' => 'newDisplayName'],
+				['feature' => 'displayName', 'value' => 'newDisplayName'],
 				[
 					IAccountManager::PROPERTY_EMAIL => ['value' => 'oldMail@example.com'],
 					IAccountManager::PROPERTY_DISPLAYNAME => ['value' => 'oldDisplayName']

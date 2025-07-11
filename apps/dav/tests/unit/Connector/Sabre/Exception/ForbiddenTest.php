@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre\Exception;
 
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use Sabre\DAV\Server;
 
 class ForbiddenTest extends \Test\TestCase {
 	public function testSerialization(): void {
@@ -32,9 +34,7 @@ class ForbiddenTest extends \Test\TestCase {
 EOD;
 
 		$ex = new Forbidden($message, $retry);
-		$server = $this->getMockBuilder('Sabre\DAV\Server')
-			->disableOriginalConstructor()
-			->getMock();
+		$server = $this->createMock(Server::class);
 		$ex->serialize($server, $error);
 
 		// assert

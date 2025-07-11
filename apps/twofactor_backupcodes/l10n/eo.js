@@ -9,15 +9,14 @@ OC.L10N.register(
     "Use backup code" : "Uzi rezervkodon",
     "Two factor backup codes" : "Dufazaj rezervkodoj",
     "A two-factor auth backup codes provider" : "Provizanto de rezervkodoj por dufaza aŭtentigo",
+    "An error occurred while generating your backup codes" : "Eraro okazis dum generado de viaj rezervkodoj",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Rezervkodoj generiĝis. {used} kodoj el {total} uziĝis.",
     "Save backup codes" : "Konservi la rezervkodojn",
     "Print backup codes" : "Presi la rezervkodojn",
     "Regenerate backup codes" : "Regeneri rezervkodojn",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si vi regeneras rezervkodojn, vi aŭtomate senvalidigas la antaŭajn.",
-    "An error occurred while generating your backup codes" : "Eraro okazis dum generado de viaj rezervkodoj",
     "{name} backup codes" : "{name} rezervkodoj",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Uzu unu el viaj rezervkodoj, kiujn vi konservis dum agordo de dufaza aŭtentigo.",
-    "Submit" : "Sendi",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Jen viaj rezervkodoj. Bv. konservi aŭ presi ilin, ĉar vi ne plu povos vidi tiujn kodojn poste"
+    "Submit" : "Sendi"
 },
 "nplurals=2; plural=(n != 1);");

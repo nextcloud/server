@@ -22,31 +22,13 @@ use function array_map;
 
 class Authtokens implements ISettings {
 
-	/** @var IAuthTokenProvider */
-	private $tokenProvider;
-
-	/** @var ISession */
-	private $session;
-
-	/** @var IInitialState */
-	private $initialState;
-
-	/** @var string|null */
-	private $uid;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	public function __construct(IAuthTokenProvider $tokenProvider,
-		ISession $session,
-		IUserSession $userSession,
-		IInitialState $initialState,
-		?string $UserId) {
-		$this->tokenProvider = $tokenProvider;
-		$this->session = $session;
-		$this->initialState = $initialState;
-		$this->uid = $UserId;
-		$this->userSession = $userSession;
+	public function __construct(
+		private IAuthTokenProvider $tokenProvider,
+		private ISession $session,
+		private IUserSession $userSession,
+		private IInitialState $initialState,
+		private ?string $userId,
+	) {
 	}
 
 	public function getForm(): TemplateResponse {
@@ -72,7 +54,7 @@ class Authtokens implements ISettings {
 	}
 
 	private function getAppTokens(): array {
-		$tokens = $this->tokenProvider->getTokenByUser($this->uid);
+		$tokens = $this->tokenProvider->getTokenByUser($this->userId);
 
 		try {
 			$sessionId = $this->session->getId();

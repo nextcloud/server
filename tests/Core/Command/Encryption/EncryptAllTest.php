@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,13 +19,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	protected $config;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IAppManager */
 	protected $appManager;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
@@ -36,7 +37,7 @@ class EncryptAllTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
 	protected $questionHelper;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IEncryptionModule */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IEncryptionModule */
 	protected $encryptionModule;
 
 	/** @var EncryptAll */
@@ -71,24 +72,13 @@ class EncryptAllTest extends TestCase {
 		// trash bin needs to be disabled in order to avoid adding dummy files to the users
 		// trash bin which gets deleted during the encryption process
 		$this->appManager->expects($this->once())->method('disableApp')->with('files_trashbin');
-		// enable single user mode to avoid that other user login during encryption
-		// destructor should disable the single user mode again
-		$this->config->expects($this->once())->method('getSystemValueBool')->with('maintenance', false)->willReturn(false);
-		$this->config->expects($this->exactly(2))
-			->method('setSystemValue')
-			->withConsecutive(
-				['maintenance', true],
-				['maintenance', false],
-			);
 
 		$instance = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 		$this->invokePrivate($instance, 'forceMaintenanceAndTrashbin');
 		$this->invokePrivate($instance, 'resetMaintenanceAndTrashbin');
 	}
 
-	/**
-	 * @dataProvider dataTestExecute
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestExecute')]
 	public function testExecute($answer, $askResult): void {
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 
@@ -108,7 +98,7 @@ class EncryptAllTest extends TestCase {
 		$this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function dataTestExecute() {
+	public static function dataTestExecute(): array {
 		return [
 			['y', true], ['Y', true], ['n', false], ['N', false], ['', false]
 		];

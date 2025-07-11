@@ -3,11 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "მთავარი დაფა",
     "Dashboard app" : "დეშბორდის აპი",
-    "Customize" : "პერსონალიზაცია",
-    "Edit widgets" : "ვიჯეტების დაედითება",
-    "Weather service" : "ამინდის სერვისი",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "თქვენი კონფენდენციალურობისთვის, ამინდზე ინფორმაცია მოთხოვნილია ჩვენი Nextcloud-ის სერვერის მიერ, ამჟამად ამინდის სერვისები თქვენს პირად ინფორმაციას არ მიიღებენ.",
-    "Weather data from Met.no" : "ამინდის პროგნოზი Met.no-დან",
     "Weather" : "ამინდი",
     "Status" : "სტატუსი",
     "Good morning" : "დილამშვიდობისა",
@@ -17,6 +12,11 @@ OC.L10N.register(
     "Good evening" : "ღამემშვიდობისა",
     "Good evening, {name}" : "ღამემშვიდობისა, {name}",
     "Hello" : "გამარჯობა",
-    "Hello, {name}" : "გამარჯობა, {name}"
+    "Hello, {name}" : "გამარჯობა, {name}",
+    "Customize" : "პერსონალიზაცია",
+    "Edit widgets" : "ვიჯეტების დაედითება",
+    "Weather service" : "ამინდის სერვისი",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "თქვენი კონფენდენციალურობისთვის, ამინდზე ინფორმაცია მოთხოვნილია ჩვენი Nextcloud-ის სერვერის მიერ, ამჟამად ამინდის სერვისები თქვენს პირად ინფორმაციას არ მიიღებენ.",
+    "Weather data from Met.no" : "ამინდის პროგნოზი Met.no-დან"
 },
 "nplurals=2; plural=(n!=1);");

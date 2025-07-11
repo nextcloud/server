@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,14 +11,12 @@ use OCP\IL10N;
 
 class Setting implements ISetting {
 
-	/** @var IL10N */
-	protected $l;
-
 	/**
-	 * @param IL10N $l10n
+	 * @param IL10N $l
 	 */
-	public function __construct(IL10N $l10n) {
-		$this->l = $l10n;
+	public function __construct(
+		protected IL10N $l,
+	) {
 	}
 
 	/**

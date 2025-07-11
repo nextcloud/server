@@ -24,23 +24,30 @@
 					@open-sharing-details="openShareDetailsForCustomSettings(share)" />
 			</div>
 
-			<!-- clipboard -->
-			<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
-				<NcActionButton :title="copyLinkTooltip"
-					:aria-label="copyLinkTooltip"
-					@click.prevent="copyLink">
-					<template #icon>
-						<CheckIcon v-if="copied && copySuccess"
-							:size="20"
-							class="icon-checkmark-color" />
-						<ClipboardIcon v-else :size="20" />
-					</template>
-				</NcActionButton>
-			</NcActions>
+			<div class="sharing-entry__actions">
+				<ShareExpiryTime v-if="share && share.expireDate" :share="share" />
+
+				<!-- clipboard -->
+				<div>
+					<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
+						<NcActionButton :aria-label="copyLinkTooltip"
+							:title="copyLinkTooltip"
+							:href="shareLink"
+							@click.prevent="copyLink">
+							<template #icon>
+								<CheckIcon v-if="copied && copySuccess"
+									:size="20"
+									class="icon-checkmark-color" />
+								<ClipboardIcon v-else :size="20" />
+							</template>
+						</NcActionButton>
+					</NcActions>
+				</div>
+			</div>
 		</div>
 
 		<!-- pending actions -->
-		<NcActions v-if="!pending && (pendingPassword || pendingEnforcedPassword || pendingExpirationDate)"
+		<NcActions v-if="!pending && pendingDataIsMissing"
 			class="sharing-entry__actions"
 			:aria-label="actionsTooltip"
 			menu-align="right"
@@ -75,16 +82,25 @@
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
 				autocomplete="new-password"
-				@submit="onNewLinkShare">
+				@submit="onNewLinkShare(true)">
 				<template #icon>
 					<LockIcon :size="20" />
 				</template>
 			</NcActionInput>
 
+			<NcActionCheckbox v-if="pendingDefaultExpirationDate"
+				:checked.sync="defaultExpirationDateEnabled"
+				:disabled="pendingEnforcedExpirationDate || saving"
+				class="share-link-expiration-date-checkbox"
+				@update:model-value="onExpirationDateToggleUpdate">
+				{{ config.isDefaultExpireDateEnforced ? t('files_sharing', 'Enable link expiration (enforced)') : t('files_sharing', 'Enable link expiration') }}
+			</NcActionCheckbox>
+
 			<!-- expiration date -->
-			<NcActionInput v-if="pendingExpirationDate"
+			<NcActionInput v-if="(pendingDefaultExpirationDate || pendingEnforcedExpirationDate) && defaultExpirationDateEnabled"
+				data-cy-files-sharing-expiration-date-input
 				class="share-link-expire-date"
-				:label="t('files_sharing', 'Expiration date (enforced)')"
+				:label="pendingEnforcedExpirationDate ? t('files_sharing', 'Enter expiration date (enforced)') : t('files_sharing', 'Enter expiration date')"
 				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
@@ -92,13 +108,14 @@
 				type="date"
 				:min="dateTomorrow"
 				:max="maxExpirationDateEnforced"
-				@input="onExpirationChange /* let's not submit when picked, the user might want to still edit or copy the password */">
+				@update:model-value="onExpirationChange"
+				@change="expirationDateChanged">
 				<template #icon>
 					<IconCalendarBlank :size="20" />
 				</template>
 			</NcActionInput>
 
-			<NcActionButton @click.prevent.stop="onNewLinkShare">
+			<NcActionButton @click.prevent.stop="onNewLinkShare(true)">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
@@ -150,8 +167,8 @@
 					:share="share" />
 
 				<!-- external legacy sharing via url (social...) -->
-				<NcActionLink v-for="({ icon, url, name }, index) in externalLegacyLinkActions"
-					:key="index"
+				<NcActionLink v-for="({ icon, url, name }, actionIndex) in externalLegacyLinkActions"
+					:key="actionIndex"
 					:href="url(shareLink)"
 					:icon="icon"
 					target="_blank">
@@ -206,22 +223,23 @@
 </template>
 
 <script>
-import { emit } from '@nextcloud/event-bus'
-import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { Type as ShareTypes } from '@nextcloud/sharing'
-import Vue from 'vue'
-import VueQrcode from '@chenfengyuan/vue-qrcode'
+import { emit } from '@nextcloud/event-bus'
+import { t } from '@nextcloud/l10n'
+import moment from '@nextcloud/moment'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
+import { ShareType } from '@nextcloud/sharing'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
+import VueQrcode from '@chenfengyuan/vue-qrcode'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActionText from '@nextcloud/vue/components/NcActionText'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
 import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
@@ -234,13 +252,14 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import ShareExpiryTime from './ShareExpiryTime.vue'
 
 import ExternalShareAction from './ExternalShareAction.vue'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.ts'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
-import { getLoggerBuilder } from '@nextcloud/logger'
+import logger from '../services/logger.ts'
 
 export default {
 	name: 'SharingEntryLink',
@@ -267,6 +286,7 @@ export default {
 		CloseIcon,
 		PlusIcon,
 		SharingEntryQuickShareSelect,
+		ShareExpiryTime,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
@@ -287,16 +307,13 @@ export default {
 			shareCreationComplete: false,
 			copySuccess: true,
 			copied: false,
+			defaultExpirationDateEnabled: false,
 
 			// Are we waiting for password/expiration date
 			pending: false,
 
 			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
-			logger: getLoggerBuilder()
-				.setApp('files_sharing')
-				.detectUser()
-				.build(),
 
 			// tracks whether modal should be opened or not
 			showQRCode: false,
@@ -310,6 +327,8 @@ export default {
 		 * @return {string}
 		 */
 		title() {
+			const l10nOptions = { escape: false /* no escape as this string is already escaped by Vue */ }
+
 			// if we have a valid existing share (not pending)
 			if (this.share && this.share.id) {
 				if (!this.isShareOwner && this.share.ownerDisplayName) {
@@ -317,26 +336,26 @@ export default {
 						return t('files_sharing', '{shareWith} by {initiator}', {
 							shareWith: this.share.shareWith,
 							initiator: this.share.ownerDisplayName,
-						})
+						}, l10nOptions)
 					}
 					return t('files_sharing', 'Shared via link by {initiator}', {
 						initiator: this.share.ownerDisplayName,
-					})
+					}, l10nOptions)
 				}
 				if (this.share.label && this.share.label.trim() !== '') {
 					if (this.isEmailShareType) {
 						if (this.isFileRequest) {
 							return t('files_sharing', 'File request ({label})', {
 								label: this.share.label.trim(),
-							})
+							}, l10nOptions)
 						}
 						return t('files_sharing', 'Mail share ({label})', {
 							label: this.share.label.trim(),
-						})
+						}, l10nOptions)
 					}
 					return t('files_sharing', 'Share link ({label})', {
 						label: this.share.label.trim(),
-					})
+					}, l10nOptions)
 				}
 				if (this.isEmailShareType) {
 					if (!this.share.shareWith || this.share.shareWith.trim() === '') {
@@ -346,11 +365,17 @@ export default {
 					}
 					return this.share.shareWith
 				}
+
+				if (this.index === null) {
+					return t('files_sharing', 'Share link')
+				}
 			}
-			if (this.index > 1) {
+
+			if (this.index >= 1) {
 				return t('files_sharing', 'Share link ({index})', { index: this.index })
 			}
-			return t('files_sharing', 'Share link')
+
+			return t('files_sharing', 'Create public link')
 		},
 
 		/**
@@ -364,22 +389,6 @@ export default {
 				return this.share.shareWith
 			}
 			return null
-		},
-		/**
-		 * Is the current share password protected ?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtected: {
-			get() {
-				return this.config.enforcePasswordForPublicLink
-					|| !!this.share.password
-			},
-			async set(enabled) {
-				// TODO: directly save after generation to make sure the share is always protected
-				Vue.set(this.share, 'password', enabled ? await GeneratePassword(true) : '')
-				Vue.set(this.share, 'newPassword', this.share.password)
-			},
 		},
 
 		passwordExpirationTime() {
@@ -435,7 +444,7 @@ export default {
 		 */
 		isEmailShareType() {
 			return this.share
-				? this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+				? this.share.type === ShareType.Email
 				: false
 		},
 
@@ -460,29 +469,37 @@ export default {
 		 *
 		 * @return {boolean}
 		 */
+		pendingDataIsMissing() {
+			return this.pendingPassword || this.pendingEnforcedPassword || this.pendingDefaultExpirationDate || this.pendingEnforcedExpirationDate
+		},
 		pendingPassword() {
-			return this.config.enableLinkPasswordByDefault && this.share && !this.share.id
+			return this.config.enableLinkPasswordByDefault && this.isPendingShare
 		},
 		pendingEnforcedPassword() {
-			return this.config.enforcePasswordForPublicLink && this.share && !this.share.id
+			return this.config.enforcePasswordForPublicLink && this.isPendingShare
 		},
-		pendingExpirationDate() {
-			return this.config.isDefaultExpireDateEnforced && this.share && !this.share.id
+		pendingEnforcedExpirationDate() {
+			return this.config.isDefaultExpireDateEnforced && this.isPendingShare
 		},
-
-		sharePolicyHasRequiredProperties() {
+		pendingDefaultExpirationDate() {
+			return (this.config.defaultExpirationDate instanceof Date || !isNaN(new Date(this.config.defaultExpirationDate).getTime())) && this.isPendingShare
+		},
+		isPendingShare() {
+			return !!(this.share && !this.share.id)
+		},
+		sharePolicyHasEnforcedProperties() {
 			return this.config.enforcePasswordForPublicLink || this.config.isDefaultExpireDateEnforced
 		},
 
-		requiredPropertiesMissing() {
+		enforcedPropertiesMissing() {
 			// Ensure share exist and the share policy has required properties
-			if (!this.sharePolicyHasRequiredProperties) {
+			if (!this.sharePolicyHasEnforcedProperties) {
 				return false
 			}
 
 			if (!this.share) {
 				// if no share, we can't tell if properties are missing or not so we assume properties are missing
-			    return true
+				return true
 			}
 
 			// If share has ID, then this is an incoming link share created from the existing link share
@@ -508,7 +525,7 @@ export default {
 		 * @return {string}
 		 */
 		shareLink() {
-			return window.location.protocol + '//' + window.location.host + generateUrl('/s/') + this.share.token
+			return generateUrl('/s/{token}', { token: this.share.token }, { baseURL: getBaseUrl() })
 		},
 
 		/**
@@ -551,7 +568,7 @@ export default {
 		 * @return {Array}
 		 */
 		externalLinkActions() {
-			const filterValidAction = (action) => (action.shareType.includes(ShareTypes.SHARE_TYPE_LINK) || action.shareType.includes(ShareTypes.SHARE_TYPE_EMAIL)) && !action.advanced
+			const filterValidAction = (action) => (action.shareType.includes(ShareType.Link) || action.shareType.includes(ShareType.Email)) && !action.advanced
 			// filter only the registered actions for said link
 			return this.ExternalShareActions.actions
 				.filter(filterValidAction)
@@ -570,20 +587,40 @@ export default {
 			return this.share.isFileRequest
 		},
 	},
+	mounted() {
+		this.defaultExpirationDateEnabled = this.config.defaultExpirationDate instanceof Date
+		if (this.share && this.isNewShare) {
+			this.share.expireDate = this.defaultExpirationDateEnabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
+		}
+	},
 
 	methods: {
 		/**
-		 * Create a new share link and append it to the list
+		 * Check if the share requires review
+		 *
+		 * @param {boolean} shareReviewComplete if the share was reviewed
+		 * @return {boolean}
 		 */
-		async onNewLinkShare() {
-			this.logger.debug('onNewLinkShare called (with this.share)', this.share)
+		shareRequiresReview(shareReviewComplete) {
+			// If a user clicks 'Create share' it means they have reviewed the share
+			if (shareReviewComplete) {
+				return false
+			}
+			return this.defaultExpirationDateEnabled || this.config.enableLinkPasswordByDefault
+		},
+		/**
+		 * Create a new share link and append it to the list
+		 * @param {boolean} shareReviewComplete if the share was reviewed
+		 */
+		async onNewLinkShare(shareReviewComplete = false) {
+			logger.debug('onNewLinkShare called (with this.share)', this.share)
 			// do not run again if already loading
 			if (this.loading) {
 				return
 			}
 
 			const shareDefaults = {
-				share_type: ShareTypes.SHARE_TYPE_LINK,
+				share_type: ShareType.Link,
 			}
 			if (this.config.isDefaultExpireDateEnforced) {
 				// default is empty string if not set
@@ -591,13 +628,15 @@ export default {
 				shareDefaults.expiration = this.formatDateToString(this.config.defaultExpirationDate)
 			}
 
-			this.logger.debug('Missing required properties?', this.requiredPropertiesMissing)
-			// do not push yet if we need a password or an expiration date: show pending menu
-			if (this.sharePolicyHasRequiredProperties && this.requiredPropertiesMissing) {
+			logger.debug('Missing required properties?', this.enforcedPropertiesMissing)
+			// Do not push yet if we need a password or an expiration date: show pending menu
+			// A share would require a review for example is default expiration date is set but not enforced, this allows
+			// the user to review the share and remove the expiration date if they don't want it
+			if ((this.sharePolicyHasEnforcedProperties && this.enforcedPropertiesMissing) || this.shareRequiresReview(shareReviewComplete === true)) {
 				this.pending = true
 				this.shareCreationComplete = false
 
-				this.logger.info('Share policy requires mandated properties (password)...')
+				logger.info('Share policy requires a review or has mandated properties (password, expirationDate)...')
 
 				// ELSE, show the pending popovermenu
 				// if password default or enforced, pre-fill with random one
@@ -625,13 +664,13 @@ export default {
 					// if the share is valid, create it on the server
 					if (this.checkShare(this.share)) {
 						try {
-							this.logger.info('Sending existing share to server', this.share)
+							logger.info('Sending existing share to server', this.share)
 							await this.pushNewLinkShare(this.share, true)
 							this.shareCreationComplete = true
-							this.logger.info('Share created on server', this.share)
+							logger.info('Share created on server', this.share)
 						} catch (e) {
 							this.pending = false
-							this.logger.error('Error creating share', e)
+							logger.error('Error creating share', e)
 							return false
 						}
 						return true
@@ -669,9 +708,9 @@ export default {
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 				const options = {
 					path,
-					shareType: ShareTypes.SHARE_TYPE_LINK,
+					shareType: ShareType.Link,
 					password: share.password,
-					expireDate: share.expireDate,
+					expireDate: share.expireDate ?? '',
 					attributes: JSON.stringify(this.fileInfo.shareAttributes),
 					// we do not allow setting the publicUpload
 					// before the share creation.
@@ -829,6 +868,19 @@ export default {
 		},
 
 		/**
+		 * @param enabled True if expiration is enabled
+		 */
+		onExpirationDateToggleUpdate(enabled) {
+			this.share.expireDate = enabled ? this.formatDateToString(this.config.defaultExpirationDate) : ''
+		},
+
+		expirationDateChanged(event) {
+			const value = event?.target?.value
+			const isValid = !!value && !isNaN(new Date(value).getTime())
+			this.defaultExpirationDateEnabled = isValid
+		},
+
+		/**
 		 * Cancel the share creation
 		 * Used in the pending popover
 		 */
@@ -875,13 +927,19 @@ export default {
 			}
 		}
 
+		&__actions {
+			display: flex;
+			align-items: center;
+			margin-inline-start: auto;
+		}
+
 	&:not(.sharing-entry--share) &__actions {
 		.new-share-link {
 			border-top: 1px solid var(--color-border);
 		}
 	}
 
-	::v-deep .avatar-link-share {
+	:deep(.avatar-link-share) {
 		background-color: var(--color-primary-element);
 	}
 

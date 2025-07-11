@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -124,7 +125,7 @@ class UserPluginTest extends TestCase {
 		return $group;
 	}
 
-	public function dataGetUsers() {
+	public function dataGetUsers(): array {
 		return [
 			['test', false, true, [], [], [], [], true, false],
 			['test', false, false, [], [], [], [], true, false],
@@ -417,7 +418,6 @@ class UserPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetUsers
 	 *
 	 * @param string $searchTerm
 	 * @param bool $shareWithGroupOnly
@@ -430,6 +430,7 @@ class UserPluginTest extends TestCase {
 	 * @param bool|IUser $singleUser
 	 * @param array $users
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsers')]
 	public function testSearch(
 		$searchTerm,
 		$shareWithGroupOnly,
@@ -508,7 +509,7 @@ class UserPluginTest extends TestCase {
 		$this->assertSame($reachedEnd, $moreResults);
 	}
 
-	public function takeOutCurrentUserProvider() {
+	public static function takeOutCurrentUserProvider(): array {
 		$inputUsers = [
 			'alice' => 'Alice',
 			'bob' => 'Bob',
@@ -534,11 +535,11 @@ class UserPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider takeOutCurrentUserProvider
 	 * @param array $users
 	 * @param array $expectedUIDs
 	 * @param $currentUserId
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('takeOutCurrentUserProvider')]
 	public function testTakeOutCurrentUser(array $users, array $expectedUIDs, $currentUserId): void {
 		$this->instantiatePlugin();
 
@@ -555,7 +556,7 @@ class UserPluginTest extends TestCase {
 		$this->assertSame($expectedUIDs, array_keys($users));
 	}
 
-	public function dataSearchEnumeration() {
+	public static function dataSearchEnumeration(): array {
 		return [
 			[
 				'test',
@@ -716,9 +717,7 @@ class UserPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSearchEnumeration
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEnumeration')]
 	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result, $mockedSettings): void {
 		$this->mockConfig($mockedSettings);
 

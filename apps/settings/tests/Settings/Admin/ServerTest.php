@@ -25,28 +25,19 @@ use Test\TestCase;
  * @group DB
  */
 class ServerTest extends TestCase {
-	/** @var IDBConnection */
-	private $connection;
-	/** @var Server&MockObject */
-	private $admin;
-	/** @var IInitialState&MockObject */
-	private $initialStateService;
-	/** @var ProfileManager&MockObject */
-	private $profileManager;
-	/** @var ITimeFactory&MockObject */
-	private $timeFactory;
-	/** @var IConfig&MockObject */
-	private $config;
-	/** @var IAppConfig&MockObject */
-	private $appConfig;
-	/** @var IL10N&MockObject */
-	private $l10n;
-	/** @var IUrlGenerator&MockObject */
-	private $urlGenerator;
+	private IDBConnection $connection;
+	private Server&MockObject $admin;
+	private IInitialState&MockObject $initialStateService;
+	private ProfileManager&MockObject $profileManager;
+	private ITimeFactory&MockObject $timeFactory;
+	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
+	private IL10N&MockObject $l10n;
+	private IUrlGenerator&MockObject $urlGenerator;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OCP\Server::get(IDBConnection::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->profileManager = $this->createMock(ProfileManager::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
@@ -84,8 +75,11 @@ class ServerTest extends TestCase {
 		$this->appConfig
 			->expects($this->any())
 			->method('getValueString')
-			->with('core', 'backgroundjobs_mode', 'ajax')
-			->willReturn('ajax');
+			->willReturnCallback(fn ($a, $b, $default) => $default);
+		$this->appConfig
+			->expects($this->any())
+			->method('getValueBool')
+			->willReturnCallback(fn ($a, $b, $default) => $default);
 		$this->profileManager
 			->expects($this->exactly(2))
 			->method('isProfileEnabled')

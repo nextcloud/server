@@ -12,6 +12,7 @@ use OC\DB\Exceptions\DbalException;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
 use OCA\Files_Versions\Storage;
 use OCA\Files_Versions\Versions\INeedSyncVersionBackend;
@@ -36,6 +37,7 @@ use OCP\Files\Folder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
@@ -124,6 +126,22 @@ class FileEventsListener implements IEventListener {
 	}
 
 	public function touch_hook(Node $node): void {
+		// Do not handle folders.
+		if ($node instanceof Folder) {
+			return;
+		}
+
+		if ($node instanceof NonExistingFile) {
+			$this->logger->error(
+				'Failed to create or update version for {path}, node does not exist',
+				[
+					'path' => $node->getPath(),
+				]
+			);
+
+			return;
+		}
+
 		$previousNode = $this->nodesTouched[$node->getId()] ?? null;
 
 		if ($previousNode === null) {
@@ -134,8 +152,10 @@ class FileEventsListener implements IEventListener {
 
 		try {
 			if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+				$revision = $this->versionManager->getRevision($previousNode);
+
 				// We update the timestamp of the version entity associated with the previousNode.
-				$this->versionManager->updateVersionEntity($node, $previousNode->getMTime(), ['timestamp' => $node->getMTime()]);
+				$this->versionManager->updateVersionEntity($node, $revision, ['timestamp' => $node->getMTime()]);
 			}
 		} catch (DbalException $ex) {
 			// Ignore UniqueConstraintViolationException, as we are probably in the middle of a rollback
@@ -151,7 +171,22 @@ class FileEventsListener implements IEventListener {
 
 	public function created(Node $node): void {
 		// Do not handle folders.
-		if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+		if (!($node instanceof File)) {
+			return;
+		}
+
+		if ($node instanceof NonExistingFile) {
+			$this->logger->error(
+				'Failed to create version for {path}, node does not exist',
+				[
+					'path' => $node->getPath(),
+				]
+			);
+
+			return;
+		}
+
+		if ($this->versionManager instanceof INeedSyncVersionBackend) {
 			$this->versionManager->createVersionEntity($node);
 		}
 	}
@@ -189,6 +224,17 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
+		if ($node instanceof NonExistingFile) {
+			$this->logger->error(
+				'Failed to create or update version for {path}, node does not exist',
+				[
+					'path' => $node->getPath(),
+				]
+			);
+
+			return;
+		}
+
 		$writeHookInfo = $this->writeHookInfo[$node->getId()] ?? null;
 
 		if ($writeHookInfo === null) {
@@ -196,8 +242,8 @@ class FileEventsListener implements IEventListener {
 		}
 
 		if (
-			$writeHookInfo['versionCreated'] &&
-			$node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
+			$writeHookInfo['versionCreated']
+			&& $node->getMTime() !== $writeHookInfo['previousNode']->getMTime()
 		) {
 			// If a new version was created, insert a version in the DB for the current content.
 			// If both versions have the same mtime, it means the latest version file simply got overrode,
@@ -208,15 +254,26 @@ class FileEventsListener implements IEventListener {
 				// If no new version was stored in the FS, no new version should be added in the DB.
 				// So we simply update the associated version.
 				if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+					$revision = $this->versionManager->getRevision($writeHookInfo['previousNode']);
+
 					$this->versionManager->updateVersionEntity(
 						$node,
-						$writeHookInfo['previousNode']->getMtime(),
+						$revision,
 						[
 							'timestamp' => $node->getMTime(),
 							'size' => $node->getSize(),
 							'mimetype' => $this->mimeTypeLoader->getId($node->getMimetype()),
 						],
 					);
+				}
+			} catch (DoesNotExistException $e) {
+				// This happens if the versions app was not enabled while the file was created or updated the last time.
+				// meaning there is no such revision and we need to create this file.
+				if ($writeHookInfo['versionCreated']) {
+					$this->created($node);
+				} else {
+					// Normally this should not happen so we re-throw the exception to not hide any potential issues.
+					throw $e;
 				}
 			} catch (Exception $e) {
 				$this->logger->error('Failed to update existing version for ' . $node->getPath(), [
@@ -241,7 +298,7 @@ class FileEventsListener implements IEventListener {
 	/**
 	 * Erase versions of deleted file
 	 *
-	 * This function is connected to the delete signal of OC_Filesystem
+	 * This function is connected to the NodeDeletedEvent event
 	 * cleanup the versions directory if the actual file gets deleted
 	 */
 	public function remove_hook(Node $node): void {
@@ -273,7 +330,7 @@ class FileEventsListener implements IEventListener {
 	/**
 	 * rename/move versions of renamed/moved files
 	 *
-	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
+	 * This function is connected to the NodeRenamedEvent event and adjust the name and location
 	 * of the stored versions along the actual file
 	 */
 	public function rename_hook(Node $source, Node $target): void {
@@ -292,7 +349,7 @@ class FileEventsListener implements IEventListener {
 	/**
 	 * copy versions of copied files
 	 *
-	 * This function is connected to the copy signal of OC_Filesystem and copies the
+	 * This function is connected to the NodeCopiedEvent event and copies the
 	 * the stored versions to the new location
 	 */
 	public function copy_hook(Node $source, Node $target): void {
@@ -323,11 +380,19 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		// if we rename a movable mount point, then the versions don't have
-		// to be renamed
+		// if we rename a movable mount point, then the versions don't have to be renamed
 		$oldPath = $this->getPathForNode($source);
 		$newPath = $this->getPathForNode($target);
-		$absOldPath = Filesystem::normalizePath('/' . \OC_User::getUser() . '/files' . $oldPath);
+		if ($oldPath === null || $newPath === null) {
+			return;
+		}
+
+		$user = $this->userSession->getUser()?->getUID();
+		if ($user === null) {
+			return;
+		}
+
+		$absOldPath = Filesystem::normalizePath('/' . $user . '/files' . $oldPath);
 		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
 		$internalPath = $mount->getInternalPath($absOldPath);
@@ -335,7 +400,7 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
-		$view = new View(\OC_User::getUser() . '/files');
+		$view = new View($user . '/files');
 		if ($view->file_exists($newPath)) {
 			Storage::store($newPath);
 		} else {
@@ -359,7 +424,11 @@ class FileEventsListener implements IEventListener {
 			}
 		}
 
-		$owner = $node->getOwner()?->getUid();
+		try {
+			$owner = $node->getOwner()?->getUid();
+		} catch (NotFoundException) {
+			$owner = null;
+		}
 
 		// If no owner, extract it from the path.
 		// e.g. /user/files/foobar.txt
@@ -380,6 +449,24 @@ class FileEventsListener implements IEventListener {
 			}
 		}
 
+		if (!($node instanceof NonExistingFile) && !($node instanceof NonExistingFolder)) {
+			$this->logger->debug('Failed to compute path for node', [
+				'node' => [
+					'path' => $node->getPath(),
+					'owner' => $owner,
+					'fileid' => $node->getId(),
+					'size' => $node->getSize(),
+					'mtime' => $node->getMTime(),
+				]
+			]);
+		} else {
+			$this->logger->debug('Failed to compute path for node', [
+				'node' => [
+					'path' => $node->getPath(),
+					'owner' => $owner,
+				]
+			]);
+		}
 		return null;
 	}
 }

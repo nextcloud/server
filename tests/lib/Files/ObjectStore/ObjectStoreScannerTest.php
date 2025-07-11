@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -35,9 +36,7 @@ class ObjectStoreScannerTest extends TestCase {
 		$data = "dummy file data\n";
 		$this->storage->file_put_contents('foo.txt', $data);
 
-		$this->assertEquals(
-			[],
-			$this->scanner->scanFile('foo.txt'),
+		$this->assertNull($this->scanner->scanFile('foo.txt'),
 			'Asserting that no error occurred while scanFile()'
 		);
 	}
@@ -54,8 +53,7 @@ class ObjectStoreScannerTest extends TestCase {
 	public function testFolder(): void {
 		$this->fillTestFolders();
 
-		$this->assertEquals(
-			[],
+		$this->assertNull(
 			$this->scanner->scan(''),
 			'Asserting that no error occurred while scan()'
 		);

@@ -9,8 +9,6 @@ OC.L10N.register(
     "Federation" : "Federācija",
     "+ Add trusted server" : "+ pievietot uzticamiem serveriem",
     "Trusted server" : "Uzticams serveris",
-    "Add" : "Pievienot",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Federācija ļauj jums sazināties ar citiem uzticamiem serveriem, lai apmainītos ar lietotāju direktoriju.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federācija ļauj savienot ar citiem uzticamiem serveriem ar Exchange lietotāja direktoriju. Piemēram, tas tiks izmantots, lai automātiski pieslēgtu ārējiem lietotājiem integrēto koplietošanu."
+    "Add" : "Pievienot"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

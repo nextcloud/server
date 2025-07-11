@@ -37,6 +37,11 @@ export function useRouteParameters() {
 		() => 'openfile' in route.query && (typeof route.query.openfile !== 'string' || route.query.openfile.toLocaleLowerCase() !== 'false'),
 	)
 
+	const openDetails = computed<boolean>(
+		// if `opendetails` is set it is considered truthy, but allow to explicitly set it to 'false'
+		() => 'opendetails' in route.query && (typeof route.query.opendetails !== 'string' || route.query.opendetails.toLocaleLowerCase() !== 'false'),
+	)
+
 	return {
 		/** Path of currently open directory */
 		directory,
@@ -46,5 +51,8 @@ export function useRouteParameters() {
 
 		/** Should the active node should be opened (`openFile` route param) */
 		openFile,
+
+		/** Should the details sidebar be shown (`openDetails` route param) */
+		openDetails,
 	}
 }

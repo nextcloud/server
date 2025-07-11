@@ -81,11 +81,11 @@ class FileProfilerStorage {
 		$iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::CHILD_FIRST);
 
 		foreach ($iterator as $file) {
-			$file = (string)$file->getPathInfo();
-			if (is_file($file)) {
-				unlink($file);
+			$path = $file->getPathname();
+			if (is_file($path)) {
+				unlink($path);
 			} else {
-				rmdir($file);
+				rmdir($path);
 			}
 		}
 	}

@@ -12,6 +12,7 @@ namespace OC\Preview;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,8 +45,8 @@ class HEIC extends ProviderV2 {
 
 		$tmpPath = $this->getLocalFile($file);
 		if ($tmpPath === false) {
-			\OC::$server->get(LoggerInterface::class)->error(
-				'Failed to get thumbnail for: ' . $file->getPath(),
+			Server::get(LoggerInterface::class)->error(
+				'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
 				['app' => 'core']
 			);
 			return null;

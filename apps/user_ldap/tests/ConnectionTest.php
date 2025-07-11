@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,8 +8,10 @@
  */
 namespace OCA\User_LDAP\Tests;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class Test_Connection
@@ -18,19 +21,16 @@ use OCA\User_LDAP\ILDAPWrapper;
  * @package OCA\User_LDAP\Tests
  */
 class ConnectionTest extends \Test\TestCase {
-	/** @var \OCA\User_LDAP\ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $ldap;
-
-	/** @var Connection */
-	protected $connection;
+	protected ILDAPWrapper&MockObject $ldap;
+	protected Connection $connection;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->ldap = $this->createMock(ILDAPWrapper::class);
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
-		$this->connection = $this->getMockBuilder('OCA\User_LDAP\Connection')
-			->setMethods(['getFromCache', 'writeToCache'])
+		$this->connection = $this->getMockBuilder(Connection::class)
+			->onlyMethods(['getFromCache', 'writeToCache'])
 			->setConstructorArgs([$this->ldap, '', null])
 			->getMock();
 
@@ -101,8 +101,7 @@ class ConnectionTest extends \Test\TestCase {
 		// Not called often enough? Then, the fallback to the backup server is broken.
 		$this->connection->expects($this->exactly(2))
 			->method('getFromCache')
-			->with('overrideMainServer')
-			->will($this->onConsecutiveCalls(false, false, true, true));
+			->with('overrideMainServer')->willReturnOnConsecutiveCalls(false, false, true, true);
 
 		$this->connection->expects($this->once())
 			->method('writeToCache')
@@ -114,7 +113,7 @@ class ConnectionTest extends \Test\TestCase {
 			->willReturnCallback(function () use (&$isThrown) {
 				if (!$isThrown) {
 					$isThrown = true;
-					throw new \OC\ServerNotAvailableException();
+					throw new ServerNotAvailableException();
 				}
 				return true;
 			});
@@ -212,7 +211,7 @@ class ConnectionTest extends \Test\TestCase {
 
 		try {
 			$this->assertFalse($this->connection->bind(), 'Connection::bind() should not return true with invalid credentials.');
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			$this->fail('Failed asserting that exception of type "OC\ServerNotAvailableException" is not thrown.');
 		}
 	}
@@ -260,7 +259,7 @@ class ConnectionTest extends \Test\TestCase {
 			->method('startTls')
 			->willReturn(false);
 
-		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectException(ServerNotAvailableException::class);
 		$this->expectExceptionMessage('Start TLS failed, when connecting to LDAP host ' . $host . '.');
 
 		$this->connection->init();

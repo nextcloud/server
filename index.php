@@ -16,6 +16,7 @@ use OCP\HintException;
 use OCP\IRequest;
 use OCP\Security\Bruteforce\MaxDelayReached;
 use OCP\Server;
+use OCP\Template\ITemplateManager;
 use Psr\Log\LoggerInterface;
 
 try {
@@ -29,10 +30,10 @@ try {
 	]);
 
 	//show the user a detailed error page
-	OC_Template::printExceptionErrorPage($ex, 503);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 503);
 } catch (HintException $ex) {
 	try {
-		OC_Template::printErrorPage($ex->getMessage(), $ex->getHint(), 503);
+		Server::get(ITemplateManager::class)->printErrorPage($ex->getMessage(), $ex->getHint(), 503);
 	} catch (Exception $ex2) {
 		try {
 			Server::get(LoggerInterface::class)->error($ex->getMessage(), [
@@ -48,7 +49,7 @@ try {
 		}
 
 		//show the user a detailed error page
-		OC_Template::printExceptionErrorPage($ex, 500);
+		Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
 	}
 } catch (LoginException $ex) {
 	$request = Server::get(IRequest::class);
@@ -63,7 +64,7 @@ try {
 		echo json_encode(['message' => $ex->getMessage()]);
 		exit();
 	}
-	OC_Template::printErrorPage($ex->getMessage(), $ex->getMessage(), 401);
+	Server::get(ITemplateManager::class)->printErrorPage($ex->getMessage(), $ex->getMessage(), 401);
 } catch (MaxDelayReached $ex) {
 	$request = Server::get(IRequest::class);
 	/**
@@ -78,7 +79,7 @@ try {
 		exit();
 	}
 	http_response_code(429);
-	OC_Template::printGuestPage('core', '429');
+	Server::get(ITemplateManager::class)->printGuestPage('core', '429');
 } catch (Exception $ex) {
 	Server::get(LoggerInterface::class)->error($ex->getMessage(), [
 		'app' => 'index',
@@ -86,7 +87,7 @@ try {
 	]);
 
 	//show the user a detailed error page
-	OC_Template::printExceptionErrorPage($ex, 500);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
 } catch (Error $ex) {
 	try {
 		Server::get(LoggerInterface::class)->error($ex->getMessage(), [
@@ -103,5 +104,5 @@ try {
 
 		throw $ex;
 	}
-	OC_Template::printExceptionErrorPage($ex, 500);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
 }

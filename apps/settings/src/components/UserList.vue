@@ -34,8 +34,6 @@
 				users,
 				settings,
 				hasObfuscated,
-				groups,
-				subAdminsGroups,
 				quotaOptions,
 				languages,
 				externalActions,
@@ -66,9 +64,9 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
 
 import Vue from 'vue'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import VirtualList from './Users/VirtualList.vue'
 import NewUserDialog from './Users/NewUserDialog.vue'
@@ -173,15 +171,8 @@ export default {
 		},
 
 		groups() {
-			// data provided php side + remove the recent and disabled groups
-			return this.$store.getters.getGroups
+			return this.$store.getters.getSortedGroups
 				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
-				.sort((a, b) => a.name.localeCompare(b.name))
-		},
-
-		subAdminsGroups() {
-			// data provided php side
-			return this.$store.getters.getSubadminGroups
 		},
 
 		quotaOptions() {
@@ -359,11 +350,13 @@ export default {
 		setNewUserDefaultGroup(value) {
 			// Is no value set, but user is a line manager we set their group as this is a requirement for line manager
 			if (!value && !this.settings.isAdmin && !this.settings.isDelegatedAdmin) {
+				const groups = this.$store.getters.getSubAdminGroups
 				// if there are multiple groups we do not know which to add,
 				// so we cannot make the managers life easier by preselecting it.
-				if (this.groups.length === 1) {
-					value = this.groups[0].id
+				if (groups.length === 1) {
+					this.newUser.groups = [...groups]
 				}
+				return
 			}
 
 			if (value) {
@@ -398,7 +391,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './Users/shared/styles.scss';
+@use './Users/shared/styles' as *;
 
 .empty {
 	:deep {

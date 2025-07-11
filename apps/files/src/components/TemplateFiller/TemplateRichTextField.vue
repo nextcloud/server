@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { NcTextField } from '@nextcloud/vue'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default defineComponent({
 	name: 'TemplateRichTextField',
@@ -45,7 +45,7 @@ export default defineComponent({
 
 	computed: {
 		fieldLabel() {
-			const label = this.field.name ?? this.field.alias ?? 'Unknown field'
+			const label = this.field.name || this.field.alias
 
 			return (label.charAt(0).toUpperCase() + label.slice(1))
 		},

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
@@ -17,11 +18,11 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 		parent::setUp();
 		$this->filter = $this->getMockBuilder(ExcludeFileByNameFilterIterator::class)
 			->disableOriginalConstructor()
-			->setMethods(['current'])
+			->onlyMethods(['current'])
 			->getMock();
 	}
 
-	public function fileNameProvider(): array {
+	public static function fileNameProvider(): array {
 		return [
 			['a file', true],
 			['Thumbs.db', false],
@@ -35,14 +36,14 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider fileNameProvider
 	 * @param string $fileName
 	 * @param bool $expectedResult
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileNameProvider')]
 	public function testAcceptForFiles($fileName, $expectedResult): void {
 		$iteratorMock = $this->getMockBuilder(\RecursiveDirectoryIterator::class)
 			->disableOriginalConstructor()
-			->setMethods(['getFilename', 'isDir'])
+			->onlyMethods(['getFilename', 'isDir'])
 			->getMock();
 
 		$iteratorMock->method('getFilename')
@@ -57,14 +58,14 @@ class ExcludeFileByNameFilterIteratorTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider fileNameProvider
 	 * @param string $fileName
 	 * @param bool $expectedResult
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('fileNameProvider')]
 	public function testAcceptForDirs($fileName, $expectedResult): void {
 		$iteratorMock = $this->getMockBuilder(\RecursiveDirectoryIterator::class)
 			->disableOriginalConstructor()
-			->setMethods(['getFilename', 'isDir'])
+			->onlyMethods(['getFilename', 'isDir'])
 			->getMock();
 
 		$iteratorMock->method('getFilename')

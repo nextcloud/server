@@ -5,10 +5,10 @@ SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
-SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Yehuda Katz
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -17,16 +17,12 @@ SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
-SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Matthew Miller <matthew@millerti.me>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Joyent
-SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
-SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Jeremy Ashkenas <jeremy@documentcloud.org>
 SPDX-FileCopyrightText: Jeremy Ashkenas
@@ -38,13 +34,10 @@ SPDX-FileCopyrightText: Evert Pot
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
-SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
-SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Alkemics
-SPDX-FileCopyrightText: @nextcloud/password-confirmation developers
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 
@@ -53,10 +46,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.4.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.5.0
+	- version: 2.5.1
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.4.0
@@ -65,28 +58,28 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.0.0
+	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
-	- version: 3.3.1
+	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.9.0
+	- version: 3.11.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.1.0
+	- version: 3.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/password-confirmation
-	- version: 5.1.1
+	- version: 5.3.1
 	- license: MIT
 - @nextcloud/paths
 	- version: 2.2.1
@@ -95,65 +88,47 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.3
+	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.27.0
 	- license: AGPL-3.0-or-later
+- @simplewebauthn/browser
+	- version: 13.1.0
+	- license: MIT
 - @vueuse/core
-	- version: 11.0.3
+	- version: 11.3.0
 	- license: MIT
 - @vueuse/shared
-	- version: 11.0.3
-	- license: MIT
-- assert
-	- version: 2.1.0
-	- license: MIT
-- available-typed-arrays
-	- version: 1.0.7
+	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.7.7
+	- version: 1.9.0
 	- license: MIT
 - backbone
-	- version: 1.6.0
+	- version: 1.6.1
 	- license: MIT
 - base64-js
 	- version: 1.5.1
 	- license: MIT
-- call-bind
-	- version: 1.0.7
+- buffer
+	- version: 5.7.1
 	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
 	- license: MIT
-- console-browserify
-	- version: 1.2.0
-	- license: MIT
 - css-loader
-	- version: 6.11.0
+	- version: 7.1.2
 	- license: MIT
 - davclient.js
 	- version: 0.2.1
 	- license: BSD-3-Clause
 - debounce
-	- version: 2.1.0
-	- license: MIT
-- define-data-property
-	- version: 1.1.4
-	- license: MIT
-- define-properties
-	- version: 1.2.1
+	- version: 2.2.0
 	- license: MIT
 - dompurify
-	- version: 3.1.6
+	- version: 3.2.6
 	- license: (MPL-2.0 OR Apache-2.0)
-- es-define-property
-	- version: 1.0.0
-	- license: MIT
-- es-errors
-	- version: 1.3.0
-	- license: MIT
 - escape-html
 	- version: 1.0.3
 	- license: MIT
@@ -164,82 +139,22 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 7.5.4
-	- license: MIT
-- for-each
-	- version: 0.3.3
-	- license: MIT
-- function-bind
-	- version: 1.1.2
-	- license: MIT
-- get-intrinsic
-	- version: 1.2.4
-	- license: MIT
-- gopd
-	- version: 1.0.1
+	- version: 7.6.5
 	- license: MIT
 - handlebars
 	- version: 4.7.8
 	- license: MIT
-- has-property-descriptors
-	- version: 1.0.2
-	- license: MIT
-- has-proto
-	- version: 1.0.3
-	- license: MIT
-- has-symbols
-	- version: 1.0.3
-	- license: MIT
-- has-tostringtag
-	- version: 1.0.2
-	- license: MIT
-- hasown
-	- version: 2.0.2
-	- license: MIT
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause
-- inherits
-	- version: 2.0.4
-	- license: ISC
-- is-arguments
-	- version: 1.1.1
-	- license: MIT
-- is-callable
-	- version: 1.2.7
-	- license: MIT
-- is-generator-function
-	- version: 1.0.10
-	- license: MIT
-- is-nan
-	- version: 1.3.2
-	- license: MIT
-- is-typed-array
-	- version: 1.1.13
-	- license: MIT
 - jquery
 	- version: 3.7.1
-	- license: MIT
-- lodash.get
-	- version: 4.4.2
 	- license: MIT
 - moment
 	- version: 2.30.1
 	- license: MIT
-- node-gettext
-	- version: 3.0.0
-	- license: MIT
 - buffer
 	- version: 6.0.3
-	- license: MIT
-- object-is
-	- version: 1.1.6
-	- license: MIT
-- object-keys
-	- version: 1.1.1
-	- license: MIT
-- object.assign
-	- version: 4.1.5
 	- license: MIT
 - inherits
 	- version: 2.0.3
@@ -250,23 +165,23 @@ This file is generated from multiple sources. Included packages:
 - path
 	- version: 0.12.7
 	- license: MIT
-- possible-typed-array-names
-	- version: 1.0.0
-	- license: MIT
 - process
 	- version: 0.11.10
 	- license: MIT
 - query-string
-	- version: 9.1.0
+	- version: 9.2.0
 	- license: MIT
-- set-function-length
-	- version: 1.2.2
+- safe-buffer
+	- version: 5.2.1
 	- license: MIT
 - split-on-first
 	- version: 3.0.0
 	- license: MIT
+- string_decoder
+	- version: 1.3.0
+	- license: MIT
 - style-loader
-	- version: 3.3.4
+	- version: 4.0.0
 	- license: MIT
 - tabbable
 	- version: 6.2.0
@@ -280,26 +195,17 @@ This file is generated from multiple sources. Included packages:
 - underscore
 	- version: 1.13.7
 	- license: MIT
-- util
-	- version: 0.12.5
-	- license: MIT
 - vue-loader
 	- version: 15.11.1
 	- license: MIT
 - vue-material-design-icons
-	- version: 5.3.0
+	- version: 5.3.1
 	- license: MIT
 - vue
 	- version: 2.7.16
 	- license: MIT
-- webdav
-	- version: 5.7.1
-	- license: MIT
 - webpack
-	- version: 5.94.0
-	- license: MIT
-- which-typed-array
-	- version: 1.1.15
+	- version: 5.99.9
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

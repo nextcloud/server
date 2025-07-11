@@ -171,12 +171,6 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager->remove($mount);
 	}
 
-	/**
-	 * @param string $path
-	 * @return Node
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function get($path) {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
@@ -390,13 +384,17 @@ class Root extends Folder implements IRootFolder {
 		// scope the cache by user, so we don't return nodes for different users
 		if ($this->user) {
 			$cachedPath = $this->pathByIdCache->get($this->user->getUID() . '::' . $id);
-			if ($cachedPath && str_starts_with($path, $cachedPath)) {
+			if ($cachedPath && str_starts_with($cachedPath, $path)) {
 				// getting the node by path is significantly cheaper than finding it by id
-				$node = $this->get($cachedPath);
-				// by validating that the cached path still has the requested fileid we can work around the need to invalidate the cached path
-				// if the cached path is invalid or a different file now we fall back to the uncached logic
-				if ($node && $node->getId() === $id) {
-					return $node;
+				try {
+					$node = $this->get($cachedPath);
+					// by validating that the cached path still has the requested fileid we can work around the need to invalidate the cached path
+					// if the cached path is invalid or a different file now we fall back to the uncached logic
+					if ($node && $node->getId() === $id) {
+						return $node;
+					}
+				} catch (NotFoundException|NotPermittedException) {
+					// The file may be moved but the old path still in cache
 				}
 			}
 		}
@@ -528,9 +526,9 @@ class Root extends Folder implements IRootFolder {
 		$isDir = $info->getType() === FileInfo::TYPE_FOLDER;
 		$view = new View('');
 		if ($isDir) {
-			return new Folder($this, $view, $path, $info, $parent);
+			return new Folder($this, $view, $fullPath, $info, $parent);
 		} else {
-			return new File($this, $view, $path, $info, $parent);
+			return new File($this, $view, $fullPath, $info, $parent);
 		}
 	}
 }

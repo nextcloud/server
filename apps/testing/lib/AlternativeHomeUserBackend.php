@@ -1,9 +1,14 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Testing;
+
+use OC\User\Database;
+use OCP\IConfig;
+use OCP\Server;
 
 /**
  * Alternative home user backend.
@@ -17,7 +22,7 @@ namespace OCA\Testing;
  *			],
  *	]
  */
-class AlternativeHomeUserBackend extends \OC\User\Database {
+class AlternativeHomeUserBackend extends Database {
 	public function __construct() {
 		parent::__construct();
 	}
@@ -32,7 +37,7 @@ class AlternativeHomeUserBackend extends \OC\User\Database {
 			if ($uid !== 'admin') {
 				$uid = md5($uid);
 			}
-			return \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
+			return Server::get(IConfig::class)->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 
 		return false;

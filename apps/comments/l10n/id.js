@@ -15,15 +15,14 @@ OC.L10N.register(
     "Delete comment" : "Hapus komentar",
     "Cancel edit" : "Batal sunting",
     "Post comment" : "Posting komentar",
+    "Unable to load the comments list" : "Tidak dapat memuat daftar komentar",
     "No comments yet, start the conversation!" : "Belum ada yang berkomentar, mulailah perbincangan!",
     "No more messages" : "Tidak ada pesan lagi",
     "Retry" : "Ulangi",
-    "Unable to load the comments list" : "Tidak dapat memuat daftar komentar",
     "Comment" : "Komentar",
     "An error occurred while trying to edit the comment" : "Terjadi kesalahan ketika mencoba menyunting komentar",
     "Comment deleted" : "Komentar dihapus",
     "An error occurred while trying to delete the comment" : "Terjadi kesalahan ketika mencoba untuk menghapus komentar",
-    "An error occurred while trying to create the comment" : "Terjadi kesalahan ketika mencoba untuk membuat komentar",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Anda disebut pada \"{file}\", dalam sebuah komentar oleh pengguna yang sejak itu telah dihapus"
+    "An error occurred while trying to create the comment" : "Terjadi kesalahan ketika mencoba untuk membuat komentar"
 },
 "nplurals=1; plural=0;");

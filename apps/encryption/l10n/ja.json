@@ -51,14 +51,13 @@
     "Basic encryption module" : "基本暗号化モジュール",
     "Your private key password no longer matches your log-in password." : "もはや秘密鍵はログインパスワードと一致しません。",
     "Set your old private key password to your current log-in password:" : "古い秘密鍵のパスワードを現在のログインパスワードに設定:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "古いパスワードを覚えていない場合、管理者に尋ねてファイルを回復することができます。",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "古いパスワードを覚えていない場合は、管理者にファイルの復元を依頼することができます。",
     "Old log-in password" : "古いログインパスワード",
     "Current log-in password" : "現在のログインパスワード",
     "Update Private Key Password" : "秘密鍵のパスワードを更新",
     "Enable password recovery:" : "パスワードリカバリを有効に:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
-    "Disabled" : "無効",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "復旧キーは、ファイルの暗号化に使う特別な暗号化キーです。ユーザーがパスワードを忘れてしまった場合には、リカバリキーを使ってユーザーのファイルを復元することができます。"
+    "Disabled" : "無効"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

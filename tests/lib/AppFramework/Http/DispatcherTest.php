@@ -8,6 +8,7 @@
 
 namespace Test\AppFramework\Http;
 
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
@@ -20,8 +21,10 @@ use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\IRequestId;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -29,7 +32,7 @@ use Psr\Log\LoggerInterface;
 class TestController extends Controller {
 	/**
 	 * @param string $appName
-	 * @param \OCP\IRequest $request
+	 * @param IRequest $request
 	 */
 	public function __construct($appName, $request) {
 		parent::__construct($appName, $request);
@@ -62,6 +65,10 @@ class TestController extends Controller {
 		return new DataResponse([
 			'text' => [$int, $bool, $test, $test2]
 		]);
+	}
+
+	public function test(): Response {
+		return new DataResponse();
 	}
 }
 
@@ -104,33 +111,17 @@ class DispatcherTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->eventLogger = $this->createMock(IEventLogger::class);
 		$this->container = $this->createMock(ContainerInterface::class);
-		$app = $this->getMockBuilder(
-			'OC\AppFramework\DependencyInjection\DIContainer')
-			->disableOriginalConstructor()
-			->getMock();
-		$request = $this->getMockBuilder(
-			'\OC\AppFramework\Http\Request')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->http = $this->getMockBuilder(
-			\OC\AppFramework\Http::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$app = $this->createMock(DIContainer::class);
+		$request = $this->createMock(Request::class);
+		$this->http = $this->createMock(\OC\AppFramework\Http::class);
 
-		$this->middlewareDispatcher = $this->getMockBuilder(
-			'\OC\AppFramework\Middleware\MiddlewareDispatcher')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->controller = $this->getMockBuilder(
-			'\OCP\AppFramework\Controller')
-			->setMethods([$this->controllerMethod])
+		$this->middlewareDispatcher = $this->createMock(MiddlewareDispatcher::class);
+		$this->controller = $this->getMockBuilder(TestController::class)
+			->onlyMethods([$this->controllerMethod])
 			->setConstructorArgs([$app, $request])
 			->getMock();
 
-		$this->request = $this->getMockBuilder(
-			'\OC\AppFramework\Http\Request')
-			->disableOriginalConstructor()
-			->getMock();
+		$this->request = $this->createMock(Request::class);
 
 		$this->reflector = new ControllerMethodReflector();
 
@@ -140,7 +131,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container,
@@ -166,7 +157,7 @@ class DispatcherTest extends \Test\TestCase {
 				->method('beforeController')
 				->with($this->equalTo($this->controller),
 					$this->equalTo($this->controllerMethod))
-				->will($this->throwException($exception));
+				->willThrowException($exception);
 			if ($catchEx) {
 				$this->middlewareDispatcher->expects($this->once())
 					->method('afterException')
@@ -317,7 +308,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -328,7 +319,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('[3,true,4,1]', $response[3]);
+		$this->assertEquals('[3,false,4,1]', $response[3]);
 	}
 
 
@@ -350,7 +341,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -361,7 +352,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('[3,true,4,7]', $response[3]);
+		$this->assertEquals('[3,false,4,7]', $response[3]);
 	}
 
 
@@ -386,7 +377,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -421,7 +412,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -457,7 +448,42 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
+			$this->logger,
+			$this->eventLogger,
+			$this->container
+		);
+		$controller = new TestController('app', $this->request);
+
+		// reflector is supposed to be called once
+		$this->dispatcherPassthrough();
+		$response = $this->dispatcher->dispatch($controller, 'exec');
+
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[3]);
+	}
+
+	public function testResponseTransformedBySendingMultipartFormData(): void {
+		$this->request = new Request(
+			[
+				'post' => [
+					'int' => '3',
+					'bool' => 'false',
+					'double' => 1.2,
+				],
+				'server' => [
+					'HTTP_ACCEPT' => 'application/text, test',
+					'HTTP_CONTENT_TYPE' => 'multipart/form-data'
+				],
+				'method' => 'POST'
+			],
+			$this->createMock(IRequestId::class),
+			$this->createMock(IConfig::class)
+		);
+		$this->dispatcher = new Dispatcher(
+			$this->http, $this->middlewareDispatcher, $this->reflector,
+			$this->request,
+			$this->config,
+			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -495,7 +521,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container
@@ -506,11 +532,11 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('{"text":[3,true,4,1]}', $response[3]);
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[3]);
 	}
 
 
-	public function rangeDataProvider(): array {
+	public static function rangeDataProvider(): array {
 		return [
 			[PHP_INT_MIN, PHP_INT_MAX, 42, false],
 			[0, 12, -5, true],
@@ -521,9 +547,7 @@ class DispatcherTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider rangeDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('rangeDataProvider')]
 	public function testEnsureParameterValueSatisfiesRange(int $min, int $max, int $input, bool $throw): void {
 		$this->reflector = $this->createMock(ControllerMethodReflector::class);
 		$this->reflector->expects($this->any())
@@ -539,7 +563,7 @@ class DispatcherTest extends \Test\TestCase {
 			$this->reflector,
 			$this->request,
 			$this->config,
-			\OC::$server->getDatabaseConnection(),
+			Server::get(IDBConnection::class),
 			$this->logger,
 			$this->eventLogger,
 			$this->container,

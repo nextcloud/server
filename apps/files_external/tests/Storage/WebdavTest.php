@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +10,8 @@ namespace OCA\Files_External\Tests\Storage;
 
 use OC\Files\Storage\DAV;
 use OC\Files\Type\Detection;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Server;
 
 /**
  * Class WebdavTest
@@ -45,7 +49,7 @@ class WebdavTest extends \Test\Files\Storage\Storage {
 		$this->instance->file_put_contents('foo.bar', 'asd');
 
 		/** @var Detection $mimeDetector */
-		$mimeDetector = \OC::$server->getMimeTypeDetector();
+		$mimeDetector = Server::get(IMimeTypeDetector::class);
 		$mimeDetector->registerType('bar', 'application/x-bar');
 
 		$this->assertEquals('application/x-bar', $this->instance->getMimeType('foo.bar'));

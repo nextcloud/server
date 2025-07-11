@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace OCA\DAV\Tests\unit\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
+use OCA\DAV\Upload\FutureFile;
 
 class FutureFileTest extends \Test\TestCase {
 	public function testGetContentType(): void {
@@ -44,17 +46,17 @@ class FutureFileTest extends \Test\TestCase {
 	public function testDelete(): void {
 		$d = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
-			->setMethods(['delete'])
+			->onlyMethods(['delete'])
 			->getMock();
 
 		$d->expects($this->once())
 			->method('delete');
 
-		$f = new \OCA\DAV\Upload\FutureFile($d, 'foo.txt');
+		$f = new FutureFile($d, 'foo.txt');
 		$f->delete();
 	}
 
-	
+
 	public function testPut(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -62,7 +64,7 @@ class FutureFileTest extends \Test\TestCase {
 		$f->put('');
 	}
 
-	
+
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -70,13 +72,10 @@ class FutureFileTest extends \Test\TestCase {
 		$f->setName('');
 	}
 
-	/**
-	 * @return \OCA\DAV\Upload\FutureFile
-	 */
-	private function mockFutureFile() {
+	private function mockFutureFile(): FutureFile {
 		$d = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
-			->setMethods(['getETag', 'getLastModified', 'getChildren'])
+			->onlyMethods(['getETag', 'getLastModified', 'getChildren'])
 			->getMock();
 
 		$d->expects($this->any())
@@ -91,6 +90,6 @@ class FutureFileTest extends \Test\TestCase {
 			->method('getChildren')
 			->willReturn([]);
 
-		return new \OCA\DAV\Upload\FutureFile($d, 'foo.txt');
+		return new FutureFile($d, 'foo.txt');
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -33,7 +34,7 @@ class EditTest extends TestCase {
 		$this->systemTagManager = $this->createMock(ISystemTagManager::class);
 		$this->command = $this->getMockBuilder(Edit::class)
 			->setConstructorArgs([$this->systemTagManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);
@@ -81,13 +82,14 @@ class EditTest extends TestCase {
 				$tagId,
 				$newTagName,
 				$newTagUserVisible,
-				$newTagUserAssignable
+				$newTagUserAssignable,
+				''
 			);
 
 		$this->output->expects($this->once())
 			->method('writeln')
 			->with(
-				'<info>Tag updated ("' . $newTagName . '", ' . $newTagUserVisible . ', ' . $newTagUserAssignable . ')</info>'
+				'<info>Tag updated ("' . $newTagName . '", ' . json_encode($newTagUserVisible) . ', ' . json_encode($newTagUserAssignable) . ', "")</info>'
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
@@ -133,7 +135,7 @@ class EditTest extends TestCase {
 			});
 
 		$this->systemTagManager->method('updateTag')
-			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable) {
+			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable): void {
 				throw new TagAlreadyExistsException(
 					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);
@@ -145,7 +147,8 @@ class EditTest extends TestCase {
 				$tagId,
 				$newTagName,
 				$newTagUserVisible,
-				$newTagUserAssignable
+				$newTagUserAssignable,
+				''
 			);
 
 		$this->output->expects($this->once())

@@ -12,10 +12,10 @@ use OCP\AppFramework\Http;
 /**
  * A renderer for JSON calls
  * @since 6.0.0
- * @template S of int
- * @template-covariant T of array|object|\stdClass|\JsonSerializable
+ * @template S of Http::STATUS_*
+ * @template-covariant T of null|string|int|float|bool|array|\stdClass|\JsonSerializable
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class JSONResponse extends Response {
 	/**
@@ -58,6 +58,9 @@ class JSONResponse extends Response {
 	 * @return string the rendered json
 	 * @since 6.0.0
 	 * @throws \Exception If data could not get encoded
+	 *
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape html
 	 */
 	public function render() {
 		return json_encode($this->data, JSON_HEX_TAG | JSON_THROW_ON_ERROR | $this->encodeFlags, 2048);

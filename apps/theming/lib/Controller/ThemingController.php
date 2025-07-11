@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,7 +17,9 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -30,7 +33,6 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use ScssPhp\ScssPhp\Compiler;
 
 /**
  * Class ThemingController
@@ -43,7 +45,7 @@ class ThemingController extends Controller {
 	public const VALID_UPLOAD_KEYS = ['header', 'logo', 'logoheader', 'background', 'favicon'];
 
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		private IConfig $config,
 		private IAppConfig $appConfig,
@@ -192,11 +194,13 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * Check that a string is a valid http/https url
+	 * Check that a string is a valid http/https url.
+	 * Also validates that there is no way for XSS through HTML
 	 */
 	private function isValidUrl(string $url): bool {
-		return ((str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) &&
-			filter_var($url, FILTER_VALIDATE_URL) !== false);
+		return ((str_starts_with($url, 'http://') || str_starts_with($url, 'https://'))
+			&& filter_var($url, FILTER_VALIDATE_URL) !== false)
+			&& !str_contains($url, '"');
 	}
 
 	/**
@@ -267,8 +271,8 @@ class ThemingController extends Controller {
 
 		return new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'name' => $name,
 						'url' => $this->imageManager->getImageUrl($key),
 						'message' => $this->l10n->t('Saved'),
@@ -291,8 +295,8 @@ class ThemingController extends Controller {
 
 		return new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'value' => $value,
 						'message' => $this->l10n->t('Saved'),
 					],
@@ -314,8 +318,8 @@ class ThemingController extends Controller {
 
 		return new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $this->l10n->t('Saved'),
 					],
 				'status' => 'success'
@@ -338,6 +342,7 @@ class ThemingController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getImage(string $key, bool $useSvg = true) {
 		try {
 			$file = $this->imageManager->getImage($key, $useSvg);
@@ -346,7 +351,7 @@ class ThemingController extends Controller {
 		}
 
 		$response = new FileDisplayResponse($file);
-		$csp = new Http\ContentSecurityPolicy();
+		$csp = new ContentSecurityPolicy();
 		$csp->allowInlineStyle();
 		$response->setContentSecurityPolicy($csp);
 		$response->cacheFor(3600);
@@ -376,6 +381,7 @@ class ThemingController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
 		if (!in_array($themeId, array_keys($themes))) {
@@ -396,10 +402,7 @@ class ThemingController extends Controller {
 			$css = ":root { $variables } " . $customCss;
 		} else {
 			// If not set, we'll rely on the body class
-			$compiler = new Compiler();
-			$compiledCss = $compiler->compileString("[data-theme-$themeId] { $variables $customCss }");
-			$css = $compiledCss->getCss();
-			;
+			$css = "[data-theme-$themeId] { $variables $customCss }";
 		}
 
 		try {
@@ -416,7 +419,7 @@ class ThemingController extends Controller {
 	 *
 	 * @param string $app ID of the app
 	 * @psalm-suppress LessSpecificReturnStatement The content of the Manifest doesn't need to be described in the return type
-	 * @return JSONResponse<Http::STATUS_OK, array{name: string, short_name: string, start_url: string, theme_color: string, background_color: string, description: string, icons: array{src: non-empty-string, type: string, sizes: string}[], display: string}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array{}, array{}>
+	 * @return JSONResponse<Http::STATUS_OK, array{name: string, short_name: string, start_url: string, theme_color: string, background_color: string, description: string, icons: list<array{src: non-empty-string, type: string, sizes: string}>, display_override: list<string>, display: string}, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array{}, array{}>
 	 *
 	 * 200: Manifest returned
 	 * 404: App not found
@@ -424,6 +427,7 @@ class ThemingController extends Controller {
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[BruteForceProtection(action: 'manifest')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getManifest(string $app): JSONResponse {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 		if ($app === 'core' || $app === 'settings') {
@@ -459,8 +463,8 @@ class ThemingController extends Controller {
 			'theme_color' => $this->themingDefaults->getColorPrimary(),
 			'background_color' => $this->themingDefaults->getColorPrimary(),
 			'description' => $description,
-			'icons' =>
-				[
+			'icons'
+				=> [
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon',
 							['app' => $app]) . '?v=' . $cacheBusterValue,
@@ -474,7 +478,8 @@ class ThemingController extends Controller {
 						'sizes' => '16x16'
 					]
 				],
-			'display' => 'standalone'
+			'display_override' => [$this->config->getSystemValueBool('theming.standalone_window.enabled', true) ? 'minimal-ui' : ''],
+			'display' => $this->config->getSystemValueBool('theming.standalone_window.enabled', true) ? 'standalone' : 'browser'
 		];
 		$response = new JSONResponse($responseJS);
 		$response->cacheFor(3600);

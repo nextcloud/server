@@ -17,15 +17,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotifierTest extends TestCase {
-	/** @var Notifier */
-	protected $notifier;
-
-	/** @var IFactory|MockObject */
-	protected $factory;
-	/** @var IURLGenerator|MockObject */
-	protected $url;
-	/** @var IL10N|MockObject */
-	protected $l;
+	protected IFactory&MockObject $factory;
+	protected IURLGenerator&MockObject $url;
+	protected IL10N&MockObject $l;
+	protected Notifier $notifier;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -52,7 +47,7 @@ class NotifierTest extends TestCase {
 	public function testPrepareWrongApp(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification|MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('getApp')
@@ -67,7 +62,7 @@ class NotifierTest extends TestCase {
 	public function testPrepareWrongSubject(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification|MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('getApp')
@@ -80,7 +75,7 @@ class NotifierTest extends TestCase {
 	}
 
 	public function testPrepare(): void {
-		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification&MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 
 		$notification->expects($this->once())

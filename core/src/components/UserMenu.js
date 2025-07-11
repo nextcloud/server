@@ -12,6 +12,7 @@ export const setUp = () => {
 	if (mountPoint) {
 		// eslint-disable-next-line no-new
 		new Vue({
+			name: 'AccountMenuRoot',
 			el: mountPoint,
 			render: h => h(AccountMenu),
 		})

@@ -2,34 +2,27 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import '@testing-library/cypress/add-commands'
 import 'cypress-axe'
+
+// styles
+import '../../apps/theming/css/default.css'
+import '../../core/css/server.css'
 
 /* eslint-disable */
 import { mount } from '@cypress/vue2'
 
-// Example use:
-// cy.mount(MyComponent)
-Cypress.Commands.add('mount', (component, optionsOrProps) => {
-	let instance = null
-	const oldMounted = component?.mounted || false
+Cypress.Commands.add('mount', (component, options = {}) => {
+	// Setup options object
+	options.extensions = options.extensions || {}
+	options.extensions.plugins = options.extensions.plugins || []
+	options.extensions.components = options.extensions.components || {}
 
-	// Override the mounted method to expose
-	// the component instance to cypress
-	component.mounted = function() {
-		// eslint-disable-next-line
-		instance = this
-		if (oldMounted) {
-			oldMounted.call(instance)
-		}
-	}
-
-	// Expose the component with cy.get('@component')
-	return mount(component, optionsOrProps).then(() => {
-		return cy.wrap(instance).as('component')
-	})
+	return mount(component, options)
 })
 
-Cypress.Commands.add('mockInitialState', (app: string, key: string, value: any) => {
+Cypress.Commands.add('mockInitialState', (app: string, key: string, value: unknown) => {
 	cy.document().then(($document) => {
 		const input = $document.createElement('input')
 		input.setAttribute('type', 'hidden')

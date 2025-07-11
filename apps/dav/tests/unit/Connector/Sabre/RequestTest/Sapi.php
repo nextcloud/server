@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,11 +12,6 @@ use Sabre\HTTP\Request;
 use Sabre\HTTP\Response;
 
 class Sapi {
-	/**
-	 * @var \Sabre\HTTP\Request
-	 */
-	private $request;
-
 	/**
 	 * @var \Sabre\HTTP\Response
 	 */
@@ -31,8 +27,9 @@ class Sapi {
 		return $this->request;
 	}
 
-	public function __construct(Request $request) {
-		$this->request = $request;
+	public function __construct(
+		private Request $request,
+	) {
 	}
 
 	/**

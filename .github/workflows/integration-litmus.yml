@@ -4,6 +4,9 @@ name: Litmus integration tests
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 concurrency:
   group: integration-litmus-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -40,7 +43,6 @@ jobs:
     if: needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh'
 
     strategy:
-      # do not stop on another job's failure
       fail-fast: false
       matrix:
         php-versions: ['8.1']
@@ -50,12 +52,13 @@ jobs:
 
     steps:
         - name: Checkout server
-          uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
           with:
+            persist-credentials: false
             submodules: true
 
         - name: Set up php ${{ matrix.php-versions }}
-          uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
+          uses: shivammathur/setup-php@0f7f1d08e3e32076e51cae65eb0b0c871405b16e #v2.34.1
           with:
             php-version: ${{ matrix.php-versions }}
             # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation

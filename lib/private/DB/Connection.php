@@ -160,7 +160,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->_config->setSQLLogger($debugStack);
 		}
 
-		/** @var array<string, array{shards: array[], mapper: ?string}> $shardConfig */
+		/** @var array<string, array{shards: array[], mapper: ?string, from_primary_key: ?int, from_shard_key: ?int}> $shardConfig */
 		$shardConfig = $this->params['sharding'] ?? [];
 		$shardNames = array_keys($shardConfig);
 		$this->shards = array_map(function (array $config, string $name) {
@@ -180,7 +180,9 @@ class Connection extends PrimaryReadReplicaConnection {
 				self::SHARD_PRESETS[$name]['shard_key'],
 				$shardMapper,
 				self::SHARD_PRESETS[$name]['companion_tables'],
-				$config['shards']
+				$config['shards'],
+				$config['from_primary_key'] ?? 0,
+				$config['from_shard_key'] ?? 0,
 			);
 		}, $shardConfig, $shardNames);
 		$this->shards = array_combine($shardNames, $this->shards);
@@ -199,8 +201,10 @@ class Connection extends PrimaryReadReplicaConnection {
 		if ($this->isShardingEnabled) {
 			foreach ($this->shards as $shardDefinition) {
 				foreach ($shardDefinition->getAllShards() as $shard) {
-					/** @var ConnectionAdapter $connection */
-					$connections[] = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
+					if ($shard !== ShardDefinition::MIGRATION_SHARD) {
+						/** @var ConnectionAdapter $connection */
+						$connections[] = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
+					}
 				}
 			}
 		}
@@ -218,14 +222,14 @@ class Connection extends PrimaryReadReplicaConnection {
 				return parent::connect();
 			}
 
-			$this->lastConnectionCheck[$this->getConnectionName()] = time();
-
 			// Only trigger the event logger for the initial connect call
 			$eventLogger = Server::get(IEventLogger::class);
 			$eventLogger->start('connect:db', 'db connection opened');
 			/** @psalm-suppress InternalMethod */
 			$status = parent::connect();
 			$eventLogger->end('connect:db');
+
+			$this->lastConnectionCheck[$this->getConnectionName()] = time();
 
 			return $status;
 		} catch (Exception $e) {
@@ -282,7 +286,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * Gets the QueryBuilder for the connection.
 	 *
 	 * @return \Doctrine\DBAL\Query\QueryBuilder
-	 * @deprecated please use $this->getQueryBuilder() instead
+	 * @deprecated 8.0.0 please use $this->getQueryBuilder() instead
 	 */
 	public function createQueryBuilder() {
 		$backtrace = $this->getCallerBacktrace();
@@ -295,7 +299,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * Gets the ExpressionBuilder for the connection.
 	 *
 	 * @return \Doctrine\DBAL\Query\Expression\ExpressionBuilder
-	 * @deprecated please use $this->getQueryBuilder()->expr() instead
+	 * @deprecated 8.0.0 please use $this->getQueryBuilder()->expr() instead
 	 */
 	public function getExpressionBuilder() {
 		$backtrace = $this->getCallerBacktrace();
@@ -410,7 +414,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
-		$this->logQueryToFile($sql);
+		$this->logQueryToFile($sql, $params);
 		try {
 			return parent::executeQuery($sql, $params, $types, $qcp);
 		} catch (\Exception $e) {
@@ -457,7 +461,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
-		$this->logQueryToFile($sql);
+		$this->logQueryToFile($sql, $params);
 		try {
 			return (int)parent::executeStatement($sql, $params, $types);
 		} catch (\Exception $e) {
@@ -466,14 +470,19 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 	}
 
-	protected function logQueryToFile(string $sql): void {
+	protected function logQueryToFile(string $sql, array $params): void {
 		$logFile = $this->systemConfig->getValue('query_log_file');
 		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
 			$prefix = '';
 			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
 				$prefix .= Server::get(IRequestId::class)->getId() . "\t";
 			}
+
 			$postfix = '';
+			if ($this->systemConfig->getValue('query_log_file_parameters') === 'yes') {
+				$postfix .= '; ' . json_encode($params);
+			}
+
 			if ($this->systemConfig->getValue('query_log_file_backtrace') === 'yes') {
 				$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 				array_pop($trace);
@@ -695,6 +704,19 @@ class Connection extends PrimaryReadReplicaConnection {
 	}
 
 	/**
+	 * Truncate a table data if it exists
+	 *
+	 * @param string $table table name without the prefix
+	 * @param bool $cascade whether to truncate cascading
+	 *
+	 * @throws Exception
+	 */
+	public function truncateTable(string $table, bool $cascade) {
+		$this->executeStatement($this->getDatabasePlatform()
+			->getTruncateTableSQL($this->tablePrefix . trim($table), $cascade));
+	}
+
+	/**
 	 * Check if a table exists
 	 *
 	 * @param string $table table name without the prefix
@@ -872,9 +894,9 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function reconnectIfNeeded(): void {
 		if (
-			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
-			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
-			$this->isTransactionActive()
+			!isset($this->lastConnectionCheck[$this->getConnectionName()])
+			|| time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30
+			|| $this->isTransactionActive()
 		) {
 			return;
 		}

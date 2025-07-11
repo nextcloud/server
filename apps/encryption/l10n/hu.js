@@ -53,14 +53,13 @@ OC.L10N.register(
     "Basic encryption module" : "Alapvető titkosítási modul",
     "Your private key password no longer matches your log-in password." : "A titkos kulcsa jelszava már nem egyezik meg a bejelentkezési jelszavával. ",
     "Set your old private key password to your current log-in password:" : "A régi privát kulcsának jelszavának beállítása a jelenlegi bejelentkezési jelszavára:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Ha nem emlékszik a régi jelszavára, akkor megkérheti a rendszergazdát, hogy állítsa helyre a fájljait.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Ha nem emlékszik a régi jelszavára, akkor megkérheti a rendszergazdát, hogy állítsa helyre a fájljait.",
     "Old log-in password" : "Régi bejelentkezési jelszó",
     "Current log-in password" : "Jelenlegi bejelentkezési jelszó",
     "Update Private Key Password" : "Titkos kulcs jelszavának frissítése",
     "Enable password recovery:" : "Jelszó-helyreállítás engedélyezése:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "A beállítás lehetővé teszi, hogy visszanyerje a titkosított fájlok tartalmát, ha elfelejtette a jelszavát",
     "Enabled" : "Engedélyezve",
-    "Disabled" : "Letiltva",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "A helyreállítási kulcs egy a fájlok titkosítására szolgáló további titkosítási kulcs. A segítségével vissza lehet állítani a fájlokat, ha felhasználó elfelejtette a jelszavát."
+    "Disabled" : "Letiltva"
 },
 "nplurals=2; plural=(n != 1);");
