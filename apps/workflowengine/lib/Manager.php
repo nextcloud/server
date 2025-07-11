@@ -8,6 +8,7 @@ namespace OCA\WorkflowEngine;
 
 use Doctrine\DBAL\Exception;
 use OCA\WorkflowEngine\AppInfo\Application;
+use OCA\WorkflowEngine\Check\Directory;
 use OCA\WorkflowEngine\Check\FileMimeType;
 use OCA\WorkflowEngine\Check\FileName;
 use OCA\WorkflowEngine\Check\FileSize;
@@ -692,6 +693,7 @@ class Manager implements IManager {
 	protected function getBuildInChecks(): array {
 		try {
 			return [
+				$this->container->query(Directory::class),
 				$this->container->query(FileMimeType::class),
 				$this->container->query(FileName::class),
 				$this->container->query(FileSize::class),
