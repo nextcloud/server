@@ -10,6 +10,7 @@ namespace OCA\DAV\Connector\Sabre;
 use Exception;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Files\SetupManager;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCA\DAV\Connector\Sabre\Exception\TooManyRequests;
@@ -37,6 +38,7 @@ class Auth extends AbstractBasic {
 		private IRequest $request,
 		private Manager $twoFactorManager,
 		private IThrottler $throttler,
+		private SetupManager $setupManager,
 		string $principalPrefix = 'principals/users/',
 	) {
 		$this->principalPrefix = $principalPrefix;
@@ -183,10 +185,13 @@ class Auth extends AbstractBasic {
 				|| ($this->userSession->isLoggedIn() && $this->session->get(self::DAV_AUTHENTICATED) === $this->userSession->getUser()->getUID() && empty($request->getHeader('Authorization')))
 				|| \OC_User::handleApacheAuth()
 			) {
-				$user = $this->userSession->getUser()->getUID();
-				$this->currentUser = $user;
+				$user = $this->userSession->getUser();
+				$this->setupManager->setupForUser($user);
+
+				$uid = $user->getUID();
+				$this->currentUser = $uid;
 				$this->session->close();
-				return [true, $this->principalPrefix . $user];
+				return [true, $this->principalPrefix . $uid];
 			}
 		}
 
@@ -201,6 +206,12 @@ class Auth extends AbstractBasic {
 			$response->setStatus(Http::STATUS_UNAUTHORIZED);
 			throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
 		}
+
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
+			$this->setupManager->setupForUser($user);
+		}
+
 		return $data;
 	}
 }
