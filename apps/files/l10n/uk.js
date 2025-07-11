@@ -129,6 +129,7 @@ OC.L10N.register(
     "Search globally by filename …" : "Шукати всюди за ім'ям файлу ...",
     "Search here by filename …" : "Шукати тут за ім'ям файлу ...",
     "Search scope options" : "Визначити місце пошуку",
+    "Filter and search from this location" : "Фільтрувати та шукати у цьому розташуванні",
     "Search globally" : "Шукати всюди",
     "{usedQuotaByte} used" : "{usedQuotaByte} використано",
     "{used} of {quota} used" : "Використано {used} із {quota}",

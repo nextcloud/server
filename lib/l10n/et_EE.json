@@ -280,8 +280,6 @@
     "Cannot write into \"config\" directory." : "Pole õigust kirjutada „config“ kausta.",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Tavaliselt saad selle lahendada andes veebiserverile õigused seadistuse kausta kirjutamiseks. Vaata siia: %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Aga kui soovid, et config.pho seadistuste fail ei peaks olema veebiserveri poolt muudetav, siis palun määra seadistusvõtme „config_is_read_only“ väärtuseks true. Lisateavet leiad: %s",
-    "Cannot write into \"apps\" directory." : "Pole õigust kirjutada „apps“ kausta.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Tavaliselt saad selle lahendada andes veebiserverile õigused rakenduste kausta kirjutamiseks. Alternatiivina võid ka Nextcloudi rakendustepoe kasutamise keelata.",
     "Cannot create \"data\" directory." : "„data“ kausta loomine ei õnnestunud.",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Tavaliselt saad selle lahendada andes veebiserverile õigused juurkausta kirjutamiseks. Vaata siia: %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Tavaliselt saad õiguste vea lahendada andes veebiserverile õigused juurkausta kirjutamiseks. Vaata siia: %s",
@@ -422,6 +420,8 @@
     "Organisation" : "Organisatsioon",
     "File is currently busy, please try again later" : "Fail on hetkel kasutuses, proovi hiljem uuesti",
     "Cannot download file" : "Faili pole võimalik alla laadida",
+    "Cannot write into \"apps\" directory." : "Pole õigust kirjutada „apps“ kausta.",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Tavaliselt saad selle lahendada andes veebiserverile õigused rakenduste kausta kirjutamiseks. Alternatiivina võid ka Nextcloudi rakendustepoe kasutamise keelata.",
     "Login is too long" : "Kasutajanimi on liiga pikk"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

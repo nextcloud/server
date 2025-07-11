@@ -286,8 +286,6 @@
     "Cannot write into \"config\" directory." : "\"config\" ディレクトリに書き込みできません",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "これは通常、Webサーバーの configディレクトリ に書き込み権限を与えることで解決できます。%s を見てください",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "またはconfig.phpファイルを読み取り専用にしたい場合は、オプション \"config_is_read_only\"をtrueに設定してください。 詳しくは%sを確認してください。",
-    "Cannot write into \"apps\" directory." : "\"apps\" ディレクトリに書き込みができません",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "これは通常、Webサーバーにappsディレクトリへの書き込み権限を許可するか、構成ファイルでAppStoreを無効にすることで解決できます。",
     "Cannot create \"data\" directory." : "dataディレクトリを作成できません。",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "これは通常、ウェブサーバーにルートディレクトリへの書き込み権限を与えることで解決できます。詳しくは%sを確認してください。",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Webサーバーのルートディレクトリに書き込み権限パーミッションが必要です。詳しくは%sを確認してください。",
@@ -453,6 +451,8 @@
     "Organisation" : "組織",
     "File is currently busy, please try again later" : "現在ファイルはビジーです。後でもう一度試してください。",
     "Cannot download file" : "ファイルをダウンロードできません",
+    "Cannot write into \"apps\" directory." : "\"apps\" ディレクトリに書き込みができません",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "これは通常、Webサーバーにappsディレクトリへの書き込み権限を許可するか、構成ファイルでAppStoreを無効にすることで解決できます。",
     "Login is too long" : "ログインが長すぎます"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

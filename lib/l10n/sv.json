@@ -286,8 +286,6 @@
     "Cannot write into \"config\" directory." : "Kan inte skriva i \"config\"-katalogen.",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivåtkomst till config-katalogen. Se %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Eller, om du föredrar att behålla config.php skrivskyddad, sätt alternativet \"config_is_read_only\" till true i den. Se %s",
-    "Cannot write into \"apps\" directory." : "Kan inte skriva till \"apps\"-katalogen.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivrättigheter till \"apps\"-katalogen eller stänga av appbutiken i konfigurationsfilen.",
     "Cannot create \"data\" directory." : "Kan inte skapa \"data\"-katalog.",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivåtkomst till rotkatalogen. Se %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Behörigheter kan vanligtvis fixas genom att ge webbservern skrivåtkomst till rotkatalogen. Se %s.",
@@ -453,6 +451,8 @@
     "Organisation" : "Organisation",
     "File is currently busy, please try again later" : "Filen är för tillfället upptagen, försök igen senare",
     "Cannot download file" : "Kan inte ladda ner fil",
+    "Cannot write into \"apps\" directory." : "Kan inte skriva till \"apps\"-katalogen.",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Detta kan vanligtvis åtgärdas genom att ge webbservern skrivrättigheter till \"apps\"-katalogen eller stänga av appbutiken i konfigurationsfilen.",
     "Login is too long" : "Inloggningen är för lång"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
