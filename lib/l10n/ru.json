@@ -286,8 +286,6 @@
     "Cannot write into \"config\" directory." : "Невозможно выполнить запись в каталог «config».",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Обычно это можно исправить, предоставив веб-серверу права на запись в каталог конфигурации. Обратитесь к %s.",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Если для файла «config.php» должен быть установлен режим «только чтение», задайте параметру \"config_is_read_only\" значение \"true\". Изучите %s.",
-    "Cannot write into \"apps\" directory." : "Не удалось выполнить запись в каталог «apps».",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Обычно это можно исправить, предоставлением веб-серверу права для записи в каталог приложений или отключением магазина приложений в файле конфигурации.",
     "Cannot create \"data\" directory." : "Невозможно создать каталог «data».",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Обычно это можно исправить, предоставив веб-серверу права на запись в корневой каталог. Обратитесь к %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Разрешения обычно можно исправить, предоставив веб-серверу право на запись в корневой каталог. Обратитесь к %s.",
@@ -453,6 +451,8 @@
     "Organisation" : "Организация",
     "File is currently busy, please try again later" : "Файл в данный момент используется, повторите попытку позже.",
     "Cannot download file" : "Не удалось скачать файл",
+    "Cannot write into \"apps\" directory." : "Не удалось выполнить запись в каталог «apps».",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Обычно это можно исправить, предоставлением веб-серверу права для записи в каталог приложений или отключением магазина приложений в файле конфигурации.",
     "Login is too long" : "Имя пользователя слишком длинное"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

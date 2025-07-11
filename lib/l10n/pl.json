@@ -286,8 +286,6 @@
     "Cannot write into \"config\" directory." : "Nie można zapisać do katalogu \"config\".",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Zwykle można to naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu config. Zobacz %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Jeśli, albo wolisz zachować plik config.php tylko do odczytu, ustaw w nim opcję \"config_is_read_only\" na true. Zobacz %s",
-    "Cannot write into \"apps\" directory." : "Nie można zapisać do katalogu \"apps\".",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Zwykle można to naprawić, przyznając serwerowi WWW dostęp do zapisu do katalogu aplikacji lub wyłączając Nextcloud App Store w pliku konfiguracyjnym.",
     "Cannot create \"data\" directory." : "Nie można utworzyć katalogu \"data\".",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Zwykle można to naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu głównego. Zobacz %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Uprawnienia można zazwyczaj naprawić, nadając serwerowi WWW dostęp do zapisu do katalogu głównego. Zobacz %s.",
@@ -471,6 +469,8 @@
     "Organisation" : "Organizacja",
     "File is currently busy, please try again later" : "Plik jest obecnie niedostępny, spróbuj później",
     "Cannot download file" : "Nie można pobrać pliku",
+    "Cannot write into \"apps\" directory." : "Nie można zapisać do katalogu \"apps\".",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Zwykle można to naprawić, przyznając serwerowi WWW dostęp do zapisu do katalogu aplikacji lub wyłączając Nextcloud App Store w pliku konfiguracyjnym.",
     "Login is too long" : "Login jest zbyt długi"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }
