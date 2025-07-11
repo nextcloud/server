@@ -2,13 +2,14 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { File, Permission, View } from '@nextcloud/files'
+import { File, Folder, Permission, View } from '@nextcloud/files'
 import { describe, it, vi, expect, beforeEach, beforeAll, afterEach } from 'vitest'
 import { nextTick } from 'vue'
 import axios from '@nextcloud/axios'
 
 import { getPinia } from '../store/index.ts'
 import { useActiveStore } from '../store/active.ts'
+import { useFilesStore } from '../store/files'
 
 import { action as deleteAction } from '../actions/deleteAction.ts'
 import { action as favoriteAction } from '../actions/favoriteAction.ts'
@@ -49,12 +50,16 @@ describe('HotKeysService testing', () => {
 
 		// Make sure the file is reset before each test
 		file = new File({
-			id: 1,
+			id: 2,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.ALL,
 		})
+
+		const root = new Folder({ owner: 'test', source: 'https://cloud.domain.com/remote.php/dav/files/admin/', id: 1, permissions: Permission.CREATE })
+		const files = useFilesStore(getPinia())
+		files.setRoot({ service: 'files', root })
 
 		// Setting the view first as it reset the active node
 		activeStore.activeView = view
