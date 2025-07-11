@@ -12,6 +12,14 @@ namespace OCP\ContextChat;
  */
 interface IContentManager {
 	/**
+	 * Checks if the context chat app is enabled or not
+	 *
+	 * @return bool
+	 * @since 32.0.0
+	 */
+	public function isContextChatAvailable(): bool;
+
+	/**
 	 * @param string $appId
 	 * @param string $providerId
 	 * @param class-string<IContentProvider> $providerClass

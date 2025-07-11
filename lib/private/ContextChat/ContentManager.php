@@ -16,6 +16,10 @@ class ContentManager implements IContentManager {
 	) {
 	}
 
+	public function isContextChatAvailable(): bool {
+		return $this->contentManager !== null;
+	}
+
 	public function registerContentProvider(string $appId, string $providerId, string $providerClass): void {
 		$this->contentManager?->registerContentProvider($appId, $providerId, $providerClass);
 	}
