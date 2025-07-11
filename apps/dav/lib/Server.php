@@ -8,7 +8,6 @@
 namespace OCA\DAV;
 
 use OC\Files\Filesystem;
-use OC\Files\SetupManager;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin;
@@ -133,8 +132,7 @@ class Server {
 			\OCP\Server::get(IUserSession::class),
 			\OCP\Server::get(IRequest::class),
 			\OCP\Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
-			\OCP\Server::get(IThrottler::class),
-			\OCP\Server::get(SetupManager::class),
+			\OCP\Server::get(IThrottler::class)
 		);
 
 		// Set URL explicitly due to reverse-proxy situations

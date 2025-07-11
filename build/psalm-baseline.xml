@@ -3455,6 +3455,17 @@
       <code><![CDATA[$this->providers]]></code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="lib/private/Cache/CappedMemoryCache.php">
+    <MissingTemplateParam>
+      <code><![CDATA[\ArrayAccess]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/private/Cache/File.php">
+    <LessSpecificImplementedReturnType>
+      <code><![CDATA[bool|mixed]]></code>
+      <code><![CDATA[bool|mixed]]></code>
+    </LessSpecificImplementedReturnType>
+  </file>
   <file src="lib/private/Calendar/Manager.php">
     <LessSpecificReturnStatement>
       <code><![CDATA[array_merge(

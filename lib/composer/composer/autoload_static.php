@@ -1201,6 +1201,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\BinaryFinder' => __DIR__ . '/../../..' . '/lib/private/BinaryFinder.php',
         'OC\\Blurhash\\Listener\\GenerateBlurhashMetadata' => __DIR__ . '/../../..' . '/lib/private/Blurhash/Listener/GenerateBlurhashMetadata.php',
         'OC\\Broadcast\\Events\\BroadcastEvent' => __DIR__ . '/../../..' . '/lib/private/Broadcast/Events/BroadcastEvent.php',
+        'OC\\Cache\\CappedMemoryCache' => __DIR__ . '/../../..' . '/lib/private/Cache/CappedMemoryCache.php',
+        'OC\\Cache\\File' => __DIR__ . '/../../..' . '/lib/private/Cache/File.php',
         'OC\\Calendar\\AvailabilityResult' => __DIR__ . '/../../..' . '/lib/private/Calendar/AvailabilityResult.php',
         'OC\\Calendar\\CalendarEventBuilder' => __DIR__ . '/../../..' . '/lib/private/Calendar/CalendarEventBuilder.php',
         'OC\\Calendar\\CalendarQuery' => __DIR__ . '/../../..' . '/lib/private/Calendar/CalendarQuery.php',
