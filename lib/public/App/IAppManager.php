@@ -166,9 +166,10 @@ interface IAppManager {
 	 * Get the directory for the given app.
 	 *
 	 * @since 11.0.0
+	 * @since 32.0.0 Added param $ignoreCache to ignore cache
 	 * @throws AppPathNotFoundException
 	 */
-	public function getAppPath(string $appId): string;
+	public function getAppPath(string $appId, bool $ignoreCache = false): string;
 
 	/**
 	 * Get the web path for the given app.
@@ -340,4 +341,12 @@ interface IAppManager {
 	 * @since 31.0.0
 	 */
 	public function getAllAppsInAppsFolders(): array;
+
+	/**
+	 * Run upgrade tasks for an app after the code has already been updated
+	 *
+	 * @throws AppPathNotFoundException if app folder can't be found
+	 * @since 32.0.0
+	 */
+	public function upgradeApp(string $appId): bool;
 }
