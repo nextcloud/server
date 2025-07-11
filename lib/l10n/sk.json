@@ -281,8 +281,6 @@
     "Cannot write into \"config\" directory." : "Nie je možné zapisovať do priečinka \"config\".",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do adresára s konfiguráciou. Viď %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Alebo, ak preferujete ponechať súbor config.php iba na čítanie, nastavte v ňom parameter \"config_is_read_only\" na true.  Viď %s",
-    "Cannot write into \"apps\" directory." : "Nie je možné zapisovať do priečinka \"apps\".",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s aplikáciami alebo vypnutím katalógu s aplikáciami v súbore s nastaveniami.",
     "Cannot create \"data\" directory." : "Nie je možné vytvoriť priečinok \"data\"",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do koreňového adresára. Viď %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Oprávnenia je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do koreňového priečinka. Viď %s.",
@@ -442,6 +440,8 @@
     "Extracts topics from a text and outputs them separated by commas." : "Extrahuje témy z textu a vypisuje ich oddelené čiarkami.",
     "Organisation" : "Organizácia",
     "File is currently busy, please try again later" : "Súbor sa práve používa, skúste prosím neskôr",
-    "Cannot download file" : "Nemožno stiahnuť súbor"
+    "Cannot download file" : "Nemožno stiahnuť súbor",
+    "Cannot write into \"apps\" directory." : "Nie je možné zapisovať do priečinka \"apps\".",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Toto sa zvyčajne dá opraviť poskytnutím práva webového servera na zápis do priečinka s aplikáciami alebo vypnutím katalógu s aplikáciami v súbore s nastaveniami."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

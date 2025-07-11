@@ -286,8 +286,6 @@
     "Cannot write into \"config\" directory." : "無法寫入「config」目錄。",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "開通網頁伺服器寫入 config 目錄的存取權，通常可以解決這個問題。請見 %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "或者，如果您比較希望保留 config.php 的唯讀狀態，請在該組態設定檔中將 「config_is_read_only」設定為 true。請見 %s",
-    "Cannot write into \"apps\" directory." : "無法寫入「apps」目錄。",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "開通網頁伺服器寫入 apps 目錄的存取權，或是在組態設定檔中停用應用程式商店，通常可以解決這個問題。",
     "Cannot create \"data\" directory." : "無法建立「data」目錄。",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "開通網頁伺服器寫入根目錄的存取權，通常可以修正這個問題。請見 %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "開通網頁伺服器可寫入根目錄的存取權，通常可以修正權限問題。請見 %s。",
@@ -471,6 +469,8 @@
     "Organisation" : "組織單位",
     "File is currently busy, please try again later" : "檔案目前忙碌中，請稍候再試",
     "Cannot download file" : "無法下載檔案",
+    "Cannot write into \"apps\" directory." : "無法寫入「apps」目錄。",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "開通網頁伺服器寫入 apps 目錄的存取權，或是在組態設定檔中停用應用程式商店，通常可以解決這個問題。",
     "Login is too long" : "帳號太長了"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

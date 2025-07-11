@@ -286,8 +286,6 @@
     "Cannot write into \"config\" directory." : "Schreiben in das \"config\"-Verzeichnis ist nicht möglich.",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Dies kann zumeist behoben werden, indem dem Webserver Schreibzugriff auf das Konfigurationsverzeichnis eingeräumt wird. Siehe auch %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Oder wenn du lieber möchtest, dass die Datei config.php schreibgeschützt bleiben soll, dann setze die Option \"config_is_read_only\" in der Datei auf true. Siehe %s",
-    "Cannot write into \"apps\" directory." : "Schreiben in das \"apps\"-Verzeichnis ist nicht möglich.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Dies kann normalerweise behoben werden, indem dem Webserver Schreibzugriff auf das App-Verzeichnis gegeben wird, oder der App-Store in der Konfigurationsdatei deaktiviert wird.",
     "Cannot create \"data\" directory." : "Kann das \"data\"-Verzeichnis nicht erstellen.",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Dies kann zumeist behoben werden, indem dem Webserver Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Berechtigungen können zumeist korrigiert werden, indem dem Webserver Schreibzugriff auf das Wurzel-Verzeichnis eingeräumt wird. Siehe auch %s. ",
@@ -471,6 +469,8 @@
     "Organisation" : "Organisation",
     "File is currently busy, please try again later" : "Die Datei ist in Benutzung, bitte versuche es später noch einmal",
     "Cannot download file" : "Datei kann nicht heruntergeladen werden.",
+    "Cannot write into \"apps\" directory." : "Schreiben in das \"apps\"-Verzeichnis ist nicht möglich.",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Dies kann normalerweise behoben werden, indem dem Webserver Schreibzugriff auf das App-Verzeichnis gegeben wird, oder der App-Store in der Konfigurationsdatei deaktiviert wird.",
     "Login is too long" : "Die Anmeldung dauert zu lange"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
