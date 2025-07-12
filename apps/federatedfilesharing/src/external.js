@@ -143,18 +143,18 @@ const processSharesToConfirm = function() {
 				shares[index],
 				false,
 				function(result, share) {
-					if (result) {
-						// Accept
-						$.post(generateUrl('/apps/files_sharing/api/externalShares'), { id: share.id })
-							.then(function() {
-								reloadFilesList()
-							})
-					} else {
+					if (result === false) {
 						// Delete
 						$.ajax({
 							url: generateUrl('/apps/files_sharing/api/externalShares/' + share.id),
 							type: 'DELETE',
 						})
+					} else {
+						// Accept
+						$.post(generateUrl('/apps/files_sharing/api/externalShares'), { id: share.id })
+							.then(function() {
+								reloadFilesList()
+							})
 					}
 				},
 			)
