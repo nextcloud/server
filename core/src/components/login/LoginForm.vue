@@ -275,6 +275,8 @@ export default {
 			this.$emit('update:username', this.user)
 		},
 		submit(event) {
+			this.$refs.password.$data.isPasswordHidden = true
+
 			if (this.loading) {
 				// Prevent the form from being submitted twice
 				event.preventDefault()
