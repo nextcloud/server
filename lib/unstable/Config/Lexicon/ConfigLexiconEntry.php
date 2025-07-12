@@ -59,6 +59,8 @@ class ConfigLexiconEntry {
 	}
 
 	/**
+	 * set a new default based on selected config preset
+	 *
 	 * @param ConfigLexiconPreset|ConfigLexiconPreset[] $preset
 	 * @experimental 32.0.0
 	 */

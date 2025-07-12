@@ -82,6 +82,10 @@ class ConfigManager {
 		$this->userConfig->ignoreLexiconAliases(false);
 	}
 
+	/**
+	 * store in config.php the new preset
+	 * refresh cached preset
+	 */
 	public function setLexiconPreset(ConfigLexiconPreset $preset): void {
 		$this->config->setSystemValue(self::PRESET_CONFIGKEY, $preset->value);
 		self::$preset = null;
