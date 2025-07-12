@@ -47,7 +47,7 @@ class DataResponse extends Response {
 	 * @return DataResponse Reference to this object
 	 * @since 8.0.0
 	 */
-	public function setData($data) {
+	public function setData(mixed $data) {
 		$this->data = $data;
 
 		return $this;
