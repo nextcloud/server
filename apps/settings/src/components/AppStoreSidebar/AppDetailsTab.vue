@@ -68,7 +68,7 @@
 						type="button"
 						:value="enableButtonText"
 						:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
-						@click="enable(app.id)">
+						@click="enableButtonAction">
 					<input v-else-if="!app.active && !app.canInstall"
 						:title="forceEnableButtonTooltip"
 						:aria-label="forceEnableButtonTooltip"
@@ -194,7 +194,12 @@
 
 			<AppDeployOptionsModal v-if="app?.app_api"
 				:show.sync="showDeployOptionsModal"
-				:app="app" />
+				:app="app"
+				:show-daemon-selection-modal="showSelectionModal" />
+			<DaemonSelectionModal v-if="app?.app_api && showSelectDaemonModal"
+				:show.sync="showSelectDaemonModal"
+				:app="app"
+				:deploy-options="deployOptions" />
 		</div>
 	</NcAppSidebarTab>
 </template>
@@ -207,6 +212,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import AppDeployOptionsModal from './AppDeployOptionsModal.vue'
+import DaemonSelectionModal from '../AppAPI/DaemonSelectionModal.vue'
 
 import AppManagement from '../../mixins/AppManagement.js'
 import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion, mdiToyBrickPlus } from '@mdi/js'
@@ -224,6 +230,7 @@ export default {
 		NcSelect,
 		NcCheckboxRadioSwitch,
 		AppDeployOptionsModal,
+		DaemonSelectionModal,
 	},
 	mixins: [AppManagement],
 
@@ -256,6 +263,8 @@ export default {
 			groupCheckedAppsData: false,
 			removeData: false,
 			showDeployOptionsModal: false,
+			showSelectDaemonModal: false,
+			deployOptions: null,
 		}
 	},
 
@@ -365,6 +374,9 @@ export default {
 			this.removeData = false
 		},
 	},
+	beforeUnmount() {
+		this.deployOptions = null
+	},
 	mounted() {
 		if (this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true
@@ -373,6 +385,24 @@ export default {
 	methods: {
 		toggleRemoveData() {
 			this.removeData = !this.removeData
+		},
+		showSelectionModal(deployOptions = null) {
+			this.deployOptions = deployOptions
+			this.showSelectDaemonModal = true
+		},
+		async enableButtonAction() {
+			if (!this.app?.app_api) {
+				this.enable(this.app.id)
+				return
+			}
+			await this.appApiStore.fetchDockerDaemons()
+			if (this.appApiStore.dockerDaemons.length === 1 && this.app.needsDownload) {
+				this.enable(this.app.id, this.appApiStore.dockerDaemons[0])
+			} else if (this.app.needsDownload) {
+				this.showSelectionModal()
+			} else {
+				this.enable(this.app.id, this.app.daemon)
+			}
 		},
 	},
 }

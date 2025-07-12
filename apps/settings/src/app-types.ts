@@ -75,6 +75,7 @@ export interface IDeployDaemon {
 	id: number,
 	name: string,
 	protocol: string,
+	exAppsCount: number,
 }
 
 export interface IExAppStatus {
