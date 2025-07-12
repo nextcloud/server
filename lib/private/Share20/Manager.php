@@ -706,7 +706,7 @@ class Manager implements IManager {
 			// Generate the target
 			$defaultShareFolder = $this->config->getSystemValue('share_folder', '/');
 			$allowCustomShareFolder = $this->config->getSystemValueBool('sharing.allow_custom_share_folder', true);
-			if ($allowCustomShareFolder) {
+			if ($share->getShareType() === IShare::TYPE_USER && $allowCustomShareFolder) {
 				$shareFolder = $this->config->getUserValue($share->getSharedWith(), Application::APP_ID, 'share_folder', $defaultShareFolder);
 			} else {
 				$shareFolder = $defaultShareFolder;
