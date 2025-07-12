@@ -12,6 +12,7 @@ use OC\AppConfig;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use OCP\Server;
@@ -27,6 +28,7 @@ use Psr\Log\LoggerInterface;
 class AppConfigTest extends TestCase {
 	protected IAppConfig $appConfig;
 	protected IDBConnection $connection;
+	private IConfig $config;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
 
@@ -89,6 +91,7 @@ class AppConfigTest extends TestCase {
 		parent::setUp();
 
 		$this->connection = Server::get(IDBConnection::class);
+		$this->config = Server::get(IConfig::class);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->crypto = Server::get(ICrypto::class);
 
@@ -179,6 +182,7 @@ class AppConfigTest extends TestCase {
 		/** @var AppConfig $config */
 		$config = new AppConfig(
 			$this->connection,
+			$this->config,
 			$this->logger,
 			$this->crypto,
 		);

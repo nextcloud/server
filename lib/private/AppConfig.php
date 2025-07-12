@@ -12,6 +12,7 @@ namespace OC;
 use InvalidArgumentException;
 use JsonException;
 use NCU\Config\Lexicon\ConfigLexiconEntry;
+use NCU\Config\Lexicon\ConfigLexiconPreset;
 use NCU\Config\Lexicon\ConfigLexiconStrictness;
 use NCU\Config\Lexicon\IConfigLexicon;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -70,6 +71,7 @@ class AppConfig implements IAppConfig {
 
 	public function __construct(
 		protected IDBConnection $connection,
+		protected IConfig $config,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
 	) {
@@ -1147,6 +1149,7 @@ class AppConfig implements IAppConfig {
 	public function clearCache(bool $reload = false): void {
 		$this->lazyLoaded = $this->fastLoaded = false;
 		$this->lazyCache = $this->fastCache = $this->valueTypes = [];
+		$this->configLexiconDetails = [];
 
 		if (!$reload) {
 			return;
@@ -1682,6 +1685,9 @@ class AppConfig implements IAppConfig {
 	 */
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {
+			if (ConfigManager::$preset === null) {
+				ConfigManager::$preset = ConfigLexiconPreset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? ConfigLexiconPreset::NONE;
+			}
 			$entries = $aliases = [];
 			$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
 			$configLexicon = $bootstrapCoordinator->getRegistrationContext()?->getConfigLexicon($appId);
