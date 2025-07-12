@@ -55,11 +55,13 @@ export interface UserConfig {
 	crop_image_previews: boolean
 	default_view: 'files' | 'personal'
 	grid_view: boolean
-	show_dialog_file_extension: boolean,
 	show_hidden: boolean
 	show_mime_column: boolean
 	sort_favorites_first: boolean
 	sort_folders_first: boolean
+
+	show_dialog_deletion: boolean
+	show_dialog_file_extension: boolean,
 }
 
 export interface UserConfigStore {

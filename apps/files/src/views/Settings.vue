@@ -110,6 +110,11 @@
 				@update:checked="setConfig('show_dialog_file_extension', $event)">
 				{{ t('files', 'Show a warning dialog when changing a file extension.') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch type="switch"
+				:checked="userConfig.show_dialog_deletion"
+				@update:checked="setConfig('show_dialog_deletion', $event)">
+				{{ t('files', 'Show a warning dialog when deleting files.') }}
+			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="shortcuts"

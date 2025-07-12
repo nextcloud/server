@@ -38,6 +38,12 @@ class UserConfig {
 			'allowed' => [true, false],
 		],
 		[
+			// Whether to show the "confirm file deletion" warning
+			'key' => 'show_dialog_deletion',
+			'default' => false,
+			'allowed' => [true, false],
+		],
+		[
 			// Whether to show the "confirm file extension change" warning
 			'key' => 'show_dialog_file_extension',
 			'default' => true,
