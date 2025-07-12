@@ -452,7 +452,8 @@ class UsersControllerTest extends TestCase {
 		$this->userManager
 			->expects($this->once())
 			->method('createUser')
-			->with('NewUser', 'PasswordOfTheNewUser');
+			->with('NewUser', 'PasswordOfTheNewUser')
+			->willReturn($this->createMock(IUser::class));
 		$this->logger
 			->expects($this->once())
 			->method('info')
@@ -517,7 +518,8 @@ class UsersControllerTest extends TestCase {
 		$this->userManager
 			->expects($this->once())
 			->method('createUser')
-			->with('NewUser', 'PasswordOfTheNewUser');
+			->with('NewUser', 'PasswordOfTheNewUser')
+			->willReturn($this->createMock(IUser::class));
 		$this->logger
 			->expects($this->once())
 			->method('info')
@@ -567,7 +569,8 @@ class UsersControllerTest extends TestCase {
 		$this->userManager
 			->expects($this->once())
 			->method('createUser')
-			->with($this->anything(), 'PasswordOfTheNewUser');
+			->with($this->anything(), 'PasswordOfTheNewUser')
+			->willReturn($this->createMock(IUser::class));
 		$this->logger
 			->expects($this->once())
 			->method('info')
