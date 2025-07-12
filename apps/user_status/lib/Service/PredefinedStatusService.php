@@ -20,6 +20,7 @@ use OCP\UserStatus\IUserStatus;
  * @package OCA\UserStatus\Service
  */
 class PredefinedStatusService {
+	private const BE_RIGHT_BACK = 'be-right-back';
 	private const MEETING = 'meeting';
 	private const COMMUTING = 'commuting';
 	private const SICK_LEAVE = 'sick-leave';
@@ -62,6 +63,15 @@ class PredefinedStatusService {
 				'clearAt' => [
 					'type' => 'period',
 					'time' => 1800,
+				],
+			],
+			[
+				'id' => self::BE_RIGHT_BACK,
+				'icon' => '⏳',
+				'message' => $this->getTranslatedStatusForId(self::BE_RIGHT_BACK),
+				'clearAt' => [
+					'type' => 'period',
+					'time' => 900,
 				],
 			],
 			[
@@ -178,6 +188,9 @@ class PredefinedStatusService {
 
 			case self::CALL:
 				return $this->l10n->t('In a call');
+
+			case self::BE_RIGHT_BACK:
+				return $this->l10n->t('Be right back');
 
 			default:
 				return null;
