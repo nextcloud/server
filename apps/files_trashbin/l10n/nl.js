@@ -23,6 +23,8 @@ OC.L10N.register(
     "You" : "Jou",
     "List of files that have been deleted." : "Lijst van bestanden die verwijderd zijn.",
     "No deleted files" : "Geen verwijderde bestanden",
-    "Files and folders you have deleted will show up here" : "Bestanden en mappen die je verwijderd hebt worden hier getoond"
+    "Files and folders you have deleted will show up here" : "Bestanden en mappen die je verwijderd hebt worden hier getoond",
+    "All files have been permanently deleted" : "Alle bestanden zijn permanent verwijderd",
+    "Failed to empty deleted files" : "Mislukt om de verwijderde bestanden leeg te maken"
 },
 "nplurals=2; plural=(n != 1);");
