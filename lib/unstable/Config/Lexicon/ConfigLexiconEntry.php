@@ -131,6 +131,10 @@ class ConfigLexiconEntry {
 	 * @experimental 31.0.0
 	 */
 	public function getDefault(ConfigLexiconPreset $preset): ?string {
+		if ($this->default !== null) {
+			return $this->default;
+		}
+
 		if ($this->defaultRaw === null) {
 			return null;
 		}
@@ -140,10 +144,8 @@ class ConfigLexiconEntry {
 			$this->defaultRaw = ($this->defaultRaw)($preset);
 		}
 
-		if ($this->default === null) {
-			/** @psalm-suppress MixedArgument closure should be managed previously */
-			$this->default = $this->convertToString($this->defaultRaw);
-		}
+		/** @psalm-suppress MixedArgument closure should be managed previously */
+		$this->default = $this->convertToString($this->defaultRaw);
 
 		return $this->default;
 	}

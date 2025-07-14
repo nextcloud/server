@@ -1889,7 +1889,7 @@ class UserConfig implements IUserConfig {
 		?bool &$lazy = null,
 		ValueType &$type = ValueType::MIXED,
 		int &$flags = 0,
-		string &$default = '',
+		string &$default = null,
 	): bool {
 		$configDetails = $this->getConfigDetailsFromLexicon($app);
 		if (array_key_exists($key, $configDetails['aliases']) && !$this->ignoreLexiconAliases) {
@@ -1927,8 +1927,10 @@ class UserConfig implements IUserConfig {
 			return true;
 		}
 
-		// default from Lexicon got priority but it can still be overwritten by admin
-		$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->getLexiconPreset()) ?? $default;
+		// only look for default if needed, default from Lexicon got priority if not overwritten by admin
+		if ($default !== null) {
+			$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->getLexiconPreset()) ?? $default;
+		}
 
 		// returning false will make get() returning $default and set() not changing value in database
 		return !$enforcedValue;

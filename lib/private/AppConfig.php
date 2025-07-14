@@ -1595,7 +1595,7 @@ class AppConfig implements IAppConfig {
 		string &$key,
 		?bool &$lazy = null,
 		int &$type = self::VALUE_MIXED,
-		string &$default = '',
+		string &$default = null,
 	): bool {
 		if (in_array($key,
 			[
@@ -1632,7 +1632,11 @@ class AppConfig implements IAppConfig {
 		}
 
 		$lazy = $configValue->isLazy();
-		$default = $configValue->getDefault($this->getLexiconPreset()) ?? $default; // default from Lexicon got priority
+		// only look for default if needed, default from Lexicon got priority
+		if ($default !== null) {
+			$default = $configValue->getDefault($this->getLexiconPreset()) ?? $default;
+		}
+
 		if ($configValue->isFlagged(self::FLAG_SENSITIVE)) {
 			$type |= self::VALUE_SENSITIVE;
 		}
