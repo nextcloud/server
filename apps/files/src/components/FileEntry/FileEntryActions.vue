@@ -25,15 +25,16 @@
 			:open="openedMenu"
 			@close="onMenuClose"
 			@closed="onMenuClosed">
-			<!-- Default actions list-->
-			<NcActionButton v-for="action, index in enabledMenuActions"
+			<!-- Non-destructive actions list -->
+			<!-- Please keep this block in sync with the destructive actions block below -->
+			<NcActionButton v-for="action, index in renderedNonDestructiveActions"
 				:key="action.id"
 				:ref="`action-${action.id}`"
 				class="files-list__row-action"
 				:class="{
 					[`files-list__row-action-${action.id}`]: true,
 					'files-list__row-action--inline': index < enabledInlineActions.length,
-					'files-list__row-action--menu': isValidMenu(action)
+					'files-list__row-action--menu': isValidMenu(action),
 				}"
 				:close-after-click="!isValidMenu(action)"
 				:data-cy-files-list-row-action="action.id"
@@ -49,6 +50,35 @@
 				</template>
 				{{ actionDisplayName(action) }}
 			</NcActionButton>
+
+			<!-- Destructive actions list -->
+			<template v-if="renderedDestructiveActions.length > 0">
+				<NcActionSeparator />
+				<NcActionButton v-for="action, index in renderedDestructiveActions"
+					:key="action.id"
+					:ref="`action-${action.id}`"
+					class="files-list__row-action"
+					:class="{
+						[`files-list__row-action-${action.id}`]: true,
+						'files-list__row-action--inline': index < enabledInlineActions.length,
+						'files-list__row-action--menu': isValidMenu(action),
+						'files-list__row-action--destructive': true,
+					}"
+					:close-after-click="!isValidMenu(action)"
+					:data-cy-files-list-row-action="action.id"
+					:is-menu="isValidMenu(action)"
+					:aria-label="action.title?.([source], currentView)"
+					:title="action.title?.([source], currentView)"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="isLoadingAction(action)" />
+						<NcIconSvgWrapper v-else
+							class="files-list__row-action-icon"
+							:svg="action.iconSvgInline([source], currentView)" />
+					</template>
+					{{ actionDisplayName(action) }}
+				</NcActionButton>
+			</template>
 
 			<!-- Submenu actions list-->
 			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
@@ -68,10 +98,11 @@
 					class="files-list__row-action--submenu"
 					close-after-click
 					:data-cy-files-list-row-action="action.id"
+					:aria-label="action.title?.([source], currentView)"
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
 					<template #icon>
-						<NcLoadingIcon v-if="isLoadingAction(action)" :size="18" />
+						<NcLoadingIcon v-if="isLoadingAction(action)" />
 						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 					</template>
 					{{ actionDisplayName(action) }}
@@ -209,6 +240,14 @@ export default defineComponent({
 
 			// Filter actions that are not top-level AND have a valid parent
 			return actions.filter(action => !(action.parent && topActionsIds.includes(action.parent)))
+		},
+
+		renderedNonDestructiveActions() {
+			return this.enabledMenuActions.filter(action => !action.destructive)
+		},
+
+		renderedDestructiveActions() {
+			return this.enabledMenuActions.filter(action => action.destructive)
 		},
 
 		openedMenu: {
@@ -349,5 +388,12 @@ main.app-content[style*="mouse-pos-x"] .v-popper__popper {
 		max-height: var(--max-icon-size) !important;
 		max-width: var(--max-icon-size) !important;
 	}
+
+	&.files-list__row-action--destructive {
+		::deep(button) {
+			color: var(--color-error) !important;
+		}
+	}
 }
+
 </style>
