@@ -1634,7 +1634,10 @@ class AppConfig implements IAppConfig {
 		$lazy = $configValue->isLazy();
 		// only look for default if needed, default from Lexicon got priority
 		if ($default !== null) {
-			$default = $configValue->getDefault($this->getLexiconPreset()) ?? $default;
+			$default = $configValue->getDefault($this->getLexiconPreset(), $saveIt) ?? $default;
+			if ($saveIt ?? false) {
+				$this->setTypedValue($app, $key, $default, $lazy, $type);
+			}
 		}
 
 		if ($configValue->isFlagged(self::FLAG_SENSITIVE)) {
