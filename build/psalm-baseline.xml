@@ -3089,7 +3089,6 @@
   <file src="core/Command/User/Setting.php">
     <DeprecatedMethod>
       <code><![CDATA[setEMailAddress]]></code>
-      <code><![CDATA[setEMailAddress]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Controller/AppPasswordController.php">
