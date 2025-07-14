@@ -61,7 +61,7 @@
     "@nextcloud/router": "^3.0.1",
     "@nextcloud/sharing": "^0.2.4",
     "@nextcloud/upload": "^1.10.0",
-    "@nextcloud/vue": "^8.27.0",
+    "@nextcloud/vue": "^8.28.0",
     "@simplewebauthn/browser": "^13.1.0",
     "@vue/web-component-wrapper": "^1.3.0",
     "@vueuse/components": "^11.3.0",
