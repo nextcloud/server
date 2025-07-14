@@ -143,7 +143,7 @@ class ArrayWriter extends Writer {
 		} elseif (is_object($value) && isset($this->classMap[get_class($value)])) {
 			$this->classMap[get_class($value)]($this, $value);
 		} else {
-			throw new InvalidArgumentException('The writer cannot serialize values of type: ' . get_class($value));
+			throw new InvalidArgumentException('The writer cannot serialize values of type: ' . get_debug_type($value));
 		}
 	}
 

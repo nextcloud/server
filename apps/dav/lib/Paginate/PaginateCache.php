@@ -60,8 +60,7 @@ class PaginateCache {
 
 		$lastItem = min($nbItems, $offset + $count);
 		for ($i = $offset; $i < $lastItem; ++$i) {
-			$element = $this->cache->get($cacheKey . $i);
-			yield $element;
+			yield $this->cache->get($cacheKey . $i);
 		}
 	}
 

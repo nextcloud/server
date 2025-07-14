@@ -11,6 +11,10 @@ use Sabre\DAV\Xml\Property\ResourceType;
 use stdClass;
 use Test\TestCase;
 
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 class ArrayWriterTest extends TestCase {
 	private ArrayWriter $writer;
 
