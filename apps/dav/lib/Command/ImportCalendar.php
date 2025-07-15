@@ -8,9 +8,9 @@ declare(strict_types=1);
 namespace OCA\DAV\Command;
 
 use InvalidArgumentException;
+use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\Calendar\CalendarImportOptions;
-use OCP\Calendar\ICalendarImport;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\IManager;
 use OCP\ITempManager;
@@ -80,7 +80,7 @@ class ImportCalendar extends Command {
 			throw new InvalidArgumentException("Calendar <$calendarId> not found");
 		}
 		$calendar = $calendars[0];
-		if (!$calendar instanceof ICalendarImport || !$calendar instanceof ICalendarIsWritable) {
+		if (!$calendar instanceof CalendarImpl || !$calendar instanceof ICalendarIsWritable) {
 			throw new InvalidArgumentException("Calendar <$calendarId> dose support this function");
 		}
 		if (!$calendar->isWritable()) {
