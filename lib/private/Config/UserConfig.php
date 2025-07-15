@@ -1936,7 +1936,10 @@ class UserConfig implements IUserConfig {
 
 		// only look for default if needed, default from Lexicon got priority if not overwritten by admin
 		if ($default !== null) {
-			$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->getLexiconPreset()) ?? $default;
+			$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->getLexiconPreset(), $saveIt) ?? $default;
+			if ($saveIt ?? false) {
+				$this->setTypedValue($userId, $app, $key, $default, $lazy, $flags, $type);
+			}
 		}
 
 		// returning false will make get() returning $default and set() not changing value in database
