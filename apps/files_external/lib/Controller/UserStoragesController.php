@@ -85,8 +85,8 @@ class UserStoragesController extends StoragesController {
 	 * {@inheritdoc}
 	 */
 	#[NoAdminRequired]
-	public function show(int $id, $testOnly = true) {
-		return parent::show($id, $testOnly);
+	public function show(int $id) {
+		return parent::show($id);
 	}
 
 	/**
@@ -152,7 +152,6 @@ class UserStoragesController extends StoragesController {
 	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions backend-specific mount options
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
 	 */
@@ -165,7 +164,6 @@ class UserStoragesController extends StoragesController {
 		$authMechanism,
 		$backendOptions,
 		$mountOptions,
-		$testOnly = true,
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
@@ -195,7 +193,7 @@ class UserStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage, $testOnly);
+		$this->updateStorageStatus($storage);
 
 		return new DataResponse(
 			$storage->jsonSerialize(true),

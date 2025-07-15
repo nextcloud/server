@@ -97,15 +97,14 @@ class UserGlobalStoragesController extends StoragesController {
 	 * Get an external storage entry.
 	 *
 	 * @param int $id storage id
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
-	public function show($id, $testOnly = true) {
+	public function show($id) {
 		try {
 			$storage = $this->service->getStorage($id);
 
-			$this->updateStorageStatus($storage, $testOnly);
+			$this->updateStorageStatus($storage);
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
@@ -133,7 +132,6 @@ class UserGlobalStoragesController extends StoragesController {
 	 *
 	 * @param int $id storage id
 	 * @param array $backendOptions backend-specific options
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
 	 */
@@ -142,7 +140,6 @@ class UserGlobalStoragesController extends StoragesController {
 	public function update(
 		$id,
 		$backendOptions,
-		$testOnly = true,
 	) {
 		try {
 			$storage = $this->service->getStorage($id);
@@ -167,7 +164,7 @@ class UserGlobalStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage, $testOnly);
+		$this->updateStorageStatus($storage);
 		$this->sanitizeStorage($storage);
 
 		return new DataResponse(

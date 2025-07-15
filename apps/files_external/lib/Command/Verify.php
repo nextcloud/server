@@ -97,7 +97,6 @@ class Verify extends Base {
 				MountConfig::getBackendStatus(
 					$backend->getStorageClass(),
 					$storage->getBackendOptions(),
-					false
 				)
 			);
 		} catch (InsufficientDataForMeaningfulAnswerException $e) {

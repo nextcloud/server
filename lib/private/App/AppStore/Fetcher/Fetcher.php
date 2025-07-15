@@ -56,7 +56,7 @@ abstract class Fetcher {
 	 *
 	 * @return array
 	 */
-	protected function fetch($ETag, $content) {
+	protected function fetch($ETag, $content, $allowUnstable = false) {
 		$appstoreenabled = $this->config->getSystemValueBool('appstoreenabled', true);
 		if ((int)$this->config->getAppValue('settings', 'appstore-fetcher-lastFailure', '0') > time() - self::RETRY_AFTER_FAILURE_SECONDS) {
 			return [];

@@ -12,6 +12,7 @@ use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\ShareByMail\ShareByMailProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -869,6 +870,7 @@ class Manager implements IManager {
 		// Now update the share!
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		if ($share->getShareType() === IShare::TYPE_EMAIL) {
+			/** @var ShareByMailProvider $provider */
 			$share = $provider->update($share, $plainTextPassword);
 		} else {
 			$share = $provider->update($share);

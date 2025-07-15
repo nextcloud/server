@@ -156,7 +156,7 @@ class FilesReportPlugin extends ServerPlugin {
 			// to user backends. I.e. the final result may return more results than requested.
 			$resultNodes = $this->processFilterRulesForFileNodes($filterRules, $limit ?? null, $offset ?? null);
 		} catch (TagNotFoundException $e) {
-			throw new PreconditionFailed('Cannot filter by non-existing tag', 0, $e);
+			throw new PreconditionFailed('Cannot filter by non-existing tag');
 		}
 
 		$results = [];

@@ -30,7 +30,7 @@ class NullStorage extends Common {
 	}
 
 	public function opendir(string $path): IteratorDirectory {
-		return new IteratorDirectory([]);
+		return new IteratorDirectory();
 	}
 
 	public function is_dir(string $path): bool {
