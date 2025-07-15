@@ -66,7 +66,7 @@ class Session {
 	public function getPrivateKey() {
 		$key = $this->session->get('privateKey');
 		if (is_null($key)) {
-			throw new PrivateKeyMissingException('please try to log-out and log-in again', 0);
+			throw new PrivateKeyMissingException('please try to log-out and log-in again');
 		}
 		return $key;
 	}

@@ -70,10 +70,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -150,10 +150,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -185,10 +185,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
@@ -213,10 +213,10 @@ class ListConfigsTest extends TestCase {
 				],
 				// app config
 				[
-					['files', false, [
+					['files', [
 						'enabled' => 'yes',
 					]],
-					['core', false, [
+					['core', [
 						'global_cache_gc_lastrun' => '1430388388',
 					]],
 				],
