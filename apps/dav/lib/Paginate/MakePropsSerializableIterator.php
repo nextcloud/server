@@ -43,35 +43,21 @@ class MakePropsSerializableIterator implements \Iterator {
 				continue;
 			}
 
-			$value = $this->getSerializable($value);
+			foreach ($value as &$property) {
+				if (is_object($property)) {
+					$property = $this->getSerializable($property);
+				}
+			}
 		}
 
 		return $current;
 	}
 
-	/**
-	 * This function takes the array containing properties for files and makes
-	 * sure it's serializable using ArrayWriter.
-	 *
-	 * Example input values:
-	 *   $properties = [
-	 *     '{DAV:}resourcetype' => ResourceType(),
-	 *     '{DAV:}getlastmodified' => GetLastModified(),
-	 *     '{DAV:}getetag' => '"etag"'
-	 * 	 ]
-	 *
-	 * Return value:
-	 * [
-	 *   [ 'name' => '{DAV:}resourcetype', 'value' => ..., 'attributes' => ...],
-	 *   [ 'name' => '{DAV:}getlastmodified', 'value' => ..., 'attributes' => ...],
-	 *   [ 'name' => '{DAV:}getetag', 'value' => ..., 'attributes' => ...],
-	 * ]
-	 */
-	public function getSerializable(array $properties): array {
+	public function getSerializable(object $property): mixed {
 		$this->writer->openMemory();
 		// we need to add a bogus root element that will contain the properties
 		$this->writer->startElement('root');
-		$this->writer->write($properties);
+		$this->writer->write($property);
 		$this->writer->endElement();
 		return $this->writer->getDocument()[0]['value'] ?? [];
 	}

@@ -47,7 +47,7 @@ class MakePropsSerializableIteratorTest extends TestCase {
 			]
 		];
 
-		$propertyChecks = 2;
+		$propertyChecks = 1;
 		$filePropertiesIterator = new \ArrayIterator($fileProperties);
 
 		$this->writerMock->expects($this->exactly($propertyChecks))
@@ -58,10 +58,7 @@ class MakePropsSerializableIteratorTest extends TestCase {
 		$this->writerMock->expects($this->exactly($propertyChecks))
 			->method('getDocument')
 			->willReturn(
-				[['value' => ['simple' => 'property', 'complex' => 'complex-property']]],
-				[['value' => null]],
-				[['value' => ['simple' => 'property', 'complex' => 'complex-property']]],
-				[['value' => null]],
+				[['value' => 'complex-property']],
 			);
 		$this->writerMock->expects($this->exactly($propertyChecks))
 			->method('endElement');
