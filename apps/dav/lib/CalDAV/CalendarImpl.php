@@ -62,6 +62,14 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	}
 
 	/**
+	 * @return string the principal URI of the calendar owner
+	 * @since 32.0.0
+	 */
+	public function getPrincipalUri(): string {
+		return $this->calendarInfo['principaluri'];
+	}
+
+	/**
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
 	 * @since 13.0.0
 	 */
