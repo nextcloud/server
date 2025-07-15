@@ -112,5 +112,6 @@ export const action = new FileAction({
 		return Promise.all(promises)
 	},
 
+	destructive: true,
 	order: 100,
 })
