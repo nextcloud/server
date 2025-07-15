@@ -60,8 +60,6 @@ class Share implements IShare {
 	private $sendPasswordByTalk = false;
 	/** @var string */
 	private $token;
-	/** @var int */
-	private $parent;
 	/** @var string */
 	private $target;
 	/** @var \DateTime */
@@ -524,28 +522,6 @@ class Share implements IShare {
 	 */
 	public function getToken() {
 		return $this->token;
-	}
-
-	/**
-	 * Set the parent of this share
-	 *
-	 * @param int $parent
-	 * @return IShare
-	 * @deprecated 12.0.0 The new shares do not have parents. This is just here for legacy reasons.
-	 */
-	public function setParent($parent) {
-		$this->parent = $parent;
-		return $this;
-	}
-
-	/**
-	 * Get the parent of this share.
-	 *
-	 * @return int
-	 * @deprecated 12.0.0 The new shares do not have parents. This is just here for legacy reasons.
-	 */
-	public function getParent() {
-		return $this->parent;
 	}
 
 	/**

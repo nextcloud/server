@@ -82,7 +82,6 @@ class LegacyHooks {
 			'itemSource' => $share->getNodeId(),
 			'shareType' => $shareType,
 			'shareWith' => $sharedWith,
-			'itemparent' => method_exists($share, 'getParent') ? $share->getParent() : '',
 			'uidOwner' => $share->getSharedBy(),
 			'fileSource' => $share->getNodeId(),
 			'fileTarget' => $share->getTarget()

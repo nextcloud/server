@@ -432,31 +432,6 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 	}
 
 	/**
-	 * Get all children of this share
-	 *
-	 * @param IShare $parent
-	 * @return IShare[]
-	 */
-	public function getChildren(IShare $parent) {
-		$children = [];
-
-		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('parent', $qb->createNamedParameter($parent->getId())))
-			->andWhere($qb->expr()->in('share_type', $qb->createNamedParameter($this->supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)))
-			->orderBy('id');
-
-		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
-			$children[] = $this->createShareObject($data);
-		}
-		$cursor->closeCursor();
-
-		return $children;
-	}
-
-	/**
 	 * Delete a share (owner unShares the file)
 	 *
 	 * @param IShare $share

@@ -11,7 +11,6 @@ use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\AppInfo\Application;
-use OCA\Files_Sharing\SharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -568,28 +567,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * To make sure we don't get invisible link shares we set the parent
-	 * of a link if it is a reshare. This is a quick word around
-	 * until we can properly display multiple link shares in the UI
-	 *
-	 * See: https://github.com/owncloud/core/issues/22295
-	 *
-	 * FIXME: Remove once multiple link shares can be properly displayed
-	 *
-	 * @param IShare $share
-	 */
-	protected function setLinkParent(IShare $share) {
-		// No sense in checking if the method is not there.
-		if (method_exists($share, 'setParent')) {
-			$storage = $share->getNode()->getStorage();
-			if ($storage->instanceOfStorage(SharedStorage::class)) {
-				/** @var \OCA\Files_Sharing\SharedStorage $storage */
-				$share->setParent($storage->getShareId());
-			}
-		}
-	}
-
-	/**
 	 * @param File|Folder $path
 	 */
 	protected function pathCreateChecks($path) {
@@ -678,7 +655,6 @@ class Manager implements IManager {
 			} elseif ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL) {
 				$this->linkCreateChecks($share);
-				$this->setLinkParent($share);
 
 				$token = $this->generateToken();
 				// Set the unique token
@@ -1003,33 +979,6 @@ class Manager implements IManager {
 		$share->setPasswordExpirationTime($expirationTime);
 	}
 
-
-	/**
-	 * Delete all the children of this share
-	 * FIXME: remove once https://github.com/owncloud/core/pull/21660 is in
-	 *
-	 * @param IShare $share
-	 * @return IShare[] List of deleted shares
-	 */
-	protected function deleteChildren(IShare $share) {
-		$deletedShares = [];
-
-		$provider = $this->factory->getProviderForType($share->getShareType());
-
-		foreach ($provider->getChildren($share) as $child) {
-			$this->dispatcher->dispatchTyped(new BeforeShareDeletedEvent($child));
-
-			$deletedChildren = $this->deleteChildren($child);
-			$deletedShares = array_merge($deletedShares, $deletedChildren);
-
-			$provider->delete($child);
-			$this->dispatcher->dispatchTyped(new ShareDeletedEvent($child));
-			$deletedShares[] = $child;
-		}
-
-		return $deletedShares;
-	}
-
 	/** Promote re-shares into direct shares so that target user keeps access */
 	protected function promoteReshares(IShare $share): void {
 		try {
@@ -1133,9 +1082,6 @@ class Manager implements IManager {
 		}
 
 		$this->dispatcher->dispatchTyped(new BeforeShareDeletedEvent($share));
-
-		// Get all children and delete them as well
-		$this->deleteChildren($share);
 
 		// Do the actual delete
 		$provider = $this->factory->getProviderForType($share->getShareType());

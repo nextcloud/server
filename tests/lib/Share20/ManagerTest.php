@@ -248,10 +248,8 @@ class ManagerTest extends \Test\TestCase {
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDelete')]
 	public function testDelete($shareType, $sharedWith): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['getShareById', 'deleteChildren', 'promoteReshares'])
+			->onlyMethods(['getShareById', 'promoteReshares'])
 			->getMock();
-
-		$manager->method('deleteChildren')->willReturn([]);
 
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
@@ -265,7 +263,6 @@ class ManagerTest extends \Test\TestCase {
 			->setNode($path)
 			->setTarget('myTarget');
 
-		$manager->expects($this->once())->method('deleteChildren')->with($share);
 		$manager->expects($this->once())->method('promoteReshares')->with($share);
 
 		$this->defaultProvider
@@ -290,10 +287,8 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteLazyShare(): void {
 		$manager = $this->createManagerMock()
-			->onlyMethods(['getShareById', 'deleteChildren', 'promoteReshares'])
+			->onlyMethods(['getShareById', 'promoteReshares'])
 			->getMock();
-
-		$manager->method('deleteChildren')->willReturn([]);
 
 		$share = $this->manager->newShare();
 		$share->setId(42)
@@ -308,7 +303,6 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
-		$manager->expects($this->once())->method('deleteChildren')->with($share);
 		$manager->expects($this->once())->method('promoteReshares')->with($share);
 
 		$this->defaultProvider
@@ -329,81 +323,6 @@ class ManagerTest extends \Test\TestCase {
 			});
 
 		$manager->deleteShare($share);
-	}
-
-	public function testDeleteNested(): void {
-		$manager = $this->createManagerMock()
-			->onlyMethods(['getShareById', 'promoteReshares'])
-			->getMock();
-
-		$path = $this->createMock(File::class);
-		$path->method('getId')->willReturn(1);
-
-		$share1 = $this->manager->newShare();
-		$share1->setId(42)
-			->setProviderId('prov')
-			->setShareType(IShare::TYPE_USER)
-			->setSharedWith('sharedWith1')
-			->setSharedBy('sharedBy1')
-			->setNode($path)
-			->setTarget('myTarget1');
-
-		$share2 = $this->manager->newShare();
-		$share2->setId(43)
-			->setProviderId('prov')
-			->setShareType(IShare::TYPE_GROUP)
-			->setSharedWith('sharedWith2')
-			->setSharedBy('sharedBy2')
-			->setNode($path)
-			->setTarget('myTarget2')
-			->setParent(42);
-
-		$share3 = $this->manager->newShare();
-		$share3->setId(44)
-			->setProviderId('prov')
-			->setShareType(IShare::TYPE_LINK)
-			->setSharedBy('sharedBy3')
-			->setNode($path)
-			->setTarget('myTarget3')
-			->setParent(43);
-
-		$this->defaultProvider
-			->method('getChildren')
-			->willReturnMap([
-				[$share1, [$share2]],
-				[$share2, [$share3]],
-				[$share3, []],
-			]);
-
-		$deleteCalls = [
-			$share3,
-			$share2,
-			$share1,
-		];
-		$this->defaultProvider->expects($this->exactly(3))
-			->method('delete')
-			->willReturnCallback(function ($share) use (&$deleteCalls): void {
-				$expected = array_shift($deleteCalls);
-				$this->assertEquals($expected, $share);
-			});
-
-		$dispatchCalls = [
-			[BeforeShareDeletedEvent::class, $share1],
-			[BeforeShareDeletedEvent::class, $share2],
-			[BeforeShareDeletedEvent::class, $share3],
-			[ShareDeletedEvent::class, $share3],
-			[ShareDeletedEvent::class, $share2],
-			[ShareDeletedEvent::class, $share1],
-		];
-		$this->dispatcher->expects($this->exactly(6))
-			->method('dispatchTyped')
-			->willReturnCallback(function ($event) use (&$dispatchCalls): void {
-				$expected = array_shift($dispatchCalls);
-				$this->assertInstanceOf($expected[0], $event);
-				$this->assertEquals($expected[1]->getId(), $event->getShare()->getId());
-			});
-
-		$manager->deleteShare($share1);
 	}
 
 	public function testDeleteFromSelf(): void {
@@ -437,53 +356,6 @@ class ManagerTest extends \Test\TestCase {
 			);
 
 		$manager->deleteFromSelf($share, $recipientId);
-	}
-
-	public function testDeleteChildren(): void {
-		$manager = $this->createManagerMock()
-			->onlyMethods(['deleteShare'])
-			->getMock();
-
-		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
-
-		$child1 = $this->createMock(IShare::class);
-		$child1->method('getShareType')->willReturn(IShare::TYPE_USER);
-		$child2 = $this->createMock(IShare::class);
-		$child2->method('getShareType')->willReturn(IShare::TYPE_USER);
-		$child3 = $this->createMock(IShare::class);
-		$child3->method('getShareType')->willReturn(IShare::TYPE_USER);
-
-		$shares = [
-			$child1,
-			$child2,
-			$child3,
-		];
-
-		$this->defaultProvider
-			->expects($this->exactly(4))
-			->method('getChildren')
-			->willReturnCallback(function ($_share) use ($share, $shares) {
-				if ($_share === $share) {
-					return $shares;
-				}
-				return [];
-			});
-
-		$calls = [
-			$child1,
-			$child2,
-			$child3,
-		];
-		$this->defaultProvider->expects($this->exactly(3))
-			->method('delete')
-			->willReturnCallback(function ($share) use (&$calls): void {
-				$expected = array_shift($calls);
-				$this->assertEquals($expected, $share);
-			});
-
-		$result = self::invokePrivate($manager, 'deleteChildren', [$share]);
-		$this->assertSame($shares, $result);
 	}
 
 	public function testPromoteReshareFile(): void {
@@ -2531,7 +2403,6 @@ class ManagerTest extends \Test\TestCase {
 				'pathCreateChecks',
 				'validateExpirationDateLink',
 				'verifyPassword',
-				'setLinkParent',
 			])
 			->getMock();
 
@@ -2577,9 +2448,6 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('verifyPassword')
 			->with('password');
-		$manager->expects($this->once())
-			->method('setLinkParent')
-			->with($share);
 
 		$this->hasher->expects($this->once())
 			->method('hash')
@@ -2641,7 +2509,6 @@ class ManagerTest extends \Test\TestCase {
 				'pathCreateChecks',
 				'validateExpirationDateLink',
 				'verifyPassword',
-				'setLinkParent',
 			])
 			->getMock();
 
@@ -2680,8 +2547,6 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($share);
 		$manager->expects($this->once())
 			->method('verifyPassword');
-		$manager->expects($this->once())
-			->method('setLinkParent');
 
 		$this->secureRandom->method('generate')
 			->willReturn('token');

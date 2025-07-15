@@ -127,10 +127,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				$qb->setValue('expiration', $qb->createNamedParameter($expirationDate, 'datetime'));
 			}
 
-			if (method_exists($share, 'getParent')) {
-				$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
-			}
-
 			$qb->setValue('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0, IQueryBuilder::PARAM_INT));
 		} else {
 			throw new \Exception('invalid share type!');
@@ -359,42 +355,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	}
 
 	/**
-	 * Get all children of this share
-	 * FIXME: remove once https://github.com/owncloud/core/pull/21660 is in
-	 *
-	 * @param \OCP\Share\IShare $parent
-	 * @return \OCP\Share\IShare[]
-	 */
-	public function getChildren(\OCP\Share\IShare $parent) {
-		$children = [];
-
-		$qb = $this->dbConn->getQueryBuilder();
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('parent', $qb->createNamedParameter($parent->getId())))
-			->andWhere(
-				$qb->expr()->in(
-					'share_type',
-					$qb->createNamedParameter([
-						IShare::TYPE_USER,
-						IShare::TYPE_GROUP,
-						IShare::TYPE_LINK,
-					], IQueryBuilder::PARAM_INT_ARRAY)
-				)
-			)
-			->andWhere($qb->expr()->in('item_type', $qb->createNamedParameter(['file', 'folder'], IQueryBuilder::PARAM_STR_ARRAY)))
-			->orderBy('id');
-
-		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
-			$children[] = $this->createShare($data);
-		}
-		$cursor->closeCursor();
-
-		return $children;
-	}
-
-	/**
 	 * Delete a share
 	 *
 	 * @param \OCP\Share\IShare $share
@@ -527,8 +487,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		$qb->update('share')
 			->set('permissions', $qb->createNamedParameter($originalPermission))
 			->where(
-				$qb->expr()->eq('parent', $qb->createNamedParameter($share->getParent()))
-			)->andWhere(
 				$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP))
 			)->andWhere(
 				$qb->expr()->eq('share_with', $qb->createNamedParameter($recipient))
@@ -1078,7 +1036,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
 				$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
 				$shareMap[$data['parent']]->setTarget($data['file_target']);
-				$shareMap[$data['parent']]->setParent($data['parent']);
 			}
 		}
 
