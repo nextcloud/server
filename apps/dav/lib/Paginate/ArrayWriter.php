@@ -44,18 +44,24 @@ class ArrayWriter extends Writer {
 	 */
 	protected ?array $currentElement = null;
 
-	#[Override]
+	/**
+	 * todo: add #[Override] when min php version supported is 8.4
+	 */
 	public static function toStream($stream): static {
 		throw new LogicException('Operation on ArrayWriter not supported');
 	}
 
-	#[Override]
+	/**
+	 * todo: add #[Override] when min php version supported is 8.4
+	 */
 	public static function toUri(string $uri): static {
 		throw new LogicException('Operation on ArrayWriter not supported');
 	}
 
-	#[Override]
-	public static function toMemory(): ArrayWriter {
+	/**
+	 * todo: add #[Override] when min php version supported is 8.4
+	 */
+	public static function toMemory(): static {
 		return new self();
 	}
 

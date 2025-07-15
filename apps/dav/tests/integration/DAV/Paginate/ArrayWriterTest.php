@@ -23,7 +23,8 @@ use Sabre\Xml\Writer;
  * to SabreDAV\Writer.
  */
 class ArrayWriterTest extends TestCase {
-	protected Writer $sabreWriter;
+	private Writer $sabreWriter;
+	private ArrayWriter $arrayWriter;
 
 	public function setUp(): void {
 		$this->sabreWriter = new Writer();
