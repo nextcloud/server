@@ -250,17 +250,7 @@ export default defineComponent({
 						return false
 					}
 				})
-				.sort((a, b) => {
-					// Sort destructive actions to the end
-					if (a.destructive && !b.destructive) {
-						return 1
-					} else if (!a.destructive && b.destructive) {
-						return -1
-					}
-
-					// Sort by order, if not defined, use 0
-					return (a.order || 0) - (b.order || 0)
-				})
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
 		defaultFileAction() {
