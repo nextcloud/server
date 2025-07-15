@@ -221,7 +221,7 @@ class ImportService {
 	 */
 	public function importProcess(CalendarImpl $calendar, CalendarImportOptions $options, callable $generator): array {
 		$calendarId = $calendar->getKey();
-		$principalUri = $calendar->getOwner();
+		$principalUri = $calendar->getPrincipalUri();
 		$outcome = [];
 		foreach ($generator($options) as $vObject) {
 			$components = $vObject->getBaseComponents();
@@ -271,7 +271,7 @@ class ImportService {
 				}
 			}
 			// create or update object in the data store
-			$objectId = $this->backend->getCalendarObjectByUID($this->calendarInfo['principaluri'], $uid);
+			$objectId = $this->backend->getCalendarObjectByUID($principalUri, $uid);
 			$objectData = $vObject->serialize();
 			try {
 				if ($objectId === null) {
