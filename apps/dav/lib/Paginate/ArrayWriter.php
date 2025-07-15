@@ -62,7 +62,7 @@ class ArrayWriter extends Writer {
 	 * todo: add #[Override] when min php version supported is 8.4
 	 */
 	public static function toMemory(): static {
-		return new self();
+		return new static();
 	}
 
 	#[Override]
