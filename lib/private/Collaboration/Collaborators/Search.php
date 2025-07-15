@@ -11,7 +11,7 @@ use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IContainer;
-use OCP\Share;
+use OCP\Share\IShare;
 
 class Search implements ISearch {
 	protected array $pluginList = [];
@@ -81,7 +81,7 @@ class Search implements ISearch {
 	}
 
 	public function registerPlugin(array $pluginInfo): void {
-		$shareType = constant(Share::class . '::' . $pluginInfo['shareType']);
+		$shareType = constant(IShare::class . '::' . substr($pluginInfo['shareType'], strlen('SHARE_')));
 		if ($shareType === null) {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');
 		}
