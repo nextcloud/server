@@ -7,6 +7,9 @@ declare(strict_types=1);
  */
 namespace OCP\Calendar;
 
+use InvalidArgumentException;
+use OCA\DAV\CalDAV\Import\ImportService;
+
 /**
  * Calendar Import Options
  *
@@ -49,8 +52,11 @@ final class CalendarImportOptions {
 	 *
 	 * @param 'ical'|'jcal'|'xcal' $format
 	 */
-	public function setFormat(string $format): void {
-		$this->format = $format;
+	public function setFormat(string $value): void {
+		if (!in_array($value, ImportService::FORMATS, true)) {
+			throw new InvalidArgumentException("Format <$value> is not valid.");
+		}
+		$this->format = $value;
 	}
 
 	/**
@@ -79,15 +85,15 @@ final class CalendarImportOptions {
 	/**
 	 * Sets how to handle object errors
 	 *
-	 * @param int $errors 0 - continue, 1 - fail
+	 * @param int $value 0 - continue, 1 - fail
 	 *
-	 * @template $errors of self::ERROR_*
+	 * @template $value of self::ERROR_*
 	 */
-	public function setErrors(int $errors): void {
-		if (!in_array($errors, self::ERROR_OPTIONS, true)) {
-			throw new \InvalidArgumentException("Invalid errors handling type <$errors> specified, only ERROR_CONTINUE or ERROR_FAIL allowed");
+	public function setErrors(int $value): void {
+		if (!in_array($value, CalendarImportOptions::ERROR_OPTIONS, true)) {
+			throw new InvalidArgumentException('Invalid errors option specified');
 		}
-		$this->errors = $errors;
+		$this->errors = $value;
 	}
 
 	/**
@@ -102,15 +108,15 @@ final class CalendarImportOptions {
 	/**
 	 * Sets how to handle object validation
 	 *
-	 * @param int $validate 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
+	 * @param int $value 0 - no validation, 1 - validate and skip on issue, 2 - validate and fail on issue
 	 *
-	 * @template $validate of self::VALIDATE_*
+	 * @template $value of self::VALIDATE_*
 	 */
-	public function setValidate(int $validate): void {
-		if (!in_array($validate, self::VALIDATE_OPTIONS, true)) {
-			throw new \InvalidArgumentException("Invalid validation handling type <$validate> specified, only VALIDATE_NONE, VALIDATE_SKIP or VALIDATE_FAIL allowed");
+	public function setValidate(int $value): void {
+		if (!in_array($value, CalendarImportOptions::VALIDATE_OPTIONS, true)) {
+			throw new InvalidArgumentException('Invalid validation option specified');
 		}
-		$this->validate = $validate;
+		$this->validate = $value;
 	}
 
 }

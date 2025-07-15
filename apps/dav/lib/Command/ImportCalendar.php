@@ -93,20 +93,10 @@ class ImportCalendar extends Command {
 		$options = new CalendarImportOptions();
 		$options->setSupersede($supersede);
 		if ($errors !== null) {
-			if (!in_array($errors, CalendarImportOptions::ERROR_OPTIONS, true)) {
-				throw new InvalidArgumentException('Invalid errors option specified');
-			}
 			$options->setErrors($errors);
 		}
 		if ($validation !== null) {
-			if (!in_array($validation, CalendarImportOptions::VALIDATE_OPTIONS, true)) {
-				throw new InvalidArgumentException('Invalid validation option specified');
-			}
 			$options->setValidate($validation);
-		}
-		// evaluate if provided format is supported
-		if (!in_array($format, ImportService::FORMATS, true)) {
-			throw new InvalidArgumentException("Format <$format> is not valid.");
 		}
 		$options->setFormat($format);
 		// evaluate if a valid location was given and is usable otherwise default to stdin
