@@ -24,12 +24,33 @@ class ContentItem {
 	 * @since 32.0.0
 	 */
 	public function __construct(
+		/**
+		 * @since 32.0.0
+		 */
 		public string $itemId,
+		/**
+		 * @since 32.0.0
+		 */
 		public string $providerId,
+		/**
+		 * @since 32.0.0
+		 */
 		public string $title,
+		/**
+		 * @since 32.0.0
+		 */
 		public string $content,
+		/**
+		 * @since 32.0.0
+		 */
 		public string $documentType,
+		/**
+		 * @since 32.0.0
+		 */
 		public \DateTime $lastModified,
+		/**
+		 * @since 32.0.0
+		 */
 		public array $users,
 	) {
 	}
