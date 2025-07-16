@@ -213,6 +213,7 @@ OC.L10N.register(
     "Warnings" : "Warnungen",
     "Prevent warning dialogs from open or reenable them." : "Öffnen von Warndialogen verhindern oder diese erneut aktivieren.",
     "Show a warning dialog when changing a file extension." : "Beim Ändern einer Dateierweiterung einen Warndialog anzeigen.",
+    "Show a warning dialog when deleting files." : "Beim Löschen von Dateien einen Warndialog anzeigen.",
     "Keyboard shortcuts" : "Tastaturkürzel",
     "Speed up your Files experience with these quick shortcuts." : "Arbeiten Sie schneller mit Dateien mit diesen Schnellzugriffen.",
     "Open the actions menu for a file" : "Aktionsmenü für eine Datei öffnen",

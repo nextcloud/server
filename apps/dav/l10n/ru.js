@@ -250,6 +250,8 @@ OC.L10N.register(
     "Completed on %s" : "Завершено %s",
     "Due on %s by %s" : "До %s %s",
     "Due on %s" : "До %s",
+    "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Добро пожаловать в Календарь Nextcloud!\n\nЭто пример события — исследуйте возможности планирования с Календарём Nextcloud, внося любые изменения по своему усмотрению!\n\nС помощью Календаря Nextcloud вы можете:\n- Легко создавать, редактировать и управлять событиями.\n- Создавать несколько календарей и делиться ими с коллегами, друзьями или семьёй.\n- Проверять доступность и показывать другим своё занятое время.\n- Беспрепятственно подключать приложения и устройства через CalDAV.\n- Настроить календарь под себя: повторяющиеся события, уведомления и многое другое.",
+    "Example event - open me!" : "Пример события — отройте меня!",
     "System Address Book" : "Системная адресная книга",
     "The system address book contains contact information for all users in your instance." : "Системная адресная книга содержит контактную информацию всех пользователей в вашем инстансе.",
     "Enable System Address Book" : "Включить системную адресную книгу",

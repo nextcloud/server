@@ -213,6 +213,7 @@ OC.L10N.register(
     "Warnings" : "Hoiatused",
     "Prevent warning dialogs from open or reenable them." : "Ära kasuta hoiatusteateid nende avamisel või uuesti kasutusele võtmisel.",
     "Show a warning dialog when changing a file extension." : "Faililaiendi muutmisel näita hoiatust.",
+    "Show a warning dialog when deleting files." : "Failide kustutamisel näita hoiatust.",
     "Keyboard shortcuts" : "Klaviatuuri kiirklahvid",
     "Speed up your Files experience with these quick shortcuts." : "Tee failirakenduse kasutamine kiiremaks nende kiirklahvidega.",
     "Open the actions menu for a file" : "Ava failitoimingute menüü",
