@@ -50,6 +50,12 @@ class UserConfig {
 			'allowed' => [true, false],
 		],
 		[
+			// Whether to show the files extensions in the files list or not
+			'key' => 'show_files_extensions',
+			'default' => true,
+			'allowed' => [true, false],
+		],
+		[
 			// Whether to show the hidden files or not in the files list
 			'key' => 'show_hidden',
 			'default' => false,
