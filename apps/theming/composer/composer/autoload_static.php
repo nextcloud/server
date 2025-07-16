@@ -53,6 +53,7 @@ class ComposerStaticInitTheming
         'OCA\\Theming\\Themes\\DefaultTheme' => __DIR__ . '/..' . '/../lib/Themes/DefaultTheme.php',
         'OCA\\Theming\\Themes\\DyslexiaFont' => __DIR__ . '/..' . '/../lib/Themes/DyslexiaFont.php',
         'OCA\\Theming\\Themes\\HighContrastTheme' => __DIR__ . '/..' . '/../lib/Themes/HighContrastTheme.php',
+        'OCA\\Theming\\Themes\\IonosTheme' => __DIR__ . '/..' . '/../lib/Themes/IonosTheme.php',
         'OCA\\Theming\\Themes\\LightTheme' => __DIR__ . '/..' . '/../lib/Themes/LightTheme.php',
         'OCA\\Theming\\ThemingDefaults' => __DIR__ . '/..' . '/../lib/ThemingDefaults.php',
         'OCA\\Theming\\Util' => __DIR__ . '/..' . '/../lib/Util.php',

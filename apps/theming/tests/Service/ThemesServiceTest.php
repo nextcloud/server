@@ -15,6 +15,7 @@ use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
+use OCA\Theming\Themes\IonosTheme;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -77,6 +78,7 @@ class ThemesServiceTest extends TestCase {
 			'dark',
 			'light-highcontrast',
 			'dark-highcontrast',
+			'ionos',
 			'opendyslexic',
 		];
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
@@ -113,7 +115,25 @@ class ThemesServiceTest extends TestCase {
 			'dark',
 			'light-highcontrast',
 			'dark-highcontrast',
+			'ionos',
 			'opendyslexic',
+		];
+
+		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
+	}
+
+	public function testGetThemesEnforcedIonos(): void {
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('ionos');
+		$this->logger->expects($this->never())
+			->method('error');
+
+		$expected = [
+			'default',
+			'dark',
+			'ionos',
 		];
 
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
@@ -126,6 +146,9 @@ class ThemesServiceTest extends TestCase {
 			['dark', ['dark'], ['dark']],
 			['opendyslexic', ['dark'], ['dark', 'opendyslexic']],
 			['dark', ['light-highcontrast', 'opendyslexic'], ['opendyslexic', 'dark']],
+			['ionos', ['default'], ['ionos']],
+			['ionos', ['ionos'], ['ionos']],
+			['ionos', ['dark', 'opendyslexic'], ['opendyslexic', 'ionos']],
 		];
 	}
 
@@ -160,6 +183,8 @@ class ThemesServiceTest extends TestCase {
 			['dark', ['dark'], []],
 			['opendyslexic', ['dark', 'opendyslexic'], ['dark'], ],
 			['light-highcontrast', ['opendyslexic'], ['opendyslexic']],
+			['ionos', ['ionos'], []],
+			['ionos', ['dark', 'ionos'], ['dark']],
 		];
 	}
 
@@ -195,6 +220,10 @@ class ThemesServiceTest extends TestCase {
 			['dark', ['dark'], true],
 			['opendyslexic', ['dark', 'opendyslexic'], true],
 			['light-highcontrast', ['opendyslexic'], false],
+			['ionos', [], false],
+			['ionos', ['ionos'], true],
+			['ionos', ['dark', 'ionos'], true],
+			['ionos', ['opendyslexic'], false],
 		];
 	}
 
@@ -362,6 +391,17 @@ class ThemesServiceTest extends TestCase {
 				null,
 			),
 			'opendyslexic' => new DyslexiaFont(
+				$util,
+				$this->themingDefaults,
+				$this->userSession,
+				$urlGenerator,
+				$imageManager,
+				$this->config,
+				$l10n,
+				$appManager,
+				null,
+			),
+			'ionos' => new IonosTheme(
 				$util,
 				$this->themingDefaults,
 				$this->userSession,
