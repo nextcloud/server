@@ -6,40 +6,40 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace NCU\Config;
+namespace OCP\Config;
 
-use NCU\Config\Exceptions\IncorrectTypeException;
+use OCP\Config\Exceptions\IncorrectTypeException;
 use OCP\IAppConfig;
 use UnhandledMatchError;
 
 /**
  * Listing of available value type for typed config value
  *
- * @experimental 31.0.0
+ * @since 32.0.0
  */
 enum ValueType: int {
 	/**
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	case MIXED = 0;
 	/**
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	case STRING = 1;
 	/**
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	case INT = 2;
 	/**
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	case FLOAT = 3;
 	/**
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	case BOOL = 4;
 	/**
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	case ARRAY = 5;
 
@@ -51,7 +51,7 @@ enum ValueType: int {
 	 * @return self
 	 * @throws IncorrectTypeException
 	 *
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public static function fromStringDefinition(string $definition): self {
 		try {
@@ -74,7 +74,7 @@ enum ValueType: int {
 	 * @return string
 	 * @throws IncorrectTypeException
 	 *
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function getDefinition(): string {
 		try {
@@ -97,7 +97,7 @@ enum ValueType: int {
 	 * @return int
 	 * @throws IncorrectTypeException
 	 *
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function toAppConfigFlag(): int {
 		try {

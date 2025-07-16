@@ -11,15 +11,16 @@ namespace OC\Config;
 use Generator;
 use InvalidArgumentException;
 use JsonException;
-use NCU\Config\Exceptions\IncorrectTypeException;
-use NCU\Config\Exceptions\TypeConflictException;
-use NCU\Config\Exceptions\UnknownKeyException;
-use NCU\Config\IUserConfig;
-use NCU\Config\Lexicon\ConfigLexiconEntry;
-use NCU\Config\Lexicon\ConfigLexiconStrictness;
-use NCU\Config\Lexicon\Preset;
-use NCU\Config\ValueType;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\Config\Exceptions\IncorrectTypeException;
+use OCP\Config\Exceptions\TypeConflictException;
+use OCP\Config\Exceptions\UnknownKeyException;
+use OCP\Config\IUserConfig;
+use OCP\Config\Lexicon\Entry;
+use OCP\Config\Lexicon\ILexicon;
+use OCP\Config\Lexicon\Preset;
+use OCP\Config\Lexicon\Strictness;
+use OCP\Config\ValueType;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -64,7 +65,7 @@ class UserConfig implements IUserConfig {
 	private array $fastLoaded = [];
 	/** @var array<string, boolean> ['user_id' => bool] */
 	private array $lazyLoaded = [];
-	/** @var array<string, array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
+	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
 	private ?Preset $configLexiconPreset = null;
@@ -1913,7 +1914,7 @@ class UserConfig implements IUserConfig {
 			return true;
 		}
 
-		/** @var ConfigLexiconEntry $configValue */
+		/** @var Entry $configValue */
 		$configValue = $configDetails['entries'][$key];
 		if ($type === ValueType::MIXED) {
 			// we overwrite if value was requested as mixed
@@ -1954,7 +1955,7 @@ class UserConfig implements IUserConfig {
 	 *
 	 * The entry is converted to string to fit the expected type when managing default value
 	 */
-	private function getSystemDefault(string $appId, ConfigLexiconEntry $configValue): ?string {
+	private function getSystemDefault(string $appId, Entry $configValue): ?string {
 		$default = $this->config->getSystemValue('lexicon.default.userconfig', [])[$appId][$configValue->getKey()] ?? null;
 		if ($default === null) {
 			// no system default, using default default.
@@ -1967,28 +1968,28 @@ class UserConfig implements IUserConfig {
 	/**
 	 * manage ConfigLexicon behavior based on strictness set in IConfigLexicon
 	 *
-	 * @see IConfigLexicon::getStrictness()
-	 * @param ConfigLexiconStrictness|null $strictness
+	 * @param Strictness|null $strictness
 	 * @param string $line
 	 *
 	 * @return bool TRUE if conflict can be fully ignored
 	 * @throws UnknownKeyException
+	 *@see ILexicon::getStrictness()
 	 */
-	private function applyLexiconStrictness(?ConfigLexiconStrictness $strictness, string $line = ''): bool {
+	private function applyLexiconStrictness(?Strictness $strictness, string $line = ''): bool {
 		if ($strictness === null) {
 			return true;
 		}
 
 		switch ($strictness) {
-			case ConfigLexiconStrictness::IGNORE:
+			case Strictness::IGNORE:
 				return true;
-			case ConfigLexiconStrictness::NOTICE:
+			case Strictness::NOTICE:
 				$this->logger->notice($line);
 				return true;
-			case ConfigLexiconStrictness::WARNING:
+			case Strictness::WARNING:
 				$this->logger->warning($line);
 				return false;
-			case ConfigLexiconStrictness::EXCEPTION:
+			case Strictness::EXCEPTION:
 				throw new UnknownKeyException($line);
 		}
 
@@ -1999,9 +2000,10 @@ class UserConfig implements IUserConfig {
 	 * extract details from registered $appId's config lexicon
 	 *
 	 * @param string $appId
-	 * @internal
 	 *
-	 * @return array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}
+	 * @return array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}
+	 *@internal
+	 *
 	 */
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {
@@ -2018,14 +2020,14 @@ class UserConfig implements IUserConfig {
 			$this->configLexiconDetails[$appId] = [
 				'entries' => $entries,
 				'aliases' => $aliases,
-				'strictness' => $configLexicon?->getStrictness() ?? ConfigLexiconStrictness::IGNORE
+				'strictness' => $configLexicon?->getStrictness() ?? Strictness::IGNORE
 			];
 		}
 
 		return $this->configLexiconDetails[$appId];
 	}
 
-	private function getLexiconEntry(string $appId, string $key): ?ConfigLexiconEntry {
+	private function getLexiconEntry(string $appId, string $key): ?Entry {
 		return $this->getConfigDetailsFromLexicon($appId)['entries'][$key] ?? null;
 	}
 

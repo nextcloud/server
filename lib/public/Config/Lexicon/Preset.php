@@ -6,12 +6,12 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace NCU\Config\Lexicon;
+namespace OCP\Config\Lexicon;
 
 /**
  * list of preset to handle the default behavior of the instance
  *
- * @see ConfigLexiconEntry::preset
+ * @see Entry::preset
  *
  * - **Preset::LARGE** - Large size organisation (> 50k accounts)
  * - **Preset::MEDIUM** - Medium size organisation (> 100 accounts)
@@ -22,25 +22,25 @@ namespace NCU\Config\Lexicon;
  * - **Preset::FAMILY** - Family
  * - **Preset::PRIVATE** - Private
  *
- * @experimental 32.0.0
+ * @since 32.0.0
  */
 enum Preset: int {
-	/** @experimental 32.0.0 */
+	/** @since 32.0.0 */
 	case LARGE = 8;
-	/** @experimental 32.0.0 */
+	/** @since 32.0.0 */
 	case MEDIUM = 7;
-	/** @experimental 32.0.0 */
+	/** @since 32.0.0 */
 	case SMALL = 6;
-	/** @experimental 32.0.0 */
+	/** @since 32.0.0 */
 	case SHARED = 5;
-	/** @experimental 32.0.0 */
+	/** @since 32.0.0 */
 	case EDUCATION = 4;
-	/** @experimental 32.0.0 */
+	/** @since 32.0.0 */
 	case CLUB = 3;
-	/** @experimental 32.0.0 */
+	/** @since 32.0.0 */
 	case FAMILY = 2;
-	/** @experimental 32.0.0 */
+	/** @since 32.0.0 */
 	case PRIVATE = 1;
-	/** @experimental 32.0.0 */
+	/** @since 32.0.0 */
 	case NONE = 0;
 }

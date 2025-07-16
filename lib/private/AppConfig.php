@@ -11,12 +11,12 @@ namespace OC;
 
 use InvalidArgumentException;
 use JsonException;
-use NCU\Config\Lexicon\ConfigLexiconEntry;
-use NCU\Config\Lexicon\ConfigLexiconStrictness;
-use NCU\Config\Lexicon\IConfigLexicon;
-use NCU\Config\Lexicon\Preset;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
+use OCP\Config\Lexicon\Entry;
+use OCP\Config\Lexicon\ILexicon;
+use OCP\Config\Lexicon\Preset;
+use OCP\Config\Lexicon\Strictness;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Exceptions\AppConfigIncorrectTypeException;
@@ -62,7 +62,7 @@ class AppConfig implements IAppConfig {
 	private array $valueTypes = [];  // type for all config values
 	private bool $fastLoaded = false;
 	private bool $lazyLoaded = false;
-	/** @var array<string, array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
+	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
 	private ?Preset $configLexiconPreset = null;
@@ -1655,7 +1655,7 @@ class AppConfig implements IAppConfig {
 			return true;
 		}
 
-		/** @var ConfigLexiconEntry $configValue */
+		/** @var Entry $configValue */
 		$configValue = $configDetails['entries'][$key];
 		$type &= ~self::VALUE_SENSITIVE;
 
@@ -1685,15 +1685,15 @@ class AppConfig implements IAppConfig {
 	/**
 	 * manage ConfigLexicon behavior based on strictness set in IConfigLexicon
 	 *
-	 * @param ConfigLexiconStrictness|null $strictness
+	 * @param Strictness|null $strictness
 	 * @param string $line
 	 *
 	 * @return bool TRUE if conflict can be fully ignored, FALSE if action should be not performed
 	 * @throws AppConfigUnknownKeyException if strictness implies exception
-	 * @see IConfigLexicon::getStrictness()
+	 * @see ILexicon::getStrictness()
 	 */
 	private function applyLexiconStrictness(
-		?ConfigLexiconStrictness $strictness,
+		?Strictness $strictness,
 		string $line = '',
 	): bool {
 		if ($strictness === null) {
@@ -1701,12 +1701,12 @@ class AppConfig implements IAppConfig {
 		}
 
 		switch ($strictness) {
-			case ConfigLexiconStrictness::IGNORE:
+			case Strictness::IGNORE:
 				return true;
-			case ConfigLexiconStrictness::NOTICE:
+			case Strictness::NOTICE:
 				$this->logger->notice($line);
 				return true;
-			case ConfigLexiconStrictness::WARNING:
+			case Strictness::WARNING:
 				$this->logger->warning($line);
 				return false;
 		}
@@ -1720,7 +1720,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $appId
 	 * @internal
 	 *
-	 * @return array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}
+	 * @return array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}
 	 */
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {
@@ -1737,14 +1737,14 @@ class AppConfig implements IAppConfig {
 			$this->configLexiconDetails[$appId] = [
 				'entries' => $entries,
 				'aliases' => $aliases,
-				'strictness' => $configLexicon?->getStrictness() ?? ConfigLexiconStrictness::IGNORE
+				'strictness' => $configLexicon?->getStrictness() ?? Strictness::IGNORE
 			];
 		}
 
 		return $this->configLexiconDetails[$appId];
 	}
 
-	private function getLexiconEntry(string $appId, string $key): ?ConfigLexiconEntry {
+	private function getLexiconEntry(string $appId, string $key): ?Entry {
 		return $this->getConfigDetailsFromLexicon($appId)['entries'][$key] ?? null;
 	}
 

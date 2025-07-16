@@ -8,9 +8,9 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\Config;
 
-use NCU\Config\Lexicon\Preset as ConfigLexiconPreset;
 use OC\Config\ConfigManager;
 use OC\Core\Command\Base;
+use OCP\Config\Lexicon\Preset as ConfigLexiconPreset;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

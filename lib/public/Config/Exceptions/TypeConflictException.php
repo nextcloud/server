@@ -6,12 +6,12 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace NCU\Config\Exceptions;
+namespace OCP\Config\Exceptions;
 
 use Exception;
 
 /**
- * @experimental 31.0.0
+ * @since 32.0.0
  */
 class TypeConflictException extends Exception {
 }
