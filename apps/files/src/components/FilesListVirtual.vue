@@ -481,13 +481,13 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .files-list {
-	--row-height: 55px;
+	--row-height: 44px;
 	--cell-margin: 14px;
 
 	--checkbox-padding: calc((var(--row-height) - var(--checkbox-size)) / 2);
 	--checkbox-size: 24px;
 	--clickable-area: var(--default-clickable-area);
-	--icon-preview-size: 32px;
+	--icon-preview-size: 24px;
 
 	--fixed-block-start-position: var(--default-clickable-area);
 	display: flex;
@@ -775,8 +775,8 @@ export default defineComponent({
 			// File and folder overlay
 			&-overlay {
 				position: absolute;
-				max-height: calc(var(--icon-preview-size) * 0.5);
-				max-width: calc(var(--icon-preview-size) * 0.5);
+				max-height: calc(var(--icon-preview-size) * 0.6);
+				max-width: calc(var(--icon-preview-size) * 0.6);
 				color: var(--color-primary-element-text);
 				// better alignment with the folder icon
 				margin-block-start: 2px;
