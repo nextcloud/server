@@ -6,19 +6,19 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace NCU\Config\Lexicon;
+namespace OCP\Config\Lexicon;
 
 use Closure;
-use NCU\Config\ValueType;
+use OCP\Config\ValueType;
 
 /**
  * Model that represent config values within an app config lexicon.
  *
- * @see IConfigLexicon
- * @experimental 31.0.0
+ * @see ILexicon
+ * @since 32.0.0
  */
-class ConfigLexiconEntry {
-	/** @experimental 32.0.0 */
+class Entry {
+	/** @since 32.0.0 */
 	public const RENAME_INVERT_BOOLEAN = 1;
 
 	private string $definition = '';
@@ -33,7 +33,7 @@ class ConfigLexiconEntry {
 	 * @param string|null $rename previous config key to migrate config value from
 	 * @param bool $deprecated set config key as deprecated
 	 *
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 * @psalm-suppress PossiblyInvalidCast
 	 * @psalm-suppress RiskyCast
 	 */
@@ -63,7 +63,7 @@ class ConfigLexiconEntry {
 	 * returns the config key
 	 *
 	 * @return string config key
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function getKey(): string {
 		return $this->key;
@@ -73,7 +73,7 @@ class ConfigLexiconEntry {
 	 * get expected type for config value
 	 *
 	 * @return ValueType
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function getValueType(): ValueType {
 		return $this->type;
@@ -82,7 +82,7 @@ class ConfigLexiconEntry {
 	/**
 	 * @param string $default
 	 * @return string
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	private function convertFromString(string $default): string {
 		return $default;
@@ -91,7 +91,7 @@ class ConfigLexiconEntry {
 	/**
 	 * @param int $default
 	 * @return string
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	private function convertFromInt(int $default): string {
 		return (string)$default;
@@ -100,7 +100,7 @@ class ConfigLexiconEntry {
 	/**
 	 * @param float $default
 	 * @return string
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	private function convertFromFloat(float $default): string {
 		return (string)$default;
@@ -109,7 +109,7 @@ class ConfigLexiconEntry {
 	/**
 	 * @param bool $default
 	 * @return string
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	private function convertFromBool(bool $default): string {
 		return ($default) ? '1' : '0';
@@ -118,7 +118,7 @@ class ConfigLexiconEntry {
 	/**
 	 * @param array $default
 	 * @return string
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	private function convertFromArray(array $default): string {
 		return json_encode($default);
@@ -128,7 +128,7 @@ class ConfigLexiconEntry {
 	 * returns default value
 	 *
 	 * @return string|null NULL if no default is set
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function getDefault(Preset $preset): ?string {
 		if ($this->default !== null) {
@@ -156,7 +156,7 @@ class ConfigLexiconEntry {
 	 * @param string|int|float|bool|array $entry
 	 *
 	 * @return string
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 * @psalm-suppress PossiblyInvalidCast arrays are managed pre-cast
 	 * @psalm-suppress RiskyCast
 	 */
@@ -180,7 +180,7 @@ class ConfigLexiconEntry {
 	 * returns definition
 	 *
 	 * @return string
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function getDefinition(): string {
 		return $this->definition;
@@ -191,7 +191,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @see IAppConfig for details on lazy config values
 	 * @return bool TRUE if config value is lazy
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function isLazy(): bool {
 		return $this->lazy;
@@ -202,7 +202,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @see IAppConfig for details on sensitive config values
 	 * @return int bitflag about the config value
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function getFlags(): int {
 		return $this->flags;
@@ -212,7 +212,7 @@ class ConfigLexiconEntry {
 	 * @param int $flag
 	 *
 	 * @return bool TRUE is config value bitflag contains $flag
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function isFlagged(int $flag): bool {
 		return (($flag & $this->getFlags()) === $flag);
@@ -223,14 +223,14 @@ class ConfigLexiconEntry {
 	 * link to an old config key.
 	 *
 	 * @return string|null not NULL if value can be imported from a previous key
-	 * @experimental 32.0.0
+	 * @since 32.0.0
 	 */
 	public function getRename(): ?string {
 		return $this->rename;
 	}
 
 	/**
-	 * @experimental 32.0.0
+	 * @since 32.0.0
 	 * @return bool TRUE if $option was set during the creation of the entry.
 	 */
 	public function hasOption(int $option): bool {
@@ -241,7 +241,7 @@ class ConfigLexiconEntry {
 	 * returns if config key is set as deprecated
 	 *
 	 * @return bool TRUE if config si deprecated
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 */
 	public function isDeprecated(): bool {
 		return $this->deprecated;

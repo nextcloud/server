@@ -7,11 +7,11 @@ declare(strict_types=1);
  */
 namespace Test\lib\Config;
 
-use NCU\Config\Exceptions\TypeConflictException;
-use NCU\Config\Exceptions\UnknownKeyException;
-use NCU\Config\IUserConfig;
-use NCU\Config\ValueType;
 use OC\Config\UserConfig;
+use OCP\Config\Exceptions\TypeConflictException;
+use OCP\Config\Exceptions\UnknownKeyException;
+use OCP\Config\IUserConfig;
+use OCP\Config\ValueType;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;

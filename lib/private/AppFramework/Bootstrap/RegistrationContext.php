@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
-use NCU\Config\Lexicon\IConfigLexicon;
 use OC\Config\Lexicon\CoreConfigLexicon;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
@@ -23,6 +22,7 @@ use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Capabilities\ICapability;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Config\Lexicon\ILexicon;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -652,7 +652,7 @@ class RegistrationContext {
 	}
 
 	/**
-	 * @psalm-param class-string<IConfigLexicon> $configLexiconClass
+	 * @psalm-param class-string<ILexicon> $configLexiconClass
 	 */
 	public function registerConfigLexicon(string $appId, string $configLexiconClass): void {
 		$this->configLexiconClasses[$appId] = $configLexiconClass;
@@ -1023,9 +1023,9 @@ class RegistrationContext {
 	 *
 	 * @param string $appId
 	 *
-	 * @return IConfigLexicon|null
+	 * @return ILexicon|null
 	 */
-	public function getConfigLexicon(string $appId): ?IConfigLexicon {
+	public function getConfigLexicon(string $appId): ?ILexicon {
 		if (!array_key_exists($appId, $this->configLexiconClasses)) {
 			return null;
 		}
