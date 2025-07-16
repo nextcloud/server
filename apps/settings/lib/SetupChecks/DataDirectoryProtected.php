@@ -90,7 +90,6 @@ class DataDirectoryProtected implements ISetupCheck {
 			);
 		}
 
-		return SetupResult::success('Protected');
-
+		return SetupResult::success($this->l10n->t('Protected'));
 	}
 }
