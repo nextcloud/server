@@ -22,6 +22,8 @@ use OCP\Exceptions\AppConfigIncorrectTypeException;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -68,11 +70,15 @@ class AppConfig implements IAppConfig {
 	/** @var ?array<string, string> */
 	private ?array $appVersionsCache = null;
 
+	private ?ICache $localCache;
+
 	public function __construct(
 		protected IDBConnection $connection,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
+		ICacheFactory $cacheFactory,
 	) {
+		$this->localCache = $cacheFactory->isLocalCacheAvailable() ? $cacheFactory->createLocal() : null;
 	}
 
 	/**
@@ -859,6 +865,8 @@ class AppConfig implements IAppConfig {
 		}
 		$this->valueTypes[$app][$key] = $type;
 
+		$this->clearLocalCache();
+
 		return true;
 	}
 
@@ -1118,6 +1126,7 @@ class AppConfig implements IAppConfig {
 		unset($this->lazyCache[$app][$key]);
 		unset($this->fastCache[$app][$key]);
 		unset($this->valueTypes[$app][$key]);
+		$this->clearLocalCache();
 	}
 
 	/**
@@ -1147,6 +1156,7 @@ class AppConfig implements IAppConfig {
 	public function clearCache(bool $reload = false): void {
 		$this->lazyLoaded = $this->fastLoaded = false;
 		$this->lazyCache = $this->fastCache = $this->valueTypes = [];
+		$this->clearLocalCache();
 
 		if (!$reload) {
 			return;
@@ -1217,6 +1227,21 @@ class AppConfig implements IAppConfig {
 		$this->loadConfig($app, null);
 	}
 
+	private function getLocalCacheKey(?bool $lazy): string {
+		return 'app-config' . ($lazy !== null ? '-' . ($lazy === true ? 'lazy' : 'non-lazy') : '');
+	}
+
+	private function clearLocalCache(): void {
+		if ($this->localCache === null) {
+			return;
+		}
+
+		$keys = array_map(fn (?bool $lazy) => $this->getLocalCacheKey($lazy), [null, true, false]);
+		foreach ($keys as $key) {
+			$this->localCache->remove($key);
+		}
+	}
+
 	/**
 	 * Load normal config or config set as lazy loaded
 	 *
@@ -1233,20 +1258,30 @@ class AppConfig implements IAppConfig {
 			$this->logger->debug($exception->getMessage(), ['exception' => $exception, 'app' => $app]);
 		}
 
-		$qb = $this->connection->getQueryBuilder();
-		$qb->from('appconfig');
+		$cacheKey = $this->getLocalCacheKey($lazy);
 
-		// we only need value from lazy when loadConfig does not specify it
-		$qb->select('appid', 'configkey', 'configvalue', 'type');
+		$rows = $this->localCache?->get($cacheKey);
+		if ($rows === null) {
+			$qb = $this->connection->getQueryBuilder();
+			$qb->from('appconfig');
 
-		if ($lazy !== null) {
-			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
-		} else {
-			$qb->addSelect('lazy');
+			// we only need value from lazy when loadConfig does not specify it
+			$qb->select('appid', 'configkey', 'configvalue', 'type');
+
+			if ($lazy !== null) {
+				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
+			} else {
+				$qb->addSelect('lazy');
+			}
+
+			$result = $qb->executeQuery();
+			$rows = $result->fetchAll();
+			$result->closeCursor();
+
+			// The TTL is low to avoid syncing issues in clustered setups, but it still greatly improves performance when many requests per second are sent.
+			$this->localCache?->set($cacheKey, $rows, 1);
 		}
 
-		$result = $qb->executeQuery();
-		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
 			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
@@ -1256,7 +1291,6 @@ class AppConfig implements IAppConfig {
 			}
 			$this->valueTypes[$row['appid']][$row['configkey']] = (int)($row['type'] ?? 0);
 		}
-		$result->closeCursor();
 		$this->setAsLoaded($lazy);
 	}
 
