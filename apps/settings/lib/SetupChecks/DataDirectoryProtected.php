@@ -79,7 +79,7 @@ class DataDirectoryProtected implements ISetupCheck {
 
 		// check for unused /data folder
 		$dataDirDefault = \OC::$SERVERROOT . '/data';
-		if (	$dataDirActual !== $dataDirDefault
+		if ($dataDirActual !== $dataDirDefault
 			&& file_exists($dataDirDefault)
 		) {
 			return SetupResult::info(
