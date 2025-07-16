@@ -48,6 +48,15 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'NCU\\Config\\Exceptions\\IncorrectTypeException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
+        'NCU\\Config\\Exceptions\\TypeConflictException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
+        'NCU\\Config\\Exceptions\\UnknownKeyException' => __DIR__ . '/../../..' . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
+        'NCU\\Config\\IUserConfig' => __DIR__ . '/../../..' . '/lib/unstable/Config/IUserConfig.php',
+        'NCU\\Config\\Lexicon\\ConfigLexiconEntry' => __DIR__ . '/../../..' . '/lib/unstable/Config/Lexicon/ConfigLexiconEntry.php',
+        'NCU\\Config\\Lexicon\\ConfigLexiconStrictness' => __DIR__ . '/../../..' . '/lib/unstable/Config/Lexicon/ConfigLexiconStrictness.php',
+        'NCU\\Config\\Lexicon\\IConfigLexicon' => __DIR__ . '/../../..' . '/lib/unstable/Config/Lexicon/IConfigLexicon.php',
+        'NCU\\Config\\Lexicon\\Preset' => __DIR__ . '/../../..' . '/lib/unstable/Config/Lexicon/Preset.php',
+        'NCU\\Config\\ValueType' => __DIR__ . '/../../..' . '/lib/unstable/Config/ValueType.php',
         'NCU\\Federation\\ISignedCloudFederationProvider' => __DIR__ . '/../../..' . '/lib/unstable/Federation/ISignedCloudFederationProvider.php',
         'NCU\\Security\\Signature\\Enum\\DigestAlgorithm' => __DIR__ . '/../../..' . '/lib/unstable/Security/Signature/Enum/DigestAlgorithm.php',
         'NCU\\Security\\Signature\\Enum\\SignatoryStatus' => __DIR__ . '/../../..' . '/lib/unstable/Security/Signature/Enum/SignatoryStatus.php',

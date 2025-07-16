@@ -7,6 +7,15 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'NCU\\Config\\Exceptions\\IncorrectTypeException' => $baseDir . '/lib/unstable/Config/Exceptions/IncorrectTypeException.php',
+    'NCU\\Config\\Exceptions\\TypeConflictException' => $baseDir . '/lib/unstable/Config/Exceptions/TypeConflictException.php',
+    'NCU\\Config\\Exceptions\\UnknownKeyException' => $baseDir . '/lib/unstable/Config/Exceptions/UnknownKeyException.php',
+    'NCU\\Config\\IUserConfig' => $baseDir . '/lib/unstable/Config/IUserConfig.php',
+    'NCU\\Config\\Lexicon\\ConfigLexiconEntry' => $baseDir . '/lib/unstable/Config/Lexicon/ConfigLexiconEntry.php',
+    'NCU\\Config\\Lexicon\\ConfigLexiconStrictness' => $baseDir . '/lib/unstable/Config/Lexicon/ConfigLexiconStrictness.php',
+    'NCU\\Config\\Lexicon\\IConfigLexicon' => $baseDir . '/lib/unstable/Config/Lexicon/IConfigLexicon.php',
+    'NCU\\Config\\Lexicon\\Preset' => $baseDir . '/lib/unstable/Config/Lexicon/Preset.php',
+    'NCU\\Config\\ValueType' => $baseDir . '/lib/unstable/Config/ValueType.php',
     'NCU\\Federation\\ISignedCloudFederationProvider' => $baseDir . '/lib/unstable/Federation/ISignedCloudFederationProvider.php',
     'NCU\\Security\\Signature\\Enum\\DigestAlgorithm' => $baseDir . '/lib/unstable/Security/Signature/Enum/DigestAlgorithm.php',
     'NCU\\Security\\Signature\\Enum\\SignatoryStatus' => $baseDir . '/lib/unstable/Security/Signature/Enum/SignatoryStatus.php',
