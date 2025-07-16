@@ -92,7 +92,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-$size: 32px;
+$size: 24px;
 $stack-shift: 6px;
 
 .files-list-drag-image {
@@ -112,8 +112,8 @@ $stack-shift: 6px;
 		overflow: hidden;
 		align-items: center;
 		justify-content: center;
-		width: 32px;
-		height: 32px;
+		width: $size;
+		height: $size;
 		border-radius: var(--border-radius);
 	}
 
