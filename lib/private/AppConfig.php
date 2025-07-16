@@ -14,6 +14,7 @@ use JsonException;
 use NCU\Config\Lexicon\ConfigLexiconEntry;
 use NCU\Config\Lexicon\ConfigLexiconStrictness;
 use NCU\Config\Lexicon\IConfigLexicon;
+use NCU\Config\Lexicon\Preset;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OCP\DB\Exception as DBException;
@@ -64,12 +65,13 @@ class AppConfig implements IAppConfig {
 	/** @var array<string, array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
-
+	private ?Preset $configLexiconPreset = null;
 	/** @var ?array<string, string> */
 	private ?array $appVersionsCache = null;
 
 	public function __construct(
 		protected IDBConnection $connection,
+		protected IConfig $config,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
 	) {
@@ -438,9 +440,17 @@ class AppConfig implements IAppConfig {
 	): string {
 		$this->assertParams($app, $key, valueType: $type);
 		$origKey = $key;
-		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $default)) {
-			return $default; // returns default if strictness of lexicon is set to WARNING (block and report)
+		$matched = $this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type, $default);
+		if ($default === null) {
+			// there is no logical reason for it to be null
+			throw new \Exception('default cannot be null');
 		}
+
+		// returns default if strictness of lexicon is set to WARNING (block and report)
+		if (!$matched) {
+			return $default;
+		}
+
 		$this->loadConfig($app, $lazy);
 
 		/**
@@ -1146,7 +1156,8 @@ class AppConfig implements IAppConfig {
 	 */
 	public function clearCache(bool $reload = false): void {
 		$this->lazyLoaded = $this->fastLoaded = false;
-		$this->lazyCache = $this->fastCache = $this->valueTypes = [];
+		$this->lazyCache = $this->fastCache = $this->valueTypes = $this->configLexiconDetails = [];
+		$this->configLexiconPreset = null;
 
 		if (!$reload) {
 			return;
@@ -1592,7 +1603,7 @@ class AppConfig implements IAppConfig {
 		string &$key,
 		?bool &$lazy = null,
 		int &$type = self::VALUE_MIXED,
-		string &$default = '',
+		?string &$default = null,
 	): bool {
 		if (in_array($key,
 			[
@@ -1629,7 +1640,11 @@ class AppConfig implements IAppConfig {
 		}
 
 		$lazy = $configValue->isLazy();
-		$default = $configValue->getDefault() ?? $default; // default from Lexicon got priority
+		// only look for default if needed, default from Lexicon got priority
+		if ($default !== null) {
+			$default = $configValue->getDefault($this->getLexiconPreset()) ?? $default;
+		}
+
 		if ($configValue->isFlagged(self::FLAG_SENSITIVE)) {
 			$type |= self::VALUE_SENSITIVE;
 		}
@@ -1713,6 +1728,14 @@ class AppConfig implements IAppConfig {
 	 */
 	public function ignoreLexiconAliases(bool $ignore): void {
 		$this->ignoreLexiconAliases = $ignore;
+	}
+
+	private function getLexiconPreset(): Preset {
+		if ($this->configLexiconPreset === null) {
+			$this->configLexiconPreset = Preset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? Preset::NONE;
+		}
+
+		return $this->configLexiconPreset;
 	}
 
 	/**

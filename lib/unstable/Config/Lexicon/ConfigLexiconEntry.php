@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace NCU\Config\Lexicon;
 
+use Closure;
 use NCU\Config\ValueType;
 
 /**
@@ -24,7 +25,7 @@ class ConfigLexiconEntry {
 	private ?string $default = null;
 
 	/**
-	 * @param string $key config key
+	 * @param string $key config key, can only contain alphanumerical chars and -._
 	 * @param ValueType $type type of config value
 	 * @param string $definition optional description of config key available when using occ command
 	 * @param bool $lazy set config value as lazy
@@ -39,7 +40,7 @@ class ConfigLexiconEntry {
 	public function __construct(
 		private readonly string $key,
 		private readonly ValueType $type,
-		private null|string|int|float|bool|array $defaultRaw = null,
+		private null|string|int|float|bool|array|Closure $defaultRaw = null,
 		string $definition = '',
 		private readonly bool $lazy = false,
 		private readonly int $flags = 0,
@@ -47,6 +48,11 @@ class ConfigLexiconEntry {
 		private readonly ?string $rename = null,
 		private readonly int $options = 0,
 	) {
+		// key can only contain alphanumeric chars and underscore "_"
+		if (preg_match('/[^[:alnum:]_]/', $key)) {
+			throw new \Exception('invalid config key');
+		}
+
 		/** @psalm-suppress UndefinedClass */
 		if (\OC::$CLI) { // only store definition if ran from CLI
 			$this->definition = $definition;
@@ -124,14 +130,22 @@ class ConfigLexiconEntry {
 	 * @return string|null NULL if no default is set
 	 * @experimental 31.0.0
 	 */
-	public function getDefault(): ?string {
+	public function getDefault(Preset $preset): ?string {
+		if ($this->default !== null) {
+			return $this->default;
+		}
+
 		if ($this->defaultRaw === null) {
 			return null;
 		}
 
-		if ($this->default === null) {
-			$this->default = $this->convertToString($this->defaultRaw);
+		if ($this->defaultRaw instanceof Closure) {
+			/** @psalm-suppress MixedAssignment we expect closure to returns string|int|float|bool|array */
+			$this->defaultRaw = ($this->defaultRaw)($preset);
 		}
+
+		/** @psalm-suppress MixedArgument closure should be managed previously */
+		$this->default = $this->convertToString($this->defaultRaw);
 
 		return $this->default;
 	}

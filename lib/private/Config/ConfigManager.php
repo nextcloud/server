@@ -12,10 +12,12 @@ use JsonException;
 use NCU\Config\Exceptions\TypeConflictException;
 use NCU\Config\IUserConfig;
 use NCU\Config\Lexicon\ConfigLexiconEntry;
+use NCU\Config\Lexicon\Preset;
 use NCU\Config\ValueType;
 use OC\AppConfig;
 use OCP\App\IAppManager;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
@@ -25,12 +27,16 @@ use Psr\Log\LoggerInterface;
  * @since 32.0.0
  */
 class ConfigManager {
+	/** @since 32.0.0 */
+	public const PRESET_CONFIGKEY = 'config_preset';
+
 	/** @var AppConfig|null $appConfig */
 	private ?IAppConfig $appConfig = null;
 	/** @var UserConfig|null $userConfig */
 	private ?IUserConfig $userConfig = null;
 
 	public function __construct(
+		private readonly IConfig $config,
 		private readonly LoggerInterface $logger,
 	) {
 	}
@@ -72,6 +78,17 @@ class ConfigManager {
 		// switch back to normal behavior
 		$this->appConfig->ignoreLexiconAliases(false);
 		$this->userConfig->ignoreLexiconAliases(false);
+	}
+
+	/**
+	 * store in config.php the new preset
+	 * refresh cached preset
+	 */
+	public function setLexiconPreset(Preset $preset): void {
+		$this->config->setSystemValue(self::PRESET_CONFIGKEY, $preset->value);
+		$this->loadConfigServices();
+		$this->appConfig->clearCache();
+		$this->userConfig->clearCacheAll();
 	}
 
 	/**

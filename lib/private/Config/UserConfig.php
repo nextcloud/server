@@ -17,6 +17,7 @@ use NCU\Config\Exceptions\UnknownKeyException;
 use NCU\Config\IUserConfig;
 use NCU\Config\Lexicon\ConfigLexiconEntry;
 use NCU\Config\Lexicon\ConfigLexiconStrictness;
+use NCU\Config\Lexicon\Preset;
 use NCU\Config\ValueType;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\DB\Exception as DBException;
@@ -66,6 +67,7 @@ class UserConfig implements IUserConfig {
 	/** @var array<string, array{entries: array<string, ConfigLexiconEntry>, aliases: array<string, string>, strictness: ConfigLexiconStrictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
+	private ?Preset $configLexiconPreset = null;
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -721,10 +723,17 @@ class UserConfig implements IUserConfig {
 	): string {
 		$this->assertParams($userId, $app, $key);
 		$origKey = $key;
-		if (!$this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, default: $default)) {
-			// returns default if strictness of lexicon is set to WARNING (block and report)
+		$matched = $this->matchAndApplyLexiconDefinition($userId, $app, $key, $lazy, $type, default: $default);
+		if ($default === null) {
+			// there is no logical reason for it to be null
+			throw new \Exception('default cannot be null');
+		}
+
+		// returns default if strictness of lexicon is set to WARNING (block and report)
+		if (!$matched) {
 			return $default;
 		}
+
 		$this->loadConfig($userId, $lazy);
 
 		/**
@@ -1625,7 +1634,8 @@ class UserConfig implements IUserConfig {
 	 */
 	public function clearCacheAll(): void {
 		$this->lazyLoaded = $this->fastLoaded = [];
-		$this->lazyCache = $this->fastCache = $this->valueDetails = [];
+		$this->lazyCache = $this->fastCache = $this->valueDetails = $this->configLexiconDetails = [];
+		$this->configLexiconPreset = null;
 	}
 
 	/**
@@ -1886,7 +1896,7 @@ class UserConfig implements IUserConfig {
 		?bool &$lazy = null,
 		ValueType &$type = ValueType::MIXED,
 		int &$flags = 0,
-		string &$default = '',
+		?string &$default = null,
 	): bool {
 		$configDetails = $this->getConfigDetailsFromLexicon($app);
 		if (array_key_exists($key, $configDetails['aliases']) && !$this->ignoreLexiconAliases) {
@@ -1924,8 +1934,10 @@ class UserConfig implements IUserConfig {
 			return true;
 		}
 
-		// default from Lexicon got priority but it can still be overwritten by admin
-		$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault() ?? $default;
+		// only look for default if needed, default from Lexicon got priority if not overwritten by admin
+		if ($default !== null) {
+			$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->getLexiconPreset()) ?? $default;
+		}
 
 		// returning false will make get() returning $default and set() not changing value in database
 		return !$enforcedValue;
@@ -2024,5 +2036,13 @@ class UserConfig implements IUserConfig {
 	 */
 	public function ignoreLexiconAliases(bool $ignore): void {
 		$this->ignoreLexiconAliases = $ignore;
+	}
+
+	private function getLexiconPreset(): Preset {
+		if ($this->configLexiconPreset === null) {
+			$this->configLexiconPreset = Preset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? Preset::NONE;
+		}
+
+		return $this->configLexiconPreset;
 	}
 }
