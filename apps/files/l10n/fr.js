@@ -192,6 +192,7 @@ OC.L10N.register(
     "No search results for “{query}”" : "Aucun résultat de recherche pour “{query}”",
     "Clipboard is not available" : "Le presse-papiers n'est pas disponible",
     "WebDAV URL copied to clipboard" : "URL WebDAV copiée dans le presse-papier",
+    "Default view" : "Vue par défaut",
     "All files" : "Tous les fichiers",
     "Personal files" : "Fichiers personnels",
     "Sort favorites first" : "Trier les favoris en premier",

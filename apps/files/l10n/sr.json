@@ -211,6 +211,7 @@
     "Warnings" : "Упозорења",
     "Prevent warning dialogs from open or reenable them." : "Спречава да се дијалози упозорења отворе или да се поново укључе.",
     "Show a warning dialog when changing a file extension." : "Прикажи дијалог упозорења када се мења екстензија фајла.",
+    "Show a warning dialog when deleting files." : "Прикажи дијалог упозорења када се бришу фајлови.",
     "Keyboard shortcuts" : "Пречице на тастатури",
     "Speed up your Files experience with these quick shortcuts." : "Убрзајте рад у апликацији Фајлови следећим брзим пречицама.",
     "Open the actions menu for a file" : "Отвори мени са акцијама над фајлом",
