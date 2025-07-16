@@ -33,16 +33,17 @@ class DataDirectoryProtected implements ISetupCheck {
 	}
 
 	public function getCategory(): string {
-		return 'network';
+		return 'security';
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('Data directory protected');
+		return $this->l10n->t('Data directory status');
 	}
 
 	public function run(): SetupResult {
-		$dataDir = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValueString('datadirectory', ''));
-		$dataUrl = $this->urlGenerator->linkTo('', $dataDir . '/.ncdata');
+		$dataDirActual = $this->config->getSystemValueString('datadirectory', '');
+		$dataDirUriPath = str_replace(\OC::$SERVERROOT . '/', '', $dataDirActual);
+		$dataUrl = $this->urlGenerator->linkTo('', $dataDirUriPath . '/.ncdata');
 
 		$noResponse = true;
 		foreach ($this->runRequest('GET', $dataUrl, [ 'httpErrors' => false ]) as $response) {
@@ -55,7 +56,11 @@ class DataDirectoryProtected implements ISetupCheck {
 				}
 
 				if (str_contains($body, '# Nextcloud data directory')) {
-					return SetupResult::error($this->l10n->t('Your data directory and files are probably accessible from the internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.'));
+					return SetupResult::error(
+						$this->l10n->t(
+							'Your data directory and files are probably accessible from the Internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root.'
+						)
+					);
 				}
 			} else {
 				$this->logger->debug('[expected] Could not access data directory from outside.', ['url' => $dataUrl]);
@@ -63,9 +68,29 @@ class DataDirectoryProtected implements ISetupCheck {
 		}
 
 		if ($noResponse) {
-			return SetupResult::warning($this->l10n->t('Could not check that the data directory is protected. Please check manually that your server does not allow access to the data directory.') . "\n" . $this->serverConfigHelp());
+			return SetupResult::warning(
+				$this->l10n->t(
+					'Could not check that the data directory is protected. Please check manually that your server does not allow access to the data directory.'
+				)
+				. "\n"
+				. $this->serverConfigHelp()
+			);
 		}
-		return SetupResult::success();
+
+		// check for unused /data folder
+		$dataDirDefault = \OC::$SERVERROOT . '/data';
+		if (	$dataDirActual !== $dataDirDefault
+			&& file_exists($dataDirDefault)
+		) {
+			return SetupResult::info(
+				$this->l10n->t(
+					'Dormant data directory found at "%s". You may want to remove this unused directory (to avoid confusion with the in-use one and to free up storage space).',
+					$dataDirDefault
+				)
+			);
+		}
+
+		return SetupResult::success('Protected');
 
 	}
 }
