@@ -211,6 +211,7 @@
     "Warnings" : "警告",
     "Prevent warning dialogs from open or reenable them." : "避免開啟警告對話方塊或重新啟用它們。",
     "Show a warning dialog when changing a file extension." : "在變更副檔名時顯示警告對話方塊。",
+    "Show a warning dialog when deleting files." : "在刪除檔案時顯示警告對話方塊。",
     "Keyboard shortcuts" : "鍵盤快速鍵",
     "Speed up your Files experience with these quick shortcuts." : "使用這些快捷鍵加速您的 Files 體驗。",
     "Open the actions menu for a file" : "開啟檔案的動作選單",
