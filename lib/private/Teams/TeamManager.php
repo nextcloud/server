@@ -7,6 +7,7 @@
 
 namespace OC\Teams;
 
+
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\Circles\CirclesManager;
 use OCA\Circles\Exceptions\CircleNotFoundException;
@@ -19,6 +20,8 @@ use OCP\Teams\ITeamResourceProvider;
 use OCP\Teams\Team;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
+
 
 class TeamManager implements ITeamManager {
 
@@ -29,6 +32,7 @@ class TeamManager implements ITeamManager {
 		private Coordinator $bootContext,
 		private IURLGenerator $urlGenerator,
 		private ?CirclesManager $circlesManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -50,8 +54,10 @@ class TeamManager implements ITeamManager {
 			try {
 				/** @var ITeamResourceProvider $provider */
 				$provider = Server::get($providerRegistration->getService());
+				$this->logger->info('Got team resource provider (id.name): ' . $provider->getId() . '.' .$provider->getName());
 				$this->providers[$provider->getId()] = $provider;
 			} catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
+				$this->logger->warning('Could not get team resource provider: ' . $e->getMessage());
 			}
 		}
 		return $this->providers;
@@ -78,7 +84,9 @@ class TeamManager implements ITeamManager {
 		$resources = [];
 
 		foreach ($this->getProviders() as $provider) {
-			array_push($resources, ...$provider->getSharedWith($teamId));
+			foreach ($provider->getSharedWith($teamId) as $resource) {
+				$resources[$resource->getId()] = $resource;
+			}
 		}
 
 		return array_values($resources);
