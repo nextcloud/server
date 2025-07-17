@@ -894,7 +894,7 @@ export default defineComponent({
 		}
 
 		.files-list__row-mtime {
-			width: calc(var(--row-height) * 2);
+			width: calc(var(--row-height) * 2.5);
 		}
 
 		.files-list__row-mime {
