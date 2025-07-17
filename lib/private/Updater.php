@@ -383,6 +383,13 @@ class Updater extends BasicEmitter {
 				if ($this->installer->isUpdateAvailable($app)) {
 					$this->emit('\OC\Updater', 'upgradeAppStoreApp', [$app]);
 					$this->installer->updateAppstoreApp($app);
+				} elseif (!empty($previousEnableStates)) {
+					/**
+					 * When updating a local app we still need to run updateApp
+					 * so that repair steps and migrations are correctly executed
+					 * Ref: https://github.com/nextcloud/server/issues/53985
+					 */
+					\OC_App::updateApp($app);
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 
