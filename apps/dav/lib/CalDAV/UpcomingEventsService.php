@@ -47,7 +47,7 @@ class UpcomingEventsService {
 			$this->userManager->get($userId),
 		);
 
-		return array_map(function (array $event) use ($userId, $calendarAppEnabled) {
+		return array_filter(array_map(function (array $event) use ($userId, $calendarAppEnabled) {
 			$calendarAppUrl = null;
 
 			if ($calendarAppEnabled) {
@@ -67,6 +67,10 @@ class UpcomingEventsService {
 				$calendarAppUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.view.indexdirect.edit', $arguments);
 			}
 
+			if (isset($event['objects'][0]['STATUS']) && $event['objects'][0]['STATUS'][0] === 'CANCELLED') {
+				return false;
+			}
+
 			return new UpcomingEvent(
 				$event['uri'],
 				($event['objects'][0]['RECURRENCE-ID'][0] ?? null)?->getTimeStamp(),
@@ -76,7 +80,7 @@ class UpcomingEventsService {
 				$event['objects'][0]['LOCATION'][0] ?? null,
 				$calendarAppUrl,
 			);
-		}, $events);
+		}, $events));
 	}
 
 }
