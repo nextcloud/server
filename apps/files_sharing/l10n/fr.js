@@ -334,7 +334,7 @@ OC.L10N.register(
     "Shared with others" : "Partagés avec d’autres",
     "Create file request" : "Créer une demande de fichier",
     "Upload files to {foldername}" : "Téléverser des fichiers vers {foldername}",
-    "Public file share" : "Partage de fichier public",
+    "Public file share" : "Partage public de fichiers",
     "Publicly shared file." : "Fichier partagé publiquement.",
     "No file" : "Aucun fichier",
     "The file shared with you will show up here" : "Le fichier partagé avec vous apparaitra ici",

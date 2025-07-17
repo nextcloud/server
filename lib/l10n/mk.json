@@ -229,6 +229,7 @@
     "Storage connection timeout. %s" : "Поврзувањето со складиштето не успеа. %s",
     "Images" : "Слики",
     "Question" : "Прашање",
+    "Confirmation" : "Потврда",
     "Text" : "Текст",
     "Summary" : "Резиме",
     "Translate" : "Преведи",

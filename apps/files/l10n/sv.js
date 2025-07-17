@@ -213,6 +213,7 @@ OC.L10N.register(
     "Warnings" : "Varningar",
     "Prevent warning dialogs from open or reenable them." : "Förhindra varningsdialoger från att öppnas eller aktivera dem igen.",
     "Show a warning dialog when changing a file extension." : "Visa en varningsdialog vid ändring av filändelse.",
+    "Show a warning dialog when deleting files." : "Visa en varningsdialog när filer tas bort.",
     "Keyboard shortcuts" : "Tangentbordsgenvägar",
     "Speed up your Files experience with these quick shortcuts." : "Snabba upp din upplevelse i Filer med dessa smarta genvägar.",
     "Open the actions menu for a file" : "Öppna åtgärdsmenyn för en fil",

@@ -213,6 +213,7 @@ OC.L10N.register(
     "Warnings" : "Застереження",
     "Prevent warning dialogs from open or reenable them." : "Не дозволяти показувати діялоги застережень або повторно увімкнути їх.",
     "Show a warning dialog when changing a file extension." : "Показувати діялог застереження у разі зміни розширення файлу.",
+    "Show a warning dialog when deleting files." : "Показувати застереження під час вилучення файлів.",
     "Keyboard shortcuts" : "Скорочення",
     "Speed up your Files experience with these quick shortcuts." : "Пришвідшіть взаємодію у застосунку \"Файли\" за скорочень",
     "Open the actions menu for a file" : "Відкрити меню дій для файлу",
