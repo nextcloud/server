@@ -781,8 +781,6 @@ class OC {
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue('installed', false)) {
 			$appManager->loadApp('settings');
-			/* Run core application registration */
-			$bootstrapCoordinator->runLazyRegistration('core');
 		}
 
 		//make sure temporary files are cleaned up
