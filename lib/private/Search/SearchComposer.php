@@ -18,6 +18,7 @@ use OCP\Search\FilterDefinition;
 use OCP\Search\IFilter;
 use OCP\Search\IFilteringProvider;
 use OCP\Search\IInAppSearch;
+use OCP\Search\IOnlineProvider;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
@@ -178,6 +179,7 @@ class SearchComposer {
 				if ($order === null) {
 					return;
 				}
+				$isOnlineResource = $provider instanceof IOnlineProvider ? $provider->getIsOnlineResource() : false;
 				$triggers = [$provider->getId()];
 				if ($provider instanceof IFilteringProvider) {
 					$triggers += $provider->getAlternateIds();
@@ -192,6 +194,7 @@ class SearchComposer {
 					'name' => $provider->getName(),
 					'icon' => $this->fetchIcon($appId, $provider->getId()),
 					'order' => $order,
+					'isOnlineResource' => $isOnlineResource,
 					'triggers' => array_values($triggers),
 					'filters' => $this->getFiltersType($filters, $provider->getId()),
 					'inAppSearch' => $provider instanceof IInAppSearch,

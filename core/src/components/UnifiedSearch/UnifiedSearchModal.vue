@@ -86,6 +86,12 @@
 						<IconFilter :size="20" />
 					</template>
 				</NcButton>
+				<NcCheckboxRadioSwitch v-model="searchOnlineResources"
+					type="switch"
+					class="unified-search-modal__search-online-resources"
+					:class="{'unified-search-modal__search-online-resources--aligned': !localSearch}">
+					{{ t('core', 'Search online resources') }}
+				</NcCheckboxRadioSwitch>
 			</div>
 			<div class="unified-search-modal__filters-applied">
 				<FilterChip v-for="filter in filters"
@@ -172,6 +178,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import FilterChip from './SearchFilterChip.vue'
@@ -198,6 +205,7 @@ export default defineComponent({
 		NcEmptyContent,
 		NcDialog,
 		NcInputField,
+		NcCheckboxRadioSwitch,
 		SearchableList,
 		SearchResult,
 	},
@@ -264,6 +272,7 @@ export default defineComponent({
 			showDateRangeModal: false,
 			internalIsVisible: this.open,
 			initialized: false,
+			searchOnlineResources: false,
 		}
 	},
 
@@ -337,6 +346,12 @@ export default defineComponent({
 			handler() {
 				this.$emit('update:query', this.searchQuery)
 			},
+		},
+
+		searchOnlineResources() {
+			if (this.searchQuery) {
+				this.find(this.searchQuery)
+			}
 		},
 	},
 
@@ -416,6 +431,14 @@ export default defineComponent({
 				if (this.providerResultLimit > 5) {
 					params.limit = this.providerResultLimit
 					unifiedSearchLogger.debug('Limiting search to', params.limit)
+				}
+
+				const shouldSkipSearch = !this.searchOnlineResources && provider.isOnlineResource
+				const wasManuallySelected = this.filteredProviders.some(filteredProvider => filteredProvider.id === provider.id)
+				// if the provider is an online resource and the user has not manually selected it, skip the search
+				if (shouldSkipSearch && !wasManuallySelected) {
+					this.searching = false
+					return
 				}
 
 				const request = unifiedSearch(params).request
@@ -747,6 +770,21 @@ export default defineComponent({
 		gap: 4px;
 		justify-content: start;
 		padding-top: 4px;
+	}
+
+	&__search-online-resources {
+		:deep(span.checkbox-content) {
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+
+		:deep(.checkbox-content__icon) {
+			margin: auto !important;
+		}
+
+		&--aligned {
+			margin-left: auto;
+		}
 	}
 
 	&__filters-applied {
