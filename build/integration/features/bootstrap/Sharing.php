@@ -337,6 +337,8 @@ trait Sharing {
 				return $this->isExpectedUrl((string)$data->$field, 'index.php/s/');
 			} elseif ($contentExpected == $data->$field) {
 				return true;
+			} else {
+				print($data->$field);
 			}
 			return false;
 		}

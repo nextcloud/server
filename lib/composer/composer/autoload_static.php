@@ -1265,6 +1265,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Contacts\\ContactsMenu\\Providers\\ProfileProvider' => __DIR__ . '/../../..' . '/lib/private/Contacts/ContactsMenu/Providers/ProfileProvider.php',
         'OC\\ContextChat\\ContentManager' => __DIR__ . '/../../..' . '/lib/private/ContextChat/ContentManager.php',
         'OC\\Core\\AppInfo\\Application' => __DIR__ . '/../../..' . '/core/AppInfo/Application.php',
+        'OC\\Core\\AppInfo\\ConfigLexicon' => __DIR__ . '/../../..' . '/core/AppInfo/ConfigLexicon.php',
         'OC\\Core\\BackgroundJobs\\BackgroundCleanupUpdaterBackupsJob' => __DIR__ . '/../../..' . '/core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php',
         'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CheckForUserCertificates.php',
         'OC\\Core\\BackgroundJobs\\CleanupLoginFlowV2' => __DIR__ . '/../../..' . '/core/BackgroundJobs/CleanupLoginFlowV2.php',

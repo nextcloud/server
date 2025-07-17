@@ -46,7 +46,13 @@ class Coordinator {
 	}
 
 	public function runInitialRegistration(): void {
-		$this->registerApps(OC_App::getEnabledApps());
+		$apps = OC_App::getEnabledApps();
+		if (!empty($apps)) {
+			// make sure to also register the core app
+			$apps = ['core', ...$apps];
+		}
+
+		$this->registerApps($apps);
 	}
 
 	public function runLazyRegistration(string $appId): void {
