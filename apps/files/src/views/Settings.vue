@@ -340,6 +340,16 @@ export default {
 		userConfig() {
 			return this.userConfigStore.userConfig
 		},
+
+		sortedSettings() {
+			// Sort settings by name
+			return [...this.settings].sort((a, b) => {
+				if (a.order && b.order) {
+					return a.order - b.order
+				}
+				return a.name.localeCompare(b.name)
+			})
+		},
 	},
 
 	created() {
