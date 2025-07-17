@@ -53,7 +53,8 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		}
 
 		// shows as busy if event is declared confidential
-		if ($this->objectData['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL) {
+		if ($this->objectData['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL
+			&& !$this->canWrite()) {
 			$this->createConfidentialObject($vObject);
 		}
 
