@@ -329,7 +329,13 @@ export default defineComponent({
 		query: {
 			immediate: true,
 			handler() {
-				this.searchQuery = this.query.trim()
+				this.searchQuery = this.query
+			},
+		},
+
+		searchQuery: {
+			handler() {
+				this.$emit('update:query', this.searchQuery)
 			},
 		},
 	},
