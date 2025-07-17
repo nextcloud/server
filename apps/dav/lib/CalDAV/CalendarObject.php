@@ -52,7 +52,8 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 		}
 
 		// shows as busy if event is declared confidential
-		if ($this->objectData['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL) {
+		if ($this->objectData['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL
+			&& ($this->isPublic() || !$this->canWrite())) {
 			$this->createConfidentialObject($vObject);
 		}
 
@@ -132,6 +133,10 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];
 		}
 		return true;
+	}
+
+	private function isPublic(): bool {
+		return $this->calendarInfo['{http://owncloud.org/ns}public'] ?? false;
 	}
 
 	public function getCalendarId(): int {
