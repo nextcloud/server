@@ -45,6 +45,7 @@ export const entry = {
 	enabled: (context: Folder) => (context.permissions & Permission.CREATE) !== 0,
 	iconSvgInline: FolderPlusSvg,
 	order: 0,
+
 	async handler(context: Folder, content: Node[]) {
 		const name = await newNodeName(t('files', 'New folder'), content)
 		if (name === null) {
