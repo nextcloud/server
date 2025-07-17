@@ -10,6 +10,7 @@ namespace OCA\User_LDAP;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
+use OCP\IAppConfig;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
@@ -30,6 +31,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		private UserPluginManager $userPluginManager,
 		private LoggerInterface $logger,
 		private DeletedUsersIndex $deletedUsersIndex,
+		protected IAppConfig $appConfig,
 	) {
 		parent::__construct($helper, $ldap, $accessFactory);
 	}
@@ -400,7 +402,10 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	}
 
 	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
-		return $this->handleRequest($uid, 'isUserEnabled', [$uid, $queryDatabaseValue]);
+		if ($this->treatRemnantsAsDisabled() && $this->deletedUsersIndex->isUserMarked($uid)) {
+			return false;
+		}
+		return $queryDatabaseValue();
 	}
 
 	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
@@ -408,7 +413,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	}
 
 	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
-		if ((int)$this->getAccess(array_key_first($this->backends) ?? '')->connection->markRemnantsAsDisabled !== 1) {
+		if (!$this->treatRemnantsAsDisabled()) {
 			return [];
 		}
 		$disabledUsers = $this->deletedUsersIndex->getUsers();
@@ -430,5 +435,9 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 				$limit
 			)
 		);
+	}
+
+	protected function treatRemnantsAsDisabled(): bool {
+		return $this->appConfig->getValueBool('user_ldap', 'markRemnantsAsDisabled', false);
 	}
 }

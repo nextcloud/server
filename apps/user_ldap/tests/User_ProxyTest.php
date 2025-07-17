@@ -13,6 +13,7 @@ use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\IAppConfig;
 use OCP\Notification\IManager as INotificationManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -27,6 +28,7 @@ class User_ProxyTest extends TestCase {
 	private UserPluginManager&MockObject $userPluginManager;
 	protected LoggerInterface&MockObject $logger;
 	protected DeletedUsersIndex&MockObject $deletedUsersIndex;
+	protected IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -38,6 +40,7 @@ class User_ProxyTest extends TestCase {
 		$this->userPluginManager = $this->createMock(UserPluginManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->deletedUsersIndex = $this->createMock(DeletedUsersIndex::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->proxy = $this->getMockBuilder(User_Proxy::class)
 			->setConstructorArgs([
 				$this->helper,
@@ -47,6 +50,7 @@ class User_ProxyTest extends TestCase {
 				$this->userPluginManager,
 				$this->logger,
 				$this->deletedUsersIndex,
+				$this->appConfig,
 			])
 			->onlyMethods(['handleRequest'])
 			->getMock();
