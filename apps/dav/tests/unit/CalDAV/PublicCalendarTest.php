@@ -51,9 +51,9 @@ class PublicCalendarTest extends CalendarTest {
 		$logger = $this->createMock(LoggerInterface::class);
 		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config, $logger);
 		$children = $c->getChildren();
-		$this->assertEquals(2, count($children));
+		$this->assertCount(2, $children);
 		$children = $c->getMultipleChildren(['event-0', 'event-1', 'event-2']);
-		$this->assertEquals(2, count($children));
+		$this->assertCount(2, $children);
 
 		$this->assertFalse($c->childExists('event-2'));
 	}
@@ -132,6 +132,7 @@ EOD;
 			'principaluri' => 'user2',
 			'id' => 666,
 			'uri' => 'cal',
+			'{http://owncloud.org/ns}public' => true,
 		];
 		/** @var MockObject | IConfig $config */
 		$config = $this->createMock(IConfig::class);
@@ -139,7 +140,7 @@ EOD;
 		$logger = $this->createMock(LoggerInterface::class);
 		$c = new PublicCalendar($backend, $calendarInfo, $this->l10n, $config, $logger);
 
-		$this->assertEquals(count($c->getChildren()), 2);
+		$this->assertCount(2, $c->getChildren());
 
 		// test private event
 		$privateEvent = $c->getChild('event-1');
