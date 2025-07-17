@@ -213,6 +213,7 @@ OC.L10N.register(
     "Warnings" : "警告",
     "Prevent warning dialogs from open or reenable them." : "避免開啟警告對話框或重新啟用它們。",
     "Show a warning dialog when changing a file extension." : "在變更副檔名時顯示警告對話框。",
+    "Show a warning dialog when deleting files." : "在刪除檔案時顯示警告對話框。",
     "Keyboard shortcuts" : "鍵盤快捷鍵",
     "Speed up your Files experience with these quick shortcuts." : "這些快速捷徑可加快您的 Files 體驗。",
     "Open the actions menu for a file" : "開啟檔案的操作選項單",

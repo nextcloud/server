@@ -211,6 +211,7 @@
     "Warnings" : "Warnings",
     "Prevent warning dialogs from open or reenable them." : "Prevent warning dialogues from opening or reenable them.",
     "Show a warning dialog when changing a file extension." : "Show a warning dialog when changing a file extension.",
+    "Show a warning dialog when deleting files." : "Show a warning dialog when deleting files.",
     "Keyboard shortcuts" : "Keyboard shortcuts",
     "Speed up your Files experience with these quick shortcuts." : "Speed up your Files experience with these quick shortcuts.",
     "Open the actions menu for a file" : "Open the actions menu for a file",
