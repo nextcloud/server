@@ -383,6 +383,7 @@
     "Write transcript that you want the assistant to generate speech from" : "Kirjuta üles see, mille alusel tahad Abilisel lasta koostada kõne",
     "Output speech" : "Kõneväljund",
     "The generated speech" : "Koostatud kõne",
+    "Describe a task that you want the assistant to do or ask a question" : "Kirjelda seda, mida soovid Abilisele ülesandeks teha või lihtsalt küsi midagi.",
     "Change Tone" : "Teksti tooni muutmine",
     "Change the tone of a piece of text." : "Muuda antud teksti tonaalsust.",
     "Write a text that you want the assistant to rewrite in another tone." : "Kirjuta üles see, mille tonaalsust tahad Abilisel lasta ümber kirjutada.",
