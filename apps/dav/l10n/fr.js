@@ -331,7 +331,7 @@ OC.L10N.register(
     "There was an error updating your attendance status." : "Une erreur s'est produite lors de la mise à jour de votre statut de présence.",
     "Please contact the organizer directly." : "Merci de contacter l'organisateur directement.",
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
-    "Tentative" : "Tentative",
+    "Tentative" : "Provisoire",
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
