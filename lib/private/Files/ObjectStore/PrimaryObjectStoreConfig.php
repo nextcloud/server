@@ -34,9 +34,13 @@ class PrimaryObjectStoreConfig {
 	 * @return ?ObjectStoreConfig
 	 */
 	public function getObjectStoreConfigForRoot(): ?array {
-		$config = $this->getObjectStoreConfig();
+		if (!$this->hasObjectStore()) {
+			return null;
+		}
 
-		if ($config && $config['arguments']['multibucket']) {
+		$config = $this->getObjectStoreConfiguration('root');
+
+		if ($config['arguments']['multibucket']) {
 			if (!isset($config['arguments']['bucket'])) {
 				$config['arguments']['bucket'] = '';
 			}
@@ -51,36 +55,98 @@ class PrimaryObjectStoreConfig {
 	 * @return ?ObjectStoreConfig
 	 */
 	public function getObjectStoreConfigForUser(IUser $user): ?array {
-		$config = $this->getObjectStoreConfig();
+		if (!$this->hasObjectStore()) {
+			return null;
+		}
 
-		if ($config && $config['arguments']['multibucket']) {
+		$store = $this->getObjectStoreForUser($user);
+		$config = $this->getObjectStoreConfiguration($store);
+
+		if ($config['arguments']['multibucket']) {
 			$config['arguments']['bucket'] = $this->getBucketForUser($user, $config);
 		}
 		return $config;
 	}
 
 	/**
-	 * @return ?ObjectStoreConfig
+	 * @param string $name
+	 * @return ObjectStoreConfig
 	 */
-	private function getObjectStoreConfig(): ?array {
+	public function getObjectStoreConfiguration(string $name): array {
+		$configs = $this->getObjectStoreConfigs();
+		$name = $this->resolveAlias($name);
+		if (!isset($configs[$name])) {
+			throw new \Exception("Object store configuration for '$name' not found");
+		}
+		if (is_string($configs[$name])) {
+			throw new \Exception("Object store configuration for '{$configs[$name]}' not found");
+		}
+		return $configs[$name];
+	}
+
+	public function resolveAlias(string $name): string {
+		$configs = $this->getObjectStoreConfigs();
+
+		while (isset($configs[$name]) && is_string($configs[$name])) {
+			$name = $configs[$name];
+		}
+		return $name;
+	}
+
+	public function hasObjectStore(): bool {
+		$objectStore = $this->config->getSystemValue('objectstore', null);
+		$objectStoreMultiBucket = $this->config->getSystemValue('objectstore_multibucket', null);
+		return $objectStore || $objectStoreMultiBucket;
+	}
+
+	public function hasMultipleObjectStorages(): bool {
+		$objectStore = $this->config->getSystemValue('objectstore', []);
+		return isset($objectStore['default']);
+	}
+
+	/**
+	 * @return ?array<string, ObjectStoreConfig|string>
+	 */
+	public function getObjectStoreConfigs(): ?array {
 		$objectStore = $this->config->getSystemValue('objectstore', null);
 		$objectStoreMultiBucket = $this->config->getSystemValue('objectstore_multibucket', null);
 
 		// new-style multibucket config uses the same 'objectstore' key but sets `'multibucket' => true`, transparently upgrade older style config
 		if ($objectStoreMultiBucket) {
 			$objectStoreMultiBucket['arguments']['multibucket'] = true;
-			return $this->validateObjectStoreConfig($objectStoreMultiBucket);
+			return [
+				'default' => 'server1',
+				'server1' => $this->validateObjectStoreConfig($objectStoreMultiBucket),
+				'root' => 'server1',
+			];
 		} elseif ($objectStore) {
-			return $this->validateObjectStoreConfig($objectStore);
+			if (!isset($objectStore['default'])) {
+				$objectStore = [
+					'default' => 'server1',
+					'server1' => $objectStore,
+				];
+			}
+			if (!isset($objectStore['root'])) {
+				$objectStore['root'] = 'server1';
+			}
+
+			if (!is_string($objectStore['default'])) {
+				throw new \Exception('The \'default\' object storage configuration is required to be a reference to another configuration.');
+			}
+			return array_map($this->validateObjectStoreConfig(...), $objectStore);
 		} else {
 			return null;
 		}
 	}
 
 	/**
-	 * @return ObjectStoreConfig
+	 * @param string|array $config
+	 * @return string|ObjectStoreConfig
 	 */
-	private function validateObjectStoreConfig(array $config) {
+	private function validateObjectStoreConfig($config) {
+		if (is_string($config)) {
+			return $config;
+		}
 		if (!isset($config['class'])) {
 			throw new \Exception('No class configured for object store');
 		}
@@ -117,8 +183,8 @@ class PrimaryObjectStoreConfig {
 		];
 	}
 
-	private function getBucketForUser(IUser $user, array $config): string {
-		$bucket = $this->config->getUserValue($user->getUID(), 'homeobjectstore', 'bucket', null);
+	public function getBucketForUser(IUser $user, array $config): string {
+		$bucket = $this->getSetBucketForUser($user);
 
 		if ($bucket === null) {
 			/*
@@ -136,5 +202,22 @@ class PrimaryObjectStoreConfig {
 		}
 
 		return $bucket;
+	}
+
+	public function getSetBucketForUser(IUser $user): ?string {
+		return $this->config->getUserValue($user->getUID(), 'homeobjectstore', 'bucket', null);
+	}
+
+	public function getObjectStoreForUser(IUser $user): string {
+		if ($this->hasMultipleObjectStorages()) {
+			$value = $this->config->getUserValue($user->getUID(), 'homeobjectstore', 'objectstore', null);
+			if ($value === null) {
+				$value = $this->resolveAlias('default');
+				$this->config->setUserValue($user->getUID(), 'homeobjectstore', 'objectstore', $value);
+			}
+			return $value;
+		} else {
+			return 'default';
+		}
 	}
 }
