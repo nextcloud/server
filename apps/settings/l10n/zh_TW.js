@@ -370,6 +370,8 @@ OC.L10N.register(
     "Users will still be able to screenshot or record the screen. This does not provide any definitive protection." : "使用者仍可截圖或錄製畫面。這並不能提供任何確切的保護。",
     "Allow users to share via link and emails" : "允許使用者透過連結與電子郵件分享",
     "Allow public uploads" : "允許公開上傳",
+    "Allow public shares to be added to other clouds by federation." : "允許透過聯邦方式將公開分享新增至其他雲端。",
+    "This will add share permissions to all newly created link shares." : "這將會為所有新建立的連結分享新增分享權限。",
     "Always ask for a password" : "總是詢問密碼",
     "Enforce password protection" : "強制密碼保護",
     "Exclude groups from password requirements" : "排除特定群組的密碼要求",

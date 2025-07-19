@@ -142,6 +142,7 @@ OC.L10N.register(
     "Create new folder" : "Loo uus kaust",
     "This name is already in use." : "See nimi on juba kasutusel.",
     "Create" : "Loo",
+    "Files starting with a dot are hidden by default" : "Punktiga algavad failinimed vaikimisi muudavad faili peidetuks",
     "Fill template fields" : "Täida malli väljad",
     "Submitting fields …" : "Saadan välju…",
     "Submit" : "Saada",

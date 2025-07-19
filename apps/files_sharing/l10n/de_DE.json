@@ -396,7 +396,7 @@
     "Password created successfully" : "Passwort erstellt",
     "Error generating password from password policy" : "Fehler beim Erzeugen des Passworts aufgrund der Passwortrichtlinie",
     "Shared with you and the group {group} by {owner}" : "{owner} hat dies mit Ihnen und der Gruppe {group} geteilt",
-    "Shared with you and {circle} by {owner}" : "{owner} hat dies mit Dir und dem Kreis {circle} geteilt",
+    "Shared with you and {circle} by {owner}" : "{owner} hat dies mit Ihnen und dem Kreis {circle} geteilt",
     "Shared with you and the conversation {conversation} by {owner}" : "{owner} hat diese mit Ihnen und der Unterhaltung {conversation} geteilt",
     "Shared with you in a conversation by {owner}" : "{owner} hat diese mit Ihnen in einer Unterhaltung geteilt",
     "Share note" : "Notiz teilen",

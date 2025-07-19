@@ -235,6 +235,8 @@
     "Users will still be able to screenshot or record the screen. This does not provide any definitive protection." : "See ei taga lõplikku kaitset - kasutajatel on ikkagi võimalus teha ekraanitõmmiseid või -salvestusi.",
     "Allow users to share via link and emails" : "Luba kasutajatel lingiga ja e-postiga jagamist",
     "Allow public uploads" : "Luba avalikud üleslaadimised",
+    "Allow public shares to be added to other clouds by federation." : "Luba avalikku jaosmeediat lisada serveritesse liitpilves.",
+    "This will add share permissions to all newly created link shares." : "Sellega lisatakse vastavad õigused kõigile uutele loodavatale lingiga jagamistele.",
     "Always ask for a password" : "Alati küsi salasõna",
     "Enforce password protection" : "Jõusta salasõnakaitse",
     "Exclude groups from password requirements" : "Välista grupid salasõnareeglitest",
