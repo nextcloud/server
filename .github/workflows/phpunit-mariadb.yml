@@ -60,13 +60,13 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ['8.1']
-        mariadb-versions: ['10.3', '10.6', '10.11', '11.4']
+        mariadb-versions: ['10.3', '10.6', '10.11', '11.4', '11.8']
         include:
           - php-versions: '8.3'
             mariadb-versions: '10.11'
             coverage: ${{ github.event_name != 'pull_request' }}
           - php-versions: '8.4'
-            mariadb-versions: '11.4'
+            mariadb-versions: '11.8'
 
     name: MariaDB ${{ matrix.mariadb-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
