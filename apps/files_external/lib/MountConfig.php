@@ -76,7 +76,7 @@ class MountConfig {
 	 * @return int see self::STATUS_*
 	 * @throws \Exception
 	 */
-	public static function getBackendStatus($class, $options, $isPersonal, $testOnly = true) {
+	public static function getBackendStatus($class, $options) {
 		if (self::$skipTest) {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
@@ -93,7 +93,7 @@ class MountConfig {
 				$storage = new $class($options);
 
 				try {
-					$result = $storage->test($isPersonal, $testOnly);
+					$result = $storage->test();
 					$storage->setAvailability($result);
 					if ($result) {
 						return StorageNotAvailableException::STATUS_SUCCESS;

@@ -688,15 +688,9 @@
     </MoreSpecificReturnType>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/FilesReportPlugin.php">
-    <InvalidArgument>
-      <code><![CDATA[0]]></code>
-    </InvalidArgument>
     <InvalidNullableReturnType>
       <code><![CDATA[bool]]></code>
     </InvalidNullableReturnType>
-    <TooManyArguments>
-      <code><![CDATA[new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)]]></code>
-    </TooManyArguments>
     <UndefinedClass>
       <code><![CDATA[Circles]]></code>
     </UndefinedClass>
@@ -753,9 +747,6 @@
       <code><![CDATA[getL10NFactory]]></code>
       <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
-    <TooManyArguments>
-      <code><![CDATA[new QuotaPlugin($view, true)]]></code>
-    </TooManyArguments>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ShareTypeList.php">
     <InvalidArgument>
@@ -1177,11 +1168,6 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/encryption/lib/Session.php">
-    <TooManyArguments>
-      <code><![CDATA[new PrivateKeyMissingException('please try to log-out and log-in again', 0)]]></code>
-    </TooManyArguments>
-  </file>
   <file src="apps/encryption/lib/Settings/Admin.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -1511,9 +1497,6 @@
       <code><![CDATA[setIV]]></code>
       <code><![CDATA[setKey]]></code>
     </InternalMethod>
-    <TooManyArguments>
-      <code><![CDATA[test]]></code>
-    </TooManyArguments>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
     <DeprecatedClass>
@@ -2901,9 +2884,6 @@
     <FalsableReturnStatement>
       <code><![CDATA[$this->appConfig->getValues($app, false)]]></code>
     </FalsableReturnStatement>
-    <TooManyArguments>
-      <code><![CDATA[getFilteredValues]]></code>
-    </TooManyArguments>
   </file>
   <file src="core/Command/Db/AddMissingPrimaryKeys.php">
     <DeprecatedMethod>
@@ -3313,11 +3293,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$key]]></code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/private/App/AppStore/Fetcher/Fetcher.php">
-    <TooManyArguments>
-      <code><![CDATA[fetch]]></code>
-    </TooManyArguments>
   </file>
   <file src="lib/private/App/DependencyAnalyzer.php">
     <InvalidNullableReturnType>
@@ -3775,9 +3750,6 @@
       <code><![CDATA[Mount\MountPoint[]]]></code>
       <code><![CDATA[\OC\Files\Storage\Storage|null]]></code>
     </MoreSpecificReturnType>
-    <TooManyArguments>
-      <code><![CDATA[addStorageWrapper]]></code>
-    </TooManyArguments>
   </file>
   <file src="lib/private/Files/Mount/MountPoint.php">
     <UndefinedInterfaceMethod>
@@ -4071,11 +4043,6 @@
       <code><![CDATA[getIncomplete]]></code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
-    <TooManyArguments>
-      <code><![CDATA[new IteratorDirectory([])]]></code>
-    </TooManyArguments>
-  </file>
   <file src="lib/private/Lockdown/LockdownManager.php">
     <InvalidFunctionCall>
       <code><![CDATA[$callback()]]></code>
@@ -4283,9 +4250,6 @@
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
-    <TooManyArguments>
-      <code><![CDATA[set]]></code>
-    </TooManyArguments>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getParent]]></code>
     </UndefinedInterfaceMethod>
@@ -4294,9 +4258,6 @@
     <InvalidArgument>
       <code><![CDATA[$id]]></code>
     </InvalidArgument>
-    <TooManyArguments>
-      <code><![CDATA[update]]></code>
-    </TooManyArguments>
     <UndefinedClass>
       <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>
