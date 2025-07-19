@@ -31,18 +31,6 @@ class FakeManager implements ICommentsManager {
 	) {
 	}
 
-	public function getForObjectSince(
-		string $objectType,
-		string $objectId,
-		int $lastKnownCommentId,
-		string $sortDirection = 'asc',
-		int $limit = 30,
-		bool $includeLastKnown = false,
-		string $topmostParentId = '',
-	): array {
-		return [];
-	}
-
 	public function getCommentsWithVerbForObjectSinceComment(
 		string $objectType,
 		string $objectId,
@@ -115,9 +103,6 @@ class FakeManager implements ICommentsManager {
 	public function resolveDisplayName($type, $id) {
 	}
 
-	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
-	}
-
 	public function getNumberOfUnreadCommentsForObjects(string $objectType, array $objectIds, IUser $user, $verb = ''): array {
 		return [];
 	}
@@ -131,10 +116,6 @@ class FakeManager implements ICommentsManager {
 
 	public function searchForObjects(string $search, string $objectType, array $objectIds, string $verb, int $offset, int $limit = 50): array {
 		return [];
-	}
-
-	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int {
-		return 0;
 	}
 
 	public function getNumberOfCommentsWithVerbsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, array $verbs): int {

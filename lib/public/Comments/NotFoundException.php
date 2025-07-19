@@ -7,9 +7,13 @@
  */
 namespace OCP\Comments;
 
+use OCP\AppFramework\Attribute\Catchable;
+
 /**
  * Exception for not found entity
+ *
  * @since 9.0.0
  */
+#[Catchable('9.0.0')]
 class NotFoundException extends \Exception {
 }
