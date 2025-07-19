@@ -87,8 +87,9 @@ class PlaceholderAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 
-			if (!$data = $this->generateAvatarFromSvg($size, $darkTheme)) {
-				$data = $this->generateAvatar($this->getDisplayName(), $size, $darkTheme);
+			$userDisplayName = $this->getDisplayName();
+			if (!$data = $this->generateAvatarFromSvg($userDisplayName, $size, $darkTheme)) {
+				$data = $this->generateAvatar($userDisplayName, $size, $darkTheme);
 			}
 
 			try {
