@@ -65,11 +65,25 @@ interface IAppConfig {
 	 * **WARNING:** ignore lazy filtering, all config values are loaded from database
 	 *
 	 * @param string $app id of the app
-	 *
 	 * @return list<string> list of stored config keys
+	 * @see searchKeys to avoid loading lazy config keys
+	 *
 	 * @since 29.0.0
 	 */
 	public function getKeys(string $app): array;
+
+	/**
+	 * Returns list of keys stored in database, related to an app.
+	 * Please note that the values are not returned.
+	 *
+	 * @param string $app id of the app
+	 * @param string $prefix returns only keys starting with this value
+	 * @param bool $lazy TRUE to search in lazy config keys
+	 *
+	 * @return list<string> list of stored config keys
+	 * @since 32.0.0
+	 */
+	public function searchKeys(string $app, string $prefix = '', bool $lazy = false): array;
 
 	/**
 	 * Check if a key exists in the list of stored config values.

@@ -47,6 +47,13 @@ class AppConfigTest extends TestCase {
 				'deletethis' => ['deletethis', 'deletethis'],
 				'key' => ['key', 'value']
 			],
+			'searchtest' => [
+				'search_key1' => ['search_key1', 'key1', IAppConfig::VALUE_STRING],
+				'search_key2' => ['search_key2', 'key2', IAppConfig::VALUE_STRING],
+				'search_key3' => ['search_key3', 'key3', IAppConfig::VALUE_STRING],
+				'searchnot_key4' => ['searchnot_key4', 'key4', IAppConfig::VALUE_STRING],
+				'search_key5_lazy' => ['search_key5_lazy', 'key5', IAppConfig::VALUE_STRING, true],
+			],
 			'someapp' => [
 				'key' => ['key', 'value'],
 				'otherkey' => ['otherkey', 'othervalue']
@@ -1452,6 +1459,23 @@ class AppConfigTest extends TestCase {
 		// Migrate to sensitive / encrypted
 		$appConfig->updateSensitive('testapp', $key, true);
 		$this->assertConfigValueNotEquals('testapp', $key, $secret);
+	}
+
+	public function testSearchKeyNoLazyLoading(): void {
+		$appConfig = $this->generateAppConfig();
+		$appConfig->searchKeys('searchtest', 'search_');
+		$status = $appConfig->statusCache();
+		$this->assertFalse($status['lazyLoaded'], 'searchKeys() loaded lazy config');
+	}
+
+	public function testSearchKeyFast(): void {
+		$appConfig = $this->generateAppConfig();
+		$this->assertEquals(['search_key1', 'search_key2', 'search_key3'], $appConfig->searchKeys('searchtest', 'search_'));
+	}
+
+	public function testSearchKeyLazy(): void {
+		$appConfig = $this->generateAppConfig();
+		$this->assertEquals(['search_key5_lazy'], $appConfig->searchKeys('searchtest', 'search_', true));
 	}
 
 	protected function loadConfigValueFromDatabase(string $app, string $key): string|false {
