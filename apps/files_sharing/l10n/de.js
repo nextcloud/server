@@ -341,7 +341,7 @@ OC.L10N.register(
     "Public share" : "Öffentliche Freigabe",
     "Publicly shared files." : "Öffentlich geteilte Dateien.",
     "No files" : "Keine Dateien",
-    "Files and folders shared with you will show up here" : "Mit dir geteilte Dateien und Ordner werden hier angezeigt",
+    "Files and folders shared with you will show up here" : "Freigegebene Dateien und Ordner werden hier angezeigt werden",
     "Overview of shared files." : "Übersicht geteilter Dateien.",
     "No shares" : "Keine Freigaben",
     "Files and folders you shared or have been shared with you will show up here" : "Von dir oder mit dir geteilte Ordner und Dateien werden hier angezeigt",

@@ -142,6 +142,7 @@ OC.L10N.register(
     "Create new folder" : "新增資料夾",
     "This name is already in use." : "此名稱已使用。",
     "Create" : "建立",
+    "Files starting with a dot are hidden by default" : "檔案名稱以點開頭的檔案預設隱藏",
     "Fill template fields" : "檔案範本欄位",
     "Submitting fields …" : "正在遞交欄位……",
     "Submit" : "遞交",
