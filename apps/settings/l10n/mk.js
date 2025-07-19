@@ -366,6 +366,7 @@ OC.L10N.register(
     "Show language" : "Прикажи јазик",
     "Show storage path" : "Прикажи патека на складиште",
     "Show last login" : "Прикажи последно најавување",
+    "Sorting" : "Сортирање",
     "Send email" : "Испрати пошта",
     "Defaults" : "Стандарди",
     "Default quota" : "Стандардна квота",

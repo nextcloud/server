@@ -370,6 +370,8 @@ OC.L10N.register(
     "Users will still be able to screenshot or record the screen. This does not provide any definitive protection." : "Benutzer können weiterhin Screenshots erstellen oder den Bildschirm aufzeichnen. Dies bietet jedoch keinen endgültigen Schutz.",
     "Allow users to share via link and emails" : "Konten erlauben, Inhalte über Links und E-Mails zu teilen.",
     "Allow public uploads" : "Öffentliches Hochladen erlauben",
+    "Allow public shares to be added to other clouds by federation." : "Ermöglicht das Hinzufügen von öffentlichen Freigaben zu anderen Clouds durch Federation.",
+    "This will add share permissions to all newly created link shares." : "Hierdurch werden Freigabeberechtigungen für allen neu erstellten Linkfreigaben hinzugefügt.",
     "Always ask for a password" : "Immer nach einem Passwort fragen",
     "Enforce password protection" : "Passwortschutz erzwingen",
     "Exclude groups from password requirements" : "Gruppen von Passwortanforderungen ausschließen",

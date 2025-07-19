@@ -142,6 +142,7 @@ OC.L10N.register(
     "Create new folder" : "Neuen Ordner erstellen",
     "This name is already in use." : "Dieser Name wird bereits verwendet.",
     "Create" : "Erstellen",
+    "Files starting with a dot are hidden by default" : "Dateien, die mit einem Punkt beginnen, sind standardmäßig ausgeblendet",
     "Fill template fields" : "Vorlagenfelder ausfüllen",
     "Submitting fields …" : "Felder werden übermittelt …",
     "Submit" : "Übermitteln",
