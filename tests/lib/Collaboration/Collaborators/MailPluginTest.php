@@ -25,8 +25,11 @@ use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\Share\IShare;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 class MailPluginTest extends TestCase {
+	use EmailValidatorTrait;
+
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
@@ -82,7 +85,7 @@ class MailPluginTest extends TestCase {
 			$this->groupManager,
 			$this->knownUserService,
 			$this->userSession,
-			$this->mailer
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}
 
