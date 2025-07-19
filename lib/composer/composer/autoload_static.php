@@ -408,6 +408,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Federation\\ICloudFederationShare' => __DIR__ . '/../../..' . '/lib/public/Federation/ICloudFederationShare.php',
         'OCP\\Federation\\ICloudId' => __DIR__ . '/../../..' . '/lib/public/Federation/ICloudId.php',
         'OCP\\Federation\\ICloudIdManager' => __DIR__ . '/../../..' . '/lib/public/Federation/ICloudIdManager.php',
+        'OCP\\Federation\\ICloudIdResolver' => __DIR__ . '/../../..' . '/lib/public/Federation/ICloudIdResolver.php',
         'OCP\\Files' => __DIR__ . '/../../..' . '/lib/public/Files.php',
         'OCP\\FilesMetadata\\AMetadataEvent' => __DIR__ . '/../../..' . '/lib/public/FilesMetadata/AMetadataEvent.php',
         'OCP\\FilesMetadata\\Event\\MetadataBackgroundEvent' => __DIR__ . '/../../..' . '/lib/public/FilesMetadata/Event/MetadataBackgroundEvent.php',
