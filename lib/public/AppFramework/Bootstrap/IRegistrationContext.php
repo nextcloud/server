@@ -443,7 +443,7 @@ interface IRegistrationContext {
 	 *
 	 * @param string $configLexiconClass
 	 *
-	 * @psalm-param class-string<\NCU\Config\Lexicon\IConfigLexicon> $configLexiconClass
+	 * @psalm-param class-string<\OCP\Config\Lexicon\ILexicon> $configLexiconClass
 	 * @since 31.0.0
 	 */
 	public function registerConfigLexicon(string $configLexiconClass): void;
