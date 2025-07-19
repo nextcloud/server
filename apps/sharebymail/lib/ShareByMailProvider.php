@@ -638,30 +638,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	}
 
 	/**
-	 * Get all children of this share
-	 *
-	 * @return IShare[]
-	 */
-	public function getChildren(IShare $parent): array {
-		$children = [];
-
-		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('*')
-			->from('share')
-			->where($qb->expr()->eq('parent', $qb->createNamedParameter($parent->getId())))
-			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
-			->orderBy('id');
-
-		$cursor = $qb->executeQuery();
-		while ($data = $cursor->fetch()) {
-			$children[] = $this->createShareObject($data);
-		}
-		$cursor->closeCursor();
-
-		return $children;
-	}
-
-	/**
 	 * Add share to the database and return the ID
 	 */
 	protected function addShareToDB(
