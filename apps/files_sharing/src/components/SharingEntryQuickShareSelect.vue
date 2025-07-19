@@ -164,7 +164,6 @@ export default {
 				this.$emit('open-sharing-details')
 			} else {
 				this.share.permissions = this.dropDownPermissionValue
-				this.queueUpdate('permissions')
 				// TODO: Add a focus method to NcActions or configurable returnFocus enabling to NcActionButton with closeAfterClick
 				this.$refs.quickShareActions.$refs.menuButton.$el.focus()
 			}
