@@ -8,13 +8,17 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use Exception;
 use Generator;
+use InvalidArgumentException;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\CalendarExportOptions;
+use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendarExport;
 use OCP\Calendar\ICalendarIsEnabled;
+use OCP\Calendar\ICalendarImport;
 use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
@@ -26,8 +30,11 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
+use Sabre\VObject\Node;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
+use Sabre\VObject\UUIDUtil;
+
 use function Sabre\Uri\split as uriSplit;
 
 class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIsWritable, ICalendarIsShared, ICalendarExport, ICalendarIsEnabled {
@@ -52,6 +59,14 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	 */
 	public function getUri(): string {
 		return $this->calendarInfo['uri'];
+	}
+
+	/**
+	 * @return string the principal URI of the calendar owner
+	 * @since 32.0.0
+	 */
+	public function getPrincipalUri(): string {
+		return $this->calendarInfo['principaluri'];
 	}
 
 	/**
