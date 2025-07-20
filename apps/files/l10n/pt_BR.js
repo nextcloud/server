@@ -142,6 +142,7 @@ OC.L10N.register(
     "Create new folder" : "Criar nova pasta",
     "This name is already in use." : "Este nome já está em uso.",
     "Create" : "Criar",
+    "Files starting with a dot are hidden by default" : "Os arquivos que começam com um ponto são ocultos por padrão",
     "Fill template fields" : "Preencher campos do template",
     "Submitting fields …" : "Enviando os campos …",
     "Submit" : "Enviar",

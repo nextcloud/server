@@ -142,6 +142,7 @@ OC.L10N.register(
     "Create new folder" : "Створити новий каталог",
     "This name is already in use." : "Це ім'я вже використовується",
     "Create" : "Створити",
+    "Files starting with a dot are hidden by default" : "Файли, що починаються з крапки, типово приховано",
     "Fill template fields" : "Заповнити поля шаблону",
     "Submitting fields …" : "Надсилання полів ...",
     "Submit" : "Відправити",
