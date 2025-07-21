@@ -186,11 +186,14 @@ class AddMissingIndicesListener implements IEventListener {
 			'mounts_class_index',
 			['mount_provider_class']
 		);
-		$event->addMissingIndex(
+
+		$event->replaceIndex(
 			'mounts',
-			'mounts_user_root_path_index',
+			['mounts_user_root_path_index'],
+			'mounts_user_root_path_unique_i',
 			['user_id', 'root_id', 'mount_point'],
-			['lengths' => [null, null, 128]]
+			true,
+			['lengths' => [null, null, 128]],
 		);
 
 		$event->addMissingIndex(
