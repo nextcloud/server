@@ -1,37 +1,35 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\unit\CalDAV\Export;
+namespace OCA\DAV\Tests\unit\CalDAV\Import;
 
+use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\Calendar\CalendarImportOptions;
-use OCP\Calendar\ICalendarImport;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 
 class ImportServiceTest extends \Test\TestCase {
 
 	private ImportService $service;
-	private ICalendarImport|MockObject $calendar;
-	private array $mockImportCollection = [];
+	private CalendarImpl|MockObject $calendar;
+	private CalDavBackend|MockObject $backend;
+	private array $importResults = [];
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->service = new ImportService();
-		$this->calendar = $this->createMock(ICalendarImport::class);
+		$this->backend = $this->createMock(CalDavBackend::class);
+		$this->service = new ImportService($this->backend);
+		$this->calendar = $this->createMock(CalendarImpl::class);
 
 	}
 
-	public function mockCollector(CalendarImportOptions $options, callable $generator): array {
-		foreach ($generator($options) as $entry) {
-			$this->mockImportCollection[] = $entry;
-		}
-		return [];
-	}
-	
 	public function testImport(): void {
 		// Arrange
 		// construct calendar with a 1 hour event and same start/end time zones
@@ -56,17 +54,38 @@ class ImportServiceTest extends \Test\TestCase {
 		rewind($stream);
 		// construct import options
 		$options = new CalendarImportOptions();
+		$options->setFormat('ical');
+
+		// Mock calendar methods
 		$this->calendar->expects($this->once())
-			->method('import')
-			->willReturnCallback($this->mockCollector(...));
-		
+			->method('getKey')
+			->willReturn('calendar-id-123');
+		$this->calendar->expects($this->once())
+			->method('getPrincipalUri')
+			->willReturn('principals/users/test-user');
+
+		// Mock backend methods
+		$this->backend->expects($this->once())
+			->method('getCalendarObjectByUID')
+			->with('principals/users/test-user', '96a0e6b1-d886-4a55-a60d-152b31401dcc')
+			->willReturn(null); // Object doesn't exist, so it will be created
+
+		$this->backend->expects($this->once())
+			->method('createCalendarObject')
+			->with(
+				'calendar-id-123',
+				$this->isType('string'), // Object ID (UUID)
+				$this->isType('string')  // Object data
+			);
+
 		// Act
-		$this->service->import($stream, $this->calendar, $options);
+		$result = $this->service->import($stream, $this->calendar, $options);
 
 		// Assert
-		$this->assertCount(1, $this->mockImportCollection, 'Imported items count is invalid');
-		$this->assertTrue(isset($this->mockImportCollection[0]->VEVENT), 'Imported item missing VEVENT');
-		$this->assertCount(1, $this->mockImportCollection[0]->VEVENT, 'Imported items count is invalid');
+		$this->assertIsArray($result);
+		$this->assertCount(1, $result, 'Import result should contain one item');
+		$this->assertArrayHasKey('96a0e6b1-d886-4a55-a60d-152b31401dcc', $result);
+		$this->assertEquals('created', $result['96a0e6b1-d886-4a55-a60d-152b31401dcc']['outcome']);
 	}
 
 	public function testImportWithMultiLineUID(): void {
@@ -93,16 +112,39 @@ class ImportServiceTest extends \Test\TestCase {
 		rewind($stream);
 		// construct import options
 		$options = new CalendarImportOptions();
+		$options->setFormat('ical');
+
+		$longUID = '040000008200E00074C5B7101A82E00800000000000000000000000000000000000000004D0000004D14C68E6D285940B19A7D3D1DC1F8D23230323130363137743133333234387A2D383733323234373636303740666538303A303A303A303A33643A623066663A666533643A65383830656E7335';
+
+		// Mock calendar methods
 		$this->calendar->expects($this->once())
-			->method('import')
-			->willReturnCallback($this->mockCollector(...));
-			
+			->method('getKey')
+			->willReturn('calendar-id-123');
+		$this->calendar->expects($this->once())
+			->method('getPrincipalUri')
+			->willReturn('principals/users/test-user');
+
+		// Mock backend methods
+		$this->backend->expects($this->once())
+			->method('getCalendarObjectByUID')
+			->with('principals/users/test-user', $longUID)
+			->willReturn(null); // Object doesn't exist, so it will be created
+
+		$this->backend->expects($this->once())
+			->method('createCalendarObject')
+			->with(
+				'calendar-id-123',
+				$this->isType('string'), // Object ID (UUID)
+				$this->isType('string')  // Object data
+			);
+
 		// Act
-		$this->service->import($stream, $this->calendar, $options);
+		$result = $this->service->import($stream, $this->calendar, $options);
 
 		// Assert
-		$this->assertCount(1, $this->mockImportCollection, 'Imported items count is invalid');
-		$this->assertTrue(isset($this->mockImportCollection[0]->VEVENT), 'Imported item missing VEVENT');
-		$this->assertCount(1, $this->mockImportCollection[0]->VEVENT, 'Imported items count is invalid');
+		$this->assertIsArray($result);
+		$this->assertCount(1, $result, 'Import result should contain one item');
+		$this->assertArrayHasKey($longUID, $result);
+		$this->assertEquals('created', $result[$longUID]['outcome']);
 	}
 }

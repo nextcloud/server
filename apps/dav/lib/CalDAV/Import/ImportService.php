@@ -22,7 +22,7 @@ use Sabre\VObject\UUIDUtil;
  * Calendar Import Service
  */
 class ImportService {
-	
+
 	public const FORMATS = ['ical', 'jcal', 'xcal'];
 
 	private $source;
@@ -45,7 +45,7 @@ class ImportService {
 		if (!is_resource($source)) {
 			throw new InvalidArgumentException('Invalid import source must be a file resource');
 		}
-			
+
 		$this->source = $source;
 
 		switch ($options->getFormat()) {
@@ -209,7 +209,7 @@ class ImportService {
 		return array_keys($timezones);
 	}
 
-		/**
+	/**
 	 * Import objects
 	 *
 	 * @since 32.0.0

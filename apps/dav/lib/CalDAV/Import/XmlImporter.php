@@ -26,7 +26,7 @@ class XmlImporter {
 	protected ?string $componentId = null;
 	protected ?string $componentType = null;
 	protected bool $componentIdProperty = false;
-	
+
 	public function __construct(
 		protected $source,
 	) {
@@ -61,8 +61,8 @@ class XmlImporter {
 				if (!xml_parse($parser, $chunk, feof($this->source))) {
 					throw new Exception(
 						xml_error_string(xml_get_error_code($parser))
-						. ' At line: ' .
-						xml_get_current_line_number($parser)
+						. ' At line: '
+						. xml_get_current_line_number($parser)
 					);
 				}
 			}
@@ -70,8 +70,8 @@ class XmlImporter {
 			if (!xml_parse($parser, $this->source, true)) {
 				throw new Exception(
 					xml_error_string(xml_get_error_code($parser))
-					. ' At line: ' .
-					xml_get_current_line_number($parser)
+					. ' At line: '
+					. xml_get_current_line_number($parser)
 				);
 			}
 		}
@@ -93,9 +93,9 @@ class XmlImporter {
 			$this->componentLevel = $this->praseLevel;
 		}
 		// determine if the tag is a sub tag of the component and an id property
-		if ($this->componentStart !== null &&
-			($this->componentLevel + 2) === $this->praseLevel &&
-			($tag === 'UID' || $tag === 'TZID')
+		if ($this->componentStart !== null
+			&& ($this->componentLevel + 2) === $this->praseLevel
+			&& ($tag === 'UID' || $tag === 'TZID')
 		) {
 			$this->componentIdProperty = true;
 		}
