@@ -95,8 +95,9 @@ class AppConfig implements IAppConfig {
 	 * @inheritDoc
 	 *
 	 * @param string $app id of the app
-	 *
 	 * @return list<string> list of stored config keys
+	 * @see searchKeys to not load lazy config keys
+	 *
 	 * @since 29.0.0
 	 */
 	public function getKeys(string $app): array {
@@ -105,6 +106,32 @@ class AppConfig implements IAppConfig {
 		$keys = array_merge(array_keys($this->fastCache[$app] ?? []), array_keys($this->lazyCache[$app] ?? []));
 		sort($keys);
 
+		return array_values(array_unique($keys));
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string $app id of the app
+	 * @param string $prefix returns only keys starting with this value
+	 * @param bool $lazy TRUE to search in lazy config keys
+	 * @return list<string> list of stored config keys
+	 * @since 32.0.0
+	 */
+	public function searchKeys(string $app, string $prefix = '', bool $lazy = false): array {
+		$this->assertParams($app);
+		$this->loadConfig($app, $lazy);
+		if ($lazy) {
+			$keys = array_keys($this->lazyCache[$app] ?? []);
+		} else {
+			$keys = array_keys($this->fastCache[$app] ?? []);
+		}
+
+		if ($prefix !== '') {
+			$keys = array_filter($keys, static fn (string $key): bool => str_starts_with($key, $prefix));
+		}
+
+		sort($keys);
 		return array_values(array_unique($keys));
 	}
 
