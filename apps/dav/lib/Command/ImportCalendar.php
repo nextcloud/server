@@ -11,7 +11,6 @@ use InvalidArgumentException;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\Import\ImportService;
 use OCP\Calendar\CalendarImportOptions;
-use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\IManager;
 use OCP\ITempManager;
 use OCP\IUserManager;
