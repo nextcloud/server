@@ -3,7 +3,9 @@ OC.L10N.register(
     {
     "Cancel" : "Cancelar",
     "Image saved" : "Imagen guardada",
+    "LIVE" : "EN VIVO",
     "Edit" : "Editar",
+    "Open sidebar" : "Abrir barra lateral",
     "Download" : "Descargar",
     "Delete" : "Borrar",
     "Name" : "Nombre",
