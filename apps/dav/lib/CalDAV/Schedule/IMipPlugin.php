@@ -263,7 +263,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		// convert iTip Message to string
 		$itip_msg = $iTipMessage->message->serialize();
 
-		$user = null;
 		$mailService = null;
 
 		try {
@@ -275,8 +274,14 @@ class IMipPlugin extends SabreIMipPlugin {
 					$mailService = $this->mailManager->findServiceByAddress($user->getUID(), $sender);
 				}
 			}
+
+			// The display name in Nextcloud can use utf-8.
+			// As the default charset for text/* is us-ascii, it's important to explicitly define it.
+			// See https://www.rfc-editor.org/rfc/rfc6047.html#section-2.4.
+			$contentType = 'text/calendar; method=' . $iTipMessage->method . '; charset="utf-8"';
+
 			// evaluate if a mail service was found and has sending capabilities
-			if ($mailService !== null && $mailService instanceof IMessageSend) {
+			if ($mailService instanceof IMessageSend) {
 				// construct mail message and set required parameters
 				$message = $mailService->initiateMessage();
 				$message->setFrom(
@@ -288,10 +293,12 @@ class IMipPlugin extends SabreIMipPlugin {
 				$message->setSubject($template->renderSubject());
 				$message->setBodyPlain($template->renderText());
 				$message->setBodyHtml($template->renderHtml());
+				// Adding name=event.ics is a trick to make the invitation also appear
+				// as a file attachment in mail clients like Thunderbird or Evolution.
 				$message->setAttachments((new \OCP\Mail\Provider\Attachment(
 					$itip_msg,
 					null,
-					'text/calendar; name=event.ics; method=' . $iTipMessage->method,
+					$contentType . '; name=event.ics',
 					true
 				)));
 				// send message
@@ -307,10 +314,12 @@ class IMipPlugin extends SabreIMipPlugin {
 					(($senderName !== null) ? [$sender => $senderName] : [$sender])
 				);
 				$message->useTemplate($template);
+				// Using a different content type because Symfony Mailer/Mime will append the name to
+				// the content type header and attachInline does not allow null.
 				$message->attachInline(
 					$itip_msg,
 					'event.ics',
-					'text/calendar; method=' . $iTipMessage->method
+					$contentType,
 				);
 				$failed = $this->mailer->send($message);
 			}
