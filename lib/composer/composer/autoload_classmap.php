@@ -1889,6 +1889,7 @@ return array(
     'OC\\Repair\\ClearGeneratedAvatarCache' => $baseDir . '/lib/private/Repair/ClearGeneratedAvatarCache.php',
     'OC\\Repair\\ClearGeneratedAvatarCacheJob' => $baseDir . '/lib/private/Repair/ClearGeneratedAvatarCacheJob.php',
     'OC\\Repair\\Collation' => $baseDir . '/lib/private/Repair/Collation.php',
+    'OC\\Repair\\DeduplicateMounts' => $baseDir . '/lib/private/Repair/DeduplicateMounts.php',
     'OC\\Repair\\Events\\RepairAdvanceEvent' => $baseDir . '/lib/private/Repair/Events/RepairAdvanceEvent.php',
     'OC\\Repair\\Events\\RepairErrorEvent' => $baseDir . '/lib/private/Repair/Events/RepairErrorEvent.php',
     'OC\\Repair\\Events\\RepairFinishEvent' => $baseDir . '/lib/private/Repair/Events/RepairFinishEvent.php',
