@@ -22,29 +22,19 @@ use OCP\IUserManager;
 use OCP\User\Events\UserChangedEvent;
 
 class CloudIdManager implements ICloudIdManager {
-	/** @var IManager */
-	private $contactsManager;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IUserManager */
-	private $userManager;
 	private ICache $memCache;
 	private ICache $displayNameCache;
-	/** @var array[] */
 	private array $cache = [];
 	/** @var ICloudIdResolver[] */
 	private array $cloudIdResolvers = [];
 
 	public function __construct(
-		IManager $contactsManager,
-		IURLGenerator $urlGenerator,
-		IUserManager $userManager,
 		ICacheFactory $cacheFactory,
 		IEventDispatcher $eventDispatcher,
+		private IManager $contactsManager,
+		private IURLGenerator $urlGenerator,
+		private IUserManager $userManager,
 	) {
-		$this->contactsManager = $contactsManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->userManager = $userManager;
 		$this->memCache = $cacheFactory->createDistributed('cloud_id_');
 		$this->displayNameCache = $cacheFactory->createDistributed('cloudid_name_');
 		$eventDispatcher->addListener(UserChangedEvent::class, [$this, 'handleUserEvent']);
@@ -83,7 +73,7 @@ class CloudIdManager implements ICloudIdManager {
 	 */
 	public function resolveCloudId(string $cloudId): ICloudId {
 		// TODO magic here to get the url and user instead of just splitting on @
-		
+
 		foreach ($this->cloudIdResolvers as $resolver) {
 			if ($resolver->isValidCloudId($cloudId)) {
 				return $resolver->resolveCloudId($cloudId);
@@ -269,34 +259,15 @@ class CloudIdManager implements ICloudIdManager {
 		return strpos($cloudId, '@') !== false;
 	}
 
-	/**
-	 * @param string $id,
-	 * @param string $user
-	 * @param string $remote
-	 * @param ?string $displayName
-	 * @return ICloudId
-	 * 
-	 * @since 32.0.0
-	 */
 	public function createCloudId(string $id, string $user, string $remote, ?string $displayName = null): ICloudId {
 		return new CloudId($id, $user, $remote, $displayName);
 	}
 
-	/**
-	 * @param ICloudIdResolver $resolver
-	 * 
-	 * @since 32.0.0
-	 */
-	public function registerCloudIdResolver(ICloudIdResolver $resolver) {
+	public function registerCloudIdResolver(ICloudIdResolver $resolver): void {
 		array_unshift($this->cloudIdResolvers, $resolver);
 	}
 
-	/**
-	 * @param ICloudIdResolver $resolver
-	 * 
-	 * @since 32.0.0
-	 */
-	public function unregisterCloudIdResolver(ICloudIdResolver $resolver) {
+	public function unregisterCloudIdResolver(ICloudIdResolver $resolver): void {
 		if (($key = array_search($resolver, $this->cloudIdResolvers)) !== false) {
 			array_splice($this->cloudIdResolvers, $key, 1);
 		}

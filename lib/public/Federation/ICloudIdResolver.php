@@ -8,11 +8,16 @@ declare(strict_types=1);
  */
 namespace OCP\Federation;
 
+use OCP\AppFramework\Attribute\Consumable;
+use OCP\AppFramework\Attribute\Implementable;
+
 /**
  * Interface for resolving federated cloud ids
  *
  * @since 32.0.0
  */
+#[Consumable(since: '32.0.0')]
+#[Implementable(since: '32.0.0')]
 interface ICloudIdResolver {
 	/**
 	 * @param string $cloudId
