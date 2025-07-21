@@ -8,17 +8,13 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
-use Exception;
 use Generator;
-use InvalidArgumentException;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\CalendarExportOptions;
-use OCP\Calendar\CalendarImportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendarExport;
 use OCP\Calendar\ICalendarIsEnabled;
-use OCP\Calendar\ICalendarImport;
 use OCP\Calendar\ICalendarIsShared;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
@@ -30,10 +26,8 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\ITip\Message;
-use Sabre\VObject\Node;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
-use Sabre\VObject\UUIDUtil;
 
 use function Sabre\Uri\split as uriSplit;
 

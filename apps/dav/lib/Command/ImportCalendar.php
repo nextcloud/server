@@ -80,7 +80,7 @@ class ImportCalendar extends Command {
 			throw new InvalidArgumentException("Calendar <$calendarId> not found");
 		}
 		$calendar = $calendars[0];
-		if (!$calendar instanceof CalendarImpl || !$calendar instanceof ICalendarIsWritable) {
+		if (!$calendar instanceof CalendarImpl) {
 			throw new InvalidArgumentException("Calendar <$calendarId> dose support this function");
 		}
 		if (!$calendar->isWritable()) {
