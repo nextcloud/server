@@ -20,6 +20,7 @@ use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
 use OC\Repair\ConfigKeyMigration;
+use OC\Repair\DeduplicateMounts;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -221,6 +222,7 @@ class Repair implements IOutput {
 			),
 			\OCP\Server::get(DeleteSchedulingObjects::class),
 			\OC::$server->get(RemoveObjectProperties::class),
+			\OCP\Server::get(DeduplicateMounts::class),
 		];
 	}
 
