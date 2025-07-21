@@ -133,21 +133,9 @@ class ConnectionFactory {
 
 			case 'oci':
 				$eventManager->addEventSubscriber(new OracleSessionInit);
-				// the driverOptions are unused in dbal and need to be mapped to the parameters
-				if (isset($connectionParams['driverOptions'])) {
-					$connectionParams = array_merge($connectionParams, $connectionParams['driverOptions']);
-				}
-				$host = $connectionParams['host'];
-				$port = $connectionParams['port'] ?? null;
-				$dbName = $connectionParams['dbname'];
-
-				// we set the connect string as dbname and unset the host to coerce doctrine into using it as connect string
-				if ($host === '') {
-					$connectionParams['dbname'] = $dbName; // use dbname as easy connect name
-				} else {
-					$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
-				}
-				unset($connectionParams['host']);
+				$connectionParams = $this->forceConnectionStringOracle($connectionParams);
+				$connectionParams['primary'] = $this->forceConnectionStringOracle($connectionParams['primary']);
+				$connectionParams['replica'] = array_map([$this, 'forceConnectionStringOracle'], $connectionParams['replica']);
 				break;
 
 			case 'sqlite3':
@@ -263,5 +251,25 @@ class ConnectionFactory {
 		}
 
 		return $params;
+	}
+
+	protected function forceConnectionStringOracle(array $connectionParams): array {
+		// the driverOptions are unused in dbal and need to be mapped to the parameters
+		if (isset($connectionParams['driverOptions'])) {
+			$connectionParams = array_merge($connectionParams, $connectionParams['driverOptions']);
+		}
+		$host = $connectionParams['host'];
+		$port = $connectionParams['port'] ?? null;
+		$dbName = $connectionParams['dbname'];
+
+		// we set the connect string as dbname and unset the host to coerce doctrine into using it as connect string
+		if ($host === '') {
+			$connectionParams['dbname'] = $dbName; // use dbname as easy connect name
+		} else {
+			$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : '') . '/' . $dbName;
+		}
+		unset($connectionParams['host']);
+
+		return $connectionParams;
 	}
 }
