@@ -4250,9 +4250,6 @@
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getParent]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Manager.php">
     <InvalidArgument>
