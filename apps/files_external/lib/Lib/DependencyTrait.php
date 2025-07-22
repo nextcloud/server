@@ -15,11 +15,23 @@ namespace OCA\Files_External\Lib;
 trait DependencyTrait {
 
 	/**
-	 * Check if object is valid for use
+	 * Check if object has unsatisfied required or optional dependencies
 	 *
 	 * @return MissingDependency[] Unsatisfied dependencies
 	 */
 	public function checkDependencies() {
 		return []; // no dependencies by default
+	}
+
+	/**
+	 * Check if object has unsatisfied required dependencies
+	 *
+	 * @return MissingDependency[] Unsatisfied required dependencies
+	 */
+	public function checkRequiredDependencies() {
+		return array_filter(
+			$this->checkDependencies(),
+			fn (MissingDependency $dependency) => !$dependency->isOptional()
+		);
 	}
 }
