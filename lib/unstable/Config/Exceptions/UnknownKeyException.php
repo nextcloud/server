@@ -12,7 +12,6 @@ use Exception;
 
 /**
  * @experimental 31.0.0
- * @deprecated
  * @deprecated use \OCP\Config\Exceptions\UnknownKeyException
  * @see \OCP\Config\Exceptions\UnknownKeyException
  */
