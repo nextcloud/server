@@ -573,23 +573,51 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/tasks_provider/next', root: '/taskprocessing')]
 	public function getNextScheduledTask(array $providerIds, array $taskTypeIds): DataResponse {
 		try {
+			$providerIdsBasedOnTaskTypesWithNull = array_unique(array_map(function ($taskTypeId) {
+				try {
+					return $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId();
+				} catch (Exception) {
+					return null;
+				}
+			}, $taskTypeIds));
+
+			$providerIdsBasedOnTaskTypes = array_filter($providerIdsBasedOnTaskTypesWithNull, fn ($providerId) => $providerId !== null);
+
 			// restrict $providerIds to providers that are configured as preferred for the passed task types
-			$providerIds = array_values(array_intersect(array_unique(array_map(fn ($taskTypeId) => $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId(), $taskTypeIds)), $providerIds));
+			$possibleProviderIds = array_values(array_intersect($providerIdsBasedOnTaskTypes, $providerIds));
+
 			// restrict $taskTypeIds to task types that can actually be run by one of the now restricted providers
-			$taskTypeIds = array_values(array_filter($taskTypeIds, fn ($taskTypeId) => in_array($this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId(), $providerIds, true)));
-			if (count($providerIds) === 0 || count($taskTypeIds) === 0) {
+			$possibleTaskTypeIds = array_values(array_filter($taskTypeIds, function ($taskTypeId) use ($possibleProviderIds) {
+				try {
+					$providerForTaskType = $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId();
+				} catch (Exception) {
+					// no provider found for task type
+					return false;
+				}
+				return in_array($providerForTaskType, $possibleProviderIds, true);
+			}));
+
+			if (count($possibleProviderIds) === 0 || count($possibleTaskTypeIds) === 0) {
 				throw new NotFoundException();
 			}
 
 			$taskIdsToIgnore = [];
 			while (true) {
-				$task = $this->taskProcessingManager->getNextScheduledTask($taskTypeIds, $taskIdsToIgnore);
-				$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
-				if (in_array($provider->getId(), $providerIds, true)) {
-					if ($this->taskProcessingManager->lockTask($task)) {
-						break;
+				// Until we find a task whose task type is set to be provided by the providers requested with this request
+				// Or no scheduled task is found anymore (given the taskIds to ignore)
+				$task = $this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds, $taskIdsToIgnore);
+				try {
+					$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
+					if (in_array($provider->getId(), $possibleProviderIds, true)) {
+						if ($this->taskProcessingManager->lockTask($task)) {
+							break;
+						}
 					}
+				} catch (Exception) {
+					// There is no provider set for the task type of this task
+					// proceed to ignore this task
 				}
+
 				$taskIdsToIgnore[] = (int)$task->getId();
 			}
 
