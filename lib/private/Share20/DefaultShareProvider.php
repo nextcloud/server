@@ -127,9 +127,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				$qb->setValue('expiration', $qb->createNamedParameter($expirationDate, 'datetime'));
 			}
 
-			if (method_exists($share, 'getParent')) {
-				$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
-			}
+			$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
 
 			$qb->setValue('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0, IQueryBuilder::PARAM_INT));
 		} else {
