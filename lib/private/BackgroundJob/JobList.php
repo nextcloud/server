@@ -417,13 +417,17 @@ class JobList implements IJobList {
 		}
 	}
 
-	public function countByClass(): array {
+	public function countByClass(?string $class = null): array {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('class')
 			->selectAlias($query->func()->count('id'), 'count')
 			->from('jobs')
 			->orderBy('count')
 			->groupBy('class');
+
+		if ($class !== null) {
+			$query->where($query->expr()->eq('class', $query->createNamedParameter($class)));
+		}
 
 		$result = $query->executeQuery();
 
