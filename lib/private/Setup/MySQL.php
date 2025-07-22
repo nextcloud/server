@@ -8,6 +8,7 @@
 namespace OC\Setup;
 
 use Doctrine\DBAL\Platforms\MySQL80Platform;
+use Doctrine\DBAL\Platforms\MySQL84Platform;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
@@ -98,7 +99,13 @@ class MySQL extends AbstractDatabase {
 			// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 			// the anonymous user would take precedence when there is one.
 
-			if ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
+			if ($connection->getDatabasePlatform() instanceof MySQL84Platform) {
+				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH caching_sha2_password BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
+				$query = "CREATE USER ?@'%' IDENTIFIED WITH caching_sha2_password BY ?";
+				$connection->executeUpdate($query, [$name,$password]);
+			} elseif ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
+				// TODO: Remove this elseif section as soon as MySQL 8.0 is out-of-support (probably Nextcloud 33)
 				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH mysql_native_password BY ?";
 				$connection->executeUpdate($query, [$name,$password]);
 				$query = "CREATE USER ?@'%' IDENTIFIED WITH mysql_native_password BY ?";
