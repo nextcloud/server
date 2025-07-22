@@ -103,7 +103,10 @@ class Adapter {
 		$query .= ' HAVING COUNT(*) = 0';
 
 		try {
-			return $this->conn->executeUpdate($query, $inserts);
+			$this->conn->beginTransaction();
+			$rows = $this->conn->executeUpdate($query, $inserts);
+			$this->conn->commit();
+			return $rows;
 		} catch (UniqueConstraintViolationException $e) {
 			// This exception indicates a concurrent insert happened between
 			// the insert and the sub-select in the insert, which is safe to ignore.
