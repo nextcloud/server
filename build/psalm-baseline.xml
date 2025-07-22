@@ -4261,9 +4261,6 @@
     <UndefinedClass>
       <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getChildren]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/ProviderFactory.php">
     <InvalidReturnStatement>

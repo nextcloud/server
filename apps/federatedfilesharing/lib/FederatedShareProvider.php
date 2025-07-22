@@ -431,13 +431,7 @@ class FederatedShareProvider implements IShareProvider, IShareProviderSupportsAl
 		return $share;
 	}
 
-	/**
-	 * Get all children of this share
-	 *
-	 * @param IShare $parent
-	 * @return IShare[]
-	 */
-	public function getChildren(IShare $parent) {
+	public function getChildren(IShare $parent): array {
 		$children = [];
 
 		$qb = $this->dbConnection->getQueryBuilder();
