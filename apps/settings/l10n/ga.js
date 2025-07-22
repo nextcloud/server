@@ -370,6 +370,8 @@ OC.L10N.register(
     "Users will still be able to screenshot or record the screen. This does not provide any definitive protection." : "Beidh úsáideoirí fós in ann scáileán a thógáil nó an scáileán a thaifeadadh. Ní sholáthraíonn sé seo aon chosaint chinntitheach.",
     "Allow users to share via link and emails" : "Lig d'úsáideoirí a roinnt trí nasc agus ríomhphoist",
     "Allow public uploads" : "Ceadaigh uaslódálacha poiblí",
+    "Allow public shares to be added to other clouds by federation." : "Ceadaigh scaireanna poiblí a chur le scamaill eile trí chónaidhm.",
+    "This will add share permissions to all newly created link shares." : "Cuirfidh sé seo ceadanna comhroinnte le gach comhroinnt nasc nua-chruthaithe.",
     "Always ask for a password" : "Iarr pasfhocal i gcónaí",
     "Enforce password protection" : "Cuir cosaint phasfhocal i bhfeidhm",
     "Exclude groups from password requirements" : "Fág grúpaí ó riachtanais phasfhocal",
