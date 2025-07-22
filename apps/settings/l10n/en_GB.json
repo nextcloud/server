@@ -368,6 +368,8 @@
     "Users will still be able to screenshot or record the screen. This does not provide any definitive protection." : "Users will still be able to screenshot or record the screen. This does not provide any definitive protection.",
     "Allow users to share via link and emails" : "Allow users to share via link and emails",
     "Allow public uploads" : "Allow public uploads",
+    "Allow public shares to be added to other clouds by federation." : "Allow public shares to be added to other clouds by federation.",
+    "This will add share permissions to all newly created link shares." : "This will add share permissions to all newly created link shares.",
     "Always ask for a password" : "Always ask for a password",
     "Enforce password protection" : "Enforce password protection",
     "Exclude groups from password requirements" : "Exclude groups from password requirements",

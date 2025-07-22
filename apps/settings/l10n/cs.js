@@ -370,6 +370,8 @@ OC.L10N.register(
     "Users will still be able to screenshot or record the screen. This does not provide any definitive protection." : "Uživatelé i tak budou moci pořizovat snímky/video z obrazovky. Neposkytuje to jakoukoli definitivní ochranu.",
     "Allow users to share via link and emails" : "Povolit uživatelům sdílet pomocí odkazů a e-mailů",
     "Allow public uploads" : "Povolit veřejné nahrávání souborů",
+    "Allow public shares to be added to other clouds by federation." : "Umožnit přidávání veřejných sdílení do ostatních cloudů prostřednictvím federování.",
+    "This will add share permissions to all newly created link shares." : "Toto přidá oprávnění ke sdílení ke všem nově vytvářeným sdílením odkazem.",
     "Always ask for a password" : "Vždy se zeptat na heslo",
     "Enforce password protection" : "Vynutit ochranu heslem",
     "Exclude groups from password requirements" : "Z požadavků na heslo vynechat následující skupiny",

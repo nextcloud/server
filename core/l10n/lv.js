@@ -123,7 +123,7 @@ OC.L10N.register(
     "Search in" : "Meklēt",
     "Log in" : "Pieteikties",
     "Logging in …" : "Notiek pieteikšanās …",
-    "Log in to {productName}" : "Pierakstīties {productName}",
+    "Log in to {productName}" : "Pieteikties {productName}",
     "Wrong login or password." : "Nepareizs lietotājvārds vai parole.",
     "This account is disabled" : "Šis konts ir atspējots",
     "Account name or email" : "Konta nosaukums vai e-pasta adrese",
