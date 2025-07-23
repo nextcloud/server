@@ -22,6 +22,7 @@ module.exports = {
 		'plugin:cypress/recommended',
 	],
 	rules: {
+		'comma-dangle': 'error',
 		'no-tabs': 'warn',
 		// TODO: make sure we fix this as this is bad vue coding style.
 		// Use proper sync modifier

@@ -33,6 +33,6 @@ export default {
 		hasCalendarApp() {
 			return loadState('dav', 'calendarEnabled')
 		},
-	}
+	},
 }
 </script>
