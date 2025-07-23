@@ -26,13 +26,13 @@ export default {
 	name: 'ExampleContentDownloadButton',
 	components: {
 		NcButton,
-		IconDownload
+		IconDownload,
 	},
 	props: {
 		href: {
 			type: String,
 			required: true,
-		}
+		},
 	},
 }
 </script>
