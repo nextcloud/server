@@ -1539,10 +1539,11 @@ class UserConfig implements IUserConfig {
 	 * @param string $userId id of the user
 	 * @param string $app id of the app
 	 * @param string $key config key
+	 * @return bool whether the value was deleted
 	 *
 	 * @since 31.0.0
 	 */
-	public function deleteUserConfig(string $userId, string $app, string $key): void {
+	public function deleteUserConfig(string $userId, string $app, string $key): bool {
 		$this->assertParams($userId, $app, $key);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
@@ -1551,11 +1552,13 @@ class UserConfig implements IUserConfig {
 			->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId)))
 			->andWhere($qb->expr()->eq('appid', $qb->createNamedParameter($app)))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
-		$qb->executeStatement();
+		$affectedRows = $qb->executeStatement();
 
 		unset($this->lazyCache[$userId][$app][$key]);
 		unset($this->fastCache[$userId][$app][$key]);
 		unset($this->valueDetails[$userId][$app][$key]);
+
+		return $affectedRows > 0;
 	}
 
 	/**

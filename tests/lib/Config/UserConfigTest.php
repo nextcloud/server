@@ -1704,7 +1704,10 @@ class UserConfigTest extends TestCase {
 
 		$userConfig = $this->generateUserConfig($preload ?? []);
 		$this->assertEquals(true, $userConfig->hasKey($userId, $app, $key, $lazy));
-		$userConfig->deleteUserConfig($userId, $app, $key);
+		$deleted = $userConfig->deleteUserConfig($userId, $app, $key);
+		self::assertTrue($deleted, 'user config was deleted');
+		$deletedAgain = $userConfig->deleteUserConfig($userId, $app, $key);
+		self::assertFalse($deletedAgain, 'user config can not be deleted twice');
 		$this->assertEquals(false, $userConfig->hasKey($userId, $app, $key, $lazy));
 		$userConfig = $this->generateUserConfig($preload ?? []);
 		$this->assertEquals(false, $userConfig->hasKey($userId, $app, $key, $lazy));
