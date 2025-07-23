@@ -165,12 +165,12 @@ export default {
 		isPasswordProtected: {
 			get() {
 				return this.config.enforcePasswordForPublicLink
-							|| !!this.share.password
+						|| this.share.password !== ''
+						|| this.share.newPassword !== undefined
 			},
 			async set(enabled) {
 				if (enabled) {
-					this.share.password = await GeneratePassword(true)
-					this.$set(this.share, 'newPassword', this.share.password)
+					this.$set(this.share, 'newPassword', await GeneratePassword(true))
 				} else {
 					this.share.password = ''
 					this.$delete(this.share, 'newPassword')
@@ -272,7 +272,7 @@ export default {
 				this.loading = true
 				this.open = false
 				await this.deleteShare(this.share.id)
-				console.debug('Share deleted', this.share.id)
+				logger.debug('Share deleted', { shareId: this.share.id })
 				const message = this.share.itemType === 'file'
 					? t('files_sharing', 'File "{path}" has been unshared', { path: this.share.path })
 					: t('files_sharing', 'Folder "{path}" has been unshared', { path: this.share.path })
@@ -303,7 +303,12 @@ export default {
 				const properties = {}
 				// force value to string because that is what our
 				// share api controller accepts
-				propertyNames.forEach(name => {
+				for (const name of propertyNames) {
+					if (name === 'password') {
+						properties[name] = this.share.newPassword ?? this.share.password
+						continue
+					}
+
 					if (this.share[name] === null || this.share[name] === undefined) {
 						properties[name] = ''
 					} else if ((typeof this.share[name]) === 'object') {
@@ -311,7 +316,7 @@ export default {
 					} else {
 						properties[name] = this.share[name].toString()
 					}
-				})
+				}
 
 				return this.updateQueue.add(async () => {
 					this.saving = true
@@ -319,8 +324,9 @@ export default {
 					try {
 						const updatedShare = await this.updateShare(this.share.id, properties)
 
-						if (propertyNames.indexOf('password') >= 0) {
+						if (propertyNames.includes('password')) {
 							// reset password state after sync
+							this.share.password = this.share.newPassword ?? ''
 							this.$delete(this.share, 'newPassword')
 
 							// updates password expiration time after sync
@@ -328,14 +334,18 @@ export default {
 						}
 
 						// clear any previous errors
-						this.$delete(this.errors, propertyNames[0])
+						for (const property of propertyNames) {
+							this.$delete(this.errors, property)
+						}
 						showSuccess(this.updateSuccessMessage(propertyNames))
 					} catch (error) {
 						logger.error('Could not update share', { error, share: this.share, propertyNames })
 
 						const { message } = error
 						if (message && message !== '') {
-							this.onSyncError(propertyNames[0], message)
+							for (const property of propertyNames) {
+								this.onSyncError(property, message)
+							}
 							showError(message)
 						} else {
 							// We do not have information what happened, but we should still inform the user
@@ -384,6 +394,13 @@ export default {
 		 * @param {string} message the error message
 		 */
 		onSyncError(property, message) {
+			if (property === 'password' && this.share.newPassword) {
+				if (this.share.newPassword === this.share.password) {
+					this.share.password = ''
+				}
+				this.$delete(this.share, 'newPassword')
+			}
+
 			// re-open menu if closed
 			this.open = true
 			switch (property) {
