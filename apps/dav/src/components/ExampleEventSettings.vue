@@ -47,7 +47,7 @@
 					type="file"
 					accept=".ics,text/calendar"
 					class="import-event-modal__file-picker"
-					@change="selectFile" />
+					@change="selectFile">
 				<div class="import-event-modal__buttons">
 					<NcButton :disabled="uploading || !selectedFile"
 						type="primary"

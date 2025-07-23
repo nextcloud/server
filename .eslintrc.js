@@ -31,6 +31,7 @@ module.exports = {
 			// allows custom xxxx:xxx events formats
 			ignores: ['/^[a-z]+(?:-[a-z]+)*:[a-z]+(?:-[a-z]+)*$/u'],
 		}],
+		'vue/html-self-closing': 'error',
 	},
 	settings: {
 		jsdoc: {
