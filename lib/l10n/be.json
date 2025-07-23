@@ -1,5 +1,7 @@
 { "translations": {
+    "Authentication" : "Аўтэнтыфікацыя",
     "Files" : "Файлы",
+    "_%n year ago_::_%n years ago_" : ["%n год таму","%n гады таму","%n гадоў таму","%n гадоў таму"],
     "seconds ago" : "с таму",
     "Templates" : "Шаблоны",
     "__language_name__" : "Беларуская",
