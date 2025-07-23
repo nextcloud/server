@@ -17,6 +17,7 @@ use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\ILexicon;
 use OCP\Config\Lexicon\Preset;
 use OCP\Config\Lexicon\Strictness;
+use OCP\Config\ValueType;
 use OCP\DB\Exception as DBException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Exceptions\AppConfigIncorrectTypeException;
@@ -1095,6 +1096,49 @@ class AppConfig implements IAppConfig {
 	}
 
 	/**
+	 * @inheritDoc
+	 *
+	 * @param string $app id of the app
+	 * @param string $key config key
+	 *
+	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, default?: string, definition?: string, note?: string}
+	 * @since 32.0.0
+	 */
+	public function getKeyDetails(string $app, string $key): array {
+		$this->assertParams($app, $key);
+		try {
+			$details = $this->getDetails($app, $key);
+		} catch (AppConfigUnknownKeyException $e) {
+			$details = [
+				'app' => $app,
+				'key' => $key
+			];
+		}
+
+		/** @var Entry $lexiconEntry */
+		try {
+			$lazy = false;
+			$this->matchAndApplyLexiconDefinition($app, $key, $lazy, lexiconEntry: $lexiconEntry);
+		} catch (AppConfigTypeConflictException|AppConfigUnknownKeyException) {
+			// can be ignored
+		}
+
+		if ($lexiconEntry !== null) {
+			$details = array_merge($details, [
+				'lazy' => $lexiconEntry->isLazy(),
+				'valueType' => $lexiconEntry->getValueType(),
+				'valueTypeName' => $lexiconEntry->getValueType()->name,
+				'sensitive' => $lexiconEntry->isFlagged(self::FLAG_SENSITIVE),
+				'default' => $lexiconEntry->getDefault($this->getLexiconPreset()),
+				'definition' => $lexiconEntry->getDefinition(),
+				'note' => $lexiconEntry->getNote(),
+			]);
+		}
+
+		return array_filter($details);
+	}
+
+	/**
 	 * @param string $type
 	 *
 	 * @return int
@@ -1631,6 +1675,7 @@ class AppConfig implements IAppConfig {
 		?bool &$lazy = null,
 		int &$type = self::VALUE_MIXED,
 		?string &$default = null,
+		?Entry &$lexiconEntry = null,
 	): bool {
 		if (in_array($key,
 			[
@@ -1655,27 +1700,27 @@ class AppConfig implements IAppConfig {
 			return true;
 		}
 
-		/** @var Entry $configValue */
-		$configValue = $configDetails['entries'][$key];
+		/** @var Entry $lexiconEntry */
+		$lexiconEntry = $configDetails['entries'][$key];
 		$type &= ~self::VALUE_SENSITIVE;
 
-		$appConfigValueType = $configValue->getValueType()->toAppConfigFlag();
+		$appConfigValueType = $lexiconEntry->getValueType()->toAppConfigFlag();
 		if ($type === self::VALUE_MIXED) {
 			$type = $appConfigValueType; // we overwrite if value was requested as mixed
 		} elseif ($appConfigValueType !== $type) {
 			throw new AppConfigTypeConflictException('The app config key ' . $app . '/' . $key . ' is typed incorrectly in relation to the config lexicon');
 		}
 
-		$lazy = $configValue->isLazy();
+		$lazy = $lexiconEntry->isLazy();
 		// only look for default if needed, default from Lexicon got priority
 		if ($default !== null) {
-			$default = $configValue->getDefault($this->getLexiconPreset()) ?? $default;
+			$default = $lexiconEntry->getDefault($this->getLexiconPreset()) ?? $default;
 		}
 
-		if ($configValue->isFlagged(self::FLAG_SENSITIVE)) {
+		if ($lexiconEntry->isFlagged(self::FLAG_SENSITIVE)) {
 			$type |= self::VALUE_SENSITIVE;
 		}
-		if ($configValue->isDeprecated()) {
+		if ($lexiconEntry->isDeprecated()) {
 			$this->logger->notice('App config key ' . $app . '/' . $key . ' is set as deprecated.');
 		}
 

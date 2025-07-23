@@ -23,16 +23,20 @@ class Entry {
 	public const RENAME_INVERT_BOOLEAN = 1;
 
 	private string $definition = '';
+	private string $note = '';
 	private ?string $default = null;
 
 	/**
-	 * @param string $key config key, can only contain alphanumerical chars and -._
+	 * @param string $key config key; can only contain alphanumerical chars and underscore "_"
 	 * @param ValueType $type type of config value
+	 * @param string|int|float|bool|array|Closure|null $defaultRaw default value to be used in case none known
 	 * @param string $definition optional description of config key available when using occ command
 	 * @param bool $lazy set config value as lazy
 	 * @param int $flags set flags
-	 * @param string|null $rename previous config key to migrate config value from
 	 * @param bool $deprecated set config key as deprecated
+	 * @param string|null $rename source in case of a rename of a config key.
+	 * @param int $options additional bitflag options {@see self::RENAME_INVERT_BOOLEAN}
+	 * @param string $note additional note and warning related to the use of the config key.
 	 *
 	 * @since 32.0.0
 	 * @psalm-suppress PossiblyInvalidCast
@@ -48,6 +52,7 @@ class Entry {
 		private readonly bool $deprecated = false,
 		private readonly ?string $rename = null,
 		private readonly int $options = 0,
+		string $note = '',
 	) {
 		// key can only contain alphanumeric chars and underscore "_"
 		if (preg_match('/[^[:alnum:]_]/', $key)) {
@@ -57,6 +62,7 @@ class Entry {
 		/** @psalm-suppress UndefinedClass */
 		if (\OC::$CLI) { // only store definition if ran from CLI
 			$this->definition = $definition;
+			$this->note = $note;
 		}
 	}
 
@@ -185,6 +191,16 @@ class Entry {
 	 */
 	public function getDefinition(): string {
 		return $this->definition;
+	}
+
+	/**
+	 * returns eventual note
+	 *
+	 * @return string
+	 * @since 32.0.0
+	 */
+	public function getNote(): string {
+		return $this->note;
 	}
 
 	/**
