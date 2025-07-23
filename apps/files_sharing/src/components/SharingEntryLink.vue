@@ -74,10 +74,10 @@
 				{{ config.enforcePasswordForPublicLink ? t('files_sharing', 'Password protection (enforced)') : t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
 
-			<NcActionInput v-if="pendingEnforcedPassword || share.password"
+			<NcActionInput v-if="pendingEnforcedPassword || isPasswordProtected"
 				class="share-link-password"
 				:label="t('files_sharing', 'Enter a password')"
-				:value.sync="share.password"
+				:value.sync="share.newPassword"
 				:disabled="saving"
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
@@ -115,7 +115,8 @@
 				</template>
 			</NcActionInput>
 
-			<NcActionButton @click.prevent.stop="onNewLinkShare(true)">
+			<NcActionButton :disabled="pendingEnforcedPassword && !share.newPassword"
+				@click.prevent.stop="onNewLinkShare(true)">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
@@ -646,6 +647,7 @@ export default {
 
 				// create share & close menu
 				const share = new Share(shareDefaults)
+				share.newPassword = share.password
 				const component = await new Promise(resolve => {
 					this.$emit('add:share', share, resolve)
 				})
@@ -838,7 +840,7 @@ export default {
 		 */
 		onPasswordSubmit() {
 			if (this.hasUnsavedPassword) {
-				this.share.password = this.share.newPassword.trim()
+				this.share.newPassword = this.share.newPassword.trim()
 				this.queueUpdate('password')
 			}
 		},
@@ -853,7 +855,7 @@ export default {
 		 */
 		onPasswordProtectedByTalkChange() {
 			if (this.hasUnsavedPassword) {
-				this.share.password = this.share.newPassword.trim()
+				this.share.newPassword = this.share.newPassword.trim()
 			}
 
 			this.queueUpdate('sendPasswordByTalk', 'password')
