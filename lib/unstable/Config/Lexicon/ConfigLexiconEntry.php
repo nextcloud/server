@@ -28,13 +28,13 @@ class ConfigLexiconEntry {
 	 */
 	public const RENAME_INVERT_BOOLEAN = 1;
 
-	private string $definition = '';
+	private array|string $definition = '';
 	private ?string $default = null;
 
 	/**
 	 * @param string $key config key, can only contain alphanumerical chars and -._
 	 * @param ValueType $type type of config value
-	 * @param string $definition optional description of config key available when using occ command
+	 * @param array|string $definition optional description of config key available when using occ command
 	 * @param bool $lazy set config value as lazy
 	 * @param int $flags set flags
 	 * @param string|null $rename previous config key to migrate config value from
@@ -50,7 +50,7 @@ class ConfigLexiconEntry {
 		private readonly string $key,
 		private readonly ValueType $type,
 		private null|string|int|float|bool|array|Closure $defaultRaw = null,
-		string $definition = '',
+		string|array $definition = '',
 		private readonly bool $lazy = false,
 		private readonly int $flags = 0,
 		private readonly bool $deprecated = false,
@@ -218,8 +218,33 @@ class ConfigLexiconEntry {
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	public function getDefinition(): string {
-		return $this->definition;
+		if (is_string($this->definition)) {
+			return $this->definition;
+		}
+
+		return (string)($this->definition['definition'] ?? '');
 	}
+
+	/**
+	 * returns eventual note
+	 *
+	 * @return string
+	 * @experimental 32.0.0
+	 */
+	public function getNote(): string {
+		return (string)($this->definition['note'] ?? '');
+	}
+
+	/**
+	 * returns eventual warning
+	 *
+	 * @return string
+	 * @experimental 32.0.0
+	 */
+	public function getWarning(): string {
+		return (string)($this->definition['warning'] ?? '');
+	}
+
 
 	/**
 	 * returns if config key is set as lazy
