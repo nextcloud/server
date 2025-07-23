@@ -1,8 +1,6 @@
 <?php
 
-use OC\ServiceUnavailableException;
-use OCP\IConfig;
-use OCP\Util;
+declare(strict_types=1);
 
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
@@ -11,13 +9,17 @@ use OCP\Util;
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
+use OC\ServiceUnavailableException;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCP\App\IAppManager;
+use OCP\IConfig;
 use OCP\IRequest;
+use OCP\Server;
 use OCP\Template\ITemplateManager;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
-use Sabre\DAV\Server;
 
 /**
  * Class RemoteException
@@ -29,15 +31,15 @@ class RemoteException extends \Exception {
 
 function handleException(Exception|Error $e): void {
 	try {
-		$request = \OCP\Server::get(IRequest::class);
-		// in case the request content type is text/xml - we assume it's a WebDAV request
-		$isXmlContentType = strpos($request->getHeader('Content-Type'), 'text/xml');
-		if ($isXmlContentType === 0) {
+		$request = Server::get(IRequest::class);
+		// treat XML as a WebDAV request
+		$contentType = (string)$request->getHeader('Content-Type');
+		if (str_contains($contentType, 'application/xml') || str_contains($contentType, 'text/xml')) { // TODO: consider centralizing this repetitive check
 			// fire up a simple server to properly process the exception
-			$server = new Server();
+			$server = new \Sabre\DAV\Server();
 			if (!($e instanceof RemoteException)) {
 				// we shall not log on RemoteException
-				$server->addPlugin(new ExceptionLoggerPlugin('webdav', \OCP\Server::get(LoggerInterface::class)));
+				$server->addPlugin(new ExceptionLoggerPlugin('webdav', Server::get(LoggerInterface::class)));
 			}
 			$server->on('beforeMethod:*', function () use ($e): void {
 				if ($e instanceof RemoteException) {
@@ -45,7 +47,7 @@ function handleException(Exception|Error $e): void {
 						case 503:
 							throw new ServiceUnavailable($e->getMessage());
 						case 404:
-							throw new \Sabre\DAV\Exception\NotFound($e->getMessage());
+							throw new NotFound($e->getMessage());
 					}
 				}
 				$class = get_class($e);
@@ -60,14 +62,14 @@ function handleException(Exception|Error $e): void {
 			}
 			if ($e instanceof RemoteException) {
 				// we shall not log on RemoteException
-				\OCP\Server::get(ITemplateManager::class)->printErrorPage($e->getMessage(), '', $e->getCode());
+				Server::get(ITemplateManager::class)->printErrorPage($e->getMessage(), '', $e->getCode());
 			} else {
-				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
-				\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $statusCode);
+				Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
+				Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $statusCode);
 			}
 		}
 	} catch (\Exception $e) {
-		\OCP\Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
+		Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
 	}
 }
 
@@ -90,7 +92,7 @@ function resolveService($service) {
 		return $services[$service];
 	}
 
-	return \OCP\Server::get(IConfig::class)->getAppValue('core', 'remote_' . $service);
+	return Server::get(IConfig::class)->getAppValue('core', 'remote_' . $service);
 }
 
 try {
@@ -99,54 +101,55 @@ try {
 	// All resources served via the DAV endpoint should have the strictest possible
 	// policy. Exempted from this is the SabreDAV browser plugin which overwrites
 	// this policy with a softer one if debug mode is enabled.
+	//	NOTE: This breaks HTML styling/templates currently
 	header("Content-Security-Policy: default-src 'none';");
 
+	// Check if Nextcloud is in maintenance mode
 	if (Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
 		throw new RemoteException('Service unavailable', 503);
 	}
 
-	$request = \OCP\Server::get(IRequest::class);
+	$request = Server::get(IRequest::class);
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
 		throw new RemoteException('Path not found', 404);
 	}
+
+	// Extract the service from the path
 	if (!$pos = strpos($pathInfo, '/', 1)) {
 		$pos = strlen($pathInfo);
 	}
 	$service = substr($pathInfo, 1, $pos - 1);
 
+	// Resolve the service to a file
 	$file = resolveService($service);
 
-	if (is_null($file)) {
+	if (!$file) {
 		throw new RemoteException('Path not found', 404);
 	}
 
+	// Extract the app from the service file
 	$file = ltrim($file, '/');
-
 	$parts = explode('/', $file, 2);
 	$app = $parts[0];
 
 	// Load all required applications
+	$appManager = Server::get(IAppManager::class);
 	\OC::$REQUESTEDAPP = $app;
-	$appManager = \OCP\Server::get(IAppManager::class);
 	$appManager->loadApps(['authentication']);
 	$appManager->loadApps(['extended_authentication']);
 	$appManager->loadApps(['filesystem', 'logging']);
 
-	switch ($app) {
-		case 'core':
-			$file = OC::$SERVERROOT . '/' . $file;
-			break;
-		default:
-			if (!$appManager->isEnabledForUser($app)) {
-				throw new RemoteException('App not installed: ' . $app);
-			}
-			$appManager->loadApp($app);
-			$file = $appManager->getAppPath($app) . '/' . ($parts[1] ?? '');
-			break;
+	// Check if the app is enabled
+	if (!$appManager->isEnabledForUser($app)) {
+		throw new RemoteException('App not installed: ' . $app, 503); // or maybe 404?
 	}
+	
+	// Load the app
+	$appManager->loadApp($app);
+	
 	$baseuri = OC::$WEBROOT . '/remote.php/' . $service . '/';
 	require_once $file;
 } catch (Exception $ex) {
