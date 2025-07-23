@@ -254,7 +254,7 @@ OC.L10N.register(
     "Search for internal recipients" : "Cerca destinatari interni",
     "Note from" : "Nota da",
     "Note:" : "Nota:",
-    "File drop" : "Elimina file",
+    "File drop" : "Deposita file",
     "Upload files to {foldername}." : "Carica i file su{foldername}.",
     "By uploading files, you agree to the terms of service." : "Caricando i file accetti i termini del servizio.",
     "Successfully uploaded files" : "File caricati correttamente",
