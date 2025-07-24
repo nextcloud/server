@@ -134,9 +134,9 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcRichText from '@nextcloud/vue/components/NcRichText'
-import AccountIcon from 'vue-material-design-icons/Account.vue'
+import AccountIcon from 'vue-material-design-icons/AccountOutline.vue'
 import MapMarkerIcon from 'vue-material-design-icons/MapMarker.vue'
-import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 
 interface IProfileAction {
 	target: string

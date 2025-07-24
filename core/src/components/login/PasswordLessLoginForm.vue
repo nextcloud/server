@@ -57,7 +57,7 @@ import {
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
-import InformationIcon from 'vue-material-design-icons/Information.vue'
+import InformationIcon from 'vue-material-design-icons/InformationOutline.vue'
 import LoginButton from './LoginButton.vue'
 import LockOpenIcon from 'vue-material-design-icons/LockOpen.vue'
 import logger from '../../logger'

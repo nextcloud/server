@@ -68,7 +68,7 @@ import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import svgCloudUpload from '@mdi/svg/svg/cloud-upload.svg?raw'
+import svgCloudUpload from '@mdi/svg/svg/cloud-upload-outline.svg?raw'
 
 defineProps<{
 	foldername: string

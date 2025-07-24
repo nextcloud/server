@@ -48,7 +48,7 @@ import { t } from '@nextcloud/l10n'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import IconAccount from 'vue-material-design-icons/Account.vue'
+import IconAccount from 'vue-material-design-icons/AccountOutline.vue'
 
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
 

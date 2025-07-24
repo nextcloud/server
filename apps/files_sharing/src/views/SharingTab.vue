@@ -164,7 +164,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { CollectionList } from 'nextcloud-vue-collections'
 import { ShareType } from '@nextcloud/sharing'
 
-import InfoIcon from 'vue-material-design-icons/Information.vue'
+import InfoIcon from 'vue-material-design-icons/InformationOutline.vue'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
 
 import axios from '@nextcloud/axios'

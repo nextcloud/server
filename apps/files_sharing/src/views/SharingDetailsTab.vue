@@ -281,7 +281,7 @@ import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 
 import CircleIcon from 'vue-material-design-icons/CircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
-import EditIcon from 'vue-material-design-icons/Pencil.vue'
+import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
 import EmailIcon from 'vue-material-design-icons/Email.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import GroupIcon from 'vue-material-design-icons/AccountGroup.vue'

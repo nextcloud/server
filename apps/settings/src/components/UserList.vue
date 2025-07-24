@@ -19,7 +19,7 @@
 				<NcLoadingIcon v-if="isInitialLoad && loading.users"
 					:name="t('settings', 'Loading accounts …')"
 					:size="64" />
-				<NcIconSvgWrapper v-else :path="mdiAccountGroup" :size="64" />
+				<NcIconSvgWrapper v-else :path="mdiAccountGroupOutline" :size="64" />
 			</template>
 		</NcEmptyContent>
 
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { mdiAccountGroup } from '@mdi/js'
+import { mdiAccountGroupOutline } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
@@ -120,7 +120,7 @@ export default {
 	setup() {
 		// non reactive properties
 		return {
-			mdiAccountGroup,
+			mdiAccountGroupOutline,
 			rowHeight: 55,
 
 			UserRow,

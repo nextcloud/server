@@ -32,7 +32,7 @@
 					{{ t('core', 'Search everywhere') }}
 				</template>
 				<template #icon>
-					<NcIconSvgWrapper :path="mdiCloudSearch" />
+					<NcIconSvgWrapper :path="mdiCloudSearchOutline" />
 				</template>
 			</NcButton>
 		</div>
@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import type { ComponentPublicInstance } from 'vue'
-import { mdiCloudSearch, mdiClose } from '@mdi/js'
+import { mdiCloudSearchOutline, mdiClose } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { useElementSize } from '@vueuse/core'

@@ -7,7 +7,7 @@
  * SYNC to be kept in sync with `lib/public/Accounts/IAccountManager.php`
  */
 
-import { mdiAccountGroup, mdiCellphone, mdiLock, mdiWeb } from '@mdi/js'
+import { mdiAccountGroupOutline, mdiCellphone, mdiLockOutline, mdiWeb } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 
 /** Enum of account properties */
@@ -171,14 +171,14 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 		displayName: t('settings', 'Local'),
 		tooltip: t('settings', 'Only visible to people on this instance and guests'),
 		// tooltipDisabled is not required here as this scope is supported by all account properties
-		icon: mdiLock,
+		icon: mdiLockOutline,
 	},
 	[SCOPE_ENUM.FEDERATED]: {
 		name: SCOPE_ENUM.FEDERATED,
 		displayName: t('settings', 'Federated'),
 		tooltip: t('settings', 'Only synchronize to trusted servers'),
 		tooltipDisabled: t('settings', 'Not available as federation has been disabled for your account, contact your system administration if you have any questions'),
-		icon: mdiAccountGroup,
+		icon: mdiAccountGroupOutline,
 	},
 	[SCOPE_ENUM.PUBLISHED]: {
 		name: SCOPE_ENUM.PUBLISHED,

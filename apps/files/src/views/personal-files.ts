@@ -8,7 +8,7 @@ import { View, getNavigation } from '@nextcloud/files'
 import { getContents } from '../services/PersonalFiles.ts'
 import { defaultView, hasPersonalFilesView } from '../utils/filesViews.ts'
 
-import AccountIcon from '@mdi/svg/svg/account.svg?raw'
+import AccountIcon from '@mdi/svg/svg/account-outline.svg?raw'
 
 export const VIEW_ID = 'personal'
 

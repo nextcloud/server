@@ -57,7 +57,7 @@ import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
 import { decode } from 'blurhash'
 import { defineComponent } from 'vue'
 
-import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
 import FolderIcon from 'vue-material-design-icons/Folder.vue'

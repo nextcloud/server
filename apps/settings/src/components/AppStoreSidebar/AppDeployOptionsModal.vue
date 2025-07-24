@@ -65,7 +65,7 @@
 						style="margin-top: 6px;"
 						@click="removeMount(mount)">
 						<template #icon>
-							<NcIconSvgWrapper :path="mdiDelete" />
+							<NcIconSvgWrapper :path="mdiDeleteOutline" />
 						</template>
 					</NcButton>
 				</div>
@@ -160,7 +160,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
-import { mdiPlus, mdiCheck, mdiClose, mdiDelete } from '@mdi/js'
+import { mdiPlus, mdiCheck, mdiClose, mdiDeleteOutline } from '@mdi/js'
 
 import { useAppApiStore } from '../../store/app-api-store.ts'
 import { useAppsStore } from '../../store/apps-store.ts'
@@ -216,7 +216,7 @@ export default {
 			mdiPlus,
 			mdiCheck,
 			mdiClose,
-			mdiDelete,
+			mdiDeleteOutline,
 		}
 	},
 	data() {

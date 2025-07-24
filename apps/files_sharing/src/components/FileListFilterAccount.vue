@@ -8,7 +8,7 @@
 		:filter-name="t('files_sharing', 'People')"
 		@reset-filter="resetFilter">
 		<template #icon>
-			<NcIconSvgWrapper :path="mdiAccountMultiple" />
+			<NcIconSvgWrapper :path="mdiAccountMultipleOutline" />
 		</template>
 		<NcActionInput v-if="availableAccounts.length > 1"
 			:label="t('files_sharing', 'Filter accounts')"
@@ -39,7 +39,7 @@
 import type { IAccountData } from '../files_filters/AccountFilter.ts'
 
 import { translate as t } from '@nextcloud/l10n'
-import { mdiAccountMultiple } from '@mdi/js'
+import { mdiAccountMultipleOutline } from '@mdi/js'
 import { computed, ref, watch } from 'vue'
 
 import FileListFilter from '../../../files/src/components/FileListFilter/FileListFilter.vue'
