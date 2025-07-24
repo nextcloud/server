@@ -78,6 +78,7 @@ class AccountManager implements IAccountManager {
 		self::PROPERTY_PRONOUNS => self::SCOPE_FEDERATED,
 		self::PROPERTY_ROLE => self::SCOPE_LOCAL,
 		self::PROPERTY_TWITTER => self::SCOPE_LOCAL,
+		self::PROPERTY_BSKY => self::SCOPE_LOCAL,
 		self::PROPERTY_WEBSITE => self::SCOPE_LOCAL,
 	];
 
@@ -564,6 +565,13 @@ class AccountManager implements IAccountManager {
 			],
 
 			[
+				'name' => self::PROPERTY_BSKY,
+				'value' => '',
+				'scope' => $scopes[self::PROPERTY_BSKY],
+				'verified' => self::NOT_VERIFIED,
+			],
+
+			[
 				'name' => self::PROPERTY_FEDIVERSE,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_FEDIVERSE],
@@ -713,6 +721,18 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
+	private function sanitizePropertyBsky(IAccountProperty $property): void {
+		if ($property->getName() === self::PROPERTY_BSKY) {
+			$matches = [];
+
+			if (preg_match('/^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/', $property->getValue(), $matches) !== 1) {
+				throw new InvalidArgumentException(self::PROPERTY_BSKY);
+			}
+
+			$property->setValue($matches[0]);
+		}
+	}
+
 	/**
 	 * @throws InvalidArgumentException If the property value is not a valid fediverse handle (username@instance where instance is a valid domain)
 	 */
@@ -799,6 +819,15 @@ class AccountManager implements IAccountManager {
 			$property = $account->getProperty(self::PROPERTY_TWITTER);
 			if ($property->getValue() !== '') {
 				$this->sanitizePropertyTwitter($property);
+			}
+		} catch (PropertyDoesNotExistException $e) {
+			//  valid case, nothing to do
+		}
+
+		try {
+			$property = $account->getProperty(self::PROPERTY_BSKY);
+			if ($property->getValue() !== '') {
+				$this->sanitizePropertyBsky($property);
 			}
 		} catch (PropertyDoesNotExistException $e) {
 			//  valid case, nothing to do

@@ -98,6 +98,7 @@ class PersonalInfo implements ISettings {
 			'location' => $this->getProperty($account, IAccountManager::PROPERTY_ADDRESS),
 			'website' => $this->getProperty($account, IAccountManager::PROPERTY_WEBSITE),
 			'twitter' => $this->getProperty($account, IAccountManager::PROPERTY_TWITTER),
+			'bsky' => $this->getProperty($account, IAccountManager::PROPERTY_BSKY),
 			'fediverse' => $this->getProperty($account, IAccountManager::PROPERTY_FEDIVERSE),
 			'languageMap' => $this->getLanguageMap($user),
 			'localeMap' => $this->getLocaleMap($user),
