@@ -17,7 +17,8 @@ namespace OCP\Config\Lexicon;
  * - **Preset::MEDIUM** - Medium size organisation (> 100 accounts)
  * - **Preset::SMALL** - Small size organisation (< 100 accounts)
  * - **Preset::SHARED** - Shared hosting
- * - **Preset::EDUCATION** - School/University
+ * - **Preset::UNIVERSITY** - Education, large size
+ * - **Preset::SCHOOL** - Eduction, small/medium size
  * - **Preset::CLUB** - Club/Association
  * - **Preset::FAMILY** - Family
  * - **Preset::PRIVATE** - Private
@@ -26,15 +27,17 @@ namespace OCP\Config\Lexicon;
  */
 enum Preset: int {
 	/** @since 32.0.0 */
-	case LARGE = 8;
+	case LARGE = 9;
 	/** @since 32.0.0 */
-	case MEDIUM = 7;
+	case MEDIUM = 8;
 	/** @since 32.0.0 */
-	case SMALL = 6;
+	case SMALL = 7;
 	/** @since 32.0.0 */
-	case SHARED = 5;
+	case SHARED = 6;
 	/** @since 32.0.0 */
-	case EDUCATION = 4;
+	case UNIVERSITY = 5;
+	/** @since 32.0.0 */
+	case SCHOOL = 4;
 	/** @since 32.0.0 */
 	case CLUB = 3;
 	/** @since 32.0.0 */
