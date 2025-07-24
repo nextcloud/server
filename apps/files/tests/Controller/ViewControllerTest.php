@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -63,6 +64,7 @@ class ViewControllerTest extends TestCase {
 	private UserConfig&MockObject $userConfig;
 	private ViewConfig&MockObject $viewConfig;
 	private Router $router;
+	private IRegistry&MockObject $twoFactorRegistry;
 
 	private ViewController&MockObject $viewController;
 
@@ -79,6 +81,7 @@ class ViewControllerTest extends TestCase {
 		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->viewConfig = $this->createMock(ViewConfig::class);
+		$this->twoFactorRegistry = $this->createMock(IRegistry::class);
 
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->user->expects($this->any())
@@ -138,6 +141,7 @@ class ViewControllerTest extends TestCase {
 				$this->userConfig,
 				$this->viewConfig,
 				$filenameValidator,
+				$this->twoFactorRegistry,
 			])
 			->onlyMethods([
 				'getStorageInfo',
@@ -285,5 +289,25 @@ class ViewControllerTest extends TestCase {
 
 		$expected = new RedirectResponse('/index.php/apps/files/trashbin/123?dir=/test.d1462861890/sub');
 		$this->assertEquals($expected, $this->viewController->index('', '', '123'));
+	}
+
+	public function testTwoFactorAuthEnabled(): void {
+		$this->twoFactorRegistry->method('getProviderStates')
+			->willReturn([
+				'totp' => true,
+				'backup_codes' => true,
+			]);
+
+		$invokedCountProvideInitialState = $this->exactly(9);
+		$this->initialState->expects($invokedCountProvideInitialState)
+			->method('provideInitialState')
+			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState) {
+				if ($invokedCountProvideInitialState->numberOfInvocations() === 9) {
+					$this->assertEquals('isTwoFactorEnabled', $key);
+					$this->assertTrue($data);
+				}
+			});
+
+		$this->viewController->index('', '', null);
 	}
 }
