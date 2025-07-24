@@ -47,7 +47,7 @@ import { getNavigation } from '@nextcloud/files'
 import { t, getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
-import IconCog from 'vue-material-design-icons/Cog.vue'
+import IconCog from 'vue-material-design-icons/CogOutline.vue'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'

@@ -10,7 +10,7 @@ import { isPublicShare } from '@nextcloud/sharing/public'
 import { spawnDialog } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 
-import TagMultipleSvg from '@mdi/svg/svg/tag-multiple.svg?raw'
+import TagMultipleSvg from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
 
 /**
  * Spawn a dialog to add or remove tags from multiple nodes.

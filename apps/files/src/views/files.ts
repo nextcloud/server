@@ -10,7 +10,7 @@ import { getContents } from '../services/Files.ts'
 import { useActiveStore } from '../store/active.ts'
 import { defaultView } from '../utils/filesViews.ts'
 
-import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
+import FolderSvg from '@mdi/svg/svg/folder-outline.svg?raw'
 
 export const VIEW_ID = 'files'
 

@@ -32,9 +32,6 @@ This file is generated from multiple sources. Included packages:
 - @mdi/js
 	- version: 7.4.47
 	- license: Apache-2.0
-- @mdi/svg
-	- version: 7.4.47
-	- license: Apache-2.0
 - @nextcloud/auth
 	- version: 2.5.1
 	- license: GPL-3.0-or-later

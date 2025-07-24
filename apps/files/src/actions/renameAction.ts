@@ -5,7 +5,7 @@
 import { emit } from '@nextcloud/event-bus'
 import { Permission, type Node, FileAction, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import PencilSvg from '@mdi/svg/svg/pencil.svg?raw'
+import PencilSvg from '@mdi/svg/svg/pencil-outline.svg?raw'
 import { getPinia } from '../store'
 import { useFilesStore } from '../store/files'
 import { dirname } from 'path'

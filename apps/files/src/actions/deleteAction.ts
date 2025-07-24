@@ -10,7 +10,7 @@ import PQueue from 'p-queue'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
-import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
+import TrashCanSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
 
 import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
 import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'

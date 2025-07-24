@@ -12,7 +12,7 @@ import { showError, showInfo, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
-import FolderPlusSvg from '@mdi/svg/svg/folder-plus.svg?raw'
+import FolderPlusSvg from '@mdi/svg/svg/folder-plus-outline.svg?raw'
 
 import { newNodeName } from '../utils/newNodeDialog'
 import logger from '../logger'

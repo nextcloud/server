@@ -181,7 +181,7 @@ import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline
 import IconReload from 'vue-material-design-icons/Reload.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import ListViewIcon from 'vue-material-design-icons/FormatListBulletedSquare.vue'
-import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
+import ViewGridIcon from 'vue-material-design-icons/ViewGridOutline.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useFileListWidth } from '../composables/useFileListWidth.ts'
