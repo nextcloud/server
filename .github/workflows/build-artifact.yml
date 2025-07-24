@@ -1,0 +1,284 @@
+name: Build Nextcloud Workspace artifact
+
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2025 STRATO AG
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# The Nextcloud Workspace source is packaged as a container image.
+# This is a workaround because releases cannot be created without tags,
+# and we want to be able to create snapshots from branches.
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - 'src/**'
+      - 'apps/**'
+      - 'apps/**/appinfo/info.xml'
+      - 'IONOS'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'themes/**'
+      - 'lib/**'
+      - 'tsconfig.json'
+      - '**.js'
+      - '**.ts'
+      - '**.vue'
+      - '.gitmodules'
+  push:
+    branches:
+      - ionos-dev
+      - ionos-stable
+
+env:
+  TARGET_PACKAGE_NAME: nc-workspace.zip
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  ARTIFACTORY_REPOSITORY_SNAPSHOT: ionos-productivity-ncwserver-snapshot
+
+permissions:
+  contents: read
+
+jobs:
+  build-artifact:
+    runs-on: self-hosted
+
+    permissions:
+      contents: read
+
+    outputs:
+      NC_VERSION: ${{ steps.get_nc_version.outputs.NC_VERSION }}
+
+    name: build-artifact
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #v4.1.7
+        with:
+          submodules: true
+          fetch-depth: '1'
+
+      - name: Set up node with version from package.json's engines
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version-file: "package.json"
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y make zip unzip
+
+      - name: Print dependencies versions
+        run: make --version && node --version && npm --version
+
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
+        with:
+          tools: composer:v2
+          extensions: gd, zip, curl, xml, xmlrpc, mbstring, sqlite, xdebug, pgsql, intl, imagick, gmp, apcu, bcmath, redis, soap, imap, opcache
+        env:
+          runner: self-hosted
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Print PHP install
+        run: php -i && php -m
+
+      - name: Build Nextcloud
+        run: make -f IONOS/Makefile build_ncw
+
+      - name: Add config partials
+        run: make -f IONOS/Makefile add_config_partials
+
+      - name: Zip dependencies
+        run: make -f IONOS/Makefile zip_dependencies TARGET_PACKAGE_NAME=${{ env.TARGET_PACKAGE_NAME }}
+
+      - name: Get NC version
+        id: get_nc_version
+        continue-on-error: false
+        run: |
+          NC_VERSION=$(jq -r '.ncVersion' version.json)
+          echo "NC_VERSION: $NC_VERSION"
+
+          if [ -z "$NC_VERSION" ]; then
+            echo "NC_VERSION is empty"
+            exit 1
+          fi
+
+          echo "NC_VERSION=$NC_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Upload artifact result for job build-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 30
+          name: nextcloud_workspace_build_artifact
+          path: ${{ env.TARGET_PACKAGE_NAME }}
+
+      - name: Show changes on failure
+        if: failure()
+        run: |
+          git status
+          git --no-pager diff
+          exit 1 # make it red to grab attention
+
+  upload-to-artifactory:
+    runs-on: self-hosted
+    # Upload the artifact to the Artifactory repository on PR *OR* on "ionos-dev|ionos-stable" branch push defined in the on:push:branches
+    if: github.event_name == 'pull_request' || github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable'
+
+    name: Push to artifactory
+    needs: build-artifact
+
+    outputs:
+      ARTIFACTORY_LAST_BUILD_PATH: ${{ steps.artifactory_upload.outputs.ARTIFACTORY_LAST_BUILD_PATH }}
+
+    env:
+      BUILD_NAME: "nextcloud-workspace-snapshot"
+
+    steps:
+      - name: Check prerequisites
+        run: |
+          # count the number of secrets that are set
+          echo "Checking if required secrets are set..."
+          error_count=0
+
+          if [ -z "${{ secrets.JF_ARTIFACTORY_URL }}" ]; then
+            # output error to github actions log
+            echo "::error::JF_ARTIFACTORY_URL secret is not set"
+            error_count=$((error_count + 1))
+          fi
+
+          if [ -z "${{ secrets.JF_ARTIFACTORY_USER }}" ]; then
+            echo "::error::JF_ARTIFACTORY_USER secret is not set"
+            error_count=$((error_count + 1))
+          fi
+
+          if [ -z "${{ secrets.JF_ACCESS_TOKEN }}" ]; then
+            echo "::error::JF_ACCESS_TOKEN secret is not set"
+            error_count=$((error_count + 1))
+          fi
+
+          # abort if any of the required secrets are not set
+          if [ $error_count -ne 0 ]; then
+              echo "::error::Required secrets are not set. Aborting."
+              exit 1
+          fi
+
+      - name: Download artifact zip
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: nextcloud_workspace_build_artifact
+
+      # This action sets up the JFrog CLI with the Artifactory URL and access token
+      - uses: jfrog/setup-jfrog-cli@7c95feb32008765e1b4e626b078dfd897c4340ad # v4.4.1
+        env:
+          JF_URL: ${{ secrets.JF_ARTIFACTORY_URL }}
+          JF_USER: ${{ secrets.JF_ARTIFACTORY_USER }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+
+      - name: Ping the JF server
+        run: |
+          # Ping the server
+          jf rt ping
+
+      - name: Upload build to artifactory
+        id: artifactory_upload
+        run: |
+          # PR builds are stored in a separate directory as "dev/pr/nextcloud-workspace-pr-<number>.zip"
+          # Push to "ionos-dev" branch is stored as "dev/nextcloud-workspace-<ncVersion>.zip"
+
+          ARTIFACTORY_STAGE_PREFIX="dev"
+
+          # set ARTIFACTORY_STAGE_PREFIX=stable on ionos-stable branch
+          if [ "${{ github.ref_name }}" == "ionos-stable" ]; then
+              ARTIFACTORY_STAGE_PREFIX="stable"
+          fi
+
+          export PATH_TO_DIRECTORY="${{ env.ARTIFACTORY_REPOSITORY_SNAPSHOT }}/${ARTIFACTORY_STAGE_PREFIX}"
+          PATH_TO_FILE="pr/nextcloud-workspace-pr-${{ github.event.pull_request.number }}.zip"
+
+          if [ -z "${{ github.event.pull_request.number }}" ]; then
+            PATH_TO_FILE="nextcloud-workspace-${{ needs.build-artifact.outputs.NC_VERSION }}.zip"
+          fi
+
+          export PATH_TO_LATEST_ARTIFACT="${PATH_TO_DIRECTORY}/${PATH_TO_FILE}"
+
+          # Promote current build to the "latest" dev build
+          jf rt upload "${{ env.TARGET_PACKAGE_NAME }}" \
+          --build-name "${{ env.BUILD_NAME }}" \
+          --build-number ${{ github.run_number }} \
+          --target-props "build.nc_version=${{ needs.build-artifact.outputs.NC_VERSION }};vcs.branch=${{ github.ref }};vcs.revision=${{ github.sha }}" \
+          $PATH_TO_LATEST_ARTIFACT
+
+          echo "ARTIFACTORY_LAST_BUILD_PATH=${PATH_TO_LATEST_ARTIFACT}" >> $GITHUB_OUTPUT
+
+      - name: Show changes on failure
+        if: failure()
+        run: |
+          git status
+          git --no-pager diff
+          exit 1 # make it red to grab attention
+
+  nextcloud-workspace-artifact-to-ghcr_io:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    name: Push artifact to ghcr.io
+    needs: build-artifact
+
+    steps:
+      - name: Download artifact zip
+        uses: actions/download-artifact@v4
+        with:
+          name: nextcloud_workspace_build_artifact
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+
+      - name: Create Dockerfile
+        run: |
+          cat >Dockerfile << EOF
+          FROM busybox as builder
+          COPY ./${{ env.TARGET_PACKAGE_NAME }} /
+          WORKDIR /builder
+          RUN unzip /${{ env.TARGET_PACKAGE_NAME }} -d /builder
+
+          FROM scratch
+          WORKDIR /app
+          VOLUME /app
+          COPY --from=builder /builder /app
+          EOF
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Show changes on failure
+        if: failure()
+        run: |
+          echo "Git status:"
+          git status
+          echo "Git diff:"
+          git diff
+          exit 1 # make it red to grab attention
