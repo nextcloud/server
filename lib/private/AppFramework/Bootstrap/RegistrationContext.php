@@ -11,7 +11,6 @@ namespace OC\AppFramework\Bootstrap;
 
 use Closure;
 use NCU\Config\Lexicon\IConfigLexicon;
-use OC\Config\Lexicon\CoreConfigLexicon;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
@@ -144,7 +143,7 @@ class RegistrationContext {
 	private array $declarativeSettings = [];
 
 	/** @var array<array-key, string> */
-	private array $configLexiconClasses = ['core' => CoreConfigLexicon::class];
+	private array $configLexiconClasses = [];
 
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
