@@ -79,6 +79,7 @@
 				:success="webdavUrlCopied"
 				:trailing-button-label="t('files', 'Copy to clipboard')"
 				:value="webdavUrl"
+				class="webdav-url-input"
 				readonly="readonly"
 				type="url"
 				@focus="$event.target.select()"
@@ -428,5 +429,9 @@ export default {
 		// force portion of a shortcut on a new line for nicer display
 		white-space: nowrap;
 	}
+}
+
+.webdav-url-input {
+	margin-block-end: 0.5rem;
 }
 </style>
