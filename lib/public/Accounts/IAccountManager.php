@@ -101,6 +101,11 @@ interface IAccountManager {
 	public const PROPERTY_TWITTER = 'twitter';
 
 	/**
+	 * @since 32.0.0
+	 */
+	public const PROPERTY_BSKY = 'bsky';
+
+	/**
 	 * @since 26.0.0
 	 */
 	public const PROPERTY_FEDIVERSE = 'fediverse';
@@ -160,6 +165,7 @@ interface IAccountManager {
 		self::PROPERTY_PRONOUNS,
 		self::PROPERTY_ROLE,
 		self::PROPERTY_TWITTER,
+		self::PROPERTY_BSKY,
 		self::PROPERTY_WEBSITE,
 	];
 

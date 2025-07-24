@@ -319,6 +319,8 @@ class UsersController extends Controller {
 	 * @param string|null $addressScope
 	 * @param string|null $twitter
 	 * @param string|null $twitterScope
+	 * @param string|null $bsky
+	 * @param string|null $bskyScope
 	 * @param string|null $fediverse
 	 * @param string|null $fediverseScope
 	 * @param string|null $birthdate
@@ -342,6 +344,8 @@ class UsersController extends Controller {
 		?string $addressScope = null,
 		?string $twitter = null,
 		?string $twitterScope = null,
+		?string $bsky = null,
+		?string $bskyScope = null,
 		?string $fediverse = null,
 		?string $fediverseScope = null,
 		?string $birthdate = null,
@@ -386,6 +390,7 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_ADDRESS => ['value' => $address, 'scope' => $addressScope],
 			IAccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
 			IAccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope],
+			IAccountManager::PROPERTY_BSKY => ['value' => $bsky, 'scope' => $bskyScope],
 			IAccountManager::PROPERTY_FEDIVERSE => ['value' => $fediverse, 'scope' => $fediverseScope],
 			IAccountManager::PROPERTY_BIRTHDATE => ['value' => $birthdate, 'scope' => $birthdateScope],
 			IAccountManager::PROPERTY_PRONOUNS => ['value' => $pronouns, 'scope' => $pronounsScope],
@@ -428,6 +433,8 @@ class UsersController extends Controller {
 						'addressScope' => $userAccount->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
 						'twitter' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
 						'twitterScope' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
+						'bsky' => $userAccount->getProperty(IAccountManager::PROPERTY_BSKY)->getValue(),
+						'bskyScope' => $userAccount->getProperty(IAccountManager::PROPERTY_BSKY)->getScope(),
 						'fediverse' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue(),
 						'fediverseScope' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getScope(),
 						'birthdate' => $userAccount->getProperty(IAccountManager::PROPERTY_BIRTHDATE)->getValue(),

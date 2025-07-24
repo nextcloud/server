@@ -67,6 +67,8 @@ namespace OCA\Provisioning_API;
  *     subadmin: list<string>,
  *     twitter: string,
  *     twitterScope?: Provisioning_APIUserDetailsScope,
+ * 	   bsky: string,
+ *     bskyScope?: Provisioning_APIUserDetailsScope,
  *     website: string,
  *     websiteScope?: Provisioning_APIUserDetailsScope,
  * }

@@ -42,6 +42,12 @@
 					<img class="social-button__icon" :src="urlMastodonIcon">
 				</template>
 			</NcButton>
+			<NcButton @click="goTo(shareBlueSkyUrl)">
+				{{ t('federatedfilesharing', 'Bluesky') }}
+				<template #icon>
+					<img class="social-button__icon" :src="urlBlueSkyIcon">
+				</template>
+			</NcButton>
 			<NcButton class="social-button__website-button"
 				@click="showHtml = !showHtml">
 				<template #icon>
@@ -101,6 +107,7 @@ export default {
 			reference: loadState<string>('federatedfilesharing', 'reference'),
 			urlFacebookIcon: imagePath('core', 'facebook'),
 			urlMastodonIcon: imagePath('core', 'mastodon'),
+			urlBlueSkyIcon: imagePath('core', 'bluesky'),
 			urlXIcon: imagePath('core', 'x'),
 		}
 	},
@@ -129,6 +136,9 @@ export default {
 		},
 		shareFacebookUrl() {
 			return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.reference)}`
+		},
+		shareBlueSkyUrl() {
+			return `https://bsky.app/compose?text=${encodeURIComponent(this.messageWithURL)}`
 		},
 		logoPathAbsolute() {
 			return window.location.protocol + '//' + window.location.host + this.logoPath
