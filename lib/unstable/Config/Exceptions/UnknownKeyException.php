@@ -12,7 +12,7 @@ use Exception;
 
 /**
  * @experimental 31.0.0
- * @deprecated use \OCP\Config\Exceptions\UnknownKeyException
+ * @deprecated 32.0.0  use \OCP\Config\Exceptions\UnknownKeyException
  * @see \OCP\Config\Exceptions\UnknownKeyException
  */
 class UnknownKeyException extends Exception {

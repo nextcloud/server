@@ -12,7 +12,7 @@ use Exception;
 
 /**
  * @experimental 31.0.0
- * @deprecated use \OCP\Config\Exceptions\IncorrectTypeException
+ * @deprecated 32.0.0  use \OCP\Config\Exceptions\IncorrectTypeException
  * @see \OCP\Config\Exceptions\IncorrectTypeException
  */
 class IncorrectTypeException extends Exception {

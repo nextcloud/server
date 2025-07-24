@@ -16,14 +16,14 @@ use NCU\Config\ValueType;
  *
  * @see IConfigLexicon
  * @experimental 31.0.0
- * @deprecated use \OCP\Config\Lexicon\Entry
+ * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
  * @see \OCP\Config\Lexicon\Entry
  * @psalm-suppress DeprecatedClass
  */
 class ConfigLexiconEntry {
 	/**
 	 * @experimental 32.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	public const RENAME_INVERT_BOOLEAN = 1;
@@ -41,7 +41,7 @@ class ConfigLexiconEntry {
 	 * @param bool $deprecated set config key as deprecated
 	 *
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 * @psalm-suppress PossiblyInvalidCast
 	 * @psalm-suppress RiskyCast
@@ -73,7 +73,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @return string config key
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	public function getKey(): string {
@@ -85,7 +85,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @return ValueType
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 * @psalm-suppress DeprecatedClass
 	 */
@@ -97,7 +97,7 @@ class ConfigLexiconEntry {
 	 * @param string $default
 	 * @return string
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	private function convertFromString(string $default): string {
@@ -108,7 +108,7 @@ class ConfigLexiconEntry {
 	 * @param int $default
 	 * @return string
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	private function convertFromInt(int $default): string {
@@ -119,7 +119,7 @@ class ConfigLexiconEntry {
 	 * @param float $default
 	 * @return string
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	private function convertFromFloat(float $default): string {
@@ -130,7 +130,7 @@ class ConfigLexiconEntry {
 	 * @param bool $default
 	 * @return string
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	private function convertFromBool(bool $default): string {
@@ -141,7 +141,7 @@ class ConfigLexiconEntry {
 	 * @param array $default
 	 * @return string
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	private function convertFromArray(array $default): string {
@@ -153,7 +153,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @return string|null NULL if no default is set
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 * @psalm-suppress DeprecatedClass
 	 * @psalm-suppress DeprecatedMethod
@@ -185,7 +185,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @return string
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 * @psalm-suppress PossiblyInvalidCast arrays are managed pre-cast
 	 * @psalm-suppress RiskyCast
@@ -214,7 +214,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @return string
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	public function getDefinition(): string {
@@ -227,7 +227,7 @@ class ConfigLexiconEntry {
 	 * @see IAppConfig for details on lazy config values
 	 * @return bool TRUE if config value is lazy
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	public function isLazy(): bool {
@@ -240,7 +240,7 @@ class ConfigLexiconEntry {
 	 * @see IAppConfig for details on sensitive config values
 	 * @return int bitflag about the config value
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	public function getFlags(): int {
@@ -252,7 +252,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @return bool TRUE is config value bitflag contains $flag
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 * @psalm-suppress DeprecatedMethod
 	 */
@@ -266,7 +266,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @return string|null not NULL if value can be imported from a previous key
 	 * @experimental 32.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	public function getRename(): ?string {
@@ -275,7 +275,7 @@ class ConfigLexiconEntry {
 
 	/**
 	 * @experimental 32.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 * @return bool TRUE if $option was set during the creation of the entry.
 	 */
@@ -288,7 +288,7 @@ class ConfigLexiconEntry {
 	 *
 	 * @return bool TRUE if config si deprecated
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\Entry
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\Entry
 	 * @see \OCP\Config\Lexicon\Entry
 	 */
 	public function isDeprecated(): bool {

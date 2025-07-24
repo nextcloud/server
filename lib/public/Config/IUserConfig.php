@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCP\Config;
 
 use Generator;
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Config\Exceptions\IncorrectTypeException;
 use OCP\Config\Exceptions\UnknownKeyException;
 
@@ -29,6 +30,7 @@ use OCP\Config\Exceptions\UnknownKeyException;
  *
  * @since 32.0.0
  */
+#[Consumable(since: '32.0.0')]
 interface IUserConfig {
 	/**
 	 * @since 32.0.0

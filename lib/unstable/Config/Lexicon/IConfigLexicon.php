@@ -13,7 +13,7 @@ namespace NCU\Config\Lexicon;
  * The config lexicon is used to avoid conflicts and problems when storing/retrieving config values
  *
  * @experimental 31.0.0
- * @deprecated use \OCP\Config\Lexicon\ILexicon
+ * @deprecated 32.0.0  use \OCP\Config\Lexicon\ILexicon
  * @see \OCP\Config\Lexicon\ILexicon
  */
 interface IConfigLexicon {
@@ -24,7 +24,7 @@ interface IConfigLexicon {
 	 *
 	 * @return ConfigLexiconStrictness
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\ILexicon
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\ILexicon
 	 * @see \OCP\Config\Lexicon\ILexicon
 	 * @psalm-suppress DeprecatedClass
 	 *
@@ -36,7 +36,7 @@ interface IConfigLexicon {
 	 *
 	 * @return ConfigLexiconEntry[]
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\ILexicon
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\ILexicon
 	 * @see \OCP\Config\Lexicon\ILexicon
 	 * @psalm-suppress DeprecatedClass
 	 */
@@ -47,7 +47,7 @@ interface IConfigLexicon {
 	 *
 	 * @return ConfigLexiconEntry[]
 	 * @experimental 31.0.0
-	 * @deprecated use \OCP\Config\Lexicon\ILexicon
+	 * @deprecated 32.0.0  use \OCP\Config\Lexicon\ILexicon
 	 * @see \OCP\Config\Lexicon\ILexicon
 	 * @psalm-suppress DeprecatedClass
 	 */
