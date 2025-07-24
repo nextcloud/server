@@ -33,7 +33,7 @@ import { subscribe } from '@nextcloud/event-bus'
 import { translate } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
-import ChartPie from 'vue-material-design-icons/ChartPie.vue'
+import ChartPie from 'vue-material-design-icons/ChartPieOutline.vue'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 

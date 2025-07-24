@@ -10,7 +10,7 @@ import { getFavoriteNodes } from '@nextcloud/files/dav'
 import { subscribe } from '@nextcloud/event-bus'
 
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
-import StarSvg from '@mdi/svg/svg/star.svg?raw'
+import StarSvg from '@mdi/svg/svg/star-outline.svg?raw'
 
 import { client } from '../services/WebdavClient.ts'
 import { getContents } from '../services/Favorites'
