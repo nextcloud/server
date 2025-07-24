@@ -845,71 +845,93 @@ class Session implements IUserSession, Emitter {
 
 	/**
 	 * perform login using the magic cookie (remember login)
-	 *
-	 * @param string $uid the username
-	 * @param string $currentToken
-	 * @param string $oldSessionId
-	 * @return bool
 	 */
-	public function loginWithCookie($uid, $currentToken, $oldSessionId) {
-		$this->session->regenerateId();
-		$this->manager->emit('\OC\User', 'preRememberedLogin', [$uid]);
+	public function loginWithCookie(string $uid, string $currentToken, string $oldSessionId): bool {
+		// Validate user
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
-			// user does not exist
 			return false;
 		}
 
-		// get stored tokens
+		// Check stored tokens
 		$tokens = $this->config->getUserKeys($uid, 'login_token');
-		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
-			$this->logger->info('Tried to log in but could not verify token', [
+			$this->logger->info('Invalid token provided', [
 				'app' => 'core',
 				'user' => $uid,
+				'currentToken' => $currentToken,
 			]);
 			return false;
 		}
-		// replace successfully used token with a new one
+
+		// Regenerate session ID after token validation
+		try {
+			$this->session->regenerateId();
+			$sessionId = $this->session->getId();
+		} catch (SessionNotAvailableException $ex) {
+			$this->logger->critical('Session unavailable during regeneration', [
+				'app' => 'core',
+				'user' => $uid,
+				'exception' => $ex->getMessage(),
+			]);
+			return false;
+		}
+
+		$this->manager->emit('\OC\User', 'preRememberedLogin', [$uid]);
+
+		// Renew session token
+		try {
+			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
+			$this->logger->debug('Session token renewed', [
+				'app' => 'core',
+				'user' => $uid,
+				'newSessionId' => $sessionId,
+			]);
+		} catch (InvalidTokenException $ex) {
+			$this->logger->error('Failed to renew session token: ' . $ex->getMessage(), [
+				'app' => 'core',
+				'user' => $uid,
+				'oldSessionId' => $oldSessionId,
+				'newSessionId' => $sessionId,
+				'exception' => $ex,
+			]);
+			return false;
+		} catch (SessionNotAvailableException $ex) {
+			$this->logger->critical('Session unavailable during token renewal', [
+				'app' => 'core',
+				'user' => $uid,
+				'exception' => $ex->getMessage(),
+			]);
+			return false;
+		}
+
+		// Replace token
 		$this->config->deleteUserValue($uid, 'login_token', $currentToken);
 		$newToken = $this->random->generate(32);
 		$this->config->setUserValue($uid, 'login_token', $newToken, (string)$this->timeFactory->getTime());
 		$this->logger->debug('Remember-me token replaced', [
 			'app' => 'core',
 			'user' => $uid,
+			'newToken' => $newToken,
 		]);
 
+		// Set cookie and login
 		try {
-			$sessionId = $this->session->getId();
-			$token = $this->tokenProvider->renewSessionToken($oldSessionId, $sessionId);
-			$this->logger->debug('Session token replaced', [
+			$this->setMagicInCookie($user->getUID(), $newToken);
+		} catch (\Exception $ex) {
+			$this->logger->error('Failed to set cookie: ' . $ex->getMessage(), [
 				'app' => 'core',
 				'user' => $uid,
-			]);
-		} catch (SessionNotAvailableException $ex) {
-			$this->logger->critical('Could not renew session token for {uid} because the session is unavailable', [
-				'app' => 'core',
-				'uid' => $uid,
-				'user' => $uid,
-			]);
-			return false;
-		} catch (InvalidTokenException $ex) {
-			$this->logger->error('Renewing session token failed: ' . $ex->getMessage(), [
-				'app' => 'core',
-				'user' => $uid,
-				'exception' => $ex,
 			]);
 			return false;
 		}
 
-		$this->setMagicInCookie($user->getUID(), $newToken);
-
-		//login
 		$this->setUser($user);
 		$this->setLoginName($token->getLoginName());
 		$this->setToken($token->getId());
 		$this->lockdownManager->setToken($token);
 		$user->updateLastLoginTimestamp();
+
 		$password = null;
 		try {
 			$password = $this->tokenProvider->getPassword($token, $sessionId);
