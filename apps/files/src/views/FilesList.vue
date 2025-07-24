@@ -176,7 +176,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
-import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
+import AccountPlusIcon from 'vue-material-design-icons/AccountPlusOutline.vue'
 import IconAlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
 import IconReload from 'vue-material-design-icons/Reload.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'

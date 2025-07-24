@@ -9,7 +9,7 @@ import _ from 'underscore'
 import $ from 'jquery'
 
 import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
-import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
+import IconCopy from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 
 import OC from './index.js'
 import { DialogBuilder, FilePickerType, getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
