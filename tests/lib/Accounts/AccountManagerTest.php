@@ -575,6 +575,13 @@ class AccountManagerTest extends TestCase {
 			],
 
 			[
+				'name' => IAccountManager::PROPERTY_BLUESKY,
+				'value' => '',
+				'scope' => IAccountManager::SCOPE_LOCAL,
+				'verified' => IAccountManager::NOT_VERIFIED,
+			],
+
+			[
 				'name' => IAccountManager::PROPERTY_FEDIVERSE,
 				'value' => '',
 				'scope' => IAccountManager::SCOPE_LOCAL,
