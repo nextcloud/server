@@ -888,7 +888,7 @@ export default defineComponent({
 		}
 
 		.files-list__row-size {
-			width: calc(var(--row-height) * 1.5);
+			width: calc(var(--row-height) * 2);
 			// Right align content/text
 			justify-content: flex-end;
 		}
@@ -898,11 +898,11 @@ export default defineComponent({
 		}
 
 		.files-list__row-mime {
-			width: calc(var(--row-height) * 2.5);
+			width: calc(var(--row-height) * 3.5);
 		}
 
 		.files-list__row-column-custom {
-			width: calc(var(--row-height) * 2);
+			width: calc(var(--row-height) * 2.5);
 		}
 	}
 }
