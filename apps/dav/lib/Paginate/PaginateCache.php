@@ -18,7 +18,6 @@ use OCP\Security\ISecureRandom;
 class PaginateCache {
 	public const TTL = 60 * 60;
 	private const CACHE_COUNT_SUFFIX = 'count';
-
 	private ICache $cache;
 
 	public function __construct(
