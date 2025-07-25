@@ -151,7 +151,7 @@ const registerTreeRoot = () => {
 	Navigation.register(new View({
 		id: folderTreeId,
 
-		name: t('files', 'All folders'),
+		name: t('files', 'Folder tree'),
 		caption: t('files', 'List of your files and folders.'),
 
 		icon: FolderMultipleSvg,
