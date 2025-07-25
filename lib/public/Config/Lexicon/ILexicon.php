@@ -8,16 +8,12 @@ declare(strict_types=1);
 
 namespace OCP\Config\Lexicon;
 
-use OCP\AppFramework\Attribute\Consumable;
 use OCP\AppFramework\Attribute\Implementable;
 
 /**
  * This interface needs to be implemented if you want to define a config lexicon for your application
  * The config lexicon is used to avoid conflicts and problems when storing/retrieving config values
- *
- * @since 32.0.0
  */
-#[Consumable(since: '32.0.0')]
 #[Implementable(since: '32.0.0')]
 interface ILexicon {
 

@@ -8,15 +8,15 @@ declare(strict_types=1);
 
 namespace OCP\Config;
 
+use OCP\AppFramework\Attribute\Consumable;
 use OCP\Config\Exceptions\IncorrectTypeException;
 use OCP\IAppConfig;
 use UnhandledMatchError;
 
 /**
  * Listing of available value type for typed config value
- *
- * @since 32.0.0
  */
+#[Consumable(since: '32.0.0')]
 enum ValueType: int {
 	/**
 	 * @since 32.0.0

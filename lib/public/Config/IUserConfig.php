@@ -27,8 +27,6 @@ use OCP\Config\Exceptions\UnknownKeyException;
  * Similarly, some methods from this class are marked with a warning about ignoring
  * lazy loading. Use them wisely and only on parts of the code that are called
  * during specific requests or actions to avoid loading the lazy values all the time.
- *
- * @since 32.0.0
  */
 #[Consumable(since: '32.0.0')]
 interface IUserConfig {

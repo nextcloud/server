@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace OCP\Config\Lexicon;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * list of preset to handle the default behavior of the instance
  *
@@ -22,9 +24,8 @@ namespace OCP\Config\Lexicon;
  * - **Preset::CLUB** - Club/Association
  * - **Preset::FAMILY** - Family
  * - **Preset::PRIVATE** - Private
- *
- * @since 32.0.0
  */
+#[Consumable(since: '32.0.0')]
 enum Preset: int {
 	/** @since 32.0.0 */
 	case LARGE = 9;

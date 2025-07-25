@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace OCP\Config\Lexicon;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Strictness regarding using not-listed config keys
  *
@@ -15,9 +17,8 @@ namespace OCP\Config\Lexicon;
  * - **Strictness::NOTICE** - ignore and report
  * - **Strictness::WARNING** - silently block (returns $default) and report
  * - **Strictness::EXCEPTION** - block (throws exception) and report
- *
- * @since 32.0.0
  */
+#[Consumable(since: '32.0.0')]
 enum Strictness {
 	/** @since 32.0.0 */
 	case IGNORE; // fully ignore
