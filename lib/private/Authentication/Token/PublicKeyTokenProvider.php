@@ -43,7 +43,7 @@ class PublicKeyTokenProvider implements IProvider {
 		private LoggerInterface $logger,
 		private ITimeFactory $time,
 		private IHasher $hasher,
-		ICacheFactory $cacheFactory
+		ICacheFactory $cacheFactory,
 	) {
 
 		$this->cache = $cacheFactory->isLocalCacheAvailable() ? $cacheFactory->createLocal('authtoken_') : $cacheFactory->createInMemory();
@@ -66,12 +66,12 @@ class PublicKeyTokenProvider implements IProvider {
 		// Check for valid token length
 		$tokenLength = strlen($token);
 		if ($tokenLength < self::TOKEN_MIN_LENGTH) {
-			$exception = new InvalidTokenException('Token is too short, minimum of ' 
-												   . self::TOKEN_MIN_LENGTH 
-												   . ' characters is required, ' 
-												   . $tokenLength 
+			$exception = new InvalidTokenException('Token is too short, minimum of '
+												   . self::TOKEN_MIN_LENGTH
+												   . ' characters is required, '
+												   . $tokenLength
 												   . ' characters given'
-												  );
+			);
 			$this->logger->error('Invalid token provided when generating new token', ['exception' => $exception]);
 			throw $exception;
 		}
@@ -83,17 +83,17 @@ class PublicKeyTokenProvider implements IProvider {
 
 		// Generate a (preliminary) new token
 		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
-			/** 
-   			 * TODO (perf): If we pass $password as null above (instead of the actual p/w) I think we can avoid having newToken() encrypt and 
-   			 * hash a password we may yet overwrite... and we can then explicitly call dbToken->setPassword() and dbToken->setPasswordHash() 
-	   		 * below when/if deemed appropriate (as we already do for the latter).
-	   		 */
+		/** 
+   		 * TODO (perf): If we pass $password as null above (instead of the actual p/w) I think we can avoid having newToken() encrypt and 
+   		 * hash a password we may yet overwrite... and we can then explicitly call dbToken->setPassword() and dbToken->setPasswordHash() 
+	   	 * below when/if deemed appropriate (as we already do for the latter).
+	   	 */
 
 		// Set the scope for the new token (if specified)
 		if ($scope !== null) {
 			$dbToken->setScope($scope);
 		}
-		
+
 		// If a password was specified, determine if it matches the one already used by other tokens associated with this $uid.
 		// Comparing to any single existing token (belonging to $uid) is enough since all passwords (for the same $uid) use the same hash.
 		if ($password !== null && $randomOldToken = $this->mapper->getFirstTokenForUser($uid)) { // don't bother if there's no password nor other tokens
@@ -126,7 +126,7 @@ class PublicKeyTokenProvider implements IProvider {
 	 * {@inheritDoc}
 	 */
 	public function getToken(string $tokenId): OCPIToken {
-		
+
 		// Check for valid tokenId length
 		/**
 		 * Token length: 72
@@ -147,12 +147,12 @@ class PublicKeyTokenProvider implements IProvider {
 		 */
 		$tokenIdLength = strlen($tokenId);
 		if ($tokenIdLength < self::TOKEN_MIN_LENGTH) {
-			throw new InvalidTokenException('TokenId is too short for a generated token, minimum of ' 
-												   . self::TOKEN_MIN_LENGTH 
-												   . ' characters is required, ' 
-												   . $tokenIdLength 
+			throw new InvalidTokenException('TokenId is too short for a generated token, minimum of '
+												   . self::TOKEN_MIN_LENGTH
+												   . ' characters is required, '
+												   . $tokenIdLength
 												   . ' characters given (should be a password during basic auth)'
-												  );
+			);
 			// TODO: should we log this also? (i.e. if it's always caught elsewhere)
 		}
 
@@ -182,12 +182,12 @@ class PublicKeyTokenProvider implements IProvider {
 				}
 			}
 		}
-		
+
 		// If we make it this far, we found a token.
 
 		// Check for token for expiration, wipe state, or an expired password (throws appropriately if so)
 		$this->checkToken($token);
-		
+
 		// We're done
 		return $token;
 	}
@@ -223,7 +223,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	/**
 	 * {@inheritDoc}
-	 */	
+	 */
 	public function getTokenById(int $tokenId): OCPIToken {
 		try {
 			$token = $this->mapper->getTokenById($tokenId);
@@ -253,7 +253,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	/**
 	 * {@inheritDoc}
-	 */	
+	 */
 	public function renewSessionToken(string $oldSessionId, string $sessionId): OCPIToken {
 		return $this->atomic(function () use ($oldSessionId, $sessionId) {
 			$token = $this->getToken($oldSessionId);
@@ -290,14 +290,14 @@ class PublicKeyTokenProvider implements IProvider {
 
 	/**
 	 * {@inheritDoc}
-	 */	
+	 */
 	public function invalidateToken(string $token) {
 		$tokenHash = $this->hashToken($token);
 		$this->mapper->invalidate($this->hashToken($token));
 		$this->mapper->invalidate($this->hashTokenWithEmptySecret($token));
 		$this->cacheInvalidHash($tokenHash);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -308,9 +308,8 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 		$this->mapper->invalidate($token->getToken());
 		$this->cacheInvalidHash($token->getToken());
-
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -331,14 +330,14 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->logger->debug('Invalidating auth tokens older than ' . date('c', $authTokenThreshold), ['app' => 'cron']);
 		$this->mapper->invalidateOld($authTokenThreshold, OCPIToken::PERMANENT_TOKEN);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public function invalidateLastUsedBefore(string $uid, int $before): void {
 		$this->mapper->invalidateLastUsedBefore($uid, $before);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -352,7 +351,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	/**
 	 * {@inheritDoc}
-	 */	
+	 */
 	public function updateTokenActivity(OCPIToken $token) {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -372,14 +371,14 @@ class PublicKeyTokenProvider implements IProvider {
 
 	/**
 	 * {@inheritDoc}
-	 */	
+	 */
 	public function getTokenByUser(string $uid): array {
 		return $this->mapper->getTokenByUser($uid);
 	}
 
 	/**
 	 * {@inheritDoc}
-	 */	
+	 */
 	public function getPassword(OCPIToken $savedToken, string $tokenId): string {
 		if (!($savedToken instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -398,7 +397,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	/**
 	 * {@inheritDoc}
-	 */	
+	 */
 	public function setPassword(OCPIToken $token, string $tokenId, string $password) {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -426,7 +425,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	/**
 	 * {@inheritDoc}
-	 */	
+	 */
 	public function rotate(OCPIToken $token, string $oldTokenId, string $newTokenId): OCPIToken {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -494,8 +493,8 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	/**
- 	 * Generates a new token (leaving caller to handle persisting it)
-     *
+	 * Generates a new token (leaving caller to handle persisting it)
+	 *
 	 * @return PublicKeyToken
 	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
@@ -506,17 +505,20 @@ class PublicKeyTokenProvider implements IProvider {
 		?string $password,
 		string $name,
 		int $type,
-		int $remember
+		int $remember,
 	): PublicKeyToken {
 
-		// Enforce the maximum length unless crypted passwords are disabled
-		$storeCrypted = $this->config->getSystemValueBool('auth.storeCryptedPassword', true);
-		if (strlen($password) > IUserManager::MAX_PASSWORD_LENGTH && !$storeCrypted) {
+		
+		$storeCrypted = $password !== null
+			&& $this->config->getSystemValueBool('auth.storeCryptedPassword', true);
+		
+		// Enforce the maximum password length unless crypted passwords are disabled (or there's no p/w)
+		if ($storeCrypted && strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
 			throw new \RuntimeException(
-				'Trying to save a password with more than 469 characters is not supported. If you want to use longer passwords, disable auth.storeCryptedPassword via config.php'
+				'Passwords with more than 469 characters are not supported unless auth.storeCryptedPassword is disabled in config.php'
 			);
 		}
-		
+
 		// Create a a new token
 		$dbToken = new PublicKeyToken();
 
@@ -524,23 +526,24 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
 
-		// Handle long passwords in the acceptable range but that may benefit from a larger key size
-		$longPasswordSupport = $password !== null && strlen($password) > 250 ? 4096 : 2048; // TODO: Should be 214 probably
+		// Handle long passwords (but still <469) that require a larger key size
+		$keySize = $storeCrypted 
+			&& strlen($password) > 250 ? 4096 : 2048; // Bug: Should probably be 214 not 250 given usage of RSAES-OAEP with SHA1
 
 		// IDEA: Consider replacing some of this with sodium_crypto_box_seal / sodium_crypto_box_seal_open
-		
+
 		// Generate new private/public key pair (returned here as PEM encoded strings)
-		[$publicKey, $privateKey] = $this->getKeyPair(['private_key_bits' => $longPasswordSupport]);
-		
+		[$publicKey, $privateKey] = $this->getKeyPair(['private_key_bits' => $keySize]);
+
 		// Encrypt the private key
-		$privateKey	= $this->encrypt($privateKey, $token);
+		$privateKey = $this->encrypt($privateKey, $token);
 
 		// Set the public and private[encrypted] keys for the new token
 		$dbToken->setPublicKey($publicKey);
 		$dbToken->setPrivateKey($privateKey);
 
-		// Set the password and p/w hash for the new token if we're using crypted passwords (the default behavior)
-		if ($password !== null && $storeCrypted) {
+		// Set the password and p/w hash for the new token if we're using crypted passwords (which is typically the case)
+		if ($storeCrypted) {
 			$dbToken->setPassword($this->encryptPassword($password, $publicKey));
 			$dbToken->setPasswordHash($this->hashPassword($password));
 		}
@@ -553,7 +556,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setLastActivity($this->time->getTime());
 		$dbToken->setLastCheck($this->time->getTime());
 		$dbToken->setVersion(PublicKeyToken::VERSION);
-	
+
 		// We're done
 		return $dbToken;
 	}
@@ -565,10 +568,10 @@ class PublicKeyTokenProvider implements IProvider {
 			'digest_alg' => 'sha512',
 			'private_key_bits' => 2048,
 		];
-		
+
 		// System (operator) options
 		$systemOptions = $this->config->getSystemValue('openssl', []);
-		
+
 		// Merge all the specified options
 		$options = array_merge(
 			$defaultOptions, // lowest priority: defaults
@@ -594,10 +597,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 		return [$publicKeyPEM, $privateKeyPEM];
 	}
-	
+
 	/**
 	 * {@inheritDoc}
-	 */	
+	 */
 	public function markPasswordInvalid(OCPIToken $token, string $tokenId) {
 		if (!($token instanceof PublicKeyToken)) {
 			throw new InvalidTokenException('Invalid token type');
@@ -658,7 +661,7 @@ class PublicKeyTokenProvider implements IProvider {
 			// If password hashes are different we update them all to be equal so
 			// that the next execution only needs to verify once
 			if (count($hashNeedsUpdate) > 1) {
-				$newPasswordHash = $this->hashPassword($password); // TODO (perf): Do we really need to compute this again? Isn't this already set above if needed? 
+				$newPasswordHash = $this->hashPassword($password); // TODO (perf): Do we really need to compute this again? Isn't this already set above if needed?
 				$this->mapper->updateHashesForUser($uid, $newPasswordHash);
 			}
 		}, $this->db);
