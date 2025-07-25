@@ -9,9 +9,8 @@ declare(strict_types=1);
 namespace OCP\Config\Exceptions;
 
 use Exception;
+use OCP\AppFramework\Attribute\Throwable;
 
-/**
- * @since 32.0.0
- */
+#[Throwable(since: '32.0.0')]
 class IncorrectTypeException extends Exception {
 }
