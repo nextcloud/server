@@ -16,12 +16,15 @@ OC.L10N.register(
     "Original location" : "原始位置",
     "Deleted by" : "刪除者",
     "Deleted" : "已刪除",
+    "few seconds ago" : "幾秒前",
     "A long time ago" : "很久以前",
     "Unknown" : "未知",
     "All files" : "所有檔案",
     "You" : "您",
     "List of files that have been deleted." : "刪除的檔案清單。",
     "No deleted files" : "沒有刪除的檔案",
-    "Files and folders you have deleted will show up here" : "您刪除的檔案與資料夾將會在此處顯示"
+    "Files and folders you have deleted will show up here" : "您刪除的檔案與資料夾將會在此處顯示",
+    "All files have been permanently deleted" : "所有檔案都已被永久刪除",
+    "Failed to empty deleted files" : "清空已刪除的檔案失敗"
 },
 "nplurals=1; plural=0;");

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -102,12 +103,12 @@ class PublicPreviewController extends PublicShareController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$attributes = $share->getAttributes();
 		// Only explicitly set to false will forbid the download!
-		$downloadForbidden = $attributes?->getAttribute('permissions', 'download') === false;
+		$downloadForbidden = !$share->canSeeContent();
+
 		// Is this header is set it means our UI is doing a preview for no-download shares
 		// we check a header so we at least prevent people from using the link directly (obfuscation)
-		$isPublicPreview = $this->request->getHeader('X-NC-Preview') === 'true';
+		$isPublicPreview = $this->request->getHeader('x-nc-preview') === 'true';
 
 		if ($isPublicPreview && $downloadForbidden) {
 			// Only cache for 15 minutes on public preview requests to quickly remove from cache
@@ -181,8 +182,7 @@ class PublicPreviewController extends PublicShareController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$attributes = $share->getAttributes();
-		if ($attributes !== null && $attributes->getAttribute('permissions', 'download') === false) {
+		if (!$share->canSeeContent()) {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 

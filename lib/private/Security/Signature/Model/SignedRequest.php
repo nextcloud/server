@@ -74,8 +74,8 @@ class SignedRequest implements ISignedRequest, JsonSerializable {
 	 */
 	public function getDigest(): string {
 		if ($this->digest === '') {
-			$this->digest = $this->digestAlgorithm->value . '=' .
-							base64_encode(hash($this->digestAlgorithm->getHashingAlgorithm(), $this->body, true));
+			$this->digest = $this->digestAlgorithm->value . '='
+							. base64_encode(hash($this->digestAlgorithm->getHashingAlgorithm(), $this->body, true));
 		}
 		return $this->digest;
 	}

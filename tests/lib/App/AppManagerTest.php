@@ -12,6 +12,7 @@ namespace Test\App;
 
 use OC\App\AppManager;
 use OC\AppConfig;
+use OC\Config\ConfigManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
@@ -36,10 +37,7 @@ use Test\TestCase;
  * @package Test\App
  */
 class AppManagerTest extends TestCase {
-	/**
-	 * @return AppConfig|MockObject
-	 */
-	protected function getAppConfig() {
+	protected function getAppConfig(): AppConfig&MockObject {
 		$appConfig = [];
 		$config = $this->createMock(AppConfig::class);
 
@@ -50,7 +48,7 @@ class AppManagerTest extends TestCase {
 			});
 		$config->expects($this->any())
 			->method('setValue')
-			->willReturnCallback(function ($app, $key, $value) use (&$appConfig) {
+			->willReturnCallback(function ($app, $key, $value) use (&$appConfig): void {
 				if (!isset($appConfig[$app])) {
 					$appConfig[$app] = [];
 				}
@@ -71,37 +69,32 @@ class AppManagerTest extends TestCase {
 					return $values;
 				}
 			});
+		$config->expects($this->any())
+			->method('searchValues')
+			->willReturnCallback(function ($key, $lazy, $type) use (&$appConfig) {
+				$values = [];
+				foreach ($appConfig as $appid => $appData) {
+					if (isset($appData[$key])) {
+						$values[$appid] = $appData[$key];
+					}
+				}
+				return $values;
+			});
 
 		return $config;
 	}
 
-	/** @var IUserSession|MockObject */
-	protected $userSession;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-
-	/** @var AppConfig|MockObject */
-	protected $appConfig;
-
-	/** @var ICache|MockObject */
-	protected $cache;
-
-	/** @var ICacheFactory|MockObject */
-	protected $cacheFactory;
-
-	/** @var IEventDispatcher|MockObject */
-	protected $eventDispatcher;
-
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-
+	protected IUserSession&MockObject $userSession;
+	private IConfig&MockObject $config;
+	protected IGroupManager&MockObject $groupManager;
+	protected AppConfig&MockObject $appConfig;
+	protected ICache&MockObject $cache;
+	protected ICacheFactory&MockObject $cacheFactory;
+	protected IEventDispatcher&MockObject $eventDispatcher;
+	protected LoggerInterface&MockObject $logger;
 	protected IURLGenerator&MockObject $urlGenerator;
-
 	protected ServerVersion&MockObject $serverVersion;
+	protected ConfigManager&MockObject $configManager;
 
 	/** @var IAppManager */
 	protected $manager;
@@ -119,6 +112,7 @@ class AppManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->configManager = $this->createMock(ConfigManager::class);
 
 		$this->overwriteService(AppConfig::class, $this->appConfig);
 		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
@@ -141,12 +135,11 @@ class AppManagerTest extends TestCase {
 			$this->eventDispatcher,
 			$this->logger,
 			$this->serverVersion,
+			$this->configManager,
 		);
 	}
 
-	/**
-	 * @dataProvider dataGetAppIcon
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAppIcon')]
 	public function testGetAppIcon($callback, ?bool $dark, ?string $expected): void {
 		$this->urlGenerator->expects($this->atLeastOnce())
 			->method('imagePath')
@@ -160,7 +153,7 @@ class AppManagerTest extends TestCase {
 	}
 
 	public static function dataGetAppIcon(): array {
-		$nothing = function ($appId) {
+		$nothing = function ($appId): void {
 			self::assertEquals('test', $appId);
 			throw new \RuntimeException();
 		};
@@ -284,6 +277,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -314,10 +308,9 @@ class AppManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataEnableAppForGroupsAllowedTypes
-	 *
 	 * @param array $appInfo
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEnableAppForGroupsAllowedTypes')]
 	public function testEnableAppForGroupsAllowedTypes(array $appInfo): void {
 		$group1 = $this->createMock(IGroup::class);
 		$group1->method('getGID')
@@ -338,6 +331,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -372,11 +366,11 @@ class AppManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataEnableAppForGroupsForbiddenTypes
 	 *
 	 * @param string $type
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEnableAppForGroupsForbiddenTypes')]
 	public function testEnableAppForGroupsForbiddenTypes($type): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('test can\'t be enabled for groups.');
@@ -400,6 +394,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -605,6 +600,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -665,6 +661,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -776,9 +773,7 @@ class AppManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider isBackendRequiredDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('isBackendRequiredDataProvider')]
 	public function testIsBackendRequired(
 		string $backend,
 		array $appBackends,
@@ -806,6 +801,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -837,6 +833,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -867,6 +864,7 @@ class AppManagerTest extends TestCase {
 				$this->eventDispatcher,
 				$this->logger,
 				$this->serverVersion,
+				$this->configManager,
 			])
 			->onlyMethods([
 				'getAppInfo',

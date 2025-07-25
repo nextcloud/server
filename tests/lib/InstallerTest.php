@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,6 +16,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -46,14 +48,14 @@ class InstallerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 
-		$config = \OC::$server->getConfig();
+		$config = Server::get(IConfig::class);
 		$this->appstore = $config->setSystemValue('appstoreenabled', true);
 		$config->setSystemValue('appstoreenabled', true);
 		$installer = new Installer(
-			\OC::$server->get(AppFetcher::class),
-			\OC::$server->get(IClientService::class),
-			\OC::$server->getTempManager(),
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(AppFetcher::class),
+			Server::get(IClientService::class),
+			Server::get(ITempManager::class),
+			Server::get(LoggerInterface::class),
 			$config,
 			false
 		);
@@ -73,41 +75,43 @@ class InstallerTest extends TestCase {
 
 	protected function tearDown(): void {
 		$installer = new Installer(
-			\OC::$server->get(AppFetcher::class),
-			\OC::$server->get(IClientService::class),
-			\OC::$server->getTempManager(),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getConfig(),
+			Server::get(AppFetcher::class),
+			Server::get(IClientService::class),
+			Server::get(ITempManager::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IConfig::class),
 			false
 		);
 		$installer->removeApp(self::$appid);
-		\OC::$server->getConfig()->setSystemValue('appstoreenabled', $this->appstore);
+		Server::get(IConfig::class)->setSystemValue('appstoreenabled', $this->appstore);
 
 		parent::tearDown();
 	}
 
 	public function testInstallApp(): void {
 		// Read the current version of the app to check for bug #2572
-		\OCP\Server::get(IAppManager::class)->getAppVersion('testapp', true);
+		Server::get(IAppManager::class)->getAppVersion('testapp', true);
+
+		// Build installer
+		$installer = new Installer(
+			Server::get(AppFetcher::class),
+			Server::get(IClientService::class),
+			Server::get(ITempManager::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IConfig::class),
+			false
+		);
 
 		// Extract app
 		$pathOfTestApp = __DIR__ . '/../data/testapp.zip';
 		$tar = new ZIP($pathOfTestApp);
-		$tar->extract(\OC_App::getInstallPath());
+		$tar->extract($installer->getInstallPath());
 
 		// Install app
-		$installer = new Installer(
-			\OC::$server->get(AppFetcher::class),
-			\OC::$server->get(IClientService::class),
-			\OC::$server->getTempManager(),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getConfig(),
-			false
-		);
-		$this->assertNull(\OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is not listed before installation');
+		$this->assertNull(Server::get(IConfig::class)->getAppValue('testapp', 'enabled', null), 'Check that the app is not listed before installation');
 		$this->assertSame('testapp', $installer->installApp(self::$appid));
-		$this->assertSame('no', \OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is listed after installation');
-		$this->assertSame('0.9', \OC::$server->getConfig()->getAppValue('testapp', 'installed_version'));
+		$this->assertSame('no', Server::get(IConfig::class)->getAppValue('testapp', 'enabled', null), 'Check that the app is listed after installation');
+		$this->assertSame('0.9', Server::get(IConfig::class)->getAppValue('testapp', 'installed_version'));
 		$installer->removeApp(self::$appid);
 	}
 
@@ -145,10 +149,10 @@ class InstallerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider updateArrayProvider
 	 * @param array $appArray
 	 * @param string|bool $updateAvailable
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('updateArrayProvider')]
 	public function testIsUpdateAvailable(array $appArray, $updateAvailable): void {
 		$this->appFetcher
 			->expects($this->once())
@@ -337,7 +341,7 @@ u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
 			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = Server::get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->once())
@@ -415,14 +419,14 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = Server::get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp1.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
-		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$realTmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		mkdir($realTmpFolder . '/testfolder');
 		$this->tempManager
 			->expects($this->once())
@@ -499,14 +503,14 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = Server::get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp1.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
-		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$realTmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFolder')
@@ -578,14 +582,14 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = Server::get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
-		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$realTmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFolder')
@@ -672,14 +676,14 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
-		$realTmpFile = \OC::$server->getTempManager()->getTemporaryFile('.tar.gz');
+		$realTmpFile = Server::get(ITempManager::class)->getTemporaryFile('.tar.gz');
 		copy(__DIR__ . '/../data/testapp.0.8.tar.gz', $realTmpFile);
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFile')
 			->with('.tar.gz')
 			->willReturn($realTmpFile);
-		$realTmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$realTmpFolder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->tempManager
 			->expects($this->once())
 			->method('getTemporaryFolder')

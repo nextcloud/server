@@ -236,12 +236,6 @@
     "Note:" : "Nota:",
     "File drop" : "Soltar archivo",
     "Terms of service" : "Términos del servicio",
-    "Upload files to {folder}" : "Cargar archivos a {folder}",
-    "Submit name" : "Enviar nombre",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} le compartió una carpeta.",
-    "To upload files, you need to provide your name first." : "Para cargar archivos, primero debe proveer su nombre.",
-    "Name" : "Nombre",
-    "Enter your name" : "Ingrese su nombre",
     "Share with {userName}" : "Compartir con {userName}",
     "Share with email {email}" : "Compartir al correo electrónico {email}",
     "Share with group" : "Compartir con el grupo",
@@ -323,6 +317,8 @@
     "Error updating the share" : "Error al actualizar el recurso compartido",
     "File \"{path}\" has been unshared" : "Se dejó de compartir el archivo \"{path}\"",
     "Folder \"{path}\" has been unshared" : "Se dejó de compartir la carpeta \"{path}\"",
+    "Upload files to {folder}" : "Cargar archivos a {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} le compartió una carpeta.",
     "Shared by" : "Compartido por",
     "Shared with" : "Compartido con",
     "Password created successfully" : "Contraseña creada exitosamente",
@@ -358,6 +354,11 @@
     "_1 email address already added_::_{count} email addresses already added_" : ["Ya se ha añadido 1 dirección de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico","Ya se han añadido {count} direcciones de correo electrónico"],
     "_1 email address added_::_{count} email addresses added_" : ["Se añadió 1 dirección de correo electrónico","Se añadieron {count} direcciones de correo electrónico","Se añadieron {count} direcciones de correo electrónico"],
     "Search for share recipients" : "Buscar destinatarios del recurso compartido",
-    "No recommendations. Start typing." : "Sin recomendaciones. Empiece a escribir."
+    "No recommendations. Start typing." : "Sin recomendaciones. Empiece a escribir.",
+    "To upload files, you need to provide your name first." : "Para cargar archivos, primero debe proveer su nombre.",
+    "Enter your name" : "Ingrese su nombre",
+    "Submit name" : "Enviar nombre",
+    "Name" : "Nombre",
+    "Filename must not be empty." : "El nombre de archivo no puede estar vacío."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

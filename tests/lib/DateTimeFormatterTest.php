@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,9 @@
  */
 
 namespace Test;
+
+use OC\DateTimeFormatter;
+use OCP\Util;
 
 class DateTimeFormatterTest extends TestCase {
 	/** @var \OC\DateTimeFormatter */
@@ -33,7 +37,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->formatter = new \OC\DateTimeFormatter(new \DateTimeZone('UTC'), \OCP\Util::getL10N('lib', 'en'));
+		$this->formatter = new DateTimeFormatter(new \DateTimeZone('UTC'), Util::getL10N('lib', 'en'));
 	}
 
 	protected static function getTimestampAgo($time, $seconds = 0, $minutes = 0, $hours = 0, $days = 0, $years = 0) {
@@ -42,7 +46,7 @@ class DateTimeFormatterTest extends TestCase {
 
 	public static function formatTimeSpanData(): array {
 		$time = 1416916800; // Use a fixed timestamp so we don't switch days/years with the getTimestampAgo
-		$deL10N = \OCP\Util::getL10N('lib', 'de');
+		$deL10N = Util::getL10N('lib', 'de');
 		return [
 			['seconds ago',	$time, $time],
 			['in a few seconds', $time + 5 , $time],
@@ -74,16 +78,14 @@ class DateTimeFormatterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider formatTimeSpanData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('formatTimeSpanData')]
 	public function testFormatTimeSpan($expected, $timestamp, $compare, $locale = null): void {
 		$this->assertEquals((string)$expected, (string)$this->formatter->formatTimeSpan($timestamp, $compare, $locale));
 	}
 
 	public static function formatDateSpanData(): array {
 		$time = 1416916800; // Use a fixed timestamp so we don't switch days/years with the getTimestampAgo
-		$deL10N = \OCP\Util::getL10N('lib', 'de');
+		$deL10N = Util::getL10N('lib', 'de');
 		return [
 			// Normal testing
 			['today',			self::getTimestampAgo($time, 30, 15), $time],
@@ -140,9 +142,7 @@ class DateTimeFormatterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider formatDateSpanData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('formatDateSpanData')]
 	public function testFormatDateSpan($expected, $timestamp, $compare = null, $locale = null): void {
 		$this->assertEquals((string)$expected, (string)$this->formatter->formatDateSpan($timestamp, $compare, $locale));
 	}
@@ -153,9 +153,7 @@ class DateTimeFormatterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider formatDateData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('formatDateData')]
 	public function testFormatDate($timestamp, $expected): void {
 		$this->assertEquals($expected, (string)$this->formatter->formatDate($timestamp));
 	}
@@ -167,9 +165,7 @@ class DateTimeFormatterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider formatDateTimeData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('formatDateTimeData')]
 	public function testFormatDateTime($timestamp, $timeZone, $expected): void {
 		$this->assertEquals($expected, (string)$this->formatter->formatDateTime($timestamp, 'long', 'long', $timeZone));
 	}

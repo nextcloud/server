@@ -18,7 +18,7 @@ use Sabre\VObject\Writer;
  * Calendar Export Service
  */
 class ExportService {
-	
+
 	public const FORMATS = ['ical', 'jcal', 'xcal'];
 	private string $systemVersion;
 
@@ -92,7 +92,7 @@ class ExportService {
 			default => Writer::write($vobject)
 		};
 	}
-	
+
 	/**
 	 * Generates serialized content for a component in xml format
 	 */

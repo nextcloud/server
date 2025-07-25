@@ -1325,9 +1325,7 @@ class User_LDAPTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider avatarDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('avatarDataProvider')]
 	public function testCanChangeAvatar(string|bool $imageData, bool $expected): void {
 		$isValidImage = str_starts_with((string)$imageData, 'valid');
 
@@ -1452,9 +1450,7 @@ class User_LDAPTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider actionProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('actionProvider')]
 	public function testImplementsAction(string $configurable, string|int $value, int $actionCode, bool $expected): void {
 		$this->pluginManager->expects($this->once())
 			->method('getImplementedActions')

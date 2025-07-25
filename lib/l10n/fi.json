@@ -65,6 +65,7 @@
     "seconds ago" : "sekunteja sitten",
     "Empty file" : "Tyhjä tiedosto",
     "Dot files are not allowed" : "Pistetiedostot eivät ole sallittuja",
+    "%1$s (renamed)" : "%1$s (nimetty uudelleen)",
     "File already exists" : "Tiedosto on jo olemassa",
     "Invalid path" : "Virheellinen polku",
     "Failed to create file from template" : "Tiedoston luominen mallipohjasta epäonnistui",
@@ -96,7 +97,6 @@
     "About" : "Tietoja",
     "Display name" : "Näyttönimi",
     "Headline" : "Otsikko",
-    "Organisation" : "Organisaatio",
     "Role" : "Rooli",
     "Unknown account" : "Tuntematon tili",
     "Additional settings" : "Lisäasetukset",
@@ -176,7 +176,6 @@
     "Token expired. Please reload page." : "Valtuutus vanheni. Lataa sivu uudelleen.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Tietokanta-ajureita (sqlite, mysql tai postgresql) ei ole asennettu.",
     "Cannot write into \"config\" directory." : "Ei voi kirjoittaa \"config\"-hakemistoon",
-    "Cannot write into \"apps\" directory." : "Ei voi kirjoittaa \"apps\"-hakemistoon",
     "Cannot create \"data\" directory." : "Ei voi luoda \"data\"-hakemistoa",
     "Your data directory is not writable." : "Datahakemistosi ei ole kirjoitettavissa.",
     "Setting locale to %s failed." : "Maa-asetuston %s asettaminen epäonnistui.",
@@ -198,6 +197,8 @@
     "Storage connection error. %s" : "Tallennustilan yhteysvirhe. %s",
     "Storage is temporarily not available" : "Tallennustila on tilapäisesti pois käytöstä",
     "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s",
+    "Images" : "Kuvat",
+    "Question" : "Kysymys",
     "Confirmation" : "Vahvistus",
     "Generate image" : "Luo kuva",
     "Generate an image from a text prompt" : "Luo kuva tekstikehotteen perusteella",
@@ -216,7 +217,9 @@
     "Translate" : "Käännä",
     "Target language" : "Kohdekieli",
     "Result" : "Tulos",
+    "Organisation" : "Organisaatio",
     "File is currently busy, please try again later" : "Tiedosto on parhaillaan käytössä, yritä myöhemmin uudelleen",
-    "Cannot download file" : "Tiedostoa ei voi ladata"
+    "Cannot download file" : "Tiedostoa ei voi ladata",
+    "Cannot write into \"apps\" directory." : "Ei voi kirjoittaa \"apps\"-hakemistoon"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

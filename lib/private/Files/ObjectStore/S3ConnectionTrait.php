@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -39,6 +40,7 @@ trait S3ConnectionTrait {
 		// Default to 5 like the S3 SDK does
 		$this->concurrency = $params['concurrency'] ?? 5;
 		$this->proxy = $params['proxy'] ?? false;
+		$this->connectTimeout = $params['connect_timeout'] ?? 5;
 		$this->timeout = $params['timeout'] ?? 15;
 		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
@@ -102,8 +104,7 @@ trait S3ConnectionTrait {
 			'use_arn_region' => false,
 			'http' => [
 				'verify' => $this->getCertificateBundlePath(),
-				// Timeout for the connection to S3 server, not for the request.
-				'connect_timeout' => 5
+				'connect_timeout' => $this->connectTimeout,
 			],
 			'use_aws_shared_config_files' => false,
 			'retries' => [

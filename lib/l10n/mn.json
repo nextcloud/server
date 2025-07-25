@@ -14,6 +14,7 @@
     "Apps" : "Аппликэйшинууд",
     "Settings" : "Тохиргоо",
     "Log out" : "гаргах",
+    "Accounts" : "Accounts",
     "Email" : "Цахим шуудан",
     "Phone" : "Утас",
     "Twitter" : "Твиттер",
@@ -33,6 +34,7 @@
     "a safe home for all your data" : "Таны өгөгдлүүдийн аюулгүй гэр",
     "Authentication error" : "Нотолгооны алдаа",
     "Storage is temporarily not available" : "Хадгалах төхөөрөмж нь түр хугацаанд ашиглах боломжгүй байна",
+    "Images" : "Зургууд",
     "Summary" : "Хураангуй",
     "Translate" : "Орчуулга"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

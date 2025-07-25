@@ -36,9 +36,7 @@ class ActivityUpdaterListenerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataForTestHandleCalendarObjectDeletedEvent
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestHandleCalendarObjectDeletedEvent')]
 	public function testHandleCalendarObjectDeletedEvent(int $calendarId, array $calendarData, array $shares, array $objectData, bool $createsActivity): void {
 		$event = new CalendarObjectDeletedEvent($calendarId, $calendarData, $shares, $objectData);
 		$this->logger->expects($this->once())->method('debug')->with(
@@ -60,9 +58,7 @@ class ActivityUpdaterListenerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataForTestHandleCalendarDeletedEvent
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestHandleCalendarDeletedEvent')]
 	public function testHandleCalendarDeletedEvent(int $calendarId, array $calendarData, array $shares, bool $createsActivity): void {
 		$event = new CalendarDeletedEvent($calendarId, $calendarData, $shares);
 		$this->logger->expects($this->once())->method('debug')->with(

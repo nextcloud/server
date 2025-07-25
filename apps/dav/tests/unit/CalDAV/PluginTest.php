@@ -36,9 +36,7 @@ class PluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider linkProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('linkProvider')]
 	public function testGetCalendarHomeForPrincipal(string $input, string $expected): void {
 		$this->assertSame($expected, $this->plugin->getCalendarHomeForPrincipal($input));
 	}

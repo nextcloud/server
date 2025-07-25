@@ -236,7 +236,7 @@ class Manager implements IManager {
 			$this->logger->warning('iMip message could not be processed because user has no calendars');
 			return false;
 		}
-		
+
 		try {
 			/** @var VCalendar $vObject|null */
 			$calendarObject = Reader::read($calendarData);
@@ -403,7 +403,10 @@ class Manager implements IManager {
 		}
 
 		if (empty($found)) {
-			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar ' . $principalUri . 'and UID' . $vEvent->{'UID'}->getValue());
+			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar', [
+				'principalUri' => $principalUri,
+				'eventUid' => $vEvent->{'UID'}->getValue(),
+			]);
 			return false;
 		}
 
@@ -518,7 +521,10 @@ class Manager implements IManager {
 		}
 
 		if (empty($found)) {
-			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar ' . $principalUri . 'and UID' . $vEvent->{'UID'}->getValue());
+			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar', [
+				'principalUri' => $principalUri,
+				'eventUid' => $vEvent->{'UID'}->getValue(),
+			]);
 			return false;
 		}
 

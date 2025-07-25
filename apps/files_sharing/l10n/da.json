@@ -183,7 +183,6 @@
     "Set default folder for accepted shares" : "Angiv standard mappe for accepterede delinger",
     "Reset" : "Nulstil",
     "Reset folder to system default" : "Nulstil mappe til systemstandard",
-    "Share expiration: " : "Delings udløb:",
     "Share Expiration" : "Delings Udløb",
     "group" : "gruppe",
     "conversation" : "samtale",
@@ -257,12 +256,6 @@
     "By uploading files, you agree to the terms of service." : "Ved at uploade filer, acceptere du servicebetingelserne.",
     "View terms of service" : "Vis servicebetingelser",
     "Terms of service" : "Servicebetingelser",
-    "Upload files to {folder}" : "Upload filer til {folder}",
-    "Submit name" : "Angiv navn",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} delte en mappe med dig.",
-    "To upload files, you need to provide your name first." : "For at uploade filer skal du først angive dit navn.",
-    "Name" : "Navn",
-    "Enter your name" : "Angiv dit navn",
     "Share with {userName}" : "Del med {userName}",
     "Share with email {email}" : "Del med e-mail {email}",
     "Share with group" : "Del med gruppe",
@@ -380,6 +373,8 @@
     "Share note for recipient saved" : "Delingsbemærkning for modtagere gemt",
     "Share password saved" : "Delingsadgangskode delt",
     "Share permissions saved" : "Delingsrettigheder gemt",
+    "Upload files to {folder}" : "Upload filer til {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} delte en mappe med dig.",
     "Shared by" : "Delt af",
     "Shared with" : "Delt med",
     "Password created successfully" : "Adgangskode oprettet",
@@ -416,6 +411,11 @@
     "_1 email address added_::_{count} email addresses added_" : ["1 e-mailadresse tilføjet","{count} e-mailadresser tilføjet"],
     "Search for share recipients" : "Søge efter delemodtagerefor share recipients",
     "No recommendations. Start typing." : "Ingen anbefalinger. Begynd at skrive.",
-    "Email, federated cloud id" : "E-mail, sammenkoblings cloud id"
+    "To upload files, you need to provide your name first." : "For at uploade filer skal du først angive dit navn.",
+    "Enter your name" : "Angiv dit navn",
+    "Submit name" : "Angiv navn",
+    "Name" : "Navn",
+    "Email, federated cloud id" : "E-mail, sammenkoblings cloud id",
+    "Filename must not be empty." : "Filnavnet må ikke være tomt."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

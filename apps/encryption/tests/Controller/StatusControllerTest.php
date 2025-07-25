@@ -50,11 +50,11 @@ class StatusControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestGetStatus
 	 *
 	 * @param string $status
 	 * @param string $expectedStatus
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetStatus')]
 	public function testGetStatus($status, $expectedStatus): void {
 		$this->sessionMock->expects($this->once())
 			->method('getStatus')->willReturn($status);

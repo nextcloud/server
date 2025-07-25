@@ -18,7 +18,7 @@ import type { INavigationEntry } from '../types/navigation'
 import { n } from '@nextcloud/l10n'
 import { computed } from 'vue'
 
-import IconDot from 'vue-material-design-icons/Circle.vue'
+import IconDot from 'vue-material-design-icons/CircleOutline.vue'
 
 const props = defineProps<{
 	app: INavigationEntry

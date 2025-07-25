@@ -364,6 +364,7 @@ class Manager implements ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
+	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
 	 * @return list<IComment>
 	 */
 	public function getForObjectSince(
@@ -373,6 +374,7 @@ class Manager implements ICommentsManager {
 		string $sortDirection = 'asc',
 		int $limit = 30,
 		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array {
 		return $this->getCommentsWithVerbForObjectSinceComment(
 			$objectType,
@@ -381,7 +383,8 @@ class Manager implements ICommentsManager {
 			$lastKnownCommentId,
 			$sortDirection,
 			$limit,
-			$includeLastKnown
+			$includeLastKnown,
+			$topmostParentId,
 		);
 	}
 
@@ -394,6 +397,7 @@ class Manager implements ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
+	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
 	 * @return list<IComment>
 	 */
 	public function getCommentsWithVerbForObjectSinceComment(
@@ -404,6 +408,7 @@ class Manager implements ICommentsManager {
 		string $sortDirection = 'asc',
 		int $limit = 30,
 		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array {
 		$comments = [];
 
@@ -421,6 +426,13 @@ class Manager implements ICommentsManager {
 
 		if (!empty($verbs)) {
 			$query->andWhere($query->expr()->in('verb', $query->createNamedParameter($verbs, IQueryBuilder::PARAM_STR_ARRAY)));
+		}
+
+		if ($topmostParentId !== '') {
+			$query->andWhere($query->expr()->orX(
+				$query->expr()->eq('id', $query->createNamedParameter($topmostParentId)),
+				$query->expr()->eq('topmost_parent_id', $query->createNamedParameter($topmostParentId)),
+			));
 		}
 
 		$lastKnownComment = $lastKnownCommentId > 0 ? $this->getLastKnownComment(

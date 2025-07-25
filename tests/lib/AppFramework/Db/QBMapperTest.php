@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -127,7 +128,7 @@ class QBMapperTest extends \Test\TestCase {
 		];
 		$this->qb->expects($this->exactly(6))
 			->method('createNamedParameter')
-			->willReturnCallback(function () use (&$createNamedParameterCalls) {
+			->willReturnCallback(function () use (&$createNamedParameterCalls): void {
 				$expected = array_shift($createNamedParameterCalls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -142,7 +143,7 @@ class QBMapperTest extends \Test\TestCase {
 		];
 		$this->qb->expects($this->exactly(6))
 			->method('setValue')
-			->willReturnCallback(function () use (&$setValueCalls) {
+			->willReturnCallback(function () use (&$setValueCalls): void {
 				$expected = array_shift($setValueCalls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -184,7 +185,7 @@ class QBMapperTest extends \Test\TestCase {
 		];
 		$this->qb->expects($this->exactly(8))
 			->method('createNamedParameter')
-			->willReturnCallback(function () use (&$createNamedParameterCalls) {
+			->willReturnCallback(function () use (&$createNamedParameterCalls): void {
 				$expected = array_shift($createNamedParameterCalls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -200,7 +201,7 @@ class QBMapperTest extends \Test\TestCase {
 		];
 		$this->qb->expects($this->exactly(7))
 			->method('set')
-			->willReturnCallback(function () use (&$setCalls) {
+			->willReturnCallback(function () use (&$setCalls): void {
 				$expected = array_shift($setCalls);
 				$this->assertEquals($expected, func_get_args());
 			});

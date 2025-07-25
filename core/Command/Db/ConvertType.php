@@ -14,6 +14,7 @@ use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 use OC\DB\MigrationService;
 use OC\DB\PgSqlTools;
+use OCP\App\IAppManager;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\Types;
 use OCP\IConfig;
@@ -38,6 +39,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	public function __construct(
 		protected IConfig $config,
 		protected ConnectionFactory $connectionFactory,
+		protected IAppManager $appManager,
 	) {
 		parent::__construct();
 	}
@@ -208,11 +210,13 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$toMS->migrate($currentMigration);
 		}
 
-		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
+		$apps = $input->getOption('all-apps')
+			? $this->appManager->getAllAppsInAppsFolders()
+			: $this->appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			$output->writeln('<info> - ' . $app . '</info>');
 			// Make sure autoloading works...
-			\OC_App::loadApp($app);
+			$this->appManager->loadApp($app);
 			$fromMS = new MigrationService($app, $fromDB);
 			$currentMigration = $fromMS->getMigration('current');
 			if ($currentMigration !== '0') {

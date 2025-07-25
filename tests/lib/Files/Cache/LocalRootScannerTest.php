@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Test\Files\Cache;
 
 use OC\Files\Storage\LocalRootStorage;
+use OCP\ITempManager;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -21,7 +23,7 @@ class LocalRootScannerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$folder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$folder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->storage = new LocalRootStorage(['datadir' => $folder]);
 	}
 

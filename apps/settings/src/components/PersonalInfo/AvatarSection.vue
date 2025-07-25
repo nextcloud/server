@@ -88,7 +88,7 @@ import 'cropperjs/dist/cropper.css'
 
 import Upload from 'vue-material-design-icons/Upload.vue'
 import Folder from 'vue-material-design-icons/Folder.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
 
 import HeaderBar from './shared/HeaderBar.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'

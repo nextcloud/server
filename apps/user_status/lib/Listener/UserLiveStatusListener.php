@@ -61,8 +61,8 @@ class UserLiveStatusListener implements IEventListener {
 
 		// If the status is user-defined and one of the persistent status, we
 		// will not override it.
-		if ($userStatus->getIsUserDefined() &&
-			\in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
+		if ($userStatus->getIsUserDefined()
+			&& \in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
 			return;
 		}
 

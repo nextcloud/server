@@ -265,7 +265,7 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "Documentation" : "Documentación",
     "Interact" : "Interactuar",
-    "Report a bug" : "Informar d'un fallju",
+    "Report a bug" : "Informar d'un fallu",
     "Request feature" : "Pidir una función",
     "Ask questions or discuss" : "Entrugar o discutir",
     "Rate" : "Valorar",

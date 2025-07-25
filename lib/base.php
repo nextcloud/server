@@ -12,6 +12,7 @@ use OC\Share20\GroupDeletedListener;
 use OC\Share20\Hooks;
 use OC\Share20\UserDeletedListener;
 use OC\Share20\UserRemovedListener;
+use OC\User\DisabledUserException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Group\Events\GroupDeletedEvent;
@@ -39,10 +40,6 @@ require_once 'public/Constants.php';
  * OC_autoload!
  */
 class OC {
-	/**
-	 * Associative array for autoloading. classname => filename
-	 */
-	public static array $CLASSPATH = [];
 	/**
 	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
 	 */
@@ -72,8 +69,6 @@ class OC {
 	 * check if Nextcloud runs in cli mode
 	 */
 	public static bool $CLI = false;
-
-	public static \OC\Autoloader $loader;
 
 	public static \Composer\Autoload\ClassLoader $composerAutoloader;
 
@@ -147,8 +142,8 @@ class OC {
 
 			// Resolve /nextcloud to /nextcloud/ to ensure to always have a trailing
 			// slash which is required by URL generation.
-			if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === \OC::$WEBROOT &&
-					substr($_SERVER['REQUEST_URI'], -1) !== '/') {
+			if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === \OC::$WEBROOT
+					&& substr($_SERVER['REQUEST_URI'], -1) !== '/') {
 				header('Location: ' . \OC::$WEBROOT . '/');
 				exit();
 			}
@@ -291,8 +286,8 @@ class OC {
 				$tooBig = ($totalUsers > 50);
 			}
 		}
-		$ignoreTooBigWarning = isset($_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup']) &&
-			$_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'] === 'IAmSuperSureToDoThis';
+		$ignoreTooBigWarning = isset($_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'])
+			&& $_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'] === 'IAmSuperSureToDoThis';
 
 		if ($disableWebUpdater || ($tooBig && !$ignoreTooBigWarning)) {
 			// send http status 503
@@ -398,6 +393,12 @@ class OC {
 		// set the cookie path to the Nextcloud directory
 		$cookie_path = OC::$WEBROOT ? : '/';
 		ini_set('session.cookie_path', $cookie_path);
+
+		// set the cookie domain to the Nextcloud domain
+		$cookie_domain = self::$config->getValue('cookie_domain', '');
+		if ($cookie_domain) {
+			ini_set('session.cookie_domain', $cookie_domain);
+		}
 
 		// Let the session name be changed in the initSession Hook
 		$sessionName = OC_Util::getInstanceId();
@@ -597,12 +598,6 @@ class OC {
 
 		// register autoloader
 		$loaderStart = microtime(true);
-		require_once __DIR__ . '/autoloader.php';
-		self::$loader = new \OC\Autoloader([
-			OC::$SERVERROOT . '/lib/private/legacy',
-		]);
-		spl_autoload_register([self::$loader, 'load']);
-		$loaderEnd = microtime(true);
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
@@ -628,6 +623,10 @@ class OC {
 			print($e->getMessage());
 			exit();
 		}
+		$loaderEnd = microtime(true);
+
+		// Enable lazy loading if activated
+		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
 
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
@@ -655,9 +654,6 @@ class OC {
 		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
 			error_reporting(E_ALL);
 		}
-
-		$systemConfig = Server::get(\OC\SystemConfig::class);
-		self::registerAutoloaderCache($systemConfig);
 
 		// initialize intl fallback if necessary
 		OC_Util::isSetLocaleWorking();
@@ -692,6 +688,7 @@ class OC {
 			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
 		}
 
+		$systemConfig = Server::get(\OC\SystemConfig::class);
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 		if ($systemConfig->getValue('installed', false)) {
 			$appManager->loadApps(['session']);
@@ -784,8 +781,6 @@ class OC {
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue('installed', false)) {
 			$appManager->loadApp('settings');
-			/* Build core application to make sure that listeners are registered */
-			Server::get(\OC\Core\Application::class);
 		}
 
 		//make sure temporary files are cleaned up
@@ -975,23 +970,6 @@ class OC {
 		}
 	}
 
-	protected static function registerAutoloaderCache(\OC\SystemConfig $systemConfig): void {
-		// The class loader takes an optional low-latency cache, which MUST be
-		// namespaced. The instanceid is used for namespacing, but might be
-		// unavailable at this point. Furthermore, it might not be possible to
-		// generate an instanceid via \OC_Util::getInstanceId() because the
-		// config file may not be writable. As such, we only register a class
-		// loader cache if instanceid is available without trying to create one.
-		$instanceId = $systemConfig->getValue('instanceid', null);
-		if ($instanceId) {
-			try {
-				$memcacheFactory = Server::get(\OCP\ICacheFactory::class);
-				self::$loader->setMemoryCache($memcacheFactory->createLocal('Autoloader'));
-			} catch (\Exception $ex) {
-			}
-		}
-	}
-
 	/**
 	 * Handle the request
 	 */
@@ -1008,6 +986,7 @@ class OC {
 		}
 
 		$request = Server::get(IRequest::class);
+		$request->throwDecodingExceptionIfAny();
 		$requestPath = $request->getRawPathInfo();
 		if ($requestPath === '/heartbeat') {
 			return;
@@ -1046,7 +1025,27 @@ class OC {
 				// OAuth needs to support basic auth too, so the login is not valid
 				// inside Nextcloud and the Login exception would ruin it.
 				if ($request->getRawPathInfo() !== '/apps/oauth2/api/v1/token') {
-					self::handleLogin($request);
+					try {
+						self::handleLogin($request);
+					} catch (DisabledUserException $e) {
+						// Disabled users would not be seen as logged in and
+						// trying to log them in would fail, so the login
+						// exception is ignored for the themed stylesheets and
+						// images.
+						if ($request->getRawPathInfo() !== '/apps/theming/theme/default.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/light.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/dark.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/light-highcontrast.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/dark-highcontrast.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/opendyslexic.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/image/background'
+							&& $request->getRawPathInfo() !== '/apps/theming/image/logo'
+							&& $request->getRawPathInfo() !== '/apps/theming/image/logoheader'
+							&& !str_starts_with($request->getRawPathInfo(), '/apps/theming/favicon')
+							&& !str_starts_with($request->getRawPathInfo(), '/apps/theming/icon')) {
+							throw $e;
+						}
+					}
 				}
 			}
 		}

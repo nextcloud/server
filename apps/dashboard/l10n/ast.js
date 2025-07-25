@@ -21,7 +21,6 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Pa la to privacidá, los datos del clima solicítense dende esta instancia de Nextcloud y, polo tanto, el serviciu del clima no recibe nenguna información personal.",
     "Weather data from Met.no" : "datos del clima de Met.no",
     "geocoding with Nominatim" : "xeocodificación con Nominatim",
-    "elevation data from OpenTopoData" : "datos d'elevaciones d'OpenTopoData",
-    "\"{title} icon\"" : "«Iconu de: {title}»"
+    "elevation data from OpenTopoData" : "datos d'elevaciones d'OpenTopoData"
 },
 "nplurals=2; plural=(n != 1);");

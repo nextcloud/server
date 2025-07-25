@@ -77,13 +77,13 @@ class UpdateTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestUpdate
 	 *
 	 * @param string $path
 	 * @param boolean $isDir
 	 * @param array $allFiles
 	 * @param integer $numberOfFiles
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestUpdate')]
 	public function testUpdate($path, $isDir, $allFiles, $numberOfFiles): void {
 		$updateMock = $this->getUpdateMock(['getOwnerPath']);
 		$updateMock->expects($this->once())->method('getOwnerPath')
@@ -121,11 +121,11 @@ class UpdateTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestPostRename
 	 *
 	 * @param string $source
 	 * @param string $target
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestPostRename')]
 	public function testPostRename($source, $target): void {
 		$updateMock = $this->getUpdateMock(['update','getOwnerPath']);
 

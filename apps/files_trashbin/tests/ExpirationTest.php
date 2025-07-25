@@ -82,9 +82,7 @@ class ExpirationTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider expirationData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('expirationData')]
 	public function testExpiration(string $retentionObligation, int $timeNow, int $timestamp, bool $quotaExceeded, bool $expectedResult): void {
 		$mockedConfig = $this->getMockedConfig($retentionObligation);
 		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);
@@ -110,9 +108,7 @@ class ExpirationTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @dataProvider timestampTestData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('timestampTestData')]
 	public function testGetMaxAgeAsTimestamp(string $configValue, bool|int $expectedMaxAgeTimestamp): void {
 		$mockedConfig = $this->getMockedConfig($configValue);
 		$mockedTimeFactory = $this->getMockedTimeFactory(

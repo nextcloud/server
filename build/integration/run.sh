@@ -18,6 +18,8 @@ HIDE_OC_LOGS=$2
 INSTALLED=$($OCC status | grep installed: | cut -d " " -f 5)
 
 if [ "$INSTALLED" == "true" ]; then
+    # Disable appstore to avoid spamming from CI
+    $OCC config:system:set appstoreenabled --value=false --type=boolean
     # Disable bruteforce protection because the integration tests do trigger them
     $OCC config:system:set auth.bruteforce.protection.enabled --value false --type bool
     # Disable rate limit protection because the integration tests do trigger them

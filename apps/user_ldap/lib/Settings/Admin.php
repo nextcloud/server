@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,8 +9,6 @@ namespace OCA\User_LDAP\Settings;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
@@ -26,7 +25,7 @@ class Admin implements IDelegatedSettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+		$helper = Server::get(Helper::class);
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		if (count($prefixes) === 0) {
 			$newPrefix = $helper->getNextServerConfigurationPrefix();

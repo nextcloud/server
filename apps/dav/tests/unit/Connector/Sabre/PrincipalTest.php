@@ -463,9 +463,7 @@ class PrincipalTest extends TestCase {
 			['{http://sabredav.org/ns}email-address' => 'foo']));
 	}
 
-	/**
-	 * @dataProvider searchPrincipalsDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchPrincipalsDataProvider')]
 	public function testSearchPrincipals(bool $sharingEnabled, bool $groupsOnly, string $test, array $result): void {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
@@ -826,9 +824,7 @@ class PrincipalTest extends TestCase {
 		$this->assertEquals(null, $this->connector->findByUri('mailto:user@foo.com', 'principals/users'));
 	}
 
-	/**
-	 * @dataProvider findByUriWithGroupRestrictionDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('findByUriWithGroupRestrictionDataProvider')]
 	public function testFindByUriWithGroupRestriction(string $uri, string $email, ?string $expects): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')
@@ -879,9 +875,7 @@ class PrincipalTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider findByUriWithoutGroupRestrictionDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('findByUriWithoutGroupRestrictionDataProvider')]
 	public function testFindByUriWithoutGroupRestriction(string $uri, string $email, string $expects): void {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')

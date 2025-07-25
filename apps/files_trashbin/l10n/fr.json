@@ -14,12 +14,15 @@
     "Original location" : "Emplacement original",
     "Deleted by" : "Supprimé par",
     "Deleted" : "Supprimé",
+    "few seconds ago" : "Il y a quelques secondes",
     "A long time ago" : "Il y a longtemps",
     "Unknown" : "Inconnu",
     "All files" : "Tous les fichiers",
     "You" : "Vous",
     "List of files that have been deleted." : "Liste des fichiers qui ont été supprimés.",
     "No deleted files" : "Aucun fichier supprimé",
-    "Files and folders you have deleted will show up here" : "Les fichiers et dossiers que vous avez supprimés apparaîtront ici"
+    "Files and folders you have deleted will show up here" : "Les fichiers et dossiers que vous avez supprimés apparaîtront ici",
+    "All files have been permanently deleted" : "Tous les fichiers ont été définitivement supprimés",
+    "Failed to empty deleted files" : "Échec de la vidange des fichiers supprimés"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

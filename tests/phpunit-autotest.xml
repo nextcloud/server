@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  - SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,34 +6,30 @@
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 bootstrap="bootstrap.php"
-		 verbose="true"
-		 backupGlobals="false"
 		 timeoutForSmallTests="900"
 		 timeoutForMediumTests="900"
 		 timeoutForLargeTests="900"
-		 convertDeprecationsToExceptions="true"
-		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd">
+		 cacheDirectory=".phpunit.cache"
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
 	<testsuite name="Nextcloud Server">
-		<directory suffix=".php">lib/</directory>
-		<directory suffix=".php">Core/</directory>
-		<file>apps.php</file>
+		<directory>lib/</directory>
+		<directory>Core/</directory>
+		<directory>../apps/</directory>
+		<exclude>../apps/user_ldap/tests/Integration</exclude>
 	</testsuite>
-	<coverage>
+	<source>
 		<include>
-			<directory suffix=".php">..</directory>
+			<directory>..</directory>
 		</include>
 		<exclude>
-			<directory suffix=".php">../3rdparty</directory>
-			<directory suffix=".php">../apps/*/composer</directory>
-			<directory suffix=".php">../apps/*/tests</directory>
-			<directory suffix=".php">../apps/files_external/3rdparty</directory>
-			<directory suffix=".php">../build</directory>
-			<directory suffix=".php">../lib/composer</directory>
-			<directory suffix=".php">../tests</directory>
-			<directory suffix=".php">../vendor-bin</directory>
+			<directory>../3rdparty</directory>
+			<directory>../apps/*/composer</directory>
+			<directory>../apps/*/tests</directory>
+			<directory>../apps/files_external/3rdparty</directory>
+			<directory>../build</directory>
+			<directory>../lib/composer</directory>
+			<directory>../tests</directory>
+			<directory>../vendor-bin</directory>
 		</exclude>
-	</coverage>
-	<listeners>
-		<listener class="StartSessionListener" file="startsessionlistener.php" />
-	</listeners>
+	</source>
 </phpunit>

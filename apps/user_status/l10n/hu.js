@@ -26,6 +26,8 @@ OC.L10N.register(
     "Set status" : "Állapot beállítása",
     "Online status" : "Elérhető állapot",
     "Status message" : "Állapotüzenet",
+    "Set absence period" : "Távolléti időszak beállítása",
+    "Set absence period and replacement" : "Távolléti időszak és helyettes beállítása",
     "Your status was set automatically" : "Az állapota automatikusan lett beállítva",
     "Clear status message" : "Állapotüzenet törlése",
     "Set status message" : "Állapotüzenet beállítása",

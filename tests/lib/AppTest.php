@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,8 +9,8 @@
 namespace Test;
 
 use OC\App\AppManager;
-use OC\App\InfoParser;
 use OC\AppConfig;
+use OC\Config\ConfigManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
@@ -18,6 +19,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -311,9 +313,7 @@ class AppTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider appVersionsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('appVersionsProvider')]
 	public function testIsAppCompatible($ocVersion, $appInfo, $expectedResult): void {
 		$this->assertEquals($expectedResult, \OC_App::isAppCompatible($ocVersion, $appInfo));
 	}
@@ -465,12 +465,11 @@ class AppTest extends \Test\TestCase {
 
 	/**
 	 * Test enabled apps
-	 *
-	 * @dataProvider appConfigValuesProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('appConfigValuesProvider')]
 	public function testEnabledApps($user, $expectedApps, $forceAll): void {
-		$userManager = \OCP\Server::get(IUserManager::class);
-		$groupManager = \OCP\Server::get(IGroupManager::class);
+		$userManager = Server::get(IUserManager::class);
+		$groupManager = Server::get(IGroupManager::class);
 		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
 		$user2 = $userManager->createUser(self::TEST_USER2, 'NotAnEasyPassword123456_');
 		$user3 = $userManager->createUser(self::TEST_USER3, 'NotAnEasyPassword123456?');
@@ -485,7 +484,7 @@ class AppTest extends \Test\TestCase {
 		\OC_User::setUserId($user);
 
 		$this->setupAppConfigMock()->expects($this->once())
-			->method('getValues')
+			->method('searchValues')
 			->willReturn(
 				[
 					'app3' => 'yes',
@@ -495,7 +494,6 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2' => '["group2"]',
 					'appforgroup12' => '["group2","group1"]',
 				]
-
 			);
 
 		$apps = \OC_App::getEnabledApps(false, $forceAll);
@@ -518,19 +516,18 @@ class AppTest extends \Test\TestCase {
 	 * enabled apps more than once when a user is set.
 	 */
 	public function testEnabledAppsCache(): void {
-		$userManager = \OCP\Server::get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
 
 		\OC_User::setUserId(self::TEST_USER1);
 
 		$this->setupAppConfigMock()->expects($this->once())
-			->method('getValues')
+			->method('searchValues')
 			->willReturn(
 				[
 					'app3' => 'yes',
 					'app2' => 'no',
 				]
-
 			);
 
 		$apps = \OC_App::getEnabledApps();
@@ -550,8 +547,8 @@ class AppTest extends \Test\TestCase {
 	private function setupAppConfigMock() {
 		/** @var AppConfig|MockObject */
 		$appConfig = $this->getMockBuilder(AppConfig::class)
-			->onlyMethods(['getValues'])
-			->setConstructorArgs([\OCP\Server::get(IDBConnection::class)])
+			->onlyMethods(['searchValues'])
+			->setConstructorArgs([Server::get(IDBConnection::class)])
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -567,13 +564,14 @@ class AppTest extends \Test\TestCase {
 	private function registerAppConfig(AppConfig $appConfig) {
 		$this->overwriteService(AppConfig::class, $appConfig);
 		$this->overwriteService(AppManager::class, new AppManager(
-			\OCP\Server::get(IUserSession::class),
-			\OCP\Server::get(IConfig::class),
-			\OCP\Server::get(IGroupManager::class),
-			\OCP\Server::get(ICacheFactory::class),
-			\OCP\Server::get(IEventDispatcher::class),
-			\OCP\Server::get(LoggerInterface::class),
-			\OCP\Server::get(ServerVersion::class),
+			Server::get(IUserSession::class),
+			Server::get(IConfig::class),
+			Server::get(IGroupManager::class),
+			Server::get(ICacheFactory::class),
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class),
+			Server::get(ServerVersion::class),
+			Server::get(ConfigManager::class),
 		));
 	}
 
@@ -586,60 +584,5 @@ class AppTest extends \Test\TestCase {
 
 		// Remove the cache of the mocked apps list with a forceRefresh
 		\OC_App::getEnabledApps();
-	}
-
-	/**
-	 * Providers for the app data values
-	 */
-	public static function appDataProvider(): array {
-		return [
-			[
-				['description' => " \t  This is a multiline \n test with \n \t \n \n some new lines   "],
-				['description' => "This is a multiline \n test with \n \t \n \n some new lines"],
-			],
-			[
-				['description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
-				['description' => "This is a multiline \n test with \n \t   some new lines"],
-			],
-			[
-				['description' => hex2bin('5065726d657420646520732761757468656e7469666965722064616e732070697769676f20646972656374656d656e74206176656320736573206964656e74696669616e7473206f776e636c6f75642073616e73206c65732072657461706572206574206d657420c3a0206a6f757273206365757820636920656e20636173206465206368616e67656d656e74206465206d6f742064652070617373652e0d0a0d')],
-				['description' => "Permet de s'authentifier dans piwigo directement avec ses identifiants owncloud sans les retaper et met à jours ceux ci en cas de changement de mot de passe."],
-			],
-			[
-				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
-				[
-					'not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   ",
-					'description' => '',
-				],
-			],
-			[
-				['description' => [100, 'bla']],
-				['description' => ''],
-			],
-		];
-	}
-
-	/**
-	 * Test app info parser
-	 *
-	 * @dataProvider appDataProvider
-	 * @param array $data
-	 * @param array $expected
-	 */
-	public function testParseAppInfo(array $data, array $expected): void {
-		$this->assertSame($expected, \OC_App::parseAppInfo($data));
-	}
-
-	public function testParseAppInfoL10N(): void {
-		$parser = new InfoParser();
-		$data = $parser->parse(\OC::$SERVERROOT . '/tests/data/app/description-multi-lang.xml');
-		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
-		$this->assertEquals('German', \OC_App::parseAppInfo($data, 'de')['description']);
-	}
-
-	public function testParseAppInfoL10NSingleLanguage(): void {
-		$parser = new InfoParser();
-		$data = $parser->parse(\OC::$SERVERROOT . '/tests/data/app/description-single-lang.xml');
-		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
 	}
 }

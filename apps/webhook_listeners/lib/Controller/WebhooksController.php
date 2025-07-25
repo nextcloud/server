@@ -137,7 +137,7 @@ class WebhooksController extends OCSController {
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
-			$appId = $this->request->getHeader('EX-APP-ID');
+			$appId = $this->request->getHeader('ex-app-id');
 		}
 		try {
 			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);
@@ -206,7 +206,7 @@ class WebhooksController extends OCSController {
 	): DataResponse {
 		$appId = null;
 		if ($this->session->get('app_api') === true) {
-			$appId = $this->request->getHeader('EX-APP-ID');
+			$appId = $this->request->getHeader('ex-app-id');
 		}
 		try {
 			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);
@@ -271,7 +271,7 @@ class WebhooksController extends OCSController {
 	/**
 	 * Remove all existing webhook registration mapped to an AppAPI app id
 	 *
-	 * @param string $appid id of the app, as in the EX-APP-ID for creation
+	 * @param string $appid id of the app, as in the ex-app-id for creation
 	 *
 	 * @return DataResponse<Http::STATUS_OK, int, array{}>
 	 *

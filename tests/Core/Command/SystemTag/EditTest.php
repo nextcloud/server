@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -134,7 +135,7 @@ class EditTest extends TestCase {
 			});
 
 		$this->systemTagManager->method('updateTag')
-			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable) {
+			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable): void {
 				throw new TagAlreadyExistsException(
 					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);

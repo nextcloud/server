@@ -12,7 +12,7 @@ OC.L10N.register(
     "Files" : "Dosyalar",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "\"{file}\" hakkında bir yorumda silinmiş bir hesap tarafından anıldınız",
     "{user} mentioned you in a comment on \"{file}\"" : "{user}, \"{file}\" hakkındaki bir yorumda sizi andı",
-    "Files app plugin to add comments to files" : "Dosyalara notlar eklenmesini sağlayan dosyalar uygulaması eki",
+    "Files app plugin to add comments to files" : "Dosyalara notlar eklenmesini sağlayan Dosyalar uygulaması eklentisi",
     "Edit comment" : "Yorumu düzenle",
     "Delete comment" : "Yorumu sil",
     "Cancel edit" : "Düzenlemeyi iptal et",

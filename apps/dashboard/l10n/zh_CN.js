@@ -23,7 +23,6 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "为了您的隐私，天气数据由您的 Nextcloud 服务器为您获取，这样天气服务就无法获得您的个人信息。",
     "Weather data from Met.no" : "天气数据来自 Met.no",
     "geocoding with Nominatim" : "使用 Nominatim 地理编码",
-    "elevation data from OpenTopoData" : "海拔数据来自 OpenTopoData",
-    "\"{title} icon\"" : "{title} 图标"
+    "elevation data from OpenTopoData" : "海拔数据来自 OpenTopoData"
 },
 "nplurals=1; plural=0;");

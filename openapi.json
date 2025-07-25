@@ -1206,79 +1206,10 @@
             },
             "CloudFederationApiCapabilities": {
                 "type": "object",
-                "required": [
-                    "ocm"
-                ],
-                "properties": {
-                    "ocm": {
-                        "type": "object",
-                        "required": [
-                            "apiVersion",
-                            "enabled",
-                            "endPoint",
-                            "resourceTypes",
-                            "version"
-                        ],
-                        "properties": {
-                            "apiVersion": {
-                                "type": "string",
-                                "enum": [
-                                    "1.0-proposal1"
-                                ]
-                            },
-                            "enabled": {
-                                "type": "boolean"
-                            },
-                            "endPoint": {
-                                "type": "string"
-                            },
-                            "publicKey": {
-                                "type": "object",
-                                "required": [
-                                    "keyId",
-                                    "publicKeyPem"
-                                ],
-                                "properties": {
-                                    "keyId": {
-                                        "type": "string"
-                                    },
-                                    "publicKeyPem": {
-                                        "type": "string"
-                                    }
-                                }
-                            },
-                            "resourceTypes": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "required": [
-                                        "name",
-                                        "shareTypes",
-                                        "protocols"
-                                    ],
-                                    "properties": {
-                                        "name": {
-                                            "type": "string"
-                                        },
-                                        "shareTypes": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "protocols": {
-                                            "type": "object",
-                                            "additionalProperties": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            "version": {
-                                "type": "string"
-                            }
-                        }
+                "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object"
                     }
                 }
             },
@@ -4116,6 +4047,7 @@
                         "type": "object",
                         "required": [
                             "name",
+                            "productName",
                             "url",
                             "slogan",
                             "color",
@@ -4133,6 +4065,9 @@
                         ],
                         "properties": {
                             "name": {
+                                "type": "string"
+                            },
+                            "productName": {
                                 "type": "string"
                             },
                             "url": {
@@ -4645,6 +4580,13 @@
                 ],
                 "parameters": [
                     {
+                        "name": "user-agent",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -5075,7 +5017,8 @@
                         "description": "can be piped, top prio first, e.g.: \"commenters|share-recipients\"",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -7522,6 +7465,7 @@
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Timestamp of the last usage"
                                     }
                                 }
@@ -7716,11 +7660,13 @@
                                     "webhookUri": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "URI to be requested when the task finishes"
                                     },
                                     "webhookMethod": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)"
                                     }
                                 }
@@ -8229,7 +8175,8 @@
                         "description": "An arbitrary identifier for the task",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -8357,7 +8304,8 @@
                         "description": "An arbitrary identifier for the task",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -9565,7 +9513,8 @@
                         "description": "An arbitrary identifier for the task",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -10392,7 +10341,8 @@
                         "description": "An arbitrary identifier for the task",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -10931,7 +10881,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -10941,7 +10892,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -10950,6 +10902,7 @@
                         "description": "Offset for searching",
                         "schema": {
                             "nullable": true,
+                            "default": null,
                             "oneOf": [
                                 {
                                     "type": "integer",
@@ -11563,6 +11516,15 @@
                     },
                     {
                         "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "user-agent",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -13002,6 +12964,7 @@
                                     "output": {
                                         "type": "object",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "The resulting task output, files are represented by their IDs",
                                         "additionalProperties": {
                                             "type": "object"
@@ -13010,6 +12973,7 @@
                                     "errorMessage": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "An error message if the task failed"
                                     }
                                 }
@@ -13889,6 +13853,167 @@
                 }
             }
         },
+        "/index.php/ocm/invite-accepted": {
+            "post": {
+                "operationId": "cloud_federation_api-request_handler-invite-accepted",
+                "summary": "Inform the sender that an invitation was accepted to start sharing",
+                "description": "Inform about an accepted invitation so the user on the sender provider's side can initiate the OCM share creation. To protect the identity of the parties, for shares created following an OCM invitation, the user id MAY be hashed, and recipients implementing the OCM invitation workflow MAY refuse to process shares coming from unknown parties.\nhttps://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post\nNote: Not implementing 404 Invitation token does not exist, instead using 400",
+                "tags": [
+                    "cloud_federation_api/request_handler"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "recipientProvider",
+                                    "token",
+                                    "userId",
+                                    "email",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "recipientProvider": {
+                                        "type": "string",
+                                        "description": "The address of the recipent's provider"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "The token used for the invitation"
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "The userId of the recipient at the recipient's provider"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "The email address of the recipient"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The display name of the recipient"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invitation accepted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "userID",
+                                        "email",
+                                        "name"
+                                    ],
+                                    "properties": {
+                                        "userID": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invitation token does not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message",
+                                        "error"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                true
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message",
+                                        "error"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                true
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "User is already known by the OCM provider",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message",
+                                        "error"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "type": "boolean",
+                                            "enum": [
+                                                true
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/apps/dashboard/api/v1/widget-items": {
             "get": {
                 "operationId": "dashboard-dashboard_api-get-widget-items",
@@ -14677,7 +14802,8 @@
                         "description": "location/URL to filter by",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -15382,47 +15508,56 @@
                                     "remote": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Address of the remote"
                                     },
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     },
                                     "name": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Name of the shared resource"
                                     },
                                     "owner": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Display name of the receiver"
                                     },
                                     "sharedBy": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Display name of the sender"
                                     },
                                     "shareWith": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the user that receives the share"
                                     },
                                     "remoteId": {
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the remote"
                                     },
                                     "sharedByFederatedId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Federated ID of the sender"
                                     },
                                     "ownerFederatedId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Federated ID of the receiver"
                                     }
                                 }
@@ -15500,11 +15635,13 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     },
                                     "shareWith": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the user that receives the share"
                                     },
                                     "remoteId": {
@@ -15641,12 +15778,14 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     },
                                     "permissions": {
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New permissions"
                                     }
                                 }
@@ -15762,6 +15901,7 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     }
                                 }
@@ -15859,6 +15999,7 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     }
                                 }
@@ -15946,6 +16087,7 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     }
                                 }
@@ -16033,6 +16175,7 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     }
                                 }
@@ -16148,16 +16291,19 @@
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Shared secret between servers"
                                     },
                                     "remote": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Address of the remote"
                                     },
                                     "remote_id": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the remote"
                                     }
                                 }
@@ -17507,12 +17653,14 @@
                                     "editorId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the editor"
                                     },
                                     "fileId": {
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the file"
                                     }
                                 }
@@ -17692,6 +17840,7 @@
                                     "templateId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the template"
                                     }
                                 }
@@ -19026,6 +19175,7 @@
                                     "destination": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "The target path of the converted file. Written to a temporary file if left empty"
                                     }
                                 }
@@ -19786,6 +19936,13 @@
                                 1
                             ]
                         }
+                    },
+                    {
+                        "name": "x-nc-preview",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -19870,11 +20027,13 @@
                                     "password": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Password of the share"
                                     },
                                     "dir": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Subdirectory to get info about"
                                     },
                                     "depth": {
@@ -20078,12 +20237,14 @@
                                     "path": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Path of the share"
                                     },
                                     "permissions": {
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Permissions for the share"
                                     },
                                     "shareType": {
@@ -20095,11 +20256,13 @@
                                     "shareWith": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "The entity this should be shared with"
                                     },
                                     "publicUpload": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "enum": [
                                             "true",
                                             "false"
@@ -20114,11 +20277,13 @@
                                     "sendPasswordByTalk": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Send the password for the share over Talk"
                                     },
                                     "expireDate": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "The expiry date of the share in the user's timezone at 00:00. If $expireDate is not supplied or set to `null`, the system default will be used."
                                     },
                                     "note": {
@@ -20134,11 +20299,13 @@
                                     "attributes": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Additional attributes for the share"
                                     },
                                     "sendMail": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "enum": [
                                             "false",
                                             "true"
@@ -20593,56 +20760,67 @@
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New permissions"
                                     },
                                     "password": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New password"
                                     },
                                     "sendPasswordByTalk": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New condition if the password should be send over Talk"
                                     },
                                     "publicUpload": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New condition if public uploading is allowed"
                                     },
                                     "expireDate": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New expiry date"
                                     },
                                     "note": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New note"
                                     },
                                     "label": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New label"
                                     },
                                     "hideDownload": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New condition if the download should be hidden"
                                     },
                                     "attributes": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New additional attributes"
                                     },
                                     "sendMail": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "if the share should be send by mail. Considering the share already exists, no mail will be send after the share is updated. You will have to use the sendMail action to send the mail."
                                     },
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New token"
                                     }
                                 }
@@ -21395,7 +21573,8 @@
                         "description": "Limit to specific item types",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -21424,6 +21603,7 @@
                         "description": "Limit to specific share types",
                         "schema": {
                             "nullable": true,
+                            "default": null,
                             "oneOf": [
                                 {
                                     "type": "integer",
@@ -21563,6 +21743,7 @@
                         "description": "Limit to specific share types",
                         "schema": {
                             "nullable": true,
+                            "default": null,
                             "oneOf": [
                                 {
                                     "type": "integer",
@@ -22657,7 +22838,8 @@
                         "description": "Filter for enabled or disabled apps",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -23114,7 +23296,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -23459,7 +23642,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -24418,7 +24602,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -24667,7 +24852,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -24783,7 +24969,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -24924,6 +25111,7 @@
                                     "manager": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Manager of the user"
                                     }
                                 }
@@ -25045,7 +25233,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -25161,7 +25350,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -25781,6 +25971,78 @@
                                                     "type": "array",
                                                     "items": {
                                                         "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/user/apps": {
+            "get": {
+                "operationId": "provisioning_api-users-get-enabled-apps",
+                "summary": "Get a list of enabled apps for the current user",
+                "tags": [
+                    "provisioning_api/users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Enabled apps returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "apps"
+                                                    ],
+                                                    "properties": {
+                                                        "apps": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
@@ -27962,6 +28224,7 @@
                                     "color": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Color for the background"
                                     }
                                 }
@@ -28479,7 +28742,8 @@
                         "description": "The version to search the changelog entry for (defaults to the latest installed)",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -29254,7 +29518,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -29265,6 +29530,7 @@
                             "type": "integer",
                             "format": "int64",
                             "nullable": true,
+                            "default": null,
                             "minimum": 0
                         }
                     },
@@ -30575,7 +30841,8 @@
                         "description": "The callback URI to filter by",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -30708,6 +30975,13 @@
                     }
                 },
                 "parameters": [
+                    {
+                        "name": "ex-app-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -31002,6 +31276,13 @@
                         }
                     },
                     {
+                        "name": "ex-app-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -31248,7 +31529,7 @@
                     {
                         "name": "appid",
                         "in": "path",
-                        "description": "id of the app, as in the EX-APP-ID for creation",
+                        "description": "id of the app, as in the ex-app-id for creation",
                         "required": true,
                         "schema": {
                             "type": "string"

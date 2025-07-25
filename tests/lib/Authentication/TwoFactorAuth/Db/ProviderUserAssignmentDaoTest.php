@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Test\Authentication\TwoFactorAuth\Db;
 
-use OC;
 use OC\Authentication\TwoFactorAuth\Db\ProviderUserAssignmentDao;
 use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -27,7 +27,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->dbConn = OC::$server->getDatabaseConnection();
+		$this->dbConn = Server::get(IDBConnection::class);
 		$qb = $this->dbConn->getQueryBuilder();
 		$q = $qb->delete(ProviderUserAssignmentDao::TABLE_NAME);
 		$q->execute();

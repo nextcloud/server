@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,7 +8,11 @@
 
 namespace Test\Files\Storage\Wrapper;
 
+use OC\Files\Storage\Local;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files;
+use OCP\ITempManager;
+use OCP\Server;
 
 class WrapperTest extends \Test\Files\Storage\Storage {
 	/**
@@ -18,9 +23,9 @@ class WrapperTest extends \Test\Files\Storage\Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
-		$this->instance = new \OC\Files\Storage\Wrapper\Wrapper(['storage' => $storage]);
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
+		$storage = new Local(['datadir' => $this->tmpDir]);
+		$this->instance = new Wrapper(['storage' => $storage]);
 	}
 
 	protected function tearDown(): void {

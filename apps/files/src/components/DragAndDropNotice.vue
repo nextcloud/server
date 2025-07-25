@@ -235,7 +235,7 @@ export default defineComponent({
 	justify-content: center;
 	width: 100%;
 	// Breadcrumbs height + row thead height
-	min-height: calc(58px + 55px);
+	min-height: calc(58px + 44px);
 	margin: 0;
 	user-select: none;
 	color: var(--color-text-maxcontrast);

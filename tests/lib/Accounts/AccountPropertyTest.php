@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -69,9 +70,7 @@ class AccountPropertyTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider scopesProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('scopesProvider')]
 	public function testSetScopeMapping(string $storedScope, ?string $returnedScope): void {
 		if ($returnedScope === null) {
 			$this->expectException(\InvalidArgumentException::class);

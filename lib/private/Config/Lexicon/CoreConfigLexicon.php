@@ -8,36 +8,36 @@ declare(strict_types=1);
 
 namespace OC\Config\Lexicon;
 
-use NCU\Config\Lexicon\ConfigLexiconEntry;
-use NCU\Config\Lexicon\ConfigLexiconStrictness;
-use NCU\Config\Lexicon\IConfigLexicon;
-use NCU\Config\ValueType;
+use OCP\Config\Lexicon\Entry;
+use OCP\Config\Lexicon\ILexicon;
+use OCP\Config\Lexicon\Strictness;
+use OCP\Config\ValueType;
 
 /**
  * ConfigLexicon for 'core' app/user configs
  */
-class CoreConfigLexicon implements IConfigLexicon {
-	public function getStrictness(): ConfigLexiconStrictness {
-		return ConfigLexiconStrictness::IGNORE;
+class CoreConfigLexicon implements ILexicon {
+	public function getStrictness(): Strictness {
+		return Strictness::IGNORE;
 	}
 
 	/**
 	 * @inheritDoc
-	 * @return ConfigLexiconEntry[]
+	 * @return Entry[]
 	 */
 	public function getAppConfigs(): array {
 		return [
-			new ConfigLexiconEntry('lastcron', ValueType::INT, 0, 'timestamp of last cron execution'),
+			new Entry('lastcron', ValueType::INT, 0, 'timestamp of last cron execution'),
 		];
 	}
 
 	/**
 	 * @inheritDoc
-	 * @return ConfigLexiconEntry[]
+	 * @return Entry[]
 	 */
 	public function getUserConfigs(): array {
 		return [
-			new ConfigLexiconEntry('lang', ValueType::STRING, null, 'language'),
+			new Entry('lang', ValueType::STRING, null, 'language'),
 		];
 	}
 }

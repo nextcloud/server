@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing\Listener;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Share\IManager;
@@ -19,6 +20,7 @@ use OCP\Util;
 class LoadPublicFileRequestAuthListener implements IEventListener {
 	public function __construct(
 		private IManager $shareManager,
+		private IInitialState $initialState,
 	) {
 	}
 
@@ -51,9 +53,9 @@ class LoadPublicFileRequestAuthListener implements IEventListener {
 			// Ignore, this is not a file request or the share does not exist
 		}
 
-		if ($isFileRequest) {
-			// Add the script to the public page
-			Util::addScript(Application::APP_ID, 'public-file-request');
-		}
+		Util::addScript(Application::APP_ID, 'public-nickname-handler');
+
+		// Add file-request script if needed
+		$this->initialState->provideInitialState('isFileRequest', $isFileRequest);
 	}
 }

@@ -60,8 +60,8 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 
 		foreach ($backends as $type => $backendsForType) {
 			if (
-				$storage->instanceOfStorage($type) &&
-				($foundType === '' || is_subclass_of($type, $foundType))
+				$storage->instanceOfStorage($type)
+				&& ($foundType === '' || is_subclass_of($type, $foundType))
 			) {
 				foreach ($backendsForType as $backend) {
 					/** @var IVersionBackend $backend */
@@ -108,6 +108,11 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$backend = $this->getBackendForStorage($sourceFile->getStorage());
 		return $backend->getVersionFile($user, $sourceFile, $revision);
+	}
+
+	public function getRevision(Node $node): int {
+		$backend = $this->getBackendForStorage($node->getStorage());
+		return $backend->getRevision($node);
 	}
 
 	public function useBackendForStorage(IStorage $storage): bool {

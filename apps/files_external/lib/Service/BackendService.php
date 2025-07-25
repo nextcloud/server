@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -258,8 +259,8 @@ class BackendService {
 	 * @return bool
 	 */
 	protected function isAllowedUserBackend(Backend $backend) {
-		if ($this->userMountingAllowed &&
-			array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends)
+		if ($this->userMountingAllowed
+			&& array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends)
 		) {
 			return true;
 		}

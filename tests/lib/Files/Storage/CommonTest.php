@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,6 +15,7 @@ use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\ITempManager;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -33,7 +35,7 @@ class CommonTest extends Storage {
 
 		$this->filenameValidator = $this->createMock(IFilenameValidator::class);
 		$this->overwriteService(IFilenameValidator::class, $this->filenameValidator);
-		$this->tmpDir = \OCP\Server::get(ITempManager::class)->getTemporaryFolder();
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->instance = new \OC\Files\Storage\CommonTest(['datadir' => $this->tmpDir]);
 	}
 

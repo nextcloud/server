@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,21 +8,21 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Storage\Home;
 use OC\User\User;
 use OCP\Files;
+use OCP\ITempManager;
+use OCP\Server;
 
 class DummyUser extends User {
-	private $home;
-
-	private $uid;
-
 	/**
 	 * @param string $uid
 	 * @param string $home
 	 */
-	public function __construct($uid, $home) {
-		$this->uid = $uid;
-		$this->home = $home;
+	public function __construct(
+		private $uid,
+		private $home,
+	) {
 	}
 
 	public function getHome() {
@@ -49,17 +50,17 @@ class HomeTest extends Storage {
 	private $userId;
 
 	/**
-	 * @var \OC\User\User $user
+	 * @var User $user
 	 */
 	private $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->userId = $this->getUniqueID('user_');
 		$this->user = new DummyUser($this->userId, $this->tmpDir);
-		$this->instance = new \OC\Files\Storage\Home(['user' => $this->user]);
+		$this->instance = new Home(['user' => $this->user]);
 	}
 
 	protected function tearDown(): void {

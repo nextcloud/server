@@ -97,7 +97,7 @@ class AuthtokensTest extends TestCase {
 		];
 		$this->initialState->expects($this->exactly(2))
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});

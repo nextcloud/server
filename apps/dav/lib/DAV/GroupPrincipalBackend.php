@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -188,6 +189,10 @@ class GroupPrincipalBackend implements BackendInterface {
 					$groups = $this->groupManager->search($value, $searchLimit);
 
 					$results[] = array_reduce($groups, function (array $carry, IGroup $group) use ($restrictGroups) {
+						if ($group->hideFromCollaboration()) {
+							return $carry;
+						}
+
 						$gid = $group->getGID();
 						// is sharing restricted to groups only?
 						if ($restrictGroups !== false) {

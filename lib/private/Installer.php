@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
+use OC\App\AppStore\AppNotFoundException;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -169,15 +170,43 @@ class Installer {
 	}
 
 	/**
+	 * Get the path where to install apps
+	 *
+	 * @throws \RuntimeException if an app folder is marked as writable but is missing permissions
+	 */
+	public function getInstallPath(): ?string {
+		foreach (\OC::$APPSROOTS as $dir) {
+			if (isset($dir['writable']) && $dir['writable'] === true) {
+				// Check if there is a writable install folder.
+				if (!is_writable($dir['path'])
+					|| !is_readable($dir['path'])
+				) {
+					throw new \RuntimeException(
+						'Cannot write into "apps" directory. This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file.'
+					);
+				}
+				return $dir['path'];
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Downloads an app and puts it into the app directory
 	 *
 	 * @param string $appId
 	 * @param bool [$allowUnstable]
 	 *
+	 * @throws AppNotFoundException If the app is not found on the appstore
 	 * @throws \Exception If the installation was not successful
 	 */
 	public function downloadApp(string $appId, bool $allowUnstable = false): void {
 		$appId = strtolower($appId);
+
+		$installPath = $this->getInstallPath();
+		if ($installPath === null) {
+			throw new \Exception('No application directories are marked as writable.');
+		}
 
 		$apps = $this->appFetcher->get($allowUnstable);
 		foreach ($apps as $app) {
@@ -331,7 +360,7 @@ class Installer {
 						);
 					}
 
-					$baseDir = OC_App::getInstallPath() . '/' . $appId;
+					$baseDir = $installPath . '/' . $appId;
 					// Remove old app with the ID if existent
 					Files::rmdirr($baseDir);
 					// Move to app folder
@@ -356,9 +385,9 @@ class Installer {
 			}
 		}
 
-		throw new \Exception(
+		throw new AppNotFoundException(
 			sprintf(
-				'Could not download app %s',
+				'Could not download app %s, it was not found on the appstore',
 				$appId
 			)
 		);
@@ -373,7 +402,7 @@ class Installer {
 	 */
 	public function isUpdateAvailable($appId, $allowUnstable = false): string|false {
 		if ($this->isInstanceReadyForUpdates === null) {
-			$installPath = OC_App::getInstallPath();
+			$installPath = $this->getInstallPath();
 			if ($installPath === null) {
 				$this->isInstanceReadyForUpdates = false;
 			} else {
@@ -461,7 +490,13 @@ class Installer {
 			if (\OCP\Server::get(IAppManager::class)->isShipped($appId)) {
 				return false;
 			}
-			$appDir = OC_App::getInstallPath() . '/' . $appId;
+
+			$installPath = $this->getInstallPath();
+			if ($installPath === null) {
+				$this->logger->error('No application directories are marked as writable.', ['app' => 'core']);
+				return false;
+			}
+			$appDir = $installPath . '/' . $appId;
 			Files::rmdirr($appDir);
 			return true;
 		} else {

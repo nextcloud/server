@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import moment from '@nextcloud/moment'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Column, Node } from '@nextcloud/files'
-import { getCanonicalLocale, getLanguage, translate as t } from '@nextcloud/l10n'
+import { formatRelativeTime, getCanonicalLocale, getLanguage, t } from '@nextcloud/l10n'
 import { dirname } from '@nextcloud/paths'
 
 import Vue from 'vue'
@@ -67,8 +66,11 @@ export const deleted = new Column({
 		const deletionTime = node.attributes?.['trashbin-deletion-time'] || ((node?.mtime?.getTime() ?? 0) / 1000)
 		const span = document.createElement('span')
 		if (deletionTime) {
-			span.title = moment.unix(deletionTime).format('LLL')
-			span.textContent = moment.unix(deletionTime).fromNow()
+			const formatter = Intl.DateTimeFormat([getCanonicalLocale()], { dateStyle: 'long', timeStyle: 'short' })
+			const timestamp = new Date(deletionTime * 1000)
+
+			span.title = formatter.format(timestamp)
+			span.textContent = formatRelativeTime(timestamp, { ignoreSeconds: t('files', 'few seconds ago') })
 			return span
 		}
 

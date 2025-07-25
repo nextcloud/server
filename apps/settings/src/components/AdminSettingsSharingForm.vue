@@ -27,6 +27,15 @@
 					:label="t('settings', 'Ignore the following groups when checking group membership')"
 					style="width: 100%" />
 			</div>
+			<NcCheckboxRadioSwitch :checked.sync="settings.allowViewWithoutDownload">
+				{{ t('settings', 'Allow users to preview files even if download is disabled') }}
+			</NcCheckboxRadioSwitch>
+			<NcNoteCard v-show="settings.allowViewWithoutDownload"
+				id="settings-sharing-api-view-without-download-hint"
+				class="sharing__note"
+				type="warning">
+				{{ t('settings', 'Users will still be able to screenshot or record the screen. This does not provide any definitive protection.') }}
+			</NcNoteCard>
 		</div>
 
 		<div v-show="settings.enabled" id="settings-sharing-api" class="sharing__section">
@@ -38,6 +47,10 @@
 			<fieldset v-show="settings.allowLinks" id="settings-sharing-api-public-link" class="sharing__sub-section">
 				<NcCheckboxRadioSwitch :checked.sync="settings.allowPublicUpload">
 					{{ t('settings', 'Allow public uploads') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch v-model="settings.allowFederationOnPublicShares">
+					{{ t('settings', 'Allow public shares to be added to other clouds by federation.') }}
+					{{ t('settings', 'This will add share permissions to all newly created link shares.') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.enableLinkPasswordByDefault">
 					{{ t('settings', 'Always ask for a password') }}
@@ -232,6 +245,7 @@ interface IShareSettings {
 	allowPublicUpload: boolean
 	allowResharing: boolean
 	allowShareDialogUserEnumeration: boolean
+	allowFederationOnPublicShares: boolean
 	restrictUserEnumerationToGroup: boolean
 	restrictUserEnumerationToPhone: boolean
 	restrictUserEnumerationFullMatch: boolean
@@ -258,6 +272,7 @@ interface IShareSettings {
 	remoteExpireAfterNDays: string
 	enforceRemoteExpireDate: boolean
 	allowCustomTokens: boolean
+	allowViewWithoutDownload: boolean
 }
 
 export default defineComponent({

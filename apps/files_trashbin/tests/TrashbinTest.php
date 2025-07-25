@@ -354,7 +354,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * Test restoring a file
 	 */
 	public function testRestoreFileInRoot(): void {
-		$userFolder = \OCP\Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$file = $userFolder->newFile('file1.txt');
 		$file->putContent('foo');
 
@@ -386,7 +386,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * Test restoring a file in subfolder
 	 */
 	public function testRestoreFileInSubfolder(): void {
-		$userFolder = \OCP\Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -419,7 +419,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * Test restoring a folder
 	 */
 	public function testRestoreFolder(): void {
-		$userFolder = \OCP\Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -452,7 +452,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * Test restoring a file from inside a trashed folder
 	 */
 	public function testRestoreFileFromTrashedSubfolder(): void {
-		$userFolder = \OCP\Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -486,7 +486,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * The file should then land in the root.
 	 */
 	public function testRestoreFileWithMissingSourceFolder(): void {
-		$userFolder = \OCP\Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -523,7 +523,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * with the same name in the root folder
 	 */
 	public function testRestoreFileDoesNotOverwriteExistingInRoot(): void {
-		$userFolder = \OCP\Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$file = $userFolder->newFile('file1.txt');
 		$file->putContent('foo');
 
@@ -563,7 +563,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * with the same name in the source folder
 	 */
 	public function testRestoreFileDoesNotOverwriteExistingInSubfolder(): void {
-		$userFolder = \OCP\Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -617,7 +617,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * the file to root instead
 	 */
 	public function testRestoreFileIntoReadOnlySourceFolder(): void {
-		$userFolder = \OCP\Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -673,7 +673,7 @@ class TrashbinTest extends \Test\TestCase {
 		Filesystem::tearDown();
 		\OC_User::setUserId($user);
 		\OC_Util::setupFS($user);
-		\OCP\Server::get(IRootFolder::class)->getUserFolder($user);
+		Server::get(IRootFolder::class)->getUserFolder($user);
 	}
 }
 

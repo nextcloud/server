@@ -183,7 +183,6 @@
     "Set default folder for accepted shares" : "Estableix la carpeta per defecte per als elements compartits acceptats",
     "Reset" : "Reinicialitza",
     "Reset folder to system default" : "Reinicialitza la carpeta per defecte del sistema",
-    "Share expiration: " : "Fi de compartició:",
     "Share Expiration" : "Fi de compartició",
     "group" : "grup",
     "conversation" : "conversa",
@@ -257,12 +256,6 @@
     "By uploading files, you agree to the terms of service." : "Per la pujada de fitxers, accepteu les condicions del servei.",
     "View terms of service" : "Consulta els termes del servei",
     "Terms of service" : "Condicions del servei",
-    "Upload files to {folder}" : "Pujada de fitxers a {folder}",
-    "Submit name" : "Envia el nom",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} ha compartit una carpeta amb tu.",
-    "To upload files, you need to provide your name first." : "Per la pujada de fitxers, primer heu de proporcionar el vostre nom.",
-    "Name" : "Nom",
-    "Enter your name" : "Introdueix el teu nom",
     "Share with {userName}" : "Comparteix amb {userName}",
     "Share with email {email}" : "Comparteix amb l'adreça electrònica {email}",
     "Share with group" : "Comparteix amb el grup",
@@ -380,6 +373,8 @@
     "Share note for recipient saved" : "S’ha desat la nota de compartició per al destinatari",
     "Share password saved" : "S’ha desat la contrasenya de compartició",
     "Share permissions saved" : "S’han desat els permisos de compartició",
+    "Upload files to {folder}" : "Pujada de fitxers a {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} ha compartit una carpeta amb tu.",
     "Shared by" : "Compartit per",
     "Shared with" : "S'ha compartit amb",
     "Password created successfully" : "La contrasenya s'ha creat correctament",
@@ -416,6 +411,11 @@
     "_1 email address added_::_{count} email addresses added_" : ["S'ha afegit 1 adreça de correu","S’han afegit {count} adreces de correu"],
     "Search for share recipients" : "Cerqueu destinataris de l'element compartit",
     "No recommendations. Start typing." : "No hi ha cap recomanació. Comenceu a escriure.",
-    "Email, federated cloud id" : "Correu, identificador del núvol federat"
+    "To upload files, you need to provide your name first." : "Per la pujada de fitxers, primer heu de proporcionar el vostre nom.",
+    "Enter your name" : "Introdueix el teu nom",
+    "Submit name" : "Envia el nom",
+    "Name" : "Nom",
+    "Email, federated cloud id" : "Correu, identificador del núvol federat",
+    "Filename must not be empty." : "El nom del fitxer no ha d'estar buit."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

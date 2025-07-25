@@ -35,6 +35,7 @@ return [
 		['root' => '/cloud', 'name' => 'Users#getCurrentUser', 'url' => '/user', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getEditableFields', 'url' => '/user/fields', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getEditableFieldsForUser', 'url' => '/user/fields/{userId}', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Users#getEnabledApps', 'url' => '/user/apps', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#editUser', 'url' => '/users/{userId}', 'verb' => 'PUT'],
 		['root' => '/cloud', 'name' => 'Users#editUserMultiValue', 'url' => '/users/{userId}/{collectionName}', 'verb' => 'PUT', 'requirements' => ['collectionName' => '^(?!enable$|disable$)[a-zA-Z0-9_]*$']],
 		['root' => '/cloud', 'name' => 'Users#wipeUserDevices', 'url' => '/users/{userId}/wipe', 'verb' => 'POST'],

@@ -1173,6 +1173,13 @@
                 ],
                 "parameters": [
                     {
+                        "name": "user-agent",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -1603,7 +1610,8 @@
                         "description": "can be piped, top prio first, e.g.: \"commenters|share-recipients\"",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4003,6 +4011,7 @@
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Timestamp of the last usage"
                                     }
                                 }
@@ -4197,11 +4206,13 @@
                                     "webhookUri": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "URI to be requested when the task finishes"
                                     },
                                     "webhookMethod": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)"
                                     }
                                 }
@@ -4710,7 +4721,8 @@
                         "description": "An arbitrary identifier for the task",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -4838,7 +4850,8 @@
                         "description": "An arbitrary identifier for the task",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -6046,7 +6059,8 @@
                         "description": "An arbitrary identifier for the task",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -6873,7 +6887,8 @@
                         "description": "An arbitrary identifier for the task",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -7412,7 +7427,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -7422,7 +7438,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -7431,6 +7448,7 @@
                         "description": "Offset for searching",
                         "schema": {
                             "nullable": true,
+                            "default": null,
                             "oneOf": [
                                 {
                                     "type": "integer",
@@ -8044,6 +8062,15 @@
                     },
                     {
                         "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "user-agent",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {

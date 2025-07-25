@@ -14,6 +14,8 @@ OC.L10N.register(
     "Good evening, {name}" : "Добрый вечер, {name}",
     "Hello" : "Здравствуйте",
     "Hello, {name}" : "Здравствуйте, {name}!",
+    "Happy birthday 🥳🤩🎂🎉" : "С днём рождения! 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "С днём рождения, {name}! 🥳🤩🎂🎉",
     "Customize" : "Настроить",
     "Edit widgets" : "Редактировать виджеты",
     "Get more widgets from the App Store" : "Загрузить виджеты из магазина приложений",
@@ -21,7 +23,6 @@ OC.L10N.register(
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "В целях вашей конфиденциальности данные о погоде запрашиваются вашим сервером Nextcloud от вашего имени, поэтому служба погоды не получает никакой личной информации.",
     "Weather data from Met.no" : "Погода от Met.no",
     "geocoding with Nominatim" : "геокодирование с Nominatim",
-    "elevation data from OpenTopoData" : "данные о высоте из OpenTopoData",
-    "\"{title} icon\"" : "\"{title} иконка\""
+    "elevation data from OpenTopoData" : "данные о высоте из OpenTopoData"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

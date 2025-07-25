@@ -124,8 +124,6 @@ OC.L10N.register(
     "on {server}" : "روی{server}",
     "File drop" : "انداختن پرونده",
     "Terms of service" : "شرایط و قوانین",
-    "Name" : "نام",
-    "Enter your name" : "اسمت را وارد کن",
     "Update share" : "به‌روزرسانی هم‌رسانی",
     "Read" : "خواندن",
     "Create" : "ایجاد",
@@ -220,6 +218,9 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "خطا در افزودن ادرس عمومی به نکس کلود شما",
     "Download all files" : "دانلود همه فایل ها",
     "Search for share recipients" : "Search for share recipients",
-    "No recommendations. Start typing." : "هیچ توصیه ای نیست شروع به تایپ کنید."
+    "No recommendations. Start typing." : "هیچ توصیه ای نیست شروع به تایپ کنید.",
+    "Enter your name" : "اسمت را وارد کن",
+    "Name" : "نام",
+    "Filename must not be empty." : "Filename must not be empty."
 },
 "nplurals=2; plural=(n > 1);");

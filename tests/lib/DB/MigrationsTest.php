@@ -185,10 +185,10 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetMigration
 	 * @param string $alias
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetMigration')]
 	public function testGetMigration($alias, $expected): void {
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
 			->onlyMethods(['getMigratedVersions', 'findMigrations'])
@@ -234,7 +234,7 @@ class MigrationsTest extends \Test\TestCase {
 		];
 		$this->migrationService->expects($this->exactly(2))
 			->method('executeStep')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -844,11 +844,10 @@ class MigrationsTest extends \Test\TestCase {
 					'class' => 'OCP\\Migration\\Attributes\\CreateTable',
 					'table' => 'new_table',
 					'description' => 'Table is used to store things, but also to get more things',
-					'notes' =>
-						[
-							'this is a notice',
-							'and another one, if really needed'
-						],
+					'notes' => [
+						'this is a notice',
+						'and another one, if really needed'
+					],
 					'columns' => []
 				],
 				[

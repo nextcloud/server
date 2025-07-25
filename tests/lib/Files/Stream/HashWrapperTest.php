@@ -12,9 +12,7 @@ use OC\Files\Stream\HashWrapper;
 use Test\TestCase;
 
 class HashWrapperTest extends TestCase {
-	/**
-	 * @dataProvider hashProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProvider')]
 	public function testHashStream($data, string $algo, string $hash): void {
 		if (!is_resource($data)) {
 			$tmpData = fopen('php://temp', 'r+');
@@ -25,7 +23,7 @@ class HashWrapperTest extends TestCase {
 			$data = $tmpData;
 		}
 
-		$wrapper = HashWrapper::wrap($data, $algo, function ($result) use ($hash) {
+		$wrapper = HashWrapper::wrap($data, $algo, function ($result) use ($hash): void {
 			$this->assertEquals($hash, $result);
 		});
 		stream_get_contents($wrapper);

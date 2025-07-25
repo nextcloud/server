@@ -29,9 +29,7 @@ class TrashbinPluginTest extends TestCase {
 		$this->server = new Server($tree);
 	}
 
-	/**
-	 * @dataProvider quotaProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('quotaProvider')]
 	public function testQuota(int $quota, int $fileSize, bool $expectedResult): void {
 		$fileInfo = $this->createMock(ITrashItem::class);
 		$fileInfo->method('getSize')

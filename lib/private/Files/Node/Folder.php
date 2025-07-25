@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -459,5 +460,13 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 
 		return $this->search($query);
+	}
+
+	public function verifyPath($fileName, $readonly = false): void {
+		$this->view->verifyPath(
+			$this->getPath(),
+			$fileName,
+			$readonly,
+		);
 	}
 }

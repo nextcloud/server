@@ -43,8 +43,8 @@ export default {
 	},
 	data() {
 		return {
-			availableGroups: this.user.groups.map(id => ({ id, name: id })),
-			availableSubAdminGroups: this.user.subadmin.map(id => ({ id, name: id })),
+			selectedGroups: this.user.groups.map(id => ({ id, name: id })),
+			selectedSubAdminGroups: this.user.subadmin.map(id => ({ id, name: id })),
 			userGroups: this.user.groups.map(id => ({ id, name: id })),
 			userSubAdminGroups: this.user.subadmin.map(id => ({ id, name: id })),
 		}

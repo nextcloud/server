@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -85,8 +86,8 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 					$metaDataById[$metaDataRow[$this->dbForeignKeyName]] = [];
 				}
 
-				$metaDataById[$metaDataRow[$this->dbForeignKeyName]][$metaDataRow['key']] =
-					$metaDataRow['value'];
+				$metaDataById[$metaDataRow[$this->dbForeignKeyName]][$metaDataRow['key']]
+					= $metaDataRow['value'];
 			}
 
 			while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
@@ -470,9 +471,9 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @return bool
 	 */
 	private function isAllowedToAccessResource(array $row, array $userGroups): bool {
-		if (!isset($row['group_restrictions']) ||
-			$row['group_restrictions'] === null ||
-			$row['group_restrictions'] === '') {
+		if (!isset($row['group_restrictions'])
+			|| $row['group_restrictions'] === null
+			|| $row['group_restrictions'] === '') {
 			return true;
 		}
 

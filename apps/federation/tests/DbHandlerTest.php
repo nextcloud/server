@@ -52,12 +52,12 @@ class DbHandlerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestAddServer
 	 *
 	 * @param string $url passed to the method
 	 * @param string $expectedUrl the url we expect to be written to the db
 	 * @param string $expectedHash the hash value we expect to be written to the db
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestAddServer')]
 	public function testAddServer(string $url, string $expectedUrl, string $expectedHash): void {
 		$id = $this->dbHandler->addServer($url);
 
@@ -128,9 +128,7 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame($id2, (int)$result[1]['id']);
 	}
 
-	/**
-	 * @dataProvider dataTestServerExists
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestServerExists')]
 	public function testServerExists(string $serverInTable, string $checkForServer, bool $expected): void {
 		$this->dbHandler->addServer($serverInTable);
 		$this->assertSame($expected,
@@ -234,9 +232,8 @@ class DbHandlerTest extends TestCase {
 
 	/**
 	 * hash should always be computed with the normalized URL
-	 *
-	 * @dataProvider dataTestHash
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestHash')]
 	public function testHash(string $url, string $expected): void {
 		$this->assertSame($expected,
 			$this->invokePrivate($this->dbHandler, 'hash', [$url])
@@ -252,9 +249,7 @@ class DbHandlerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestNormalizeUrl
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestNormalizeUrl')]
 	public function testNormalizeUrl(string $url, string $expected): void {
 		$this->assertSame($expected,
 			$this->invokePrivate($this->dbHandler, 'normalizeUrl', [$url])
@@ -271,9 +266,7 @@ class DbHandlerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesAuth
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesAuth')]
 	public function testAuth(bool $expectedResult, string $user, string $password): void {
 		if ($expectedResult) {
 			$this->dbHandler->addServer('url1');

@@ -8,9 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Notification;
 
-/**
- * @since 17.0.0
- */
+use OCP\AppFramework\Attribute\Throwable;
+
+#[Throwable(since: '17.0.0')]
 class AlreadyProcessedException extends \RuntimeException {
 	/**
 	 * @since 17.0.0

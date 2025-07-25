@@ -166,9 +166,7 @@ class KeyManagerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestUserHasKeys
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestUserHasKeys')]
 	public function testUserHasKeys($key, $expected): void {
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getUserKey')
@@ -221,10 +219,9 @@ class KeyManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestInit
-	 *
 	 * @param bool $useMasterKey
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestInit')]
 	public function testInit($useMasterKey): void {
 		/** @var KeyManager&MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
@@ -248,7 +245,7 @@ class KeyManagerTest extends TestCase {
 		$sessionSetStatusCalls = [];
 		$this->sessionMock->expects($this->exactly(2))
 			->method('setStatus')
-			->willReturnCallback(function (string $status) use (&$sessionSetStatusCalls) {
+			->willReturnCallback(function (string $status) use (&$sessionSetStatusCalls): void {
 				$sessionSetStatusCalls[] = $status;
 			});
 
@@ -356,13 +353,13 @@ class KeyManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestGetFileKey
 	 *
 	 * @param $uid
 	 * @param $isMasterKeyEnabled
 	 * @param $privateKey
 	 * @param $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetFileKey')]
 	public function testGetFileKey($uid, $isMasterKeyEnabled, $privateKey, $encryptedFileKey, $expected): void {
 		$path = '/foo.txt';
 
@@ -452,13 +449,13 @@ class KeyManagerTest extends TestCase {
 	/**
 	 * test add public share key and or recovery key to the list of public keys
 	 *
-	 * @dataProvider dataTestAddSystemKeys
 	 *
 	 * @param array $accessList
 	 * @param array $publicKeys
 	 * @param string $uid
 	 * @param array $expectedKeys
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestAddSystemKeys')]
 	public function testAddSystemKeys($accessList, $publicKeys, $uid, $expectedKeys): void {
 		$publicShareKeyId = 'publicShareKey';
 		$recoveryKeyId = 'recoveryKey';
@@ -539,10 +536,9 @@ class KeyManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestValidateMasterKey
-	 *
 	 * @param $masterKey
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestValidateMasterKey')]
 	public function testValidateMasterKey($masterKey): void {
 		/** @var KeyManager&MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)

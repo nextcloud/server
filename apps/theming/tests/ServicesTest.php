@@ -60,9 +60,7 @@ class ServicesTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider queryData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('queryData')]
 	public function testContainerQuery(string $service, ?string $expected = null): void {
 		if ($expected === null) {
 			$expected = $service;

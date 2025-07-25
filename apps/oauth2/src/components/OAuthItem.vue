@@ -35,7 +35,7 @@
 
 <script>
 
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
 import EyeOutline from 'vue-material-design-icons/EyeOutline.vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 

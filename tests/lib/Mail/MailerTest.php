@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,6 +19,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Mail\Events\BeforeMessageSent;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Mailer as SymfonyMailer;
@@ -74,10 +76,10 @@ class MailerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider sendmailModeProvider
 	 * @param $sendmailMode
 	 * @param $binaryParam
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sendmailModeProvider')]
 	public function testGetSendmailInstanceSendMail($sendmailMode, $binaryParam): void {
 		$this->config
 			->expects($this->exactly(2))
@@ -87,7 +89,7 @@ class MailerTest extends TestCase {
 				['mail_sendmailmode', 'smtp', $sendmailMode],
 			]);
 
-		$path = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
+		$path = Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
 		if ($path === false) {
 			$path = '/usr/sbin/sendmail';
 		}
@@ -97,10 +99,10 @@ class MailerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider sendmailModeProvider
 	 * @param $sendmailMode
 	 * @param $binaryParam
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sendmailModeProvider')]
 	public function testGetSendmailInstanceSendMailQmail($sendmailMode, $binaryParam): void {
 		$this->config
 			->expects($this->exactly(2))
@@ -241,9 +243,7 @@ class MailerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider mailAddressProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('mailAddressProvider')]
 	public function testValidateMailAddress($email, $expected, $strict): void {
 		$this->config
 			->expects($this->atMost(1))

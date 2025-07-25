@@ -168,8 +168,6 @@ OC.L10N.register(
     "Note:" : "Σημείωση:",
     "File drop" : "Απόθεση αρχείου",
     "Terms of service" : "Όροι χρήσης",
-    "Name" : "Όνομα",
-    "Enter your name" : "Προσθέστε το όνομά σας",
     "Share with group" : "Κοινή χρήση με ομάδα",
     "Share in conversation" : "Κοινή χρήση σε συζήτηση",
     "Share with guest" : "Κοινή χρήση με επισκέπτη",
@@ -234,6 +232,7 @@ OC.L10N.register(
     "List of unapproved shares." : "Λίστα μη αποδεκτών κοινόχρηστων.",
     "No pending shares" : "Δεν εκκρεμούν κοινόχρηστα",
     "Shares you have received but not approved will show up here" : "Κοινόχρηστα που έχετε λάβει αλλά δεν έχετε εγκρίνει θα εμφανιστούν εδώ",
+    "Error deleting the share" : "Σφάλμα διαγραφής του κοινόχρηστου",
     "Error updating the share: {errorMessage}" : "Σφάλμα κατά τη δημιουργία της κοινής χρήσης: {errorMessage}",
     "Error updating the share" : "Σφάλμα κατά την ενημέρωση του κοινόχρηστου",
     "Share label saved" : "Διαμοιρασμένη ετικέτα αποθηκεύτηκε ",
@@ -269,6 +268,9 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Αποτυχία στην πρόσθεση του κοινού συνδέσμου στο Nextcloud σας",
     "Download all files" : "Λήψη όλων των αρχείων",
     "Search for share recipients" : "Αναζήτηση για παραλήπτες διαμοιρασμού",
-    "No recommendations. Start typing." : "Δεν υπάρχουν συστάσεις. Αρχίστε να πληκτρολογείτε."
+    "No recommendations. Start typing." : "Δεν υπάρχουν συστάσεις. Αρχίστε να πληκτρολογείτε.",
+    "Enter your name" : "Προσθέστε το όνομά σας",
+    "Name" : "Όνομα",
+    "Filename must not be empty." : "Το όνομα αρχείου δεν πρέπει να είναι κενό."
 },
 "nplurals=2; plural=(n != 1);");

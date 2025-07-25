@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -123,7 +124,7 @@ class UpdaterTest extends TestCase {
 		Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 	}
 
-	public function shareFolderProvider() {
+	public static function shareFolderProvider() {
 		return [
 			['/'],
 			['/my_shares'],
@@ -133,10 +134,10 @@ class UpdaterTest extends TestCase {
 	/**
 	 * if a file gets shared the etag for the recipients root should change
 	 *
-	 * @dataProvider shareFolderProvider
 	 *
 	 * @param string $shareFolder share folder to use
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('shareFolderProvider')]
 	public function testShareFile($shareFolder): void {
 		$config = Server::get(IConfig::class);
 		$oldShareFolder = $config->getSystemValue('share_folder');

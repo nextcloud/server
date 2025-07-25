@@ -127,7 +127,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			// query for shared addressbooks
 			$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
-			$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUriOriginal));
 
 			$principals[] = $principalUri;
 
@@ -137,7 +136,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$subSelect->select('id')
 				->from('dav_shares', 'd')
 				->where($subSelect->expr()->eq('d.access', $select->createNamedParameter(\OCA\DAV\CardDAV\Sharing\Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
-				->andWhere($subSelect->expr()->eq('d.principaluri', $select->createNamedParameter($principalUri, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+				->andWhere($subSelect->expr()->in('d.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY));
 
 
 			$select->select(['a.id', 'a.uri', 'a.displayname', 'a.principaluri', 'a.description', 'a.synctoken', 's.access'])
@@ -160,8 +159,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 						// New share can not have more permissions then the old one.
 						continue;
 					}
-					if (isset($addressBooks[$row['id']][$readOnlyPropertyName]) &&
-						$addressBooks[$row['id']][$readOnlyPropertyName] === 0) {
+					if (isset($addressBooks[$row['id']][$readOnlyPropertyName])
+						&& $addressBooks[$row['id']][$readOnlyPropertyName] === 0) {
 						// Old share is already read-write, no more permissions can be gained
 						continue;
 					}

@@ -106,8 +106,8 @@ class Hasher implements IHasher {
 
 		// Verify whether it matches a legacy PHPass or SHA1 string
 		$hashLength = \strlen($hash);
-		if (($hashLength === 60 && password_verify($message . $this->legacySalt, $hash)) ||
-			($hashLength === 40 && hash_equals($hash, sha1($message)))) {
+		if (($hashLength === 60 && password_verify($message . $this->legacySalt, $hash))
+			|| ($hashLength === 40 && hash_equals($hash, sha1($message)))) {
 			$newHash = $this->hash($message);
 			return true;
 		}
@@ -115,8 +115,8 @@ class Hasher implements IHasher {
 		// Verify whether it matches a legacy PHPass or SHA1 string
 		// Retry with empty passwordsalt for cases where it was not set
 		$hashLength = \strlen($hash);
-		if (($hashLength === 60 && password_verify($message, $hash)) ||
-			($hashLength === 40 && hash_equals($hash, sha1($message)))) {
+		if (($hashLength === 60 && password_verify($message, $hash))
+			|| ($hashLength === 40 && hash_equals($hash, sha1($message)))) {
 			$newHash = $this->hash($message);
 			return true;
 		}

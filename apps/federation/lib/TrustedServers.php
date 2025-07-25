@@ -169,7 +169,6 @@ class TrustedServers {
 			}
 		} catch (\Exception $e) {
 			$this->logger->error('No Nextcloud server.', [
-				'app' => 'federation',
 				'exception' => $e,
 			]);
 			return false;

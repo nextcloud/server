@@ -37,13 +37,13 @@ class RecoveryControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider adminRecoveryProvider
 	 * @param $recoveryPassword
 	 * @param $passConfirm
 	 * @param $enableRecovery
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('adminRecoveryProvider')]
 	public function testAdminRecovery($recoveryPassword, $passConfirm, $enableRecovery, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('enableAdminRecovery')
@@ -73,13 +73,13 @@ class RecoveryControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider changeRecoveryPasswordProvider
 	 * @param $password
 	 * @param $confirmPassword
 	 * @param $oldPassword
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('changeRecoveryPasswordProvider')]
 	public function testChangeRecoveryPassword($password, $confirmPassword, $oldPassword, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('changeRecoveryKeyPassword')
@@ -105,11 +105,11 @@ class RecoveryControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider userSetRecoveryProvider
 	 * @param $enableRecovery
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('userSetRecoveryProvider')]
 	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -128,10 +129,10 @@ class SetupTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider findWebRootProvider
 	 * @param $url
 	 * @param $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('findWebRootProvider')]
 	public function testFindWebRootCli($url, $expected): void {
 		$cliState = \OC::$CLI;
 

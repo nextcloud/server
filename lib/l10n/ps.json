@@ -5,6 +5,8 @@
     "Files" : "فایلونه",
     "Apps" : "اپلېکشنونه",
     "Settings" : "سمونې",
-    "Storage is temporarily not available" : "ذخیره د لنډې مودې لپاره نشته"
+    "Accounts" : "Accounts",
+    "Storage is temporarily not available" : "ذخیره د لنډې مودې لپاره نشته",
+    "Images" : "سیبشسیب"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

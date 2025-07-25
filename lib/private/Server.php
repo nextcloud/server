@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,7 +8,6 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use NCU\Config\IUserConfig;
 use NCU\Security\Signature\ISignatureManager;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
@@ -138,6 +138,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Command\IBus;
 use OCP\Comments\ICommentsManager;
+use OCP\Config\IUserConfig;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Defaults;
@@ -162,7 +163,6 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\Template\ITemplateManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
-use OCP\GlobalScale\IConfig;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -196,6 +196,7 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
 use OCP\Mail\IMailer;
+use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCM\IOCMProvider;
 use OCP\Preview\IMimeIconProvider;
@@ -236,7 +237,6 @@ use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\User\IAvailabilityCoordinator;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -266,9 +266,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
 		});
-		$this->registerService(\OCP\IServerContainer::class, function (ContainerInterface $c) {
-			return $c;
-		});
+		$this->registerDeprecatedAlias(\OCP\IServerContainer::class, ContainerInterface::class);
 
 		$this->registerAlias(\OCP\Calendar\IManager::class, \OC\Calendar\Manager::class);
 
@@ -277,6 +275,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Calendar\Room\IManager::class, \OC\Calendar\Room\Manager::class);
 
 		$this->registerAlias(\OCP\Contacts\IManager::class, \OC\ContactsManager::class);
+
+		$this->registerAlias(\OCP\ContextChat\IContentManager::class, \OC\ContextChat\ContentManager::class);
 
 		$this->registerAlias(\OCP\DirectEditing\IManager::class, \OC\DirectEditing\Manager::class);
 		$this->registerAlias(ITemplateManager::class, TemplateManager::class);
@@ -320,7 +320,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Profiler($c->get(SystemConfig::class));
 		});
 
-		$this->registerService(\OCP\Encryption\IManager::class, function (Server $c): Encryption\Manager {
+		$this->registerService(Encryption\Manager::class, function (Server $c): Encryption\Manager {
 			$view = new View();
 			$util = new Encryption\Util(
 				$view,
@@ -337,6 +337,7 @@ class Server extends ServerContainer implements IServerContainer {
 				new ArrayCache()
 			);
 		});
+		$this->registerAlias(\OCP\Encryption\IManager::class, Encryption\Manager::class);
 
 		$this->registerService(IFile::class, function (ContainerInterface $c) {
 			$util = new Encryption\Util(
@@ -569,6 +570,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
 		$this->registerAlias(IUserConfig::class, \OC\Config\UserConfig::class);
+		$this->registerAlias(IAppManager::class, AppManager::class);
 
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
@@ -605,7 +607,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$prefixClosure = function () use ($logQuery, $serverVersion): ?string {
 					if (!$logQuery) {
 						try {
-							$v = \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions();
+							$v = \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions(true);
 						} catch (\Doctrine\DBAL\Exception $e) {
 							// Database service probably unavailable
 							// Probably related to https://github.com/nextcloud/server/issues/37424
@@ -620,7 +622,7 @@ class Server extends ServerContainer implements IServerContainer {
 						];
 					}
 					$v['core'] = implode(',', $serverVersion->getVersion());
-					$version = implode(',', $v);
+					$version = implode(',', array_keys($v)) . implode(',', $v);
 					$instanceId = \OC_Util::getInstanceId();
 					$path = \OC::$SERVERROOT;
 					return md5($instanceId . '-' . $version . '-' . $path);
@@ -777,21 +779,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerAlias(ITempManager::class, TempManager::class);
-
-		$this->registerService(AppManager::class, function (ContainerInterface $c) {
-			// TODO: use auto-wiring
-			return new \OC\App\AppManager(
-				$c->get(IUserSession::class),
-				$c->get(\OCP\IConfig::class),
-				$c->get(IGroupManager::class),
-				$c->get(ICacheFactory::class),
-				$c->get(IEventDispatcher::class),
-				$c->get(LoggerInterface::class),
-				$c->get(ServerVersion::class),
-			);
-		});
-		$this->registerAlias(IAppManager::class, AppManager::class);
-
 		$this->registerAlias(IDateTimeZone::class, DateTimeZone::class);
 
 		$this->registerService(IDateTimeFormatter::class, function (Server $c) {
@@ -885,7 +872,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IMimeTypeDetector::class)
 			);
 		});
-		$this->registerService(\OCP\IRequest::class, function (ContainerInterface $c) {
+		$this->registerService(Request::class, function (ContainerInterface $c) {
 			if (isset($this['urlParams'])) {
 				$urlParams = $this['urlParams'];
 			} else {
@@ -919,6 +906,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$stream
 			);
 		});
+		$this->registerAlias(\OCP\IRequest::class, Request::class);
 
 		$this->registerService(IRequestId::class, function (ContainerInterface $c): IRequestId {
 			return new RequestId(
@@ -1271,7 +1259,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
 
-		$this->registerAlias(IOCMProvider::class, OCMProvider::class);
+		$this->registerAlias(ICapabilityAwareOCMProvider::class, OCMProvider::class);
+		$this->registerDeprecatedAlias(IOCMProvider::class, OCMProvider::class);
 
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);
 
@@ -1692,7 +1681,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0 Use get(\OCP\Files\AppData\IAppDataFactory::class)->get($app) instead
 	 */
 	public function getAppDataDir($app) {
-		/** @var \OC\Files\AppData\Factory $factory */
 		$factory = $this->get(\OC\Files\AppData\Factory::class);
 		return $factory->get($app);
 	}
@@ -1703,19 +1691,5 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCloudIdManager() {
 		return $this->get(ICloudIdManager::class);
-	}
-
-	private function registerDeprecatedAlias(string $alias, string $target) {
-		$this->registerService($alias, function (ContainerInterface $container) use ($target, $alias) {
-			try {
-				/** @var LoggerInterface $logger */
-				$logger = $container->get(LoggerInterface::class);
-				$logger->debug('The requested alias "' . $alias . '" is deprecated. Please request "' . $target . '" directly. This alias will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
-			} catch (ContainerExceptionInterface $e) {
-				// Could not get logger. Continue
-			}
-
-			return $container->get($target);
-		}, false);
 	}
 }

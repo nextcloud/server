@@ -147,7 +147,7 @@
     "Confirm" : "Kadarnañ",
     "Cancel" : "Nullañ",
     "Description" : "Deskrivadur",
-    "View in store" : "Gwellet er stall",
+    "View in store" : "Gwelet er stal",
     "Visit website" : "Mont war al lec'hienn",
     "Admin documentation" : "Dielvadur ar merour",
     "Developer documentation" : "Diellvadur an digeler",
@@ -163,6 +163,7 @@
     "Documentation" : "Diellvadur",
     "Report a bug" : "Dugas ur gudenn",
     "Google Chrome for Android" : "Google Chrome evit Android",
+    "{productName} Android app" : "{productName} Arload Android",
     "This session" : "An estez-mañ",
     "Marked for remote wipe" : "Market evit bezañ lamet a bell",
     "Device settings" : "Stummoù ardivink",
@@ -197,7 +198,6 @@
     "Submit" : "Kinnig",
     "Current password" : "Ger-tremen hiziv",
     "New password" : "Ger-tremen nevez",
-    "Change password" : "Cheñch ger-tremen",
     "Picture provided by original account" : "Skeudenn roet gant ar c'hont orin",
     "Unable to update date of birth" : "N'haller ket cheñch an deiziad ganedigezh",
     "Enter your date of birth" : "Lakaat ho teiziad ganedigezh",
@@ -205,9 +205,8 @@
     "No email address set" : "Chom-lec'h postel ebet lakaet",
     "Help translate" : "Sikour treiñ",
     "No language set" : "Yezh ebet lakaet",
+    "Week starts on {firstDayOfWeek}" : "Krog a ra ar sizunn gant {firstDayOfWeek}",
     "Your phone number" : "O niverenn pelgomzer",
-    "Add" : "Ouzhpennañ",
-    "Create" : "Krouiñ",
     "Change" : "Cheñch",
     "Delete" : "Dilemel",
     "Reshare" : "Adrannañ",
@@ -232,7 +231,7 @@
     "Delete {userid}'s account" : "Dilemel kont {userid}",
     "Welcome mail sent!" : "Postel degemer kaset !",
     "Done" : "Graet",
-    "Edit" : "Cheñch",
+    "Edit" : "Embann",
     "Show storage path" : "Diskouez an hent klenkañ",
     "Show last login" : "Diskouez ar c'hennask diwezhañ",
     "Send email" : "Kas postel",
@@ -310,6 +309,7 @@
     "Check out our blog" : "Sellit ouzh hon vlog",
     "Subscribe to our newsletter" : "Koumannantit d'hon kemenadennoù nevesadur",
     "Use a second factor besides your password to increase security for your account." : "Implijour un eil-elfenn d'ho ger-tremen a gwella urentez o c'hont.",
-    "Set default expiration date for shares" : "Lakaat un deizat termen dre ziouer evit ar rannañ"
+    "Set default expiration date for shares" : "Lakaat un deizat termen dre ziouer evit ar rannañ",
+    "You are using <strong>{usage}</strong>" : "Emaoc'h o imlpij <strong>{usage}</strong>"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"
 }

@@ -8,7 +8,7 @@
 		:name="t('settings', 'Details')"
 		:order="1">
 		<template #icon>
-			<NcIconSvgWrapper :path="mdiTextBox" />
+			<NcIconSvgWrapper :path="mdiTextBoxOutline" />
 		</template>
 		<div class="app-details">
 			<div class="app-details__actions">
@@ -82,7 +82,7 @@
 						type="secondary"
 						@click="() => showDeployOptionsModal = true">
 						<template #icon>
-							<NcIconSvgWrapper :path="mdiToyBrickPlus" />
+							<NcIconSvgWrapper :path="mdiToyBrickPlusOutline" />
 						</template>
 						{{ t('settings', 'Deploy options') }}
 					</NcButton>
@@ -162,7 +162,7 @@
 						:aria-label="t('settings', 'Report a bug')"
 						:title="t('settings', 'Report a bug')">
 						<template #icon>
-							<NcIconSvgWrapper :path="mdiBug" />
+							<NcIconSvgWrapper :path="mdiBugOutline" />
 						</template>
 					</NcButton>
 					<NcButton :disabled="!app.bugs"
@@ -170,7 +170,7 @@
 						:aria-label="t('settings', 'Request feature')"
 						:title="t('settings', 'Request feature')">
 						<template #icon>
-							<NcIconSvgWrapper :path="mdiFeatureSearch" />
+							<NcIconSvgWrapper :path="mdiFeatureSearchOutline" />
 						</template>
 					</NcButton>
 					<NcButton v-if="app.appstoreData?.discussion"
@@ -178,7 +178,7 @@
 						:aria-label="t('settings', 'Ask questions or discuss')"
 						:title="t('settings', 'Ask questions or discuss')">
 						<template #icon>
-							<NcIconSvgWrapper :path="mdiTooltipQuestion" />
+							<NcIconSvgWrapper :path="mdiTooltipQuestionOutline" />
 						</template>
 					</NcButton>
 					<NcButton v-if="!app.internal"
@@ -209,7 +209,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import AppDeployOptionsModal from './AppDeployOptionsModal.vue'
 
 import AppManagement from '../../mixins/AppManagement.js'
-import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion, mdiToyBrickPlus } from '@mdi/js'
+import { mdiBugOutline, mdiFeatureSearchOutline, mdiStar, mdiTextBoxOutline, mdiTooltipQuestionOutline, mdiToyBrickPlusOutline } from '@mdi/js'
 import { useAppsStore } from '../../store/apps-store'
 import { useAppApiStore } from '../../store/app-api-store'
 
@@ -242,12 +242,12 @@ export default {
 			store,
 			appApiStore,
 
-			mdiBug,
-			mdiFeatureSearch,
+			mdiBugOutline,
+			mdiFeatureSearchOutline,
 			mdiStar,
-			mdiTextBox,
-			mdiTooltipQuestion,
-			mdiToyBrickPlus,
+			mdiTextBoxOutline,
+			mdiTooltipQuestionOutline,
+			mdiToyBrickPlusOutline,
 		}
 	},
 

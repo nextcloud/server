@@ -60,36 +60,36 @@ class CardDavBackendTest extends TestCase {
 	public const UNIT_TEST_USER1 = 'principals/users/carddav-unit-test1';
 	public const UNIT_TEST_GROUP = 'principals/groups/carddav-unit-test-group';
 
-	private $vcardTest0 = 'BEGIN:VCARD' . PHP_EOL .
-		'VERSION:3.0' . PHP_EOL .
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
-		'UID:Test' . PHP_EOL .
-		'FN:Test' . PHP_EOL .
-		'N:Test;;;;' . PHP_EOL .
-		'END:VCARD';
+	private $vcardTest0 = 'BEGIN:VCARD' . PHP_EOL
+		. 'VERSION:3.0' . PHP_EOL
+		. 'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL
+		. 'UID:Test' . PHP_EOL
+		. 'FN:Test' . PHP_EOL
+		. 'N:Test;;;;' . PHP_EOL
+		. 'END:VCARD';
 
-	private $vcardTest1 = 'BEGIN:VCARD' . PHP_EOL .
-		'VERSION:3.0' . PHP_EOL .
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
-		'UID:Test2' . PHP_EOL .
-		'FN:Test2' . PHP_EOL .
-		'N:Test2;;;;' . PHP_EOL .
-		'END:VCARD';
+	private $vcardTest1 = 'BEGIN:VCARD' . PHP_EOL
+		. 'VERSION:3.0' . PHP_EOL
+		. 'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL
+		. 'UID:Test2' . PHP_EOL
+		. 'FN:Test2' . PHP_EOL
+		. 'N:Test2;;;;' . PHP_EOL
+		. 'END:VCARD';
 
-	private $vcardTest2 = 'BEGIN:VCARD' . PHP_EOL .
-		'VERSION:3.0' . PHP_EOL .
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
-		'UID:Test3' . PHP_EOL .
-		'FN:Test3' . PHP_EOL .
-		'N:Test3;;;;' . PHP_EOL .
-		'END:VCARD';
+	private $vcardTest2 = 'BEGIN:VCARD' . PHP_EOL
+		. 'VERSION:3.0' . PHP_EOL
+		. 'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL
+		. 'UID:Test3' . PHP_EOL
+		. 'FN:Test3' . PHP_EOL
+		. 'N:Test3;;;;' . PHP_EOL
+		. 'END:VCARD';
 
-	private $vcardTestNoUID = 'BEGIN:VCARD' . PHP_EOL .
-		'VERSION:3.0' . PHP_EOL .
-		'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL .
-		'FN:TestNoUID' . PHP_EOL .
-		'N:TestNoUID;;;;' . PHP_EOL .
-		'END:VCARD';
+	private $vcardTestNoUID = 'BEGIN:VCARD' . PHP_EOL
+		. 'VERSION:3.0' . PHP_EOL
+		. 'PRODID:-//Sabre//Sabre VObject 4.1.2//EN' . PHP_EOL
+		. 'FN:TestNoUID' . PHP_EOL
+		. 'N:TestNoUID;;;;' . PHP_EOL
+		. 'END:VCARD';
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -249,7 +249,7 @@ class CardDavBackendTest extends TestCase {
 		];
 		$backend->expects($this->exactly(count($calls)))
 			->method('updateProperties')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -437,7 +437,7 @@ class CardDavBackendTest extends TestCase {
 		];
 		$this->backend->expects($this->exactly(count($calls)))
 			->method('addChange')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});
@@ -645,9 +645,7 @@ class CardDavBackendTest extends TestCase {
 		$this->invokePrivate($this->backend, 'getCardId', [1, 'uri']);
 	}
 
-	/**
-	 * @dataProvider dataTestSearch
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSearch')]
 	public function testSearch(string $pattern, array $properties, array $options, array $expected): void {
 		/** @var VCard $vCards */
 		$vCards = [];

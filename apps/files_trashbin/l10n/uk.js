@@ -6,6 +6,7 @@ OC.L10N.register(
     "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Вилучені файли та каталоги з кошику (термін дії може завершитися під час експорту, якщо у вас мало місця для збереження)",
     "This application enables people to restore files that were deleted from the system." : "Цей застосунок дозволяє людям відновлювати файли, які було переміщено до кошику.",
     "Restore" : "Відновити",
+    "Not enough free space to restore the file/folder" : "Недостатньо вільного простору для відновлення файлу або каталогу",
     "Empty deleted files" : "Очистити вилучені файли",
     "Confirm permanent deletion" : "Підтвердити остаточне вилучення",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Дійсно остаточно вилучити усі файли та каталоги у кошику? Цю операцію буде неможливо скасувати.",
@@ -14,12 +15,15 @@ OC.L10N.register(
     "Original location" : "Звідки вилучено",
     "Deleted by" : "Ким вилучено",
     "Deleted" : "Вилучено",
+    "few seconds ago" : "кілька секунд тому",
     "A long time ago" : "Давно",
     "Unknown" : "Невідомо",
     "All files" : "Усі файли",
     "You" : "Ви",
     "List of files that have been deleted." : "Список файлів, які було вилучено.",
     "No deleted files" : "Кошик порожній",
-    "Files and folders you have deleted will show up here" : "Тут показуватимуться файли та каталоги, які ви вилучили"
+    "Files and folders you have deleted will show up here" : "Тут показуватимуться файли та каталоги, які ви вилучили",
+    "All files have been permanently deleted" : "Всі файли було безпворотно вилучено",
+    "Failed to empty deleted files" : "Не вдалося очистити вилучені файли"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

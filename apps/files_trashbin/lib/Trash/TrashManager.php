@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -60,8 +61,8 @@ class TrashManager implements ITrashManager {
 		$fullType = get_class($storage);
 		$foundType = array_reduce(array_keys($this->backends), function ($type, $registeredType) use ($storage) {
 			if (
-				$storage->instanceOfStorage($registeredType) &&
-				($type === '' || is_subclass_of($registeredType, $type))
+				$storage->instanceOfStorage($registeredType)
+				&& ($type === '' || is_subclass_of($registeredType, $type))
 			) {
 				return $registeredType;
 			} else {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -203,9 +204,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetAvatarScopes
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAvatarScopes')]
 	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder): void {
 		if ($isPublicCall) {
 			$requestingUser = null;

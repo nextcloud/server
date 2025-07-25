@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,7 +16,9 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class JSCombinerTest extends \Test\TestCase {
@@ -471,8 +474,8 @@ var b = \'world\';
 	 * @param $appName
 	 * @param $fileName
 	 * @param $result
-	 * @dataProvider dataGetCachedSCSS
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCachedSCSS')]
 	public function testGetCachedSCSS($appName, $fileName, $result): void {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
@@ -488,7 +491,7 @@ var b = \'world\';
 
 	public function testGetContent(): void {
 		// Create temporary file with some content
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('JSCombinerTest');
+		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile('JSCombinerTest');
 		$pathInfo = pathinfo($tmpFile);
 		file_put_contents($tmpFile, json_encode(['/foo/bar/test', $pathInfo['dirname'] . '/js/mytest.js']));
 		$tmpFilePathArray = explode('/', $pathInfo['basename']);
@@ -503,7 +506,7 @@ var b = \'world\';
 
 	public function testGetContentInvalidJson(): void {
 		// Create temporary file with some content
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('JSCombinerTest');
+		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile('JSCombinerTest');
 		$pathInfo = pathinfo($tmpFile);
 		file_put_contents($tmpFile, 'CertainlyNotJson');
 		$expected = [];

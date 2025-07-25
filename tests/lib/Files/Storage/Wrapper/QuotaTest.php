@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,7 +11,10 @@ namespace Test\Files\Storage\Wrapper;
 //ensure the constants are loaded
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
+use OC\Files\Storage\Wrapper\Quota;
 use OCP\Files;
+use OCP\ITempManager;
+use OCP\Server;
 
 /**
  * Class QuotaTest
@@ -28,9 +32,9 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
-		$this->instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 10000000]);
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
+		$storage = new Local(['datadir' => $this->tmpDir]);
+		$this->instance = new Quota(['storage' => $storage, 'quota' => 10000000]);
 	}
 
 	protected function tearDown(): void {
@@ -42,10 +46,10 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	 * @param integer $limit
 	 */
 	protected function getLimitedStorage($limit) {
-		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
+		$storage = new Local(['datadir' => $this->tmpDir]);
 		$storage->mkdir('files');
 		$storage->getScanner()->scan('');
-		return new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => $limit]);
+		return new Quota(['storage' => $storage, 'quota' => $limit]);
 	}
 
 	public function testFilePutContentsNotEnoughSpace(): void {
@@ -83,7 +87,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->willReturn(-2);
 		$storage->getScanner()->scan('');
 
-		$instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 9]);
+		$instance = new Quota(['storage' => $storage, 'quota' => 9]);
 		$instance->getCache()->put(
 			'', ['size' => 3]
 		);
@@ -138,7 +142,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->method('fopen')
 			->willReturn(false);
 
-		$instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $failStorage, 'quota' => 1000]);
+		$instance = new Quota(['storage' => $failStorage, 'quota' => 1000]);
 
 		$this->assertFalse($instance->fopen('failedfopen', 'r'));
 	}
@@ -196,7 +200,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->with('files')
 			->willReturn(new CacheEntry(['size' => 50]));
 
-		$instance = new \OC\Files\Storage\Wrapper\Quota(['storage' => $storage, 'quota' => 1024, 'root' => 'files']);
+		$instance = new Quota(['storage' => $storage, 'quota' => 1024, 'root' => 'files']);
 
 		$this->assertEquals(1024 - 50, $instance->free_space(''));
 	}

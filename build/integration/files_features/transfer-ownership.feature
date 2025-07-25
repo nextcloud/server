@@ -184,10 +184,10 @@ Feature: transfer-ownership
 		And As an "user2"
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
 		And using old dav path
-		And as "user0" the folder "/test" exists
+		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
-		And as "user1" the folder "/test" does not exist
-		And As an "user0"
+		And as "user1" the folder "/test" exists
+		And As an "user1"
 		And Getting info of last share
 		And the OCS status code should be "100"
 		And Share fields of last share match with
@@ -210,13 +210,12 @@ Feature: transfer-ownership
 		And user "user1" accepts last share
 		When transferring ownership from "user0" to "user1"
 		And the command was successful
-		And As an "user1"
-		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
 		And using old dav path
-		And as "user0" the folder "/test" exists
+		Then as "user0" the folder "/test" does not exist
+		When As an "user1"
 		And using received transfer folder of "user1" as dav path
-		And as "user1" the folder "/test" does not exist
-		And As an "user1"
+		Then as "user1" the folder "/test" exists
+		And Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
 		And Getting info of last share
 		And the OCS status code should be "100"
 		And Share fields of last share match with
@@ -242,10 +241,10 @@ Feature: transfer-ownership
 		And As an "user2"
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
 		And using old dav path
-		And as "user0" the folder "/test" exists
+		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
-		And as "user1" the folder "/test" does not exist
-		And As an "user0"
+		And as "user1" the folder "/test" exists
+		And As an "user1"
 		And Getting info of last share
 		And the OCS status code should be "100"
 		And Share fields of last share match with
@@ -253,7 +252,7 @@ Feature: transfer-ownership
 			| uid_file_owner | user3 |
 			| share_with | group1 |
 
-	Scenario: transferring ownership does not transfer received shares
+	Scenario: transferring ownership transfers received shares
 		Given user "user0" exists
 		And user "user1" exists
 		And user "user2" exists
@@ -264,16 +263,16 @@ Feature: transfer-ownership
 		And the command was successful
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
-		Then as "user1" the folder "/test" does not exist
+		Then as "user1" the folder "/test" exists
 		And using old dav path
-		And as "user0" the folder "/test" exists
+		And as "user0" the folder "/test" does not exist
 		And As an "user2"
 		And Getting info of last share
 		And the OCS status code should be "100"
 		And Share fields of last share match with
 			| uid_owner | user2 |
 			| uid_file_owner | user2 |
-			| share_with | user0 |
+			| share_with | user1 |
 
 	@local_storage
 	Scenario: transferring ownership does not transfer external storage
@@ -516,26 +515,6 @@ Feature: transfer-ownership
 		Then the command failed with exit code 1
 		And the command error output contains the text "Moving a storage (user0/files/test) into another storage (user1) is not allowed"
 
-	Scenario: transferring ownership does not transfer received shares
-		Given user "user0" exists
-		And user "user1" exists
-		And user "user2" exists
-		And User "user2" created a folder "/test"
-		And User "user0" created a folder "/sub"
-		And folder "/test" of user "user2" is shared with user "user0" with permissions 31
-		And user "user0" accepts last share
-		And User "user0" moved folder "/test" to "/sub/test"
-		When transferring ownership of path "sub" from "user0" to "user1"
-		And the command was successful
-		And As an "user1"
-		And using received transfer folder of "user1" as dav path
-		Then as "user1" the folder "/sub" exists
-		And as "user1" the folder "/sub/test" does not exist
-		And using old dav path
-		And as "user0" the folder "/sub" does not exist
-		And Getting info of last share
-		And the OCS status code should be "404"
-
 	Scenario: transferring ownership transfers received shares into subdir when requested
 		Given user "user0" exists
 		And user "user1" exists
@@ -548,7 +527,7 @@ Feature: transfer-ownership
 		And User "user0" moved folder "/transfer-share" to "/sub/transfer-share"
 		And folder "/do-not-transfer" of user "user2" is shared with user "user0" with permissions 31
 		And user "user0" accepts last share
-		When transferring ownership of path "sub" from "user0" to "user1" with received shares
+		When transferring ownership of path "sub" from "user0" to "user1"
 		And the command was successful
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path

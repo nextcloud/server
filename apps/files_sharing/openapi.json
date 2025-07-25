@@ -1490,6 +1490,13 @@
                                 1
                             ]
                         }
+                    },
+                    {
+                        "name": "x-nc-preview",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1574,11 +1581,13 @@
                                     "password": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Password of the share"
                                     },
                                     "dir": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Subdirectory to get info about"
                                     },
                                     "depth": {
@@ -1782,12 +1791,14 @@
                                     "path": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Path of the share"
                                     },
                                     "permissions": {
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Permissions for the share"
                                     },
                                     "shareType": {
@@ -1799,11 +1810,13 @@
                                     "shareWith": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "The entity this should be shared with"
                                     },
                                     "publicUpload": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "enum": [
                                             "true",
                                             "false"
@@ -1818,11 +1831,13 @@
                                     "sendPasswordByTalk": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Send the password for the share over Talk"
                                     },
                                     "expireDate": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "The expiry date of the share in the user's timezone at 00:00. If $expireDate is not supplied or set to `null`, the system default will be used."
                                     },
                                     "note": {
@@ -1838,11 +1853,13 @@
                                     "attributes": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "Additional attributes for the share"
                                     },
                                     "sendMail": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "enum": [
                                             "false",
                                             "true"
@@ -2297,56 +2314,67 @@
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New permissions"
                                     },
                                     "password": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New password"
                                     },
                                     "sendPasswordByTalk": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New condition if the password should be send over Talk"
                                     },
                                     "publicUpload": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New condition if public uploading is allowed"
                                     },
                                     "expireDate": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New expiry date"
                                     },
                                     "note": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New note"
                                     },
                                     "label": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New label"
                                     },
                                     "hideDownload": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New condition if the download should be hidden"
                                     },
                                     "attributes": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New additional attributes"
                                     },
                                     "sendMail": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "if the share should be send by mail. Considering the share already exists, no mail will be send after the share is updated. You will have to use the sendMail action to send the mail."
                                     },
                                     "token": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "New token"
                                     }
                                 }
@@ -3099,7 +3127,8 @@
                         "description": "Limit to specific item types",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -3128,6 +3157,7 @@
                         "description": "Limit to specific share types",
                         "schema": {
                             "nullable": true,
+                            "default": null,
                             "oneOf": [
                                 {
                                     "type": "integer",
@@ -3267,6 +3297,7 @@
                         "description": "Limit to specific share types",
                         "schema": {
                             "nullable": true,
+                            "default": null,
                             "oneOf": [
                                 {
                                     "type": "integer",

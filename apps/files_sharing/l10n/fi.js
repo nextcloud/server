@@ -130,7 +130,6 @@ OC.L10N.register(
     "Set default folder for accepted shares" : "Aseta oletuskansio hyväksytyille jaoille",
     "Reset" : "Palauta",
     "Reset folder to system default" : "Palauta kansio järjestelmän oletukseksi",
-    "Share expiration: " : "Jaon vanhentuminen:",
     "group" : "ryhmä",
     "conversation" : "keskustelu",
     "remote" : "etä",
@@ -188,10 +187,6 @@ OC.L10N.register(
     "By uploading files, you agree to the terms of service." : "Lähettämällä tiedostot hyväksyt käyttöehdot.",
     "View terms of service" : "Näytä käyttöehdot",
     "Terms of service" : "Käyttöehdot",
-    "Upload files to {folder}" : "Lähetä tiedostot kansioon {folder}",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} jakoi kansion kanssasi.",
-    "Name" : "Nimi",
-    "Enter your name" : "Kirjoita nimesi",
     "Share with {userName}" : "Jaa käyttäjän {userName} kanssa",
     "Share with group" : "Jaa ryhmän kanssa",
     "Share in conversation" : "Jaa keskustelussa",
@@ -272,6 +267,8 @@ OC.L10N.register(
     "File \"{path}\" has been unshared" : "Tiedoston \"{path}\" jakaminen on lopetettu",
     "Folder \"{path}\" has been unshared" : "Kansion \"{path}\" jakaminen on lopetettu",
     "Share saved" : "Jako tallennettu",
+    "Upload files to {folder}" : "Lähetä tiedostot kansioon {folder}",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} jakoi kansion kanssasi.",
     "Shared by" : "Jakanut",
     "Shared with" : "Jaettu",
     "Password created successfully" : "Salasana luotu onnistuneesti",
@@ -303,6 +300,9 @@ OC.L10N.register(
     "Failed to add the public link to your Nextcloud" : "Julkisen linkin lisääminen Nextcloudiisi epäonnistui",
     "Download all files" : "Lataa kaikki tiedostot",
     "Search for share recipients" : "Etsi jaon vastaanottajia",
-    "No recommendations. Start typing." : "Ei suosituksia. Aloita kirjoittaminen."
+    "No recommendations. Start typing." : "Ei suosituksia. Aloita kirjoittaminen.",
+    "Enter your name" : "Kirjoita nimesi",
+    "Name" : "Nimi",
+    "Filename must not be empty." : "Tiedostonimi ei voi olla tyhjä."
 },
 "nplurals=2; plural=(n != 1);");

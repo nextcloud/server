@@ -36,6 +36,7 @@ SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
+SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
@@ -56,7 +57,6 @@ SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
 SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
-SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Austin Andrews
@@ -109,7 +109,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.3.0
+	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -118,13 +118,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.10.2
+	- version: 3.11.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.2.0
+	- version: 3.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -145,7 +145,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.26.1
+	- version: 8.28.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -255,6 +255,9 @@ This file is generated from multiple sources. Included packages:
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
+- mdast-squeeze-paragraphs
+	- version: 6.0.0
+	- license: MIT
 - escape-string-regexp
 	- version: 5.0.0
 	- license: MIT
@@ -368,6 +371,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - remark-rehype
 	- version: 11.1.0
+	- license: MIT
+- remark-unlink-protocols
+	- version: 1.0.0
 	- license: MIT
 - safe-buffer
 	- version: 5.2.1

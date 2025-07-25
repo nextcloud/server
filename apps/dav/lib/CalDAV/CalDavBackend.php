@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -212,15 +213,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * Return the number of calendars for a principal
+	 * Return the number of calendars owned by the given principal.
 	 *
-	 * By default this excludes the automatically generated birthday calendar
+	 * Calendars shared with the given principal are not counted!
 	 *
-	 * @param $principalUri
-	 * @param bool $excludeBirthday
-	 * @return int
+	 * By default, this excludes the automatically generated birthday calendar.
 	 */
-	public function getCalendarsForUserCount($principalUri, $excludeBirthday = true) {
+	public function getCalendarsForUserCount(string $principalUri, bool $excludeBirthday = true): int {
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
 		$query->select($query->func()->count('*'))
@@ -387,7 +386,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$subSelect->select('resourceid')
 				->from('dav_shares', 'd')
 				->where($subSelect->expr()->eq('d.access', $select->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
-				->andWhere($subSelect->expr()->eq('d.principaluri', $select->createNamedParameter($principalUri, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+				->andWhere($subSelect->expr()->in('d.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY));
 
 			$select->select($fields)
 				->from('dav_shares', 's')
@@ -411,8 +410,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						// New share can not have more permissions than the old one.
 						continue;
 					}
-					if (isset($calendars[$row['id']][$readOnlyPropertyName]) &&
-						$calendars[$row['id']][$readOnlyPropertyName] === 0) {
+					if (isset($calendars[$row['id']][$readOnlyPropertyName])
+						&& $calendars[$row['id']][$readOnlyPropertyName] === 0) {
 						// Old share is already read-write, no more permissions can be gained
 						continue;
 					}
@@ -1040,7 +1039,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$rs->closeCursor();
 		}
 	}
-	
+
 	/**
 	 * Returns all calendar objects with limited metadata for a calendar
 	 *
@@ -1538,25 +1537,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}, $this->db);
 	}
 
-
-	/**
-	 * @param int $calendarObjectId
-	 * @param int $classification
-	 */
-	public function setClassification($calendarObjectId, $classification) {
-		$this->cachedObjects = [];
-		if (!in_array($classification, [
-			self::CLASSIFICATION_PUBLIC, self::CLASSIFICATION_PRIVATE, self::CLASSIFICATION_CONFIDENTIAL
-		])) {
-			throw new \InvalidArgumentException();
-		}
-		$query = $this->db->getQueryBuilder();
-		$query->update('calendarobjects')
-			->set('classification', $query->createNamedParameter($classification))
-			->where($query->expr()->eq('id', $query->createNamedParameter($calendarObjectId)))
-			->executeStatement();
-	}
-
 	/**
 	 * Deletes an existing calendar object.
 	 *
@@ -2030,8 +2010,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		if ($pattern !== '') {
 			$innerQuery->andWhere($innerQuery->expr()->iLike('op.value',
-				$outerQuery->createNamedParameter('%' .
-					$this->db->escapeLikeParameter($pattern) . '%')));
+				$outerQuery->createNamedParameter('%'
+					. $this->db->escapeLikeParameter($pattern) . '%')));
 		}
 
 		$start = null;
@@ -3007,7 +2987,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'calendarid' => $query->createNamedParameter($calendarId),
 					'operation' => $query->createNamedParameter($operation),
 					'calendartype' => $query->createNamedParameter($calendarType),
-					'created_at' => time(),
+					'created_at' => $query->createNamedParameter(time()),
 				]);
 			foreach ($objectUris as $uri) {
 				$query->setParameter('uri', $uri);

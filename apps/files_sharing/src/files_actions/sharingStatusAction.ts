@@ -8,8 +8,8 @@ import { translate as t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { isPublicShare } from '@nextcloud/sharing/public'
 
-import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
-import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
+import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
+import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
 

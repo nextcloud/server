@@ -63,13 +63,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.2.0
+	- version: 3.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/moment
-	- version: 1.3.4
+	- version: 1.3.5
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
@@ -90,7 +90,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - brace-expansion
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - buffer
 	- version: 5.7.1
@@ -101,8 +101,14 @@ This file is generated from multiple sources. Included packages:
 - byte-length
 	- version: 1.0.2
 	- license: MIT
+- call-bind-apply-helpers
+	- version: 1.0.2
+	- license: MIT
 - call-bind
-	- version: 1.0.7
+	- version: 1.0.8
+	- license: MIT
+- call-bound
+	- version: 1.0.4
 	- license: MIT
 - charenc
 	- version: 0.0.2
@@ -116,11 +122,17 @@ This file is generated from multiple sources. Included packages:
 - dompurify
 	- version: 3.2.6
 	- license: (MPL-2.0 OR Apache-2.0)
+- dunder-proto
+	- version: 1.0.1
+	- license: MIT
 - es-define-property
-	- version: 1.0.0
+	- version: 1.0.1
 	- license: MIT
 - es-errors
 	- version: 1.3.0
+	- license: MIT
+- es-object-atoms
+	- version: 1.1.1
 	- license: MIT
 - escape-html
 	- version: 1.0.3
@@ -132,25 +144,25 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.3
 	- license: MIT
 - for-each
-	- version: 0.3.3
+	- version: 0.3.5
 	- license: MIT
 - function-bind
 	- version: 1.1.2
 	- license: MIT
 - get-intrinsic
-	- version: 1.2.4
+	- version: 1.3.0
+	- license: MIT
+- get-proto
+	- version: 1.0.1
 	- license: MIT
 - gopd
-	- version: 1.0.1
+	- version: 1.2.0
 	- license: MIT
 - has-property-descriptors
 	- version: 1.0.2
 	- license: MIT
-- has-proto
-	- version: 1.0.3
-	- license: MIT
 - has-symbols
-	- version: 1.0.3
+	- version: 1.1.0
 	- license: MIT
 - has-tostringtag
 	- version: 1.0.2
@@ -183,10 +195,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.10
 	- license: MIT
 - is-typed-array
-	- version: 1.1.13
+	- version: 1.1.15
 	- license: MIT
 - layerr
 	- version: 3.0.0
+	- license: MIT
+- math-intrinsics
+	- version: 1.1.0
 	- license: MIT
 - md5
 	- version: 2.3.0
@@ -204,7 +219,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.0.3
 	- license: MIT
 - object-inspect
-	- version: 1.13.2
+	- version: 1.13.4
 	- license: MIT
 - path-posix
 	- version: 1.0.0
@@ -236,8 +251,17 @@ This file is generated from multiple sources. Included packages:
 - set-function-length
 	- version: 1.2.2
 	- license: MIT
+- side-channel-list
+	- version: 1.0.0
+	- license: MIT
+- side-channel-map
+	- version: 1.0.1
+	- license: MIT
+- side-channel-weakmap
+	- version: 1.0.2
+	- license: MIT
 - side-channel
-	- version: 1.0.6
+	- version: 1.1.0
 	- license: MIT
 - readable-stream
 	- version: 3.6.2
@@ -282,7 +306,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.99.9
 	- license: MIT
 - which-typed-array
-	- version: 1.1.15
+	- version: 1.1.19
 	- license: MIT
 - xtend
 	- version: 4.0.2

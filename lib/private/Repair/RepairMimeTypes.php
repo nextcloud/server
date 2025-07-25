@@ -350,7 +350,7 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
-	
+
 
 	/**
 	 * Check if there are any migrations available

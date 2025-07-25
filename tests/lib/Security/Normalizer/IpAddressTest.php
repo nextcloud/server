@@ -55,11 +55,11 @@ class IpAddressTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider subnetDataProvider
 	 *
 	 * @param string $input
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('subnetDataProvider')]
 	public function testGetSubnet($input, $expected): void {
 		$this->assertSame($expected, (new IpAddress($input))->getSubnet());
 	}

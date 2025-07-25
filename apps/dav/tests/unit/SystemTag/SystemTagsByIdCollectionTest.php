@@ -101,7 +101,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['invalid'])
-			->will($this->throwException(new \InvalidArgumentException()));
+			->willThrowException(new \InvalidArgumentException());
 
 		$this->getNode()->getChild('invalid');
 	}
@@ -113,7 +113,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['444'])
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 
 		$this->getNode()->getChild('444');
 	}
@@ -185,9 +185,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider childExistsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('childExistsProvider')]
 	public function testChildExists(bool $userVisible, bool $expectedResult): void {
 		$tag = new SystemTag('123', 'One', $userVisible, false);
 		$this->tagManager->expects($this->once())
@@ -207,7 +205,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['123'])
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 
 		$this->assertFalse($this->getNode()->childExists('123'));
 	}
@@ -219,7 +217,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['invalid'])
-			->will($this->throwException(new \InvalidArgumentException()));
+			->willThrowException(new \InvalidArgumentException());
 
 		$this->getNode()->childExists('invalid');
 	}

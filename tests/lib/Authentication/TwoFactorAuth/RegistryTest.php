@@ -126,7 +126,7 @@ class RegistryTest extends TestCase {
 		];
 		$this->dispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, func_get_args());
 			});

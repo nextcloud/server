@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -70,7 +71,6 @@ class RemotePluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetRemote
 	 *
 	 * @param string $searchTerm
 	 * @param array $contacts
@@ -79,6 +79,7 @@ class RemotePluginTest extends TestCase {
 	 * @param bool $exactIdMatch
 	 * @param bool $reachedEnd
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetRemote')]
 	public function testSearch($searchTerm, array $contacts, $shareeEnumeration, array $expected, $exactIdMatch, $reachedEnd): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -111,12 +112,12 @@ class RemotePluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSplitUserRemote
 	 *
 	 * @param string $remote
 	 * @param string $expectedUser
 	 * @param string $expectedUrl
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemote')]
 	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl): void {
 		$this->instantiatePlugin();
 
@@ -130,10 +131,9 @@ class RemotePluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSplitUserRemoteError
-	 *
 	 * @param string $id
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemoteError')]
 	public function testSplitUserRemoteError($id): void {
 		$this->expectException(\Exception::class);
 

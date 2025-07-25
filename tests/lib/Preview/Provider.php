@@ -8,9 +8,16 @@
 
 namespace Test\Preview;
 
+use OC\Files\Filesystem;
 use OC\Files\Node\File;
+use OC\Files\Storage\Storage;
+use OC\Files\Storage\Temporary;
+use OC\Files\View;
+use OC\Preview\TXT;
 use OCP\Files\IRootFolder;
+use OCP\IImage;
 use OCP\IUserManager;
+use OCP\Server;
 
 abstract class Provider extends \Test\TestCase {
 	protected string $imgPath;
@@ -22,13 +29,13 @@ abstract class Provider extends \Test\TestCase {
 	protected int $maxHeight = 1024;
 	protected bool $scalingUp = false;
 	protected string $userId;
-	protected \OC\Files\View $rootView;
-	protected \OC\Files\Storage\Storage $storage;
+	protected View $rootView;
+	protected Storage $storage;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$userManager = \OCP\Server::get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		$userManager->clearBackends();
 		$backend = new \Test\Util\User\Dummy();
 		$userManager->registerBackend($backend);
@@ -37,10 +44,10 @@ abstract class Provider extends \Test\TestCase {
 		$backend->createUser($userId, $userId);
 		$this->loginAsUser($userId);
 
-		$this->storage = new \OC\Files\Storage\Temporary([]);
-		\OC\Files\Filesystem::mount($this->storage, [], '/' . $userId . '/');
+		$this->storage = new Temporary([]);
+		Filesystem::mount($this->storage, [], '/' . $userId . '/');
 
-		$this->rootView = new \OC\Files\View('');
+		$this->rootView = new View('');
 		$this->rootView->mkdir('/' . $userId);
 		$this->rootView->mkdir('/' . $userId . '/files');
 
@@ -65,12 +72,12 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Launches all the tests we have
 	 *
-	 * @dataProvider dimensionsDataProvider
 	 * @requires extension imagick
 	 *
 	 * @param int $widthAdjustment
 	 * @param int $heightAdjustment
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dimensionsDataProvider')]
 	public function testGetThumbnail($widthAdjustment, $heightAdjustment): void {
 		$ratio = round($this->width / $this->height, 2);
 		$this->maxWidth = $this->width - $widthAdjustment;
@@ -84,7 +91,7 @@ abstract class Provider extends \Test\TestCase {
 		$preview = $this->getPreview($this->provider);
 		// The TXT provider uses the max dimensions to create its canvas,
 		// so the ratio will always be the one of the max dimension canvas
-		if (!$this->provider instanceof \OC\Preview\TXT) {
+		if (!$this->provider instanceof TXT) {
 			$this->doesRatioMatch($preview, $ratio);
 		}
 		$this->doesPreviewFit($preview);
@@ -114,10 +121,10 @@ abstract class Provider extends \Test\TestCase {
 	 *
 	 * @param \OC\Preview\Provider $provider
 	 *
-	 * @return bool|\OCP\IImage
+	 * @return bool|IImage
 	 */
 	private function getPreview($provider) {
-		$file = new File(\OC::$server->get(IRootFolder::class), $this->rootView, $this->imgPath);
+		$file = new File(Server::get(IRootFolder::class), $this->rootView, $this->imgPath);
 		$preview = $provider->getThumbnail($file, $this->maxWidth, $this->maxHeight, $this->scalingUp);
 
 		if (get_class($this) === BitmapTest::class && $preview === null) {
@@ -133,7 +140,7 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Checks if the preview ratio matches the original ratio
 	 *
-	 * @param \OCP\IImage $preview
+	 * @param IImage $preview
 	 * @param int $ratio
 	 */
 	private function doesRatioMatch($preview, $ratio) {
@@ -144,7 +151,7 @@ abstract class Provider extends \Test\TestCase {
 	/**
 	 * Tests if a max size preview of smaller dimensions can be created
 	 *
-	 * @param \OCP\IImage $preview
+	 * @param IImage $preview
 	 */
 	private function doesPreviewFit($preview) {
 		$maxDimRatio = round($this->maxWidth / $this->maxHeight, 2);

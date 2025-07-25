@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,6 +12,7 @@ use OC\Repair\OldGroupMembershipShares;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -32,7 +34,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$this->groupManager = $this->getMockBuilder(IGroupManager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 
 		$this->deleteAllShares();
 	}

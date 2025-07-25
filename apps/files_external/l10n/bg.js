@@ -91,7 +91,7 @@ OC.L10N.register(
     "Unknown" : "Неизвестен",
     "Scope" : "Обхват",
     "Personal" : "Личен",
-    "System" : "Системен",
+    "System" : "Системна информация",
     "(Group)" : "(Група)",
     "Compatibility with Mac NFD encoding (slow)" : "Съвместимост с кодиране на Mac NFD (бавно)",
     "Enable encryption" : "Включване на криптиране",

@@ -24,6 +24,7 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -85,7 +86,7 @@ class ShareByMailProviderTest extends TestCase {
 	private $settingsManager;
 
 	protected function setUp(): void {
-		$this->dbConn = \OC::$server->getDatabaseConnection();
+		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->mailer = $this->createMock(IMailer::class);

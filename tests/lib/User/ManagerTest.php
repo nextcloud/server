@@ -9,14 +9,17 @@
 namespace Test\User;
 
 use OC\AllConfig;
+use OC\USER\BACKEND;
 use OC\User\Database;
 use OC\User\Manager;
+use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -178,7 +181,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->willReturnCallback(function ($actions) {
-				if ($actions === \OC\USER\BACKEND::CHECK_PASSWORD) {
+				if ($actions === BACKEND::CHECK_PASSWORD) {
 					return true;
 				} else {
 					return false;
@@ -189,7 +192,7 @@ class ManagerTest extends TestCase {
 		$manager->registerBackend($backend);
 
 		$user = $manager->checkPassword('foo', 'bar');
-		$this->assertTrue($user instanceof \OC\User\User);
+		$this->assertTrue($user instanceof User);
 	}
 
 	public function testCheckPasswordNotSupported(): void {
@@ -365,9 +368,7 @@ class ManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCreateUserInvalid
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateUserInvalid')]
 	public function testCreateUserInvalid($uid, $password, $exception): void {
 		/** @var \Test\Util\User\Dummy|\PHPUnit\Framework\MockObject\MockObject $backend */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
@@ -545,7 +546,7 @@ class ManagerTest extends TestCase {
 
 		$backend->expects($this->once())
 			->method('implementsActions')
-			->with(\OC\USER\BACKEND::COUNT_USERS)
+			->with(BACKEND::COUNT_USERS)
 			->willReturn(true);
 
 		$backend->expects($this->once())
@@ -574,7 +575,7 @@ class ManagerTest extends TestCase {
 
 		$backend1->expects($this->once())
 			->method('implementsActions')
-			->with(\OC\USER\BACKEND::COUNT_USERS)
+			->with(BACKEND::COUNT_USERS)
 			->willReturn(true);
 		$backend1->expects($this->once())
 			->method('getBackendName')
@@ -587,7 +588,7 @@ class ManagerTest extends TestCase {
 
 		$backend2->expects($this->once())
 			->method('implementsActions')
-			->with(\OC\USER\BACKEND::COUNT_USERS)
+			->with(BACKEND::COUNT_USERS)
 			->willReturn(true);
 		$backend2->expects($this->once())
 			->method('getBackendName')
@@ -609,7 +610,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersOnlyDisabled(): void {
-		$manager = \OCP\Server::get(IUserManager::class);
+		$manager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$countBefore = $manager->countDisabledUsers();
 
@@ -634,7 +635,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCountUsersOnlySeen(): void {
-		$manager = \OCP\Server::get(IUserManager::class);
+		$manager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$countBefore = $manager->countSeenUsers();
 
@@ -660,10 +661,10 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testCallForSeenUsers(): void {
-		$manager = \OCP\Server::get(IUserManager::class);
+		$manager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$count = 0;
-		$function = function (IUser $user) use (&$count) {
+		$function = function (IUser $user) use (&$count): void {
 			$count++;
 		};
 		$manager->callForAllUsers($function, '', true);
@@ -698,8 +699,8 @@ class ManagerTest extends TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testRecentlyActive(): void {
-		$config = \OCP\Server::get(IConfig::class);
-		$manager = \OCP\Server::get(IUserManager::class);
+		$config = Server::get(IConfig::class);
+		$manager = Server::get(IUserManager::class);
 
 		// Create some users
 		$now = (string)time();

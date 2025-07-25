@@ -183,7 +183,6 @@
     "Set default folder for accepted shares" : "허용한 공유의 기본 경로 설정",
     "Reset" : "초기화",
     "Reset folder to system default" : "폴더를 시스템 기본값으로 재설정",
-    "Share expiration: " : "공유 만료:",
     "Share Expiration" : "공유 만료",
     "group" : "그룹",
     "conversation" : "대화",
@@ -257,12 +256,6 @@
     "By uploading files, you agree to the terms of service." : "파일을 업로드하면 이용 약관에 동의하는 것을 의미합니다.",
     "View terms of service" : "이용 약관 보기",
     "Terms of service" : "이용 약관",
-    "Upload files to {folder}" : "{folder}에 파일 업로드",
-    "Submit name" : "이름 제출",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName}님이 당신에게 폴더를 공유했습니다.",
-    "To upload files, you need to provide your name first." : "파일을 업로드하려면 먼저 당신의 이름을 알려주세요.",
-    "Name" : "이름",
-    "Enter your name" : "이름을 입력하세요",
     "Share with {userName}" : "{userName}와(과) 공유",
     "Share with email {email}" : "{email} 이메일에 공유",
     "Share with group" : "그룹과 공유",
@@ -382,6 +375,8 @@
     "Share note for recipient saved" : "받는이를 위한 공유 메모 저장됨",
     "Share password saved" : "공유 암호 저장됨",
     "Share permissions saved" : "공유 권한 저장됨",
+    "Upload files to {folder}" : "{folder}에 파일 업로드",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName}님이 당신에게 폴더를 공유했습니다.",
     "Shared by" : "공유한 사용자:",
     "Shared with" : "다음 사용자와 공유함",
     "Password created successfully" : "암호가 성공적으로 생성됨",
@@ -418,7 +413,12 @@
     "_1 email address added_::_{count} email addresses added_" : ["{count}개 이메일 주소 추가함"],
     "Search for share recipients" : "공유 대상 검색",
     "No recommendations. Start typing." : "추천 없음. 타이핑을 시작하십시오",
+    "To upload files, you need to provide your name first." : "파일을 업로드하려면 먼저 당신의 이름을 알려주세요.",
+    "Enter your name" : "이름을 입력하세요",
+    "Submit name" : "이름 제출",
+    "Name" : "이름",
     "Share with accounts, teams, federated cloud id" : "계정, 팀 및 연합 클라우드 ID와 공유",
-    "Email, federated cloud id" : "이메일, 연합 클라우드 ID"
+    "Email, federated cloud id" : "이메일, 연합 클라우드 ID",
+    "Filename must not be empty." : "파일 이름을 비울 수 없습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

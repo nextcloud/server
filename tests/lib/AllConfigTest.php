@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,17 +15,19 @@ namespace Test;
  *
  * @package Test
  */
-
+use OC\AllConfig;
 use OC\SystemConfig;
 use OCP\IDBConnection;
+use OCP\PreConditionNotMetException;
+use OCP\Server;
 
 class AllConfigTest extends \Test\TestCase {
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	protected $connection;
 
 	protected function getConfig($systemConfig = null, $connection = null) {
 		if ($this->connection === null) {
-			$this->connection = \OC::$server->getDatabaseConnection();
+			$this->connection = Server::get(IDBConnection::class);
 		}
 		if ($connection === null) {
 			$connection = $this->connection;
@@ -34,7 +37,7 @@ class AllConfigTest extends \Test\TestCase {
 				->disableOriginalConstructor()
 				->getMock();
 		}
-		return new \OC\AllConfig($systemConfig, $connection);
+		return new AllConfig($systemConfig, $connection);
 	}
 
 	public function testDeleteUserValue(): void {
@@ -42,8 +45,8 @@ class AllConfigTest extends \Test\TestCase {
 
 		// preparation - add something to the database
 		$this->connection->executeUpdate(
-			'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-			'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+			'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+			. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 			['userDelete', 'appDelete', 'keyDelete', 'valueDelete']
 		);
 
@@ -91,6 +94,27 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userSet', 'appSet', 'keySet');
 	}
 
+	/**
+	 * This test needs to stay! Emails are expected to be lowercase due to performance reasons.
+	 * This way we can skip the expensive casing change on the database.
+	 */
+	public function testSetUserValueSettingsEmail(): void {
+		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
+		$config = $this->getConfig();
+
+		$config->setUserValue('userSet', 'settings', 'email', 'mixed.CASE@domain.COM');
+
+		$result = $this->connection->executeQuery($selectAllSQL, ['userSet'])->fetchAll();
+
+		$this->assertEquals(1, count($result));
+		$this->assertEquals([
+			'userid' => 'userSet',
+			'appid' => 'settings',
+			'configkey' => 'email',
+			'configvalue' => 'mixed.case@domain.com'
+		], $result[0]);
+	}
+
 	public function testSetUserValueWithPreCondition(): void {
 		$config = $this->getConfig();
 
@@ -135,9 +159,9 @@ class AllConfigTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetUserValueUnexpectedValue
 	 * @param mixed $value
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetUserValueUnexpectedValue')]
 	public function testSetUserValueUnexpectedValue($value): void {
 		$this->expectException(\UnexpectedValueException::class);
 
@@ -147,7 +171,7 @@ class AllConfigTest extends \Test\TestCase {
 
 
 	public function testSetUserValueWithPreConditionFailure(): void {
-		$this->expectException(\OCP\PreConditionNotMetException::class);
+		$this->expectException(PreConditionNotMetException::class);
 
 		$config = $this->getConfig();
 
@@ -183,7 +207,7 @@ class AllConfigTest extends \Test\TestCase {
 	}
 
 	public function testSetUserValueWithPreConditionFailureWhenResultStillMatches(): void {
-		$this->expectException(\OCP\PreConditionNotMetException::class);
+		$this->expectException(PreConditionNotMetException::class);
 
 		$config = $this->getConfig();
 
@@ -231,8 +255,8 @@ class AllConfigTest extends \Test\TestCase {
 		$connectionMock = $this->createMock(IDBConnection::class);
 		$connectionMock->expects($this->once())
 			->method('executeQuery')
-			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` ' .
-					'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
+			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` '
+					. 'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
 				$this->equalTo(['userSetUnchanged', 'appSetUnchanged', 'keySetUnchanged']))
 			->willReturn($resultMock);
 		$connectionMock->expects($this->never())
@@ -296,8 +320,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -322,8 +346,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -360,8 +384,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -401,8 +425,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -435,8 +459,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}
@@ -481,8 +505,8 @@ class AllConfigTest extends \Test\TestCase {
 		];
 		foreach ($data as $entry) {
 			$this->connection->executeUpdate(
-				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, ' .
-				'`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
+				'INSERT INTO `*PREFIX*preferences` (`userid`, `appid`, '
+				. '`configkey`, `configvalue`) VALUES (?, ?, ?, ?)',
 				$entry
 			);
 		}

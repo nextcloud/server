@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,6 +9,8 @@ namespace Test\Files\ObjectStore;
 
 use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
+use OCP\IConfig;
+use OCP\Server;
 
 class MultiPartUploadS3 extends S3 {
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
@@ -52,7 +55,7 @@ class S3Test extends ObjectStoreTestCase {
 	}
 
 	protected function getInstance() {
-		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
+		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== S3::class) {
 			$this->markTestSkipped('objectstore not configured for s3');
 		}
@@ -132,7 +135,7 @@ class S3Test extends ObjectStoreTestCase {
 		];
 	}
 
-	/** @dataProvider dataFileSizes */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileSizes')]
 	public function testFileSizes($size): void {
 		if (str_starts_with(PHP_VERSION, '8.3') && getenv('CI')) {
 			$this->markTestSkipped('Test is unreliable and skipped on 8.3');

@@ -16,7 +16,9 @@
 			:placeholder="t('settings', 'App name')" />
 		<NcButton type="primary"
 			:disabled="loading || deviceName.length === 0"
-			native-type="submit">
+			native-type="submit"
+			class="submit-button"
+		>
 			{{ t('settings', 'Create new app password') }}
 		</NcButton>
 
@@ -80,9 +82,19 @@ export default defineComponent({
 <style lang="scss" scoped>
 	#generate-app-token-section {
 		display: flex;
-		flex-direction: column;
 		gap: 1rem;
-		max-width: 400px;
-		padding-top: 16px;
+		max-width: 900px;
+		flex-wrap: wrap;
+		margin-block-start: 2rem !important;
+		margin-block-end: 1rem !important;
+
+		.input-field {
+			margin-top: 0;
+			flex: 1 1 50%;
+		}
+
+		.submit-button {
+			flex: 0 0 auto;
+		}
 	}
 </style>

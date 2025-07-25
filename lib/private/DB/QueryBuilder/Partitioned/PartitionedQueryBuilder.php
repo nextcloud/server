@@ -126,8 +126,8 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 				$selectPartition = null;
 			}
 			if (
-				($select === $checkColumn || $select === '*') &&
-				$selectPartition === $partition
+				($select === $checkColumn || $select === '*')
+				&& $selectPartition === $partition
 			) {
 				return;
 			}
@@ -151,8 +151,8 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		foreach ($this->selects as $select) {
 			foreach ($this->partitions as $partition) {
 				if (is_string($select['select']) && (
-					$select['select'] === '*' ||
-					$partition->isColumnInPartition($select['select']))
+					$select['select'] === '*'
+					|| $partition->isColumnInPartition($select['select']))
 				) {
 					if (isset($this->splitQueries[$partition->name])) {
 						if ($select['alias']) {
@@ -443,5 +443,20 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 
 	public function getPartitionCount(): int {
 		return count($this->splitQueries) + 1;
+	}
+
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self {
+		if (str_contains($column, '.')) {
+			[$alias, $column] = explode('.', $column);
+			$partition = $this->getPartition($alias);
+			if ($partition) {
+				$this->splitQueries[$partition->name]->query->hintShardKey($column, $value, $overwrite);
+			} else {
+				parent::hintShardKey($column, $value, $overwrite);
+			}
+		} else {
+			parent::hintShardKey($column, $value, $overwrite);
+		}
+		return $this;
 	}
 }

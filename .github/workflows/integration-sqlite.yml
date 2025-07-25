@@ -66,9 +66,11 @@ jobs:
           - 'openldap_numerical_features'
           - 'ldap_features'
           - 'remoteapi_features'
+          - 'routing_features'
           - 'setup_features'
           - 'sharees_features'
           - 'sharing_features'
+          - 'theming_features'
           - 'videoverification_features'
 
         php-versions: ['8.1']
@@ -117,7 +119,7 @@ jobs:
           ref: ${{ matrix.activity-versions }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a #v2.33.0
+        uses: shivammathur/setup-php@0f7f1d08e3e32076e51cae65eb0b0c871405b16e #v2.34.1
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -163,7 +165,7 @@ jobs:
       - name: Print logs
         if: always()
         run: |
-          cat data/nextcloud.log
+          cat $(./occ log:file |grep "Log file"|cut -d" " -f3)
           docker ps -a
           docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
 

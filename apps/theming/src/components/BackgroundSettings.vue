@@ -87,7 +87,7 @@ import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
 
 import Check from 'vue-material-design-icons/Check.vue'
 import ImageEdit from 'vue-material-design-icons/ImageEdit.vue'
-import ColorPalette from 'vue-material-design-icons/Palette.vue'
+import ColorPalette from 'vue-material-design-icons/PaletteOutline.vue'
 
 const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 const backgroundImage = loadState('theming', 'userBackgroundImage')

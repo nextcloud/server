@@ -14,9 +14,17 @@ if (!isset($_)) {//standalone  page is not supported anymore - redirect to /
 }
 // @codeCoverageIgnoreEnd
 ?>
-<div class="guest-box">
+<div class="body-login-container update">
+	<div class="icon-big icon-password"></div>
 	<h2><?php p($l->t('Access forbidden')); ?></h2>
-		<p class='hint'><?php if (isset($_['message'])) {
-			p($_['message']);
-		}?></p>
-</ul>
+	<p class="hint">
+		<?php if (isset($_['message'])): ?>
+			<?php p($_['message']); ?>
+		<?php else: ?>
+			<?php p($l->t('You are not allowed to access this page.')); ?>
+		<?php endif; ?>
+	</p>
+	<p><a class="button primary" href="<?php p(\OCP\Server::get(\OCP\IURLGenerator::class)->linkTo('', 'index.php')) ?>">
+		<?php p($l->t('Back to %s', [$theme->getName()])); ?>
+	</a></p>
+</div>

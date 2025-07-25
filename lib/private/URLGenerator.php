@@ -189,14 +189,14 @@ class URLGenerator implements IURLGenerator {
 		$basename = substr(basename($file), 0, -4);
 
 		try {
-			$appPath = $this->getAppManager()->getAppPath($appName);
-		} catch (AppPathNotFoundException $e) {
 			if ($appName === 'core' || $appName === '') {
 				$appName = 'core';
 				$appPath = false;
 			} else {
-				throw new RuntimeException('image not found: image: ' . $file . ' webroot: ' . \OC::$WEBROOT . ' serverroot: ' . \OC::$SERVERROOT);
+				$appPath = $this->getAppManager()->getAppPath($appName);
 			}
+		} catch (AppPathNotFoundException $e) {
+			throw new RuntimeException('image not found: image: ' . $file . ' webroot: ' . \OC::$WEBROOT . ' serverroot: ' . \OC::$SERVERROOT);
 		}
 
 		// Check if the app is in the app folder

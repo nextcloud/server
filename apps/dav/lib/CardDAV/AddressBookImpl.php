@@ -307,8 +307,8 @@ class AddressBookImpl implements IAddressBookEnabled {
 	 */
 	public function isSystemAddressBook(): bool {
 		return $this->addressBookInfo['principaluri'] === 'principals/system/system' && (
-			$this->addressBookInfo['uri'] === 'system' ||
-			$this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
+			$this->addressBookInfo['uri'] === 'system'
+			|| $this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
 		);
 	}
 
@@ -324,7 +324,7 @@ class AddressBookImpl implements IAddressBookEnabled {
 			$user = str_replace('principals/users/', '', $this->addressBookInfo['principaluri']);
 			$uri = $this->addressBookInfo['uri'];
 		}
-		
+
 		$path = 'addressbooks/users/' . $user . '/' . $uri;
 		$properties = $this->propertyMapper->findPropertyByPathAndName($user, $path, '{http://owncloud.org/ns}enabled');
 		if (count($properties) > 0) {

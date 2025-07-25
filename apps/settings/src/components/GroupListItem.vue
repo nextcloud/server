@@ -80,9 +80,9 @@ import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
-import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
-import Pencil from 'vue-material-design-icons/Pencil.vue'
+import AccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 
 import { showError } from '@nextcloud/dialogs'
 

@@ -68,7 +68,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$this->collection->getChild('55');
 	}
@@ -114,7 +114,7 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('44')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$this->assertFalse($this->collection->childExists('44'));
 	}

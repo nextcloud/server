@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,12 +8,13 @@
 
 namespace Test\Group;
 
+use OC\Group\MetaData;
 use OCP\IUserSession;
 
 class MetaDataTest extends \Test\TestCase {
 	private \OC\Group\Manager $groupManager;
 	private IUserSession $userSession;
-	private \OC\Group\MetaData $groupMetadata;
+	private MetaData $groupMetadata;
 	private bool $isAdmin = true;
 	private bool $isDelegatedAdmin = true;
 
@@ -22,7 +24,7 @@ class MetaDataTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->groupMetadata = new \OC\Group\MetaData(
+		$this->groupMetadata = new MetaData(
 			'foo',
 			$this->isAdmin,
 			$this->isDelegatedAdmin,
@@ -37,23 +39,14 @@ class MetaDataTest extends \Test\TestCase {
 			->getMock();
 
 		$group->expects($this->exactly(6))
-			->method('getGID')
-			->will($this->onConsecutiveCalls(
-				'admin', 'admin',
-				'g2', 'g2',
-				'g3', 'g3'));
+			->method('getGID')->willReturnOnConsecutiveCalls('admin', 'admin', 'g2', 'g2', 'g3', 'g3');
 
 		$group->expects($this->exactly(3))
-			->method('getDisplayName')
-			->will($this->onConsecutiveCalls(
-				'admin',
-				'g2',
-				'g3'));
+			->method('getDisplayName')->willReturnOnConsecutiveCalls('admin', 'g2', 'g3');
 
 		$group->expects($this->exactly($countCallCount))
 			->method('count')
-			->with('')
-			->will($this->onConsecutiveCalls(2, 3, 5));
+			->with('')->willReturnOnConsecutiveCalls(2, 3, 5);
 
 		return $group;
 	}

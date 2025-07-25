@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,7 @@ namespace Test\Files\Type;
 
 use OC\Files\Type\Detection;
 use OCP\IURLGenerator;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class DetectionTest extends \Test\TestCase {
@@ -18,8 +20,8 @@ class DetectionTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->detection = new Detection(
-			\OC::$server->getURLGenerator(),
-			\OC::$server->get(LoggerInterface::class),
+			Server::get(IURLGenerator::class),
+			Server::get(LoggerInterface::class),
 			\OC::$SERVERROOT . '/config/',
 			\OC::$SERVERROOT . '/resources/config/'
 		);
@@ -45,11 +47,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDetectPath
 	 *
 	 * @param string $path
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDetectPath')]
 	public function testDetectPath(string $path, string $expected): void {
 		$this->assertEquals($expected, $this->detection->detectPath($path));
 	}
@@ -65,11 +67,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDetectContent
 	 *
 	 * @param string $path
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDetectContent')]
 	public function testDetectContent(string $path, string $expected): void {
 		$this->assertEquals($expected, $this->detection->detectContent(\OC::$SERVERROOT . '/tests/data' . $path));
 	}
@@ -85,11 +87,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDetect
 	 *
 	 * @param string $path
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDetect')]
 	public function testDetect(string $path, string $expected): void {
 		$this->assertEquals($expected, $this->detection->detect(\OC::$SERVERROOT . '/tests/data' . $path));
 	}
@@ -109,11 +111,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataMimeTypeCustom
 	 *
 	 * @param string $ext
 	 * @param string $mime
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataMimeTypeCustom')]
 	public function testDetectMimeTypeCustom(string $ext, string $mime): void {
 		$confDir = sys_get_temp_dir();
 		file_put_contents($confDir . '/mimetypemapping.dist.json', json_encode([]));
@@ -143,11 +145,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetSecureMimeType
 	 *
 	 * @param string $mimeType
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetSecureMimeType')]
 	public function testGetSecureMimeType(string $mimeType, string $expected): void {
 		$this->assertEquals($expected, $this->detection->getSecureMimeType($mimeType));
 	}

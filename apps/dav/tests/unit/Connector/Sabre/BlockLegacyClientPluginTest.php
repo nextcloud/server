@@ -55,9 +55,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider oldDesktopClientProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('oldDesktopClientProvider')]
 	public function testBeforeHandlerException(string $userAgent, ERROR_TYPE $errorType): void {
 		$this->themingDefaults
 			->expects($this->atMost(1))
@@ -95,8 +93,8 @@ class BlockLegacyClientPluginTest extends TestCase {
 
 	/**
 	 * Ensure that there is no room for XSS attack through configured URL / version
-	 * @dataProvider oldDesktopClientProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('oldDesktopClientProvider')]
 	public function testBeforeHandlerExceptionPreventXSSAttack(string $userAgent, ERROR_TYPE $errorType): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -142,9 +140,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider newAndAlternateDesktopClientProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('newAndAlternateDesktopClientProvider')]
 	public function testBeforeHandlerSuccess(string $userAgent): void {
 		/** @var RequestInterface|MockObject $request */
 		$request = $this->createMock(RequestInterface::class);

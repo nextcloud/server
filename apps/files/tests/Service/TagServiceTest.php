@@ -53,7 +53,7 @@ class TagServiceTest extends \Test\TestCase {
 			->withAnyParameters()
 			->willReturn($user);
 
-		$this->root = \OCP\Server::get(IRootFolder::class)->getUserFolder($this->user);
+		$this->root = Server::get(IRootFolder::class)->getUserFolder($this->user);
 
 		$this->tagger = Server::get(ITagManager::class)->load('files');
 		$this->tagService = $this->getTagService();

@@ -35,9 +35,7 @@ class BirthdateParserServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider parseBirthdateDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('parseBirthdateDataProvider')]
 	public function testParseBirthdate(
 		string $value,
 		?DateTimeImmutable $expected,

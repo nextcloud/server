@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -41,6 +42,7 @@ class Capabilities implements IPublicCapability {
 	 * @return array{
 	 *     theming: array{
 	 *         name: string,
+	 *         productName: string,
 	 *         url: string,
 	 *         slogan: string,
 	 *         color: string,
@@ -94,6 +96,7 @@ class Capabilities implements IPublicCapability {
 		return [
 			'theming' => [
 				'name' => $this->theming->getName(),
+				'productName' => $this->theming->getProductName(),
 				'url' => $this->theming->getBaseUrl(),
 				'slogan' => $this->theming->getSlogan(),
 				'color' => $color,

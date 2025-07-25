@@ -66,9 +66,7 @@ class RequestSharedSecretTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestStart
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestStart')]
 	public function testStart(bool $isTrustedServer, bool $retainBackgroundJob): void {
 		/** @var RequestSharedSecret&MockObject $requestSharedSecret */
 		$requestSharedSecret = $this->getMockBuilder(RequestSharedSecret::class)
@@ -127,9 +125,7 @@ class RequestSharedSecretTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestRun
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRun')]
 	public function testRun(int $statusCode, int $attempt = 0): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
@@ -145,12 +141,11 @@ class RequestSharedSecretTest extends TestCase {
 			->with(
 				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
 				[
-					'body' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
+					'body' => [
+						'url' => $source,
+						'token' => $token,
+						'format' => 'json',
+					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
 					'verify' => true,
@@ -231,12 +226,11 @@ class RequestSharedSecretTest extends TestCase {
 			->with(
 				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
 				[
-					'body' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
+					'body' => [
+						'url' => $source,
+						'token' => $token,
+						'format' => 'json',
+					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
 					'verify' => true,

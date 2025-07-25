@@ -12,6 +12,7 @@ use OC\DB\Exceptions\DbalException;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Node\NonExistingFile;
+use OC\Files\Node\NonExistingFolder;
 use OC\Files\View;
 use OCA\Files_Versions\Storage;
 use OCA\Files_Versions\Versions\INeedSyncVersionBackend;
@@ -125,6 +126,22 @@ class FileEventsListener implements IEventListener {
 	}
 
 	public function touch_hook(Node $node): void {
+		// Do not handle folders.
+		if ($node instanceof Folder) {
+			return;
+		}
+
+		if ($node instanceof NonExistingFile) {
+			$this->logger->error(
+				'Failed to create or update version for {path}, node does not exist',
+				[
+					'path' => $node->getPath(),
+				]
+			);
+
+			return;
+		}
+
 		$previousNode = $this->nodesTouched[$node->getId()] ?? null;
 
 		if ($previousNode === null) {
@@ -135,8 +152,10 @@ class FileEventsListener implements IEventListener {
 
 		try {
 			if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+				$revision = $this->versionManager->getRevision($previousNode);
+
 				// We update the timestamp of the version entity associated with the previousNode.
-				$this->versionManager->updateVersionEntity($node, $previousNode->getMTime(), ['timestamp' => $node->getMTime()]);
+				$this->versionManager->updateVersionEntity($node, $revision, ['timestamp' => $node->getMTime()]);
 			}
 		} catch (DbalException $ex) {
 			// Ignore UniqueConstraintViolationException, as we are probably in the middle of a rollback
@@ -152,7 +171,22 @@ class FileEventsListener implements IEventListener {
 
 	public function created(Node $node): void {
 		// Do not handle folders.
-		if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+		if (!($node instanceof File)) {
+			return;
+		}
+
+		if ($node instanceof NonExistingFile) {
+			$this->logger->error(
+				'Failed to create version for {path}, node does not exist',
+				[
+					'path' => $node->getPath(),
+				]
+			);
+
+			return;
+		}
+
+		if ($this->versionManager instanceof INeedSyncVersionBackend) {
 			$this->versionManager->createVersionEntity($node);
 		}
 	}
@@ -190,6 +224,17 @@ class FileEventsListener implements IEventListener {
 			return;
 		}
 
+		if ($node instanceof NonExistingFile) {
+			$this->logger->error(
+				'Failed to create or update version for {path}, node does not exist',
+				[
+					'path' => $node->getPath(),
+				]
+			);
+
+			return;
+		}
+
 		$writeHookInfo = $this->writeHookInfo[$node->getId()] ?? null;
 
 		if ($writeHookInfo === null) {
@@ -209,9 +254,11 @@ class FileEventsListener implements IEventListener {
 				// If no new version was stored in the FS, no new version should be added in the DB.
 				// So we simply update the associated version.
 				if ($node instanceof File && $this->versionManager instanceof INeedSyncVersionBackend) {
+					$revision = $this->versionManager->getRevision($writeHookInfo['previousNode']);
+
 					$this->versionManager->updateVersionEntity(
 						$node,
-						$writeHookInfo['previousNode']->getMtime(),
+						$revision,
 						[
 							'timestamp' => $node->getMTime(),
 							'size' => $node->getSize(),
@@ -402,6 +449,24 @@ class FileEventsListener implements IEventListener {
 			}
 		}
 
+		if (!($node instanceof NonExistingFile) && !($node instanceof NonExistingFolder)) {
+			$this->logger->debug('Failed to compute path for node', [
+				'node' => [
+					'path' => $node->getPath(),
+					'owner' => $owner,
+					'fileid' => $node->getId(),
+					'size' => $node->getSize(),
+					'mtime' => $node->getMTime(),
+				]
+			]);
+		} else {
+			$this->logger->debug('Failed to compute path for node', [
+				'node' => [
+					'path' => $node->getPath(),
+					'owner' => $owner,
+				]
+			]);
+		}
 		return null;
 	}
 }

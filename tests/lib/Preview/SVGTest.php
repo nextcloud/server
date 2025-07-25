@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,9 @@
  */
 
 namespace Test\Preview;
+
+use OC\Preview\SVG;
+use OCP\Files\File;
 
 /**
  * Class SVGTest
@@ -24,7 +28,7 @@ class SVGTest extends Provider {
 			$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
 			$this->width = 3000;
 			$this->height = 2000;
-			$this->provider = new \OC\Preview\SVG;
+			$this->provider = new SVG;
 		} else {
 			$this->markTestSkipped('No SVG provider present');
 		}
@@ -42,9 +46,9 @@ class SVGTest extends Provider {
 	}
 
 	/**
-	 * @dataProvider dataGetThumbnailSVGHref
 	 * @requires extension imagick
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetThumbnailSVGHref')]
 	public function testGetThumbnailSVGHref(string $content): void {
 		$handle = fopen('php://temp', 'w+');
 		fwrite($handle, '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +56,7 @@ class SVGTest extends Provider {
 </svg>');
 		rewind($handle);
 
-		$file = $this->createMock(\OCP\Files\File::class);
+		$file = $this->createMock(File::class);
 		$file->method('fopen')
 			->willReturn($handle);
 

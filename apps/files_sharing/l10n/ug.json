@@ -240,12 +240,6 @@
     "By uploading files, you agree to the terms of service." : "ھۆججەتلەرنى يوللاش ئارقىلىق مۇلازىمەت شەرتلىرىگە قوشۇلىسىز.",
     "View terms of service" : "مۇلازىمەت شەرتلىرىنى كۆرۈش",
     "Terms of service" : "مۇلازىمەت شەرتلىرى",
-    "Upload files to {folder}" : "ھۆججەتلەرنى {folder} يۈكلەڭ",
-    "Submit name" : "ئىسىم يوللاڭ",
-    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} ھۆججەت قىسقۇچنى سىز بىلەن ئورتاقلاشتى.",
-    "To upload files, you need to provide your name first." : "ھۆججەتلەرنى يوللاش ئۈچۈن ئالدى بىلەن ئىسمىڭىزنى تەمىنلىشىڭىز كېرەك.",
-    "Name" : "ئاتى",
-    "Enter your name" : "ئىسمىڭىزنى كىرگۈزۈڭ",
     "Share with {userName}" : "{userName} بىلەن ئورتاقلىشىڭ",
     "Share with email {email}" : "ئېلېكترونلۇق خەت {email} خەت}",
     "Share with group" : "گۇرۇپپا بىلەن ئورتاقلىشىش",
@@ -343,6 +337,8 @@
     "Share note for recipient saved" : "تاپشۇرۇۋالغۇچى ئۈچۈن خاتىرە قالدۇرۇڭ",
     "Share password saved" : "پارولنى ئورتاقلاشتى",
     "Share permissions saved" : "ئورتاقلىشىش ئىجازەتلىرى ساقلاندى",
+    "Upload files to {folder}" : "ھۆججەتلەرنى {folder} يۈكلەڭ",
+    "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} ھۆججەت قىسقۇچنى سىز بىلەن ئورتاقلاشتى.",
     "Shared by" : "ھەمبەھىرلىگۈچى",
     "Shared with" : "بىلەن ئورتاقلاشتى",
     "Password created successfully" : "پارول مۇۋەپپەقىيەتلىك قۇرۇلدى",
@@ -376,6 +372,11 @@
     "You are not allowed to edit link shares that you don't own" : "ئۆزىڭىز ئىگە بولمىغان ئۇلىنىش ھەمبەھىرلىرىنى تەھرىرلىشىڭىزگە رۇخسەت قىلىنمايدۇ",
     "Download all files" : "بارلىق ھۆججەتلەرنى چۈشۈرۈڭ",
     "Search for share recipients" : "ھەمبەھىر تاپشۇرۇۋالغۇچىلارنى ئىزدەڭ",
-    "No recommendations. Start typing." : "تەۋسىيە يوق. يېزىشنى باشلاڭ."
+    "No recommendations. Start typing." : "تەۋسىيە يوق. يېزىشنى باشلاڭ.",
+    "To upload files, you need to provide your name first." : "ھۆججەتلەرنى يوللاش ئۈچۈن ئالدى بىلەن ئىسمىڭىزنى تەمىنلىشىڭىز كېرەك.",
+    "Enter your name" : "ئىسمىڭىزنى كىرگۈزۈڭ",
+    "Submit name" : "ئىسىم يوللاڭ",
+    "Name" : "ئاتى",
+    "Filename must not be empty." : "ھۆججەت ئىسمى بوش بولماسلىقى كېرەك."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

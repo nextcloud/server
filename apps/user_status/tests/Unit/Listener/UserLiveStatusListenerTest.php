@@ -49,9 +49,7 @@ class UserLiveStatusListenerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider handleEventWithCorrectEventDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('handleEventWithCorrectEventDataProvider')]
 	public function testHandleWithCorrectEvent(
 		string $userId,
 		string $previousStatus,

@@ -93,7 +93,7 @@ abstract class TestCase extends \Test\TestCase {
 		Server::get(IUserSession::class)->setUser(null);
 		Filesystem::tearDown();
 		Server::get(IUserSession::class)->login($user, $password);
-		\OCP\Server::get(IRootFolder::class)->getUserFolder($user);
+		Server::get(IRootFolder::class)->getUserFolder($user);
 
 		\OC_Util::setupFS($user);
 	}

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "adhocore/cli",
-            "version": "v1.9.3",
+            "version": "v1.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/adhocore/php-cli.git",
-                "reference": "86be16e3c3b42d76fcdb32529bcded0fedb925d3"
+                "reference": "474dc3d7ab139796be98b104d891476e3916b6f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adhocore/php-cli/zipball/86be16e3c3b42d76fcdb32529bcded0fedb925d3",
-                "reference": "86be16e3c3b42d76fcdb32529bcded0fedb925d3",
+                "url": "https://api.github.com/repos/adhocore/php-cli/zipball/474dc3d7ab139796be98b104d891476e3916b6f4",
+                "reference": "474dc3d7ab139796be98b104d891476e3916b6f4",
                 "shasum": ""
             },
             "require": {
@@ -65,7 +65,7 @@
             ],
             "support": {
                 "issues": "https://github.com/adhocore/php-cli/issues",
-                "source": "https://github.com/adhocore/php-cli/tree/v1.9.3"
+                "source": "https://github.com/adhocore/php-cli/tree/v1.9.4"
             },
             "funding": [
                 {
@@ -77,20 +77,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-04T03:40:29+00:00"
+            "time": "2025-05-11T13:23:54+00:00"
         },
         {
             "name": "nextcloud/openapi-extractor",
-            "version": "v1.5.3",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-releases/openapi-extractor.git",
-                "reference": "4fcdc49ff57b5d12ca9133f10c5be0e386e5ce17"
+                "reference": "4c7a66afce9938279473fc08cadf011de41150f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-releases/openapi-extractor/zipball/4fcdc49ff57b5d12ca9133f10c5be0e386e5ce17",
-                "reference": "4fcdc49ff57b5d12ca9133f10c5be0e386e5ce17",
+                "url": "https://api.github.com/repos/nextcloud-releases/openapi-extractor/zipball/4c7a66afce9938279473fc08cadf011de41150f8",
+                "reference": "4c7a66afce9938279473fc08cadf011de41150f8",
                 "shasum": ""
             },
             "require": {
@@ -122,22 +122,22 @@
             "description": "A tool for extracting OpenAPI specifications from Nextcloud source code",
             "support": {
                 "issues": "https://github.com/nextcloud-releases/openapi-extractor/issues",
-                "source": "https://github.com/nextcloud-releases/openapi-extractor/tree/v1.5.3"
+                "source": "https://github.com/nextcloud-releases/openapi-extractor/tree/v1.8.0"
             },
-            "time": "2025-04-08T20:40:36+00:00"
+            "time": "2025-06-03T13:01:15+00:00"
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.4.0",
+            "version": "v5.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494"
+                "reference": "ae59794362fe85e051a58ad36b289443f57be7a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/447a020a1f875a434d62f2a401f53b82a396e494",
-                "reference": "447a020a1f875a434d62f2a401f53b82a396e494",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ae59794362fe85e051a58ad36b289443f57be7a9",
+                "reference": "ae59794362fe85e051a58ad36b289443f57be7a9",
                 "shasum": ""
             },
             "require": {
@@ -180,9 +180,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.4.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.5.0"
             },
-            "time": "2024-12-30T11:07:19+00:00"
+            "time": "2025-05-31T08:24:38+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",

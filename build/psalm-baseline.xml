@@ -209,7 +209,6 @@
       <code><![CDATA[IAppContainer]]></code>
     </DeprecatedInterface>
     <DeprecatedMethod>
-      <code><![CDATA[\OC_App::loadApps(['dav'])]]></code>
       <code><![CDATA[getServer]]></code>
       <code><![CDATA[getServer]]></code>
       <code><![CDATA[getURLGenerator]]></code>
@@ -782,12 +781,6 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/dav/lib/Controller/ExampleContentController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/Controller/InvitationResponseController.php">
     <UndefinedPropertyAssignment>
       <code><![CDATA[$vEvent->DTSTAMP]]></code>
@@ -1017,11 +1010,6 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Settings/CalDAVSettings.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/dav/lib/Settings/ExampleContentSettings.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
@@ -1473,11 +1461,6 @@
       <code><![CDATA[class-string<IStorage>]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="apps/files_external/lib/Lib/Backend/SMB.php">
-    <DeprecatedClass>
-      <code><![CDATA[new KerberosApacheAuth()]]></code>
-    </DeprecatedClass>
-  </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalMethod>
       <code><![CDATA[put]]></code>
@@ -1592,9 +1575,6 @@
       <code><![CDATA[new QueryException()]]></code>
       <code><![CDATA[new QueryException()]]></code>
     </DeprecatedClass>
-    <DeprecatedInterface>
-      <code><![CDATA[private]]></code>
-    </DeprecatedInterface>
   </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <DeprecatedClass>
@@ -2006,8 +1986,6 @@
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
-      <code><![CDATA[setEMailAddress]]></code>
-      <code><![CDATA[setEMailAddress]]></code>
     </DeprecatedMethod>
     <TypeDoesNotContainNull>
       <code><![CDATA[$groupid === null]]></code>
@@ -2597,14 +2575,6 @@
       <code><![CDATA[$gid]]></code>
     </ParamNameMismatch>
   </file>
-  <file src="apps/user_ldap/lib/Helper.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[getAppKeys]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/lib/Jobs/CleanUp.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -2873,12 +2843,6 @@
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Application.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getServer]]></code>
-      <code><![CDATA[registerService]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php">
     <DeprecatedClass>
       <code><![CDATA[Files::rmdirr($dir)]]></code>
@@ -2953,8 +2917,6 @@
   </file>
   <file src="core/Command/Db/ConvertType.php">
     <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
-      <code><![CDATA[\OC_App::loadApp($app)]]></code>
       <code><![CDATA[execute]]></code>
       <code><![CDATA[getName]]></code>
       <code><![CDATA[getPrimaryKeyColumns]]></code>
@@ -3126,7 +3088,6 @@
   </file>
   <file src="core/Command/User/Setting.php">
     <DeprecatedMethod>
-      <code><![CDATA[setEMailAddress]]></code>
       <code><![CDATA[setEMailAddress]]></code>
     </DeprecatedMethod>
   </file>
@@ -3366,18 +3327,6 @@
       <code><![CDATA[version_compare($first, $second, $operator)]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/App/InfoParser.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$array[$element][]]]></code>
-      <code><![CDATA[$array[$element][]]]></code>
-    </InvalidArrayOffset>
-    <InvalidReturnStatement>
-      <code><![CDATA[(string)$xml]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[array]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/AppConfig.php">
     <NullableReturnStatement>
       <code><![CDATA[$this->fastCache[$app][$key] ?? $default]]></code>
@@ -3389,18 +3338,12 @@
     </UndefinedMethod>
   </file>
   <file src="lib/private/AppFramework/DependencyInjection/DIContainer.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[boolean|null]]></code>
-    </ImplementedReturnTypeMismatch>
     <InvalidReturnStatement>
       <code><![CDATA[$this->server]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[\OCP\IServerContainer]]></code>
     </InvalidReturnType>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getAppDataDir]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/AppFramework/Http/Dispatcher.php">
     <NullArgument>
@@ -3456,53 +3399,9 @@
     </MoreSpecificImplementedParamType>
   </file>
   <file src="lib/private/AppFramework/Utility/SimpleContainer.php">
-    <LessSpecificReturnStatement>
-      <code><![CDATA[$class->newInstance()]]></code>
-      <code><![CDATA[$class->newInstanceArgs(array_map(function (ReflectionParameter $parameter) {
-			$parameterType = $parameter->getType();
-
-			$resolveName = $parameter->getName();
-
-			// try to find out if it is a class or a simple parameter
-			if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-				$resolveName = $parameterType->getName();
-			}
-
-			try {
-				$builtIn = $parameter->hasType() && ($parameter->getType() instanceof ReflectionNamedType)
-					&& $parameter->getType()->isBuiltin();
-				return $this->query($resolveName, !$builtIn);
-			} catch (QueryException $e) {
-				// Service not found, use the default value when available
-				if ($parameter->isDefaultValueAvailable()) {
-					return $parameter->getDefaultValue();
-				}
-
-				if ($parameterType !== null && ($parameterType instanceof ReflectionNamedType) && !$parameterType->isBuiltin()) {
-					$resolveName = $parameter->getName();
-					try {
-						return $this->query($resolveName);
-					} catch (QueryException $e2) {
-						// Pass null if typed and nullable
-						if ($parameter->allowsNull() && ($parameterType instanceof ReflectionNamedType)) {
-							return null;
-						}
-
-						// don't lose the error we got while trying to query by type
-						throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
-					}
-				}
-
-				throw $e;
-			}
-		}, $constructor->getParameters()))]]></code>
-    </LessSpecificReturnStatement>
     <MissingTemplateParam>
       <code><![CDATA[ArrayAccess]]></code>
     </MissingTemplateParam>
-    <MoreSpecificReturnType>
-      <code><![CDATA[\stdClass]]></code>
-    </MoreSpecificReturnType>
     <RedundantCast>
       <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
@@ -4012,12 +3911,6 @@
       <code><![CDATA[ArrayCache]]></code>
       <code><![CDATA[ArrayCache]]></code>
     </InvalidClass>
-    <InvalidReturnStatement>
-      <code><![CDATA[$response->getBody()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[fopen]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
     <TypeDoesNotContainNull>
@@ -4094,12 +3987,6 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/Group/Group.php">
-    <InvalidArgument>
-      <code><![CDATA[bool]]></code>
-    </InvalidArgument>
-    <InvalidOperand>
-      <code><![CDATA[$hide]]></code>
-    </InvalidOperand>
     <LessSpecificReturnStatement>
       <code><![CDATA[$users]]></code>
     </LessSpecificReturnStatement>
@@ -4133,16 +4020,6 @@
       <code><![CDATA[getGroupDetails]]></code>
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Http/Client/Response.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string|resource]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->stream ?
-			$this->response->getBody()->detach():
-			$this->response->getBody()->getContents()]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Installer.php">
     <InvalidArgument>
@@ -4187,31 +4064,12 @@
     </InvalidOperand>
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullCache.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[get]]></code>
-    </InvalidNullableReturnType>
     <InvalidReturnStatement>
       <code><![CDATA[[]]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[getIncomplete]]></code>
     </InvalidReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$file !== '' ? null :
-			new CacheEntry([
-				'fileid' => -1,
-				'parent' => -1,
-				'name' => '',
-				'path' => '',
-				'size' => '0',
-				'mtime' => time(),
-				'storage_mtime' => time(),
-				'etag' => '',
-				'mimetype' => FileInfo::MIMETYPE_FOLDER,
-				'mimepart' => 'httpd',
-				'permissions' => Constants::PERMISSION_READ
-			])]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
     <TooManyArguments>
@@ -4301,12 +4159,6 @@
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Remote/Instance.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$request->getBody()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[bool|string]]></code>
-    </InvalidReturnType>
     <InvalidScalarArgument>
       <code><![CDATA[$response]]></code>
     </InvalidScalarArgument>
@@ -4342,9 +4194,6 @@
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Route/Router.php">
-    <InvalidClass>
-      <code><![CDATA[\OC_APP]]></code>
-    </InvalidClass>
     <InvalidNullableReturnType>
       <code><![CDATA[string]]></code>
     </InvalidNullableReturnType>
@@ -4611,14 +4460,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getAppManager]]></code>
       <code><![CDATA[getRequest]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="ocs/v1.php">
-    <DeprecatedMethod>
-      <code><![CDATA[OC_App::loadApps()]]></code>
-      <code><![CDATA[OC_App::loadApps(['authentication'])]]></code>
-      <code><![CDATA[OC_App::loadApps(['extended_authentication'])]]></code>
-      <code><![CDATA[OC_App::loadApps(['session'])]]></code>
     </DeprecatedMethod>
   </file>
   <file src="public.php">

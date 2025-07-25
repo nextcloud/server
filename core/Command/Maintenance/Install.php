@@ -44,6 +44,7 @@ class Install extends Command {
 			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'Login to connect to the database')
 			->addOption('database-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the database user', null)
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
+			->addOption('disable-admin-user', null, InputOption::VALUE_NONE, 'Disable the creation of an admin user')
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'Login of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
 			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
@@ -59,8 +60,8 @@ class Install extends Command {
 			$this->printErrors($output, $errors);
 
 			// ignore the OS X setup warning
-			if (count($errors) !== 1 ||
-				(string)$errors[0]['error'] !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk!') {
+			if (count($errors) !== 1
+				|| (string)$errors[0]['error'] !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk!') {
 				return 1;
 			}
 		}
@@ -120,6 +121,7 @@ class Install extends Command {
 		if ($input->hasParameterOption('--database-pass')) {
 			$dbPass = (string)$input->getOption('database-pass');
 		}
+		$disableAdminUser = (bool)$input->getOption('disable-admin-user');
 		$adminLogin = $input->getOption('admin-user');
 		$adminPassword = $input->getOption('admin-pass');
 		$adminEmail = $input->getOption('admin-email');
@@ -142,7 +144,7 @@ class Install extends Command {
 			}
 		}
 
-		if (is_null($adminPassword)) {
+		if (!$disableAdminUser && $adminPassword === null) {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 			$question = new Question('What is the password you like to use for the admin account <' . $adminLogin . '>?');
@@ -151,7 +153,7 @@ class Install extends Command {
 			$adminPassword = $helper->ask($input, $output, $question);
 		}
 
-		if ($adminEmail !== null && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
+		if (!$disableAdminUser && $adminEmail !== null && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
 			throw new InvalidArgumentException('Invalid e-mail-address <' . $adminEmail . '> for <' . $adminLogin . '>.');
 		}
 
@@ -161,6 +163,7 @@ class Install extends Command {
 			'dbpass' => $dbPass,
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
+			'admindisable' => $disableAdminUser,
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
 			'adminemail' => $adminEmail,

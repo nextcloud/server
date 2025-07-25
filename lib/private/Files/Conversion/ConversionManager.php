@@ -129,7 +129,7 @@ class ConversionManager implements IConversionManager {
 					$this->preferredProviders[$class] = $this->serverContainer->get($class);
 					continue;
 				}
-				
+
 				$this->providers[$class] = $this->serverContainer->get($class);
 			} catch (NotFoundExceptionInterface|ContainerExceptionInterface|Throwable $e) {
 				$this->logger->error('Failed to load file conversion provider ' . $class, [
@@ -175,7 +175,7 @@ class ConversionManager implements IConversionManager {
 				}
 			}
 		}
-		
+
 		return null;
 	}
 }

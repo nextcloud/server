@@ -101,9 +101,7 @@ class EncryptionTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataProviderStreamOpen()
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderStreamOpen')]
 	public function testStreamOpen(
 		$isMasterKeyUsed,
 		$mode,
@@ -277,9 +275,7 @@ class EncryptionTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataFilesProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilesProvider')]
 	public function testWriteReadBigFile($testFile): void {
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
@@ -314,9 +310,8 @@ class EncryptionTest extends \Test\TestCase {
 
 	/**
 	 * simulate a non-seekable storage
-	 *
-	 * @dataProvider dataFilesProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilesProvider')]
 	public function testWriteToNonSeekableStorage($testFile): void {
 		$wrapper = $this->getMockBuilder(Encryption::class)
 			->onlyMethods(['parentStreamSeek'])

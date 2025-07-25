@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,8 @@
 
 namespace Test\Files\Cache\Wrapper;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\Wrapper\CachePermissionsMask;
 use OCP\Constants;
 use Test\Files\Cache\CacheTest;
 
@@ -19,7 +22,7 @@ use Test\Files\Cache\CacheTest;
  */
 class CachePermissionsMaskTest extends CacheTest {
 	/**
-	 * @var \OC\Files\Cache\Cache $sourceCache
+	 * @var Cache $sourceCache
 	 */
 	protected $sourceCache;
 
@@ -31,7 +34,7 @@ class CachePermissionsMaskTest extends CacheTest {
 	}
 
 	protected function getMaskedCached($mask) {
-		return new \OC\Files\Cache\Wrapper\CachePermissionsMask($this->sourceCache, $mask);
+		return new CachePermissionsMask($this->sourceCache, $mask);
 	}
 
 	public static function maskProvider(): array {
@@ -44,9 +47,9 @@ class CachePermissionsMaskTest extends CacheTest {
 	}
 
 	/**
-	 * @dataProvider maskProvider
 	 * @param int $mask
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('maskProvider')]
 	public function testGetMasked($mask): void {
 		$cache = $this->getMaskedCached($mask);
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'permissions' => Constants::PERMISSION_ALL];
@@ -61,9 +64,9 @@ class CachePermissionsMaskTest extends CacheTest {
 	}
 
 	/**
-	 * @dataProvider maskProvider
 	 * @param int $mask
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('maskProvider')]
 	public function testGetFolderContentMasked($mask): void {
 		$this->storage->mkdir('foo');
 		$this->storage->file_put_contents('foo/bar', 'asd');
@@ -80,9 +83,9 @@ class CachePermissionsMaskTest extends CacheTest {
 	}
 
 	/**
-	 * @dataProvider maskProvider
 	 * @param int $mask
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('maskProvider')]
 	public function testSearchMasked($mask): void {
 		$this->storage->mkdir('foo');
 		$this->storage->file_put_contents('foo/bar', 'asd');

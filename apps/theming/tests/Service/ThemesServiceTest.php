@@ -126,11 +126,11 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestEnableTheme
 	 *
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestEnableTheme')]
 	public function testEnableTheme(string $toEnable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -159,11 +159,11 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestDisableTheme
 	 *
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDisableTheme')]
 	public function testDisableTheme(string $toDisable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -193,10 +193,9 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsEnabled
-	 *
 	 * @param string[] $enabledThemes
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsEnabled')]
 	public function testIsEnabled(string $themeId, array $enabledThemes, bool $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -270,11 +269,11 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetEnabledThemes
 	 *
 	 * @param string[] $enabledThemes
 	 * @param string[] $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetEnabledThemes')]
 	public function testSetEnabledThemes(array $enabledThemes, array $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())

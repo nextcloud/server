@@ -9,6 +9,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
 use OC\FilesMetadata\Model\FilesMetadata;
+use OC\User\NoUserException;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\Files_Sharing\External\Mount as SharingExternalMount;
 use OCP\Accounts\IAccountManager;
@@ -256,8 +257,8 @@ class FilesPlugin extends ServerPlugin {
 
 		// adds a 'Content-Disposition: attachment' header in case no disposition
 		// header has been set before
-		if ($this->downloadAttachment &&
-			$response->getHeader('Content-Disposition') === null) {
+		if ($this->downloadAttachment
+			&& $response->getHeader('Content-Disposition') === null) {
 			$filename = $node->getName();
 			if ($this->request->isUserAgent(
 				[
@@ -374,7 +375,13 @@ class FilesPlugin extends ServerPlugin {
 				}
 
 				// Check if the user published their display name
-				$ownerAccount = $this->accountManager->getAccount($owner);
+				try {
+					$ownerAccount = $this->accountManager->getAccount($owner);
+				} catch (NoUserException) {
+					// do not lock process if owner is not local
+					return null;
+				}
+
 				$ownerNameProperty = $ownerAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
 
 				// Since we are not logged in, we need to have at least the published scope
@@ -534,8 +541,8 @@ class FilesPlugin extends ServerPlugin {
 			$ocmPermissions[] = 'read';
 		}
 
-		if (($ncPermissions & Constants::PERMISSION_CREATE) ||
-			($ncPermissions & Constants::PERMISSION_UPDATE)) {
+		if (($ncPermissions & Constants::PERMISSION_CREATE)
+			|| ($ncPermissions & Constants::PERMISSION_UPDATE)) {
 			$ocmPermissions[] = 'write';
 		}
 

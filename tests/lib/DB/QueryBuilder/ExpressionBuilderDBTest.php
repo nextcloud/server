@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,19 +20,19 @@ use Test\TestCase;
  * @group DB
  */
 class ExpressionBuilderDBTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|\OCP\IDBConnection */
+	/** @var \Doctrine\DBAL\Connection|IDBConnection */
 	protected $connection;
 	protected $schemaSetup = false;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->prepareTestingTable();
 	}
 
 	public static function likeProvider(): array {
-		$connection = \OCP\Server::get(IDBConnection::class);
+		$connection = Server::get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],
@@ -47,12 +48,12 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider likeProvider
 	 *
 	 * @param string $param1
 	 * @param string $param2
 	 * @param boolean $match
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('likeProvider')]
 	public function testLike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -67,7 +68,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	public static function ilikeProvider(): array {
-		$connection = \OCP\Server::get(IDBConnection::class);
+		$connection = Server::get(IDBConnection::class);
 
 		return [
 			['foo', 'bar', false],
@@ -84,12 +85,12 @@ class ExpressionBuilderDBTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider ilikeProvider
 	 *
 	 * @param string $param1
 	 * @param string $param2
 	 * @param boolean $match
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('ilikeProvider')]
 	public function testILike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 

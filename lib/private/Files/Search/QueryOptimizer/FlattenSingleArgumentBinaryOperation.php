@@ -16,11 +16,11 @@ class FlattenSingleArgumentBinaryOperation extends ReplacingOptimizerStep {
 	public function processOperator(ISearchOperator &$operator): bool {
 		parent::processOperator($operator);
 		if (
-			$operator instanceof ISearchBinaryOperator &&
-			count($operator->getArguments()) === 1 &&
-			(
-				$operator->getType() === ISearchBinaryOperator::OPERATOR_OR ||
-				$operator->getType() === ISearchBinaryOperator::OPERATOR_AND
+			$operator instanceof ISearchBinaryOperator
+			&& count($operator->getArguments()) === 1
+			&& (
+				$operator->getType() === ISearchBinaryOperator::OPERATOR_OR
+				|| $operator->getType() === ISearchBinaryOperator::OPERATOR_AND
 			)
 		) {
 			$operator = $operator->getArguments()[0];

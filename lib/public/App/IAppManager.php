@@ -57,7 +57,7 @@ interface IAppManager {
 	 * @return array<string, string>
 	 * @since 32.0.0
 	 */
-	public function getAppInstalledVersions(): array;
+	public function getAppInstalledVersions(bool $onlyEnabled = false): array;
 
 	/**
 	 * Returns the app icon or null if none is found
@@ -184,7 +184,7 @@ interface IAppManager {
 	 * List all apps enabled for a user
 	 *
 	 * @param \OCP\IUser $user
-	 * @return string[]
+	 * @return list<string>
 	 * @since 8.1.0
 	 */
 	public function getEnabledAppsForUser(IUser $user);

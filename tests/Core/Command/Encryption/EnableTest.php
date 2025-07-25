@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -55,9 +56,7 @@ class EnableTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataEnable
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEnable')]
 	public function testEnable(string $oldStatus, ?string $defaultModule, array $availableModules, bool $isUpdating, string $expectedString, string $expectedDefaultModuleString): void {
 		if ($isUpdating) {
 			$this->config->expects($this->once())

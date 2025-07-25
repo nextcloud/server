@@ -38,7 +38,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.3.0
+	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -50,7 +50,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.2.0
+	- version: 3.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -62,7 +62,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.26.1
+	- version: 8.28.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 11.3.0

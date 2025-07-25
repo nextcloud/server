@@ -10,10 +10,10 @@ import PQueue from 'p-queue'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
-import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
+import TrashCanSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
 
 import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
-import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, isTrashbinEnabled } from './deleteUtils.ts'
+import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'
 import logger from '../logger.ts'
 
 const queue = new PQueue({ concurrency: 5 })
@@ -58,8 +58,7 @@ export const action = new FileAction({
 			const callStack = new Error().stack || ''
 			const isCalledFromEventListener = callStack.toLocaleLowerCase().includes('keydown')
 
-			// If trashbin is disabled, we need to ask for confirmation
-			if (!isTrashbinEnabled() || isCalledFromEventListener) {
+			if (shouldAskForConfirmation() || isCalledFromEventListener) {
 				confirm = await askConfirmation([node], view)
 			}
 
@@ -81,8 +80,7 @@ export const action = new FileAction({
 	async execBatch(nodes: Node[], view: View): Promise<(boolean | null)[]> {
 		let confirm = true
 
-		// If trashbin is disabled, we need to ask for confirmation
-		if (!isTrashbinEnabled()) {
+		if (shouldAskForConfirmation()) {
 			confirm = await askConfirmation(nodes, view)
 		} else if (nodes.length >= 5 && !canUnshareOnly(nodes) && !canDisconnectOnly(nodes)) {
 			confirm = await askConfirmation(nodes, view)
@@ -114,5 +112,6 @@ export const action = new FileAction({
 		return Promise.all(promises)
 	},
 
+	destructive: true,
 	order: 100,
 })

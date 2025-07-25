@@ -55,11 +55,11 @@ class TestEnableMasterKey extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestExecute
 	 *
 	 * @param bool $isAlreadyEnabled
 	 * @param string $answer
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestExecute')]
 	public function testExecute($isAlreadyEnabled, $answer): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn($isAlreadyEnabled);
@@ -81,7 +81,7 @@ class TestEnableMasterKey extends TestCase {
 		$this->invokePrivate($this->enableMasterKey, 'execute', [$this->input, $this->output]);
 	}
 
-	public function dataTestExecute() {
+	public static function dataTestExecute() {
 		return [
 			[true, ''],
 			[false, 'y'],

@@ -248,7 +248,8 @@
                         "description": "The version to search the changelog entry for (defaults to the latest installed)",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {

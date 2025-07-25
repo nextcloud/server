@@ -420,7 +420,6 @@ OC.L10N.register(
     "Rename group" : "Endurnefna hóp",
     "Current password" : "Núverandi lykilorð",
     "New password" : "Nýtt lykilorð",
-    "Change password" : "Breyta lykilorði",
     "Choose your profile picture" : "Veldu auðkennismynd fyrir þig",
     "Please select a valid png or jpg file" : "Veldu gilda PNG eða JPG-skrá",
     "Error setting profile picture" : "Villa kom upp við að setja auðkennismyndina",

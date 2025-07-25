@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,7 @@
 
 namespace Test\Preview;
 
+use OC\Preview\OpenDocument;
 use OCP\IBinaryFinder;
 use OCP\Server;
 
@@ -30,7 +32,7 @@ class OfficeTest extends Provider {
 			$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
 			$this->width = 595;
 			$this->height = 842;
-			$this->provider = new \OC\Preview\OpenDocument;
+			$this->provider = new OpenDocument;
 		} else {
 			$this->markTestSkipped('No Office provider present');
 		}

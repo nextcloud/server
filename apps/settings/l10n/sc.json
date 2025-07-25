@@ -163,7 +163,7 @@
     "Confirm" : "Cunfirma",
     "Cancel" : "Annulla",
     "Description" : "Descritzione",
-    "View in store" : "Càstia in s'archìviu",
+    "View in store" : "Visualiza in sa butega",
     "Visit website" : "Vìsita su situ",
     "Admin documentation" : "Documentatzione amministratzione",
     "Developer documentation" : "Documentatzione isvilupu",
@@ -179,7 +179,7 @@
     "Categories" : "Categ",
     "Resources" : "Risorsas",
     "Documentation" : "Documentatzione",
-    "Report a bug" : "Signala un'errore",
+    "Report a bug" : "Report a bug",
     "Request feature" : "Rechede funtzionalidade",
     "Ask questions or discuss" : "Faghe preguntas o discuti",
     "Rate" : "Vàluta",
@@ -194,7 +194,6 @@
     "Marked for remote wipe" : "Marcadu pro cantzelladura remota",
     "Device settings" : "Cunfiguratzione de su dispositivu",
     "Allow filesystem access" : "Permite s'intrada a su sistema de is archìvios",
-    "Rename" : "Torra a numenare",
     "Revoke" : "Rèvoca",
     "Wipe device" : "Cantzella dispositivu",
     "Device" : "Dispositivu",
@@ -281,7 +280,6 @@
     "Welcome mail sent!" : "Messàgiu de benebènnida imbiadu!",
     "Set new password" : "Cunfigura una crae noa",
     "Set new email address" : "Cunfigura un'indiritzu nou de posta eletrònica",
-    "Done" : "Fatu",
     "Edit" : "Modìfica",
     "Show storage path" : "Mustra su percursu de archiviatzione",
     "Show last login" : "Mustra s'ùrtimu atzessu",
@@ -293,8 +291,8 @@
     "Passwordless authentication requires a secure connection." : "S'autenticatzione chene crae rechedet una connessione segura.",
     "Add WebAuthn device" : "Agiunghe dispositivu WebAuthn",
     "Please authorize your WebAuthn device." : "Autoriza su dispositivu WebAuthn tuo.",
-    "Adding your device …" : "Agiunghende su dispositivu tuo ...",
-    "Unnamed device" : "Dispositivu chene nùmene",
+    "Adding your device …" : "Agiunta de su dispositivu tuo...",
+    "Unnamed device" : "Dispositivu sena nùmene",
     "Passwordless Authentication" : "Autenticatzione chene crae",
     "Set up your account for passwordless authentication following the FIDO2 standard." : "Cunfigura su contu tuo pro s'autenticatzione chene crae, sighende s'istandard FIDO2.",
     "No devices configured." : "Perunu dispositivu cunfiguradu.",
@@ -374,6 +372,7 @@
     "Use a second factor besides your password to increase security for your account." : "Imprea unu segundu fatore a parte sa crae tua pro crèschere sa seguresa de su contu tuo.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si impreas aplicatziones de sa de tres partes pro ti connètere a Nextcloud, assegura•ti de creare e cunfigurare una crae pro cada aplicatzione antis de ativare su segundu fatore de autenticatzione.",
     "Set default expiration date for shares" : "Cunfigura sa data de iscadèntzia predefinida pro is cumpartziduras",
-    "Your biography" : "Sa biografia tua"
+    "Your biography" : "Sa biografia tua",
+    "You are using <strong>{usage}</strong>" : "Ses impreende <strong>{usage}</strong>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
