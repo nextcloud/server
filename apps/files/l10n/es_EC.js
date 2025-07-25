@@ -125,8 +125,6 @@ OC.L10N.register(
     "Additional settings" : "Configuraciones adicionales",
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Copiar al portapapeles",
-    "Use this address to access your Files via WebDAV" : "Usa esta dirección para acceder a tus archivos a través de WebDAV.",
-    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Si has habilitado la autenticación de dos factores (2FA), debes crear y usar una nueva contraseña de aplicación haciendo clic aquí.",
     "Keyboard shortcuts" : "Atajos del teclado",
     "Selection" : "Selección",
     "Navigation" : "Navegación",
@@ -252,6 +250,8 @@ OC.L10N.register(
     "Upload file" : "Cargar archivo",
     "An error occurred while trying to update the tags" : "Se presentó un error al intentar actualizar la etiqueta",
     "Upload (max. %s)" : "Cargar (max. %s)",
+    "Use this address to access your Files via WebDAV" : "Usa esta dirección para acceder a tus archivos a través de WebDAV.",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Si has habilitado la autenticación de dos factores (2FA), debes crear y usar una nueva contraseña de aplicación haciendo clic aquí.",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
 },

@@ -256,7 +256,7 @@ OC.L10N.register(
     "Copy" : "Nusxalash",
     "Move to {target}" : " {target}ga o`tish",
     "Move" : "O`tish",
-    "OK" : "OK",
+    "OK" : "Yaxshi",
     "read-only" : "faqat o'qish uchun",
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} fayl xatolilklari"],
     "One file conflict" : "Bitta fayl ziddiyati",
