@@ -49,12 +49,10 @@ class ManagerEvent extends Event {
 	/**
 	 * DispatcherEvent constructor.
 	 *
-	 * @param string $event
-	 * @param $appID
 	 * @param \OCP\IGroup[]|null $groups
 	 * @since 9.0.0
 	 */
-	public function __construct($event, $appID, ?array $groups = null) {
+	public function __construct(string $event, string $appID, ?array $groups = null) {
 		$this->event = $event;
 		$this->appID = $appID;
 		$this->groups = $groups;
