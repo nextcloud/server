@@ -84,10 +84,10 @@ class PublicKeyTokenProvider implements IProvider {
 		// Generate a (preliminary) new token
 		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
 		/** 
-   		 * TODO (perf): If we pass $password as null above (instead of the actual p/w) I think we can avoid having newToken() encrypt and 
-   		 * hash a password we may yet overwrite... and we can then explicitly call dbToken->setPassword() and dbToken->setPasswordHash() 
-	   	 * below when/if deemed appropriate (as we already do for the latter).
-	   	 */
+   		 * TODO (perf): If we pass $password as null above (instead of the actual p/w) I think we can avoid having newToken() encrypt and
+   		 * hash a password we may yet overwrite... and we can then explicitly call dbToken->setPassword() and dbToken->setPasswordHash()
+		 * below when/if deemed appropriate (as we already do for the latter).
+		 */
 
 		// Set the scope for the new token (if specified)
 		if ($scope !== null) {
@@ -508,10 +508,9 @@ class PublicKeyTokenProvider implements IProvider {
 		int $remember,
 	): PublicKeyToken {
 
-		
 		$storeCrypted = $password !== null
 			&& $this->config->getSystemValueBool('auth.storeCryptedPassword', true);
-		
+
 		// Enforce the maximum password length unless crypted passwords are disabled (or there's no p/w)
 		if ($storeCrypted && strlen($password) > IUserManager::MAX_PASSWORD_LENGTH) {
 			throw new \RuntimeException(
@@ -527,7 +526,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$dbToken->setLoginName($loginName);
 
 		// Handle long passwords (but still <469) that require a larger key size
-		$keySize = $storeCrypted 
+		$keySize = $storeCrypted
 			&& strlen($password) > 250 ? 4096 : 2048; // Bug: Should probably be 214 not 250 given usage of RSAES-OAEP with SHA1
 
 		// IDEA: Consider replacing some of this with sodium_crypto_box_seal / sodium_crypto_box_seal_open
