@@ -8,28 +8,28 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Config;
 
-use NCU\Config\Lexicon\ConfigLexiconEntry;
-use NCU\Config\Lexicon\ConfigLexiconStrictness;
-use NCU\Config\Lexicon\IConfigLexicon;
-use NCU\Config\ValueType;
+use OCP\Config\Lexicon\Entry;
+use OCP\Config\Lexicon\ILexicon;
+use OCP\Config\Lexicon\Strictness;
+use OCP\Config\ValueType;
 
 /**
  * Config Lexicon for files_sharing.
  *
  * Please Add & Manage your Config Keys in that file and keep the Lexicon up to date!
  *
- * {@see IConfigLexicon}
+ * {@see ILexicon}
  */
-class ConfigLexicon implements IConfigLexicon {
+class ConfigLexicon implements ILexicon {
 	public const SHOW_FEDERATED_AS_INTERNAL = 'show_federated_shares_as_internal';
 
-	public function getStrictness(): ConfigLexiconStrictness {
-		return ConfigLexiconStrictness::IGNORE;
+	public function getStrictness(): Strictness {
+		return Strictness::IGNORE;
 	}
 
 	public function getAppConfigs(): array {
 		return [
-			new ConfigLexiconEntry(self::SHOW_FEDERATED_AS_INTERNAL, ValueType::BOOL, false, 'shows federated shares as internal shares', true),
+			new Entry(self::SHOW_FEDERATED_AS_INTERNAL, ValueType::BOOL, false, 'shows federated shares as internal shares', true),
 		];
 	}
 
