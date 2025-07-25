@@ -38,6 +38,12 @@ class GetConfig extends Base {
 				'returns complete details about the app config value'
 			)
 			->addOption(
+				'default-if-none',
+				null,
+				InputOption::VALUE_NONE,
+				'returns default if no value is set'
+			)
+			->addOption(
 				'default-value',
 				null,
 				InputOption::VALUE_OPTIONAL,
@@ -69,10 +75,15 @@ class GetConfig extends Base {
 		try {
 			$configValue = $this->appConfig->getDetails($appName, $configName)['value'];
 		} catch (AppConfigUnknownKeyException $e) {
-			if (!$input->hasParameterOption('--default-value')) {
-				return 1;
+			if ($input->getOption('default-if-none')) {
+				/** @psalm-suppress UndefinedInterfaceMethod */
+				$configValue = $this->appConfig->getValueMixed($appName, $configName, lazy: null);
+			} else {
+				if (!$input->hasParameterOption('--default-value')) {
+					return 1;
+				}
+				$configValue = $defaultValue;
 			}
-			$configValue = $defaultValue;
 		}
 
 		$this->writeMixedInOutputFormat($input, $output, $configValue);
