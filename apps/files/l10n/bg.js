@@ -126,8 +126,6 @@ OC.L10N.register(
     "Additional settings" : "Допълнителни настройки",
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "Копиране в клипборда",
-    "Use this address to access your Files via WebDAV" : "Ползвайте този адрес за достъп до файловете си чрез WebDAV",
-    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Ако сте активирали 2FA, трябва да създадете и използвате нова парола за приложението, като кликнете тук.",
     "Keyboard shortcuts" : "Бързи клавиши",
     "Selection" : "Избор",
     "Navigation" : "Навигация",
@@ -266,6 +264,8 @@ OC.L10N.register(
     "Upload file" : "Качи файл",
     "An error occurred while trying to update the tags" : "Възникна грешка при опита за промяна на етикети",
     "Upload (max. %s)" : "Качи (макс. %s)",
+    "Use this address to access your Files via WebDAV" : "Ползвайте този адрес за достъп до файловете си чрез WebDAV",
+    "If you have enabled 2FA, you must create and use a new app password by clicking here." : "Ако сте активирали 2FA, трябва да създадете и използвате нова парола за приложението, като кликнете тук.",
     "Personal Files" : "Лични файлове",
     "Text file" : "Текстов файл",
     "New text file.txt" : "Текстов файл.txt"
