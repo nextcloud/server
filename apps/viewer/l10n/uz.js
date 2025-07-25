@@ -1,12 +1,13 @@
 OC.L10N.register(
     "viewer",
     {
-    "Cancel" : "Cancel",
+    "Cancel" : "Bekor qilish",
+    "Overwrite" : "ustiga yozish",
     "Edit" : "Tahrirlash",
-    "Download" : "Download",
-    "Delete" : "Delete",
+    "Download" : "Yuklab olish",
+    "Delete" : "O'chirish",
     "Name" : "Name",
-    "Save" : "Save",
+    "Save" : "Saqlash",
     "Back" : "Orqaga",
     "Reset" : "Qayta tiklash",
     "Confirm" : "Confirm",
