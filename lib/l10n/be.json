@@ -1,5 +1,6 @@
 { "translations": {
     "Authentication" : "Аўтэнтыфікацыя",
+    "Unknown filetype" : "Невядомы тып файла",
     "Files" : "Файлы",
     "_%n year ago_::_%n years ago_" : ["%n год таму","%n гады таму","%n гадоў таму","%n гадоў таму"],
     "seconds ago" : "с таму",

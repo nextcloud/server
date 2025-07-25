@@ -108,7 +108,6 @@ OC.L10N.register(
     "Additional settings" : "การตั้งค่าเพิ่มเติม",
     "WebDAV" : "WebDAV",
     "Copy to clipboard" : "คัดลอกไปยังคลิปบอร์ด",
-    "Use this address to access your Files via WebDAV" : "ใช้ที่อยู่นี้เพื่อเข้าถึงไฟล์ของคุณผ่าน WebDAV",
     "Keyboard shortcuts" : "แป้นพิมพ์ลัด",
     "View" : "มุมมอง",
     "Error while loading the file data" : "ข้อผิดพลาดขณะโหลดข้อมูลไฟล์",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "Upload file" : "อัปโหลดไฟล์",
     "An error occurred while trying to update the tags" : "เกิดข้อผิดพลาดขณะกำลังพยายามอัปเดตแท็ก",
     "Upload (max. %s)" : "อัปโหลด (สูงสุด %s)",
+    "Use this address to access your Files via WebDAV" : "ใช้ที่อยู่นี้เพื่อเข้าถึงไฟล์ของคุณผ่าน WebDAV",
     "Text file" : "ไฟล์ข้อความ",
     "New text file.txt" : "ไฟล์ข้อความใหม่.txt"
 },
