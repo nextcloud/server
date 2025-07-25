@@ -83,9 +83,9 @@ class PublicKeyTokenProvider implements IProvider {
 
 		// Generate a (preliminary) new token
 		$dbToken = $this->newToken($token, $uid, $loginName, $password, $name, $type, $remember);
-		/** 
-   		 * TODO (perf): If we pass $password as null above (instead of the actual p/w) I think we can avoid having newToken() encrypt and
-   		 * hash a password we may yet overwrite... and we can then explicitly call dbToken->setPassword() and dbToken->setPasswordHash()
+		/**
+		 * TODO (perf): If we pass $password as null above (instead of the actual p/w) I think we can avoid having newToken() encrypt and
+		 * hash a password we may yet overwrite... and we can then explicitly call dbToken->setPassword() and dbToken->setPasswordHash()
 		 * below when/if deemed appropriate (as we already do for the latter).
 		 */
 
