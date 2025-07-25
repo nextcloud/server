@@ -415,6 +415,11 @@ export default defineComponent({
 					return true
 				}
 
+				if (path === this.currentFile.filename) {
+					// if the path is the same as the current file, we can assume it's the same file
+					return true
+				}
+
 				if (
 					fileInfo && fileInfo.fileid === this.currentFile.fileid
 					&& fileInfo.mtime && fileInfo.mtime === this.currentFile.mtime
@@ -478,12 +483,18 @@ export default defineComponent({
 		},
 
 		files(fileList) {
+			if (!fileList || !Array.isArray(fileList) || fileList.length === 0) {
+				logger.warn('No files provided, skipping update')
+				return
+			}
+
 			// the files list changed, let's update the current opened index
 			const currentIndex = fileList.findIndex(file => file.filename === this.currentFile.filename)
 			if (currentIndex > -1) {
 				this.currentIndex = currentIndex
 				logger.debug('The files list changed, new current file index is ' + currentIndex)
 			}
+
 			// finally replace the fileList
 			this.fileList = fileList
 		},
@@ -619,6 +630,7 @@ export default defineComponent({
 
 			// do not open the same file again
 			if (this.isSameFile(null, path)) {
+				logger.debug('Viewer already opened with the same path, ignoring', { path })
 				return
 			}
 
@@ -673,6 +685,7 @@ export default defineComponent({
 
 			// do not open the same file info again
 			if (this.isSameFile(fileInfo)) {
+				logger.debug('Viewer already opened with the same fileInfo, ignoring', { fileInfo })
 				return
 			}
 
@@ -969,6 +982,8 @@ export default defineComponent({
 		},
 
 		cleanup() {
+			logger.info('Cleaning up viewer')
+
 			// reset all properties
 			this.currentFile = {}
 			this.comparisonFile = null
