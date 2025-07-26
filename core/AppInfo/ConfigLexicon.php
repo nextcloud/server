@@ -20,6 +20,8 @@ use OCP\Config\ValueType;
  */
 class ConfigLexicon implements ILexicon {
 	public const SHAREAPI_ALLOW_FEDERATION_ON_PUBLIC_SHARES = 'shareapi_allow_federation_on_public_shares';
+	public const USER_LANG = 'lang';
+	public const LASTCRON = 'lastcron';
 
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
@@ -34,10 +36,13 @@ class ConfigLexicon implements ILexicon {
 				definition: 'adds share permission to public shares to allow adding them to your Nextcloud (federation)',
 				lazy: true,
 			),
+			new Entry(self::LASTCRON, ValueType::INT, 0, 'timestamp of last cron execution'),
 		];
 	}
 
 	public function getUserConfigs(): array {
-		return [];
+		return [
+			new Entry(self::USER_LANG, ValueType::STRING, null, 'language'),
+		];
 	}
 }
