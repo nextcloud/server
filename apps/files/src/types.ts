@@ -55,6 +55,7 @@ export interface UserConfig {
 	crop_image_previews: boolean
 	default_view: 'files' | 'personal'
 	grid_view: boolean
+	show_files_extensions: boolean
 	show_hidden: boolean
 	show_mime_column: boolean
 	sort_favorites_first: boolean

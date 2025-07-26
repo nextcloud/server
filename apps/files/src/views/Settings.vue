@@ -29,7 +29,6 @@
 					{{ t('files', 'Personal files') }}
 				</NcCheckboxRadioSwitch>
 			</fieldset>
-
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="sort_favorites_first"
 				:checked="userConfig.sort_favorites_first"
 				@update:checked="setConfig('sort_favorites_first', $event)">
@@ -40,6 +39,15 @@
 				@update:checked="setConfig('sort_folders_first', $event)">
 				{{ t('files', 'Sort folders before files') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="folder_tree"
+				:checked="userConfig.folder_tree"
+				@update:checked="setConfig('folder_tree', $event)">
+				{{ t('files', 'Enable folder tree') }}
+			</NcCheckboxRadioSwitch>
+		</NcAppSettingsSection>
+
+		<!-- Visual settings -->
+		<NcAppSettingsSection id="settings" :name="t('files', 'Visual settings')">
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_hidden"
 				:checked="userConfig.show_hidden"
 				@update:checked="setConfig('show_hidden', $event)">
@@ -55,10 +63,10 @@
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="folder_tree"
-				:checked="userConfig.folder_tree"
-				@update:checked="setConfig('folder_tree', $event)">
-				{{ t('files', 'Enable folder tree') }}
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_files_extensions"
+				:checked="userConfig.show_files_extensions"
+				@update:checked="setConfig('show_files_extensions', $event)">
+				{{ t('files', 'Show files extensions') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
