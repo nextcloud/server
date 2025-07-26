@@ -1173,8 +1173,21 @@ class Cache implements ICache {
 			throw new \RuntimeException('Failed to copy to ' . $targetPath . ' from cache with source data ' . json_encode($data) . ' ');
 		}
 		if ($sourceEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
+			if (($sourceEntry instanceof CacheEntry) && isset($sourceEntry['copy_from_storage_permissions'])) {
+				$permissionsToSet = $sourceEntry['copy_from_storage_permissions'];
+			} else {
+				$permissionsToSet = null;
+			}
 			$folderContent = $sourceCache->getFolderContentsById($sourceEntry->getId());
 			foreach ($folderContent as $subEntry) {
+				if ($permissionsToSet !== null) {
+					$perms = $permissionsToSet;
+					if ($subEntry->getMimeType() !== ICacheEntry::DIRECTORY_MIMETYPE) {
+						$perms &= ~\OCP\Constants::PERMISSION_CREATE;
+					}
+					$subEntry['copy_from_storage_permissions'] = $perms;
+					unset($subEntry['scan_permissions']);
+				}
 				$subTargetPath = $targetPath . '/' . $subEntry->getName();
 				$this->copyFromCache($sourceCache, $subEntry, $subTargetPath);
 			}
@@ -1196,9 +1209,14 @@ class Cache implements ICache {
 			'upload_time' => $entry->getUploadTime(),
 			'metadata_etag' => $entry->getMetadataEtag(),
 		];
-		if ($entry instanceof CacheEntry && isset($entry['scan_permissions'])) {
-			$data['permissions'] = $entry['scan_permissions'];
+		if ($entry instanceof CacheEntry) {
+			if (isset($entry['copy_from_storage_permissions'])) {
+				$data['permissions'] = $entry['copy_from_storage_permissions'];
+			} elseif (isset($entry['scan_permissions'])) {
+				$data['permissions'] = $entry['scan_permissions'];
+			}
 		}
+
 		return $data;
 	}
 
