@@ -403,7 +403,10 @@ class Manager implements IManager {
 		}
 
 		if (empty($found)) {
-			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar ' . $principalUri . 'and UID' . $vEvent->{'UID'}->getValue());
+			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar', [
+				'principalUri' => $principalUri,
+				'eventUid' => $vEvent->{'UID'}->getValue(),
+			]);
 			return false;
 		}
 
@@ -518,7 +521,10 @@ class Manager implements IManager {
 		}
 
 		if (empty($found)) {
-			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar ' . $principalUri . 'and UID' . $vEvent->{'UID'}->getValue());
+			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar', [
+				'principalUri' => $principalUri,
+				'eventUid' => $vEvent->{'UID'}->getValue(),
+			]);
 			return false;
 		}
 
