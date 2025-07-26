@@ -127,9 +127,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				$qb->setValue('expiration', $qb->createNamedParameter($expirationDate, 'datetime'));
 			}
 
-			if (method_exists($share, 'getParent')) {
-				$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
-			}
+			$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
 
 			$qb->setValue('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0, IQueryBuilder::PARAM_INT));
 		} else {
@@ -358,13 +356,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $share;
 	}
 
-	/**
-	 * Get all children of this share
-	 * FIXME: remove once https://github.com/owncloud/core/pull/21660 is in
-	 *
-	 * @param \OCP\Share\IShare $parent
-	 * @return \OCP\Share\IShare[]
-	 */
 	public function getChildren(\OCP\Share\IShare $parent) {
 		$children = [];
 

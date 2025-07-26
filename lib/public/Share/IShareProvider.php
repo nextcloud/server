@@ -208,4 +208,13 @@ interface IShareProvider {
 	 * @since 18.0.0
 	 */
 	public function getAllShares(): iterable;
+
+	/**
+	 * Get all children of this share
+	 *
+	 * @param \OCP\Share\IShare $parent
+	 * @return \OCP\Share\IShare[]
+	 * @since 9.0.0
+	 */
+	public function getChildren(\OCP\Share\IShare $parent);
 }
