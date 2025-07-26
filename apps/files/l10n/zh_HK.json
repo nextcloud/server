@@ -207,6 +207,8 @@
     "WebDAV" : "WebDAV",
     "WebDAV URL" : "WebDAV URL",
     "Copy to clipboard" : "複製到剪貼板",
+    "Use this address to access your Files via WebDAV." : "使用此位置透過 WebDAV 存取您的檔案。",
+    "Two-Factor Authentication is enabled for your account, and therefore you need to use an app password to connect an external WebDAV client." : "您的帳號已啟用兩階段驗證，因此您必須使用應用程式密碼才能連結外部 WebDAV 帳號。",
     "Warnings" : "警告",
     "Prevent warning dialogs from open or reenable them." : "避免開啟警告對話框或重新啟用它們。",
     "Show a warning dialog when changing a file extension." : "在變更副檔名時顯示警告對話框。",

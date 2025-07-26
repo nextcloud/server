@@ -207,6 +207,8 @@
     "WebDAV" : "WavutiDAV",
     "WebDAV URL" : "WavutiDAV URL",
     "Copy to clipboard" : "Nakili kwenye ubao wa kunakili",
+    "Use this address to access your Files via WebDAV." : "Tumia anwani hii kufikia Faili zako kupitia WebDAV.",
+    "Two-Factor Authentication is enabled for your account, and therefore you need to use an app password to connect an external WebDAV client." : "Uthibitishaji wa Mambo Mbili umewashwa kwa akaunti yako, na kwa hivyo unahitaji kutumia nenosiri la programu kuunganisha mteja wa nje wa WebDAV.",
     "Warnings" : "Maonyo",
     "Prevent warning dialogs from open or reenable them." : "Zuia mazungumzo ya onyo yasifunguliwe au uwashe upya.",
     "Show a warning dialog when changing a file extension." : "Onyesha mazungumzo ya onyo unapobadilisha kiendelezi cha faili.",
