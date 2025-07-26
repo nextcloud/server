@@ -209,6 +209,8 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "WebDAV URL" : "WebDAV-URL",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
+    "Use this address to access your Files via WebDAV." : "Diese Adresse verwenden, um über WebDAV auf Ihre Dateien zuzugreifen.",
+    "Two-Factor Authentication is enabled for your account, and therefore you need to use an app password to connect an external WebDAV client." : "Für Ihr Konto ist die Zwei-Faktor-Authentifizierung aktiviert. Zur Verbindung eines externen WebDAV-Clients ist daher die Verwendung eines App-Passwortes erforderlich.",
     "Warnings" : "Warnungen",
     "Prevent warning dialogs from open or reenable them." : "Öffnen von Warndialogen verhindern oder diese erneut aktivieren.",
     "Show a warning dialog when changing a file extension." : "Beim Ändern einer Dateierweiterung einen Warndialog anzeigen.",
