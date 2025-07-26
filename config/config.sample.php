@@ -1649,7 +1649,7 @@ $CONFIG = [
  *
  * Defaults to ``none``
  */
-'memcache.local' => '\OC\Memcache\APCu',
+'memcache.local' => '\\OC\\Memcache\\APCu',
 
 /**
  * Memory caching backend for distributed data
@@ -1659,7 +1659,7 @@ $CONFIG = [
  *
  * Defaults to ``none``
  */
-'memcache.distributed' => '\OC\Memcache\Memcached',
+'memcache.distributed' => '\\OC\\Memcache\\Memcached',
 
 /**
  * Connection details for Redis to use for memory caching in a single server configuration.
