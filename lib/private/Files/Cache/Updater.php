@@ -277,10 +277,10 @@ class Updater implements IUpdater {
 		$parent = dirname($internalPath);
 		if ($parentId != -1) {
 			$mtime = $this->storage->filemtime($parent);
-            $now = time();
-            if ($mtime !== false && $mtime > $now) {
-                $mtime = $now;
-            }
+			$now = time();
+			if ($mtime !== false && $mtime > $now) {
+				$mtime = $now;
+			}
 			if ($mtime !== false) {
 				try {
 					$this->cache->update($parentId, ['storage_mtime' => $mtime]);
