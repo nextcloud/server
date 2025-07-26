@@ -158,7 +158,7 @@ class ConfigLexiconEntry {
 	 * @psalm-suppress DeprecatedClass
 	 * @psalm-suppress DeprecatedMethod
 	 */
-	public function getDefault(Preset $preset): ?string {
+	public function getDefault(Preset $preset, ?bool &$saveIt = null): ?string {
 		if ($this->default !== null) {
 			return $this->default;
 		}
@@ -167,9 +167,10 @@ class ConfigLexiconEntry {
 			return null;
 		}
 
+		$saveIt = false;
 		if ($this->defaultRaw instanceof Closure) {
 			/** @psalm-suppress MixedAssignment we expect closure to returns string|int|float|bool|array */
-			$this->defaultRaw = ($this->defaultRaw)($preset);
+			$this->defaultRaw = ($this->defaultRaw)($preset, $saveIt);
 		}
 
 		/** @psalm-suppress MixedArgument closure should be managed previously */
