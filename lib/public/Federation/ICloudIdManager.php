@@ -8,11 +8,14 @@ declare(strict_types=1);
  */
 namespace OCP\Federation;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Interface for resolving federated cloud ids
  *
  * @since 12.0.0
  */
+#[Consumable(since: '12.0.0')]
 interface ICloudIdManager {
 	/**
 	 * @param string $cloudId
@@ -55,4 +58,28 @@ interface ICloudIdManager {
 	 * @since 30.0.0 - Optional parameter $httpsOnly was added
 	 */
 	public function removeProtocolFromUrl(string $url, bool $httpsOnly = false): string;
+
+	/**
+	 * @param string $id The remote cloud id
+	 * @param string $user The user id on the remote server
+	 * @param string $remote The base address of the remote server
+	 * @param ?string $displayName The displayname of the remote user
+	 *
+	 * @since 32.0.0
+	 */
+	public function createCloudId(string $id, string $user, string $remote, ?string $displayName = null): ICloudId;
+
+	/**
+	 * @param $resolver The cloud id resolver to register
+	 *
+	 * @since 32.0.0
+	 */
+	public function registerCloudIdResolver(ICloudIdResolver $resolver): void;
+
+	/**
+	 * @param $resolver The cloud id resolver to unregister
+	 *
+	 * @since 32.0.0
+	 */
+	public function unregisterCloudIdResolver(ICloudIdResolver $resolver): void;
 }

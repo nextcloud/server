@@ -74,11 +74,11 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->addressHandler = $this->createMock(AddressHandler::class);
 		$this->contactsManager = $this->createMock(IContactsManager::class);
 		$this->cloudIdManager = new CloudIdManager(
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->userManager,
-			$this->createMock(ICacheFactory::class),
-			$this->createMock(IEventDispatcher::class)
 		);
 		$this->gsConfig = $this->createMock(\OCP\GlobalScale\IConfig::class);
 

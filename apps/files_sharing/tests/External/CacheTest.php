@@ -54,11 +54,11 @@ class CacheTest extends TestCase {
 		$this->contactsManager = $this->createMock(IManager::class);
 
 		$this->cloudIdManager = new CloudIdManager(
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->createMock(IUserManager::class),
-			$this->createMock(ICacheFactory::class),
-			$this->createMock(IEventDispatcher::class)
 		);
 		$this->remoteUser = $this->getUniqueID('remoteuser');
 

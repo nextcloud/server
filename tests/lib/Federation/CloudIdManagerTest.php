@@ -47,11 +47,11 @@ class CloudIdManagerTest extends TestCase {
 			->willReturn(new ArrayCache(''));
 
 		$this->cloudIdManager = new CloudIdManager(
+			$this->cacheFactory,
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->urlGenerator,
 			$this->userManager,
-			$this->cacheFactory,
-			$this->createMock(IEventDispatcher::class)
 		);
 		$this->overwriteService(ICloudIdManager::class, $this->cloudIdManager);
 	}
