@@ -207,6 +207,8 @@
     "WebDAV" : "WebDAV",
     "WebDAV URL" : "WebDAV-i võrguaadress",
     "Copy to clipboard" : "Kopeeri lõikelauale",
+    "Use this address to access your Files via WebDAV." : "Oma failidele WebDAV-i kaudu ligipääsemiseks kasuta seda aadressi.",
+    "Two-Factor Authentication is enabled for your account, and therefore you need to use an app password to connect an external WebDAV client." : "Kaheastmeline autentimine on sellel kontol kasutusel ja seega pead välise WebDAV-i kliendi jaoks kasutama rakenduse salasõna.",
     "Warnings" : "Hoiatused",
     "Prevent warning dialogs from open or reenable them." : "Ära kasuta hoiatusteateid nende avamisel või uuesti kasutusele võtmisel.",
     "Show a warning dialog when changing a file extension." : "Faililaiendi muutmisel näita hoiatust.",

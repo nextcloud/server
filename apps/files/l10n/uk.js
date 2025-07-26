@@ -209,6 +209,8 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "WebDAV URL" : "URL-адреса WebDAV",
     "Copy to clipboard" : "Копіювати до буферу обміну",
+    "Use this address to access your Files via WebDAV." : "Використовуйте цю адресу для доступу до ваших файлів за допомогою WebDAV.",
+    "Two-Factor Authentication is enabled for your account, and therefore you need to use an app password to connect an external WebDAV client." : "Для вашого облікового запису увімкнено двофакторну авторизацію, таким чином вам потрібно буде використовувати пароль для застосунку для з'єднання із зовнішнім клієнтом WebDAV.",
     "Warnings" : "Застереження",
     "Prevent warning dialogs from open or reenable them." : "Не дозволяти показувати діялоги застережень або повторно увімкнути їх.",
     "Show a warning dialog when changing a file extension." : "Показувати діялог застереження у разі зміни розширення файлу.",
