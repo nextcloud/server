@@ -35,6 +35,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use PHPUnit\Framework\MockObject\MockObject;
+use Test\Traits\EmailValidatorTrait;
 
 /**
  * @group DB
@@ -42,6 +43,8 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @package Tests\Settings\Controller
  */
 class UsersControllerTest extends \Test\TestCase {
+	use EmailValidatorTrait;
+
 	private IGroupManager&MockObject $groupManager;
 	private UserManager&MockObject $userManager;
 	private IUserSession&MockObject $userSession;
@@ -108,7 +111,7 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->userSession,
 				$this->config,
 				$this->l,
-				$this->mailer,
+				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->l10nFactory,
 				$this->appManager,
 				$this->accountManager,
@@ -130,7 +133,7 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->userSession,
 						$this->config,
 						$this->l,
-						$this->mailer,
+						$this->getEmailValidatorWithStrictEmailCheck(),
 						$this->l10nFactory,
 						$this->appManager,
 						$this->accountManager,
@@ -242,11 +245,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$user->method('getUID')->willReturn('johndoe');
 
 		$this->userSession->method('getUser')->willReturn($user);
-
-		if (!empty($email) && $validEmail) {
-			$this->mailer->expects($this->once())->method('validateMailAddress')
-				->willReturn($validEmail);
-		}
 
 		$saveData = (!empty($email) && $validEmail) || empty($email);
 
@@ -373,9 +371,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('federatedfilesharing')
 			->willReturn(true);
 
-		$this->mailer->expects($this->once())->method('validateMailAddress')
-			->willReturn(true);
-
 		$controller->expects($this->once())
 			->method('saveUserSettings');
 
@@ -464,9 +459,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$expectedProperties[IAccountManager::PROPERTY_BIRTHDATE]['scope'] = $birthdateScope;
 		$expectedProperties[IAccountManager::PROPERTY_PRONOUNS]['value'] = $pronouns;
 		$expectedProperties[IAccountManager::PROPERTY_PRONOUNS]['scope'] = $pronounsScope;
-
-		$this->mailer->expects($this->once())->method('validateMailAddress')
-			->willReturn(true);
 
 		$controller->expects($this->once())
 			->method('saveUserSettings')
@@ -580,11 +572,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$expectedProperties[$propertyId]->expects($this->any())
 			->method($isScope ? 'getScope' : 'getValue')
 			->willReturn($propertyValue);
-
-		if (!empty($email)) {
-			$this->mailer->expects($this->once())->method('validateMailAddress')
-				->willReturn(true);
-		}
 
 		$controller->expects($this->once())
 			->method('saveUserSettings')

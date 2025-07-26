@@ -54,6 +54,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
@@ -100,6 +101,7 @@ class ShareAPIController extends OCSController {
 		private IProviderFactory $factory,
 		private IMailer $mailer,
 		private ITagManager $tagManager,
+		private IEmailValidator $emailValidator,
 		private ?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
@@ -717,7 +719,7 @@ class ShareAPIController extends OCSController {
 			// Only share by mail have a recipient
 			if (is_string($shareWith) && $shareType === IShare::TYPE_EMAIL) {
 				// If sending a mail have been requested, validate the mail address
-				if ($share->getMailSend() && !$this->mailer->validateMailAddress($shareWith)) {
+				if ($share->getMailSend() && !$this->emailValidator->isValid($shareWith)) {
 					throw new OCSNotFoundException($this->l->t('Please specify a valid email address'));
 				}
 				$share->setSharedWith($shareWith);

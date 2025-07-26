@@ -25,6 +25,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
@@ -70,6 +71,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		private IHasher $hasher,
 		private IEventDispatcher $eventDispatcher,
 		private IShareManager $shareManager,
+		private IEmailValidator $emailValidator,
 	) {
 	}
 
@@ -246,7 +248,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		$emails = $this->getSharedWithEmails($share);
 		$validEmails = array_filter($emails, function (string $email) {
-			return $this->mailer->validateMailAddress($email);
+			return $this->emailValidator->isValid($email);
 		});
 
 		if (count($validEmails) === 0) {
@@ -727,7 +729,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 								|| ($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()))) {
 			$emails = $this->getSharedWithEmails($share);
 			$validEmails = array_filter($emails, function ($email) {
-				return $this->mailer->validateMailAddress($email);
+				return $this->emailValidator->isValid($email);
 			});
 			$this->sendPassword($share, $plainTextPassword, $validEmails);
 		}

@@ -19,6 +19,7 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Mail\Events\BeforeMessageSent;
+use OCP\Mail\IEmailValidator;
 use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -61,7 +62,8 @@ class MailerTest extends TestCase {
 			$this->urlGenerator,
 			$this->l10n,
 			$this->dispatcher,
-			$this->createMock(IFactory::class)
+			$this->createMock(IFactory::class),
+			$this->createMock(IEmailValidator::class),
 		);
 	}
 
@@ -181,7 +183,8 @@ class MailerTest extends TestCase {
 					$this->urlGenerator,
 					$this->l10n,
 					$this->dispatcher,
-					$this->createMock(IFactory::class)
+					$this->createMock(IFactory::class),
+					$this->createMock(IEmailValidator::class),
 				]
 			)
 			->getMock();
@@ -224,33 +227,6 @@ class MailerTest extends TestCase {
 			->willReturn(new Email());
 
 		$this->mailer->send($message);
-	}
-
-	/**
-	 * @return array
-	 */
-	public static function mailAddressProvider(): array {
-		return [
-			['lukas@owncloud.com', true, false],
-			['lukas@localhost', true, false],
-			['lukas@192.168.1.1', true, false],
-			['lukas@éxämplè.com', true, false],
-			['asdf', false, false],
-			['', false, false],
-			['lukas@owncloud.org@owncloud.com', false, false],
-			['test@localhost', true, false],
-			['test@localhost', false, true],
-		];
-	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider('mailAddressProvider')]
-	public function testValidateMailAddress($email, $expected, $strict): void {
-		$this->config
-			->expects($this->atMost(1))
-			->method('getAppValue')
-			->with('core', 'enforce_strict_email_check')
-			->willReturn($strict ? 'yes' : 'no');
-		$this->assertSame($expected, $this->mailer->validateMailAddress($email));
 	}
 
 	public function testCreateEMailTemplate(): void {
