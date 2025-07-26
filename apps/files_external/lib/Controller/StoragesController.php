@@ -140,7 +140,7 @@ abstract class StoragesController extends Controller {
 		$backend = $storage->getBackend();
 		/** @var AuthMechanism */
 		$authMechanism = $storage->getAuthMechanism();
-		if ($backend->checkDependencies()) {
+		if ($backend->checkRequiredDependencies()) {
 			// invalid backend
 			return new DataResponse(
 				[
