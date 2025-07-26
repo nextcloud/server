@@ -54,14 +54,11 @@ export class Directory extends File {
 	 * @param directory the directory to traverse
 	 */
 	_computeDirectoryMtime(directory: Directory): number {
+		const now = Date.now();
 		return directory.contents.reduce((acc, file) => {
-			return file.lastModified > acc
-				// If the file is a directory, the lastModified will
-				// also return the results of its _computeDirectoryMtime method
-				// Fancy recursion, huh?
-				? file.lastModified
-				: acc
-		}, 0)
+			const m = Math.min(file.lastModified, now);
+			return m > acc ? m : acc;
+ 		}, 0);
 	}
 
 	/**
