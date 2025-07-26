@@ -19,6 +19,7 @@ use OC\Repair\CleanUpAbandonedApps;
 use OC\Repair\ClearFrontendCaches;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
+use OC\Repair\DeduplicateMounts;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -214,6 +215,7 @@ class Repair implements IOutput {
 				\OCP\Server::get(IDBConnection::class)
 			),
 			\OCP\Server::get(DeleteSchedulingObjects::class),
+			\OCP\Server::get(DeduplicateMounts::class),
 		];
 	}
 
