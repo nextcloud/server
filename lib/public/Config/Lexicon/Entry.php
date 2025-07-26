@@ -22,7 +22,7 @@ class Entry {
 	/** @since 32.0.0 */
 	public const RENAME_INVERT_BOOLEAN = 1;
 
-	private string $definition = '';
+	private array|string $definition = '';
 	private ?string $default = null;
 
 	/**
@@ -42,7 +42,7 @@ class Entry {
 		private readonly string $key,
 		private readonly ValueType $type,
 		private null|string|int|float|bool|array|Closure $defaultRaw = null,
-		string $definition = '',
+		string|array $definition = '',
 		private readonly bool $lazy = false,
 		private readonly int $flags = 0,
 		private readonly bool $deprecated = false,
@@ -184,7 +184,31 @@ class Entry {
 	 * @since 32.0.0
 	 */
 	public function getDefinition(): string {
-		return $this->definition;
+		if (is_string($this->definition)) {
+			return $this->definition;
+		}
+
+		return (string)($this->definition['definition'] ?? '');
+	}
+
+	/**
+	 * returns eventual note
+	 *
+	 * @return string
+	 * @since 32.0.0
+	 */
+	public function getNote(): string {
+		return (string)($this->definition['note'] ?? '');
+	}
+
+	/**
+	 * returns eventual warning
+	 *
+	 * @return string
+	 * @since 32.0.0
+	 */
+	public function getWarning(): string {
+		return (string)($this->definition['warning'] ?? '');
 	}
 
 	/**

@@ -7,6 +7,7 @@
  */
 namespace OC\Share20;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Mount\MoveableMount;
 use OC\KnownUser\KnownUserService;
 use OC\Share20\Exception\ProviderException;
@@ -1937,7 +1938,7 @@ class Manager implements IManager {
 	}
 
 	public function allowCustomTokens(): bool {
-		return $this->appConfig->getValueBool('core', 'shareapi_allow_custom_tokens', false);
+		return $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_CUSTOM_TOKEN);
 	}
 
 	public function allowViewWithoutDownload(): bool {
