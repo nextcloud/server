@@ -15,6 +15,7 @@ use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Deck\Sharing\ShareAPIHelper;
+use OCA\Federation\TrustedServers;
 use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
@@ -76,6 +77,7 @@ use Psr\Log\LoggerInterface;
 class ShareAPIController extends OCSController {
 
 	private ?Node $lockedNode = null;
+	private array $trustedServerCache = [];
 
 	/**
 	 * Share20OCS constructor.
@@ -100,6 +102,7 @@ class ShareAPIController extends OCSController {
 		private IProviderFactory $factory,
 		private IMailer $mailer,
 		private ITagManager $tagManager,
+		private ?TrustedServers $trustedServers,
 		private ?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
@@ -201,6 +204,32 @@ class ShareAPIController extends OCSController {
 		$result['file_target'] = $share->getTarget();
 		$result['item_size'] = $node->getSize();
 		$result['item_mtime'] = $node->getMTime();
+
+		if ($this->trustedServers !== null && in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], true)) {
+			$result['is_trusted_server'] = false;
+			$sharedWith = $share->getSharedWith();
+			$remoteIdentifier = is_string($sharedWith) ? strrchr($sharedWith, '@') : false;
+			if ($remoteIdentifier !== false) {
+				$remote = substr($remoteIdentifier, 1);
+
+				if (isset($this->trustedServerCache[$remote])) {
+					$result['is_trusted_server'] = $this->trustedServerCache[$remote];
+				} else {
+					try {
+						$isTrusted = $this->trustedServers->isTrustedServer($remote);
+						$this->trustedServerCache[$remote] = $isTrusted;
+						$result['is_trusted_server'] = $isTrusted;
+					} catch (\Exception $e) {
+						// Server not found or other issue, we consider it not trusted
+						$this->trustedServerCache[$remote] = false;
+						$this->logger->error(
+							'Error checking if remote server is trusted (treating as untrusted): ' . $e->getMessage(),
+							['exception' => $e]
+						);
+					}
+				}
+			}
+		}
 
 		$expiration = $share->getExpirationDate();
 		if ($expiration !== null) {

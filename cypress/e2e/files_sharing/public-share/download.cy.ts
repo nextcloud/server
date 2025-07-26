@@ -212,8 +212,6 @@ describe('files_sharing: Public share - downloading files', { testIsolation: tru
 
 			cy.reload()
 
-			getRowForFile('test').should('be.visible')
-			triggerActionForFile('test', 'details')
 			openLinkShareDetails(0)
 			cy.findByRole('checkbox', { name: /hide download/i })
 				.should('be.checked')
@@ -257,7 +255,7 @@ describe('files_sharing: Public share - downloading files', { testIsolation: tru
 
 			cy.wait('@update')
 
-			openLinkShareDetails(1)
+			openLinkShareDetails(0)
 			cy.findByRole('button', { name: /advanced settings/i })
 				.click()
 			cy.findByRole('checkbox', { name: /hide download/i })
