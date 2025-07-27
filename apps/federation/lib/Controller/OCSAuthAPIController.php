@@ -9,6 +9,7 @@ namespace OCA\Federation\Controller;
 
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
+use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -109,6 +110,9 @@ class OCSAuthAPIController extends OCSController {
 			$this->logger->info(
 				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.'
 			);
+
+			$this->addRequestSharedSecretJobIfNeeded($url, $localToken);
+
 			throw new OCSForbiddenException();
 		}
 
@@ -122,6 +126,50 @@ class OCSAuthAPIController extends OCSController {
 		);
 
 		return new DataResponse();
+	}
+
+	/**
+	 * Adds a RequestSharedSecret job for the given URL if it does not exist.
+	 *
+	 * @param string $url the URL to add the job for.
+	 * @param string $token the local token for the trusted server URL.
+	 */
+	private function addRequestSharedSecretJobIfNeeded(string $url, string $token) {
+		if ($this->hasRequestSharedSecretJobFor($url)) {
+			return;
+		}
+
+		$this->logger->info(
+			'No RequestSharedSecret job for ' . $url . ', a new one will be added to initiate the exchange of the shared secret.'
+		);
+
+		$this->jobList->add(
+			RequestSharedSecret::class,
+			[
+				'url' => $url,
+				'token' => $token,
+				'created' => $this->timeFactory->getTime()
+			]
+		);
+	}
+
+	/**
+	 * Returns whether there is a RequestSharedSecret job for the given URL or
+	 * not.
+	 *
+	 * Other arguments of the job are not taken into account.
+	 *
+	 * @param string $url the URL to check if there is a job for it.
+	 * @return bool True if there is a job, false otherwise.
+	 */
+	private function hasRequestSharedSecretJobFor(string $url) {
+		foreach ($this->jobList->getJobsIterator(RequestSharedSecret::class, null, 0) as $job) {
+			if (is_array($job->getArgument()) && strcmp($job->getArgument()['url'], $url) === 0) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
