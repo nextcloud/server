@@ -23,26 +23,26 @@
 
 		<p class="social-button">
 			{{ t('federatedfilesharing', 'Share it so your friends can share files with you:') }}<br>
-			<NcButton @click="goTo(shareFacebookUrl)">
+			<NcButton :href ="shareFacebookUrl">
 				{{ t('federatedfilesharing', 'Facebook') }}
 				<template #icon>
 					<img class="social-button__icon social-button__icon--bright" :src="urlFacebookIcon">
 				</template>
 			</NcButton>
 			<NcButton :aria-label="t('federatedfilesharing', 'X (formerly Twitter)')"
-				@click="goTo(shareXUrl)">
+				:href="shareXUrl">
 				{{ t('federatedfilesharing', 'formerly Twitter') }}
 				<template #icon>
 					<img class="social-button__icon" :src="urlXIcon">
 				</template>
 			</NcButton>
-			<NcButton @click="goTo(shareMastodonUrl)">
+			<NcButton :href="shareMastodonUrl">
 				{{ t('federatedfilesharing', 'Mastodon') }}
 				<template #icon>
 					<img class="social-button__icon" :src="urlMastodonIcon">
 				</template>
 			</NcButton>
-			<NcButton @click="goTo(shareBlueSkyUrl)">
+			<NcButton :href="shareBlueSkyUrl">
 				{{ t('federatedfilesharing', 'Bluesky') }}
 				<template #icon>
 					<img class="social-button__icon" :src="urlBlueSkyIcon">
@@ -138,7 +138,7 @@ export default {
 			return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.reference)}`
 		},
 		shareBlueSkyUrl() {
-			return `https://bsky.app/compose?text=${encodeURIComponent(this.messageWithURL)}`
+			return `https://bsky.app/intent/compose?text=${encodeURIComponent(this.messageWithURL)}`
 		},
 		logoPathAbsolute() {
 			return window.location.protocol + '//' + window.location.host + this.logoPath
@@ -186,7 +186,7 @@ export default {
 	.social-button {
 		margin-top: 0.5rem;
 
-		button {
+		button, a {
 			display: inline-flex;
 			margin-inline-start: 0.5rem;
 			margin-top: 1rem;

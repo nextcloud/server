@@ -153,6 +153,7 @@
                     "role",
                     "subadmin",
                     "twitter",
+                    "bsky",
                     "website"
                 ],
                 "properties": {
@@ -312,6 +313,12 @@
                         "type": "string"
                     },
                     "twitterScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "bsky": {
+                        "type": "string"
+                    },
+                    "bskyScope": {
                         "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "website": {

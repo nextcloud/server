@@ -3514,6 +3514,7 @@
                     "role",
                     "subadmin",
                     "twitter",
+                    "bsky",
                     "website"
                 ],
                 "properties": {
@@ -3673,6 +3674,12 @@
                         "type": "string"
                     },
                     "twitterScope": {
+                        "$ref": "#/components/schemas/ProvisioningApiUserDetailsScope"
+                    },
+                    "bsky": {
+                        "type": "string"
+                    },
+                    "bskyScope": {
                         "$ref": "#/components/schemas/ProvisioningApiUserDetailsScope"
                     },
                     "website": {

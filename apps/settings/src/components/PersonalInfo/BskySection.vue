@@ -25,10 +25,20 @@ const value = ref({ ...bsky })
 const readable = NAME_READABLE_ENUM[bsky.name]
 
 /**
- * Validate that the text might be a twitter handle
- * @param text The potential twitter handle
+ * Validate that the text might be a bluesky handle
+ * @param text The potential bluesky handle
  */
+
 function onValidate(text: string): boolean {
-	return text === '' || text.match(/^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/) !== null
+	if (text === '') return true;
+
+	const validateRegex = /^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/;
+	if (!validateRegex.test(text)) return false;
+
+	const firstLabel = text.split('.')[0];
+	if (firstLabel.length <= 2 || firstLabel.length >= 19 || text.length >= 254) return false;
+
+	// Must start and end with alphanumeric, only allow letters, numbers, hyphens
+	return /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i.test(firstLabel);
 }
 </script>

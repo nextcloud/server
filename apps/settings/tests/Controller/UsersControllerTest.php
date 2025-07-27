@@ -204,7 +204,7 @@ class UsersControllerTest extends \Test\TestCase {
 			),
 			IAccountManager::PROPERTY_BSKY => $this->buildPropertyMock(
 				IAccountManager::PROPERTY_BSKY,
-				'Default twitter',
+				'Default bsky',
 				IAccountManager::SCOPE_LOCAL,
 			),
 			IAccountManager::PROPERTY_FEDIVERSE => $this->buildPropertyMock(

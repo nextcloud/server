@@ -721,15 +721,36 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
+	private function validateBlueSkyHandle(string $text): bool {
+		if ($text === '') {
+			return true;
+		}
+
+		$validateRegex = '/^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/';
+		if (!preg_match($validateRegex, $text)) {
+			return false;
+		}
+
+		// Extract first label (before the first dot)
+		$parts = explode('.', $text);
+		$firstLabel = $parts[0];
+
+		if (strlen($firstLabel) <= 2 || strlen($firstLabel) >= 19 || strlen($text) >= 254) {
+			return false;
+		}
+
+		// First label must start and end with alphanumeric, only allow alphanumerics and hyphens
+		return preg_match('/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i', $firstLabel) === 1;
+	}
+
+
 	private function sanitizePropertyBsky(IAccountProperty $property): void {
 		if ($property->getName() === self::PROPERTY_BSKY) {
-			$matches = [];
-
-			if (preg_match('/^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/', $property->getValue(), $matches) !== 1) {
+			if (!$this->validateBlueSkyHandle($property->getValue())) {
 				throw new InvalidArgumentException(self::PROPERTY_BSKY);
 			}
 
-			$property->setValue($matches[0]);
+			$property->setValue($property->getValue());
 		}
 	}
 
