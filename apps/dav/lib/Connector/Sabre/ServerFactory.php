@@ -184,7 +184,7 @@ class ServerFactory {
 					!$this->config->getSystemValue('debug', false)
 				)
 			);
-			$server->addPlugin(new QuotaPlugin($view, true));
+			$server->addPlugin(new QuotaPlugin($view));
 			$server->addPlugin(new ChecksumUpdatePlugin());
 
 			// Allow view-only plugin for webdav requests
