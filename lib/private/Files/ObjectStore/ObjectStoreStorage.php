@@ -482,6 +482,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$metadata = [
 			'mimetype' => $mimetype,
 		];
+		if ($size) {
+			$metadata['size'] = $size;
+		}
 
 		$stat['mimetype'] = $mimetype;
 		$stat['etag'] = $this->getETag($path);
