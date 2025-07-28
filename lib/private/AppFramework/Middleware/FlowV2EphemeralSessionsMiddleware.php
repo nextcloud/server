@@ -15,6 +15,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Middleware;
 use OCP\ISession;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 // Will close the session if the user session is ephemeral.
@@ -24,6 +25,7 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 		private ISession $session,
 		private IUserSession $userSession,
 		private ControllerMethodReflector $reflector,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -52,6 +54,10 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 			return;
 		}
 
+		$this->logger->info('Closing user and PHP session for ephemeral session', [
+			'controller' => $controller::class,
+			'method' => $methodName,
+		]);
 		$this->userSession->logout();
 		$this->session->close();
 	}
