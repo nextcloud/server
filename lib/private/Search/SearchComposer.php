@@ -118,7 +118,7 @@ class SearchComposer {
 			}
 		}
 
-		$this->providers = $this->filterProviders($this->providers);
+		$this->filterProviders();
 
 		$this->loadFilters();
 	}
@@ -211,19 +211,21 @@ class SearchComposer {
 
 	/**
 	 * Filter providers based on 'unified_search.providers_allowed' core app config array
-	 * @param array $providers
-	 * @return array
+	 * Will remove providers that are not in the allowed list
 	 */
-	private function filterProviders(array $providers): array {
+	private function filterProviders(): void {
 		$allowedProviders = $this->appConfig->getValueArray('core', 'unified_search.providers_allowed');
 
 		if (empty($allowedProviders)) {
-			return $providers;
+			return;
 		}
 
-		return array_values(array_filter($providers, function ($p) use ($allowedProviders) {
-			return in_array($p['id'], $allowedProviders);
-		}));
+		foreach (array_keys($this->providers) as $providerId) {
+			if (!in_array($providerId, $allowedProviders, true)) {
+				unset($this->providers[$providerId]);
+				unset($this->handlers[$providerId]);
+			}
+		}
 	}
 
 	private function fetchIcon(string $appId, string $providerId): string {
