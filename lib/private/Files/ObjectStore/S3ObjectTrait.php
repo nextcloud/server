@@ -6,6 +6,8 @@
  */
 namespace OC\Files\ObjectStore;
 
+use Aws\Command;
+use Aws\Exception\MultipartUploadException;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartCopy;
 use Aws\S3\MultipartUploader;
@@ -96,7 +98,9 @@ trait S3ObjectTrait {
 	protected function writeSingle(string $urn, StreamInterface $stream, array $metaData): void {
 		$mimetype = $metaData['mimetype'] ?? null;
 		unset($metaData['mimetype']);
-		$this->getConnection()->putObject([
+		unset($metaData['size']);
+
+		$args = [
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
 			'Body' => $stream,
@@ -104,7 +108,13 @@ trait S3ObjectTrait {
 			'ContentType' => $mimetype,
 			'Metadata' => $this->buildS3Metadata($metaData),
 			'StorageClass' => $this->storageClass,
-		] + $this->getSSECParameters());
+		] + $this->getSSECParameters();
+
+		if ($size = $stream->getSize()) {
+			$args['ContentLength'] = $size;
+		}
+
+		$this->getConnection()->putObject($args);
 	}
 
 
@@ -119,12 +129,15 @@ trait S3ObjectTrait {
 	protected function writeMultiPart(string $urn, StreamInterface $stream, array $metaData): void {
 		$mimetype = $metaData['mimetype'] ?? null;
 		unset($metaData['mimetype']);
+		unset($metaData['size']);
 
 		$attempts = 0;
 		$uploaded = false;
 		$concurrency = $this->concurrency;
 		$exception = null;
 		$state = null;
+		$size = $stream->getSize();
+		$totalWritten = 0;
 
 		// retry multipart upload once with concurrency at half on failure
 		while (!$uploaded && $attempts <= 1) {
@@ -139,6 +152,15 @@ trait S3ObjectTrait {
 					'Metadata' => $this->buildS3Metadata($metaData),
 					'StorageClass' => $this->storageClass,
 				] + $this->getSSECParameters(),
+				'before_upload' => function (Command $command) use (&$totalWritten) {
+					$totalWritten += $command['ContentLength'];
+				},
+				'before_complete' => function ($_command) use (&$totalWritten, $size, &$uploader, &$attempts) {
+					if ($size !== null && $totalWritten != $size) {
+						$e = new \Exception('Incomplete multi part upload, expected ' . $size . ' bytes, wrote ' . $totalWritten);
+						throw new MultipartUploadException($uploader->getState(), $e);
+					}
+				},
 			]);
 
 			try {
@@ -155,6 +177,9 @@ trait S3ObjectTrait {
 				if ($stream->isSeekable()) {
 					$stream->rewind();
 				}
+			} catch (MultipartUploadException $e) {
+				$exception = $e;
+				break;
 			}
 		}
 
@@ -180,7 +205,9 @@ trait S3ObjectTrait {
 
 	public function writeObjectWithMetaData(string $urn, $stream, array $metaData): void {
 		$canSeek = fseek($stream, 0, SEEK_CUR) === 0;
-		$psrStream = Utils::streamFor($stream);
+		$psrStream = Utils::streamFor($stream, [
+			'size' => $metaData['size'] ?? null,
+		]);
 
 
 		$size = $psrStream->getSize();

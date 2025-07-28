@@ -204,6 +204,9 @@ class File extends Node implements IFile {
 				}
 			}
 
+			$lengthHeader = $this->request->getHeader('content-length');
+			$expected = $lengthHeader !== '' ? (int)$lengthHeader : null;
+
 			if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
 				$isEOF = false;
 				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF): void {
@@ -215,7 +218,7 @@ class File extends Node implements IFile {
 					$count = -1;
 					try {
 						/** @var IWriteStreamStorage $partStorage */
-						$count = $partStorage->writeStream($internalPartPath, $wrappedData);
+						$count = $partStorage->writeStream($internalPartPath, $wrappedData, $expected);
 					} catch (GenericFileException $e) {
 						$logger = Server::get(LoggerInterface::class);
 						$logger->error('Error while writing stream to storage: ' . $e->getMessage(), ['exception' => $e, 'app' => 'webdav']);
@@ -235,10 +238,7 @@ class File extends Node implements IFile {
 				[$count, $result] = Files::streamCopy($data, $target, true);
 				fclose($target);
 			}
-
-			$lengthHeader = $this->request->getHeader('content-length');
-			$expected = $lengthHeader !== '' ? (int)$lengthHeader : -1;
-			if ($result === false && $expected >= 0) {
+			if ($result === false && $expected !== null) {
 				throw new Exception(
 					$this->l10n->t(
 						'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
@@ -253,7 +253,7 @@ class File extends Node implements IFile {
 			// if content length is sent by client:
 			// double check if the file was fully received
 			// compare expected and actual size
-			if ($expected >= 0
+			if ($expected !== null
 				&& $expected !== $count
 				&& $this->request->getMethod() === 'PUT'
 			) {
