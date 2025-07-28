@@ -30,7 +30,7 @@
 		<span class="files-list__row-name-text" dir="auto">
 			<!-- Keep the filename stuck to the extension to avoid whitespace rendering issues-->
 			<span class="files-list__row-name-" v-text="basename" />
-			<span class="files-list__row-name-ext" v-text="extension" />
+			<span v-if="userConfigStore.userConfig.show_files_extensions" class="files-list__row-name-ext" v-text="extension" />
 		</span>
 	</component>
 </template>
@@ -46,11 +46,12 @@ import { defineComponent, inject } from 'vue'
 
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
-import { useNavigation } from '../../composables/useNavigation'
-import { useFileListWidth } from '../../composables/useFileListWidth.ts'
-import { useRouteParameters } from '../../composables/useRouteParameters.ts'
-import { useRenamingStore } from '../../store/renaming.ts'
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
+import { useFileListWidth } from '../../composables/useFileListWidth.ts'
+import { useNavigation } from '../../composables/useNavigation.ts'
+import { useRenamingStore } from '../../store/renaming.ts'
+import { useRouteParameters } from '../../composables/useRouteParameters.ts'
+import { useUserConfigStore } from '../../store/userconfig.ts'
 import logger from '../../logger.ts'
 
 export default defineComponent({
@@ -95,6 +96,7 @@ export default defineComponent({
 		const { directory } = useRouteParameters()
 		const filesListWidth = useFileListWidth()
 		const renamingStore = useRenamingStore()
+		const userConfigStore = useUserConfigStore()
 
 		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
 
@@ -105,6 +107,7 @@ export default defineComponent({
 			filesListWidth,
 
 			renamingStore,
+			userConfigStore,
 		}
 	},
 
