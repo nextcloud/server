@@ -207,6 +207,8 @@
     "WebDAV" : "WebDAV",
     "WebDAV URL" : "URL WebDAV",
     "Copy to clipboard" : "Copia negli appunti",
+    "Use this address to access your Files via WebDAV." : "Utilizza questo indirizzo per accedere ai tuoi file tramite WebDAV.",
+    "Two-Factor Authentication is enabled for your account, and therefore you need to use an app password to connect an external WebDAV client." : "Per il tuo account è abilitata l'autenticazione a due fattori, pertanto devi utilizzare una password dell'app per connetterti a un client WebDAV esterno.",
     "Warnings" : "Avvertenze",
     "Prevent warning dialogs from open or reenable them." : "Impedire l'apertura delle finestre di dialogo di avviso o riattivarle.",
     "Show a warning dialog when changing a file extension." : "Mostra una finestra di dialogo di avviso quando si modifica l'estensione di un file.",
