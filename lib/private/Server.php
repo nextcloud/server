@@ -1160,11 +1160,11 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(ICloudIdManager::class, function (ContainerInterface $c) {
 			return new CloudIdManager(
+				$c->get(ICacheFactory::class),
+				$c->get(IEventDispatcher::class),
 				$c->get(\OCP\Contacts\IManager::class),
 				$c->get(IURLGenerator::class),
 				$c->get(IUserManager::class),
-				$c->get(ICacheFactory::class),
-				$c->get(IEventDispatcher::class),
 			);
 		});
 

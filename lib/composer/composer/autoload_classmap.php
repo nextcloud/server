@@ -376,6 +376,7 @@ return array(
     'OCP\\Federation\\ICloudFederationShare' => $baseDir . '/lib/public/Federation/ICloudFederationShare.php',
     'OCP\\Federation\\ICloudId' => $baseDir . '/lib/public/Federation/ICloudId.php',
     'OCP\\Federation\\ICloudIdManager' => $baseDir . '/lib/public/Federation/ICloudIdManager.php',
+    'OCP\\Federation\\ICloudIdResolver' => $baseDir . '/lib/public/Federation/ICloudIdResolver.php',
     'OCP\\Files' => $baseDir . '/lib/public/Files.php',
     'OCP\\FilesMetadata\\AMetadataEvent' => $baseDir . '/lib/public/FilesMetadata/AMetadataEvent.php',
     'OCP\\FilesMetadata\\Event\\MetadataBackgroundEvent' => $baseDir . '/lib/public/FilesMetadata/Event/MetadataBackgroundEvent.php',
