@@ -450,7 +450,6 @@ class Event implements IEvent {
 		return
 			$this->getApp() !== ''
 			&& $this->getType() !== ''
-			&& $this->getAffectedUser() !== ''
 			&& $this->getTimestamp() !== 0
 			/**
 			 * Disabled for BC with old activities
