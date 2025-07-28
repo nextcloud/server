@@ -695,7 +695,8 @@ class Access extends LDAPUtility {
 		foreach ($ldapObjects as $ldapObject) {
 			$nameByLDAP = $ldapObject[$nameAttribute][0] ?? null;
 
-			$ncName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers);
+			$newlyMapped = false;
+			$ncName = $this->dn2ocname($ldapObject['dn'][0], $nameByLDAP, $isUsers, $newlyMapped, $ldapObject);
 			if ($ncName) {
 				$nextcloudNames[] = $ncName;
 				if ($isUsers) {
@@ -930,7 +931,8 @@ class Access extends LDAPUtility {
 				// displayName is obligatory
 				continue;
 			}
-			$ocName = $this->dn2ocname($userRecord['dn'][0], null, true);
+			$newlyMapped = false;
+			$ocName = $this->dn2ocname($userRecord['dn'][0], null, true, $newlyMapped, $userRecord);
 			if ($ocName === false) {
 				continue;
 			}
