@@ -30,6 +30,7 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 use function array_merge;
 
 interface IMailServiceMock extends IMailService, IMailMessageSend {
@@ -38,6 +39,8 @@ interface IMailServiceMock extends IMailService, IMailMessageSend {
 }
 
 class IMipPluginTest extends TestCase {
+	use EmailValidatorTrait;
+
 	private IMessage&MockObject $mailMessage;
 	private IMailer&MockObject $mailer;
 	private IEMailTemplate&MockObject $emailTemplate;
@@ -107,6 +110,7 @@ class IMipPluginTest extends TestCase {
 			$this->service,
 			$this->eventComparisonService,
 			$this->mailManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}
 
@@ -173,10 +177,6 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('frodo@hobb.it')
-			->willReturn(true);
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
@@ -280,10 +280,6 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('the-shire@hobb.it')
-			->willReturn(true);
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
@@ -358,10 +354,6 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('circle+82utEV1Fle8wvxndZLK5TVAPtxj8IIe@middle.earth')
-			->willReturn(true);
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['new' => [$newVevent], 'old' => null]);
@@ -463,10 +455,6 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('frodo@hobb.it')
-			->willReturn(true);
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['old' => [] ,'new' => [$newVevent]]);
@@ -541,15 +529,11 @@ class IMipPluginTest extends TestCase {
 		$message->message->VEVENT->add('ATTENDEE', 'mailto:' . 'frodo@hobb.it', ['RSVP' => 'TRUE']);
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->senderName = 'Mr. Wizard';
-		$message->recipient = 'mailto:' . 'frodo@hobb.it';
+		$message->recipient = 'mailto:' . 'frodo@@hobb.it';
 
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('frodo@hobb.it')
-			->willReturn(false);
 
 		$this->plugin->schedule($message);
 		$this->assertEquals('5.0', $message->getScheduleStatus());
@@ -598,10 +582,6 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('frodo@hobb.it')
-			->willReturn(true);
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['old' => [] ,'new' => [$newVevent]]);
@@ -755,11 +735,6 @@ class IMipPluginTest extends TestCase {
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['old' => [] ,'new' => [$event]]);
-		// construct mail mock returns
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('frodo@hobb.it')
-			->willReturn(true);
 		// construct mail provider mock returns
 		$this->mailService
 			->method('initiateMessage')
@@ -819,10 +794,6 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('frodo@hobb.it')
-			->willReturn(true);
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->willReturn(['new' => [$newVevent], 'old' => [$oldVEvent]]);
@@ -917,10 +888,6 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('frodo@hobb.it')
-			->willReturn(true);
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->with($newVCalendar, null)
@@ -1014,10 +981,6 @@ class IMipPluginTest extends TestCase {
 		$this->service->expects(self::once())
 			->method('getLastOccurrence')
 			->willReturn(1496912700);
-		$this->mailer->expects(self::once())
-			->method('validateMailAddress')
-			->with('frodo@hobb.it')
-			->willReturn(true);
 		$this->eventComparisonService->expects(self::once())
 			->method('findModified')
 			->with($newVCalendar, null)

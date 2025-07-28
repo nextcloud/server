@@ -29,6 +29,7 @@ use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 /**
  * Class ShareByMailProviderTest
@@ -37,6 +38,8 @@ use Test\TestCase;
  * @group DB
  */
 class ShareByMailProviderTest extends TestCase {
+	use EmailValidatorTrait;
+
 	/** @var IDBConnection */
 	protected $dbConn;
 
@@ -121,6 +124,7 @@ class ShareByMailProviderTest extends TestCase {
 			$this->hasher,
 			$this->eventDispatcher,
 			$this->shareManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}
 

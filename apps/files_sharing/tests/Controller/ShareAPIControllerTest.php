@@ -50,6 +50,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 /**
  * Class ShareAPIControllerTest
@@ -58,6 +59,7 @@ use Test\TestCase;
  * @group DB
  */
 class ShareAPIControllerTest extends TestCase {
+	use EmailValidatorTrait;
 
 	private string $appName = 'files_sharing';
 	private string $currentUser;
@@ -140,6 +142,7 @@ class ShareAPIControllerTest extends TestCase {
 			$this->factory,
 			$this->mailer,
 			$this->tagManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 			$this->currentUser,
 		);
 	}
@@ -169,6 +172,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -853,6 +857,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->currentUser,
 			])
 			->onlyMethods(['canAccessShare'])
@@ -1485,6 +1490,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->currentUser,
 			])
 			->onlyMethods(['formatShare'])
@@ -1873,6 +1879,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -1972,6 +1979,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2399,6 +2407,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2471,6 +2480,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();
@@ -2710,6 +2720,7 @@ class ShareAPIControllerTest extends TestCase {
 				$this->factory,
 				$this->mailer,
 				$this->tagManager,
+				$this->getEmailValidatorWithStrictEmailCheck(),
 				$this->currentUser,
 			])->onlyMethods(['formatShare'])
 			->getMock();

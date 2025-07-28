@@ -41,6 +41,7 @@ use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+use Test\Traits\EmailValidatorTrait;
 
 /**
  * Class ShareByMailProviderTest
@@ -49,6 +50,7 @@ use Test\TestCase;
  * @group DB
  */
 class ShareByMailProviderTest extends TestCase {
+	use EmailValidatorTrait;
 
 	private IDBConnection $connection;
 
@@ -122,6 +124,7 @@ class ShareByMailProviderTest extends TestCase {
 					$this->hasher,
 					$this->eventDispatcher,
 					$this->shareManager,
+					$this->getEmailValidatorWithStrictEmailCheck(),
 				])
 				->onlyMethods($mockedMethods)
 				->getMock();
@@ -143,6 +146,7 @@ class ShareByMailProviderTest extends TestCase {
 			$this->hasher,
 			$this->eventDispatcher,
 			$this->shareManager,
+			$this->getEmailValidatorWithStrictEmailCheck(),
 		);
 	}
 
@@ -199,9 +203,6 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
-		// Assume the mail address is valid.
-		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
-
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendEmail', 'sendPassword', 'sendPasswordToOwner']);
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
@@ -240,9 +241,6 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getId')->willReturn(42);
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
-
-		// Assume the mail address is valid.
-		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendEmail', 'sendPassword', 'sendPasswordToOwner']);
 
@@ -286,9 +284,6 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getId')->willReturn(42);
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
-
-		// Assume the mail address is valid.
-		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$instance = $this->getInstance([
 			'getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject',
@@ -351,9 +346,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
 			->with(new GenerateSecurePasswordEvent(PasswordContext::SHARING));
-
-		// Assume the mail address is valid.
-		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'createPasswordSendActivity', 'sendPasswordToOwner']);
 
@@ -434,9 +426,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
 			->willReturn('https://example.com/file.txt');
-
-		// Assume the mail address is valid.
-		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendPasswordToOwner']);
 
@@ -525,9 +514,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
 			->willReturn('https://example.com/file.txt');
-
-		// Assume the mail address is valid.
-		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity']);
 
@@ -623,9 +609,6 @@ class ShareByMailProviderTest extends TestCase {
 			'receiver2@example.com',
 			'receiver3@example.com',
 		]);
-
-		// Assume the mail address is valid.
-		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendEmail', 'sendPassword', 'sendPasswordToOwner']);
 
@@ -1188,7 +1171,6 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturn(new Share($rootFolder, $userManager));
 
 		$provider = $this->getInstance(['sendMailNotification', 'createShareActivity']);
-		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$u1 = $userManager->createUser('testFed', md5((string)time()));
 		$u2 = $userManager->createUser('testFed2', md5((string)time()));
@@ -1235,7 +1217,6 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturn(new Share($rootFolder, $userManager));
 
 		$provider = $this->getInstance(['sendMailNotification', 'createShareActivity']);
-		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
 		$u1 = $userManager->createUser('testFed', md5((string)time()));
 		$u2 = $userManager->createUser('testFed2', md5((string)time()));
@@ -1370,9 +1351,6 @@ class ShareByMailProviderTest extends TestCase {
 			->method('useTemplate')
 			->with($template);
 
-		$this->mailer->expects($this->once())
-			->method('validateMailAddress')
-			->willReturn(true);
 		$this->mailer
 			->expects($this->once())
 			->method('send')
@@ -1492,9 +1470,6 @@ class ShareByMailProviderTest extends TestCase {
 			->method('useTemplate')
 			->with($template);
 
-		$this->mailer->expects($this->once())
-			->method('validateMailAddress')
-			->willReturn(true);
 		$this->mailer
 			->expects($this->once())
 			->method('send')
@@ -1619,9 +1594,6 @@ class ShareByMailProviderTest extends TestCase {
 			->method('useTemplate')
 			->with($template);
 
-		$this->mailer->expects($this->once())
-			->method('validateMailAddress')
-			->willReturn(true);
 		$this->mailer
 			->expects($this->once())
 			->method('send')
@@ -1717,9 +1689,6 @@ class ShareByMailProviderTest extends TestCase {
 			->method('useTemplate')
 			->with($template);
 
-		$this->mailer->expects($this->once())
-			->method('validateMailAddress')
-			->willReturn(true);
 		$this->mailer
 			->expects($this->once())
 			->method('send')
@@ -1818,9 +1787,6 @@ class ShareByMailProviderTest extends TestCase {
 			->method('useTemplate')
 			->with($template);
 
-		$this->mailer->expects($this->once())
-			->method('validateMailAddress')
-			->willReturn(true);
 		$this->mailer
 			->expects($this->once())
 			->method('send')
@@ -1915,9 +1881,6 @@ class ShareByMailProviderTest extends TestCase {
 			->method('useTemplate')
 			->with($template);
 
-		$this->mailer->expects($this->once())
-			->method('validateMailAddress')
-			->willReturn(true);
 		$this->mailer
 			->expects($this->once())
 			->method('send')

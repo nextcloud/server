@@ -338,7 +338,8 @@ class Server {
 						$userSession,
 						\OCP\Server::get(IMipService::class),
 						\OCP\Server::get(EventComparisonService::class),
-						\OCP\Server::get(\OCP\Mail\Provider\IManager::class)
+						\OCP\Server::get(\OCP\Mail\Provider\IManager::class),
+						\OCP\Server::get(\OCP\Mail\IEmailValidator::class),
 					));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
