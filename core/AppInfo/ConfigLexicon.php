@@ -22,6 +22,8 @@ use OCP\Config\ValueType;
 class ConfigLexicon implements ILexicon {
 	public const SHAREAPI_ALLOW_FEDERATION_ON_PUBLIC_SHARES = 'shareapi_allow_federation_on_public_shares';
 	public const SHARE_CUSTOM_TOKEN = 'shareapi_allow_custom_tokens';
+	public const USER_LANGUAGE = 'lang';
+	public const LASTCRON_TIMESTAMP = 'lastcron';
 
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
@@ -47,10 +49,13 @@ class ConfigLexicon implements ILexicon {
 				lazy: true,
 				note: 'Shares with guessable tokens may be accessed easily. Shares with custom tokens will continue to be accessible after this setting has been disabled.',
 			),
+			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
 		];
 	}
 
 	public function getUserConfigs(): array {
-		return [];
+		return [
+			new Entry(self::USER_LANGUAGE, ValueType::STRING, null, 'language'),
+		];
 	}
 }
