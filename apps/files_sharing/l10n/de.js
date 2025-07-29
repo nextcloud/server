@@ -210,7 +210,7 @@ OC.L10N.register(
     "Shared via link by {initiator}" : "Geteilt mittels Link von {initiator}",
     "File request ({label})" : "Dateianfrage ({label})",
     "Mail share ({label})" : "Mail teilen ({label})",
-    "Share link ({label})" : "Link teilen ({label})",
+    "Share link ({label})" : "Externer Link ({label})",
     "Mail share" : "E-Mail-Freigabe",
     "Share link ({index})" : "Link teilen ({index})",
     "Create public link" : "Öffentlichen Link erstellen",
