@@ -72,7 +72,7 @@ export default defineComponent({
 		},
 
 		isLoading() {
-			return this.source.status === NodeStatus.LOADING || this.loading !== ''
+			return this.source.status === NodeStatus.LOADING
 		},
 
 		/**
