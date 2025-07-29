@@ -389,12 +389,11 @@ class Updater extends BasicEmitter {
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 
-				if (!empty($previousEnableStates)) {
-					$ocApp = new \OC_App();
+				if (isset($previousEnableStates[$app])) {
 					if (!empty($previousEnableStates[$app]) && is_array($previousEnableStates[$app])) {
-						$ocApp->enable($app, $previousEnableStates[$app]);
-					} else {
-						$ocApp->enable($app);
+						$this->appManager->enableAppForGroups($app, $previousEnableStates[$app]);
+					} elseif ($previousEnableStates[$app] === 'yes') {
+						$this->appManager->enableApp($app);
 					}
 				}
 			} catch (\Exception $ex) {

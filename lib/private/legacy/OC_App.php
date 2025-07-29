@@ -201,6 +201,7 @@ class OC_App {
 	 * @param array $groups (optional) when set, only these groups will have access to the app
 	 * @throws \Exception
 	 * @return void
+	 * @deprecated 32.0.0 Use the installer and the app manager instead
 	 *
 	 * This function set an app as enabled in appconfig.
 	 */
@@ -538,6 +539,9 @@ class OC_App {
 		return $appList;
 	}
 
+	/**
+	 * @deprecated 32.0.0 Use IAppManager::isUpgradeRequired instead
+	 */
 	public static function shouldUpgrade(string $app): bool {
 		return Server::get(\OCP\App\IAppManager::class)->isUpgradeRequired($app);
 	}
@@ -557,6 +561,7 @@ class OC_App {
 	 * @param array $appInfo app info (from xml)
 	 *
 	 * @return bool true if compatible, otherwise false
+	 * @deprecated 32.0.0 Use IAppManager::isAppCompatible instead
 	 */
 	public static function isAppCompatible(string $ocVersion, array $appInfo, bool $ignoreMax = false): bool {
 		return Server::get(\OCP\App\IAppManager::class)->isAppCompatible($ocVersion, $appInfo, $ignoreMax);

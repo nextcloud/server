@@ -99,7 +99,7 @@ class Installer {
 	 * @param bool $allowUnstable Allow unstable releases
 	 */
 	public function updateAppstoreApp(string $appId, bool $allowUnstable = false): bool {
-		if ($this->isUpdateAvailable($appId, $allowUnstable)) {
+		if ($this->isUpdateAvailable($appId, $allowUnstable) !== false) {
 			try {
 				$this->downloadApp($appId, $allowUnstable);
 			} catch (\Exception $e) {
@@ -108,7 +108,7 @@ class Installer {
 				]);
 				return false;
 			}
-			return OC_App::updateApp($appId);
+			return $this->appManager->upgradeApp($appId);
 		}
 
 		return false;
@@ -475,8 +475,7 @@ class Installer {
 				$this->downloadApp($appId);
 			}
 			$this->installApp($appId);
-			$app = new OC_App();
-			$app->enable($appId);
+			$this->appManager->enableApp($appId);
 		}
 		$bundles = json_decode($this->config->getAppValue('core', 'installed.bundles', json_encode([])), true);
 		$bundles[] = $bundle->getIdentifier();
