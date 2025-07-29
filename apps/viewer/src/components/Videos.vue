@@ -117,12 +117,16 @@ export default {
 			}
 		},
 	},
+
 	// for some reason the video controls don't get mounted to the dom until after the component (Videos) is mounted,
 	// using the mounted() hook will leave us with an empty array
-
 	updated() {
 		// Prevent swiping to the next/previous item when scrubbing the timeline or changing volume
-		[...this.$el.querySelectorAll('.plyr__controls__item')].forEach(control => {
+		const plyrControls = this.$el.querySelectorAll('.plyr__controls__item')
+		if (!plyrControls || !plyrControls.length) {
+			return
+		}
+		[...plyrControls].forEach(control => {
 			if (control.getAttribute('data-plyr') === 'fullscreen') {
 				control.addEventListener('click', this.hideHeaderAndFooter)
 			}

@@ -315,6 +315,7 @@ export default class Viewer {
 		} else {
 			this._state.fileInfo = fileInfo
 		}
+
 		if (!this._state.el) {
 			this._state.files = list
 			this._state.enableSidebar = enableSidebar
