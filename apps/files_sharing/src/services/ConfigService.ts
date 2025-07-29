@@ -315,4 +315,12 @@ export default class Config {
 		return loadState('files_sharing', 'showFederatedSharesAsInternal', false)
 	}
 
+	/**
+	 * Show federated shares to trusted servers as internal shares
+	 * @return {boolean}
+	 */
+	get showFederatedSharesToTrustedServersAsInternal(): boolean {
+		return loadState('files_sharing', 'showFederatedSharesToTrustedServersAsInternal', false)
+	}
+
 }
