@@ -170,6 +170,8 @@ class Base extends Command implements CompletionAwareInterface {
 			return 'true';
 		} elseif ($value === null) {
 			return $returnNull ? null : 'null';
+		} if ($value instanceof \UnitEnum) {
+			return $value->value;
 		} else {
 			return $value;
 		}

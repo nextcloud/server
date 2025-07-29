@@ -199,6 +199,11 @@ class SetConfig extends Base {
 					$current['lazy'] ? 'lazy cache' : 'fast cache'
 				)
 			);
+			$keyDetails = $this->appConfig->getKeyDetails($appName, $configName);
+			if (($keyDetails['note'] ?? '') !== '') {
+				$output->writeln('<comment>Note:</comment> ' . $keyDetails['note']);
+			}
+
 		} else {
 			$output->writeln('<info>Config value were not updated</info>');
 		}
