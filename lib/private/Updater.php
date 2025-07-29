@@ -23,7 +23,6 @@ use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
-use OC_App;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -319,7 +318,7 @@ class Updater extends BasicEmitter {
 		foreach (array_merge($priorityTypes, [$pseudoOtherType]) as $type) {
 			$stack = $stacks[$type];
 			foreach ($stack as $appId) {
-				if (\OC_App::shouldUpgrade($appId)) {
+				if ($this->appManager->isUpgradeRequired($appId)) {
 					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, $this->appManager->getAppVersion($appId)]);
 					$this->appManager->upgradeApp($appId);
 					$this->emit('\OC\Updater', 'appUpgrade', [$appId, $this->appManager->getAppVersion($appId)]);
@@ -349,7 +348,7 @@ class Updater extends BasicEmitter {
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
 			$info = $this->appManager->getAppInfo($app);
-			if ($info === null || !OC_App::isAppCompatible($version, $info)) {
+			if ($info === null || !$this->appManager->isAppCompatible($version, $info)) {
 				if ($this->appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
@@ -359,9 +358,6 @@ class Updater extends BasicEmitter {
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
 	private function isCodeUpgrade(): bool {
 		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', Util::getVersion());

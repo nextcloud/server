@@ -349,4 +349,28 @@ interface IAppManager {
 	 * @since 32.0.0
 	 */
 	public function upgradeApp(string $appId): bool;
+
+	/**
+	 * Check whether the installed version is the same as the version from info.xml
+	 *
+	 * @since 32.0.0
+	 */
+	public function isUpgradeRequired(string $appId): bool;
+
+	/**
+	 * Check whether the current Nextcloud version matches the given
+	 * application's version requirements.
+	 *
+	 * The comparison is made based on the number of parts that the
+	 * app info version has. For example for Nextcloud 26.0.3 if the
+	 * app info version is expecting version 26.0, the comparison is
+	 * made on the first two parts of the Nextcloud version.
+	 * This means that it's possible to specify "requiremin" => 26
+	 * and "requiremax" => 26 and it will still match Nextcloud 26.0.3.
+	 *
+	 * @param string $serverVersion Nextcloud version to check against
+	 * @param array $appInfo app info (from xml)
+	 * @since 32.0.0
+	 */
+	public function isAppCompatible(string $serverVersion, array $appInfo, bool $ignoreMax = false): bool;
 }

@@ -539,37 +539,7 @@ class OC_App {
 	}
 
 	public static function shouldUpgrade(string $app): bool {
-		$versions = self::getAppVersions();
-		$currentVersion = Server::get(\OCP\App\IAppManager::class)->getAppVersion($app);
-		if ($currentVersion && isset($versions[$app])) {
-			$installedVersion = $versions[$app];
-			if (!version_compare($currentVersion, $installedVersion, '=')) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Adjust the number of version parts of $version1 to match
-	 * the number of version parts of $version2.
-	 *
-	 * @param string $version1 version to adjust
-	 * @param string $version2 version to take the number of parts from
-	 * @return string shortened $version1
-	 */
-	private static function adjustVersionParts(string $version1, string $version2): string {
-		$version1 = explode('.', $version1);
-		$version2 = explode('.', $version2);
-		// reduce $version1 to match the number of parts in $version2
-		while (count($version1) > count($version2)) {
-			array_pop($version1);
-		}
-		// if $version1 does not have enough parts, add some
-		while (count($version1) < count($version2)) {
-			$version1[] = '0';
-		}
-		return implode('.', $version1);
+		return Server::get(\OCP\App\IAppManager::class)->isUpgradeRequired($app);
 	}
 
 	/**
@@ -586,42 +556,10 @@ class OC_App {
 	 * @param string $ocVersion Nextcloud version to check against
 	 * @param array $appInfo app info (from xml)
 	 *
-	 * @return boolean true if compatible, otherwise false
+	 * @return bool true if compatible, otherwise false
 	 */
 	public static function isAppCompatible(string $ocVersion, array $appInfo, bool $ignoreMax = false): bool {
-		$requireMin = '';
-		$requireMax = '';
-		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['min-version'])) {
-			$requireMin = $appInfo['dependencies']['nextcloud']['@attributes']['min-version'];
-		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['min-version'])) {
-			$requireMin = $appInfo['dependencies']['owncloud']['@attributes']['min-version'];
-		} elseif (isset($appInfo['requiremin'])) {
-			$requireMin = $appInfo['requiremin'];
-		} elseif (isset($appInfo['require'])) {
-			$requireMin = $appInfo['require'];
-		}
-
-		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['max-version'])) {
-			$requireMax = $appInfo['dependencies']['nextcloud']['@attributes']['max-version'];
-		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['max-version'])) {
-			$requireMax = $appInfo['dependencies']['owncloud']['@attributes']['max-version'];
-		} elseif (isset($appInfo['requiremax'])) {
-			$requireMax = $appInfo['requiremax'];
-		}
-
-		if (!empty($requireMin)
-			&& version_compare(self::adjustVersionParts($ocVersion, $requireMin), $requireMin, '<')
-		) {
-			return false;
-		}
-
-		if (!$ignoreMax && !empty($requireMax)
-			&& version_compare(self::adjustVersionParts($ocVersion, $requireMax), $requireMax, '>')
-		) {
-			return false;
-		}
-
-		return true;
+		return Server::get(\OCP\App\IAppManager::class)->isAppCompatible($ocVersion, $appInfo, $ignoreMax);
 	}
 
 	/**

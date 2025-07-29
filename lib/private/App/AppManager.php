@@ -727,7 +727,7 @@ class AppManager implements IAppManager {
 			if ($appDbVersion
 				&& isset($appInfo['version'])
 				&& version_compare($appInfo['version'], $appDbVersion, '>')
-				&& \OC_App::isAppCompatible($version, $appInfo)
+				&& $this->isAppCompatible($version, $appInfo)
 			) {
 				$appsToUpgrade[] = $appInfo;
 			}
@@ -817,7 +817,7 @@ class AppManager implements IAppManager {
 			$info = $this->getAppInfo($appId);
 			if ($info === null) {
 				$incompatibleApps[] = ['id' => $appId, 'name' => $appId];
-			} elseif (!\OC_App::isAppCompatible($version, $info)) {
+			} elseif (!$this->isAppCompatible($version, $info)) {
 				$incompatibleApps[] = $info;
 			}
 		}
@@ -1022,5 +1022,76 @@ class AppManager implements IAppManager {
 		));
 
 		return true;
+	}
+
+	public function isUpgradeRequired(string $appId): bool {
+		$versions = $this->getAppInstalledVersions();
+		$currentVersion = $this->getAppVersion($appId);
+		if ($currentVersion && isset($versions[$appId])) {
+			$installedVersion = $versions[$appId];
+			if (!version_compare($currentVersion, $installedVersion, '=')) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function isAppCompatible(string $serverVersion, array $appInfo, bool $ignoreMax = false): bool {
+		$requireMin = '';
+		$requireMax = '';
+		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['min-version'])) {
+			$requireMin = $appInfo['dependencies']['nextcloud']['@attributes']['min-version'];
+		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['min-version'])) {
+			$requireMin = $appInfo['dependencies']['owncloud']['@attributes']['min-version'];
+		} elseif (isset($appInfo['requiremin'])) {
+			$requireMin = $appInfo['requiremin'];
+		} elseif (isset($appInfo['require'])) {
+			$requireMin = $appInfo['require'];
+		}
+
+		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['max-version'])) {
+			$requireMax = $appInfo['dependencies']['nextcloud']['@attributes']['max-version'];
+		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['max-version'])) {
+			$requireMax = $appInfo['dependencies']['owncloud']['@attributes']['max-version'];
+		} elseif (isset($appInfo['requiremax'])) {
+			$requireMax = $appInfo['requiremax'];
+		}
+
+		if (!empty($requireMin)
+			&& version_compare($this->adjustVersionParts($serverVersion, $requireMin), $requireMin, '<')
+		) {
+			return false;
+		}
+
+		if (!$ignoreMax && !empty($requireMax)
+			&& version_compare($this->adjustVersionParts($serverVersion, $requireMax), $requireMax, '>')
+		) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Adjust the number of version parts of $version1 to match
+	 * the number of version parts of $version2.
+	 *
+	 * @param string $version1 version to adjust
+	 * @param string $version2 version to take the number of parts from
+	 * @return string shortened $version1
+	 */
+	private function adjustVersionParts(string $version1, string $version2): string {
+		//FIXME Most likely this function is not needed and version_compare directly will work. Should be tested.
+		$version1 = explode('.', $version1);
+		$version2 = explode('.', $version2);
+		// reduce $version1 to match the number of parts in $version2
+		while (count($version1) > count($version2)) {
+			array_pop($version1);
+		}
+		// if $version1 does not have enough parts, add some
+		while (count($version1) < count($version2)) {
+			$version1[] = '0';
+		}
+		return implode('.', $version1);
 	}
 }

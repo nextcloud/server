@@ -568,24 +568,18 @@ class AppSettingsController extends Controller {
 				$appId = $this->appManager->cleanAppId($appId);
 
 				// Check if app is already downloaded
-				/** @var Installer $installer */
-				$installer = Server::get(Installer::class);
-				$isDownloaded = $installer->isDownloaded($appId);
-
-				if (!$isDownloaded) {
-					$installer->downloadApp($appId);
+				if (!$this->installer->isDownloaded($appId)) {
+					$this->installer->downloadApp($appId);
 				}
 
-				$installer->installApp($appId);
+				$this->installer->installApp($appId);
 
 				if (count($groups) > 0) {
 					$this->appManager->enableAppForGroups($appId, $this->getGroupList($groups));
 				} else {
 					$this->appManager->enableApp($appId);
 				}
-				if (\OC_App::shouldUpgrade($appId)) {
-					$updateRequired = true;
-				}
+				$updateRequired = $updateRequired || $this->appManager->isUpgradeRequired($appId);
 			}
 			return new JSONResponse(['data' => ['update_required' => $updateRequired]]);
 		} catch (\Throwable $e) {
