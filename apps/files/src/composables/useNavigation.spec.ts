@@ -29,6 +29,7 @@ describe('Composables: useNavigation', () => {
 
 	describe('currentView', () => {
 		beforeEach(() => {
+			// eslint-disable-next-line import/namespace
 			navigation = new nextcloudFiles.Navigation()
 			spy.mockImplementation(() => navigation)
 		})
@@ -39,6 +40,7 @@ describe('Composables: useNavigation', () => {
 		})
 
 		it('should return already active navigation', async () => {
+			// eslint-disable-next-line import/namespace
 			const view = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
 			navigation.register(view)
 			navigation.setActive(view)
@@ -48,6 +50,7 @@ describe('Composables: useNavigation', () => {
 		})
 
 		it('should be reactive on updating active navigation', async () => {
+			// eslint-disable-next-line import/namespace
 			const view = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
 			navigation.register(view)
 			const wrapper = mount(TestComponent)
@@ -63,6 +66,7 @@ describe('Composables: useNavigation', () => {
 
 	describe('views', () => {
 		beforeEach(() => {
+			// eslint-disable-next-line import/namespace
 			navigation = new nextcloudFiles.Navigation()
 			spy.mockImplementation(() => navigation)
 		})
@@ -73,6 +77,7 @@ describe('Composables: useNavigation', () => {
 		})
 
 		it('should return already registered views', () => {
+			// eslint-disable-next-line import/namespace
 			const view = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
 			// register before mount
 			navigation.register(view)
@@ -82,7 +87,9 @@ describe('Composables: useNavigation', () => {
 		})
 
 		it('should be reactive on registering new views', () => {
+			// eslint-disable-next-line import/namespace
 			const view = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
+			// eslint-disable-next-line import/namespace
 			const view2 = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-2', name: 'My View 2', order: 1 })
 
 			// register before mount
