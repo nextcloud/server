@@ -179,6 +179,10 @@ class RequestHandlerController extends Controller {
 			}
 		}
 
+		if ($shareType === 'federation') {
+			// Allow creation of pending shares by federation provider
+		}
+
 		// if no explicit display name is given, we use the uid as display name
 		$ownerDisplayName = $ownerDisplayName === null ? $owner : $ownerDisplayName;
 		$sharedByDisplayName = $sharedByDisplayName === null ? $sharedBy : $sharedByDisplayName;
@@ -190,7 +194,7 @@ class RequestHandlerController extends Controller {
 		}
 
 		try {
-			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType, $shareType);
 			$share = $this->factory->getCloudFederationShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, '', $shareType, $resourceType);
 			$share->setProtocol($protocol);
 			$provider->shareReceived($share);
@@ -365,7 +369,7 @@ class RequestHandlerController extends Controller {
 		}
 
 		try {
-			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType);
+			$provider = $this->cloudFederationProviderManager->getCloudFederationProvider($resourceType, $notification['shareType']);
 			$result = $provider->notificationReceived($notificationType, $providerId, $notification);
 		} catch (ProviderDoesNotExistsException $e) {
 			return new JSONResponse(

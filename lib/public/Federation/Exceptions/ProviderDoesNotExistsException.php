@@ -20,12 +20,13 @@ class ProviderDoesNotExistsException extends HintException {
 	 *
 	 * @since 14.0.0
 	 *
-	 * @param string $providerId cloud federation provider ID
+	 * @param string $resourceId cloud federation resourceId
+	 * @param string|null $shareId cloud federation shareId
 	 */
-	public function __construct($providerId) {
-		$l = \OCP\Util::getL10N('federation');
-		$message = 'Cloud Federation Provider with ID: "' . $providerId . '" does not exist.';
-		$hint = $l->t('Cloud Federation Provider with ID: "%s" does not exist.', [$providerId]);
+	public function __construct($resourceId, $shareId) {
+		$l = \OC::$server->getL10N('federation');
+		$message = 'Cloud Federation Provider with resourceId: "' . $resourceId . '" and shareId: "' . $shareId . '" does not exist.';
+		$hint = $l->t('Cloud Federation Provider with resourceId: "%s" and shareId: "%s" does not exist.', [$resourceId, $shareId]);
 		parent::__construct($message, $hint);
 	}
 }

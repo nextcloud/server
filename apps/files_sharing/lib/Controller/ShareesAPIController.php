@@ -52,6 +52,7 @@ class ShareesAPIController extends OCSController {
 			'groups' => [],
 			'remotes' => [],
 			'remote_groups' => [],
+			'federated_groups' => [],
 			'emails' => [],
 			'circles' => [],
 			'rooms' => [],
@@ -60,6 +61,7 @@ class ShareesAPIController extends OCSController {
 		'groups' => [],
 		'remotes' => [],
 		'remote_groups' => [],
+		'federated_groups' => [],
 		'emails' => [],
 		'lookup' => [],
 		'circles' => [],
@@ -137,6 +139,10 @@ class ShareesAPIController extends OCSController {
 
 			if ($this->isRemoteGroupSharingAllowed($itemType)) {
 				$shareTypes[] = IShare::TYPE_REMOTE_GROUP;
+
+				if ($this->shareManager->shareProviderExists(IShare::TYPE_FEDERATED_GROUP)) {
+					$shareTypes[] = IShare::TYPE_FEDERATED_GROUP;
+				}
 			}
 
 			if ($this->shareManager->shareProviderExists(IShare::TYPE_EMAIL)) {
@@ -239,6 +245,7 @@ class ShareesAPIController extends OCSController {
 		IShare::TYPE_GROUP => 'groups',
 		IShare::TYPE_REMOTE => 'remotes',
 		IShare::TYPE_REMOTE_GROUP => 'remote_groups',
+		IShare::TYPE_FEDERATED_GROUP => 'federated_groups',
 		IShare::TYPE_EMAIL => 'emails',
 	];
 
@@ -312,6 +319,10 @@ class ShareesAPIController extends OCSController {
 
 			if ($this->isRemoteGroupSharingAllowed($itemType)) {
 				$shareTypes[] = IShare::TYPE_REMOTE_GROUP;
+
+				if ($this->shareManager->shareProviderExists(IShare::TYPE_FEDERATED_GROUP)) {
+					$shareTypes[] = IShare::TYPE_FEDERATED_GROUP;
+				}
 			}
 
 			if ($this->shareManager->shareProviderExists(IShare::TYPE_EMAIL)) {

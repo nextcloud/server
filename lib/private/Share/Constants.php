@@ -56,6 +56,8 @@ class Constants {
 	// const SHARE_TYPE_DECK_USER = 13; // Internal type used by DeckShareProvider
 
 	// Note to developers: Do not add new share types here
+	// Relied on by appinfo XML schema collaboration plugin share-type attribute
+	public const SHARE_TYPE_FEDERATED_GROUP = 14;
 
 	public const FORMAT_NONE = -1;
 	public const FORMAT_STATUSES = -2;

@@ -185,7 +185,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	}
 
 	/**
-	 * share type (group or user)
+	 * share type (group, user or federation)
 	 *
 	 * @param string $shareType
 	 *
@@ -194,6 +194,9 @@ class CloudFederationShare implements ICloudFederationShare {
 	public function setShareType($shareType) {
 		if ($shareType === 'group' || $shareType === IShare::TYPE_REMOTE_GROUP) {
 			$this->share['shareType'] = 'group';
+		} elseif ($shareType === 'federation' || $shareType === IShare::TYPE_FEDERATED_GROUP) {
+			// OCM proposel, currently only supported by Nextcloud
+			$this->share['shareType'] = 'federation';
 		} else {
 			$this->share['shareType'] = 'user';
 		}
