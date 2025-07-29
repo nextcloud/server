@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,8 @@
 namespace Test\Archive;
 
 use OC\Archive\ZIP;
+use OCP\ITempManager;
+use OCP\Server;
 
 class ZIPTest extends TestBase {
 	protected function getExisting() {
@@ -16,6 +19,10 @@ class ZIPTest extends TestBase {
 	}
 
 	protected function getNew() {
-		return new ZIP(\OC::$server->getTempManager()->getTempBaseDir().'/newArchive.zip');
+		$newZip = Server::get(ITempManager::class)->getTempBaseDir() . '/newArchive.zip';
+		if (file_exists($newZip)) {
+			unlink($newZip);
+		}
+		return new ZIP($newZip);
 	}
 }

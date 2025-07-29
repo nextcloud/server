@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,8 +10,12 @@ namespace Test\Encryption;
 
 use OC\Encryption\EncryptionWrapper;
 use OC\Encryption\Manager;
+use OC\Files\Storage\Wrapper\Encryption;
 use OC\Memcache\ArrayCache;
-use OCP\Files\Storage;
+use OCA\Files_Trashbin\Storage;
+use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IDisableEncryptionStorage;
+use OCP\Files\Storage\IStorage;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -24,7 +29,7 @@ class EncryptionWrapperTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\Manager */
 	private $manager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Memcache\ArrayCache */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ArrayCache */
 	private $arrayCache;
 
 	protected function setUp(): void {
@@ -38,11 +43,9 @@ class EncryptionWrapperTest extends TestCase {
 	}
 
 
-	/**
-	 * @dataProvider provideWrapStorage
-	 */
-	public function testWrapStorage($expectedWrapped, $wrappedStorages) {
-		$storage = $this->getMockBuilder(Storage::class)
+	#[\PHPUnit\Framework\Attributes\DataProvider('provideWrapStorage')]
+	public function testWrapStorage($expectedWrapped, $wrappedStorages): void {
+		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -54,7 +57,7 @@ class EncryptionWrapperTest extends TestCase {
 				]);
 		}
 
-		$mount = $this->getMockBuilder('OCP\Files\Mount\IMountPoint')
+		$mount = $this->getMockBuilder(IMountPoint::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -62,19 +65,19 @@ class EncryptionWrapperTest extends TestCase {
 
 		$this->assertEquals(
 			$expectedWrapped,
-			$returnedStorage->instanceOfStorage('OC\Files\Storage\Wrapper\Encryption'),
+			$returnedStorage->instanceOfStorage(Encryption::class),
 			'Asserted that the storage is (not) wrapped with encryption'
 		);
 	}
 
-	public function provideWrapStorage() {
+	public static function provideWrapStorage(): array {
 		return [
 			// Wrap when not wrapped or not wrapped with storage
 			[true, []],
-			[true, ['OCA\Files_Trashbin\Storage']],
+			[true, [Storage::class]],
 
 			// Do not wrap shared storages
-			[false, [Storage\IDisableEncryptionStorage::class]],
+			[false, [IDisableEncryptionStorage::class]],
 		];
 	}
 }

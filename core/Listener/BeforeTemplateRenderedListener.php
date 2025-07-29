@@ -33,7 +33,11 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			Util::addScript('core', 'unsupported-browser-redirect');
 		}
 
-		\OC_Util::addStyle('server', null, true);
+		if ($event->getResponse()->getRenderAs() === TemplateResponse::RENDER_AS_PUBLIC) {
+			Util::addScript('core', 'public');
+		}
+
+		Util::addStyle('server', null, true);
 
 		if ($event instanceof BeforeLoginTemplateRenderedEvent) {
 			// todo: make login work without these

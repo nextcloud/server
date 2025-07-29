@@ -22,7 +22,7 @@ class GenericMigrationAttribute extends MigrationAttribute implements JsonSerial
 	 * @since 30.0.0
 	 */
 	public function __construct(
-		private readonly array $details = []
+		private readonly array $details = [],
 	) {
 		parent::__construct(
 			$details['table'] ?? '',

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -35,11 +36,11 @@ class DataFingerprintTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\IConfig $config */
+		/** @var IConfig $config */
 		$this->command = new DataFingerprint($this->config, $this->timeFactory);
 	}
 
-	public function testSetFingerPrint() {
+	public function testSetFingerPrint(): void {
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
 			->willReturn(42);

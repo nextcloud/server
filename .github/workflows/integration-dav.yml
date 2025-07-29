@@ -4,6 +4,9 @@ name: DAV integration tests
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 concurrency:
   group: integration-caldav-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -40,10 +43,9 @@ jobs:
     if: needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh'
 
     strategy:
-      # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.3']
+        php-versions: ['8.1']
         endpoint: ['old', 'new']
         service: ['CalDAV', 'CardDAV']
 
@@ -51,12 +53,13 @@ jobs:
 
     steps:
         - name: Checkout server
-          uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+          uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
           with:
+            persist-credentials: false
             submodules: true
 
         - name: Set up php ${{ matrix.php-versions }}
-          uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
+          uses: shivammathur/setup-php@0f7f1d08e3e32076e51cae65eb0b0c871405b16e #v2.34.1
           with:
             php-version: ${{ matrix.php-versions }}
             # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -67,7 +70,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Set up Python
-          uses: LizardByte/setup-python-action@master
+          uses: LizardByte/actions/actions/setup_python@eddc8fc8b27048e25040e37e3585bd3ef9a968ed # v2025.715.25226
           with:
             python-version: '2.7'
 
@@ -99,9 +102,9 @@ jobs:
 
         - name: Run CalDAVTester
           run: |
-            cp "apps/dav/tests/travis/caldavtest/serverinfo-${{ matrix.endpoint }}${{ matrix.endpoint == 'old' && (matrix.service == 'CardDAV' && '-carddav' || '-caldav') || '' }}-endpoint.xml" "apps/dav/tests/travis/caldavtest/serverinfo.xml"
+            cp "apps/dav/tests/testsuits/caldavtest/serverinfo-${{ matrix.endpoint }}${{ matrix.endpoint == 'old' && (matrix.service == 'CardDAV' && '-carddav' || '-caldav') || '' }}-endpoint.xml" "apps/dav/tests/testsuits/caldavtest/serverinfo.xml"
             pushd CalDAVTester
-            PYTHONPATH="../pycalendar/src" python testcaldav.py --print-details-onfail --basedir "../apps/dav/tests/travis/caldavtest" -o cdt.txt \
+            PYTHONPATH="../pycalendar/src" python testcaldav.py --print-details-onfail --basedir "../apps/dav/tests/testsuits/caldavtest" -o cdt.txt \
               "${{ matrix.service }}/current-user-principal.xml" \
               "${{ matrix.service }}/sync-report.xml" \
               ${{ matrix.endpoint == 'new' && format('{0}/sharing-{1}.xml', matrix.service, matrix.service == 'CalDAV' && 'calendars' || 'addressbooks') || ';' }}

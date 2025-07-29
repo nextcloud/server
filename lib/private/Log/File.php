@@ -55,7 +55,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 			@chmod($this->logFile, $this->logFileMode);
 		}
 		if ($handle) {
-			fwrite($handle, $entry."\n");
+			fwrite($handle, $entry . "\n");
 			fclose($handle);
 		} else {
 			// Fall back to error_log
@@ -91,7 +91,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 						// Add the first character if at the start of the file,
 						// because it doesn't hit the else in the loop
 						if ($pos == 0) {
-							$line = $ch.$line;
+							$line = $ch . $line;
 						}
 						$entry = json_decode($line);
 						// Add the line as an entry if it is passed the offset and is equal or above the log level
@@ -105,7 +105,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 						$line = '';
 					}
 				} else {
-					$line = $ch.$line;
+					$line = $ch . $line;
 				}
 				$pos--;
 			}

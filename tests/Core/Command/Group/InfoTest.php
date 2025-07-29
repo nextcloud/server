@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -32,14 +33,14 @@ class InfoTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->command = $this->getMockBuilder(Info::class)
 			->setConstructorArgs([$this->groupManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testDoesNotExists() {
+	public function testDoesNotExists(): void {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
 			->willReturnCallback(function ($arg) use ($gid) {
@@ -59,7 +60,7 @@ class InfoTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testInfo() {
+	public function testInfo(): void {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
 			->willReturnCallback(function ($arg) use ($gid) {

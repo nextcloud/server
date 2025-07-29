@@ -133,4 +133,12 @@ class StreamImage implements IStreamImage {
 	public function resizeCopy(int $maxSize): IImage {
 		throw new \BadMethodCallException('Not implemented');
 	}
+
+	public function loadFromData(string $str): \GdImage|false {
+		throw new \BadMethodCallException('Not implemented');
+	}
+
+	public function readExif(string $data): void {
+		throw new \BadMethodCallException('Not implemented');
+	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,9 +8,11 @@
 
 namespace Test\Cache;
 
+use OCP\ICache;
+
 abstract class TestCache extends \Test\TestCase {
 	/**
-	 * @var \OCP\ICache cache;
+	 * @var ICache cache;
 	 */
 	protected $instance;
 
@@ -21,10 +24,10 @@ abstract class TestCache extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testSimple() {
+	public function testSimple(): void {
 		$this->assertNull($this->instance->get('value1'));
 		$this->assertFalse($this->instance->hasKey('value1'));
-		
+
 		$value = 'foobar';
 		$this->instance->set('value1', $value);
 		$this->assertTrue($this->instance->hasKey('value1'));
@@ -50,7 +53,7 @@ abstract class TestCache extends \Test\TestCase {
 		$this->assertFalse($this->instance->hasKey('value1'));
 	}
 
-	public function testClear() {
+	public function testClear(): void {
 		$value = 'ipsum lorum';
 		$this->instance->set('1_value1', $value . '1');
 		$this->instance->set('1_value2', $value . '2');

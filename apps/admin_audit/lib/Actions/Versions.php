@@ -8,16 +8,6 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Actions;
 
 class Versions extends Action {
-	public function rollback(array $params): void {
-		$this->log('Version "%s" of "%s" was restored.',
-			[
-				'version' => $params['revision'],
-				'path' => $params['path']
-			],
-			['version', 'path']
-		);
-	}
-
 	public function delete(array $params): void {
 		$this->log('Version "%s" was deleted.',
 			['path' => $params['path']],

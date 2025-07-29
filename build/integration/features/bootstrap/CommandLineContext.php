@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,7 @@
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
+use Behat\Behat\Context\Exception\ContextNotFoundException;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use PHPUnit\Framework\Assert;
 
@@ -41,8 +43,12 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	/** @BeforeScenario */
 	public function gatherContexts(BeforeScenarioScope $scope) {
 		$environment = $scope->getEnvironment();
-		// this should really be "WebDavContext" ...
-		$this->featureContext = $environment->getContext('FeatureContext');
+		// this should really be "WebDavContext"
+		try {
+			$this->featureContext = $environment->getContext('FeatureContext');
+		} catch (ContextNotFoundException) {
+			$this->featureContext = $environment->getContext('DavFeatureContext');
+		}
 	}
 
 	private function findLastTransferFolderForUser($sourceUser, $targetUser) {
@@ -96,19 +102,6 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	public function transferringOwnershipPath($path, $user1, $user2) {
 		$path = '--path=' . $path;
 		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2]) === 0) {
-			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
-		} else {
-			// failure
-			$this->lastTransferPath = null;
-		}
-	}
-
-	/**
-	 * @When /^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)" with received shares$/
-	 */
-	public function transferringOwnershipPathWithIncomingShares($path, $user1, $user2) {
-		$path = '--path=' . $path;
-		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2, '--transfer-incoming-shares=1']) === 0) {
 			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
 		} else {
 			// failure

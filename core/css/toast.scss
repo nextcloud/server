@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
-@import 'functions';
+@use 'functions';
 
 .toastify.toast {
 	min-width: 200px;
@@ -12,7 +12,7 @@
 	color: var(--color-main-text);
 	box-shadow: 0 0 6px 0 var(--color-box-shadow);
 	padding: 12px;
-	padding-right: 34px;
+	padding-inline-end: 34px;
 	margin-top: 45px;
 	position: fixed;
 	z-index: 9000;
@@ -21,11 +21,11 @@
 	.toast-close {
 		position: absolute;
 		top: 0;
-		right: 0;
+		inset-inline-end: 0;
 		width: 38px;
 		opacity: 0.4;
 		padding: 12px;
-		@include icon-color('close', 'actions', variables.$color-black, 2, true);
+		@include functions.icon-color('close', 'actions', variables.$color-black, 2, true);
 		background-position: center;
 		background-repeat: no-repeat;
 		text-indent: 200%;
@@ -38,19 +38,23 @@
 		}
 	}
 }
+
 .toastify.toastify-top {
-	right: 10px;
+	inset-inline-end: 10px;
 }
 
 .toast-error {
-	border-left: 3px solid var(--color-error);
+	border-inline-start: 3px solid var(--color-error);
 }
+
 .toast-info {
-	border-left: 3px solid var(--color-primary-element);
+	border-inline-start: 3px solid var(--color-primary-element);
 }
+
 .toast-warning {
-	border-left: 3px solid var(--color-warning);
+	border-inline-start: 3px solid var(--color-warning);
 }
+
 .toast-success {
-	border-left: 3px solid var(--color-success);
+	border-inline-start: 3px solid var(--color-success);
 }

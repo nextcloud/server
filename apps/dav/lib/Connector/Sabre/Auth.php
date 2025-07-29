@@ -13,10 +13,13 @@ use OC\Authentication\TwoFactorAuth\Manager;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCA\DAV\Connector\Sabre\Exception\TooManyRequests;
+use OCP\AppFramework\Http;
+use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
@@ -26,29 +29,20 @@ use Sabre\HTTP\ResponseInterface;
 
 class Auth extends AbstractBasic {
 	public const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
-
-	private ISession $session;
-	private Session $userSession;
-	private IRequest $request;
 	private ?string $currentUser = null;
-	private Manager $twoFactorManager;
-	private IThrottler $throttler;
 
-	public function __construct(ISession $session,
-		Session $userSession,
-		IRequest $request,
-		Manager $twoFactorManager,
-		IThrottler $throttler,
-		string $principalPrefix = 'principals/users/') {
-		$this->session = $session;
-		$this->userSession = $userSession;
-		$this->twoFactorManager = $twoFactorManager;
-		$this->request = $request;
-		$this->throttler = $throttler;
+	public function __construct(
+		private ISession $session,
+		private Session $userSession,
+		private IRequest $request,
+		private Manager $twoFactorManager,
+		private IThrottler $throttler,
+		string $principalPrefix = 'principals/users/',
+	) {
 		$this->principalPrefix = $principalPrefix;
 
 		// setup realm
-		$defaults = new \OCP\Defaults();
+		$defaults = new Defaults();
 		$this->realm = $defaults->getName() ?: 'Nextcloud';
 	}
 
@@ -61,8 +55,8 @@ class Auth extends AbstractBasic {
 	 * @see https://github.com/owncloud/core/issues/13245
 	 */
 	public function isDavAuthenticated(string $username): bool {
-		return !is_null($this->session->get(self::DAV_AUTHENTICATED)) &&
-		$this->session->get(self::DAV_AUTHENTICATED) === $username;
+		return !is_null($this->session->get(self::DAV_AUTHENTICATED))
+		&& $this->session->get(self::DAV_AUTHENTICATED) === $username;
 	}
 
 	/**
@@ -77,8 +71,8 @@ class Auth extends AbstractBasic {
 	 * @throws PasswordLoginForbidden
 	 */
 	protected function validateUserPass($username, $password) {
-		if ($this->userSession->isLoggedIn() &&
-			$this->isDavAuthenticated($this->userSession->getUser()->getUID())
+		if ($this->userSession->isLoggedIn()
+			&& $this->isDavAuthenticated($this->userSession->getUser()->getUID())
 		) {
 			$this->session->close();
 			return true;
@@ -115,7 +109,7 @@ class Auth extends AbstractBasic {
 		} catch (Exception $e) {
 			$class = get_class($e);
 			$msg = $e->getMessage();
-			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+			Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 			throw new ServiceUnavailable("$class: $msg");
 		}
 	}
@@ -124,8 +118,9 @@ class Auth extends AbstractBasic {
 	 * Checks whether a CSRF check is required on the request
 	 */
 	private function requiresCSRFCheck(): bool {
-		// GET requires no check at all
-		if ($this->request->getMethod() === 'GET') {
+
+		$methodsWithoutCsrf = ['GET', 'HEAD', 'OPTIONS'];
+		if (in_array($this->request->getMethod(), $methodsWithoutCsrf)) {
 			return false;
 		}
 
@@ -149,8 +144,8 @@ class Auth extends AbstractBasic {
 		}
 
 		// If logged-in AND DAV authenticated no check is required
-		if ($this->userSession->isLoggedIn() &&
-			$this->isDavAuthenticated($this->userSession->getUser()->getUID())) {
+		if ($this->userSession->isLoggedIn()
+			&& $this->isDavAuthenticated($this->userSession->getUser()->getUID())) {
 			return false;
 		}
 
@@ -164,13 +159,13 @@ class Auth extends AbstractBasic {
 	private function auth(RequestInterface $request, ResponseInterface $response): array {
 		$forcedLogout = false;
 
-		if (!$this->request->passesCSRFCheck() &&
-			$this->requiresCSRFCheck()) {
+		if (!$this->request->passesCSRFCheck()
+			&& $this->requiresCSRFCheck()) {
 			// In case of a fail with POST we need to recheck the credentials
 			if ($this->request->getMethod() === 'POST') {
 				$forcedLogout = true;
 			} else {
-				$response->setStatus(401);
+				$response->setStatus(Http::STATUS_UNAUTHORIZED);
 				throw new \Sabre\DAV\Exception\NotAuthenticated('CSRF check not passed.');
 			}
 		}
@@ -183,10 +178,10 @@ class Auth extends AbstractBasic {
 			}
 			if (
 				//Fix for broken webdav clients
-				($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED))) ||
+				($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED)))
 				//Well behaved clients that only send the cookie are allowed
-				($this->userSession->isLoggedIn() && $this->session->get(self::DAV_AUTHENTICATED) === $this->userSession->getUser()->getUID() && empty($request->getHeader('Authorization'))) ||
-				\OC_User::handleApacheAuth()
+				|| ($this->userSession->isLoggedIn() && $this->session->get(self::DAV_AUTHENTICATED) === $this->userSession->getUser()->getUID() && empty($request->getHeader('Authorization')))
+				|| \OC_User::handleApacheAuth()
 			) {
 				$user = $this->userSession->getUser()->getUID();
 				$this->currentUser = $user;
@@ -203,7 +198,7 @@ class Auth extends AbstractBasic {
 		} elseif (in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With') ?? ''))) {
 			// For ajax requests use dummy auth name to prevent browser popup in case of invalid creditials
 			$response->addHeader('WWW-Authenticate', 'DummyBasic realm="' . $this->realm . '"');
-			$response->setStatus(401);
+			$response->setStatus(Http::STATUS_UNAUTHORIZED);
 			throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
 		}
 		return $data;

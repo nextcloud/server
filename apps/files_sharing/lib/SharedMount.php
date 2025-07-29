@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,13 +12,16 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCA\Files_Sharing\Exceptions\BrokenPath;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Storage\IStorageFactory;
-use OCP\ICache;
+use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 use OCP\Share\Events\VerifyMountPointEvent;
+use OCP\Share\IShare;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,70 +29,54 @@ use Psr\Log\LoggerInterface;
  */
 class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint {
 	/**
-	 * @var \OCA\Files_Sharing\SharedStorage $storage
+	 * @var SharedStorage $storage
 	 */
 	protected $storage = null;
 
-	/**
-	 * @var \OC\Files\View
-	 */
-	private $recipientView;
-
-	private IUser $user;
-
-	/** @var \OCP\Share\IShare */
+	/** @var IShare */
 	private $superShare;
 
-	/** @var \OCP\Share\IShare[] */
+	/** @var IShare[] */
 	private $groupedShares;
-
-	private IEventDispatcher $eventDispatcher;
-
-	private ICache $cache;
 
 	public function __construct(
 		$storage,
 		array $mountpoints,
 		$arguments,
 		IStorageFactory $loader,
-		View $recipientView,
+		private View $recipientView,
 		CappedMemoryCache $folderExistCache,
-		IEventDispatcher $eventDispatcher,
-		IUser $user,
-		ICache $cache
+		private IEventDispatcher $eventDispatcher,
+		private IUser $user,
+		bool $alreadyVerified,
 	) {
-		$this->user = $user;
-		$this->recipientView = $recipientView;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->cache = $cache;
-
 		$this->superShare = $arguments['superShare'];
 		$this->groupedShares = $arguments['groupedShares'];
 
-		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
-		$absMountPoint = '/' . $user->getUID() . '/files' . $newMountPoint;
+		$absMountPoint = '/' . $user->getUID() . '/files/' . trim($this->superShare->getTarget(), '/') . '/';
+
+		// after the mountpoint is verified for the first time, only new mountpoints (e.g. groupfolders can overwrite the target)
+		if (!$alreadyVerified || isset($mountpoints[$absMountPoint])) {
+			$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints, $folderExistCache);
+			$absMountPoint = '/' . $user->getUID() . '/files/' . trim($newMountPoint, '/') . '/';
+		}
+
 		parent::__construct($storage, $absMountPoint, $arguments, $loader, null, null, MountProvider::class);
 	}
 
 	/**
 	 * check if the parent folder exists otherwise move the mount point up
 	 *
-	 * @param \OCP\Share\IShare $share
+	 * @param IShare $share
 	 * @param SharedMount[] $mountpoints
 	 * @param CappedMemoryCache<bool> $folderExistCache
 	 * @return string
 	 */
 	private function verifyMountPoint(
-		\OCP\Share\IShare $share,
+		IShare $share,
 		array $mountpoints,
-		CappedMemoryCache $folderExistCache
+		CappedMemoryCache $folderExistCache,
 	) {
-		$cacheKey = $this->user->getUID() . '/' . $share->getId() . '/' . $share->getTarget();
-		$cached = $this->cache->get($cacheKey);
-		if ($cached !== null) {
-			return $cached;
-		}
-
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
 
@@ -108,7 +96,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		}
 
 		$newMountPoint = $this->generateUniqueTarget(
-			\OC\Files\Filesystem::normalizePath($parent . '/' . $mountPoint),
+			Filesystem::normalizePath($parent . '/' . $mountPoint),
 			$this->recipientView,
 			$mountpoints
 		);
@@ -117,8 +105,6 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 			$this->updateFileTarget($newMountPoint, $share);
 		}
 
-		$this->cache->set($cacheKey, $newMountPoint, 60 * 60);
-
 		return $newMountPoint;
 	}
 
@@ -126,7 +112,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	 * update fileTarget in the database if the mount point changed
 	 *
 	 * @param string $newPath
-	 * @param \OCP\Share\IShare $share
+	 * @param IShare $share
 	 * @return bool
 	 */
 	private function updateFileTarget($newPath, &$share) {
@@ -134,7 +120,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 
 		foreach ($this->groupedShares as $tmpShare) {
 			$tmpShare->setTarget($newPath);
-			\OC::$server->getShareManager()->moveShare($tmpShare, $this->user->getUID());
+			Server::get(\OCP\Share\IManager::class)->moveShare($tmpShare, $this->user->getUID());
 		}
 
 		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($this->user));
@@ -169,7 +155,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	 *
 	 * @param string $path the absolute path
 	 * @return string e.g. turns '/admin/files/test.txt' into '/test.txt'
-	 * @throws \OCA\Files_Sharing\Exceptions\BrokenPath
+	 * @throws BrokenPath
 	 */
 	protected function stripUserFilesPath($path) {
 		$trimmed = ltrim($path, '/');
@@ -177,8 +163,8 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 
 		// it is not a file relative to data/user/files
 		if (count($split) < 3 || $split[1] !== 'files') {
-			\OCP\Server::get(LoggerInterface::class)->error('Can not strip userid and "files/" from path: ' . $path, ['app' => 'files_sharing']);
-			throw new \OCA\Files_Sharing\Exceptions\BrokenPath('Path does not start with /user/files', 10);
+			Server::get(LoggerInterface::class)->error('Can not strip userid and "files/" from path: ' . $path, ['app' => 'files_sharing']);
+			throw new BrokenPath('Path does not start with /user/files', 10);
 		}
 
 		// skip 'user' and 'files'
@@ -205,7 +191,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 			$this->setMountPoint($target);
 			$this->storage->setMountPoint($relTargetPath);
 		} catch (\Exception $e) {
-			\OCP\Server::get(LoggerInterface::class)->error(
+			Server::get(LoggerInterface::class)->error(
 				'Could not rename mount point for shared folder "' . $this->getMountPoint() . '" to "' . $target . '"',
 				[
 					'app' => 'files_sharing',
@@ -223,8 +209,8 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	 * @return bool
 	 */
 	public function removeMount() {
-		$mountManager = \OC\Files\Filesystem::getMountManager();
-		/** @var \OCA\Files_Sharing\SharedStorage $storage */
+		$mountManager = Filesystem::getMountManager();
+		/** @var SharedStorage $storage */
 		$storage = $this->getStorage();
 		$result = $storage->unshareStorage();
 		$mountManager->removeMount($this->mountPoint);
@@ -233,14 +219,14 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	}
 
 	/**
-	 * @return \OCP\Share\IShare
+	 * @return IShare
 	 */
 	public function getShare() {
 		return $this->superShare;
 	}
 
 	/**
-	 * @return \OCP\Share\IShare[]
+	 * @return IShare[]
 	 */
 	public function getGroupedShares(): array {
 		return $this->groupedShares;
@@ -262,13 +248,13 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		if (!is_null($this->getShare()->getNodeCacheEntry())) {
 			return $this->getShare()->getNodeCacheEntry()->getStorageId();
 		} else {
-			$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$builder = Server::get(IDBConnection::class)->getQueryBuilder();
 
 			$query = $builder->select('storage')
 				->from('filecache')
 				->where($builder->expr()->eq('fileid', $builder->createNamedParameter($this->getStorageRootId())));
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$row = $result->fetch();
 			$result->closeCursor();
 			if ($row) {

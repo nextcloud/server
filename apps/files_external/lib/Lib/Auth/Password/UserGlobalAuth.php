@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
@@ -22,12 +23,10 @@ use OCP\Security\ICredentialsManager;
 class UserGlobalAuth extends AuthMechanism {
 	private const CREDENTIALS_IDENTIFIER = 'password::global';
 
-	/** @var ICredentialsManager */
-	protected $credentialsManager;
-
-	public function __construct(IL10N $l, ICredentialsManager $credentialsManager) {
-		$this->credentialsManager = $credentialsManager;
-
+	public function __construct(
+		IL10N $l,
+		protected ICredentialsManager $credentialsManager,
+	) {
 		$this
 			->setIdentifier('password::global::user')
 			->setVisibility(BackendService::VISIBILITY_DEFAULT)
@@ -41,6 +40,12 @@ class UserGlobalAuth extends AuthMechanism {
 		if (!isset($backendOptions['user']) && !isset($backendOptions['password'])) {
 			return;
 		}
+
+		if ($backendOptions['password'] === DefinitionParameter::UNMODIFIED_PLACEHOLDER) {
+			$oldCredentials = $this->credentialsManager->retrieve($user->getUID(), self::CREDENTIALS_IDENTIFIER);
+			$backendOptions['password'] = $oldCredentials['password'];
+		}
+
 		// make sure we're not setting any unexpected keys
 		$credentials = [
 			'user' => $backendOptions['user'],

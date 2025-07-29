@@ -5,6 +5,8 @@
 
 import Share from '../models/Share.ts'
 import Config from '../services/ConfigService.ts'
+import { ATOMIC_PERMISSIONS } from '../lib/SharePermissionsToolBox.js'
+import logger from '../services/logger.ts'
 
 export default {
 	methods: {
@@ -24,6 +26,18 @@ export default {
 				share = this.mapShareRequestToShareObject(externalShareRequestObject)
 			} else {
 				share = this.mapShareRequestToShareObject(shareRequestObject)
+			}
+
+			if (this.fileInfo.type !== 'dir') {
+				const originalPermissions = share.permissions
+				const strippedPermissions = originalPermissions
+					& ~ATOMIC_PERMISSIONS.CREATE
+					& ~ATOMIC_PERMISSIONS.DELETE
+
+				if (originalPermissions !== strippedPermissions) {
+					logger.debug('Removed create/delete permissions from file share (only valid for folders)')
+					share.permissions = strippedPermissions
+				}
 			}
 
 			const shareDetails = {
@@ -51,6 +65,7 @@ export default {
 						scope: 'permissions',
 					},
 				],
+				hideDownload: false,
 				share_type: shareRequestObject.shareType,
 				share_with: shareRequestObject.shareWith,
 				is_no_user: shareRequestObject.isNoUser,

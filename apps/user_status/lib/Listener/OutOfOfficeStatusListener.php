@@ -28,16 +28,18 @@ use OCP\UserStatus\IUserStatus;
  *
  */
 class OutOfOfficeStatusListener implements IEventListener {
-	public function __construct(private IJobList $jobsList,
+	public function __construct(
+		private IJobList $jobsList,
 		private ITimeFactory $time,
-		private IManager $manager) {
+		private IManager $manager,
+	) {
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function handle(Event $event): void {
-		if($event instanceof OutOfOfficeClearedEvent) {
+		if ($event instanceof OutOfOfficeClearedEvent) {
 			$this->manager->revertUserStatus($event->getData()->getUser()->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
 			$this->jobsList->scheduleAfter(UserStatusAutomation::class, $this->time->getTime(), ['userId' => $event->getData()->getUser()->getUID()]);
 			return;

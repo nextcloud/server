@@ -19,7 +19,7 @@ use Sabre\HTTP\ResponseInterface;
 class CalDavValidatePlugin extends ServerPlugin {
 
 	public function __construct(
-		private IAppConfig $config
+		private IAppConfig $config,
 	) {
 	}
 

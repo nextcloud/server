@@ -32,7 +32,6 @@ class PhpModules implements ISetupCheck {
 		'zlib',
 	];
 	protected const RECOMMENDED_MODULES = [
-		'bcmath',
 		'exif',
 		'gmp',
 		'intl',
@@ -58,8 +57,7 @@ class PhpModules implements ISetupCheck {
 		return match($module) {
 			'intl' => $this->l10n->t('increases language translation performance and fixes sorting of non-ASCII characters'),
 			'sodium' => $this->l10n->t('for Argon2 for password hashing'),
-			'bcmath' => $this->l10n->t('for WebAuthn passwordless login'),
-			'gmp' => $this->l10n->t('for WebAuthn passwordless login, and SFTP storage'),
+			'gmp' => $this->l10n->t('required for SFTP storage and recommended for WebAuthn performance'),
 			'exif' => $this->l10n->t('for picture rotation in server and metadata extraction in the Photos app'),
 			default => '',
 		};
@@ -77,7 +75,7 @@ class PhpModules implements ISetupCheck {
 			$moduleList = implode(
 				"\n",
 				array_map(
-					fn (string $module) => '- '.$module.' '.$this->getRecommendedModuleDescription($module),
+					fn (string $module) => '- ' . $module . ' ' . $this->getRecommendedModuleDescription($module),
 					$missingRecommendedModules
 				)
 			);

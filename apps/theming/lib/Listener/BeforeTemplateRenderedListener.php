@@ -19,29 +19,19 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
 use OCP\IUserSession;
+use OCP\Util;
 use Psr\Container\ContainerInterface;
 
 /** @template-implements IEventListener<BeforeTemplateRenderedEvent|BeforeLoginTemplateRenderedEvent> */
 class BeforeTemplateRenderedListener implements IEventListener {
 
-	private IInitialState $initialState;
-	private ContainerInterface $container;
-	private ThemeInjectionService $themeInjectionService;
-	private IUserSession $userSession;
-	private IConfig $config;
-
 	public function __construct(
-		IInitialState $initialState,
-		ContainerInterface $container,
-		ThemeInjectionService $themeInjectionService,
-		IUserSession $userSession,
-		IConfig $config
+		private IInitialState $initialState,
+		private ContainerInterface $container,
+		private ThemeInjectionService $themeInjectionService,
+		private IUserSession $userSession,
+		private IConfig $config,
 	) {
-		$this->initialState = $initialState;
-		$this->container = $container;
-		$this->themeInjectionService = $themeInjectionService;
-		$this->userSession = $userSession;
-		$this->config = $config;
 	}
 
 	public function handle(Event $event): void {
@@ -64,6 +54,6 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		$this->themeInjectionService->injectHeaders();
 
 		// Making sure to inject just after core
-		\OCP\Util::addScript('theming', 'theming', 'core');
+		Util::addScript('theming', 'theming', 'core');
 	}
 }

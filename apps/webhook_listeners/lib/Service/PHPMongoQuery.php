@@ -28,20 +28,20 @@ abstract class PHPMongoQuery {
 	 * @throws Exception
 	 */
 	public static function find(array $query, array $documents, array $options = []): array {
-		if(empty($documents) || empty($query)) {
+		if (empty($documents) || empty($query)) {
 			return [];
 		}
 		$ret = [];
 		$options['_shouldLog'] = !empty($options['logger']) && $options['logger'] instanceof \Psr\Log\LoggerInterface;
 		$options['_debug'] = !empty($options['debug']);
 		foreach ($documents as $doc) {
-			if(static::_executeQuery($query, $doc, $options)) {
+			if (static::_executeQuery($query, $doc, $options)) {
 				$ret[] = $doc;
 			}
 		}
 		return $ret;
 	}
-	
+
 	/**
 	 * Execute a Mongo query on a document
 	 *
@@ -56,17 +56,17 @@ abstract class PHPMongoQuery {
 	public static function executeQuery($query, array &$document, array $options = []): bool {
 		$options['_shouldLog'] = !empty($options['logger']) && $options['logger'] instanceof \Psr\Log\LoggerInterface;
 		$options['_debug'] = !empty($options['debug']);
-		if($options['_debug'] && $options['_shouldLog']) {
+		if ($options['_debug'] && $options['_shouldLog']) {
 			$options['logger']->debug('executeQuery called', ['query' => $query, 'document' => $document, 'options' => $options]);
 		}
-		
-		if(!is_array($query)) {
+
+		if (!is_array($query)) {
 			return (bool)$query;
 		}
-		
+
 		return self::_executeQuery($query, $document, $options);
 	}
-	
+
 	/**
 	 * Internal execute query
 	 *
@@ -75,10 +75,10 @@ abstract class PHPMongoQuery {
 	 * @throws Exception
 	 */
 	private static function _executeQuery(array $query, array &$document, array $options = [], string $logicalOperator = '$and'): bool {
-		if($logicalOperator !== '$and' && (!count($query) || !isset($query[0]))) {
-			throw new Exception($logicalOperator.' requires nonempty array');
+		if ($logicalOperator !== '$and' && (!count($query) || !isset($query[0]))) {
+			throw new Exception($logicalOperator . ' requires nonempty array');
 		}
-		if($options['_debug'] && $options['_shouldLog']) {
+		if ($options['_debug'] && $options['_shouldLog']) {
 			$options['logger']->debug('_executeQuery called', ['query' => $query, 'document' => $document, 'logicalOperator' => $logicalOperator]);
 		}
 
@@ -87,19 +87,19 @@ abstract class PHPMongoQuery {
 		// to detect an array of key->vals that have numeric IDs vs an array of queries (where keys were not specified)
 		$queryIsIndexedArray = !empty($query) && array_is_list($query);
 
-		foreach($query as $k => $q) {
+		foreach ($query as $k => $q) {
 			$pass = true;
-			if(is_string($k) && substr($k, 0, 1) === '$') {
+			if (is_string($k) && substr($k, 0, 1) === '$') {
 				// key is an operator at this level, except $not, which can be at any level
-				if($k === '$not') {
+				if ($k === '$not') {
 					$pass = !self::_executeQuery($q, $document, $options);
 				} else {
 					$pass = self::_executeQuery($q, $document, $options, $k);
 				}
-			} elseif($logicalOperator === '$and') { // special case for $and
-				if($queryIsIndexedArray) { // $q is an array of query objects
+			} elseif ($logicalOperator === '$and') { // special case for $and
+				if ($queryIsIndexedArray) { // $q is an array of query objects
 					$pass = self::_executeQuery($q, $document, $options);
-				} elseif(is_array($q)) { // query is array, run all queries on field.  All queries must match. e.g { 'age': { $gt: 24, $lt: 52 } }
+				} elseif (is_array($q)) { // query is array, run all queries on field.  All queries must match. e.g { 'age': { $gt: 24, $lt: 52 } }
 					$pass = self::_executeQueryOnElement($q, $k, $document, $options);
 				} else {
 					// key value means equality
@@ -108,30 +108,30 @@ abstract class PHPMongoQuery {
 			} else { // $q is array of query objects e.g '$or' => [{'fullName' => 'Nick'}]
 				$pass = self::_executeQuery($q, $document, $options, '$and');
 			}
-			switch($logicalOperator) {
+			switch ($logicalOperator) {
 				case '$and': // if any fail, query fails
-					if(!$pass) {
+					if (!$pass) {
 						return false;
 					}
 					break;
 				case '$or': // if one succeeds, query succeeds
-					if($pass) {
+					if ($pass) {
 						return true;
 					}
 					break;
 				case '$nor': // if one succeeds, query fails
-					if($pass) {
+					if ($pass) {
 						return false;
 					}
 					break;
 				default:
-					if($options['_shouldLog']) {
+					if ($options['_shouldLog']) {
 						$options['logger']->warning('_executeQuery could not find logical operator', ['query' => $query, 'document' => $document, 'logicalOperator' => $logicalOperator]);
 					}
 					return false;
 			}
 		}
-		switch($logicalOperator) {
+		switch ($logicalOperator) {
 			case '$and': // all succeeded, query succeeds
 				return true;
 			case '$or': // all failed, query fails
@@ -139,31 +139,31 @@ abstract class PHPMongoQuery {
 			case '$nor': // all failed, query succeeded
 				return true;
 			default:
-				if($options['_shouldLog']) {
+				if ($options['_shouldLog']) {
 					$options['logger']->warning('_executeQuery could not find logical operator', ['query' => $query, 'document' => $document, 'logicalOperator' => $logicalOperator]);
 				}
 				return false;
 		}
 	}
-	
+
 	/**
 	 * Execute a query object on an element
 	 *
 	 * @throws Exception
 	 */
 	private static function _executeQueryOnElement(array $query, string $element, array &$document, array $options = []): bool {
-		if($options['_debug'] && $options['_shouldLog']) {
+		if ($options['_debug'] && $options['_shouldLog']) {
 			$options['logger']->debug('_executeQueryOnElement called', ['query' => $query, 'element' => $element, 'document' => $document]);
 		}
 		// iterate through query operators
-		foreach($query as $op => $opVal) {
-			if(!self::_executeOperatorOnElement($op, $opVal, $element, $document, $options)) {
+		foreach ($query as $op => $opVal) {
+			if (!self::_executeOperatorOnElement($op, $opVal, $element, $document, $options)) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Check if an operator is equal to a value
 	 *
@@ -176,15 +176,15 @@ abstract class PHPMongoQuery {
 		if (is_array($v) && is_array($operatorValue)) {
 			return $v == $operatorValue;
 		}
-		if(is_array($v)) {
+		if (is_array($v)) {
 			return in_array($operatorValue, $v);
 		}
-		if(is_string($operatorValue) && preg_match('/^\/(.*?)\/([a-z]*)$/i', $operatorValue, $matches)) {
-			return (bool)preg_match('/'.$matches[1].'/'.$matches[2], $v);
+		if (is_string($operatorValue) && preg_match('/^\/(.*?)\/([a-z]*)$/i', $operatorValue, $matches)) {
+			return (bool)preg_match('/' . $matches[1] . '/' . $matches[2], $v);
 		}
 		return $operatorValue === $v;
 	}
-	
+
 	/**
 	 * Execute a Mongo Operator on an element
 	 *
@@ -196,75 +196,75 @@ abstract class PHPMongoQuery {
 	 * @throws Exception Exceptions on invalid operators, invalid unknown operator callback, and invalid operator values
 	 */
 	private static function _executeOperatorOnElement(string $operator, $operatorValue, string $element, array &$document, array $options = []): bool {
-		if($options['_debug'] && $options['_shouldLog']) {
+		if ($options['_debug'] && $options['_shouldLog']) {
 			$options['logger']->debug('_executeOperatorOnElement called', ['operator' => $operator, 'operatorValue' => $operatorValue, 'element' => $element, 'document' => $document]);
 		}
-		
-		if($operator === '$not') {
+
+		if ($operator === '$not') {
 			return !self::_executeQueryOnElement($operatorValue, $element, $document, $options);
 		}
-		
+
 		$elementSpecifier = explode('.', $element);
 		$v = & $document;
 		$exists = true;
-		foreach($elementSpecifier as $index => $es) {
-			if(empty($v)) {
+		foreach ($elementSpecifier as $index => $es) {
+			if (empty($v)) {
 				$exists = false;
 				break;
 			}
-			if(isset($v[0])) {
+			if (isset($v[0])) {
 				// value from document is an array, so we need to iterate through array and test the query on all elements of the array
 				// if any elements match, then return true
 				$newSpecifier = implode('.', array_slice($elementSpecifier, $index));
-				foreach($v as $item) {
-					if(self::_executeOperatorOnElement($operator, $operatorValue, $newSpecifier, $item, $options)) {
+				foreach ($v as $item) {
+					if (self::_executeOperatorOnElement($operator, $operatorValue, $newSpecifier, $item, $options)) {
 						return true;
 					}
 				}
 				return false;
 			}
-			if(isset($v[$es])) {
+			if (isset($v[$es])) {
 				$v = & $v[$es];
 			} else {
 				$exists = false;
 				break;
 			}
 		}
-		
-		switch($operator) {
+
+		switch ($operator) {
 			case '$all':
-				if(!$exists) {
+				if (!$exists) {
 					return false;
 				}
-				if(!is_array($operatorValue)) {
+				if (!is_array($operatorValue)) {
 					throw new Exception('$all requires array');
 				}
-				if(count($operatorValue) === 0) {
+				if (count($operatorValue) === 0) {
 					return false;
 				}
-				if(!is_array($v)) {
-					if(count($operatorValue) === 1) {
+				if (!is_array($v)) {
+					if (count($operatorValue) === 1) {
 						return $v === $operatorValue[0];
 					}
 					return false;
 				}
 				return count(array_intersect($v, $operatorValue)) === count($operatorValue);
 			case '$e':
-				if(!$exists) {
+				if (!$exists) {
 					return false;
 				}
 				return self::_isEqual($v, $operatorValue);
 			case '$in':
-				if(!$exists) {
+				if (!$exists) {
 					return false;
 				}
-				if(!is_array($operatorValue)) {
+				if (!is_array($operatorValue)) {
 					throw new Exception('$in requires array');
 				}
-				if(count($operatorValue) === 0) {
+				if (count($operatorValue) === 0) {
 					return false;
 				}
-				if(is_array($v)) {
+				if (is_array($v)) {
 					return count(array_intersect($v, $operatorValue)) > 0;
 				}
 				return in_array($v, $operatorValue);
@@ -274,50 +274,50 @@ abstract class PHPMongoQuery {
 			case '$gte':	return $exists && $v >= $operatorValue;
 			case '$ne':		return (!$exists && $operatorValue !== null) || ($exists && !self::_isEqual($v, $operatorValue));
 			case '$nin':
-				if(!$exists) {
+				if (!$exists) {
 					return true;
 				}
-				if(!is_array($operatorValue)) {
+				if (!is_array($operatorValue)) {
 					throw new Exception('$nin requires array');
 				}
-				if(count($operatorValue) === 0) {
+				if (count($operatorValue) === 0) {
 					return true;
 				}
-				if(is_array($v)) {
+				if (is_array($v)) {
 					return count(array_intersect($v, $operatorValue)) === 0;
 				}
 				return !in_array($v, $operatorValue);
-			
+
 			case '$exists':	return ($operatorValue && $exists) || (!$operatorValue && !$exists);
 			case '$mod':
-				if(!$exists) {
+				if (!$exists) {
 					return false;
 				}
-				if(!is_array($operatorValue)) {
+				if (!is_array($operatorValue)) {
 					throw new Exception('$mod requires array');
 				}
-				if(count($operatorValue) !== 2) {
+				if (count($operatorValue) !== 2) {
 					throw new Exception('$mod requires two parameters in array: divisor and remainder');
 				}
 				return $v % $operatorValue[0] === $operatorValue[1];
-				
+
 			default:
-				if(empty($options['unknownOperatorCallback']) || !is_callable($options['unknownOperatorCallback'])) {
-					throw new Exception('Operator '.$operator.' is unknown');
+				if (empty($options['unknownOperatorCallback']) || !is_callable($options['unknownOperatorCallback'])) {
+					throw new Exception('Operator ' . $operator . ' is unknown');
 				}
-				
+
 				$res = call_user_func($options['unknownOperatorCallback'], $operator, $operatorValue, $element, $document);
-				if($res === null) {
-					throw new Exception('Operator '.$operator.' is unknown');
+				if ($res === null) {
+					throw new Exception('Operator ' . $operator . ' is unknown');
 				}
-				if(!is_bool($res)) {
-					throw new Exception('Return value of unknownOperatorCallback must be boolean, actual value '.$res);
+				if (!is_bool($res)) {
+					throw new Exception('Return value of unknownOperatorCallback must be boolean, actual value ' . $res);
 				}
 				return $res;
 		}
 		throw new Exception('Didn\'t return in switch');
 	}
-	
+
 	/**
 	 * Get the fields this query depends on
 	 *
@@ -326,11 +326,11 @@ abstract class PHPMongoQuery {
 	 */
 	public static function getDependentFields(array $query) {
 		$fields = [];
-		foreach($query as $k => $v) {
-			if(is_array($v)) {
+		foreach ($query as $k => $v) {
+			if (is_array($v)) {
 				$fields = array_merge($fields, static::getDependentFields($v));
 			}
-			if(is_int($k) || $k[0] === '$') {
+			if (is_int($k) || $k[0] === '$') {
 				continue;
 			}
 			$fields[] = $k;

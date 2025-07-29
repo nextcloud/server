@@ -6,7 +6,7 @@
 	<tr class="files-list__row-head">
 		<th class="files-list__column files-list__row-checkbox"
 			@keyup.esc.exact="resetSelection">
-			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
+			<NcCheckboxRadioSwitch v-bind="selectAllBind" data-cy-files-list-selection-checkbox @update:checked="onToggleAll" />
 		</th>
 
 		<!-- Columns display -->
@@ -23,6 +23,14 @@
 
 		<!-- Actions -->
 		<th class="files-list__row-actions" />
+
+		<!-- Mime -->
+		<th v-if="isMimeAvailable"
+			class="files-list__column files-list__row-mime"
+			:class="{ 'files-list__column--sortable': isMimeAvailable }"
+			:aria-sort="ariaSortForMode('mime')">
+			<FilesListTableHeaderButton :name="t('files', 'File type')" mode="mime" />
+		</th>
 
 		<!-- Size -->
 		<th v-if="isSizeAvailable"
@@ -59,14 +67,14 @@ import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
 import { translate as t } from '@nextcloud/l10n'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
-
-import { useNavigation } from '../composables/useNavigation'
 import { useFilesStore } from '../store/files.ts'
+import { useNavigation } from '../composables/useNavigation'
 import { useSelectionStore } from '../store/selection.ts'
+import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.ts'
 
@@ -83,6 +91,10 @@ export default defineComponent({
 	],
 
 	props: {
+		isMimeAvailable: {
+			type: Boolean,
+			default: false,
+		},
 		isMtimeAvailable: {
 			type: Boolean,
 			default: false,
@@ -155,8 +167,23 @@ export default defineComponent({
 		},
 	},
 
+	created() {
+		// ctrl+a selects all
+		useHotKey('a', this.onToggleAll, {
+			ctrl: true,
+			stop: true,
+			prevent: true,
+		})
+
+		// Escape key cancels selection
+		useHotKey('Escape', this.resetSelection, {
+			stop: true,
+			prevent: true,
+		})
+	},
+
 	methods: {
-		ariaSortForMode(mode: string): ARIAMixin['ariaSort'] {
+		ariaSortForMode(mode: string): 'ascending'|'descending'|null {
 			if (this.sortingMode === mode) {
 				return this.isAscSorting ? 'ascending' : 'descending'
 			}
@@ -172,7 +199,7 @@ export default defineComponent({
 			}
 		},
 
-		onToggleAll(selected) {
+		onToggleAll(selected = true) {
 			if (selected) {
 				const selection = this.nodes.map(node => node.source).filter(Boolean) as FileSource[]
 				logger.debug('Added all nodes to selection', { selection })
@@ -185,6 +212,9 @@ export default defineComponent({
 		},
 
 		resetSelection() {
+			if (this.isNoneSelected) {
+				return
+			}
 			this.selectionStore.reset()
 		},
 

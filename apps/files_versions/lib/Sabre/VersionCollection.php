@@ -18,19 +18,11 @@ use Sabre\DAV\ICollection;
 
 class VersionCollection implements ICollection {
 
-	/** @var File */
-	private $file;
-
-	/** @var IUser */
-	private $user;
-
-	/** @var IVersionManager */
-	private $versionManager;
-
-	public function __construct(File $file, IUser $user, IVersionManager $versionManager) {
-		$this->file = $file;
-		$this->user = $user;
-		$this->versionManager = $versionManager;
+	public function __construct(
+		private File $file,
+		private IUser $user,
+		private IVersionManager $versionManager,
+	) {
 	}
 
 	public function createFile($name, $data = null) {

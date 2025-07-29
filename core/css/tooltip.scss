@@ -13,7 +13,6 @@
     letter-spacing: normal;
     line-break: auto;
     line-height: 1.6;
-    text-align: left;
     text-align: start;
     text-decoration: none;
     text-shadow: none;
@@ -39,8 +38,8 @@
     }
     &.top .tooltip-arrow,
     &[x-placement^='top'] {
-        left: 50%;
-        margin-left: -10px;
+        inset-inline-start: 50%;
+        margin-inline-start: -10px;
     }
     &.bottom,
     &[x-placement^='bottom'] {
@@ -49,26 +48,26 @@
     }
     &.right,
     &[x-placement^='right'] {
-        margin-left: 3px;
+        margin-inline-start: 3px;
         padding: 0 10px;
         .tooltip-arrow {
             top: 50%;
-            left: 0;
+            inset-inline-start: 0;
             margin-top: -10px;
             border-width: 10px 10px 10px 0;
-            border-right-color: var(--color-main-background);
+            border-inline-end-color: var(--color-main-background);
         }
     }
     &.left,
     &[x-placement^='left'] {
-        margin-left: -3px;
+        margin-inline-start: -3px;
         padding: 0 5px;
         .tooltip-arrow {
             top: 50%;
-            right: 0;
+            inset-inline-end: 0;
             margin-top: -10px;
             border-width: 10px 0 10px 10px;
-            border-left-color: var(--color-main-background);
+            border-inline-start-color: var(--color-main-background);
         }
     }
     /* TOP */
@@ -83,11 +82,11 @@
         }
     }
     &.top-left .tooltip-arrow {
-        right: 10px;
+        inset-inline-end: 10px;
         margin-bottom: -10px;
     }
     &.top-right .tooltip-arrow {
-        left: 10px;
+        inset-inline-start: 10px;
         margin-bottom: -10px;
     }
     /* BOTTOM */
@@ -103,15 +102,15 @@
     }
     &[x-placement^='bottom'] .tooltip-arrow,
     &.bottom .tooltip-arrow {
-        left: 50%;
-        margin-left: -10px;
+        inset-inline-start: 50%;
+        margin-inline-start: -10px;
     }
     &.bottom-left .tooltip-arrow {
-        right: 10px;
+        inset-inline-end: 10px;
         margin-top: -10px;
     }
     &.bottom-right .tooltip-arrow {
-        left: 10px;
+        inset-inline-start: 10px;
         margin-top: -10px;
     }
 }

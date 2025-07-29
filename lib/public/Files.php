@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,8 @@
 
 namespace OCP;
 
+use OCP\Files\IMimeTypeDetector;
+
 /**
  * This class provides access to the internal filesystem abstraction layer. Use
  * this class exclusively if you want to access files
@@ -18,12 +21,44 @@ namespace OCP;
 class Files {
 	/**
 	 * Recursive deletion of folders
+	 *
+	 * @param string $dir path to the folder
+	 * @param bool $deleteSelf if set to false only the content of the folder will be deleted
 	 * @return bool
 	 * @since 5.0.0
+	 * @since 32.0.0 added the $deleteSelf parameter
 	 * @deprecated 14.0.0
 	 */
-	public static function rmdirr($dir) {
-		return \OC_Helper::rmdirr($dir);
+	public static function rmdirr($dir, bool $deleteSelf = true) {
+		if (is_dir($dir)) {
+			$files = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
+				\RecursiveIteratorIterator::CHILD_FIRST
+			);
+
+			foreach ($files as $fileInfo) {
+				/** @var \SplFileInfo $fileInfo */
+				if ($fileInfo->isLink()) {
+					unlink($fileInfo->getPathname());
+				} elseif ($fileInfo->isDir()) {
+					rmdir($fileInfo->getRealPath());
+				} else {
+					unlink($fileInfo->getRealPath());
+				}
+			}
+			if ($deleteSelf) {
+				rmdir($dir);
+			}
+		} elseif (file_exists($dir)) {
+			if ($deleteSelf) {
+				unlink($dir);
+			}
+		}
+		if (!$deleteSelf) {
+			return true;
+		}
+
+		return !file_exists($dir);
 	}
 
 	/**
@@ -35,7 +70,7 @@ class Files {
 	 * @deprecated 14.0.0
 	 */
 	public static function getMimeType($path) {
-		return \OC::$server->getMimeTypeDetector()->detect($path);
+		return Server::get(IMimeTypeDetector::class)->detect($path);
 	}
 
 	/**
@@ -51,15 +86,45 @@ class Files {
 
 	/**
 	 * Copy the contents of one stream to another
+	 *
+	 * @template T of null|true
 	 * @param resource $source
 	 * @param resource $target
-	 * @return int the number of bytes copied
+	 * @param T $includeResult
+	 * @return int|array
+	 * @psalm-return (T is true ? array{0: int, 1: bool} : int)
 	 * @since 5.0.0
+	 * @since 32.0.0 added $includeResult parameter
 	 * @deprecated 14.0.0
 	 */
-	public static function streamCopy($source, $target) {
-		[$count, ] = \OC_Helper::streamCopy($source, $target);
-		return $count;
+	public static function streamCopy($source, $target, ?bool $includeResult = null) {
+		if (!$source or !$target) {
+			return $includeResult ? [0, false] : 0;
+		}
+
+		$bufSize = 8192;
+		$count = 0;
+		$result = true;
+		while (!feof($source)) {
+			$buf = fread($source, $bufSize);
+			if ($buf === false) {
+				$result = false;
+				break;
+			}
+
+			$bytesWritten = fwrite($target, $buf);
+			if ($bytesWritten !== false) {
+				$count += $bytesWritten;
+			}
+
+			if ($bytesWritten === false
+				|| ($bytesWritten < $bufSize && $bytesWritten < strlen($buf))
+			) {
+				$result = false;
+				break;
+			}
+		}
+		return $includeResult ? [$count, $result] : $count;
 	}
 
 	/**
@@ -72,17 +137,5 @@ class Files {
 	 */
 	public static function buildNotExistingFileName($path, $filename) {
 		return \OC_Helper::buildNotExistingFileName($path, $filename);
-	}
-
-	/**
-	 * Gets the Storage for an app - creates the needed folder if they are not
-	 * existent
-	 * @param string $app
-	 * @return \OC\Files\View
-	 * @since 5.0.0
-	 * @deprecated 14.0.0 use IAppData instead
-	 */
-	public static function getStorage($app) {
-		return \OC_App::getStorage($app);
 	}
 }

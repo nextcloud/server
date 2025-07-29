@@ -12,6 +12,8 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\Exceptions\DbalException;
+use OC\DB\QueryBuilder\Sharded\CrossShardMoveHelper;
+use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -48,7 +50,7 @@ class ConnectionAdapter implements IDBConnection {
 				$this->inner->executeQuery($sql, $params, $types)
 			);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -56,7 +58,7 @@ class ConnectionAdapter implements IDBConnection {
 		try {
 			return $this->inner->executeUpdate($sql, $params, $types);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -64,7 +66,7 @@ class ConnectionAdapter implements IDBConnection {
 		try {
 			return $this->inner->executeStatement($sql, $params, $types);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -187,6 +189,14 @@ class ConnectionAdapter implements IDBConnection {
 		}
 	}
 
+	public function truncateTable(string $table, bool $cascade): void {
+		try {
+			$this->inner->truncateTable($table, $cascade);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
 	public function tableExists(string $table): bool {
 		try {
 			return $this->inner->tableExists($table);
@@ -243,5 +253,13 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function logDatabaseException(\Exception $exception) {
 		$this->inner->logDatabaseException($exception);
+	}
+
+	public function getShardDefinition(string $name): ?ShardDefinition {
+		return $this->inner->getShardDefinition($name);
+	}
+
+	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
+		return $this->inner->getCrossShardMoveHelper();
 	}
 }

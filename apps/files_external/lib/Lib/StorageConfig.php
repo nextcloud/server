@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,7 @@
  */
 namespace OCA\Files_External\Lib;
 
+use OC\Files\Filesystem;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -81,14 +83,14 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * List of users who have access to this storage
 	 *
-	 * @var string[]
+	 * @var list<string>
 	 */
 	private $applicableUsers = [];
 
 	/**
 	 * List of groups that have access to this storage
 	 *
-	 * @var string[]
+	 * @var list<string>
 	 */
 	private $applicableGroups = [];
 
@@ -152,7 +154,7 @@ class StorageConfig implements \JsonSerializable {
 	 * @param string $mountPoint path
 	 */
 	public function setMountPoint($mountPoint) {
-		$this->mountPoint = \OC\Files\Filesystem::normalizePath($mountPoint);
+		$this->mountPoint = Filesystem::normalizePath($mountPoint);
 	}
 
 	/**
@@ -203,7 +205,7 @@ class StorageConfig implements \JsonSerializable {
 			foreach ($backendOptions as $key => $value) {
 				if (isset($parameters[$key])) {
 					switch ($parameters[$key]->getType()) {
-						case \OCA\Files_External\Lib\DefinitionParameter::VALUE_BOOLEAN:
+						case DefinitionParameter::VALUE_BOOLEAN:
 							$value = (bool)$value;
 							break;
 					}
@@ -255,7 +257,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the users for which to mount this storage
 	 *
-	 * @return string[] applicable users
+	 * @return list<string> applicable users
 	 */
 	public function getApplicableUsers() {
 		return $this->applicableUsers;
@@ -264,7 +266,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the users for which to mount this storage
 	 *
-	 * @param string[]|null $applicableUsers applicable users
+	 * @param list<string>|null $applicableUsers applicable users
 	 */
 	public function setApplicableUsers($applicableUsers) {
 		if (is_null($applicableUsers)) {
@@ -276,7 +278,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Returns the groups for which to mount this storage
 	 *
-	 * @return string[] applicable groups
+	 * @return list<string> applicable groups
 	 */
 	public function getApplicableGroups() {
 		return $this->applicableGroups;
@@ -285,7 +287,7 @@ class StorageConfig implements \JsonSerializable {
 	/**
 	 * Sets the groups for which to mount this storage
 	 *
-	 * @param string[]|null $applicableGroups applicable groups
+	 * @param list<string>|null $applicableGroups applicable groups
 	 */
 	public function setApplicableGroups($applicableGroups) {
 		if (is_null($applicableGroups)) {

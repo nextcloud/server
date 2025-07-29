@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,27 +26,13 @@ use Sabre\VObject\Reader;
  */
 class Backend {
 
-	/** @var IActivityManager */
-	protected $activityManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IAppManager */
-	protected $appManager;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	public function __construct(IActivityManager $activityManager, IGroupManager $groupManager, IUserSession $userSession, IAppManager $appManager, IUserManager $userManager) {
-		$this->activityManager = $activityManager;
-		$this->groupManager = $groupManager;
-		$this->userSession = $userSession;
-		$this->appManager = $appManager;
-		$this->userManager = $userManager;
+	public function __construct(
+		protected IActivityManager $activityManager,
+		protected IGroupManager $groupManager,
+		protected IUserSession $userSession,
+		protected IAppManager $appManager,
+		protected IUserManager $userManager,
+	) {
 	}
 
 	/**

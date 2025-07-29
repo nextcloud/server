@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,13 +10,16 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\Utils\Scanner;
 use OC\ForbiddenException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -48,7 +52,7 @@ class ScanAppData extends Base {
 
 	protected function scanFiles(OutputInterface $output, string $folder): int {
 		try {
-			/** @var \OCP\Files\Folder $appData */
+			/** @var Folder $appData */
 			$appData = $this->getAppDataFolder();
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>NoAppData folder found</error>');
@@ -65,31 +69,31 @@ class ScanAppData extends Base {
 		}
 
 		$connection = $this->reconnectToDatabase($output);
-		$scanner = new \OC\Files\Utils\Scanner(
+		$scanner = new Scanner(
 			null,
 			new ConnectionAdapter($connection),
-			\OC::$server->query(IEventDispatcher::class),
-			\OC::$server->get(LoggerInterface::class)
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class)
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output): void {
 			$output->writeln("\tFile   <info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->filesCounter;
 			$this->abortIfInterrupted();
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output): void {
 			$output->writeln("\tFolder <info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->foldersCounter;
 			$this->abortIfInterrupted();
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output): void {
 			$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')', OutputInterface::VERBOSITY_VERBOSE);
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', function ($fullPath) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', function ($fullPath) use ($output): void {
 			$output->writeln("\t<error>Entry \"" . $fullPath . '" will not be accessible due to incompatible encoding</error>');
 		});
 
@@ -211,7 +215,7 @@ class ScanAppData extends Base {
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {
 		/** @var Connection $connection */
-		$connection = \OC::$server->get(Connection::class);
+		$connection = Server::get(Connection::class);
 		try {
 			$connection->close();
 		} catch (\Exception $ex) {
@@ -238,6 +242,6 @@ class ScanAppData extends Base {
 			throw new NotFoundException();
 		}
 
-		return $this->rootFolder->get('appdata_'.$instanceId);
+		return $this->rootFolder->get('appdata_' . $instanceId);
 	}
 }

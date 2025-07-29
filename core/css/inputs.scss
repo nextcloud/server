@@ -4,15 +4,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
-@import 'functions';
+@use 'sass:color';
+@use 'functions';
 
  /* Specifically override browser styles */
 input, textarea, select, button, div[contenteditable=true], div[contenteditable=false] {
 	font-family: var(--font-face);
 }
+
 .select2-container-multi .select2-choices .select2-search-field input, .select2-search input, .ui-widget {
 	font-family: var(--font-face) !important;
 }
+
 .select2-container.select2-drop-above .select2-choice {
 	background-image: unset !important;
 }
@@ -68,7 +71,6 @@ button:not(
 .button,
 .pager li a {
 	padding: 7px 14px;
-	font-size: 13px;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
 	border: 1px solid var(--color-border-dark);
@@ -77,7 +79,8 @@ button:not(
 	border-radius: var(--border-radius);
 	cursor: text;
 	&:not(.app-navigation-entry-button) {
-		margin: 3px 3px 3px 0;
+		margin: 3px;
+		margin-inline-start: 0;
 	}
 	&:not(
 		:disabled,
@@ -152,11 +155,10 @@ button:not(
 }
 
 div[contenteditable=false] {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	padding: 7px 6px;
 	font-size: 13px;
-	background-color: var(--color-main-background);
-	color: var(--color-text-maxcontrast);
 	border: 1px solid var(--color-background-darker);
 	outline: none;
 	border-radius: var(--border-radius);
@@ -245,7 +247,8 @@ input:not(
 select,
 div[contenteditable=true],
 textarea {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	padding: 0 12px;
 	font-size: var(--default-font-size);
 	background-color: var(--color-main-background);
@@ -277,10 +280,18 @@ textarea, div[contenteditable=true] {
 
 /* Override the ugly select arrow */
 select {
-	background: var(--icon-triangle-s-dark) no-repeat right 8px center;
+	background: var(--icon-triangle-s-dark) no-repeat;
 	appearance: none;
 	background-color: var(--color-main-background);
-	padding-right: 28px !important;
+	padding-inline-end: 28px !important;
+}
+
+body[dir='ltr'] select {
+	background-position:  right 8px center;
+}
+
+body[dir='rtl'] select {
+	background-position:  left 8px center;
 }
 
 select,
@@ -327,6 +338,7 @@ input[type='reset'] {
 		}
 	}
 }
+
 button:not(
 	.button-vue,
 	.action-button,
@@ -345,58 +357,56 @@ button:not(
 }
 
 /* Confirm inputs */
-input {
-	&[type='text'],
-	&[type='password'],
-	&[type='email'] {
-		+ .icon-confirm {
-			margin-left: -13px !important;
-			border-left-color: transparent !important;
-			border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0 !important;
-			border-width: 2px;
-			background-clip: padding-box;
-			/* Avoid background under border */
-			background-color: var(--color-main-background) !important;
-			opacity: 1;
-			height: var(--default-clickable-area);
-			width: var(--default-clickable-area);
-			padding: 7px 6px;
-			cursor: pointer;
-			margin-right: 0;
-			&:disabled {
-				cursor: default;
-				@include icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
-			}
+input[type='text'],
+input[type='password'],
+input[type='email'] {
+	+ .icon-confirm {
+		margin-inline-start: -13px !important;
+		border-inline-start-color: transparent !important;
+		border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0 !important;
+		border-width: 2px;
+		background-clip: padding-box;
+		/* Avoid background under border */
+		background-color: var(--color-main-background) !important;
+		opacity: 1;
+		height: var(--default-clickable-area);
+		width: var(--default-clickable-area);
+		padding: 7px 6px;
+		cursor: pointer;
+		margin-inline-end: 0;
+		&:disabled {
+			cursor: default;
+			@include functions.icon-color('confirm-fade', 'actions', variables.$color-black, 2, true);
 		}
+	}
 
-		/* only show confirm borders if input is not focused */
-		&:not(:active):not(:hover):not(:focus){
-			&:invalid {
-				+ .icon-confirm {
-					border-color: var(--color-error);
-				}
-			}
+	/* only show confirm borders if input is not focused */
+	&:not(:active):not(:hover):not(:focus){
+		&:invalid {
 			+ .icon-confirm {
-				&:active,
-				&:hover,
-				&:focus {
-					border-color: var(--color-primary-element) !important;
-					border-radius: var(--border-radius) !important;
-					&:disabled {
-						border-color: var(--color-background-darker) !important;
-					}
+				border-color: var(--color-error);
+			}
+		}
+		+ .icon-confirm {
+			&:active,
+			&:hover,
+			&:focus {
+				border-color: var(--color-primary-element) !important;
+				border-radius: var(--border-radius) !important;
+				&:disabled {
+					border-color: var(--color-background-darker) !important;
 				}
 			}
 		}
-		&:active,
-		&:hover,
-		&:focus {
-			+ .icon-confirm {
-				border-color: var(--color-primary-element) !important;
-				border-left-color: transparent !important;
-				/* above previous input */
-				z-index: 2;
-			}
+	}
+	&:active,
+	&:hover,
+	&:focus {
+		+ .icon-confirm {
+			border-color: var(--color-primary-element) !important;
+			border-inline-start-color: transparent !important;
+			/* above previous input */
+			z-index: 2;
 		}
 	}
 }
@@ -407,6 +417,7 @@ button img,
 .button img {
 	cursor: pointer;
 }
+
 select,
 .button.multiselect {
 	font-weight: normal;
@@ -416,123 +427,122 @@ select,
 $checkbox-radio-size: 14px;
 $color-checkbox-radio-white: #fff;
 
-input {
-	&[type='checkbox'],
-	&[type='radio'] {
-		&.radio,
-		&.checkbox {
-			position: absolute;
-			left: -10000px;
-			top: auto;
-			width: 1px;
-			height: 1px;
-			overflow: hidden;
-			+ label {
-				user-select: none;
-			}
-			&:disabled + label,
-			&:disabled + label:before {
-				cursor: default;
-			}
-			+ label:before {
-				content: '';
-				display: inline-block;
-				height: $checkbox-radio-size;
-				width: $checkbox-radio-size;
-				vertical-align: middle;
-				border-radius: 50%;
-				margin: 0 6px 3px 3px;
-				border: 1px solid var(--color-text-maxcontrast);
-			}
-			&:not(:disabled):not(:checked) + label:hover:before,
-			&:focus + label:before {
-				border-color: var(--color-primary-element);
-			}
-			&:focus-visible + label {
-				outline-style: solid;
-				outline-color: var(--color-main-text);
-				outline-width: 1px;
-				outline-offset: 2px;
-			}
-			&:checked + label:before,
-			&.checkbox:indeterminate + label:before {
-			/* ^ :indeterminate have a strange behavior on radio,
-			so we respecified the checkbox class again to be safe */
-				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-				background-color: var(--color-primary-element);
-				border-color: var(--color-primary-element);
-			}
-			&:disabled + label:before {
-				border: 1px solid var(--color-text-maxcontrast);
-				background-color: var(--color-text-maxcontrast) !important; /* override other status */
-			}
-			&:checked:disabled + label:before {
-				background-color: var(--color-text-maxcontrast);
-			}
-
-			// Detail description below label of checkbox or radio button
-			& + label ~ em {
-				display: inline-block;
-				margin-left: 25px;
-			}
-			& + label ~ em:last-of-type {
-				margin-bottom: $checkbox-radio-size;
-			}
+input[type='checkbox'],
+input[type='radio'] {
+	&.radio,
+	&.checkbox {
+		position: absolute;
+		inset-inline-start: -10000px;
+		top: auto;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		+ label {
+			user-select: none;
 		}
-		&.checkbox {
-			+ label:before {
-				border-radius: 1px;
-				height: $checkbox-radio-size;
-				width: $checkbox-radio-size;
-				box-shadow: none !important;
-				background-position: center;
-			}
-			&:checked + label:before {
-				background-image: url('../img/actions/checkbox-mark.svg');
-			}
-			&:indeterminate + label:before {
-				background-image: url('../img/actions/checkbox-mixed.svg');
-			}
+		&:disabled + label,
+		&:disabled + label:before {
+			cursor: default;
+		}
+		+ label:before {
+			content: '';
+			display: inline-block;
+			height: $checkbox-radio-size;
+			width: $checkbox-radio-size;
+			vertical-align: middle;
+			border-radius: 50%;
+			margin: 0 3px;
+			margin-inline: 3px 6px;
+			border: 1px solid var(--color-text-maxcontrast);
+		}
+		&:not(:disabled):not(:checked) + label:hover:before,
+		&:focus + label:before {
+			border-color: var(--color-primary-element);
+		}
+		&:focus-visible + label {
+			outline-style: solid;
+			outline-color: var(--color-main-text);
+			outline-width: 1px;
+			outline-offset: 2px;
+		}
+		&:checked + label:before,
+		&.checkbox:indeterminate + label:before {
+		/* ^ :indeterminate have a strange behavior on radio,
+		so we respecified the checkbox class again to be safe */
+			box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+			background-color: var(--color-primary-element);
+			border-color: var(--color-primary-element);
+		}
+		&:disabled + label:before {
+			border: 1px solid var(--color-text-maxcontrast);
+			background-color: var(--color-text-maxcontrast) !important; /* override other status */
+		}
+		&:checked:disabled + label:before {
+			background-color: var(--color-text-maxcontrast);
 		}
 
-		/* We do not use the variables as we keep the colours as white for this variant */
-		&.radio--white,
-		&.checkbox--white {
-			+ label:before,
-			&:focus + label:before {
-				border-color: darken($color-checkbox-radio-white, 27%);
-			}
-			&:not(:disabled):not(:checked) + label:hover:before {
-				border-color: $color-checkbox-radio-white;
-			}
-			&:checked + label:before {
-				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-				background-color: darken($color-checkbox-radio-white, 14%);
-				border-color: darken($color-checkbox-radio-white, 14%);
-			}
-			&:disabled + label:before {
-				background-color: darken($color-checkbox-radio-white, 27%) !important; /* override other status */
-				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
-			}
-			&:checked:disabled + label:before {
-				box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
-				border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
-				background-color: darken($color-checkbox-radio-white, 27%);
-			}
+		// Detail description below label of checkbox or radio button
+		& + label ~ em {
+			display: inline-block;
+			margin-inline-start: 25px;
 		}
-		&.checkbox--white {
-			&:checked + label:before,
-			&:indeterminate + label:before {
-				background-color: transparent !important; /* Override default checked */
-				border-color: $color-checkbox-radio-white !important; /* Override default checked */
-				background-image: url('../img/actions/checkbox-mark-white.svg');
-			}
-			&:indeterminate + label:before {
-				background-image: url('../img/actions/checkbox-mixed-white.svg');
-			}
-			&:disabled + label:before {
-				opacity: 0.7; /* No other choice for white background image */
-			}
+		& + label ~ em:last-of-type {
+			margin-bottom: $checkbox-radio-size;
+		}
+	}
+	&.checkbox {
+		+ label:before {
+			border-radius: 1px;
+			height: $checkbox-radio-size;
+			width: $checkbox-radio-size;
+			box-shadow: none !important;
+			background-position: center;
+		}
+		&:checked + label:before {
+			background-image: url('../img/actions/checkbox-mark.svg');
+		}
+		&:indeterminate + label:before {
+			background-image: url('../img/actions/checkbox-mixed.svg');
+		}
+	}
+
+	/* We do not use the variables as we keep the colours as white for this variant */
+	&.radio--white,
+	&.checkbox--white {
+		+ label:before,
+		&:focus + label:before {
+			border-color: color.adjust($color-checkbox-radio-white, $lightness: -27%, $space: hsl);
+		}
+		&:not(:disabled):not(:checked) + label:hover:before {
+			border-color: $color-checkbox-radio-white;
+		}
+		&:checked + label:before {
+			box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+			background-color: color.adjust($color-checkbox-radio-white, $lightness: -14%, $space: hsl);
+			border-color: color.adjust($color-checkbox-radio-white, $lightness: -14%, $space: hsl);
+		}
+		&:disabled + label:before {
+			background-color: color.adjust($color-checkbox-radio-white, $lightness: -27%, $space: hsl) !important; /* override other status */
+			border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
+		}
+		&:checked:disabled + label:before {
+			box-shadow: inset 0px 0px 0px 2px var(--color-main-background);
+			border-color: rgba($color-checkbox-radio-white, 0.4) !important; /* override other status */
+			background-color: color.adjust($color-checkbox-radio-white, $lightness: -27%, $space: hsl);
+		}
+	}
+	&.checkbox--white {
+		&:checked + label:before,
+		&:indeterminate + label:before {
+			background-color: transparent !important; /* Override default checked */
+			border-color: $color-checkbox-radio-white !important; /* Override default checked */
+			background-image: url('../img/actions/checkbox-mark-white.svg');
+		}
+		&:indeterminate + label:before {
+			background-image: url('../img/actions/checkbox-mixed-white.svg');
+		}
+		&:disabled + label:before {
+			opacity: 0.7; /* No other choice for white background image */
 		}
 	}
 }
@@ -546,7 +556,7 @@ div.select2-drop {
 	}
 	.avatar {
 		display: inline-block;
-		margin-right: 8px;
+		margin-inline-end: 8px;
 		vertical-align: middle;
 		img {
 			cursor: pointer;
@@ -554,7 +564,7 @@ div.select2-drop {
 	}
 	.select2-search input {
 		min-height: auto;
-		background: var(--icon-search-dark) no-repeat right center !important;
+		background: var(--icon-search-dark) no-repeat !important;
 		background-origin: content-box !important;
 	}
 	.select2-results {
@@ -594,6 +604,15 @@ div.select2-drop {
 		}
 	}
 }
+
+body[dir='ltr'] div.select2-drop .select2-search input {
+	background-position: right center !important;
+}
+
+body[dir='rtl'] div.select2-drop .select2-search input {
+	background-position: left center !important;
+}
+
 .select2-chosen,
 #select2-drop {
 	.avatar,
@@ -601,6 +620,7 @@ div.select2-drop {
 		cursor: pointer;
 	}
 }
+
 div.select2-container-multi {
 	.select2-choices,
 	&.select2-container-active .select2-choices {
@@ -620,7 +640,7 @@ div.select2-container-multi {
 		}
 		.select2-search-choice {
 			line-height: 20px;
-			padding-left: 5px;
+			padding-inline-start: 5px;
 			&.select2-search-choice-focus,
 			&:hover,
 			&:active,
@@ -645,8 +665,10 @@ div.select2-container-multi {
 		}
 	}
 }
+
 div.select2-container {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	&.select2-container-multi .select2-choices {
 		display: flex;
 		flex-wrap: wrap;
@@ -671,7 +693,7 @@ div.select2-container {
 		}
 		.select2-search-choice {
 			line-height: 20px;
-			padding-left: 5px;
+			padding-inline-start: 5px;
 			background-image: none;
 			background-color: var(--color-background-dark);
 			border-color: var(--color-background-dark);
@@ -706,14 +728,15 @@ div.select2-container {
 
 /* Vue v-select */
 .v-select {
-	margin: 3px 3px 3px 0;
+	margin: 3px;
+	margin-inline-start: 0;
 	display: inline-block;
 	.dropdown-toggle {
 		display: flex !important;
 		flex-wrap: wrap;
 		.selected-tag {
 			line-height: 20px;
-			padding-left: 5px;
+			padding-inline-start: 5px;
 			background-image: none;
 			background-color: var(--color-main-background);
 			color: var(--color-text-maxcontrast);
@@ -721,7 +744,7 @@ div.select2-container {
 			display: inline-flex;
 			align-items: center;
 			.close {
-				margin-left: 3px;
+				margin-inline-start: 3px;
 			}
 		}
 	}
@@ -739,7 +762,8 @@ div.select2-container {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				height: 25px;
-				padding: 3px 7px 4px 2px;
+				padding-block: 3px 4px;
+				padding-inline: 2px 7px;
 				margin: 0;
 				cursor: pointer;
 				min-height: 1em;
@@ -761,7 +785,7 @@ div.select2-container {
 					min-height: 16px;
 					display: block;
 					opacity: 0.5;
-					margin-right: 5px;
+					margin-inline-end: 5px;
 					visibility: hidden;
 				}
 			}
@@ -833,6 +857,7 @@ progress:not(.vue) {
 		transform: translate(4px);
 	}
 }
+
 .shake {
 	animation-name: shake;
 	animation-duration: .7s;
@@ -843,7 +868,7 @@ progress:not(.vue) {
 // Same as .hidden-visually
 label.infield {
 	position: absolute;
-	left: -10000px;
+	inset-inline-start: -10000px;
 	top: -10000px;
 	width: 1px;
 	height: 1px;

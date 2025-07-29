@@ -36,11 +36,12 @@
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
-import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
+import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
 import debounce from 'debounce'
 
 import { sendHeartbeat } from './services/heartbeatService.js'
@@ -159,7 +160,7 @@ export default {
 			}
 		},
 		handleUserStatusUpdated(state) {
-			if (OC.getCurrentUser().uid === state.userId) {
+			if (getCurrentUser()?.uid === state.userId) {
 				this.$store.dispatch('setStatusFromObject', {
 					status: state.status,
 					icon: state.icon,

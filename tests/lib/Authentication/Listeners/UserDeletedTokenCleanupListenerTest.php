@@ -83,13 +83,18 @@ class UserDeletedTokenCleanupListenerTest extends TestCase {
 				$token2,
 				$token3,
 			]);
+
+		$calls = [
+			['user123', 1],
+			['user123', 2],
+			['user123', 3],
+		];
 		$this->manager->expects($this->exactly(3))
 			->method('invalidateTokenById')
-			->withConsecutive(
-				['user123', 1],
-				['user123', 2],
-				['user123', 3]
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->logger->expects($this->never())
 			->method('error');
 

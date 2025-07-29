@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,6 +16,7 @@ use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -23,22 +26,12 @@ use Test\TestCase;
  * @package OCA\Theming\Tests
  */
 class CapabilitiesTest extends TestCase {
-	/** @var ThemingDefaults|MockObject */
-	protected $theming;
-
-	/** @var IURLGenerator|MockObject */
-	protected $url;
-
-	/** @var IConfig|MockObject */
-	protected $config;
-
-	/** @var Util|MockObject */
-	protected $util;
-
+	protected ThemingDefaults&MockObject $theming;
+	protected IURLGenerator&MockObject $url;
+	protected IConfig&MockObject $config;
+	protected Util&MockObject $util;
 	protected IUserSession $userSession;
-
-	/** @var Capabilities */
-	protected $capabilities;
+	protected Capabilities $capabilities;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -57,10 +50,11 @@ class CapabilitiesTest extends TestCase {
 		);
 	}
 
-	public function dataGetCapabilities() {
+	public static function dataGetCapabilities(): array {
 		return [
 			['name', 'url', 'slogan', '#FFFFFF', '#000000', 'logo', 'background', '#fff', '#000', 'http://absolute/', true, [
 				'name' => 'name',
+				'productName' => 'name',
 				'url' => 'url',
 				'slogan' => 'slogan',
 				'color' => '#FFFFFF',
@@ -78,6 +72,7 @@ class CapabilitiesTest extends TestCase {
 			]],
 			['name1', 'url2', 'slogan3', '#01e4a0', '#ffffff', 'logo5', 'background6', '#fff', '#000', 'http://localhost/', false, [
 				'name' => 'name1',
+				'productName' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
 				'color' => '#01e4a0',
@@ -95,6 +90,7 @@ class CapabilitiesTest extends TestCase {
 			]],
 			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', '#000000', '#ffffff', 'http://localhost/', true, [
 				'name' => 'name1',
+				'productName' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
 				'color' => '#000000',
@@ -112,6 +108,7 @@ class CapabilitiesTest extends TestCase {
 			]],
 			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', '#000000', '#ffffff', 'http://localhost/', false, [
 				'name' => 'name1',
+				'productName' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
 				'color' => '#000000',
@@ -131,24 +128,18 @@ class CapabilitiesTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetCapabilities
-	 * @param string $name
-	 * @param string $url
-	 * @param string $slogan
-	 * @param string $color
-	 * @param string $textColor
-	 * @param string $logo
-	 * @param string $background
-	 * @param string $baseUrl
-	 * @param bool $backgroundThemed
-	 * @param string[] $expected
+	 * @param non-empty-array<string, string> $expected
 	 */
-	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $backgroundColor, $backgroundTextColor, $baseUrl, $backgroundThemed, array $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCapabilities')]
+	public function testGetCapabilities(string $name, string $url, string $slogan, string $color, string $textColor, string $logo, string $background, string $backgroundColor, string $backgroundTextColor, string $baseUrl, bool $backgroundThemed, array $expected): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->willReturn($background);
 		$this->theming->expects($this->once())
 			->method('getName')
+			->willReturn($name);
+		$this->theming->expects($this->once())
+			->method('getProductName')
 			->willReturn($name);
 		$this->theming->expects($this->once())
 			->method('getBaseUrl')
@@ -169,7 +160,7 @@ class CapabilitiesTest extends TestCase {
 			->method('getLogo')
 			->willReturn($logo);
 
-		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class), $this->createMock(ImageManager::class));
+		$util = new Util($this->createMock(ServerVersion::class), $this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class), $this->createMock(ImageManager::class));
 		$this->util->expects($this->exactly(3))
 			->method('elementColor')
 			->with($color)

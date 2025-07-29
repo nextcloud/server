@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -48,11 +49,11 @@ class RemotePluginTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->contactsManager = $this->createMock(IManager::class);
 		$this->cloudIdManager = new CloudIdManager(
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->createMock(IUserManager::class),
-			$this->createMock(ICacheFactory::class),
-			$this->createMock(IEventDispatcher::class)
 		);
 		$this->searchResult = new SearchResult();
 	}
@@ -70,7 +71,6 @@ class RemotePluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetRemote
 	 *
 	 * @param string $searchTerm
 	 * @param array $contacts
@@ -79,7 +79,8 @@ class RemotePluginTest extends TestCase {
 	 * @param bool $exactIdMatch
 	 * @param bool $reachedEnd
 	 */
-	public function testSearch($searchTerm, array $contacts, $shareeEnumeration, array $expected, $exactIdMatch, $reachedEnd) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetRemote')]
+	public function testSearch($searchTerm, array $contacts, $shareeEnumeration, array $expected, $exactIdMatch, $reachedEnd): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -111,13 +112,13 @@ class RemotePluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSplitUserRemote
 	 *
 	 * @param string $remote
 	 * @param string $expectedUser
 	 * @param string $expectedUrl
 	 */
-	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemote')]
+	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl): void {
 		$this->instantiatePlugin();
 
 		$this->contactsManager->expects($this->any())
@@ -130,18 +131,17 @@ class RemotePluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSplitUserRemoteError
-	 *
 	 * @param string $id
 	 */
-	public function testSplitUserRemoteError($id) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSplitUserRemoteError')]
+	public function testSplitUserRemoteError($id): void {
 		$this->expectException(\Exception::class);
 
 		$this->instantiatePlugin();
 		$this->plugin->splitUserRemote($id);
 	}
 
-	public function dataGetRemote() {
+	public static function dataGetRemote() {
 		return [
 			['test', [], true, ['remotes' => [], 'exact' => ['remotes' => []]], false, true],
 			['test', [], false, ['remotes' => [], 'exact' => ['remotes' => []]], false, true],
@@ -374,7 +374,7 @@ class RemotePluginTest extends TestCase {
 		];
 	}
 
-	public function dataTestSplitUserRemote() {
+	public static function dataTestSplitUserRemote(): array {
 		$userPrefix = ['user@name', 'username'];
 		$protocols = ['', 'http://', 'https://'];
 		$remotes = [
@@ -410,7 +410,7 @@ class RemotePluginTest extends TestCase {
 		return $testCases;
 	}
 
-	public function dataTestSplitUserRemoteError() {
+	public static function dataTestSplitUserRemoteError(): array {
 		return [
 			// Invalid path
 			['user@'],

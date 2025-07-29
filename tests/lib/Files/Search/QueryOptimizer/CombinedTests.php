@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,7 +22,7 @@ class CombinedTests extends TestCase {
 		$this->optimizer = new QueryOptimizer();
 	}
 
-	public function testBasicOrOfAnds() {
+	public function testBasicOrOfAnds(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
@@ -46,7 +47,7 @@ class CombinedTests extends TestCase {
 		$this->assertEquals('(storage eq 1 and path in ["foo","bar","asd"])', $operator->__toString());
 	}
 
-	public function testComplexSearchPattern1() {
+	public function testComplexSearchPattern1(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
@@ -85,7 +86,7 @@ class CombinedTests extends TestCase {
 		$this->assertEquals('(storage eq 1 or (storage eq 2 and (path eq "201" or path like "201\/%")) or (storage eq 3 and path in ["301","302"]) or (storage eq 4 and path in ["401","402"]))', $operator->__toString());
 	}
 
-	public function testComplexSearchPattern2() {
+	public function testComplexSearchPattern2(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
@@ -122,7 +123,7 @@ class CombinedTests extends TestCase {
 		$this->assertEquals('(storage eq 1 or (storage eq 2 and (path eq "201" or path like "201\/%")) or (storage eq 3 and path in ["301","302"]) or (storage eq 4 and path in ["401","402"]))', $operator->__toString());
 	}
 
-	public function testApplySearchConstraints1() {
+	public function testApplySearchConstraints1(): void {
 		$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
@@ -156,7 +157,7 @@ class CombinedTests extends TestCase {
 		$this->assertEquals('(mimetype in ["image\/png","image\/jpeg"] and ((storage eq 1 and (path eq "files" or path like "files\/%")) or storage eq 2 or (storage eq 3 and path in ["files\/301","files\/302"])))', $operator->__toString());
 	}
 
-	public function testApplySearchConstraints2() {
+	public function testApplySearchConstraints2(): void {
 		$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 			new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_AND, [
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [

@@ -18,41 +18,43 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IRequestId;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group DB
  */
 class DIContainerTest extends \Test\TestCase {
-	/** @var DIContainer|\PHPUnit\Framework\MockObject\MockObject */
-	private $container;
+	private DIContainer&MockObject $container;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->container = $this->getMockBuilder(DIContainer::class)
-			->setMethods(['isAdminUser'])
+			->onlyMethods(['isAdminUser'])
 			->setConstructorArgs(['name'])
 			->getMock();
 	}
 
 
-	public function testProvidesRequest() {
+	public function testProvidesRequest(): void {
 		$this->assertTrue(isset($this->container['Request']));
 	}
 
-	public function testProvidesMiddlewareDispatcher() {
+	public function testProvidesMiddlewareDispatcher(): void {
 		$this->assertTrue(isset($this->container['MiddlewareDispatcher']));
 	}
 
-	public function testProvidesAppName() {
+	public function testProvidesAppName(): void {
 		$this->assertTrue(isset($this->container['AppName']));
+		$this->assertTrue(isset($this->container['appName']));
 	}
 
 
-	public function testAppNameIsSetCorrectly() {
+	public function testAppNameIsSetCorrectly(): void {
 		$this->assertEquals('name', $this->container['AppName']);
+		$this->assertEquals('name', $this->container['appName']);
 	}
 
-	public function testMiddlewareDispatcherIncludesSecurityMiddleware() {
+	public function testMiddlewareDispatcherIncludesSecurityMiddleware(): void {
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
 			$this->createMock(IRequestId::class),
@@ -135,7 +137,7 @@ class DIContainerTest extends \Test\TestCase {
 		$this->fail('Bootstrap registered middleware not found');
 	}
 
-	public function testInvalidAppClass() {
+	public function testInvalidAppClass(): void {
 		$this->expectException(QueryException::class);
 		$this->container->query('\OCA\Name\Foo');
 	}

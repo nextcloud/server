@@ -55,14 +55,14 @@ class MigrationsTest extends \Test\TestCase {
 		$this->appManager = Server::get(IAppManager::class);
 	}
 
-	public function testGetters() {
+	public function testGetters(): void {
 		$this->assertEquals('testing', $this->migrationService->getApp());
 		$this->assertEquals(\OC::$SERVERROOT . '/apps/testing/lib/Migration', $this->migrationService->getMigrationsDirectory());
 		$this->assertEquals('OCA\Testing\Migration', $this->migrationService->getMigrationsNamespace());
 		$this->assertEquals('test_oc_migrations', $this->migrationService->getMigrationsTableName());
 	}
 
-	public function testCore() {
+	public function testCore(): void {
 		$this->migrationService = new MigrationService('core', $this->db);
 
 		$this->assertEquals('core', $this->migrationService->getApp());
@@ -72,7 +72,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testExecuteUnknownStep() {
+	public function testExecuteUnknownStep(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Version 20170130180000 is unknown.');
 
@@ -80,7 +80,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testUnknownApp() {
+	public function testUnknownApp(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App not found');
 
@@ -88,12 +88,12 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testExecuteStepWithUnknownClass() {
+	public function testExecuteStepWithUnknownClass(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Migration step \'X\' is unknown');
 
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['findMigrations'])
+			->onlyMethods(['findMigrations'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 		$this->migrationService->expects($this->any())->method('findMigrations')->willReturn(
@@ -102,7 +102,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	public function testExecuteStepWithSchemaChange() {
+	public function testExecuteStepWithSchemaChange(): void {
 		$schema = $this->createMock(Schema::class);
 		$this->db->expects($this->any())
 			->method('createSchema')
@@ -134,7 +134,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('postSchemaChange');
 
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['createInstance'])
+			->onlyMethods(['createInstance'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 
@@ -145,7 +145,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	public function testExecuteStepWithoutSchemaChange() {
+	public function testExecuteStepWithoutSchemaChange(): void {
 		$schema = $this->createMock(Schema::class);
 		$this->db->expects($this->any())
 			->method('createSchema')
@@ -164,7 +164,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('postSchemaChange');
 
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['createInstance'])
+			->onlyMethods(['createInstance'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 
@@ -175,7 +175,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	public function dataGetMigration() {
+	public static function dataGetMigration(): array {
 		return [
 			['current', '20170130180001'],
 			['prev', '20170130180000'],
@@ -185,13 +185,13 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetMigration
 	 * @param string $alias
 	 * @param string $expected
 	 */
-	public function testGetMigration($alias, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetMigration')]
+	public function testGetMigration($alias, $expected): void {
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['getMigratedVersions', 'findMigrations'])
+			->onlyMethods(['getMigratedVersions', 'findMigrations'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 		$this->migrationService->expects($this->any())->method('getMigratedVersions')->willReturn(
@@ -209,28 +209,39 @@ class MigrationsTest extends \Test\TestCase {
 		$this->assertEquals($expected, $migration);
 	}
 
-	public function testMigrate() {
+	public function testMigrate(): void {
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['getMigratedVersions', 'findMigrations', 'executeStep'])
+			->onlyMethods(['getMigratedVersions', 'findMigrations', 'executeStep'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
-		$this->migrationService->expects($this->any())->method('getMigratedVersions')->willReturn(
-			['20170130180000', '20170130180001']
-		);
-		$this->migrationService->expects($this->any())->method('findMigrations')->willReturn(
-			['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
-		);
+		$this->migrationService->method('getMigratedVersions')
+			->willReturn(
+				['20170130180000', '20170130180001']
+			);
+		$this->migrationService->method('findMigrations')
+			->willReturn(
+				['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
+			);
 
 		$this->assertEquals(
 			['20170130180000', '20170130180001', '20170130180002', '20170130180003'],
-			$this->migrationService->getAvailableVersions());
+			$this->migrationService->getAvailableVersions()
+		);
 
-		$this->migrationService->expects($this->exactly(2))->method('executeStep')
-			->withConsecutive(['20170130180002'], ['20170130180003']);
+		$calls = [
+			['20170130180002', false],
+			['20170130180003', false],
+		];
+		$this->migrationService->expects($this->exactly(2))
+			->method('executeStep')
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->migrationService->migrate();
 	}
 
-	public function testEnsureOracleConstraintsValid() {
+	public function testEnsureOracleConstraintsValid(): void {
 		$column = $this->createMock(Column::class);
 		$column->expects($this->once())
 			->method('getName')
@@ -293,7 +304,7 @@ class MigrationsTest extends \Test\TestCase {
 		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	public function testEnsureOracleConstraintsValidWithPrimaryKey() {
+	public function testEnsureOracleConstraintsValidWithPrimaryKey(): void {
 		$index = $this->createMock(Index::class);
 		$index->expects($this->any())
 			->method('getName')
@@ -336,7 +347,7 @@ class MigrationsTest extends \Test\TestCase {
 		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
 
-	public function testEnsureOracleConstraintsValidWithPrimaryKeyDefault() {
+	public function testEnsureOracleConstraintsValidWithPrimaryKeyDefault(): void {
 		$defaultName = 'PRIMARY';
 		if ($this->db->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
 			$defaultName = \str_repeat('a', 26) . '_' . \str_repeat('b', 30) . '_seq';
@@ -390,7 +401,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsTooLongTableName() {
+	public function testEnsureOracleConstraintsTooLongTableName(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$table = $this->createMock(Table::class);
@@ -415,7 +426,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsTooLongPrimaryWithDefault() {
+	public function testEnsureOracleConstraintsTooLongPrimaryWithDefault(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$defaultName = 'PRIMARY';
@@ -468,7 +479,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsTooLongPrimaryWithName() {
+	public function testEnsureOracleConstraintsTooLongPrimaryWithName(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$index = $this->createMock(Index::class);
@@ -511,7 +522,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsTooLongColumnName() {
+	public function testEnsureOracleConstraintsTooLongColumnName(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$column = $this->createMock(Column::class);
@@ -545,7 +556,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsTooLongIndexName() {
+	public function testEnsureOracleConstraintsTooLongIndexName(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$index = $this->createMock(Index::class);
@@ -582,7 +593,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsTooLongForeignKeyName() {
+	public function testEnsureOracleConstraintsTooLongForeignKeyName(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$foreignKey = $this->createMock(ForeignKeyConstraint::class);
@@ -622,7 +633,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsNoPrimaryKey() {
+	public function testEnsureOracleConstraintsNoPrimaryKey(): void {
 		$this->markTestSkipped('Test disabled for now due to multiple reasons, see https://github.com/nextcloud/server/pull/31580#issuecomment-1069182234 for details.');
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -663,7 +674,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsTooLongSequenceName() {
+	public function testEnsureOracleConstraintsTooLongSequenceName(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$sequence = $this->createMock(Sequence::class);
@@ -691,7 +702,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsBooleanNotNull() {
+	public function testEnsureOracleConstraintsBooleanNotNull(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$column = $this->createMock(Column::class);
@@ -731,7 +742,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsStringLength4000() {
+	public function testEnsureOracleConstraintsStringLength4000(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$column = $this->createMock(Column::class);
@@ -771,7 +782,7 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testExtractMigrationAttributes() {
+	public function testExtractMigrationAttributes(): void {
 		$metadataManager = Server::get(MetadataManager::class);
 		$this->appManager->loadApp('testing');
 
@@ -780,7 +791,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->appManager->disableApp('testing');
 	}
 
-	public function testDeserializeMigrationMetadata() {
+	public function testDeserializeMigrationMetadata(): void {
 		$metadataManager = Server::get(MetadataManager::class);
 		$this->assertEquals(
 			[
@@ -833,11 +844,10 @@ class MigrationsTest extends \Test\TestCase {
 					'class' => 'OCP\\Migration\\Attributes\\CreateTable',
 					'table' => 'new_table',
 					'description' => 'Table is used to store things, but also to get more things',
-					'notes' =>
-						[
-							'this is a notice',
-							'and another one, if really needed'
-						],
+					'notes' => [
+						'this is a notice',
+						'and another one, if really needed'
+					],
 					'columns' => []
 				],
 				[

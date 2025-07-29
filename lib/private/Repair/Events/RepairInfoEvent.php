@@ -14,7 +14,7 @@ class RepairInfoEvent extends Event {
 	private string $message;
 
 	public function __construct(
-		string $message
+		string $message,
 	) {
 		$this->message = $message;
 	}

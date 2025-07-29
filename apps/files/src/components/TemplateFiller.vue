@@ -4,14 +4,16 @@
 -->
 
 <template>
-	<NcModal>
+	<NcModal label-id="template-field-modal__label">
 		<div class="template-field-modal__content">
 			<form>
-				<h3>{{ t('files', 'Fill template fields') }}</h3>
+				<h3 id="template-field-modal__label">
+					{{ t('files', 'Fill template fields') }}
+				</h3>
 
-				<!-- We will support more than just text fields in the future -->
 				<div v-for="field in fields" :key="field.index">
-					<TemplateTextField v-if="field.type == 'rich-text'"
+					<component :is="getFieldComponent(field.type)"
+						v-if="fieldHasLabel(field)"
 						:field="field"
 						@input="trackInput" />
 				</div>
@@ -19,7 +21,7 @@
 		</div>
 
 		<div class="template-field-modal__buttons">
-			<NcLoadingIcon v-if="loading" :name="t('files', 'Submitting fields…')" />
+			<NcLoadingIcon v-if="loading" :name="t('files', 'Submitting fields …')" />
 			<NcButton aria-label="Submit button"
 				type="primary"
 				@click="submit">
@@ -29,11 +31,14 @@
 	</NcModal>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
-import { NcModal, NcButton, NcLoadingIcon } from '@nextcloud/vue'
-import { translate as t } from '@nextcloud/l10n'
-import TemplateTextField from './TemplateFiller/TemplateTextField.vue'
+import { t } from '@nextcloud/l10n'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import TemplateRichTextField from './TemplateFiller/TemplateRichTextField.vue'
+import TemplateCheckboxField from './TemplateFiller/TemplateCheckboxField.vue'
 
 export default defineComponent({
 	name: 'TemplateFiller',
@@ -42,7 +47,8 @@ export default defineComponent({
 		NcModal,
 		NcButton,
 		NcLoadingIcon,
-		TemplateTextField,
+		TemplateRichTextField,
+		TemplateCheckboxField,
 	},
 
 	props: {
@@ -65,10 +71,24 @@ export default defineComponent({
 
 	methods: {
 		t,
-		trackInput([value, index]) {
-			this.localFields[index] = {
-				content: value,
+		trackInput({ index, property, value }) {
+			if (!this.localFields[index]) {
+				this.localFields[index] = {}
 			}
+
+			this.localFields[index][property] = value
+		},
+		getFieldComponent(fieldType) {
+			const fieldComponentType = fieldType.split('-')
+				.map((str) => {
+					return str.charAt(0).toUpperCase() + str.slice(1)
+				})
+				.join('')
+
+			return `Template${fieldComponentType}Field`
+		},
+		fieldHasLabel(field) {
+			return field.name || field.alias
 		},
 		async submit() {
 			this.loading = true

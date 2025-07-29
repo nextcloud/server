@@ -1,11 +1,12 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
-use OC_App;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -24,20 +25,8 @@ class Event extends Base {
 	public const SUBJECT_OBJECT_RESTORE = 'object_restore';
 	public const SUBJECT_OBJECT_DELETE = 'object_delete';
 
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	/** @var IAppManager */
-	protected $appManager;
 
 	/**
 	 * @param IFactory $languageFactory
@@ -48,12 +37,16 @@ class Event extends Base {
 	 * @param IEventMerger $eventMerger
 	 * @param IAppManager $appManager
 	 */
-	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IGroupManager $groupManager, IEventMerger $eventMerger, IAppManager $appManager) {
+	public function __construct(
+		protected IFactory $languageFactory,
+		IURLGenerator $url,
+		protected IManager $activityManager,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		protected IEventMerger $eventMerger,
+		protected IAppManager $appManager,
+	) {
 		parent::__construct($userManager, $groupManager, $url);
-		$this->languageFactory = $languageFactory;
-		$this->activityManager = $activityManager;
-		$this->eventMerger = $eventMerger;
-		$this->appManager = $appManager;
 	}
 
 	/**
@@ -74,7 +67,7 @@ class Event extends Base {
 		if (isset($eventData['link']) && is_array($eventData['link']) && $this->appManager->isEnabledForUser('calendar')) {
 			try {
 				// The calendar app needs to be manually loaded for the routes to be loaded
-				OC_App::loadApp('calendar');
+				$this->appManager->loadApp('calendar');
 				$linkData = $eventData['link'];
 				$calendarUri = $this->urlencodeLowerHex($linkData['calendar_uri']);
 				if ($affectedUser === $linkData['owner']) {
@@ -86,14 +79,9 @@ class Event extends Base {
 					//       as seen from the affected user.
 					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $affectedUser . '/' . $calendarUri . '_shared_by_' . $linkData['owner'] . '/' . $linkData['object_uri']);
 				}
-				$link = [
-					'view' => 'dayGridMonth',
-					'timeRange' => 'now',
-					'mode' => 'sidebar',
+				$params['link'] = $this->url->linkToRouteAbsolute('calendar.view.indexdirect.edit', [
 					'objectId' => $objectId,
-					'recurrenceId' => 'next'
-				];
-				$params['link'] = $this->url->linkToRouteAbsolute('calendar.view.indexview.timerange.edit', $link);
+				]);
 			} catch (\Exception $error) {
 				// Do nothing
 			}
@@ -106,12 +94,12 @@ class Event extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_event') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->l = $this->languageFactory->get('dav', $language);
@@ -147,7 +135,7 @@ class Event extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_RESTORE . '_event_self') {
 			$subject = $this->l->t('You restored event {event} of calendar {calendar}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$parsedParameters = $this->getParameters($event);

@@ -64,7 +64,7 @@ class System implements ISystem {
 
 			if ($result === 0 && isset($output[0])) {
 				$this->paths[$binary] = (string)$output[0];
-			} else if (is_executable("/usr/bin/$binary")) {
+			} elseif (is_executable("/usr/bin/$binary")) {
 				$this->paths[$binary] = "/usr/bin/$binary";
 			} else {
 				$this->paths[$binary] = null;

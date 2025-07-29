@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,7 +10,9 @@ declare(strict_types=1);
 namespace OCA\Testing\TaskProcessing;
 
 use OCA\Testing\AppInfo\Application;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\TaskProcessing\EShapeType;
+use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ShapeDescriptor;
 use OCP\TaskProcessing\TaskTypes\TextToImage;
@@ -17,7 +20,9 @@ use RuntimeException;
 
 class FakeTextToImageProvider implements ISynchronousProvider {
 
-	public function __construct() {
+	public function __construct(
+		protected IAppConfig $appConfig,
+	) {
 	}
 
 	public function getId(): string {
@@ -77,6 +82,10 @@ class FakeTextToImageProvider implements ISynchronousProvider {
 	}
 
 	public function process(?string $userId, array $input, callable $reportProgress): array {
+		if ($this->appConfig->getAppValueBool('fail-' . $this->getId())) {
+			throw new ProcessingException('Failing as set by AppConfig');
+		}
+
 		if (!isset($input['input']) || !is_string($input['input'])) {
 			throw new RuntimeException('Invalid prompt');
 		}

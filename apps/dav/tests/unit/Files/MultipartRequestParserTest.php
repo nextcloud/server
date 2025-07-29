@@ -1,29 +1,35 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace OCA\DAV\Tests\unit\DAV;
+namespace OCA\DAV\Tests\unit\Files;
 
 use OCA\DAV\BulkUpload\MultipartRequestParser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\HTTP\RequestInterface;
 use Test\TestCase;
 
 class MultipartRequestParserTest extends TestCase {
 
-	protected LoggerInterface $logger;
+	protected LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
-	private function getValidBodyObject() {
+	private static function getValidBodyObject(): array {
 		return [
 			[
 				'headers' => [
 					'Content-Length' => 7,
 					'X-File-MD5' => '4f2377b4d911f7ec46325fe603c3af03',
+					'OC-Checksum' => 'md5:4f2377b4d911f7ec46325fe603c3af03',
 					'X-File-Path' => '/coucou.txt'
 				],
 				'content' => "Coucou\n"
@@ -32,11 +38,12 @@ class MultipartRequestParserTest extends TestCase {
 	}
 
 	private function getMultipartParser(array $parts, array $headers = [], string $boundary = 'boundary_azertyuiop'): MultipartRequestParser {
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		/** @var RequestInterface&MockObject $request */
+		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$headers = array_merge(['Content-Type' => 'multipart/related; boundary='.$boundary], $headers);
+		$headers = array_merge(['Content-Type' => 'multipart/related; boundary=' . $boundary], $headers);
 		$request->expects($this->any())
 			->method('getHeader')
 			->willReturnCallback(function (string $key) use (&$headers) {
@@ -45,17 +52,17 @@ class MultipartRequestParserTest extends TestCase {
 
 		$body = '';
 		foreach ($parts as $part) {
-			$body .= '--'.$boundary."\r\n";
+			$body .= '--' . $boundary . "\r\n";
 
 			foreach ($part['headers'] as $headerKey => $headerPart) {
-				$body .= $headerKey.': '.$headerPart."\r\n";
+				$body .= $headerKey . ': ' . $headerPart . "\r\n";
 			}
 
 			$body .= "\r\n";
-			$body .= $part['content']."\r\n";
+			$body .= $part['content'] . "\r\n";
 		}
 
-		$body .= '--'.$boundary.'--';
+		$body .= '--' . $boundary . '--';
 
 		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $body);
@@ -74,7 +81,8 @@ class MultipartRequestParserTest extends TestCase {
 	 */
 	public function testBodyTypeValidation(): void {
 		$bodyStream = 'I am not a stream, but pretend to be';
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+		/** @var RequestInterface&MockObject $request */
+		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$request->expects($this->any())
@@ -88,15 +96,39 @@ class MultipartRequestParserTest extends TestCase {
 	/**
 	 * Test with valid request.
 	 * - valid boundary
-	 * - valid md5 hash
+	 * - valid hash
 	 * - valid content-length
 	 * - valid file content
 	 * - valid file path
 	 */
 	public function testValidRequest(): void {
-		$multipartParser = $this->getMultipartParser(
-			$this->getValidBodyObject()
-		);
+		$bodyObject = self::getValidBodyObject();
+		unset($bodyObject['0']['headers']['X-File-MD5']);
+
+		$multipartParser = $this->getMultipartParser($bodyObject);
+
+		[$headers, $content] = $multipartParser->parseNextPart();
+
+		$this->assertSame((int)$headers['content-length'], 7, 'Content-Length header should be the same as provided.');
+		$this->assertSame($headers['oc-checksum'], 'md5:4f2377b4d911f7ec46325fe603c3af03', 'OC-Checksum header should be the same as provided.');
+		$this->assertSame($headers['x-file-path'], '/coucou.txt', 'X-File-Path header should be the same as provided.');
+
+		$this->assertSame($content, "Coucou\n", 'Content should be the same');
+	}
+
+	/**
+	 * Test with valid request.
+	 * - valid boundary
+	 * - valid md5 hash
+	 * - valid content-length
+	 * - valid file content
+	 * - valid file path
+	 */
+	public function testValidRequestWithMd5(): void {
+		$bodyObject = self::getValidBodyObject();
+		unset($bodyObject['0']['headers']['OC-Checksum']);
+
+		$multipartParser = $this->getMultipartParser($bodyObject);
 
 		[$headers, $content] = $multipartParser->parseNextPart();
 
@@ -108,30 +140,47 @@ class MultipartRequestParserTest extends TestCase {
 	}
 
 	/**
-	 * Test with invalid md5 hash.
+	 * Test with invalid hash.
 	 */
-	public function testInvalidMd5Hash(): void {
-		$bodyObject = $this->getValidBodyObject();
-		$bodyObject['0']['headers']['X-File-MD5'] = 'f2377b4d911f7ec46325fe603c3af03';
-		$multipartParser = $this->getMultipartParser(
-			$bodyObject
-		);
-
-		$this->expectExceptionMessage('Computed md5 hash is incorrect.');
-		$multipartParser->parseNextPart();
-	}
-
-	/**
-	 * Test with a null md5 hash.
-	 */
-	public function testNullMd5Hash(): void {
-		$bodyObject = $this->getValidBodyObject();
+	public function testInvalidHash(): void {
+		$bodyObject = self::getValidBodyObject();
+		$bodyObject['0']['headers']['OC-Checksum'] = 'md5:f2377b4d911f7ec46325fe603c3af03';
 		unset($bodyObject['0']['headers']['X-File-MD5']);
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject
 		);
 
-		$this->expectExceptionMessage('The X-File-MD5 header must not be null.');
+		$this->expectExceptionMessage('Computed md5 hash is incorrect (4f2377b4d911f7ec46325fe603c3af03).');
+		$multipartParser->parseNextPart();
+	}
+
+	/**
+	 * Test with invalid md5 hash.
+	 */
+	public function testInvalidMd5Hash(): void {
+		$bodyObject = self::getValidBodyObject();
+		unset($bodyObject['0']['headers']['OC-Checksum']);
+		$bodyObject['0']['headers']['X-File-MD5'] = 'f2377b4d911f7ec46325fe603c3af03';
+		$multipartParser = $this->getMultipartParser(
+			$bodyObject
+		);
+
+		$this->expectExceptionMessage('Computed md5 hash is incorrect (4f2377b4d911f7ec46325fe603c3af03).');
+		$multipartParser->parseNextPart();
+	}
+
+	/**
+	 * Test with a null hash headers.
+	 */
+	public function testNullHash(): void {
+		$bodyObject = self::getValidBodyObject();
+		unset($bodyObject['0']['headers']['OC-Checksum']);
+		unset($bodyObject['0']['headers']['X-File-MD5']);
+		$multipartParser = $this->getMultipartParser(
+			$bodyObject
+		);
+
+		$this->expectExceptionMessage('The hash headers must not be null.');
 		$multipartParser->parseNextPart();
 	}
 
@@ -139,7 +188,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with a null Content-Length.
 	 */
 	public function testNullContentLength(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		unset($bodyObject['0']['headers']['Content-Length']);
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject
@@ -153,13 +202,13 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with a lower Content-Length.
 	 */
 	public function testLowerContentLength(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		$bodyObject['0']['headers']['Content-Length'] = 6;
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject
 		);
 
-		$this->expectExceptionMessage('Computed md5 hash is incorrect.');
+		$this->expectExceptionMessage('Computed md5 hash is incorrect (41060d3ddfdf63e68fc2bf196f652ee9).');
 		$multipartParser->parseNextPart();
 	}
 
@@ -167,13 +216,13 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with a higher Content-Length.
 	 */
 	public function testHigherContentLength(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		$bodyObject['0']['headers']['Content-Length'] = 8;
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject
 		);
 
-		$this->expectExceptionMessage('Computed md5 hash is incorrect.');
+		$this->expectExceptionMessage('Computed md5 hash is incorrect (0161002bbee6a744f18741b8a914e413).');
 		$multipartParser->parseNextPart();
 	}
 
@@ -181,7 +230,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with wrong boundary in body.
 	 */
 	public function testWrongBoundary(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject,
 			['Content-Type' => 'multipart/related; boundary=boundary_poiuytreza']
@@ -195,7 +244,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with no boundary in request headers.
 	 */
 	public function testNoBoundaryInHeader(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		$this->expectExceptionMessage('Error while parsing boundary in Content-Type header.');
 		$this->getMultipartParser(
 			$bodyObject,
@@ -207,7 +256,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with no boundary in the request's headers.
 	 */
 	public function testNoBoundaryInBody(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject,
 			['Content-Type' => 'multipart/related; boundary=boundary_azertyuiop'],
@@ -222,7 +271,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with a boundary with quotes in the request's headers.
 	 */
 	public function testBoundaryWithQuotes(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		$multipartParser = $this->getMultipartParser(
 			$bodyObject,
 			['Content-Type' => 'multipart/related; boundary="boundary_azertyuiop"'],
@@ -238,7 +287,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with a wrong Content-Type in the request's headers.
 	 */
 	public function testWrongContentType(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		$this->expectExceptionMessage('Content-Type must be multipart/related');
 		$this->getMultipartParser(
 			$bodyObject,
@@ -250,7 +299,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with a wrong key after the content type in the request's headers.
 	 */
 	public function testWrongKeyInContentType(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		$this->expectExceptionMessage('Boundary is invalid');
 		$this->getMultipartParser(
 			$bodyObject,
@@ -262,7 +311,7 @@ class MultipartRequestParserTest extends TestCase {
 	 * Test with a null Content-Type in the request's headers.
 	 */
 	public function testNullContentType(): void {
-		$bodyObject = $this->getValidBodyObject();
+		$bodyObject = self::getValidBodyObject();
 		$this->expectExceptionMessage('Content-Type can not be null');
 		$this->getMultipartParser(
 			$bodyObject,

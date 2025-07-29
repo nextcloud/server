@@ -50,8 +50,8 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import logger from '../../logger.ts'
 import {
@@ -179,8 +179,7 @@ export default {
 .webauthn-loading {
 	display: inline-block;
 	vertical-align: sub;
-	margin-left: 2px;
-	margin-right: 2px;
+	margin-inline: 2px;
 }
 
 .new-webauthn-device {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,19 +8,20 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Storage\PolyFill\CopyDirectory;
 use OC\Files\Storage\Temporary;
 
 class StorageNoRecursiveCopy extends Temporary {
-	public function copy($path1, $path2) {
-		if ($this->is_dir($path1)) {
+	public function copy(string $source, string $target): bool {
+		if ($this->is_dir($source)) {
 			return false;
 		}
-		return copy($this->getSourcePath($path1), $this->getSourcePath($path2));
+		return copy($this->getSourcePath($source), $this->getSourcePath($target));
 	}
 }
 
 class CopyDirectoryStorage extends StorageNoRecursiveCopy {
-	use \OC\Files\Storage\PolyFill\CopyDirectory;
+	use CopyDirectory;
 }
 
 /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,6 +11,7 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IUserBackend;
 use OCP\IUserManager;
+use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,25 +21,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CleanUp extends Command {
 
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IRootFolder */
-	protected $rootFolder;
-
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
-
-	/**
-	 * @param IRootFolder $rootFolder
-	 * @param IUserManager $userManager
-	 * @param IDBConnection $dbConnection
-	 */
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager, IDBConnection $dbConnection) {
+	public function __construct(
+		protected IRootFolder $rootFolder,
+		protected IUserManager $userManager,
+		protected IDBConnection $dbConnection,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->rootFolder = $rootFolder;
-		$this->dbConnection = $dbConnection;
 	}
 
 	protected function configure() {
@@ -108,7 +97,7 @@ class CleanUp extends Command {
 			$node = $this->rootFolder->get($path);
 
 			if ($verbose) {
-				$output->writeln('Deleting <info>' . \OC_Helper::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
+				$output->writeln('Deleting <info>' . Util::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
 			}
 			$node->delete();
 			if ($this->rootFolder->nodeExists($path)) {
@@ -119,7 +108,7 @@ class CleanUp extends Command {
 			$query->delete('files_trash')
 				->where($query->expr()->eq('user', $query->createParameter('uid')))
 				->setParameter('uid', $uid);
-			$query->execute();
+			$query->executeStatement();
 		} else {
 			if ($verbose) {
 				$output->writeln("No trash found for <info>$uid</info>");

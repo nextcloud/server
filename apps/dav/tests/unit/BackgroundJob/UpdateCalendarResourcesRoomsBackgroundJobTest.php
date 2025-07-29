@@ -18,15 +18,9 @@ use Test\TestCase;
 
 class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 	private UpdateCalendarResourcesRoomsBackgroundJob $backgroundJob;
-
-	/** @var ITimeFactory|MockObject */
-	private $time;
-
-	/** @var IResourceManager|MockObject */
-	private $resourceManager;
-
-	/** @var IRoomManager|MockObject */
-	private $roomManager;
+	private ITimeFactory&MockObject $time;
+	private IResourceManager&MockObject $resourceManager;
+	private IRoomManager&MockObject $roomManager;
 
 	protected function setUp(): void {
 		parent::setUp();

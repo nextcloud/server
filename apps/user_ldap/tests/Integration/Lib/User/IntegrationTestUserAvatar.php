@@ -7,7 +7,6 @@
  */
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
-use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User\DeletedUsersIndex;
@@ -16,7 +15,11 @@ use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\IAvatarManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Image;
+use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 require_once __DIR__ . '/../../Bootstrap.php';
@@ -32,11 +35,11 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	public function init() {
 		require(__DIR__ . '/../../setup-scripts/createExplicitUsers.php');
 		parent::init();
-		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
+		$this->mapping = new UserMapping(Server::get(IDBConnection::class));
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$userBackend = new User_LDAP($this->access, \OC::$server->getNotificationManager(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
-		\OC_User::useBackend($userBackend);
+		$userBackend = new User_LDAP($this->access, Server::get(\OCP\Notification\IManager::class), Server::get(UserPluginManager::class), Server::get(LoggerInterface::class), Server::get(DeletedUsersIndex::class));
+		Server::get(IUserManager::class)->registerBackend($userBackend);
 	}
 
 	/**
@@ -58,9 +61,9 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($username);
 		\OC::$server->getUserFolder($username);
-		\OC::$server->getConfig()->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
-		if (\OC::$server->get(IAvatarManager::class)->getAvatar($username)->exists()) {
-			\OC::$server->get(IAvatarManager::class)->getAvatar($username)->remove();
+		Server::get(IConfig::class)->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
+		if (Server::get(IAvatarManager::class)->getAvatar($username)->exists()) {
+			Server::get(IAvatarManager::class)->getAvatar($username)->remove();
 		}
 
 		// finally attempt to get the avatar set
@@ -80,7 +83,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 		$this->execFetchTest($dn, $username, $image);
 
-		return \OC::$server->get(IAvatarManager::class)->getAvatar($username)->exists();
+		return Server::get(IAvatarManager::class)->getAvatar($username)->exists();
 	}
 
 	/**
@@ -97,7 +100,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 		$this->execFetchTest($dn, $username, $image);
 
-		return !\OC::$server->get(IAvatarManager::class)->getAvatar($username)->exists();
+		return !Server::get(IAvatarManager::class)->getAvatar($username)->exists();
 	}
 
 	/**
@@ -114,14 +117,13 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 	protected function initUserManager() {
 		$this->userManager = new Manager(
-			\OC::$server->getConfig(),
-			new FilesystemHelper(),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->get(IAvatarManager::class),
+			Server::get(IConfig::class),
+			Server::get(LoggerInterface::class),
+			Server::get(IAvatarManager::class),
 			new Image(),
-			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getUserManager(),
-			\OC::$server->getNotificationManager()
+			Server::get(IDBConnection::class),
+			Server::get(IUserManager::class),
+			Server::get(\OCP\Notification\IManager::class)
 		);
 	}
 

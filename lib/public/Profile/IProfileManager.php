@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace OCP\Profile;
 
+use OC\Core\ResponseDefinitions;
 use OCP\Accounts\IAccountManager;
 use OCP\IUser;
 
 /**
+ * @psalm-import-type CoreProfileFields from ResponseDefinitions
  * @since 28.0.0
  */
 interface IProfileManager {
@@ -54,6 +56,7 @@ interface IProfileManager {
 		IAccountManager::PROPERTY_PHONE => self::VISIBILITY_SHOW_USERS_ONLY,
 		IAccountManager::PROPERTY_TWITTER => self::VISIBILITY_SHOW,
 		IAccountManager::PROPERTY_WEBSITE => self::VISIBILITY_SHOW,
+		IAccountManager::PROPERTY_PRONOUNS => self::VISIBILITY_SHOW,
 	];
 
 	/**
@@ -82,7 +85,7 @@ interface IProfileManager {
 	 * Return the profile parameters of the target user that are visible to the visiting user
 	 * in an associative array
 	 *
-	 * @return array{userId: string, address?: ?string, biography?: ?string, displayname?: ?string, headline?: ?string, isUserAvatarVisible?: bool, organisation?: ?string, role?: ?string, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
+	 * @psalm-return CoreProfileFields
 	 * @since 28.0.0
 	 */
 	public function getProfileFields(IUser $targetUser, ?IUser $visitingUser): array;

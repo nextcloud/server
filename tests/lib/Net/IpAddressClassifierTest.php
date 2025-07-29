@@ -21,7 +21,7 @@ class IpAddressClassifierTest extends TestCase {
 		$this->classifier = new IpAddressClassifier();
 	}
 
-	public function publicIpAddressData(): array {
+	public static function publicIpAddressData(): array {
 		return [
 			['8.8.8.8'],
 			['8.8.4.4'],
@@ -30,19 +30,18 @@ class IpAddressClassifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider publicIpAddressData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('publicIpAddressData')]
 	public function testPublicAddress(string $ip): void {
 		$isLocal = $this->classifier->isLocalAddress($ip);
 
 		self::assertFalse($isLocal);
 	}
 
-	public function localIpAddressData(): array {
+	public static function localIpAddressData(): array {
 		return [
 			['192.168.0.1'],
 			['fe80::200:5aee:feaa:20a2'],
+			['fe80::1fc4:15d8:78db:2319%enp4s0'], // v6 zone ID
 			['0:0:0:0:0:ffff:10.0.0.1'],
 			['0:0:0:0:0:ffff:127.0.0.0'],
 			['10.0.0.1'],
@@ -53,9 +52,7 @@ class IpAddressClassifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider localIpAddressData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('localIpAddressData')]
 	public function testLocalAddress(string $ip): void {
 		$isLocal = $this->classifier->isLocalAddress($ip);
 

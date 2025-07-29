@@ -8,7 +8,7 @@
 		:filter-name="t('files', 'Type')"
 		@reset-filter="resetFilter">
 		<template #icon>
-			<NcIconSvgWrapper :path="mdiFile" />
+			<NcIconSvgWrapper :path="mdiFileOutline" />
 		</template>
 		<NcActionButton v-for="fileType of typePresets"
 			:key="fileType.id"
@@ -27,12 +27,12 @@
 import type { PropType } from 'vue'
 import type { ITypePreset } from '../../filters/TypeFilter.ts'
 
-import { mdiFile } from '@mdi/js'
+import { mdiFileOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import FileListFilter from './FileListFilter.vue'
 
 export default defineComponent({
@@ -45,6 +45,10 @@ export default defineComponent({
 	},
 
 	props: {
+		presets: {
+			type: Array as PropType<ITypePreset[]>,
+			default: () => [],
+		},
 		typePresets: {
 			type: Array as PropType<ITypePreset[]>,
 			required: true,
@@ -53,7 +57,7 @@ export default defineComponent({
 
 	setup() {
 		return {
-			mdiFile,
+			mdiFileOutline,
 			t,
 		}
 	},
@@ -71,15 +75,23 @@ export default defineComponent({
 	},
 
 	watch: {
+		/** Reset selected options if property is changed */
+		presets() {
+			this.selectedOptions = this.presets ?? []
+		},
 		selectedOptions(newValue, oldValue) {
 			if (this.selectedOptions.length === 0) {
 				if (oldValue.length !== 0) {
-					this.$emit('update:preset')
+					this.$emit('update:presets')
 				}
 			} else {
-				this.$emit('update:preset', this.selectedOptions)
+				this.$emit('update:presets', this.selectedOptions)
 			}
 		},
+	},
+
+	mounted() {
+		this.selectedOptions = this.presets ?? []
 	},
 
 	methods: {

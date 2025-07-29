@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,7 +8,9 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
-class ExceptionPlugin extends \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin {
+use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+
+class ExceptionPlugin extends ExceptionLoggerPlugin {
 	/**
 	 * @var \Throwable[]
 	 */

@@ -12,13 +12,13 @@ namespace OCA\Theming\Migration;
 use OCA\Theming\Jobs\MigrateBackgroundImages;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class InitBackgroundImagesMigration implements \OCP\Migration\IRepairStep {
+class InitBackgroundImagesMigration implements IRepairStep {
 
-	private IJobList $jobList;
-
-	public function __construct(IJobList $jobList) {
-		$this->jobList = $jobList;
+	public function __construct(
+		private IJobList $jobList,
+	) {
 	}
 
 	public function getName() {

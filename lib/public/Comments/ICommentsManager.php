@@ -97,7 +97,7 @@ interface ICommentsManager {
 		$objectId,
 		$limit = 0,
 		$offset = 0,
-		?\DateTime $notOlderThan = null
+		?\DateTime $notOlderThan = null,
 	);
 
 	/**
@@ -108,6 +108,7 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
+	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
 	 * @return list<IComment>
 	 * @since 14.0.0
 	 * @deprecated 24.0.0 - Use getCommentsWithVerbForObjectSinceComment instead
@@ -118,7 +119,8 @@ interface ICommentsManager {
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
 		int $limit = 30,
-		bool $includeLastKnown = false
+		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array;
 
 	/**
@@ -130,6 +132,7 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
+	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
 	 * @return list<IComment>
 	 * @since 24.0.0
 	 */
@@ -140,7 +143,8 @@ interface ICommentsManager {
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
 		int $limit = 30,
-		bool $includeLastKnown = false
+		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array;
 
 	/**
@@ -240,7 +244,7 @@ interface ICommentsManager {
 		string $objectId,
 		string $verb,
 		string $actorType,
-		array $actors
+		array $actors,
 	): array;
 
 	/**

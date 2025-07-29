@@ -238,7 +238,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		} elseif ($group = $this->get($gid)) {
 			return $group;
 		} elseif (mb_strlen($gid) > self::MAX_GROUP_LENGTH) {
-			throw new \Exception('Group name is limited to '. self::MAX_GROUP_LENGTH.' characters');
+			throw new \Exception('Group name is limited to ' . self::MAX_GROUP_LENGTH . ' characters');
 		} else {
 			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
@@ -361,7 +361,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * get a list of group ids for a user
 	 *
 	 * @param IUser $user
-	 * @return string[] with group ids
+	 * @return list<string> with group ids
 	 */
 	public function getUserGroupIds(IUser $user): array {
 		return $this->getUserIdGroupIds($user->getUID());
@@ -369,7 +369,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param string $uid the user id
-	 * @return string[]
+	 * @return list<string>
 	 */
 	private function getUserIdGroupIds(string $uid): array {
 		if (!isset($this->cachedUserGroups[$uid])) {

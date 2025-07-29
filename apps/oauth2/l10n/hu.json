@@ -7,12 +7,15 @@
     "OAuth 2.0 clients" : "OAuth 2.0 kliensek",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "Az OAuth 2.0 engedélyezi, hogy külső szolgáltatások hozzáférést kérjenek a következőhöz: {instanceName}.",
     "Name" : "Név",
-    "Redirection URI" : "Átirányítési URI",
+    "Redirection URI" : "Átirányítási URI",
     "Client Identifier" : "Ügyfélazonosító",
     "Secret key" : "Titkos kulcs",
+    "Delete client" : "Kliens törlése",
+    "Make sure you store the secret key, it cannot be recovered." : "Győződjön meg róla tárolja a titkos kulcsot, mert nem nyerhető vissza.",
     "Add client" : "Kliens hozzáadása",
     "Add" : "Hozzáadás",
-    "Delete" : "Törlés",
-    "Show client secret" : "Kliens titkának megjelenítése"
+    "Show client secret" : "Klienstitok megjelenítése",
+    "Hide client secret" : "Klienstitok elrejtése",
+    "Delete" : "Törlés"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

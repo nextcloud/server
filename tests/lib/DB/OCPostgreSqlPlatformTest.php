@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
@@ -23,7 +24,7 @@ use Doctrine\DBAL\Types\Types;
  * @package Test\DB
  */
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
-	public function testAlterBigint() {
+	public function testAlterBigint(): void {
 		$platform = new PostgreSQLPlatform();
 		$sourceSchema = new Schema();
 		$targetSchema = new Schema();

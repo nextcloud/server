@@ -29,7 +29,7 @@
 <script>
 import { generateUrl } from '@nextcloud/router'
 import { showSuccess } from '@nextcloud/dialogs'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import ClipboardIcon from 'vue-material-design-icons/ContentCopy.vue'

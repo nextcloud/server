@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,22 +10,16 @@ namespace OCA\Files_External\Controller;
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
 
 class AjaxController extends Controller {
-	/** @var RSA */
-	private $rsaMechanism;
-	/** @var GlobalAuth */
-	private $globalAuth;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IGroupManager */
-	private $groupManager;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -33,17 +28,16 @@ class AjaxController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
-		RSA $rsaMechanism,
-		GlobalAuth $globalAuth,
-		IUserSession $userSession,
-		IGroupManager $groupManager) {
+		private RSA $rsaMechanism,
+		private GlobalAuth $globalAuth,
+		private IUserSession $userSession,
+		private IGroupManager $groupManager,
+		private IL10N $l10n,
+	) {
 		parent::__construct($appName, $request);
-		$this->rsaMechanism = $rsaMechanism;
-		$this->globalAuth = $globalAuth;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -66,26 +60,30 @@ class AjaxController extends Controller {
 	#[NoAdminRequired]
 	public function getSshKeys($keyLength = 1024) {
 		$key = $this->generateSshKeys($keyLength);
-		return new JSONResponse(
-			['data' => [
+		return new JSONResponse([
+			'data' => [
 				'private_key' => $key['privatekey'],
 				'public_key' => $key['publickey']
 			],
-				'status' => 'success'
-			]);
+			'status' => 'success',
+		]);
 	}
 
 	/**
 	 * @param string $uid
 	 * @param string $user
 	 * @param string $password
-	 * @return bool
+	 * @return JSONResponse
 	 */
 	#[NoAdminRequired]
-	public function saveGlobalCredentials($uid, $user, $password) {
+	#[PasswordConfirmationRequired(strict: true)]
+	public function saveGlobalCredentials($uid, $user, $password): JSONResponse {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
-			return false;
+			return new JSONResponse([
+				'status' => 'error',
+				'message' => $this->l10n->t('You are not logged in'),
+			], Http::STATUS_UNAUTHORIZED);
 		}
 
 		// Non-admins can only edit their own credentials
@@ -96,9 +94,14 @@ class AjaxController extends Controller {
 
 		if ($allowedToEdit) {
 			$this->globalAuth->saveAuth($uid, $user, $password);
-			return true;
+			return new JSONResponse([
+				'status' => 'success',
+			]);
 		}
 
-		return false;
+		return new JSONResponse([
+			'status' => 'success',
+			'message' => $this->l10n->t('Permission denied'),
+		], Http::STATUS_FORBIDDEN);
 	}
 }

@@ -8,8 +8,9 @@ declare(strict_types=1);
  */
 namespace OCA\UpdateNotification\Notification;
 
+use OCA\UpdateNotification\AppInfo\Application;
 use OCP\App\IAppManager;
-use OCP\IConfig;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -20,48 +21,26 @@ use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
-use OCP\Util;
+use OCP\ServerVersion;
 
 class Notifier implements INotifier {
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IManager */
-	protected $notificationManager;
-
-	/** @var IFactory */
-	protected $l10NFactory;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
 	/** @var string[] */
 	protected $appVersions;
 
 	/**
 	 * Notifier constructor.
-	 *
-	 * @param IURLGenerator $url
-	 * @param IConfig $config
-	 * @param IManager $notificationManager
-	 * @param IFactory $l10NFactory
-	 * @param IUserSession $userSession
-	 * @param IGroupManager $groupManager
 	 */
-	public function __construct(IURLGenerator $url, IConfig $config, IManager $notificationManager, IFactory $l10NFactory, IUserSession $userSession, IGroupManager $groupManager) {
-		$this->url = $url;
-		$this->notificationManager = $notificationManager;
-		$this->config = $config;
-		$this->l10NFactory = $l10NFactory;
-		$this->userSession = $userSession;
-		$this->groupManager = $groupManager;
-		$this->appVersions = $this->getAppVersions();
+	public function __construct(
+		protected IURLGenerator $url,
+		protected IAppConfig $appConfig,
+		protected IManager $notificationManager,
+		protected IFactory $l10NFactory,
+		protected IUserSession $userSession,
+		protected IGroupManager $groupManager,
+		protected IAppManager $appManager,
+		protected ServerVersion $serverVersion,
+	) {
+		$this->appVersions = $this->appManager->getAppInstalledVersions();
 	}
 
 	/**
@@ -71,7 +50,7 @@ class Notifier implements INotifier {
 	 * @since 17.0.0
 	 */
 	public function getID(): string {
-		return 'updatenotification';
+		return Application::APP_NAME;
 	}
 
 	/**
@@ -81,7 +60,7 @@ class Notifier implements INotifier {
 	 * @since 17.0.0
 	 */
 	public function getName(): string {
-		return $this->l10NFactory->get('updatenotification')->t('Update notifications');
+		return $this->l10NFactory->get(Application::APP_NAME)->t('Update notifications');
 	}
 
 	/**
@@ -93,7 +72,7 @@ class Notifier implements INotifier {
 	 * @since 9.0.0
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if ($notification->getApp() !== 'updatenotification') {
+		if ($notification->getApp() !== Application::APP_NAME) {
 			throw new UnknownNotificationException('Unknown app id');
 		}
 
@@ -101,9 +80,9 @@ class Notifier implements INotifier {
 			throw new UnknownNotificationException('Unknown subject');
 		}
 
-		$l = $this->l10NFactory->get('updatenotification', $languageCode);
+		$l = $this->l10NFactory->get(Application::APP_NAME, $languageCode);
 		if ($notification->getSubject() === 'connection_error') {
-			$errors = (int)$this->config->getAppValue('updatenotification', 'update_check_errors', '0');
+			$errors = $this->appConfig->getAppValueInt('update_check_errors', 0);
 			if ($errors === 0) {
 				throw new AlreadyProcessedException();
 			}
@@ -148,7 +127,7 @@ class Notifier implements INotifier {
 			}
 		}
 
-		$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('updatenotification', 'notification.svg')));
+		$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_NAME, 'notification.svg')));
 
 		return $notification;
 	}
@@ -160,15 +139,12 @@ class Notifier implements INotifier {
 	 * @param string $installedVersion
 	 * @throws AlreadyProcessedException When the update is already installed
 	 */
-	protected function updateAlreadyInstalledCheck(INotification $notification, $installedVersion) {
+	protected function updateAlreadyInstalledCheck(INotification $notification, $installedVersion): void {
 		if (version_compare($notification->getObjectId(), $installedVersion, '<=')) {
 			throw new AlreadyProcessedException();
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function isAdmin(): bool {
 		$user = $this->userSession->getUser();
 
@@ -180,14 +156,10 @@ class Notifier implements INotifier {
 	}
 
 	protected function getCoreVersions(): string {
-		return implode('.', Util::getVersion());
+		return implode('.', $this->serverVersion->getVersion());
 	}
 
-	protected function getAppVersions(): array {
-		return \OC_App::getAppVersions();
-	}
-
-	protected function getAppInfo($appId, $languageCode) {
-		return \OCP\Server::get(IAppManager::class)->getAppInfo($appId, false, $languageCode);
+	protected function getAppInfo(string $appId, ?string $languageCode): ?array {
+		return $this->appManager->getAppInfo($appId, false, $languageCode);
 	}
 }

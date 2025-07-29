@@ -15,7 +15,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
-class LoggedInCheckCommandTest extends ALoginCommandTest {
+class LoggedInCheckCommandTest extends ALoginTestCommand {
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
@@ -34,7 +34,7 @@ class LoggedInCheckCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcessSuccessfulLogin() {
+	public function testProcessSuccessfulLogin(): void {
 		$data = $this->getLoggedInLoginData();
 
 		$result = $this->cmd->process($data);
@@ -42,7 +42,7 @@ class LoggedInCheckCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcessFailedLogin() {
+	public function testProcessFailedLogin(): void {
 		$data = $this->getFailedLoginData();
 		$this->logger->expects($this->once())
 			->method('warning');

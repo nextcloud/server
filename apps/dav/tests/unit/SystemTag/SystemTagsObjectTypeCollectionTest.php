@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,66 +8,47 @@
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
+use OCA\DAV\SystemTag\SystemTagsObjectTypeCollection;
 use OCP\Files\Folder;
+use OCP\Files\Node;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
-
-	/**
-	 * @var \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection
-	 */
-	private $node;
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var \OCP\Files\Folder
-	 */
-	private $userFolder;
+	private ISystemTagManager&MockObject $tagManager;
+	private ISystemTagObjectMapper&MockObject $tagMapper;
+	private Folder&MockObject $userFolder;
+	private SystemTagsObjectTypeCollection $node;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
-			->getMock();
-		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
-			->getMock();
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
+		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
 
-		$user = $this->getMockBuilder(IUser::class)
-			->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('testuser');
-		$userSession = $this->getMockBuilder(IUserSession::class)
-			->getMock();
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$groupManager = $this->getMockBuilder(IGroupManager::class)
-			->getMock();
+		$groupManager = $this->createMock(IGroupManager::class);
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
 			->willReturn(true);
 
-		$this->userFolder = $this->getMockBuilder(Folder::class)
-			->getMock();
+		$this->userFolder = $this->createMock(Folder::class);
 		$userFolder = $this->userFolder;
 
 		$closure = function ($name) use ($userFolder) {
-			$node = $userFolder->getFirstNodeById(intval($name));
+			$node = $userFolder->getFirstNodeById((int)$name);
 			return $node !== null;
 		};
 		$writeAccessClosure = function ($name) use ($userFolder) {
@@ -79,7 +61,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			return false;
 		};
 
-		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
+		$this->node = new SystemTagsObjectTypeCollection(
 			'files',
 			$this->tagManager,
 			$this->tagMapper,
@@ -108,7 +90,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('getFirstNodeById')
 			->with('555')
-			->willReturn($this->createMock(\OCP\Files\Node::class));
+			->willReturn($this->createMock(Node::class));
 		$childNode = $this->node->getChild('555');
 
 		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection', $childNode);
@@ -137,7 +119,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('getFirstNodeById')
 			->with('123')
-			->willReturn($this->createMock(\OCP\Files\Node::class));
+			->willReturn($this->createMock(Node::class));
 		$this->assertTrue($this->node->childExists('123'));
 	}
 

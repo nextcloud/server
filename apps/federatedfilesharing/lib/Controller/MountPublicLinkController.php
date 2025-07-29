@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -36,7 +37,6 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\FederatedFileSharing\Controller
  */
-#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class MountPublicLinkController extends Controller {
 	/**
 	 * MountPublicLinkController constructor.
@@ -71,6 +71,7 @@ class MountPublicLinkController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[BruteForceProtection(action: 'publicLink2FederatedShare')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 	public function createFederatedShare($shareWith, $token, $password = '') {
 		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 			return new JSONResponse(
@@ -90,8 +91,8 @@ class MountPublicLinkController extends Controller {
 
 		// make sure that user is authenticated in case of a password protected link
 		$storedPassword = $share->getPassword();
-		$authenticated = $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId() ||
-			$this->shareManager->checkPassword($share, $password);
+		$authenticated = $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId()
+			|| $this->shareManager->checkPassword($share, $password);
 		if (!empty($storedPassword) && !$authenticated) {
 			$response = new JSONResponse(
 				['message' => 'No permission to access the share'],
@@ -151,12 +152,11 @@ class MountPublicLinkController extends Controller {
 		try {
 			$response = $httpClient->post($remote . '/index.php/apps/federatedfilesharing/createFederatedShare',
 				[
-					'body' =>
-						[
-							'token' => $token,
-							'shareWith' => rtrim($cloudId->getId(), '/'),
-							'password' => $password
-						],
+					'body' => [
+						'token' => $token,
+						'shareWith' => rtrim($cloudId->getId(), '/'),
+						'password' => $password
+					],
 					'connect_timeout' => 10,
 				]
 			);

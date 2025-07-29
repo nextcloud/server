@@ -23,7 +23,7 @@ class Resource implements IResource {
 		protected string $type,
 		protected string $id,
 		protected ?IUser $userForAccess = null,
-		protected ?bool $access = null
+		protected ?bool $access = null,
 	) {
 	}
 

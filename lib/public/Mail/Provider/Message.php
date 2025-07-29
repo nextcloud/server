@@ -65,7 +65,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return IAddress|null sender's mail address object
 	 */
-	public function getFrom(): IAddress|null {
+	public function getFrom(): ?IAddress {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['from'])) ? $this->data['from'] : null;
 	}
@@ -93,7 +93,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return IAddress|null sender's reply to mail address object
 	 */
-	public function getReplyTo(): IAddress|null {
+	public function getReplyTo(): ?IAddress {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['replyTo'])) ? $this->data['replyTo'] : null;
 	}
@@ -205,7 +205,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return string|null subject of message or null if one is not set
 	 */
-	public function getSubject(): string|null {
+	public function getSubject(): ?string {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['subject'])) ? $this->data['subject'] : null;
 	}
@@ -240,7 +240,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return string|null html/plain body of this message or null if one is not set
 	 */
-	public function getBody(): string|null {
+	public function getBody(): ?string {
 		// evaluate if data store field(s) exists and return value
 		if (isset($this->data['bodyHtml'])) {
 			return $this->data['bodyHtml'];
@@ -274,7 +274,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return string|null html body of this message or null if one is not set
 	 */
-	public function getBodyHtml(): string|null {
+	public function getBodyHtml(): ?string {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['bodyHtml'])) ? $this->data['bodyHtml'] : null;
 	}
@@ -302,7 +302,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @return string|null plain text body of this message or null if one is not set
 	 */
-	public function getBodyPlain(): string|null {
+	public function getBodyPlain(): ?string {
 		// evaluate if data store field exists and return value(s) or null otherwise
 		return (isset($this->data['bodyPlain'])) ? $this->data['bodyPlain'] : null;
 	}

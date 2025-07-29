@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Provisioning_API\Tests\unit;
+namespace OCA\Provisioning_API\Tests;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Provisioning_API\Capabilities;
@@ -21,11 +23,8 @@ use Test\TestCase;
  */
 class CapabilitiesTest extends TestCase {
 
-	/** @var Capabilities */
-	protected $capabilities;
-
-	/** @var IAppManager|MockObject */
-	protected $appManager;
+	protected IAppManager&MockObject $appManager;
+	protected Capabilities $capabilities;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -38,7 +37,7 @@ class CapabilitiesTest extends TestCase {
 			->willReturn('1.12');
 	}
 
-	public function getCapabilitiesProvider() {
+	public static function getCapabilitiesProvider(): array {
 		return [
 			[true, false, false, true, false],
 			[true, true, false, true, false],
@@ -49,16 +48,14 @@ class CapabilitiesTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider getCapabilitiesProvider
-	 */
-	public function testGetCapabilities($federationAppEnabled, $federatedFileSharingAppEnabled, $lookupServerEnabled, $expectedFederatedScopeEnabled, $expectedPublishedScopeEnabled) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('getCapabilitiesProvider')]
+	public function testGetCapabilities(bool $federationAppEnabled, bool $federatedFileSharingAppEnabled, bool $lookupServerEnabled, bool $expectedFederatedScopeEnabled, bool $expectedPublishedScopeEnabled): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['federation', null, $federationAppEnabled],
 				['federatedfilesharing', null, $federatedFileSharingAppEnabled],
-			]));
+			]);
 
 		$federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->overwriteService(FederatedShareProvider::class, $federatedShareProvider);

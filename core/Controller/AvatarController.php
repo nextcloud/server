@@ -8,11 +8,13 @@
 namespace OC\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
+use OC\NotSquareException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -20,9 +22,11 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotPermittedException;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\IL10N;
+use OCP\Image;
 use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -57,7 +61,7 @@ class AvatarController extends Controller {
 	 * @param string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
-	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
 	 * 201: Avatar returned
@@ -66,6 +70,7 @@ class AvatarController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}/dark')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
 			if ($size !== 64) {
@@ -108,7 +113,7 @@ class AvatarController extends Controller {
 	 * @param string $userId ID of the user
 	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
-	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, list<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
 	 * 201: Avatar returned
@@ -117,6 +122,7 @@ class AvatarController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getAvatar(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
 			if ($size !== 64) {
@@ -179,7 +185,7 @@ class AvatarController extends Controller {
 
 			try {
 				$content = $node->getContent();
-			} catch (\OCP\Files\NotPermittedException $e) {
+			} catch (NotPermittedException $e) {
 				return new JSONResponse(
 					['data' => ['message' => $this->l10n->t('The selected file cannot be read.')]],
 					Http::STATUS_BAD_REQUEST
@@ -187,8 +193,8 @@ class AvatarController extends Controller {
 			}
 		} elseif (!is_null($files)) {
 			if (
-				$files['error'][0] === 0 &&
-				 is_uploaded_file($files['tmp_name'][0])
+				$files['error'][0] === 0
+				 && is_uploaded_file($files['tmp_name'][0])
 			) {
 				if ($files['size'][0] > 20 * 1024 * 1024) {
 					return new JSONResponse(
@@ -226,7 +232,7 @@ class AvatarController extends Controller {
 		}
 
 		try {
-			$image = new \OCP\Image();
+			$image = new Image();
 			$image->loadFromData($content);
 			$image->readExif($content);
 			$image->fixOrientation();
@@ -297,7 +303,7 @@ class AvatarController extends Controller {
 				Http::STATUS_NOT_FOUND);
 		}
 
-		$image = new \OCP\Image();
+		$image = new Image();
 		$image->loadFromData($tmpAvatar);
 
 		$resp = new DataDisplayResponse(
@@ -332,7 +338,7 @@ class AvatarController extends Controller {
 				Http::STATUS_BAD_REQUEST);
 		}
 
-		$image = new \OCP\Image();
+		$image = new Image();
 		$image->loadFromData($tmpAvatar);
 		$image->crop($crop['x'], $crop['y'], (int)round($crop['w']), (int)round($crop['h']));
 		try {
@@ -341,7 +347,7 @@ class AvatarController extends Controller {
 			// Clean up
 			$this->cache->remove('tmpAvatar');
 			return new JSONResponse(['status' => 'success']);
-		} catch (\OC\NotSquareException $e) {
+		} catch (NotSquareException $e) {
 			return new JSONResponse(['data' => ['message' => $this->l10n->t('Crop is not square')]],
 				Http::STATUS_BAD_REQUEST);
 		} catch (\Exception $e) {

@@ -80,18 +80,18 @@
 import type { PropType } from 'vue'
 import type { IToken } from '../store/authtoken'
 
-import { mdiCheck, mdiCellphone, mdiTablet, mdiMonitor, mdiWeb, mdiKey, mdiMicrosoftEdge, mdiFirefox, mdiGoogleChrome, mdiAppleSafari, mdiAndroid, mdiAppleIos } from '@mdi/js'
+import { mdiCheck, mdiCellphone, mdiTablet, mdiMonitor, mdiWeb, mdiKeyOutline, mdiMicrosoftEdge, mdiFirefox, mdiGoogleChrome, mdiAppleSafari, mdiAndroid, mdiAppleIos } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
 
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 // When using capture groups the following parts are extracted the first is used as the version number, the second as the OS
 const userAgentMap = {
@@ -175,8 +175,8 @@ export default defineComponent({
 			return this.token.type === TokenType.PERMANENT_TOKEN
 		},
 		/**
-		 * Object ob the current user agend used by the token
-		 * @return Either an object containing user agent information or null if unknown
+		 * Object ob the current user agent used by the token
+		 * This either returns an object containing user agent information or `null` if unknown
 		 */
 		client() {
 			// pretty format sync client user agent
@@ -215,7 +215,7 @@ export default defineComponent({
 		tokenIcon() {
 			// For custom created app tokens / app passwords
 			if (this.token.type === TokenType.PERMANENT_TOKEN) {
-				return mdiKey
+				return mdiKeyOutline
 			}
 
 			switch (this.client?.id) {

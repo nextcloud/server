@@ -111,8 +111,7 @@
                     "id",
                     "icon",
                     "message",
-                    "clearAt",
-                    "visible"
+                    "clearAt"
                 ],
                 "properties": {
                     "id": {
@@ -125,12 +124,12 @@
                         "type": "string"
                     },
                     "clearAt": {
-                        "$ref": "#/components/schemas/ClearAt",
-                        "nullable": true
-                    },
-                    "visible": {
-                        "type": "boolean",
-                        "nullable": true
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ClearAt"
+                            }
+                        ]
                     }
                 }
             },
@@ -432,7 +431,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -442,7 +442,9 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null,
+                            "minimum": 0
                         }
                     },
                     {
@@ -990,6 +992,34 @@
                     },
                     "400": {
                         "description": "The clearAt or icon is invalid or the message is too long",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No status for the current user",
                         "content": {
                             "application/json": {
                                 "schema": {

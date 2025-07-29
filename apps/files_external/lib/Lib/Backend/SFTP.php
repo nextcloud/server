@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,6 +21,8 @@ class SFTP extends Backend {
 			->setText($l->t('SFTP'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
+				(new DefinitionParameter('port', $l->t('Port')))
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('root', $l->t('Root')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])

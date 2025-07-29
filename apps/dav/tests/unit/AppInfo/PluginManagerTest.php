@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -24,7 +26,7 @@ class PluginManagerTest extends TestCase {
 		$server = $this->createMock(ServerContainer::class);
 
 		$appManager = $this->createMock(AppManager::class);
-		$appManager->method('getInstalledApps')
+		$appManager->method('getEnabledApps')
 			->willReturn(['adavapp', 'adavapp2']);
 
 		$appInfo1 = [

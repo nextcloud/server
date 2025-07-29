@@ -13,26 +13,20 @@ use OCP\IUser;
 
 class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 
-	/** @var PluginManager */
-	private $pluginManager;
-	private ?IUser $user;
-	private ?IGroupManager $groupManager;
-
 	/**
 	 * @param \Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend
 	 * @param \Sabre\CardDAV\Backend\BackendInterface $carddavBackend
 	 * @param string $principalPrefix
 	 */
-	public function __construct(\Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend,
+	public function __construct(
+		\Sabre\DAVACL\PrincipalBackend\BackendInterface $principalBackend,
 		\Sabre\CardDAV\Backend\BackendInterface $carddavBackend,
-		PluginManager $pluginManager,
-		?IUser $user,
-		?IGroupManager $groupManager,
-		string $principalPrefix = 'principals') {
+		private PluginManager $pluginManager,
+		private ?IUser $user,
+		private ?IGroupManager $groupManager,
+		string $principalPrefix = 'principals',
+	) {
 		parent::__construct($principalBackend, $carddavBackend, $principalPrefix);
-		$this->pluginManager = $pluginManager;
-		$this->user = $user;
-		$this->groupManager = $groupManager;
 	}
 
 	/**

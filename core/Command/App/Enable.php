@@ -27,6 +27,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	public function __construct(
 		protected IAppManager $appManager,
 		protected IGroupManager $groupManager,
+		private Installer $installer,
 	) {
 		parent::__construct();
 	}
@@ -77,20 +78,17 @@ class Enable extends Command implements CompletionAwareInterface {
 			return $group->getDisplayName();
 		}, $groupIds);
 
-		if ($this->appManager->isInstalled($appId) && $groupIds === []) {
+		if ($this->appManager->isEnabledForUser($appId) && $groupIds === []) {
 			$output->writeln($appId . ' already enabled');
 			return;
 		}
 
 		try {
-			/** @var Installer $installer */
-			$installer = \OC::$server->query(Installer::class);
-
-			if ($installer->isDownloaded($appId) === false) {
-				$installer->downloadApp($appId);
+			if ($this->installer->isDownloaded($appId) === false) {
+				$this->installer->downloadApp($appId);
 			}
 
-			$installer->installApp($appId, $forceEnable);
+			$this->installer->installApp($appId, $forceEnable);
 			$appVersion = $this->appManager->getAppVersion($appId);
 
 			if ($groupIds === []) {
@@ -145,7 +143,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
-			$allApps = \OC_App::getAllApps();
+			$allApps = $this->appManager->getAllAppsInAppsFolders();
 			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
 		}
 		return [];

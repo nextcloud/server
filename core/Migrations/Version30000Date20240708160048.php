@@ -37,21 +37,27 @@ class Version30000Date20240708160048 extends SimpleMigrationStep {
 		if ($schema->hasTable('taskprocessing_tasks')) {
 			$table = $schema->getTable('taskprocessing_tasks');
 
-			$table->addColumn('scheduled_at', Types::INTEGER, [
-				'notnull' => false,
-				'default' => null,
-				'unsigned' => true,
-			]);
-			$table->addColumn('started_at', Types::INTEGER, [
-				'notnull' => false,
-				'default' => null,
-				'unsigned' => true,
-			]);
-			$table->addColumn('ended_at', Types::INTEGER, [
-				'notnull' => false,
-				'default' => null,
-				'unsigned' => true,
-			]);
+			if (!$table->hasColumn('scheduled_at')) {
+				$table->addColumn('scheduled_at', Types::INTEGER, [
+					'notnull' => false,
+					'default' => null,
+					'unsigned' => true,
+				]);
+			}
+			if (!$table->hasColumn('started_at')) {
+				$table->addColumn('started_at', Types::INTEGER, [
+					'notnull' => false,
+					'default' => null,
+					'unsigned' => true,
+				]);
+			}
+			if (!$table->hasColumn('ended_at')) {
+				$table->addColumn('ended_at', Types::INTEGER, [
+					'notnull' => false,
+					'default' => null,
+					'unsigned' => true,
+				]);
+			}
 
 			return $schema;
 		}

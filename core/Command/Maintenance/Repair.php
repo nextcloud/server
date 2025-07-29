@@ -61,7 +61,7 @@ class Repair extends Command {
 			$this->repair->addStep($step);
 		}
 
-		$apps = $this->appManager->getInstalledApps();
+		$apps = $this->appManager->getEnabledApps();
 		foreach ($apps as $app) {
 			if (!$this->appManager->isEnabledForUser($app)) {
 				continue;
@@ -70,7 +70,7 @@ class Repair extends Command {
 			if (!is_array($info)) {
 				continue;
 			}
-			\OC_App::loadApp($app);
+			$this->appManager->loadApp($app);
 			$steps = $info['repair-steps']['post-migration'];
 			foreach ($steps as $step) {
 				try {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,13 +10,14 @@ namespace Test\Session;
 
 use OC\Session\CryptoSessionData;
 use OCP\ISession;
+use OCP\Security\ICrypto;
 use Test\TestCase;
 
 class CryptoWrappingTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject|\OCP\Security\ICrypto */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ICrypto */
 	protected $crypto;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|\OCP\ISession */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ISession */
 	protected $wrappedSession;
 
 	/** @var \OC\Session\CryptoSessionData */
@@ -47,7 +49,7 @@ class CryptoWrappingTest extends TestCase {
 		$this->instance = new CryptoSessionData($this->wrappedSession, $this->crypto, 'PASS');
 	}
 
-	public function testUnwrappingGet() {
+	public function testUnwrappingGet(): void {
 		$unencryptedValue = 'foobar';
 		$encryptedValue = $this->crypto->encrypt($unencryptedValue);
 

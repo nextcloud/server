@@ -64,19 +64,15 @@ class GenerateMetadataCommand extends Command {
 	 * @throws \Exception
 	 */
 	private function extractMigrationMetadataFromApps(): array {
-		$allApps = \OC_App::getAllApps();
+		$allApps = $this->appManager->getAllAppsInAppsFolders();
 		$metadata = [];
 		foreach ($allApps as $appId) {
 			// We need to load app before being able to extract Migrations
-			// If app was not enabled before, we will disable it afterward.
-			$alreadyLoaded = $this->appManager->isInstalled($appId);
+			$alreadyLoaded = $this->appManager->isAppLoaded($appId);
 			if (!$alreadyLoaded) {
 				$this->appManager->loadApp($appId);
 			}
 			$metadata[$appId] = $this->metadataManager->extractMigrationAttributes($appId);
-			if (!$alreadyLoaded) {
-				$this->appManager->disableApp($appId);
-			}
 		}
 		return $metadata;
 	}

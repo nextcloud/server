@@ -21,7 +21,7 @@ class ApiControllerTest extends \Test\TestCase {
 	/** @var ChildApiController */
 	protected $controller;
 
-	public function testCors() {
+	public function testCors(): void {
 		$request = new Request(
 			['server' => ['HTTP_ORIGIN' => 'test']],
 			$this->createMock(IRequestId::class),

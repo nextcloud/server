@@ -4,11 +4,11 @@
  */
 @use 'variables';
 
-@media only screen and (width < variables.$breakpoint-mobile) {
+@media only screen and (width < #{variables.$breakpoint-mobile}) {
 
 	/* position share dropdown */
 	#dropdown {
-		margin-right: 10% !important;
+		margin-inline-end: 10% !important;
 		width: 80% !important;
 	}
 
@@ -20,7 +20,7 @@
 	/* fix error display on smaller screens */
 	.error-wide {
 		width: 100%;
-		margin-left: 0 !important;
+		margin-inline-start: 0 !important;
 		box-sizing: border-box;
 	}
 
@@ -37,12 +37,12 @@
 	}
 
 	#app-navigation:not(.hidden) + #app-content {
-		margin-left: 0;
+		margin-inline-start: 0;
 	}
 
 	.skip-navigation.skip-content {
-		left: 3px;
-		margin-left: 0;
+		inset-inline-start: 3px;
+		margin-inline-start: 0;
 	}
 
 	/* full width for message list on mobile */
@@ -73,7 +73,7 @@
 			position: fixed;
 			display: inline-block !important;
 			top: variables.$header-height;
-			left: 0;
+			inset-inline-start: 0;
 			width: 44px;
 			height: 44px;
 			z-index: 1050; // above app-content
@@ -91,7 +91,7 @@
 	#app-navigation-toggle {
 		position: fixed;
 		display: inline-block !important;
-		left: 0;
+		inset-inline-start: 0;
 		width: 44px;
 		height: 44px;
 		z-index: 1050; // above app-content
@@ -105,19 +105,19 @@
 
 	/* position controls for apps with app-navigation */
 	#app-navigation + #app-content .files-controls {
-		padding-left: 44px;
+		padding-inline-start: 44px;
 	}
 
 	/* .viewer-mode is when text editor, PDF viewer, etc is open */
 	#body-user .app-files.viewer-mode .files-controls {
-		padding-left: 0 !important;
+		padding-inline-start: 0 !important;
 	}
 	.app-files.viewer-mode #app-navigation-toggle {
 		display: none !important;
 	}
 
 	table.multiselect thead {
-		left: 0 !important;
+		inset-inline-start: 0 !important;
 	}
 
 	/* prevent overflow in user management controls bar */
@@ -132,7 +132,7 @@
 }
 
 @media only screen and (max-width: 480px) {
-	#header .header-right > div > .menu {
+	#header .header-end > div > .menu {
 		max-width: calc(100vw - 10px);
 		position: fixed;
 		&::after {
@@ -140,7 +140,7 @@
 		}
 	}
 	/* Arrow directly child of menutoggle */
-	#header .header-right > div {
+	#header .header-end > div {
 		&.openedMenu {
 			&::after {
 				display: block;
@@ -155,14 +155,14 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			right: 15px;
+			inset-inline-end: 15px;
 			z-index: 2001;
 			display: none;
 		}
 
 		/* settings need a different offset, since they have a right padding */
 		&#settings::after {
-			right: 27px;
+			inset-inline-end: 27px;
 		}
 	}
 }

@@ -28,8 +28,8 @@ import { t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import svgCheck from '@mdi/svg/svg/check.svg?raw'
 
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 type Focusable = Vue & { focus: () => void }
 

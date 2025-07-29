@@ -21,16 +21,14 @@ use OCP\IDBConnection;
  * @package OC\Files\Cache
  */
 class StorageGlobal {
-	/** @var IDBConnection */
-	private $connection;
-
 	/** @var array<string, array> */
 	private $cache = [];
 	/** @var array<int, array> */
 	private $numericIdCache = [];
 
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private IDBConnection $connection,
+	) {
 	}
 
 	/**
@@ -42,7 +40,7 @@ class StorageGlobal {
 			->from('storages')
 			->where($builder->expr()->in('id', $builder->createNamedParameter(array_values($storageIds), IQueryBuilder::PARAM_STR_ARRAY)));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$this->cache[$row['id']] = $row;
 		}
@@ -60,7 +58,7 @@ class StorageGlobal {
 				->from('storages')
 				->where($builder->expr()->eq('id', $builder->createNamedParameter($storageId)));
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$row = $result->fetch();
 			$result->closeCursor();
 
@@ -83,7 +81,7 @@ class StorageGlobal {
 				->from('storages')
 				->where($builder->expr()->eq('numeric_id', $builder->createNamedParameter($numericId)));
 
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$row = $result->fetch();
 			$result->closeCursor();
 

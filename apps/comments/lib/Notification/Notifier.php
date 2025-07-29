@@ -25,7 +25,7 @@ class Notifier implements INotifier {
 		protected IRootFolder $rootFolder,
 		protected ICommentsManager $commentsManager,
 		protected IURLGenerator $url,
-		protected IUserManager $userManager
+		protected IUserManager $userManager,
 	) {
 	}
 

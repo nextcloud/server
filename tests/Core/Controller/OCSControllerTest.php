@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,6 +16,8 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
+use OCP\ServerVersion;
 use Test\TestCase;
 
 class OCSControllerTest extends TestCase {
@@ -28,6 +31,8 @@ class OCSControllerTest extends TestCase {
 	private $userManager;
 	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyManager;
+	/** @var ServerVersion|\PHPUnit\Framework\MockObject\MockObject */
+	private $serverVersion;
 	/** @var OCSController */
 	private $controller;
 
@@ -39,6 +44,7 @@ class OCSControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->keyManager = $this->createMock(Manager::class);
+		$serverVersion = Server::get(ServerVersion::class);
 
 		$this->controller = new OCSController(
 			'core',
@@ -46,7 +52,8 @@ class OCSControllerTest extends TestCase {
 			$this->capabilitiesManager,
 			$this->userSession,
 			$this->userManager,
-			$this->keyManager
+			$this->keyManager,
+			$serverVersion
 		);
 	}
 
@@ -68,18 +75,19 @@ class OCSControllerTest extends TestCase {
 		return new DataResponse($data);
 	}
 
-	public function testGetCapabilities() {
+	public function testGetCapabilities(): void {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
-		[$major, $minor, $micro] = \OCP\Util::getVersion();
+
+		$serverVersion = Server::get(ServerVersion::class);
 
 		$result = [];
 		$result['version'] = [
-			'major' => $major,
-			'minor' => $minor,
-			'micro' => $micro,
-			'string' => \OC_Util::getVersionString(),
+			'major' => $serverVersion->getMajorVersion(),
+			'minor' => $serverVersion->getMinorVersion(),
+			'micro' => $serverVersion->getPatchVersion(),
+			'string' => $serverVersion->getVersionString(),
 			'edition' => '',
 			'extendedSupport' => false
 		];
@@ -101,18 +109,18 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->getCapabilities());
 	}
 
-	public function testGetCapabilitiesPublic() {
+	public function testGetCapabilitiesPublic(): void {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		[$major, $minor, $micro] = \OCP\Util::getVersion();
+		$serverVersion = Server::get(ServerVersion::class);
 
 		$result = [];
 		$result['version'] = [
-			'major' => $major,
-			'minor' => $minor,
-			'micro' => $micro,
-			'string' => \OC_Util::getVersionString(),
+			'major' => $serverVersion->getMajorVersion(),
+			'minor' => $serverVersion->getMinorVersion(),
+			'micro' => $serverVersion->getPatchVersion(),
+			'string' => $serverVersion->getVersionString(),
 			'edition' => '',
 			'extendedSupport' => false
 		];
@@ -135,7 +143,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->getCapabilities());
 	}
 
-	public function testPersonCheckValid() {
+	public function testPersonCheckValid(): void {
 		$this->userManager->method('checkPassword')
 			->with(
 				$this->equalTo('user'),
@@ -150,7 +158,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->personCheck('user', 'pass'));
 	}
 
-	public function testPersonInvalid() {
+	public function testPersonInvalid(): void {
 		$this->userManager->method('checkPassword')
 			->with(
 				$this->equalTo('user'),
@@ -162,7 +170,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->personCheck('user', 'wrongpass'));
 	}
 
-	public function testPersonNoLogin() {
+	public function testPersonNoLogin(): void {
 		$this->userManager->method('checkPassword')
 			->with(
 				$this->equalTo('user'),
@@ -173,7 +181,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->personCheck('', ''));
 	}
 
-	public function testGetIdentityProofWithNotExistingUser() {
+	public function testGetIdentityProofWithNotExistingUser(): void {
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -184,7 +192,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->getIdentityProof('NotExistingUser'));
 	}
 
-	public function testGetIdentityProof() {
+	public function testGetIdentityProof(): void {
 		$user = $this->createMock(IUser::class);
 		$key = $this->createMock(Key::class);
 		$this->userManager

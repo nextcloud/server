@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -103,26 +104,15 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 	}
 
-	/**
-	 * Get the node at $path
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Node\Node
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function get($path) {
 		return $this->root->get($this->getFullPath($path));
 	}
 
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
 	public function nodeExists($path) {
 		try {
 			$this->get($path);
 			return true;
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException|NotPermittedException) {
 			return false;
 		}
 	}
@@ -137,8 +127,21 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
-			if (!$this->view->mkdir($fullPath) && !$this->view->is_dir($fullPath)) {
-				throw new NotPermittedException('Could not create folder "' . $fullPath . '"');
+			if (!$this->view->mkdir($fullPath)) {
+				// maybe another concurrent process created the folder already
+				if (!$this->view->is_dir($fullPath)) {
+					throw new NotPermittedException('Could not create folder "' . $fullPath . '"');
+				} else {
+					// we need to ensure we don't return before the concurrent request has finished updating the cache
+					$tries = 5;
+					while (!$this->view->getFileInfo($fullPath)) {
+						if ($tries < 1) {
+							throw new NotPermittedException('Could not create folder "' . $fullPath . '", folder exists but unable to get cache entry');
+						}
+						usleep(5 * 1000);
+						$tries--;
+					}
+				}
 			}
 			$parent = dirname($fullPath) === $this->getPath() ? $this : null;
 			$node = new Folder($this->root, $this->view, $fullPath, null, $parent);
@@ -253,7 +256,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		$owner = null;
 		$ownerId = $storage->getOwner($cacheEntry['internalPath']);
-		if (!empty($ownerId)) {
+		if ($ownerId !== false) {
 			// Cache the user manager (for performance)
 			if ($this->userManager === null) {
 				$this->userManager = \OCP\Server::get(IUserManager::class);
@@ -457,5 +460,13 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 
 		return $this->search($query);
+	}
+
+	public function verifyPath($fileName, $readonly = false): void {
+		$this->view->verifyPath(
+			$this->getPath(),
+			$fileName,
+			$readonly,
+		);
 	}
 }

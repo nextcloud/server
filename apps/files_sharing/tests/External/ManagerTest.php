@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -19,16 +20,21 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files\NotFoundException;
+use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\ICacheFactory;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\OCS\IDiscoveryService;
+use OCP\Server;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\Traits\UserTrait;
 
@@ -42,42 +48,19 @@ use Test\Traits\UserTrait;
 class ManagerTest extends TestCase {
 	use UserTrait;
 
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $contactsManager;
-
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject * */
-	private $manager;
-
-	/** @var \OC\Files\Mount\Manager */
-	private $mountManager;
-
-	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
-	private $clientService;
-
-	/** @var ICloudFederationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationProviderManager;
-
-	/** @var ICloudFederationFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $cloudFederationFactory;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IGroupManager */
-	private $groupManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserManager */
-	private $userManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	private $uid;
-
-	/**
-	 * @var \OCP\IUser
-	 */
-	private $user;
-	private $testMountProvider;
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
-	private $eventDispatcher;
+	protected string $uid;
+	protected IUser $user;
+	protected MountProvider $testMountProvider;
+	protected IEventDispatcher&MockObject $eventDispatcher;
+	protected LoggerInterface&MockObject $logger;
+	protected \OC\Files\Mount\Manager $mountManager;
+	protected IManager&MockObject $contactsManager;
+	protected Manager&MockObject $manager;
+	protected IClientService&MockObject $clientService;
+	protected ICloudFederationProviderManager&MockObject $cloudFederationProviderManager;
+	protected ICloudFederationFactory&MockObject $cloudFederationFactory;
+	protected IGroupManager&MockObject $groupManager;
+	protected IUserManager&MockObject $userManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -104,14 +87,14 @@ class ManagerTest extends TestCase {
 
 		$this->manager = $this->createManagerForUser($this->uid);
 
-		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function () {
+		$this->testMountProvider = new MountProvider(Server::get(IDBConnection::class), function () {
 			return $this->manager;
 		}, new CloudIdManager(
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->userManager,
-			$this->createMock(ICacheFactory::class),
-			$this->createMock(IEventDispatcher::class)
 		));
 
 		$group1 = $this->createMock(IGroup::class);
@@ -125,15 +108,15 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())->method('get')->willReturn($this->user);
 		$this->groupManager->expects($this->any())->method(('getUserGroups'))->willReturn([$group1, $group2]);
 		$this->groupManager->expects($this->any())->method(('get'))
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['group1', $group1],
 				['group2', $group2],
-			]));
+			]);
 	}
 
 	protected function tearDown(): void {
 		// clear the share external table to avoid side effects
-		$query = \OC::$server->getDatabaseConnection()->prepare('DELETE FROM `*PREFIX*share_external`');
+		$query = Server::get(IDBConnection::class)->prepare('DELETE FROM `*PREFIX*share_external`');
 		$result = $query->execute();
 		$result->closeCursor();
 
@@ -151,12 +134,12 @@ class ManagerTest extends TestCase {
 		return $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(
 				[
-					\OC::$server->getDatabaseConnection(),
+					Server::get(IDBConnection::class),
 					$this->mountManager,
 					new StorageFactory(),
 					$this->clientService,
-					\OC::$server->getNotificationManager(),
-					\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+					Server::get(\OCP\Notification\IManager::class),
+					Server::get(IDiscoveryService::class),
 					$this->cloudFederationProviderManager,
 					$this->cloudFederationFactory,
 					$this->groupManager,
@@ -165,7 +148,7 @@ class ManagerTest extends TestCase {
 					$this->eventDispatcher,
 					$this->logger,
 				]
-			)->setMethods(['tryOCMEndPoint'])->getMock();
+			)->onlyMethods(['tryOCMEndPoint'])->getMock();
 	}
 
 	private function setupMounts() {
@@ -181,7 +164,7 @@ class ManagerTest extends TestCase {
 		$this->mountManager->addMount(new MountPoint(Temporary::class, '', []));
 	}
 
-	public function testAddUserShare() {
+	public function testAddUserShare(): void {
 		$this->doTestAddShare([
 			'remote' => 'http://localhost',
 			'token' => 'token1',
@@ -195,7 +178,7 @@ class ManagerTest extends TestCase {
 		], false);
 	}
 
-	public function testAddGroupShare() {
+	public function testAddGroupShare(): void {
 		$this->doTestAddShare([
 			'remote' => 'http://localhost',
 			'token' => 'token1',
@@ -218,14 +201,12 @@ class ManagerTest extends TestCase {
 		if ($isGroup) {
 			$this->manager->expects($this->never())->method('tryOCMEndPoint');
 		} else {
-			$this->manager->method('tryOCMEndPoint')
-				->withConsecutive(
-					['http://localhost', 'token1', '2342', 'accept'],
-					['http://localhost', 'token3', '2342', 'decline'],
-				)->willReturnOnConsecutiveCalls(
-					false,
-					false,
-				);
+			$this->manager->expects(self::atLeast(2))
+				->method('tryOCMEndPoint')
+				->willReturnMap([
+					['http://localhost', 'token1', '2342', 'accept', false],
+					['http://localhost', 'token3', '2342', 'decline', false],
+				]);
 		}
 
 		// Add a share for "user"
@@ -251,12 +232,18 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
+		$newClientCalls = [];
+		$this->clientService
+			->method('newClient')
+			->willReturnCallback(function () use (&$newClientCalls): IClient {
+				if (!empty($newClientCalls)) {
+					return array_shift($newClientCalls);
+				}
+				return $this->createMock(IClient::class);
+			});
 		if (!$isGroup) {
-			$client = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->at(0))
-				->method('newClient')
-				->willReturn($client);
+			$client = $this->createMock(IClient::class);
+			$newClientCalls[] = $client;
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([
@@ -308,11 +295,8 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
 		if (!$isGroup) {
-			$client = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->at(0))
-				->method('newClient')
-				->willReturn($client);
+			$client = $this->createMock(IClient::class);
+			$newClientCalls[] = $client;
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([
@@ -364,16 +348,10 @@ class ManagerTest extends TestCase {
 			// no http requests here
 			$this->manager->removeGroupShares('group1');
 		} else {
-			$client1 = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$client2 = $this->getMockBuilder('OCP\Http\Client\IClient')
-				->disableOriginalConstructor()->getMock();
-			$this->clientService->expects($this->exactly(2))
-				->method('newClient')
-				->willReturnOnConsecutiveCalls(
-					$client1,
-					$client2,
-				);
+			$client1 = $this->createMock(IClient::class);
+			$client2 = $this->createMock(IClient::class);
+			$newClientCalls[] = $client1;
+			$newClientCalls[] = $client2;
 			$response = $this->createMock(IResponse::class);
 			$response->method('getBody')
 				->willReturn(json_encode([
@@ -474,7 +452,7 @@ class ManagerTest extends TestCase {
 		return [$shareData, $groupShare];
 	}
 
-	public function testAcceptOriginalGroupShare() {
+	public function testAcceptOriginalGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -484,7 +462,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData);
 	}
 
-	public function testAcceptGroupShareAgainThroughGroupShare() {
+	public function testAcceptGroupShareAgainThroughGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -506,7 +484,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
 	}
 
-	public function testAcceptGroupShareAgainThroughSubShare() {
+	public function testAcceptGroupShareAgainThroughSubShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -528,7 +506,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData);
 	}
 
-	public function testDeclineOriginalGroupShare() {
+	public function testDeclineOriginalGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->declineShare($groupShare['id']));
 		$this->verifyDeclinedGroupShare($shareData);
@@ -538,7 +516,7 @@ class ManagerTest extends TestCase {
 		$this->verifyDeclinedGroupShare($shareData);
 	}
 
-	public function testDeclineGroupShareAgainThroughGroupShare() {
+	public function testDeclineGroupShareAgainThroughGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -552,7 +530,7 @@ class ManagerTest extends TestCase {
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 	}
 
-	public function testDeclineGroupShareAgainThroughSubshare() {
+	public function testDeclineGroupShareAgainThroughSubshare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -570,7 +548,7 @@ class ManagerTest extends TestCase {
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 	}
 
-	public function testDeclineGroupShareAgainThroughMountPoint() {
+	public function testDeclineGroupShareAgainThroughMountPoint(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -583,7 +561,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->removeShare($this->uid . '/files/' . $shareData['name']));
 	}
 
-	public function testDeclineThenAcceptGroupShareAgainThroughGroupShare() {
+	public function testDeclineThenAcceptGroupShareAgainThroughGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		// decline, this creates a declined sub-share
 		$this->assertTrue($this->manager->declineShare($groupShare['id']));
@@ -601,7 +579,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
 	}
 
-	public function testDeclineThenAcceptGroupShareAgainThroughSubShare() {
+	public function testDeclineThenAcceptGroupShareAgainThroughSubShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		// decline, this creates a declined sub-share
 		$this->assertTrue($this->manager->declineShare($groupShare['id']));
@@ -619,7 +597,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData);
 	}
 
-	public function testDeleteUserShares() {
+	public function testDeleteUserShares(): void {
 		// user 1 shares
 
 		$shareData = $this->createTestUserShare($this->uid);
@@ -644,10 +622,10 @@ class ManagerTest extends TestCase {
 			'user' => 'user2',
 			'remoteId' => '2342'
 		];
-		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
 
-		$user2Shares = $manager2->getOpenShares();
-		$this->assertCount(2, $user2Shares);
+		$this->assertCount(1, $manager2->getOpenShares());
+		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
+		$this->assertCount(2, $manager2->getOpenShares());
 
 		$this->manager->expects($this->once())->method('tryOCMEndPoint')->with('http://localhost', 'token1', '2342', 'decline')->willReturn([]);
 		$this->manager->removeUserShares($this->uid);
@@ -666,7 +644,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($user2Shares[1]['user'], 'user2');
 	}
 
-	public function testDeleteGroupShares() {
+	public function testDeleteGroupShares(): void {
 		$shareData = $this->createTestUserShare($this->uid);
 
 		[$shareData, $groupShare] = $this->createTestGroupShare();
@@ -689,10 +667,10 @@ class ManagerTest extends TestCase {
 			'user' => 'user2',
 			'remoteId' => '2342'
 		];
-		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
 
-		$user2Shares = $manager2->getOpenShares();
-		$this->assertCount(2, $user2Shares);
+		$this->assertCount(1, $manager2->getOpenShares());
+		$this->assertSame(null, call_user_func_array([$manager2, 'addShare'], $shareData2));
+		$this->assertCount(2, $manager2->getOpenShares());
 
 		$this->manager->expects($this->never())->method('tryOCMEndPoint');
 		$this->manager->removeGroupShares('group1');

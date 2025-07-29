@@ -42,7 +42,7 @@ class RegistryTest extends TestCase {
 		$this->registry = new Registry($this->dao, $this->dispatcher);
 	}
 
-	public function testGetProviderStates() {
+	public function testGetProviderStates(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
 		$state = [
@@ -55,7 +55,7 @@ class RegistryTest extends TestCase {
 		$this->assertEquals($state, $actual);
 	}
 
-	public function testEnableProvider() {
+	public function testEnableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
@@ -81,7 +81,7 @@ class RegistryTest extends TestCase {
 		$this->registry->enableProviderFor($provider, $user);
 	}
 
-	public function testDisableProvider() {
+	public function testDisableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
@@ -108,7 +108,7 @@ class RegistryTest extends TestCase {
 		$this->registry->disableProviderFor($provider, $user);
 	}
 
-	public function testDeleteUserData() {
+	public function testDeleteUserData(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('user123');
 		$this->dao->expects($this->once())
@@ -119,17 +119,22 @@ class RegistryTest extends TestCase {
 					'provider_id' => 'twofactor_u2f',
 				]
 			]);
+
+		$calls = [
+			[new TwoFactorProviderDisabled('twofactor_u2f')],
+			[new TwoFactorProviderUserDeleted($user, 'twofactor_u2f')],
+		];
 		$this->dispatcher->expects($this->exactly(2))
 			->method('dispatchTyped')
-			->withConsecutive(
-				[new TwoFactorProviderDisabled('twofactor_u2f')],
-				[new TwoFactorProviderUserDeleted($user, 'twofactor_u2f')],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$this->registry->deleteUserData($user);
 	}
 
-	public function testCleanUp() {
+	public function testCleanUp(): void {
 		$this->dao->expects($this->once())
 			->method('deleteAll')
 			->with('twofactor_u2f');

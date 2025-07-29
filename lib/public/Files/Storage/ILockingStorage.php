@@ -21,27 +21,24 @@ interface ILockingStorage {
 	/**
 	 * @param string $path The path of the file to acquire the lock for
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
 	 * @throws \OCP\Lock\LockedException
 	 * @since 9.0.0
 	 */
-	public function acquireLock($path, $type, ILockingProvider $provider);
+	public function acquireLock(string $path, int $type, ILockingProvider $provider);
 
 	/**
 	 * @param string $path The path of the file to acquire the lock for
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
 	 * @throws \OCP\Lock\LockedException
 	 * @since 9.0.0
 	 */
-	public function releaseLock($path, $type, ILockingProvider $provider);
+	public function releaseLock(string $path, int $type, ILockingProvider $provider);
 
 	/**
 	 * @param string $path The path of the file to change the lock for
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
 	 * @throws \OCP\Lock\LockedException
 	 * @since 9.0.0
 	 */
-	public function changeLock($path, $type, ILockingProvider $provider);
+	public function changeLock(string $path, int $type, ILockingProvider $provider);
 }

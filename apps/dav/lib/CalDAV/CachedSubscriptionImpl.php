@@ -9,22 +9,19 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV;
 
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsEnabled;
+use OCP\Calendar\ICalendarIsShared;
+use OCP\Calendar\ICalendarIsWritable;
 use OCP\Constants;
 
-class CachedSubscriptionImpl implements ICalendar {
-	private CalDavBackend $backend;
-	private CachedSubscription $calendar;
-	/** @var array<string, mixed> */
-	private array $calendarInfo;
+class CachedSubscriptionImpl implements ICalendar, ICalendarIsEnabled, ICalendarIsShared, ICalendarIsWritable {
 
 	public function __construct(
-		CachedSubscription $calendar,
-		array $calendarInfo,
-		CalDavBackend $backend
+		private CachedSubscription $calendar,
+		/** @var array<string, mixed> */
+		private array $calendarInfo,
+		private CalDavBackend $backend,
 	) {
-		$this->calendar = $calendar;
-		$this->calendarInfo = $calendarInfo;
-		$this->backend = $backend;
 	}
 
 	/**
@@ -58,16 +55,6 @@ class CachedSubscriptionImpl implements ICalendar {
 		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
 	}
 
-	/**
-	 * @param string $pattern which should match within the $searchProperties
-	 * @param array $searchProperties defines the properties within the query pattern should match
-	 * @param array $options - optional parameters:
-	 *                       ['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
-	 * @param int|null $limit - limit number of search results
-	 * @param int|null $offset - offset for paging of search results
-	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
-	 * @since 13.0.0
-	 */
 	public function search(string $pattern, array $searchProperties = [], array $options = [], $limit = null, $offset = null): array {
 		return $this->backend->search($this->calendarInfo, $pattern, $searchProperties, $options, $limit, $offset);
 	}
@@ -90,8 +77,23 @@ class CachedSubscriptionImpl implements ICalendar {
 		return $result;
 	}
 
+	/**
+	 * @since 32.0.0
+	 */
+	public function isEnabled(): bool {
+		return $this->calendarInfo['{http://owncloud.org/ns}calendar-enabled'] ?? true;
+	}
+
+	public function isWritable(): bool {
+		return false;
+	}
+
 	public function isDeleted(): bool {
 		return false;
+	}
+
+	public function isShared(): bool {
+		return true;
 	}
 
 	public function getSource(): string {

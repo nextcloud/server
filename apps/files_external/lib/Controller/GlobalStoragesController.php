@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,7 @@ namespace OCA\Files_External\Controller;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -41,7 +43,7 @@ class GlobalStoragesController extends StoragesController {
 		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IConfig $config
+		IConfig $config,
 	) {
 		parent::__construct(
 			$AppName,
@@ -69,6 +71,7 @@ class GlobalStoragesController extends StoragesController {
 	 *
 	 * @return DataResponse
 	 */
+	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
 		$mountPoint,
 		$backend,
@@ -77,7 +80,7 @@ class GlobalStoragesController extends StoragesController {
 		$mountOptions,
 		$applicableUsers,
 		$applicableGroups,
-		$priority
+		$priority,
 	) {
 		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
 		if (!$canCreateNewLocalStorage && $backend === 'local') {
@@ -130,10 +133,10 @@ class GlobalStoragesController extends StoragesController {
 	 * @param array $applicableUsers users for which to mount the storage
 	 * @param array $applicableGroups groups for which to mount the storage
 	 * @param int $priority priority
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
 	 */
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
 		$id,
 		$mountPoint,
@@ -144,7 +147,6 @@ class GlobalStoragesController extends StoragesController {
 		$applicableUsers,
 		$applicableGroups,
 		$priority,
-		$testOnly = true
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
@@ -177,7 +179,7 @@ class GlobalStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage, $testOnly);
+		$this->updateStorageStatus($storage);
 
 		return new DataResponse(
 			$storage->jsonSerialize(true),

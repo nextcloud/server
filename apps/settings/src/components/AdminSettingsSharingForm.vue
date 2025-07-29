@@ -27,6 +27,15 @@
 					:label="t('settings', 'Ignore the following groups when checking group membership')"
 					style="width: 100%" />
 			</div>
+			<NcCheckboxRadioSwitch :checked.sync="settings.allowViewWithoutDownload">
+				{{ t('settings', 'Allow users to preview files even if download is disabled') }}
+			</NcCheckboxRadioSwitch>
+			<NcNoteCard v-show="settings.allowViewWithoutDownload"
+				id="settings-sharing-api-view-without-download-hint"
+				class="sharing__note"
+				type="warning">
+				{{ t('settings', 'Users will still be able to screenshot or record the screen. This does not provide any definitive protection.') }}
+			</NcNoteCard>
 		</div>
 
 		<div v-show="settings.enabled" id="settings-sharing-api" class="sharing__section">
@@ -39,15 +48,19 @@
 				<NcCheckboxRadioSwitch :checked.sync="settings.allowPublicUpload">
 					{{ t('settings', 'Allow public uploads') }}
 				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch v-model="settings.allowFederationOnPublicShares">
+					{{ t('settings', 'Allow public shares to be added to other clouds by federation.') }}
+					{{ t('settings', 'This will add share permissions to all newly created link shares.') }}
+				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.enableLinkPasswordByDefault">
 					{{ t('settings', 'Always ask for a password') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.enforceLinksPassword" :disabled="!settings.enableLinkPasswordByDefault">
 					{{ t('settings', 'Enforce password protection') }}
 				</NcCheckboxRadioSwitch>
-				<label v-if="settings.passwordExcludedGroupsFeatureEnabled" class="sharing__labeled-entry sharing__input">
+				<label v-if="settings.enforceLinksPasswordExcludedGroupsEnabled" class="sharing__labeled-entry sharing__input">
 					<span>{{ t('settings', 'Exclude groups from password requirements') }}</span>
-					<NcSettingsSelectGroup v-model="settings.passwordExcludedGroups"
+					<NcSettingsSelectGroup v-model="settings.enforceLinksPasswordExcludedGroups"
 						style="width: 100%"
 						:disabled="!settings.enforceLinksPassword || !settings.enableLinkPasswordByDefault" />
 				</label>
@@ -58,6 +71,24 @@
 						style="width: 100%" />
 				</label>
 			</fieldset>
+
+			<NcCheckboxRadioSwitch type="switch"
+				aria-describedby="settings-sharing-custom-token-disable-hint settings-sharing-custom-token-access-hint"
+				:checked.sync="settings.allowCustomTokens">
+				{{ t('settings', 'Allow users to set custom share link tokens') }}
+			</NcCheckboxRadioSwitch>
+			<div class="sharing__sub-section">
+				<NcNoteCard id="settings-sharing-custom-token-disable-hint"
+					class="sharing__note"
+					type="info">
+					{{ t('settings', 'Shares with custom tokens will continue to be accessible after this setting has been disabled') }}
+				</NcNoteCard>
+				<NcNoteCard id="settings-sharing-custom-token-access-hint"
+					class="sharing__note"
+					type="warning">
+					{{ t('settings', 'Shares with guessable tokens may be accessed easily') }}
+				</NcNoteCard>
+			</div>
 
 			<label>{{ t('settings', 'Limit sharing based on groups') }}</label>
 			<div class="sharing__sub-section">
@@ -96,7 +127,7 @@
 			<NcCheckboxRadioSwitch type="switch"
 				aria-controls="settings-sharing-api-expiration"
 				:checked.sync="settings.defaultInternalExpireDate">
-				{{ t('settings', 'Set default expiration date for shares') }}
+				{{ t('settings', 'Set default expiration date for internal shares') }}
 			</NcCheckboxRadioSwitch>
 			<fieldset v-show="settings.defaultInternalExpireDate" id="settings-sharing-api-expiration" class="sharing__sub-section">
 				<NcCheckboxRadioSwitch :checked.sync="settings.enforceInternalExpireDate">
@@ -170,7 +201,7 @@
 			<NcCheckboxRadioSwitch type="switch" :checked.sync="publicShareDisclaimerEnabled">
 				{{ t('settings', 'Show disclaimer text on the public link upload page (only shown when the file list is hidden)') }}
 			</NcCheckboxRadioSwitch>
-			<div v-if="typeof settings.publicShareDisclaimerText === 'string'"
+			<div v-if="publicShareDisclaimerEnabled"
 				aria-describedby="settings-sharing-privary-related-disclaimer-hint"
 				class="sharing__sub-section">
 				<NcTextArea class="sharing__input"
@@ -192,19 +223,18 @@
 </template>
 
 <script lang="ts">
-import {
-	NcCheckboxRadioSwitch,
-	NcSettingsSelectGroup,
-	NcTextArea,
-	NcTextField,
-} from '@nextcloud/vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { snakeCase } from 'lodash'
 import { defineComponent } from 'vue'
 import debounce from 'debounce'
 
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSelectGroup from '@nextcloud/vue/components/NcSettingsSelectGroup'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import SelectSharingPermissions from './SelectSharingPermissions.vue'
 
 interface IShareSettings {
@@ -215,6 +245,7 @@ interface IShareSettings {
 	allowPublicUpload: boolean
 	allowResharing: boolean
 	allowShareDialogUserEnumeration: boolean
+	allowFederationOnPublicShares: boolean
 	restrictUserEnumerationToGroup: boolean
 	restrictUserEnumerationToPhone: boolean
 	restrictUserEnumerationFullMatch: boolean
@@ -222,8 +253,8 @@ interface IShareSettings {
 	restrictUserEnumerationFullMatchEmail: boolean
 	restrictUserEnumerationFullMatchIgnoreSecondDN: boolean
 	enforceLinksPassword: boolean
-	passwordExcludedGroups: string[]
-	passwordExcludedGroupsFeatureEnabled: boolean
+	enforceLinksPasswordExcludedGroups: string[]
+	enforceLinksPasswordExcludedGroupsEnabled: boolean
 	onlyShareWithGroupMembers: boolean
 	onlyShareWithGroupMembersExcludeGroupList: string[]
 	defaultExpireDate: boolean
@@ -231,7 +262,7 @@ interface IShareSettings {
 	enforceExpireDate: boolean
 	excludeGroups: string
 	excludeGroupsList: string[]
-	publicShareDisclaimerText?: string
+	publicShareDisclaimerText: string
 	enableLinkPasswordByDefault: boolean
 	defaultPermissions: number
 	defaultInternalExpireDate: boolean
@@ -240,6 +271,8 @@ interface IShareSettings {
 	defaultRemoteExpireDate: boolean
 	remoteExpireAfterNDays: string
 	enforceRemoteExpireDate: boolean
+	allowCustomTokens: boolean
+	allowViewWithoutDownload: boolean
 }
 
 export default defineComponent({
@@ -247,13 +280,16 @@ export default defineComponent({
 	components: {
 		NcCheckboxRadioSwitch,
 		NcSettingsSelectGroup,
+		NcNoteCard,
 		NcTextArea,
 		NcTextField,
 		SelectSharingPermissions,
 	},
 	data() {
+		const settingsData = loadState<IShareSettings>('settings', 'sharingSettings')
 		return {
-			settingsData: loadState<IShareSettings>('settings', 'sharingSettings'),
+			settingsData,
+			publicShareDisclaimerEnabled: settingsData.publicShareDisclaimerText !== '',
 		}
 	},
 	computed: {
@@ -272,26 +308,24 @@ export default defineComponent({
 				},
 			})
 		},
-		publicShareDisclaimerEnabled: {
-			get() {
-				return typeof this.settingsData.publicShareDisclaimerText === 'string'
-			},
-			set(value) {
-				if (value) {
-					this.settingsData.publicShareDisclaimerText = ''
-				} else {
-					this.onUpdateDisclaimer()
-				}
-			},
+	},
+
+	watch: {
+		publicShareDisclaimerEnabled() {
+			// When disabled we just remove the disclaimer content
+			if (this.publicShareDisclaimerEnabled === false) {
+				this.onUpdateDisclaimer('')
+			}
 		},
 	},
+
 	methods: {
 		t,
 
-		onUpdateDisclaimer: debounce(function(value?: string) {
+		onUpdateDisclaimer: debounce(function(value: string) {
 			const options = {
 				success() {
-					if (value) {
+					if (value !== '') {
 						showSuccess(t('settings', 'Changed disclaimer text'))
 					} else {
 						showSuccess(t('settings', 'Deleted disclaimer text'))
@@ -301,7 +335,7 @@ export default defineComponent({
 					showError(t('settings', 'Could not set disclaimer text'))
 				},
 			}
-			if (!value) {
+			if (value === '') {
 				window.OCP.AppConfig.deleteKey('core', 'shareapi_public_link_disclaimertext', options)
 			} else {
 				window.OCP.AppConfig.setValue('core', 'shareapi_public_link_disclaimertext', value, options)
@@ -353,6 +387,10 @@ export default defineComponent({
 		:deep(.v-select.select) {
 			width: 100%;
 		}
+	}
+
+	& &__note {
+		margin: 2px 0;
 	}
 }
 

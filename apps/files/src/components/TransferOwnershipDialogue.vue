@@ -18,7 +18,7 @@
 					{{ t('files', 'Change') }}
 				</NcButton>
 			</p>
-			<p class="new-owner-row">
+			<p class="new-owner">
 				<label for="targetUser">
 					<span>{{ t('files', 'New owner') }}</span>
 				</label>
@@ -27,9 +27,7 @@
 					:options="formatedUserSuggestions"
 					:multiple="false"
 					:loading="loadingUsers"
-					label="displayName"
 					:user-select="true"
-					class="middle-align"
 					@search="findUserDebounced" />
 			</p>
 			<p>
@@ -48,9 +46,9 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showSuccess, showError } from '@nextcloud/dialogs'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import Vue from 'vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 import logger from '../logger.ts'
 
@@ -90,6 +88,7 @@ export default {
 					user: user.uid,
 					displayName: user.displayName,
 					icon: 'icon-user',
+					subname: user.shareWithDisplayNameUnique,
 				}
 			})
 		},
@@ -156,6 +155,7 @@ export default {
 					Vue.set(this.userSuggestions, user.value.shareWith, {
 						uid: user.value.shareWith,
 						displayName: user.label,
+						shareWithDisplayNameUnique: user.shareWithDisplayNameUnique,
 					})
 				})
 			} catch (error) {
@@ -203,16 +203,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.middle-align {
-	vertical-align: middle;
-}
 p {
 	margin-top: 12px;
 	margin-bottom: 12px;
 }
-.new-owner-row {
+
+.new-owner {
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
+	max-width: 400px;
 
 	label {
 		display: flex;
@@ -220,18 +219,14 @@ p {
 		margin-bottom: calc(var(--default-grid-baseline) * 2);
 
 		span {
-			margin-right: 8px;
+			margin-inline-end: 8px;
 		}
 	}
-
-	.multiselect {
-		flex-grow: 1;
-		max-width: 280px;
-	}
 }
+
 .transfer-select-row {
 	span {
-		margin-right: 8px;
+		margin-inline-end: 8px;
 	}
 
 	&__choose_button {

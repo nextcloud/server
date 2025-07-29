@@ -58,9 +58,9 @@ import {
 	enableUserStatusAutomation,
 	disableUserStatusAutomation,
 } from '../service/PreferenceService.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcTimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcTimezonePicker from '@nextcloud/vue/components/NcTimezonePicker'
 
 export default {
 	name: 'AvailabilityForm',
@@ -139,41 +139,50 @@ export default {
 	padding: 0 10px 0 10px;
 	position: absolute;
 }
+
 :deep(.availability-slots) {
 	display: flex;
 	white-space: normal;
 }
+
 :deep(.availability-slot) {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	flex-wrap: wrap;
 }
+
 :deep(.availability-slot-group) {
 	display: flex;
 	flex-direction: column;
 }
+
 :deep(.mx-input-wrapper) {
 	width: 85px;
 }
+
 :deep(.mx-datepicker) {
 	width: 97px;
 }
+
 :deep(.multiselect) {
 	border: 1px solid var(--color-border-dark);
 	width: 120px;
 }
+
 .time-zone {
-	padding: 32px 12px 12px 0;
-    display: flex;
-    flex-wrap: wrap;
+	padding-block: 32px 12px;
+	padding-inline: 0 12px;
+	display: flex;
+	flex-wrap: wrap;
 
 	&__heading {
-		margin-right: calc(var(--default-grid-baseline) * 2);
+		margin-inline-end: calc(var(--default-grid-baseline) * 2);
 		line-height: var(--default-clickable-area);
 		font-weight: bold;
 	}
 }
+
 .grid-table {
 	display: grid;
 	margin-bottom: 32px;
@@ -182,9 +191,11 @@ export default {
 	grid-template-columns: min-content auto min-content;
 	max-width: 500px;
 }
+
 .button {
 	align-self: flex-end;
 }
+
 :deep(.label-weekday) {
 	position: relative;
 	display: inline-flex;
@@ -201,12 +212,12 @@ export default {
 }
 
 .to-text {
-	padding-right: 12px;
+	padding-inline-end: 12px;
 }
 
 .empty-content {
 	color: var(--color-text-lighter);
-	margin-top: 4px;
+	margin-block-start: var(--default-grid-baseline);
 	align-self: center;
 }
 </style>

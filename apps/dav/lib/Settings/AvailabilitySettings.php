@@ -20,19 +20,14 @@ use OCP\User\IAvailabilityCoordinator;
 use Psr\Log\LoggerInterface;
 
 class AvailabilitySettings implements ISettings {
-	protected IConfig $config;
-	protected IInitialState $initialState;
-	protected ?string $userId;
-
-	public function __construct(IConfig $config,
-		IInitialState $initialState,
-		?string $userId,
+	public function __construct(
+		protected IConfig $config,
+		protected IInitialState $initialState,
+		protected ?string $userId,
 		private LoggerInterface $logger,
 		private IAvailabilityCoordinator $coordinator,
-		private AbsenceMapper $absenceMapper) {
-		$this->config = $config;
-		$this->initialState = $initialState;
-		$this->userId = $userId;
+		private AbsenceMapper $absenceMapper,
+	) {
 	}
 
 	public function getForm(): TemplateResponse {

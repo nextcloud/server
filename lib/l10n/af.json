@@ -8,6 +8,7 @@
     "Apps" : "Toeps",
     "Settings" : "Instellings",
     "Log out" : "Meld af",
+    "Accounts" : "Accounts",
     "Email" : "E-pos",
     "Phone" : "Foon",
     "Twitter" : "Twitter",
@@ -15,7 +16,6 @@
     "Address" : "Adres",
     "Profile picture" : "Profielprent",
     "About" : "Oor",
-    "Open »%s«" : "Open »%s«",
     "Sunday" : "Sondag",
     "Monday" : "Maandag",
     "Tuesday" : "Dinsdag",
@@ -25,9 +25,8 @@
     "Saturday" : "Saterdag",
     "a safe home for all your data" : "’n veilige tuiste vir al u data",
     "Storage is temporarily not available" : "Berging is tydelik nie beskikbaar nie",
-    "Summary" : "Opsomming",
-    "Help" : "Hulp",
-    "Users" : "Gebruikers",
-    "Unknown user" : "Onbekende gebruiker"
+    "Images" : "Beelde",
+    "Text" : "Teks",
+    "Summary" : "Opsomming"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

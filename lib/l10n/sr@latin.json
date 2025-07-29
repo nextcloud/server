@@ -4,7 +4,9 @@
     "Files" : "Фајлови",
     "View profile" : "Vidi profil",
     "seconds ago" : "pre par sekundi",
+    "Filename contains at least one invalid character" : "Naziv fajla sadrži bar jedan nedozvoljen znak",
     "__language_name__" : "Srpski",
+    "Apps" : "Aplikacije",
     "Settings" : "Postavke",
     "Log out" : "Odjava",
     "Email" : "email",
@@ -19,7 +21,6 @@
     "Thursday" : "Četvrtak",
     "Friday" : "Petak",
     "Saturday" : "Subota",
-    "Translate" : "Prevedi",
-    "Help" : "Help"
+    "Translate" : "Prevedi"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

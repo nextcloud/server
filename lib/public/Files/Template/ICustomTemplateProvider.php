@@ -17,7 +17,7 @@ interface ICustomTemplateProvider {
 	/**
 	 * Return a list of additional templates that the template provider is offering
 	 *
-	 * @return File[]
+	 * @return Template[]
 	 * @since 21.0.0
 	 */
 	public function getCustomTemplates(string $mimetype): array;

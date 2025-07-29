@@ -9,16 +9,15 @@ OC.L10N.register(
     "Use backup code" : "Usar código de recuperación",
     "Two factor backup codes" : "Códigos de recuperación de dous factores",
     "A two-factor auth backup codes provider" : "Un provedor de códigos de recuperación para a autenticación de dous factores",
+    "An error occurred while generating your backup codes" : "Produciuse un erro ao xerar os seus códigos de recuperación",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Xeraronse os códigos de recuperación. Usou {used} códigos de {total}.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Estes son os seus códigos de recuperación. Gárdeos e/ou imprímaos xa que non poderá volver lelos de novo.",
     "Save backup codes" : "Gardar os códigos de recuperación",
     "Print backup codes" : "Imprimir os códigos de recuperación",
     "Regenerate backup codes" : "Volver xerar códigos de recuperación",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Se volve xerar os códigos de recuperación, automaticamente invalidara os antigos códigos.",
-    "An error occurred while generating your backup codes" : "Produciuse un erro ao xerar os seus códigos de recuperación",
     "{name} backup codes" : "Códigos de recuperación {name} ",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use un dos códigos de recuperación que gardou cando axustou a autenticación de dous factores.",
-    "Submit" : "Enviar ",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estes son os seus códigos de recuperación. Gárdeos e/ou imprímaos xa que non poderá volver lelos de novo"
+    "Submit" : "Enviar "
 },
 "nplurals=2; plural=(n != 1);");

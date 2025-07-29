@@ -14,7 +14,7 @@ use OC\User\Manager;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class PreLoginHookCommandTest extends ALoginCommandTest {
+class PreLoginHookCommandTest extends ALoginTestCommand {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
@@ -28,7 +28,7 @@ class PreLoginHookCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
 		$this->userManager->expects($this->once())
 			->method('emit')

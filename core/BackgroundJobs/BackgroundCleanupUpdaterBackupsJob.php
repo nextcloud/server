@@ -10,6 +10,7 @@ namespace OC\Core\BackgroundJobs;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
+use OCP\Files;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
@@ -28,17 +29,20 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 	 * @param array $argument
 	 */
 	public function run($argument): void {
+		$this->log->info('Running background job to clean-up outdated updater backups');
+
 		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 
 		if (!is_string($instanceId) || empty($instanceId)) {
+			$this->log->error('Skipping updater backup clean-up - instanceId is missing!');
 			return;
 		}
 
 		$updaterFolderPath = $updateDir . '/updater-' . $instanceId;
 		$backupFolderPath = $updaterFolderPath . '/backups';
 		if (file_exists($backupFolderPath)) {
-			$this->log->info("$backupFolderPath exists - start to clean it up");
+			$this->log->debug("Updater backup folder detected: $backupFolderPath");
 
 			$dirList = [];
 			$dirs = new \DirectoryIterator($backupFolderPath);
@@ -52,6 +56,8 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 				$realPath = $dir->getRealPath();
 
 				if ($realPath === false) {
+					$pathName = $dir->getPathname();
+					$this->log->warning("Skipping updater backup folder: $pathName (not found)");
 					continue;
 				}
 
@@ -61,15 +67,18 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 			ksort($dirList);
 			// drop the newest 3 directories
 			$dirList = array_slice($dirList, 0, -3);
-			$this->log->info('List of all directories that will be deleted: ' . json_encode($dirList));
+			$this->log->debug('Updater backup folders that will be deleted: ' . json_encode($dirList));
 
 			foreach ($dirList as $dir) {
 				$this->log->info("Removing $dir ...");
-				\OC_Helper::rmdirr($dir);
+				$result = Files::rmdirr($dir);
+				if (!$result) {
+					$this->log->error('Could not remove updater backup folder $dir');
+				}
 			}
-			$this->log->info('Cleanup finished');
+			$this->log->info('Background job to clean-up updater backups has finished');
 		} else {
-			$this->log->info("Could not find updater directory $backupFolderPath - cleanup step not needed");
+			$this->log->warning("Skipping updater backup clean-up - could not find updater backup folder $backupFolderPath");
 		}
 	}
 }

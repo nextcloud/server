@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
-@import 'functions';
+@use 'functions';
 
 /* GLOBAL ------------------------------------------------------------------- */
 [class^='icon-'], [class*=' icon-'] {
@@ -33,7 +33,7 @@
 		margin: -16px 0 0 -16px;
 		position: absolute;
 		top: 50%;
-		left: 50%;
+		inset-inline-start: 50%;
 		border-radius: 100%;
 		-webkit-animation: rotate .8s infinite linear;
 		animation: rotate .8s infinite linear;
@@ -116,4 +116,6 @@ audio, canvas, embed, iframe, img, input, object, video {
  * or have some additional styling like drop shadows
  */
 
-@import url('../../dist/icons.css');
+// plain CSS import and not SCSS so disable the `@import` rule
+/* stylelint-disable-next-line no-invalid-position-at-import-rule */
+@import '../../dist/icons.css';

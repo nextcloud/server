@@ -14,14 +14,13 @@ use OCP\IUser;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 
-class EmailProviderTest extends AbstractNotificationProviderTest {
+class EmailProviderTest extends AbstractNotificationProviderTestCase {
 	public const USER_EMAIL = 'frodo@hobb.it';
-
-	/** @var IMailer|MockObject */
-	private $mailer;
+	private IMailer&MockObject $mailer;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -96,18 +95,12 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 
 		$this->mailer->expects($this->exactly(4))
 			->method('validateMailAddress')
-			->withConsecutive(
-				['uid1@example.com'],
-				['uid2@example.com'],
-				['uid3@example.com'],
-				['invalid'],
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				true,
-				true,
-				false,
-			);
+			->willReturnMap([
+				['uid1@example.com', true],
+				['uid2@example.com', true],
+				['uid3@example.com', true],
+				['invalid', false],
+			]);
 
 		$this->mailer->expects($this->exactly(3))
 			->method('createMessage')
@@ -118,14 +111,18 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 				$message22
 			);
 
-		$this->mailer->expects($this->exactly(3))
+		$calls = [
+			[$message11],
+			[$message21],
+			[$message22],
+		];
+		$this->mailer->expects($this->exactly(count($calls)))
 			->method('send')
-			->withConsecutive(
-				[$message11],
-				[$message21],
-				[$message22],
-			)
-			->willReturn([]);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return [];
+			});
 
 		$this->setupURLGeneratorMock(2);
 
@@ -214,16 +211,22 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 				$message22,
 				$message23,
 			);
-		$this->mailer->expects($this->exactly(6))
+
+		$calls = [
+			[$message11],
+			[$message12],
+			[$message13],
+			[$message21],
+			[$message22],
+			[$message23],
+		];
+		$this->mailer->expects($this->exactly(count($calls)))
 			->method('send')
-			->withConsecutive(
-				[$message11],
-				[$message12],
-				[$message13],
-				[$message21],
-				[$message22],
-				[$message23],
-			)->willReturn([]);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return [];
+			});
 		$this->setupURLGeneratorMock(2);
 
 		$vcalendar = $this->getAttendeeVCalendar();
@@ -292,12 +295,18 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 				$message12,
 				$message13,
 			);
-		$this->mailer->expects($this->exactly(2))
+
+		$calls = [
+			[$message12],
+			[$message13],
+		];
+		$this->mailer->expects($this->exactly(count($calls)))
 			->method('send')
-			->withConsecutive(
-				[$message12],
-				[$message13],
-			)->willReturn([]);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return [];
+			});
 		$this->setupURLGeneratorMock(1);
 
 		$vcalendar = $this->getAttendeeVCalendar();
@@ -350,7 +359,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 
 		$message->expects($this->once())
 			->method('setFrom')
-			->with([\OCP\Util::getDefaultEmailAddress('reminders-noreply')])
+			->with([Util::getDefaultEmailAddress('reminders-noreply')])
 			->willReturn($message);
 
 		if ($replyTo) {

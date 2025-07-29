@@ -23,7 +23,7 @@
 import { loadState } from '@nextcloud/initial-state'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 import { saveProfileParameterVisibility } from '../../../service/ProfileService.js'
 import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants.js'
@@ -142,7 +142,7 @@ export default {
 		pointer-events: none;
 
 		& *,
-		&::v-deep * {
+		&:deep(*) {
 			cursor: default;
 			pointer-events: none;
 		}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
@@ -13,14 +14,14 @@ use Test\TestCase;
 class QueryLoggerTest extends TestCase {
 	/** @var \OC\Diagnostics\QueryLogger */
 	private $logger;
-	
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = new QueryLogger();
 	}
 
-	public function testQueryLogger() {
+	public function testQueryLogger(): void {
 		// Module is not activated and this should not be logged
 		$this->logger->startQuery('SELECT', ['testuser', 'count'], ['string', 'int']);
 		$this->logger->stopQuery();

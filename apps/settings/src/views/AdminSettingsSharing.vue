@@ -16,13 +16,12 @@
 </template>
 
 <script lang="ts">
-import {
-	NcNoteCard,
-	NcSettingsSection,
-} from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
+
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import AdminSettingsSharingForm from '../components/AdminSettingsSharingForm.vue'
 
 export default defineComponent({

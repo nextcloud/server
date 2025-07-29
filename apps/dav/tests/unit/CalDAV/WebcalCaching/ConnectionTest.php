@@ -7,14 +7,12 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Tests\unit\CalDAV\WebcalCaching;
 
-use GuzzleHttp\HandlerStack;
 use OCA\DAV\CalDAV\WebcalCaching\Connection;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -22,9 +20,9 @@ use Test\TestCase;
 
 class ConnectionTest extends TestCase {
 
-	private IClientService|MockObject $clientService;
-	private IConfig|MockObject $config;
-	private LoggerInterface|MockObject $logger;
+	private IClientService&MockObject $clientService;
+	private IAppConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
 	private Connection $connection;
 
 	public function setUp(): void {
@@ -34,10 +32,8 @@ class ConnectionTest extends TestCase {
 		$this->connection = new Connection($this->clientService, $this->config, $this->logger);
 	}
 
-	/**
-	 * @dataProvider runLocalURLDataProvider
-	 */
-	public function testLocalUrl($source) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('runLocalURLDataProvider')]
+	public function testLocalUrl($source): void {
 		$subscription = [
 			'id' => 42,
 			'uri' => 'sub123',
@@ -48,7 +44,6 @@ class ConnectionTest extends TestCase {
 			'source' => $source,
 			'lastmodified' => 0,
 		];
-		$mutation = [];
 
 		$client = $this->createMock(IClient::class);
 		$this->clientService->expects(self::once())
@@ -69,7 +64,7 @@ class ConnectionTest extends TestCase {
 			->method('warning')
 			->with('Subscription 42 was not refreshed because it violates local access rules', ['exception' => $localServerException]);
 
-		$this->connection->queryWebcalFeed($subscription, $mutation);
+		$this->connection->queryWebcalFeed($subscription);
 	}
 
 	public function testInvalidUrl(): void {
@@ -83,30 +78,22 @@ class ConnectionTest extends TestCase {
 			'source' => '!@#$',
 			'lastmodified' => 0,
 		];
-		$mutation = [];
 
 		$client = $this->createMock(IClient::class);
-		$this->clientService->expects(self::once())
-			->method('newClient')
-			->with()
-			->willReturn($client);
-		$this->config->expects(self::once())
-			->method('getValueString')
-			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->willReturn('no');
-
+		$this->config->expects(self::never())
+			->method('getValueString');
 		$client->expects(self::never())
 			->method('get');
 
-		$this->connection->queryWebcalFeed($subscription, $mutation);
+		$this->connection->queryWebcalFeed($subscription);
 
 	}
 
 	/**
 	 * @param string $result
 	 * @param string $contentType
-	 * @dataProvider urlDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('urlDataProvider')]
 	public function testConnection(string $url, string $result, string $contentType): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
@@ -120,7 +107,6 @@ class ConnectionTest extends TestCase {
 			'source' => $url,
 			'lastmodified' => 0,
 		];
-		$mutation = [];
 
 		$this->clientService->expects($this->once())
 			->method('newClient')
@@ -134,9 +120,7 @@ class ConnectionTest extends TestCase {
 
 		$client->expects($this->once())
 			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
-				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
-			}))
+			->with('https://foo.bar/bla2')
 			->willReturn($response);
 
 		$response->expects($this->once())
@@ -148,9 +132,9 @@ class ConnectionTest extends TestCase {
 			->with('Content-Type')
 			->willReturn($contentType);
 
-		$this->connection->queryWebcalFeed($subscription, $mutation);
-
+		$this->connection->queryWebcalFeed($subscription);
 	}
+
 	public static function runLocalURLDataProvider(): array {
 		return [
 			['localhost/foo.bar'],

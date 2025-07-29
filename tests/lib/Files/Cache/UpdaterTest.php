@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,8 +8,14 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\Cache;
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\ObjectStore\StorageObjectStore;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
+use OC\Files\View;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Class UpdaterTest
@@ -19,17 +26,17 @@ use OC\Files\Storage\Temporary;
  */
 class UpdaterTest extends \Test\TestCase {
 	/**
-	 * @var \OC\Files\Storage\Storage
+	 * @var Storage
 	 */
 	protected $storage;
 
 	/**
-	 * @var \OC\Files\Cache\Cache
+	 * @var Cache
 	 */
 	protected $cache;
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	protected $view;
 
@@ -53,7 +60,7 @@ class UpdaterTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testNewFile() {
+	public function testNewFile(): void {
 		$this->storage->file_put_contents('foo.txt', 'bar');
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 
@@ -65,7 +72,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals('text/plain', $cached['mimetype']);
 	}
 
-	public function testUpdatedFile() {
+	public function testUpdatedFile(): void {
 		$this->storage->file_put_contents('foo.txt', 'bar');
 		$this->updater->update('foo.txt');
 
@@ -84,7 +91,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals(6, $cached['size']);
 	}
 
-	public function testParentSize() {
+	public function testParentSize(): void {
 		$this->storage->getScanner()->scan('');
 
 		$parentCached = $this->cache->get('');
@@ -121,7 +128,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals(0, $parentCached['size']);
 	}
 
-	public function testMove() {
+	public function testMove(): void {
 		$this->storage->file_put_contents('foo.txt', 'qwerty');
 		$this->updater->update('foo.txt');
 
@@ -146,7 +153,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
 	}
 
-	public function testMoveNonExistingOverwrite() {
+	public function testMoveNonExistingOverwrite(): void {
 		$this->storage->file_put_contents('bar.txt', 'qwerty');
 		$this->updater->update('bar.txt');
 
@@ -164,7 +171,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
 	}
 
-	public function testUpdateStorageMTime() {
+	public function testUpdateStorageMTime(): void {
 		$this->storage->mkdir('sub');
 		$this->storage->mkdir('sub2');
 		$this->storage->file_put_contents('sub/foo.txt', 'qwerty');
@@ -205,7 +212,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertNotEquals($testmtime, $cachedTargetParent['mtime'], 'target folder mtime changed, not from storage');
 	}
 
-	public function testNewFileDisabled() {
+	public function testNewFileDisabled(): void {
 		$this->storage->file_put_contents('foo.txt', 'bar');
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 
@@ -215,7 +222,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 	}
 
-	public function testMoveCrossStorage() {
+	public function testMoveCrossStorage(): void {
 		$storage2 = new Temporary([]);
 		$cache2 = $storage2->getCache();
 		Filesystem::mount($storage2, [], '/bar');
@@ -246,7 +253,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals($cached['fileid'], $cachedTarget['fileid']);
 	}
 
-	public function testMoveFolderCrossStorage() {
+	public function testMoveFolderCrossStorage(): void {
 		$storage2 = new Temporary([]);
 		$cache2 = $storage2->getCache();
 		Filesystem::mount($storage2, [], '/bar');
@@ -300,5 +307,35 @@ class UpdaterTest extends \Test\TestCase {
 			$this->assertEquals($old['fileid'], $new['fileid']);
 			$this->assertEquals($old['mimetype'], $new['mimetype']);
 		}
+	}
+
+	public static function changeExtensionProvider(): array {
+		return [
+			[new Temporary()],
+			[new ObjectStoreStorage(['objectstore' => new StorageObjectStore(new Temporary())])]
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('changeExtensionProvider')]
+	public function testChangeExtension(IStorage $storage) {
+		$updater = $storage->getUpdater();
+		$cache = $storage->getCache();
+		$storage->file_put_contents('foo', 'qwerty');
+		$updater->update('foo');
+
+		$bareCached = $cache->get('foo');
+		$this->assertEquals('application/octet-stream', $bareCached->getMimeType());
+
+		$storage->rename('foo', 'foo.txt');
+		$updater->renameFromStorage($storage, 'foo', 'foo.txt');
+
+		$cached = $cache->get('foo.txt');
+		$this->assertEquals('text/plain', $cached->getMimeType());
+
+		$storage->rename('foo.txt', 'foo.md');
+		$updater->renameFromStorage($storage, 'foo.txt', 'foo.md');
+
+		$cachedTarget = $cache->get('foo.md');
+		$this->assertEquals('text/markdown', $cachedTarget->getMimeType());
 	}
 }

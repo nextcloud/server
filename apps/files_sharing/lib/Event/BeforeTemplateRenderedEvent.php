@@ -23,19 +23,14 @@ class BeforeTemplateRenderedEvent extends Event {
 	 */
 	public const SCOPE_PUBLIC_SHARE_AUTH = 'publicShareAuth';
 
-	/** @var IShare */
-	private $share;
-	/** @var string|null */
-	private $scope;
-
 	/**
 	 * @since 20.0.0
 	 */
-	public function __construct(IShare $share, ?string $scope = null) {
+	public function __construct(
+		private IShare $share,
+		private ?string $scope = null,
+	) {
 		parent::__construct();
-
-		$this->share = $share;
-		$this->scope = $scope;
 	}
 
 	/**

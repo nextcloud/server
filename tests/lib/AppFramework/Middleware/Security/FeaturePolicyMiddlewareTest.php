@@ -34,7 +34,7 @@ class FeaturePolicyMiddlewareTest extends \Test\TestCase {
 		);
 	}
 
-	public function testAfterController() {
+	public function testAfterController(): void {
 		$response = $this->createMock(Response::class);
 		$defaultPolicy = new FeaturePolicy();
 		$defaultPolicy->addAllowedCameraDomain('defaultpolicy');
@@ -56,7 +56,7 @@ class FeaturePolicyMiddlewareTest extends \Test\TestCase {
 		$this->middleware->afterController($this->controller, 'test', $response);
 	}
 
-	public function testAfterControllerEmptyCSP() {
+	public function testAfterControllerEmptyCSP(): void {
 		$response = $this->createMock(Response::class);
 		$emptyPolicy = new EmptyFeaturePolicy();
 		$response->method('getFeaturePolicy')

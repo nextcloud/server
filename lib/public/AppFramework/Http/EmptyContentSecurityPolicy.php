@@ -106,7 +106,7 @@ class EmptyContentSecurityPolicy {
 	 * @param bool $state
 	 * @return $this
 	 * @since 8.1.0
-	 * @deprecated Eval should not be used anymore. Please update your scripts. This function will stop functioning in a future version of Nextcloud.
+	 * @deprecated 17.0.0 Eval should not be used anymore. Please update your scripts. This function will stop functioning in a future version of Nextcloud.
 	 */
 	public function allowEvalScript($state = true) {
 		$this->evalScriptAllowed = $state;
@@ -448,7 +448,7 @@ class EmptyContentSecurityPolicy {
 				if ($this->strictDynamicAllowed) {
 					$scriptSrc .= '\'strict-dynamic\' ';
 				}
-				$scriptSrc .= '\'nonce-'.$this->jsNonce.'\'';
+				$scriptSrc .= '\'nonce-' . $this->jsNonce . '\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);

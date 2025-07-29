@@ -7,6 +7,8 @@
  */
 namespace OC\Log;
 
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 use OCP\IConfig;
 use OCP\Log\RotationTrait;
 use Psr\Log\LoggerInterface;
@@ -17,8 +19,14 @@ use Psr\Log\LoggerInterface;
  * For more professional log management set the 'logfile' config to a different
  * location and manage that with your own tools.
  */
-class Rotate extends \OCP\BackgroundJob\Job {
+class Rotate extends TimedJob {
 	use RotationTrait;
+
+	public function __construct(ITimeFactory $time) {
+		parent::__construct($time);
+
+		$this->setInterval(3600);
+	}
 
 	public function run($argument): void {
 		$config = \OCP\Server::get(IConfig::class);
@@ -27,7 +35,7 @@ class Rotate extends \OCP\BackgroundJob\Job {
 		$this->maxSize = $config->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
 		if ($this->shouldRotateBySize()) {
 			$rotatedFile = $this->rotate();
-			$msg = 'Log file "'.$this->filePath.'" was over '.$this->maxSize.' bytes, moved to "'.$rotatedFile.'"';
+			$msg = 'Log file "' . $this->filePath . '" was over ' . $this->maxSize . ' bytes, moved to "' . $rotatedFile . '"';
 			\OCP\Server::get(LoggerInterface::class)->info($msg, ['app' => Rotate::class]);
 		}
 	}

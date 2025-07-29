@@ -58,26 +58,26 @@ class LdapConnection implements ISetupCheck {
 		if (!empty($bindFailedConfigurations)) {
 			$output .= $this->l10n->n(
 				'Binding failed for this LDAP configuration: %s',
-				'Binding failed for these LDAP configurations: %s',
+				'Binding failed for %n LDAP configurations: %s',
 				count($bindFailedConfigurations),
 				[implode(',', $bindFailedConfigurations)]
-			)."\n";
+			) . "\n";
 		}
 		if (!empty($searchFailedConfigurations)) {
 			$output .= $this->l10n->n(
 				'Searching failed for this LDAP configuration: %s',
-				'Searching failed for these LDAP configurations: %s',
+				'Searching failed for %n LDAP configurations: %s',
 				count($searchFailedConfigurations),
 				[implode(',', $searchFailedConfigurations)]
-			)."\n";
+			) . "\n";
 		}
 		if (!empty($inactiveConfigurations)) {
 			$output .= $this->l10n->n(
 				'There is an inactive LDAP configuration: %s',
-				'There are inactive LDAP configurations: %s',
+				'There are %n inactive LDAP configurations: %s',
 				count($inactiveConfigurations),
 				[implode(',', $inactiveConfigurations)]
-			)."\n";
+			) . "\n";
 		}
 		if (!empty($bindFailedConfigurations) || !empty($searchFailedConfigurations)) {
 			return SetupResult::error($output);
@@ -86,7 +86,7 @@ class LdapConnection implements ISetupCheck {
 		}
 		return SetupResult::success($this->l10n->n(
 			'Binding and searching works on the configured LDAP connection (%s)',
-			'Binding and searching works on all of the configured LDAP connections (%s)',
+			'Binding and searching works on all of the %n configured LDAP connections (%s)',
 			count($availableConfigs),
 			[implode(',', $availableConfigs)]
 		));

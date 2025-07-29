@@ -17,7 +17,7 @@ namespace OCP\Mail\Provider;
  *
  */
 interface IManager {
-	
+
 	/**
 	 * determine if any mail providers are registered
 	 *
@@ -63,7 +63,7 @@ interface IManager {
 	 *
 	 * @return IProvider|null
 	 */
-	public function findProviderById(string $providerId): IProvider|null;
+	public function findProviderById(string $providerId): ?IProvider;
 
 	/**
 	 * retrieve all services for all registered mail providers
@@ -87,7 +87,7 @@ interface IManager {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): IService|null;
+	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): ?IService;
 
 	/**
 	 * retrieve a service for a specific mail address
@@ -101,6 +101,6 @@ interface IManager {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): IService|null;
+	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): ?IService;
 
 }

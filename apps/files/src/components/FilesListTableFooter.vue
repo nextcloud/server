@@ -21,6 +21,10 @@
 		<!-- Actions -->
 		<td class="files-list__row-actions" />
 
+		<!-- Mime -->
+		<td v-if="isMimeAvailable"
+			class="files-list__column files-list__row-mime" />
+
 		<!-- Size -->
 		<td v-if="isSizeAvailable"
 			class="files-list__column files-list__row-size">
@@ -59,6 +63,10 @@ export default defineComponent({
 		currentView: {
 			type: View,
 			required: true,
+		},
+		isMimeAvailable: {
+			type: Boolean,
+			default: false,
 		},
 		isMtimeAvailable: {
 			type: Boolean,
@@ -141,7 +149,7 @@ export default defineComponent({
 <style scoped lang="scss">
 // Scoped row
 tr {
-	margin-bottom: max(25vh, var(--body-container-margin));
+	margin-bottom: var(--body-container-margin);
 	border-top: 1px solid var(--color-border);
 	// Prevent hover effect on the whole row
 	background-color: transparent !important;

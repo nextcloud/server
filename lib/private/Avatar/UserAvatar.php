@@ -82,8 +82,8 @@ class UserAvatar extends Avatar {
 
 		$img = new \OCP\Image();
 		if (
-			(is_resource($data) && get_resource_type($data) === 'gd') ||
-			(is_object($data) && get_class($data) === \GdImage::class)
+			(is_resource($data) && get_resource_type($data) === 'gd')
+			|| (is_object($data) && get_class($data) === \GdImage::class)
 		) {
 			$img->setResource($data);
 		} elseif (is_resource($data)) {
@@ -217,7 +217,7 @@ class UserAvatar extends Avatar {
 			if ($size === -1) {
 				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.' . $ext;
 			} else {
-				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.'  . $size . '.' . $ext;
+				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.' . $size . '.' . $ext;
 			}
 		} else {
 			if ($size === -1) {

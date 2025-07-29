@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -23,22 +24,22 @@ class ResponseTest extends \Test\TestCase {
 		$this->guzzleResponse = new GuzzleResponse(418);
 	}
 
-	public function testGetBody() {
+	public function testGetBody(): void {
 		$response = new Response($this->guzzleResponse->withBody(Utils::streamFor('MyResponse')));
 		$this->assertSame('MyResponse', $response->getBody());
 	}
 
-	public function testGetStatusCode() {
+	public function testGetStatusCode(): void {
 		$response = new Response($this->guzzleResponse);
 		$this->assertSame(418, $response->getStatusCode());
 	}
 
-	public function testGetHeader() {
+	public function testGetHeader(): void {
 		$response = new Response($this->guzzleResponse->withHeader('bar', 'foo'));
 		$this->assertSame('foo', $response->getHeader('bar'));
 	}
 
-	public function testGetHeaders() {
+	public function testGetHeaders(): void {
 		$response = new Response($this->guzzleResponse
 			->withHeader('bar', 'foo')
 			->withHeader('x-awesome', 'yes')

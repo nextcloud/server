@@ -7,6 +7,13 @@
  */
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IDBConnection;
+use OCP\IUserManager;
+use OCP\Server;
+use OCP\User\Events\BeforeUserIdUnassignedEvent;
+use OCP\User\Events\UserIdUnassignedEvent;
+use OCP\Util;
 
 // Check user and app status
 \OC_JSON::checkAdminUser();
@@ -17,22 +24,28 @@ $subject = (string)$_POST['ldap_clear_mapping'];
 $mapping = null;
 try {
 	if ($subject === 'user') {
-		$mapping = \OCP\Server::get(UserMapping::class);
+		$mapping = Server::get(UserMapping::class);
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = Server::get(IEventDispatcher::class);
 		$result = $mapping->clearCb(
-			function ($uid) {
-				\OC::$server->getUserManager()->emit('\OC\User', 'preUnassignedUserId', [$uid]);
+			function (string $uid) use ($dispatcher): void {
+				$dispatcher->dispatchTyped(new BeforeUserIdUnassignedEvent($uid));
+				/** @psalm-suppress UndefinedInterfaceMethod For now we have to emit, will be removed when all hooks are removed */
+				Server::get(IUserManager::class)->emit('\OC\User', 'preUnassignedUserId', [$uid]);
 			},
-			function ($uid) {
-				\OC::$server->getUserManager()->emit('\OC\User', 'postUnassignedUserId', [$uid]);
+			function (string $uid) use ($dispatcher): void {
+				$dispatcher->dispatchTyped(new UserIdUnassignedEvent($uid));
+				/** @psalm-suppress UndefinedInterfaceMethod For now we have to emit, will be removed when all hooks are removed */
+				Server::get(IUserManager::class)->emit('\OC\User', 'postUnassignedUserId', [$uid]);
 			}
 		);
 	} elseif ($subject === 'group') {
-		$mapping = new GroupMapping(\OC::$server->getDatabaseConnection());
+		$mapping = new GroupMapping(Server::get(IDBConnection::class));
 		$result = $mapping->clear();
 	}
 
 	if ($mapping === null || !$result) {
-		$l = \OCP\Util::getL10N('user_ldap');
+		$l = Util::getL10N('user_ldap');
 		throw new \Exception($l->t('Failed to clear the mappings.'));
 	}
 	\OC_JSON::success();

@@ -9,7 +9,6 @@ OC.L10N.register(
     "Federation" : "ფედერაცია",
     "+ Add trusted server" : "+ სანდო სერვერის დამატება",
     "Trusted server" : "სანდო სერვერი",
-    "Add" : "დამატება",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "ფედერალიზაცია იძლევა საშუალებას დაუკავშირდეთ სხვა დაცულ სერვერებს და გაცვალოთ მომხმარებლის დირექტორია. მაგალითისთვის ეს გამოყენებულ იქნება, რომ მოხდეს ექსტერნალური მომხმარებლების ფედერალური გაზიარებისთვის ავტო-დასრულება."
+    "Add" : "დამატება"
 },
 "nplurals=2; plural=(n!=1);");

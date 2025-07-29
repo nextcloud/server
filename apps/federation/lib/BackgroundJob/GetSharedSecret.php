@@ -17,6 +17,7 @@ use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
@@ -30,11 +31,6 @@ use Psr\Log\LoggerInterface;
  */
 class GetSharedSecret extends Job {
 	private IClient $httpClient;
-	private IJobList $jobList;
-	private IURLGenerator $urlGenerator;
-	private TrustedServers $trustedServers;
-	private IDiscoveryService $ocsDiscoveryService;
-	private LoggerInterface $logger;
 	protected bool $retainJob = false;
 	private string $defaultEndPoint = '/ocs/v2.php/apps/federation/api/v1/shared-secret';
 	/** 30 day = 2592000sec */
@@ -42,20 +38,16 @@ class GetSharedSecret extends Job {
 
 	public function __construct(
 		IClientService $httpClientService,
-		IURLGenerator $urlGenerator,
-		IJobList $jobList,
-		TrustedServers $trustedServers,
-		LoggerInterface $logger,
-		IDiscoveryService $ocsDiscoveryService,
-		ITimeFactory $timeFactory
+		private IURLGenerator $urlGenerator,
+		private IJobList $jobList,
+		private TrustedServers $trustedServers,
+		private LoggerInterface $logger,
+		private IDiscoveryService $ocsDiscoveryService,
+		ITimeFactory $timeFactory,
+		private IConfig $config,
 	) {
 		parent::__construct($timeFactory);
-		$this->logger = $logger;
 		$this->httpClient = $httpClientService->newClient();
-		$this->jobList = $jobList;
-		$this->urlGenerator = $urlGenerator;
-		$this->ocsDiscoveryService = $ocsDiscoveryService;
-		$this->trustedServers = $trustedServers;
 	}
 
 	/**
@@ -107,14 +99,14 @@ class GetSharedSecret extends Job {
 			$result = $this->httpClient->get(
 				$url,
 				[
-					'query' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
+					'query' => [
+						'url' => $source,
+						'token' => $token,
+						'format' => 'json',
+					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			);
 
@@ -122,9 +114,9 @@ class GetSharedSecret extends Job {
 		} catch (ClientException $e) {
 			$status = $e->getCode();
 			if ($status === Http::STATUS_FORBIDDEN) {
-				$this->logger->info($target . ' refused to exchange a shared secret with you.', ['app' => 'federation']);
+				$this->logger->info($target . ' refused to exchange a shared secret with you.');
 			} else {
-				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage(), ['app' => 'federation']);
+				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage());
 			}
 		} catch (RequestException $e) {
 			$status = -1; // There is no status code if we could not connect
@@ -156,8 +148,7 @@ class GetSharedSecret extends Job {
 				);
 			} else {
 				$this->logger->error(
-					'remote server "' . $target . '"" does not return a valid shared secret. Received data: ' . $body,
-					['app' => 'federation']
+					'remote server "' . $target . '"" does not return a valid shared secret. Received data: ' . $body
 				);
 				$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);
 			}

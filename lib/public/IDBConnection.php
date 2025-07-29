@@ -11,6 +11,8 @@
 namespace OCP;
 
 use Doctrine\DBAL\Schema\Schema;
+use OC\DB\QueryBuilder\Sharded\CrossShardMoveHelper;
+use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OCP\DB\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
@@ -294,6 +296,21 @@ interface IDBConnection {
 	public function dropTable(string $table): void;
 
 	/**
+	 * Truncate a table data if it exists
+	 *
+	 * Cascade is not supported on many platforms but would optionally cascade the truncate by
+	 * following the foreign keys.
+	 *
+	 * @param string $table table name without the prefix
+	 * @param bool $cascade whether to truncate cascading
+	 * @throws Exception
+	 * @since 32.0.0
+	 *
+	 * @psalm-taint-sink sql $table
+	 */
+	public function truncateTable(string $table, bool $cascade): void;
+
+	/**
 	 * Check if a table exists
 	 *
 	 * @param string $table table name without the prefix
@@ -345,4 +362,21 @@ interface IDBConnection {
 	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
 	 */
 	public function getDatabaseProvider(): string;
+
+	/**
+	 * Get the shard definition by name, if configured
+	 *
+	 * @param string $name
+	 * @return ShardDefinition|null
+	 * @since 30.0.0
+	 */
+	public function getShardDefinition(string $name): ?ShardDefinition;
+
+	/**
+	 * Get a helper class for implementing cross-shard moves
+	 *
+	 * @return CrossShardMoveHelper
+	 * @since 30.0.0
+	 */
+	public function getCrossShardMoveHelper(): CrossShardMoveHelper;
 }

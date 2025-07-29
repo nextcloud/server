@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,13 +9,14 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\ObjectStore\ObjectStoreScanner;
+use OC\Files\Storage\Storage;
 
 /**
  * Scanner for SharedStorage
  */
 class Scanner extends \OC\Files\Cache\Scanner {
 	/**
-	 * @var \OCA\Files_Sharing\SharedStorage $storage
+	 * @var SharedStorage $storage
 	 */
 	protected $storage;
 
@@ -43,7 +45,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 			return $this->sourceScanner;
 		}
 		if ($this->storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
-			/** @var \OC\Files\Storage\Storage $storage */
+			/** @var Storage $storage */
 			[$storage] = $this->storage->resolvePath('');
 			$this->sourceScanner = $storage->getScanner();
 			return $this->sourceScanner;
@@ -56,7 +58,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		$sourceScanner = $this->getSourceScanner();
 		if ($sourceScanner instanceof ObjectStoreScanner) {
 			// ObjectStoreScanner doesn't scan
-			return [];
+			return null;
 		} else {
 			return parent::scanFile($file, $reuseExisting, $parentId, $cacheData, $lock);
 		}

@@ -1,216 +1,8 @@
 # SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
+
 version: 2
 updates:
-# Linting and coding style
-- package-ecosystem: composer
-  directory: "/"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-
-# cs-fixer
-- package-ecosystem: composer
-  directory: "/vendor-bin/cs-fixer"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "04:10"
-    timezone: Europe/Copenhagen
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-
-# openapi-extractor
-- package-ecosystem: composer
-  directory: "/vendor-bin/openapi-extractor"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "04:20"
-    timezone: Europe/Brussels
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-    - "provokateurin"
-
-# psalm
-- package-ecosystem: composer
-  directory: "/vendor-bin/psalm"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "04:30"
-    timezone: Europe/Madrid
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-
-# Main master npm
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  open-pull-requests-limit: 10
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  # Disable automatic rebasing because without a build CI will likely fail anyway
-  rebase-strategy: "disabled"
-
-# Testing master npm
-- package-ecosystem: npm
-  directory: "/build"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-
-# Testing master composer
-- package-ecosystem: composer
-  directory: "/build/integration"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  target-branch: stable28
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor"]
-  # Disable automatic rebasing because without a build CI will likely fail anyway
-  rebase-strategy: "disabled"
-
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  target-branch: stable29
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor"]
-  # Disable automatic rebasing because without a build CI will likely fail anyway
-  rebase-strategy: "disabled"
-
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  target-branch: stable30
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor"]
-  # Disable automatic rebasing because without a build CI will likely fail anyway
-  rebase-strategy: "disabled"
-
-- package-ecosystem: composer
-  directory: "/build/integration"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  target-branch: stable28
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    # ignore all GitHub linguist patch updates
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
-
-- package-ecosystem: composer
-  directory: "/build/integration"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  target-branch: stable29
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    # ignore all GitHub linguist patch updates
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
-
-- package-ecosystem: composer
-  directory: "/build/integration"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  target-branch: stable30
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    # ignore all GitHub linguist patch updates
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
-
 # GitHub Actions
 - package-ecosystem: "github-actions"
   directory: "/"
@@ -224,6 +16,127 @@ updates:
   labels:
     - "3. to review"
     - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
 
+# Main composer (linting, testing, openapi)
+- package-ecosystem: composer
+  directories:
+    - "/"
+    - "/build/integration"
+    - "/vendor-bin/cs-fixer"
+    - "/vendor-bin/openapi-extractor"
+    - "/vendor-bin/phpunit"
+    - "/vendor-bin/psalm"
+    - "/vendor-bin/rector"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+
+# Main master npm frontend dependencies
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 20
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
+
+# Latest stable release
+# Composer dependencies for linting and testing
+- package-ecosystem: composer
+  target-branch: stable31
+  directories:
+    - "/"
+    - "/build/integration"
+    - "/vendor-bin/cs-fixer"
+    - "/vendor-bin/openapi-extractor"
+    - "/vendor-bin/phpunit"
+    - "/vendor-bin/psalm"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:30"
+    timezone: Europe/Paris
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  ignore:
+    # only patch updates on stable branches
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+# Latest stable branch
+# frontend dependencies
+- package-ecosystem: npm
+  target-branch: stable31
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:30"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 20
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
+  ignore:
+    # no major updates on stable branches
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major"]
+
+# Older stable releases
+
+# Composer dependencies for linting and testing
+- package-ecosystem: composer
+  target-branch: stable30
+  directories:
+    - "/"
+    - "/build/integration"
+    - "/vendor-bin/cs-fixer"
+    - "/vendor-bin/openapi-extractor"
+    - "/vendor-bin/phpunit"
+    - "/vendor-bin/psalm"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:00"
+    timezone: Europe/Paris
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  ignore:
+    # only patch updates on stable branches
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major", "version-update:semver-minor"]
+
+# frontend dependencies
+- package-ecosystem: npm
+  target-branch: stable30
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 20
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  # Disable automatic rebasing because without a build CI will likely fail anyway
+  rebase-strategy: "disabled"
+  ignore:
+    # no major updates on stable branches
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major"]

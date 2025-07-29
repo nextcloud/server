@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -28,21 +30,15 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ThemesServiceTest extends TestCase {
-	/** @var ThemesService */
-	private $themesService;
+	private IUserSession&MockObject $userSession;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
 
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var ThemingDefaults|MockObject */
-	private $themingDefaults;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private ThemesService $themesService;
 
 	/** @var ITheme[] */
-	private $themes;
+	private array $themes;
 
 	protected function setUp(): void {
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -70,7 +66,7 @@ class ThemesServiceTest extends TestCase {
 		parent::setUp();
 	}
 
-	public function testGetThemes() {
+	public function testGetThemes(): void {
 		$expected = [
 			'default',
 			'light',
@@ -82,7 +78,7 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
 
-	public function testGetThemesEnforced() {
+	public function testGetThemesEnforced(): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('enforce_theme', '')
@@ -98,7 +94,7 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
 
-	public function testGetThemesEnforcedInvalid() {
+	public function testGetThemesEnforcedInvalid(): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('enforce_theme', '')
@@ -119,10 +115,10 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
 
-	public function dataTestEnableTheme() {
+	public static function dataTestEnableTheme(): array {
 		return [
-			['default', [], ['default']],
-			['dark', [], ['dark']],
+			['default', ['default'], ['default']],
+			['dark', ['default'], ['dark']],
 			['dark', ['dark'], ['dark']],
 			['opendyslexic', ['dark'], ['dark', 'opendyslexic']],
 			['dark', ['light-highcontrast', 'opendyslexic'], ['opendyslexic', 'dark']],
@@ -130,13 +126,12 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestEnableTheme
 	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
-	public function testEnableTheme(string $toEnable, array $enabledThemes, array $expectedEnabled) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestEnableTheme')]
+	public function testEnableTheme(string $toEnable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -147,16 +142,16 @@ class ThemesServiceTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
-			->with('user', Application::APP_ID, 'enabled-themes', '[]')
+			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode($enabledThemes));
 
 		$this->assertEquals($expectedEnabled, $this->themesService->enableTheme($this->themes[$toEnable]));
 	}
 
 
-	public function dataTestDisableTheme() {
+	public static function dataTestDisableTheme(): array {
 		return [
-			['dark', [], []],
+			['dark', ['default'], ['default']],
 			['dark', ['dark'], []],
 			['opendyslexic', ['dark', 'opendyslexic'], ['dark'], ],
 			['light-highcontrast', ['opendyslexic'], ['opendyslexic']],
@@ -164,13 +159,12 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestDisableTheme
 	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
-	public function testDisableTheme(string $toDisable, array $enabledThemes, array $expectedEnabled) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDisableTheme')]
+	public function testDisableTheme(string $toDisable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -181,7 +175,7 @@ class ThemesServiceTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
-			->with('user', Application::APP_ID, 'enabled-themes', '[]')
+			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode($enabledThemes));
 
 
@@ -189,7 +183,7 @@ class ThemesServiceTest extends TestCase {
 	}
 
 
-	public function dataTestIsEnabled() {
+	public static function dataTestIsEnabled(): array {
 		return [
 			['dark', [], false],
 			['dark', ['dark'], true],
@@ -199,12 +193,10 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsEnabled
-	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 */
-	public function testIsEnabled(string $themeId, array $enabledThemes, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsEnabled')]
+	public function testIsEnabled(string $themeId, array $enabledThemes, bool $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -215,14 +207,14 @@ class ThemesServiceTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
-			->with('user', Application::APP_ID, 'enabled-themes', '[]')
+			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode($enabledThemes));
 
 
 		$this->assertEquals($expected, $this->themesService->isEnabled($this->themes[$themeId]));
 	}
 
-	public function testGetEnabledThemes() {
+	public function testGetEnabledThemes(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -234,17 +226,17 @@ class ThemesServiceTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
-			->with('user', Application::APP_ID, 'enabled-themes', '[]')
-			->willReturn(json_encode([]));
+			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
+			->willReturn(json_encode(['default']));
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('enforce_theme', '')
 			->willReturn('');
 
-		$this->assertEquals([], $this->themesService->getEnabledThemes());
+		$this->assertEquals(['default'], $this->themesService->getEnabledThemes());
 	}
 
-	public function testGetEnabledThemesEnforced() {
+	public function testGetEnabledThemesEnforced(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -256,7 +248,7 @@ class ThemesServiceTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
-			->with('user', Application::APP_ID, 'enabled-themes', '[]')
+			->with('user', Application::APP_ID, 'enabled-themes', '["default"]')
 			->willReturn(json_encode([]));
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -267,7 +259,7 @@ class ThemesServiceTest extends TestCase {
 	}
 
 
-	public function dataTestSetEnabledThemes() {
+	public static function dataTestSetEnabledThemes(): array {
 		return [
 			[[], []],
 			[['light'], ['light']],
@@ -277,12 +269,12 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetEnabledThemes
 	 *
 	 * @param string[] $enabledThemes
 	 * @param string[] $expected
 	 */
-	public function testSetEnabledThemes(array $enabledThemes, array $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetEnabledThemes')]
+	public function testSetEnabledThemes(array $enabledThemes, array $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')

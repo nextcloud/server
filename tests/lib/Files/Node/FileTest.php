@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,11 @@
 
 namespace Test\Files\Node;
 
+use OC\Files\Node\File;
+use OC\Files\Node\Root;
+use OCP\Constants;
+use OCP\Files\NotPermittedException;
+
 /**
  * Class FileTest
  *
@@ -14,12 +20,12 @@ namespace Test\Files\Node;
  *
  * @package Test\Files\Node
  */
-class FileTest extends NodeTest {
+class FileTest extends NodeTestCase {
 	protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null) {
 		if ($data || $internalPath || $storage) {
-			return new \OC\Files\Node\File($root, $view, $path, $this->getFileInfo($data, $internalPath, $storage));
+			return new File($root, $view, $path, $this->getFileInfo($data, $internalPath, $storage));
 		} else {
-			return new \OC\Files\Node\File($root, $view, $path);
+			return new File($root, $view, $path);
 		}
 	}
 
@@ -35,13 +41,13 @@ class FileTest extends NodeTest {
 		return 'unlink';
 	}
 
-	public function testGetContent() {
+	public function testGetContent(): void {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
-		$hook = function ($file) {
+		$hook = function ($file): void {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
 
@@ -56,18 +62,18 @@ class FileTest extends NodeTest {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_READ]));
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$this->assertEquals('bar', $node->getContent());
 	}
 
 
-	public function testGetContentNotPermitted() {
-		$this->expectException(\OCP\Files\NotPermittedException::class);
+	public function testGetContentNotPermitted(): void {
+		$this->expectException(NotPermittedException::class);
 
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
@@ -80,13 +86,13 @@ class FileTest extends NodeTest {
 			->with('/bar/foo')
 			->willReturn($this->getFileInfo(['permissions' => 0]));
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$node->getContent();
 	}
 
-	public function testPutContent() {
+	public function testPutContent(): void {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
@@ -97,38 +103,38 @@ class FileTest extends NodeTest {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]));
 
 		$this->view->expects($this->once())
 			->method('file_put_contents')
 			->with('/bar/foo', 'bar')
 			->willReturn(true);
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$node->putContent('bar');
 	}
 
 
-	public function testPutContentNotPermitted() {
-		$this->expectException(\OCP\Files\NotPermittedException::class);
+	public function testPutContentNotPermitted(): void {
+		$this->expectException(NotPermittedException::class);
 
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_READ]));
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$node->putContent('bar');
 	}
 
-	public function testGetMimeType() {
+	public function testGetMimeType(): void {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
@@ -137,16 +143,16 @@ class FileTest extends NodeTest {
 			->with('/bar/foo')
 			->willReturn($this->getFileInfo(['mimetype' => 'text/plain']));
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$this->assertEquals('text/plain', $node->getMimeType());
 	}
 
-	public function testFOpenRead() {
+	public function testFOpenRead(): void {
 		$stream = fopen('php://memory', 'w+');
 		fwrite($stream, 'bar');
 		rewind($stream);
 
-		$root = new \OC\Files\Node\Root(
+		$root = new Root(
 			$this->manager,
 			$this->view,
 			$this->user,
@@ -157,7 +163,7 @@ class FileTest extends NodeTest {
 			$this->cacheFactory,
 		);
 
-		$hook = function ($file) {
+		$hook = function ($file): void {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
 
@@ -172,18 +178,18 @@ class FileTest extends NodeTest {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]));
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$fh = $node->fopen('r');
 		$this->assertEquals($stream, $fh);
 		$this->assertEquals('bar', fread($fh, 3));
 	}
 
-	public function testFOpenWrite() {
+	public function testFOpenWrite(): void {
 		$stream = fopen('php://memory', 'w+');
 
-		$root = new \OC\Files\Node\Root(
+		$root = new Root(
 			$this->manager,
 			$this->view,
 			$this->user,
@@ -194,7 +200,7 @@ class FileTest extends NodeTest {
 			$this->cacheFactory,
 		);
 		$hooksCalled = 0;
-		$hook = function ($file) use (&$hooksCalled) {
+		$hook = function ($file) use (&$hooksCalled): void {
 			$hooksCalled++;
 		};
 
@@ -209,9 +215,9 @@ class FileTest extends NodeTest {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]));
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$fh = $node->fopen('w');
 		$this->assertEquals($stream, $fh);
 		fwrite($fh, 'bar');
@@ -221,10 +227,10 @@ class FileTest extends NodeTest {
 	}
 
 
-	public function testFOpenReadNotPermitted() {
-		$this->expectException(\OCP\Files\NotPermittedException::class);
+	public function testFOpenReadNotPermitted(): void {
+		$this->expectException(NotPermittedException::class);
 
-		$root = new \OC\Files\Node\Root(
+		$root = new Root(
 			$this->manager,
 			$this->view,
 			$this->user,
@@ -234,7 +240,7 @@ class FileTest extends NodeTest {
 			$this->eventDispatcher,
 			$this->cacheFactory,
 		);
-		$hook = function ($file) {
+		$hook = function ($file): void {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
 
@@ -243,15 +249,15 @@ class FileTest extends NodeTest {
 			->with('/bar/foo')
 			->willReturn($this->getFileInfo(['permissions' => 0]));
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$node->fopen('r');
 	}
 
 
-	public function testFOpenReadWriteNoReadPermissions() {
-		$this->expectException(\OCP\Files\NotPermittedException::class);
+	public function testFOpenReadWriteNoReadPermissions(): void {
+		$this->expectException(NotPermittedException::class);
 
-		$root = new \OC\Files\Node\Root(
+		$root = new Root(
 			$this->manager,
 			$this->view,
 			$this->user,
@@ -261,24 +267,24 @@ class FileTest extends NodeTest {
 			$this->eventDispatcher,
 			$this->cacheFactory,
 		);
-		$hook = function () {
+		$hook = function (): void {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_UPDATE]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_UPDATE]));
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$node->fopen('w');
 	}
 
 
-	public function testFOpenReadWriteNoWritePermissions() {
-		$this->expectException(\OCP\Files\NotPermittedException::class);
+	public function testFOpenReadWriteNoWritePermissions(): void {
+		$this->expectException(NotPermittedException::class);
 
-		$root = new \OC\Files\Node\Root(
+		$root = new Root(
 			$this->manager,
 			$this->view,
 			$this->user,
@@ -288,16 +294,16 @@ class FileTest extends NodeTest {
 			$this->eventDispatcher,
 			$this->cacheFactory,
 		);
-		$hook = function () {
+		$hook = function (): void {
 			throw new \Exception('Hooks are not supposed to be called');
 		};
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_READ]));
 
-		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
+		$node = new File($root, $this->view, '/bar/foo');
 		$node->fopen('w');
 	}
 }

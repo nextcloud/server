@@ -121,7 +121,7 @@ interface IEvent {
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
 	 * @param string $subject
-	 * @param array $parameters
+	 * @param array<string, array<string, string>> $parameters
 	 * @return $this
 	 * @throws InvalidValueException if the subject or parameters are invalid
 	 * @since 11.0.0
@@ -136,7 +136,7 @@ interface IEvent {
 	public function getRichSubject(): string;
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichSubjectParameters(): array;
@@ -187,7 +187,7 @@ interface IEvent {
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
 	 * @param string $message
-	 * @param array $parameters
+	 * @param array<string, array<string, string>> $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 11.0.0
@@ -202,7 +202,7 @@ interface IEvent {
 	public function getRichMessage(): string;
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichMessageParameters(): array;
@@ -310,6 +310,10 @@ interface IEvent {
 	public function getLink(): string;
 
 	/**
+	 * Set the absolute url for the icon (should be colored black or not have a color)
+	 *
+	 * It's automatically color inverted by clients when needed
+	 *
 	 * @param string $icon
 	 * @return $this
 	 * @throws InvalidValueException if the icon is invalid
@@ -319,6 +323,10 @@ interface IEvent {
 	public function setIcon(string $icon): self;
 
 	/**
+	 * Get the absolute url for the icon (should be colored black or not have a color)
+	 *
+	 * It's automatically color inverted by clients when needed
+	 *
 	 * @return string
 	 * @since 11.0.0
 	 */

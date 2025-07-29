@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { getAllClearAtOptions } from '../services/clearAtOptionsService.js'
 import { clearAtFilter } from '../filters/clearAtFilter.js'
 
@@ -76,7 +76,7 @@ export default {
 	align-items: center;
 
 	&__label {
-		margin-right: 12px;
+		margin-inline-end: 12px;
 	}
 
 	&__select {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,18 +17,13 @@ class RequestTime implements ICheck {
 	/** @var bool[] */
 	protected $cachedResults;
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var ITimeFactory */
-	protected $timeFactory;
-
 	/**
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(IL10N $l, ITimeFactory $timeFactory) {
-		$this->l = $l;
-		$this->timeFactory = $timeFactory;
+	public function __construct(
+		protected IL10N $l,
+		protected ITimeFactory $timeFactory,
+	) {
 	}
 
 	/**
@@ -67,7 +63,7 @@ class RequestTime implements ICheck {
 		[$hour1, $minute1] = explode(':', $time1);
 		$date1 = new \DateTime('now', new \DateTimeZone($timezone1));
 		$date1->setTimestamp($currentTimestamp);
-		$date1->setTime($hour1, $minute1);
+		$date1->setTime((int)$hour1, (int)$minute1);
 
 		return $date1->getTimestamp();
 	}

@@ -92,6 +92,8 @@
                     "headline",
                     "id",
                     "language",
+                    "firstLoginTimestamp",
+                    "lastLoginTimestamp",
                     "lastLogin",
                     "locale",
                     "manager",
@@ -99,6 +101,7 @@
                     "organisation",
                     "phone",
                     "profile_enabled",
+                    "pronouns",
                     "quota",
                     "role",
                     "subadmin",
@@ -194,6 +197,14 @@
                     "language": {
                         "type": "string"
                     },
+                    "firstLoginTimestamp": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "lastLoginTimestamp": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
                     "lastLogin": {
                         "type": "integer",
                         "format": "int64"
@@ -224,6 +235,12 @@
                         "type": "string"
                     },
                     "profile_enabledScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "pronouns": {
+                        "type": "string"
+                    },
+                    "pronounsScope": {
                         "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "quota": {
@@ -364,7 +381,8 @@
                         "description": "Filter for enabled or disabled apps",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -986,7 +1004,8 @@
                         "schema": {
                             "type": "integer",
                             "format": "int64",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {

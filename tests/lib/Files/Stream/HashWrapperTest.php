@@ -12,10 +12,8 @@ use OC\Files\Stream\HashWrapper;
 use Test\TestCase;
 
 class HashWrapperTest extends TestCase {
-	/**
-	 * @dataProvider hashProvider
-	 */
-	public function testHashStream($data, string $algo, string $hash) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('hashProvider')]
+	public function testHashStream($data, string $algo, string $hash): void {
 		if (!is_resource($data)) {
 			$tmpData = fopen('php://temp', 'r+');
 			if ($data !== null) {
@@ -25,13 +23,13 @@ class HashWrapperTest extends TestCase {
 			$data = $tmpData;
 		}
 
-		$wrapper = HashWrapper::wrap($data, $algo, function ($result) use ($hash) {
+		$wrapper = HashWrapper::wrap($data, $algo, function ($result) use ($hash): void {
 			$this->assertEquals($hash, $result);
 		});
 		stream_get_contents($wrapper);
 	}
 
-	public function hashProvider() {
+	public static function hashProvider(): array {
 		return [
 			['foo', 'md5', 'acbd18db4cc2f85cedef654fccc4a4d8'],
 			['foo', 'sha1', '0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33'],

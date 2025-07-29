@@ -18,204 +18,196 @@ use OCP\Search\IFilter;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class EventsSearchProviderTest extends TestCase {
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
-	private $backend;
-
-	/** @var EventsSearchProvider */
-	private $provider;
+	private IAppManager&MockObject $appManager;
+	private IL10N&MockObject $l10n;
+	private IURLGenerator&MockObject $urlGenerator;
+	private CalDavBackend&MockObject $backend;
+	private EventsSearchProvider $provider;
 
 	// NO SUMMARY
-	private $vEvent0 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN'.PHP_EOL.
-		'CALSCALE:GREGORIAN'.PHP_EOL.
-		'BEGIN:VEVENT'.PHP_EOL.
-		'CREATED:20161004T144433Z'.PHP_EOL.
-		'UID:85560E76-1B0D-47E1-A735-21625767FCA4'.PHP_EOL.
-		'DTEND;VALUE=DATE:20161008'.PHP_EOL.
-		'TRANSP:TRANSPARENT'.PHP_EOL.
-		'DTSTART;VALUE=DATE:20161005'.PHP_EOL.
-		'DTSTAMP:20161004T144437Z'.PHP_EOL.
-		'SEQUENCE:0'.PHP_EOL.
-		'END:VEVENT'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vEvent0 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN' . PHP_EOL
+		. 'CALSCALE:GREGORIAN' . PHP_EOL
+		. 'BEGIN:VEVENT' . PHP_EOL
+		. 'CREATED:20161004T144433Z' . PHP_EOL
+		. 'UID:85560E76-1B0D-47E1-A735-21625767FCA4' . PHP_EOL
+		. 'DTEND;VALUE=DATE:20161008' . PHP_EOL
+		. 'TRANSP:TRANSPARENT' . PHP_EOL
+		. 'DTSTART;VALUE=DATE:20161005' . PHP_EOL
+		. 'DTSTAMP:20161004T144437Z' . PHP_EOL
+		. 'SEQUENCE:0' . PHP_EOL
+		. 'END:VEVENT' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// TIMED SAME DAY
-	private $vEvent1 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'PRODID:-//Tests//'.PHP_EOL.
-		'CALSCALE:GREGORIAN'.PHP_EOL.
-		'BEGIN:VTIMEZONE'.PHP_EOL.
-		'TZID:Europe/Berlin'.PHP_EOL.
-		'BEGIN:DAYLIGHT'.PHP_EOL.
-		'TZOFFSETFROM:+0100'.PHP_EOL.
-		'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU'.PHP_EOL.
-		'DTSTART:19810329T020000'.PHP_EOL.
-		'TZNAME:GMT+2'.PHP_EOL.
-		'TZOFFSETTO:+0200'.PHP_EOL.
-		'END:DAYLIGHT'.PHP_EOL.
-		'BEGIN:STANDARD'.PHP_EOL.
-		'TZOFFSETFROM:+0200'.PHP_EOL.
-		'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU'.PHP_EOL.
-		'DTSTART:19961027T030000'.PHP_EOL.
-		'TZNAME:GMT+1'.PHP_EOL.
-		'TZOFFSETTO:+0100'.PHP_EOL.
-		'END:STANDARD'.PHP_EOL.
-		'END:VTIMEZONE'.PHP_EOL.
-		'BEGIN:VEVENT'.PHP_EOL.
-		'CREATED:20160809T163629Z'.PHP_EOL.
-		'UID:0AD16F58-01B3-463B-A215-FD09FC729A02'.PHP_EOL.
-		'DTEND;TZID=Europe/Berlin:20160816T100000'.PHP_EOL.
-		'TRANSP:OPAQUE'.PHP_EOL.
-		'SUMMARY:Test Europe Berlin'.PHP_EOL.
-		'DTSTART;TZID=Europe/Berlin:20160816T090000'.PHP_EOL.
-		'DTSTAMP:20160809T163632Z'.PHP_EOL.
-		'SEQUENCE:0'.PHP_EOL.
-		'END:VEVENT'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vEvent1 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'PRODID:-//Tests//' . PHP_EOL
+		. 'CALSCALE:GREGORIAN' . PHP_EOL
+		. 'BEGIN:VTIMEZONE' . PHP_EOL
+		. 'TZID:Europe/Berlin' . PHP_EOL
+		. 'BEGIN:DAYLIGHT' . PHP_EOL
+		. 'TZOFFSETFROM:+0100' . PHP_EOL
+		. 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU' . PHP_EOL
+		. 'DTSTART:19810329T020000' . PHP_EOL
+		. 'TZNAME:GMT+2' . PHP_EOL
+		. 'TZOFFSETTO:+0200' . PHP_EOL
+		. 'END:DAYLIGHT' . PHP_EOL
+		. 'BEGIN:STANDARD' . PHP_EOL
+		. 'TZOFFSETFROM:+0200' . PHP_EOL
+		. 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU' . PHP_EOL
+		. 'DTSTART:19961027T030000' . PHP_EOL
+		. 'TZNAME:GMT+1' . PHP_EOL
+		. 'TZOFFSETTO:+0100' . PHP_EOL
+		. 'END:STANDARD' . PHP_EOL
+		. 'END:VTIMEZONE' . PHP_EOL
+		. 'BEGIN:VEVENT' . PHP_EOL
+		. 'CREATED:20160809T163629Z' . PHP_EOL
+		. 'UID:0AD16F58-01B3-463B-A215-FD09FC729A02' . PHP_EOL
+		. 'DTEND;TZID=Europe/Berlin:20160816T100000' . PHP_EOL
+		. 'TRANSP:OPAQUE' . PHP_EOL
+		. 'SUMMARY:Test Europe Berlin' . PHP_EOL
+		. 'DTSTART;TZID=Europe/Berlin:20160816T090000' . PHP_EOL
+		. 'DTSTAMP:20160809T163632Z' . PHP_EOL
+		. 'SEQUENCE:0' . PHP_EOL
+		. 'END:VEVENT' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// TIMED DIFFERENT DAY
-	private $vEvent2 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'PRODID:-//Tests//'.PHP_EOL.
-		'CALSCALE:GREGORIAN'.PHP_EOL.
-		'BEGIN:VTIMEZONE'.PHP_EOL.
-		'TZID:Europe/Berlin'.PHP_EOL.
-		'BEGIN:DAYLIGHT'.PHP_EOL.
-		'TZOFFSETFROM:+0100'.PHP_EOL.
-		'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU'.PHP_EOL.
-		'DTSTART:19810329T020000'.PHP_EOL.
-		'TZNAME:GMT+2'.PHP_EOL.
-		'TZOFFSETTO:+0200'.PHP_EOL.
-		'END:DAYLIGHT'.PHP_EOL.
-		'BEGIN:STANDARD'.PHP_EOL.
-		'TZOFFSETFROM:+0200'.PHP_EOL.
-		'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU'.PHP_EOL.
-		'DTSTART:19961027T030000'.PHP_EOL.
-		'TZNAME:GMT+1'.PHP_EOL.
-		'TZOFFSETTO:+0100'.PHP_EOL.
-		'END:STANDARD'.PHP_EOL.
-		'END:VTIMEZONE'.PHP_EOL.
-		'BEGIN:VEVENT'.PHP_EOL.
-		'CREATED:20160809T163629Z'.PHP_EOL.
-		'UID:0AD16F58-01B3-463B-A215-FD09FC729A02'.PHP_EOL.
-		'DTEND;TZID=Europe/Berlin:20160817T100000'.PHP_EOL.
-		'TRANSP:OPAQUE'.PHP_EOL.
-		'SUMMARY:Test Europe Berlin'.PHP_EOL.
-		'DTSTART;TZID=Europe/Berlin:20160816T090000'.PHP_EOL.
-		'DTSTAMP:20160809T163632Z'.PHP_EOL.
-		'SEQUENCE:0'.PHP_EOL.
-		'END:VEVENT'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vEvent2 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'PRODID:-//Tests//' . PHP_EOL
+		. 'CALSCALE:GREGORIAN' . PHP_EOL
+		. 'BEGIN:VTIMEZONE' . PHP_EOL
+		. 'TZID:Europe/Berlin' . PHP_EOL
+		. 'BEGIN:DAYLIGHT' . PHP_EOL
+		. 'TZOFFSETFROM:+0100' . PHP_EOL
+		. 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU' . PHP_EOL
+		. 'DTSTART:19810329T020000' . PHP_EOL
+		. 'TZNAME:GMT+2' . PHP_EOL
+		. 'TZOFFSETTO:+0200' . PHP_EOL
+		. 'END:DAYLIGHT' . PHP_EOL
+		. 'BEGIN:STANDARD' . PHP_EOL
+		. 'TZOFFSETFROM:+0200' . PHP_EOL
+		. 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU' . PHP_EOL
+		. 'DTSTART:19961027T030000' . PHP_EOL
+		. 'TZNAME:GMT+1' . PHP_EOL
+		. 'TZOFFSETTO:+0100' . PHP_EOL
+		. 'END:STANDARD' . PHP_EOL
+		. 'END:VTIMEZONE' . PHP_EOL
+		. 'BEGIN:VEVENT' . PHP_EOL
+		. 'CREATED:20160809T163629Z' . PHP_EOL
+		. 'UID:0AD16F58-01B3-463B-A215-FD09FC729A02' . PHP_EOL
+		. 'DTEND;TZID=Europe/Berlin:20160817T100000' . PHP_EOL
+		. 'TRANSP:OPAQUE' . PHP_EOL
+		. 'SUMMARY:Test Europe Berlin' . PHP_EOL
+		. 'DTSTART;TZID=Europe/Berlin:20160816T090000' . PHP_EOL
+		. 'DTSTAMP:20160809T163632Z' . PHP_EOL
+		. 'SEQUENCE:0' . PHP_EOL
+		. 'END:VEVENT' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// ALL-DAY ONE-DAY
-	private $vEvent3 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN'.PHP_EOL.
-		'CALSCALE:GREGORIAN'.PHP_EOL.
-		'BEGIN:VEVENT'.PHP_EOL.
-		'CREATED:20161004T144433Z'.PHP_EOL.
-		'UID:85560E76-1B0D-47E1-A735-21625767FCA4'.PHP_EOL.
-		'DTEND;VALUE=DATE:20161006'.PHP_EOL.
-		'TRANSP:TRANSPARENT'.PHP_EOL.
-		'DTSTART;VALUE=DATE:20161005'.PHP_EOL.
-		'DTSTAMP:20161004T144437Z'.PHP_EOL.
-		'SEQUENCE:0'.PHP_EOL.
-		'END:VEVENT'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vEvent3 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN' . PHP_EOL
+		. 'CALSCALE:GREGORIAN' . PHP_EOL
+		. 'BEGIN:VEVENT' . PHP_EOL
+		. 'CREATED:20161004T144433Z' . PHP_EOL
+		. 'UID:85560E76-1B0D-47E1-A735-21625767FCA4' . PHP_EOL
+		. 'DTEND;VALUE=DATE:20161006' . PHP_EOL
+		. 'TRANSP:TRANSPARENT' . PHP_EOL
+		. 'DTSTART;VALUE=DATE:20161005' . PHP_EOL
+		. 'DTSTAMP:20161004T144437Z' . PHP_EOL
+		. 'SEQUENCE:0' . PHP_EOL
+		. 'END:VEVENT' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// ALL-DAY MULTIPLE DAYS
-	private $vEvent4 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN'.PHP_EOL.
-		'CALSCALE:GREGORIAN'.PHP_EOL.
-		'BEGIN:VEVENT'.PHP_EOL.
-		'CREATED:20161004T144433Z'.PHP_EOL.
-		'UID:85560E76-1B0D-47E1-A735-21625767FCA4'.PHP_EOL.
-		'DTEND;VALUE=DATE:20161008'.PHP_EOL.
-		'TRANSP:TRANSPARENT'.PHP_EOL.
-		'DTSTART;VALUE=DATE:20161005'.PHP_EOL.
-		'DTSTAMP:20161004T144437Z'.PHP_EOL.
-		'SEQUENCE:0'.PHP_EOL.
-		'END:VEVENT'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vEvent4 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN' . PHP_EOL
+		. 'CALSCALE:GREGORIAN' . PHP_EOL
+		. 'BEGIN:VEVENT' . PHP_EOL
+		. 'CREATED:20161004T144433Z' . PHP_EOL
+		. 'UID:85560E76-1B0D-47E1-A735-21625767FCA4' . PHP_EOL
+		. 'DTEND;VALUE=DATE:20161008' . PHP_EOL
+		. 'TRANSP:TRANSPARENT' . PHP_EOL
+		. 'DTSTART;VALUE=DATE:20161005' . PHP_EOL
+		. 'DTSTAMP:20161004T144437Z' . PHP_EOL
+		. 'SEQUENCE:0' . PHP_EOL
+		. 'END:VEVENT' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// DURATION
-	private $vEvent5 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN'.PHP_EOL.
-		'CALSCALE:GREGORIAN'.PHP_EOL.
-		'BEGIN:VEVENT'.PHP_EOL.
-		'CREATED:20161004T144433Z'.PHP_EOL.
-		'UID:85560E76-1B0D-47E1-A735-21625767FCA4'.PHP_EOL.
-		'DURATION:P5D'.PHP_EOL.
-		'TRANSP:TRANSPARENT'.PHP_EOL.
-		'DTSTART;VALUE=DATE:20161005'.PHP_EOL.
-		'DTSTAMP:20161004T144437Z'.PHP_EOL.
-		'SEQUENCE:0'.PHP_EOL.
-		'END:VEVENT'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vEvent5 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN' . PHP_EOL
+		. 'CALSCALE:GREGORIAN' . PHP_EOL
+		. 'BEGIN:VEVENT' . PHP_EOL
+		. 'CREATED:20161004T144433Z' . PHP_EOL
+		. 'UID:85560E76-1B0D-47E1-A735-21625767FCA4' . PHP_EOL
+		. 'DURATION:P5D' . PHP_EOL
+		. 'TRANSP:TRANSPARENT' . PHP_EOL
+		. 'DTSTART;VALUE=DATE:20161005' . PHP_EOL
+		. 'DTSTAMP:20161004T144437Z' . PHP_EOL
+		. 'SEQUENCE:0' . PHP_EOL
+		. 'END:VEVENT' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// NO DTEND - DATE
-	private $vEvent6 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN'.PHP_EOL.
-		'CALSCALE:GREGORIAN'.PHP_EOL.
-		'BEGIN:VEVENT'.PHP_EOL.
-		'CREATED:20161004T144433Z'.PHP_EOL.
-		'UID:85560E76-1B0D-47E1-A735-21625767FCA4'.PHP_EOL.
-		'TRANSP:TRANSPARENT'.PHP_EOL.
-		'DTSTART;VALUE=DATE:20161005'.PHP_EOL.
-		'DTSTAMP:20161004T144437Z'.PHP_EOL.
-		'SEQUENCE:0'.PHP_EOL.
-		'END:VEVENT'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vEvent6 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'PRODID:-//Apple Inc.//Mac OS X 10.11.6//EN' . PHP_EOL
+		. 'CALSCALE:GREGORIAN' . PHP_EOL
+		. 'BEGIN:VEVENT' . PHP_EOL
+		. 'CREATED:20161004T144433Z' . PHP_EOL
+		. 'UID:85560E76-1B0D-47E1-A735-21625767FCA4' . PHP_EOL
+		. 'TRANSP:TRANSPARENT' . PHP_EOL
+		. 'DTSTART;VALUE=DATE:20161005' . PHP_EOL
+		. 'DTSTAMP:20161004T144437Z' . PHP_EOL
+		. 'SEQUENCE:0' . PHP_EOL
+		. 'END:VEVENT' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	// NO DTEND - DATE-TIME
-	private $vEvent7 = 'BEGIN:VCALENDAR'.PHP_EOL.
-		'VERSION:2.0'.PHP_EOL.
-		'PRODID:-//Tests//'.PHP_EOL.
-		'CALSCALE:GREGORIAN'.PHP_EOL.
-		'BEGIN:VTIMEZONE'.PHP_EOL.
-		'TZID:Europe/Berlin'.PHP_EOL.
-		'BEGIN:DAYLIGHT'.PHP_EOL.
-		'TZOFFSETFROM:+0100'.PHP_EOL.
-		'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU'.PHP_EOL.
-		'DTSTART:19810329T020000'.PHP_EOL.
-		'TZNAME:GMT+2'.PHP_EOL.
-		'TZOFFSETTO:+0200'.PHP_EOL.
-		'END:DAYLIGHT'.PHP_EOL.
-		'BEGIN:STANDARD'.PHP_EOL.
-		'TZOFFSETFROM:+0200'.PHP_EOL.
-		'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU'.PHP_EOL.
-		'DTSTART:19961027T030000'.PHP_EOL.
-		'TZNAME:GMT+1'.PHP_EOL.
-		'TZOFFSETTO:+0100'.PHP_EOL.
-		'END:STANDARD'.PHP_EOL.
-		'END:VTIMEZONE'.PHP_EOL.
-		'BEGIN:VEVENT'.PHP_EOL.
-		'CREATED:20160809T163629Z'.PHP_EOL.
-		'UID:0AD16F58-01B3-463B-A215-FD09FC729A02'.PHP_EOL.
-		'TRANSP:OPAQUE'.PHP_EOL.
-		'SUMMARY:Test Europe Berlin'.PHP_EOL.
-		'DTSTART;TZID=Europe/Berlin:20160816T090000'.PHP_EOL.
-		'DTSTAMP:20160809T163632Z'.PHP_EOL.
-		'SEQUENCE:0'.PHP_EOL.
-		'END:VEVENT'.PHP_EOL.
-		'END:VCALENDAR';
+	private static string $vEvent7 = 'BEGIN:VCALENDAR' . PHP_EOL
+		. 'VERSION:2.0' . PHP_EOL
+		. 'PRODID:-//Tests//' . PHP_EOL
+		. 'CALSCALE:GREGORIAN' . PHP_EOL
+		. 'BEGIN:VTIMEZONE' . PHP_EOL
+		. 'TZID:Europe/Berlin' . PHP_EOL
+		. 'BEGIN:DAYLIGHT' . PHP_EOL
+		. 'TZOFFSETFROM:+0100' . PHP_EOL
+		. 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU' . PHP_EOL
+		. 'DTSTART:19810329T020000' . PHP_EOL
+		. 'TZNAME:GMT+2' . PHP_EOL
+		. 'TZOFFSETTO:+0200' . PHP_EOL
+		. 'END:DAYLIGHT' . PHP_EOL
+		. 'BEGIN:STANDARD' . PHP_EOL
+		. 'TZOFFSETFROM:+0200' . PHP_EOL
+		. 'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU' . PHP_EOL
+		. 'DTSTART:19961027T030000' . PHP_EOL
+		. 'TZNAME:GMT+1' . PHP_EOL
+		. 'TZOFFSETTO:+0100' . PHP_EOL
+		. 'END:STANDARD' . PHP_EOL
+		. 'END:VTIMEZONE' . PHP_EOL
+		. 'BEGIN:VEVENT' . PHP_EOL
+		. 'CREATED:20160809T163629Z' . PHP_EOL
+		. 'UID:0AD16F58-01B3-463B-A215-FD09FC729A02' . PHP_EOL
+		. 'TRANSP:OPAQUE' . PHP_EOL
+		. 'SUMMARY:Test Europe Berlin' . PHP_EOL
+		. 'DTSTART;TZID=Europe/Berlin:20160816T090000' . PHP_EOL
+		. 'DTSTAMP:20160809T163632Z' . PHP_EOL
+		. 'SEQUENCE:0' . PHP_EOL
+		. 'END:VEVENT' . PHP_EOL
+		. 'END:VCALENDAR';
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -327,19 +319,19 @@ class EventsSearchProviderTest extends TestCase {
 					'calendarid' => 99,
 					'calendartype' => CalDavBackend::CALENDAR_TYPE_CALENDAR,
 					'uri' => 'event0.ics',
-					'calendardata' => $this->vEvent0,
+					'calendardata' => self::$vEvent0,
 				],
 				[
 					'calendarid' => 123,
 					'calendartype' => CalDavBackend::CALENDAR_TYPE_CALENDAR,
 					'uri' => 'event1.ics',
-					'calendardata' => $this->vEvent1,
+					'calendardata' => self::$vEvent1,
 				],
 				[
 					'calendarid' => 1337,
 					'calendartype' => CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION,
 					'uri' => 'event2.ics',
-					'calendardata' => $this->vEvent2,
+					'calendardata' => self::$vEvent2,
 				]
 			]);
 
@@ -350,7 +342,7 @@ class EventsSearchProviderTest extends TestCase {
 				$this->urlGenerator,
 				$this->backend,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getDeepLinkToCalendarApp',
 				'generateSubline',
 			])
@@ -361,12 +353,11 @@ class EventsSearchProviderTest extends TestCase {
 			->willReturn('subline');
 		$provider->expects($this->exactly(3))
 			->method('getDeepLinkToCalendarApp')
-			->withConsecutive(
-				['principals/users/john.doe', 'calendar-uri-99', 'event0.ics'],
-				['principals/users/john.doe', 'calendar-uri-123', 'event1.ics'],
-				['principals/users/john.doe', 'subscription-uri-1337', 'event2.ics']
-			)
-			->willReturn('deep-link-to-calendar');
+			->willReturnMap([
+				['principals/users/john.doe', 'calendar-uri-99', 'event0.ics', 'deep-link-to-calendar'],
+				['principals/users/john.doe', 'calendar-uri-123', 'event1.ics', 'deep-link-to-calendar'],
+				['principals/users/john.doe', 'subscription-uri-1337', 'event2.ics', 'deep-link-to-calendar']
+			]);
 
 		$actual = $provider->search($user, $query);
 		$data = $actual->jsonSerialize();
@@ -427,12 +418,7 @@ class EventsSearchProviderTest extends TestCase {
 		$this->assertEquals('absolute-url-to-route', $actual);
 	}
 
-	/**
-	 * @param string $ics
-	 * @param string $expectedSubline
-	 *
-	 * @dataProvider generateSublineDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('generateSublineDataProvider')]
 	public function testGenerateSubline(string $ics, string $expectedSubline): void {
 		$vCalendar = Reader::read($ics, Reader::OPTION_FORGIVING);
 		$eventComponent = $vCalendar->VEVENT;
@@ -450,15 +436,15 @@ class EventsSearchProviderTest extends TestCase {
 		$this->assertEquals($expectedSubline, $actual);
 	}
 
-	public function generateSublineDataProvider(): array {
+	public static function generateSublineDataProvider(): array {
 		return [
-			[$this->vEvent1, '08-16 09:00 - 10:00'],
-			[$this->vEvent2, '08-16 09:00 - 08-17 10:00'],
-			[$this->vEvent3, '10-05'],
-			[$this->vEvent4, '10-05 - 10-07'],
-			[$this->vEvent5, '10-05 - 10-09'],
-			[$this->vEvent6, '10-05'],
-			[$this->vEvent7, '08-16 09:00 - 09:00'],
+			[self::$vEvent1, '08-16 09:00 - 10:00'],
+			[self::$vEvent2, '08-16 09:00 - 08-17 10:00'],
+			[self::$vEvent3, '10-05'],
+			[self::$vEvent4, '10-05 - 10-07'],
+			[self::$vEvent5, '10-05 - 10-09'],
+			[self::$vEvent6, '10-05'],
+			[self::$vEvent7, '08-16 09:00 - 09:00'],
 		];
 	}
 }

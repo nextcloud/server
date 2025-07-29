@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -92,7 +93,7 @@ class LegacyTrashBackend implements ITrashBackend {
 			$this->deletedFiles[$normalized] = $normalized;
 			if ($filesPath = $view->getRelativePath($normalized)) {
 				$filesPath = trim($filesPath, '/');
-				$result = \OCA\Files_Trashbin\Trashbin::move2trash($filesPath);
+				$result = Trashbin::move2trash($filesPath);
 			} else {
 				$result = false;
 			}

@@ -11,22 +11,37 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class SharingMapper {
-	public function __construct(private IDBConnection $db) {
+	public function __construct(
+		private IDBConnection $db,
+	) {
 	}
 
-	public function getSharesForId(int $resourceId, string $resourceType): array {
+	protected function getSharesForIdByAccess(int $resourceId, string $resourceType, bool $sharesWithAccess): array {
 		$query = $this->db->getQueryBuilder();
-		$result = $query->select(['principaluri', 'access'])
+		$query->select(['principaluri', 'access'])
 			->from('dav_shares')
 			->where($query->expr()->eq('resourceid', $query->createNamedParameter($resourceId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter($resourceType, IQueryBuilder::PARAM_STR)))
-			->andWhere($query->expr()->neq('access', $query->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT)))
-			->groupBy(['principaluri', 'access'])
-			->executeQuery();
+			->groupBy(['principaluri', 'access']);
 
+		if ($sharesWithAccess) {
+			$query->andWhere($query->expr()->neq('access', $query->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT)));
+		} else {
+			$query->andWhere($query->expr()->eq('access', $query->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT)));
+		}
+
+		$result = $query->executeQuery();
 		$rows = $result->fetchAll();
 		$result->closeCursor();
 		return $rows;
+	}
+
+	public function getSharesForId(int $resourceId, string $resourceType): array {
+		return $this->getSharesForIdByAccess($resourceId, $resourceType, true);
+	}
+
+	public function getUnsharesForId(int $resourceId, string $resourceType): array {
+		return $this->getSharesForIdByAccess($resourceId, $resourceType, false);
 	}
 
 	public function getSharesForIds(array $resourceIds, string $resourceType): array {
@@ -93,6 +108,30 @@ class SharingMapper {
 		$query->delete('dav_shares')
 			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principaluri)))
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter($resourceType)))
+			->executeStatement();
+	}
+
+	public function getSharesByPrincipals(array $principals, string $resourceType): array {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select(['id', 'principaluri', 'type', 'access', 'resourceid'])
+			->from('dav_shares')
+			->where($query->expr()->in('principaluri', $query->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter($resourceType)))
+			->orderBy('id')
+			->executeQuery();
+
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		return $rows;
+	}
+
+	public function deleteUnsharesByPrincipal(string $principal, string $resourceType): void {
+		$query = $this->db->getQueryBuilder();
+		$query->delete('dav_shares')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principal)))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter($resourceType)))
+			->andWhere($query->expr()->eq('access', $query->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT)))
 			->executeStatement();
 	}
 }

@@ -53,14 +53,13 @@ OC.L10N.register(
     "Basic encryption module" : "Základný šifrovací modul",
     "Your private key password no longer matches your log-in password." : "Heslo vášho súkromného kľúča sa nezhoduje v vašim prihlasovacím heslom.",
     "Set your old private key password to your current log-in password:" : "Zmeňte si vaše staré heslo súkromného kľúča na rovnaké, aké je vaše aktuálne prihlasovacie heslo:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Ak si nepamätáte svoje staré heslo, môžete požiadať administrátora o obnovenie svojich súborov.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Ak si nepamätáte svoje staré heslo, môžete požiadať administrátora o obnovenie vašich súborov.",
     "Old log-in password" : "Staré prihlasovacie heslo",
     "Current log-in password" : "Súčasné prihlasovacie heslo",
     "Update Private Key Password" : "Aktualizovať heslo súkromného kľúča",
     "Enable password recovery:" : "Povoliť obnovu hesla:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Povolenie Vám umožní znovu získať prístup k Vašim zašifrovaným súborom, ak stratíte heslo",
     "Enabled" : "Povolené",
-    "Disabled" : "Zakázané",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Záchranný kľúč je ďalší šifrovací kľúč, ktorý sa používa na šifrovanie súborov. Umožňuje záchranu súborov používateľa ak zabudne svoje heslo."
+    "Disabled" : "Zakázané"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

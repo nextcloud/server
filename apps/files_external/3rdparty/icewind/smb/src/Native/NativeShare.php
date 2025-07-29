@@ -116,6 +116,13 @@ class NativeShare extends AbstractShare {
 	}
 
 	/**
+	 * @return array{"mode": int, "size": int, "mtime": int}
+	 */
+	public function rawStat(string $path): array {
+		return $this->getState()->stat($this->buildUrl($path));
+	}
+
+	/**
 	 * Multibyte unicode safe version of basename()
 	 *
 	 * @param string $path

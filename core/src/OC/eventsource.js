@@ -7,7 +7,7 @@
 /* eslint-disable */
 import $ from 'jquery'
 
-import { getToken } from './requesttoken.js'
+import { getRequestToken } from './requesttoken.ts'
 
 /**
  * Create a new event source
@@ -28,7 +28,7 @@ const OCEventSource = function(src, data) {
 			dataStr += name + '=' + encodeURIComponent(data[name]) + '&'
 		}
 	}
-	dataStr += 'requesttoken=' + encodeURIComponent(getToken())
+	dataStr += 'requesttoken=' + encodeURIComponent(getRequestToken())
 	if (!this.useFallBack && typeof EventSource !== 'undefined') {
 		joinChar = '&'
 		if (src.indexOf('?') === -1) {

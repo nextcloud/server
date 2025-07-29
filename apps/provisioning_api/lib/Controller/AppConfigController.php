@@ -10,6 +10,7 @@ namespace OCA\Provisioning_API\Controller;
 
 use OC\AppConfig;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
@@ -35,6 +36,7 @@ class AppConfigController extends OCSController {
 		private IL10N $l10n,
 		private IGroupManager $groupManager,
 		private IManager $settingManager,
+		private IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -42,7 +44,7 @@ class AppConfigController extends OCSController {
 	/**
 	 * Get a list of apps
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{data: string[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{data: list<string>}, array{}>
 	 *
 	 * 200: Apps returned
 	 */
@@ -56,7 +58,7 @@ class AppConfigController extends OCSController {
 	 * Get the config keys of an app
 	 *
 	 * @param string $app ID of the app
-	 * @return DataResponse<Http::STATUS_OK, array{data: string[]}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{data: list<string>}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
 	 *
 	 * 200: Keys returned
 	 * 403: App is not allowed
@@ -103,7 +105,7 @@ class AppConfigController extends OCSController {
 	 * @param string $app ID of the app
 	 * @param string $key Key to update
 	 * @param string $value New value for the key
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
 	 *
 	 * 200: Value updated successfully
 	 * 403: App or key is not allowed
@@ -152,7 +154,7 @@ class AppConfigController extends OCSController {
 	 *
 	 * @param string $app ID of the app
 	 * @param string $key Key to delete
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
 	 *
 	 * 200: Key deleted successfully
 	 * 403: App or key is not allowed
@@ -171,11 +173,10 @@ class AppConfigController extends OCSController {
 	}
 
 	/**
-	 * @param string $app
 	 * @throws \InvalidArgumentException
 	 */
-	protected function verifyAppId(string $app) {
-		if (\OC_App::cleanAppId($app) !== $app) {
+	protected function verifyAppId(string $app): void {
+		if ($this->appManager->cleanAppId($app) !== $app) {
 			throw new \InvalidArgumentException('Invalid app id given');
 		}
 	}

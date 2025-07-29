@@ -430,7 +430,7 @@ class PublicKeyTokenProvider implements IProvider {
 	}
 
 	/**
-	 * @deprecated Fallback for instances where the secret might not have been set by accident
+	 * @deprecated 26.0.0 Fallback for instances where the secret might not have been set by accident
 	 */
 	private function hashTokenWithEmptySecret(string $token): string {
 		return hash('sha512', $token);

@@ -13,23 +13,15 @@ use OCP\Http\Client\LocalServerException;
 use Psr\Http\Message\RequestInterface;
 
 class DnsPinMiddleware {
-	/** @var NegativeDnsCache */
-	private $negativeDnsCache;
-	private IpAddressClassifier $ipAddressClassifier;
 
 	public function __construct(
-		NegativeDnsCache $negativeDnsCache,
-		IpAddressClassifier $ipAddressClassifier
+		private NegativeDnsCache $negativeDnsCache,
+		private IpAddressClassifier $ipAddressClassifier,
 	) {
-		$this->negativeDnsCache = $negativeDnsCache;
-		$this->ipAddressClassifier = $ipAddressClassifier;
 	}
 
 	/**
 	 * Fetch soa record for a target
-	 *
-	 * @param string $target
-	 * @return array|null
 	 */
 	private function soaRecord(string $target): ?array {
 		$labels = explode('.', $target);
@@ -57,17 +49,21 @@ class DnsPinMiddleware {
 
 		$soaDnsEntry = $this->soaRecord($target);
 		$dnsNegativeTtl = $soaDnsEntry['minimum-ttl'] ?? null;
+		$canHaveCnameRecord = true;
 
 		$dnsTypes = \defined('AF_INET6') || @inet_pton('::1')
 			? [DNS_A, DNS_AAAA, DNS_CNAME]
 			: [DNS_A, DNS_CNAME];
 		foreach ($dnsTypes as $dnsType) {
+			if ($canHaveCnameRecord === false && $dnsType === DNS_CNAME) {
+				continue;
+			}
+
 			if ($this->negativeDnsCache->isNegativeCached($target, $dnsType)) {
 				continue;
 			}
 
 			$dnsResponses = $this->dnsGetRecord($target, $dnsType);
-			$canHaveCnameRecord = true;
 			if ($dnsResponses !== false && count($dnsResponses) > 0) {
 				foreach ($dnsResponses as $dnsResponse) {
 					if (isset($dnsResponse['ip'])) {
@@ -78,7 +74,6 @@ class DnsPinMiddleware {
 						$canHaveCnameRecord = false;
 					} elseif (isset($dnsResponse['target']) && $canHaveCnameRecord) {
 						$targetIps = array_merge($targetIps, $this->dnsResolve($dnsResponse['target'], $recursionCount));
-						$canHaveCnameRecord = true;
 					}
 				}
 			} elseif ($dnsNegativeTtl !== null) {
@@ -96,17 +91,17 @@ class DnsPinMiddleware {
 		return \dns_get_record($hostname, $type);
 	}
 
-	public function addDnsPinning() {
+	public function addDnsPinning(): callable {
 		return function (callable $handler) {
 			return function (
 				RequestInterface $request,
-				array $options
+				array $options,
 			) use ($handler) {
 				if ($options['nextcloud']['allow_local_address'] === true) {
 					return $handler($request, $options);
 				}
 
-				$hostName = (string)$request->getUri()->getHost();
+				$hostName = $request->getUri()->getHost();
 				$port = $request->getUri()->getPort();
 
 				$ports = [
@@ -132,7 +127,7 @@ class DnsPinMiddleware {
 					foreach ($targetIps as $ip) {
 						if ($this->ipAddressClassifier->isLocalAddress($ip)) {
 							// TODO: continue with all non-local IPs?
-							throw new LocalServerException('Host "'.$ip.'" ('.$hostName.':'.$port.') violates local access rules');
+							throw new LocalServerException('Host "' . $ip . '" (' . $hostName . ':' . $port . ') violates local access rules');
 						}
 						$curlResolves["$hostName:$port"][] = $ip;
 					}

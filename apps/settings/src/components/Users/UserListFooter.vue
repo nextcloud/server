@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import {
 	translate as t,
@@ -84,18 +84,18 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import './shared/styles.scss';
+@use './shared/styles';
 
 .footer {
-	@include row;
-	@include cell;
+	@include styles.row;
+	@include styles.cell;
 
 	&__cell {
 		position: sticky;
 		color: var(--color-text-maxcontrast);
 
 		&--loading {
-			left: 0;
+			inset-inline-start: 0;
 			min-width: var(--avatar-cell-width);
 			width: var(--avatar-cell-width);
 			align-items: center;
@@ -103,7 +103,7 @@ export default Vue.extend({
 		}
 
 		&--count {
-			left: var(--avatar-cell-width);
+			inset-inline-start: var(--avatar-cell-width);
 			min-width: var(--cell-width);
 			width: var(--cell-width);
 		}

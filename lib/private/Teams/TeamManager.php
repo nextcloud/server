@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -62,7 +63,7 @@ class TeamManager implements ITeamManager {
 			return $providers[$providerId];
 		}
 
-		throw new \RuntimeException('No provider found for id ' .$providerId);
+		throw new \RuntimeException('No provider found for id ' . $providerId);
 	}
 
 	public function getSharedWith(string $teamId, string $userId): array {
@@ -80,7 +81,7 @@ class TeamManager implements ITeamManager {
 			array_push($resources, ...$provider->getSharedWith($teamId));
 		}
 
-		return $resources;
+		return array_values($resources);
 	}
 
 	public function getTeamsForResource(string $providerId, string $resourceId, string $userId): array {

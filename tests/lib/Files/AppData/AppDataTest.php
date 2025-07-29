@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -49,7 +50,7 @@ class AppDataTest extends \Test\TestCase {
 		return $appFolder;
 	}
 
-	public function testGetFolder() {
+	public function testGetFolder(): void {
 		$folder = $this->createMock(Folder::class);
 
 		$this->rootFolder->expects($this->once())
@@ -61,7 +62,7 @@ class AppDataTest extends \Test\TestCase {
 		$this->assertInstanceOf(ISimpleFolder::class, $result);
 	}
 
-	public function testNewFolder() {
+	public function testNewFolder(): void {
 		$appFolder = $this->setupAppFolder();
 
 		$folder = $this->createMock(Folder::class);
@@ -75,7 +76,7 @@ class AppDataTest extends \Test\TestCase {
 		$this->assertInstanceOf(ISimpleFolder::class, $result);
 	}
 
-	public function testGetDirectoryListing() {
+	public function testGetDirectoryListing(): void {
 		$appFolder = $this->setupAppFolder();
 
 		$file = $this->createMock(File::class);

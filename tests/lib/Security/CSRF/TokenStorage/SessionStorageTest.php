@@ -10,10 +10,11 @@ declare(strict_types=1);
 
 namespace Test\Security\CSRF\TokenStorage;
 
+use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OCP\ISession;
 
 class SessionStorageTest extends \Test\TestCase {
-	/** @var \OCP\ISession */
+	/** @var ISession */
 	private $session;
 	/** @var \OC\Security\CSRF\TokenStorage\SessionStorage */
 	private $sessionStorage;
@@ -22,13 +23,13 @@ class SessionStorageTest extends \Test\TestCase {
 		parent::setUp();
 		$this->session = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()->getMock();
-		$this->sessionStorage = new \OC\Security\CSRF\TokenStorage\SessionStorage($this->session);
+		$this->sessionStorage = new SessionStorage($this->session);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getTokenDataProvider() {
+	public static function getTokenDataProvider(): array {
 		return [
 			[
 				'',
@@ -41,10 +42,10 @@ class SessionStorageTest extends \Test\TestCase {
 
 	/**
 	 * @param string $token
-	 * @dataProvider getTokenDataProvider
 	 *
 	 */
-	public function testGetTokenWithEmptyToken($token) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('getTokenDataProvider')]
+	public function testGetTokenWithEmptyToken($token): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Session does not contain a requesttoken');
 
@@ -56,7 +57,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->sessionStorage->getToken();
 	}
 
-	public function testGetTokenWithValidToken() {
+	public function testGetTokenWithValidToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('get')
@@ -65,7 +66,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->assertSame('MyFancyCsrfToken', $this->sessionStorage->getToken());
 	}
 
-	public function testSetToken() {
+	public function testSetToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('set')
@@ -73,7 +74,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->sessionStorage->setToken('TokenToSet');
 	}
 
-	public function testRemoveToken() {
+	public function testRemoveToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('remove')
@@ -81,7 +82,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->sessionStorage->removeToken();
 	}
 
-	public function testHasTokenWithExistingToken() {
+	public function testHasTokenWithExistingToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('exists')
@@ -90,7 +91,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->assertSame(true, $this->sessionStorage->hasToken());
 	}
 
-	public function testHasTokenWithoutExistingToken() {
+	public function testHasTokenWithoutExistingToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('exists')
@@ -99,7 +100,7 @@ class SessionStorageTest extends \Test\TestCase {
 		$this->assertSame(false, $this->sessionStorage->hasToken());
 	}
 
-	public function testSetSession() {
+	public function testSetSession(): void {
 		$session = $this->createMock(ISession::class);
 		$session
 			->expects($this->once())

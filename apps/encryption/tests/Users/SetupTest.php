@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,21 +12,15 @@ namespace OCA\Encryption\Tests\Users;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SetupTest extends TestCase {
-	/**
-	 * @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $keyManagerMock;
-	/**
-	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $cryptMock;
-	/**
-	 * @var Setup
-	 */
-	private $instance;
+
+	protected Setup $instance;
+
+	protected KeyManager&MockObject $keyManagerMock;
+	protected Crypt&MockObject $cryptMock;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,7 +38,7 @@ class SetupTest extends TestCase {
 	}
 
 
-	public function testSetupSystem() {
+	public function testSetupSystem(): void {
 		$this->keyManagerMock->expects($this->once())->method('validateShareKey');
 		$this->keyManagerMock->expects($this->once())->method('validateMasterKey');
 
@@ -50,12 +46,12 @@ class SetupTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetupUser
 	 *
 	 * @param bool $hasKeys
 	 * @param bool $expected
 	 */
-	public function testSetupUser($hasKeys, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetupUser')]
+	public function testSetupUser($hasKeys, $expected): void {
 		$this->keyManagerMock->expects($this->once())->method('userHasKeys')
 			->with('uid')->willReturn($hasKeys);
 
@@ -72,7 +68,7 @@ class SetupTest extends TestCase {
 		);
 	}
 
-	public function dataTestSetupUser() {
+	public static function dataTestSetupUser(): array {
 		return [
 			[true, true],
 			[false, true]

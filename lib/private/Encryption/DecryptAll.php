@@ -29,7 +29,7 @@ class DecryptAll {
 	public function __construct(
 		protected IManager $encryptionManager,
 		protected IUserManager $userManager,
-		protected View $rootView
+		protected View $rootView,
 	) {
 		$this->failed = [];
 	}

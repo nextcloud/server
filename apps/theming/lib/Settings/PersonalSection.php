@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,15 +12,6 @@ use OCP\Settings\IIconSection;
 
 class PersonalSection implements IIconSection {
 
-	/** @var string */
-	protected $appName;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IL10N */
-	private $l;
-
 	/**
 	 * Personal Section constructor.
 	 *
@@ -27,12 +19,11 @@ class PersonalSection implements IIconSection {
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l
 	 */
-	public function __construct(string $appName,
-		IURLGenerator $urlGenerator,
-		IL10N $l) {
-		$this->appName = $appName;
-		$this->urlGenerator = $urlGenerator;
-		$this->l = $l;
+	public function __construct(
+		protected string $appName,
+		private IURLGenerator $urlGenerator,
+		private IL10N $l,
+	) {
 	}
 
 	/**

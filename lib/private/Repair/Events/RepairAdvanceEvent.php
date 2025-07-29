@@ -16,7 +16,7 @@ class RepairAdvanceEvent extends Event {
 
 	public function __construct(
 		int $increment,
-		string $description
+		string $description,
 	) {
 		$this->increment = $increment;
 		$this->description = $description;

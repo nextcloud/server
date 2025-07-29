@@ -164,7 +164,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $sabreNode
+		\Sabre\DAV\INode $sabreNode,
 	) {
 		if (!($sabreNode instanceof DavNode)) {
 			return;
@@ -176,8 +176,8 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		if ($sabreNode instanceof Directory
 			&& $propFind->getDepth() !== 0
 			&& (
-				!is_null($propFind->getStatus(self::SHARETYPES_PROPERTYNAME)) ||
-				!is_null($propFind->getStatus(self::SHAREES_PROPERTYNAME))
+				!is_null($propFind->getStatus(self::SHARETYPES_PROPERTYNAME))
+				|| !is_null($propFind->getStatus(self::SHAREES_PROPERTYNAME))
 			)
 		) {
 			$folderNode = $sabreNode->getNode();

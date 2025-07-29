@@ -11,12 +11,14 @@ use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class VersionCheck {
 	public function __construct(
+		private ServerVersion $serverVersion,
 		private IClientService $clientService,
 		private IConfig $config,
 		private IAppConfig $appConfig,
@@ -54,9 +56,9 @@ class VersionCheck {
 		$version = Util::getVersion();
 		$version['installed'] = $this->config->getAppValue('core', 'installedat');
 		$version['updated'] = $this->appConfig->getValueInt('core', 'lastupdatedat');
-		$version['updatechannel'] = \OC_Util::getChannel();
+		$version['updatechannel'] = $this->serverVersion->getChannel();
 		$version['edition'] = '';
-		$version['build'] = \OC_Util::getBuild();
+		$version['build'] = $this->serverVersion->getBuild();
 		$version['php_major'] = PHP_MAJOR_VERSION;
 		$version['php_minor'] = PHP_MINOR_VERSION;
 		$version['php_release'] = PHP_RELEASE_VERSION;
@@ -103,17 +105,20 @@ class VersionCheck {
 	}
 
 	/**
-	 * @codeCoverageIgnore
-	 * @param string $url
-	 * @return resource|string
 	 * @throws \Exception
 	 */
-	protected function getUrlContent($url) {
-		$client = $this->clientService->newClient();
-		$response = $client->get($url, [
+	protected function getUrlContent(string $url): string {
+		$response = $this->clientService->newClient()->get($url, [
 			'timeout' => 5,
 		]);
-		return $response->getBody();
+
+		$content = $response->getBody();
+
+		// IResponse.getBody responds with null|resource if returning a stream response was requested.
+		// As that's not the case here, we can just ignore the psalm warning by adding an assertion.
+		assert(is_string($content));
+
+		return $content;
 	}
 
 	private function computeCategory(): int {

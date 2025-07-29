@@ -13,12 +13,12 @@ use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCA\DAV\Events\CalendarDeletedEvent;
 use OCA\DAV\Events\CalendarMovedToTrashEvent;
-use OCA\DAV\Events\CalendarObjectCreatedEvent;
-use OCA\DAV\Events\CalendarObjectDeletedEvent;
-use OCA\DAV\Events\CalendarObjectMovedToTrashEvent;
-use OCA\DAV\Events\CalendarObjectRestoredEvent;
-use OCA\DAV\Events\CalendarObjectUpdatedEvent;
 use OCA\DAV\Events\CalendarRestoredEvent;
+use OCP\Calendar\Events\CalendarObjectCreatedEvent;
+use OCP\Calendar\Events\CalendarObjectDeletedEvent;
+use OCP\Calendar\Events\CalendarObjectMovedToTrashEvent;
+use OCP\Calendar\Events\CalendarObjectRestoredEvent;
+use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use Psr\Log\LoggerInterface;
@@ -28,26 +28,12 @@ use function sprintf;
 /** @template-implements IEventListener<CalendarMovedToTrashEvent|CalendarDeletedEvent|CalendarRestoredEvent|CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarObjectMovedToTrashEvent|CalendarObjectRestoredEvent|CalendarObjectDeletedEvent> */
 class CalendarObjectReminderUpdaterListener implements IEventListener {
 
-	/** @var ReminderBackend */
-	private $reminderBackend;
-
-	/** @var ReminderService */
-	private $reminderService;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(ReminderBackend $reminderBackend,
-		ReminderService $reminderService,
-		CalDavBackend $calDavBackend,
-		LoggerInterface $logger) {
-		$this->reminderBackend = $reminderBackend;
-		$this->reminderService = $reminderService;
-		$this->calDavBackend = $calDavBackend;
-		$this->logger = $logger;
+	public function __construct(
+		private ReminderBackend $reminderBackend,
+		private ReminderService $reminderService,
+		private CalDavBackend $calDavBackend,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {

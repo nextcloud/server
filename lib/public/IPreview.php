@@ -71,12 +71,14 @@ interface IPreview {
 	 * @param bool $crop
 	 * @param string $mode
 	 * @param string $mimeType To force a given mimetype for the file (files_versions needs this)
+	 * @param bool $cacheResult Whether or not to cache the preview on the filesystem. Default to true. Can be useful to set to false to limit the amount of stored previews.
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 * @since 11.0.0 - \InvalidArgumentException was added in 12.0.0
+	 * @since 32.0.0 - getPreview($cacheResult) added the $cacheResult argument to the signature
 	 */
-	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null);
+	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null, bool $cacheResult = true);
 
 	/**
 	 * Returns true if the passed mime type is supported
@@ -90,10 +92,12 @@ interface IPreview {
 	 * Check if a preview can be generated for a file
 	 *
 	 * @param \OCP\Files\FileInfo $file
+	 * @param string|null $mimeType To force a given mimetype for the file
 	 * @return bool
 	 * @since 8.0.0
+	 * @since 32.0.0 - isAvailable($mimeType) added the $mimeType argument to the signature
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file);
+	public function isAvailable(\OCP\Files\FileInfo $file, ?string $mimeType = null);
 
 	/**
 	 * Generates previews of a file

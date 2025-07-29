@@ -52,7 +52,7 @@ class Add extends Base {
 
 		$this->authorizedGroupService->create($groupId, $settingClass);
 
-		$io->success('Administration of '.$settingClass.' delegated to '.$groupId.'.');
+		$io->success('Administration of ' . $settingClass . ' delegated to ' . $groupId . '.');
 
 		return 0;
 	}

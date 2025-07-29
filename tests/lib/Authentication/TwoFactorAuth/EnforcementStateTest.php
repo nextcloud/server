@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -17,25 +18,25 @@ use OC\Authentication\TwoFactorAuth\EnforcementState;
 use Test\TestCase;
 
 class EnforcementStateTest extends TestCase {
-	public function testIsEnforced() {
+	public function testIsEnforced(): void {
 		$state = new EnforcementState(true);
 
 		$this->assertTrue($state->isEnforced());
 	}
 
-	public function testGetEnforcedGroups() {
+	public function testGetEnforcedGroups(): void {
 		$state = new EnforcementState(true, ['twofactorers']);
 
 		$this->assertEquals(['twofactorers'], $state->getEnforcedGroups());
 	}
 
-	public function testGetExcludedGroups() {
+	public function testGetExcludedGroups(): void {
 		$state = new EnforcementState(true, [], ['yoloers']);
 
 		$this->assertEquals(['yoloers'], $state->getExcludedGroups());
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$state = new EnforcementState(true, ['twofactorers'], ['yoloers']);
 		$expected = [
 			'enforced' => true,

@@ -39,6 +39,10 @@ export default {
 
 	methods: {
 		onValidate(value) {
+			if (value === '') {
+				return true
+			}
+
 			if (defaultPhoneRegion) {
 				return isValidPhoneNumber(value, defaultPhoneRegion)
 			}

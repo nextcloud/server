@@ -20,25 +20,25 @@ class EntryTest extends TestCase {
 		$this->entry = new Entry();
 	}
 
-	public function testSetId() {
+	public function testSetId(): void {
 		$this->entry->setId(123);
 		$this->addToAssertionCount(1);
 	}
 
-	public function testSetGetFullName() {
+	public function testSetGetFullName(): void {
 		$fn = 'Danette Chaille';
 		$this->assertEquals('', $this->entry->getFullName());
 		$this->entry->setFullName($fn);
 		$this->assertEquals($fn, $this->entry->getFullName());
 	}
 
-	public function testAddGetEMailAddresses() {
+	public function testAddGetEMailAddresses(): void {
 		$this->assertEmpty($this->entry->getEMailAddresses());
 		$this->entry->addEMailAddress('user@example.com');
 		$this->assertEquals(['user@example.com'], $this->entry->getEMailAddresses());
 	}
 
-	public function testAddAndSortAction() {
+	public function testAddAndSortAction(): void {
 		// Three actions, two with equal priority
 		$action1 = new LinkAction();
 		$action2 = new LinkAction();
@@ -62,7 +62,7 @@ class EntryTest extends TestCase {
 		$this->assertSame($action2, $sorted[2]);
 	}
 
-	public function testSetGetProperties() {
+	public function testSetGetProperties(): void {
 		$props = [
 			'prop1' => 123,
 			'prop2' => 'string',
@@ -75,7 +75,7 @@ class EntryTest extends TestCase {
 		$this->assertEquals('string', $this->entry->getProperty('prop2'));
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$expectedJson = [
 			'id' => '123',
 			'fullName' => 'Guadalupe Frisbey',

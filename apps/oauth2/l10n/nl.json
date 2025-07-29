@@ -10,9 +10,12 @@
     "Redirection URI" : "Omeiding URI",
     "Client Identifier" : "Client identificatie",
     "Secret key" : "Geheime sleutel",
+    "Delete client" : "Client verwijderen",
+    "Make sure you store the secret key, it cannot be recovered." : "Zorg ervoor dat je de geheime sleutel opslaat, deze kan niet worden hersteld.",
     "Add client" : "Voeg client toe",
     "Add" : "Toevoegen",
-    "Delete" : "verwijderen",
-    "Show client secret" : "Tonen client secret"
+    "Show client secret" : "Geheime sleutel van cliënt weergeven",
+    "Hide client secret" : "Geheime sleutel van cliënt verbergen",
+    "Delete" : "verwijderen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

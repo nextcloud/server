@@ -31,7 +31,7 @@ class DateTimeZone implements IDateTimeZone {
 	}
 
 	/**
-	 * Get the timezone of the current user, based on his session information and config data
+	 * Get the timezone of the current user, based on their session information and config data
 	 *
 	 * @param bool|int $timestamp
 	 * @return \DateTimeZone

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,16 +8,17 @@
 namespace OCA\DAV\Tests\unit\CalDAV\Integration;
 
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ExternalCalendarTest extends TestCase {
-	private $abstractExternalCalendar;
+	private ExternalCalendar&MockObject $abstractExternalCalendar;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->abstractExternalCalendar =
-			$this->getMockForAbstractClass(ExternalCalendar::class, ['example-app-id', 'calendar-uri-in-backend']);
+		$this->abstractExternalCalendar
+			= $this->getMockForAbstractClass(ExternalCalendar::class, ['example-app-id', 'calendar-uri-in-backend']);
 	}
 
 	public function testGetName():void {
@@ -39,7 +42,7 @@ class ExternalCalendarTest extends TestCase {
 		$this->abstractExternalCalendar->setName('other-name');
 	}
 
-	public function createDirectory():void {
+	public function createDirectory(): void {
 		// Check that the method is final and can't be overridden by other classes
 		$reflectionMethod = new \ReflectionMethod(ExternalCalendar::class, 'createDirectory');
 		$this->assertTrue($reflectionMethod->isFinal());
@@ -63,9 +66,7 @@ class ExternalCalendarTest extends TestCase {
 		$this->assertTrue(ExternalCalendar::isAppGeneratedCalendar('app-generated--example--foo--2'));
 	}
 
-	/**
-	 * @dataProvider splitAppGeneratedCalendarUriDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('splitAppGeneratedCalendarUriDataProvider')]
 	public function testSplitAppGeneratedCalendarUriInvalid(string $name):void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Provided calendar uri was not app-generated');
@@ -73,7 +74,7 @@ class ExternalCalendarTest extends TestCase {
 		ExternalCalendar::splitAppGeneratedCalendarUri($name);
 	}
 
-	public function splitAppGeneratedCalendarUriDataProvider():array {
+	public static function splitAppGeneratedCalendarUriDataProvider():array {
 		return [
 			['personal'],
 			['foo_shared_by_admin'],

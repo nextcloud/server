@@ -22,15 +22,12 @@ use Test\TestCase;
  * @group DB
  */
 class StorePasswordListenerTest extends TestCase {
-	/** @var MockObject|IUser */
-	protected $mockedUser;
+	protected IUser&MockObject $mockedUser;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->mockedUser = $this->createMock(IUser::class);
-		$this->mockedUser
-			->expects($this->any())
-			->method('getUID')
+		$this->mockedUser->method('getUID')
 			->willReturn('test');
 	}
 
@@ -76,7 +73,7 @@ class StorePasswordListenerTest extends TestCase {
 		$storePasswordListener->handle($event);
 	}
 
-	public function testClassicLoginSameCredentials() {
+	public function testClassicLoginSameCredentials(): void {
 		$this->getMockedCredentialManager(
 			[
 				'user' => 'test',
@@ -87,7 +84,7 @@ class StorePasswordListenerTest extends TestCase {
 		);
 	}
 
-	public function testClassicLoginNewPassword() {
+	public function testClassicLoginNewPassword(): void {
 		$this->getMockedCredentialManager(
 			[
 				'user' => 'test',
@@ -101,7 +98,7 @@ class StorePasswordListenerTest extends TestCase {
 		);
 	}
 
-	public function testClassicLoginNewUser() {
+	public function testClassicLoginNewUser(): void {
 		$this->getMockedCredentialManager(
 			[
 				'user' => 'test',
@@ -115,7 +112,7 @@ class StorePasswordListenerTest extends TestCase {
 		);
 	}
 
-	public function testSSOLogin() {
+	public function testSSOLogin(): void {
 		$this->getMockedCredentialManager(
 			[
 				'user' => 'test',
@@ -126,7 +123,7 @@ class StorePasswordListenerTest extends TestCase {
 		);
 	}
 
-	public function testPasswordUpdated() {
+	public function testPasswordUpdated(): void {
 		$this->getMockedCredentialManager(
 			[
 				'user' => 'test',
@@ -140,7 +137,7 @@ class StorePasswordListenerTest extends TestCase {
 		);
 	}
 
-	public function testUserLoginWithToken() {
+	public function testUserLoginWithToken(): void {
 		$this->getMockedCredentialManager(
 			null,
 			new UserLoggedInEvent($this->mockedUser, 'test', 'password', true),
@@ -148,7 +145,7 @@ class StorePasswordListenerTest extends TestCase {
 		);
 	}
 
-	public function testNoInitialCredentials() {
+	public function testNoInitialCredentials(): void {
 		$this->getMockedCredentialManager(
 			false,
 			new PasswordUpdatedEvent($this->mockedUser, 'test', 'password'),

@@ -7,7 +7,7 @@
 		:filter-name="t('files', 'Modified')"
 		@reset-filter="resetFilter">
 		<template #icon>
-			<NcIconSvgWrapper :path="mdiCalendarRange" />
+			<NcIconSvgWrapper :path="mdiCalendarRangeOutline" />
 		</template>
 		<NcActionButton v-for="preset of timePresets"
 			:key="preset.id"
@@ -25,12 +25,12 @@
 import type { PropType } from 'vue'
 import type { ITimePreset } from '../../filters/ModifiedFilter.ts'
 
-import { mdiCalendarRange } from '@mdi/js'
+import { mdiCalendarRangeOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import FileListFilter from './FileListFilter.vue'
 
 export default defineComponent({
@@ -50,7 +50,7 @@ export default defineComponent({
 	setup() {
 		return {
 			// icons used in template
-			mdiCalendarRange,
+			mdiCalendarRangeOutline,
 		}
 	},
 

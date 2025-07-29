@@ -21,7 +21,7 @@ class HostnameClassifierTest extends TestCase {
 		$this->classifier = new HostnameClassifier();
 	}
 
-	public function localHostnamesData():array {
+	public static function localHostnamesData(): array {
 		return [
 			['localhost'],
 			['localHost'],
@@ -32,16 +32,14 @@ class HostnameClassifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider localHostnamesData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('localHostnamesData')]
 	public function testLocalHostname(string $host): void {
 		$isLocal = $this->classifier->isLocalHostname($host);
 
 		self::assertTrue($isLocal);
 	}
 
-	public function publicHostnamesData(): array {
+	public static function publicHostnamesData(): array {
 		return [
 			['example.com'],
 			['example.net'],
@@ -51,9 +49,7 @@ class HostnameClassifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider publicHostnamesData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('publicHostnamesData')]
 	public function testPublicHostname(string $host): void {
 		$isLocal = $this->classifier->isLocalHostname($host);
 

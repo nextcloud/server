@@ -1,0 +1,13 @@
+OC.L10N.register(
+    "profile",
+    {
+    "You have not added any info yet" : "Ainda não adicionou qualquer informação ",
+    "{user} has not added any info yet" : "{user} ainda não adicionou qualquer informação",
+    "Error opening the user status modal, try hard refreshing the page" : "Erro ao abrir o modal de estado do utilizador; tente atualizar a página forçadamente",
+    "Edit Profile" : "Editar perfil",
+    "The headline and about sections will show up here" : "Os campos de título e sobre aparecerão aqui",
+    "Profile not found" : "Perfil não encontrado",
+    "The profile does not exist." : "O perfil não existe.",
+    "Back to %s" : "Voltar para %s"
+},
+"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

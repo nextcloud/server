@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,6 +14,7 @@ use OCA\Theming\Settings\PersonalSection;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\AppFramework\App;
+use OCP\AppFramework\IAppContainer;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
 use OCP\Settings\IIconSection;
@@ -25,11 +28,9 @@ use Test\TestCase;
  * @package OCA\Theming\Tests
  */
 class ServicesTest extends TestCase {
-	/** @var \OCA\Activity\AppInfo\Application */
-	protected $app;
+	protected App $app;
 
-	/** @var \OCP\AppFramework\IAppContainer */
-	protected $container;
+	protected IAppContainer $container;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,7 +38,7 @@ class ServicesTest extends TestCase {
 		$this->container = $this->app->getContainer();
 	}
 
-	public function queryData() {
+	public static function queryData(): array {
 		return [
 			[IL10N::class],
 
@@ -59,15 +60,11 @@ class ServicesTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider queryData
-	 * @param string $service
-	 * @param string $expected
-	 */
-	public function testContainerQuery($service, $expected = null) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('queryData')]
+	public function testContainerQuery(string $service, ?string $expected = null): void {
 		if ($expected === null) {
 			$expected = $service;
 		}
-		$this->assertTrue($this->container->query($service) instanceof $expected);
+		$this->assertInstanceOf($expected, $this->container->query($service));
 	}
 }

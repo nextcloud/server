@@ -62,22 +62,23 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import Contacts from 'vue-material-design-icons/Contacts.vue'
-import debounce from 'debounce'
-import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { t } from '@nextcloud/l10n'
+import axios from '@nextcloud/axios'
+import debounce from 'debounce'
+
+import Contacts from 'vue-material-design-icons/ContactsOutline.vue'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import { translate as t } from '@nextcloud/l10n'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import Contact from '../components/ContactsMenu/Contact.vue'
 import logger from '../logger.js'
 import Nextcloud from '../mixins/Nextcloud.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default {
 	name: 'ContactsMenu',
@@ -185,7 +186,7 @@ export default {
 		label[for="contactsmenu__menu__search"] {
 			font-weight: bold;
 			font-size: 19px;
-			margin-left: 13px;
+			margin-inline-start: 13px;
 		}
 
 		&__input-wrapper {

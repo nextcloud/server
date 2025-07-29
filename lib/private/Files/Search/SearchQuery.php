@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -39,7 +40,7 @@ class SearchQuery implements ISearchQuery {
 		int $offset,
 		array $order,
 		?IUser $user = null,
-		bool $limitToHome = false
+		bool $limitToHome = false,
 	) {
 		$this->searchOperation = $searchOperation;
 		$this->limit = $limit;

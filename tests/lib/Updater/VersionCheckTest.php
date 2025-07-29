@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,11 +13,14 @@ use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Server;
+use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
-use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class VersionCheckTest extends \Test\TestCase {
+	/** @var ServerVersion|\PHPUnit\Framework\MockObject\MockObject */
+	private $serverVersion;
 	/** @var IConfig| \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var IAppConfig| \PHPUnit\Framework\MockObject\MockObject */
@@ -30,15 +34,12 @@ class VersionCheckTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->appConfig = $this->getMockBuilder(IAppConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$clientService = $this->getMockBuilder(IClientService::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$clientService = $this->createMock(IClientService::class);
+
+		$this->serverVersion->method('getChannel')->willReturn('git');
 
 		$this->registry = $this->createMock(IRegistry::class);
 		$this->registry
@@ -46,8 +47,9 @@ class VersionCheckTest extends \Test\TestCase {
 			->willReturn(false);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->updater = $this->getMockBuilder(VersionCheck::class)
-			->setMethods(['getUrlContent'])
+			->onlyMethods(['getUrlContent'])
 			->setConstructorArgs([
+				$this->serverVersion,
 				$clientService,
 				$this->config,
 				$this->appConfig,
@@ -63,10 +65,11 @@ class VersionCheckTest extends \Test\TestCase {
 	 * @return string
 	 */
 	private function buildUpdateUrl($baseUrl) {
-		return $baseUrl . '?version='.implode('x', Util::getVersion()).'xinstalledatx' . time() . 'x'.\OC_Util::getChannel().'xxx'.PHP_MAJOR_VERSION.'x'.PHP_MINOR_VERSION.'x'.PHP_RELEASE_VERSION.'x0x0';
+		$serverVersion = Server::get(ServerVersion::class);
+		return $baseUrl . '?version=' . implode('x', $serverVersion->getVersion()) . 'xinstalledatx' . time() . 'x' . $serverVersion->getChannel() . 'xxx' . PHP_MAJOR_VERSION . 'x' . PHP_MINOR_VERSION . 'x' . PHP_RELEASE_VERSION . 'x0x0';
 	}
 
-	public function testCheckInCache() {
+	public function testCheckInCache(): void {
 		$expectedResult = [
 			'version' => '8.0.4.2',
 			'versionstring' => 'ownCloud 8.0.4',
@@ -94,7 +97,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testCheckWithoutUpdateUrl() {
+	public function testCheckWithoutUpdateUrl(): void {
 		$expectedResult = [
 			'version' => '8.0.4.2',
 			'versionstring' => 'ownCloud 8.0.4',
@@ -155,7 +158,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testCheckWithInvalidXml() {
+	public function testCheckWithInvalidXml(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValueBool')
@@ -198,7 +201,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame([], $this->updater->check());
 	}
 
-	public function testCheckWithEmptyValidXmlResponse() {
+	public function testCheckWithEmptyValidXmlResponse(): void {
 		$expectedResult = [
 			'version' => '',
 			'versionstring' => '',
@@ -258,7 +261,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testCheckWithEmptyInvalidXmlResponse() {
+	public function testCheckWithEmptyInvalidXmlResponse(): void {
 		$expectedResult = [];
 
 		$this->config
@@ -303,7 +306,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testCheckWithMissingAttributeXmlResponse() {
+	public function testCheckWithMissingAttributeXmlResponse(): void {
 		$expectedResult = [
 			'version' => '',
 			'versionstring' => '',
@@ -363,7 +366,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testNoInternet() {
+	public function testNoInternet(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValueBool')

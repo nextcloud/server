@@ -15,7 +15,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { emit } from '@nextcloud/event-bus'
 import { defineComponent } from 'vue'
 
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import UserList from '../components/UserList.vue'
 
 export default defineComponent({
@@ -55,11 +55,6 @@ export default defineComponent({
 	},
 
 	beforeMount() {
-		this.$store.commit('initGroups', {
-			groups: this.$store.getters.getServerData.groups,
-			orderBy: this.$store.getters.getServerData.sortGroups,
-			userCount: this.$store.getters.getServerData.userCount,
-		})
 		this.$store.dispatch('getPasswordPolicyMinLength')
 	},
 

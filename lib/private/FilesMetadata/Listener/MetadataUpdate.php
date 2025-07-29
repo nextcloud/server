@@ -26,7 +26,7 @@ use Psr\Log\LoggerInterface;
 class MetadataUpdate implements IEventListener {
 	public function __construct(
 		private IFilesMetadataManager $filesMetadataManager,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

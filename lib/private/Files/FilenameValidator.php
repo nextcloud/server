@@ -25,6 +25,8 @@ use Psr\Log\LoggerInterface;
  */
 class FilenameValidator implements IFilenameValidator {
 
+	public const INVALID_FILE_TYPE = 100;
+
 	private IL10N $l10n;
 
 	/**
@@ -125,9 +127,6 @@ class FilenameValidator implements IFilenameValidator {
 		if (empty($this->forbiddenCharacters)) {
 			// Get always forbidden characters
 			$forbiddenCharacters = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
-			if ($forbiddenCharacters === false) {
-				$forbiddenCharacters = [];
-			}
 
 			// Get admin defined invalid characters
 			$additionalChars = $this->config->getSystemValue('forbidden_filename_characters', []);
@@ -229,7 +228,45 @@ class FilenameValidator implements IFilenameValidator {
 		return false;
 	}
 
-	protected function checkForbiddenName($filename): void {
+	public function sanitizeFilename(string $name, ?string $charReplacement = null): string {
+		$forbiddenCharacters = $this->getForbiddenCharacters();
+
+		if ($charReplacement === null) {
+			$charReplacement = array_diff(['_', '-', ' '], $forbiddenCharacters);
+			$charReplacement = reset($charReplacement) ?: '';
+		}
+		if (mb_strlen($charReplacement) !== 1) {
+			throw new \InvalidArgumentException('No or invalid character replacement given');
+		}
+
+		$nameLowercase = mb_strtolower($name);
+		foreach ($this->getForbiddenExtensions() as $extension) {
+			if (str_ends_with($nameLowercase, $extension)) {
+				$name = substr($name, 0, strlen($name) - strlen($extension));
+			}
+		}
+
+		$basename = strlen($name) > 1
+			? substr($name, 0, strpos($name, '.', 1) ?: null)
+			: $name;
+		if (in_array(mb_strtolower($basename), $this->getForbiddenBasenames())) {
+			$name = str_replace($basename, $this->l10n->t('%1$s (renamed)', [$basename]), $name);
+		}
+
+		if ($name === '') {
+			$name = $this->l10n->t('renamed file');
+		}
+
+		if (in_array(mb_strtolower($name), $this->getForbiddenFilenames())) {
+			$name = $this->l10n->t('%1$s (renamed)', [$name]);
+		}
+
+		$name = str_replace($forbiddenCharacters, $charReplacement, $name);
+		return $name;
+	}
+
+	protected function checkForbiddenName(string $filename): void {
+		$filename = mb_strtolower($filename);
 		if ($this->isForbidden($filename)) {
 			throw new ReservedWordException($this->l10n->t('"%1$s" is a forbidden file or folder name.', [$filename]));
 		}
@@ -269,12 +306,12 @@ class FilenameValidator implements IFilenameValidator {
 	 */
 	protected function checkForbiddenExtension(string $filename): void {
 		$filename = mb_strtolower($filename);
-		// Check for forbidden filename exten<sions
+		// Check for forbidden filename extensions
 		$forbiddenExtensions = $this->getForbiddenExtensions();
 		foreach ($forbiddenExtensions as $extension) {
 			if (str_ends_with($filename, $extension)) {
 				if (str_starts_with($extension, '.')) {
-					throw new InvalidPathException($this->l10n->t('"%1$s" is a forbidden file type.', [$extension]));
+					throw new InvalidPathException($this->l10n->t('"%1$s" is a forbidden file type.', [$extension]), self::INVALID_FILE_TYPE);
 				} else {
 					throw new InvalidPathException($this->l10n->t('Filenames must not end with "%1$s".', [$extension]));
 				}
@@ -293,6 +330,6 @@ class FilenameValidator implements IFilenameValidator {
 			$values = $fallback;
 		}
 
-		return array_map('mb_strtolower', $values);
+		return array_map(mb_strtolower(...), $values);
 	}
 };

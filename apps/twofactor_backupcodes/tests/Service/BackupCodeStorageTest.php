@@ -9,37 +9,34 @@ declare(strict_types=1);
 namespace OCA\TwoFactorBackupCodes\Tests\Service;
 
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
  * @group DB
  */
 class BackupCodeStorageTest extends TestCase {
-
-	/** @var BackupCodeStorage */
-	private $storage;
-
-	/** @var string */
-	private $testUID = 'test123456789';
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $notificationManager;
+	private IManager&MockObject $notificationManager;
+	private string $testUID = 'test123456789';
+	private BackupCodeStorage $storage;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storage = \OC::$server->query(BackupCodeStorage::class);
+		$this->storage = Server::get(BackupCodeStorage::class);
 
 		$this->notificationManager = $this->createMock(IManager::class);
 		$this->notificationManager->method('createNotification')
-			->willReturn(\OC::$server->query(IManager::class)->createNotification());
+			->willReturn(Server::get(IManager::class)->createNotification());
 		$this->overwriteService(IManager::class, $this->notificationManager);
 	}
 
-	public function testSimpleWorkFlow() {
-		$user = $this->getMockBuilder(\OCP\IUser::class)->getMock();
+	public function testSimpleWorkFlow(): void {
+		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn($this->testUID);
@@ -47,10 +44,10 @@ class BackupCodeStorageTest extends TestCase {
 		$this->notificationManager->expects($this->once())
 			->method('markProcessed')
 			->with($this->callback(function (INotification $notification) {
-				return $notification->getUser() === $this->testUID &&
-					$notification->getObjectType() === 'create' &&
-					$notification->getObjectId() === 'codes' &&
-					$notification->getApp() === 'twofactor_backupcodes';
+				return $notification->getUser() === $this->testUID
+					&& $notification->getObjectType() === 'create'
+					&& $notification->getObjectId() === 'codes'
+					&& $notification->getApp() === 'twofactor_backupcodes';
 			}));
 
 		// Create codes

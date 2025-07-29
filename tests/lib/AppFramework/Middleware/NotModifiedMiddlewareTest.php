@@ -11,6 +11,7 @@ namespace Test\AppFramework\Middleware;
 use OC\AppFramework\Middleware\NotModifiedMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
 class NotModifiedMiddlewareTest extends \Test\TestCase {
@@ -32,7 +33,7 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 		$this->controller = $this->createMock(Controller::class);
 	}
 
-	public function dataModified(): array {
+	public static function dataModified(): array {
 		$now = new \DateTime();
 
 		return [
@@ -43,20 +44,18 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 			[null, '"etag"', null, '', false],
 			['etag', '"etag"', null, '', true],
 
-			[null, '', $now, $now->format(\DateTimeInterface::RFC2822), true],
+			[null, '', $now, $now->format(\DateTimeInterface::RFC7231), true],
 			[null, '', $now, $now->format(\DateTimeInterface::ATOM), false],
-			[null, '', null, $now->format(\DateTimeInterface::RFC2822), false],
+			[null, '', null, $now->format(\DateTimeInterface::RFC7231), false],
 			[null, '', $now, '', false],
 
 			['etag', '"etag"', $now, $now->format(\DateTimeInterface::ATOM), true],
-			['etag', '"etag"', $now, $now->format(\DateTimeInterface::RFC2822), true],
+			['etag', '"etag"', $now, $now->format(\DateTimeInterface::RFC7231), true],
 		];
 	}
 
-	/**
-	 * @dataProvider dataModified
-	 */
-	public function testMiddleware(?string $etag, string $etagHeader, ?\DateTime $lastModified, string $lastModifiedHeader, bool $notModifiedSet) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataModified')]
+	public function testMiddleware(?string $etag, string $etagHeader, ?\DateTime $lastModified, string $lastModifiedHeader, bool $notModifiedSet): void {
 		$this->request->method('getHeader')
 			->willReturnCallback(function (string $name) use ($etagHeader, $lastModifiedHeader) {
 				if ($name === 'IF_NONE_MATCH') {
@@ -68,7 +67,7 @@ class NotModifiedMiddlewareTest extends \Test\TestCase {
 				return '';
 			});
 
-		$response = new Http\Response();
+		$response = new Response();
 		if ($etag !== null) {
 			$response->setETag($etag);
 		}

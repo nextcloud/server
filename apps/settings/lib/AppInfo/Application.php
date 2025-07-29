@@ -15,6 +15,7 @@ use OC\Server;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
+use OCA\Settings\Listener\MailProviderListener;
 use OCA\Settings\Listener\UserAddedToGroupActivityListener;
 use OCA\Settings\Listener\UserRemovedFromGroupActivityListener;
 use OCA\Settings\Mailer\NewUserMailHelper;
@@ -22,6 +23,7 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
+use OCA\Settings\Settings\Admin\MailProvider;
 use OCA\Settings\SetupChecks\AllowedAdminRanges;
 use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
 use OCA\Settings\SetupChecks\BruteForceThrottler;
@@ -47,9 +49,11 @@ use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\MaintenanceWindowStart;
 use OCA\Settings\SetupChecks\MemcacheConfigured;
 use OCA\Settings\SetupChecks\MimeTypeMigrationAvailable;
+use OCA\Settings\SetupChecks\MysqlRowFormat;
 use OCA\Settings\SetupChecks\MysqlUnicodeSupport;
 use OCA\Settings\SetupChecks\OcxProviders;
 use OCA\Settings\SetupChecks\OverwriteCliUrl;
+use OCA\Settings\SetupChecks\PhpApcuConfig;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpDisabledFunctions;
 use OCA\Settings\SetupChecks\PhpFreetypeSupport;
@@ -66,6 +70,7 @@ use OCA\Settings\SetupChecks\SchedulingTableSize;
 use OCA\Settings\SetupChecks\SecurityHeaders;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
+use OCA\Settings\SetupChecks\TaskProcessingPickupSpeed;
 use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
 use OCA\Settings\SetupChecks\WellKnownUrls;
@@ -78,11 +83,14 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
+use OCP\AppFramework\QueryException;
 use OCP\Defaults;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IServerContainer;
+use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
+use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IManager;
 use OCP\Util;
 
@@ -110,22 +118,20 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(UserRemovedEvent::class, UserRemovedFromGroupActivityListener::class);
 		$context->registerEventListener(GroupDeletedEvent::class, GroupRemovedListener::class);
 
+		// Register Mail Provider listeners
+		$context->registerEventListener(DeclarativeSettingsGetValueEvent::class, MailProviderListener::class);
+		$context->registerEventListener(DeclarativeSettingsSetValueEvent::class, MailProviderListener::class);
+
 		// Register well-known handlers
 		$context->registerWellKnownHandler(SecurityTxtHandler::class);
 		$context->registerWellKnownHandler(ChangePasswordHandler::class);
 
+		// Register Settings Form(s)
+		$context->registerDeclarativeSettings(MailProvider::class);
+
 		/**
 		 * Core class wrappers
 		 */
-		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
-		$context->registerService('isSubAdmin', function () {
-			$userObject = \OC::$server->getUserSession()->getUser();
-			$isSubAdmin = false;
-			if ($userObject !== null) {
-				$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
-			}
-			return $isSubAdmin;
-		});
 		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
 			$serverContainer = $appContainer->query(IServerContainer::class);
@@ -180,13 +186,16 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(MaintenanceWindowStart::class);
 		$context->registerSetupCheck(MemcacheConfigured::class);
 		$context->registerSetupCheck(MimeTypeMigrationAvailable::class);
+		$context->registerSetupCheck(MysqlRowFormat::class);
 		$context->registerSetupCheck(MysqlUnicodeSupport::class);
 		$context->registerSetupCheck(OcxProviders::class);
 		$context->registerSetupCheck(OverwriteCliUrl::class);
 		$context->registerSetupCheck(PhpDefaultCharset::class);
 		$context->registerSetupCheck(PhpDisabledFunctions::class);
 		$context->registerSetupCheck(PhpFreetypeSupport::class);
+		$context->registerSetupCheck(PhpApcuConfig::class);
 		$context->registerSetupCheck(PhpGetEnv::class);
+		// Temporarily disabled $context->registerSetupCheck(PhpMaxFileSize::class);
 		$context->registerSetupCheck(PhpMemoryLimit::class);
 		$context->registerSetupCheck(PhpModules::class);
 		$context->registerSetupCheck(PhpOpcacheSetup::class);
@@ -198,6 +207,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(SchedulingTableSize::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
+		$context->registerSetupCheck(TaskProcessingPickupSpeed::class);
 		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
 		$context->registerSetupCheck(PushService::class);
@@ -217,7 +227,7 @@ class Application extends App implements IBootstrap {
 	 * @throws \InvalidArgumentException
 	 * @throws \BadMethodCallException
 	 * @throws \Exception
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	public function onChangePassword(array $parameters) {
 		/** @var Hooks $hooks */
@@ -230,7 +240,7 @@ class Application extends App implements IBootstrap {
 	 * @throws \InvalidArgumentException
 	 * @throws \BadMethodCallException
 	 * @throws \Exception
-	 * @throws \OCP\AppFramework\QueryException
+	 * @throws QueryException
 	 */
 	public function onChangeInfo(array $parameters) {
 		if ($parameters['feature'] !== 'eMailAddress') {

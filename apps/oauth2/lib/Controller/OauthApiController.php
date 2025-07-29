@@ -17,6 +17,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -29,6 +30,7 @@ use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 class OauthApiController extends Controller {
 	// the authorization code expires after 10 minutes
 	public const AUTHORIZATION_CODE_EXPIRES_AFTER = 10 * 60;
@@ -68,7 +70,7 @@ class OauthApiController extends Controller {
 	#[BruteForceProtection(action: 'oauth2GetToken')]
 	public function getToken(
 		string $grant_type, ?string $code, ?string $refresh_token,
-		?string $client_id, ?string $client_secret
+		?string $client_id, ?string $client_secret,
 	): JSONResponse {
 
 		// We only handle two types
@@ -138,7 +140,8 @@ class OauthApiController extends Controller {
 		}
 
 		try {
-			$storedClientSecret = $this->crypto->decrypt($client->getSecret());
+			$storedClientSecretHash = $client->getSecret();
+			$clientSecretHash = bin2hex($this->crypto->calculateHMAC($client_secret));
 		} catch (\Exception $e) {
 			$this->logger->error('OAuth client secret decryption error', ['exception' => $e]);
 			// we don't throttle here because it might not be a bruteforce attack
@@ -147,7 +150,7 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 		// The client id and secret must match. Else we don't provide an access token!
-		if ($client->getClientIdentifier() !== $client_id || $storedClientSecret !== $client_secret) {
+		if ($client->getClientIdentifier() !== $client_id || $storedClientSecretHash !== $clientSecretHash) {
 			$response = new JSONResponse([
 				'error' => 'invalid_client',
 			], Http::STATUS_BAD_REQUEST);

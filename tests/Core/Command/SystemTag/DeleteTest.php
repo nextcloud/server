@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -32,14 +33,14 @@ class DeleteTest extends TestCase {
 		$this->systemTagManager = $this->createMock(ISystemTagManager::class);
 		$this->command = $this->getMockBuilder(Delete::class)
 			->setConstructorArgs([$this->systemTagManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$tagId = 69;
 
 		$this->input->method('getArgument')
@@ -57,7 +58,7 @@ class DeleteTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testNotFound() {
+	public function testNotFound(): void {
 		$tagId = 69;
 
 		$this->input->method('getArgument')
@@ -69,7 +70,7 @@ class DeleteTest extends TestCase {
 			});
 
 		$this->systemTagManager->method('deleteTags')
-			->willReturnCallback(function ($tagId) {
+			->willReturnCallback(function ($tagId): void {
 				throw new TagNotFoundException();
 			});
 

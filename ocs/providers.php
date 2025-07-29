@@ -1,4 +1,8 @@
 <?php
+
+use OCP\IRequest;
+use OCP\Server;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,9 +13,9 @@ require_once __DIR__ . '/../lib/base.php';
 
 header('Content-type: application/xml');
 
-$request = \OC::$server->getRequest();
+$request = Server::get(IRequest::class);
 
-$url = $request->getServerProtocol() . '://' . substr($request->getServerHost() . $request->getRequestUri(), 0, -17).'ocs/v1.php/';
+$url = $request->getServerProtocol() . '://' . substr($request->getServerHost() . $request->getRequestUri(), 0, -17) . 'ocs/v1.php/';
 
 $writer = new XMLWriter();
 $writer->openURI('php://output');

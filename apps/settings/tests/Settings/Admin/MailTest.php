@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,22 +8,22 @@ namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Mail;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class MailTest extends TestCase {
-	/** @var Mail */
-	private $admin;
-	/** @var IConfig */
-	private $config;
-	/** @var IL10N */
-	private $l10n;
+
+	private Mail $admin;
+	private IConfig&MockObject $config;
+	private IL10N&MockObject $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->admin = new Mail(
 			$this->config,
@@ -30,7 +31,22 @@ class MailTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public static function dataGetForm(): array {
+		return [
+			[true],
+			[false],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetForm')]
+	public function testGetForm(bool $sendmail) {
+		$finder = $this->createMock(IBinaryFinder::class);
+		$finder->expects(self::once())
+			->method('findBinaryPath')
+			->with('sendmail')
+			->willReturn($sendmail ? '/usr/bin/sendmail': false);
+		$this->overwriteService(IBinaryFinder::class, $finder);
+
 		$this->config
 			->expects($this->any())
 			->method('getSystemValue')
@@ -51,7 +67,7 @@ class MailTest extends TestCase {
 			'settings',
 			'settings/admin/additional-mail',
 			[
-				'sendmail_is_available' => (bool)\OC_Helper::findBinaryPath('sendmail'),
+				'sendmail_is_available' => $sendmail,
 				'mail_domain' => 'mx.nextcloud.com',
 				'mail_from_address' => 'no-reply@nextcloud.com',
 				'mail_smtpmode' => 'smtp',
@@ -69,11 +85,11 @@ class MailTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('server', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(10, $this->admin->getPriority());
 	}
 }

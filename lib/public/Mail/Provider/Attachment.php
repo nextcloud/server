@@ -32,7 +32,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 		protected ?string $contents,
 		protected ?string $name,
 		protected ?string $type,
-		protected bool $embedded = false
+		protected bool $embedded = false,
 	) {
 	}
 
@@ -57,7 +57,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return string | null returns the attachment file name or null if not set
 	 */
-	public function getName(): string|null {
+	public function getName(): ?string {
 		return $this->name;
 	}
 
@@ -82,7 +82,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return string | null returns the attachment mime type or null if not set
 	 */
-	public function getType(): string|null {
+	public function getType(): ?string {
 		return $this->type;
 	}
 
@@ -107,7 +107,7 @@ class Attachment implements \OCP\Mail\Provider\IAttachment {
 	 *
 	 * @return string | null returns the attachment contents or null if not set
 	 */
-	public function getContents(): string|null {
+	public function getContents(): ?string {
 		return $this->contents;
 	}
 

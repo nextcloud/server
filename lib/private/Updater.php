@@ -31,6 +31,7 @@ use OCP\HintException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\ServerVersion;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -53,11 +54,12 @@ class Updater extends BasicEmitter {
 	];
 
 	public function __construct(
+		private ServerVersion $serverVersion,
 		private IConfig $config,
 		private IAppConfig $appConfig,
 		private Checker $checker,
 		private ?LoggerInterface $log,
-		private Installer $installer
+		private Installer $installer,
 	) {
 	}
 
@@ -82,14 +84,14 @@ class Updater extends BasicEmitter {
 		}
 
 		// Clear CAN_INSTALL file if not on git
-		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
+		if ($this->serverVersion->getChannel() !== 'git' && is_file(\OC::$configDir . '/CAN_INSTALL')) {
 			if (!unlink(\OC::$configDir . '/CAN_INSTALL')) {
 				$this->log->error('Could not cleanup CAN_INSTALL from your config folder. Please remove this file manually.');
 			}
 		}
 
 		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
-		$currentVersion = implode('.', \OCP\Util::getVersion());
+		$currentVersion = implode('.', $this->serverVersion->getVersion());
 
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, ['app' => 'core']);
 
@@ -100,13 +102,13 @@ class Updater extends BasicEmitter {
 			$this->log->error($exception->getMessage(), [
 				'exception' => $exception,
 			]);
-			$this->emit('\OC\Updater', 'failure', [$exception->getMessage() . ': ' .$exception->getHint()]);
+			$this->emit('\OC\Updater', 'failure', [$exception->getMessage() . ': ' . $exception->getHint()]);
 			$success = false;
 		} catch (\Exception $exception) {
 			$this->log->error($exception->getMessage(), [
 				'exception' => $exception,
 			]);
-			$this->emit('\OC\Updater', 'failure', [get_class($exception) . ': ' .$exception->getMessage()]);
+			$this->emit('\OC\Updater', 'failure', [get_class($exception) . ': ' . $exception->getMessage()]);
 			$success = false;
 		}
 
@@ -165,8 +167,8 @@ class Updater extends BasicEmitter {
 
 		// Vendor was not set correctly on install, so we have to white-list known versions
 		if ($currentVendor === '' && (
-			isset($allowedPreviousVersions['owncloud'][$oldVersion]) ||
-			isset($allowedPreviousVersions['owncloud'][$majorMinor])
+			isset($allowedPreviousVersions['owncloud'][$oldVersion])
+			|| isset($allowedPreviousVersions['owncloud'][$majorMinor])
 		)) {
 			$currentVendor = 'owncloud';
 			$this->config->setAppValue('core', 'vendor', $currentVendor);
@@ -174,13 +176,13 @@ class Updater extends BasicEmitter {
 
 		if ($currentVendor === 'nextcloud') {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
-				&& (version_compare($oldVersion, $newVersion, '<=') ||
-					$this->config->getSystemValueBool('debug', false));
+				&& (version_compare($oldVersion, $newVersion, '<=')
+					|| $this->config->getSystemValueBool('debug', false));
 		}
 
 		// Check if the instance can be migrated
-		return isset($allowedPreviousVersions[$currentVendor][$majorMinor]) ||
-			isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
+		return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
+			|| isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
 	}
 
 	/**
@@ -240,7 +242,7 @@ class Updater extends BasicEmitter {
 		$appManager = \OC::$server->getAppManager();
 
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps($appManager->getInstalledApps());
+		$this->upgradeAppStoreApps($appManager->getEnabledApps());
 		$autoDisabledApps = $appManager->getAutoDisabledApps();
 		if (!empty($autoDisabledApps)) {
 			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);
@@ -383,6 +385,13 @@ class Updater extends BasicEmitter {
 				if ($this->installer->isUpdateAvailable($app)) {
 					$this->emit('\OC\Updater', 'upgradeAppStoreApp', [$app]);
 					$this->installer->updateAppstoreApp($app);
+				} elseif (!empty($previousEnableStates)) {
+					/**
+					 * When updating a local app we still need to run updateApp
+					 * so that repair steps and migrations are correctly executed
+					 * Ref: https://github.com/nextcloud/server/issues/53985
+					 */
+					\OC_App::updateApp($app);
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 
@@ -410,29 +419,29 @@ class Updater extends BasicEmitter {
 		$dispatcher->addListener(
 			MigratorExecuteSqlEvent::class,
 			function (MigratorExecuteSqlEvent $event) use ($log): void {
-				$log->info(get_class($event).': ' . $event->getSql() . ' (' . $event->getCurrentStep() . ' of ' . $event->getMaxStep() . ')', ['app' => 'updater']);
+				$log->info(get_class($event) . ': ' . $event->getSql() . ' (' . $event->getCurrentStep() . ' of ' . $event->getMaxStep() . ')', ['app' => 'updater']);
 			}
 		);
 
 		$repairListener = function (Event $event) use ($log): void {
 			if ($event instanceof RepairStartEvent) {
-				$log->info(get_class($event).': Starting ... ' . $event->getMaxStep() .  ' (' . $event->getCurrentStepName() . ')', ['app' => 'updater']);
+				$log->info(get_class($event) . ': Starting ... ' . $event->getMaxStep() . ' (' . $event->getCurrentStepName() . ')', ['app' => 'updater']);
 			} elseif ($event instanceof RepairAdvanceEvent) {
 				$desc = $event->getDescription();
 				if (empty($desc)) {
 					$desc = '';
 				}
-				$log->info(get_class($event).': ' . $desc . ' (' . $event->getIncrement() . ')', ['app' => 'updater']);
+				$log->info(get_class($event) . ': ' . $desc . ' (' . $event->getIncrement() . ')', ['app' => 'updater']);
 			} elseif ($event instanceof RepairFinishEvent) {
 				$log->info(get_class($event), ['app' => 'updater']);
 			} elseif ($event instanceof RepairStepEvent) {
-				$log->info(get_class($event).': Repair step: ' . $event->getStepName(), ['app' => 'updater']);
+				$log->info(get_class($event) . ': Repair step: ' . $event->getStepName(), ['app' => 'updater']);
 			} elseif ($event instanceof RepairInfoEvent) {
-				$log->info(get_class($event).': Repair info: ' . $event->getMessage(), ['app' => 'updater']);
+				$log->info(get_class($event) . ': Repair info: ' . $event->getMessage(), ['app' => 'updater']);
 			} elseif ($event instanceof RepairWarningEvent) {
-				$log->warning(get_class($event).': Repair warning: ' . $event->getMessage(), ['app' => 'updater']);
+				$log->warning(get_class($event) . ': Repair warning: ' . $event->getMessage(), ['app' => 'updater']);
 			} elseif ($event instanceof RepairErrorEvent) {
-				$log->error(get_class($event).': Repair error: ' . $event->getMessage(), ['app' => 'updater']);
+				$log->error(get_class($event) . ': Repair error: ' . $event->getMessage(), ['app' => 'updater']);
 			}
 		};
 

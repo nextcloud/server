@@ -6,14 +6,14 @@
 import type { TreeNode } from '../services/FolderTree.ts'
 
 import PQueue from 'p-queue'
-import { Folder, Node, View, getNavigation } from '@nextcloud/files'
+import { FileType, Folder, Node, View, getNavigation } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { emit, subscribe } from '@nextcloud/event-bus'
 import { isSamePath } from '@nextcloud/paths'
 import { loadState } from '@nextcloud/initial-state'
 
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
-import FolderMultipleSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
+import FolderMultipleSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 
 import {
 	folderTreeId,
@@ -77,7 +77,6 @@ const registerNodeView = (node: TreeNode | Folder) => {
 		name: node.displayName ?? node.displayname ?? node.basename,
 
 		icon: FolderSvg,
-		order: 0, // TODO Allow undefined order for natural sort
 
 		getContents,
 		loadChildViews: getLoadChildViews(node),
@@ -100,21 +99,21 @@ const removeFolderViewSource = (source: string) => {
 }
 
 const onCreateNode = (node: Node) => {
-	if (!(node instanceof Folder)) {
+	if (node.type !== FileType.Folder) {
 		return
 	}
 	registerNodeView(node)
 }
 
 const onDeleteNode = (node: Node) => {
-	if (!(node instanceof Folder)) {
+	if (node.type !== FileType.Folder) {
 		return
 	}
 	removeFolderView(node)
 }
 
 const onMoveNode = ({ node, oldSource }) => {
-	if (!(node instanceof Folder)) {
+	if (node.type !== FileType.Folder) {
 		return
 	}
 	removeFolderViewSource(oldSource)

@@ -8,9 +8,12 @@ declare(strict_types=1);
 namespace OC\Core\Command\Info;
 
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Wrapper\Encryption;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\GroupFolders\Mount\GroupMountPoint;
+use OCP\Files\File as OCPFile;
 use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
 use OCP\Files\Mount\IMountPoint;
@@ -32,7 +35,7 @@ class File extends Command {
 	public function __construct(
 		IFactory $l10nFactory,
 		private FileUtils $fileUtils,
-		private \OC\Encryption\Util $encryptionUtil
+		private \OC\Encryption\Util $encryptionUtil,
 	) {
 		$this->l10n = $l10nFactory->get('core');
 		parent::__construct();
@@ -61,24 +64,40 @@ class File extends Command {
 		$output->writeln('  fileid: ' . $node->getId());
 		$output->writeln('  mimetype: ' . $node->getMimetype());
 		$output->writeln('  modified: ' . (string)$this->l10n->l('datetime', $node->getMTime()));
-		$output->writeln('  ' . ($node->isEncrypted() ? 'encrypted' : 'not encrypted'));
-		if ($node->isEncrypted()) {
+
+		if ($node instanceof OCPFile && $node->isEncrypted()) {
+			$output->writeln('  ' . 'server-side encrypted: yes');
 			$keyPath = $this->encryptionUtil->getFileKeyDir('', $node->getPath());
 			if ($this->rootView->file_exists($keyPath)) {
 				$output->writeln('    encryption key at: ' . $keyPath);
 			} else {
 				$output->writeln('    <error>encryption key not found</error> should be located at: ' . $keyPath);
 			}
+			$storage = $node->getStorage();
+			if ($storage->instanceOfStorage(Encryption::class)) {
+				/** @var Encryption $storage */
+				if (!$storage->hasValidHeader($node->getInternalPath())) {
+					$output->writeln('    <error>file doesn\'t have a valid encryption header</error>');
+				}
+			} else {
+				$output->writeln('    <error>file is marked as encrypted, but encryption doesn\'t seem to be setup</error>');
+			}
 		}
+
+		if ($node instanceof Folder && $node->isEncrypted() || $node instanceof OCPFile && $node->getParent()->isEncrypted()) {
+			$output->writeln('  ' . 'end-to-end encrypted: yes');
+		}
+
 		$output->writeln('  size: ' . Util::humanFileSize($node->getSize()));
 		$output->writeln('  etag: ' . $node->getEtag());
+		$output->writeln('  permissions: ' . $this->fileUtils->formatPermissions($node->getType(), $node->getPermissions()));
 		if ($node instanceof Folder) {
 			$children = $node->getDirectoryListing();
 			$childSize = array_sum(array_map(function (Node $node) {
 				return $node->getSize();
 			}, $children));
 			if ($childSize != $node->getSize()) {
-				$output->writeln('    <error>warning: folder has a size of ' . Util::humanFileSize($node->getSize()) ." but it's children sum up to " . Util::humanFileSize($childSize) . '</error>.');
+				$output->writeln('    <error>warning: folder has a size of ' . Util::humanFileSize($node->getSize()) . " but it's children sum up to " . Util::humanFileSize($childSize) . '</error>.');
 				$output->writeln('    Run <info>occ files:scan --path ' . $node->getPath() . '</info> to attempt to resolve this.');
 			}
 			if ($showChildren) {
@@ -157,10 +176,10 @@ class File extends Command {
 		}
 		if ($input->getOption('storage-tree')) {
 			$storageTmp = $storage;
-			$storageClass = get_class($storageTmp).' (cache:'.get_class($storageTmp->getCache()).')';
-			while ($storageTmp instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+			$storageClass = get_class($storageTmp) . ' (cache:' . get_class($storageTmp->getCache()) . ')';
+			while ($storageTmp instanceof Wrapper) {
 				$storageTmp = $storageTmp->getWrapperStorage();
-				$storageClass .= "\n\t".'> '.get_class($storageTmp).' (cache:'.get_class($storageTmp->getCache()).')';
+				$storageClass .= "\n\t" . '> ' . get_class($storageTmp) . ' (cache:' . get_class($storageTmp->getCache()) . ')';
 			}
 			$output->writeln('  storage wrapping: ' . $storageClass);
 		}

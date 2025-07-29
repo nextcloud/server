@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,18 +16,11 @@ use Sabre\VObject\InvalidDataException;
 
 class CalDAVRemoveEmptyValue implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	private LoggerInterface $logger;
-
-	public function __construct(IDBConnection $db, CalDavBackend $calDavBackend, LoggerInterface $logger) {
-		$this->db = $db;
-		$this->calDavBackend = $calDavBackend;
-		$this->logger = $logger;
+	public function __construct(
+		private IDBConnection $db,
+		private CalDavBackend $calDavBackend,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function getName() {
@@ -80,7 +74,7 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 			$query = $this->db->getQueryBuilder();
 			$query->select($query->func()->count('*', 'num_entries'))
 				->from('calendarobjects');
-			$result = $query->execute();
+			$result = $query->executeQuery();
 			$count = $result->fetchOne();
 			$result->closeCursor();
 
@@ -92,7 +86,7 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 				->setMaxResults($chunkSize);
 			for ($chunk = 0; $chunk < $numChunks; $chunk++) {
 				$query->setFirstResult($chunk * $chunkSize);
-				$result = $query->execute();
+				$result = $query->executeQuery();
 
 				while ($row = $result->fetch()) {
 					if (mb_strpos($row['calendardata'], $pattern) !== false) {
@@ -117,7 +111,7 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 				IQueryBuilder::PARAM_STR
 			));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$rows = $result->fetchAll();
 		$result->closeCursor();
 

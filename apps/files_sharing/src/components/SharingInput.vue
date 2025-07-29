@@ -5,10 +5,13 @@
 
 <template>
 	<div class="sharing-search">
-		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
+		<label class="hidden-visually" :for="shareInputId">
+			{{ isExternal ? t('files_sharing', 'Enter external recipients')
+				: t('files_sharing', 'Search for internal recipients') }}
+		</label>
 		<NcSelect ref="select"
 			v-model="value"
-			input-id="sharing-search-input"
+			:input-id="shareInputId"
 			class="sharing-search__input"
 			:disabled="!canReshare"
 			:loading="loading"
@@ -17,10 +20,11 @@
 			:clear-search-on-blur="() => false"
 			:user-select="true"
 			:options="options"
+			:label-outside="true"
 			@search="asyncFind"
 			@option:selected="onSelected">
 			<template #no-options="{ search }">
-				{{ search ? noResultText : t('files_sharing', 'No recommendations. Start typing.') }}
+				{{ search ? noResultText : placeholder }}
 			</template>
 		</NcSelect>
 	</div>
@@ -32,13 +36,13 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
 import axios from '@nextcloud/axios'
 import debounce from 'debounce'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 import Config from '../services/ConfigService.ts'
 import Share from '../models/Share.ts'
 import ShareRequests from '../mixins/ShareRequests.js'
-import ShareTypes from '../mixins/ShareTypes.js'
 import ShareDetails from '../mixins/ShareDetails.js'
+import { ShareType } from '@nextcloud/sharing'
 
 export default {
 	name: 'SharingInput',
@@ -47,7 +51,7 @@ export default {
 		NcSelect,
 	},
 
-	mixins: [ShareTypes, ShareRequests, ShareDetails],
+	mixins: [ShareRequests, ShareDetails],
 
 	props: {
 		shares: {
@@ -73,6 +77,20 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		isExternal: {
+			type: Boolean,
+			default: false,
+		},
+		placeholder: {
+			type: String,
+			default: '',
+		},
+	},
+
+	setup() {
+		return {
+			shareInputId: `share-input-${Math.random().toString(36).slice(2, 7)}`,
+		}
 	},
 
 	data() {
@@ -105,6 +123,10 @@ export default {
 			if (!this.canReshare) {
 				return t('files_sharing', 'Resharing is not allowed')
 			}
+			if (this.placeholder) {
+				return this.placeholder
+			}
+
 			// We can always search with email addresses for users too
 			if (!allowRemoteSharing) {
 				return t('files_sharing', 'Name or email …')
@@ -133,7 +155,10 @@ export default {
 	},
 
 	mounted() {
-		this.getRecommendations()
+		if (!this.isExternal) {
+			// We can only recommend users, groups etc for internal shares
+			this.getRecommendations()
+		}
 	},
 
 	methods: {
@@ -167,20 +192,30 @@ export default {
 				lookup = true
 			}
 
-			const shareType = [
-				this.SHARE_TYPES.SHARE_TYPE_USER,
-				this.SHARE_TYPES.SHARE_TYPE_GROUP,
-				this.SHARE_TYPES.SHARE_TYPE_REMOTE,
-				this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP,
-				this.SHARE_TYPES.SHARE_TYPE_CIRCLE,
-				this.SHARE_TYPES.SHARE_TYPE_ROOM,
-				this.SHARE_TYPES.SHARE_TYPE_GUEST,
-				this.SHARE_TYPES.SHARE_TYPE_DECK,
-				this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH,
-			]
+			let shareType = []
 
-			if (getCapabilities().files_sharing.public.enabled === true) {
-				shareType.push(this.SHARE_TYPES.SHARE_TYPE_EMAIL)
+			const remoteTypes = [ShareType.Remote, ShareType.RemoteGroup]
+
+			if (this.isExternal && !this.config.showFederatedSharesAsInternal) {
+				shareType.push(...remoteTypes)
+			} else {
+				shareType = shareType.concat([
+					ShareType.User,
+					ShareType.Group,
+					ShareType.Team,
+					ShareType.Room,
+					ShareType.Guest,
+					ShareType.Deck,
+					ShareType.ScienceMesh,
+				])
+
+				if (this.config.showFederatedSharesAsInternal) {
+					shareType.push(...remoteTypes)
+				}
+			}
+
+			if (getCapabilities().files_sharing.public.enabled === true && this.isExternal) {
+				shareType.push(ShareType.Email)
 			}
 
 			let request = null
@@ -317,7 +352,7 @@ export default {
 					return arr
 				}
 				try {
-					if (share.value.shareType === this.SHARE_TYPES.SHARE_TYPE_USER) {
+					if (share.value.shareType === ShareType.User) {
 						// filter out current user
 						if (share.value.shareWith === getCurrentUser().uid) {
 							return arr
@@ -330,7 +365,7 @@ export default {
 					}
 
 					// filter out existing mail shares
-					if (share.value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+					if (share.value.shareType === ShareType.Email) {
 						const emails = this.linkShares.map(elem => elem.shareWith)
 						if (emails.indexOf(share.value.shareWith.trim()) !== -1) {
 							return arr
@@ -368,42 +403,42 @@ export default {
 		 */
 		shareTypeToIcon(type) {
 			switch (type) {
-			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
+			case ShareType.Guest:
 				// default is a user, other icons are here to differentiate
 				// themselves from it, so let's not display the user icon
-				// case this.SHARE_TYPES.SHARE_TYPE_REMOTE:
-				// case this.SHARE_TYPES.SHARE_TYPE_USER:
+				// case ShareType.Remote:
+				// case ShareType.User:
 				return {
 					icon: 'icon-user',
 					iconTitle: t('files_sharing', 'Guest'),
 				}
-			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
-			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
+			case ShareType.RemoteGroup:
+			case ShareType.Group:
 				return {
 					icon: 'icon-group',
 					iconTitle: t('files_sharing', 'Group'),
 				}
-			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
+			case ShareType.Email:
 				return {
 					icon: 'icon-mail',
 					iconTitle: t('files_sharing', 'Email'),
 				}
-			case this.SHARE_TYPES.SHARE_TYPE_CIRCLE:
+			case ShareType.Team:
 				return {
 					icon: 'icon-teams',
 					iconTitle: t('files_sharing', 'Team'),
 				}
-			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
+			case ShareType.Room:
 				return {
 					icon: 'icon-room',
 					iconTitle: t('files_sharing', 'Talk conversation'),
 				}
-			case this.SHARE_TYPES.SHARE_TYPE_DECK:
+			case ShareType.Deck:
 				return {
 					icon: 'icon-deck',
 					iconTitle: t('files_sharing', 'Deck board'),
 				}
-			case this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH:
+			case ShareType.Sciencemesh:
 				return {
 					icon: 'icon-sciencemesh',
 					iconTitle: t('files_sharing', 'ScienceMesh'),
@@ -421,13 +456,13 @@ export default {
 		 */
 		formatForMultiselect(result) {
 			let subname
-			if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_USER && this.config.shouldAlwaysShowUnique) {
+			if (result.value.shareType === ShareType.User && this.config.shouldAlwaysShowUnique) {
 				subname = result.shareWithDisplayNameUnique ?? ''
-			} else if ((result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE
-					|| result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
+			} else if ((result.value.shareType === ShareType.Remote
+					|| result.value.shareType === ShareType.RemoteGroup
 			) && result.value.server) {
 				subname = t('files_sharing', 'on {server}', { server: result.value.server })
-			} else if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+			} else if (result.value.shareType === ShareType.Email) {
 				subname = result.value.shareWith
 			} else {
 				subname = result.shareWithDescription ?? ''
@@ -437,7 +472,7 @@ export default {
 				shareWith: result.value.shareWith,
 				shareType: result.value.shareType,
 				user: result.uuid || result.value.shareWith,
-				isNoUser: result.value.shareType !== this.SHARE_TYPES.SHARE_TYPE_USER,
+				isNoUser: result.value.shareType !== ShareType.User,
 				displayName: result.name || result.label,
 				subname,
 				shareWithDisplayNameUnique: result.shareWithDisplayNameUnique || '',

@@ -16,10 +16,7 @@ use Sabre\DAV\ServerPlugin;
 
 class MaintenancePlugin extends ServerPlugin {
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var \OCP\IL10N */
+	/** @var IL10N */
 	private $l10n;
 
 	/**
@@ -32,8 +29,10 @@ class MaintenancePlugin extends ServerPlugin {
 	/**
 	 * @param IConfig $config
 	 */
-	public function __construct(IConfig $config, IL10N $l10n) {
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+		IL10N $l10n,
+	) {
 		$this->l10n = \OC::$server->getL10N('dav');
 	}
 

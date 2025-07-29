@@ -28,7 +28,9 @@ class DataFingerprint extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$this->config->setSystemValue('data-fingerprint', md5($this->timeFactory->getTime()));
+		$fingerPrint = md5($this->timeFactory->getTime());
+		$this->config->setSystemValue('data-fingerprint', $fingerPrint);
+		$output->writeln('<info>Updated data-fingerprint to ' . $fingerPrint . '</info>');
 		return 0;
 	}
 }

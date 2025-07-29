@@ -6,18 +6,28 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-use OC\Encryption\HookManager;
+
+use OC\Profiler\BuiltInProfiler;
+use OC\Share20\GroupDeletedListener;
 use OC\Share20\Hooks;
+use OC\Share20\UserDeletedListener;
+use OC\Share20\UserRemovedListener;
+use OC\User\DisabledUserException;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\BeforeFileSystemSetupEvent;
+use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
-use OCP\Share;
+use OCP\Template\ITemplateManager;
 use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use function OCP\Log\logger;
@@ -31,10 +41,6 @@ require_once 'public/Constants.php';
  */
 class OC {
 	/**
-	 * Associative array for autoloading. classname => filename
-	 */
-	public static array $CLASSPATH = [];
-	/**
 	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
 	 */
 	public static string $SERVERROOT = '';
@@ -43,7 +49,7 @@ class OC {
 	 */
 	private static string $SUBURI = '';
 	/**
-	 * the Nextcloud root path for http requests (e.g. nextcloud/)
+	 * the Nextcloud root path for http requests (e.g. /nextcloud)
 	 */
 	public static string $WEBROOT = '';
 	/**
@@ -63,8 +69,6 @@ class OC {
 	 * check if Nextcloud runs in cli mode
 	 */
 	public static bool $CLI = false;
-
-	public static \OC\Autoloader $loader;
 
 	public static \Composer\Autoload\ClassLoader $composerAutoloader;
 
@@ -119,7 +123,6 @@ class OC {
 			}
 		}
 
-
 		if (OC::$CLI) {
 			OC::$WEBROOT = self::$config->getValue('overwritewebroot', '');
 		} else {
@@ -139,9 +142,9 @@ class OC {
 
 			// Resolve /nextcloud to /nextcloud/ to ensure to always have a trailing
 			// slash which is required by URL generation.
-			if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === \OC::$WEBROOT &&
-					substr($_SERVER['REQUEST_URI'], -1) !== '/') {
-				header('Location: '.\OC::$WEBROOT.'/');
+			if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === \OC::$WEBROOT
+					&& substr($_SERVER['REQUEST_URI'], -1) !== '/') {
+				header('Location: ' . \OC::$WEBROOT . '/');
 				exit();
 			}
 		}
@@ -180,29 +183,29 @@ class OC {
 	}
 
 	public static function checkConfig(): void {
-		$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-
 		// Create config if it does not already exist
-		$configFilePath = self::$configDir .'/config.php';
+		$configFilePath = self::$configDir . '/config.php';
 		if (!file_exists($configFilePath)) {
 			@touch($configFilePath);
 		}
 
 		// Check if config is writable
 		$configFileWritable = is_writable($configFilePath);
-		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
+		$configReadOnly = Server::get(IConfig::class)->getSystemValueBool('config_is_read_only');
+		if (!$configFileWritable && !$configReadOnly
 			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
 			$urlGenerator = Server::get(IURLGenerator::class);
+			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 
 			if (self::$CLI) {
-				echo $l->t('Cannot write into "config" directory!')."\n";
-				echo $l->t('This can usually be fixed by giving the web server write access to the config directory.')."\n";
+				echo $l->t('Cannot write into "config" directory!') . "\n";
+				echo $l->t('This can usually be fixed by giving the web server write access to the config directory.') . "\n";
 				echo "\n";
-				echo $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.')."\n";
-				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ])."\n";
+				echo $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.') . "\n";
+				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ]) . "\n";
 				exit;
 			} else {
-				OC_Template::printErrorPage(
+				Server::get(ITemplateManager::class)->printErrorPage(
 					$l->t('Cannot write into "config" directory!'),
 					$l->t('This can usually be fixed by giving the web server write access to the config directory.') . ' '
 					. $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.') . ' '
@@ -238,7 +241,7 @@ class OC {
 			header('Retry-After: 120');
 
 			// render error page
-			$template = new OC_Template('', 'update.user', 'guest');
+			$template = Server::get(ITemplateManager::class)->getTemplate('', 'update.user', 'guest');
 			\OCP\Util::addScript('core', 'maintenance');
 			\OCP\Util::addStyle('core', 'guest');
 			$template->printPage();
@@ -255,7 +258,7 @@ class OC {
 		$tooBig = false;
 		if (!$disableWebUpdater) {
 			$apps = Server::get(\OCP\App\IAppManager::class);
-			if ($apps->isInstalled('user_ldap')) {
+			if ($apps->isEnabledForAnyone('user_ldap')) {
 				$qb = Server::get(\OCP\IDBConnection::class)->getQueryBuilder();
 
 				$result = $qb->select($qb->func()->count('*', 'user_count'))
@@ -266,7 +269,7 @@ class OC {
 
 				$tooBig = ($row['user_count'] > 50);
 			}
-			if (!$tooBig && $apps->isInstalled('user_saml')) {
+			if (!$tooBig && $apps->isEnabledForAnyone('user_saml')) {
 				$qb = Server::get(\OCP\IDBConnection::class)->getQueryBuilder();
 
 				$result = $qb->select($qb->func()->count('*', 'user_count'))
@@ -279,23 +282,24 @@ class OC {
 			}
 			if (!$tooBig) {
 				// count users
-				$stats = Server::get(\OCP\IUserManager::class)->countUsers();
-				$totalUsers = array_sum($stats);
+				$totalUsers = Server::get(\OCP\IUserManager::class)->countUsersTotal(51);
 				$tooBig = ($totalUsers > 50);
 			}
 		}
-		$ignoreTooBigWarning = isset($_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup']) &&
-			$_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'] === 'IAmSuperSureToDoThis';
+		$ignoreTooBigWarning = isset($_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'])
+			&& $_GET['IKnowThatThisIsABigInstanceAndTheUpdateRequestCouldRunIntoATimeoutAndHowToRestoreABackup'] === 'IAmSuperSureToDoThis';
 
 		if ($disableWebUpdater || ($tooBig && !$ignoreTooBigWarning)) {
 			// send http status 503
 			http_response_code(503);
 			header('Retry-After: 120');
 
+			$serverVersion = \OCP\Server::get(\OCP\ServerVersion::class);
+
 			// render error page
-			$template = new OC_Template('', 'update.use-cli', 'guest');
+			$template = Server::get(ITemplateManager::class)->getTemplate('', 'update.use-cli', 'guest');
 			$template->assign('productName', 'nextcloud'); // for now
-			$template->assign('version', OC_Util::getVersionString());
+			$template->assign('version', $serverVersion->getVersionString());
 			$template->assign('tooBig', $tooBig);
 			$template->assign('cliUpgradeLink', $cliUpgradeLink);
 
@@ -320,8 +324,8 @@ class OC {
 		/** @var \OC\App\AppManager $appManager */
 		$appManager = Server::get(\OCP\App\IAppManager::class);
 
-		$tmpl = new OC_Template('', 'update.admin', 'guest');
-		$tmpl->assign('version', OC_Util::getVersionString());
+		$tmpl = Server::get(ITemplateManager::class)->getTemplate('', 'update.admin', 'guest');
+		$tmpl->assign('version', \OCP\Server::get(\OCP\ServerVersion::class)->getVersionString());
 		$tmpl->assign('isAppsOnlyUpgrade', $isAppsOnlyUpgrade);
 
 		// get third party apps
@@ -379,18 +383,36 @@ class OC {
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', 'true');
 
+		// Do not initialize sessions for 'status.php' requests
+		// Monitoring endpoints can quickly flood session handlers
+		// and 'status.php' doesn't require sessions anyway
+		if (str_ends_with($request->getScriptName(), '/status.php')) {
+			return;
+		}
+
 		// set the cookie path to the Nextcloud directory
 		$cookie_path = OC::$WEBROOT ? : '/';
 		ini_set('session.cookie_path', $cookie_path);
+
+		// set the cookie domain to the Nextcloud domain
+		$cookie_domain = self::$config->getValue('cookie_domain', '');
+		if ($cookie_domain) {
+			ini_set('session.cookie_domain', $cookie_domain);
+		}
 
 		// Let the session name be changed in the initSession Hook
 		$sessionName = OC_Util::getInstanceId();
 
 		try {
+			$logger = null;
+			if (Server::get(\OC\SystemConfig::class)->getValue('installed', false)) {
+				$logger = logger('core');
+			}
+
 			// set the session name to the instance id - which is unique
 			$session = new \OC\Session\Internal(
 				$sessionName,
-				logger('core'),
+				$logger,
 			);
 
 			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);
@@ -401,7 +423,7 @@ class OC {
 		} catch (Exception $e) {
 			Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'base','exception' => $e]);
 			//show the user a detailed error page
-			OC_Template::printExceptionErrorPage($e, 500);
+			Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
 			die();
 		}
 
@@ -437,6 +459,27 @@ class OC {
 	 * Try to set some values to the required Nextcloud default
 	 */
 	public static function setRequiredIniValues(): void {
+		// Don't display errors and log them
+		@ini_set('display_errors', '0');
+		@ini_set('log_errors', '1');
+
+		// Try to configure php to enable big file uploads.
+		// This doesn't work always depending on the webserver and php configuration.
+		// Let's try to overwrite some defaults if they are smaller than 1 hour
+
+		if (intval(@ini_get('max_execution_time') ?: 0) < 3600) {
+			@ini_set('max_execution_time', strval(3600));
+		}
+
+		if (intval(@ini_get('max_input_time') ?: 0) < 3600) {
+			@ini_set('max_input_time', strval(3600));
+		}
+
+		// Try to set the maximum execution time to the largest time limit we have
+		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+			@set_time_limit(max(intval(@ini_get('max_execution_time')), intval(@ini_get('max_input_time'))));
+		}
+
 		@ini_set('default_charset', 'UTF-8');
 		@ini_set('gd.jpeg_ignore_warning', '1');
 	}
@@ -481,7 +524,7 @@ class OC {
 	 * We use an additional cookie since we want to protect logout CSRF and
 	 * also we can't directly interfere with PHP's session mechanism.
 	 */
-	private static function performSameSiteCookieProtection(\OCP\IConfig $config): void {
+	private static function performSameSiteCookieProtection(IConfig $config): void {
 		$request = Server::get(IRequest::class);
 
 		// Some user agents are notorious and don't really properly follow HTTP
@@ -509,8 +552,10 @@ class OC {
 			$processingScript = explode('/', $requestUri);
 			$processingScript = $processingScript[count($processingScript) - 1];
 
-			// index.php routes are handled in the middleware
-			if ($processingScript === 'index.php') {
+			if ($processingScript === 'index.php' // index.php routes are handled in the middleware
+				|| $processingScript === 'cron.php' // and cron.php does not need any authentication at all
+				|| $processingScript === 'public.php' // For public.php, auth for password protected shares is done in the PublicAuth plugin
+			) {
 				return;
 			}
 
@@ -533,25 +578,26 @@ class OC {
 	}
 
 	public static function init(): void {
+		// First handle PHP configuration and copy auth headers to the expected
+		// $_SERVER variable before doing anything Server object related
+		self::setRequiredIniValues();
+		self::handleAuthHeaders();
+
 		// prevent any XML processing from loading external entities
 		libxml_set_external_entity_loader(static function () {
 			return null;
 		});
+
+		// Set default timezone before the Server object is booted
+		if (!date_default_timezone_set('UTC')) {
+			throw new \RuntimeException('Could not set timezone to UTC');
+		}
 
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace('\\', '/', substr(__DIR__, 0, -4));
 
 		// register autoloader
 		$loaderStart = microtime(true);
-		require_once __DIR__ . '/autoloader.php';
-		self::$loader = new \OC\Autoloader([
-			OC::$SERVERROOT . '/lib/private/legacy',
-		]);
-		if (defined('PHPUNIT_RUN')) {
-			self::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
-		}
-		spl_autoload_register([self::$loader, 'load']);
-		$loaderEnd = microtime(true);
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
@@ -563,7 +609,7 @@ class OC {
 		try {
 			self::initPaths();
 			// setup 3rdparty autoloader
-			$vendorAutoLoad = OC::$SERVERROOT. '/3rdparty/autoload.php';
+			$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
 			if (!file_exists($vendorAutoLoad)) {
 				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
 			}
@@ -577,12 +623,26 @@ class OC {
 			print($e->getMessage());
 			exit();
 		}
+		$loaderEnd = microtime(true);
+
+		// Enable lazy loading if activated
+		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
 
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
 
-		if (self::$CLI && in_array('--'.\OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
+		try {
+			$profiler = new BuiltInProfiler(
+				Server::get(IConfig::class),
+				Server::get(IRequest::class),
+			);
+			$profiler->start();
+		} catch (\Throwable $e) {
+			logger('core')->error('Failed to start profiler: ' . $e->getMessage(), ['app' => 'base']);
+		}
+
+		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
 			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
 		}
 
@@ -595,41 +655,10 @@ class OC {
 			error_reporting(E_ALL);
 		}
 
-		// Don't display errors and log them
-		@ini_set('display_errors', '0');
-		@ini_set('log_errors', '1');
-
-		if (!date_default_timezone_set('UTC')) {
-			throw new \RuntimeException('Could not set timezone to UTC');
-		}
-
-
-		//try to configure php to enable big file uploads.
-		//this doesn´t work always depending on the webserver and php configuration.
-		//Let´s try to overwrite some defaults if they are smaller than 1 hour
-
-		if (intval(@ini_get('max_execution_time') ?: 0) < 3600) {
-			@ini_set('max_execution_time', strval(3600));
-		}
-
-		if (intval(@ini_get('max_input_time') ?: 0) < 3600) {
-			@ini_set('max_input_time', strval(3600));
-		}
-
-		//try to set the maximum execution time to the largest time limit we have
-		if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
-			@set_time_limit(max(intval(@ini_get('max_execution_time')), intval(@ini_get('max_input_time'))));
-		}
-
-		self::setRequiredIniValues();
-		self::handleAuthHeaders();
-		$systemConfig = Server::get(\OC\SystemConfig::class);
-		self::registerAutoloaderCache($systemConfig);
-
 		// initialize intl fallback if necessary
 		OC_Util::isSetLocaleWorking();
 
-		$config = Server::get(\OCP\IConfig::class);
+		$config = Server::get(IConfig::class);
 		if (!defined('PHPUNIT_RUN')) {
 			$errorHandler = new OC\Log\ErrorHandler(
 				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
@@ -638,7 +667,7 @@ class OC {
 			if ($config->getSystemValueBool('debug', false)) {
 				set_error_handler([$errorHandler, 'onAll'], E_ALL);
 				if (\OC::$CLI) {
-					$exceptionHandler = ['OC_Template', 'printExceptionErrorPage'];
+					$exceptionHandler = [Server::get(ITemplateManager::class), 'printExceptionErrorPage'];
 				}
 			} else {
 				set_error_handler([$errorHandler, 'onError']);
@@ -658,8 +687,12 @@ class OC {
 		if (!function_exists('simplexml_load_file')) {
 			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
 		}
-		
-		OC_App::loadApps(['session']);
+
+		$systemConfig = Server::get(\OC\SystemConfig::class);
+		$appManager = Server::get(\OCP\App\IAppManager::class);
+		if ($systemConfig->getValue('installed', false)) {
+			$appManager->loadApps(['session']);
+		}
 		if (!self::$CLI) {
 			self::initSession();
 		}
@@ -672,13 +705,14 @@ class OC {
 		self::performSameSiteCookieProtection($config);
 
 		if (!defined('OC_CONSOLE')) {
+			$eventLogger->start('check_server', 'Run a few configuration checks');
 			$errors = OC_Util::checkServer($systemConfig);
 			if (count($errors) > 0) {
 				if (!self::$CLI) {
 					http_response_code(503);
-					OC_Util::addStyle('guest');
+					Util::addStyle('guest');
 					try {
-						OC_Template::printGuestPage('', 'error', ['errors' => $errors]);
+						Server::get(ITemplateManager::class)->printGuestPage('', 'error', ['errors' => $errors]);
 						exit;
 					} catch (\Exception $e) {
 						// In case any error happens when showing the error page, we simply fall back to posting the text.
@@ -706,6 +740,7 @@ class OC {
 			} elseif (self::$CLI && $config->getSystemValueBool('installed', false)) {
 				$config->deleteAppValue('core', 'cronErrors');
 			}
+			$eventLogger->end('check_server');
 		}
 
 		// User and Groups
@@ -713,7 +748,8 @@ class OC {
 			self::$server->getSession()->set('user_id', '');
 		}
 
-		OC_User::useBackend(new \OC\User\Database());
+		$eventLogger->start('setup_backends', 'Setup group and user backends');
+		Server::get(\OCP\IUserManager::class)->registerBackend(new \OC\User\Database());
 		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
 
 		// Subscribe to the hook
@@ -731,6 +767,7 @@ class OC {
 			// Run upgrades in incognito mode
 			OC_User::setIncognitoMode(true);
 		}
+		$eventLogger->end('setup_backends');
 
 		self::registerCleanupHooks($systemConfig);
 		self::registerShareHooks($systemConfig);
@@ -743,9 +780,7 @@ class OC {
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue('installed', false)) {
-			OC_App::loadApp('settings');
-			/* Build core application to make sure that listeners are registered */
-			Server::get(\OC\Core\Application::class);
+			$appManager->loadApp('settings');
 		}
 
 		//make sure temporary files are cleaned up
@@ -757,7 +792,7 @@ class OC {
 		// Check whether the sample configuration has been copied
 		if ($systemConfig->getValue('copied_sample_config', false)) {
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-			OC_Template::printErrorPage(
+			Server::get(ITemplateManager::class)->printErrorPage(
 				$l->t('Sample configuration detected'),
 				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
 				503
@@ -799,7 +834,7 @@ class OC {
 					]
 				);
 
-				$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
+				$tmpl = Server::get(ITemplateManager::class)->getTemplate('core', 'untrustedDomain', 'guest');
 				$tmpl->assign('docUrl', Server::get(IURLGenerator::class)->linkToDocs('admin-trusted-domains'));
 				$tmpl->printPage();
 
@@ -812,6 +847,21 @@ class OC {
 		$eventLogger->start('request', 'Full request after boot');
 		register_shutdown_function(function () use ($eventLogger) {
 			$eventLogger->end('request');
+		});
+
+		register_shutdown_function(function () {
+			$memoryPeak = memory_get_peak_usage();
+			$logLevel = match (true) {
+				$memoryPeak > 500_000_000 => ILogger::FATAL,
+				$memoryPeak > 400_000_000 => ILogger::ERROR,
+				$memoryPeak > 300_000_000 => ILogger::WARN,
+				default => null,
+			};
+			if ($logLevel !== null) {
+				$message = 'Request used more than 300 MB of RAM: ' . Util::humanFileSize($memoryPeak);
+				$logger = Server::get(LoggerInterface::class);
+				$logger->log($logLevel, $message, ['app' => 'core']);
+			}
 		});
 	}
 
@@ -853,15 +903,16 @@ class OC {
 	}
 
 	private static function registerEncryptionWrapperAndHooks(): void {
+		/** @var \OC\Encryption\Manager */
 		$manager = Server::get(\OCP\Encryption\IManager::class);
-		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', $manager, 'setupStorage');
+		Server::get(IEventDispatcher::class)->addListener(
+			BeforeFileSystemSetupEvent::class,
+			$manager->setupStorage(...),
+		);
 
 		$enabled = $manager->isEnabled();
 		if ($enabled) {
-			\OCP\Util::connectHook(Share::class, 'post_shared', HookManager::class, 'postShared');
-			\OCP\Util::connectHook(Share::class, 'post_unshare', HookManager::class, 'postUnshared');
-			\OCP\Util::connectHook('OC_Filesystem', 'post_rename', HookManager::class, 'postRename');
-			\OCP\Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', HookManager::class, 'postRestore');
+			\OC\Encryption\EncryptionEventListener::register(Server::get(IEventDispatcher::class));
 		}
 	}
 
@@ -911,29 +962,11 @@ class OC {
 	 */
 	public static function registerShareHooks(\OC\SystemConfig $systemConfig): void {
 		if ($systemConfig->getValue('installed')) {
-			OC_Hook::connect('OC_User', 'post_deleteUser', Hooks::class, 'post_deleteUser');
-			OC_Hook::connect('OC_User', 'post_deleteGroup', Hooks::class, 'post_deleteGroup');
 
-			/** @var IEventDispatcher $dispatcher */
 			$dispatcher = Server::get(IEventDispatcher::class);
-			$dispatcher->addServiceListener(UserRemovedEvent::class, \OC\Share20\UserRemovedListener::class);
-		}
-	}
-
-	protected static function registerAutoloaderCache(\OC\SystemConfig $systemConfig): void {
-		// The class loader takes an optional low-latency cache, which MUST be
-		// namespaced. The instanceid is used for namespacing, but might be
-		// unavailable at this point. Furthermore, it might not be possible to
-		// generate an instanceid via \OC_Util::getInstanceId() because the
-		// config file may not be writable. As such, we only register a class
-		// loader cache if instanceid is available without trying to create one.
-		$instanceId = $systemConfig->getValue('instanceid', null);
-		if ($instanceId) {
-			try {
-				$memcacheFactory = Server::get(\OCP\ICacheFactory::class);
-				self::$loader->setMemoryCache($memcacheFactory->createLocal('Autoloader'));
-			} catch (\Exception $ex) {
-			}
+			$dispatcher->addServiceListener(UserRemovedEvent::class, UserRemovedListener::class);
+			$dispatcher->addServiceListener(GroupDeletedEvent::class, GroupDeletedListener::class);
+			$dispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedListener::class);
 		}
 	}
 
@@ -953,6 +986,7 @@ class OC {
 		}
 
 		$request = Server::get(IRequest::class);
+		$request->throwDecodingExceptionIfAny();
 		$requestPath = $request->getRawPathInfo();
 		if ($requestPath === '/heartbeat') {
 			return;
@@ -971,34 +1005,56 @@ class OC {
 			}
 		}
 
+		$appManager = Server::get(\OCP\App\IAppManager::class);
+
 		// Always load authentication apps
-		OC_App::loadApps(['authentication']);
-		OC_App::loadApps(['extended_authentication']);
+		$appManager->loadApps(['authentication']);
+		$appManager->loadApps(['extended_authentication']);
 
 		// Load minimum set of apps
 		if (!\OCP\Util::needUpgrade()
 			&& !((bool)$systemConfig->getValue('maintenance', false))) {
 			// For logged-in users: Load everything
 			if (Server::get(IUserSession::class)->isLoggedIn()) {
-				OC_App::loadApps();
+				$appManager->loadApps();
 			} else {
 				// For guests: Load only filesystem and logging
-				OC_App::loadApps(['filesystem', 'logging']);
+				$appManager->loadApps(['filesystem', 'logging']);
 
 				// Don't try to login when a client is trying to get a OAuth token.
 				// OAuth needs to support basic auth too, so the login is not valid
 				// inside Nextcloud and the Login exception would ruin it.
 				if ($request->getRawPathInfo() !== '/apps/oauth2/api/v1/token') {
-					self::handleLogin($request);
+					try {
+						self::handleLogin($request);
+					} catch (DisabledUserException $e) {
+						// Disabled users would not be seen as logged in and
+						// trying to log them in would fail, so the login
+						// exception is ignored for the themed stylesheets and
+						// images.
+						if ($request->getRawPathInfo() !== '/apps/theming/theme/default.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/light.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/dark.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/light-highcontrast.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/dark-highcontrast.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/theme/opendyslexic.css'
+							&& $request->getRawPathInfo() !== '/apps/theming/image/background'
+							&& $request->getRawPathInfo() !== '/apps/theming/image/logo'
+							&& $request->getRawPathInfo() !== '/apps/theming/image/logoheader'
+							&& !str_starts_with($request->getRawPathInfo(), '/apps/theming/favicon')
+							&& !str_starts_with($request->getRawPathInfo(), '/apps/theming/icon')) {
+							throw $e;
+						}
+					}
 				}
 			}
 		}
 
 		if (!self::$CLI) {
 			try {
-				if (!((bool)$systemConfig->getValue('maintenance', false)) && !\OCP\Util::needUpgrade()) {
-					OC_App::loadApps(['filesystem', 'logging']);
-					OC_App::loadApps();
+				if (!\OCP\Util::needUpgrade()) {
+					$appManager->loadApps(['filesystem', 'logging']);
+					$appManager->loadApps();
 				}
 				Server::get(\OC\Route\Router::class)->match($request->getRawPathInfo());
 				return;
@@ -1054,7 +1110,7 @@ class OC {
 				logger('core')->emergency($e->getMessage(), ['exception' => $e]);
 			}
 			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-			OC_Template::printErrorPage(
+			Server::get(ITemplateManager::class)->printErrorPage(
 				'404',
 				$l->t('The page could not be found on the server.'),
 				404
@@ -1115,11 +1171,11 @@ class OC {
 	}
 
 	protected static function tryAppAPILogin(OCP\IRequest $request): bool {
-		$appManager = Server::get(OCP\App\IAppManager::class);
 		if (!$request->getHeader('AUTHORIZATION-APP-API')) {
 			return false;
 		}
-		if (!$appManager->isInstalled('app_api')) {
+		$appManager = Server::get(OCP\App\IAppManager::class);
+		if (!$appManager->isEnabledForAnyone('app_api')) {
 			return false;
 		}
 		try {

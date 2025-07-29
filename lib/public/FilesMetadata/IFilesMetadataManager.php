@@ -50,7 +50,7 @@ interface IFilesMetadataManager {
 	public function refreshMetadata(
 		Node $node,
 		int $process = self::PROCESS_LIVE,
-		string $namedEvent = ''
+		string $namedEvent = '',
 	): IFilesMetadata;
 
 	/**
@@ -112,7 +112,7 @@ interface IFilesMetadataManager {
 	public function getMetadataQuery(
 		IQueryBuilder $qb,
 		string $fileTableAlias,
-		string $fileIdField
+		string $fileIdField,
 	): IMetadataQuery;
 
 	/**

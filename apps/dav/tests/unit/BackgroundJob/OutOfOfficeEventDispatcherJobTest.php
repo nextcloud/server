@@ -25,21 +25,11 @@ use Test\TestCase;
 
 class OutOfOfficeEventDispatcherJobTest extends TestCase {
 	private OutOfOfficeEventDispatcherJob $job;
-
-	/** @var MockObject|ITimeFactory */
-	private $timeFactory;
-
-	/** @var MockObject|AbsenceMapper */
-	private $absenceMapper;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var MockObject|IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var MockObject|IUserManager */
-	private $userManager;
+	private ITimeFactory&MockObject $timeFactory;
+	private AbsenceMapper&MockObject $absenceMapper;
+	private LoggerInterface&MockObject $logger;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IUserManager&MockObject $userManager;
 	private MockObject|TimezoneService $timezoneService;
 
 	protected function setUp(): void {
@@ -62,7 +52,7 @@ class OutOfOfficeEventDispatcherJobTest extends TestCase {
 		);
 	}
 
-	public function testDispatchStartEvent() {
+	public function testDispatchStartEvent(): void {
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$absence = new Absence();
@@ -94,7 +84,7 @@ class OutOfOfficeEventDispatcherJobTest extends TestCase {
 		]);
 	}
 
-	public function testDispatchStopEvent() {
+	public function testDispatchStopEvent(): void {
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$absence = new Absence();
@@ -126,7 +116,7 @@ class OutOfOfficeEventDispatcherJobTest extends TestCase {
 		]);
 	}
 
-	public function testDoesntDispatchUnknownEvent() {
+	public function testDoesntDispatchUnknownEvent(): void {
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$absence = new Absence();

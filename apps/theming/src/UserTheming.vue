@@ -6,7 +6,6 @@
 <template>
 	<section>
 		<NcSettingsSection :name="t('theming', 'Appearance and accessibility settings')"
-			:limit-width="false"
 			class="theming">
 			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p v-html="description" />
@@ -77,14 +76,15 @@
 </template>
 
 <script>
-import { generateOcsUrl } from '@nextcloud/router'
+import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl } from '@nextcloud/router'
 import { refreshStyles } from './helpers/refreshStyles'
 
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 
 import BackgroundSettings from './components/BackgroundSettings.vue'
 import ItemPreview from './components/ItemPreview.vue'
@@ -138,35 +138,32 @@ export default {
 		},
 
 		description() {
-			// using the `t` replace method escape html, we have to do it manually :/
 			return t(
 				'theming',
-				'Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level.',
+				'Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level.',
+				{
+					linkstart: '<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">',
+					linkend: '</a>',
+				},
+				{
+					escape: false,
+				},
 			)
-				.replace('{guidelines}', this.guidelinesLink)
-				.replace('{linkend}', '</a>')
-		},
-
-		guidelinesLink() {
-			return '<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">'
 		},
 
 		descriptionDetail() {
 			return t(
 				'theming',
 				'If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!',
+				{
+					issuetracker: '<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">',
+					designteam: '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">',
+					linkend: '</a>',
+				},
+				{
+					escape: false,
+				},
 			)
-				.replace('{issuetracker}', this.issuetrackerLink)
-				.replace('{designteam}', this.designteamLink)
-				.replace(/\{linkend\}/g, '</a>')
-		},
-
-		issuetrackerLink() {
-			return '<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">'
-		},
-
-		designteamLink() {
-			return '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">'
 		},
 	},
 
@@ -285,9 +282,13 @@ export default {
 					})
 				}
 
-			} catch (err) {
-				console.error(err, err.response)
-				OC.Notification.showTemporary(t('theming', err.response.data.ocs.meta.message + '. Unable to apply the setting.'))
+			} catch (error) {
+				console.error('theming: Unable to apply setting.', error)
+				let message = t('theming', 'Unable to apply the setting.')
+				if (isAxiosError(error) && error.response.data.ocs?.meta?.message) {
+					message = `${error.response.data.ocs.meta.message}. ${message}`
+				}
+				showError(message)
 			}
 		},
 	},
@@ -302,7 +303,7 @@ export default {
 	}
 
 	// Proper highlight for links and focus feedback
-	&::v-deep a {
+	:deep(a) {
 		font-weight: bold;
 
 		&:hover,
@@ -313,12 +314,10 @@ export default {
 
 	&__preview-list {
 		--gap: 30px;
-
 		display: grid;
 		margin-top: var(--gap);
 		column-gap: var(--gap);
 		row-gap: var(--gap);
-		grid-template-columns: 1fr 1fr;
 	}
 }
 

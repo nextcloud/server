@@ -90,7 +90,7 @@ class UpdateGroupsService {
 					if ($e->getReason() !== Exception::REASON_DATABASE_OBJECT_NOT_FOUND) {
 						/* If reason is not found something else removed the membership, that’s fine */
 						$this->logger->error(
-							__CLASS__ . ' - group {group} membership failed to be removed (user {user})',
+							self::class . ' - group {group} membership failed to be removed (user {user})',
 							[
 								'app' => 'user_ldap',
 								'user' => $removedUser,
@@ -121,7 +121,7 @@ class UpdateGroupsService {
 					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 						/* If reason is unique constraint something else added the membership, that’s fine */
 						$this->logger->error(
-							__CLASS__ . ' - group {group} membership failed to be added (user {user})',
+							self::class . ' - group {group} membership failed to be added (user {user})',
 							[
 								'app' => 'user_ldap',
 								'user' => $addedUser,
@@ -167,7 +167,7 @@ class UpdateGroupsService {
 				} catch (Exception $e) {
 					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 						$this->logger->error(
-							__CLASS__ . ' - group {group} membership failed to be added (user {user})',
+							self::class . ' - group {group} membership failed to be added (user {user})',
 							[
 								'app' => 'user_ldap',
 								'user' => $user,

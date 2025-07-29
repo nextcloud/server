@@ -31,7 +31,7 @@ class MetaData {
 		private bool $isAdmin,
 		private bool $isDelegatedAdmin,
 		private IGroupManager $groupManager,
-		private IUserSession $userSession
+		private IUserSession $userSession,
 	) {
 	}
 

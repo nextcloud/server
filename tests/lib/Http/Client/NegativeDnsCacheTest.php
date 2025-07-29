@@ -30,7 +30,7 @@ class NegativeDnsCacheTest extends \Test\TestCase {
 			->method('createLocal')
 			->with('NegativeDnsCache')
 			->willReturn($this->cache);
-		
+
 		$this->negativeDnsCache = new NegativeDnsCache($this->cacheFactory);
 	}
 
@@ -43,7 +43,7 @@ class NegativeDnsCacheTest extends \Test\TestCase {
 		$this->negativeDnsCache->setNegativeCacheForDnsType('www.example.com', DNS_A, 3600);
 	}
 
-	public function testIsNegativeCached() {
+	public function testIsNegativeCached(): void {
 		$this->cache
 			->expects($this->once())
 			->method('hasKey')

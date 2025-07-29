@@ -15,6 +15,7 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Collaboration\Reference\Reference;
@@ -24,7 +25,7 @@ use OCP\IRequest;
  * @psalm-import-type CoreReference from ResponseDefinitions
  * @psalm-import-type CoreReferenceProvider from ResponseDefinitions
  */
-class ReferenceApiController extends \OCP\AppFramework\OCSController {
+class ReferenceApiController extends OCSController {
 	private const LIMIT_MAX = 15;
 
 	public function __construct(
@@ -128,7 +129,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 */
 	#[ApiRoute(verb: 'GET', url: '/resolvePublic', root: '/references')]
 	#[PublicPage]
-	#[AnonRateLimit(limit: 10, period: 120)]
+	#[AnonRateLimit(limit: 25, period: 120)]
 	public function resolveOnePublic(string $reference, string $sharingToken): DataResponse {
 		/** @var ?CoreReference $resolvedReference */
 		$resolvedReference = $this->referenceManager->resolveReference(trim($reference), true, trim($sharingToken))?->jsonSerialize();
@@ -141,7 +142,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Resolve multiple references
 	 *
-	 * @param string[] $references References to resolve
+	 * @param list<string> $references References to resolve
 	 * @param int $limit Maximum amount of references to resolve
 	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|null>}, array{}>
 	 *
@@ -168,7 +169,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Resolve multiple references from a public page
 	 *
-	 * @param string[] $references References to resolve
+	 * @param list<string> $references References to resolve
 	 * @param string $sharingToken Token of the public share
 	 * @param int $limit Maximum amount of references to resolve, limited to 15
 	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|null>}, array{}>
@@ -197,7 +198,7 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Get the providers
 	 *
-	 * @return DataResponse<Http::STATUS_OK, CoreReferenceProvider[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreReferenceProvider>, array{}>
 	 *
 	 * 200: Providers returned
 	 */
@@ -205,9 +206,9 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/providers', root: '/references')]
 	public function getProvidersInfo(): DataResponse {
 		$providers = $this->referenceManager->getDiscoverableProviders();
-		$jsonProviders = array_map(static function (IDiscoverableReferenceProvider $provider) {
+		$jsonProviders = array_values(array_map(static function (IDiscoverableReferenceProvider $provider) {
 			return $provider->jsonSerialize();
-		}, $providers);
+		}, $providers));
 		return new DataResponse($jsonProviders);
 	}
 

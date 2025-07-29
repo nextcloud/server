@@ -84,7 +84,7 @@ interface IRequest {
 	 * @since 13.0.1
 	 * @since 28.0.0 The regex has a group matching the version number
 	 */
-	public const USER_AGENT_THUNDERBIRD_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Thunderbird v([^ ]*).*$/';
+	public const USER_AGENT_THUNDERBIRD_ADDON = '/^Filelink for \*cloud\/([1-9]\d*\.\d+\.\d+)$/';
 
 	/**
 	 * @since 26.0.0
@@ -305,4 +305,14 @@ interface IRequest {
 	 * @since 8.1.0
 	 */
 	public function getServerHost(): string;
+
+	/**
+	 * If decoding the request content failed, throw an exception.
+	 * Currently only \JsonException for json decoding errors,
+	 * but in the future may throw other exceptions for other decoding issues.
+	 *
+	 * @throws \Exception
+	 * @since 32.0.0
+	 */
+	public function throwDecodingExceptionIfAny(): void;
 }

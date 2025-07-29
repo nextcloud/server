@@ -21,17 +21,16 @@ OC.L10N.register(
     "Post comment" : "張貼留言",
     "@ for mentions, : for emoji, / for smart picker" : "“@” 表示提及，“:” 表示表情符號，“/” 表示智慧型選擇器",
     "Could not reload comments" : "無法重新加載評論",
+    "Failed to mark comments as read" : "無法將評論標記為已讀",
+    "Unable to load the comments list" : "無法載入留言清單",
     "No comments yet, start the conversation!" : "尚無留言，開始討論吧！",
     "No more messages" : "沒有更多訊息",
     "Retry" : "重試",
-    "Failed to mark comments as read" : "無法將評論標記為已讀",
-    "Unable to load the comments list" : "無法載入留言清單",
     "_1 new comment_::_{unread} new comments_" : ["{unread} 個新留言"],
     "Comment" : "留言",
     "An error occurred while trying to edit the comment" : "嘗試編輯此留言時錯誤",
     "Comment deleted" : "意見刪除",
     "An error occurred while trying to delete the comment" : "嘗試刪除此留言時錯誤",
-    "An error occurred while trying to create the comment" : "嘗試建立此留言時錯誤",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "一個已被刪除的用戶在 “{file}” 的留言中提到你"
+    "An error occurred while trying to create the comment" : "嘗試建立此留言時錯誤"
 },
 "nplurals=1; plural=0;");

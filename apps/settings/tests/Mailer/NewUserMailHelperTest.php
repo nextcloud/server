@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,6 +8,7 @@ namespace OCA\Settings\Tests\Mailer;
 
 use OC\Mail\EMailTemplate;
 use OC\Mail\Message;
+use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -19,29 +21,20 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NewUserMailHelperTest extends TestCase {
-	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
-	private $defaults;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10nFactory;
-	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
-	private $mailer;
-	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
-	private $secureRandom;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
-	private $crypto;
-	/** @var \OCA\Settings\Mailer\NewUserMailHelper */
-	private $newUserMailHelper;
+	private Defaults&MockObject $defaults;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $l10n;
+	private IFactory&MockObject $l10nFactory;
+	private IMailer&MockObject $mailer;
+	private ISecureRandom&MockObject $secureRandom;
+	private ITimeFactory&MockObject $timeFactory;
+	private IConfig&MockObject $config;
+	private ICrypto&MockObject $crypto;
+	private NewUserMailHelper $newUserMailHelper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -89,7 +82,7 @@ class NewUserMailHelperTest extends TestCase {
 				return $this->l10n;
 			});
 
-		$this->newUserMailHelper = new \OCA\Settings\Mailer\NewUserMailHelper(
+		$this->newUserMailHelper = new NewUserMailHelper(
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10nFactory,
@@ -102,7 +95,7 @@ class NewUserMailHelperTest extends TestCase {
 		);
 	}
 
-	public function testGenerateTemplateWithPasswordResetToken() {
+	public function testGenerateTemplateWithPasswordResetToken(): void {
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
@@ -112,7 +105,7 @@ class NewUserMailHelperTest extends TestCase {
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(12345);
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var IUser&MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->any())
@@ -145,8 +138,12 @@ class NewUserMailHelperTest extends TestCase {
 			->method('getName')
 			->willReturn('TestCloud');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultColorPrimary')
+			->willReturn('#00679e');
+		$this->defaults
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 
 		$expectedHtmlBody = <<<EOF
@@ -174,7 +171,7 @@ class NewUserMailHelperTest extends TestCase {
 						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
+								<center data-parsed="" style="background-color:#00679e;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
 									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none;max-height:105px;max-width:105px;width:auto;height:auto">
 								</center>
 							</tr>
@@ -259,13 +256,13 @@ class NewUserMailHelperTest extends TestCase {
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
 						<center data-parsed="" style="min-width:490px;width:100%">
-							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
+							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:#00679e;background-color:#00679e;color:#fefefe;">
 								<tr style="padding:0;text-align:left;vertical-align:top">
 									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/resetPassword/MySuperLongSecureRandomToken" style="Margin:0;border:0 solid ;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Set your password</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #00679e;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://example.com/resetPassword/MySuperLongSecureRandomToken" style="Margin:0;border:0 solid #00679e;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Set your password</a>
 												</td>
 											</tr>
 										</table>
@@ -357,7 +354,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testGenerateTemplateWithoutPasswordResetToken() {
+	public function testGenerateTemplateWithoutPasswordResetToken(): void {
 		$this->urlGenerator
 			->expects($this->any())
 			->method('getAbsoluteURL')
@@ -366,7 +363,7 @@ EOF;
 				['myLogo',''],
 			]);
 
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var IUser&MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->any())
@@ -381,8 +378,12 @@ EOF;
 			->method('getName')
 			->willReturn('TestCloud');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultColorPrimary')
+			->willReturn('#00679e');
+		$this->defaults
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 
 		$expectedHtmlBody = <<<EOF
@@ -410,7 +411,7 @@ EOF;
 						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
+								<center data-parsed="" style="background-color:#00679e;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
 									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none;max-height:105px;max-width:105px;width:auto;height:auto">
 								</center>
 							</tr>
@@ -495,13 +496,13 @@ EOF;
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
 						<center data-parsed="" style="min-width:490px;width:100%">
-							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
+							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:#00679e;background-color:#00679e;color:#fefefe;">
 								<tr style="padding:0;text-align:left;vertical-align:top">
 									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/" style="Margin:0;border:0 solid ;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #00679e;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://example.com/" style="Margin:0;border:0 solid #00679e;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
 												</td>
 											</tr>
 										</table>
@@ -593,7 +594,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testGenerateTemplateWithoutUserId() {
+	public function testGenerateTemplateWithoutUserId(): void {
 		$this->urlGenerator
 			->expects($this->any())
 			->method('getAbsoluteURL')
@@ -602,7 +603,7 @@ EOF;
 				['myLogo', ''],
 			]);
 
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var IUser&MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->any())
@@ -621,8 +622,12 @@ EOF;
 			->method('getName')
 			->willReturn('TestCloud');
 		$this->defaults
-			->expects($this->any())
-			->method('getTextColorPrimary')
+			->expects($this->atLeastOnce())
+			->method('getDefaultColorPrimary')
+			->willReturn('#00679e');
+		$this->defaults
+			->expects($this->atLeastOnce())
+			->method('getDefaultTextColorPrimary')
 			->willReturn('#ffffff');
 
 		$expectedHtmlBody = <<<EOF
@@ -650,7 +655,7 @@ EOF;
 						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
+								<center data-parsed="" style="background-color:#00679e;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
 									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none;max-height:105px;max-width:105px;width:auto;height:auto">
 								</center>
 							</tr>
@@ -720,13 +725,13 @@ EOF;
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
 						<center data-parsed="" style="min-width:490px;width:100%">
-							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
+							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:#00679e;background-color:#00679e;color:#fefefe;">
 								<tr style="padding:0;text-align:left;vertical-align:top">
 									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/" style="Margin:0;border:0 solid ;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #00679e;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://example.com/" style="Margin:0;border:0 solid #00679e;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
 												</td>
 											</tr>
 										</table>
@@ -816,8 +821,8 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testSendMail() {
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+	public function testSendMail(): void {
+		/** @var IUser&MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -827,7 +832,7 @@ EOF;
 			->expects($this->once())
 			->method('getDisplayName')
 			->willReturn('John Doe');
-		/** @var IEMailTemplate|\PHPUnit\Framework\MockObject\MockObject $emailTemplate */
+		/** @var IEMailTemplate&MockObject $emailTemplate */
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$message = $this->createMock(Message::class);
 		$message

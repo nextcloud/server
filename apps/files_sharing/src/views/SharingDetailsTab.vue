@@ -8,7 +8,7 @@
 			<span>
 				<NcAvatar v-if="isUserShare"
 					class="sharing-entry__avatar"
-					:is-no-user="share.shareType !== SHARE_TYPES.SHARE_TYPE_USER"
+					:is-no-user="share.shareType !== ShareType.User"
 					:user="share.shareWith"
 					:display-name="share.shareWithDisplayName"
 					:menu-position="'left'"
@@ -38,7 +38,7 @@
 					<NcCheckboxRadioSwitch :button-variant="true"
 						data-cy-files-sharing-share-permissions-bundle="upload-edit"
 						:checked.sync="sharingPermission"
-						:value="bundledPermissions.ALL.toString()"
+						:value="allPermissions"
 						name="sharing_permission_radio"
 						type="radio"
 						button-variant-grouped="vertical"
@@ -105,19 +105,33 @@
 				role="region">
 				<section>
 					<NcInputField v-if="isPublicShare"
+						class="sharingTabDetailsView__label"
 						autocomplete="off"
 						:label="t('files_sharing', 'Share label')"
 						:value.sync="share.label" />
+					<NcInputField v-if="config.allowCustomTokens && isPublicShare && !isNewShare"
+						autocomplete="off"
+						:label="t('files_sharing', 'Share link token')"
+						:helper-text="t('files_sharing', 'Set the public share link token to something easy to remember or generate a new token. It is not recommended to use a guessable token for shares which contain sensitive information.')"
+						show-trailing-button
+						:trailing-button-label="loadingToken ? t('files_sharing', 'Generating…') : t('files_sharing', 'Generate new token')"
+						:value.sync="share.token"
+						@trailing-button-click="generateNewToken">
+						<template #trailing-button-icon>
+							<NcLoadingIcon v-if="loadingToken" />
+							<Refresh v-else :size="20" />
+						</template>
+					</NcInputField>
 					<template v-if="isPublicShare">
 						<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
 							{{ t('files_sharing', 'Set password') }}
 						</NcCheckboxRadioSwitch>
 						<NcPasswordField v-if="isPasswordProtected"
 							autocomplete="new-password"
-							:value="hasUnsavedPassword ? share.newPassword : ''"
+							:value="share.newPassword ?? ''"
 							:error="passwordError"
-							:helper-text="errorPasswordLabel"
-							:required="isPasswordEnforced"
+							:helper-text="errorPasswordLabel || passwordHint"
+							:required="isPasswordEnforced && isNewShare"
 							:label="t('files_sharing', 'Password')"
 							@update:value="onPasswordChange" />
 
@@ -144,7 +158,8 @@
 						:value="new Date(share.expireDate ?? dateTomorrow)"
 						:min="dateTomorrow"
 						:max="maxExpirationDateEnforced"
-						:hide-label="true"
+						hide-label
+						:label="t('files_sharing', 'Expiration date')"
 						:placeholder="t('files_sharing', 'Expiration date')"
 						type="date"
 						@input="onExpirationChange" />
@@ -154,7 +169,7 @@
 						@update:checked="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-if="!isPublicShare"
+					<NcCheckboxRadioSwitch v-else
 						:disabled="!canSetDownload"
 						:checked.sync="canDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
@@ -168,6 +183,10 @@
 							:placeholder="t('files_sharing', 'Enter a note for the share recipient')"
 							:value.sync="share.note" />
 					</template>
+					<NcCheckboxRadioSwitch v-if="isPublicShare && isFolder"
+						:checked.sync="showInGridView">
+						{{ t('files_sharing', 'Show files in grid view') }}
+					</NcCheckboxRadioSwitch>
 					<ExternalShareAction v-for="action in externalLinkActions"
 						:id="action.id"
 						ref="externalLinkActions"
@@ -195,7 +214,7 @@
 							data-cy-files-sharing-share-permissions-checkbox="update">
 							{{ t('files_sharing', 'Edit') }}
 						</NcCheckboxRadioSwitch>
-						<NcCheckboxRadioSwitch v-if="config.isResharingAllowed && share.type !== SHARE_TYPES.SHARE_TYPE_LINK"
+						<NcCheckboxRadioSwitch v-if="resharingIsPossible"
 							:disabled="!canSetReshare"
 							:checked.sync="canReshare"
 							data-cy-files-sharing-share-permissions-checkbox="share">
@@ -207,19 +226,6 @@
 							{{ t('files_sharing', 'Delete') }}
 						</NcCheckboxRadioSwitch>
 					</section>
-					<div class="sharingTabDetailsView__delete">
-						<NcButton v-if="!isNewShare"
-							:aria-label="t('files_sharing', 'Delete share')"
-							:disabled="false"
-							:readonly="false"
-							type="tertiary"
-							@click.prevent="removeShare">
-							<template #icon>
-								<CloseIcon :size="16" />
-							</template>
-							{{ t('files_sharing', 'Delete share') }}
-						</NcButton>
-					</div>
 				</section>
 			</div>
 		</div>
@@ -227,11 +233,25 @@
 		<div class="sharingTabDetailsView__footer">
 			<div class="button-group">
 				<NcButton data-cy-files-sharing-share-editor-action="cancel"
-					@click="$emit('close-sharing-details')">
+					@click="cancel">
 					{{ t('files_sharing', 'Cancel') }}
 				</NcButton>
+				<div class="sharingTabDetailsView__delete">
+					<NcButton v-if="!isNewShare"
+						:aria-label="t('files_sharing', 'Delete share')"
+						:disabled="false"
+						:readonly="false"
+						variant="tertiary"
+						@click.prevent="removeShare">
+						<template #icon>
+							<CloseIcon :size="20" />
+						</template>
+						{{ t('files_sharing', 'Delete share') }}
+					</NcButton>
+				</div>
 				<NcButton type="primary"
 					data-cy-files-sharing-share-editor-action="save"
+					:disabled="creating"
 					@click="saveShare">
 					{{ shareButtonText }}
 					<template v-if="creating" #icon>
@@ -247,19 +267,21 @@
 import { emit } from '@nextcloud/event-bus'
 import { getLanguage } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
+import { showError } from '@nextcloud/dialogs'
+import moment from '@nextcloud/moment'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
-import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcPasswordField from '@nextcloud/vue/components/NcPasswordField'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 
 import CircleIcon from 'vue-material-design-icons/CircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
-import EditIcon from 'vue-material-design-icons/Pencil.vue'
+import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
 import EmailIcon from 'vue-material-design-icons/Email.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import GroupIcon from 'vue-material-design-icons/AccountGroup.vue'
@@ -270,14 +292,15 @@ import UploadIcon from 'vue-material-design-icons/Upload.vue'
 import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue'
 import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
+import Refresh from 'vue-material-design-icons/Refresh.vue'
 
 import ExternalShareAction from '../components/ExternalShareAction.vue'
 
 import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.ts'
 import ShareRequests from '../mixins/ShareRequests.js'
-import ShareTypes from '../mixins/ShareTypes.js'
 import SharesMixin from '../mixins/SharesMixin.js'
+import { generateToken } from '../services/TokenService.ts'
 import logger from '../services/logger.ts'
 
 import {
@@ -310,8 +333,9 @@ export default {
 		MenuDownIcon,
 		MenuUpIcon,
 		DotsHorizontalIcon,
+		Refresh,
 	},
-	mixins: [ShareTypes, ShareRequests, SharesMixin],
+	mixins: [ShareRequests, SharesMixin],
 	props: {
 		shareRequestValue: {
 			type: Object,
@@ -338,6 +362,8 @@ export default {
 			isFirstComponentLoad: true,
 			test: false,
 			creating: false,
+			initialToken: this.share.token,
+			loadingToken: false,
 
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
 		}
@@ -346,33 +372,36 @@ export default {
 	computed: {
 		title() {
 			switch (this.share.type) {
-			case this.SHARE_TYPES.SHARE_TYPE_USER:
+			case ShareType.User:
 				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
-			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
+			case ShareType.Email:
 			    return t('files_sharing', 'Share with email {email}', { email: this.share.shareWith })
-			case this.SHARE_TYPES.SHARE_TYPE_LINK:
+			case ShareType.Link:
 				return t('files_sharing', 'Share link')
-			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
+			case ShareType.Group:
 				return t('files_sharing', 'Share with group')
-			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
+			case ShareType.Room:
 				return t('files_sharing', 'Share in conversation')
-			case this.SHARE_TYPES.SHARE_TYPE_REMOTE: {
+			case ShareType.Remote: {
 				const [user, server] = this.share.shareWith.split('@')
 				return t('files_sharing', 'Share with {user} on remote server {server}', { user, server })
 			}
-			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
+			case ShareType.RemoteGroup:
 				return t('files_sharing', 'Share with remote group')
-			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
+			case ShareType.Guest:
 				return t('files_sharing', 'Share with guest')
 			default: {
-			        if (this.share.id) {
-					    // Share already exists
-					    return t('files_sharing', 'Update share')
-				    } else {
-					    return t('files_sharing', 'Create share')
-				    }
+				if (this.share.id) {
+					// Share already exists
+					return t('files_sharing', 'Update share')
+				} else {
+					return t('files_sharing', 'Create share')
+				}
 			}
 			}
+		},
+		allPermissions() {
+			return this.isFolder ? this.bundledPermissions.ALL.toString() : this.bundledPermissions.ALL_FILE.toString()
 		},
 		/**
 		 * Can the sharee edit the shared file ?
@@ -418,19 +447,29 @@ export default {
 				this.updateAtomicPermissions({ isReshareChecked: checked })
 			},
 		},
+
+		/**
+		 * Change the default view for public shares from "list" to "grid"
+		 */
+		showInGridView: {
+			get() {
+				return this.getShareAttribute('config', 'grid_view', false)
+			},
+			/** @param {boolean} value If the default view should be changed to "grid" */
+			set(value) {
+				this.setShareAttribute('config', 'grid_view', value)
+			},
+		},
+
 		/**
 		 * Can the sharee download files or only view them ?
 		 */
 		canDownload: {
 			get() {
-				return this.share.attributes.find(attr => attr.key === 'download')?.value || false
+				return this.getShareAttribute('permissions', 'download', true)
 			},
 			set(checked) {
-				// Find the 'download' attribute and update its value
-				const downloadAttr = this.share.attributes.find(attr => attr.key === 'download')
-				if (downloadAttr) {
-					downloadAttr.value = checked
-				}
+				this.setShareAttribute('permissions', 'download', checked)
 			},
 		},
 		/**
@@ -458,26 +497,6 @@ export default {
 				this.share.expireDate = enabled
 					? this.formatDateToString(this.defaultExpiryDate)
 					: ''
-			},
-		},
-		/**
-		 * Is the current share password protected ?
-		 *
-		 * @return {boolean}
-		 */
-		isPasswordProtected: {
-			get() {
-				return this.config.enforcePasswordForPublicLink
-					|| !!this.share.password
-			},
-			async set(enabled) {
-				if (enabled) {
-					this.share.password = await GeneratePassword(true)
-					this.$set(this.share, 'newPassword', this.share.password)
-				} else {
-					this.share.password = ''
-					this.$delete(this.share, 'newPassword')
-				}
 			},
 		},
 		/**
@@ -521,17 +540,14 @@ export default {
 			return new Date(new Date().setDate(new Date().getDate() + 1))
 		},
 		isUserShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_USER
+			return this.share.type === ShareType.User
 		},
 		isGroupShare() {
-			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_GROUP
-		},
-		isNewShare() {
-			return !this.share.id
+			return this.share.type === ShareType.Group
 		},
 		allowsFileDrop() {
 			if (this.isFolder && this.config.isPublicUploadEnabled) {
-				if (this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+				if (this.share.type === ShareType.Link || this.share.type === ShareType.Email) {
 					return true
 				}
 			}
@@ -546,6 +562,9 @@ export default {
 			}
 			return t('files_sharing', 'Update share')
 
+		},
+		resharingIsPossible() {
+			return this.config.isResharingAllowed && this.share.type !== ShareType.Link && this.share.type !== ShareType.Email
 		},
 		/**
 		 * Can the sharer set whether the sharee can edit the file ?
@@ -606,8 +625,8 @@ export default {
 		},
 		canRemoveReadPermission() {
 			return this.allowsFileDrop && (
-				this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
-					|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+				this.share.type === ShareType.Link
+					|| this.share.type === ShareType.Email
 			)
 		},
 		// if newPassword exists, but is empty, it means
@@ -666,7 +685,7 @@ export default {
 		 */
 		isEmailShareType() {
 			return this.share
-				? this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+				? this.share.type === ShareType.Email
 				: false
 		},
 		canTogglePasswordProtectedByTalkAvailable() {
@@ -696,8 +715,15 @@ export default {
 				[ATOMIC_PERMISSIONS.DELETE]: this.t('files_sharing', 'Delete'),
 			}
 
-			return [ATOMIC_PERMISSIONS.READ, ATOMIC_PERMISSIONS.CREATE, ATOMIC_PERMISSIONS.UPDATE, ATOMIC_PERMISSIONS.SHARE, ATOMIC_PERMISSIONS.DELETE]
-				.filter((permission) => hasPermissions(this.share.permissions, permission))
+			const permissionsList = [
+				ATOMIC_PERMISSIONS.READ,
+				...(this.isFolder ? [ATOMIC_PERMISSIONS.CREATE] : []),
+				ATOMIC_PERMISSIONS.UPDATE,
+				...(this.resharingIsPossible ? [ATOMIC_PERMISSIONS.SHARE] : []),
+				...(this.isFolder ? [ATOMIC_PERMISSIONS.DELETE] : []),
+			]
+
+			return permissionsList.filter((permission) => hasPermissions(this.share.permissions, permission))
 				.map((permission, index) => index === 0
 					? translatedPermissions[permission]
 					: translatedPermissions[permission].toLocaleLowerCase(getLanguage()))
@@ -708,9 +734,16 @@ export default {
 		},
 		errorPasswordLabel() {
 			if (this.passwordError) {
-				return t('files_sharing', "Password field can't be empty")
+				return t('files_sharing', 'Password field cannot be empty')
 			}
 			return undefined
+		},
+
+		passwordHint() {
+			if (this.isNewShare || this.hasUnsavedPassword) {
+				return undefined
+			}
+			return t('files_sharing', 'Replace current password')
 		},
 
 		/**
@@ -746,6 +779,60 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Set a share attribute on the current share
+		 * @param {string} scope The attribute scope
+		 * @param {string} key The attribute key
+		 * @param {boolean} value The value
+		 */
+		setShareAttribute(scope, key, value) {
+			if (!this.share.attributes) {
+				this.$set(this.share, 'attributes', [])
+			}
+
+			const attribute = this.share.attributes
+				.find((attr) => attr.scope === scope || attr.key === key)
+
+			if (attribute) {
+				attribute.value = value
+			} else {
+				this.share.attributes.push({
+					scope,
+					key,
+					value,
+				})
+			}
+		},
+
+		/**
+		 * Get the value of a share attribute
+		 * @param {string} scope The attribute scope
+		 * @param {string} key The attribute key
+		 * @param {undefined|boolean} fallback The fallback to return if not found
+		 */
+		getShareAttribute(scope, key, fallback = undefined) {
+			const attribute = this.share.attributes?.find((attr) => attr.scope === scope && attr.key === key)
+			return attribute?.value ?? fallback
+		},
+
+		async generateNewToken() {
+			if (this.loadingToken) {
+				return
+			}
+			this.loadingToken = true
+			try {
+				this.share.token = await generateToken()
+			} catch (error) {
+				showError(t('files_sharing', 'Failed to generate a new token'))
+			}
+			this.loadingToken = false
+		},
+
+		cancel() {
+			this.share.token = this.initialToken
+			this.$emit('close-sharing-details')
+		},
+
 		updateAtomicPermissions({
 			isReadChecked = this.hasRead,
 			isEditChecked = this.canEdit,
@@ -754,6 +841,13 @@ export default {
 			isReshareChecked = this.canReshare,
 		} = {}) {
 			// calc permissions if checked
+
+			if (!this.isFolder && (isCreateChecked || isDeleteChecked)) {
+				logger.debug('Ignoring create/delete permissions for file share — only available for folders')
+				isCreateChecked = false
+				isDeleteChecked = false
+			}
+
 			const permissions = 0
 				| (isReadChecked ? ATOMIC_PERMISSIONS.READ : 0)
 				| (isCreateChecked ? ATOMIC_PERMISSIONS.CREATE : 0)
@@ -776,7 +870,7 @@ export default {
 		async initializeAttributes() {
 
 			if (this.isNewShare) {
-				if (this.isPasswordEnforced && this.isPublicShare) {
+				if ((this.config.enableLinkPasswordByDefault || this.isPasswordEnforced) && this.isPublicShare) {
 					this.$set(this.share, 'newPassword', await GeneratePassword(true))
 					this.advancedSectionAccordionExpanded = true
 				}
@@ -810,8 +904,9 @@ export default {
 				this.advancedSectionAccordionExpanded = true
 			}
 
-			if (this.share.note) {
+			if (this.isValidShareAttribute(this.share.note)) {
 				this.writeNoteToRecipientIsChecked = true
+				this.advancedSectionAccordionExpanded = true
 			}
 
 		},
@@ -856,6 +951,9 @@ export default {
 		async saveShare() {
 			const permissionsAndAttributes = ['permissions', 'attributes', 'note', 'expireDate']
 			const publicShareAttributes = ['label', 'password', 'hideDownload']
+			if (this.config.allowCustomTokens) {
+				publicShareAttributes.push('token')
+			}
 			if (this.isPublicShare) {
 				permissionsAndAttributes.push(...publicShareAttributes)
 			}
@@ -874,10 +972,7 @@ export default {
 				this.share.note = ''
 			}
 			if (this.isPasswordProtected) {
-				if (this.hasUnsavedPassword && this.isValidShareAttribute(this.share.newPassword)) {
-					this.share.password = this.share.newPassword
-					this.$delete(this.share, 'newPassword')
-				} else if (this.isPasswordEnforced && !this.isValidShareAttribute(this.share.password)) {
+				if (this.isPasswordEnforced && this.isNewShare && !this.isValidShareAttribute(this.share.password)) {
 					this.passwordError = true
 				}
 			} else {
@@ -901,17 +996,40 @@ export default {
 				incomingShare.expireDate = this.hasExpirationDate ? this.share.expireDate : ''
 
 				if (this.isPasswordProtected) {
-					incomingShare.password = this.share.password
+					incomingShare.password = this.share.newPassword
 				}
 
-				this.creating = true
-				const share = await this.addShare(incomingShare)
-				this.creating = false
+				let share
+				try {
+					this.creating = true
+					share = await this.addShare(incomingShare)
+				} catch (error) {
+					this.creating = false
+					// Error is already handled by ShareRequests mixin
+					return
+				}
+
+				// ugly hack to make code work - we need the id to be set but at the same time we need to keep values we want to update
+				this.share._share.id = share.id
+				await this.queueUpdate(...permissionsAndAttributes)
+				// Also a ugly hack to update the updated permissions
+				for (const prop of permissionsAndAttributes) {
+					if (prop in share && prop in this.share) {
+						try {
+							share[prop] = this.share[prop]
+						} catch {
+							share._share[prop] = this.share[prop]
+						}
+					}
+				}
+
 				this.share = share
+				this.creating = false
 				this.$emit('add:share', this.share)
 			} else {
+				// Let's update after creation as some attrs are only available after creation
+				await this.queueUpdate(...permissionsAndAttributes)
 				this.$emit('update:share', this.share)
-				this.queueUpdate(...permissionsAndAttributes)
 			}
 
 			await this.getNode()
@@ -971,6 +1089,11 @@ export default {
 		 * @param {string} password the changed password
 		 */
 		onPasswordChange(password) {
+			if (password === '') {
+				this.$delete(this.share, 'newPassword')
+				this.passwordError = this.isNewShare && this.isPasswordEnforced
+				return
+			}
 			this.passwordError = !this.isValidShareAttribute(password)
 			this.$set(this.share, 'newPassword', password)
 		},
@@ -983,10 +1106,6 @@ export default {
 		 * "sendPasswordByTalk".
 		 */
 		onPasswordProtectedByTalkChange() {
-			if (this.hasUnsavedPassword) {
-				this.share.password = this.share.newPassword.trim()
-			}
-
 			this.queueUpdate('sendPasswordByTalk', 'password')
 		},
 		isValidShareAttribute(value) {
@@ -1002,22 +1121,22 @@ export default {
 		},
 		getShareTypeIcon(type) {
 			switch (type) {
-			case this.SHARE_TYPES.SHARE_TYPE_LINK:
+			case ShareType.Link:
 				return LinkIcon
-			case this.SHARE_TYPES.SHARE_TYPE_GUEST:
+			case ShareType.Guest:
 				return UserIcon
-			case this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP:
-			case this.SHARE_TYPES.SHARE_TYPE_GROUP:
+			case ShareType.RemoteGroup:
+			case ShareType.Group:
 				return GroupIcon
-			case this.SHARE_TYPES.SHARE_TYPE_EMAIL:
+			case ShareType.Email:
 				return EmailIcon
-			case this.SHARE_TYPES.SHARE_TYPE_CIRCLE:
+			case ShareType.Team:
 				return CircleIcon
-			case this.SHARE_TYPES.SHARE_TYPE_ROOM:
+			case ShareType.Room:
 				return ShareIcon
-			case this.SHARE_TYPES.SHARE_TYPE_DECK:
+			case ShareType.Deck:
 				return ShareIcon
-			case this.SHARE_TYPES.SHARE_TYPE_SCIENCEMESH:
+			case ShareType.ScienceMesh:
 				return ShareIcon
 			default:
 				return null // Or a default icon component if needed
@@ -1049,7 +1168,7 @@ export default {
 
 			h1 {
 				font-size: 15px;
-				padding-left: 0.3em;
+				padding-inline-start: 0.3em;
 			}
 
 		}
@@ -1060,7 +1179,7 @@ export default {
 		overflow: scroll;
 		flex-shrink: 1;
 		padding: 4px;
-		padding-right: 12px;
+		padding-inline-end: 12px;
 	}
 
 	&__quick-permissions {
@@ -1082,12 +1201,9 @@ export default {
 					padding: 0.1em;
 				}
 
-				::v-deep label {
-
-					span {
-						display: flex;
-						flex-direction: column;
-					}
+				:deep(label span) {
+					display: flex;
+					flex-direction: column;
 				}
 
 				/* Target component based style in NcCheckboxRadioSwitch slot content*/
@@ -1116,8 +1232,8 @@ export default {
 	&__advanced {
 		width: 100%;
 		margin-bottom: 0.5em;
-		text-align: left;
-		padding-left: 0;
+		text-align: start;
+		padding-inline-start: 0;
 
 		section {
 
@@ -1132,30 +1248,32 @@ export default {
 			}
 
 			/*
-              The following style is applied out of the component's scope
-              to remove padding from the label.checkbox-radio-switch__label,
-              which is used to group radio checkbox items. The use of ::v-deep
-              ensures that the padding is modified without being affected by
-              the component's scoping.
-              Without this achieving left alignment for the checkboxes would not
-              be possible.
-            */
-			span {
-				::v-deep label {
-					padding-left: 0 !important;
-					background-color: initial !important;
-					border: none !important;
-				}
+			  The following style is applied out of the component's scope
+			  to remove padding from the label.checkbox-radio-switch__label,
+			  which is used to group radio checkbox items. The use of ::v-deep
+			  ensures that the padding is modified without being affected by
+			  the component's scoping.
+			  Without this achieving left alignment for the checkboxes would not
+			  be possible.
+			*/
+			span :deep(label) {
+				padding-inline-start: 0 !important;
+				background-color: initial !important;
+				border: none !important;
 			}
 
 			section.custom-permissions-group {
-				padding-left: 1.5em;
+				padding-inline-start: 1.5em;
 			}
 		}
 	}
 
+	&__label {
+		padding-block-end: 6px;
+	}
+
 	&__delete {
-		>button:first-child {
+		> button:first-child {
 			color: rgb(223, 7, 7);
 		}
 	}
@@ -1177,10 +1295,10 @@ export default {
 			margin-top: 16px;
 
 			button {
-				margin-left: 16px;
+				margin-inline-start: 16px;
 
 				&:first-child {
-					margin-left: 0;
+					margin-inline-start: 0;
 				}
 			}
 		}

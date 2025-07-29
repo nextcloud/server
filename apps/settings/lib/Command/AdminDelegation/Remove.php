@@ -43,12 +43,12 @@ class Remove extends Base {
 		foreach ($groups as $group) {
 			if ($group->getGroupId() === $groupId) {
 				$this->authorizedGroupService->delete($group->getId());
-				$io->success('Removed delegation of '.$settingClass.' to '.$groupId.'.');
+				$io->success('Removed delegation of ' . $settingClass . ' to ' . $groupId . '.');
 				return 0;
 			}
 		}
 
-		$io->success('Group '.$groupId.' didn’t have delegation for '.$settingClass.'.');
+		$io->success('Group ' . $groupId . ' didn’t have delegation for ' . $settingClass . '.');
 
 		return 0;
 	}

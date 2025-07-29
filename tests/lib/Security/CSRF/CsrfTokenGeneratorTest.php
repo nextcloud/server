@@ -10,8 +10,11 @@ declare(strict_types=1);
 
 namespace Test\Security\CSRF;
 
+use OC\Security\CSRF\CsrfTokenGenerator;
+use OCP\Security\ISecureRandom;
+
 class CsrfTokenGeneratorTest extends \Test\TestCase {
-	/** @var \OCP\Security\ISecureRandom */
+	/** @var ISecureRandom */
 	private $random;
 	/** @var \OC\Security\CSRF\CsrfTokenGenerator */
 	private $csrfTokenGenerator;
@@ -20,10 +23,10 @@ class CsrfTokenGeneratorTest extends \Test\TestCase {
 		parent::setUp();
 		$this->random = $this->getMockBuilder('\OCP\Security\ISecureRandom')
 			->disableOriginalConstructor()->getMock();
-		$this->csrfTokenGenerator = new \OC\Security\CSRF\CsrfTokenGenerator($this->random);
+		$this->csrfTokenGenerator = new CsrfTokenGenerator($this->random);
 	}
 
-	public function testGenerateTokenWithCustomNumber() {
+	public function testGenerateTokenWithCustomNumber(): void {
 		$this->random
 			->expects($this->once())
 			->method('generate')
@@ -32,7 +35,7 @@ class CsrfTokenGeneratorTest extends \Test\TestCase {
 		$this->assertSame('abc', $this->csrfTokenGenerator->generateToken(3));
 	}
 
-	public function testGenerateTokenWithDefault() {
+	public function testGenerateTokenWithDefault(): void {
 		$this->random
 			->expects($this->once())
 			->method('generate')

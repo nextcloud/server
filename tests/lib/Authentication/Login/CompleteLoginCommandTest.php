@@ -13,7 +13,7 @@ use OC\Authentication\Login\CompleteLoginCommand;
 use OC\User\Session;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class CompleteLoginCommandTest extends ALoginCommandTest {
+class CompleteLoginCommandTest extends ALoginTestCommand {
 	/** @var Session|MockObject */
 	private $session;
 
@@ -27,7 +27,7 @@ class CompleteLoginCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->session->expects($this->once())
 			->method('completeLogin')

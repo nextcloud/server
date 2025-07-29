@@ -29,7 +29,7 @@ class UpdateSingleMetadata extends QueuedJob {
 		ITimeFactory $time,
 		private IRootFolder $rootFolder,
 		private FilesMetadataManager $filesMetadataManager,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
 	}

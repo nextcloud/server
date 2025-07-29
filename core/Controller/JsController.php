@@ -65,11 +65,11 @@ class JsController extends Controller {
 		}
 
 		$ttl = 31536000;
-		$response->addHeader('Cache-Control', 'max-age='.$ttl.', immutable');
+		$response->addHeader('Cache-Control', 'max-age=' . $ttl . ', immutable');
 
 		$expires = new \DateTime();
 		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT'.$ttl.'S'));
+		$expires->add(new \DateInterval('PT' . $ttl . 'S'));
 		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		return $response;
 	}

@@ -126,7 +126,7 @@ class DefaultTheme implements ITheme {
 			'--color-text-light' => 'var(--color-main-text)', // deprecated
 			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
-			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
+			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
 
 			// error/warning/success/info feedback colours
 			'--color-error' => $colorError,

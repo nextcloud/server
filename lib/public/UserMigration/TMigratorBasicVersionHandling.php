@@ -31,7 +31,7 @@ trait TMigratorBasicVersionHandling {
 	 * @since 24.0.0
 	 */
 	public function canImport(
-		IImportSource $importSource
+		IImportSource $importSource,
 	): bool {
 		$version = $importSource->getMigratorVersion($this->getId());
 		if ($version === null) {

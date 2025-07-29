@@ -2,14 +2,14 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import type { Navigation, View } from '@nextcloud/files'
+
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent } from 'vue'
 
 import { useNavigation } from './useNavigation'
 import * as nextcloudFiles from '@nextcloud/files'
-
-const { Navigation, View } = nextcloudFiles
 
 // Just a wrapper so we can test the composable
 const TestComponent = defineComponent({
@@ -29,7 +29,8 @@ describe('Composables: useNavigation', () => {
 
 	describe('currentView', () => {
 		beforeEach(() => {
-			navigation = new Navigation()
+			// eslint-disable-next-line import/namespace
+			navigation = new nextcloudFiles.Navigation()
 			spy.mockImplementation(() => navigation)
 		})
 
@@ -39,7 +40,8 @@ describe('Composables: useNavigation', () => {
 		})
 
 		it('should return already active navigation', async () => {
-			const view = new View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
+			// eslint-disable-next-line import/namespace
+			const view = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
 			navigation.register(view)
 			navigation.setActive(view)
 			// Now the navigation is already set it should take the active navigation
@@ -48,7 +50,8 @@ describe('Composables: useNavigation', () => {
 		})
 
 		it('should be reactive on updating active navigation', async () => {
-			const view = new View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
+			// eslint-disable-next-line import/namespace
+			const view = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
 			navigation.register(view)
 			const wrapper = mount(TestComponent)
 
@@ -63,7 +66,8 @@ describe('Composables: useNavigation', () => {
 
 	describe('views', () => {
 		beforeEach(() => {
-			navigation = new Navigation()
+			// eslint-disable-next-line import/namespace
+			navigation = new nextcloudFiles.Navigation()
 			spy.mockImplementation(() => navigation)
 		})
 
@@ -73,7 +77,8 @@ describe('Composables: useNavigation', () => {
 		})
 
 		it('should return already registered views', () => {
-			const view = new View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
+			// eslint-disable-next-line import/namespace
+			const view = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
 			// register before mount
 			navigation.register(view)
 			// now mount and check that the view is listed
@@ -82,8 +87,10 @@ describe('Composables: useNavigation', () => {
 		})
 
 		it('should be reactive on registering new views', () => {
-			const view = new View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
-			const view2 = new View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-2', name: 'My View 2', order: 1 })
+			// eslint-disable-next-line import/namespace
+			const view = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-1', name: 'My View 1', order: 0 })
+			// eslint-disable-next-line import/namespace
+			const view2 = new nextcloudFiles.View({ getContents: () => Promise.reject(new Error()), icon: '<svg></svg>', id: 'view-2', name: 'My View 2', order: 1 })
 
 			// register before mount
 			navigation.register(view)

@@ -21,87 +21,76 @@
         },
         "schemas": {
             "Capabilities": {
-                "oneOf": [
-                    {
+                "type": "object",
+                "properties": {
+                    "files_sharing": {
                         "type": "object",
                         "required": [
-                            "files_sharing"
+                            "sharebymail"
                         ],
                         "properties": {
-                            "files_sharing": {
+                            "sharebymail": {
                                 "type": "object",
                                 "required": [
-                                    "sharebymail"
+                                    "enabled",
+                                    "send_password_by_mail",
+                                    "upload_files_drop",
+                                    "password",
+                                    "expire_date"
                                 ],
                                 "properties": {
-                                    "sharebymail": {
+                                    "enabled": {
+                                        "type": "boolean"
+                                    },
+                                    "send_password_by_mail": {
+                                        "type": "boolean"
+                                    },
+                                    "upload_files_drop": {
+                                        "type": "object",
+                                        "required": [
+                                            "enabled"
+                                        ],
+                                        "properties": {
+                                            "enabled": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    },
+                                    "password": {
                                         "type": "object",
                                         "required": [
                                             "enabled",
-                                            "send_password_by_mail",
-                                            "upload_files_drop",
-                                            "password",
-                                            "expire_date"
+                                            "enforced"
                                         ],
                                         "properties": {
                                             "enabled": {
                                                 "type": "boolean"
                                             },
-                                            "send_password_by_mail": {
+                                            "enforced": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    },
+                                    "expire_date": {
+                                        "type": "object",
+                                        "required": [
+                                            "enabled",
+                                            "enforced"
+                                        ],
+                                        "properties": {
+                                            "enabled": {
                                                 "type": "boolean"
                                             },
-                                            "upload_files_drop": {
-                                                "type": "object",
-                                                "required": [
-                                                    "enabled"
-                                                ],
-                                                "properties": {
-                                                    "enabled": {
-                                                        "type": "boolean"
-                                                    }
-                                                }
-                                            },
-                                            "password": {
-                                                "type": "object",
-                                                "required": [
-                                                    "enabled",
-                                                    "enforced"
-                                                ],
-                                                "properties": {
-                                                    "enabled": {
-                                                        "type": "boolean"
-                                                    },
-                                                    "enforced": {
-                                                        "type": "boolean"
-                                                    }
-                                                }
-                                            },
-                                            "expire_date": {
-                                                "type": "object",
-                                                "required": [
-                                                    "enabled",
-                                                    "enforced"
-                                                ],
-                                                "properties": {
-                                                    "enabled": {
-                                                        "type": "boolean"
-                                                    },
-                                                    "enforced": {
-                                                        "type": "boolean"
-                                                    }
-                                                }
+                                            "enforced": {
+                                                "type": "boolean"
                                             }
                                         }
                                     }
                                 }
                             }
                         }
-                    },
-                    {
-                        "type": "array",
-                        "maxItems": 0
                     }
-                ]
+                }
             }
         }
     },

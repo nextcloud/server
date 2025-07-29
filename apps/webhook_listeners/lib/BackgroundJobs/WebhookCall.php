@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\WebhookListeners\BackgroundJobs;
 
+use OCA\AppAPI\PublicFunctions;
 use OCA\WebhookListeners\Db\AuthMethod;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
 use OCP\App\IAppManager;
@@ -16,6 +17,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
+use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -58,11 +60,11 @@ class WebhookCall extends QueuedJob {
 			$exAppId = $webhookListener->getAppId();
 			if ($exAppId !== null && str_starts_with($webhookUri, '/')) {
 				// ExApp is awaiting a direct request to itself using AppAPI
-				if (!$this->appManager->isInstalled('app_api')) {
+				if (!$this->appManager->isEnabledForAnyone('app_api')) {
 					throw new RuntimeException('AppAPI is disabled or not installed.');
 				}
 				try {
-					$appApiFunctions = \OCP\Server::get(\OCA\AppAPI\PublicFunctions::class);
+					$appApiFunctions = Server::get(PublicFunctions::class);
 				} catch (ContainerExceptionInterface|NotFoundExceptionInterface) {
 					throw new RuntimeException('Could not get AppAPI public functions.');
 				}
@@ -72,7 +74,8 @@ class WebhookCall extends QueuedJob {
 				} elseif (!$exApp['enabled']) {
 					throw new RuntimeException('ExApp ' . $exAppId . ' is disabled.');
 				}
-				$response = $appApiFunctions->exAppRequest($exAppId, $webhookUri, $webhookListener->getUserId(), $webhookListener->getHttpMethod(), [], $options);
+				$userId = ($data['user'] ?? [])['uid'] ?? null;
+				$response = $appApiFunctions->exAppRequest($exAppId, $webhookUri, $userId, $webhookListener->getHttpMethod(), [], $options);
 				if (is_array($response) && isset($response['error'])) {
 					throw new RuntimeException(sprintf('Error during request to ExApp(%s): %s', $exAppId, $response['error']));
 				}
@@ -81,12 +84,12 @@ class WebhookCall extends QueuedJob {
 			}
 			$statusCode = $response->getStatusCode();
 			if ($statusCode >= 200 && $statusCode < 300) {
-				$this->logger->debug('Webhook returned status code '.$statusCode, ['body' => $response->getBody()]);
+				$this->logger->debug('Webhook returned status code ' . $statusCode, ['body' => $response->getBody()]);
 			} else {
-				$this->logger->warning('Webhook(' . $webhookId . ') returned unexpected status code '.$statusCode, ['body' => $response->getBody()]);
+				$this->logger->warning('Webhook(' . $webhookId . ') returned unexpected status code ' . $statusCode, ['body' => $response->getBody()]);
 			}
 		} catch (\Exception $e) {
-			$this->logger->error('Webhook(' . $webhookId . ') call failed: '.$e->getMessage(), ['exception' => $e]);
+			$this->logger->error('Webhook(' . $webhookId . ') call failed: ' . $e->getMessage(), ['exception' => $e]);
 		}
 	}
 }

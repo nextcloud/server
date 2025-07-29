@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Federation\CloudId;
 use OCA\Files_Sharing\External\Manager as ExternalShareManager;
+use OCA\Files_Sharing\External\Storage;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -18,7 +20,7 @@ use OCP\Http\Client\IResponse;
  * @group DB
  */
 class ExternalStorageTest extends \Test\TestCase {
-	public function optionsProvider() {
+	public static function optionsProvider() {
 		return [
 			[
 				'http://remoteserver:8080/owncloud',
@@ -86,16 +88,15 @@ class ExternalStorageTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider optionsProvider
-	 */
-	public function testStorageMountOptions($inputUri, $baseUri) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('optionsProvider')]
+	public function testStorageMountOptions($inputUri, $baseUri): void {
 		$storage = $this->getTestStorage($inputUri);
 		$this->assertEquals($baseUri, $storage->getBaseUri());
 	}
 
-	public function testIfTestReturnsTheValue() {
-		$result = $this->getTestStorage('https://remoteserver')->test();
+	public function testIfTestReturnsTheValue(): void {
+		$storage = $this->getTestStorage('https://remoteserver');
+		$result = $storage->test();
 		$this->assertSame(true, $result);
 	}
 }
@@ -103,14 +104,14 @@ class ExternalStorageTest extends \Test\TestCase {
 /**
  * Dummy subclass to make it possible to access private members
  */
-class TestSharingExternalStorage extends \OCA\Files_Sharing\External\Storage {
+class TestSharingExternalStorage extends Storage {
 	public function getBaseUri() {
 		return $this->createBaseUri();
 	}
 
-	public function stat($path) {
+	public function stat(string $path): array|false {
 		if ($path === '') {
-			return true;
+			return ['key' => 'value'];
 		}
 		return parent::stat($path);
 	}

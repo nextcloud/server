@@ -22,8 +22,8 @@ import type { IAppstoreApp } from '../../app-types'
 import { mdiTextShort } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 
-import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import Markdown from '../Markdown.vue'
 
 defineProps<{

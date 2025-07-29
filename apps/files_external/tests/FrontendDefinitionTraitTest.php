@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,16 +8,17 @@
 namespace OCA\Files_External\Tests;
 
 use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\FrontendDefinitionTrait;
 use OCA\Files_External\Lib\StorageConfig;
 
 class FrontendDefinitionTraitTest extends \Test\TestCase {
-	public function testJsonSerialization() {
+	public function testJsonSerialization(): void {
 		$param = $this->getMockBuilder(DefinitionParameter::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$param->method('getName')->willReturn('foo');
 
-		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\FrontendDefinitionTrait');
+		$trait = $this->getMockForTrait(FrontendDefinitionTrait::class);
 		$trait->setText('test');
 		$trait->addParameters([$param]);
 		$trait->addCustomJs('foo/bar.js');
@@ -32,17 +34,15 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		$this->assertArrayHasKey('foo', $configuration);
 	}
 
-	public function validateStorageProvider() {
+	public static function validateStorageProvider(): array {
 		return [
 			[true, ['foo' => true, 'bar' => true, 'baz' => true]],
 			[false, ['foo' => true, 'bar' => false]]
 		];
 	}
 
-	/**
-	 * @dataProvider validateStorageProvider
-	 */
-	public function testValidateStorage($expectedSuccess, $params) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('validateStorageProvider')]
+	public function testValidateStorage(bool $expectedSuccess, array $params): void {
 		$backendParams = [];
 		foreach ($params as $name => $valid) {
 			$param = $this->getMockBuilder(DefinitionParameter::class)
@@ -67,14 +67,14 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		$storageConfig->expects($this->any())
 			->method('setBackendOption');
 
-		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\FrontendDefinitionTrait');
+		$trait = $this->getMockForTrait(FrontendDefinitionTrait::class);
 		$trait->setText('test');
 		$trait->addParameters($backendParams);
 
 		$this->assertEquals($expectedSuccess, $trait->validateStorageDefinition($storageConfig));
 	}
 
-	public function testValidateStorageSet() {
+	public function testValidateStorageSet(): void {
 		$param = $this->getMockBuilder(DefinitionParameter::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -98,7 +98,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 			->method('setBackendOption')
 			->with('param', 'foobar');
 
-		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\FrontendDefinitionTrait');
+		$trait = $this->getMockForTrait(FrontendDefinitionTrait::class);
 		$trait->setText('test');
 		$trait->addParameter($param);
 

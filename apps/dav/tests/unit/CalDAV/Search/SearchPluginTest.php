@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,7 +16,7 @@ use Test\TestCase;
 class SearchPluginTest extends TestCase {
 	protected $server;
 
-	/** @var \OCA\DAV\CalDAV\Search\SearchPlugin $plugin */
+	/** @var SearchPlugin $plugin */
 	protected $plugin;
 
 	protected function setUp(): void {

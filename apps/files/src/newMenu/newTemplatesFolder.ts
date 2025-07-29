@@ -17,7 +17,9 @@ import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
 import axios from '@nextcloud/axios'
 import logger from '../logger.ts'
 
+const templatesEnabled = loadState<boolean>('files', 'templates_enabled', true)
 let templatesPath = loadState<string|false>('files', 'templates_path', false)
+logger.debug('Templates folder enabled', { templatesEnabled })
 logger.debug('Initial templates folder', { templatesPath })
 
 /**
@@ -57,8 +59,8 @@ export const entry = {
 	iconSvgInline: PlusSvg,
 	order: 30,
 	enabled(context: Folder): boolean {
-		// Templates folder already initialized
-		if (templatesPath) {
+		// Templates disabled or templates folder already initialized
+		if (!templatesEnabled || templatesPath) {
 			return false
 		}
 		// Allow creation on your own folders only

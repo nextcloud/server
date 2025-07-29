@@ -46,10 +46,14 @@ interface IManager {
 	public function getPreferredProvider(string $taskTypeId);
 
 	/**
-	 * @return array<array-key,array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
+	 * @param bool $showDisabled if false, disabled task types will be filtered
+	 * @param ?string $userId to check if the user is a guest. Will be obtained from session if left to default
+	 * @return array<string, array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 * @since 30.0.0
+	 * @since 31.0.0 Added the `showDisabled` argument.
+	 * @since 31.0.7 Added the `userId` argument
 	 */
-	public function getAvailableTaskTypes(): array;
+	public function getAvailableTaskTypes(bool $showDisabled = false, ?string $userId = null): array;
 
 	/**
 	 * @param Task $task The task to run
@@ -60,6 +64,33 @@ interface IManager {
 	 * @since 30.0.0
 	 */
 	public function scheduleTask(Task $task): void;
+
+	/**
+	 * Run the task and return the finished task
+	 *
+	 * @param Task $task The task to run
+	 * @return Task The result task
+	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
+	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
+	 * @throws Exception storing the task in the database failed
+	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
+	 * @since 30.0.0
+	 */
+	public function runTask(Task $task): Task;
+
+	/**
+	 * Process task with a synchronous provider
+	 *
+	 * Prepare task input data and run the process method of the provider
+	 * This should only be used by OC\TaskProcessing\SynchronousBackgroundJob::run() and OCP\TaskProcessing\IManager::runTask()
+	 *
+	 * @param Task $task
+	 * @param ISynchronousProvider $provider
+	 * @return bool True if the task has run successfully
+	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	public function processTask(Task $task, ISynchronousProvider $provider): bool;
 
 	/**
 	 * Delete a task that has been scheduled before
@@ -155,7 +186,7 @@ interface IManager {
 	 */
 	public function getTasks(
 		?string $userId, ?string $taskTypeId = null, ?string $appId = null, ?string $customId = null,
-		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null
+		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null,
 	): array;
 
 	/**

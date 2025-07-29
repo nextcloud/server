@@ -51,14 +51,12 @@
     "Basic encryption module" : "Podstawowy moduł szyfrowania",
     "Your private key password no longer matches your log-in password." : "Hasło Twojego klucza prywatnego nie pasuje już do Twojego hasła logowania.",
     "Set your old private key password to your current log-in password:" : "Ustaw stare hasło klucza prywatnego na aktualne hasło logowania:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Jeśli nie pamiętasz swojego starego hasła, poproś swojego administratora, aby odzyskać pliki.",
     "Old log-in password" : "Stare hasło logowania",
     "Current log-in password" : "Bieżące hasło logowania",
     "Update Private Key Password" : "Aktualizacja hasła klucza prywatnego",
     "Enable password recovery:" : "Włącz hasło odzyskiwania:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła",
     "Enabled" : "Włączone",
-    "Disabled" : "Wyłączone",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kluczem do odzyskiwania jest dodatkowy klucz szyfrujący, który służy do szyfrowania plików. Umożliwia on odzyskanie plików użytkownika, jeśli użytkownik zapomni swoje hasło."
+    "Disabled" : "Wyłączone"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

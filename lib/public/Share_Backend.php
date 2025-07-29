@@ -30,14 +30,14 @@ interface Share_Backend {
 	 * Get a unique name of the item for the specified user
 	 * @param string $itemSource
 	 * @param string|false $shareWith User the item is being shared with
-	 * @param array|null $exclude List of similar item names already existing as shared items @deprecated since version OC7
 	 * @return string Target name
 	 *
 	 * This function needs to verify that the user does not already have an item with this name.
 	 * If it does generate a new name e.g. name_#
 	 * @since 5.0.0
+	 * @deprecated 31.0.0
 	 */
-	public function generateTarget($itemSource, $shareWith, $exclude = null);
+	public function generateTarget($itemSource, $shareWith);
 
 	/**
 	 * Converts the shared item sources back into the item in the specified format

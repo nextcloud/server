@@ -31,8 +31,8 @@ import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import { useAuthTokenStore, type ITokenResponse } from '../store/authtoken'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import AuthTokenSetupDialog from './AuthTokenSetupDialog.vue'
 import logger from '../logger'
@@ -81,8 +81,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 	.app-name-text-field {
 		height: 44px !important;
-		padding-left: 12px;
-		margin-right: 12px;
+		padding-inline-start: 12px;
+		margin-inline-end: 12px;
 		width: 200px;
 	}
 

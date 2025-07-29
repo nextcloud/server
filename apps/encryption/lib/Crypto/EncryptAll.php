@@ -20,6 +20,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
@@ -29,38 +30,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class EncryptAll {
 
-	/** @var Setup */
-	protected $userSetup;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var View */
-	protected $rootView;
-
-	/** @var KeyManager */
-	protected $keyManager;
-
-	/** @var Util */
-	protected $util;
-
 	/** @var array */
 	protected $userPasswords;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IMailer */
-	protected $mailer;
-
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IFactory */
-	protected $l10nFactory;
-
-	/** @var QuestionHelper */
-	protected $questionHelper;
 
 	/** @var OutputInterface */
 	protected $output;
@@ -68,33 +39,20 @@ class EncryptAll {
 	/** @var InputInterface */
 	protected $input;
 
-	/** @var ISecureRandom */
-	protected $secureRandom;
-
 	public function __construct(
-		Setup $userSetup,
-		IUserManager $userManager,
-		View $rootView,
-		KeyManager $keyManager,
-		Util $util,
-		IConfig $config,
-		IMailer $mailer,
-		IL10N $l,
-		IFactory $l10nFactory,
-		QuestionHelper $questionHelper,
-		ISecureRandom $secureRandom
+		protected Setup $userSetup,
+		protected IUserManager $userManager,
+		protected View $rootView,
+		protected KeyManager $keyManager,
+		protected Util $util,
+		protected IConfig $config,
+		protected IMailer $mailer,
+		protected IL10N $l,
+		protected IFactory $l10nFactory,
+		protected QuestionHelper $questionHelper,
+		protected ISecureRandom $secureRandom,
+		protected LoggerInterface $logger,
 	) {
-		$this->userSetup = $userSetup;
-		$this->userManager = $userManager;
-		$this->rootView = $rootView;
-		$this->keyManager = $keyManager;
-		$this->util = $util;
-		$this->config = $config;
-		$this->mailer = $mailer;
-		$this->l = $l;
-		$this->l10nFactory = $l10nFactory;
-		$this->questionHelper = $questionHelper;
-		$this->secureRandom = $secureRandom;
 		// store one time passwords for the users
 		$this->userPasswords = [];
 	}
@@ -251,9 +209,22 @@ class EncryptAll {
 				} else {
 					$progress->setMessage("encrypt files for user $userCount: $path");
 					$progress->advance();
-					if ($this->encryptFile($path) === false) {
-						$progress->setMessage("encrypt files for user $userCount: $path (already encrypted)");
+					try {
+						if ($this->encryptFile($path) === false) {
+							$progress->setMessage("encrypt files for user $userCount: $path (already encrypted)");
+							$progress->advance();
+						}
+					} catch (\Exception $e) {
+						$progress->setMessage("Failed to encrypt path $path: " . $e->getMessage());
 						$progress->advance();
+						$this->logger->error(
+							'Failed to encrypt path {path}',
+							[
+								'user' => $uid,
+								'path' => $path,
+								'exception' => $e,
+							]
+						);
 					}
 				}
 			}
@@ -278,7 +249,14 @@ class EncryptAll {
 		$target = $path . '.encrypted.' . time();
 
 		try {
-			$this->rootView->copy($source, $target);
+			$copySuccess = $this->rootView->copy($source, $target);
+			if ($copySuccess === false) {
+				/* Copy failed, abort */
+				if ($this->rootView->file_exists($target)) {
+					$this->rootView->unlink($target);
+				}
+				throw new \Exception('Copy failed for ' . $source);
+			}
 			$this->rootView->rename($target, $source);
 		} catch (DecryptionFailedException $e) {
 			if ($this->rootView->file_exists($target)) {

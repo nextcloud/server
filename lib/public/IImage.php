@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCP;
 
+use GdImage;
+
 /**
  * Class for basic image manipulation
  * @since 8.1.0
@@ -202,4 +204,22 @@ interface IImage {
 	 * @since 19.0.0
 	 */
 	public function resizeCopy(int $maxSize): IImage;
+
+	/**
+	 * Loads an image from a string of data.
+	 *
+	 * @param string $str A string of image data as read from a file.
+	 *
+	 * @since 31.0.0
+	 */
+	public function loadFromData(string $str): GdImage|false;
+
+	/**
+	 * Reads the EXIF data for an image.
+	 *
+	 * @param string $data EXIF data
+	 *
+	 * @since 31.0.0
+	 */
+	public function readExif(string $data): void;
 }

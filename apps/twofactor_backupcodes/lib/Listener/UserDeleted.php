@@ -16,11 +16,9 @@ use OCP\User\Events\UserDeletedEvent;
 /** @template-implements IEventListener<UserDeletedEvent> */
 class UserDeleted implements IEventListener {
 
-	/** @var BackupCodeMapper */
-	private $backupCodeMapper;
-
-	public function __construct(BackupCodeMapper $backupCodeMapper) {
-		$this->backupCodeMapper = $backupCodeMapper;
+	public function __construct(
+		private BackupCodeMapper $backupCodeMapper,
+	) {
 	}
 
 	public function handle(Event $event): void {

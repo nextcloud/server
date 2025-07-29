@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,15 +16,6 @@ use OCP\Settings\IDelegatedSettings;
 
 class CalDAVSettings implements IDelegatedSettings {
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var IInitialState */
-	private $initialState;
-
-	private IURLGenerator $urlGenerator;
-	private IAppManager $appManager;
-
 	private const defaults = [
 		'sendInvitations' => 'yes',
 		'generateBirthdayCalendar' => 'yes',
@@ -38,11 +30,12 @@ class CalDAVSettings implements IDelegatedSettings {
 	 * @param IConfig $config
 	 * @param IInitialState $initialState
 	 */
-	public function __construct(IConfig $config, IInitialState $initialState, IURLGenerator $urlGenerator, IAppManager $appManager) {
-		$this->config = $config;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
-		$this->appManager = $appManager;
+	public function __construct(
+		private IConfig $config,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+		private IAppManager $appManager,
+	) {
 	}
 
 	public function getForm(): TemplateResponse {

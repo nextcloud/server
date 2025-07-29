@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -51,14 +52,14 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		);
 	}
 
-	public function testBeforeControllerNoPublicShareController() {
+	public function testBeforeControllerNoPublicShareController(): void {
 		$controller = $this->createMock(Controller::class);
 
 		$this->middleware->beforeController($controller, 'method');
 		$this->assertTrue(true);
 	}
 
-	public function dataShareApi() {
+	public static function dataShareApi(): array {
 		return [
 			['no', 'no',],
 			['no', 'yes',],
@@ -66,10 +67,8 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataShareApi
-	 */
-	public function testBeforeControllerShareApiDisabled(string $shareApi, string $shareLinks) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataShareApi')]
+	public function testBeforeControllerShareApiDisabled(string $shareApi, string $shareLinks): void {
 		$controller = $this->createMock(PublicShareController::class);
 
 		$this->config->method('getAppValue')
@@ -82,7 +81,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController($controller, 'mehod');
 	}
 
-	public function testBeforeControllerNoTokenParam() {
+	public function testBeforeControllerNoTokenParam(): void {
 		$controller = $this->createMock(PublicShareController::class);
 
 		$this->config->method('getAppValue')
@@ -95,7 +94,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController($controller, 'mehod');
 	}
 
-	public function testBeforeControllerInvalidToken() {
+	public function testBeforeControllerInvalidToken(): void {
 		$controller = $this->createMock(PublicShareController::class);
 
 		$this->config->method('getAppValue')
@@ -117,7 +116,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController($controller, 'mehod');
 	}
 
-	public function testBeforeControllerValidTokenNotAuthenticated() {
+	public function testBeforeControllerValidTokenNotAuthenticated(): void {
 		$controller = $this->getMockBuilder(PublicShareController::class)
 			->setConstructorArgs(['app', $this->request, $this->session])
 			->getMock();
@@ -142,7 +141,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController($controller, 'mehod');
 	}
 
-	public function testBeforeControllerValidTokenAuthenticateMethod() {
+	public function testBeforeControllerValidTokenAuthenticateMethod(): void {
 		$controller = $this->getMockBuilder(PublicShareController::class)
 			->setConstructorArgs(['app', $this->request, $this->session])
 			->getMock();
@@ -167,7 +166,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->assertTrue(true);
 	}
 
-	public function testBeforeControllerValidTokenShowAuthenticateMethod() {
+	public function testBeforeControllerValidTokenShowAuthenticateMethod(): void {
 		$controller = $this->getMockBuilder(PublicShareController::class)
 			->setConstructorArgs(['app', $this->request, $this->session])
 			->getMock();
@@ -192,7 +191,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->assertTrue(true);
 	}
 
-	public function testBeforeControllerAuthPublicShareController() {
+	public function testBeforeControllerAuthPublicShareController(): void {
 		$controller = $this->getMockBuilder(AuthPublicShareController::class)
 			->setConstructorArgs(['app', $this->request, $this->session, $this->createMock(IURLGenerator::class)])
 			->getMock();
@@ -221,7 +220,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController($controller, 'method');
 	}
 
-	public function testAfterExceptionNoPublicShareController() {
+	public function testAfterExceptionNoPublicShareController(): void {
 		$controller = $this->createMock(Controller::class);
 		$exception = new \Exception();
 
@@ -232,7 +231,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		}
 	}
 
-	public function testAfterExceptionPublicShareControllerNotFoundException() {
+	public function testAfterExceptionPublicShareControllerNotFoundException(): void {
 		$controller = $this->createMock(PublicShareController::class);
 		$exception = new NotFoundException();
 
@@ -241,7 +240,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($result->getStatus(), Http::STATUS_NOT_FOUND);
 	}
 
-	public function testAfterExceptionPublicShareController() {
+	public function testAfterExceptionPublicShareController(): void {
 		$controller = $this->createMock(PublicShareController::class);
 		$exception = new \Exception();
 
@@ -252,7 +251,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		}
 	}
 
-	public function testAfterExceptionAuthPublicShareController() {
+	public function testAfterExceptionAuthPublicShareController(): void {
 		$controller = $this->getMockBuilder(AuthPublicShareController::class)
 			->setConstructorArgs([
 				'app',

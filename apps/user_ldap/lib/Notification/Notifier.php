@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,14 +13,12 @@ use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	protected $l10nFactory;
-
 	/**
 	 * @param IFactory $l10nFactory
 	 */
-	public function __construct(\OCP\L10N\IFactory $l10nFactory) {
-		$this->l10nFactory = $l10nFactory;
+	public function __construct(
+		protected IFactory $l10nFactory,
+	) {
 	}
 
 	/**

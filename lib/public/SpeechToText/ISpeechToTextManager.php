@@ -59,11 +59,13 @@ interface ISpeechToTextManager {
 
 	/**
 	 * @param File $file The media file to transcribe
+	 * @param ?string $userId The user that triggered this request
+	 * @param string $appId The app that triggered this request
 	 * @returns string The transcription of the passed media file
 	 * @throws PreConditionNotMetException If no provider was registered but this method was still called
 	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
 	 * @throws RuntimeException If the transcription failed for other reasons
 	 * @since 27.0.0
 	 */
-	public function transcribeFile(File $file): string;
+	public function transcribeFile(File $file, ?string $userId, string $appId): string;
 }

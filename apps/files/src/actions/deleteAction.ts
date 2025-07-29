@@ -2,22 +2,26 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Permission, Node, View, FileAction } from '@nextcloud/files'
 import { showInfo } from '@nextcloud/dialogs'
+import { Permission, Node, View, FileAction } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import PQueue from 'p-queue'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
-import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
+import TrashCanSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
 
+import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
+import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'
 import logger from '../logger.ts'
-import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, isTrashbinEnabled } from './deleteUtils'
 
 const queue = new PQueue({ concurrency: 5 })
 
+export const ACTION_DELETE = 'delete'
+
 export const action = new FileAction({
-	id: 'delete',
+	id: ACTION_DELETE,
 	displayName,
 	iconSvgInline: (nodes: Node[]) => {
 		if (canUnshareOnly(nodes)) {
@@ -31,7 +35,14 @@ export const action = new FileAction({
 		return TrashCanSvg
 	},
 
-	enabled(nodes: Node[]) {
+	enabled(nodes: Node[], view: View): boolean {
+		if (view.id === TRASHBIN_VIEW_ID) {
+			const config = loadState('files_trashbin', 'config', { allow_delete: true })
+			if (config.allow_delete === false) {
+				return false
+			}
+		}
+
 		return nodes.length > 0 && nodes
 			.map(node => node.permissions)
 			.every(permission => (permission & Permission.DELETE) !== 0)
@@ -41,8 +52,13 @@ export const action = new FileAction({
 		try {
 			let confirm = true
 
-			// If trashbin is disabled, we need to ask for confirmation
-			if (!isTrashbinEnabled()) {
+			// Trick to detect if the action was called from a keyboard event
+			// we need to make sure the method calling have its named containing 'keydown'
+			// here we use `onKeydown` method from the FileEntryActions component
+			const callStack = new Error().stack || ''
+			const isCalledFromEventListener = callStack.toLocaleLowerCase().includes('keydown')
+
+			if (shouldAskForConfirmation() || isCalledFromEventListener) {
 				confirm = await askConfirmation([node], view)
 			}
 
@@ -64,8 +80,7 @@ export const action = new FileAction({
 	async execBatch(nodes: Node[], view: View): Promise<(boolean | null)[]> {
 		let confirm = true
 
-		// If trashbin is disabled, we need to ask for confirmation
-		if (!isTrashbinEnabled()) {
+		if (shouldAskForConfirmation()) {
 			confirm = await askConfirmation(nodes, view)
 		} else if (nodes.length >= 5 && !canUnshareOnly(nodes) && !canDisconnectOnly(nodes)) {
 			confirm = await askConfirmation(nodes, view)
@@ -79,8 +94,8 @@ export const action = new FileAction({
 
 		// Map each node to a promise that resolves with the result of exec(node)
 		const promises = nodes.map(node => {
-		    // Create a promise that resolves with the result of exec(node)
-		    const promise = new Promise<boolean>(resolve => {
+			// Create a promise that resolves with the result of exec(node)
+			const promise = new Promise<boolean>(resolve => {
 				queue.add(async () => {
 					try {
 						await deleteNode(node)
@@ -97,5 +112,6 @@ export const action = new FileAction({
 		return Promise.all(promises)
 	},
 
+	destructive: true,
 	order: 100,
 })

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -29,9 +30,7 @@ class SearchTest extends TestCase {
 		$this->search = new Search($this->container);
 	}
 
-	/**
-	 * @dataProvider dataSearchSharees
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchSharees')]
 	public function testSearch(
 		string $searchTerm,
 		array $shareTypes,
@@ -42,8 +41,8 @@ class SearchTest extends TestCase {
 		array $mockedRemotesResult,
 		array $mockedMailResult,
 		array $expected,
-		bool $expectedMoreResults
-	) {
+		bool $expectedMoreResults,
+	): void {
 		$searchResult = new SearchResult();
 
 		$userPlugin = $this->createMock(ISearchPlugin::class);
@@ -115,7 +114,7 @@ class SearchTest extends TestCase {
 		$this->assertSame($expectedMoreResults, $moreResults);
 	}
 
-	public function dataSearchSharees() {
+	public static function dataSearchSharees(): array {
 		return [
 			// #0
 			[

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -21,12 +22,14 @@ class OAuth2 extends AuthMechanism {
 			->setText($l->t('OAuth2'))
 			->addParameters([
 				(new DefinitionParameter('configured', 'configured'))
-					->setType(DefinitionParameter::VALUE_HIDDEN),
+					->setType(DefinitionParameter::VALUE_TEXT)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 				new DefinitionParameter('client_id', $l->t('Client ID')),
 				(new DefinitionParameter('client_secret', $l->t('Client secret')))
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 				(new DefinitionParameter('token', 'token'))
-					->setType(DefinitionParameter::VALUE_HIDDEN),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 			])
 			->addCustomJs('oauth2')
 		;

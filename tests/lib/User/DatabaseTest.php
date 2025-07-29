@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,7 @@
 
 namespace Test\User;
 
+use OC\User\Database;
 use OC\User\User;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -25,6 +27,9 @@ class DatabaseTest extends Backend {
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
+	/** @var \OC\User\Database */
+	protected $backend;
+
 	public function getUser() {
 		$user = parent::getUser();
 		$this->users[] = $user;
@@ -36,7 +41,7 @@ class DatabaseTest extends Backend {
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
-		$this->backend = new \OC\User\Database($this->eventDispatcher);
+		$this->backend = new Database($this->eventDispatcher);
 	}
 
 	protected function tearDown(): void {
@@ -49,13 +54,13 @@ class DatabaseTest extends Backend {
 		parent::tearDown();
 	}
 
-	public function testVerifyPasswordEvent() {
+	public function testVerifyPasswordEvent(): void {
 		$user = $this->getUser();
 		$this->backend->createUser($user, 'pass1');
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
 					/** @var ValidatePasswordPolicyEvent $event */
 					$this->assertSame('newpass', $event->getPassword());
@@ -67,8 +72,8 @@ class DatabaseTest extends Backend {
 	}
 
 
-	public function testVerifyPasswordEventFail() {
-		$this->expectException(\OCP\HintException::class);
+	public function testVerifyPasswordEventFail(): void {
+		$this->expectException(HintException::class);
 		$this->expectExceptionMessage('password change failed');
 
 		$user = $this->getUser();
@@ -76,7 +81,7 @@ class DatabaseTest extends Backend {
 
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
-				function (Event $event) {
+				function (Event $event): void {
 					$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
 					/** @var ValidatePasswordPolicyEvent $event */
 					$this->assertSame('newpass', $event->getPassword());
@@ -88,14 +93,14 @@ class DatabaseTest extends Backend {
 		$this->assertSame($user, $this->backend->checkPassword($user, 'newpass'));
 	}
 
-	public function testCreateUserInvalidatesCache() {
+	public function testCreateUserInvalidatesCache(): void {
 		$user1 = $this->getUniqueID('test_');
 		$this->assertFalse($this->backend->userExists($user1));
 		$this->backend->createUser($user1, 'pw');
 		$this->assertTrue($this->backend->userExists($user1));
 	}
 
-	public function testDeleteUserInvalidatesCache() {
+	public function testDeleteUserInvalidatesCache(): void {
 		$user1 = $this->getUniqueID('test_');
 		$this->backend->createUser($user1, 'pw');
 		$this->assertTrue($this->backend->userExists($user1));
@@ -105,7 +110,7 @@ class DatabaseTest extends Backend {
 		$this->assertTrue($this->backend->userExists($user1));
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		parent::testSearch();
 
 		$user1 = $this->getUser();
@@ -138,5 +143,15 @@ class DatabaseTest extends Backend {
 
 		$result = $this->backend->getDisplayNames('@nextcloud.COM');
 		$this->assertCount(2, $result);
+	}
+
+	public function testUserCount(): void {
+		$base = $this->backend->countUsers() ?: 0;
+		$users = $this->backend->getUsers();
+		self::assertEquals($base, count($users));
+
+		$user = $this->getUser();
+		$this->backend->createUser($user, $user);
+		self::assertEquals($base + 1, $this->backend->countUsers());
 	}
 }

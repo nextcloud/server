@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,15 +13,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityFilterTest extends TestCase {
-
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-
-	/** @var IL10N|MockObject */
-	private $l10n;
-
-	/** @var SecurityFilter */
-	private $filter;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $l10n;
+	private SecurityFilter $filter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -31,15 +26,15 @@ class SecurityFilterTest extends TestCase {
 		$this->filter = new SecurityFilter($this->urlGenerator, $this->l10n);
 	}
 
-	public function testAllowedApps() {
+	public function testAllowedApps(): void {
 		$this->assertEquals([], $this->filter->allowedApps());
 	}
 
-	public function testFilterTypes() {
+	public function testFilterTypes(): void {
 		$this->assertEquals(['security'], $this->filter->filterTypes(['comments', 'security']));
 	}
 
-	public function testGetIcon() {
+	public function testGetIcon(): void {
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', 'actions/password.svg')
@@ -51,11 +46,11 @@ class SecurityFilterTest extends TestCase {
 		$this->assertEquals('abs/path/to/icon.svg', $this->filter->getIcon());
 	}
 
-	public function testGetIdentifier() {
+	public function testGetIdentifier(): void {
 		$this->assertEquals('security', $this->filter->getIdentifier());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Security')
@@ -63,7 +58,7 @@ class SecurityFilterTest extends TestCase {
 		$this->assertEquals('translated', $this->filter->getName());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertEquals(30, $this->filter->getPriority());
 	}
 }

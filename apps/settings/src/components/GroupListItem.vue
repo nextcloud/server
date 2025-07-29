@@ -13,7 +13,7 @@
 				</h2>
 				<NcNoteCard type="warning"
 					show-alert>
-					{{ t('settings', 'You are about to remove the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
+					{{ t('settings', 'You are about to delete the group "{group}". The accounts will NOT be deleted.', { group: name }) }}
 				</NcNoteCard>
 				<div class="modal__button-row">
 					<NcButton type="secondary"
@@ -29,6 +29,7 @@
 		</NcModal>
 
 		<NcAppNavigationItem :key="id"
+			ref="listItem"
 			:exact="true"
 			:name="name"
 			:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(id) } }"
@@ -61,7 +62,7 @@
 					<template #icon>
 						<Delete :size="20" />
 					</template>
-					{{ t('settings', 'Remove group') }}
+					{{ t('settings', 'Delete group') }}
 				</NcActionButton>
 			</template>
 		</NcAppNavigationItem>
@@ -71,17 +72,17 @@
 <script>
 import { Fragment } from 'vue-frag'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcCounterBubble from '@nextcloud/vue/dist/Components/NcCounterBubble.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
-import AccountGroup from 'vue-material-design-icons/AccountGroup.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
-import Pencil from 'vue-material-design-icons/Pencil.vue'
+import AccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 
 import { showError } from '@nextcloud/dialogs'
 
@@ -178,7 +179,7 @@ export default {
 				await this.$store.dispatch('removeGroup', this.id)
 				this.showRemoveGroupModal = false
 			} catch (error) {
-				showError(t('settings', 'Failed to remove group "{group}"', { group: this.name }))
+				showError(t('settings', 'Failed to delete group "{group}"', { group: this.name }))
 			}
 		},
 	},

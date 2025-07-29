@@ -74,11 +74,17 @@ const generateFileAction = (option: ReminderOption): FileAction|null => {
 		// Empty svg to hide the icon
 		iconSvgInline: () => '<svg></svg>',
 
-		enabled: (_nodes: Node[], view: View) => {
+		enabled: (nodes: Node[], view: View) => {
 			if (view.id === 'trashbin') {
 				return false
 			}
-			return Boolean(getDateTime(option.dateTimePreset))
+			// Only allow on a single node
+			if (nodes.length !== 1) {
+				return false
+			}
+			const node = nodes.at(0)!
+			const dueDate = node.attributes['reminder-due-date']
+			return dueDate !== undefined && Boolean(getDateTime(option.dateTimePreset))
 		},
 
 		parent: SET_REMINDER_MENU_ID,

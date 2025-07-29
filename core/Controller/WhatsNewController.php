@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,6 +20,8 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\PreConditionNotMetException;
+use OCP\ServerVersion;
 
 class WhatsNewController extends OCSController {
 	public function __construct(
@@ -28,18 +31,19 @@ class WhatsNewController extends OCSController {
 		private IUserSession $userSession,
 		IUserManager $userManager,
 		Manager $keyManager,
+		ServerVersion $serverVersion,
 		private IConfig $config,
 		private ChangesCheck $whatsNewService,
 		private IFactory $langFactory,
 		private Defaults $defaults,
 	) {
-		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager);
+		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager, $serverVersion);
 	}
 
 	/**
 	 * Get the changes
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: string[], admin: string[]}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: list<string>, admin: list<string>}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, list<empty>, array{}>
 	 *
 	 * 200: Changes returned
 	 * 204: No changes
@@ -85,8 +89,8 @@ class WhatsNewController extends OCSController {
 	 *
 	 * @param string $version Version to dismiss the changes for
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
-	 * @throws \OCP\PreConditionNotMetException
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @throws PreConditionNotMetException
 	 * @throws DoesNotExistException
 	 *
 	 * 200: Changes dismissed

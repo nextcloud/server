@@ -25,8 +25,8 @@ class RemoteAddressTest extends \Test\TestCase {
 
 	/**
 	 * @param mixed $allowedRanges
-	 * @dataProvider dataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
 	public function testAllowedIps(string $remoteIp, $allowedRanges, bool $expected): void {
 		$this->request
 			->method('getRemoteAddress')
@@ -44,7 +44,7 @@ class RemoteAddressTest extends \Test\TestCase {
 	/**
 	 * @return array<string, mixed, bool>
 	 */
-	public function dataProvider(): array {
+	public static function dataProvider(): array {
 		return [
 			// No IP (ie. CLI)
 			['', ['192.168.1.2/24'], true],
@@ -52,6 +52,8 @@ class RemoteAddressTest extends \Test\TestCase {
 			// No configuration
 			['1.2.3.4', false, true],
 			['1234:4567:8910::', false, true],
+			// v6 Zone ID
+			['fe80::1fc4:15d8:78db:2319%enp4s0', false, true],
 			// Empty configuration
 			['1.2.3.4', [], true],
 			['1234:4567:8910::', [], true],

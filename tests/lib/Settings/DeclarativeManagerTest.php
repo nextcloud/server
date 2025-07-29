@@ -10,15 +10,20 @@ declare(strict_types=1);
 namespace Test\Settings;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Settings\DeclarativeManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Security\ICrypto;
 use OCP\Settings\DeclarativeSettingsTypes;
 use OCP\Settings\Events\DeclarativeSettingsSetValueEvent;
 use OCP\Settings\IDeclarativeManager;
+use OCP\Settings\IDeclarativeSettingsForm;
+use OCP\Settings\IDeclarativeSettingsFormWithHandlers;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -46,11 +51,16 @@ class DeclarativeManagerTest extends TestCase {
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
+	/** @var ICrypto|MockObject */
+	private $crypto;
+
 	/** @var IUser|MockObject */
 	private $user;
 
 	/** @var IUser|MockObject */
 	private $adminUser;
+
+	private IDeclarativeSettingsForm&MockObject $closureForm;
 
 	public const validSchemaAllFields = [
 		'id' => 'test_form_1',
@@ -209,6 +219,36 @@ class DeclarativeManagerTest extends TestCase {
 					],
 				],
 			],
+			[
+				'id' => 'test_sensitive_field',
+				'title' => 'Sensitive text field',
+				'description' => 'Set some secure value setting that is stored encrypted',
+				'type' => DeclarativeSettingsTypes::TEXT,
+				'label' => 'Sensitive field',
+				'placeholder' => 'Set secure value',
+				'default' => '',
+				'sensitive' => true, // only for TEXT, PASSWORD types
+			],
+			[
+				'id' => 'test_sensitive_field_2',
+				'title' => 'Sensitive password field',
+				'description' => 'Set some password setting that is stored encrypted',
+				'type' => DeclarativeSettingsTypes::PASSWORD,
+				'label' => 'Sensitive field',
+				'placeholder' => 'Set secure value',
+				'default' => '',
+				'sensitive' => true, // only for TEXT, PASSWORD types
+			],
+			[
+				'id' => 'test_non_sensitive_field',
+				'title' => 'Password field',
+				'description' => 'Set some password setting',
+				'type' => DeclarativeSettingsTypes::PASSWORD,
+				'label' => 'Password field',
+				'placeholder' => 'Set secure value',
+				'default' => '',
+				'sensitive' => false,
+			],
 		],
 	];
 
@@ -223,6 +263,7 @@ class DeclarativeManagerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->crypto = $this->createMock(ICrypto::class);
 
 		$this->declarativeManager = new DeclarativeManager(
 			$this->eventDispatcher,
@@ -230,7 +271,8 @@ class DeclarativeManagerTest extends TestCase {
 			$this->coordinator,
 			$this->config,
 			$this->appConfig,
-			$this->logger
+			$this->logger,
+			$this->crypto,
 		);
 
 		$this->user = $this->createMock(IUser::class);
@@ -303,9 +345,7 @@ class DeclarativeManagerTest extends TestCase {
 		$this->assertFalse(isset($formIds[$app]) && in_array($schemaDuplicateFields['id'], $formIds[$app]));
 	}
 
-	/**
-	 * @dataProvider dataValidateSchema
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateSchema')]
 	public function testValidateSchema(bool $expected, bool $expectException, string $app, array $schema): void {
 		if ($expectException) {
 			$this->expectException(\Exception::class);
@@ -518,4 +558,74 @@ class DeclarativeManagerTest extends TestCase {
 		$this->expectException(\Exception::class);
 		$this->declarativeManager->getFormsWithValues($this->user, $schema['section_type'], $schema['section_id']);
 	}
+
+	/**
+	 * Ensure that the `setValue` method is called if the form implements the handler interface.
+	 */
+	public function testSetValueWithHandler(): void {
+		$schema = self::validSchemaAllFields;
+		$schema['storage_type'] = DeclarativeSettingsTypes::STORAGE_TYPE_EXTERNAL;
+
+		$form = $this->createMock(IDeclarativeSettingsFormWithHandlers::class);
+		$form->expects(self::atLeastOnce())
+			->method('getSchema')
+			->willReturn($schema);
+		// The setter should be called once!
+		$form->expects(self::once())
+			->method('setValue')
+			->with('test_field_2', 'some password', $this->adminUser);
+
+		\OC::$server->registerService('OCA\\Testing\\Settings\\DeclarativeForm', fn () => $form, false);
+
+		$context = $this->createMock(RegistrationContext::class);
+		$context->expects(self::atLeastOnce())
+			->method('getDeclarativeSettings')
+			->willReturn([new ServiceRegistration('testing', 'OCA\\Testing\\Settings\\DeclarativeForm')]);
+
+		$this->coordinator->expects(self::atLeastOnce())
+			->method('getRegistrationContext')
+			->willReturn($context);
+
+		$this->declarativeManager->loadSchemas();
+
+		$this->eventDispatcher->expects(self::never())
+			->method('dispatchTyped');
+
+		$this->declarativeManager->setValue($this->adminUser, 'testing', 'test_form_1', 'test_field_2', 'some password');
+	}
+
+	public function testGetValueWithHandler(): void {
+		$schema = self::validSchemaAllFields;
+		$schema['storage_type'] = DeclarativeSettingsTypes::STORAGE_TYPE_EXTERNAL;
+
+		$form = $this->createMock(IDeclarativeSettingsFormWithHandlers::class);
+		$form->expects(self::atLeastOnce())
+			->method('getSchema')
+			->willReturn($schema);
+		// The setter should be called once!
+		$form->expects(self::once())
+			->method('getValue')
+			->with('test_field_2', $this->adminUser)
+			->willReturn('very secret password');
+
+		\OC::$server->registerService('OCA\\Testing\\Settings\\DeclarativeForm', fn () => $form, false);
+
+		$context = $this->createMock(RegistrationContext::class);
+		$context->expects(self::atLeastOnce())
+			->method('getDeclarativeSettings')
+			->willReturn([new ServiceRegistration('testing', 'OCA\\Testing\\Settings\\DeclarativeForm')]);
+
+		$this->coordinator->expects(self::atLeastOnce())
+			->method('getRegistrationContext')
+			->willReturn($context);
+
+		$this->declarativeManager->loadSchemas();
+
+		$this->eventDispatcher->expects(self::never())
+			->method('dispatchTyped');
+
+		$password = $this->invokePrivate($this->declarativeManager, 'getValue', [$this->adminUser, 'testing', 'test_form_1', 'test_field_2']);
+		self::assertEquals('very secret password', $password);
+	}
+
 }

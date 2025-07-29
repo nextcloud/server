@@ -7,8 +7,10 @@
  */
 namespace OCA\Encryption;
 
+use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -25,11 +27,7 @@ class Util {
 		private IConfig $config,
 		private IUserManager $userManager,
 	) {
-		$this->files = $files;
-		$this->crypt = $crypt;
 		$this->user = $userSession->isLoggedIn() ? $userSession->getUser() : false;
-		$this->config = $config;
-		$this->userManager = $userManager;
 	}
 
 	/**
@@ -123,21 +121,16 @@ class Util {
 		if (count($parts) > 1) {
 			$owner = $parts[1];
 			if ($this->userManager->userExists($owner) === false) {
-				throw new \BadMethodCallException('Unknown user: ' .
-				'method expects path to a user folder relative to the data folder');
+				throw new \BadMethodCallException('Unknown user: '
+				. 'method expects path to a user folder relative to the data folder');
 			}
 		}
 
 		return $owner;
 	}
 
-	/**
-	 * get storage of path
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Storage\Storage|null
-	 */
-	public function getStorage($path) {
+	public function getStorage(string $path): ?IStorage {
 		return $this->files->getMount($path)->getStorage();
 	}
+
 }

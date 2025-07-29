@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -29,7 +30,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test no capabilities
 	 */
-	public function testNoCapabilities() {
+	public function testNoCapabilities(): void {
 		$res = $this->manager->getCapabilities();
 		$this->assertEmpty($res);
 	}
@@ -37,7 +38,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test a valid capabilitie
 	 */
-	public function testValidCapability() {
+	public function testValidCapability(): void {
 		$this->manager->registerCapability(function () {
 			return new SimpleCapability();
 		});
@@ -49,7 +50,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test a public capabilitie
 	 */
-	public function testPublicCapability() {
+	public function testPublicCapability(): void {
 		$this->manager->registerCapability(function () {
 			return new PublicSimpleCapability1();
 		});
@@ -67,7 +68,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test that we need something that implents ICapability
 	 */
-	public function testNoICapability() {
+	public function testNoICapability(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('The given Capability (Test\\NoCapability) does not implement the ICapability interface');
 
@@ -82,7 +83,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test a bunch of merged Capabilities
 	 */
-	public function testMergedCapabilities() {
+	public function testMergedCapabilities(): void {
 		$this->manager->registerCapability(function () {
 			return new SimpleCapability();
 		});
@@ -108,7 +109,7 @@ class CapabilitiesManagerTest extends TestCase {
 	/**
 	 * Test deep identical capabilities
 	 */
-	public function testDeepIdenticalCapabilities() {
+	public function testDeepIdenticalCapabilities(): void {
 		$this->manager->registerCapability(function () {
 			return new DeepCapability();
 		});
@@ -128,8 +129,8 @@ class CapabilitiesManagerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidCapability() {
-		$this->manager->registerCapability(function () {
+	public function testInvalidCapability(): void {
+		$this->manager->registerCapability(function (): void {
 			throw new QueryException();
 		});
 

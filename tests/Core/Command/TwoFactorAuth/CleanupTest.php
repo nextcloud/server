@@ -36,7 +36,7 @@ class CleanupTest extends TestCase {
 		$this->cmd = new CommandTester($cmd);
 	}
 
-	public function testCleanup() {
+	public function testCleanup(): void {
 		$this->registry->expects($this->once())
 			->method('cleanUp')
 			->with('u2f');

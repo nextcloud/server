@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Test\Files\Cache;
 
 use OC\Files\Storage\LocalRootStorage;
+use OCP\ITempManager;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -21,11 +23,11 @@ class LocalRootScannerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$folder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$folder = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->storage = new LocalRootStorage(['datadir' => $folder]);
 	}
 
-	public function testDontScanUsers() {
+	public function testDontScanUsers(): void {
 		$this->storage->mkdir('foo');
 		$this->storage->mkdir('foo/bar');
 
@@ -33,7 +35,7 @@ class LocalRootScannerTest extends TestCase {
 		$this->assertFalse($this->storage->getCache()->inCache('foo'));
 	}
 
-	public function testDoScanAppData() {
+	public function testDoScanAppData(): void {
 		$this->storage->mkdir('appdata_foo');
 		$this->storage->mkdir('appdata_foo/bar');
 

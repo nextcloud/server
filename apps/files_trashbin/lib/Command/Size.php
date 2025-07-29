@@ -13,26 +13,19 @@ use OCP\Command\IBus;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Util;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Size extends Base {
-	private $config;
-	private $userManager;
-	private $commandBus;
-
 	public function __construct(
-		IConfig $config,
-		IUserManager $userManager,
-		IBus $commandBus
+		private IConfig $config,
+		private IUserManager $userManager,
+		private IBus $commandBus,
 	) {
 		parent::__construct();
-
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->commandBus = $commandBus;
 	}
 
 	protected function configure() {
@@ -53,7 +46,7 @@ class Size extends Base {
 		$size = $input->getArgument('size');
 
 		if ($size) {
-			$parsedSize = \OC_Helper::computerFileSize($size);
+			$parsedSize = Util::computerFileSize($size);
 			if ($parsedSize === false) {
 				$output->writeln('<error>Failed to parse input size</error>');
 				return -1;
@@ -78,7 +71,7 @@ class Size extends Base {
 		if ($globalSize < 0) {
 			$globalHumanSize = 'default (50% of available space)';
 		} else {
-			$globalHumanSize = \OC_Helper::humanFileSize($globalSize);
+			$globalHumanSize = Util::humanFileSize($globalSize);
 		}
 
 		if ($user) {
@@ -87,7 +80,7 @@ class Size extends Base {
 			if ($userSize < 0) {
 				$userHumanSize = ($globalSize < 0) ? $globalHumanSize : "default($globalHumanSize)";
 			} else {
-				$userHumanSize = \OC_Helper::humanFileSize($userSize);
+				$userHumanSize = Util::humanFileSize($userSize);
 			}
 
 			if ($input->getOption('output') == self::OUTPUT_FORMAT_PLAIN) {
@@ -103,7 +96,7 @@ class Size extends Base {
 			}
 		} else {
 			$users = [];
-			$this->userManager->callForSeenUsers(function (IUser $user) use (&$users) {
+			$this->userManager->callForSeenUsers(function (IUser $user) use (&$users): void {
 				$users[] = $user->getUID();
 			});
 			$userValues = $this->config->getUserValueForUsers('files_trashbin', 'trashbin_size', $users);
@@ -114,7 +107,7 @@ class Size extends Base {
 				if (count($userValues)) {
 					$output->writeln('Per-user sizes:');
 					$this->writeArrayInOutputFormat($input, $output, array_map(function ($size) {
-						return \OC_Helper::humanFileSize($size);
+						return Util::humanFileSize($size);
 					}, $userValues));
 				} else {
 					$output->writeln('No per-user sizes configured');

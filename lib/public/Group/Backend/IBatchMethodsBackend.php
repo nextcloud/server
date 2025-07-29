@@ -33,7 +33,7 @@ interface IBatchMethodsBackend {
 	 * a loop. But a GroupBackend implementation should override this method
 	 * to provide a more optimized way to execute this operation.
 	 *
-	 * @throw \RuntimeException if called on a backend that doesn't implements IGroupDetailsBackend
+	 * @throws \RuntimeException if called on a backend that doesn't implements IGroupDetailsBackend
 	 *
 	 * @return array<string, array{displayName?: string}>
 	 * @since 28.0.0

@@ -9,24 +9,25 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 
 import AvatarSection from './components/PersonalInfo/AvatarSection.vue'
+import BiographySection from './components/PersonalInfo/BiographySection.vue'
+import BirthdaySection from './components/PersonalInfo/BirthdaySection.vue'
 import DetailsSection from './components/PersonalInfo/DetailsSection.vue'
 import DisplayNameSection from './components/PersonalInfo/DisplayNameSection.vue'
 import EmailSection from './components/PersonalInfo/EmailSection/EmailSection.vue'
-import PhoneSection from './components/PersonalInfo/PhoneSection.vue'
-import LocationSection from './components/PersonalInfo/LocationSection.vue'
-import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
-import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
 import FediverseSection from './components/PersonalInfo/FediverseSection.vue'
+import FirstDayOfWeekSection from './components/PersonalInfo/FirstDayOfWeekSection.vue'
+import HeadlineSection from './components/PersonalInfo/HeadlineSection.vue'
 import LanguageSection from './components/PersonalInfo/LanguageSection/LanguageSection.vue'
 import LocaleSection from './components/PersonalInfo/LocaleSection/LocaleSection.vue'
-import ProfileSection from './components/PersonalInfo/ProfileSection/ProfileSection.vue'
+import LocationSection from './components/PersonalInfo/LocationSection.vue'
 import OrganisationSection from './components/PersonalInfo/OrganisationSection.vue'
-import RoleSection from './components/PersonalInfo/RoleSection.vue'
-import HeadlineSection from './components/PersonalInfo/HeadlineSection.vue'
-import BiographySection from './components/PersonalInfo/BiographySection.vue'
+import PhoneSection from './components/PersonalInfo/PhoneSection.vue'
+import ProfileSection from './components/PersonalInfo/ProfileSection/ProfileSection.vue'
 import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilitySection/ProfileVisibilitySection.vue'
-import BirthdaySection from './components/PersonalInfo/BirthdaySection.vue'
-import FirstDayOfWeekSection from './components/PersonalInfo/FirstDayOfWeekSection.vue'
+import PronounsSection from './components/PersonalInfo/PronounsSection.vue'
+import RoleSection from './components/PersonalInfo/RoleSection.vue'
+import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
+import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
 
 __webpack_nonce__ = getCSPNonce()
 
@@ -39,18 +40,19 @@ Vue.mixin({
 })
 
 const AvatarView = Vue.extend(AvatarSection)
+const BirthdayView = Vue.extend(BirthdaySection)
 const DetailsView = Vue.extend(DetailsSection)
 const DisplayNameView = Vue.extend(DisplayNameSection)
 const EmailView = Vue.extend(EmailSection)
-const PhoneView = Vue.extend(PhoneSection)
-const LocationView = Vue.extend(LocationSection)
-const WebsiteView = Vue.extend(WebsiteSection)
-const TwitterView = Vue.extend(TwitterSection)
 const FediverseView = Vue.extend(FediverseSection)
+const FirstDayOfWeekView = Vue.extend(FirstDayOfWeekSection)
 const LanguageView = Vue.extend(LanguageSection)
 const LocaleView = Vue.extend(LocaleSection)
-const BirthdayView = Vue.extend(BirthdaySection)
-const FirstDayOfWeekView = Vue.extend(FirstDayOfWeekSection)
+const LocationView = Vue.extend(LocationSection)
+const PhoneView = Vue.extend(PhoneSection)
+const PronounsView = Vue.extend(PronounsSection)
+const TwitterView = Vue.extend(TwitterSection)
+const WebsiteView = Vue.extend(WebsiteSection)
 
 new AvatarView().$mount('#vue-avatar-section')
 new DetailsView().$mount('#vue-details-section')
@@ -65,6 +67,7 @@ new LanguageView().$mount('#vue-language-section')
 new LocaleView().$mount('#vue-locale-section')
 new FirstDayOfWeekView().$mount('#vue-fdow-section')
 new BirthdayView().$mount('#vue-birthday-section')
+new PronounsView().$mount('#vue-pronouns-section')
 
 if (profileEnabledGlobally) {
 	const ProfileView = Vue.extend(ProfileSection)

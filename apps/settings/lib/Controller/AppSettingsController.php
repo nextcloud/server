@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,7 @@
  */
 namespace OCA\Settings\Controller;
 
+use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppDiscoverFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
@@ -14,15 +16,13 @@ use OC\App\AppStore\Version\VersionParser;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\Installer;
-use OC_App;
+use OCA\AppAPI\Service\ExAppsPageService;
 use OCP\App\AppPathNotFoundException;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
-use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -38,11 +38,17 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Security\RateLimiting\ILimiter;
+use OCP\Server;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
@@ -60,7 +66,7 @@ class AppSettingsController extends Controller {
 		private IL10N $l10n,
 		private IConfig $config,
 		private INavigationManager $navigationManager,
-		private IAppManager $appManager,
+		private AppManager $appManager,
 		private CategoryFetcher $categoryFetcher,
 		private AppFetcher $appFetcher,
 		private IFactory $l10nFactory,
@@ -77,6 +83,8 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
+	 * @psalm-suppress UndefinedClass AppAPI is shipped since 30.0.1
+	 *
 	 * @return TemplateResponse
 	 */
 	#[NoCSRFRequired]
@@ -88,14 +96,21 @@ class AppSettingsController extends Controller {
 		$this->initialState->provideInitialState('appstoreDeveloperDocs', $this->urlGenerator->linkToDocs('developer-manual'));
 		$this->initialState->provideInitialState('appstoreUpdateCount', count($this->getAppsWithUpdates()));
 
+		if ($this->appManager->isEnabledForAnyone('app_api')) {
+			try {
+				Server::get(ExAppsPageService::class)->provideAppApiState($this->initialState);
+			} catch (\Psr\Container\NotFoundExceptionInterface|\Psr\Container\ContainerExceptionInterface $e) {
+			}
+		}
+
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$templateResponse = new TemplateResponse('settings', 'settings/empty', ['pageTitle' => $this->l10n->t('Settings')]);
 		$templateResponse->setContentSecurityPolicy($policy);
 
-		\OCP\Util::addStyle('settings', 'settings');
-		\OCP\Util::addScript('settings', 'vue-settings-apps-users-management');
+		Util::addStyle('settings', 'settings');
+		Util::addScript('settings', 'vue-settings-apps-users-management');
 
 		return $templateResponse;
 	}
@@ -106,7 +121,7 @@ class AppSettingsController extends Controller {
 	#[NoCSRFRequired]
 	public function getAppDiscoverJSON(): JSONResponse {
 		$data = $this->discoverFetcher->get(true);
-		return new JSONResponse($data);
+		return new JSONResponse(array_values($data));
 	}
 
 	/**
@@ -115,10 +130,11 @@ class AppSettingsController extends Controller {
 	 * @param string $image
 	 * @throws \Exception
 	 */
-	#[PublicPage]
 	#[NoCSRFRequired]
-	public function getAppDiscoverMedia(string $fileName): Response {
-		$etag = $this->discoverFetcher->getETag() ?? date('Y-m');
+	public function getAppDiscoverMedia(string $fileName, ILimiter $limiter, IUserSession $session): Response {
+		$getEtag = $this->discoverFetcher->getETag() ?? date('Y-m');
+		$etag = trim($getEtag, '"');
+
 		$folder = null;
 		try {
 			$folder = $this->appData->getFolder('app-discover-cache');
@@ -145,6 +161,26 @@ class AppSettingsController extends Controller {
 		$file = reset($file);
 		// If not found request from Web
 		if ($file === false) {
+			$user = $session->getUser();
+			// this route is not public thus we can assume a user is logged-in
+			assert($user !== null);
+			// Register a user request to throttle fetching external data
+			// this will prevent using the server for DoS of other systems.
+			$limiter->registerUserRequest(
+				'settings-discover-media',
+				// allow up to 24 media requests per hour
+				// this should be a sane default when a completely new section is loaded
+				// keep in mind browsers request all files from a source-set
+				24,
+				60 * 60,
+				$user,
+			);
+
+			if (!$this->checkCanDownloadMedia($fileName)) {
+				$this->logger->warning('Tried to load media files for app discover section from untrusted source');
+				return new NotFoundResponse(Http::STATUS_BAD_REQUEST);
+			}
+
 			try {
 				$client = $this->clientService->newClient();
 				$fileResponse = $client->get($fileName);
@@ -164,6 +200,31 @@ class AppSettingsController extends Controller {
 		// cache for 7 days
 		$response->cacheFor(604800, false, true);
 		return $response;
+	}
+
+	private function checkCanDownloadMedia(string $filename): bool {
+		$urlInfo = parse_url($filename);
+		if (!isset($urlInfo['host']) || !isset($urlInfo['path'])) {
+			return false;
+		}
+
+		// Always allowed hosts
+		if ($urlInfo['host'] === 'nextcloud.com') {
+			return true;
+		}
+
+		// Hosts that need further verification
+		// Github is only allowed if from our organization
+		$ALLOWED_HOSTS = ['github.com', 'raw.githubusercontent.com'];
+		if (!in_array($urlInfo['host'], $ALLOWED_HOSTS)) {
+			return false;
+		}
+
+		if (str_starts_with($urlInfo['path'], '/nextcloud/') || str_starts_with($urlInfo['path'], '/nextcloud-gmbh/')) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -229,11 +290,31 @@ class AppSettingsController extends Controller {
 		], $categories);
 	}
 
+	/**
+	 * Convert URL to proxied URL so CSP is no problem
+	 */
+	private function createProxyPreviewUrl(string $url): string {
+		if ($url === '') {
+			return '';
+		}
+		return 'https://usercontent.apps.nextcloud.com/' . base64_encode($url);
+	}
+
 	private function fetchApps() {
 		$appClass = new \OC_App();
 		$apps = $appClass->listAllApps();
 		foreach ($apps as $app) {
 			$app['installed'] = true;
+
+			if (isset($app['screenshot'][0])) {
+				$appScreenshot = $app['screenshot'][0] ?? null;
+				if (is_array($appScreenshot)) {
+					// Screenshot with thumbnail
+					$appScreenshot = $appScreenshot['@value'];
+				}
+
+				$app['screenshot'] = $this->createProxyPreviewUrl($appScreenshot);
+			}
 			$this->allApps[$app['id']] = $app;
 		}
 
@@ -292,7 +373,7 @@ class AppSettingsController extends Controller {
 		$apps = array_map(function (array $appData) use ($dependencyAnalyzer, $ignoreMaxApps) {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
-				$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($appstoreData['screenshots'][0]['url']) : '';
+				$appData['screenshot'] = $this->createProxyPreviewUrl($appstoreData['screenshots'][0]['url'] ?? '');
 				$appData['category'] = $appstoreData['categories'];
 				$appData['releases'] = $appstoreData['releases'];
 			}
@@ -306,6 +387,10 @@ class AppSettingsController extends Controller {
 			$groups = [];
 			if (is_string($appData['groups'])) {
 				$groups = json_decode($appData['groups']);
+				// ensure 'groups' is an array
+				if (!is_array($groups)) {
+					$groups = [$groups];
+				}
 			}
 			$appData['groups'] = $groups;
 			$appData['canUnInstall'] = !$appData['active'] && $appData['removable'];
@@ -405,7 +490,7 @@ class AppSettingsController extends Controller {
 			}
 
 			$currentVersion = '';
-			if ($this->appManager->isInstalled($app['id'])) {
+			if ($this->appManager->isEnabledForAnyone($app['id'])) {
 				$currentVersion = $this->appManager->getAppVersion($app['id']);
 			} else {
 				$currentVersion = $app['releases'][0]['version'];
@@ -413,12 +498,13 @@ class AppSettingsController extends Controller {
 
 			$formattedApps[] = [
 				'id' => $app['id'],
+				'app_api' => false,
 				'name' => $app['translations'][$currentLanguage]['name'] ?? $app['translations']['en']['name'],
 				'description' => $app['translations'][$currentLanguage]['description'] ?? $app['translations']['en']['description'],
 				'summary' => $app['translations'][$currentLanguage]['summary'] ?? $app['translations']['en']['summary'],
 				'license' => $app['releases'][0]['licenses'],
 				'author' => $authors,
-				'shipped' => false,
+				'shipped' => $this->appManager->isShipped($app['id']),
 				'version' => $currentVersion,
 				'default_enable' => '',
 				'types' => [],
@@ -438,7 +524,7 @@ class AppSettingsController extends Controller {
 				'missingMaxOwnCloudVersion' => false,
 				'missingMinOwnCloudVersion' => false,
 				'canInstall' => true,
-				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($app['screenshots'][0]['url']) : '',
+				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($app['screenshots'][0]['url']) : '',
 				'score' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],
 				'ratingNumThresholdReached' => $app['ratingNumOverall'] > 5,
@@ -479,11 +565,11 @@ class AppSettingsController extends Controller {
 			$updateRequired = false;
 
 			foreach ($appIds as $appId) {
-				$appId = OC_App::cleanAppId($appId);
+				$appId = $this->appManager->cleanAppId($appId);
 
 				// Check if app is already downloaded
 				/** @var Installer $installer */
-				$installer = \OC::$server->get(Installer::class);
+				$installer = Server::get(Installer::class);
 				$isDownloaded = $installer->isDownloaded($appId);
 
 				if (!$isDownloaded) {
@@ -509,11 +595,11 @@ class AppSettingsController extends Controller {
 	}
 
 	private function getGroupList(array $groups) {
-		$groupManager = \OC::$server->getGroupManager();
+		$groupManager = Server::get(IGroupManager::class);
 		$groupsList = [];
 		foreach ($groups as $group) {
 			$groupItem = $groupManager->get($group);
-			if ($groupItem instanceof \OCP\IGroup) {
+			if ($groupItem instanceof IGroup) {
 				$groupsList[] = $groupManager->get($group);
 			}
 		}
@@ -537,7 +623,7 @@ class AppSettingsController extends Controller {
 	public function disableApps(array $appIds): JSONResponse {
 		try {
 			foreach ($appIds as $appId) {
-				$appId = OC_App::cleanAppId($appId);
+				$appId = $this->appManager->cleanAppId($appId);
 				$this->appManager->disableApp($appId);
 			}
 			return new JSONResponse([]);
@@ -553,9 +639,11 @@ class AppSettingsController extends Controller {
 	 */
 	#[PasswordConfirmationRequired]
 	public function uninstallApp(string $appId): JSONResponse {
-		$appId = OC_App::cleanAppId($appId);
+		$appId = $this->appManager->cleanAppId($appId);
 		$result = $this->installer->removeApp($appId);
 		if ($result !== false) {
+			// If this app was force enabled, remove the force-enabled-state
+			$this->appManager->removeOverwriteNextcloudRequirement($appId);
 			$this->appManager->clearAppsCache();
 			return new JSONResponse(['data' => ['appid' => $appId]]);
 		}
@@ -567,7 +655,7 @@ class AppSettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function updateApp(string $appId): JSONResponse {
-		$appId = OC_App::cleanAppId($appId);
+		$appId = $this->appManager->cleanAppId($appId);
 
 		$this->config->setSystemValue('maintenance', true);
 		try {
@@ -594,8 +682,8 @@ class AppSettingsController extends Controller {
 	}
 
 	public function force(string $appId): JSONResponse {
-		$appId = OC_App::cleanAppId($appId);
-		$this->appManager->ignoreNextcloudRequirementForApp($appId);
+		$appId = $this->appManager->cleanAppId($appId);
+		$this->appManager->overwriteNextcloudRequirement($appId);
 		return new JSONResponse();
 	}
 }

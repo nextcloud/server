@@ -11,27 +11,28 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
-	a:not(.button):focus-visible, button:not(.button-vue):focus-visible, div[role="button"]:focus-visible {
+	user-select: none;
+
+	#nextcloud:focus-visible,
+	.app-menu-entry a:focus-visible,
+	.header-menu button:first-of-type:focus-visible {
 		outline: none;
+
+		&::after {
+			content: " ";
+			position: absolute;
+			inset-block-end: 2px;
+			transform: translateX(-50%);
+			width: 12px;
+			height: 2px;
+			border-radius: 3px;
+			background-color: var(--color-background-plain-text);
+			inset-inline-start: 50%;
+			opacity: 1;
+		}
 	}
 
-	a:not(.button):focus-visible::after, .button-vue:focus-visible::after, div[role=button]:focus-visible::after {
-		content: " ";
-		position: absolute;
-		transform: translateX(-50%);
-		width: 12px;
-		height: 2px;
-		border-radius: 3px;
-		background-color: var(--color-background-plain-text);
-		left: 50%;
-		opacity: 1;
-	}
-
-	a:not(.button):focus-visible::after, .button-vue:focus-visible::after {
-		bottom: 2px;
-	}
-
-	.header-right {
+	.header-end {
 		// Add some spacing so the last entry looks ok
 		margin-inline-end: calc(3 * var(--default-grid-baseline));
 
@@ -40,7 +41,7 @@
 		}
 
 		#expand.menutoggle:focus-visible::after {
-			left: 40%;
+			inset-inline-start: 40%;
 		}
 	}
 
@@ -63,7 +64,7 @@
 /* LOGO and APP NAME -------------------------------------------------------- */
 #nextcloud {
 	padding: 5px 0;
-	padding-left: 86px; // logo width + 2* pa
+	padding-inline-start: 86px; // logo width + 2* pa
 	position: relative;
 	height: calc(100% - 4px);
 	box-sizing: border-box;
@@ -88,7 +89,7 @@
 	/* Header menu */
 	$header-menu-entry-height: 44px;
 
-	.header-right > div > .menu {
+	.header-end > div > .menu {
 		background-color: var(--color-main-background);
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
 		border-radius: var(--border-radius-large);
@@ -97,7 +98,7 @@
 		position: absolute;
 		max-width: 350px;
 		@include header-menu-height();
-		right: 8px; // relative to parent
+		inset-inline-end: 8px; // relative to parent
 		top: variables.$header-height;
 		margin: 0;
 		overflow-y: auto;
@@ -116,7 +117,7 @@
 			width: 0;
 			position: absolute;
 			pointer-events: none;
-			right: 10px;
+			inset-inline-end: 10px;
 		}
 
 		& > div,
@@ -133,7 +134,7 @@
 		background-position: center;
 		width: 62px;
 		position: absolute;
-		left: 12px;
+		inset-inline-start: 12px;
 		top: 1px;
 		bottom: 1px;
 		// Invert if not customized and background is bright
@@ -142,29 +143,29 @@
 
 	.header-appname-container {
 		display: none;
-		padding-right: 10px;
+		padding-inline-end: 10px;
 		flex-shrink: 0;
 	}
 
-	#header-left, .header-left,
-	#header-right, .header-right {
+	#header-start, .header-start,
+	#header-end, .header-end {
 		display: inline-flex;
 		align-items: center;
 	}
 
-	#header-left, .header-left {
+	#header-start, .header-start {
 		flex: 1 0;
 		white-space: nowrap;
 		min-width: 0;
 	}
 
-	#header-right, .header-right {
+	#header-end, .header-end {
 		justify-content: flex-end;
 		flex-shrink: 1;
 	}
 
 	/* Right header standard */
-	.header-right {
+	.header-end {
 		> .header-menu__trigger img {
 			filter: var(--background-image-invert-if-bright);
 		}
@@ -209,7 +210,7 @@
 	font-weight: bold;
 	margin: 0;
 	padding: 0;
-	padding-right: 5px;
+	padding-inline-end: 5px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	// Take full width to push the header-shared-by bellow (if any)
@@ -243,7 +244,7 @@
 	overflow: hidden;
 	z-index: 9999;
 	top: -999px;
-	left: 3px;
+	inset-inline-start: 3px;
 	padding: 11px;
 	display: flex;
 	flex-wrap: wrap;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -36,6 +37,9 @@ class SchemaWrapper implements ISchemaWrapper {
 	public function performDropTableCalls() {
 		foreach ($this->tablesToDelete as $tableName => $true) {
 			$this->connection->dropTable($tableName);
+			foreach ($this->connection->getShardConnections() as $shardConnection) {
+				$shardConnection->dropTable($tableName);
+			}
 			unset($this->tablesToDelete[$tableName]);
 		}
 	}

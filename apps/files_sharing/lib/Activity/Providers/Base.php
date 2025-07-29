@@ -1,10 +1,12 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Activity\Providers;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -17,47 +19,21 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 abstract class Base implements IProvider {
-	/** @var IFactory */
-	protected $languageFactory;
-
 	/** @var IL10N */
 	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/** @var IManager */
-	protected $activityManager;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var IEventMerger */
-	protected $eventMerger;
-
-	/** @var IContactsManager */
-	protected $contactsManager;
-
-	/** @var ICloudIdManager */
-	protected $cloudIdManager;
 
 	/** @var array */
 	protected $displayNames = [];
 
-	public function __construct(IFactory $languageFactory,
-		IURLGenerator $url,
-		IManager $activityManager,
-		IUserManager $userManager,
-		ICloudIdManager $cloudIdManager,
-		IContactsManager $contactsManager,
-		IEventMerger $eventMerger) {
-		$this->languageFactory = $languageFactory;
-		$this->url = $url;
-		$this->activityManager = $activityManager;
-		$this->userManager = $userManager;
-		$this->cloudIdManager = $cloudIdManager;
-		$this->contactsManager = $contactsManager;
-		$this->eventMerger = $eventMerger;
+	public function __construct(
+		protected IFactory $languageFactory,
+		protected IURLGenerator $url,
+		protected IManager $activityManager,
+		protected IUserManager $userManager,
+		protected ICloudIdManager $cloudIdManager,
+		protected IContactsManager $contactsManager,
+		protected IEventMerger $eventMerger,
+	) {
 	}
 
 	/**
@@ -65,12 +41,12 @@ abstract class Base implements IProvider {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files_sharing') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->l = $this->languageFactory->get('files_sharing', $language);
@@ -121,9 +97,8 @@ abstract class Base implements IProvider {
 			$path = reset($parameter);
 			$id = (string)key($parameter);
 		} elseif ($event !== null) {
-			// Legacy from before ownCloud 8.2
 			$path = $parameter;
-			$id = $event->getObjectId();
+			$id = (string)$event->getObjectId();
 		} else {
 			throw new \InvalidArgumentException('Could not generate file parameter');
 		}

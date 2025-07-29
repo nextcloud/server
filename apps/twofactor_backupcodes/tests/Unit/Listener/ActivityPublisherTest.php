@@ -19,14 +19,9 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ActivityPublisherTest extends TestCase {
-	/** @var IManager|MockObject */
-	private $activityManager;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var ActivityPublisher */
-	private $listener;
+	private IManager&MockObject $activityManager;
+	private LoggerInterface&MockObject $logger;
+	private ActivityPublisher $listener;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,7 +32,7 @@ class ActivityPublisherTest extends TestCase {
 		$this->listener = new ActivityPublisher($this->activityManager, $this->logger);
 	}
 
-	public function testHandleGenericEvent() {
+	public function testHandleGenericEvent(): void {
 		$event = $this->createMock(Event::class);
 		$this->activityManager->expects($this->never())
 			->method('publish');
@@ -45,7 +40,7 @@ class ActivityPublisherTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleCodesGeneratedEvent() {
+	public function testHandleCodesGeneratedEvent(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('fritz');
 		$event = new CodesGenerated($user);

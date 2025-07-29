@@ -26,7 +26,7 @@ class FileLocking implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('File locking');
+		return $this->l10n->t('Transactional File Locking');
 	}
 
 	public function getCategory(): string {
@@ -43,8 +43,8 @@ class FileLocking implements ISetupCheck {
 
 	public function run(): SetupResult {
 		if (!$this->hasWorkingFileLocking()) {
-			return SetupResult::warning(
-				$this->l10n->t('Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems.'),
+			return SetupResult::error(
+				$this->l10n->t('Transactional File Locking is disabled. This is not a a supported configuraton. It may lead to difficult to isolate problems including file corruption. Please remove the `\'filelocking.enabled\' => false` configuration entry from your `config.php` to avoid these problems.'),
 				$this->urlGenerator->linkToDocs('admin-transactional-locking')
 			);
 		}

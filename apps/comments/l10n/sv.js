@@ -21,17 +21,16 @@ OC.L10N.register(
     "Post comment" : "Publicera kommentar",
     "@ for mentions, : for emoji, / for smart picker" : "@ för omnämnanden, : för emoji, / för smart picker",
     "Could not reload comments" : "Kunde inte ladda om kommentarer",
+    "Failed to mark comments as read" : "Kunde inte markera kommentarer som lästa",
+    "Unable to load the comments list" : "Kunde inte ladda kommentarlistan",
     "No comments yet, start the conversation!" : "Inga kommentarer ännu.",
     "No more messages" : "Inga fler meddelanden",
     "Retry" : "Försök igen",
-    "Failed to mark comments as read" : "Kunde inte markera kommentarer som lästa",
-    "Unable to load the comments list" : "Det gick inte att ladda kommentarlistan",
     "_1 new comment_::_{unread} new comments_" : ["1 ny kommentar","{unread} nya kommentarer"],
     "Comment" : "Kommentar",
-    "An error occurred while trying to edit the comment" : "Ett fel uppstod när du försökte redigera kommentaren",
+    "An error occurred while trying to edit the comment" : "Ett fel uppstod vid redigering av kommentaren",
     "Comment deleted" : "Kommentar borttagen",
-    "An error occurred while trying to delete the comment" : "Ett fel uppstod när du försökte ta bort kommentaren",
-    "An error occurred while trying to create the comment" : "Ett fel uppstod när du försökte skapa kommentaren",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du har nämnts i  \"{file}\", i en kommentar av en användare som sedan har blivit borttagen"
+    "An error occurred while trying to delete the comment" : "Ett fel uppstod vid borttagning av kommentaren",
+    "An error occurred while trying to create the comment" : "Ett fel uppstod vid skapande av kommentaren"
 },
 "nplurals=2; plural=(n != 1);");

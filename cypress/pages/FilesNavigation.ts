@@ -13,7 +13,18 @@ export class FilesNavigationPage {
 	}
 
 	searchInput() {
-		return this.navigation().findByRole('searchbox', { name: /filter filenames/i })
+		return this.navigation().findByRole('searchbox')
+	}
+
+	searchScopeTrigger() {
+		return this.navigation().findByRole('button', { name: /search scope options/i })
+	}
+
+	/**
+	 * Only available after clicking on the search scope trigger
+	 */
+	searchScopeMenu() {
+		return cy.findByRole('menu', { name: /search scope options/i })
 	}
 
 	searchClearButton() {

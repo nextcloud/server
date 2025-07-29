@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -42,12 +43,12 @@ class SetupTest extends \Test\TestCase {
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->setupClass = $this->getMockBuilder(Setup::class)
-			->setMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
+			->onlyMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
 			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10nFactory, $this->defaults, $this->logger, $this->random, $this->installer])
 			->getMock();
 	}
 
-	public function testGetSupportedDatabasesWithOneWorking() {
+	public function testGetSupportedDatabasesWithOneWorking(): void {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
@@ -70,7 +71,7 @@ class SetupTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $result);
 	}
 
-	public function testGetSupportedDatabasesWithNoWorking() {
+	public function testGetSupportedDatabasesWithNoWorking(): void {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
@@ -90,7 +91,7 @@ class SetupTest extends \Test\TestCase {
 		$this->assertSame([], $result);
 	}
 
-	public function testGetSupportedDatabasesWithAllWorking() {
+	public function testGetSupportedDatabasesWithAllWorking(): void {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
@@ -116,7 +117,7 @@ class SetupTest extends \Test\TestCase {
 	}
 
 
-	public function testGetSupportedDatabaseException() {
+	public function testGetSupportedDatabaseException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Supported databases are not properly configured.');
 
@@ -128,11 +129,11 @@ class SetupTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider findWebRootProvider
 	 * @param $url
 	 * @param $expected
 	 */
-	public function testFindWebRootCli($url, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('findWebRootProvider')]
+	public function testFindWebRootCli($url, $expected): void {
 		$cliState = \OC::$CLI;
 
 		$this->config
@@ -151,7 +152,7 @@ class SetupTest extends \Test\TestCase {
 		$this->assertSame($webRoot, $expected);
 	}
 
-	public function findWebRootProvider(): array {
+	public static function findWebRootProvider(): array {
 		return [
 			'https://www.example.com/nextcloud/' => ['https://www.example.com/nextcloud/', '/nextcloud'],
 			'https://www.example.com/nextcloud' => ['https://www.example.com/nextcloud', '/nextcloud'],

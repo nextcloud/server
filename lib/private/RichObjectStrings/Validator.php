@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,34 +14,27 @@ use OCP\RichObjectStrings\IValidator;
 /**
  * Class Validator
  *
+ * @psalm-import-type RichObjectParameter from IValidator
  * @package OCP\RichObjectStrings
  * @since 11.0.0
  */
 class Validator implements IValidator {
-	/** @var Definitions */
-	protected $definitions;
+	protected array $requiredParameters = [];
 
-	/** @var array[] */
-	protected $requiredParameters = [];
-
-	/**
-	 * Constructor
-	 *
-	 * @param Definitions $definitions
-	 */
-	public function __construct(Definitions $definitions) {
-		$this->definitions = $definitions;
+	public function __construct(
+		protected Definitions $definitions,
+	) {
 	}
 
 	/**
 	 * @param string $subject
-	 * @param array[] $parameters
+	 * @param array<non-empty-string, RichObjectParameter> $parameters
 	 * @throws InvalidObjectExeption
 	 * @since 11.0.0
 	 */
-	public function validate($subject, array $parameters) {
+	public function validate(string $subject, array $parameters): void {
 		$matches = [];
-		$result = preg_match_all('/\{([a-z0-9]+)\}/i', $subject, $matches);
+		$result = preg_match_all('/\{(' . self::PLACEHOLDER_REGEX . ')\}/', $subject, $matches);
 
 		if ($result === false) {
 			throw new InvalidObjectExeption();
@@ -53,12 +48,15 @@ class Validator implements IValidator {
 			}
 		}
 
-		foreach ($parameters as $parameter) {
+		foreach ($parameters as $placeholder => $parameter) {
+			if (!\is_string($placeholder) || !preg_match('/^(' . self::PLACEHOLDER_REGEX . ')$/i', $placeholder)) {
+				throw new InvalidObjectExeption('Parameter key is invalid');
+			}
 			if (!\is_array($parameter)) {
 				throw new InvalidObjectExeption('Parameter is malformed');
 			}
 
-			$this->validateParameter($parameter);
+			$this->validateParameter($placeholder, $parameter);
 		}
 	}
 
@@ -66,7 +64,7 @@ class Validator implements IValidator {
 	 * @param array $parameter
 	 * @throws InvalidObjectExeption
 	 */
-	protected function validateParameter(array $parameter) {
+	protected function validateParameter(string $placeholder, array $parameter): void {
 		if (!isset($parameter['type'])) {
 			throw new InvalidObjectExeption('Object type is undefined');
 		}
@@ -76,7 +74,16 @@ class Validator implements IValidator {
 
 		$missingKeys = array_diff($requiredParameters, array_keys($parameter));
 		if (!empty($missingKeys)) {
-			throw new InvalidObjectExeption('Object is invalid, missing keys:'.json_encode($missingKeys));
+			throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, missing keys:' . json_encode($missingKeys));
+		}
+
+		foreach ($parameter as $key => $value) {
+			if (!is_string($key)) {
+				throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, key ' . $key . ' is not a string');
+			}
+			if (!is_string($value)) {
+				throw new InvalidObjectExeption('Object for placeholder ' . $placeholder . ' is invalid, value ' . $value . ' for key ' . $key . ' is not a string');
+			}
 		}
 	}
 
@@ -85,7 +92,7 @@ class Validator implements IValidator {
 	 * @param array $definition
 	 * @return string[]
 	 */
-	protected function getRequiredParameters($type, array $definition) {
+	protected function getRequiredParameters(string $type, array $definition): array {
 		if (isset($this->requiredParameters[$type])) {
 			return $this->requiredParameters[$type];
 		}

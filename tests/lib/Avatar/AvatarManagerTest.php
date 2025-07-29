@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -71,7 +72,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetAvatarInvalidUser() {
+	public function testGetAvatarInvalidUser(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('user does not exist');
 
@@ -84,7 +85,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->avatarManager->getAvatar('invalidUser');
 	}
 
-	public function testGetAvatarForSelf() {
+	public function testGetAvatarForSelf(): void {
 		$user = $this->createMock(User::class);
 		$user
 			->expects($this->any())
@@ -139,7 +140,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 
-	public function testGetAvatarValidUserDifferentCasing() {
+	public function testGetAvatarValidUserDifferentCasing(): void {
 		$user = $this->createMock(User::class);
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -186,7 +187,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('vaLid-USER'));
 	}
 
-	public function dataGetAvatarScopes() {
+	public static function dataGetAvatarScopes(): array {
 		return [
 			// public access cannot see real avatar
 			[IAccountManager::SCOPE_PRIVATE, true, false, true],
@@ -203,10 +204,8 @@ class AvatarManagerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetAvatarScopes
-	 */
-	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAvatarScopes')]
+	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder): void {
 		if ($isPublicCall) {
 			$requestingUser = null;
 		} else {

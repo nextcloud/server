@@ -85,7 +85,7 @@ export default defineComponent({
 			if (this.isQuotaExceeded) {
 				return this.t('files', 'Your have used your space quota and cannot upload files anymore')
 			} else if (!this.canUpload) {
-				return this.t('files', 'You don’t have permission to upload or create files here')
+				return this.t('files', 'You do not have permission to upload or create files here.')
 			}
 			return null
 		},
@@ -235,7 +235,7 @@ export default defineComponent({
 	justify-content: center;
 	width: 100%;
 	// Breadcrumbs height + row thead height
-	min-height: calc(58px + 55px);
+	min-height: calc(58px + 44px);
 	margin: 0;
 	user-select: none;
 	color: var(--color-text-maxcontrast);
@@ -243,7 +243,7 @@ export default defineComponent({
 	border-color: black;
 
 	h3 {
-		margin-left: 16px;
+		margin-inline-start: 16px;
 		color: inherit;
 	}
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,7 +25,7 @@ class PublicShareMiddleware extends Middleware {
 		private IRequest $request,
 		private ISession $session,
 		private IConfig $config,
-		private IThrottler $throttler
+		private IThrottler $throttler,
 	) {
 	}
 
@@ -120,7 +121,7 @@ class PublicShareMiddleware extends Middleware {
 
 	private function throttle($bruteforceProtectionAction, $token): void {
 		$ip = $this->request->getRemoteAddress();
-		$this->throttler->sleepDelay($ip, $bruteforceProtectionAction);
+		$this->throttler->sleepDelayOrThrowOnMax($ip, $bruteforceProtectionAction);
 		$this->throttler->registerAttempt($bruteforceProtectionAction, $ip, ['token' => $token]);
 	}
 }

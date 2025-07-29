@@ -183,7 +183,7 @@ abstract class Avatar implements IAvatar {
 		string $text,
 		string $font,
 		int $size,
-		int $angle = 0
+		int $angle = 0,
 	): array {
 		// Image width & height
 		$xi = imagesx($image);

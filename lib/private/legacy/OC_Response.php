@@ -43,7 +43,7 @@ class OC_Response {
 			$lfh = new \OC\LargeFileHelper;
 			$length = $lfh->formatUnsignedInteger($length);
 		}
-		header('Content-Length: '.$length);
+		header('Content-Length: ' . $length);
 	}
 
 	/**
@@ -59,7 +59,7 @@ class OC_Response {
 		 * @see \OCP\AppFramework\Http\Response::getHeaders
 		 */
 		$policy = 'default-src \'self\'; '
-			. 'script-src \'self\' \'nonce-'.\OC::$server->getContentSecurityPolicyNonceManager()->getNonce().'\'; '
+			. 'script-src \'self\' \'nonce-' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '\'; '
 			. 'style-src \'self\' \'unsafe-inline\'; '
 			. 'frame-src *; '
 			. 'img-src * data: blob:; '
@@ -78,7 +78,6 @@ class OC_Response {
 			header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
 			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
 			header('X-Robots-Tag: noindex, nofollow'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
-			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		}
 	}
 }

@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\Notification;
 
+use OCP\AppFramework\Attribute\Catchable;
+
 /**
  * Thrown when {@see \OCP\Notification\IManager::notify()} is called with a notification
  * that does not have all required fields set:
@@ -19,8 +21,7 @@ namespace OCP\Notification;
  * - objectType
  * - objectId
  * - subject
- *
- * @since 30.0.0
  */
+#[Catchable(since: '30.0.0')]
 class IncompleteNotificationException extends \InvalidArgumentException {
 }

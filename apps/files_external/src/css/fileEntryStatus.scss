@@ -4,10 +4,13 @@
  */
 .files-list__row-status {
 	display: flex;
-	width: 44px;
+	min-width: 44px;
 	justify-content: center;
 	align-items: center;
 	height: 100%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 
 	svg {
 		width: 24px;
@@ -23,8 +26,7 @@
 		position: absolute;
 		display: block;
 		top: 0;
-		left: 0;
-		right: 0;
+		inset-inline: 0;
 		bottom: 0;
 		opacity: .1;
 		z-index: -1;

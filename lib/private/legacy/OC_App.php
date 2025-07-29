@@ -9,6 +9,7 @@ declare(strict_types=1);
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Config\ConfigManager;
 use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
@@ -26,12 +27,10 @@ use function OCP\Log\logger;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
- * ownCloud ecosystem. Furthermore, this class is responsible for installing,
+ * Nextcloud ecosystem. Furthermore, this class is responsible for installing,
  * upgrading and removing apps.
  */
 class OC_App {
-	private static $adminForms = [];
-	private static $personalForms = [];
 	private static $altLogin = [];
 	private static $alreadyRegistered = [];
 	public const supportedApp = 300;
@@ -45,8 +44,7 @@ class OC_App {
 	 * @psalm-taint-escape html
 	 * @psalm-taint-escape has_quotes
 	 *
-	 * @param string $app AppId that needs to be cleaned
-	 * @return string
+	 * @deprecated 31.0.0 use IAppManager::cleanAppId
 	 */
 	public static function cleanAppId(string $app): string {
 		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
@@ -69,7 +67,7 @@ class OC_App {
 	 * @param string[] $types
 	 * @return bool
 	 *
-	 * This function walks through the ownCloud directory and loads all apps
+	 * This function walks through the Nextcloud directory and loads all apps
 	 * it can find. A directory contains an app if the file /appinfo/info.xml
 	 * exists.
 	 *
@@ -172,7 +170,7 @@ class OC_App {
 	 * @param bool $forceRefresh whether to refresh the cache
 	 * @param bool $all whether to return apps for all users, not only the
 	 *                  currently logged in one
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public static function getEnabledApps(bool $forceRefresh = false, bool $all = false): array {
 		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
@@ -188,7 +186,7 @@ class OC_App {
 		}
 
 		if (is_null($user)) {
-			$apps = $appManager->getInstalledApps();
+			$apps = $appManager->getEnabledApps();
 		} else {
 			$apps = $appManager->getEnabledAppsForUser($user);
 		}
@@ -214,7 +212,7 @@ class OC_App {
 		array $groups = []) {
 		// Check if app is already downloaded
 		/** @var Installer $installer */
-		$installer = \OCP\Server::get(Installer::class);
+		$installer = Server::get(Installer::class);
 		$isDownloaded = $installer->isDownloaded($appId);
 
 		if (!$isDownloaded) {
@@ -238,21 +236,6 @@ class OC_App {
 			$appManager->enableApp($appId);
 		}
 	}
-
-	/**
-	 * Get the path where to install apps
-	 */
-	public static function getInstallPath(): string|null {
-		foreach (OC::$APPSROOTS as $dir) {
-			if (isset($dir['writable']) && $dir['writable'] === true) {
-				return $dir['path'];
-			}
-		}
-
-		\OCP\Server::get(LoggerInterface::class)->error('No application directories are marked as writable.', ['app' => 'core']);
-		return null;
-	}
-
 
 	/**
 	 * Find the apps root for an app id.
@@ -313,11 +296,14 @@ class OC_App {
 	 * @param string $appId
 	 * @param bool $refreshAppPath should be set to true only during install/upgrade
 	 * @return string|false
-	 * @deprecated 11.0.0 use \OCP\Server::get(IAppManager)->getAppPath()
+	 * @deprecated 11.0.0 use Server::get(IAppManager)->getAppPath()
 	 */
 	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
-		if ($appId === null || trim($appId) === '') {
+		$appId = self::cleanAppId($appId);
+		if ($appId === '') {
 			return false;
+		} elseif ($appId === 'core') {
+			return __DIR__ . '/../../../core';
 		}
 
 		if (($dir = self::findAppInDirectories($appId, $refreshAppPath)) != false) {
@@ -349,7 +335,7 @@ class OC_App {
 	 */
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
-		$appData = \OC::$server->getAppManager()->getAppInfo($infoFile, true);
+		$appData = Server::get(IAppManager::class)->getAppInfoByPath($infoFile);
 		return $appData['version'] ?? '';
 	}
 
@@ -387,33 +373,11 @@ class OC_App {
 	}
 
 	/**
-	 * @param string $type
-	 * @return array
-	 */
-	public static function getForms(string $type): array {
-		$forms = [];
-		switch ($type) {
-			case 'admin':
-				$source = self::$adminForms;
-				break;
-			case 'personal':
-				$source = self::$personalForms;
-				break;
-			default:
-				return [];
-		}
-		foreach ($source as $form) {
-			$forms[] = include $form;
-		}
-		return $forms;
-	}
-
-	/**
 	 * @param array $entry
 	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
 	 */
 	public static function registerLogIn(array $entry) {
-		\OC::$server->getLogger()->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
+		Server::get(LoggerInterface::class)->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
 		self::$altLogin[] = $entry;
 	}
 
@@ -422,11 +386,11 @@ class OC_App {
 	 */
 	public static function getAlternativeLogIns(): array {
 		/** @var Coordinator $bootstrapCoordinator */
-		$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
+		$bootstrapCoordinator = Server::get(Coordinator::class);
 
 		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
 			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
-				\OC::$server->getLogger()->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
+				Server::get(LoggerInterface::class)->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
 					'option' => $registration->getService(),
 					'interface' => IAlternativeLogin::class,
 					'app' => $registration->getAppId(),
@@ -436,13 +400,14 @@ class OC_App {
 
 			try {
 				/** @var IAlternativeLogin $provider */
-				$provider = \OCP\Server::get($registration->getService());
+				$provider = Server::get($registration->getService());
 			} catch (ContainerExceptionInterface $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Alternative login option {option} can not be initialised.',
-					'option' => $registration->getService(),
-					'app' => $registration->getAppId(),
-				]);
+				Server::get(LoggerInterface::class)->error('Alternative login option {option} can not be initialized.',
+					[
+						'exception' => $e,
+						'option' => $registration->getService(),
+						'app' => $registration->getAppId(),
+					]);
 			}
 
 			try {
@@ -454,11 +419,12 @@ class OC_App {
 					'class' => $provider->getClass(),
 				];
 			} catch (Throwable $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Alternative login option {option} had an error while loading.',
-					'option' => $registration->getService(),
-					'app' => $registration->getAppId(),
-				]);
+				Server::get(LoggerInterface::class)->error('Alternative login option {option} had an error while loading.',
+					[
+						'exception' => $e,
+						'option' => $registration->getService(),
+						'app' => $registration->getAppId(),
+					]);
 			}
 		}
 
@@ -469,40 +435,19 @@ class OC_App {
 	 * get a list of all apps in the apps folder
 	 *
 	 * @return string[] an array of app names (string IDs)
-	 * @todo: change the name of this method to getInstalledApps, which is more accurate
+	 * @deprecated 31.0.0 Use IAppManager::getAllAppsInAppsFolders instead
 	 */
 	public static function getAllApps(): array {
-		$apps = [];
-
-		foreach (OC::$APPSROOTS as $apps_dir) {
-			if (!is_readable($apps_dir['path'])) {
-				\OCP\Server::get(LoggerInterface::class)->warning('unable to read app folder : ' . $apps_dir['path'], ['app' => 'core']);
-				continue;
-			}
-			$dh = opendir($apps_dir['path']);
-
-			if (is_resource($dh)) {
-				while (($file = readdir($dh)) !== false) {
-					if ($file[0] != '.' and is_dir($apps_dir['path'] . '/' . $file) and is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')) {
-						$apps[] = $file;
-					}
-				}
-			}
-		}
-
-		$apps = array_unique($apps);
-
-		return $apps;
+		return Server::get(IAppManager::class)->getAllAppsInAppsFolders();
 	}
 
 	/**
 	 * List all supported apps
 	 *
-	 * @return array
+	 * @deprecated 32.0.0 Use \OCP\Support\Subscription\IRegistry::delegateGetSupportedApps instead
 	 */
 	public function getSupportedApps(): array {
-		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
-		$subscriptionRegistry = \OCP\Server::get(\OCP\Support\Subscription\IRegistry::class);
+		$subscriptionRegistry = Server::get(\OCP\Support\Subscription\IRegistry::class);
 		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 		return $supportedApps;
 	}
@@ -513,9 +458,9 @@ class OC_App {
 	 * @return array
 	 */
 	public function listAllApps(): array {
-		$installedApps = OC_App::getAllApps();
-
 		$appManager = \OC::$server->getAppManager();
+
+		$installedApps = $appManager->getAllAppsInAppsFolders();
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
@@ -527,12 +472,12 @@ class OC_App {
 			if (!in_array($app, $blacklist)) {
 				$info = $appManager->getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
-					\OCP\Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
+					Server::get(LoggerInterface::class)->error('Could not read app info file for app "' . $app . '"', ['app' => 'core']);
 					continue;
 				}
 
 				if (!isset($info['name'])) {
-					\OCP\Server::get(LoggerInterface::class)->error('App id "' . $app . '" has no name in appinfo', ['app' => 'core']);
+					Server::get(LoggerInterface::class)->error('App id "' . $app . '" has no name in appinfo', ['app' => 'core']);
 					continue;
 				}
 
@@ -599,7 +544,7 @@ class OC_App {
 
 	public static function shouldUpgrade(string $app): bool {
 		$versions = self::getAppVersions();
-		$currentVersion = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($app);
+		$currentVersion = Server::get(\OCP\App\IAppManager::class)->getAppVersion($app);
 		if ($currentVersion && isset($versions[$app])) {
 			$installedVersion = $versions[$app];
 			if (!version_compare($currentVersion, $installedVersion, '=')) {
@@ -632,7 +577,7 @@ class OC_App {
 	}
 
 	/**
-	 * Check whether the current ownCloud version matches the given
+	 * Check whether the current Nextcloud version matches the given
 	 * application's version requirements.
 	 *
 	 * The comparison is made based on the number of parts that the
@@ -642,7 +587,7 @@ class OC_App {
 	 * This means that it's possible to specify "requiremin" => 6
 	 * and "requiremax" => 6 and it will still match ownCloud 6.0.3.
 	 *
-	 * @param string $ocVersion ownCloud version to check against
+	 * @param string $ocVersion Nextcloud version to check against
 	 * @param array $appInfo app info (from xml)
 	 *
 	 * @return boolean true if compatible, otherwise false
@@ -685,16 +630,10 @@ class OC_App {
 
 	/**
 	 * get the installed version of all apps
+	 * @deprecated 32.0.0 Use IAppManager::getAppInstalledVersions or IAppConfig::getAppInstalledVersions instead
 	 */
-	public static function getAppVersions() {
-		static $versions;
-
-		if (!$versions) {
-			/** @var IAppConfig $appConfig */
-			$appConfig = \OCP\Server::get(IAppConfig::class);
-			$versions = $appConfig->searchValues('installed_version');
-		}
-		return $versions;
+	public static function getAppVersions(): array {
+		return Server::get(IAppConfig::class)->getAppInstalledVersions();
 	}
 
 	/**
@@ -712,13 +651,13 @@ class OC_App {
 		}
 
 		if (is_file($appPath . '/appinfo/database.xml')) {
-			\OC::$server->getLogger()->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
+			Server::get(LoggerInterface::class)->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
 			return false;
 		}
 
 		\OC::$server->getAppManager()->clearAppsCache();
 		$l = \OC::$server->getL10N('core');
-		$appData = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
+		$appData = Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
 
 		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
 		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
@@ -758,8 +697,12 @@ class OC_App {
 
 		self::setAppTypes($appId);
 
-		$version = \OCP\Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
+		$version = Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
 		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
+
+		// migrate eventual new config keys in the process
+		/** @psalm-suppress InternalMethod */
+		Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
 
 		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
 		\OC::$server->get(IEventDispatcher::class)->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
@@ -815,103 +758,6 @@ class OC_App {
 				'app' => $appId,
 				'step' => $step]);
 		}
-	}
-
-	/**
-	 * @param string $appId
-	 * @return \OC\Files\View|false
-	 */
-	public static function getStorage(string $appId) {
-		if (\OC::$server->getAppManager()->isEnabledForUser($appId)) { //sanity check
-			if (\OC::$server->getUserSession()->isLoggedIn()) {
-				$view = new \OC\Files\View('/' . OC_User::getUser());
-				if (!$view->file_exists($appId)) {
-					$view->mkdir($appId);
-				}
-				return new \OC\Files\View('/' . OC_User::getUser() . '/' . $appId);
-			} else {
-				\OCP\Server::get(LoggerInterface::class)->error('Can\'t get app storage, app ' . $appId . ', user not logged in', ['app' => 'core']);
-				return false;
-			}
-		} else {
-			\OCP\Server::get(LoggerInterface::class)->error('Can\'t get app storage, app ' . $appId . ' not enabled', ['app' => 'core']);
-			return false;
-		}
-	}
-
-	protected static function findBestL10NOption(array $options, string $lang): string {
-		// only a single option
-		if (isset($options['@value'])) {
-			return $options['@value'];
-		}
-
-		$fallback = $similarLangFallback = $englishFallback = false;
-
-		$lang = strtolower($lang);
-		$similarLang = $lang;
-		if (strpos($similarLang, '_')) {
-			// For "de_DE" we want to find "de" and the other way around
-			$similarLang = substr($lang, 0, strpos($lang, '_'));
-		}
-
-		foreach ($options as $option) {
-			if (is_array($option)) {
-				if ($fallback === false) {
-					$fallback = $option['@value'];
-				}
-
-				if (!isset($option['@attributes']['lang'])) {
-					continue;
-				}
-
-				$attributeLang = strtolower($option['@attributes']['lang']);
-				if ($attributeLang === $lang) {
-					return $option['@value'];
-				}
-
-				if ($attributeLang === $similarLang) {
-					$similarLangFallback = $option['@value'];
-				} elseif (str_starts_with($attributeLang, $similarLang . '_')) {
-					if ($similarLangFallback === false) {
-						$similarLangFallback = $option['@value'];
-					}
-				}
-			} else {
-				$englishFallback = $option;
-			}
-		}
-
-		if ($similarLangFallback !== false) {
-			return $similarLangFallback;
-		} elseif ($englishFallback !== false) {
-			return $englishFallback;
-		}
-		return (string)$fallback;
-	}
-
-	/**
-	 * parses the app data array and enhanced the 'description' value
-	 *
-	 * @param array $data the app data
-	 * @param string $lang
-	 * @return array improved app data
-	 */
-	public static function parseAppInfo(array $data, $lang = null): array {
-		if ($lang && isset($data['name']) && is_array($data['name'])) {
-			$data['name'] = self::findBestL10NOption($data['name'], $lang);
-		}
-		if ($lang && isset($data['summary']) && is_array($data['summary'])) {
-			$data['summary'] = self::findBestL10NOption($data['summary'], $lang);
-		}
-		if ($lang && isset($data['description']) && is_array($data['description'])) {
-			$data['description'] = trim(self::findBestL10NOption($data['description'], $lang));
-		} elseif (isset($data['description']) && is_string($data['description'])) {
-			$data['description'] = trim($data['description']);
-		} else {
-			$data['description'] = '';
-		}
-
-		return $data;
 	}
 
 	/**

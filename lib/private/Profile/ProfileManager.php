@@ -12,6 +12,7 @@ namespace OC\Profile;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Core\Db\ProfileConfig;
 use OC\Core\Db\ProfileConfigMapper;
+use OC\Core\ResponseDefinitions;
 use OC\KnownUser\KnownUserService;
 use OC\Profile\Actions\EmailAction;
 use OC\Profile\Actions\FediverseAction;
@@ -33,6 +34,9 @@ use Psr\Log\LoggerInterface;
 use function array_flip;
 use function usort;
 
+/**
+ * @psalm-import-type CoreProfileFields from ResponseDefinitions
+ */
 class ProfileManager implements IProfileManager {
 	/** @var ILinkAction[] */
 	private array $actions = [];
@@ -66,6 +70,7 @@ class ProfileManager implements IProfileManager {
 		IAccountManager::PROPERTY_HEADLINE,
 		IAccountManager::PROPERTY_ORGANISATION,
 		IAccountManager::PROPERTY_ROLE,
+		IAccountManager::PROPERTY_PRONOUNS,
 	];
 
 	public function __construct(
@@ -222,7 +227,7 @@ class ProfileManager implements IProfileManager {
 	/**
 	 * Return the profile parameters of the target user that are visible to the visiting user
 	 * in an associative array
-	 * @return array{userId: string, address?: string|null, biography?: string|null, displayname?: string|null, headline?: string|null, isUserAvatarVisible?: bool, organisation?: string|null, role?: string|null, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
+	 * @psalm-return CoreProfileFields
 	 */
 	public function getProfileFields(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
@@ -241,8 +246,9 @@ class ProfileManager implements IProfileManager {
 				case IAccountManager::PROPERTY_HEADLINE:
 				case IAccountManager::PROPERTY_ORGANISATION:
 				case IAccountManager::PROPERTY_ROLE:
-					$profileParameters[$property] =
-						$this->isProfileFieldVisible($property, $targetUser, $visitingUser)
+				case IAccountManager::PROPERTY_PRONOUNS:
+					$profileParameters[$property]
+						= $this->isProfileFieldVisible($property, $targetUser, $visitingUser)
 						// Explicitly set to null when value is empty string
 						? ($account->getProperty($property)->getValue() ?: null)
 						: null;
@@ -344,7 +350,7 @@ class ProfileManager implements IProfileManager {
 	}
 
 	/**
-	 * Return the profile config of the target user with additional medatata,
+	 * Return the profile config of the target user with additional metadata,
 	 * if a config does not already exist a default config is created and returned
 	 */
 	public function getProfileConfigWithMetadata(IUser $targetUser, ?IUser $visitingUser): array {
@@ -393,11 +399,15 @@ class ProfileManager implements IProfileManager {
 			],
 			IAccountManager::PROPERTY_ORGANISATION => [
 				'appId' => self::CORE_APP_ID,
-				'displayId' => $this->l10nFactory->get('lib')->t('Organisation'),
+				'displayId' => $this->l10nFactory->get('lib')->t('Organization'),
 			],
 			IAccountManager::PROPERTY_ROLE => [
 				'appId' => self::CORE_APP_ID,
 				'displayId' => $this->l10nFactory->get('lib')->t('Role'),
+			],
+			IAccountManager::PROPERTY_PRONOUNS => [
+				'appId' => self::CORE_APP_ID,
+				'displayId' => $this->l10nFactory->get('lib')->t('Pronouns'),
 			],
 		];
 

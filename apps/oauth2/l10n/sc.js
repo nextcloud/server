@@ -14,7 +14,7 @@ OC.L10N.register(
     "Secret key" : "Crae segreta",
     "Add client" : "Agiunghe cliente",
     "Add" : "Agiunghe",
-    "Delete" : "Cantzella",
-    "Show client secret" : "Mustra su segretu de su cliente"
+    "Show client secret" : "Mustra su segretu de su cliente",
+    "Delete" : "Cantzella"
 },
 "nplurals=2; plural=(n != 1);");

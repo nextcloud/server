@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -87,7 +88,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function theWebdavResponseShouldHaveAStatusCode($statusCode) {
 		if ((int)$statusCode !== $this->response->getStatusCode()) {
-			throw new \Exception("Expected $statusCode, got ".$this->response->getStatusCode());
+			throw new \Exception("Expected $statusCode, got " . $this->response->getStatusCode());
 		}
 	}
 
@@ -131,7 +132,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 		$checksums = $parsed[0]['value'][1]['value'][0]['value'][0];
 
 		if ($checksums['value'][0]['value'] !== $checksum) {
-			throw new \Exception("Expected $checksum, got ".$checksums['value'][0]['value']);
+			throw new \Exception("Expected $checksum, got " . $checksums['value'][0]['value']);
 		}
 	}
 
@@ -159,7 +160,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function theHeaderChecksumShouldMatch($checksum) {
 		if ($this->response->getHeader('OC-Checksum')[0] !== $checksum) {
-			throw new \Exception("Expected $checksum, got ".$this->response->getHeader('OC-Checksum')[0]);
+			throw new \Exception("Expected $checksum, got " . $this->response->getHeader('OC-Checksum')[0]);
 		}
 	}
 
@@ -199,7 +200,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 		$status = $parsed[0]['value'][1]['value'][1]['value'];
 
 		if ($status !== 'HTTP/1.1 404 Not Found') {
-			throw new \Exception("Expected 'HTTP/1.1 404 Not Found', got ".$status);
+			throw new \Exception("Expected 'HTTP/1.1 404 Not Found', got " . $status);
 		}
 	}
 
@@ -208,7 +209,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function theOcChecksumHeaderShouldNotBeThere() {
 		if ($this->response->hasHeader('OC-Checksum')) {
-			throw new \Exception('Expected no checksum header but got '.$this->response->getHeader('OC-Checksum')[0]);
+			throw new \Exception('Expected no checksum header but got ' . $this->response->getHeader('OC-Checksum')[0]);
 		}
 	}
 }

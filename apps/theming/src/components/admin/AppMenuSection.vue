@@ -40,9 +40,9 @@ import { computed, defineComponent } from 'vue'
 
 import axios from '@nextcloud/axios'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import AppOrderSelector from '../AppOrderSelector.vue'
 
 export default defineComponent({
@@ -115,6 +115,7 @@ export default defineComponent({
 h3, h4 {
 	font-weight: bold;
 }
+
 h4, h5 {
 	margin-block-start: 12px;
 }

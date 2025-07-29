@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,15 +16,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class TwoFactorSettingsControllerTest extends TestCase {
-
-	/** @var IRequest|MockObject */
-	private $request;
-
-	/** @var MandatoryTwoFactor|MockObject */
-	private $mandatoryTwoFactor;
-
-	/** @var TwoFactorSettingsController */
-	private $controller;
+	private IRequest&MockObject $request;
+	private MandatoryTwoFactor&MockObject $mandatoryTwoFactor;
+	private TwoFactorSettingsController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,7 +33,7 @@ class TwoFactorSettingsControllerTest extends TestCase {
 		);
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$state = new EnforcementState(true);
 		$this->mandatoryTwoFactor->expects($this->once())
 			->method('getState')
@@ -49,7 +45,7 @@ class TwoFactorSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $resp);
 	}
 
-	public function testUpdate() {
+	public function testUpdate(): void {
 		$state = new EnforcementState(true);
 		$this->mandatoryTwoFactor->expects($this->once())
 			->method('setState')

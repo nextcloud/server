@@ -20,6 +20,8 @@ use OC\Updater;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
+use OCP\IURLGenerator;
+use OCP\Server;
 use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -35,7 +37,8 @@ class Upgrade extends Command {
 	public const ERROR_FAILURE = 5;
 
 	public function __construct(
-		private IConfig $config
+		private IConfig $config,
+		private IURLGenerator $urlGenerator,
 	) {
 		parent::__construct();
 	}
@@ -61,11 +64,11 @@ class Upgrade extends Command {
 			}
 
 			$self = $this;
-			$updater = \OCP\Server::get(Updater::class);
+			$updater = Server::get(Updater::class);
 			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 
 			/** @var IEventDispatcher $dispatcher */
-			$dispatcher = \OC::$server->get(IEventDispatcher::class);
+			$dispatcher = Server::get(IEventDispatcher::class);
 			$progress = new ProgressBar($output);
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
 			$listener = function (MigratorExecuteSqlEvent $event) use ($progress, $output): void {
@@ -130,17 +133,17 @@ class Upgrade extends Command {
 			$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
 
 
-			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($output) {
+			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($output): void {
 				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceDisabled', function () use ($output) {
+			$updater->listen('\OC\Updater', 'maintenanceDisabled', function () use ($output): void {
 				$output->writeln('<info>Turned off maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($output) {
+			$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($output): void {
 				$output->writeln('<info>Maintenance mode is kept active</info>');
 			});
 			$updater->listen('\OC\Updater', 'updateEnd',
-				function ($success) use ($output, $self) {
+				function ($success) use ($output, $self): void {
 					if ($success) {
 						$message = '<info>Update successful</info>';
 					} else {
@@ -148,42 +151,42 @@ class Upgrade extends Command {
 					}
 					$output->writeln($message);
 				});
-			$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($output) {
+			$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($output): void {
 				$output->writeln('<info>Updating database schema</info>');
 			});
-			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output) {
+			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output): void {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output, &$incompatibleOverwrites) {
+			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output, &$incompatibleOverwrites): void {
 				if (!in_array($app, $incompatibleOverwrites)) {
 					$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 				}
 			});
-			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
+			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output): void {
 				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');
 			});
-			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output) {
+			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output): void {
 				$output->writeln("<info>Checking whether the database schema for <$app> can be updated (this can take a long time depending on the database size)</info>");
 			});
-			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output) {
+			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output): void {
 				$output->writeln("<info>Updating <$app> ...</info>");
 			});
-			$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($output) {
+			$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($output): void {
 				$output->writeln("<info>Updated <$app> to $version</info>");
 			});
-			$updater->listen('\OC\Updater', 'failure', function ($message) use ($output, $self) {
+			$updater->listen('\OC\Updater', 'failure', function ($message) use ($output, $self): void {
 				$output->writeln("<error>$message</error>");
 			});
-			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($output) {
+			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($output): void {
 				$output->writeln('<info>Setting log level to debug</info>');
 			});
-			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($output) {
+			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($output): void {
 				$output->writeln('<info>Resetting log level</info>');
 			});
-			$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($output) {
+			$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($output): void {
 				$output->writeln('<info>Starting code integrity check...</info>');
 			});
-			$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($output) {
+			$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($output): void {
 				$output->writeln('<info>Finished code integrity check</info>');
 			});
 
@@ -205,7 +208,11 @@ class Upgrade extends Command {
 				. 'config.php and call this script again.</comment>', true);
 			return self::ERROR_MAINTENANCE_MODE;
 		} else {
-			$output->writeln('<info>Nextcloud is already latest version</info>');
+			$output->writeln('<info>No upgrade required.</info>');
+			$output->writeln('');
+			$output->writeln('Note: This command triggers the upgrade actions associated with a new version. The new version\'s updated source files must be deployed in advance.');
+			$doc = $this->urlGenerator->linkToDocs('admin-update');
+			$output->writeln('See the upgrade documentation: ' . $doc . ' for more information.');
 			return self::ERROR_UP_TO_DATE;
 		}
 	}
@@ -220,9 +227,9 @@ class Upgrade extends Command {
 		$trustedDomains = $this->config->getSystemValue('trusted_domains', []);
 		if (empty($trustedDomains)) {
 			$output->write(
-				'<warning>The setting "trusted_domains" could not be ' .
-				'set automatically by the upgrade script, ' .
-				'please set it manually</warning>'
+				'<warning>The setting "trusted_domains" could not be '
+				. 'set automatically by the upgrade script, '
+				. 'please set it manually</warning>'
 			);
 		}
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,10 +10,12 @@ namespace Test\Files\Storage;
 
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCP\Files;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\ITempManager;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -32,17 +35,17 @@ class CommonTest extends Storage {
 
 		$this->filenameValidator = $this->createMock(IFilenameValidator::class);
 		$this->overwriteService(IFilenameValidator::class, $this->filenameValidator);
-		$this->tmpDir = \OCP\Server::get(ITempManager::class)->getTemporaryFolder();
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->instance = new \OC\Files\Storage\CommonTest(['datadir' => $this->tmpDir]);
 	}
 
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		$this->restoreService(IFilenameValidator::class);
 		parent::tearDown();
 	}
 
-	public function testVerifyPath() {
+	public function testVerifyPath(): void {
 		$this->filenameValidator
 			->expects($this->once())
 			->method('validateFilename')
@@ -53,7 +56,7 @@ class CommonTest extends Storage {
 		$this->instance->verifyPath('/', 'invalid:char.txt');
 	}
 
-	public function testVerifyPathSucceed() {
+	public function testVerifyPathSucceed(): void {
 		$this->filenameValidator
 			->expects($this->once())
 			->method('validateFilename')
@@ -62,7 +65,7 @@ class CommonTest extends Storage {
 		$this->instance->verifyPath('/', 'valid-char.txt');
 	}
 
-	public function testMoveFromStorageWrapped() {
+	public function testMoveFromStorageWrapped(): void {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
 			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
@@ -80,7 +83,7 @@ class CommonTest extends Storage {
 		$this->assertTrue($instance->file_exists('bar.txt'));
 	}
 
-	public function testMoveFromStorageJailed() {
+	public function testMoveFromStorageJailed(): void {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
 			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
@@ -103,7 +106,7 @@ class CommonTest extends Storage {
 		$this->assertTrue($instance->file_exists('bar.txt'));
 	}
 
-	public function testMoveFromStorageNestedJail() {
+	public function testMoveFromStorageNestedJail(): void {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
 			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])

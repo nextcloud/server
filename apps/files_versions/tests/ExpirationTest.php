@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,7 +17,7 @@ use Psr\Log\LoggerInterface;
 class ExpirationTest extends \Test\TestCase {
 	public const SECONDS_PER_DAY = 86400; //60*60*24
 
-	public function expirationData() {
+	public static function expirationData(): array {
 		$today = 100 * self::SECONDS_PER_DAY;
 		$back10Days = (100 - 10) * self::SECONDS_PER_DAY;
 		$back20Days = (100 - 20) * self::SECONDS_PER_DAY;
@@ -79,16 +81,8 @@ class ExpirationTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider expirationData
-	 *
-	 * @param string $retentionObligation
-	 * @param int $timeNow
-	 * @param int $timestamp
-	 * @param bool $quotaExceeded
-	 * @param string $expectedResult
-	 */
-	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('expirationData')]
+	public function testExpiration(string $retentionObligation, int $timeNow, int $timestamp, bool $quotaExceeded, bool $expectedResult): void {
 		$mockedConfig = $this->getMockedConfig($retentionObligation);
 		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);
 		$mockedLogger = $this->createMock(LoggerInterface::class);
@@ -100,11 +94,7 @@ class ExpirationTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @param int $time
-	 * @return ITimeFactory|MockObject
-	 */
-	private function getMockedTimeFactory($time) {
+	private function getMockedTimeFactory(int $time): ITimeFactory&MockObject {
 		$mockedTimeFactory = $this->createMock(ITimeFactory::class);
 		$mockedTimeFactory->expects($this->any())
 			->method('getTime')
@@ -113,11 +103,7 @@ class ExpirationTest extends \Test\TestCase {
 		return $mockedTimeFactory;
 	}
 
-	/**
-	 * @param string $returnValue
-	 * @return IConfig|MockObject
-	 */
-	private function getMockedConfig($returnValue) {
+	private function getMockedConfig(string $returnValue): IConfig&MockObject {
 		$mockedConfig = $this->createMock(IConfig::class);
 		$mockedConfig->expects($this->any())
 			->method('getSystemValue')

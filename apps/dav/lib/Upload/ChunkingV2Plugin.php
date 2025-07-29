@@ -18,6 +18,7 @@ use OC\Memcache\Redis;
 use OC_Hook;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
+use OCP\AppFramework\Http;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
@@ -124,7 +125,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 			self::UPLOAD_TARGET_ID => $targetFile->getId(),
 		], 86400);
 
-		$response->setStatus(201);
+		$response->setStatus(Http::STATUS_CREATED);
 		return true;
 	}
 
@@ -235,7 +236,7 @@ class ChunkingV2Plugin extends ServerPlugin {
 		$response = $this->server->httpResponse;
 		$response->setHeader('Content-Type', 'application/xml; charset=utf-8');
 		$response->setHeader('Content-Length', '0');
-		$response->setStatus($destinationExists ? 204 : 201);
+		$response->setStatus($destinationExists ? Http::STATUS_NO_CONTENT : Http::STATUS_CREATED);
 		return false;
 	}
 

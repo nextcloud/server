@@ -41,6 +41,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Motor de fluxo de trabalho da Nextcloud",
     "Select a filter" : "Selecionar um filtro",
     "Select a comparator" : "Selecionar um comparador",
+    "Remove filter" : "Remover filtro",
     "Folder" : "Pasta",
     "Images" : "Imagens",
     "Files WebDAV" : "Ficheiros WebDAV",
@@ -50,9 +51,11 @@ OC.L10N.register(
     "Thunderbird & Outlook addons" : "Extras do Thunderbird & Outlook",
     "Select groups" : "Selecionar grupos",
     "Groups" : "Grupos",
+    "Save" : "Guardar",
+    "and" : "e",
     "Cancel" : "Cancelar",
     "Delete" : "Apagar",
-    "Save" : "Guardar",
+    "Show less" : "Mostrar menos",
     "matches" : "corresponde",
     "does not match" : "não corresponde",
     "is" : "é",
@@ -78,7 +81,6 @@ OC.L10N.register(
     "not between" : "fora de",
     "Request user agent" : "Solicitar agente de utilizador",
     "is member of" : "é membro de",
-    "is not member of" : "não é um membro de",
-    "User group membership" : "Grupos do utilizador"
+    "is not member of" : "não é um membro de"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

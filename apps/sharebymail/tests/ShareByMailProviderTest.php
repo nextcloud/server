@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,9 +9,11 @@ namespace OCA\ShareByMail\Tests;
 
 use DateTime;
 use OC\Mail\Message;
+use OC\Share20\Share;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Activity\IManager as IActivityManager;
+use OCP\Constants;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -28,9 +32,12 @@ use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
+use OCP\Server;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\Util;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -42,7 +49,7 @@ use Test\TestCase;
  * @group DB
  */
 class ShareByMailProviderTest extends TestCase {
-	
+
 	private IDBConnection $connection;
 
 	private IL10N&MockObject $l;
@@ -64,27 +71,27 @@ class ShareByMailProviderTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 
-		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
-		$this->secureRandom = $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock();
-		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		$this->share = $this->getMockBuilder(IShare::class)->getMock();
-		$this->activityManager = $this->getMockBuilder('OCP\Activity\IManager')->getMock();
-		$this->settingsManager = $this->getMockBuilder(SettingsManager::class)->disableOriginalConstructor()->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->rootFolder = $this->createMock('OCP\Files\IRootFolder');
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->secureRandom = $this->createMock('\OCP\Security\ISecureRandom');
+		$this->mailer = $this->createMock('\OCP\Mail\IMailer');
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->share = $this->createMock(IShare::class);
+		$this->activityManager = $this->createMock('OCP\Activity\IManager');
+		$this->settingsManager = $this->createMock(SettingsManager::class);
 		$this->defaults = $this->createMock(Defaults::class);
-		$this->hasher = $this->getMockBuilder(IHasher::class)->getMock();
-		$this->eventDispatcher = $this->getMockBuilder(IEventDispatcher::class)->getMock();
-		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
+		$this->hasher = $this->createMock(IHasher::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->shareManager = $this->createMock(IManager::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 		$this->config->expects($this->any())->method('getAppValue')->with('core', 'enforce_strict_email_check')->willReturn('yes');
@@ -98,7 +105,7 @@ class ShareByMailProviderTest extends TestCase {
 	 */
 	private function getInstance(array $mockedMethods = []) {
 		if (!empty($mockedMethods)) {
-			return $this->getMockBuilder('OCA\ShareByMail\ShareByMailProvider')
+			return $this->getMockBuilder(ShareByMailProvider::class)
 				->setConstructorArgs([
 					$this->config,
 					$this->connection,
@@ -114,9 +121,9 @@ class ShareByMailProviderTest extends TestCase {
 					$this->defaults,
 					$this->hasher,
 					$this->eventDispatcher,
-					$this->shareManager
+					$this->shareManager,
 				])
-				->setMethods($mockedMethods)
+				->onlyMethods($mockedMethods)
 				->getMock();
 		}
 
@@ -135,7 +142,7 @@ class ShareByMailProviderTest extends TestCase {
 			$this->defaults,
 			$this->hasher,
 			$this->eventDispatcher,
-			$this->shareManager
+			$this->shareManager,
 		);
 	}
 
@@ -148,13 +155,13 @@ class ShareByMailProviderTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testCreate() {
+	public function testCreate(): void {
 		$expectedShare = $this->createMock(IShare::class);
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('user1');
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
 		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'sendEmail', 'sendPassword']);
@@ -177,13 +184,13 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($expectedShare, $instance->create($share));
 	}
 
-	public function testCreateSendPasswordByMailWithoutEnforcedPasswordProtection() {
+	public function testCreateSendPasswordByMailWithoutEnforcedPasswordProtection(): void {
 		$expectedShare = $this->createMock(IShare::class);
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@examplelölöl.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
@@ -219,13 +226,13 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->sendMailNotification($share);
 	}
 
-	public function testCreateSendPasswordByMailWithPasswordAndWithoutEnforcedPasswordProtectionWithPermanentPassword() {
+	public function testCreateSendPasswordByMailWithPasswordAndWithoutEnforcedPasswordProtectionWithPermanentPassword(): void {
 		$expectedShare = $this->createMock(IShare::class);
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
@@ -265,13 +272,13 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->sendMailNotification($share);
 	}
 
-	public function testCreateSendPasswordByMailWithPasswordAndWithoutEnforcedPasswordProtectionWithoutPermanentPassword() {
+	public function testCreateSendPasswordByMailWithPasswordAndWithoutEnforcedPasswordProtectionWithoutPermanentPassword(): void {
 		$expectedShare = $this->createMock(IShare::class);
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
@@ -318,13 +325,13 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->sendMailNotification($share);
 	}
 
-	public function testCreateSendPasswordByMailWithEnforcedPasswordProtectionWithPermanentPassword() {
+	public function testCreateSendPasswordByMailWithEnforcedPasswordProtectionWithPermanentPassword(): void {
 		$expectedShare = $this->createMock(IShare::class);
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
@@ -369,26 +376,36 @@ class ShareByMailProviderTest extends TestCase {
 		$message = $this->createMock(IMessage::class);
 		$message->expects($this->exactly(2))->method('setTo')->with(['receiver@example.com']);
 		$this->mailer->expects($this->exactly(2))->method('createMessage')->willReturn($message);
-		$this->mailer->expects($this->exactly(2))->method('createEMailTemplate')
-			->withConsecutive([
-				'sharebymail.RecipientNotification', [
+		$calls = [
+			[
+				'sharebymail.RecipientNotification',
+				[
 					'filename' => 'filename',
 					'link' => 'https://example.com/file.txt',
 					'initiator' => 'owner',
 					'expiration' => null,
 					'shareWith' => 'receiver@example.com',
-					'note' => ''
-				]
+					'note' => '',
+				],
 			],
+			[
+				'sharebymail.RecipientPasswordNotification',
 				[
-					'sharebymail.RecipientPasswordNotification', [
-						'filename' => 'filename',
-						'password' => 'autogeneratedPassword',
-						'initiator' => 'owner',
-						'initiatorEmail' => null,
-						'shareWith' => 'receiver@example.com',
-					]
-				]);
+					'filename' => 'filename',
+					'password' => 'autogeneratedPassword',
+					'initiator' => 'owner',
+					'initiatorEmail' => null,
+					'shareWith' => 'receiver@example.com',
+				],
+			],
+		];
+		$this->mailer->expects($this->exactly(2))
+			->method('createEMailTemplate')
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return $this->createMock(IEMailTemplate::class);
+			});
 
 		// Main email notification is sent as well as the password
 		// to the recipient because shareApiLinkEnforcePassword is enabled.
@@ -399,13 +416,13 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->sendMailNotification($share);
 	}
 
-	public function testCreateSendPasswordByMailWithPasswordAndWithEnforcedPasswordProtectionWithPermanentPassword() {
+	public function testCreateSendPasswordByMailWithPasswordAndWithEnforcedPasswordProtectionWithPermanentPassword(): void {
 		$expectedShare = $this->createMock(IShare::class);
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
@@ -443,26 +460,37 @@ class ShareByMailProviderTest extends TestCase {
 		$message = $this->createMock(IMessage::class);
 		$message->expects($this->exactly(2))->method('setTo')->with(['receiver@example.com']);
 		$this->mailer->expects($this->exactly(2))->method('createMessage')->willReturn($message);
-		$this->mailer->expects($this->exactly(2))->method('createEMailTemplate')
-			->withConsecutive([
-				'sharebymail.RecipientNotification', [
+
+		$calls = [
+			[
+				'sharebymail.RecipientNotification',
+				[
 					'filename' => 'filename',
 					'link' => 'https://example.com/file.txt',
 					'initiator' => 'owner',
 					'expiration' => null,
 					'shareWith' => 'receiver@example.com',
-					'note' => ''
-				]
+					'note' => '',
+				],
 			],
+			[
+				'sharebymail.RecipientPasswordNotification',
 				[
-					'sharebymail.RecipientPasswordNotification', [
-						'filename' => 'filename',
-						'password' => 'password',
-						'initiator' => 'owner',
-						'initiatorEmail' => null,
-						'shareWith' => 'receiver@example.com',
-					]
-				]);
+					'filename' => 'filename',
+					'password' => 'password',
+					'initiator' => 'owner',
+					'initiatorEmail' => null,
+					'shareWith' => 'receiver@example.com',
+				],
+			],
+		];
+		$this->mailer->expects($this->exactly(2))
+			->method('createEMailTemplate')
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return $this->createMock(IEMailTemplate::class);
+			});
 
 		// Main email notification is sent as well as the password
 		// to the recipient because the password is set.
@@ -473,19 +501,19 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->sendMailNotification($share);
 	}
 
-	public function testCreateSendPasswordByTalkWithEnforcedPasswordProtectionWithPermanentPassword() {
+	public function testCreateSendPasswordByTalkWithEnforcedPasswordProtectionWithPermanentPassword(): void {
 		$expectedShare = $this->createMock(IShare::class);
 
 		// The owner of the share.
-		$owner = $this->getMockBuilder(IUser::class)->getMock();
+		$owner = $this->createMock(IUser::class);
 		$this->userManager->expects($this->any())->method('get')->with('owner')->willReturn($owner);
 		$owner->expects($this->any())->method('getEMailAddress')->willReturn('owner@example.com');
 		$owner->expects($this->any())->method('getDisplayName')->willReturn('owner');
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(true);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
@@ -520,28 +548,49 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->expects($this->once())->method('autoGeneratePassword')->with($share)->willReturn('autogeneratedPassword');
 
 		$message = $this->createMock(IMessage::class);
-		$message->expects($this->exactly(2))->method('setTo')->withConsecutive([['receiver@example.com']], [['owner@example.com' => 'owner']]);
+		$setToCalls = [
+			[['receiver@example.com']],
+			[['owner@example.com' => 'owner']],
+		];
+		$message->expects($this->exactly(2))
+			->method('setTo')
+			->willReturnCallback(function () use (&$setToCalls, $message) {
+				$expected = array_shift($setToCalls);
+				$this->assertEquals($expected, func_get_args());
+				return $message;
+			});
 		$this->mailer->expects($this->exactly(2))->method('createMessage')->willReturn($message);
-		$this->mailer->expects($this->exactly(2))->method('createEMailTemplate')
-			->withConsecutive([
-				'sharebymail.RecipientNotification', [
+
+		$calls = [
+			[
+				'sharebymail.RecipientNotification',
+				[
 					'filename' => 'filename',
 					'link' => 'https://example.com/file.txt',
 					'initiator' => 'owner',
 					'expiration' => null,
 					'shareWith' => 'receiver@example.com',
-					'note' => ''
-				]
+					'note' => '',
+				],
 			],
+			[
+				'sharebymail.OwnerPasswordNotification',
 				[
-					'sharebymail.OwnerPasswordNotification', [
-						'filename' => 'filename',
-						'password' => 'autogeneratedPassword',
-						'initiator' => 'owner',
-						'initiatorEmail' => 'owner@example.com',
-						'shareWith' => 'receiver@example.com',
-					]
-				]);
+					'filename' => 'filename',
+					'password' => 'autogeneratedPassword',
+					'initiator' => 'owner',
+					'initiatorEmail' => 'owner@example.com',
+					'shareWith' => 'receiver@example.com',
+				],
+			],
+		];
+		$this->mailer->expects($this->exactly(2))
+			->method('createEMailTemplate')
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return $this->createMock(IEMailTemplate::class);
+			});
 
 		// Main email notification is sent as well as the password to owner
 		// because the password is set and SendPasswordByTalk is enabled.
@@ -555,10 +604,10 @@ class ShareByMailProviderTest extends TestCase {
 	public function sendNotificationToMultipleEmails() {
 		$expectedShare = $this->createMock(IShare::class);
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('');
 		$share->expects($this->any())->method('getSendPasswordByTalk')->willReturn(false);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('owner');
@@ -567,7 +616,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 
-		$attributes = $this->getMockBuilder(IAttributes::class)->getMock();
+		$attributes = $this->createMock(IAttributes::class);
 		$share->expects($this->any())->method('getAttributes')->willReturn($attributes);
 		$attributes->expects($this->any())->method('getAttribute')->with('shareWith', 'emails')->willReturn([
 			'receiver1@example.com',
@@ -602,8 +651,8 @@ class ShareByMailProviderTest extends TestCase {
 			->with($share, ['receiver1@example.com', 'receiver2@example.com', 'receiver3@example.com']);
 		$instance->expects($this->once())->method('sendPassword')->with($share, 'password');
 		$instance->expects($this->never())->method('sendPasswordToOwner');
-		
-		
+
+
 		$message = $this->createMock(IMessage::class);
 		$message->expects($this->never())->method('setTo');
 		$message->expects($this->exactly(2))->method('setBcc')->with(['receiver1@example.com', 'receiver2@example.com', 'receiver3@example.com']);
@@ -617,11 +666,11 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->sendMailNotification($share);
 	}
 
-	public function testCreateFailed() {
+	public function testCreateFailed(): void {
 		$this->expectException(\Exception::class);
 
 		$this->share->expects($this->once())->method('getSharedWith')->willReturn('user1');
-		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
+		$node = $this->createMock('OCP\Files\Node');
 		$node->expects($this->any())->method('getName')->willReturn('fileName');
 		$this->share->expects($this->any())->method('getNode')->willReturn($node);
 
@@ -637,7 +686,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testCreateMailShare() {
+	public function testCreateMailShare(): void {
 		$this->share->expects($this->any())->method('getToken')->willReturn('token');
 		$this->share->expects($this->once())->method('setToken')->with('token');
 		$this->share->expects($this->any())->method('getSharedBy')->willReturn('validby@valid.com');
@@ -645,7 +694,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->share->expects($this->any())->method('getNote')->willReturn('Check this!');
 		$this->share->expects($this->any())->method('getMailSend')->willReturn(true);
 
-		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
+		$node = $this->createMock('OCP\Files\Node');
 		$node->expects($this->any())->method('getName')->willReturn('fileName');
 		$this->share->expects($this->any())->method('getNode')->willReturn($node);
 
@@ -662,7 +711,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testGenerateToken() {
+	public function testGenerateToken(): void {
 		$instance = $this->getInstance();
 
 		$this->secureRandom->expects($this->once())->method('generate')->willReturn('token');
@@ -672,7 +721,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testAddShareToDB() {
+	public function testAddShareToDB(): void {
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -735,7 +784,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($expiration->getTimestamp(), \DateTime::createFromFormat('Y-m-d H:i:s', $result[0]['expiration'])->getTimestamp());
 	}
 
-	public function testUpdate() {
+	public function testUpdate(): void {
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -755,6 +804,8 @@ class ShareByMailProviderTest extends TestCase {
 		$this->share->expects($this->once())->method('getSharedBy')->willReturn($sharedBy);
 		$this->share->expects($this->any())->method('getNote')->willReturn($note);
 		$this->share->expects($this->atLeastOnce())->method('getId')->willReturn($id);
+		$this->share->expects($this->atLeastOnce())->method('getNodeId')->willReturn($itemSource);
+		$this->share->expects($this->once())->method('getSharedWith')->willReturn($shareWith);
 
 		$this->assertSame($this->share,
 			$instance->update($this->share)
@@ -781,7 +832,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($note, $result[0]['note']);
 	}
 
-	public function dataUpdateSendPassword() {
+	public static function dataUpdateSendPassword(): array {
 		return [
 			['password', 'hashed', 'hashed new', false, false, true],
 			['', 'hashed', 'hashed new', false, false, false],
@@ -793,30 +844,21 @@ class ShareByMailProviderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateSendPassword
-	 *
-	 * @param string|null plainTextPassword
-	 * @param string originalPassword
-	 * @param string newPassword
-	 * @param string originalSendPasswordByTalk
-	 * @param string newSendPasswordByTalk
-	 * @param bool sendMail
-	 */
-	public function testUpdateSendPassword($plainTextPassword, string $originalPassword, string $newPassword, $originalSendPasswordByTalk, $newSendPasswordByTalk, bool $sendMail) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateSendPassword')]
+	public function testUpdateSendPassword(?string $plainTextPassword, string $originalPassword, string $newPassword, bool $originalSendPasswordByTalk, bool $newSendPasswordByTalk, bool $sendMail): void {
 		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
 		$this->settingsManager->method('sendPasswordByMail')->willReturn(true);
 
-		$originalShare = $this->getMockBuilder(IShare::class)->getMock();
+		$originalShare = $this->createMock(IShare::class);
 		$originalShare->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$originalShare->expects($this->any())->method('getNode')->willReturn($node);
 		$originalShare->expects($this->any())->method('getId')->willReturn(42);
 		$originalShare->expects($this->any())->method('getPassword')->willReturn($originalPassword);
 		$originalShare->expects($this->any())->method('getSendPasswordByTalk')->willReturn($originalSendPasswordByTalk);
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 		$share->expects($this->any())->method('getId')->willReturn(42);
@@ -844,7 +886,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$instance = $this->getInstance(['removeShareFromTable', 'createShareActivity']);
 		$this->share->expects($this->once())->method('getId')->willReturn(42);
 		$instance->expects($this->once())->method('removeShareFromTable')->with(42);
@@ -852,7 +894,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->delete($this->share);
 	}
 
-	public function testGetShareById() {
+	public function testGetShareById(): void {
 		$instance = $this->getInstance(['createShareObject']);
 
 		$itemSource = 11;
@@ -882,8 +924,8 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 
-	public function testGetShareByIdFailed() {
-		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
+	public function testGetShareByIdFailed(): void {
+		$this->expectException(ShareNotFound::class);
 
 		$instance = $this->getInstance(['createShareObject']);
 
@@ -900,7 +942,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance->getShareById($id + 1);
 	}
 
-	public function testGetShareByPath() {
+	public function testGetShareByPath(): void {
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -935,7 +977,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertInstanceOf('OCP\Share\IShare', $result[0]);
 	}
 
-	public function testGetShareByToken() {
+	public function testGetShareByToken(): void {
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -965,8 +1007,8 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 
-	public function testGetShareByTokenFailed() {
-		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
+	public function testGetShareByTokenFailed(): void {
+		$this->expectException(ShareNotFound::class);
 
 
 		$itemSource = 11;
@@ -989,7 +1031,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testRemoveShareFromTable() {
+	public function testRemoveShareFromTable(): void {
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -1027,7 +1069,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertEmpty($after);
 	}
 
-	public function testUserDeleted() {
+	public function testUserDeleted(): void {
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -1066,7 +1108,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($id, (int)$after[0]['id']);
 	}
 
-	public function testGetRawShare() {
+	public function testGetRawShare(): void {
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -1092,8 +1134,8 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 
-	public function testGetRawShareFailed() {
-		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
+	public function testGetRawShareFailed(): void {
+		$this->expectException(ShareNotFound::class);
 
 		$itemSource = 11;
 		$itemType = 'file';
@@ -1137,19 +1179,19 @@ class ShareByMailProviderTest extends TestCase {
 		return (int)$id;
 	}
 
-	public function testGetSharesInFolder() {
-		$userManager = \OC::$server->getUserManager();
-		$rootFolder = \OC::$server->getRootFolder();
+	public function testGetSharesInFolder(): void {
+		$userManager = Server::get(IUserManager::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		$this->shareManager->expects($this->any())
 			->method('newShare')
-			->willReturn(new \OC\Share20\Share($rootFolder, $userManager));
+			->willReturn(new Share($rootFolder, $userManager));
 
 		$provider = $this->getInstance(['sendMailNotification', 'createShareActivity']);
 		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
-		$u1 = $userManager->createUser('testFed', md5(time()));
-		$u2 = $userManager->createUser('testFed2', md5(time()));
+		$u1 = $userManager->createUser('testFed', md5((string)time()));
+		$u2 = $userManager->createUser('testFed2', md5((string)time()));
 
 		$folder1 = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
 		$file1 = $folder1->newFile('bar1');
@@ -1159,7 +1201,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())
 			->setShareOwner($u1->getUID())
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setNode($file1);
 		$provider->create($share1);
 
@@ -1167,7 +1209,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share2->setSharedWith('user@server.com')
 			->setSharedBy($u2->getUID())
 			->setShareOwner($u1->getUID())
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setNode($file2);
 		$provider->create($share2);
 
@@ -1184,19 +1226,19 @@ class ShareByMailProviderTest extends TestCase {
 		$u2->delete();
 	}
 
-	public function testGetAccessList() {
-		$userManager = \OC::$server->getUserManager();
-		$rootFolder = \OC::$server->getRootFolder();
+	public function testGetAccessList(): void {
+		$userManager = Server::get(IUserManager::class);
+		$rootFolder = Server::get(IRootFolder::class);
 
 		$this->shareManager->expects($this->any())
 			->method('newShare')
-			->willReturn(new \OC\Share20\Share($rootFolder, $userManager));
+			->willReturn(new Share($rootFolder, $userManager));
 
 		$provider = $this->getInstance(['sendMailNotification', 'createShareActivity']);
 		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
-		$u1 = $userManager->createUser('testFed', md5(time()));
-		$u2 = $userManager->createUser('testFed2', md5(time()));
+		$u1 = $userManager->createUser('testFed', md5((string)time()));
+		$u2 = $userManager->createUser('testFed2', md5((string)time()));
 
 		$folder = $rootFolder->getUserFolder($u1->getUID())->newFolder('foo');
 
@@ -1211,7 +1253,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share1->setSharedWith('user@server.com')
 			->setSharedBy($u1->getUID())
 			->setShareOwner($u1->getUID())
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setNode($folder);
 		$share1 = $provider->create($share1);
 
@@ -1219,7 +1261,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share2->setSharedWith('user2@server.com')
 			->setSharedBy($u2->getUID())
 			->setShareOwner($u1->getUID())
-			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setPermissions(Constants::PERMISSION_READ)
 			->setNode($folder);
 		$share2 = $provider->create($share2);
 
@@ -1252,7 +1294,7 @@ class ShareByMailProviderTest extends TestCase {
 		$u2->delete();
 	}
 
-	public function testSendMailNotificationWithSameUserAndUserEmail() {
+	public function testSendMailNotificationWithSameUserAndUserEmail(): void {
 		$provider = $this->getInstance();
 		$user = $this->createMock(IUser::class);
 		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
@@ -1284,13 +1326,6 @@ class ShareByMailProviderTest extends TestCase {
 			->with('Mrs. Owner User shared file.txt with you');
 		$template
 			->expects($this->once())
-			->method('addBodyText')
-			->with(
-				'Mrs. Owner User shared file.txt with you. Click the button below to open it.',
-				'Mrs. Owner User shared file.txt with you.'
-			);
-		$template
-			->expects($this->once())
 			->method('addBodyButton')
 			->with(
 				'Open file.txt',
@@ -1308,7 +1343,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setFrom')
 			->with([
-				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud'
+				Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud'
 			]);
 		$user
 			->expects($this->once())
@@ -1347,17 +1382,17 @@ class ShareByMailProviderTest extends TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
 			->willReturn('https://example.com/file.txt');
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('file.txt');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 		$share->expects($this->any())->method('getId')->willReturn(42);
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
-	
+
 		self::invokePrivate(
 			$provider,
 			'sendMailNotification',
@@ -1365,7 +1400,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testSendMailNotificationWithSameUserAndUserEmailAndNote() {
+	public function testSendMailNotificationWithSameUserAndUserEmailAndNote(): void {
 		$provider = $this->getInstance();
 		$user = $this->createMock(IUser::class);
 		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
@@ -1395,10 +1430,6 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addHeading')
 			->with('Mrs. Owner User shared file.txt with you');
-		$template
-			->expects($this->once())
-			->method('addBodyText')
-			->with('Mrs. Owner User shared file.txt with you. Click the button below to open it.', 'Mrs. Owner User shared file.txt with you.');
 
 		$this->urlGenerator->expects($this->once())->method('imagePath')
 			->with('core', 'caldav/description.png')
@@ -1434,7 +1465,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setFrom')
 			->with([
-				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud'
+				Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud'
 			]);
 		$user
 			->expects($this->once())
@@ -1473,17 +1504,17 @@ class ShareByMailProviderTest extends TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
 			->willReturn('https://example.com/file.txt');
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('file.txt');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 		$share->expects($this->any())->method('getId')->willReturn(42);
 		$share->expects($this->any())->method('getNote')->willReturn('This is a note to the recipient');
 		$share->expects($this->any())->method('getToken')->willReturn('token');
-		
+
 		self::invokePrivate(
 			$provider,
 			'sendMailNotification',
@@ -1491,7 +1522,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testSendMailNotificationWithSameUserAndUserEmailAndExpiration() {
+	public function testSendMailNotificationWithSameUserAndUserEmailAndExpiration(): void {
 		$provider = $this->getInstance();
 		$user = $this->createMock(IUser::class);
 		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
@@ -1521,10 +1552,6 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('addHeading')
 			->with('Mrs. Owner User shared file.txt with you');
-		$template
-			->expects($this->once())
-			->method('addBodyText')
-			->with('Mrs. Owner User shared file.txt with you. Click the button below to open it.', 'Mrs. Owner User shared file.txt with you.');
 
 		$expiration = new DateTime('2001-01-01');
 		$this->l->expects($this->once())
@@ -1565,7 +1592,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setFrom')
 			->with([
-				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud'
+				Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud'
 			]);
 		$user
 			->expects($this->once())
@@ -1604,10 +1631,10 @@ class ShareByMailProviderTest extends TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
 			->willReturn('https://example.com/file.txt');
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('file.txt');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
@@ -1615,7 +1642,7 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getNote')->willReturn('');
 		$share->expects($this->any())->method('getExpirationDate')->willReturn($expiration);
 		$share->expects($this->any())->method('getToken')->willReturn('token');
-		
+
 		self::invokePrivate(
 			$provider,
 			'sendMailNotification',
@@ -1623,7 +1650,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testSendMailNotificationWithDifferentUserAndNoUserEmail() {
+	public function testSendMailNotificationWithDifferentUserAndNoUserEmail(): void {
 		$provider = $this->getInstance();
 		$initiatorUser = $this->createMock(IUser::class);
 		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
@@ -1655,13 +1682,6 @@ class ShareByMailProviderTest extends TestCase {
 			->with('Mr. Initiator User shared file.txt with you');
 		$template
 			->expects($this->once())
-			->method('addBodyText')
-			->with(
-				'Mr. Initiator User shared file.txt with you. Click the button below to open it.',
-				'Mr. Initiator User shared file.txt with you.'
-			);
-		$template
-			->expects($this->once())
 			->method('addBodyButton')
 			->with(
 				'Open file.txt',
@@ -1679,7 +1699,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setFrom')
 			->with([
-				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'Mr. Initiator User via UnitTestCloud'
+				Util::getDefaultEmailAddress('UnitTestCloud') => 'Mr. Initiator User via UnitTestCloud'
 			]);
 		$message
 			->expects($this->never())
@@ -1709,10 +1729,10 @@ class ShareByMailProviderTest extends TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
 			->willReturn('https://example.com/file.txt');
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('file.txt');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('InitiatorUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
@@ -1727,7 +1747,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testSendMailNotificationWithSameUserAndUserEmailAndReplyToDesactivate() {
+	public function testSendMailNotificationWithSameUserAndUserEmailAndReplyToDesactivate(): void {
 		$provider = $this->getInstance();
 		$user = $this->createMock(IUser::class);
 		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(false);
@@ -1759,13 +1779,6 @@ class ShareByMailProviderTest extends TestCase {
 			->with('Mrs. Owner User shared file.txt with you');
 		$template
 			->expects($this->once())
-			->method('addBodyText')
-			->with(
-				'Mrs. Owner User shared file.txt with you. Click the button below to open it.',
-				'Mrs. Owner User shared file.txt with you.'
-			);
-		$template
-			->expects($this->once())
 			->method('addBodyButton')
 			->with(
 				'Open file.txt',
@@ -1783,7 +1796,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setFrom')
 			->with([
-				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'UnitTestCloud'
+				Util::getDefaultEmailAddress('UnitTestCloud') => 'UnitTestCloud'
 			]);
 		// Since replyToInitiator is false, we never get the initiator email address
 		$user
@@ -1817,10 +1830,10 @@ class ShareByMailProviderTest extends TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
 			->willReturn('https://example.com/file.txt');
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('file.txt');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);
@@ -1835,7 +1848,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	public function testSendMailNotificationWithDifferentUserAndNoUserEmailAndReplyToDesactivate() {
+	public function testSendMailNotificationWithDifferentUserAndNoUserEmailAndReplyToDesactivate(): void {
 		$provider = $this->getInstance();
 		$initiatorUser = $this->createMock(IUser::class);
 		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(false);
@@ -1867,13 +1880,6 @@ class ShareByMailProviderTest extends TestCase {
 			->with('Mr. Initiator User shared file.txt with you');
 		$template
 			->expects($this->once())
-			->method('addBodyText')
-			->with(
-				'Mr. Initiator User shared file.txt with you. Click the button below to open it.',
-				'Mr. Initiator User shared file.txt with you.'
-			);
-		$template
-			->expects($this->once())
 			->method('addBodyButton')
 			->with(
 				'Open file.txt',
@@ -1891,7 +1897,7 @@ class ShareByMailProviderTest extends TestCase {
 			->expects($this->once())
 			->method('setFrom')
 			->with([
-				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'UnitTestCloud'
+				Util::getDefaultEmailAddress('UnitTestCloud') => 'UnitTestCloud'
 			]);
 		$message
 			->expects($this->never())
@@ -1921,10 +1927,10 @@ class ShareByMailProviderTest extends TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
 			->willReturn('https://example.com/file.txt');
 
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('file.txt');
 
-		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())->method('getSharedBy')->willReturn('InitiatorUser');
 		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
 		$share->expects($this->any())->method('getNode')->willReturn($node);

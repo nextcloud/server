@@ -194,7 +194,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	protected function getDavUrlForCalendarObject(
 		string $principalUri,
 		string $calendarUri,
-		string $calendarObjectUri
+		string $calendarObjectUri,
 	): string {
 		[,, $principalId] = explode('/', $principalUri, 3);
 

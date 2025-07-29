@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,6 +26,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -34,11 +37,11 @@ class PersonalTest extends TestCase {
 	private ThemesService&MockObject $themesService;
 	private IInitialState&MockObject $initialStateService;
 	private ThemingDefaults&MockObject $themingDefaults;
-	private IAppManager&MockObject $appManager;
+	private INavigationManager&MockObject $navigationManager;
 	private Personal $admin;
 
 	/** @var ITheme[] */
-	private $themes;
+	private array $themes;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,7 +49,7 @@ class PersonalTest extends TestCase {
 		$this->themesService = $this->createMock(ThemesService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
-		$this->appManager = $this->createMock(IAppManager::class);
+		$this->navigationManager = $this->createMock(INavigationManager::class);
 
 		$this->initThemes();
 
@@ -62,12 +65,11 @@ class PersonalTest extends TestCase {
 			$this->themesService,
 			$this->initialStateService,
 			$this->themingDefaults,
-			$this->appManager,
+			$this->navigationManager,
 		);
 	}
 
-
-	public function dataTestGetForm() {
+	public function dataTestGetForm(): array {
 		return [
 			['', [
 				$this->formatThemeForm('default'),
@@ -85,12 +87,10 @@ class PersonalTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestGetForm
-	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 */
-	public function testGetForm(string $enforcedTheme, $themesState) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetForm')]
+	public function testGetForm(string $enforcedTheme, array $themesState): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('enforce_theme', '')
@@ -103,9 +103,9 @@ class PersonalTest extends TestCase {
 				['admin', 'theming', 'background_image', BackgroundService::BACKGROUND_DEFAULT],
 			]);
 
-		$this->appManager->expects($this->once())
-			->method('getDefaultAppForUser')
-			->willReturn('forcedapp');
+		$this->navigationManager->expects($this->once())
+			->method('getDefaultEntryIdForUser')
+			->willReturn('forced_id');
 
 		$this->initialStateService->expects($this->exactly(8))
 			->method('provideInitialState')
@@ -117,18 +117,18 @@ class PersonalTest extends TestCase {
 				['themes', $themesState],
 				['enforceTheme', $enforcedTheme],
 				['isUserThemingDisabled', false],
-				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forcedapp']],
+				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forced_id']],
 			]);
 
 		$expected = new TemplateResponse('theming', 'settings-personal');
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('theming', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(40, $this->admin->getPriority());
 	}
 

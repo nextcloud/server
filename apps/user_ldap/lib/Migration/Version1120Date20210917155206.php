@@ -22,17 +22,11 @@ use Psr\Log\LoggerInterface;
 
 class Version1120Date20210917155206 extends SimpleMigrationStep {
 
-	/** @var IDBConnection */
-	private $dbc;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IDBConnection $dbc, IUserManager $userManager, LoggerInterface $logger) {
-		$this->dbc = $dbc;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IDBConnection $dbc,
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function getName() {

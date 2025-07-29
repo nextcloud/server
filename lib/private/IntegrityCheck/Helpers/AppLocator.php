@@ -30,13 +30,4 @@ class AppLocator {
 		}
 		return $path;
 	}
-
-	/**
-	 * Providers \OC_App::getAllApps()
-	 *
-	 * @return array
-	 */
-	public function getAllApps(): array {
-		return \OC_App::getAllApps();
-	}
 }

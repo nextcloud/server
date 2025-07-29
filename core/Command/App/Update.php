@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Core\Command\App;
 
 use OC\Installer;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -64,12 +65,12 @@ class Update extends Command {
 			$apps = [$singleAppId];
 			try {
 				$this->manager->getAppPath($singleAppId);
-			} catch (\OCP\App\AppPathNotFoundException $e) {
+			} catch (AppPathNotFoundException $e) {
 				$output->writeln($singleAppId . ' not installed');
 				return 1;
 			}
 		} elseif ($input->getOption('all') || $input->getOption('showonly')) {
-			$apps = \OC_App::getAllApps();
+			$apps = $this->manager->getAllAppsInAppsFolders();
 		} else {
 			$output->writeln('<error>Please specify an app to update or "--all" to update all updatable apps"</error>');
 			return 1;

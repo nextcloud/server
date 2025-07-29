@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -35,10 +36,10 @@ class ShareRecipientSorterTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider sortDataProvider
 	 * @param $data
 	 */
-	public function testSort($data) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('sortDataProvider')]
+	public function testSort($data): void {
 		$node = $this->createMock(Node::class);
 
 		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
@@ -79,7 +80,7 @@ class ShareRecipientSorterTest extends TestCase {
 		$this->assertEquals($data['expected'], $workArray);
 	}
 
-	public function testSortNoNodes() {
+	public function testSortNoNodes(): void {
 		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
 		$folder = $this->createMock(Folder::class);
 		$this->rootFolder->expects($this->any())
@@ -109,44 +110,42 @@ class ShareRecipientSorterTest extends TestCase {
 			]
 		];
 		$workArray = $originalArray;
-		$this->sorter->sort($workArray, ['itemType' => 'files', 'itemId' => 404]);
+		$this->sorter->sort($workArray, ['itemType' => 'files', 'itemId' => '404']);
 
 		$this->assertEquals($originalArray, $workArray);
 	}
 
-	public function sortDataProvider() {
+	public static function sortDataProvider() {
 		return [[
 			[
 				#0 – sort properly and otherwise keep existing order
-				'context' => ['itemType' => 'files', 'itemId' => 42],
+				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => ['users' => ['celia', 'darius', 'faruk', 'gail'], 'bots' => ['r2-d2']],
 				'input' => [
-					'users' =>
-						[
-							['value' => ['shareWith' => 'alice']],
-							['value' => ['shareWith' => 'bob']],
-							['value' => ['shareWith' => 'celia']],
-							['value' => ['shareWith' => 'darius']],
-							['value' => ['shareWith' => 'elena']],
-							['value' => ['shareWith' => 'faruk']],
-							['value' => ['shareWith' => 'gail']],
-						],
+					'users' => [
+						['value' => ['shareWith' => 'alice']],
+						['value' => ['shareWith' => 'bob']],
+						['value' => ['shareWith' => 'celia']],
+						['value' => ['shareWith' => 'darius']],
+						['value' => ['shareWith' => 'elena']],
+						['value' => ['shareWith' => 'faruk']],
+						['value' => ['shareWith' => 'gail']],
+					],
 					'bots' => [
 						['value' => ['shareWith' => 'c-3po']],
 						['value' => ['shareWith' => 'r2-d2']],
 					]
 				],
 				'expected' => [
-					'users' =>
-						[
-							['value' => ['shareWith' => 'celia']],
-							['value' => ['shareWith' => 'darius']],
-							['value' => ['shareWith' => 'faruk']],
-							['value' => ['shareWith' => 'gail']],
-							['value' => ['shareWith' => 'alice']],
-							['value' => ['shareWith' => 'bob']],
-							['value' => ['shareWith' => 'elena']],
-						],
+					'users' => [
+						['value' => ['shareWith' => 'celia']],
+						['value' => ['shareWith' => 'darius']],
+						['value' => ['shareWith' => 'faruk']],
+						['value' => ['shareWith' => 'gail']],
+						['value' => ['shareWith' => 'alice']],
+						['value' => ['shareWith' => 'bob']],
+						['value' => ['shareWith' => 'elena']],
+					],
 					'bots' => [
 						['value' => ['shareWith' => 'r2-d2']],
 						['value' => ['shareWith' => 'c-3po']],
@@ -155,35 +154,33 @@ class ShareRecipientSorterTest extends TestCase {
 			],
 			[
 				#1 – no recipients
-				'context' => ['itemType' => 'files', 'itemId' => 42],
+				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => ['users' => false],
 				'input' => [
-					'users' =>
-						[
-							['value' => ['shareWith' => 'alice']],
-							['value' => ['shareWith' => 'bob']],
-							['value' => ['shareWith' => 'celia']],
-							['value' => ['shareWith' => 'darius']],
-							['value' => ['shareWith' => 'elena']],
-							['value' => ['shareWith' => 'faruk']],
-							['value' => ['shareWith' => 'gail']],
-						],
+					'users' => [
+						['value' => ['shareWith' => 'alice']],
+						['value' => ['shareWith' => 'bob']],
+						['value' => ['shareWith' => 'celia']],
+						['value' => ['shareWith' => 'darius']],
+						['value' => ['shareWith' => 'elena']],
+						['value' => ['shareWith' => 'faruk']],
+						['value' => ['shareWith' => 'gail']],
+					],
 					'bots' => [
 						['value' => ['shareWith' => 'c-3po']],
 						['value' => ['shareWith' => 'r2-d2']],
 					]
 				],
 				'expected' => [
-					'users' =>
-						[
-							['value' => ['shareWith' => 'alice']],
-							['value' => ['shareWith' => 'bob']],
-							['value' => ['shareWith' => 'celia']],
-							['value' => ['shareWith' => 'darius']],
-							['value' => ['shareWith' => 'elena']],
-							['value' => ['shareWith' => 'faruk']],
-							['value' => ['shareWith' => 'gail']],
-						],
+					'users' => [
+						['value' => ['shareWith' => 'alice']],
+						['value' => ['shareWith' => 'bob']],
+						['value' => ['shareWith' => 'celia']],
+						['value' => ['shareWith' => 'darius']],
+						['value' => ['shareWith' => 'elena']],
+						['value' => ['shareWith' => 'faruk']],
+						['value' => ['shareWith' => 'gail']],
+					],
 					'bots' => [
 						['value' => ['shareWith' => 'c-3po']],
 						['value' => ['shareWith' => 'r2-d2']],
@@ -192,35 +189,33 @@ class ShareRecipientSorterTest extends TestCase {
 			],
 			[
 				#2 – unsupported item  type
-				'context' => ['itemType' => 'announcements', 'itemId' => 42],
+				'context' => ['itemType' => 'announcements', 'itemId' => '42'],
 				'accessList' => null, // not needed
 				'input' => [
-					'users' =>
-						[
-							['value' => ['shareWith' => 'alice']],
-							['value' => ['shareWith' => 'bob']],
-							['value' => ['shareWith' => 'celia']],
-							['value' => ['shareWith' => 'darius']],
-							['value' => ['shareWith' => 'elena']],
-							['value' => ['shareWith' => 'faruk']],
-							['value' => ['shareWith' => 'gail']],
-						],
+					'users' => [
+						['value' => ['shareWith' => 'alice']],
+						['value' => ['shareWith' => 'bob']],
+						['value' => ['shareWith' => 'celia']],
+						['value' => ['shareWith' => 'darius']],
+						['value' => ['shareWith' => 'elena']],
+						['value' => ['shareWith' => 'faruk']],
+						['value' => ['shareWith' => 'gail']],
+					],
 					'bots' => [
 						['value' => ['shareWith' => 'c-3po']],
 						['value' => ['shareWith' => 'r2-d2']],
 					]
 				],
 				'expected' => [
-					'users' =>
-						[
-							['value' => ['shareWith' => 'alice']],
-							['value' => ['shareWith' => 'bob']],
-							['value' => ['shareWith' => 'celia']],
-							['value' => ['shareWith' => 'darius']],
-							['value' => ['shareWith' => 'elena']],
-							['value' => ['shareWith' => 'faruk']],
-							['value' => ['shareWith' => 'gail']],
-						],
+					'users' => [
+						['value' => ['shareWith' => 'alice']],
+						['value' => ['shareWith' => 'bob']],
+						['value' => ['shareWith' => 'celia']],
+						['value' => ['shareWith' => 'darius']],
+						['value' => ['shareWith' => 'elena']],
+						['value' => ['shareWith' => 'faruk']],
+						['value' => ['shareWith' => 'gail']],
+					],
 					'bots' => [
 						['value' => ['shareWith' => 'c-3po']],
 						['value' => ['shareWith' => 'r2-d2']],
@@ -229,7 +224,7 @@ class ShareRecipientSorterTest extends TestCase {
 			],
 			[
 				#3 – no nothing
-				'context' => ['itemType' => 'files', 'itemId' => 42],
+				'context' => ['itemType' => 'files', 'itemId' => '42'],
 				'accessList' => [],
 				'input' => [],
 				'expected' => [],

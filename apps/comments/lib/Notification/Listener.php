@@ -16,7 +16,7 @@ use OCP\Notification\INotification;
 class Listener {
 	public function __construct(
 		protected IManager $notificationManager,
-		protected IUserManager $userManager
+		protected IUserManager $userManager,
 	) {
 	}
 

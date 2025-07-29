@@ -14,7 +14,7 @@ use OCP\IConfig;
 use OCP\ISession;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class SetUserTimezoneCommandTest extends ALoginCommandTest {
+class SetUserTimezoneCommandTest extends ALoginTestCommand {
 	/** @var IConfig|MockObject */
 	private $config;
 
@@ -33,7 +33,7 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcessNoTimezoneSet() {
+	public function testProcessNoTimezoneSet(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->never())
 			->method('setUserValue');
@@ -45,7 +45,7 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getLoggedInLoginDataWithTimezone();
 		$this->user->expects($this->once())
 			->method('getUID')

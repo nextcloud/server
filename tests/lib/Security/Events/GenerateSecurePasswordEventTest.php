@@ -14,19 +14,19 @@ use OCP\Security\PasswordContext;
 
 class GenerateSecurePasswordEventTest extends \Test\TestCase {
 
-	public function testDefaultProperties() {
+	public function testDefaultProperties(): void {
 		$event = new GenerateSecurePasswordEvent();
 		$this->assertNull($event->getPassword());
 		$this->assertEquals(PasswordContext::ACCOUNT, $event->getContext());
 	}
 
-	public function testSettingPassword() {
+	public function testSettingPassword(): void {
 		$event = new GenerateSecurePasswordEvent();
 		$event->setPassword('example');
 		$this->assertEquals('example', $event->getPassword());
 	}
 
-	public function testSettingContext() {
+	public function testSettingContext(): void {
 		$event = new GenerateSecurePasswordEvent(PasswordContext::SHARING);
 		$this->assertEquals(PasswordContext::SHARING, $event->getContext());
 	}

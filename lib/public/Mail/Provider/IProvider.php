@@ -68,7 +68,7 @@ interface IProvider {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceById(string $userId, string $serviceId): IService|null;
+	public function findServiceById(string $userId, string $serviceId): ?IService;
 
 	/**
 	 * retrieve a service for a specific mail address
@@ -80,7 +80,7 @@ interface IProvider {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceByAddress(string $userId, string $address): IService|null;
+	public function findServiceByAddress(string $userId, string $address): ?IService;
 
 	/**
 	 * construct a new empty service object

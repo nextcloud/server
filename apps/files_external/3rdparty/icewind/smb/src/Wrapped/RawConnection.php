@@ -213,6 +213,7 @@ class RawConnection {
 
 		$this->authStream = fopen('php://temp', 'w+');
 		fwrite($this->authStream, $auth);
+		rewind($this->authStream);
 	}
 
 	/**

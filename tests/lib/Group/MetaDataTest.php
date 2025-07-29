@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,12 +8,13 @@
 
 namespace Test\Group;
 
+use OC\Group\MetaData;
 use OCP\IUserSession;
 
 class MetaDataTest extends \Test\TestCase {
 	private \OC\Group\Manager $groupManager;
 	private IUserSession $userSession;
-	private \OC\Group\MetaData $groupMetadata;
+	private MetaData $groupMetadata;
 	private bool $isAdmin = true;
 	private bool $isDelegatedAdmin = true;
 
@@ -22,7 +24,7 @@ class MetaDataTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->groupMetadata = new \OC\Group\MetaData(
+		$this->groupMetadata = new MetaData(
 			'foo',
 			$this->isAdmin,
 			$this->isDelegatedAdmin,
@@ -37,29 +39,20 @@ class MetaDataTest extends \Test\TestCase {
 			->getMock();
 
 		$group->expects($this->exactly(6))
-			->method('getGID')
-			->will($this->onConsecutiveCalls(
-				'admin', 'admin',
-				'g2', 'g2',
-				'g3', 'g3'));
+			->method('getGID')->willReturnOnConsecutiveCalls('admin', 'admin', 'g2', 'g2', 'g3', 'g3');
 
 		$group->expects($this->exactly(3))
-			->method('getDisplayName')
-			->will($this->onConsecutiveCalls(
-				'admin',
-				'g2',
-				'g3'));
+			->method('getDisplayName')->willReturnOnConsecutiveCalls('admin', 'g2', 'g3');
 
 		$group->expects($this->exactly($countCallCount))
 			->method('count')
-			->with('')
-			->will($this->onConsecutiveCalls(2, 3, 5));
+			->with('')->willReturnOnConsecutiveCalls(2, 3, 5);
 
 		return $group;
 	}
 
 
-	public function testGet() {
+	public function testGet(): void {
 		$group = $this->getGroupMock();
 		$groups = array_fill(0, 3, $group);
 
@@ -78,7 +71,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->assertSame(0, $ordinaryGroups[0]['usercount']);
 	}
 
-	public function testGetWithSorting() {
+	public function testGetWithSorting(): void {
 		$this->groupMetadata->setSorting(1);
 		$group = $this->getGroupMock(3);
 		$groups = array_fill(0, 3, $group);
@@ -97,7 +90,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->assertSame(5, $ordinaryGroups[0]['usercount']);
 	}
 
-	public function testGetWithCache() {
+	public function testGetWithCache(): void {
 		$group = $this->getGroupMock();
 		$groups = array_fill(0, 3, $group);
 
@@ -115,7 +108,7 @@ class MetaDataTest extends \Test\TestCase {
 	//get() does not need to be tested with search parameters, because they are
 	//solely and only passed to GroupManager and Group.
 
-	public function testGetGroupsAsAdmin() {
+	public function testGetGroupsAsAdmin(): void {
 		$this->groupManager
 			->expects($this->once())
 			->method('search')

@@ -28,35 +28,20 @@ use OCP\Security\VerificationToken\IVerificationToken;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class VerificationController extends Controller {
 
-	/** @var IVerificationToken */
-	private $verificationToken;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IAccountManager */
-	private $accountManager;
 	/** @var Crypto */
 	private $crypto;
 
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IVerificationToken $verificationToken,
-		IUserManager $userManager,
-		IL10N $l10n,
-		IUserSession $userSession,
-		IAccountManager $accountManager,
-		Crypto $crypto
+		private IVerificationToken $verificationToken,
+		private IUserManager $userManager,
+		private IL10N $l10n,
+		private IUserSession $userSession,
+		private IAccountManager $accountManager,
+		Crypto $crypto,
 	) {
 		parent::__construct($appName, $request);
-		$this->verificationToken = $verificationToken;
-		$this->userManager = $userManager;
-		$this->l10n = $l10n;
-		$this->userSession = $userSession;
-		$this->accountManager = $accountManager;
 		$this->crypto = $crypto;
 	}
 

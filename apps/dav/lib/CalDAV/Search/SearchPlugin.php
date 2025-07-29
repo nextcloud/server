@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,6 +8,7 @@ namespace OCA\DAV\CalDAV\Search;
 
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport;
+use OCP\AppFramework\Http;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
@@ -60,8 +62,8 @@ class SearchPlugin extends ServerPlugin {
 
 		$server->on('report', [$this, 'report']);
 
-		$server->xml->elementMap['{' . self::NS_Nextcloud . '}calendar-search'] =
-			CalendarSearchReport::class;
+		$server->xml->elementMap['{' . self::NS_Nextcloud . '}calendar-search']
+			= CalendarSearchReport::class;
 	}
 
 	/**
@@ -108,7 +110,7 @@ class SearchPlugin extends ServerPlugin {
 	 * This report is used by clients to request calendar objects based on
 	 * complex conditions.
 	 *
-	 * @param Xml\Request\CalendarSearchReport $report
+	 * @param CalendarSearchReport $report
 	 * @return void
 	 */
 	private function calendarSearch($report) {
@@ -133,7 +135,7 @@ class SearchPlugin extends ServerPlugin {
 
 		$prefer = $this->server->getHTTPPrefer();
 
-		$this->server->httpResponse->setStatus(207);
+		$this->server->httpResponse->setStatus(Http::STATUS_MULTI_STATUS);
 		$this->server->httpResponse->setHeader('Content-Type',
 			'application/xml; charset=utf-8');
 		$this->server->httpResponse->setHeader('Vary', 'Brief,Prefer');

@@ -13,7 +13,7 @@ use OCA\UserStatus\Db;
 use Test\TestCase;
 
 class UserStatusTest extends TestCase {
-	public function testUserStatus() {
+	public function testUserStatus(): void {
 		$status = new Db\UserStatus();
 		$status->setUserId('user2');
 		$status->setStatus('away');
@@ -34,7 +34,7 @@ class UserStatusTest extends TestCase {
 		$this->assertEquals('60000', $dateTime->format('U'));
 	}
 
-	public function testUserStatusInvisible() {
+	public function testUserStatusInvisible(): void {
 		$status = new Db\UserStatus();
 		$status->setUserId('user2');
 		$status->setStatus('invisible');

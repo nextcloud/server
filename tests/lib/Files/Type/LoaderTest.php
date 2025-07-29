@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,7 @@ namespace Test\Files\Type;
 
 use OC\Files\Type\Loader;
 use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 class LoaderTest extends TestCase {
@@ -16,7 +18,7 @@ class LoaderTest extends TestCase {
 	protected Loader $loader;
 
 	protected function setUp(): void {
-		$this->db = \OC::$server->get(IDBConnection::class);
+		$this->db = Server::get(IDBConnection::class);
 		$this->loader = new Loader($this->db);
 	}
 
@@ -30,7 +32,7 @@ class LoaderTest extends TestCase {
 	}
 
 
-	public function testGetMimetype() {
+	public function testGetMimetype(): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert('mimetypes')
 			->values([
@@ -46,13 +48,13 @@ class LoaderTest extends TestCase {
 		$this->assertEquals('testing/mymimetype', $mimetype);
 	}
 
-	public function testGetNonexistentMimetype() {
+	public function testGetNonexistentMimetype(): void {
 		$this->assertFalse($this->loader->exists('testing/nonexistent'));
 		// hopefully this ID doesn't exist
 		$this->assertNull($this->loader->getMimetypeById(12345));
 	}
 
-	public function testStore() {
+	public function testStore(): void {
 		$this->assertFalse($this->loader->exists('testing/mymimetype'));
 		$mimetypeId = $this->loader->getId('testing/mymimetype');
 
@@ -70,7 +72,7 @@ class LoaderTest extends TestCase {
 		$this->assertEquals($mimetypeId, $this->loader->getId('testing/mymimetype'));
 	}
 
-	public function testStoreExists() {
+	public function testStoreExists(): void {
 		$mimetypeId = $this->loader->getId('testing/mymimetype');
 		$mimetypeId2 = $this->loader->getId('testing/mymimetype');
 

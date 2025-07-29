@@ -29,18 +29,13 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<UserLiveStatusEvent>
  */
 class UserLiveStatusListener implements IEventListener {
-	private UserStatusMapper $mapper;
-	private StatusService $statusService;
-	private ITimeFactory $timeFactory;
-
-	public function __construct(UserStatusMapper $mapper,
-		StatusService $statusService,
-		ITimeFactory $timeFactory,
+	public function __construct(
+		private UserStatusMapper $mapper,
+		private StatusService $statusService,
+		private ITimeFactory $timeFactory,
 		private CalendarStatusService $calendarStatusService,
-		private LoggerInterface $logger) {
-		$this->mapper = $mapper;
-		$this->statusService = $statusService;
-		$this->timeFactory = $timeFactory;
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -66,13 +61,13 @@ class UserLiveStatusListener implements IEventListener {
 
 		// If the status is user-defined and one of the persistent status, we
 		// will not override it.
-		if ($userStatus->getIsUserDefined() &&
-			\in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
+		if ($userStatus->getIsUserDefined()
+			&& \in_array($userStatus->getStatus(), StatusService::PERSISTENT_STATUSES, true)) {
 			return;
 		}
 
 		// Don't overwrite the "away" calendar status if it's set
-		if($userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY) {
+		if ($userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY) {
 			$event->setUserStatus(new ConnectorUserStatus($userStatus));
 			return;
 		}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -29,11 +30,11 @@ class SearchIntegrationTest extends TestCase {
 	}
 
 
-	public function testThousandAndOneFilters() {
+	public function testThousandAndOneFilters(): void {
 		$id = $this->cache->put('file10', ['size' => 1, 'mtime' => 50, 'mimetype' => 'foo/folder']);
 
 		$comparisons = [];
-		for($i = 1; $i <= 1001; $i++) {
+		for ($i = 1; $i <= 1001; $i++) {
 			$comparisons[] = new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'name', "file$i");
 		}
 		$operator = new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, $comparisons);

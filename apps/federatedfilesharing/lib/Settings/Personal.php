@@ -17,24 +17,13 @@ use OCP\IUserSession;
 use OCP\Settings\ISettings;
 
 class Personal implements ISettings {
-	private FederatedShareProvider $federatedShareProvider;
-	private IUserSession $userSession;
-	private Defaults $defaults;
-	private IInitialState $initialState;
-	private IURLGenerator $urlGenerator;
-
 	public function __construct(
-		FederatedShareProvider $federatedShareProvider,
-		IUserSession $userSession,
-		Defaults $defaults,
-		IInitialState $initialState,
-		IURLGenerator $urlGenerator
+		private FederatedShareProvider $federatedShareProvider,
+		private IUserSession $userSession,
+		private Defaults $defaults,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
 	) {
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->userSession = $userSession;
-		$this->defaults = $defaults;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -60,8 +49,8 @@ class Personal implements ISettings {
 	 * @since 9.1
 	 */
 	public function getSection(): ?string {
-		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() ||
-			$this->federatedShareProvider->isIncomingServer2serverGroupShareEnabled()) {
+		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled()
+			|| $this->federatedShareProvider->isIncomingServer2serverGroupShareEnabled()) {
 			return 'sharing';
 		}
 		return null;

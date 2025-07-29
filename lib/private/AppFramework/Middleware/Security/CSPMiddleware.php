@@ -10,7 +10,6 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
-use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
@@ -18,19 +17,11 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 
 class CSPMiddleware extends Middleware {
-	/** @var ContentSecurityPolicyManager */
-	private $contentSecurityPolicyManager;
-	/** @var ContentSecurityPolicyNonceManager */
-	private $cspNonceManager;
-	/** @var CsrfTokenManager */
-	private $csrfTokenManager;
 
-	public function __construct(ContentSecurityPolicyManager $policyManager,
-		ContentSecurityPolicyNonceManager $cspNonceManager,
-		CsrfTokenManager $csrfTokenManager) {
-		$this->contentSecurityPolicyManager = $policyManager;
-		$this->cspNonceManager = $cspNonceManager;
-		$this->csrfTokenManager = $csrfTokenManager;
+	public function __construct(
+		private ContentSecurityPolicyManager $policyManager,
+		private ContentSecurityPolicyNonceManager $cspNonceManager,
+	) {
 	}
 
 	/**
@@ -49,8 +40,8 @@ class CSPMiddleware extends Middleware {
 			return $response;
 		}
 
-		$defaultPolicy = $this->contentSecurityPolicyManager->getDefaultPolicy();
-		$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $policy);
+		$defaultPolicy = $this->policyManager->getDefaultPolicy();
+		$defaultPolicy = $this->policyManager->mergePolicies($defaultPolicy, $policy);
 
 		if ($this->cspNonceManager->browserSupportsCspV3()) {
 			$defaultPolicy->useJsNonce($this->cspNonceManager->getNonce());

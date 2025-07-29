@@ -7,7 +7,7 @@
  */
 /** @var array $_ */
 /** @var \OCP\IL10N $l */
-script('encryption', 'settings-personal');
+\OCP\Util::addScript('encryption', 'settings-personal', 'core');
 ?>
 <form id="ocDefaultEncryptionModule" class="section">
 	<h2 data-anchor-name="basic-encryption-module"><?php p($l->t('Basic encryption module')); ?></h2>
@@ -25,7 +25,7 @@ script('encryption', 'settings-personal');
 			<br />
 			<?php p($l->t('Set your old private key password to your current log-in password:')); ?>
 			<?php if ($_['recoveryEnabledForUser']):
-				p($l->t(" If you don't remember your old password you can ask your administrator to recover your files."));
+				p(' ' . $l->t('If you do not remember your old password you can ask your administrator to recover your files.'));
 			endif; ?>
 			<br />
 			<input

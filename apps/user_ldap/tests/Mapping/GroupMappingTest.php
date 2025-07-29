@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace OCA\User_LDAP\Tests\Mapping;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
+use OCP\IDBConnection;
 
 /**
  * Class GroupMappingTest
@@ -16,8 +18,8 @@ use OCA\User_LDAP\Mapping\GroupMapping;
  *
  * @package OCA\User_LDAP\Tests\Mapping
  */
-class GroupMappingTest extends AbstractMappingTest {
-	public function getMapper(\OCP\IDBConnection $dbMock) {
+class GroupMappingTest extends AbstractMappingTestCase {
+	public function getMapper(IDBConnection $dbMock) {
 		return new GroupMapping($dbMock);
 	}
 }

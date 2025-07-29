@@ -14,6 +14,7 @@ use OCP\ILogger;
 use OCP\Log\IDataLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Throwable;
 use function array_key_exists;
 use function array_merge;
@@ -22,6 +23,20 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	public function __construct(
 		private Log $logger,
 	) {
+	}
+
+	public static function logLevelToInt(string $level): int {
+		return match ($level) {
+			LogLevel::ALERT => ILogger::ERROR,
+			LogLevel::CRITICAL => ILogger::ERROR,
+			LogLevel::DEBUG => ILogger::DEBUG,
+			LogLevel::EMERGENCY => ILogger::FATAL,
+			LogLevel::ERROR => ILogger::ERROR,
+			LogLevel::INFO => ILogger::INFO,
+			LogLevel::NOTICE => ILogger::INFO,
+			LogLevel::WARNING => ILogger::WARN,
+			default => throw new InvalidArgumentException('Unsupported custom log level'),
+		};
 	}
 
 	public function setEventDispatcher(IEventDispatcher $eventDispatcher): void {
@@ -39,17 +54,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param mixed[] $context
 	 */
 	public function emergency($message, array $context = []): void {
-		if ($this->containsThrowable($context)) {
-			$this->logger->logException($context['exception'], array_merge(
-				[
-					'message' => (string)$message,
-					'level' => ILogger::FATAL,
-				],
-				$context
-			));
-		} else {
-			$this->logger->emergency((string)$message, $context);
-		}
+		$this->log(LogLevel::EMERGENCY, (string)$message, $context);
 	}
 
 	/**
@@ -62,17 +67,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param mixed[] $context
 	 */
 	public function alert($message, array $context = []): void {
-		if ($this->containsThrowable($context)) {
-			$this->logger->logException($context['exception'], array_merge(
-				[
-					'message' => (string)$message,
-					'level' => ILogger::ERROR,
-				],
-				$context
-			));
-		} else {
-			$this->logger->alert((string)$message, $context);
-		}
+		$this->log(LogLevel::ALERT, (string)$message, $context);
 	}
 
 	/**
@@ -84,17 +79,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param mixed[] $context
 	 */
 	public function critical($message, array $context = []): void {
-		if ($this->containsThrowable($context)) {
-			$this->logger->logException($context['exception'], array_merge(
-				[
-					'message' => (string)$message,
-					'level' => ILogger::ERROR,
-				],
-				$context
-			));
-		} else {
-			$this->logger->critical((string)$message, $context);
-		}
+		$this->log(LogLevel::CRITICAL, (string)$message, $context);
 	}
 
 	/**
@@ -105,17 +90,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param mixed[] $context
 	 */
 	public function error($message, array $context = []): void {
-		if ($this->containsThrowable($context)) {
-			$this->logger->logException($context['exception'], array_merge(
-				[
-					'message' => (string)$message,
-					'level' => ILogger::ERROR,
-				],
-				$context
-			));
-		} else {
-			$this->logger->error((string)$message, $context);
-		}
+		$this->log(LogLevel::ERROR, (string)$message, $context);
 	}
 
 	/**
@@ -128,17 +103,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param mixed[] $context
 	 */
 	public function warning($message, array $context = []): void {
-		if ($this->containsThrowable($context)) {
-			$this->logger->logException($context['exception'], array_merge(
-				[
-					'message' => (string)$message,
-					'level' => ILogger::WARN,
-				],
-				$context
-			));
-		} else {
-			$this->logger->warning((string)$message, $context);
-		}
+		$this->log(LogLevel::WARNING, (string)$message, $context);
 	}
 
 	/**
@@ -148,17 +113,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param mixed[] $context
 	 */
 	public function notice($message, array $context = []): void {
-		if ($this->containsThrowable($context)) {
-			$this->logger->logException($context['exception'], array_merge(
-				[
-					'message' => (string)$message,
-					'level' => ILogger::INFO,
-				],
-				$context
-			));
-		} else {
-			$this->logger->notice((string)$message, $context);
-		}
+		$this->log(LogLevel::NOTICE, (string)$message, $context);
 	}
 
 	/**
@@ -170,17 +125,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param mixed[] $context
 	 */
 	public function info($message, array $context = []): void {
-		if ($this->containsThrowable($context)) {
-			$this->logger->logException($context['exception'], array_merge(
-				[
-					'message' => (string)$message,
-					'level' => ILogger::INFO,
-				],
-				$context
-			));
-		} else {
-			$this->logger->info((string)$message, $context);
-		}
+		$this->log(LogLevel::INFO, (string)$message, $context);
 	}
 
 	/**
@@ -190,17 +135,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @param mixed[] $context
 	 */
 	public function debug($message, array $context = []): void {
-		if ($this->containsThrowable($context)) {
-			$this->logger->logException($context['exception'], array_merge(
-				[
-					'message' => (string)$message,
-					'level' => ILogger::DEBUG,
-				],
-				$context
-			));
-		} else {
-			$this->logger->debug((string)$message, $context);
-		}
+		$this->log(LogLevel::DEBUG, (string)$message, $context);
 	}
 
 	/**
@@ -213,8 +148,14 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @throws InvalidArgumentException
 	 */
 	public function log($level, $message, array $context = []): void {
+		if (is_string($level)) {
+			$level = self::logLevelToInt($level);
+		}
+		if (isset($context['level']) && is_string($context['level'])) {
+			$context['level'] = self::logLevelToInt($context['level']);
+		}
 		if (!is_int($level) || $level < ILogger::DEBUG || $level > ILogger::FATAL) {
-			throw new InvalidArgumentException('Nextcloud allows only integer log levels');
+			throw new InvalidArgumentException('Unsupported custom log level');
 		}
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(

@@ -432,11 +432,14 @@ class Node implements INode {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
 		if (
-			$parent instanceof Folder and
-			$this->isValidPath($targetPath) and
-			(
-				$parent->isCreatable() ||
-				($parent->getInternalPath() === '' && $parent->getMountPoint() instanceof MoveableMount)
+			($parent instanceof Folder)
+			&& $this->isValidPath($targetPath)
+			&& (
+				$parent->isCreatable()
+				|| (
+					$parent->getInternalPath() === ''
+					&& ($parent->getMountPoint() instanceof MoveableMount)
+				)
 			)
 		) {
 			$nonExisting = $this->createNonExistingNode($targetPath);

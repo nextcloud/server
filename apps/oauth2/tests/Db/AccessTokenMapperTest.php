@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,7 +8,10 @@ namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\AccessToken;
 use OCA\OAuth2\Db\AccessTokenMapper;
+use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -19,10 +23,10 @@ class AccessTokenMapperTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->accessTokenMapper = new AccessTokenMapper(\OC::$server->getDatabaseConnection(), \OC::$server->get(ITimeFactory::class));
+		$this->accessTokenMapper = new AccessTokenMapper(Server::get(IDBConnection::class), Server::get(ITimeFactory::class));
 	}
 
-	public function testGetByCode() {
+	public function testGetByCode(): void {
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();
 		$token->setClientId(1234);
@@ -38,8 +42,8 @@ class AccessTokenMapperTest extends TestCase {
 	}
 
 
-	public function testDeleteByClientId() {
-		$this->expectException(\OCA\OAuth2\Exceptions\AccessTokenNotFoundException::class);
+	public function testDeleteByClientId(): void {
+		$this->expectException(AccessTokenNotFoundException::class);
 
 		$this->accessTokenMapper->deleteByClientId(1234);
 		$token = new AccessToken();

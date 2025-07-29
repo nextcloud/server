@@ -12,6 +12,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\SetupCheck\CheckServerResponseTrait;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 use Psr\Log\LoggerInterface;
@@ -40,9 +41,8 @@ class DataDirectoryProtected implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		$datadir = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValue('datadirectory', ''));
-
-		$dataUrl = $this->urlGenerator->getWebroot() . '/' . $datadir . '/.ncdata';
+		$dataDir = str_replace(\OC::$SERVERROOT . '/', '', $this->config->getSystemValueString('datadirectory', ''));
+		$dataUrl = $this->urlGenerator->linkTo('', $dataDir . '/.ncdata');
 
 		$noResponse = true;
 		foreach ($this->runRequest('GET', $dataUrl, [ 'httpErrors' => false ]) as $response) {
@@ -66,6 +66,6 @@ class DataDirectoryProtected implements ISetupCheck {
 			return SetupResult::warning($this->l10n->t('Could not check that the data directory is protected. Please check manually that your server does not allow access to the data directory.') . "\n" . $this->serverConfigHelp());
 		}
 		return SetupResult::success();
-		
+
 	}
 }

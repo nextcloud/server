@@ -46,14 +46,12 @@ OC.L10N.register(
     "Basic encryption module" : "Perus salausmoduuli",
     "Your private key password no longer matches your log-in password." : "Salaisen avaimesi salasana ei enää vastaa kirjautumissalasanaasi.",
     "Set your old private key password to your current log-in password:" : "Aseta yksityisen avaimen vanha salasana vastaamaan nykyistä kirjautumissalasanaasi:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Jos et muista vanhaa salasanaasi, voit pyytää ylläpitäjää palauttamaan tiedostosi.",
     "Old log-in password" : "Vanha kirjautumissalasana",
     "Current log-in password" : "Nykyinen kirjautumissalasana",
     "Update Private Key Password" : "Päivitä yksityisen avaimen salasana",
     "Enable password recovery:" : "Ota salasanan palautus käyttöön:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
-    "Disabled" : "Ei käytössä",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Palautusavain on ylimääräinen salausavain, jota käytetään tiedostojen salaamiseen. Sen avulla on mahdollista palauttaa käyttäjien tiedostot, vaikka käyttäjä unohtaisi oman salasanansa."
+    "Disabled" : "Ei käytössä"
 },
 "nplurals=2; plural=(n != 1);");

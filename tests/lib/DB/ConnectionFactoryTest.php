@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,10 +9,11 @@ namespace Test\DB;
 
 use OC\DB\ConnectionFactory;
 use OC\SystemConfig;
+use OCP\ICacheFactory;
 use Test\TestCase;
 
 class ConnectionFactoryTest extends TestCase {
-	public function splitHostFromPortAndSocketData() {
+	public static function splitHostFromPortAndSocketData(): array {
 		return [
 			['127.0.0.1', ['host' => '127.0.0.1']],
 			['db.example.org', ['host' => 'db.example.org']],
@@ -26,14 +28,15 @@ class ConnectionFactoryTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider splitHostFromPortAndSocketData
 	 * @param string $host
 	 * @param array $expected
 	 */
-	public function testSplitHostFromPortAndSocket($host, array $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('splitHostFromPortAndSocketData')]
+	public function testSplitHostFromPortAndSocket($host, array $expected): void {
 		/** @var SystemConfig $config */
 		$config = $this->createMock(SystemConfig::class);
-		$factory = new ConnectionFactory($config);
+		$cacheFactory = $this->createMock(ICacheFactory::class);
+		$factory = new ConnectionFactory($config, $cacheFactory);
 
 		$this->assertEquals($expected, self::invokePrivate($factory, 'splitHostFromPortAndSocket', [$host]));
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -36,10 +37,9 @@ interface INotifyStorage {
 	/**
 	 * Start the notification handler for this storage
 	 *
-	 * @param $path
 	 * @return INotifyHandler
 	 *
 	 * @since 12.0.0
 	 */
-	public function notify($path);
+	public function notify(string $path);
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,6 +22,7 @@ class EducationBundleTest extends BundleBase {
 			'announcementcenter',
 			'quota_warning',
 			'user_saml',
+			'whiteboard',
 		];
 	}
 }

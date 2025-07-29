@@ -12,7 +12,7 @@
     "Secret key" : "Crae segreta",
     "Add client" : "Agiunghe cliente",
     "Add" : "Agiunghe",
-    "Delete" : "Cantzella",
-    "Show client secret" : "Mustra su segretu de su cliente"
+    "Show client secret" : "Mustra su segretu de su cliente",
+    "Delete" : "Cantzella"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

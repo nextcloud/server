@@ -17,13 +17,15 @@ use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\ExAppRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
-use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\StreamResponse;
+use OCP\AppFramework\OCSController;
 use OCP\Files\File;
-use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IL10N;
@@ -39,20 +41,22 @@ use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
 use RuntimeException;
+use stdClass;
 
 /**
  * @psalm-import-type CoreTaskProcessingTask from ResponseDefinitions
  * @psalm-import-type CoreTaskProcessingTaskType from ResponseDefinitions
  */
-class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
+class TaskProcessingApiController extends OCSController {
 	public function __construct(
-		string              $appName,
-		IRequest            $request,
-		private IManager    $taskProcessingManager,
-		private IL10N       $l,
-		private ?string     $userId,
+		string $appName,
+		IRequest $request,
+		private IManager $taskProcessingManager,
+		private IL10N $l,
+		private ?string $userId,
 		private IRootFolder $rootFolder,
-		private IAppData    $appData,
+		private IAppData $appData,
+		private IMimeTypeDetector $mimeTypeDetector,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -67,31 +71,70 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[PublicPage]
 	#[ApiRoute(verb: 'GET', url: '/tasktypes', root: '/taskprocessing')]
 	public function taskTypes(): DataResponse {
+		/** @var array<string, CoreTaskProcessingTaskType> $taskTypes */
 		$taskTypes = array_map(function (array $tt) {
 			$tt['inputShape'] = array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
 			}, $tt['inputShape']);
+			if (empty($tt['inputShape'])) {
+				$tt['inputShape'] = new stdClass;
+			}
+
 			$tt['outputShape'] = array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
 			}, $tt['outputShape']);
+			if (empty($tt['outputShape'])) {
+				$tt['outputShape'] = new stdClass;
+			}
+
 			$tt['optionalInputShape'] = array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
 			}, $tt['optionalInputShape']);
+			if (empty($tt['optionalInputShape'])) {
+				$tt['optionalInputShape'] = new stdClass;
+			}
+
 			$tt['optionalOutputShape'] = array_map(function ($descriptor) {
 				return $descriptor->jsonSerialize();
 			}, $tt['optionalOutputShape']);
+			if (empty($tt['optionalOutputShape'])) {
+				$tt['optionalOutputShape'] = new stdClass;
+			}
+
 			$tt['inputShapeEnumValues'] = array_map(function (array $enumValues) {
 				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
 			}, $tt['inputShapeEnumValues']);
+			if (empty($tt['inputShapeEnumValues'])) {
+				$tt['inputShapeEnumValues'] = new stdClass;
+			}
+
 			$tt['optionalInputShapeEnumValues'] = array_map(function (array $enumValues) {
 				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
 			}, $tt['optionalInputShapeEnumValues']);
+			if (empty($tt['optionalInputShapeEnumValues'])) {
+				$tt['optionalInputShapeEnumValues'] = new stdClass;
+			}
+
 			$tt['outputShapeEnumValues'] = array_map(function (array $enumValues) {
 				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
 			}, $tt['outputShapeEnumValues']);
+			if (empty($tt['outputShapeEnumValues'])) {
+				$tt['outputShapeEnumValues'] = new stdClass;
+			}
+
 			$tt['optionalOutputShapeEnumValues'] = array_map(function (array $enumValues) {
 				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
 			}, $tt['optionalOutputShapeEnumValues']);
+			if (empty($tt['optionalOutputShapeEnumValues'])) {
+				$tt['optionalOutputShapeEnumValues'] = new stdClass;
+			}
+
+			if (empty($tt['inputShapeDefaults'])) {
+				$tt['inputShapeDefaults'] = new stdClass;
+			}
+			if (empty($tt['optionalInputShapeDefaults'])) {
+				$tt['optionalInputShapeDefaults'] = new stdClass;
+			}
 			return $tt;
 		}, $this->taskProcessingManager->getAvailableTaskTypes());
 		return new DataResponse([
@@ -121,7 +164,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/taskprocessing')]
 	public function schedule(
 		array $input, string $type, string $appId, string $customId = '',
-		?string $webhookUri = null, ?string $webhookMethod = null
+		?string $webhookUri = null, ?string $webhookMethod = null,
 	): DataResponse {
 		$task = new Task($type, $input, $appId, $this->userId, $customId);
 		$task->setWebhookUri($webhookUri);
@@ -208,7 +251,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $appId ID of the app
 	 * @param string|null $customId An arbitrary identifier for the task
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: list<CoreTaskProcessingTask>}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: Tasks returned
 	 */
@@ -217,7 +260,6 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function listTasksByApp(string $appId, ?string $customId = null): DataResponse {
 		try {
 			$tasks = $this->taskProcessingManager->getUserTasksByApp($this->userId, $appId, $customId);
-			/** @var CoreTaskProcessingTask[] $json */
 			$json = array_map(static function (Task $task) {
 				return $task->jsonSerialize();
 			}, $tasks);
@@ -235,7 +277,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string|null $taskType The task type to filter by
 	 * @param string|null $customId An arbitrary identifier for the task
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTaskProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: list<CoreTaskProcessingTask>}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: Tasks returned
 	 */
@@ -244,7 +286,6 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function listTasks(?string $taskType, ?string $customId = null): DataResponse {
 		try {
 			$tasks = $this->taskProcessingManager->getUserTasks($this->userId, $taskType, $customId);
-			/** @var CoreTaskProcessingTask[] $json */
 			$json = array_map(static function (Task $task) {
 				return $task->jsonSerialize();
 			}, $tasks);
@@ -262,20 +303,22 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $taskId The id of the task
 	 * @param int $fileId The file id of the file to retrieve
-	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return StreamResponse<Http::STATUS_OK, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: File content returned
 	 * 404: Task or file not found
 	 */
 	#[NoAdminRequired]
-	#[Http\Attribute\NoCSRFRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/{taskId}/file/{fileId}', root: '/taskprocessing')]
-	public function getFileContents(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
+	public function getFileContents(int $taskId, int $fileId): StreamResponse|DataResponse {
 		try {
 			$task = $this->taskProcessingManager->getUserTask($taskId, $this->userId);
 			return $this->getFileContentsInternal($task, $fileId);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (LockedException) {
+			return new DataResponse(['message' => $this->l->t('Node is locked')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -286,19 +329,21 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $taskId The id of the task
 	 * @param int $fileId The file id of the file to retrieve
-	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return StreamResponse<Http::STATUS_OK, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: File content returned
 	 * 404: Task or file not found
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks_provider/{taskId}/file/{fileId}', root: '/taskprocessing')]
-	public function getFileContentsExApp(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
+	public function getFileContentsExApp(int $taskId, int $fileId): StreamResponse|DataResponse {
 		try {
 			$task = $this->taskProcessingManager->getTask($taskId);
 			return $this->getFileContentsInternal($task, $fileId);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (LockedException) {
+			return new DataResponse(['message' => $this->l->t('Node is locked')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -341,15 +386,17 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @throws NotPermittedException
 	 * @throws NotFoundException
-	 * @throws GenericFileException
 	 * @throws LockedException
 	 *
-	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return StreamResponse<Http::STATUS_OK, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 */
-	private function getFileContentsInternal(Task $task, int $fileId): Http\DataDownloadResponse|DataResponse {
+	private function getFileContentsInternal(Task $task, int $fileId): StreamResponse|DataResponse {
 		$ids = $this->extractFileIdsFromTask($task);
 		if (!in_array($fileId, $ids)) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		}
+		if ($task->getUserId() !== null) {
+			\OC_Util::setupFS($task->getUserId());
 		}
 		$node = $this->rootFolder->getFirstNodeById($fileId);
 		if ($node === null) {
@@ -360,7 +407,25 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		} elseif (!$node instanceof File) {
 			throw new NotFoundException('Node is not a file');
 		}
-		return new Http\DataDownloadResponse($node->getContent(), $node->getName(), $node->getMimeType());
+
+		$contentType = $node->getMimeType();
+		if (function_exists('mime_content_type')) {
+			$mimeType = mime_content_type($node->fopen('rb'));
+			if ($mimeType !== false) {
+				$mimeType = $this->mimeTypeDetector->getSecureMimeType($mimeType);
+				if ($mimeType !== 'application/octet-stream') {
+					$contentType = $mimeType;
+				}
+			}
+		}
+
+		$response = new StreamResponse($node->fopen('rb'));
+		$response->addHeader(
+			'Content-Disposition',
+			'attachment; filename="' . rawurldecode($node->getName()) . '"'
+		);
+		$response->addHeader('Content-Type', $contentType);
+		return $response;
 	}
 
 	/**
@@ -380,7 +445,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 				/** @var int|list<int> $inputSlot */
 				$inputSlot = $task->getInput()[$key];
 				if (is_array($inputSlot)) {
-					$ids += $inputSlot;
+					$ids = array_merge($inputSlot, $ids);
 				} else {
 					$ids[] = $inputSlot;
 				}
@@ -392,14 +457,14 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 					/** @var int|list<int> $outputSlot */
 					$outputSlot = $task->getOutput()[$key];
 					if (is_array($outputSlot)) {
-						$ids += $outputSlot;
+						$ids = array_merge($outputSlot, $ids);
 					} else {
 						$ids[] = $outputSlot;
 					}
 				}
 			}
 		}
-		return array_values($ids);
+		return $ids;
 	}
 
 	/**
@@ -510,23 +575,51 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/tasks_provider/next', root: '/taskprocessing')]
 	public function getNextScheduledTask(array $providerIds, array $taskTypeIds): DataResponse {
 		try {
+			$providerIdsBasedOnTaskTypesWithNull = array_unique(array_map(function ($taskTypeId) {
+				try {
+					return $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId();
+				} catch (Exception) {
+					return null;
+				}
+			}, $taskTypeIds));
+
+			$providerIdsBasedOnTaskTypes = array_filter($providerIdsBasedOnTaskTypesWithNull, fn ($providerId) => $providerId !== null);
+
 			// restrict $providerIds to providers that are configured as preferred for the passed task types
-			$providerIds = array_values(array_intersect(array_unique(array_map(fn ($taskTypeId) => $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId(), $taskTypeIds)), $providerIds));
+			$possibleProviderIds = array_values(array_intersect($providerIdsBasedOnTaskTypes, $providerIds));
+
 			// restrict $taskTypeIds to task types that can actually be run by one of the now restricted providers
-			$taskTypeIds = array_values(array_filter($taskTypeIds, fn ($taskTypeId) => in_array($this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId(), $providerIds, true)));
-			if (count($providerIds) === 0 || count($taskTypeIds) === 0) {
+			$possibleTaskTypeIds = array_values(array_filter($taskTypeIds, function ($taskTypeId) use ($possibleProviderIds) {
+				try {
+					$providerForTaskType = $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId();
+				} catch (Exception) {
+					// no provider found for task type
+					return false;
+				}
+				return in_array($providerForTaskType, $possibleProviderIds, true);
+			}));
+
+			if (count($possibleProviderIds) === 0 || count($possibleTaskTypeIds) === 0) {
 				throw new NotFoundException();
 			}
 
 			$taskIdsToIgnore = [];
 			while (true) {
-				$task = $this->taskProcessingManager->getNextScheduledTask($taskTypeIds, $taskIdsToIgnore);
-				$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
-				if (in_array($provider->getId(), $providerIds, true)) {
-					if ($this->taskProcessingManager->lockTask($task)) {
-						break;
+				// Until we find a task whose task type is set to be provided by the providers requested with this request
+				// Or no scheduled task is found anymore (given the taskIds to ignore)
+				$task = $this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds, $taskIdsToIgnore);
+				try {
+					$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
+					if (in_array($provider->getId(), $possibleProviderIds, true)) {
+						if ($this->taskProcessingManager->lockTask($task)) {
+							break;
+						}
 					}
+				} catch (Exception) {
+					// There is no provider set for the task type of this task
+					// proceed to ignore this task
 				}
+
 				$taskIdsToIgnore[] = (int)$task->getId();
 			}
 

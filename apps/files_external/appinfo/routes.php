@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -38,11 +39,6 @@ return [
 		[
 			'name' => 'Api#getUserMounts',
 			'url' => '/api/v1/mounts',
-			'verb' => 'GET',
-		],
-		[
-			'name' => 'Api#askNativeAuth',
-			'url' => '/api/v1/auth',
 			'verb' => 'GET',
 		],
 	],

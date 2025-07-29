@@ -18,7 +18,7 @@ class FloatFilter implements IFilter {
 	public function __construct(string $value) {
 		$this->value = filter_var($value, FILTER_VALIDATE_FLOAT);
 		if ($this->value === false) {
-			throw new InvalidArgumentException('Invalid float value '. $value);
+			throw new InvalidArgumentException('Invalid float value ' . $value);
 		}
 	}
 

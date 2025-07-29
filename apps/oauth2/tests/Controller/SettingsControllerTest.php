@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,6 +19,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -70,7 +72,7 @@ class SettingsControllerTest extends TestCase {
 
 	}
 
-	public function testAddClient() {
+	public function testAddClient(): void {
 		$this->secureRandom
 			->expects($this->exactly(2))
 			->method('generate')
@@ -81,23 +83,23 @@ class SettingsControllerTest extends TestCase {
 
 		$this->crypto
 			->expects($this->once())
-			->method('encrypt')
-			->willReturn('MyEncryptedSecret');
+			->method('calculateHMAC')
+			->willReturn('MyHashedSecret');
 
 		$client = new Client();
 		$client->setName('My Client Name');
 		$client->setRedirectUri('https://example.com/');
-		$client->setSecret('MySecret');
+		$client->setSecret(bin2hex('MyHashedSecret'));
 		$client->setClientIdentifier('MyClientIdentifier');
 
 		$this->clientMapper
 			->expects($this->once())
 			->method('insert')
 			->with($this->callback(function (Client $c) {
-				return $c->getName() === 'My Client Name' &&
-					$c->getRedirectUri() === 'https://example.com/' &&
-					$c->getSecret() === 'MyEncryptedSecret' &&
-					$c->getClientIdentifier() === 'MyClientIdentifier';
+				return $c->getName() === 'My Client Name'
+					&& $c->getRedirectUri() === 'https://example.com/'
+					&& $c->getSecret() === bin2hex('MyHashedSecret')
+					&& $c->getClientIdentifier() === 'MyClientIdentifier';
 			}))->willReturnCallback(function (Client $c) {
 				$c->setId(42);
 				return $c;
@@ -117,12 +119,12 @@ class SettingsControllerTest extends TestCase {
 		], $data);
 	}
 
-	public function testDeleteClient() {
+	public function testDeleteClient(): void {
 
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		// count other users in the db before adding our own
 		$count = 0;
-		$function = function (IUser $user) use (&$count) {
+		$function = function (IUser $user) use (&$count): void {
 			if ($user->getLastLogin() > 0) {
 				$count++;
 			}
@@ -142,7 +144,7 @@ class SettingsControllerTest extends TestCase {
 		$client->setId(123);
 		$client->setName('My Client Name');
 		$client->setRedirectUri('https://example.com/');
-		$client->setSecret('MySecret');
+		$client->setSecret(bin2hex('MyHashedSecret'));
 		$client->setClientIdentifier('MyClientIdentifier');
 
 		$this->clientMapper
@@ -177,7 +179,7 @@ class SettingsControllerTest extends TestCase {
 		$user1->delete();
 	}
 
-	public function testInvalidRedirectUri() {
+	public function testInvalidRedirectUri(): void {
 		$result = $this->settingsController->addClient('test', 'invalidurl');
 
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $result->getStatus());

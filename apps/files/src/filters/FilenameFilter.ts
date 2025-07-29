@@ -4,19 +4,33 @@
  */
 
 import type { IFileListFilterChip, INode } from '@nextcloud/files'
+
 import { subscribe } from '@nextcloud/event-bus'
-import { FileListFilter } from '@nextcloud/files'
+import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
+import { getPinia } from '../store/index.ts'
+import { useSearchStore } from '../store/search.ts'
+
+/**
+ * Register the filename filter
+ */
+export function registerFilenameFilter() {
+	registerFileListFilter(new FilenameFilter())
+}
 
 /**
  * Simple file list filter controlled by the Navigation search box
  */
-export class FilenameFilter extends FileListFilter {
+class FilenameFilter extends FileListFilter {
 
 	private searchQuery = ''
 
 	constructor() {
 		super('files:filename', 5)
-		subscribe('files:navigation:changed', () => this.updateQuery(''))
+		subscribe('files:search:updated', ({ query, scope }) => {
+			if (scope === 'filter') {
+				this.updateQuery(query)
+			}
+		})
 	}
 
 	public filter(nodes: INode[]): INode[] {
@@ -25,6 +39,10 @@ export class FilenameFilter extends FileListFilter {
 			const displayname = node.displayname.toLocaleLowerCase()
 			return queryParts.every((part) => displayname.includes(part))
 		})
+	}
+
+	public reset(): void {
+		this.updateQuery('')
 	}
 
 	public updateQuery(query: string) {
@@ -43,10 +61,14 @@ export class FilenameFilter extends FileListFilter {
 						this.updateQuery('')
 					},
 				})
+			} else {
+				// make sure to also reset the search store when pressing the "X" on the filter chip
+				const store = useSearchStore(getPinia())
+				if (store.scope === 'filter') {
+					store.query = ''
+				}
 			}
 			this.updateChips(chips)
-			// Emit the new query as it might have come not from the Navigation
-			this.dispatchTypedEvent('update:query', new CustomEvent('update:query', { detail: query }))
 		}
 	}
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,24 +14,17 @@ use OCA\Encryption\Session;
 use OCP\Encryption\IManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StatusControllerTest extends TestCase {
 
-	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $requestMock;
+	protected IRequest&MockObject $requestMock;
+	protected IL10N&MockObject $l10nMock;
+	protected Session&MockObject $sessionMock;
+	protected IManager&MockObject $encryptionManagerMock;
 
-	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10nMock;
-
-	/** @var \OCA\Encryption\Session | \PHPUnit\Framework\MockObject\MockObject */
-	protected $sessionMock;
-
-	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
-	protected $encryptionManagerMock;
-
-	/** @var StatusController */
-	protected $controller;
+	protected StatusController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -55,12 +50,12 @@ class StatusControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestGetStatus
 	 *
 	 * @param string $status
 	 * @param string $expectedStatus
 	 */
-	public function testGetStatus($status, $expectedStatus) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetStatus')]
+	public function testGetStatus($status, $expectedStatus): void {
 		$this->sessionMock->expects($this->once())
 			->method('getStatus')->willReturn($status);
 		$result = $this->controller->getStatus();
@@ -68,7 +63,7 @@ class StatusControllerTest extends TestCase {
 		$this->assertSame($expectedStatus, $data['status']);
 	}
 
-	public function dataTestGetStatus() {
+	public static function dataTestGetStatus(): array {
 		return [
 			[Session::INIT_EXECUTED, 'interactionNeeded'],
 			[Session::INIT_SUCCESSFUL, 'success'],

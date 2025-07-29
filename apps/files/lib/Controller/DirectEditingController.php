@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -29,14 +30,14 @@ class DirectEditingController extends OCSController {
 		private IURLGenerator $urlGenerator,
 		private IManager $directEditingManager,
 		private DirectEditingService $directEditingService,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request, $corsMethods, $corsAllowedHeaders, $corsMaxAge);
 	}
 
 	/**
 	 * Get the direct editing capabilities
-	 * @return DataResponse<Http::STATUS_OK, array{editors: array<string, array{id: string, name: string, mimetypes: string[], optionalMimetypes: string[], secure: bool}>, creators: array<string, array{id: string, editor: string, name: string, extension: string, templates: bool, mimetypes: string[]}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{editors: array<string, array{id: string, name: string, mimetypes: list<string>, optionalMimetypes: list<string>, secure: bool}>, creators: array<string, array{id: string, editor: string, name: string, extension: string, templates: bool, mimetypes: list<string>}>}, array{}>
 	 *
 	 * 200: Direct editing capabilities returned
 	 */

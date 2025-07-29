@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,23 +20,17 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class DarkThemeTest extends AccessibleThemeTestCase {
-	/** @var ThemingDefaults|MockObject */
-	private $themingDefaults;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var ImageManager|MockObject */
-	private $imageManager;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IL10N|MockObject */
-	private $l10n;
-	/** @var IAppManager|MockObject */
-	private $appManager;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private IUserSession&MockObject $userSession;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ImageManager&MockObject $imageManager;
+	private IConfig&MockObject $config;
+	private IL10N&MockObject $l10n;
+	private IAppManager&MockObject $appManager;
 
 	protected function setUp(): void {
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
@@ -46,6 +42,7 @@ class DarkThemeTest extends AccessibleThemeTestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->util = new Util(
+			$this->createMock(ServerVersion::class),
 			$this->config,
 			$this->appManager,
 			$this->createMock(IAppData::class),
@@ -105,31 +102,31 @@ class DarkThemeTest extends AccessibleThemeTestCase {
 	}
 
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertEquals('dark', $this->theme->getId());
 	}
 
-	public function testGetType() {
+	public function testGetType(): void {
 		$this->assertEquals(ITheme::TYPE_THEME, $this->theme->getType());
 	}
 
-	public function testGetTitle() {
+	public function testGetTitle(): void {
 		$this->assertEquals('Dark theme', $this->theme->getTitle());
 	}
 
-	public function testGetEnableLabel() {
+	public function testGetEnableLabel(): void {
 		$this->assertEquals('Enable dark theme', $this->theme->getEnableLabel());
 	}
 
-	public function testGetDescription() {
+	public function testGetDescription(): void {
 		$this->assertEquals('A dark theme to ease your eyes by reducing the overall luminosity and brightness.', $this->theme->getDescription());
 	}
 
-	public function testGetMediaQuery() {
+	public function testGetMediaQuery(): void {
 		$this->assertEquals('(prefers-color-scheme: dark)', $this->theme->getMediaQuery());
 	}
 
-	public function testGetCustomCss() {
+	public function testGetCustomCss(): void {
 		$this->assertEquals('', $this->theme->getCustomCss());
 	}
 }

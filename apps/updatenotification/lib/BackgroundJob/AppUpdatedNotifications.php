@@ -88,7 +88,7 @@ class AppUpdatedNotifications extends QueuedJob {
 		$isDefer = $this->notificationManager->defer();
 
 		// Notify all seen users about the app update
-		$this->userManager->callForSeenUsers(function (IUser $user) use ($guestsEnabled, $appId, $notification) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($guestsEnabled, $appId, $notification): void {
 			if (!$guestsEnabled && ($user->getBackendClassName() === '\OCA\Guests\UserBackend')) {
 				return;
 			}

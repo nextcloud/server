@@ -11,7 +11,7 @@ OC.L10N.register(
     "Client Identifier" : "Identificador client",
     "Add client" : "Apondre un client",
     "Add" : "Apondre",
-    "Delete" : "Suprimir",
-    "Show client secret" : "Afichar lo secret del client"
+    "Show client secret" : "Afichar lo secret del client",
+    "Delete" : "Suprimir"
 },
 "nplurals=2; plural=(n > 1);");

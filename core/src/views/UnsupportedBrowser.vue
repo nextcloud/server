@@ -36,8 +36,8 @@ import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
 import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import Web from 'vue-material-design-icons/Web.vue'
 
 import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
@@ -164,7 +164,8 @@ $spacing: 30px;
 
 	.empty-content {
 		margin: 0;
-		&::v-deep .empty-content__icon {
+
+		:deep(.empty-content__icon) {
 			opacity: 1;
 		}
 	}
@@ -178,7 +179,7 @@ $spacing: 30px;
 		margin-top: 2 * $spacing;
 		margin-bottom: $spacing;
 		li {
-			text-align: left;
+			text-align: start;
 		}
 	}
 }

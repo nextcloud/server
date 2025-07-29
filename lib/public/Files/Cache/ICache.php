@@ -231,7 +231,7 @@ interface ICache {
 	 *
 	 * @param ISearchQuery $query
 	 * @return ICacheEntry[]
-	 * @throw \InvalidArgumentException if the cache is unable to perform the query
+	 * @throws \InvalidArgumentException if the cache is unable to perform the query
 	 * @since 12.0.0
 	 */
 	public function searchQuery(ISearchQuery $query);

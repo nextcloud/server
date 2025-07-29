@@ -11,9 +11,12 @@ namespace OCA\Files_Sharing\Listener;
 
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IAppConfig;
+use OCP\Server;
 use OCP\Share\IManager;
 use OCP\Util;
 
@@ -22,7 +25,10 @@ use OCP\Util;
  */
 class LoadSidebarListener implements IEventListener {
 
-	public function __construct(private IInitialState $initialState, private IManager $shareManager) {
+	public function __construct(
+		private IInitialState $initialState,
+		private IManager $shareManager,
+	) {
 	}
 
 	public function handle(Event $event): void {
@@ -30,6 +36,8 @@ class LoadSidebarListener implements IEventListener {
 			return;
 		}
 
+		$appConfig = Server::get(IAppConfig::class);
+		$this->initialState->provideInitialState('showFederatedSharesAsInternal', $appConfig->getValueBool('files_sharing', ConfigLexicon::SHOW_FEDERATED_AS_INTERNAL));
 		Util::addScript(Application::APP_ID, 'files_sharing_tab', 'files');
 	}
 }

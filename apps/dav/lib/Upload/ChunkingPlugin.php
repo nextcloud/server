@@ -9,6 +9,7 @@ namespace OCA\DAV\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
+use OCP\AppFramework\Http;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
@@ -89,7 +90,7 @@ class ChunkingPlugin extends ServerPlugin {
 
 		$response = $this->server->httpResponse;
 		$response->setHeader('Content-Length', '0');
-		$response->setStatus($fileExists ? 204 : 201);
+		$response->setStatus($fileExists ? Http::STATUS_NO_CONTENT : Http::STATUS_CREATED);
 
 		return false;
 	}

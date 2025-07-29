@@ -28,29 +28,15 @@ use OCP\UserStatus\IUserStatus;
  */
 class HeartbeatController extends OCSController {
 
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var StatusService */
-	private $service;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IEventDispatcher $eventDispatcher,
-		IUserSession $userSession,
-		ITimeFactory $timeFactory,
-		StatusService $service) {
+		private IEventDispatcher $eventDispatcher,
+		private IUserSession $userSession,
+		private ITimeFactory $timeFactory,
+		private StatusService $service,
+	) {
 		parent::__construct($appName, $request);
-		$this->eventDispatcher = $eventDispatcher;
-		$this->userSession = $userSession;
-		$this->timeFactory = $timeFactory;
-		$this->service = $service;
 	}
 
 	/**
@@ -58,7 +44,7 @@ class HeartbeatController extends OCSController {
 	 *
 	 * @param string $status Only online, away
 	 *
-	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NO_CONTENT, list<empty>, array{}>
 	 *
 	 * 200: Status successfully updated
 	 * 204: User has no status to keep alive

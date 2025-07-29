@@ -28,7 +28,7 @@ final class FilterFactory {
 			FilterDefinition::TYPE_PERSON => self::getPerson($filter),
 			FilterDefinition::TYPE_STRING => new Filter\StringFilter($filter),
 			FilterDefinition::TYPE_STRINGS => new Filter\StringsFilter(... (array)$filter),
-			default => throw new RuntimeException('Invalid filter type '. $type),
+			default => throw new RuntimeException('Invalid filter type ' . $type),
 		};
 	}
 

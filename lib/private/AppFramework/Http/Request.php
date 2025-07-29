@@ -45,7 +45,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
 
 	protected string $inputStream;
-	protected $content;
+	private bool $isPutStreamContentAlreadySent = false;
 	protected array $items = [];
 	protected array $allowedKeys = [
 		'get',
@@ -64,6 +64,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected ?CsrfTokenManager $csrfTokenManager;
 
 	protected bool $contentDecoded = false;
+	private ?\JsonException $decodingException = null;
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
@@ -356,13 +357,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
 		if ($this->isPutStreamContent()) {
-			if ($this->content === false) {
+			if ($this->isPutStreamContentAlreadySent) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
 					. 'application/x-www-form-urlencoded or application/json.'
 				);
 			}
-			$this->content = false;
+			$this->isPutStreamContentAlreadySent = true;
 			return fopen($this->inputStream, 'rb');
 		} else {
 			$this->decodeContent();
@@ -389,7 +390,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// 'application/json' and other JSON-related content types must be decoded manually.
 		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
-			$params = json_decode(file_get_contents($this->inputStream), true);
+			$content = file_get_contents($this->inputStream);
+			if ($content !== '') {
+				try {
+					$params = json_decode($content, true, flags:JSON_THROW_ON_ERROR);
+				} catch (\JsonException $e) {
+					$this->decodingException = $e;
+				}
+			}
 			if (\is_array($params) && \count($params) > 0) {
 				$this->items['params'] = $params;
 				if ($this->method === 'POST') {
@@ -411,6 +419,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->items['parameters'] = array_merge($this->items['parameters'], $params);
 		}
 		$this->contentDecoded = true;
+	}
+
+	public function throwDecodingExceptionIfAny(): void {
+		if ($this->decodingException !== null) {
+			throw $this->decodingException;
+		}
 	}
 
 
@@ -484,7 +498,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$prefix = '__Host-';
 		}
 
-		return $prefix.$name;
+		return $prefix . $name;
 	}
 
 	/**
@@ -606,7 +620,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function isOverwriteCondition(): bool {
-		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
+		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '') . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}

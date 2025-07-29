@@ -11,18 +11,21 @@ import { onMounted, onUnmounted, shallowRef, triggerRef } from 'vue'
 
 /**
  * Composable to get the currently active files view from the files navigation
+ * @param _loaded If set enforce a current view is loaded
  */
-export function useNavigation() {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function useNavigation<T extends boolean>(_loaded?: T) {
+	type MaybeView = T extends true ? View : (View | null);
 	const navigation = getNavigation()
 	const views: ShallowRef<View[]> = shallowRef(navigation.views)
-	const currentView: ShallowRef<View | null> = shallowRef(navigation.active)
+	const currentView: ShallowRef<MaybeView> = shallowRef(navigation.active as MaybeView)
 
 	/**
 	 * Event listener to update the `currentView`
 	 * @param event The update event
 	 */
 	function onUpdateActive(event: CustomEvent<View|null>) {
-		currentView.value = event.detail
+		currentView.value = event.detail as MaybeView
 	}
 
 	/**

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV;
 
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use InvalidArgumentException;
@@ -71,6 +72,8 @@ class EventReader {
 	 */
 	public function __construct(VCalendar|VEvent|array|string $input, ?string $uid = null, ?DateTimeZone $timeZone = null) {
 
+		$timeZoneFactory = new TimeZoneFactory();
+
 		// evaluate if the input is a string and convert it to and vobject if required
 		if (is_string($input)) {
 			$input = Reader::read($input);
@@ -89,11 +92,11 @@ class EventReader {
 			$events = $input->getByUID($uid);
 			// evaluate if any event where found
 			if (count($events) === 0) {
-				throw new InvalidArgumentException('This VCALENDAR did not have an event with UID: '.$uid);
+				throw new InvalidArgumentException('This VCALENDAR did not have an event with UID: ' . $uid);
 			}
 			// extract calendar timezone
 			if (isset($input->VTIMEZONE) && isset($input->VTIMEZONE->TZID)) {
-				$calendarTimeZone = new DateTimeZone($input->VTIMEZONE->TZID->getValue());
+				$calendarTimeZone = $timeZoneFactory->fromName($input->VTIMEZONE->TZID->getValue());
 			}
 		}
 		// evaluate if input is a collection of event vobjects
@@ -109,7 +112,7 @@ class EventReader {
 				unset($events[$key]);
 			}
 		}
-		
+
 		// No base event was found. CalDAV does allow cases where only
 		// overridden instances are stored.
 		//
@@ -120,15 +123,15 @@ class EventReader {
 			$this->baseEvent = array_shift($events);
 		}
 
-		// determain the event starting time zone
+		// determine the event starting time zone
 		// we require this to align all other dates times
-		// evaluate if timezone paramater was used (treat this as a override)
+		// evaluate if timezone parameter was used (treat this as a override)
 		if ($timeZone !== null) {
 			$this->baseEventStartTimeZone = $timeZone;
 		}
 		// evaluate if event start date has a timezone parameter
 		elseif (isset($this->baseEvent->DTSTART->parameters['TZID'])) {
-			$this->baseEventStartTimeZone = new DateTimeZone($this->baseEvent->DTSTART->parameters['TZID']->getValue());
+			$this->baseEventStartTimeZone = $timeZoneFactory->fromName($this->baseEvent->DTSTART->parameters['TZID']->getValue()) ?? new DateTimeZone('UTC');
 		}
 		// evaluate if event parent calendar has a time zone
 		elseif (isset($calendarTimeZone)) {
@@ -139,15 +142,15 @@ class EventReader {
 			$this->baseEventStartTimeZone = new DateTimeZone('UTC');
 		}
 
-		// determain the event end time zone
+		// determine the event end time zone
 		// we require this to align all other dates and times
-		// evaluate if timezone paramater was used (treat this as a override)
+		// evaluate if timezone parameter was used (treat this as a override)
 		if ($timeZone !== null) {
 			$this->baseEventEndTimeZone = $timeZone;
 		}
 		// evaluate if event end date has a timezone parameter
 		elseif (isset($this->baseEvent->DTEND->parameters['TZID'])) {
-			$this->baseEventEndTimeZone = new DateTimeZone($this->baseEvent->DTEND->parameters['TZID']->getValue());
+			$this->baseEventEndTimeZone = $timeZoneFactory->fromName($this->baseEvent->DTEND->parameters['TZID']->getValue()) ?? new DateTimeZone('UTC');
 		}
 		// evaluate if event parent calendar has a time zone
 		elseif (isset($calendarTimeZone)) {
@@ -166,22 +169,24 @@ class EventReader {
 		if (isset($this->baseEvent->DTEND)) {
 			$this->baseEventEndDate = $this->baseEvent->DTEND->getDateTime($this->baseEventEndTimeZone);
 			$this->baseEventEndDateFloating = $this->baseEvent->DTEND->isFloating();
-			$this->baseEventDuration =
-				$this->baseEvent->DTEND->getDateTime($this->baseEventEndTimeZone)->getTimeStamp() -
-				$this->baseEventStartDate->getTimeStamp();
+			$this->baseEventDuration
+				= $this->baseEvent->DTEND->getDateTime($this->baseEventEndTimeZone)->getTimeStamp()
+				- $this->baseEventStartDate->getTimeStamp();
 		}
 		// evaluate if duration exists
 		// extract duration and calculate end date
 		elseif (isset($this->baseEvent->DURATION)) {
-			$this->baseEventDuration = $this->baseEvent->DURATION->getDateInterval();
-			$this->baseEventEndDate = ((clone $this->baseEventStartDate)->add($this->baseEventDuration));
+			$this->baseEventEndDate = DateTimeImmutable::createFromInterface($this->baseEventStartDate)
+				->add($this->baseEvent->DURATION->getDateInterval());
+			$this->baseEventDuration = $this->baseEventEndDate->getTimestamp() - $this->baseEventStartDate->getTimestamp();
 		}
 		// evaluate if start date is floating
 		// set duration to 24 hours and calculate the end date
 		// according to the rfc any event without a end date or duration is a complete day
 		elseif ($this->baseEventStartDateFloating == true) {
 			$this->baseEventDuration = 86400;
-			$this->baseEventEndDate = ((clone $this->baseEventStartDate)->add($this->baseEventDuration));
+			$this->baseEventEndDate = DateTimeImmutable::createFromInterface($this->baseEventStartDate)
+				->setTimestamp($this->baseEventStartDate->getTimestamp() + $this->baseEventDuration);
 		}
 		// otherwise, set duration to zero this should never happen
 		else {
@@ -197,8 +202,12 @@ class EventReader {
 		}
 		// evaluate if RDATE exist and construct iterator
 		if (isset($this->baseEvent->RDATE)) {
+			$dates = [];
+			foreach ($this->baseEvent->RDATE as $entry) {
+				$dates[] = $entry->getValue();
+			}
 			$this->rdateIterator = new EventReaderRDate(
-				$this->baseEvent->RDATE->getValue(),
+				implode(',', $dates),
 				$this->baseEventStartDate
 			);
 		}
@@ -211,8 +220,12 @@ class EventReader {
 		}
 		// evaluate if EXDATE exist and construct iterator
 		if (isset($this->baseEvent->EXDATE)) {
+			$dates = [];
+			foreach ($this->baseEvent->EXDATE as $entry) {
+				$dates[] = $entry->getValue();
+			}
 			$this->edateIterator = new EventReaderRDate(
-				$this->baseEvent->EXDATE->getValue(),
+				implode(',', $dates),
 				$this->baseEventStartDate
 			);
 		}
@@ -220,7 +233,7 @@ class EventReader {
 		foreach ($events as $vevent) {
 			$this->recurrenceModified[$vevent->{'RECURRENCE-ID'}->getDateTime($this->baseEventStartTimeZone)->getTimeStamp()] = $vevent;
 		}
-		
+
 		$this->recurrenceCurrentDate = clone $this->baseEventStartDate;
 	}
 
@@ -297,7 +310,7 @@ class EventReader {
 	 *
 	 * @return string|null R - Relative or A - Absolute
 	 */
-	public function recurringPattern(): string|null {
+	public function recurringPattern(): ?string {
 		if ($this->rruleIterator === null && $this->rdateIterator === null) {
 			return null;
 		}
@@ -314,7 +327,7 @@ class EventReader {
 	 *
 	 * @return string|null daily, weekly, monthly, yearly, fixed
 	 */
-	public function recurringPrecision(): string|null {
+	public function recurringPrecision(): ?string {
 		if ($this->rruleIterator !== null) {
 			return $this->rruleIterator->precision();
 		}
@@ -331,7 +344,7 @@ class EventReader {
 	 *
 	 * @return int|null
 	 */
-	public function recurringInterval(): int|null {
+	public function recurringInterval(): ?int {
 		return $this->rruleIterator?->interval();
 	}
 
@@ -349,8 +362,8 @@ class EventReader {
 	public function recurringConcludes(): bool {
 
 		// retrieve rrule conclusions
-		if ($this->rruleIterator?->concludesOn() !== null ||
-			$this->rruleIterator?->concludesAfter() !== null) {
+		if ($this->rruleIterator?->concludesOn() !== null
+			|| $this->rruleIterator?->concludesAfter() !== null) {
 			return true;
 		}
 		// retrieve rdate conclusions
@@ -374,8 +387,8 @@ class EventReader {
 	 *
 	 * @return int|null
 	 */
-	public function recurringConcludesAfter(): int|null {
-		
+	public function recurringConcludesAfter(): ?int {
+
 		// construct count place holder
 		$count = 0;
 		// retrieve and add RRULE iterations count
@@ -399,7 +412,7 @@ class EventReader {
 	 *
 	 * @return DateTime|null
 	 */
-	public function recurringConcludesOn(): DateTime|null {
+	public function recurringConcludesOn(): ?DateTime {
 
 		if ($this->rruleIterator !== null) {
 			// retrieve rrule conclusion date
@@ -626,7 +639,7 @@ class EventReader {
 	 *
 	 * @return DateTime
 	 */
-	public function recurrenceDate(): DateTime|null {
+	public function recurrenceDate(): ?DateTime {
 		if ($this->recurrenceCurrentDate !== null) {
 			return DateTime::createFromInterface($this->recurrenceCurrentDate);
 		} else {

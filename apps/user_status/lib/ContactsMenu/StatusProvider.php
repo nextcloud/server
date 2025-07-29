@@ -19,7 +19,9 @@ use function array_map;
 
 class StatusProvider implements IBulkProvider {
 
-	public function __construct(private StatusService $statusService) {
+	public function __construct(
+		private StatusService $statusService,
+	) {
 	}
 
 	public function process(array $entries): void {

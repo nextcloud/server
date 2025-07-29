@@ -13,6 +13,7 @@ use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\View;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Storage\IDisableEncryptionStorage;
+use OCP\Server;
 use Test\TestCase;
 use Test\Traits\EncryptionTrait;
 use Test\Traits\MountProviderTrait;
@@ -30,7 +31,7 @@ class EncryptedStorageTest extends TestCase {
 	use EncryptionTrait;
 	use UserTrait;
 
-	public function testMoveFromEncrypted() {
+	public function testMoveFromEncrypted(): void {
 		$this->createUser('test1', 'test2');
 		$this->setupForUser('test1', 'test2');
 
@@ -44,7 +45,7 @@ class EncryptedStorageTest extends TestCase {
 		$view = new View('/test1/files');
 
 		/** @var IMountManager $mountManager */
-		$mountManager = \OC::$server->get(IMountManager::class);
+		$mountManager = Server::get(IMountManager::class);
 
 		$encryptedMount = $mountManager->find('/test1/files/enc');
 		$unencryptedMount = $mountManager->find('/test1/files/unenc');

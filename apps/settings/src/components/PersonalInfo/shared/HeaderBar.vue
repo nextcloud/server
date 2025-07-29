@@ -5,7 +5,7 @@
 
 <template>
 	<div class="headerbar-label" :class="{ 'setting-property': isSettingProperty, 'profile-property': isProfileProperty }">
-		<h3 v-if="isHeading">
+		<h3 v-if="isHeading" class="headerbar__heading">
 			<!-- Already translated as required by prop validator -->
 			{{ readable }}
 		</h3>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import Plus from 'vue-material-design-icons/Plus.vue'
 
 import FederationControl from './FederationControl.vue'
@@ -138,11 +138,16 @@ export default {
 		}
 	}
 
+	.headerbar__heading {
+		margin: 0;
+	}
+
 	.federation-control {
 		margin: 0;
 	}
 
 	.button-vue  {
-		margin: 0 0 0 auto !important;
+		margin: 0 !important;
+		margin-inline-start: auto !important;
 	}
 </style>

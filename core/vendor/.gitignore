@@ -6,7 +6,6 @@ src/
 bower.json
 component.json
 .jshintrc
-.travis.yml
 CHANGELOG*
 Gemfile
 gruntfile.js

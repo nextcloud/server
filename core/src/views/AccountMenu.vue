@@ -47,8 +47,8 @@ import { getAllStatusOptions } from '../../../apps/user_status/src/services/stat
 import axios from '@nextcloud/axios'
 import logger from '../logger.js'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
 import AccountMenuProfileEntry from '../components/AccountMenu/AccountMenuProfileEntry.vue'
 import AccountMenuEntry from '../components/AccountMenu/AccountMenuEntry.vue'
 
@@ -211,7 +211,7 @@ export default defineComponent({
 		}
 	}
 
-	// Ensure we do not wast space, as the header menu sets a default width of 350px
+	// Ensure we do not waste space, as the header menu sets a default width of 350px
 	:deep(.header-menu__content) {
 		width: fit-content !important;
 	}

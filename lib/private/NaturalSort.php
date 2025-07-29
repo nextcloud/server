@@ -23,7 +23,7 @@ class NaturalSort {
 		// or inject an instance of \OC\NaturalSort_DefaultCollator to force using Owncloud's default collator
 		if (isset($injectedCollator)) {
 			$this->collator = $injectedCollator;
-			\OC::$server->get(LoggerInterface::class)->debug('forced use of '.get_class($injectedCollator));
+			\OC::$server->get(LoggerInterface::class)->debug('forced use of ' . get_class($injectedCollator));
 		}
 	}
 

@@ -9,7 +9,7 @@ return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Provisioning_API\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Provisioning_API\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
-    'OCA\\Provisioning_API\\Controller\\AUserData' => $baseDir . '/../lib/Controller/AUserData.php',
+    'OCA\\Provisioning_API\\Controller\\AUserDataOCSController' => $baseDir . '/../lib/Controller/AUserDataOCSController.php',
     'OCA\\Provisioning_API\\Controller\\AppConfigController' => $baseDir . '/../lib/Controller/AppConfigController.php',
     'OCA\\Provisioning_API\\Controller\\AppsController' => $baseDir . '/../lib/Controller/AppsController.php',
     'OCA\\Provisioning_API\\Controller\\GroupsController' => $baseDir . '/../lib/Controller/GroupsController.php',

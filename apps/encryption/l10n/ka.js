@@ -52,14 +52,12 @@ OC.L10N.register(
     "Basic encryption module" : "Basic encryption module",
     "Your private key password no longer matches your log-in password." : "Your private key password no longer matches your log-in password.",
     "Set your old private key password to your current log-in password:" : "Set your old private key password to your current log-in password:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : " If you don't remember your old password you can ask your administrator to recover your files.",
     "Old log-in password" : "Old log-in password",
     "Current log-in password" : "Current log-in password",
     "Update Private Key Password" : "Update Private Key Password",
     "Enable password recovery:" : "Enable password recovery:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss",
     "Enabled" : "Enabled",
-    "Disabled" : "Disabled",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password."
+    "Disabled" : "Disabled"
 },
 "nplurals=2; plural=(n!=1);");

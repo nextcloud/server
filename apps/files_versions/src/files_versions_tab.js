@@ -7,14 +7,14 @@ import Vue from 'vue'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 
 import VersionTab from './views/VersionTab.vue'
-import VTooltip from 'v-tooltip'
+import VTooltipPlugin from 'v-tooltip'
 // eslint-disable-next-line n/no-missing-import, import/no-unresolved
 import BackupRestore from '@mdi/svg/svg/backup-restore.svg?raw'
 
 Vue.prototype.t = t
 Vue.prototype.n = n
 
-Vue.use(VTooltip)
+Vue.use(VTooltipPlugin)
 
 // Init Sharing tab component
 const View = Vue.extend(VersionTab)

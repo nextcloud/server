@@ -75,11 +75,13 @@ class ManagerTest extends TestCase {
 					$this->crypto,
 					$this->config,
 					$this->logger
-				])->setMethods($setMethods)->getMock();
+				])
+				->onlyMethods($setMethods)
+				->getMock();
 		}
 	}
 
-	public function testGetKeyWithExistingKey() {
+	public function testGetKeyWithExistingKey(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -104,14 +106,10 @@ class ManagerTest extends TestCase {
 		$folder
 			->expects($this->exactly(2))
 			->method('getFile')
-			->withConsecutive(
-				['private'],
-				['public']
-			)
-			->willReturnOnConsecutiveCalls(
-				$privateFile,
-				$publicFile
-			);
+			->willReturnMap([
+				['private', $privateFile],
+				['public', $publicFile],
+			]);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
@@ -122,7 +120,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->manager->getKey($user));
 	}
 
-	public function testGetKeyWithNotExistingKey() {
+	public function testGetKeyWithNotExistingKey(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -155,14 +153,10 @@ class ManagerTest extends TestCase {
 		$folder
 			->expects($this->exactly(2))
 			->method('newFile')
-			->withConsecutive(
-				['private'],
-				['public']
-			)
-			->willReturnOnConsecutiveCalls(
-				$privateFile,
-				$publicFile
-			);
+			->willReturnMap([
+				['private', null, $privateFile],
+				['public', null, $publicFile],
+			]);
 		$this->appData
 			->expects($this->exactly(2))
 			->method('getFolder')
@@ -177,7 +171,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->manager->getKey($user));
 	}
 
-	public function testGenerateKeyPair() {
+	public function testGenerateKeyPair(): void {
 		$manager = $this->getManager();
 		$data = 'MyTestData';
 
@@ -189,7 +183,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame(2048, $details['bits']);
 	}
 
-	public function testGetSystemKey() {
+	public function testGetSystemKey(): void {
 		$manager = $this->getManager(['retrieveKey']);
 
 		/** @var Key|\PHPUnit\Framework\MockObject\MockObject $key */
@@ -206,7 +200,7 @@ class ManagerTest extends TestCase {
 
 
 
-	public function testGetSystemKeyFailure() {
+	public function testGetSystemKeyFailure(): void {
 		$this->expectException(\RuntimeException::class);
 
 		$manager = $this->getManager(['retrieveKey']);

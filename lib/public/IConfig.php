@@ -245,7 +245,8 @@ interface IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @return list<string> of user IDs
+	 * @since 31.0.0 return type of `list<string>`
 	 * @since 8.0.0
 	 */
 	public function getUsersForUserValue($appName, $key, $value);

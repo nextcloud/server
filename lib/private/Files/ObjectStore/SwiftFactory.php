@@ -194,13 +194,13 @@ class SwiftFactory {
 			} catch (ClientException $e) {
 				$statusCode = $e->getResponse()->getStatusCode();
 				if ($statusCode === 404) {
-					throw new StorageAuthException('Keystone not found, verify the keystone url', $e);
+					throw new StorageAuthException('Keystone not found while connecting to object storage, verify the keystone url', $e);
 				} elseif ($statusCode === 412) {
-					throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
+					throw new StorageAuthException('Precondition failed while connecting to object storage, verify the keystone url', $e);
 				} elseif ($statusCode === 401) {
-					throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
+					throw new StorageAuthException('Authentication failed while connecting to object storage, verify the username, password and possibly tenant', $e);
 				} else {
-					throw new StorageAuthException('Unknown error', $e);
+					throw new StorageAuthException('Unknown error while connecting to object storage', $e);
 				}
 			} catch (RequestException $e) {
 				throw new StorageAuthException('Connection reset while connecting to keystone, verify the keystone url', $e);

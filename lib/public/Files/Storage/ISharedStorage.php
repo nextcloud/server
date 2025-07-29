@@ -19,7 +19,6 @@ interface ISharedStorage extends IStorage {
 	/**
 	 * The the associated share
 	 *
-	 * @return IShare
 	 * @since 30.0.0
 	 */
 	public function getShare(): IShare;

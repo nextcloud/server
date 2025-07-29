@@ -37,7 +37,7 @@ class StateTest extends TestCase {
 		$this->cmd = new CommandTester($cmd);
 	}
 
-	public function testWrongUID() {
+	public function testWrongUID(): void {
 		$this->cmd->execute([
 			'uid' => 'nope',
 		]);
@@ -46,7 +46,7 @@ class StateTest extends TestCase {
 		$this->assertStringContainsString('Invalid UID', $output);
 	}
 
-	public function testStateNoProvidersActive() {
+	public function testStateNoProvidersActive(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -69,7 +69,7 @@ class StateTest extends TestCase {
 		$this->assertStringContainsString('Two-factor authentication is not enabled for user eldora', $output);
 	}
 
-	public function testStateOneProviderActive() {
+	public function testStateOneProviderActive(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->once())
 			->method('get')

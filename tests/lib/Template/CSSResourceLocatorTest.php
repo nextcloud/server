@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -77,7 +78,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		return sha1(uniqid(mt_rand(), true));
 	}
 
-	public function testFindWithAppPathSymlink() {
+	public function testFindWithAppPathSymlink(): void {
 		// First create new apps path, and a symlink to it
 		$apps_dirname = $this->randomString();
 		$new_apps_path = sys_get_temp_dir() . '/' . $apps_dirname;

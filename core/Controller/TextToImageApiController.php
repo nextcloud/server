@@ -21,6 +21,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\OCSController;
 use OCP\DB\Exception;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
@@ -34,7 +35,7 @@ use OCP\TextToImage\Task;
 /**
  * @psalm-import-type CoreTextToImageTask from ResponseDefinitions
  */
-class TextToImageApiController extends \OCP\AppFramework\OCSController {
+class TextToImageApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -150,7 +151,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
 			try {
 				$folder = $this->appData->getFolder('text2image');
-			} catch(NotFoundException) {
+			} catch (NotFoundException) {
 				$res = new DataResponse(['message' => $this->l->t('Image not found')], Http::STATUS_NOT_FOUND);
 				$res->throttle(['action' => 'text2image']);
 				return $res;
@@ -212,7 +213,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $appId ID of the app
 	 * @param string|null $identifier An arbitrary identifier for the task
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTextToImageTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: list<CoreTextToImageTask>}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
 	 * 200: Task list returned
 	 */
@@ -222,10 +223,9 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
 		try {
 			$tasks = $this->textToImageManager->getUserTasksByApp($this->userId, $appId, $identifier);
-			/** @var CoreTextToImageTask[] $json */
-			$json = array_map(static function (Task $task) {
+			$json = array_values(array_map(static function (Task $task) {
 				return $task->jsonSerialize();
-			}, $tasks);
+			}, $tasks));
 
 			return new DataResponse([
 				'tasks' => $json,

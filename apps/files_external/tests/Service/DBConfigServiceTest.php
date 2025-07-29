@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,28 +10,23 @@ namespace OCA\Files_External\Tests\Service;
 
 use OCA\Files_External\Service\DBConfigService;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
+use OCP\Server;
 use Test\TestCase;
 
 /**
  * @group DB
  */
 class DBConfigServiceTest extends TestCase {
-	/**
-	 * @var DBConfigService
-	 */
-	private $dbConfig;
+	private IDBConnection $connection;
+	private DBConfigService $dbConfig;
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
-
-	private $mounts = [];
+	private array $mounts = [];
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->dbConfig = new DBConfigService($this->connection, \OC::$server->getCrypto());
+		$this->connection = Server::get(IDBConnection::class);
+		$this->dbConfig = new DBConfigService($this->connection, Server::get(ICrypto::class));
 	}
 
 	protected function tearDown(): void {
@@ -37,15 +34,16 @@ class DBConfigServiceTest extends TestCase {
 			$this->dbConfig->removeMount($mount);
 		}
 		$this->mounts = [];
+		parent::tearDown();
 	}
 
-	private function addMount($mountPoint, $storageBackend, $authBackend, $priority, $type) {
+	private function addMount(string $mountPoint, string $storageBackend, string $authBackend, int $priority, int $type) {
 		$id = $this->dbConfig->addMount($mountPoint, $storageBackend, $authBackend, $priority, $type);
 		$this->mounts[] = $id;
 		return $id;
 	}
 
-	public function testAddSimpleMount() {
+	public function testAddSimpleMount(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 
 		$mount = $this->dbConfig->getMountById($id);
@@ -59,7 +57,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals([], $mount['options']);
 	}
 
-	public function testAddApplicable() {
+	public function testAddApplicable(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, 'test');
 
@@ -72,14 +70,14 @@ class DBConfigServiceTest extends TestCase {
 		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 
 		$mount = $this->dbConfig->getMountById($id);
-		$this->assertEquals([
+		$this->assertEqualsCanonicalizing([
 			['type' => DBConfigService::APPLICABLE_TYPE_USER, 'value' => 'test', 'mount_id' => $id],
 			['type' => DBConfigService::APPLICABLE_TYPE_GROUP, 'value' => 'bar', 'mount_id' => $id],
 			['type' => DBConfigService::APPLICABLE_TYPE_GLOBAL, 'value' => null, 'mount_id' => $id]
 		], $mount['applicable']);
 	}
 
-	public function testAddApplicableDouble() {
+	public function testAddApplicableDouble(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, 'test');
 		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, 'test');
@@ -90,7 +88,7 @@ class DBConfigServiceTest extends TestCase {
 		], $mount['applicable']);
 	}
 
-	public function testDeleteMount() {
+	public function testDeleteMount(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 
 		$this->dbConfig->removeMount($id);
@@ -99,7 +97,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals(null, $mount);
 	}
 
-	public function testRemoveApplicable() {
+	public function testRemoveApplicable(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, 'test');
 		$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, 'test');
@@ -108,7 +106,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals([], $mount['applicable']);
 	}
 
-	public function testRemoveApplicableGlobal() {
+	public function testRemoveApplicableGlobal(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
 		$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
@@ -120,7 +118,7 @@ class DBConfigServiceTest extends TestCase {
 		], $mount['applicable']);
 	}
 
-	public function testSetConfig() {
+	public function testSetConfig(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->setConfig($id, 'foo', 'bar');
 
@@ -133,7 +131,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals(['foo' => 'bar', 'foo2' => 'bar2'], $mount['config']);
 	}
 
-	public function testSetConfigOverwrite() {
+	public function testSetConfigOverwrite(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->setConfig($id, 'foo', 'bar');
 		$this->dbConfig->setConfig($id, 'asd', '1');
@@ -143,7 +141,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals(['foo' => 'qwerty', 'asd' => '1'], $mount['config']);
 	}
 
-	public function testSetOption() {
+	public function testSetOption(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->setOption($id, 'foo', 'bar');
 
@@ -156,7 +154,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals(['foo' => 'bar', 'foo2' => 'bar2'], $mount['options']);
 	}
 
-	public function testSetOptionOverwrite() {
+	public function testSetOptionOverwrite(): void {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->setOption($id, 'foo', 'bar');
 		$this->dbConfig->setOption($id, 'asd', '1');
@@ -166,7 +164,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals(['foo' => 'qwerty', 'asd' => '1'], $mount['options']);
 	}
 
-	public function testGetMountsFor() {
+	public function testGetMountsFor(): void {
 		$mounts = $this->dbConfig->getMountsFor(DBConfigService::APPLICABLE_TYPE_USER, 'test');
 		$this->assertEquals([], $mounts);
 
@@ -179,7 +177,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals([['type' => DBConfigService::APPLICABLE_TYPE_USER, 'value' => 'test', 'mount_id' => $id]], $mounts[0]['applicable']);
 	}
 
-	public function testGetAdminMounts() {
+	public function testGetAdminMounts(): void {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
 
@@ -188,7 +186,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals($id1, $mounts[0]['mount_id']);
 	}
 
-	public function testGetAdminMountsFor() {
+	public function testGetAdminMountsFor(): void {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$id3 = $this->addMount('/test3', 'foo3', 'bar3', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
@@ -202,7 +200,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals([['type' => DBConfigService::APPLICABLE_TYPE_USER, 'value' => 'test', 'mount_id' => $id1]], $mounts[0]['applicable']);
 	}
 
-	public function testGetUserMountsFor() {
+	public function testGetUserMountsFor(): void {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
 		$id3 = $this->addMount('/test3', 'foo3', 'bar3', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
@@ -216,7 +214,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals([['type' => DBConfigService::APPLICABLE_TYPE_USER, 'value' => 'test', 'mount_id' => $id3]], $mounts[0]['applicable']);
 	}
 
-	public function testGetAdminMountsForGlobal() {
+	public function testGetAdminMountsForGlobal(): void {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 
 		$this->dbConfig->addApplicable($id1, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
@@ -227,7 +225,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals([['type' => DBConfigService::APPLICABLE_TYPE_GLOBAL, 'value' => null, 'mount_id' => $id1]], $mounts[0]['applicable']);
 	}
 
-	public function testSetMountPoint() {
+	public function testSetMountPoint(): void {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$id2 = $this->addMount('/foo', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 
@@ -241,7 +239,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals('/foo', $mount['mount_point']);
 	}
 
-	public function testSetAuthBackend() {
+	public function testSetAuthBackend(): void {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$id2 = $this->addMount('/foo', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 
@@ -255,7 +253,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals('bar', $mount['auth_backend']);
 	}
 
-	public function testGetMountsForDuplicateByGroup() {
+	public function testGetMountsForDuplicateByGroup(): void {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 
 		$this->dbConfig->addApplicable($id1, DBConfigService::APPLICABLE_TYPE_GROUP, 'group1');
@@ -266,7 +264,7 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals($id1, $mounts[0]['mount_id']);
 	}
 
-	public function testGetAllMounts() {
+	public function testGetAllMounts(): void {
 		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$id2 = $this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAL);
 

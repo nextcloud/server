@@ -11,6 +11,7 @@ import * as eventBus from '@nextcloud/event-bus'
 
 import { action } from './deleteAction'
 import logger from '../logger'
+import { shouldAskForConfirmation } from './deleteUtils'
 
 vi.mock('@nextcloud/auth')
 vi.mock('@nextcloud/axios')
@@ -127,6 +128,22 @@ describe('Delete action conditions tests', () => {
 })
 
 describe('Delete action enabled tests', () => {
+	let initialState: HTMLInputElement
+
+	afterEach(() => {
+		document.body.removeChild(initialState)
+	})
+
+	beforeEach(() => {
+		initialState = document.createElement('input')
+		initialState.setAttribute('type', 'hidden')
+		initialState.setAttribute('id', 'initial-state-files_trashbin-config')
+		initialState.setAttribute('value', btoa(JSON.stringify({
+			allow_delete: true,
+		})))
+		document.body.appendChild(initialState)
+	})
+
 	test('Enabled with DELETE permissions', () => {
 		const file = new File({
 			id: 1,
@@ -177,6 +194,15 @@ describe('Delete action enabled tests', () => {
 		expect(action.enabled!([folder2], view)).toBe(false)
 		expect(action.enabled!([folder1, folder2], view)).toBe(false)
 	})
+
+	test('Disabled if not allowed', () => {
+		initialState.setAttribute('value', btoa(JSON.stringify({
+			allow_delete: false,
+		})))
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([], view)).toBe(false)
+	})
 })
 
 describe('Delete action execute tests', () => {
@@ -210,7 +236,6 @@ describe('Delete action execute tests', () => {
 		vi.spyOn(eventBus, 'emit')
 
 		const confirmMock = vi.fn()
-		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 
 		const file1 = new File({
@@ -250,7 +275,6 @@ describe('Delete action execute tests', () => {
 
 		// Emulate the confirmation dialog to always confirm
 		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(true))
-		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 
 		const file1 = new File({
@@ -314,7 +338,11 @@ describe('Delete action execute tests', () => {
 		expect(eventBus.emit).toHaveBeenNthCalledWith(5, 'files:node:deleted', file5)
 	})
 
-	test('Delete action batch trashbin disabled', async () => {
+	test('Delete action batch dialog enabled', async () => {
+		// Enable the confirmation dialog
+		eventBus.emit('files:config:updated', { key: 'show_dialog_deletion', value: true })
+		expect(shouldAskForConfirmation()).toBe(true)
+
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
 		vi.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
@@ -325,7 +353,6 @@ describe('Delete action execute tests', () => {
 
 		// Emulate the confirmation dialog to always confirm
 		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(true))
-		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 
 		const file1 = new File({
@@ -357,6 +384,8 @@ describe('Delete action execute tests', () => {
 		expect(eventBus.emit).toBeCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2)
+
+		eventBus.emit('files:config:updated', { key: 'show_dialog_deletion', value: false })
 	})
 
 	test('Delete fails', async () => {
@@ -382,7 +411,10 @@ describe('Delete action execute tests', () => {
 		expect(logger.error).toBeCalledTimes(1)
 	})
 
-	test('Delete is cancelled', async () => {
+	test('Delete is cancelled with dialog enabled', async () => {
+		// Enable the confirmation dialog
+		eventBus.emit('files:config:updated', { key: 'show_dialog_deletion', value: true })
+
 		vi.spyOn(axios, 'delete')
 		vi.spyOn(eventBus, 'emit')
 		vi.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
@@ -393,7 +425,6 @@ describe('Delete action execute tests', () => {
 
 		// Emulate the confirmation dialog to always confirm
 		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(false))
-		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 
 		const file1 = new File({
@@ -412,5 +443,7 @@ describe('Delete action execute tests', () => {
 		expect(axios.delete).toBeCalledTimes(0)
 
 		expect(eventBus.emit).toBeCalledTimes(0)
+
+		eventBus.emit('files:config:updated', { key: 'show_dialog_deletion', value: false })
 	})
 })

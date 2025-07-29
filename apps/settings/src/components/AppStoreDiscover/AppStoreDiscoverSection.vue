@@ -8,7 +8,7 @@
 			:name="t('settings', 'Nothing to show')"
 			:description="t('settings', 'Could not load section content from app store.')">
 			<template #icon>
-				<NcIconSvgWrapper :path="mdiEyeOff" :size="64" />
+				<NcIconSvgWrapper :path="mdiEyeOffOutline" :size="64" />
 			</template>
 		</NcEmptyContent>
 		<NcEmptyContent v-else-if="elements.length === 0"
@@ -30,16 +30,16 @@
 <script setup lang="ts">
 import type { IAppDiscoverElements } from '../../constants/AppDiscoverTypes.ts'
 
-import { mdiEyeOff } from '@mdi/js'
+import { mdiEyeOffOutline } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { defineAsyncComponent, defineComponent, onBeforeMount, ref } from 'vue'
 
 import axios from '@nextcloud/axios'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 
 import logger from '../../logger'
 import { parseApiResponse, filterElements } from '../../utils/appDiscoverParser.ts'

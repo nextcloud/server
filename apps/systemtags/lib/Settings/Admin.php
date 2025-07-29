@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,6 +8,7 @@ namespace OCA\SystemTags\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
+use OCP\Util;
 
 class Admin implements ISettings {
 
@@ -14,7 +16,7 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		\OCP\Util::addScript('systemtags', 'admin');
+		Util::addScript('systemtags', 'admin');
 		return new TemplateResponse('systemtags', 'admin', [], '');
 	}
 

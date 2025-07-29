@@ -17,6 +17,7 @@ use OCP\IPreview;
  *
  * @since 25.0.1
  * @since 28.0.0 the constructor arguments ``$width``, ``$height``, ``$crop`` and ``$mode`` are no longer nullable.
+ * @since 31.0.0 the constructor arguments ``$mimeType`` was added
  */
 class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	/**
@@ -24,14 +25,15 @@ class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	 */
 	public function __construct(
 		private Node $node,
-		/** @deprecated 28.0.0 null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?int $width = null,
-		/** @deprecated 28.0.0 null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?int $height = null,
-		/** @deprecated 28.0.0 null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?bool $crop = null,
-		/** @deprecated 28.0.0 null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?string $mode = null,
+		private ?string $mimeType = null,
 	) {
 		parent::__construct();
 	}
@@ -70,5 +72,12 @@ class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	 */
 	public function getMode(): ?string {
 		return $this->mode;
+	}
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function getMimeType(): ?string {
+		return $this->mimeType;
 	}
 }

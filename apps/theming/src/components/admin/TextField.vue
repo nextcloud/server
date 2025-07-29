@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import TextValueMixin from '../../mixins/admin/TextValueMixin.js'
 

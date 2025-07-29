@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,16 +14,10 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 
 class SameSiteCookieMiddleware extends Middleware {
-	/** @var Request */
-	private $request;
-
-	/** @var ControllerMethodReflector */
-	private $reflector;
-
-	public function __construct(Request $request,
-		ControllerMethodReflector $reflector) {
-		$this->request = $request;
-		$this->reflector = $reflector;
+	public function __construct(
+		private Request $request,
+		private ControllerMethodReflector $reflector,
+	) {
 	}
 
 	public function beforeController($controller, $methodName) {
@@ -46,19 +41,19 @@ class SameSiteCookieMiddleware extends Middleware {
 
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if ($exception instanceof LaxSameSiteCookieFailedException) {
-			$respone = new Response();
-			$respone->setStatus(Http::STATUS_FOUND);
-			$respone->addHeader('Location', $this->request->getRequestUri());
+			$response = new Response();
+			$response->setStatus(Http::STATUS_FOUND);
+			$response->addHeader('Location', $this->request->getRequestUri());
 
 			$this->setSameSiteCookie();
 
-			return $respone;
+			return $response;
 		}
 
 		throw $exception;
 	}
 
-	protected function setSameSiteCookie() {
+	protected function setSameSiteCookie(): void {
 		$cookieParams = $this->request->getCookieParams();
 		$secureCookie = ($cookieParams['secure'] === true) ? 'secure; ' : '';
 		$policies = [

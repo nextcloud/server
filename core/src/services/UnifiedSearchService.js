@@ -82,7 +82,7 @@ export function search({ type, query, cursor, since, until, limit, person, extra
  * Get the list of active contacts
  *
  * @param {object} filter filter contacts by string
- * @param filter.searchTerm
+ * @param {string} filter.searchTerm the query
  * @return {object} {request: Promise}
  */
 export async function getContacts({ searchTerm }) {

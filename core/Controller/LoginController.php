@@ -29,6 +29,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
@@ -41,12 +42,15 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\ITrustedDomainHelper;
+use OCP\Server;
 use OCP\Util;
 
 class LoginController extends Controller {
 	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
 	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
 	public const LOGIN_MSG_CSRFCHECKFAILED = 'csrfCheckFailed';
+	public const LOGIN_MSG_INVALID_ORIGIN = 'invalidOrigin';
 
 	public function __construct(
 		?string $appName,
@@ -89,8 +93,8 @@ class LoginController extends Controller {
 		$this->session->close();
 
 		if (
-			$this->request->getServerProtocol() === 'https' &&
-			!$this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_ANDROID_MOBILE_CHROME])
+			$this->request->getServerProtocol() === 'https'
+			&& !$this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_ANDROID_MOBILE_CHROME])
 		) {
 			$response->addHeader('Clear-Site-Data', '"cache", "storage"');
 		}
@@ -109,7 +113,7 @@ class LoginController extends Controller {
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'GET', url: '/login')]
-	public function showLoginForm(?string $user = null, ?string $redirect_url = null): Http\Response {
+	public function showLoginForm(?string $user = null, ?string $redirect_url = null): Response {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 		}
@@ -167,6 +171,9 @@ class LoginController extends Controller {
 		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'website']);
 		Util::addHeader('meta', ['property' => 'og:image', 'content' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png'))]);
 
+		// Add same-origin referrer policy so we can check for valid requests
+		Util::addHeader('meta', ['name' => 'referrer', 'content' => 'same-origin']);
+
 		$parameters = [
 			'alt_login' => OC_App::getAlternativeLogIns(),
 			'pageTitle' => $this->l10n->t('Login'),
@@ -219,7 +226,7 @@ class LoginController extends Controller {
 		// check if user_ldap is enabled, and the required classes exist
 		if ($this->appManager->isAppLoaded('user_ldap')
 			&& class_exists(Helper::class)) {
-			$helper = \OCP\Server::get(Helper::class);
+			$helper = Server::get(Helper::class);
 			$allPrefixes = $helper->getServerConfigurationPrefixes();
 			// check each LDAP server the user is connected too
 			foreach ($allPrefixes as $prefix) {
@@ -269,29 +276,42 @@ class LoginController extends Controller {
 		return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	/**
-	 * @return RedirectResponse
-	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[BruteForceProtection(action: 'login')]
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'POST', url: '/login')]
-	public function tryLogin(Chain $loginChain,
+	public function tryLogin(
+		Chain $loginChain,
+		ITrustedDomainHelper $trustedDomainHelper,
 		string $user = '',
 		string $password = '',
 		?string $redirect_url = null,
 		string $timezone = '',
-		string $timezone_offset = ''): RedirectResponse {
-		if (!$this->request->passesCSRFCheck()) {
+		string $timezone_offset = '',
+	): RedirectResponse {
+		$error = '';
+
+		$origin = $this->request->getHeader('Origin');
+		$throttle = true;
+		if ($origin === '' || !$trustedDomainHelper->isTrustedUrl($origin)) {
+			// Login attempt not from the same origin,
+			// We only allow this on the login flow but not on the UI login page.
+			// This could have come from someone malicious who tries to block a user by triggering the bruteforce protection.
+			$error = self::LOGIN_MSG_INVALID_ORIGIN;
+			$throttle = false;
+		} elseif (!$this->request->passesCSRFCheck()) {
 			if ($this->userSession->isLoggedIn()) {
 				// If the user is already logged in and the CSRF check does not pass then
 				// simply redirect the user to the correct page as required. This is the
 				// case when a user has already logged-in, in another tab.
 				return $this->generateRedirect($redirect_url);
 			}
+			$error = self::LOGIN_MSG_CSRFCHECKFAILED;
+		}
 
+		if ($error !== '') {
 			// Clear any auth remnants like cookies to ensure a clean login
 			// For the next attempt
 			$this->userSession->logout();
@@ -299,8 +319,8 @@ class LoginController extends Controller {
 				$user,
 				$user,
 				$redirect_url,
-				self::LOGIN_MSG_CSRFCHECKFAILED,
-				false,
+				$error,
+				$throttle,
 			);
 		}
 
@@ -371,6 +391,7 @@ class LoginController extends Controller {
 		$this->session->set('loginMessages', [
 			[$loginMessage], []
 		]);
+
 		return $response;
 	}
 
@@ -381,7 +402,7 @@ class LoginController extends Controller {
 	 *
 	 * @param string $password The password of the user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, list<empty>, array{}>
 	 *
 	 * 200: Password confirmation succeeded
 	 * 403: Password confirmation failed
@@ -391,6 +412,7 @@ class LoginController extends Controller {
 	#[UseSession]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/login/confirm')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function confirmPassword(string $password): DataResponse {
 		$loginName = $this->userSession->getLoginName();
 		$loginResult = $this->userManager->checkPassword($loginName, $password);

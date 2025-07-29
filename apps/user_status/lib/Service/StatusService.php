@@ -167,7 +167,7 @@ class StatusService {
 		$userStatus->setIsBackup(false);
 
 		if ($userStatus->getId() === null) {
-			return $this->mapper->insert($userStatus);
+			return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 		}
 
 		return $this->mapper->update($userStatus);
@@ -211,7 +211,7 @@ class StatusService {
 		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() === null) {
-			return $this->mapper->insert($userStatus);
+			return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 		}
 
 		return $this->mapper->update($userStatus);
@@ -313,7 +313,7 @@ class StatusService {
 		if ($userStatus->getId() !== null) {
 			return $this->mapper->update($userStatus);
 		}
-		return $this->mapper->insert($userStatus);
+		return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 	}
 
 	/**
@@ -360,7 +360,7 @@ class StatusService {
 		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() === null) {
-			return $this->mapper->insert($userStatus);
+			return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 		}
 
 		return $this->mapper->update($userStatus);
@@ -499,10 +499,10 @@ class StatusService {
 			return;
 		}
 		// If there is a custom message, don't overwrite it
-		if(empty($status->getCustomMessage())) {
+		if (empty($status->getCustomMessage())) {
 			$status->setCustomMessage($predefinedMessage['message']);
 		}
-		if(empty($status->getCustomIcon())) {
+		if (empty($status->getCustomIcon())) {
 			$status->setCustomIcon($predefinedMessage['icon']);
 		}
 	}
@@ -583,5 +583,17 @@ class StatusService {
 
 		// For users that matched restore the previous status
 		$this->mapper->restoreBackupStatuses($restoreIds);
+	}
+
+	protected function insertWithoutThrowingUniqueConstrain(UserStatus $userStatus): UserStatus {
+		try {
+			return $this->mapper->insert($userStatus);
+		} catch (Exception $e) {
+			// Ignore if a parallel request already set the status
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+		}
+		return $userStatus;
 	}
 }

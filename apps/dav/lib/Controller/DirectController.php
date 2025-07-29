@@ -28,45 +28,18 @@ use OCP\Security\ISecureRandom;
 
 class DirectController extends OCSController {
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var string */
-	private $userId;
-
-	/** @var DirectMapper */
-	private $mapper;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IRootFolder $rootFolder,
-		string $userId,
-		DirectMapper $mapper,
-		ISecureRandom $random,
-		ITimeFactory $timeFactory,
-		IURLGenerator $urlGenerator,
-		IEventDispatcher $eventDispatcher) {
+		private IRootFolder $rootFolder,
+		private string $userId,
+		private DirectMapper $mapper,
+		private ISecureRandom $random,
+		private ITimeFactory $timeFactory,
+		private IURLGenerator $urlGenerator,
+		private IEventDispatcher $eventDispatcher,
+	) {
 		parent::__construct($appName, $request);
-
-		$this->rootFolder = $rootFolder;
-		$this->userId = $userId;
-		$this->mapper = $mapper;
-		$this->random = $random;
-		$this->timeFactory = $timeFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -117,7 +90,7 @@ class DirectController extends OCSController {
 
 		$this->mapper->insert($direct);
 
-		$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/'.$token);
+		$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/' . $token);
 
 		return new DataResponse([
 			'url' => $url,

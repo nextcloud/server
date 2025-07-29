@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +8,7 @@
  */
 namespace OCA\Files_External\Tests;
 
+use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use OCA\Files_External\Lib\MissingDependency;
 
 class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
@@ -13,18 +16,18 @@ class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
 	/**
 	 * @return MissingDependency[]
 	 */
-	public static function checkDependencies() {
+	public static function checkDependencies(): array {
 		return [
 			(new MissingDependency('dependency'))->setMessage('missing dependency'),
 			(new MissingDependency('program'))->setMessage('cannot find program'),
 		];
 	}
 
-	public function testCheckDependencies() {
-		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\LegacyDependencyCheckPolyfill');
+	public function testCheckDependencies(): void {
+		$trait = $this->getMockForTrait(LegacyDependencyCheckPolyfill::class);
 		$trait->expects($this->once())
 			->method('getStorageClass')
-			->willReturn('\OCA\Files_External\Tests\LegacyDependencyCheckPolyfillTest');
+			->willReturn(self::class);
 
 		$dependencies = $trait->checkDependencies();
 		$this->assertCount(2, $dependencies);

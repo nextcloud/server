@@ -35,11 +35,11 @@ import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import isSvg from 'is-svg'
 
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import SvgCheck from '@mdi/svg/svg/check.svg?raw'
-import SvgPencil from '@mdi/svg/svg/pencil.svg?raw'
+import SvgPencil from '@mdi/svg/svg/pencil-outline.svg?raw'
 
 interface UserAction {
 	action: (event: MouseEvent, user: Record<string, unknown>) => void,

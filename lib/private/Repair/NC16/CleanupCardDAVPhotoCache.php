@@ -6,9 +6,10 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\NC16;
 
-use OCP\Files\IAppData;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
@@ -27,18 +28,11 @@ use RuntimeException;
  * photo could be returned for this vcard. These invalid files are removed by this migration step.
  */
 class CleanupCardDAVPhotoCache implements IRepairStep {
-	/** @var IConfig */
-	private $config;
-
-	/** @var IAppData */
-	private $appData;
-
-	private LoggerInterface $logger;
-
-	public function __construct(IConfig $config, IAppData $appData, LoggerInterface $logger) {
-		$this->config = $config;
-		$this->appData = $appData;
-		$this->logger = $logger;
+	public function __construct(
+		private IConfig $config,
+		private IAppDataFactory $appDataFactory,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function getName(): string {
@@ -46,8 +40,10 @@ class CleanupCardDAVPhotoCache implements IRepairStep {
 	}
 
 	private function repair(IOutput $output): void {
+		$photoCacheAppData = $this->appDataFactory->get('dav-photocache');
+
 		try {
-			$folders = $this->appData->getDirectoryListing();
+			$folders = $photoCacheAppData->getDirectoryListing();
 		} catch (NotFoundException $e) {
 			return;
 		} catch (RuntimeException $e) {

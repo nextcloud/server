@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,21 +22,17 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	/** @var array */
 	protected $mimeType;
 
-	/** @var IRequest */
-	protected $request;
-
-	/** @var IMimeTypeDetector */
-	protected $mimeTypeDetector;
-
 	/**
 	 * @param IL10N $l
 	 * @param IRequest $request
 	 * @param IMimeTypeDetector $mimeTypeDetector
 	 */
-	public function __construct(IL10N $l, IRequest $request, IMimeTypeDetector $mimeTypeDetector) {
+	public function __construct(
+		IL10N $l,
+		protected IRequest $request,
+		protected IMimeTypeDetector $mimeTypeDetector,
+	) {
 		parent::__construct($l);
-		$this->request = $request;
-		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 
 	/**
@@ -101,9 +98,9 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 			return $this->cacheAndReturnMimeType($this->storage->getId(), $this->path, $cacheEntry->getMimeType());
 		}
 
-		if ($this->storage->file_exists($this->path) &&
-			$this->storage->filesize($this->path) &&
-			$this->storage->instanceOfStorage(Local::class)
+		if ($this->storage->file_exists($this->path)
+			&& $this->storage->filesize($this->path)
+			&& $this->storage->instanceOfStorage(Local::class)
 		) {
 			$path = $this->storage->getLocalFile($this->path);
 			$mimeType = $this->mimeTypeDetector->detectContent($path);
@@ -129,12 +126,12 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	 */
 	protected function isWebDAVRequest() {
 		return substr($this->request->getScriptName(), 0 - strlen('/remote.php')) === '/remote.php' && (
-			$this->request->getPathInfo() === '/webdav' ||
-			str_starts_with($this->request->getPathInfo() ?? '', '/webdav/') ||
-			$this->request->getPathInfo() === '/dav/files' ||
-			str_starts_with($this->request->getPathInfo() ?? '', '/dav/files/') ||
-			$this->request->getPathInfo() === '/dav/uploads' ||
-			str_starts_with($this->request->getPathInfo() ?? '', '/dav/uploads/')
+			$this->request->getPathInfo() === '/webdav'
+			|| str_starts_with($this->request->getPathInfo() ?? '', '/webdav/')
+			|| $this->request->getPathInfo() === '/dav/files'
+			|| str_starts_with($this->request->getPathInfo() ?? '', '/dav/files/')
+			|| $this->request->getPathInfo() === '/dav/uploads'
+			|| str_starts_with($this->request->getPathInfo() ?? '', '/dav/uploads/')
 		);
 	}
 
@@ -143,8 +140,8 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	 */
 	protected function isPublicWebDAVRequest() {
 		return substr($this->request->getScriptName(), 0 - strlen('/public.php')) === '/public.php' && (
-			$this->request->getPathInfo() === '/webdav' ||
-			str_starts_with($this->request->getPathInfo() ?? '', '/webdav/')
+			$this->request->getPathInfo() === '/webdav'
+			|| str_starts_with($this->request->getPathInfo() ?? '', '/webdav/')
 		);
 	}
 

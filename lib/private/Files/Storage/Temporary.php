@@ -7,16 +7,20 @@
  */
 namespace OC\Files\Storage;
 
+use OCP\Files;
+use OCP\ITempManager;
+use OCP\Server;
+
 /**
  * local storage backend in temporary folder for testing purpose
  */
 class Temporary extends Local {
-	public function __construct($arguments = null) {
-		parent::__construct(['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]);
+	public function __construct(array $parameters = []) {
+		parent::__construct(['datadir' => Server::get(ITempManager::class)->getTemporaryFolder()]);
 	}
 
-	public function cleanUp() {
-		\OC_Helper::rmdirr($this->datadir);
+	public function cleanUp(): void {
+		Files::rmdirr($this->datadir);
 	}
 
 	public function __destruct() {
@@ -24,7 +28,7 @@ class Temporary extends Local {
 		$this->cleanUp();
 	}
 
-	public function getDataDir() {
+	public function getDataDir(): array|string {
 		return $this->datadir;
 	}
 }

@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div class="guest-box">
+	<div class="guest-box" data-cy-setup-recommended-apps>
 		<h2>{{ t('core', 'Recommended apps') }}</h2>
 		<p v-if="loadingApps" class="loading text-center">
 			{{ t('core', 'Loading apps …') }}
@@ -18,7 +18,7 @@
 				<img :src="customIcon(app.id)" alt="">
 				<div class="info">
 					<h3>{{ customName(app) }}</h3>
-					<p v-html="customDescription(app.id)" />
+					<p v-text="customDescription(app.id)" />
 					<p v-if="app.installationError">
 						<strong>{{ t('core', 'App download or installation failed') }}</strong>
 					</p>
@@ -38,15 +38,16 @@
 
 		<div class="dialog-row">
 			<NcButton v-if="showInstallButton && !installingApps"
-				type="tertiary"
-				role="link"
-				:href="defaultPageUrl">
+				data-cy-setup-recommended-apps-skip
+				:href="defaultPageUrl"
+				variant="tertiary">
 				{{ t('core', 'Skip') }}
 			</NcButton>
 
 			<NcButton v-if="showInstallButton"
-				type="primary"
+				data-cy-setup-recommended-apps-install
 				:disabled="installingApps || !isAnyAppSelected"
+				variant="primary"
 				@click.stop.prevent="installApps">
 				{{ installingApps ? t('core', 'Installing apps …') : t('core', 'Install recommended apps') }}
 			</NcButton>
@@ -55,16 +56,15 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import { generateUrl, imagePath } from '@nextcloud/router'
+import { t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl, imagePath } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import pLimit from 'p-limit'
-import { translate as t } from '@nextcloud/l10n'
-
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-
 import logger from '../../logger.js'
+
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 const recommended = {
 	calendar: {
@@ -80,7 +80,7 @@ const recommended = {
 		icon: imagePath('core', 'actions/mail.svg'),
 	},
 	spreed: {
-		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
+		description: t('core', 'Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps.'),
 		icon: imagePath('core', 'apps/spreed.svg'),
 	},
 	richdocuments: {
@@ -246,7 +246,7 @@ p {
 
 	.info {
 		h3, p {
-			text-align: left;
+			text-align: start;
 		}
 
 		h3 {
@@ -255,7 +255,7 @@ p {
 	}
 
 	.checkbox-radio-switch {
-		margin-left: auto;
+		margin-inline-start: auto;
 		padding: 0 2px;
 	}
 }

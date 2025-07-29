@@ -9,6 +9,8 @@
 namespace Test\Memcache;
 
 use OC\Memcache\Redis;
+use OCP\IConfig;
+use OCP\Server;
 
 /**
  * @group Memcache
@@ -23,24 +25,24 @@ class RedisTest extends Cache {
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
-		if (!\OC\Memcache\Redis::isAvailable()) {
+		if (!Redis::isAvailable()) {
 			self::markTestSkipped('The redis extension is not available.');
 		}
 
-		if (\OC::$server->getConfig()->getSystemValue('redis', []) === []) {
+		if (Server::get(IConfig::class)->getSystemValue('redis', []) === []) {
 			self::markTestSkipped('Redis not configured in config.php');
 		}
 
 		$errorOccurred = false;
 		set_error_handler(
-			function ($errno, $errstr) {
+			function ($errno, $errstr): void {
 				throw new \RuntimeException($errstr, 123456789);
 			},
 			E_WARNING
 		);
 		$instance = null;
 		try {
-			$instance = new \OC\Memcache\Redis(self::getUniqueID());
+			$instance = new Redis(self::getUniqueID());
 		} catch (\RuntimeException $e) {
 			$errorOccurred = $e->getCode() === 123456789 ? $e->getMessage() : false;
 		}
@@ -60,23 +62,23 @@ class RedisTest extends Cache {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->instance = new \OC\Memcache\Redis($this->getUniqueID());
+		$this->instance = new Redis($this->getUniqueID());
 	}
 
-	public function testScriptHashes() {
-		foreach (\OC\Memcache\Redis::LUA_SCRIPTS as $script) {
+	public function testScriptHashes(): void {
+		foreach (Redis::LUA_SCRIPTS as $script) {
 			$this->assertEquals(sha1($script[0]), $script[1]);
 		}
 	}
 
-	public function testCasTtlNotChanged() {
+	public function testCasTtlNotChanged(): void {
 		$this->instance->set('foo', 'bar', 50);
 		$this->assertTrue($this->instance->compareSetTTL('foo', 'bar', 100));
 		// allow for 1s of inaccuracy due to time moving forward
 		$this->assertLessThan(1, 100 - $this->instance->getTTL('foo'));
 	}
 
-	public function testCasTtlChanged() {
+	public function testCasTtlChanged(): void {
 		$this->instance->set('foo', 'bar1', 50);
 		$this->assertFalse($this->instance->compareSetTTL('foo', 'bar', 100));
 		// allow for 1s of inaccuracy due to time moving forward

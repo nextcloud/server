@@ -20,10 +20,10 @@ use Sabre\VObject\Recur\NoInstancesException;
 use Test\TestCase;
 
 class RefreshWebcalServiceTest extends TestCase {
-	private CalDavBackend|MockObject $caldavBackend;
-	private Connection|MockObject $connection;
-	private LoggerInterface|MockObject $logger;
-	private ITimeFactory|MockObject $time;
+	private CalDavBackend&MockObject $caldavBackend;
+	private Connection&MockObject $connection;
+	private LoggerInterface&MockObject $logger;
+	private ITimeFactory&MockObject $time;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -34,13 +34,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->time = $this->createMock(ITimeFactory::class);
 	}
 
-	/**
-	 * @param string $body
-	 * @param string $contentType
-	 * @param string $result
-	 *
-	 * @dataProvider runDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
 	public function testRun(string $body, string $contentType, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getRandomCalendarObjectUri'])
@@ -87,13 +81,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @param string $body
-	 * @param string $contentType
-	 * @param string $result
-	 *
-	 * @dataProvider identicalDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('identicalDataProvider')]
 	public function testRunIdentical(string $uid, array $calendarObject, string $body, string $contentType, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getRandomCalendarObjectUri'])
@@ -208,13 +196,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @param string $body
-	 * @param string $contentType
-	 * @param string $result
-	 *
-	 * @dataProvider runDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
 	public function testRunCreateCalendarNoException(string $body, string $contentType, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription',])
@@ -252,19 +234,13 @@ class RefreshWebcalServiceTest extends TestCase {
 			->willThrowException($noInstanceException);
 
 		$this->logger->expects(self::once())
-			->method('error')
+			->method('warning')
 			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $noInstanceException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @param string $body
-	 * @param string $contentType
-	 * @param string $result
-	 *
-	 * @dataProvider runDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
 	public function testRunCreateCalendarBadRequest(string $body, string $contentType, string $result): void {
 		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
 			->onlyMethods(['getRandomCalendarObjectUri', 'getSubscription'])
@@ -302,16 +278,13 @@ class RefreshWebcalServiceTest extends TestCase {
 			->willThrowException($badRequestException);
 
 		$this->logger->expects(self::once())
-			->method('error')
+			->method('warning')
 			->with('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $badRequestException, 'subscriptionId' => '42', 'source' => 'webcal://foo.bar/bla2']);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 
-	/**
-	 * @return array
-	 */
-	public static function identicalDataProvider():array {
+	public static function identicalDataProvider(): array {
 		return [
 			[
 				'12345',
@@ -330,10 +303,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @return array
-	 */
-	public function runDataProvider():array {
+	public static function runDataProvider(): array {
 		return [
 			[
 				"BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.1//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:12345\r\nDTSTAMP:20160218T133704Z\r\nDTSTART;VALUE=DATE:19000101\r\nDTEND;VALUE=DATE:19000102\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:12345's Birthday (1900)\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n",

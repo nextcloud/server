@@ -45,14 +45,16 @@ class Tag extends Entity {
 	 * @todo migrate existing database columns to the correct names
 	 * to be able to drop this direct mapping
 	 */
-	public function columnToProperty($columnName) {
+	public function columnToProperty(string $columnName): string {
 		if ($columnName === 'category') {
 			return 'name';
-		} elseif ($columnName === 'uid') {
-			return 'owner';
-		} else {
-			return parent::columnToProperty($columnName);
 		}
+
+		if ($columnName === 'uid') {
+			return 'owner';
+		}
+
+		return parent::columnToProperty($columnName);
 	}
 
 	/**
@@ -61,13 +63,15 @@ class Tag extends Entity {
 	 * @param string $property the name of the property
 	 * @return string the column name
 	 */
-	public function propertyToColumn($property) {
+	public function propertyToColumn(string $property): string {
 		if ($property === 'name') {
 			return 'category';
-		} elseif ($property === 'owner') {
-			return 'uid';
-		} else {
-			return parent::propertyToColumn($property);
 		}
+
+		if ($property === 'owner') {
+			return 'uid';
+		}
+
+		return parent::propertyToColumn($property);
 	}
 }

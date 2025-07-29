@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,40 +16,34 @@ use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class SyncTest extends TestCase {
-	/** @var array */
-	protected $arguments;
-	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
-	protected $helper;
-	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
-	protected $ldapWrapper;
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
-	protected $mapper;
-	/** @var Sync */
-	protected $sync;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $avatarManager;
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $dbc;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $ncUserManager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
-	/** @var ConnectionFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $connectionFactory;
-	/** @var AccessFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $accessFactory;
+	protected Helper&MockObject $helper;
+	protected LDAP&MockObject $ldapWrapper;
+	protected Manager&MockObject $userManager;
+	protected UserMapping&MockObject $mapper;
+	protected IConfig&MockObject $config;
+	protected IAvatarManager&MockObject $avatarManager;
+	protected IDBConnection&MockObject $dbc;
+	protected IUserManager&MockObject $ncUserManager;
+	protected IManager&MockObject $notificationManager;
+	protected ConnectionFactory&MockObject $connectionFactory;
+	protected AccessFactory&MockObject $accessFactory;
+	protected array $arguments = [];
+	protected Sync $sync;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -62,26 +57,32 @@ class SyncTest extends TestCase {
 		$this->dbc = $this->createMock(IDBConnection::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
 		$this->notificationManager = $this->createMock(IManager::class);
-		$this->connectionFactory = $this->createMock(ConnectionFactory::class);
+		$this->connectionFactory = $this->getMockBuilder(ConnectionFactory::class)
+			->setConstructorArgs([
+				$this->ldapWrapper,
+			])
+			->getMock();
 		$this->accessFactory = $this->createMock(AccessFactory::class);
 
-		$this->arguments = [
-			'helper' => $this->helper,
-			'ldapWrapper' => $this->ldapWrapper,
-			'mapper' => $this->mapper,
-			'config' => $this->config,
-			'avatarManager' => $this->avatarManager,
-			'dbc' => $this->dbc,
-			'ncUserManager' => $this->ncUserManager,
-			'notificationManager' => $this->notificationManager,
-			'connectionFactory' => $this->connectionFactory,
-			'accessFactory' => $this->accessFactory,
-		];
+		$this->sync = new Sync(
+			Server::get(ITimeFactory::class),
+			Server::get(IEventDispatcher::class),
+			$this->config,
+			$this->dbc,
+			$this->avatarManager,
+			$this->ncUserManager,
+			Server::get(LoggerInterface::class),
+			$this->notificationManager,
+			$this->mapper,
+			$this->helper,
+			$this->connectionFactory,
+			$this->accessFactory,
+		);
 
-		$this->sync = new Sync($this->createMock(ITimeFactory::class));
+		$this->sync->overwritePropertiesForTest($this->ldapWrapper);
 	}
 
-	public function intervalDataProvider() {
+	public static function intervalDataProvider(): array {
 		return [
 			[
 				0, 1000, 750
@@ -101,10 +102,8 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider intervalDataProvider
-	 */
-	public function testUpdateInterval($userCount, $pagingSize1, $pagingSize2) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('intervalDataProvider')]
+	public function testUpdateInterval(int $userCount, int $pagingSize1, int $pagingSize2): void {
 		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('user_ldap', 'background_sync_interval', $this->anything())
@@ -134,7 +133,7 @@ class SyncTest extends TestCase {
 		$this->sync->updateInterval();
 	}
 
-	public function moreResultsProvider() {
+	public static function moreResultsProvider(): array {
 		return [
 			[ 3, 3, true ],
 			[ 3, 5, true ],
@@ -144,11 +143,13 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider moreResultsProvider
-	 */
-	public function testMoreResults($pagingSize, $results, $expected) {
-		$connection = $this->createMock(Connection::class);
+	#[\PHPUnit\Framework\Attributes\DataProvider('moreResultsProvider')]
+	public function testMoreResults($pagingSize, $results, $expected): void {
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([
+				$this->ldapWrapper,
+			])
+			->getMock();
 		$this->connectionFactory->expects($this->any())
 			->method('get')
 			->willReturn($connection);
@@ -161,7 +162,7 @@ class SyncTest extends TestCase {
 				return null;
 			});
 
-		/** @var Access|\PHPUnit\Framework\MockObject\MockObject $access */
+		/** @var Access&MockObject $access */
 		$access = $this->createMock(Access::class);
 		$this->accessFactory->expects($this->any())
 			->method('get')
@@ -186,7 +187,7 @@ class SyncTest extends TestCase {
 		$this->assertSame($expected, $hasMoreResults);
 	}
 
-	public function cycleDataProvider() {
+	public static function cycleDataProvider(): array {
 		$lastCycle = ['prefix' => 's01', 'offset' => 1000];
 		$lastCycle2 = ['prefix' => '', 'offset' => 1000];
 		return [
@@ -199,22 +200,24 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider cycleDataProvider
-	 */
-	public function testDetermineNextCycle($cycleData, $prefixes, $expectedCycle) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('cycleDataProvider')]
+	public function testDetermineNextCycle(?array $cycleData, array $prefixes, ?array $expectedCycle): void {
 		$this->helper->expects($this->any())
 			->method('getServerConfigurationPrefixes')
 			->with(true)
 			->willReturn($prefixes);
 
 		if (is_array($expectedCycle)) {
+			$calls = [
+				['user_ldap', 'background_sync_prefix', $expectedCycle['prefix']],
+				['user_ldap', 'background_sync_offset', $expectedCycle['offset']],
+			];
 			$this->config->expects($this->exactly(2))
 				->method('setAppValue')
-				->withConsecutive(
-					['user_ldap', 'background_sync_prefix', $expectedCycle['prefix']],
-					['user_ldap', 'background_sync_offset', $expectedCycle['offset']]
-				);
+				->willReturnCallback(function () use (&$calls): void {
+					$expected = array_shift($calls);
+					$this->assertEquals($expected, func_get_args());
+				});
 		} else {
 			$this->config->expects($this->never())
 				->method('setAppValue');
@@ -231,7 +234,7 @@ class SyncTest extends TestCase {
 		}
 	}
 
-	public function testQualifiesToRun() {
+	public function testQualifiesToRun(): void {
 		$cycleData = ['prefix' => 's01'];
 
 		$this->config->expects($this->exactly(2))
@@ -243,7 +246,7 @@ class SyncTest extends TestCase {
 		$this->assertFalse($this->sync->qualifiesToRun($cycleData));
 	}
 
-	public function runDataProvider() {
+	public static function runDataProvider(): array {
 		return [
 			#0 - one LDAP server, reset
 			[[
@@ -275,10 +278,8 @@ class SyncTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider runDataProvider
-	 */
-	public function testRun($runData) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('runDataProvider')]
+	public function testRun(array $runData): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(function ($app, $key, $default) use ($runData) {
@@ -305,13 +306,18 @@ class SyncTest extends TestCase {
 
 				return $default;
 			});
+
+		$calls = [
+			['user_ldap', 'background_sync_prefix', $runData['expectedNextCycle']['prefix']],
+			['user_ldap', 'background_sync_offset', $runData['expectedNextCycle']['offset']],
+			['user_ldap', 'background_sync_interval', '43200'],
+		];
 		$this->config->expects($this->exactly(3))
 			->method('setAppValue')
-			->withConsecutive(
-				['user_ldap', 'background_sync_prefix', $runData['expectedNextCycle']['prefix']],
-				['user_ldap', 'background_sync_offset', $runData['expectedNextCycle']['offset']],
-				['user_ldap', 'background_sync_interval', $this->anything()]
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->config->expects($this->any())
 			->method('getAppKeys')
 			->with('user_ldap')
@@ -322,7 +328,11 @@ class SyncTest extends TestCase {
 			->with(true)
 			->willReturn($runData['prefixes']);
 
-		$connection = $this->createMock(Connection::class);
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([
+				$this->ldapWrapper,
+			])
+			->getMock();
 		$this->connectionFactory->expects($this->any())
 			->method('get')
 			->willReturn($connection);
@@ -335,7 +345,7 @@ class SyncTest extends TestCase {
 				return null;
 			});
 
-		/** @var Access|\PHPUnit\Framework\MockObject\MockObject $access */
+		/** @var Access&MockObject $access */
 		$access = $this->createMock(Access::class);
 		$this->accessFactory->expects($this->any())
 			->method('get')

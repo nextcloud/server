@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests;
+namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\DataDirectoryProtected;
 use OCP\Http\Client\IClientService;
@@ -20,19 +20,17 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class DataDirectoryProtectedTest extends TestCase {
-	private IL10N|MockObject $l10n;
-	private IConfig|MockObject $config;
-	private IURLGenerator|MockObject $urlGenerator;
-	private IClientService|MockObject $clientService;
-	private LoggerInterface|MockObject $logger;
-	private DataDirectoryProtected|MockObject $setupcheck;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IClientService&MockObject $clientService;
+	private LoggerInterface&MockObject $logger;
+	private DataDirectoryProtected&MockObject $setupcheck;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var IL10N|MockObject */
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($message, array $replace) {
@@ -56,9 +54,7 @@ class DataDirectoryProtectedTest extends TestCase {
 			->getMock();
 	}
 
-	/**
-	 * @dataProvider dataTestStatusCode
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestStatusCode')]
 	public function testStatusCode(array $status, string $expected, bool $hasBody): void {
 		$responses = array_map(function ($state) use ($hasBody) {
 			$response = $this->createMock(IResponse::class);
@@ -74,14 +70,14 @@ class DataDirectoryProtectedTest extends TestCase {
 
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturn('');
 
 		$result = $this->setupcheck->run();
 		$this->assertEquals($expected, $result->getSeverity());
 	}
 
-	public function dataTestStatusCode(): array {
+	public static function dataTestStatusCode(): array {
 		return [
 			'success: forbidden access' => [[403], SetupResult::SUCCESS, true],
 			'success: forbidden access with redirect' => [[200], SetupResult::SUCCESS, false],
@@ -102,7 +98,7 @@ class DataDirectoryProtectedTest extends TestCase {
 
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturn('');
 
 		$result = $this->setupcheck->run();

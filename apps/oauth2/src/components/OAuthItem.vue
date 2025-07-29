@@ -10,7 +10,8 @@
 		<td>
 			<div class="action-secret">
 				<code>{{ renderedSecret }}</code>
-				<NcButton type="tertiary-no-background"
+				<NcButton v-if="clientSecret !== ''"
+					type="tertiary-no-background"
 					:aria-label="toggleAriaLabel"
 					@click="toggleSecret">
 					<template #icon>
@@ -34,9 +35,9 @@
 
 <script>
 
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
 import EyeOutline from 'vue-material-design-icons/EyeOutline.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
 	name: 'OAuthItem',
@@ -89,13 +90,16 @@ export default {
 		display: flex;
 		align-items: center;
 	}
+
 	.action-secret code {
 		padding-top: 5px;
 	}
+
 	td code {
 		display: inline-block;
 		vertical-align: middle;
 	}
+
 	table.inline td {
 		border: none;
 		padding: 5px;
@@ -104,6 +108,6 @@ export default {
 	.action-column {
 		display: flex;
 		justify-content: flex-end;
-		padding-right: 0;
+		padding-inline-end: 0;
 	}
 </style>
