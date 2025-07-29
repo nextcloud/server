@@ -6,12 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+use OC\App\AppManager;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -239,49 +241,12 @@ class OC_App {
 	 *
 	 * If multiple copies are found, the apps root the latest version is returned.
 	 *
-	 * @param string $appId
 	 * @param bool $ignoreCache ignore cache and rebuild it
 	 * @return false|array{path: string, url: string} the apps root shape
+	 * @deprecated 32.0.0 internal, use getAppPath or getAppWebPath
 	 */
 	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
-		$sanitizedAppId = self::cleanAppId($appId);
-		if ($sanitizedAppId !== $appId) {
-			return false;
-		}
-		static $app_dir = [];
-
-		if (isset($app_dir[$appId]) && !$ignoreCache) {
-			return $app_dir[$appId];
-		}
-
-		$possibleApps = [];
-		foreach (OC::$APPSROOTS as $dir) {
-			if (file_exists($dir['path'] . '/' . $appId)) {
-				$possibleApps[] = $dir;
-			}
-		}
-
-		if (empty($possibleApps)) {
-			return false;
-		} elseif (count($possibleApps) === 1) {
-			$dir = array_shift($possibleApps);
-			$app_dir[$appId] = $dir;
-			return $dir;
-		} else {
-			$versionToLoad = [];
-			foreach ($possibleApps as $possibleApp) {
-				$version = self::getAppVersionByPath($possibleApp['path'] . '/' . $appId);
-				if (empty($versionToLoad) || version_compare($version, $versionToLoad['version'], '>')) {
-					$versionToLoad = [
-						'dir' => $possibleApp,
-						'version' => $version,
-					];
-				}
-			}
-			$app_dir[$appId] = $versionToLoad['dir'];
-			return $versionToLoad['dir'];
-			//TODO - write test
-		}
+		return Server::get(AppManager::class)->findAppInDirectories($appId, $ignoreCache);
 	}
 
 	/**
@@ -296,17 +261,11 @@ class OC_App {
 	 * @deprecated 11.0.0 use Server::get(IAppManager)->getAppPath()
 	 */
 	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
-		$appId = self::cleanAppId($appId);
-		if ($appId === '') {
+		try {
+			return Server::get(IAppManager::class)->getAppPath($appId, $refreshAppPath);
+		} catch (AppPathNotFoundException) {
 			return false;
-		} elseif ($appId === 'core') {
-			return __DIR__ . '/../../../core';
 		}
-
-		if (($dir = self::findAppInDirectories($appId, $refreshAppPath)) != false) {
-			return $dir['path'] . '/' . $appId;
-		}
-		return false;
 	}
 
 	/**
@@ -315,20 +274,20 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @return string|false
-	 * @deprecated 18.0.0 use \OC::$server->getAppManager()->getAppWebPath()
+	 * @deprecated 18.0.0 use Server::get(IAppManager)->getAppWebPath()
 	 */
 	public static function getAppWebPath(string $appId) {
-		if (($dir = self::findAppInDirectories($appId)) != false) {
-			return OC::$WEBROOT . $dir['url'] . '/' . $appId;
+		try {
+			return Server::get(IAppManager::class)->getAppWebPath($appId);
+		} catch (AppPathNotFoundException) {
+			return false;
 		}
-		return false;
 	}
 
 	/**
 	 * get app's version based on it's path
 	 *
-	 * @param string $path
-	 * @return string
+	 * @deprecated 32.0.0 use Server::get(IAppManager)->getAppInfoByPath() with the path to info.xml directly
 	 */
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';

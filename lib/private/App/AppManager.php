@@ -678,29 +678,87 @@ class AppManager implements IAppManager {
 	/**
 	 * Get the directory for the given app.
 	 *
+	 * @psalm-taint-specialize
+	 *
 	 * @throws AppPathNotFoundException if app folder can't be found
 	 */
 	public function getAppPath(string $appId, bool $ignoreCache = false): string {
-		$appPath = \OC_App::getAppPath($appId, $ignoreCache);
-		if ($appPath === false) {
-			throw new AppPathNotFoundException('Could not find path for ' . $appId);
+		$appId = $this->cleanAppId($appId);
+		if ($appId === '') {
+			throw new AppPathNotFoundException('App id is empty');
+		} elseif ($appId === 'core') {
+			return __DIR__ . '/../../../core';
 		}
-		return $appPath;
+
+		if (($dir = $this->findAppInDirectories($appId, $ignoreCache)) != false) {
+			return $dir['path'] . '/' . $appId;
+		}
+		throw new AppPathNotFoundException('Could not find path for ' . $appId);
 	}
 
 	/**
 	 * Get the web path for the given app.
 	 *
-	 * @param string $appId
-	 * @return string
 	 * @throws AppPathNotFoundException if app path can't be found
 	 */
 	public function getAppWebPath(string $appId): string {
-		$appWebPath = \OC_App::getAppWebPath($appId);
-		if ($appWebPath === false) {
-			throw new AppPathNotFoundException('Could not find web path for ' . $appId);
+		if (($dir = $this->findAppInDirectories($appId)) != false) {
+			return \OC::$WEBROOT . $dir['url'] . '/' . $appId;
 		}
-		return $appWebPath;
+		throw new AppPathNotFoundException('Could not find web path for ' . $appId);
+	}
+
+	/**
+	 * Find the apps root for an app id.
+	 *
+	 * If multiple copies are found, the apps root the latest version is returned.
+	 *
+	 * @param bool $ignoreCache ignore cache and rebuild it
+	 * @return false|array{path: string, url: string} the apps root shape
+	 */
+	public function findAppInDirectories(string $appId, bool $ignoreCache = false) {
+		$sanitizedAppId = $this->cleanAppId($appId);
+		if ($sanitizedAppId !== $appId) {
+			return false;
+		}
+		// FIXME replace by a property or a cache
+		static $app_dir = [];
+
+		if (isset($app_dir[$appId]) && !$ignoreCache) {
+			return $app_dir[$appId];
+		}
+
+		$possibleApps = [];
+		foreach (\OC::$APPSROOTS as $dir) {
+			if (file_exists($dir['path'] . '/' . $appId)) {
+				$possibleApps[] = $dir;
+			}
+		}
+
+		if (empty($possibleApps)) {
+			return false;
+		} elseif (count($possibleApps) === 1) {
+			$dir = array_shift($possibleApps);
+			$app_dir[$appId] = $dir;
+			return $dir;
+		} else {
+			$versionToLoad = [];
+			foreach ($possibleApps as $possibleApp) {
+				$appData = $this->getAppInfoByPath($possibleApp['path'] . '/' . $appId . '/appinfo/info.xml');
+				$version = $appData['version'] ?? '';
+				if (empty($versionToLoad) || version_compare($version, $versionToLoad['version'], '>')) {
+					$versionToLoad = [
+						'dir' => $possibleApp,
+						'version' => $version,
+					];
+				}
+			}
+			if (!isset($versionToLoad['dir'])) {
+				return false;
+			}
+			$app_dir[$appId] = $versionToLoad['dir'];
+			return $versionToLoad['dir'];
+		}
 	}
 
 	/**
