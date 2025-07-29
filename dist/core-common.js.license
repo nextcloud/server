@@ -121,7 +121,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.5.1
+	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.1
@@ -142,7 +142,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.11.0
+	- version: 3.12.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -166,7 +166,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.4
+	- version: 0.2.5
 	- license: GPL-3.0-or-later
 - @nextcloud/upload
 	- version: 1.10.0
