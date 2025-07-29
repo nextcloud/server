@@ -10,6 +10,7 @@ namespace OC\Core\AppInfo;
 
 use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\ILexicon;
+use OCP\Config\Lexicon\Preset;
 use OCP\Config\Lexicon\Strictness;
 use OCP\Config\ValueType;
 
@@ -20,6 +21,7 @@ use OCP\Config\ValueType;
  */
 class ConfigLexicon implements ILexicon {
 	public const SHAREAPI_ALLOW_FEDERATION_ON_PUBLIC_SHARES = 'shareapi_allow_federation_on_public_shares';
+	public const SHARE_CUSTOM_TOKEN = 'shareapi_allow_custom_tokens';
 
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
@@ -33,6 +35,17 @@ class ConfigLexicon implements ILexicon {
 				defaultRaw: true,
 				definition: 'adds share permission to public shares to allow adding them to your Nextcloud (federation)',
 				lazy: true,
+			),
+			new Entry(
+				key: self::SHARE_CUSTOM_TOKEN,
+				type: ValueType::BOOL,
+				defaultRaw: fn (Preset $p): bool => match ($p) {
+					Preset::FAMILY, Preset::PRIVATE => true,
+					default => false,
+				},
+				definition: 'Allow users to set custom share link tokens',
+				lazy: true,
+				note: 'Shares with guessable tokens may be accessed easily. Shares with custom tokens will continue to be accessible after this setting has been disabled.',
 			),
 		];
 	}
