@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { User } from '@nextcloud/cypress'
-import { createShare, openSharingPanel } from './FilesSharingUtils.ts'
+import { createShare, openSharingDetails, openSharingPanel } from './FilesSharingUtils.ts'
 import { navigateToFolder } from '../files/FilesUtils.ts'
 
 describe('files_sharing: Note to recipient', { testIsolation: true }, () => {
@@ -76,11 +76,9 @@ describe('files_sharing: Note to recipient', { testIsolation: true }, () => {
 
 		// open the sharing tab
 		openSharingPanel('folder')
+		openSharingDetails(0)
 
-		cy.get('[data-cy-sidebar]').within(() => {
-			// Open the share
-			cy.get('[data-cy-files-sharing-share-actions]').first().click({ force: true })
-
+		cy.get('[#app-sidebar-vue]').within(() => {
 			cy.findByRole('checkbox', { name: /note to recipient/i })
 				.and('be.checked')
 			cy.findByRole('textbox', { name: /note to recipient/i })
