@@ -45,6 +45,7 @@ use OCA\DAV\Connector\Sabre\FilesReportPlugin;
 use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
+use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
@@ -120,6 +121,7 @@ class Server {
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
+		$this->server->setLogger($logger);
 
 		// Add maintenance plugin
 		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
@@ -139,6 +141,7 @@ class Server {
 		$this->server->httpRequest->setUrl($this->request->getRequestUri());
 		$this->server->setBaseUri($this->baseUri);
 
+		$this->server->addPlugin(new PropFindMonitorPlugin());
 		$this->server->addPlugin(new ProfilerPlugin($this->request));
 		$this->server->addPlugin(new BlockLegacyClientPlugin(
 			\OCP\Server::get(IConfig::class),

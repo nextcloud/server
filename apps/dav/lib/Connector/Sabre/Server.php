@@ -7,7 +7,11 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\DB\Connection;
+use Override;
 use Sabre\DAV\Exception;
+use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
 use Sabre\DAV\Version;
 use TypeError;
 
@@ -22,12 +26,108 @@ class Server extends \Sabre\DAV\Server {
 	/** @var CachingTree $tree */
 
 	/**
+	 * Tracks queries done by plugins.
+	 * @var array<int, array<string, array{nodes:int, queries:int}>>
+	 */
+	private array $pluginQueries = [];
+
+	/**
 	 * @see \Sabre\DAV\Server
 	 */
 	public function __construct($treeOrNode = null) {
 		parent::__construct($treeOrNode);
 		self::$exposeVersion = false;
 		$this->enablePropfindDepthInfinity = true;
+	}
+
+	#[Override]
+	public function once(
+		string $eventName,
+		callable $callBack,
+		int $priority = 100,
+	): void {
+		$this->monitorPropfindQueries(
+			parent::once(...),
+			$eventName,
+			$callBack,
+			$priority
+		);
+	}
+
+	#[Override]
+	public function on(
+		string $eventName,
+		callable $callBack,
+		int $priority = 100,
+	): void {
+		$this->monitorPropfindQueries(
+			parent::on(...),
+			$eventName,
+			$callBack,
+			$priority
+		);
+	}
+
+	private function monitorPropfindQueries(
+		callable $parentFn,
+		string $eventName,
+		callable $callBack,
+		int $priority = 100,
+	): void {
+		if ($eventName !== 'propFind') {
+			$parentFn($eventName, $callBack, $priority);
+			return;
+		}
+
+		$plugin = basename(
+			debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)
+			[2]['class']
+		);
+		$callback = $this->getMonitoredCallback($callBack, $plugin);
+
+		$parentFn($eventName, $callback, $priority);
+	}
+
+	public function getMonitoredCallback(
+		callable $callBack,
+		string $plugin,
+	): callable {
+		return function (PropFind $propFind, INode $node) use (
+			$callBack,
+			$plugin,
+		) {
+			$connection = \OCP\Server::get(Connection::class);
+			$queriesBefore = $connection->getStats()['executed'];
+			$callBack($propFind, $node);
+			$queriesAfter = $connection->getStats()['executed'];
+			$this->trackPluginQueries(
+				$plugin,
+				$queriesAfter - $queriesBefore,
+				$propFind->getDepth()
+			);
+		};
+	}
+
+	private function trackPluginQueries(
+		string $plugin,
+		int $queriesExecuted,
+		int $depth,
+	): void {
+		if (empty($this->pluginQueries[$depth][$plugin])) {
+			$this->pluginQueries[$depth][$plugin] = [
+				'nodes' => 1,
+				'queries' => $queriesExecuted,
+			];
+			return;
+		}
+
+		// report only nodes which cause a query
+		if ($queriesExecuted === 0) {
+			return;
+		}
+
+		$this->pluginQueries[$depth][$plugin]['nodes']++;
+		$this->pluginQueries[$depth][$plugin]['queries'] += $queriesExecuted;
 	}
 
 	/**
@@ -114,5 +214,12 @@ class Server extends \Sabre\DAV\Server {
 			$this->httpResponse->setBody($DOM->saveXML());
 			$this->sapi->sendResponse($this->httpResponse);
 		}
+	}
+
+	/**
+	 * @return array<int, array<string, array{nodes:int, queries:int}>>
+	 */
+	public function getPluginQueries(): array {
+		return $this->pluginQueries;
 	}
 }
