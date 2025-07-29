@@ -1055,7 +1055,10 @@ class AppManager implements IAppManager {
 		$this->clearAppsCache();
 		$this->getAppVersion($appId, false);
 
-		\OC_App::setupBackgroundJobs($appData['background-jobs']);
+		// Setup background jobs
+		foreach ($appData['background-jobs'] as $job) {
+			$queue->add($job);
+		}
 
 		//set remote/public handlers
 		foreach ($appData['remote'] as $name => $path) {
