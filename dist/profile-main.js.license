@@ -70,7 +70,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.1
 	- license: BSD-2-Clause
 - @nextcloud/auth
-	- version: 2.5.1
+	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.1
@@ -103,7 +103,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.4
+	- version: 0.2.5
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
