@@ -181,8 +181,12 @@
                         "$ref": "#/components/schemas/TaskProcessingIO"
                     },
                     "output": {
-                        "$ref": "#/components/schemas/TaskProcessingIO",
-                        "nullable": true
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskProcessingIO"
+                            }
+                        ]
                     },
                     "customId": {
                         "type": "string",

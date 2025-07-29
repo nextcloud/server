@@ -124,8 +124,12 @@
                         "type": "string"
                     },
                     "clearAt": {
-                        "$ref": "#/components/schemas/ClearAt",
-                        "nullable": true
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/ClearAt"
+                            }
+                        ]
                     }
                 }
             },

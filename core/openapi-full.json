@@ -675,8 +675,12 @@
                         "$ref": "#/components/schemas/TaskProcessingIO"
                     },
                     "output": {
-                        "$ref": "#/components/schemas/TaskProcessingIO",
-                        "nullable": true
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskProcessingIO"
+                            }
+                        ]
                     },
                     "customId": {
                         "type": "string",
@@ -3418,8 +3422,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3527,8 +3535,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3609,8 +3621,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3708,8 +3724,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3800,8 +3820,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3905,8 +3929,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
