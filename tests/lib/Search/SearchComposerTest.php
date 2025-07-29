@@ -9,10 +9,13 @@ declare(strict_types=1);
 
 namespace Test\Search;
 
+use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Search\SearchComposer;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\Search\ISearchQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -57,5 +60,17 @@ class SearchComposerTest extends TestCase {
 
 		$this->assertIsArray($providers);
 		$this->assertEmpty($providers);
+	}
+
+	public function testSearchWithUnknownProvider(): void {
+		$this->setupEmptyRegistrationContext();
+
+		$user = $this->createMock(IUser::class);
+		$query = $this->createMock(ISearchQuery::class);
+
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage('Provider unknown_provider is unknown');
+
+		$this->searchComposer->search($user, 'unknown_provider', $query);
 	}
 }
