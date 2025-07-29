@@ -156,6 +156,65 @@ class SearchComposerTest extends TestCase {
 		]);
 	}
 
+	public function testGetProvidersWithEmptyAllowedProvidersConfiguration(): void {
+		$providerConfigs = [
+			'provider1' => ['service' => 'provider1_service', 'appId' => 'app1', 'order' => 10],
+			'provider2' => ['service' => 'provider2_service', 'appId' => 'app2', 'order' => 5],
+		];
+
+		$mockData = $this->createMockProvidersAndRegistrations($providerConfigs);
+		$this->setupRegistrationContextWithProviders($mockData['registrations']);
+		$this->setupAppConfigForAllowedProviders();
+
+		$providers = $this->searchComposer->getProviders('/test/route', []);
+
+		$this->assertCount(2, $providers);
+		$this->assertProvidersAreSortedByOrder($providers);
+		$this->assertEquals('provider2', $providers[0]['id']);
+		$this->assertEquals('provider1', $providers[1]['id']);
+	}
+
+	public function testGetProvidersWithAllowedProvidersRestriction(): void {
+		$providerConfigs = [
+			'provider1' => ['service' => 'provider1_service', 'appId' => 'app1', 'order' => 10],
+			'provider2' => ['service' => 'provider2_service', 'appId' => 'app2', 'order' => 5],
+			'provider3' => ['service' => 'provider3_service', 'appId' => 'app3', 'order' => 15],
+			'provider4' => ['service' => 'provider4_service', 'appId' => 'app4', 'order' => 8],
+		];
+
+		$mockData = $this->createMockProvidersAndRegistrations($providerConfigs);
+		$this->setupRegistrationContextWithProviders($mockData['registrations']);
+		$this->setupAppConfigForAllowedProviders(['provider1', 'provider3']);
+
+		$providers = $this->searchComposer->getProviders('/test/route', []);
+
+		$this->assertProvidersStructureAndSorting($providers, [
+			['id' => 'provider1', 'name' => 'Provider provider1', 'appId' => 'app1', 'order' => 10, 'inAppSearch' => false],
+			['id' => 'provider3', 'name' => 'Provider provider3', 'appId' => 'app3', 'order' => 15, 'inAppSearch' => false],
+		]);
+
+		// Verify excluded providers are not present
+		$providerIds = array_column($providers, 'id');
+		$this->assertNotContains('provider2', $providerIds);
+		$this->assertNotContains('provider4', $providerIds);
+	}
+
+	public function testGetProvidersFiltersByAllowedProvidersCompletely(): void {
+		$providerConfigs = [
+			'provider1' => ['service' => 'provider1_service', 'appId' => 'app1', 'order' => 10],
+			'provider2' => ['service' => 'provider2_service', 'appId' => 'app2', 'order' => 5],
+		];
+
+		$mockData = $this->createMockProvidersAndRegistrations($providerConfigs);
+		$this->setupRegistrationContextWithProviders($mockData['registrations']);
+		$this->setupAppConfigForAllowedProviders(['provider_not_exists']);
+
+		$providers = $this->searchComposer->getProviders('/test/route', []);
+
+		$this->assertIsArray($providers);
+		$this->assertEmpty($providers);
+	}
+
 	public function testProviderIconGeneration(): void {
 		$providerConfigs = [
 			'provider1' => ['service' => 'provider1_service', 'appId' => 'app1', 'order' => 10],
