@@ -11,10 +11,14 @@ namespace Test\Search;
 
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\AppFramework\Bootstrap\RegistrationContext;
+use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Search\SearchComposer;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Search\IInAppSearch;
+use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
@@ -45,12 +49,70 @@ class SearchComposerTest extends TestCase {
 			$this->logger,
 			$this->appConfig
 		);
+
+		$this->setupUrlGenerator();
+	}
+
+	private function setupUrlGenerator(): void {
+		$this->urlGenerator->method('imagePath')
+			->willReturnCallback(function ($appId, $imageName) {
+				return "/apps/$appId/img/$imageName";
+			});
 	}
 
 	private function setupEmptyRegistrationContext(): void {
 		$this->bootstrapCoordinator->expects($this->once())
 			->method('getRegistrationContext')
 			->willReturn(null);
+	}
+
+	private function setupAppConfigForAllowedProviders(array $allowedProviders = []): void {
+		$this->appConfig->method('getValueArray')
+			->with('core', 'unified_search.providers_allowed')
+			->willReturn($allowedProviders);
+	}
+
+	/**
+	 * @param array<string, array{service: string, appId: string, order: int, isInApp?: bool}> $providerConfigs
+	 * @return array{registrations: ServiceRegistration[], providers: IProvider[]}
+	 */
+	private function createMockProvidersAndRegistrations(array $providerConfigs): array {
+		$registrations = [];
+		$providers = [];
+		$containerMap = [];
+
+		foreach ($providerConfigs as $providerId => $config) {
+			// Create registration mock
+			$registration = $this->createMock(ServiceRegistration::class);
+			$registration->method('getService')->willReturn($config['service']);
+			$registration->method('getAppId')->willReturn($config['appId']);
+			$registrations[] = $registration;
+
+			// Create provider mock
+			$providerClass = $config['isInApp'] ?? false ? IInAppSearch::class : IProvider::class;
+			$provider = $this->createMock($providerClass);
+			$provider->method('getId')->willReturn($providerId);
+			$provider->method('getName')->willReturn("Provider $providerId");
+			$provider->method('getOrder')->willReturn($config['order']);
+
+			$providers[$providerId] = $provider;
+			$containerMap[] = [$config['service'], $provider];
+		}
+
+		$this->container->expects($this->exactly(count($providerConfigs)))
+			->method('get')
+			->willReturnMap($containerMap);
+
+		return ['registrations' => $registrations, 'providers' => $providers];
+	}
+
+	private function setupRegistrationContextWithProviders(array $registrations): void {
+		$registrationContext = $this->createMock(RegistrationContext::class);
+		$registrationContext->method('getSearchProviders')->willReturn($registrations);
+
+		$this->bootstrapCoordinator->expects($this->once())
+			->method('getRegistrationContext')
+			->willReturn($registrationContext);
 	}
 
 	public function testGetProvidersWithNoRegisteredProviders(): void {
@@ -72,5 +134,60 @@ class SearchComposerTest extends TestCase {
 		$this->expectExceptionMessage('Provider unknown_provider is unknown');
 
 		$this->searchComposer->search($user, 'unknown_provider', $query);
+	}
+
+	public function testGetProvidersWithMultipleProviders(): void {
+		$providerConfigs = [
+			'provider1' => ['service' => 'provider1_service', 'appId' => 'app1', 'order' => 10],
+			'provider2' => ['service' => 'provider2_service', 'appId' => 'app2', 'order' => 5],
+			'provider3' => ['service' => 'provider3_service', 'appId' => 'app3', 'order' => 15, 'isInApp' => true],
+		];
+
+		$mockData = $this->createMockProvidersAndRegistrations($providerConfigs);
+		$this->setupRegistrationContextWithProviders($mockData['registrations']);
+		$this->setupAppConfigForAllowedProviders();
+
+		$providers = $this->searchComposer->getProviders('/test/route', []);
+
+		$this->assertProvidersStructureAndSorting($providers, [
+			['id' => 'provider2', 'name' => 'Provider provider2', 'appId' => 'app2', 'order' => 5, 'inAppSearch' => false],
+			['id' => 'provider1', 'name' => 'Provider provider1', 'appId' => 'app1', 'order' => 10, 'inAppSearch' => false],
+			['id' => 'provider3', 'name' => 'Provider provider3', 'appId' => 'app3', 'order' => 15, 'inAppSearch' => true],
+		]);
+	}
+
+	/**
+	 * Assert providers array structure and expected sorting
+	 */
+	private function assertProvidersStructureAndSorting(array $actualProviders, array $expectedProviders): void {
+		$this->assertIsArray($actualProviders);
+		$this->assertCount(count($expectedProviders), $actualProviders);
+
+		foreach ($actualProviders as $index => $provider) {
+			$this->assertProviderHasRequiredFields($provider);
+
+			$expected = $expectedProviders[$index];
+			$this->assertEquals($expected['id'], $provider['id']);
+			$this->assertEquals($expected['name'], $provider['name']);
+			$this->assertEquals($expected['appId'], $provider['appId']);
+			$this->assertEquals($expected['order'], $provider['order']);
+			$this->assertEquals($expected['inAppSearch'], $provider['inAppSearch']);
+		}
+
+		$this->assertProvidersAreSortedByOrder($actualProviders);
+	}
+
+	private function assertProviderHasRequiredFields(array $provider): void {
+		$requiredFields = ['id', 'appId', 'name', 'icon', 'order', 'triggers', 'filters', 'inAppSearch'];
+		foreach ($requiredFields as $field) {
+			$this->assertArrayHasKey($field, $provider, "Provider must have '$field' field");
+		}
+	}
+
+	private function assertProvidersAreSortedByOrder(array $providers): void {
+		$orders = array_column($providers, 'order');
+		$sortedOrders = $orders;
+		sort($sortedOrders);
+		$this->assertEquals($sortedOrders, $orders, 'Providers should be sorted by order');
 	}
 }
