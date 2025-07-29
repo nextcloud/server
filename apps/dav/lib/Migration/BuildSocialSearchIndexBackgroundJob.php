@@ -15,6 +15,7 @@ use OCP\BackgroundJob\QueuedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV;
 
 class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 	public function __construct(
@@ -75,6 +76,8 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 			if (is_resource($cardData) && (get_resource_type($cardData) === 'stream')) {
 				$cardData = stream_get_contents($cardData);
 			}
+			// Converting to UTF-8, if needed
+			$cardData = DAV\StringUtil::ensureUTF8($cardData);
 			$this->davBackend->updateCard($contact['addressbookid'], $contact['uri'], $cardData);
 
 			// stop after 15sec (to be continued with next chunk)
