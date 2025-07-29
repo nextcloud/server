@@ -7,6 +7,7 @@ import type { FileStat } from 'webdav'
 import { davRemoteURL, davRootPath } from '@nextcloud/files'
 import { getLanguage } from '@nextcloud/l10n'
 import { encodePath } from '@nextcloud/paths'
+import { getCurrentUser } from '@nextcloud/auth'
 import camelcase from 'camelcase'
 
 import { isNumber } from './numberUtil'
@@ -62,6 +63,24 @@ export function extractFilePaths(path: string): [string, string] {
 	const fileName = pathSections[pathSections.length - 1]
 	const dirPath = pathSections.slice(0, pathSections.length - 1).join('/')
 	return [dirPath, fileName]
+}
+
+/**
+ * Extract path from source
+ *
+ * @param source the full source URL
+ * @return path
+ */
+export function extractFilePathFromSource(source: string): string {
+	const uid = getCurrentUser()?.uid
+
+	if (uid) {
+		const path = source.split(`${uid}/`)[1]
+		if (path) {
+			return path
+		}
+	}
+	throw new Error(`Invalid source URL: ${source}. Unable to extract file paths.`)
 }
 
 /**
