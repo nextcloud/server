@@ -27,19 +27,22 @@ use Psr\Log\LoggerInterface;
  * @since 32.0.0
  */
 class ConfigManager {
-	/** @since 32.0.0 */
-	public const PRESET_CONFIGKEY = 'config_preset';
-
 	/** @var AppConfig|null $appConfig */
 	private ?IAppConfig $appConfig = null;
 	/** @var UserConfig|null $userConfig */
 	private ?IUserConfig $userConfig = null;
 
 	public function __construct(
-		private readonly IConfig $config,
 		private readonly LoggerInterface $logger,
 	) {
 	}
+
+	public function clearConfigCaches(): void {
+		$this->loadConfigServices();
+		$this->appConfig->clearCache();
+		$this->userConfig->clearCacheAll();
+	}
+
 
 	/**
 	 * Use the rename values from the list of ConfigLexiconEntry defined in each app ConfigLexicon
@@ -79,17 +82,6 @@ class ConfigManager {
 		// switch back to normal behavior
 		$this->appConfig->ignoreLexiconAliases(false);
 		$this->userConfig->ignoreLexiconAliases(false);
-	}
-
-	/**
-	 * store in config.php the new preset
-	 * refresh cached preset
-	 */
-	public function setLexiconPreset(Preset $preset): void {
-		$this->config->setSystemValue(self::PRESET_CONFIGKEY, $preset->value);
-		$this->loadConfigServices();
-		$this->appConfig->clearCache();
-		$this->userConfig->clearCacheAll();
 	}
 
 	/**

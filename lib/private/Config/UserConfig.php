@@ -68,11 +68,12 @@ class UserConfig implements IUserConfig {
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
-	private ?Preset $configLexiconPreset = null;
 
 	public function __construct(
 		protected IDBConnection $connection,
 		protected IConfig $config,
+		private readonly ConfigManager $configManager,
+		private readonly PresetManager $presetManager,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
 	) {
@@ -772,8 +773,7 @@ class UserConfig implements IUserConfig {
 		// interested to check options in case a modification of the value is needed
 		// ie inverting value from previous key when using lexicon option RENAME_INVERT_BOOLEAN
 		if ($origKey !== $key && $type === ValueType::BOOL) {
-			$configManager = Server::get(ConfigManager::class);
-			$value = ($configManager->convertToBool($value, $this->getLexiconEntry($app, $key))) ? '1' : '0';
+			$value = ($this->configManager->convertToBool($value, $this->getLexiconEntry($app, $key))) ? '1' : '0';
 		}
 
 		return $value;
@@ -1636,7 +1636,6 @@ class UserConfig implements IUserConfig {
 	public function clearCacheAll(): void {
 		$this->lazyLoaded = $this->fastLoaded = [];
 		$this->lazyCache = $this->fastCache = $this->valueDetails = $this->configLexiconDetails = [];
-		$this->configLexiconPreset = null;
 	}
 
 	/**
@@ -1937,7 +1936,7 @@ class UserConfig implements IUserConfig {
 
 		// only look for default if needed, default from Lexicon got priority if not overwritten by admin
 		if ($default !== null) {
-			$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->getLexiconPreset()) ?? $default;
+			$default = $this->getSystemDefault($app, $configValue) ?? $configValue->getDefault($this->presetManager->getLexiconPreset()) ?? $default;
 		}
 
 		// returning false will make get() returning $default and set() not changing value in database
@@ -2038,13 +2037,5 @@ class UserConfig implements IUserConfig {
 	 */
 	public function ignoreLexiconAliases(bool $ignore): void {
 		$this->ignoreLexiconAliases = $ignore;
-	}
-
-	private function getLexiconPreset(): Preset {
-		if ($this->configLexiconPreset === null) {
-			$this->configLexiconPreset = Preset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? Preset::NONE;
-		}
-
-		return $this->configLexiconPreset;
 	}
 }

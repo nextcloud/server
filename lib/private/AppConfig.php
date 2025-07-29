@@ -13,6 +13,7 @@ use InvalidArgumentException;
 use JsonException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
+use OC\Config\PresetManager;
 use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\ILexicon;
 use OCP\Config\Lexicon\Preset;
@@ -66,13 +67,14 @@ class AppConfig implements IAppConfig {
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
-	private ?Preset $configLexiconPreset = null;
 	/** @var ?array<string, string> */
 	private ?array $appVersionsCache = null;
 
 	public function __construct(
 		protected IDBConnection $connection,
 		protected IConfig $config,
+		private readonly ConfigManager $configManager,
+		private readonly PresetManager $presetManager,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
 	) {
@@ -520,8 +522,7 @@ class AppConfig implements IAppConfig {
 		// interested to check options in case a modification of the value is needed
 		// ie inverting value from previous key when using lexicon option RENAME_INVERT_BOOLEAN
 		if ($origKey !== $key && $type === self::VALUE_BOOL) {
-			$configManager = Server::get(ConfigManager::class);
-			$value = ($configManager->convertToBool($value, $this->getLexiconEntry($app, $key))) ? '1' : '0';
+			$value = ($this->configManager->convertToBool($value, $this->getLexiconEntry($app, $key))) ? '1' : '0';
 		}
 
 		return $value;
@@ -1108,7 +1109,7 @@ class AppConfig implements IAppConfig {
 		$this->assertParams($app, $key);
 		try {
 			$details = $this->getDetails($app, $key);
-		} catch (AppConfigUnknownKeyException $e) {
+		} catch (AppConfigUnknownKeyException) {
 			$details = [
 				'app' => $app,
 				'key' => $key
@@ -1129,7 +1130,7 @@ class AppConfig implements IAppConfig {
 				'valueType' => $lexiconEntry->getValueType(),
 				'valueTypeName' => $lexiconEntry->getValueType()->name,
 				'sensitive' => $lexiconEntry->isFlagged(self::FLAG_SENSITIVE),
-				'default' => $lexiconEntry->getDefault($this->getLexiconPreset()),
+				'default' => $lexiconEntry->getDefault($this->presetManager->getLexiconPreset()),
 				'definition' => $lexiconEntry->getDefinition(),
 				'note' => $lexiconEntry->getNote(),
 			]);
@@ -1228,7 +1229,6 @@ class AppConfig implements IAppConfig {
 	public function clearCache(bool $reload = false): void {
 		$this->lazyLoaded = $this->fastLoaded = false;
 		$this->lazyCache = $this->fastCache = $this->valueTypes = $this->configLexiconDetails = [];
-		$this->configLexiconPreset = null;
 
 		if (!$reload) {
 			return;
@@ -1714,7 +1714,7 @@ class AppConfig implements IAppConfig {
 		$lazy = $lexiconEntry->isLazy();
 		// only look for default if needed, default from Lexicon got priority
 		if ($default !== null) {
-			$default = $lexiconEntry->getDefault($this->getLexiconPreset()) ?? $default;
+			$default = $lexiconEntry->getDefault($this->presetManager->getLexiconPreset()) ?? $default;
 		}
 
 		if ($lexiconEntry->isFlagged(self::FLAG_SENSITIVE)) {
@@ -1800,14 +1800,6 @@ class AppConfig implements IAppConfig {
 	 */
 	public function ignoreLexiconAliases(bool $ignore): void {
 		$this->ignoreLexiconAliases = $ignore;
-	}
-
-	private function getLexiconPreset(): Preset {
-		if ($this->configLexiconPreset === null) {
-			$this->configLexiconPreset = Preset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? Preset::NONE;
-		}
-
-		return $this->configLexiconPreset;
 	}
 
 	/**
