@@ -45,9 +45,6 @@ use function str_starts_with;
  * @package OC\Share20
  */
 class DefaultShareProvider implements IShareProviderWithNotification, IShareProviderSupportsAccept, IShareProviderSupportsAllSharesInFolder {
-	// Special share type for user modified group shares
-	public const SHARE_TYPE_USERGROUP = 2;
-
 	public function __construct(
 		private IDBConnection $dbConn,
 		private IUserManager $userManager,
