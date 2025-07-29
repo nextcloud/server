@@ -581,13 +581,10 @@ class Manager implements IManager {
 	 * @param IShare $share
 	 */
 	protected function setLinkParent(IShare $share) {
-		// No sense in checking if the method is not there.
-		if (method_exists($share, 'setParent')) {
-			$storage = $share->getNode()->getStorage();
-			if ($storage->instanceOfStorage(SharedStorage::class)) {
-				/** @var \OCA\Files_Sharing\SharedStorage $storage */
-				$share->setParent($storage->getShareId());
-			}
+		$storage = $share->getNode()->getStorage();
+		if ($storage->instanceOfStorage(SharedStorage::class)) {
+			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+			$share->setParent((int)$storage->getShareId());
 		}
 	}
 
@@ -1009,7 +1006,6 @@ class Manager implements IManager {
 
 	/**
 	 * Delete all the children of this share
-	 * FIXME: remove once https://github.com/owncloud/core/pull/21660 is in
 	 *
 	 * @param IShare $share
 	 * @return IShare[] List of deleted shares

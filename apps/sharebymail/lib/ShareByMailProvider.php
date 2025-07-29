@@ -637,11 +637,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return $token;
 	}
 
-	/**
-	 * Get all children of this share
-	 *
-	 * @return IShare[]
-	 */
 	public function getChildren(IShare $parent): array {
 		$children = [];
 

@@ -4250,9 +4250,6 @@
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getParent]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Manager.php">
     <InvalidArgument>
@@ -4261,9 +4258,6 @@
     <UndefinedClass>
       <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getChildren]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/ProviderFactory.php">
     <InvalidReturnStatement>

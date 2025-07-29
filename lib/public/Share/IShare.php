@@ -530,6 +530,20 @@ interface IShare {
 	public function getToken();
 
 	/**
+	 * Set the parent of this share
+	 *
+	 * @since 9.0.0
+	 */
+	public function setParent(int $parent): self;
+
+	/**
+	 * Get the parent of this share.
+	 *
+	 * @since 9.0.0
+	 */
+	public function getParent(): ?int;
+
+	/**
 	 * Set the target path of this share relative to the recipients user folder.
 	 *
 	 * @param string $target
