@@ -9,6 +9,8 @@ namespace Test;
 
 use InvalidArgumentException;
 use OC\AppConfig;
+use OC\Config\ConfigManager;
+use OC\Config\PresetManager;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
@@ -29,6 +31,8 @@ class AppConfigTest extends TestCase {
 	protected IAppConfig $appConfig;
 	protected IDBConnection $connection;
 	private IConfig $config;
+	private ConfigManager $configManager;
+	private PresetManager $presetManager;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
 
@@ -99,6 +103,8 @@ class AppConfigTest extends TestCase {
 
 		$this->connection = Server::get(IDBConnection::class);
 		$this->config = Server::get(IConfig::class);
+		$this->configManager = Server::get(ConfigManager::class);
+		$this->presetManager = Server::get(PresetManager::class);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->crypto = Server::get(ICrypto::class);
 
@@ -190,6 +196,8 @@ class AppConfigTest extends TestCase {
 		$config = new AppConfig(
 			$this->connection,
 			$this->config,
+			$this->configManager,
+			$this->presetManager,
 			$this->logger,
 			$this->crypto,
 		);

@@ -327,22 +327,23 @@ class ProfileManager implements IProfileManager {
 
 	/**
 	 * modify property visibility, based on current Preset
+	 *
+	 * @psalm-suppress UnhandledMatchCondition if conditions are not met, we do not change $visibility
 	 */
 	private function applyDefaultProfilePreset(string $property, string &$visibility): void {
-		$overwrite = match($this->presetManager->getLexiconPreset()) {
-			Preset::SHARED, Preset::SCHOOL, Preset::UNIVERSITY => match($property) {
-				IAccountManager::PROPERTY_ADDRESS, IAccountManager::PROPERTY_EMAIL, IAccountManager::PROPERTY_PHONE => self::VISIBILITY_HIDE,
-			},
-			Preset::PRIVATE, Preset::FAMILY, Preset::CLUB => match($property) {
-				IAccountManager::PROPERTY_EMAIL => self::VISIBILITY_SHOW,
-			},
-			Preset::SMALL, Preset::MEDIUM, Preset::LARGE => match($property) {
-				IAccountManager::PROPERTY_EMAIL, IAccountManager::PROPERTY_PHONE => self::VISIBILITY_SHOW,
-			},
-			default => null,
-		};
-
-		if ($overwrite === null) {
+		try {
+			$overwrite = match ($this->presetManager->getLexiconPreset()) {
+				Preset::SHARED, Preset::SCHOOL, Preset::UNIVERSITY => match ($property) {
+					IAccountManager::PROPERTY_ADDRESS, IAccountManager::PROPERTY_EMAIL, IAccountManager::PROPERTY_PHONE => self::VISIBILITY_HIDE,
+				},
+				Preset::PRIVATE, Preset::FAMILY, Preset::CLUB => match ($property) {
+					IAccountManager::PROPERTY_EMAIL => self::VISIBILITY_SHOW,
+				},
+				Preset::SMALL, Preset::MEDIUM, Preset::LARGE => match ($property) {
+					IAccountManager::PROPERTY_EMAIL, IAccountManager::PROPERTY_PHONE => self::VISIBILITY_SHOW,
+				},
+			};
+		} catch (\UnhandledMatchError) {
 			return;
 		}
 

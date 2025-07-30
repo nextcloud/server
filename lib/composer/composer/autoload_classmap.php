@@ -1219,6 +1219,7 @@ return array(
     'OC\\Comments\\ManagerFactory' => $baseDir . '/lib/private/Comments/ManagerFactory.php',
     'OC\\Config' => $baseDir . '/lib/private/Config.php',
     'OC\\Config\\ConfigManager' => $baseDir . '/lib/private/Config/ConfigManager.php',
+    'OC\\Config\\PresetManager' => $baseDir . '/lib/private/Config/PresetManager.php',
     'OC\\Config\\UserConfig' => $baseDir . '/lib/private/Config/UserConfig.php',
     'OC\\Console\\Application' => $baseDir . '/lib/private/Console/Application.php',
     'OC\\Console\\TimestampFormatter' => $baseDir . '/lib/private/Console/TimestampFormatter.php',

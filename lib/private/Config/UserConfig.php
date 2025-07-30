@@ -18,7 +18,6 @@ use OCP\Config\Exceptions\UnknownKeyException;
 use OCP\Config\IUserConfig;
 use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\ILexicon;
-use OCP\Config\Lexicon\Preset;
 use OCP\Config\Lexicon\Strictness;
 use OCP\Config\ValueType;
 use OCP\DB\Exception as DBException;
@@ -27,7 +26,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**

@@ -16,7 +16,6 @@ use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\ILexicon;
-use OCP\Config\Lexicon\Preset;
 use OCP\Config\Lexicon\Strictness;
 use OCP\Config\ValueType;
 use OCP\DB\Exception as DBException;
@@ -28,7 +27,6 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
-use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -1136,7 +1134,7 @@ class AppConfig implements IAppConfig {
 			]);
 		}
 
-		return array_filter($details, static fn($v): bool => ($v !== null));
+		return array_filter($details, static fn ($v): bool => ($v !== null));
 	}
 
 	/**

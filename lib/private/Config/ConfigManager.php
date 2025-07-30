@@ -14,10 +14,8 @@ use OCP\App\IAppManager;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\IUserConfig;
 use OCP\Config\Lexicon\Entry;
-use OCP\Config\Lexicon\Preset;
 use OCP\Config\ValueType;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 

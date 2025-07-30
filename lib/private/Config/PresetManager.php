@@ -13,8 +13,6 @@ use OCP\IConfig;
 
 /**
  * tools to maintains configurations
- *
- * @since 32.0.0
  */
 class PresetManager {
 	private const PRESET_CONFIGKEY = 'config_preset';
@@ -37,6 +35,9 @@ class PresetManager {
 		$this->configManager->clearConfigCaches();
 	}
 
+	/**
+	 * returns currently selected Preset
+	 */
 	public function getLexiconPreset(): Preset {
 		if ($this->configLexiconPreset === null) {
 			$this->configLexiconPreset = Preset::tryFrom($this->config->getSystemValueInt(self::PRESET_CONFIGKEY, 0)) ?? Preset::NONE;
