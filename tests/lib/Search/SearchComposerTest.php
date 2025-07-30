@@ -215,6 +215,28 @@ class SearchComposerTest extends TestCase {
 		$this->assertEmpty($providers);
 	}
 
+	public function testGetProvidersWithMixedOrderValues(): void {
+		$providerConfigs = [
+			'provider1' => ['service' => 'provider1_service', 'appId' => 'app1', 'order' => 100],
+			'provider2' => ['service' => 'provider2_service', 'appId' => 'app2', 'order' => 1],
+			'provider3' => ['service' => 'provider3_service', 'appId' => 'app3', 'order' => 50],
+		];
+
+		$mockData = $this->createMockProvidersAndRegistrations($providerConfigs);
+		$this->setupRegistrationContextWithProviders($mockData['registrations']);
+		$this->setupAppConfigForAllowedProviders();
+
+		$providers = $this->searchComposer->getProviders('/test/route', []);
+
+		$this->assertCount(3, $providers);
+		$this->assertProvidersAreSortedByOrder($providers);
+
+		// Verify correct ordering: provider2 (1), provider3 (50), provider1 (100)
+		$this->assertEquals('provider2', $providers[0]['id']);
+		$this->assertEquals('provider3', $providers[1]['id']);
+		$this->assertEquals('provider1', $providers[2]['id']);
+	}
+
 	public function testProviderIconGeneration(): void {
 		$providerConfigs = [
 			'provider1' => ['service' => 'provider1_service', 'appId' => 'app1', 'order' => 10],
