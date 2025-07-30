@@ -124,19 +124,53 @@ jobs:
           fallbackNpm: '^10'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
 
       - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
         run: npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'
-      
+
       - name: Rebase to ${{ needs.init.outputs.base_ref }}
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') }}
         run: |
           git fetch origin '${{ needs.init.outputs.base_ref }}:${{ needs.init.outputs.base_ref }}'
-          git rebase 'origin/${{ needs.init.outputs.base_ref }}'
+          
+          # Start the rebase
+          git rebase 'origin/${{ needs.init.outputs.base_ref }}' || {
+            # Handle rebase conflicts in a loop
+            while [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ]; do
+              echo "Handling rebase conflict..."
+              
+              # Remove and checkout /dist and /js folders from the base branch
+              if [ -d "dist" ]; then
+                rm -rf dist
+                git checkout origin/${{ needs.init.outputs.base_ref }} -- dist/ 2>/dev/null || echo "No dist folder in base branch"
+              fi
+              if [ -d "js" ]; then
+                rm -rf js  
+                git checkout origin/${{ needs.init.outputs.base_ref }} -- js/ 2>/dev/null || echo "No js folder in base branch"
+              fi
+              
+              # Stage all changes
+              git add .
+              
+              # Check if there are any changes after resolving conflicts
+              if git diff --cached --quiet; then
+                echo "No changes after conflict resolution, skipping commit"
+                git rebase --skip
+              else
+                echo "Changes found, continuing rebase"
+                git rebase --continue
+              fi
+              
+              # Break if rebase is complete
+              if [ ! -d .git/rebase-merge ] && [ ! -d .git/rebase-apply ]; then
+                break
+              fi
+            done
+          }
 
       - name: Install dependencies & build
         env:
@@ -151,7 +185,7 @@ jobs:
         run: |
           git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
           git commit --signoff -m 'chore(assets): Recompile assets'
- 
+
       - name: Commit fixup
         if: ${{ contains(needs.init.outputs.arg1, 'fixup') }}
         run: |
@@ -168,11 +202,15 @@ jobs:
 
       - name: Push normally
         if: ${{ !contains(needs.init.outputs.arg1, 'rebase') && !contains(needs.init.outputs.arg1, 'amend') }}
-        run: git push origin '${{ needs.init.outputs.head_ref }}'
+        env:
+          HEAD_REF: ${{ needs.init.outputs.head_ref }}
+        run: git push origin "$HEAD_REF"
 
       - name: Force push
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') || contains(needs.init.outputs.arg1, 'amend') }}
-        run: git push --force origin '${{ needs.init.outputs.head_ref }}'
+        env:
+          HEAD_REF: ${{ needs.init.outputs.head_ref }}
+        run: git push --force-with-lease origin "$HEAD_REF"
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
