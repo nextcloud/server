@@ -543,7 +543,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 					]
 				);
 			}
-			throw $ex; // make this bubble up
+			throw new GenericFileException('Error while writing stream to object store', 0, $ex);
 		}
 
 		if ($exists) {
