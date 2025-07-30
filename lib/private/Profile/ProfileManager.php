@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Profile;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Config\PresetManager;
 use OC\Core\Db\ProfileConfig;
 use OC\Core\Db\ProfileConfigMapper;
 use OC\Core\ResponseDefinitions;
@@ -25,6 +26,7 @@ use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Config\Lexicon\Preset;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -85,6 +87,7 @@ class ProfileManager implements IProfileManager {
 		private IFactory $l10nFactory,
 		private LoggerInterface $logger,
 		private Coordinator $coordinator,
+		private readonly PresetManager $presetManager,
 	) {
 		$this->configCache = new CappedMemoryCache();
 	}
@@ -315,10 +318,35 @@ class ProfileManager implements IProfileManager {
 		// Construct the default config for account properties
 		$propertiesConfig = [];
 		foreach (self::DEFAULT_PROPERTY_VISIBILITY as $property => $visibility) {
+			$this->applyDefaultProfilePreset($property, $visibility);
 			$propertiesConfig[$property] = ['visibility' => $visibility];
 		}
 
 		return array_merge($actionsConfig, $propertiesConfig);
+	}
+
+	/**
+	 * modify property visibility, based on current Preset
+	 */
+	private function applyDefaultProfilePreset(string $property, string &$visibility): void {
+		$overwrite = match($this->presetManager->getLexiconPreset()) {
+			Preset::SHARED, Preset::SCHOOL, Preset::UNIVERSITY => match($property) {
+				IAccountManager::PROPERTY_ADDRESS, IAccountManager::PROPERTY_EMAIL, IAccountManager::PROPERTY_PHONE => self::VISIBILITY_HIDE,
+			},
+			Preset::PRIVATE, Preset::FAMILY, Preset::CLUB => match($property) {
+				IAccountManager::PROPERTY_EMAIL => self::VISIBILITY_SHOW,
+			},
+			Preset::SMALL, Preset::MEDIUM, Preset::LARGE => match($property) {
+				IAccountManager::PROPERTY_EMAIL, IAccountManager::PROPERTY_PHONE => self::VISIBILITY_SHOW,
+			},
+			default => null,
+		};
+
+		if ($overwrite === null) {
+			return;
+		}
+
+		$visibility = $overwrite;
 	}
 
 	/**
