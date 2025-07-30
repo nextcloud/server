@@ -100,6 +100,7 @@ OC.L10N.register(
     "WebDAV URL copied to clipboard" : "URL-адрас WebDAV скапіяваны ў буфер абмену",
     "All files" : "Усе файлы",
     "Personal files" : "Асабістыя файлы",
+    "Show files extensions" : "Паказваць пашырэнні файлаў",
     "WebDAV" : "WebDAV",
     "WebDAV URL" : "URL-адрас WebDAV",
     "Copy to clipboard" : "Капіяваць у буфер абмену",

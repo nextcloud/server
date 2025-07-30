@@ -11,6 +11,7 @@
     "Invalid password value" : "Valor de senha inválido",
     "An email address is required, to send a password link to the user." : "É necessário um endereço de e-mail, para enviar um link de senha para o usuário.",
     "Required email address was not provided" : "O endereço de e-mail obrigatório não foi fornecido",
+    "User creation failed" : "Falha na criação do usuário",
     "Invalid quota value: %1$s" : "Valor de cota inválido: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Valor de cota inválido. %1$s está excedendo a cota máxima",
     "Unlimited quota is forbidden on this instance" : "Cota ilimitada é proibida nesta instância",
