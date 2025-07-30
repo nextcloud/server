@@ -156,6 +156,22 @@ class SearchComposerTest extends TestCase {
 		]);
 	}
 
+	public function testProviderIconGeneration(): void {
+		$providerConfigs = [
+			'provider1' => ['service' => 'provider1_service', 'appId' => 'app1', 'order' => 10],
+		];
+
+		$mockData = $this->createMockProvidersAndRegistrations($providerConfigs);
+		$this->setupRegistrationContextWithProviders($mockData['registrations']);
+		$this->setupAppConfigForAllowedProviders();
+
+		$providers = $this->searchComposer->getProviders('/test/route', []);
+
+		$this->assertCount(1, $providers);
+		$this->assertArrayHasKey('icon', $providers[0]);
+		$this->assertStringContainsString('/apps/provider1/img/provider1.svg', $providers[0]['icon']);
+	}
+
 	/**
 	 * Assert providers array structure and expected sorting
 	 */
