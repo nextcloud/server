@@ -14,8 +14,6 @@ use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 
-// TODO: write a migration for this entity
-
 /**
  * @method string getPrincipaluri()
  * @method void setPrincipaluri(string $principaluri)
@@ -89,7 +87,6 @@ class FederatedCalendarEntity extends Entity {
 			'id' => $this->getId(),
 			'uri' => $this->getUri(),
 			'principaluri' => $this->getPrincipaluri(),
-			//'federated' => true,
 
 			'{DAV:}displayname' => $this->getDisplayName(),
 			'{http://sabredav.org/ns}sync-token' => $this->getSyncToken(),
