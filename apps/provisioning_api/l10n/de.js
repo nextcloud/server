@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid password value" : "Ungültiger Passwort-Wert",
     "An email address is required, to send a password link to the user." : "Um dem Benutzer einen Passwortlink zu senden, ist eine E-Mail-Adresse erforderlich.",
     "Required email address was not provided" : "Erforderliche E-Mail-Adresse wurde nicht angegeben",
+    "User creation failed" : "Benutzererstellung fehlgeschlagen",
     "Invalid quota value: %1$s" : "Ungültiger Wert für Speicherkontigent: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Ungültiger Wert für Speicherkontigent. %1$s überschreitet das maximale Kontigent",
     "Unlimited quota is forbidden on this instance" : "Unbegrenztes Speicherkontigent ist auf dieser Instanz unzulässig",

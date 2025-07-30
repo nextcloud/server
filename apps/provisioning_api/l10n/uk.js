@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid password value" : "Недійсне значення паролю",
     "An email address is required, to send a password link to the user." : "Для надсилання посилання на пароль користувачеві необхідна адреса електронної пошти.",
     "Required email address was not provided" : "Не зазначено обов'язкової ел. адреси",
+    "User creation failed" : "Не вдалося створити користувача",
     "Invalid quota value: %1$s" : "Недійсне значення квоти: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Недійсне значення квоти: %1$s перебільшує максимальну квоту",
     "Unlimited quota is forbidden on this instance" : "Необмежену квоту заборонено на цьому примірнику",

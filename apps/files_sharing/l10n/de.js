@@ -212,7 +212,7 @@ OC.L10N.register(
     "Mail share ({label})" : "Mail teilen ({label})",
     "Share link ({label})" : "Externer Link ({label})",
     "Mail share" : "E-Mail-Freigabe",
-    "Share link ({index})" : "Link teilen ({index})",
+    "Share link ({index})" : "Externer Link ({index})",
     "Create public link" : "Öffentlichen Link erstellen",
     "Actions for \"{title}\"" : "Aktionen für \"{title}\"",
     "Copy public link of \"{title}\" to clipboard" : "Öffentlichen Link von \"{title}\" in die Zwischenablage kopieren",
