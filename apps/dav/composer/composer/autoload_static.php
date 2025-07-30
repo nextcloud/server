@@ -75,6 +75,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\CalendarProvider' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarProvider.php',
         'OCA\\DAV\\CalDAV\\CalendarRoot' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarRoot.php',
         'OCA\\DAV\\CalDAV\\DefaultCalendarValidator' => __DIR__ . '/..' . '/../lib/CalDAV/DefaultCalendarValidator.php',
+        'OCA\\DAV\\CalDAV\\EmbeddedCalDavServer' => __DIR__ . '/..' . '/../lib/CalDAV/EmbeddedCalDavServer.php',
         'OCA\\DAV\\CalDAV\\EventComparisonService' => __DIR__ . '/..' . '/../lib/CalDAV/EventComparisonService.php',
         'OCA\\DAV\\CalDAV\\EventReader' => __DIR__ . '/..' . '/../lib/CalDAV/EventReader.php',
         'OCA\\DAV\\CalDAV\\EventReaderRDate' => __DIR__ . '/..' . '/../lib/CalDAV/EventReaderRDate.php',
