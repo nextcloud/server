@@ -2,6 +2,7 @@ OC.L10N.register(
     "viewer",
     {
     "Cancel" : "Скасаваць",
+    "Edit" : "Рэдагаваць",
     "Download" : "Спампаваць",
     "Delete" : "Выдаліць",
     "Name" : "Назва",
