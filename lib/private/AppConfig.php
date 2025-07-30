@@ -1136,7 +1136,7 @@ class AppConfig implements IAppConfig {
 			]);
 		}
 
-		return array_filter($details);
+		return array_filter($details, static fn($v): bool => ($v !== null));
 	}
 
 	/**
