@@ -474,16 +474,16 @@ class AppManagerTest extends TestCase {
 			'writable' => false,
 		];
 
-		$fakeTestAppPath = $fakeAppPath . '/' . 'test-test-app';
+		$fakeTestAppPath = $fakeAppPath . '/' . 'test_test_app';
 		mkdir($fakeTestAppPath);
 
-		$generatedAppPath = $this->manager->getAppPath('test-test-app');
+		$generatedAppPath = $this->manager->getAppPath('test_test_app');
 
 		rmdir($fakeTestAppPath);
 		unlink($fakeAppLink);
 		rmdir($fakeAppPath);
 
-		$this->assertEquals($fakeAppLink . '/test-test-app', $generatedAppPath);
+		$this->assertEquals($fakeAppLink . '/test_test_app', $generatedAppPath);
 	}
 
 	public function testGetAppPathFail(): void {
