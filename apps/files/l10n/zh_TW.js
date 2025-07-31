@@ -334,6 +334,7 @@ OC.L10N.register(
     "Templates" : "範本",
     "New template folder" : "新範本資料夾",
     "In folder" : "在資料夾中",
+    "Search in all files" : "在所有檔案中搜尋",
     "Search in folder: {folder}" : "在資料夾中搜尋：{folder}",
     "One of the dropped files could not be processed" : "無法處理其中一個投遞的檔案",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "您的瀏覽器不支援檔案系統 API。將不會上傳目錄",

@@ -332,6 +332,7 @@
     "Templates" : "Vorlagen",
     "New template folder" : "Neuer Vorlagenordner",
     "In folder" : "Im Ordner",
+    "Search in all files" : "In allen Dateien suchen",
     "Search in folder: {folder}" : "Im Ordner suchen: {folder}",
     "One of the dropped files could not be processed" : "Eine der abgelegten Dateien konnte nicht verarbeitet werden",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "Ihr Browser unterstützt die Dateisystem-API nicht. Verzeichnisse werden nicht hochgeladen",

@@ -224,7 +224,7 @@ OC.L10N.register(
     "Password protection" : "Заштитено со лозинка",
     "Enter a password" : "Внесете лозинка",
     "Enable link expiration (enforced)" : "Овозможи истекување на линк (задолжително)",
-    "Enable link expiration" : "Овозможи истекување на ллинк",
+    "Enable link expiration" : "Овозможи истекување на линк",
     "Enter expiration date (enforced)" : "Внесете датум на истекување (задолжително)",
     "Enter expiration date" : "Внесете датум на истекување",
     "Create share" : "Ново споделување",
