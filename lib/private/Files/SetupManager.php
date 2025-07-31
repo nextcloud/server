@@ -292,7 +292,7 @@ class SetupManager {
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($previouslySetupProviders) {
 			return !in_array($mount->getMountProvider(), $previouslySetupProviders);
 		});
-		$this->userMountCache->registerMounts($user, $mounts, $newProviders);
+		$this->registerMounts($user, $mounts, $newProviders);
 
 		$cacheDuration = $this->config->getSystemValueInt('fs_mount_cache_duration', 5 * 60);
 		if ($cacheDuration > 0) {
@@ -457,7 +457,7 @@ class SetupManager {
 		}
 
 		if (count($mounts)) {
-			$this->userMountCache->registerMounts($user, $mounts, $currentProviders);
+			$this->registerMounts($user, $mounts, $currentProviders);
 			$this->setupForUserWith($user, function () use ($mounts) {
 				array_walk($mounts, [$this->mountManager, 'addMount']);
 			});
@@ -528,7 +528,7 @@ class SetupManager {
 			$mounts = $this->mountProviderCollection->getUserMountsForProviderClasses($user, $providers);
 		}
 
-		$this->userMountCache->registerMounts($user, $mounts, $providers);
+		$this->registerMounts($user, $mounts, $providers);
 		$this->setupForUserWith($user, function () use ($mounts) {
 			array_walk($mounts, [$this->mountManager, 'addMount']);
 		});
@@ -598,6 +598,12 @@ class SetupManager {
 			$this->eventDispatcher->addListener($genericEvent, function ($event) {
 				$this->cache->clear();
 			});
+		}
+	}
+
+	private function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null): void {
+		if ($this->lockdownManager->canAccessFilesystem()) {
+			$this->userMountCache->registerMounts($user, $mounts, $mountProviderClasses);
 		}
 	}
 }
