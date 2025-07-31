@@ -138,7 +138,7 @@
 				<div v-if="projectsEnabled"
 					v-show="!showSharingDetailsView && fileInfo"
 					class="sharingTab__additionalContent">
-					<CollectionList :id="`${fileInfo.id}`"
+					<NcCollectionList :id="`${fileInfo.id}`"
 						type="file"
 						:name="fileInfo.name" />
 				</div>
@@ -161,19 +161,16 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
-import { CollectionList } from 'nextcloud-vue-collections'
 import { ShareType } from '@nextcloud/sharing'
-
-import InfoIcon from 'vue-material-design-icons/Information.vue'
-import NcPopover from '@nextcloud/vue/dist/Components/NcPopover.js'
-
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCollectionList from '@nextcloud/vue/components/NcCollectionList'
+import NcPopover from '@nextcloud/vue/components/NcPopover'
+import InfoIcon from 'vue-material-design-icons/InformationOutline.vue'
 
 import { shareWithTitle } from '../utils/SharedWithMe.js'
-
 import Config from '../services/ConfigService.ts'
 import Share from '../models/Share.ts'
 import SharingEntryInternal from '../components/SharingEntryInternal.vue'
@@ -192,10 +189,10 @@ export default {
 	name: 'SharingTab',
 
 	components: {
-		CollectionList,
 		InfoIcon,
 		NcAvatar,
 		NcButton,
+		NcCollectionList,
 		NcPopover,
 		SharingEntryInternal,
 		SharingEntrySimple,
