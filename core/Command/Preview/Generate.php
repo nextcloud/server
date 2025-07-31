@@ -101,7 +101,7 @@ class Generate extends Command {
 			}
 			if (!is_numeric($sizeParts[0]) || !is_numeric($sizeParts[1] ?? null)) {
 				// output error here to be able to inform which one size entry caused it
-				$output->writeln("<error>Size ($size) is invalid</error>"); 
+				$output->writeln("<error>Size ($size) is invalid</error>");
 				return null;
 			}
 			return array_map('intval', $sizeParts);
@@ -110,10 +110,10 @@ class Generate extends Command {
 			// error output already provided so no need for it here
 			return self::FAILURE;
 		}
-		
+
 		// parse the `crop` option value
 		$crop = $input->getOption('crop');
-		
+
 		// parse and check the `mode` option value
 		$mode = $input->getOption('mode');
 		if ($mode !== IPreview::MODE_FILL && $mode !== IPreview::MODE_COVER) {
@@ -136,7 +136,7 @@ class Generate extends Command {
 
 		// inform the user what we did if we were successful
 		$output->writeln('Generated <info>' . count($specifications) . '</info> preview(s)');
-		
+
 		return self::SUCCESS;
 	}
 }
