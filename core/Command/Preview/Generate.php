@@ -75,7 +75,7 @@ class Generate extends Command {
 		// parse and check `file` argument value (can be a file id or path to a specific file relative to the data directory
 		$fileInput = $input->getArgument('file');
 		$node = $this->fileUtils->getNode($fileInput);
-		if (!node) {
+		if (!$node) {
 			$output->writeln("<error>File ($file) does not exist</error>");
 			return self::FAILURE;
 		}
