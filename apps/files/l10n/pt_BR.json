@@ -332,6 +332,7 @@
     "Templates" : "Modelos",
     "New template folder" : "Nova pasta de modelo",
     "In folder" : "Na pasta",
+    "Search in all files" : "Pesquisar em todos os arquivos",
     "Search in folder: {folder}" : "Pesquisar na pasta: {folder}",
     "One of the dropped files could not be processed" : "Um dos arquivos depositados não pôde ser processado",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "Seu navegador não oferece suporte à API Filesystem. Os diretórios não serão carregados",

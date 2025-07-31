@@ -332,6 +332,7 @@
     "Templates" : "Mallar",
     "New template folder" : "Ny mallmapp",
     "In folder" : "I mapp",
+    "Search in all files" : "Sök i alla filer",
     "Search in folder: {folder}" : "Sök i mapp: {folder}",
     "One of the dropped files could not be processed" : "En av de släppta filerna kunde inte bearbetas",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "Din webbläsare stöder inte Filesystem API. Mappar kommer inte att laddas upp",

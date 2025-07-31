@@ -334,6 +334,7 @@ OC.L10N.register(
     "Templates" : "Шаблони",
     "New template folder" : "Новий каталог шаблонів",
     "In folder" : "У каталозі",
+    "Search in all files" : "Пошук у всіх файлах",
     "Search in folder: {folder}" : "Шукати у каталозі: {folder}",
     "One of the dropped files could not be processed" : "Один із завантажених файлів не вдалося обробити",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "Ваш бравзер не підтримує Filesystem API. Каталоги не буде завантажено",
