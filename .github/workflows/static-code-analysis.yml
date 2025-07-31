@@ -86,6 +86,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@181d5eefc20863364f96762470ba6f862bdef56b # v3
         with:
           sarif_file: results.sarif
+          config: ./.github/codeql-config.yml
 
   static-code-analysis-ocp:
     runs-on: ubuntu-latest
