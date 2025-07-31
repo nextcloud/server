@@ -85,10 +85,8 @@
 	max-height: calc(100vh - #{variables.$header-height} - 8px);
 }
 
+/* Header menu */
 #header {
-	/* Header menu */
-	$header-menu-entry-height: 44px;
-
 	.header-end > div > .menu {
 		background-color: var(--color-main-background);
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));

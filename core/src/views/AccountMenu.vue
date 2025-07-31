@@ -201,6 +201,8 @@ export default defineComponent({
 		--account-menu-outline: var(--border-width-input) solid color-mix(in srgb, var(--color-background-plain-text), transparent 75%);
 		outline: var(--account-menu-outline);
 		position: fixed;
+		// do not apply the alpha mask on the avatar div
+		mask: none !important;
 
 		&:hover {
 			--account-menu-outline: none;

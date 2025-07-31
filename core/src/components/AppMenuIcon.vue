@@ -51,6 +51,7 @@ $unread-indicator-size: 10px;
 		height: $icon-size;
 		width: $icon-size;
 		filter: var(--background-image-invert-if-bright);
+		mask: var(--header-menu-icon-mask);
 	}
 
 	&__unread {
