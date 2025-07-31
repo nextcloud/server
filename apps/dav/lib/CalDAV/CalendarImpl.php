@@ -156,19 +156,15 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	}
 
 	/**
-	 * Create a new calendar event for this calendar
-	 * by way of an ICS string
-	 *
-	 * @param string $name the file name - needs to contain the .ics ending
-	 * @param string $calendarData a string containing a valid VEVENT ics
-	 *
 	 * @throws CalendarException
 	 */
-	public function createFromString(string $name, string $calendarData): void {
-		$server = new InvitationResponseServer(false);
-
+	private function createFromStringInServer(
+		string $name,
+		string $calendarData,
+		\OCA\DAV\Connector\Sabre\Server $server,
+	): void {
 		/** @var CustomPrincipalPlugin $plugin */
-		$plugin = $server->getServer()->getPlugin('auth');
+		$plugin = $server->getPlugin('auth');
 		// we're working around the previous implementation
 		// that only allowed the public system principal to be used
 		// so set the custom principal here
@@ -184,19 +180,29 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 
 		// Force calendar change URI
 		/** @var Schedule\Plugin $schedulingPlugin */
-		$schedulingPlugin = $server->getServer()->getPlugin('caldav-schedule');
+		$schedulingPlugin = $server->getPlugin('caldav-schedule');
 		$schedulingPlugin->setPathOfCalendarObjectChange($fullCalendarFilename);
 
 		$stream = fopen('php://memory', 'rb+');
 		fwrite($stream, $calendarData);
 		rewind($stream);
 		try {
-			$server->getServer()->createFile($fullCalendarFilename, $stream);
+			$server->createFile($fullCalendarFilename, $stream);
 		} catch (Conflict $e) {
 			throw new CalendarException('Could not create new calendar event: ' . $e->getMessage(), 0, $e);
 		} finally {
 			fclose($stream);
 		}
+	}
+
+	public function createFromString(string $name, string $calendarData): void {
+		$server = new EmbeddedCalDavServer(false);
+		$this->createFromStringInServer($name, $calendarData, $server->getServer());
+	}
+
+	public function createFromStringMinimal(string $name, string $calendarData): void {
+		$server = new InvitationResponseServer(false);
+		$this->createFromStringInServer($name, $calendarData, $server->getServer());
 	}
 
 	/**
