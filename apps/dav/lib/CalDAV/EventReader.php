@@ -46,8 +46,8 @@ class EventReader {
 		7 => 'July', 8 => 'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
 	];
 	protected array $relativePositionNamesMap = [
-		1 => 'First', 2 => 'Second', 3 => 'Third', 4 => 'Fourth', 5 => 'Fifty',
-		-1 => 'Last', -2 => 'Second Last', -3 => 'Third Last', -4 => 'Fourth Last', -5 => 'Fifty Last'
+		1 => 'First', 2 => 'Second', 3 => 'Third', 4 => 'Fourth', 5 => 'Fifth',
+		-1 => 'Last', -2 => 'Second Last', -3 => 'Third Last', -4 => 'Fourth Last', -5 => 'Fifth Last'
 	];
 
 	/**
