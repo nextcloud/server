@@ -76,11 +76,11 @@ class Generate extends Command {
 		$fileInput = $input->getArgument('file');
 		$node = $this->fileUtils->getNode($fileInput);
 		if (!$node) {
-			$output->writeln("<error>File ($file) does not exist</error>");
+			$output->writeln("<error>File ($fileInput) does not exist</error>");
 			return self::FAILURE;
 		}
 		if (!$node instanceof File) {
-			$output->writeln("<error>specified file ($file) is not a file (did you specify a folder by accident?)</error>");
+			$output->writeln("<error>specified file ($fileInput) is not a file (did you specify a folder by accident?)</error>");
 			return self::INVALID;
 		}
 		// No point in continuing if there isn't a configured preview provider for the file
