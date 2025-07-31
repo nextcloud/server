@@ -14,7 +14,6 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\App\AppStore\Version\VersionParser;
 use OC\App\DependencyAnalyzer;
-use OC\App\Platform;
 use OC\Installer;
 use OCA\AppAPI\Service\ExAppsPageService;
 use OCP\App\AppPathNotFoundException;
@@ -361,7 +360,7 @@ class AppSettingsController extends Controller {
 		$this->fetchApps();
 		$apps = $this->getAllApps();
 
-		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
+		$dependencyAnalyzer = Server::get(DependencyAnalyzer::class);
 
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
 		if (!is_array($ignoreMaxApps)) {

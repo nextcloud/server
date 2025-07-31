@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 use OC\App\AppManager;
 use OC\App\DependencyAnalyzer;
-use OC\App\Platform;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
 use OC\Repair;
@@ -592,7 +591,7 @@ class OC_App {
 	 * @throws \Exception
 	 */
 	public static function checkAppDependencies(\OCP\IConfig $config, \OCP\IL10N $l, array $info, bool $ignoreMax) {
-		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
+		$dependencyAnalyzer = Server::get(DependencyAnalyzer::class);
 		$missing = $dependencyAnalyzer->analyze($info, $ignoreMax);
 		if (!empty($missing)) {
 			$missingMsg = implode(PHP_EOL, $missing);
