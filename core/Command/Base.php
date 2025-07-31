@@ -24,9 +24,11 @@ class Base extends Command implements CompletionAwareInterface {
 	protected string $defaultOutputFormat = self::OUTPUT_FORMAT_PLAIN;
 	private bool $php_pcntl_signal = false;
 	private bool $interrupted = false;
+	public string $defaultHelp = 'More extensive and thorough documentation may be found at https://docs.nextcloud.com' . PHP_EOL; // TODO: link to appropriately versioned/themed Admin Manual
 
 	protected function configure() {
 		$this
+			->setHelp($this->defaultHelp)
 			->addOption(
 				'output',
 				null,
