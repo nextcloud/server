@@ -334,6 +334,7 @@ OC.L10N.register(
     "Templates" : "Mallid",
     "New template folder" : "Uus kaustamall",
     "In folder" : "Kaustas",
+    "Search in all files" : "Otsi kõikide failide seast",
     "Search in folder: {folder}" : "Otsi kaustast: {folder}",
     "One of the dropped files could not be processed" : "Ühte siia lisatud failidest ei õnnestunud töödelda",
     "Your browser does not support the Filesystem API. Directories will not be uploaded" : "Sinu veebibrauser ei toeta „Filesystem API“ liidestust. Kaustad jäävad üleslaadimata",

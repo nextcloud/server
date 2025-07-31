@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid password value" : "Neplatná hodnota hesla",
     "An email address is required, to send a password link to the user." : "Je vyžadována e-mailová adresa (pro zaslání odkazu na heslo uživateli).",
     "Required email address was not provided" : "Nebyla poskytnuta potřebná e-mailová adresa",
+    "User creation failed" : "Vytváření uživatele se nezdařilo",
     "Invalid quota value: %1$s" : "Neplatná hodnota kvóty: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Neplatná hodnota kvóty. %1$s překračuje maximální kvótu",
     "Unlimited quota is forbidden on this instance" : "Neomezená kvóta není na této instanci dovolena",
