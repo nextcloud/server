@@ -273,7 +273,6 @@ class Tags implements ITags {
 			return false;
 		}
 		if ($this->userHasTag($name, $this->user)) {
-			// TODO use unique db properties instead of an additional check
 			$this->logger->debug(__METHOD__ . ' Tag with name already exists', ['app' => 'core']);
 			return false;
 		}
