@@ -63,7 +63,6 @@
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
-			<directory name="apps/files_external/3rdparty"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
@@ -71,7 +70,6 @@
 	</projectFiles>
 	<extraFiles>
 		<directory name="3rdparty"/>
-		<directory name="apps/files_external/3rdparty"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>

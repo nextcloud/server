@@ -54,8 +54,6 @@ use OCP\Files\Config\IMountProviderCollection;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 
-require_once __DIR__ . '/../../3rdparty/autoload.php';
-
 /**
  * @package OCA\Files_External\AppInfo
  */
