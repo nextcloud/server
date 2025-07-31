@@ -3,16 +3,14 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="header-menu unified-search-menu">
-		<NcButton v-show="!showLocalSearch"
-			class="header-menu__trigger"
+	<div class="unified-search-menu">
+		<NcHeaderButton v-show="!showLocalSearch"
 			:aria-label="t('core', 'Unified search')"
-			type="tertiary-no-background"
 			@click="toggleUnifiedSearch">
 			<template #icon>
-				<Magnify class="header-menu__trigger-icon" :size="20" />
+				<NcIconSvgWrapper :path="mdiMagnify" />
 			</template>
-		</NcButton>
+		</NcHeaderButton>
 		<UnifiedSearchLocalSearchBar v-if="supportsLocalSearch"
 			:open.sync="showLocalSearch"
 			:query.sync="queryText"
@@ -24,25 +22,24 @@
 </template>
 
 <script lang="ts">
+import { mdiMagnify } from '@mdi/js'
 import { emit, subscribe } from '@nextcloud/event-bus'
-import { translate } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { useBrowserLocation } from '@vueuse/core'
+import debounce from 'debounce'
 import { defineComponent } from 'vue'
-
-import NcButton from '@nextcloud/vue/components/NcButton'
-import Magnify from 'vue-material-design-icons/Magnify.vue'
+import NcHeaderButton from '@nextcloud/vue/components/NcHeaderButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
 import UnifiedSearchLocalSearchBar from '../components/UnifiedSearch/UnifiedSearchLocalSearchBar.vue'
-
-import debounce from 'debounce'
-import logger from '../logger'
+import logger from '../logger.js'
 
 export default defineComponent({
 	name: 'UnifiedSearch',
 
 	components: {
-		NcButton,
-		Magnify,
+		NcHeaderButton,
+		NcIconSvgWrapper,
 		UnifiedSearchModal,
 		UnifiedSearchLocalSearchBar,
 	},
@@ -52,7 +49,9 @@ export default defineComponent({
 
 		return {
 			currentLocation,
-			t: translate,
+
+			mdiMagnify,
+			t,
 		}
 	},
 
@@ -175,31 +174,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 // this is needed to allow us overriding component styles (focus-visible)
-#header {
-	.header-menu {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		&__trigger {
-			height: var(--header-height);
-			width: var(--header-height) !important;
-
-			&:focus-visible {
-				// align with other header menu entries
-				outline: none !important;
-				box-shadow: none !important;
-			}
-
-			&:not(:hover,:focus,:focus-visible) {
-				opacity: .85;
-			}
-
-			&-icon {
-				// ensure the icon has the correct color
-				color: var(--color-background-plain-text) !important;
-			}
-		}
-	}
+.unified-search-menu {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>
