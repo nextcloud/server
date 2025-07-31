@@ -65,7 +65,6 @@ use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
 use OC\Http\Client\NegativeDnsCache;
 use OC\IntegrityCheck\Checker;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\KnownUser\KnownUserService;
@@ -839,7 +838,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(ServerVersion::class),
 				$c->get(EnvironmentHelper::class),
 				new FileAccessHelper(),
-				new AppLocator(),
 				$config,
 				$appConfig,
 				$c->get(ICacheFactory::class),

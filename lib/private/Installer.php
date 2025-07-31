@@ -18,7 +18,6 @@ use OC\Archive\TAR;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Files\FilenameValidator;
-use OC_App;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\BackgroundJob\IJobList;

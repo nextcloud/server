@@ -252,9 +252,14 @@ class AppManager implements IAppManager {
 		foreach ($apps as $app) {
 			// If the app is already loaded then autoloading it makes no sense
 			if (!$this->isAppLoaded($app)) {
-				$path = \OC_App::getAppPath($app);
-				if ($path !== false) {
+				try {
+					$path = $this->getAppPath($app);
 					\OC_App::registerAutoloading($app, $path);
+				} catch (AppPathNotFoundException $e) {
+					$this->logger->info('Error during app loading: ' . $e->getMessage(), [
+						'exception' => $e,
+						'app' => $app,
+					]);
 				}
 			}
 		}
@@ -450,8 +455,13 @@ class AppManager implements IAppManager {
 			return;
 		}
 		$this->loadedApps[$app] = true;
-		$appPath = \OC_App::getAppPath($app);
-		if ($appPath === false) {
+		try {
+			$appPath = $this->getAppPath($app);
+		} catch (AppPathNotFoundException $e) {
+			$this->logger->info('Error during app loading: ' . $e->getMessage(), [
+				'exception' => $e,
+				'app' => $app,
+			]);
 			return;
 		}
 		$eventLogger = \OC::$server->get(IEventLogger::class);
