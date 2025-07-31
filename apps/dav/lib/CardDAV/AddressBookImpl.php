@@ -152,6 +152,10 @@ class AddressBookImpl implements IAddressBookEnabled {
 		$permissions = $this->addressBook->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
+			if ($this->addressBookInfo['principaluri'] !== $permission['principal']) {
+				continue;
+			}
+
 			switch ($permission['privilege']) {
 				case '{DAV:}read':
 					$result |= Constants::PERMISSION_READ;
