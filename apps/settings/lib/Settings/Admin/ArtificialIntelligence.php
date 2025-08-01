@@ -10,7 +10,7 @@ namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface;
 
 class ArtificialIntelligence implements IDelegatedSettings {
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IL10N $l,
 		private IInitialState $initialState,
 		private ITranslationManager $translationManager,
@@ -145,7 +145,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;
-			$json = $this->config->getAppValue('core', $key, '');
+			$json = $this->appConfig->getValueString('core', $key, '', lazy: in_array($key, \OCP\TaskProcessing\IManager::LAZY_CONFIG_KEYS, true));
 			if ($json !== '') {
 				try {
 					$value = json_decode($json, true, flags: JSON_THROW_ON_ERROR);

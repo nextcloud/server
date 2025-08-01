@@ -31,9 +31,9 @@ use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\IUserManager;
@@ -92,7 +92,7 @@ class Manager implements IManager {
 	private ?GetTaskProcessingProvidersEvent $eventResult = null;
 
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private Coordinator $coordinator,
 		private IServerContainer $serverContainer,
 		private LoggerInterface $logger,
@@ -630,7 +630,7 @@ class Manager implements IManager {
 	 */
 	private function _getTaskTypeSettings(): array {
 		try {
-			$json = $this->config->getAppValue('core', 'ai.taskprocessing_type_preferences', '');
+			$json = $this->appConfig->getValueString('core', 'ai.taskprocessing_type_preferences', '', lazy: true);
 			if ($json === '') {
 				return [];
 			}
@@ -788,7 +788,11 @@ class Manager implements IManager {
 			if ($this->preferences === null) {
 				$this->preferences = $this->distributedCache->get('ai.taskprocessing_provider_preferences');
 				if ($this->preferences === null) {
-					$this->preferences = json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
+					$this->preferences = json_decode(
+						$this->appConfig->getValueString('core', 'ai.taskprocessing_provider_preferences', 'null', lazy: true),
+						associative: true,
+						flags: JSON_THROW_ON_ERROR,
+					);
 					$this->distributedCache->set('ai.taskprocessing_provider_preferences', $this->preferences, 60 * 3);
 				}
 			}
@@ -889,7 +893,7 @@ class Manager implements IManager {
 			$user = $this->userManager->get($userId);
 		}
 
-		$guestsAllowed = $this->config->getAppValue('core', 'ai.taskprocessing_guests', 'false');
+		$guestsAllowed = $this->appConfig->getValueString('core', 'ai.taskprocessing_guests', 'false');
 		if ($guestsAllowed == 'true' || !class_exists(\OCA\Guests\UserBackend::class) || !($user->getBackend() instanceof \OCA\Guests\UserBackend)) {
 			return true;
 		}
