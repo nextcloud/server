@@ -1083,6 +1083,7 @@
                     "name",
                     "icon",
                     "order",
+                    "isExternalProvider",
                     "triggers",
                     "filters",
                     "inAppSearch"
@@ -1103,6 +1104,9 @@
                     "order": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "isExternalProvider": {
+                        "type": "boolean"
                     },
                     "triggers": {
                         "type": "array",

@@ -87,6 +87,7 @@ namespace OC\Core;
  *     name: string,
  *     icon: string,
  *     order: int,
+ *     isExternalProvider: bool,
  *     triggers: list<string>,
  *     filters: array<string, string>,
  *     inAppSearch: bool,
