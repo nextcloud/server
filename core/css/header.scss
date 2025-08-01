@@ -267,3 +267,18 @@ header .emptycontent {
 		width: 48px;
 	}
 }
+
+@media (display-mode: standalone) or (display-mode: minimal-ui) {
+	#header {
+		display: none !important;
+	}
+
+	#content, #content-vue {
+		margin-top: var(--body-container-margin);
+	}
+
+	:root {
+		// Override the body height to make up for the additional height due to the missing header.
+		--body-height: calc(100% - env(safe-area-inset-bottom) - var(--body-container-margin) * 2) !important;
+	}
+}
