@@ -7,9 +7,6 @@ declare(strict_types=1);
  */
 namespace Tests\lib\Config;
 
-use NCU\Config\Exceptions\TypeConflictException;
-use NCU\Config\Exceptions\UnknownKeyException;
-use NCU\Config\IUserConfig;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
@@ -81,6 +78,7 @@ class LexiconTest extends TestCase {
 		// to avoid filling cache with an empty Lexicon, we use a new IAppConfig
 		$appConfig = new AppConfig(
 			Server::get(IDBConnection::class),
+			Server::get(IConfig::class),
 			Server::get(LoggerInterface::class),
 			Server::get(ICrypto::class),
 		);
