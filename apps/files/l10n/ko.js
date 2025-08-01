@@ -330,7 +330,6 @@ OC.L10N.register(
     "No favorites yet" : "즐겨찾는 항목 없음",
     "Files and folders you mark as favorite will show up here" : "즐겨찾기에 추가한 파일과 폴더가 여기에 나타납니다",
     "List of your files and folders." : "내 폴더와 파일의 목록",
-    "All folders" : "모든 폴더",
     "List of your files and folders that are not shared." : "공유되지 않는 파일과 폴더의 목록",
     "No personal files found" : "개인 파일을 찾을 수 없음",
     "Files that are not shared will show up here." : "공유되지 않는 파일이 이곳에 나타납니다.",
@@ -431,6 +430,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1개 파일과 {folderCount}개 폴더"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount}개 파일과 1개 폴더"],
     "{fileCount} files and {folderCount} folders" : "{fileCount}개 파일과 {folderCount}개 폴더",
+    "All folders" : "모든 폴더",
     "Personal Files" : "개인 파일",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt"

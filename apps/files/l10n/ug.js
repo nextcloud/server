@@ -275,7 +275,6 @@ OC.L10N.register(
     "No favorites yet" : "ياقتۇرىدىغانلار تېخى يوق",
     "Files and folders you mark as favorite will show up here" : "سىز ياقتۇرىدىغان ھۆججەت ۋە ھۆججەت قىسقۇچلار بۇ يەردە كۆرۈنىدۇ",
     "List of your files and folders." : "ھۆججەت ۋە ھۆججەت قىسقۇچلىرىڭىزنىڭ تىزىملىكى.",
-    "All folders" : "بارلىق ھۆججەت قىسقۇچلار",
     "List of your files and folders that are not shared." : "ئورتاقلاشمىغان ھۆججەت ۋە ھۆججەت قىسقۇچلىرىڭىزنىڭ تىزىملىكى.",
     "No personal files found" : "شەخسىي ھۆججەت تېپىلمىدى",
     "Files that are not shared will show up here." : "ئورتاقلاشمىغان ھۆججەتلەر بۇ يەردە كۆرۈنىدۇ.",
@@ -368,6 +367,7 @@ OC.L10N.register(
     "Use this address to access your Files via WebDAV" : "بۇ ئادرېسنى ئىشلىتىپ WebDAV ئارقىلىق ھۆججەتلىرىڭىزنى زىيارەت قىلىڭ",
     "If you have enabled 2FA, you must create and use a new app password by clicking here." : "ئەگەر سىز 2FA نى قوزغىتىپ قويغان بولسىڭىز ، بۇ يەرنى چېكىپ چوقۇم يېڭى ئەپ پارولى قۇرالايسىز ۋە ئىشلىتىڭ.",
     "{fileCount} files and {folderCount} folders" : "{fileCount} ھۆججەتلىرى ۋە {folderCount} ھۆججەت قىسقۇچلىرى",
+    "All folders" : "بارلىق ھۆججەت قىسقۇچلار",
     "Personal Files" : "شەخسىي ھۆججەتلەر",
     "Text file" : "تېكىست ھۆججەت",
     "New text file.txt" : "يېڭى تېكىست ھۆججىتى. Txt"

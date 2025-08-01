@@ -190,7 +190,6 @@
     "No favorites yet" : "Ancora perunu preferidu",
     "Files and folders you mark as favorite will show up here" : "Is archìvios e is cartellas chi marcas comente preferidos ant a aparèssere inoghe",
     "List of your files and folders." : "Lista de is cartellas e is archìvios tuos.",
-    "All folders" : "Totu is cartellas",
     "No personal files found" : "Perunu archìviu personale agatadu",
     "Recent" : "Reghente",
     "List of recently modified files and folders." : "Lista de cartellas e archìvios modificados de reghente.",
@@ -285,6 +284,7 @@
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 archìviu e {folderCount} cartella","1 archìviu e {folderCount} cartellas"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} archìviu e 1 cartella","{fileCount} archìvios e 1 cartella"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} archìvios e {folderCount} cartellas",
+    "All folders" : "Totu is cartellas",
     "Personal Files" : "Archìvios personales",
     "Text file" : "Archìviu de testu",
     "New text file.txt" : "Archìviu de testu .txt nou"

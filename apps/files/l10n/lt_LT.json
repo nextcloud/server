@@ -226,7 +226,6 @@
     "No favorites yet" : "Kol kas nėra mėgstamų",
     "Files and folders you mark as favorite will show up here" : "Čia bus rodomi failai ir aplankai, kuriuos pažymėsite kaip mėgstamus",
     "List of your files and folders." : "Jūsų failų ir aplankų sąrašas.",
-    "All folders" : "Visi aplankai",
     "No personal files found" : "Nerasta jokių asmeninių failų",
     "Recent" : "Paskiausiai naudoti",
     "List of recently modified files and folders." : "Paskiausiai modifikuotų failų ir aplankų sąrašas.",
@@ -311,6 +310,7 @@
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} failas","{fileCount} failai","{fileCount} failų","{fileCount} failas"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 failas ir {folderCount} aplankas","1 failas ir {folderCount} aplankai","1 failas ir {folderCount} aplankų","1 failas ir {folderCount} aplankas"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} failas ir 1 aplankas","{fileCount} failai ir 1 aplankas","{fileCount} failų ir 1 aplankas","{fileCount} failas ir 1 aplankas"],
+    "All folders" : "Visi aplankai",
     "Personal Files" : "Asmeniniai failai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt"
