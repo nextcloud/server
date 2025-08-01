@@ -638,7 +638,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getServerProtocol(): string {
 		$proto = 'http';
-		
+
 		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
 			&& $this->isOverwriteCondition()
 		) {
@@ -660,12 +660,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		if ($proto !== 'https' && $proto !== 'http') {
 			// log unrecognized value so admin has a chance to fix it
-			\OC::$server->get(LoggerInterface::class)->critical(
+			\OCP\Server::get(LoggerInterface::class)->critical(
 				'Server protocol is malformed [falling back to http] (check overwriteprotocol and/or X-Forwarded-Proto to remedy): ' . $proto,
 				['app' => 'core']
 			);
 		}
-		
+
 		// default to http if provided an invalid value
 		return $proto === 'https' ? 'https' : 'http';
 	}

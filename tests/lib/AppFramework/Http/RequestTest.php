@@ -816,7 +816,7 @@ class RequestTest extends \Test\TestCase {
 
 		$this->assertSame('http', $request->getServerProtocol());
 	}
-	
+
 	public function testGetServerProtocolWithProtoValid(): void {
 		$this->config
 			->method('getSystemValue')
