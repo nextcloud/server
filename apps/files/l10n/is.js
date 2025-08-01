@@ -325,7 +325,6 @@ OC.L10N.register(
     "No favorites yet" : "Engin eftirlæti ennþá",
     "Files and folders you mark as favorite will show up here" : "Skrár og möppur sem þú merkir sem eftirlæti birtast hér",
     "List of your files and folders." : "Listi yfir skrárnar þínar og möppur.",
-    "All folders" : "Allar möppur",
     "List of your files and folders that are not shared." : "Listi yfir skrárnar þínar og möppur sem ekki er deilt.",
     "No personal files found" : "Engar einkaskrár fundust",
     "Files that are not shared will show up here." : "Skrár sem ekki er deilt birtast hér.",
@@ -426,6 +425,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 skrá og {folderCount} mappa","1 skrá og {folderCount} möppur"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} skrá og 1 mappa","{fileCount} skrár og 1 mappa"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} skrár og {folderCount} möppur",
+    "All folders" : "Allar möppur",
     "Personal Files" : "Einkaskrár",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt"

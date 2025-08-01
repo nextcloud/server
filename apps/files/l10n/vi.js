@@ -273,7 +273,6 @@ OC.L10N.register(
     "No favorites yet" : "Chưa có yêu thích nào",
     "Files and folders you mark as favorite will show up here" : "Các tệp và thư mục mà bạn đánh dấu là yêu thích sẽ hiển thị ở đây",
     "List of your files and folders." : "Danh sách các tập tin và thư mục của bạn.",
-    "All folders" : "Tất cả tệp tin",
     "List of your files and folders that are not shared." : "Danh sách tệp tin và thư mục không được chia sẻ của bạn.",
     "No personal files found" : "Không có tệp cá nhân nào được tìm thấy",
     "Files that are not shared will show up here." : "Các tệp và thư mục bạn đã không chia sẻ sẽ hiện thị ở đây.",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 tệp và thư mục {folderCount}"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["tệp {fileCount} và 1 thư mục"],
     "{fileCount} files and {folderCount} folders" : "Tệp {fileCount} và thư mục {folderCount}",
+    "All folders" : "Tất cả tệp tin",
     "Personal Files" : "Tệp tin cá nhân",
     "Text file" : "Tập tin văn bản",
     "New text file.txt" : "Tệp văn bản mới.txt"

@@ -309,7 +309,6 @@
     "No favorites yet" : "Ingen favoritter enda",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du gjør til favoritter vises her",
     "List of your files and folders." : "Liste over dine filer og mapper.",
-    "All folders" : "Alle mapper",
     "List of your files and folders that are not shared." : "Liste over dine filer og mapper som ikke er delt.",
     "No personal files found" : "Ingen personlige filer funnet",
     "Files that are not shared will show up here." : "Filer som ikke er delt vil vises her.",
@@ -410,6 +409,7 @@
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 fil og {folderCount} mappe","1 fil og {folderCount} mapper"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} fil og 1 mappe","{fileCount} filer og 1 mappe"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} filer og {folderCount} mapper",
+    "All folders" : "Alle mapper",
     "Personal Files" : "Personlige filer",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt"

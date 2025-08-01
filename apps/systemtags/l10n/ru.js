@@ -103,7 +103,7 @@ OC.L10N.register(
     "Open in Files" : "Открыть в приложении «Файлы»",
     "List of tags and their associated files and folders." : "Список тегов и связанных с ними файлов и папок.",
     "No tags found" : "Меток не найдено",
-    "Tags you have created will show up here." : "Здесь будут отображаться созданные вами теги.",
+    "Tags you have created will show up here." : "Здесь будут отображаться файлы с этой меткой",
     "Failed to load tag" : "Не удалось загрузить тег",
     "Failed to load last used tags" : "Не удалось загрузить последние использованные метки",
     "Missing \"Content-Location\" header" : "Отсутствует заголовок «Content-Location»",

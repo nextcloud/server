@@ -315,7 +315,6 @@ OC.L10N.register(
     "No favorites yet" : "Gogokorik ez oraindik",
     "Files and folders you mark as favorite will show up here" : "Gogokotzat markatutako fitxategi eta karpetak hemen agertuko dira",
     "List of your files and folders." : "Zure fitxategi eta karpeten zerrenda.",
-    "All folders" : "Karpeta guztiak",
     "List of your files and folders that are not shared." : "Partekatu ez diren zure fitxategi eta karpeten zerrenda.",
     "No personal files found" : "Ez dago fitxategi pertsonalik",
     "Files that are not shared will show up here." : "Partekatu ez dituzun fitxategiak hemen agertuko dira",
@@ -416,6 +415,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["Fitxategi 1 eta karpeta {folderCount}","Fitxategi 1 eta {folderCount} karpeta"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["Fitxategi {fileCount} eta karpeta 1","{fileCount} fitxategi eta karpeta 1"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} fitxategi eta {folderCount} fitxategi",
+    "All folders" : "Karpeta guztiak",
     "Personal Files" : "Fitxategi pertsonalak",
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt"

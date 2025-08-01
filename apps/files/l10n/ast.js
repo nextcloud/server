@@ -240,7 +240,6 @@ OC.L10N.register(
     "No favorites yet" : "Entá nun hai nengún elementu favoritu",
     "Files and folders you mark as favorite will show up here" : "Equí apaecen los ficheros y carpetes que metas en Favoritos",
     "List of your files and folders." : "Una llista de los ficheros y les carpetes de to.",
-    "All folders" : "Toles carpetes",
     "List of your files and folders that are not shared." : "Una llista de ficheros y carpetes que nun se compartieron.",
     "No personal files found" : "Nun s'atopó nengún ficheru personal",
     "Files that are not shared will show up here." : "Equí apaecen los ficheros que nun se compartan.",
@@ -336,6 +335,7 @@ OC.L10N.register(
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 ficheru y {folderCount} carpeta","1 ficheru y {folderCount} carpetes"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} ficheru y 1 carpeta","{fileCount} ficheros y 1 carpeta"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} ficheros y {folderCount} carpetes",
+    "All folders" : "Toles carpetes",
     "Personal Files" : "Ficheros personales",
     "Text file" : "Ficheru de testu",
     "New text file.txt" : "ficheru_nuevu.txt"

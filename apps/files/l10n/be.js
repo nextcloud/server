@@ -199,7 +199,6 @@ OC.L10N.register(
     "Filename must not be empty." : "Назва файла не можа быць пустой.",
     "No favorites yet" : "Пакуль няма абраных",
     "List of your files and folders." : "Спіс вашых файлаў і папак.",
-    "All folders" : "Усе папкі",
     "List of your files and folders that are not shared." : "Спіс вашых неабагуленых файлаў і папак.",
     "No personal files found" : "Асабістых файлаў не знойдзена",
     "Files that are not shared will show up here." : "Тут будуць адлюстроўвацца неабагуленыя файлы.",
@@ -239,6 +238,7 @@ OC.L10N.register(
     "_{fileCount} file_::_{fileCount} files_" : ["{fileCount} файл","{fileCount} файлы","{fileCount} файлаў","{fileCount} файлаў"],
     "_1 file and {folderCount} folder_::_1 file and {folderCount} folders_" : ["1 файл і {folderCount} папка","1 файл і {folderCount} папкі","1 файл і {folderCount} папак","1 файл і {folderCount} папак"],
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} файл і 1 папка","{fileCount} файлы і 1 папка","{fileCount} файлаў і 1 папка","{fileCount} файлаў і 1 папка"],
+    "All folders" : "Усе папкі",
     "Personal Files" : "Асабістыя файлы",
     "Text file" : "Тэкставы файл"
 },
