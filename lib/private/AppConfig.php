@@ -321,9 +321,10 @@ class AppConfig implements IAppConfig {
 		?bool $lazy = false,
 	): string {
 		try {
-			$lazy = ($lazy === null) ? $this->isLazy($app, $key) : $lazy;
+			$lazy = $lazy ?? $this->isLazy($app, $key);
 		} catch (AppConfigUnknownKeyException) {
-			return $default;
+			// we already know that value does not exist. we can still get default from lexicon.
+			$lazy = false;
 		}
 
 		return $this->getTypedValue(
