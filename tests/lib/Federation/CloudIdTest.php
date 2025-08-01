@@ -28,7 +28,7 @@ class CloudIdTest extends TestCase {
 		$this->overwriteService(ICloudIdManager::class, $this->cloudIdManager);
 	}
 
-	public function dataGetDisplayCloudId(): array {
+	public static function dataGetDisplayCloudId(): array {
 		return [
 			['test@example.com', 'test', 'example.com', 'test@example.com'],
 			['test@http://example.com', 'test', 'http://example.com', 'test@example.com'],
@@ -37,9 +37,7 @@ class CloudIdTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetDisplayCloudId
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetDisplayCloudId')]
 	public function testGetDisplayCloudId(string $id, string $user, string $remote, string $display, ?string $addressbookName = null): void {
 		$this->cloudIdManager->expects($this->once())
 			->method('getDisplayNameFromContact')

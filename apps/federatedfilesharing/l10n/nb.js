@@ -33,6 +33,7 @@ OC.L10N.register(
     "Allow people to publish their data to a global and public address book" : "Tillat brukere å offentliggjøre deres data til en verdensomspennende og offentlig adressebok",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Del med meg gjennom min #Nextcloud ID for sammenknyttet sky, se {url}.",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky",
+    "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "Cloud ID copied to the clipboard" : "Sky-ID kopiert til utklippstavlen",
     "Copy to clipboard" : "Kopiert til utklippstavlen",
     "Copied!" : "Kopiert!",
@@ -43,16 +44,11 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (tidligere Twitter)",
     "Mastodon" : "Mastodont",
     "Add to your website" : "Legg på nettsiden din",
-    "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:",
     "Cancel" : "Avbryt",
     "Add remote share" : "Legg til ekstern ressurs",
     "Remote share" : "Ekstern ressurs",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du å legge til ekstern ressurs {name} fra {owner}@{remote}?",
-    "Remote share password" : "Passord for ekstern ressurs",
-    "Clipboard is not available" : "Utklippstavlen er ikke tilgjengelig",
-    "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Passord for ekstern ressurs"
 },
 "nplurals=2; plural=(n != 1);");

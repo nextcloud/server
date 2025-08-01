@@ -49,6 +49,15 @@
 			:opened.sync="openedMenu"
 			:source="source" />
 
+		<!-- Mime -->
+		<td v-if="isMimeAvailable"
+			:title="mime"
+			class="files-list__row-mime"
+			data-cy-files-list-row-mime
+			@click="openDetailsIfAvailable">
+			<span>{{ mime }}</span>
+		</td>
+
 		<!-- Size -->
 		<td v-if="!compact && isSizeAvailable"
 			:style="sizeOpacity"
@@ -85,9 +94,10 @@
 </template>
 
 <script lang="ts">
-import { formatFileSize } from '@nextcloud/files'
+import { FileType, formatFileSize } from '@nextcloud/files'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
+import { t } from '@nextcloud/l10n'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 
 import { useNavigation } from '../composables/useNavigation.ts'
@@ -123,6 +133,10 @@ export default defineComponent({
 	],
 
 	props: {
+		isMimeAvailable: {
+			type: Boolean,
+			default: false,
+		},
 		isSizeAvailable: {
 			type: Boolean,
 			default: false,
@@ -186,6 +200,36 @@ export default defineComponent({
 			return this.currentView.columns || []
 		},
 
+		mime() {
+			if (this.source.type === FileType.Folder) {
+				return this.t('files', 'Folder')
+			}
+
+			if (!this.source.mime || this.source.mime === 'application/octet-stream') {
+				return t('files', 'Unknown file type')
+			}
+
+			if (window.OC?.MimeTypeList?.names?.[this.source.mime]) {
+				return window.OC.MimeTypeList.names[this.source.mime]
+			}
+
+			const baseType = this.source.mime.split('/')[0]
+			const ext = this.source?.extension?.toUpperCase().replace(/^\./, '') || ''
+			if (baseType === 'image') {
+				return t('files', '{ext} image', { ext })
+			}
+			if (baseType === 'video') {
+				return t('files', '{ext} video', { ext })
+			}
+			if (baseType === 'audio') {
+				return t('files', '{ext} audio', { ext })
+			}
+			if (baseType === 'text') {
+				return t('files', '{ext} text', { ext })
+			}
+
+			return this.source.mime
+		},
 		size() {
 			const size = this.source.size
 			if (size === undefined || isNaN(size) || size < 0) {

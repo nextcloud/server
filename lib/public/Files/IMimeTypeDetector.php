@@ -87,4 +87,12 @@ interface IMimeTypeDetector {
 	 * @since 32.0.0
 	 */
 	public function getAllMappings(): array;
+
+	/**
+	 * Get all human readable mime names
+	 *
+	 * @return array<string,string>
+	 * @since 32.0.0
+	 */
+	public function getAllNamings(): array;
 }

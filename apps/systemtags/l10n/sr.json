@@ -108,8 +108,6 @@
     "A tag with the same name already exists" : "Већ постоји ознака са истим именом",
     "Failed to load tags for file" : "Није успело учитавање ознака за фајл",
     "Failed to set tag for file" : "Није успело постављање ознака за фајл",
-    "Failed to delete tag for file" : "Није успело брисање ознака за фајл",
-    "This file has the tag {tag}" : "Овај фајл има ознаку {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Овај фајл има ознаке {firstTags} и {lastTag}"
+    "Failed to delete tag for file" : "Није успело брисање ознака за фајл"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

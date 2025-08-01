@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -79,7 +80,7 @@ class RepairTest extends TestCase {
 			->willReturn($outputFormatter);
 		$this->output->expects($this->any())
 			->method('writeln')
-			->willReturnCallback(function ($line) use ($self) {
+			->willReturnCallback(function ($line) use ($self): void {
 				$self->outputLines .= $line . "\n";
 			});
 	}
@@ -110,9 +111,7 @@ class RepairTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataEmptyTest
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEmptyTest')]
 	public function testEmptyExecute($directoryNames, $expectedOutput): void {
 		$previewFolder = $this->getMockBuilder(Folder::class)
 			->getMock();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -52,8 +53,6 @@ use OCP\AppFramework\QueryException;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
-
-require_once __DIR__ . '/../../3rdparty/autoload.php';
 
 /**
  * @package OCA\Files_External\AppInfo

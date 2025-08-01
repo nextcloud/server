@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,8 @@
  */
 
 namespace Test\Preview;
+
+use OC\Preview\JPEG;
 
 /**
  * Class ImageTest
@@ -22,6 +25,6 @@ class ImageTest extends Provider {
 		$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
 		$this->width = 1680;
 		$this->height = 1050;
-		$this->provider = new \OC\Preview\JPEG();
+		$this->provider = new JPEG();
 	}
 }

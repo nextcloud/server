@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "如果您重新生成了备用码，旧的代码将自动失效。",
     "{name} backup codes" : "{name} 备用码",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "在设置两步验证时使用您保存的其中一个备用码",
-    "Submit" : "提交",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "下列是您的备用码。备用码无法重复查看，请将其保存或打印存储。"
+    "Submit" : "提交"
 },
 "nplurals=1; plural=0;");

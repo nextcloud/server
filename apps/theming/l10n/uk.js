@@ -119,12 +119,7 @@ OC.L10N.register(
     "Reset to default" : "Скинути до типового",
     "Upload" : "Завантажити",
     "Remove background image" : "Вилучити зображення тла",
-    "Color" : "Колір",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Для нас дуже важливо забезпечити доступ для всіх. Ми дотримуємось сучасних стандартів розробки у вебі, намагаємося забезпечити зручність користування без комп'ютерної миші, а також за допомогою допоміжного програмного забезпечення, наприклад, застосунки зчитування з екрана. Ми прагнемо відповідати {guidelines} Правилам доступу до вмісту у мережі {linkend} 2.1 на рівні AA, а з темою високої контрастності навіть на рівні AAA.",
-    ". Unable to apply the setting." : ". Не вдалося застосувати налаштування.",
-    "Background" : "Тло",
-    "Set a custom background" : "Встановити спеціальне зображення тла",
-    "Change color" : "Змінити колір",
-    "No background" : "Без тла"
+    ". Unable to apply the setting." : ". Не вдалося застосувати налаштування."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

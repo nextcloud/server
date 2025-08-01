@@ -10,12 +10,14 @@ namespace OC\Files;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
+use OC\Files\Storage\Wrapper\Quota;
 use OC\Share\Share;
 use OC\User\LazyUser;
 use OC\User\Manager as UserManager;
 use OC\User\User;
 use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
+use OCP\Files;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\ConnectionLostException;
 use OCP\Files\EmptyFileNameException;
@@ -628,7 +630,7 @@ class View {
 				[$storage, $internalPath] = $this->resolvePath($path);
 				$target = $storage->fopen($internalPath, 'w');
 				if ($target) {
-					[, $result] = \OC_Helper::streamCopy($data, $target);
+					[, $result] = Files::streamCopy($data, $target, true);
 					fclose($target);
 					fclose($data);
 
@@ -936,7 +938,7 @@ class View {
 
 			try {
 				$exists = $this->file_exists($target);
-				if ($this->shouldEmitHooks()) {
+				if ($this->shouldEmitHooks($target)) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_copy,
@@ -976,7 +978,7 @@ class View {
 					$this->changeLock($target, ILockingProvider::LOCK_SHARED);
 					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
-					if ($this->shouldEmitHooks() && $result !== false) {
+					if ($this->shouldEmitHooks($target) && $result !== false) {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
 							Filesystem::signal_post_copy,
@@ -1578,11 +1580,21 @@ class View {
 						// Create parent folders if the mountpoint is inside a subfolder that doesn't exist yet
 						if (!isset($files[$entryName])) {
 							try {
+								[$storage, ] = $this->resolvePath($path . '/' . $entryName);
+								// make sure we can create the mountpoint folder, even if the user has a quota of 0
+								if ($storage->instanceOfStorage(Quota::class)) {
+									$storage->enableQuota(false);
+								}
+
 								if ($this->mkdir($path . '/' . $entryName) !== false) {
 									$info = $this->getFileInfo($path . '/' . $entryName);
 									if ($info !== false) {
 										$files[$entryName] = $info;
 									}
+								}
+
+								if ($storage->instanceOfStorage(Quota::class)) {
+									$storage->enableQuota(true);
 								}
 							} catch (\Exception $e) {
 								// Creating the parent folder might not be possible, for example due to a lack of permissions.

@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests;
+namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\ForwardedForHeaders;
 use OCP\IConfig;
@@ -26,8 +26,7 @@ class ForwardedForHeadersTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($message, array $replace) {
@@ -44,9 +43,7 @@ class ForwardedForHeadersTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataForwardedForHeadersWorking
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataForwardedForHeadersWorking')]
 	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, string $result): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
@@ -68,7 +65,7 @@ class ForwardedForHeadersTest extends TestCase {
 		);
 	}
 
-	public function dataForwardedForHeadersWorking(): array {
+	public static function dataForwardedForHeadersWorking(): array {
 		return [
 			// description => trusted proxies, getHeader('REMOTE_ADDR'), getRemoteAddr, expected result
 			'no trusted proxies' => [[], '2.2.2.2', '2.2.2.2', SetupResult::SUCCESS],

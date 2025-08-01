@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "Dobrý den, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Všechno nejlepší k narozeninám 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Všechno nejlepší k narozeninám, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "„ikona {title}“",
     "Customize" : "Přizpůsobit si",
     "Edit widgets" : "Upravit ovládací prvky",
     "Get more widgets from the App Store" : "Získat další ovládací prvky z katalogu aplikací",

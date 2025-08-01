@@ -41,6 +41,7 @@ OC.L10N.register(
     "Automatically accept shares from trusted federated accounts and groups by default" : "Accetta automaticamente le condivisioni da account e gruppi federati attendibili",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Condividi con me attraverso il mio ID di cloud federato #Nextcloud, vedi {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Condividi con me attraverso il mio ID di cloud federata #Nextcloud",
+    "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "Cloud ID copied to the clipboard" : "ID di cloud copiato negli appunti",
     "Copy to clipboard" : "Copia negli appunti",
     "Clipboard not available. Please copy the cloud ID manually." : "Appunti non disponibili. Copia manualmente l'ID cloud.",
@@ -54,17 +55,12 @@ OC.L10N.register(
     "formerly Twitter" : "precedentemente Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Aggiungi al tuo sito web",
-    "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "HTML Code:" : "Codice HTML:",
     "Cancel" : "Annulla",
     "Add remote share" : "Aggiungi condivisione remota",
     "Remote share" : "Condivisione remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vuoi aggiungere la condivisione remota {name} da {owner}@{remote}?",
     "Remote share password" : "Password della condivisione remota",
-    "Incoming share could not be processed" : "Non è stato possibile elaborare la condivisione in entrata",
-    "Clipboard is not available" : "Appunti non disponibili",
-    "Your Federated Cloud ID:" : "Il tuo ID di cloud federata:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Non è stato possibile elaborare la condivisione in entrata"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

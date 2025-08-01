@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -39,7 +41,7 @@ class PersonalTest extends TestCase {
 	private Personal $admin;
 
 	/** @var ITheme[] */
-	private $themes;
+	private array $themes;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -67,8 +69,7 @@ class PersonalTest extends TestCase {
 		);
 	}
 
-
-	public function dataTestGetForm() {
+	public function dataTestGetForm(): array {
 		return [
 			['', [
 				$this->formatThemeForm('default'),
@@ -86,12 +87,10 @@ class PersonalTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestGetForm
-	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 */
-	public function testGetForm(string $enforcedTheme, $themesState): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetForm')]
+	public function testGetForm(string $enforcedTheme, array $themesState): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('enforce_theme', '')

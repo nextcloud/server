@@ -33,6 +33,7 @@ OC.L10N.register(
     "Allow people to publish their data to a global and public address book" : "Dovoli uporabnikom objavljanje podatkov v splošnem in javnem imeniku",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Souporaba z določilom ID #Zveznega oblaka Nextcloud ; več podrobnosti je na naslovu {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Omogoči souporabo z #Določilom ID zveznega oblaka Nextcloud",
+    "Share with me via Nextcloud" : "Omogoči souporabo z oblaka Nextcloud",
     "Cloud ID copied to the clipboard" : "Določilo ID oblaka je kopirano v odložišče",
     "Copy to clipboard" : "Kopiraj v odložišče",
     "Copied!" : "Kopirano!",
@@ -43,16 +44,11 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (prej Twitter)",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Dodaj na spletišče",
-    "Share with me via Nextcloud" : "Omogoči souporabo z oblaka Nextcloud",
     "HTML Code:" : "Koda HTML:",
     "Cancel" : "Prekliči",
     "Add remote share" : "Dodaj oddaljeno mesto za souporabo",
     "Remote share" : "Oddaljeno mesto za souporabo",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ali želite dodati oddaljeno mesto uporabe {name} uporabnika {owner}@{remote}?",
-    "Remote share password" : "Geslo za oddaljeno souporabo",
-    "Clipboard is not available" : "Odložišče ni na voljo",
-    "Your Federated Cloud ID:" : "ID zveznega oblaka:",
-    "Twitter" : "Račun Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Geslo za oddaljeno souporabo"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

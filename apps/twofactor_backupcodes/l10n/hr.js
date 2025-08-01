@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Ako ponovno generirate pričuvne šifre, automatski poništavate stare šifre.",
     "{name} backup codes" : "{name} pričuvnih šifri",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Upotrijebite jednu od pričuvnih šifri koje ste spremili prilikom postavljanja dvofaktorske autentifikacije.",
-    "Submit" : "Šalji",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ovo su vaše pričuvne šifre. Spremite ih i/ili ih ispišite jer ih kasnije više nećete moći pročitati"
+    "Submit" : "Šalji"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

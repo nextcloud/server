@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -27,7 +28,7 @@ class NulLCacheTest extends \Test\TestCase {
 	}
 
 	public function testGetEmpty(): void {
-		$this->assertNull($this->cache->get('foo'));
+		$this->assertFalse($this->cache->get('foo'));
 	}
 
 	public function testGet(): void {

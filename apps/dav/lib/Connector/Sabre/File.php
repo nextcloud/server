@@ -19,6 +19,7 @@ use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
 use OCP\App\IAppManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
@@ -215,7 +216,9 @@ class File extends Node implements IFile {
 					try {
 						/** @var IWriteStreamStorage $partStorage */
 						$count = $partStorage->writeStream($internalPartPath, $wrappedData);
-					} catch (GenericFileException) {
+					} catch (GenericFileException $e) {
+						$logger = Server::get(LoggerInterface::class);
+						$logger->error('Error while writing stream to storage: ' . $e->getMessage(), ['exception' => $e, 'app' => 'webdav']);
 						$result = $isEOF;
 						if (is_resource($wrappedData)) {
 							$result = feof($wrappedData);
@@ -229,7 +232,7 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
-				[$count, $result] = \OC_Helper::streamCopy($data, $target);
+				[$count, $result] = Files::streamCopy($data, $target, true);
 				fclose($target);
 			}
 

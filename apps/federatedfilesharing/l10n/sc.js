@@ -22,6 +22,7 @@ OC.L10N.register(
     "Federated file sharing" : "Cumpartzidura archìviu federadu",
     "Provide federated file sharing across servers" : "Frunit una cumpartzidura de archìvios federados intre serbidores",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud Federated Cloud ID",
+    "Share with me via Nextcloud" : "Cumpartzi cun megus tràmite Nextcloud",
     "Copy to clipboard" : "Còpia in is punta de billete",
     "Copied!" : "Copiadu!",
     "Federated Cloud" : "Nue virtuale federada",
@@ -31,14 +32,11 @@ OC.L10N.register(
     "formerly Twitter" : "in antis, Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Agiunghe a su situ web tuo",
-    "Share with me via Nextcloud" : "Cumpartzi cun megus tràmite Nextcloud",
     "HTML Code:" : "Còdighe HTML:",
     "Cancel" : "Annulla",
     "Add remote share" : "Agiunghe cumpartzidura remota",
     "Remote share" : "Cumpartzidura remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Nche cheres agiùnghere sa cumpartzidura remota {name} dae {owner}@{remote}?",
-    "Remote share password" : "Cumpartzidura remota crae",
-    "Your Federated Cloud ID:" : "S'ID tuo de sa nue virtuale federada:",
-    "Twitter" : "Twitter"
+    "Remote share password" : "Cumpartzidura remota crae"
 },
 "nplurals=2; plural=(n != 1);");

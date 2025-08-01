@@ -176,13 +176,14 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 	public function getChild($name, $info = null, ?IRequest $request = null, ?IL10N $l10n = null) {
 		$storage = $this->info->getStorage();
 		$allowDirectory = false;
+
+		// Checking if we're in a file drop
+		// If we are, then only PUT and MKCOL are allowed (see plugin)
+		// so we are safe to return the directory without a risk of
+		// leaking files and folders structure.
 		if ($storage instanceof PublicShareWrapper) {
 			$share = $storage->getShare();
-			$allowDirectory =
-				// Only allow directories for file drops
-				($share->getPermissions() & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ &&
-				// And only allow it for directories which are a direct child of the share root
-				$this->info->getId() === $share->getNodeId();
+			$allowDirectory = ($share->getPermissions() & Constants::PERMISSION_READ) !== Constants::PERMISSION_READ;
 		}
 
 		// For file drop we need to be allowed to read the directory with the nickname

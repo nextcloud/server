@@ -104,6 +104,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Копиране в клипборда",
     "Send link via email" : "Сподели връзка с имейл",
     "Select" : "Избери",
+    "The uploaded files are visible only to you unless you choose to share them." : "Качените файлове са видими само за теб, освен, ако не решиш да ги споделиш с друг.",
     "Close" : "Затваряне",
     "Error creating the share: {errorMessage}" : "Грешка при създаване на споделянето: {errorMessage}",
     "Error creating the share" : "Грешка при създаване на споделянето",
@@ -165,10 +166,9 @@ OC.L10N.register(
     "Deck board" : "Deck табло",
     "ScienceMesh" : "ScienceMesh /приложение/",
     "on {server}" : "на {server}",
+    "Search for internal recipients" : "Търси вътрешни получатели",
     "File drop" : "Пускане/Преместване/ на файл",
     "Terms of service" : "Условия за ползване",
-    "Name" : "Име",
-    "Enter your name" : "Въведете вашето име",
     "Read" : "Четене",
     "Create" : "Създаване",
     "Edit" : "Редактиране",
@@ -244,10 +244,10 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Не беше намерен съвместим сървър на {remote}",
     "Invalid server URL" : "URL адреса на сървъра не е валиден",
     "Failed to add the public link to your Nextcloud" : "Неуспешно добавяне на публичната връзка към вашия Nextcloud",
-    "Files" : "Файлове",
     "Download all files" : "Изтегли всички файлове",
     "Search for share recipients" : "Търсене на получатели на споделяне",
     "No recommendations. Start typing." : "Няма препоръки. Започнете да пишете.",
-    "Allow download" : "Позволяване на изтегляне/сваляне/"
+    "Enter your name" : "Въведете вашето име",
+    "Name" : "Име"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,15 +1,19 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Files\Sharing;
+namespace OCA\DAV\Tests\unit\Files\Sharing;
 
-use OC\Files\View;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
+use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
-use Sabre\DAV\Exception\MethodNotAllowed;
+use PHPUnit\Framework\MockObject\MockObject;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -17,37 +21,30 @@ use Test\TestCase;
 
 class FilesDropPluginTest extends TestCase {
 
-	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
-	private $view;
+	private FilesDropPlugin $plugin;
 
-	/** @var IShare|\PHPUnit\Framework\MockObject\MockObject */
-	private $share;
-
-	/** @var Server|\PHPUnit\Framework\MockObject\MockObject */
-	private $server;
-
-	/** @var FilesDropPlugin */
-	private $plugin;
-
-	/** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
-	private $response;
+	private Folder&MockObject $node;
+	private IShare&MockObject $share;
+	private Server&MockObject $server;
+	private RequestInterface&MockObject $request;
+	private ResponseInterface&MockObject $response;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->view = $this->createMock(View::class);
+		$this->node = $this->createMock(Folder::class);
+		$this->node->method('getPath')
+			->willReturn('/files/token');
+
 		$this->share = $this->createMock(IShare::class);
+		$this->share->expects(self::any())
+			->method('getNode')
+			->willReturn($this->node);
 		$this->server = $this->createMock(Server::class);
 		$this->plugin = new FilesDropPlugin();
 
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->response = $this->createMock(ResponseInterface::class);
-
-		$this->response->expects($this->never())
-			->method($this->anything());
 
 		$attributes = $this->createMock(IAttributes::class);
 		$this->share->expects($this->any())
@@ -59,22 +56,7 @@ class FilesDropPluginTest extends TestCase {
 			->willReturn('token');
 	}
 
-	public function testInitialize(): void {
-		$this->server->expects($this->once())
-			->method('on')
-			->with(
-				$this->equalTo('beforeMethod:*'),
-				$this->equalTo([$this->plugin, 'beforeMethod']),
-				$this->equalTo(999)
-			);
-
-		$this->plugin->initialize($this->server);
-	}
-
 	public function testNotEnabled(): void {
-		$this->view->expects($this->never())
-			->method($this->anything());
-
 		$this->request->expects($this->never())
 			->method($this->anything());
 
@@ -83,7 +65,6 @@ class FilesDropPluginTest extends TestCase {
 
 	public function testValid(): void {
 		$this->plugin->enable();
-		$this->plugin->setView($this->view);
 		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
@@ -95,9 +76,10 @@ class FilesDropPluginTest extends TestCase {
 		$this->request->method('getBaseUrl')
 			->willReturn('https://example.com');
 
-		$this->view->method('file_exists')
-			->with('/file.txt')
-			->willReturn(false);
+		$this->node->expects(self::once())
+			->method('getNonExistingName')
+			->with('file.txt')
+			->willReturn('file.txt');
 
 		$this->request->expects($this->once())
 			->method('setUrl')
@@ -108,7 +90,6 @@ class FilesDropPluginTest extends TestCase {
 
 	public function testFileAlreadyExistsValid(): void {
 		$this->plugin->enable();
-		$this->plugin->setView($this->view);
 		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
@@ -120,14 +101,9 @@ class FilesDropPluginTest extends TestCase {
 		$this->request->method('getBaseUrl')
 			->willReturn('https://example.com');
 
-		$this->view->method('file_exists')
-			->willReturnCallback(function ($path) {
-				if ($path === 'file.txt' || $path === '/file.txt') {
-					return true;
-				} else {
-					return false;
-				}
-			});
+		$this->node->method('getNonExistingName')
+			->with('file.txt')
+			->willReturn('file (2).txt');
 
 		$this->request->expects($this->once())
 			->method('setUrl')
@@ -136,26 +112,50 @@ class FilesDropPluginTest extends TestCase {
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testNoMKCOL(): void {
+	public function testNoMKCOLWithoutNickname(): void {
 		$this->plugin->enable();
-		$this->plugin->setView($this->view);
 		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('MKCOL');
 
-		$this->expectException(MethodNotAllowed::class);
+		$this->expectException(BadRequest::class);
 
 		$this->plugin->beforeMethod($this->request, $this->response);
 	}
 
-	public function testNoSubdirPut(): void {
+	public function testMKCOLWithNickname(): void {
 		$this->plugin->enable();
-		$this->plugin->setView($this->view);
+		$this->plugin->setShare($this->share);
+
+		$this->request->method('getMethod')
+			->willReturn('MKCOL');
+
+		$this->request->method('hasHeader')
+			->with('X-NC-Nickname')
+			->willReturn(true);
+		$this->request->method('getHeader')
+			->with('X-NC-Nickname')
+			->willReturn('nickname');
+
+		$this->expectNotToPerformAssertions();
+
+		$this->plugin->beforeMethod($this->request, $this->response);
+	}
+
+	public function testSubdirPut(): void {
+		$this->plugin->enable();
 		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('PUT');
+
+		$this->request->method('hasHeader')
+			->with('X-NC-Nickname')
+			->willReturn(true);
+		$this->request->method('getHeader')
+			->with('X-NC-Nickname')
+			->willReturn('nickname');
 
 		$this->request->method('getPath')
 			->willReturn('/files/token/folder/file.txt');
@@ -163,19 +163,96 @@ class FilesDropPluginTest extends TestCase {
 		$this->request->method('getBaseUrl')
 			->willReturn('https://example.com');
 
-		$this->view->method('file_exists')
-			->willReturnCallback(function ($path) {
-				if ($path === 'file.txt' || $path === '/file.txt') {
-					return true;
-				} else {
-					return false;
-				}
-			});
+		$nodeName = $this->createMock(Folder::class);
+		$nodeFolder = $this->createMock(Folder::class);
+		$nodeFolder->expects(self::once())
+			->method('getPath')
+			->willReturn('/files/token/nickname/folder');
+		$nodeFolder->method('getNonExistingName')
+			->with('file.txt')
+			->willReturn('file.txt');
+		$nodeName->expects(self::once())
+			->method('get')
+			->with('folder')
+			->willThrowException(new NotFoundException());
+		$nodeName->expects(self::once())
+			->method('newFolder')
+			->with('folder')
+			->willReturn($nodeFolder);
+
+		$this->node->expects(self::once())
+			->method('get')
+			->willThrowException(new NotFoundException());
+		$this->node->expects(self::once())
+			->method('newFolder')
+			->with('nickname')
+			->willReturn($nodeName);
 
 		$this->request->expects($this->once())
 			->method('setUrl')
-			->with($this->equalTo('https://example.com/files/token/file (2).txt'));
+			->with($this->equalTo('https://example.com/files/token/nickname/folder/file.txt'));
 
 		$this->plugin->beforeMethod($this->request, $this->response);
+	}
+
+	public function testRecursiveFolderCreation(): void {
+		$this->plugin->enable();
+		$this->plugin->setShare($this->share);
+
+		$this->request->method('getMethod')
+			->willReturn('PUT');
+		$this->request->method('hasHeader')
+			->with('X-NC-Nickname')
+			->willReturn(true);
+		$this->request->method('getHeader')
+			->with('X-NC-Nickname')
+			->willReturn('nickname');
+
+		$this->request->method('getPath')
+			->willReturn('/files/token/folder/subfolder/file.txt');
+		$this->request->method('getBaseUrl')
+			->willReturn('https://example.com');
+
+		$this->request->expects($this->once())
+			->method('setUrl')
+			->with($this->equalTo('https://example.com/files/token/nickname/folder/subfolder/file.txt'));
+
+		$subfolder = $this->createMock(Folder::class);
+		$subfolder->expects(self::once())
+			->method('getNonExistingName')
+			->with('file.txt')
+			->willReturn('file.txt');
+		$subfolder->expects(self::once())
+			->method('getPath')
+			->willReturn('/files/token/nickname/folder/subfolder');
+
+		$folder = $this->createMock(Folder::class);
+		$folder->expects(self::once())
+			->method('get')
+			->with('subfolder')
+			->willReturn($subfolder);
+
+		$nickname = $this->createMock(Folder::class);
+		$nickname->expects(self::once())
+			->method('get')
+			->with('folder')
+			->willReturn($folder);
+
+		$this->node->method('get')
+			->with('nickname')
+			->willReturn($nickname);
+		$this->plugin->beforeMethod($this->request, $this->response);
+	}
+
+	public function testOnMkcol(): void {
+		$this->plugin->enable();
+		$this->plugin->setShare($this->share);
+
+		$this->response->expects($this->once())
+			->method('setStatus')
+			->with(201);
+
+		$response = $this->plugin->onMkcol($this->request, $this->response);
+		$this->assertFalse($response);
 	}
 }

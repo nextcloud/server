@@ -212,6 +212,10 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		return $file;
 	}
 
+	public function getRevision(Node $node): int {
+		return $node->getMTime();
+	}
+
 	public function deleteVersion(IVersion $version): void {
 		if (!$this->currentUserHasPermissions($version->getSourceFile(), Constants::PERMISSION_DELETE)) {
 			throw new Forbidden('You cannot delete this version because you do not have delete permissions on the source file.');
@@ -225,7 +229,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$this->versionsMapper->delete($versionEntity);
 	}
 
-	public function createVersionEntity(File $file): void {
+	public function createVersionEntity(File $file): ?VersionEntity {
 		$versionEntity = new VersionEntity();
 		$versionEntity->setFileId($file->getId());
 		$versionEntity->setTimestamp($file->getMTime());
@@ -237,8 +241,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		while ($tries < 5) {
 			try {
 				$this->versionsMapper->insert($versionEntity);
-				/* No errors, get out of the method */
-				return;
+				return $versionEntity;
 			} catch (\OCP\DB\Exception $e) {
 				if (!in_array($e->getReason(), [
 					\OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION,
@@ -253,6 +256,8 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 				$this->logger->warning('Constraint violation while inserting version, retrying with increased timestamp', ['exception' => $e]);
 			}
 		}
+
+		return null;
 	}
 
 	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
@@ -367,16 +372,20 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	 * @inheritdoc
 	 */
 	public function clearVersionsForFile(IUser $user, Node $source, Node $target): void {
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$userId = $user->getUID();
+		$userFolder = $this->rootFolder->getUserFolder($userId);
 
 		$relativePath = $userFolder->getRelativePath($source->getPath());
 		if ($relativePath === null) {
 			throw new Exception('Relative path not found for node with path: ' . $source->getPath());
 		}
 
-		$versions = Storage::getVersions($user->getUID(), $relativePath);
-		/** @var Folder versionFolder */
-		$versionFolder = $this->rootFolder->get('admin/files_versions');
+		$versionFolder = $this->rootFolder->get($userId . '/files_versions');
+		if (!$versionFolder instanceof Folder) {
+			throw new Exception('User versions folder does not exist');
+		}
+
+		$versions = Storage::getVersions($userId, $relativePath);
 		foreach ($versions as $version) {
 			$versionFolder->get($version['path'] . '.v' . (int)$version['version'])->delete();
 		}

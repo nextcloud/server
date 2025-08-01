@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace Test\IntegrityCheck;
 
 use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
+use OC\Files\Type\Detection;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
@@ -54,7 +56,7 @@ class CheckerTest extends TestCase {
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->mimeTypeDetector = $this->createMock(\OC\Files\Type\Detection::class);
+		$this->mimeTypeDetector = $this->createMock(Detection::class);
 
 		$this->config->method('getAppValue')
 			->willReturnArgument(2);
@@ -111,7 +113,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('file_put_contents')
-			->will($this->throwException(new \Exception('Exception message')));
+			->willThrowException(new \Exception('Exception message'));
 
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
@@ -445,7 +447,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('assertDirectoryExists')
-			->will($this->throwException(new \Exception('Exception message')));
+			->willThrowException(new \Exception('Exception message'));
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('is_writable')
@@ -469,7 +471,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('assertDirectoryExists')
-			->will($this->throwException(new \Exception('Exception message')));
+			->willThrowException(new \Exception('Exception message'));
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('is_writable')
@@ -713,7 +715,9 @@ class CheckerTest extends TestCase {
 	 */
 	public function testVerifyCoreSignatureWithModifiedMimetypelistSignatureData(): void {
 		$shippedMimetypeAliases = (array)json_decode(file_get_contents(\OC::$SERVERROOT . '/resources/config/mimetypealiases.dist.json'));
+		$shippedMimetypeNames = (array)json_decode(file_get_contents(\OC::$SERVERROOT . '/resources/config/mimetypenames.dist.json'));
 		$allAliases = array_merge($shippedMimetypeAliases, ['my-custom/mimetype' => 'custom']);
+		$allMimetypeNames = array_merge($shippedMimetypeNames, ['my-custom/mimetype' => 'Custom Document']);
 
 		$this->mimeTypeDetector
 			->method('getOnlyDefaultAliases')
@@ -723,9 +727,14 @@ class CheckerTest extends TestCase {
 			->method('getAllAliases')
 			->willReturn($allAliases);
 
+		$this->mimeTypeDetector
+			->method('getAllNamings')
+			->willReturn($allMimetypeNames);
+
 		$oldMimetypeList = new GenerateMimetypeFileBuilder();
 		$all = $this->mimeTypeDetector->getAllAliases();
-		$newFile = $oldMimetypeList->generateFile($all);
+		$namings = $this->mimeTypeDetector->getAllNamings();
+		$newFile = $oldMimetypeList->generateFile($all, $namings);
 
 		// When updating the mimetype list the test assets need to be updated as well
 		// 1. Update core/js/mimetypelist.js with the new generated js by running the test with the next line uncommented:
@@ -1070,8 +1079,8 @@ class CheckerTest extends TestCase {
 	/**
 	 * @param string $channel
 	 * @param bool $isCodeSigningEnforced
-	 * @dataProvider channelDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced): void {
 		$this->serverVersion
 			->expects($this->once())
@@ -1088,8 +1097,8 @@ class CheckerTest extends TestCase {
 
 	/**
 	 * @param string $channel
-	 * @dataProvider channelDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel): void {
 		$this->serverVersion
 			->expects($this->once())

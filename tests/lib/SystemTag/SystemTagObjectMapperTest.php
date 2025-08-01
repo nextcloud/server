@@ -13,6 +13,7 @@ use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
+use OCP\Server;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -64,7 +65,7 @@ class SystemTagObjectMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->pruneTagsTables();
 
 		$this->tagManager = $this->createMock(ISystemTagManager::class);
@@ -198,7 +199,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 
 	public function testGetObjectsForNonExistingTag(): void {
-		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+		$this->expectException(TagNotFoundException::class);
 
 		$this->tagMapper->getObjectIdsForTags(
 			[100],
@@ -236,7 +237,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 
 	public function testAssignNonExistingTags(): void {
-		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+		$this->expectException(TagNotFoundException::class);
 
 		$this->tagMapper->assignTags('1', 'testtype', [100]);
 	}
@@ -263,7 +264,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 
 	public function testUnassignNonExistingTags(): void {
-		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+		$this->expectException(TagNotFoundException::class);
 
 		$this->tagMapper->unassignTags('1', 'testtype', [100]);
 	}
@@ -394,7 +395,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 
 	public function testHaveTagNonExisting(): void {
-		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+		$this->expectException(TagNotFoundException::class);
 
 		$this->tagMapper->haveTag(
 			['1'],

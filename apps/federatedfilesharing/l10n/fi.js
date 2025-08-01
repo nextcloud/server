@@ -21,6 +21,7 @@ OC.L10N.register(
     "Federated file sharing" : "Federoitu tiedostojako",
     "Provide federated file sharing across servers" : "Mahdollistaa federoidun tiedostojaon palvelinten välillä",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
+    "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "Copy to clipboard" : "Kopioi leikepöydälle",
     "Copied!" : "Kopioitu!",
     "Federated Cloud" : "Federoitu pilvi",
@@ -30,16 +31,11 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (aiemmin Twitter)",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Lisää verkkosivuillesi",
-    "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
     "Cancel" : "Peruuta",
     "Add remote share" : "Lisää etäjako",
     "Remote share" : "Etäjako",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Haluatko lisätä etäjaon {name} kohteesta {owner}@{remote}?",
-    "Remote share password" : "Etäjaon salasana",
-    "Clipboard is not available" : "Leikepöytä ei ole käytettävissä",
-    "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Etäjaon salasana"
 },
 "nplurals=2; plural=(n != 1);");

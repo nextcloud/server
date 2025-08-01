@@ -106,6 +106,9 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 				'--color-border' => $this->util->darken($colorMainBackground, 50),
 				'--color-border-dark' => $this->util->darken($colorMainBackground, 50),
 				'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 56),
+
+				// remove the gradient from the app icons
+				'--header-menu-icon-mask' => 'none',
 			]
 		);
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,6 +13,7 @@ use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 use OCA\Files_External\Lib\Config\IBackendProvider;
+use OCA\Files_External\Lib\MissingDependency;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
@@ -187,7 +189,8 @@ class BackendService {
 	 */
 	public function getAvailableBackends() {
 		return array_filter($this->getBackends(), function ($backend) {
-			return !$backend->checkDependencies();
+			$missing = array_filter($backend->checkDependencies(), fn (MissingDependency $dependency) => !$dependency->isOptional());
+			return count($missing) === 0;
 		});
 	}
 
@@ -256,8 +259,8 @@ class BackendService {
 	 * @return bool
 	 */
 	protected function isAllowedUserBackend(Backend $backend) {
-		if ($this->userMountingAllowed &&
-			array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends)
+		if ($this->userMountingAllowed
+			&& array_intersect($backend->getIdentifierAliases(), $this->userMountingBackends)
 		) {
 			return true;
 		}

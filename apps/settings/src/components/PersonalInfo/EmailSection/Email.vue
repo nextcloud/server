@@ -48,7 +48,7 @@
 							:disabled="deleteDisabled"
 							@click="deleteEmail">
 							<template #icon>
-								<NcIconSvgWrapper :path="mdiTrashCan" />
+								<NcIconSvgWrapper :path="mdiTrashCanOutline" />
 							</template>
 							{{ deleteEmailLabel }}
 						</NcActionButton>
@@ -71,7 +71,7 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import debounce from 'debounce'
 
-import { mdiArrowLeft, mdiLock, mdiStar, mdiStarOutline, mdiTrashCan } from '@mdi/js'
+import { mdiArrowLeft, mdiLockOutline, mdiStar, mdiStarOutline, mdiTrashCanOutline } from '@mdi/js'
 
 import FederationControl from '../shared/FederationControl.vue'
 import { handleError } from '../../../utils/handlers.ts'
@@ -133,10 +133,10 @@ export default {
 	setup() {
 		return {
 			mdiArrowLeft,
-			mdiLock,
+			mdiLockOutline,
 			mdiStar,
 			mdiStarOutline,
-			mdiTrashCan,
+			mdiTrashCanOutline,
 			saveAdditionalEmailScope,
 		}
 	},

@@ -144,6 +144,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\SecurityHeaders' => __DIR__ . '/..' . '/../lib/SetupChecks/SecurityHeaders.php',
         'OCA\\Settings\\SetupChecks\\SupportedDatabase' => __DIR__ . '/..' . '/../lib/SetupChecks/SupportedDatabase.php',
         'OCA\\Settings\\SetupChecks\\SystemIs64bit' => __DIR__ . '/..' . '/../lib/SetupChecks/SystemIs64bit.php',
+        'OCA\\Settings\\SetupChecks\\TaskProcessingPickupSpeed' => __DIR__ . '/..' . '/../lib/SetupChecks/TaskProcessingPickupSpeed.php',
         'OCA\\Settings\\SetupChecks\\TempSpaceAvailable' => __DIR__ . '/..' . '/../lib/SetupChecks/TempSpaceAvailable.php',
         'OCA\\Settings\\SetupChecks\\TransactionIsolation' => __DIR__ . '/..' . '/../lib/SetupChecks/TransactionIsolation.php',
         'OCA\\Settings\\SetupChecks\\WellKnownUrls' => __DIR__ . '/..' . '/../lib/SetupChecks/WellKnownUrls.php',

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -59,6 +60,10 @@ abstract class LogDetails {
 			'userAgent',
 			'version'
 		);
+		$clientReqId = $request->getHeader('X-Request-Id');
+		if ($clientReqId !== '') {
+			$entry['clientReqId'] = $clientReqId;
+		}
 
 		if (is_array($message)) {
 			// Exception messages are extracted and the exception is put into a separate field

@@ -13,7 +13,6 @@ OC.L10N.register(
     "Print backup codes" : "Tulosta varakoodit",
     "Regenerate backup codes" : "Luo varakoodit uudelleen",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jos luot varakoodit uudelleen, vanhat koodit poistetaan automaattisesti käytöstä.",
-    "Submit" : "Lähetä",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Nämä ovat varakoodisi. Tallenna ja/tai tulosta ne, koska et voi lukea koodeja myöhemmin"
+    "Submit" : "Lähetä"
 },
 "nplurals=2; plural=(n != 1);");

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace OCP\Notification;
 
-/**
- * @since 30.0.0
- */
+use OCP\AppFramework\Attribute\Throwable;
+
+#[Throwable(since: '30.0.0')]
 class UnknownNotificationException extends \InvalidArgumentException {
 }

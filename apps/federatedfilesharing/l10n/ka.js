@@ -24,6 +24,7 @@ OC.L10N.register(
     "Unable to update federated files sharing config" : "Unable to update federated files sharing config",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Share with me through my #Nextcloud Federated Cloud ID, see {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Share with me through my #Nextcloud Federated Cloud ID",
+    "Share with me via Nextcloud" : "Share with me via Nextcloud",
     "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
     "Copy to clipboard" : "Copy to clipboard",
     "Copied!" : "Copied!",
@@ -33,16 +34,11 @@ OC.L10N.register(
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (formerly Twitter)",
     "Add to your website" : "Add to your website",
-    "Share with me via Nextcloud" : "Share with me via Nextcloud",
     "HTML Code:" : "HTML Code:",
     "Cancel" : "Cancel",
     "Add remote share" : "Add remote share",
     "Remote share" : "Remote share",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
-    "Remote share password" : "Remote share password",
-    "Clipboard is not available" : "Clipboard is not available",
-    "Your Federated Cloud ID:" : "Your Federated Cloud ID:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Remote share password"
 },
 "nplurals=2; plural=(n!=1);");

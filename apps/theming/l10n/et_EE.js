@@ -58,7 +58,7 @@ OC.L10N.register(
     "Primary color" : "Põhivärv",
     "The primary color is used for highlighting elements like important buttons. It might get slightly adjusted depending on the current color schema." : "Põhivärv on mõeldud lehe oluliste elementude rõhutamiseks. Vastavalt valitud üldkujundusele võib see värv ka natuke kohenduda.",
     "Legal notice link" : "Juriidilise teabe link",
-    "Privacy policy link" : "Privaatsusreeglite link",
+    "Privacy policy link" : "Privaatsustingimuste link",
     "Header logo" : "Päiselogo",
     "Upload new header logo" : "Laadi üles uus päiselogo",
     "Favicon" : "Saidi favikon",
@@ -119,12 +119,7 @@ OC.L10N.register(
     "Reset to default" : "Taasta vaikeseaded",
     "Upload" : "Laadi üles",
     "Remove background image" : "Eemalda taustapilt",
-    "Color" : "Värv",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universaalne juurdepääs on meie jaoks väga oluline. Me järgime veebistandardeid ja kontrollime, et kõik oleks kasutatav ka ilma hiireta ja abitarkvara, näiteks ekraani lugejateta. Meie eesmärk on olla vastavuses {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 AA-tasemel, kõrge kontrastsusega kujunduse puhull isegi AAA-tasemel. ",
-    ". Unable to apply the setting." : ". Seadistuse rakendamine pole võimalik.",
-    "Background" : "Taust",
-    "Set a custom background" : "Lisa oma taust",
-    "Change color" : "Muuda värvi",
-    "No background" : "Tausta pole"
+    ". Unable to apply the setting." : ". Seadistuse rakendamine pole võimalik."
 },
 "nplurals=2; plural=(n != 1);");

@@ -20,7 +20,6 @@ use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\Notifier;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
-use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Events\AddressBookCreatedEvent;
 use OCA\DAV\Events\AddressBookDeletedEvent;
@@ -65,6 +64,7 @@ use OCA\DAV\SetupChecks\WebdavEndpoint;
 use OCA\DAV\UserMigration\CalendarMigrator;
 use OCA\DAV\UserMigration\ContactsMigrator;
 use OCP\Accounts\UserUpdatedEvent;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -82,7 +82,6 @@ use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
-use OCP\Files\AppData\IAppDataFactory;
 use OCP\IUserSession;
 use OCP\Server;
 use OCP\Settings\Events\DeclarativeSettingsGetValueEvent;
@@ -112,12 +111,6 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
-		$context->registerService(PhotoCache::class, function (ContainerInterface $c) {
-			return new PhotoCache(
-				$c->get(IAppDataFactory::class)->get('dav-photocache'),
-				$c->get(LoggerInterface::class)
-			);
-		});
 		$context->registerService(AppCalendarPlugin::class, function (ContainerInterface $c) {
 			return new AppCalendarPlugin(
 				$c->get(ICalendarManager::class),
@@ -225,7 +218,7 @@ class Application extends App implements IBootstrap {
 
 	public function boot(IBootContext $context): void {
 		// Load all dav apps
-		\OC_App::loadApps(['dav']);
+		$context->getServerContainer()->get(IAppManager::class)->loadApps(['dav']);
 
 		$context->injectFn($this->registerContactsManager(...));
 		$context->injectFn($this->registerCalendarManager(...));

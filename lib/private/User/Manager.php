@@ -320,9 +320,9 @@ class Manager extends PublicEmitter implements IUserManager {
 				$users,
 				function (IUser $user) use ($search): bool {
 					try {
-						return mb_stripos($user->getUID(), $search) !== false ||
-						mb_stripos($user->getDisplayName(), $search) !== false ||
-						mb_stripos($user->getEMailAddress() ?? '', $search) !== false;
+						return mb_stripos($user->getUID(), $search) !== false
+						|| mb_stripos($user->getDisplayName(), $search) !== false
+						|| mb_stripos($user->getEMailAddress() ?? '', $search) !== false;
 					} catch (NoUserException $ex) {
 						$this->logger->error('Error while filtering disabled users', ['exception' => $ex, 'userUID' => $user->getUID()]);
 						return false;
@@ -724,7 +724,8 @@ class Manager extends PublicEmitter implements IUserManager {
 
 		// User ID is too long
 		if (strlen($uid) > IUser::MAX_USERID_LENGTH) {
-			throw new \InvalidArgumentException($l->t('Login is too long'));
+			// TRANSLATORS User ID is too long
+			throw new \InvalidArgumentException($l->t('Username is too long'));
 		}
 
 		if (!$this->verifyUid($uid, $checkDataDirectory)) {

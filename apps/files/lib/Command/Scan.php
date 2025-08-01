@@ -11,6 +11,7 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Utils\Scanner;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
@@ -99,7 +100,15 @@ class Scan extends Base {
 			);
 	}
 
-	protected function scanFiles(string $user, string $path, ?string $scanMetadata, OutputInterface $output, bool $backgroundScan = false, bool $recursive = true, bool $homeOnly = false): void {
+	protected function scanFiles(
+		string $user,
+		string $path,
+		?string $scanMetadata,
+		OutputInterface $output,
+		callable $mountFilter,
+		bool $backgroundScan = false,
+		bool $recursive = true,
+	): void {
 		$connection = $this->reconnectToDatabase($output);
 		$scanner = new Scanner(
 			$user,
@@ -153,7 +162,7 @@ class Scan extends Base {
 			if ($backgroundScan) {
 				$scanner->backgroundScan($path);
 			} else {
-				$scanner->scan($path, $recursive, $homeOnly ? [$this, 'filterHomeMount'] : null);
+				$scanner->scan($path, $recursive, $mountFilter);
 			}
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Home storage for user $user not writable or 'files' subdirectory missing</error>");
@@ -179,7 +188,7 @@ class Scan extends Base {
 		}
 	}
 
-	public function filterHomeMount(IMountPoint $mountPoint): bool {
+	public function isHomeMount(IMountPoint $mountPoint): bool {
 		// any mountpoint inside '/$user/files/'
 		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
 	}
@@ -211,6 +220,29 @@ class Scan extends Base {
 			$metadata = $input->getOption('generate-metadata') ?? '';
 		}
 
+		$homeOnly = $input->getOption('home-only');
+		$scannedStorages = [];
+		$mountFilter = function (IMountPoint $mount) use ($homeOnly, &$scannedStorages) {
+			if ($homeOnly && !$this->isHomeMount($mount)) {
+				return false;
+			}
+
+			// when scanning multiple users, the scanner might encounter the same storage multiple times (e.g. external storages, or group folders)
+			// we can filter out any storage we've already scanned to avoid double work
+			$storage = $mount->getStorage();
+			$storageKey = $storage->getId();
+			while ($storage->instanceOfStorage(Jail::class)) {
+				$storageKey .= '/' . $storage->getUnjailedPath('');
+				$storage = $storage->getUnjailedStorage();
+			}
+			if (array_key_exists($storageKey, $scannedStorages)) {
+				return false;
+			}
+
+			$scannedStorages[$storageKey] = true;
+			return true;
+		};
+
 		$user_count = 0;
 		foreach ($users as $user) {
 			if (is_object($user)) {
@@ -220,7 +252,15 @@ class Scan extends Base {
 			++$user_count;
 			if ($this->userManager->userExists($user)) {
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
-				$this->scanFiles($user, $path, $metadata, $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
+				$this->scanFiles(
+					$user,
+					$path,
+					$metadata,
+					$output,
+					$mountFilter,
+					$input->getOption('unscanned'),
+					!$input->getOption('shallow'),
+				);
 				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
 			} else {
 				$output->writeln("<error>Unknown user $user_count $user</error>");
@@ -246,8 +286,8 @@ class Scan extends Base {
 		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
 		set_error_handler(
-			fn (int $severity, string $message, string $file, int $line): bool =>
-				$this->exceptionErrorHandler($output, $severity, $message, $file, $line),
+			fn (int $severity, string $message, string $file, int $line): bool
+				=> $this->exceptionErrorHandler($output, $severity, $message, $file, $line),
 			E_ALL
 		);
 	}

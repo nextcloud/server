@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Une étiquette portant le même nom existe déjà",
     "Failed to load tags for file" : "Impossible de charger les étiquettes du fichier",
     "Failed to set tag for file" : "Impossible d'attribuer l'étiquette au fichier",
-    "Failed to delete tag for file" : "Impossible de supprimer l'étiquette au fichier",
-    "This file has the tag {tag}" : "Ce fichier porte l'étiquette {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Ce fichier porte les étiquettes {firstTags} et {lastTag}"
+    "Failed to delete tag for file" : "Impossible de supprimer l'étiquette au fichier"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

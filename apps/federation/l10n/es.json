@@ -9,9 +9,9 @@
     "Federation" : "Federación",
     "Federation allows you to connect with other trusted servers to exchange the account directory." : "La federación le permite conectarse con otros servidores de confianza para intercambiar el directorio de usuarios.",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "La Federación le permite conectarse con otros servidores de confianza para intercambiar el directorio de usuarios. Por ejemplo, esto se utilizará para auto-completar a los usuarios externos para el intercambio federado.",
-    "External documentation for Federated Cloud Sharing" : "Documentación externa sobre Compartir con Nube Federada",
+    "External documentation for Federated Cloud Sharing" : "Documentación externa para Compartir con Nube Federada",
     "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "La Federación le permite conectarse con otros servidores de confianza para intercambiar el directorio de usuarios. Por ejemplo, esto se utilizará para auto-completar a los usuarios externos para el intercambio federado. No es necesario añadir un servidor como servidor de confianza para crear una recurso compartido federado.",
-    "Each server must validate the other. This process may require a few cron cycles." : "Cada servidor debe validar al otro. Este proceso puede necesitar varios ciclos de cron.",
+    "Each server must validate the other. This process may require a few cron cycles." : "Cada servidor debe validar al otro. Este proceso puede necesitar algunos ciclos de cron.",
     "+ Add trusted server" : "+ Añadir servidor de confianza",
     "Trusted server" : "Servidor de confianza",
     "Add" : "Añadir"

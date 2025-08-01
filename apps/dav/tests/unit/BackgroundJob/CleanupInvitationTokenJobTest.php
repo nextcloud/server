@@ -13,17 +13,13 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CleanupInvitationTokenJobTest extends TestCase {
-	/** @var IDBConnection | \PHPUnit\Framework\MockObject\MockObject */
-	private $dbConnection;
-
-	/** @var ITimeFactory | \PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-
-	/** @var CleanupInvitationTokenJob */
-	private $backgroundJob;
+	private IDBConnection&MockObject $dbConnection;
+	private ITimeFactory&MockObject $timeFactory;
+	private CleanupInvitationTokenJob $backgroundJob;
 
 	protected function setUp(): void {
 		parent::setUp();

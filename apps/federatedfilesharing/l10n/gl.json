@@ -33,6 +33,7 @@
     "Automatically accept shares from trusted federated accounts and groups by default" : "Aceptar automaticamente os recursos compartidos de contas e grupos federados de confianza de xeito predeterminado",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Comparta comigo a través do meu ID de nube federada de #Nextcloud, vexa {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparta comigo a través do meu ID de nube federada de #Nextcloud",
+    "Share with me via Nextcloud" : "Comparte comigo a través de Nextcloud",
     "Cloud ID copied to the clipboard" : "O identificador de nube (Cloud ID) (foi copiado no portapapeis",
     "Copy to clipboard" : "Copiar no portapapeis.",
     "Clipboard not available. Please copy the cloud ID manually." : "O portapapeis non está dispoñíbel. Copie o ID da nube manualmente.",
@@ -46,17 +47,12 @@
     "formerly Twitter" : "anteriormente Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Engadir ao seu sitio web",
-    "Share with me via Nextcloud" : "Comparte comigo a través de Nextcloud",
     "HTML Code:" : "Código HTML:",
     "Cancel" : "Cancelar",
     "Add remote share" : "Engadir unha compartición remota",
     "Remote share" : "Compartición remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Quere engadir a compartición remota {name} de {owner}@{remote}?",
     "Remote share password" : "Contrasinal da compartición remota",
-    "Incoming share could not be processed" : "Non foi posíbel procesar a compartición entrante",
-    "Clipboard is not available" : "O portapapeis non está dispoñíbel",
-    "Your Federated Cloud ID:" : "ID da súa nube federada:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Non foi posíbel procesar a compartición entrante"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

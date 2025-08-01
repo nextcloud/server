@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -45,7 +47,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 	/**
 	 * ftp has no proper way to handle spaces at the end of file names
 	 */
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		return array_filter(parent::directoryProvider(), function ($item) {
 			return substr($item[0], -1) !== ' ';
 		});

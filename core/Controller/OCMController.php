@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use Exception;
+use OCA\CloudFederationAPI\Capabilities;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -58,7 +59,7 @@ class OCMController extends Controller {
 			$cap = Server::get(
 				$this->appConfig->getValueString(
 					'core', 'ocm_providers',
-					\OCA\CloudFederationAPI\Capabilities::class,
+					Capabilities::class,
 					lazy: true
 				)
 			);

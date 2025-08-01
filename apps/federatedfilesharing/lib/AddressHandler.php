@@ -117,8 +117,8 @@ class AddressHandler {
 	 * @return bool
 	 */
 	public function urlContainProtocol($url) {
-		if (str_starts_with($url, 'https://') ||
-			str_starts_with($url, 'http://')) {
+		if (str_starts_with($url, 'https://')
+			|| str_starts_with($url, 'http://')) {
 			return true;
 		}
 

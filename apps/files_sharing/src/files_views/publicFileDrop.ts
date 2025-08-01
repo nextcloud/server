@@ -4,7 +4,8 @@
  */
 import type { VueConstructor } from 'vue'
 
-import { Folder, Permission, View, davRemoteURL, davRootPath, getNavigation } from '@nextcloud/files'
+import { Folder, Permission, View, getNavigation } from '@nextcloud/files'
+import { defaultRemoteURL, defaultRootPath } from '@nextcloud/files/dav'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import svgCloudUpload from '@mdi/svg/svg/cloud-upload.svg?raw'
@@ -45,8 +46,8 @@ export default () => {
 				// Fake a writeonly folder as root
 				folder: new Folder({
 					id: 0,
-					source: `${davRemoteURL}${davRootPath}`,
-					root: davRootPath,
+					source: `${defaultRemoteURL}${defaultRootPath}`,
+					root: defaultRootPath,
 					owner: null,
 					permissions: Permission.CREATE,
 				}),

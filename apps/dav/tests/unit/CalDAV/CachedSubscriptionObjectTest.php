@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -32,7 +34,7 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 		$this->assertEquals('BEGIN...', $calendarObject->get());
 	}
 
-	
+
 	public function testPut(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('Creating objects in a cached subscription is not allowed');
@@ -52,7 +54,7 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 		$calendarObject->put('');
 	}
 
-	
+
 	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('Deleting objects in a cached subscription is not allowed');

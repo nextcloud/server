@@ -9,7 +9,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: xiemengxiong
 SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
+SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
+SPDX-FileCopyrightText: readable-stream developers
 SPDX-FileCopyrightText: p-queue developers
 SPDX-FileCopyrightText: omahlama
 SPDX-FileCopyrightText: inline-style-parser developers
@@ -33,6 +35,8 @@ SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
+SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
@@ -40,7 +44,10 @@ SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
+SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
+SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Hiroki Osame
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
@@ -50,7 +57,6 @@ SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
 SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
-SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Austin Andrews
@@ -58,8 +64,6 @@ SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Andrea Giammarchi
-SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
-SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
 SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
@@ -93,7 +97,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.4.0
+	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.1
@@ -105,7 +109,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.1.1
+	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -114,13 +118,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.10.2
+	- version: 3.12.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.2.0
+	- version: 3.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -135,13 +139,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.4
+	- version: 0.2.5
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.25.1
+	- version: 8.28.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -158,14 +162,14 @@ This file is generated from multiple sources. Included packages:
 - axios
 	- version: 1.9.0
 	- license: MIT
-- bail
-	- version: 2.0.2
-	- license: MIT
 - base64-js
 	- version: 1.5.1
 	- license: MIT
 - blurhash
 	- version: 2.0.5
+	- license: MIT
+- buffer
+	- version: 5.7.1
 	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
@@ -198,7 +202,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.2.5
+	- version: 3.2.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.4
@@ -206,17 +210,17 @@ This file is generated from multiple sources. Included packages:
 - escape-html
 	- version: 1.0.3
 	- license: MIT
+- events
+	- version: 3.3.0
+	- license: MIT
 - extend
 	- version: 3.0.2
-	- license: MIT
-- fast-xml-parser
-	- version: 4.5.3
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 7.6.4
+	- version: 7.6.5
 	- license: MIT
 - hast-to-hyperscript
 	- version: 10.0.3
@@ -233,6 +237,9 @@ This file is generated from multiple sources. Included packages:
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause
+- inherits
+	- version: 2.0.4
+	- license: ISC
 - inline-style-parser
 	- version: 0.1.1
 	- license: MIT
@@ -242,15 +249,15 @@ This file is generated from multiple sources. Included packages:
 - is-buffer
 	- version: 1.1.6
 	- license: MIT
-- is-plain-obj
-	- version: 4.1.0
-	- license: MIT
 - jquery
 	- version: 3.7.1
 	- license: MIT
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
+- mdast-squeeze-paragraphs
+	- version: 6.0.0
+	- license: MIT
 - escape-string-regexp
 	- version: 5.0.0
 	- license: MIT
@@ -365,17 +372,32 @@ This file is generated from multiple sources. Included packages:
 - remark-rehype
 	- version: 11.1.0
 	- license: MIT
+- remark-unlink-protocols
+	- version: 1.0.0
+	- license: MIT
+- safe-buffer
+	- version: 5.2.1
+	- license: MIT
+- sax
+	- version: 1.4.1
+	- license: ISC
 - space-separated-tokens
 	- version: 2.0.2
 	- license: MIT
 - splitpanes
 	- version: 2.4.1
 	- license: MIT
+- readable-stream
+	- version: 3.6.2
+	- license: MIT
+- stream-browserify
+	- version: 3.0.0
+	- license: MIT
+- string_decoder
+	- version: 1.3.0
+	- license: MIT
 - striptags
 	- version: 3.2.0
-	- license: MIT
-- strnum
-	- version: 1.1.2
 	- license: MIT
 - style-loader
 	- version: 4.0.0
@@ -418,6 +440,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - unist-util-visit
 	- version: 5.0.0
+	- license: MIT
+- util-deprecate
+	- version: 1.0.2
 	- license: MIT
 - vfile-message
 	- version: 4.0.2

@@ -66,9 +66,11 @@ jobs:
           - 'openldap_numerical_features'
           - 'ldap_features'
           - 'remoteapi_features'
+          - 'routing_features'
           - 'setup_features'
           - 'sharees_features'
           - 'sharing_features'
+          - 'theming_features'
           - 'videoverification_features'
 
         php-versions: ['8.1']
@@ -77,12 +79,12 @@ jobs:
 
     services:
       redis:
-        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest # zizmor: ignore[unpinned-images]
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
         ports:
           - 6379:6379/tcp
       openldap:
-        image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7
+        image: ghcr.io/nextcloud/continuous-integration-openldap:openldap-7 # zizmor: ignore[unpinned-images]
         ports:
           - 389:389
         env:
@@ -95,12 +97,14 @@ jobs:
       - name: Checkout server
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Checkout Talk app
         if: ${{ matrix.test-suite == 'videoverification_features' }}
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: false
           repository: nextcloud/spreed
           path: apps/spreed
           ref: ${{ matrix.spreed-versions }}
@@ -109,12 +113,13 @@ jobs:
         if: ${{ matrix.test-suite == 'sharing_features' }}
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: false
           repository: nextcloud/activity
           path: apps/activity
           ref: ${{ matrix.activity-versions }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a #v2.33.0
+        uses: shivammathur/setup-php@ccf2c627fe61b1b4d924adfcbd19d661a18133a0 #v2.35.2
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -160,7 +165,7 @@ jobs:
       - name: Print logs
         if: always()
         run: |
-          cat data/nextcloud.log
+          cat $(./occ log:file |grep "Log file"|cut -d" " -f3)
           docker ps -a
           docker ps -aq | while read container ; do IMAGE=$(docker inspect --format='{{.Config.Image}}' $container); echo $IMAGE; docker logs $container; echo "\n\n" ; done
 

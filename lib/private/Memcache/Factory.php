@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -134,8 +135,8 @@ class Factory implements ICacheFactory {
 			$this->profiler->add($cache);
 		}
 
-		if ($this->lockingCacheClass === Redis::class &&
-			$this->logFile !== '' && is_writable(dirname($this->logFile)) && (!file_exists($this->logFile) || is_writable($this->logFile))) {
+		if ($this->lockingCacheClass === Redis::class
+			&& $this->logFile !== '' && is_writable(dirname($this->logFile)) && (!file_exists($this->logFile) || is_writable($this->logFile))) {
 			$cache = new LoggerWrapperCache($cache, $this->logFile);
 		}
 		return $cache;

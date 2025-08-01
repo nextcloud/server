@@ -20,6 +20,7 @@ use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -46,41 +47,25 @@ use RuntimeException;
 use Test\TestCase;
 
 class UsersControllerTest extends TestCase {
-	/** @var IUserManager|MockObject */
-	protected $userManager;
-	/** @var IConfig|MockObject */
-	protected $config;
-	/** @var Manager|MockObject */
-	protected $groupManager;
-	/** @var IUserSession|MockObject */
-	protected $userSession;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-	/** @var UsersController|MockObject */
-	protected $api;
-	/** @var IAccountManager|MockObject */
-	protected $accountManager;
-	/** @var ISubAdmin|MockObject */
-	protected $subAdminManager;
-	/** @var IURLGenerator|MockObject */
-	protected $urlGenerator;
-	/** @var IRequest|MockObject */
-	protected $request;
-	/** @var IFactory|MockObject */
-	private $l10nFactory;
-	/** @var NewUserMailHelper|MockObject */
-	private $newUserMailHelper;
-	/** @var ISecureRandom|MockObject */
-	private $secureRandom;
-	/** @var RemoteWipe|MockObject */
-	private $remoteWipe;
-	/** @var KnownUserService|MockObject */
-	private $knownUserService;
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
+	protected IUserManager&MockObject $userManager;
+	protected IConfig&MockObject $config;
+	protected Manager&MockObject $groupManager;
+	protected IUserSession&MockObject $userSession;
+	protected LoggerInterface&MockObject $logger;
+	protected UsersController&MockObject $api;
+	protected IAccountManager&MockObject $accountManager;
+	protected ISubAdmin&MockObject $subAdminManager;
+	protected IURLGenerator&MockObject $urlGenerator;
+	protected IRequest&MockObject $request;
+	private IFactory&MockObject $l10nFactory;
+	private NewUserMailHelper&MockObject $newUserMailHelper;
+	private ISecureRandom&MockObject $secureRandom;
+	private RemoteWipe&MockObject $remoteWipe;
+	private KnownUserService&MockObject $knownUserService;
+	private IEventDispatcher&MockObject $eventDispatcher;
 	private IRootFolder $rootFolder;
-	/** @var IPhoneNumberUtil */
-	private $phoneNumberUtil;
+	private IPhoneNumberUtil $phoneNumberUtil;
+	private IAppManager $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -101,6 +86,7 @@ class UsersControllerTest extends TestCase {
 		$this->knownUserService = $this->createMock(KnownUserService::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$l10n = $this->createMock(IL10N::class);
@@ -127,6 +113,7 @@ class UsersControllerTest extends TestCase {
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
+				$this->appManager,
 			])
 			->onlyMethods(['fillStorageInfo'])
 			->getMock();
@@ -212,8 +199,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn($subAdminManager);
 		$this->groupManager
 			->expects($this->any())
-			->method('displayNamesInGroup')
-			->will($this->onConsecutiveCalls(['AnotherUserInTheFirstGroup' => []], ['UserInTheSecondGroup' => []]));
+			->method('displayNamesInGroup')->willReturnOnConsecutiveCalls(['AnotherUserInTheFirstGroup' => []], ['UserInTheSecondGroup' => []]);
 
 		$expected = [
 			'users' => [
@@ -449,10 +435,6 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->exactly(2))
 			->method('groupExists')
-			->withConsecutive(
-				['ExistingGroup'],
-				['NonExistingGroup']
-			)
 			->willReturnMap([
 				['ExistingGroup', true],
 				['NonExistingGroup', false]
@@ -470,7 +452,8 @@ class UsersControllerTest extends TestCase {
 		$this->userManager
 			->expects($this->once())
 			->method('createUser')
-			->with('NewUser', 'PasswordOfTheNewUser');
+			->with('NewUser', 'PasswordOfTheNewUser')
+			->willReturn($this->createMock(IUser::class));
 		$this->logger
 			->expects($this->once())
 			->method('info')
@@ -522,6 +505,7 @@ class UsersControllerTest extends TestCase {
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
+				$this->appManager,
 			])
 			->onlyMethods(['editUser'])
 			->getMock();
@@ -534,7 +518,8 @@ class UsersControllerTest extends TestCase {
 		$this->userManager
 			->expects($this->once())
 			->method('createUser')
-			->with('NewUser', 'PasswordOfTheNewUser');
+			->with('NewUser', 'PasswordOfTheNewUser')
+			->willReturn($this->createMock(IUser::class));
 		$this->logger
 			->expects($this->once())
 			->method('info')
@@ -584,7 +569,8 @@ class UsersControllerTest extends TestCase {
 		$this->userManager
 			->expects($this->once())
 			->method('createUser')
-			->with($this->anything(), 'PasswordOfTheNewUser');
+			->with($this->anything(), 'PasswordOfTheNewUser')
+			->willReturn($this->createMock(IUser::class));
 		$this->logger
 			->expects($this->once())
 			->method('info')
@@ -626,7 +612,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn(false);
 		$newUser = $this->createMock(IUser::class);
 		$newUser->expects($this->once())
-			->method('setEMailAddress');
+			->method('setSystemEMailAddress');
 		$this->userManager
 			->expects($this->once())
 			->method('createUser')
@@ -659,6 +645,51 @@ class UsersControllerTest extends TestCase {
 		$this->assertTrue(key_exists(
 			'id',
 			$this->api->addUser('NewUser', '', '', 'foo@bar')->getData()
+		));
+	}
+
+	public function testAddUserSuccessfulLowercaseEmail(): void {
+		$this->userManager
+			->expects($this->once())
+			->method('userExists')
+			->with('NewUser')
+			->willReturn(false);
+		$newUser = $this->createMock(IUser::class);
+		$newUser->expects($this->once())
+			->method('setSystemEMailAddress')
+			->with('foo@bar.com');
+		$this->userManager
+			->expects($this->once())
+			->method('createUser')
+			->willReturn($newUser);
+		$this->logger
+			->expects($this->once())
+			->method('info')
+			->with('Successful addUser call with userid: NewUser', ['app' => 'ocs_api']);
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('adminUser');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
+		$this->eventDispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with(new GenerateSecurePasswordEvent());
+
+		$this->assertTrue(key_exists(
+			'id',
+			$this->api->addUser('NewUser', '', '', 'fOo@BaR.CoM')->getData()
 		));
 	}
 
@@ -798,18 +829,20 @@ class UsersControllerTest extends TestCase {
 			->method('get')
 			->with('ExistingGroup')
 			->willReturn($group);
+
+		$calls = [
+			['Successful addUser call with userid: NewUser', ['app' => 'ocs_api']],
+			['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']],
+		];
 		$this->logger
 			->expects($this->exactly(2))
 			->method('info')
-			->withConsecutive(
-				['Successful addUser call with userid: NewUser', ['app' => 'ocs_api']],
-				['Added userid NewUser to group ExistingGroup', ['app' => 'ocs_api']]
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
-		$this->assertTrue(key_exists(
-			'id',
-			$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData()
-		));
+		$this->assertArrayHasKey('id', $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup'])->getData());
 	}
 
 
@@ -828,7 +861,7 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('createUser')
 			->with('NewUser', 'PasswordOfTheNewUser')
-			->will($this->throwException($exception));
+			->willThrowException($exception);
 		$this->logger
 			->expects($this->once())
 			->method('error')
@@ -966,11 +999,10 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->exactly(2))
 			->method('groupExists')
-			->withConsecutive(
-				['ExistingGroup1'],
-				['ExistingGroup2']
-			)
-			->willReturn(true);
+			->willReturnMap([
+				['ExistingGroup1', true],
+				['ExistingGroup2', true]
+			]);
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -996,24 +1028,23 @@ class UsersControllerTest extends TestCase {
 		$this->groupManager
 			->expects($this->exactly(4))
 			->method('get')
-			->withConsecutive(
-				['ExistingGroup1'],
-				['ExistingGroup2'],
-				['ExistingGroup1'],
-				['ExistingGroup2']
-			)
 			->willReturnMap([
 				['ExistingGroup1', $existingGroup1],
 				['ExistingGroup2', $existingGroup2]
 			]);
+
+		$calls = [
+			['Successful addUser call with userid: NewUser', ['app' => 'ocs_api']],
+			['Added userid NewUser to group ExistingGroup1', ['app' => 'ocs_api']],
+			['Added userid NewUser to group ExistingGroup2', ['app' => 'ocs_api']],
+		];
 		$this->logger
 			->expects($this->exactly(3))
 			->method('info')
-			->withConsecutive(
-				['Successful addUser call with userid: NewUser', ['app' => 'ocs_api']],
-				['Added userid NewUser to group ExistingGroup1', ['app' => 'ocs_api']],
-				['Added userid NewUser to group ExistingGroup2', ['app' => 'ocs_api']]
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$subAdminManager = $this->getMockBuilder('OC\SubAdmin')
 			->disableOriginalConstructor()->getMock();
 		$this->groupManager
@@ -1023,16 +1054,12 @@ class UsersControllerTest extends TestCase {
 		$subAdminManager
 			->expects($this->exactly(2))
 			->method('isSubAdminOfGroup')
-			->withConsecutive(
-				[$loggedInUser, $existingGroup1],
-				[$loggedInUser, $existingGroup2]
-			)
-			->willReturn(true);
+			->willReturnMap([
+				[$loggedInUser, $existingGroup1, true],
+				[$loggedInUser, $existingGroup2, true],
+			]);
 
-		$this->assertTrue(key_exists(
-			'id',
-			$this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup1', 'ExistingGroup2'])->getData()
-		));
+		$this->assertArrayHasKey('id', $this->api->addUser('NewUser', 'PasswordOfTheNewUser', '', '', ['ExistingGroup1', 'ExistingGroup2'])->getData());
 	}
 
 
@@ -1541,7 +1568,7 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
 
-	public function dataSearchByPhoneNumbers(): array {
+	public static function dataSearchByPhoneNumbers(): array {
 		return [
 			'Invalid country' => ['Not a country code', ['12345' => ['NaN']], 400, null, null, []],
 			'No number to search' => ['DE', ['12345' => ['NaN']], 200, null, null, []],
@@ -1554,13 +1581,7 @@ class UsersControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSearchByPhoneNumbers
-	 * @param string $location
-	 * @param array $search
-	 * @param int $status
-	 * @param array $expected
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchByPhoneNumbers')]
 	public function testSearchByPhoneNumbers(string $location, array $search, int $status, ?array $searchUsers, ?array $userMatches, array $expected): void {
 		$knownTo = 'knownTo';
 		$user = $this->createMock(IUser::class);
@@ -1656,7 +1677,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$targetUser
 			->expects($this->once())
-			->method('setEMailAddress')
+			->method('setSystemEMailAddress')
 			->with('demo@nextcloud.com');
 		$targetUser
 			->expects($this->any())
@@ -1870,7 +1891,7 @@ class UsersControllerTest extends TestCase {
 		$this->api->editUser('UserToEdit', 'email', 'demo.org');
 	}
 
-	public function selfEditChangePropertyProvider() {
+	public static function selfEditChangePropertyProvider(): array {
 		return [
 			[IAccountManager::PROPERTY_TWITTER, '@oldtwitter', '@newtwitter'],
 			[IAccountManager::PROPERTY_FEDIVERSE, '@oldFediverse@floss.social', '@newFediverse@floss.social'],
@@ -1886,9 +1907,7 @@ class UsersControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider selfEditChangePropertyProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('selfEditChangePropertyProvider')]
 	public function testEditUserRegularUserSelfEditChangeProperty($propertyName, $oldValue, $newValue): void {
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
@@ -1964,9 +1983,7 @@ class UsersControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider selfEditChangePropertyProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('selfEditChangePropertyProvider')]
 	public function testEditUserRegularUserSelfEditChangePropertyScope($propertyName, $oldScope, $newScope): void {
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
@@ -2294,16 +2311,14 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
 
-	public function dataEditUserSelfEditChangeLanguageButForced() {
+	public static function dataEditUserSelfEditChangeLanguageButForced(): array {
 		return [
 			['de'],
 			[true],
 		];
 	}
 
-	/**
-	 * @dataProvider dataEditUserSelfEditChangeLanguageButForced
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEditUserSelfEditChangeLanguageButForced')]
 	public function testEditUserSelfEditChangeLanguageButForced($forced): void {
 		$this->expectException(OCSException::class);
 
@@ -2397,9 +2412,7 @@ class UsersControllerTest extends TestCase {
 		$this->assertEquals([], $this->api->editUser('UserToEdit', 'language', 'de')->getData());
 	}
 
-	/**
-	 * @dataProvider dataEditUserSelfEditChangeLanguageButForced
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEditUserSelfEditChangeLanguageButForced')]
 	public function testEditUserAdminEditChangeLanguageInvalidLanguage(): void {
 		$this->expectException(OCSException::class);
 
@@ -3825,6 +3838,7 @@ class UsersControllerTest extends TestCase {
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
+				$this->appManager,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -3916,6 +3930,7 @@ class UsersControllerTest extends TestCase {
 				$this->knownUserService,
 				$this->eventDispatcher,
 				$this->phoneNumberUtil,
+				$this->appManager,
 			])
 			->onlyMethods(['getUserData'])
 			->getMock();
@@ -3942,11 +3957,10 @@ class UsersControllerTest extends TestCase {
 
 		$api->expects($this->exactly(2))
 			->method('getUserData')
-			->withConsecutive(
-				['uid', false],
-				['currentuser', true],
-			)
-			->willReturn($expected);
+			->willReturnMap([
+				['uid', false, $expected],
+				['currentuser', true, $expected],
+			]);
 
 		$this->assertSame($expected, $api->getUser('uid')->getData());
 
@@ -4263,7 +4277,7 @@ class UsersControllerTest extends TestCase {
 	}
 
 
-	public function dataGetEditableFields() {
+	public static function dataGetEditableFields(): array {
 		return [
 			[false, true, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_EMAIL,
@@ -4386,13 +4400,7 @@ class UsersControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetEditableFields
-	 *
-	 * @param bool $allowedToChangeDisplayName
-	 * @param string $userBackend
-	 * @param array $expected
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetEditableFields')]
 	public function testGetEditableFields(bool $allowedToChangeDisplayName, bool $allowedToChangeEmail, string $userBackend, array $expected): void {
 		$this->config->method('getSystemValue')->willReturnCallback(fn (string $key, mixed $default) => match ($key) {
 			'allow_user_to_change_display_name' => $allowedToChangeDisplayName,
@@ -4427,7 +4435,7 @@ class UsersControllerTest extends TestCase {
 
 		$account = $this->createMock(IAccount::class);
 		$account->method('getProperty')
-			->will($this->returnValueMap($mockedProperties));
+			->willReturnMap($mockedProperties);
 
 		$this->accountManager->expects($this->any())->method('getAccount')
 			->with($targetUser)

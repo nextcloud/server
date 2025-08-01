@@ -41,17 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Não foi possível atualizar a configuração do aplicativo compartilhamento por e-mail",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Permite que as pessoas compartilhem um link personalizado para um arquivo ou pasta inserindo um endereço de e-mail.",
     "Send password by mail" : "Enviar senha por e-mail",
-    "Reply to initiator" : "Responder ao iniciador",
-    "%1$s shared »%2$s« with you" : "%1$s compartilhou »%2$s« com você",
-    "%1$s shared »%2$s« with you." : "%1$s compartilhou »%2$s« com você.",
-    "Click the button below to open it." : "Clique no botão abaixo para abri-lo.",
-    "Open »%s«" : "Abrir »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "Senha de acesso »%1$s« compartilhada com você por %2$s",
-    "Password to access »%s«" : "Senha para acessar »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s compartilhou »%2$s« com você e quer adicionar:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s compartilhou »%2$s« com você e quer adicionar",
-    "»%s« added a note to a file shared with you" : "»%s« adicionou uma nota a um arquivo compartilhado com você",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Você compartilhou »%1$s« com %2$s. O compartilhamento já foi enviado para o destinatário. Devido às políticas de segurança definidas pelo administrador de %3$scada compartilhamento precisa ser protegido por senha e não é permitido enviá-la diretamente ao destinatário. Portanto, você precisa encaminhar a senha manualmente. ",
-    "Password to access »%1$s« shared by you with %2$s" : "A senha para acessar »%1$s« compartilhada por você com %2$s"
+    "Reply to initiator" : "Responder ao iniciador"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

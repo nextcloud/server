@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,7 +23,7 @@ class VersionParserTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function versionProvider() {
+	public static function versionProvider(): array {
 		return [
 			[
 				'*',
@@ -56,17 +57,17 @@ class VersionParserTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider versionProvider
 	 *
 	 * @param string $input
 	 * @param Version $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionProvider')]
 	public function testGetVersion($input,
 		Version $expected): void {
 		$this->assertEquals($expected, $this->versionParser->getVersion($input));
 	}
 
-	
+
 	public function testGetVersionException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Version cannot be parsed: BogusVersion');
@@ -74,7 +75,7 @@ class VersionParserTest extends TestCase {
 		$this->versionParser->getVersion('BogusVersion');
 	}
 
-	
+
 	public function testGetVersionExceptionWithMultiple(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Version cannot be parsed: >=8.2 <=9.1a');

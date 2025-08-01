@@ -139,8 +139,8 @@ describe('Settings: Delete an empty group', { testIsolation: false }, () => {
 	})
 
 	it('can delete the group', () => {
-		// The "Remove group" action in the actions menu is shown and clicked
-		cy.get('.action-item__popper button').contains('Remove group').should('exist').click({ force: true })
+		// The "Delete group" action in the actions menu is shown and clicked
+		cy.get('.action-item__popper button').contains('Delete group').should('exist').click({ force: true })
 		// And confirmation dialog accepted
 		cy.get('.modal-container button').contains('Confirm').click({ force: true })
 
@@ -190,8 +190,8 @@ describe('Settings: Delete a non empty group', () => {
 			.find('button.action-item__menutoggle')
 			.click({ force: true })
 
-		// The "Remove group" action in the actions menu is shown and clicked
-		cy.get('.action-item__popper button').contains('Remove group').should('exist').click({ force: true })
+		// The "Delete group" action in the actions menu is shown and clicked
+		cy.get('.action-item__popper button').contains('Delete group').should('exist').click({ force: true })
 		// And confirmation dialog accepted
 		cy.get('.modal-container button').contains('Confirm').click({ force: true })
 

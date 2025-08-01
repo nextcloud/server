@@ -10,8 +10,12 @@ declare(strict_types=1);
 namespace OCA\Files_Sharing\Controller;
 
 use Exception;
+use OC\Core\AppInfo\ConfigLexicon;
+use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
+use OCA\Deck\Sharing\ShareAPIHelper;
+use OCA\Federation\TrustedServers;
 use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
@@ -39,6 +43,7 @@ use OCP\Files\Mount\IShareOwnerlessMount;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -72,6 +77,7 @@ use Psr\Log\LoggerInterface;
 class ShareAPIController extends OCSController {
 
 	private ?Node $lockedNode = null;
+	private array $trustedServerCache = [];
 
 	/**
 	 * Share20OCS constructor.
@@ -86,6 +92,7 @@ class ShareAPIController extends OCSController {
 		private IURLGenerator $urlGenerator,
 		private IL10N $l,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IAppManager $appManager,
 		private ContainerInterface $serverContainer,
 		private IUserStatusManager $userStatusManager,
@@ -94,6 +101,8 @@ class ShareAPIController extends OCSController {
 		private LoggerInterface $logger,
 		private IProviderFactory $factory,
 		private IMailer $mailer,
+		private ITagManager $tagManager,
+		private ?TrustedServers $trustedServers,
 		private ?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
@@ -195,6 +204,32 @@ class ShareAPIController extends OCSController {
 		$result['file_target'] = $share->getTarget();
 		$result['item_size'] = $node->getSize();
 		$result['item_mtime'] = $node->getMTime();
+
+		if ($this->trustedServers !== null && in_array($share->getShareType(), [IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP], true)) {
+			$result['is_trusted_server'] = false;
+			$sharedWith = $share->getSharedWith();
+			$remoteIdentifier = is_string($sharedWith) ? strrchr($sharedWith, '@') : false;
+			if ($remoteIdentifier !== false) {
+				$remote = substr($remoteIdentifier, 1);
+
+				if (isset($this->trustedServerCache[$remote])) {
+					$result['is_trusted_server'] = $this->trustedServerCache[$remote];
+				} else {
+					try {
+						$isTrusted = $this->trustedServers->isTrustedServer($remote);
+						$this->trustedServerCache[$remote] = $isTrusted;
+						$result['is_trusted_server'] = $isTrusted;
+					} catch (\Exception $e) {
+						// Server not found or other issue, we consider it not trusted
+						$this->trustedServerCache[$remote] = false;
+						$this->logger->error(
+							'Error checking if remote server is trusted (treating as untrusted): ' . $e->getMessage(),
+							['exception' => $e]
+						);
+					}
+				}
+			}
+		}
 
 		$expiration = $share->getExpirationDate();
 		if ($expiration !== null) {
@@ -472,7 +507,7 @@ class ShareAPIController extends OCSController {
 				$share = $this->formatShare($share);
 
 				if ($include_tags) {
-					$share = Helper::populateTags([$share], Server::get(ITagManager::class));
+					$share = $this->populateTags([$share]);
 				} else {
 					$share = [$share];
 				}
@@ -595,7 +630,7 @@ class ShareAPIController extends OCSController {
 		// combine all permissions to determine if the user can share this file
 		$nodes = $userFolder->getById($node->getId());
 		foreach ($nodes as $nodeById) {
-			/** @var \OC\Files\FileInfo $fileInfo */
+			/** @var FileInfo $fileInfo */
 			$fileInfo = $node->getFileInfo();
 			$fileInfo['permissions'] |= $nodeById->getPermissions();
 		}
@@ -847,7 +882,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if ($includeTags) {
-			$formatted = Helper::populateTags($formatted, Server::get(ITagManager::class));
+			$formatted = $this->populateTags($formatted);
 		}
 
 		return $formatted;
@@ -966,9 +1001,9 @@ class ShareAPIController extends OCSController {
 				: Constants::PERMISSION_READ;
 		}
 
-		// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
 		if ($this->hasPermission($permissions, Constants::PERMISSION_READ)
-			&& $this->shareManager->outgoingServer2ServerSharesAllowed()) {
+			&& $this->shareManager->outgoingServer2ServerSharesAllowed()
+			&& $this->appConfig->getValueBool('core', ConfigLexicon::SHAREAPI_ALLOW_FEDERATION_ON_PUBLIC_SHARES)) {
 			$permissions |= Constants::PERMISSION_SHARE;
 		}
 
@@ -1100,8 +1135,7 @@ class ShareAPIController extends OCSController {
 		$formatted = $this->fixMissingDisplayName($formatted);
 
 		if ($includeTags) {
-			$formatted =
-				Helper::populateTags($formatted, Server::get(ITagManager::class));
+			$formatted = $this->populateTags($formatted);
 		}
 
 		return $formatted;
@@ -1258,17 +1292,17 @@ class ShareAPIController extends OCSController {
 		}
 
 		if (
-			$permissions === null &&
-			$password === null &&
-			$sendPasswordByTalk === null &&
-			$publicUpload === null &&
-			$expireDate === null &&
-			$note === null &&
-			$label === null &&
-			$hideDownload === null &&
-			$attributes === null &&
-			$sendMail === null &&
-			$token === null
+			$permissions === null
+			&& $password === null
+			&& $sendPasswordByTalk === null
+			&& $publicUpload === null
+			&& $expireDate === null
+			&& $note === null
+			&& $label === null
+			&& $hideDownload === null
+			&& $attributes === null
+			&& $sendMail === null
+			&& $token === null
 		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
@@ -1563,8 +1597,8 @@ class ShareAPIController extends OCSController {
 
 		// The owner of the file and the creator of the share
 		// can always edit the share
-		if ($share->getShareOwner() === $this->userId ||
-			$share->getSharedBy() === $this->userId
+		if ($share->getShareOwner() === $this->userId
+			|| $share->getSharedBy() === $this->userId
 		) {
 			return true;
 		}
@@ -1596,16 +1630,16 @@ class ShareAPIController extends OCSController {
 
 		// if the user is the recipient, i can unshare
 		// the share with self
-		if ($share->getShareType() === IShare::TYPE_USER &&
-			$share->getSharedWith() === $this->userId
+		if ($share->getShareType() === IShare::TYPE_USER
+			&& $share->getSharedWith() === $this->userId
 		) {
 			return true;
 		}
 
 		// The owner of the file and the creator of the share
 		// can always delete the share
-		if ($share->getShareOwner() === $this->userId ||
-			$share->getSharedBy() === $this->userId
+		if ($share->getShareOwner() === $this->userId
+			|| $share->getSharedBy() === $this->userId
 		) {
 			return true;
 		}
@@ -1632,16 +1666,16 @@ class ShareAPIController extends OCSController {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function canDeleteShareFromSelf(IShare $share): bool {
-		if ($share->getShareType() !== IShare::TYPE_GROUP &&
-			$share->getShareType() !== IShare::TYPE_ROOM &&
-			$share->getShareType() !== IShare::TYPE_DECK &&
-			$share->getShareType() !== IShare::TYPE_SCIENCEMESH
+		if ($share->getShareType() !== IShare::TYPE_GROUP
+			&& $share->getShareType() !== IShare::TYPE_ROOM
+			&& $share->getShareType() !== IShare::TYPE_DECK
+			&& $share->getShareType() !== IShare::TYPE_SCIENCEMESH
 		) {
 			return false;
 		}
 
-		if ($share->getShareOwner() === $this->userId ||
-			$share->getSharedBy() === $this->userId
+		if ($share->getShareOwner() === $this->userId
+			|| $share->getSharedBy() === $this->userId
 		) {
 			// Delete the whole share, not just for self
 			return false;
@@ -1820,7 +1854,7 @@ class ShareAPIController extends OCSController {
 	 * If the Deck application is not enabled or the helper is not available
 	 * a ContainerExceptionInterface is thrown instead.
 	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @return ShareAPIHelper
 	 * @throws ContainerExceptionInterface
 	 */
 	private function getDeckShareHelper() {
@@ -1837,7 +1871,7 @@ class ShareAPIController extends OCSController {
 	 * If the sciencemesh application is not enabled or the helper is not available
 	 * a ContainerExceptionInterface is thrown instead.
 	 *
-	 * @return \OCA\Deck\Sharing\ShareAPIHelper
+	 * @return ShareAPIHelper
 	 * @throws ContainerExceptionInterface
 	 */
 	private function getSciencemeshShareHelper() {
@@ -1874,8 +1908,8 @@ class ShareAPIController extends OCSController {
 				continue;
 			}
 
-			$providerShares =
-				$this->shareManager->getSharesBy($viewer, $provider, $node, $reShares, -1, 0);
+			$providerShares
+				= $this->shareManager->getSharesBy($viewer, $provider, $node, $reShares, -1, 0);
 			$shares = array_merge($shares, $providerShares);
 		}
 
@@ -2118,6 +2152,8 @@ class ShareAPIController extends OCSController {
 				$hideDownload = $hideDownload && $originalShare->getHideDownload();
 				// allow download if already allowed by previous share or when the current share allows downloading
 				$canDownload = $canDownload || $inheritedAttributes === null || $inheritedAttributes->getAttribute('permissions', 'download') !== false;
+			} elseif ($node->getStorage()->instanceOfStorage(Storage::class)) {
+				$canDownload = true; // in case of federation storage, we can expect the download to be activated by default
 			}
 		}
 
@@ -2218,5 +2254,42 @@ class ShareAPIController extends OCSController {
 		} catch (ShareTokenException $e) {
 			throw new OCSException($this->l->t('Failed to generate a unique token'));
 		}
+	}
+
+	/**
+	 * Populate the result set with file tags
+	 *
+	 * @psalm-template T of array{tags?: list<string>, file_source: int, ...array<string, mixed>}
+	 * @param list<T> $fileList
+	 * @return list<T> file list populated with tags
+	 */
+	private function populateTags(array $fileList): array {
+		$tagger = $this->tagManager->load('files');
+		$tags = $tagger->getTagsForObjects(array_map(static fn (array $fileData) => $fileData['file_source'], $fileList));
+
+		if (!is_array($tags)) {
+			throw new \UnexpectedValueException('$tags must be an array');
+		}
+
+		// Set empty tag array
+		foreach ($fileList as &$fileData) {
+			$fileData['tags'] = [];
+		}
+		unset($fileData);
+
+		if (!empty($tags)) {
+			foreach ($tags as $fileId => $fileTags) {
+				foreach ($fileList as &$fileData) {
+					if ($fileId !== $fileData['file_source']) {
+						continue;
+					}
+
+					$fileData['tags'] = $fileTags;
+				}
+				unset($fileData);
+			}
+		}
+
+		return $fileList;
 	}
 }

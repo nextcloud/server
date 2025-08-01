@@ -194,7 +194,6 @@ OC.L10N.register(
     "on {server}" : "en: {server}",
     "File drop" : "Suelta de ficheros",
     "Terms of service" : "Términos del serviciu",
-    "Name" : "Nome",
     "Share with {userName}" : "Compartir con {userName}",
     "Share with email {email}" : "Compartir cola direición de corréu electrónica {email}",
     "Share with group" : "Compartir col grupu",
@@ -300,10 +299,9 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "Nun s'atopó nengún sirvidor compatible en «{remote}»",
     "Invalid server URL" : "La URL del sirvidor ye inválida",
     "Failed to add the public link to your Nextcloud" : "Nun se pue amestar l'enllaz públicu a esta instancia de Nextcloud",
-    "Files" : "Ficheros",
     "Download all files" : "Baxar tolos ficheros",
     "Search for share recipients" : "Buscar destinatarios del elementu compartíu",
     "No recommendations. Start typing." : "Nun hai nenguna recomendación. Comienza a escribir",
-    "Allow download" : "Permitir la descarga"
+    "Name" : "Nome"
 },
 "nplurals=2; plural=(n != 1);");

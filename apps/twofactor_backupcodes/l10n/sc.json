@@ -15,7 +15,6 @@
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si torras a generare is còdighes de còpia de seguresa, in automàticu is còdighes betzos non sunt prus vàlidos.",
     "{name} backup codes" : "{name} còdighes de còpia de seguresa",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Imprea unu de is còdighes de còpia de seguresa chi as sarvadu cando cunfiguras s'autenticatzione a duos fatores.",
-    "Submit" : "Imbia",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Custos sunt is còdighes de còpia de seguresa tuos. Sarva·ddos e/o imprenta·ddos ca non ddos as a pòdere bìdere àteras bortas"
+    "Submit" : "Imbia"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

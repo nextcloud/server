@@ -119,12 +119,7 @@ OC.L10N.register(
     "Reset to default" : "Vrátit zpět na výchozí hodnoty",
     "Upload" : "Nahrát",
     "Remove background image" : "Odebrat obrázek z pozadí",
-    "Color" : "Barva",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Přístupnost pro všechny je pro nás velmi důležitá. Splňujeme webové standardy a zajišťujeme, aby všechno bylo použitelné i bez myši a s asistenčním software, jako například čtečkami obrazovky. Máme za cíl být v souladu s doporučeními {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 na úrovni AA, při použití motivu vzhledu s vysokým kontrastem dokonce na úrovni AAA.",
-    ". Unable to apply the setting." : ". Nastavení nebylo možné uplatnit.",
-    "Background" : "Pozadí",
-    "Set a custom background" : "Nastavit uživatelsky určené pozadí",
-    "Change color" : "Změnit barvu",
-    "No background" : "Žádné pozadí"
+    ". Unable to apply the setting." : ". Nastavení nebylo možné uplatnit."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

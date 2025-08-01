@@ -10,6 +10,7 @@ import { ShareType } from '@nextcloud/sharing'
 import Vue from 'vue'
 
 import FileListFilterAccount from '../components/FileListFilterAccount.vue'
+import { isPublicShare } from '@nextcloud/sharing/public'
 
 export interface IAccountData {
 	uid: string
@@ -152,5 +153,10 @@ class AccountFilter extends FileListFilter {
  * Register the file list filter by owner or sharees
  */
 export function registerAccountFilter() {
+	if (isPublicShare()) {
+		// We do not show the filter on public pages - it makes no sense
+		return
+	}
+
 	registerFileListFilter(new AccountFilter())
 }

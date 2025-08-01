@@ -279,7 +279,7 @@ class LoginControllerTest extends TestCase {
 		];
 		$this->initialState->expects($this->exactly(13))
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				if (!empty($expected)) {
 					$this->assertEquals($expected, func_get_args());
@@ -316,7 +316,7 @@ class LoginControllerTest extends TestCase {
 		];
 		$this->initialState->expects($this->exactly(14))
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				if (!empty($expected)) {
 					$this->assertEquals($expected, func_get_args());
@@ -351,9 +351,7 @@ class LoginControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider passwordResetDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('passwordResetDataProvider')]
 	public function testShowLoginFormWithPasswordResetOption($canChangePassword,
 		$expectedResult): void {
 		$this->userSession
@@ -396,7 +394,7 @@ class LoginControllerTest extends TestCase {
 		];
 		$this->initialState->expects($this->exactly(13))
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				if (!empty($expected)) {
 					$this->assertEquals($expected, func_get_args());
@@ -459,7 +457,7 @@ class LoginControllerTest extends TestCase {
 		];
 		$this->initialState->expects($this->exactly(13))
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				if (!empty($expected)) {
 					$this->assertEquals($expected, func_get_args());

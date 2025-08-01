@@ -32,6 +32,7 @@ OC.L10N.register(
     "Allow people to publish their data to a global and public address book" : "كىشىلەرنىڭ سانلىق مەلۇماتلىرىنى دۇنياۋى ۋە ئاممىۋى ئادرېس دەپتىرىگە ئېلان قىلىشىغا يول قويۇڭ",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "#Nextcloud فېدېراتسىيە بۇلۇت كىملىكىم ئارقىلىق مەن بىلەن ئورتاقلىشىڭ ، {url} see نى كۆرۈڭ",
     "Share with me through my #Nextcloud Federated Cloud ID" : "مېنىڭ # كېيىنكى بۇلۇت فېدېراتسىيە بۇلۇت كىملىكىم ئارقىلىق مەن بىلەن ئورتاقلىشىڭ",
+    "Share with me via Nextcloud" : "Nextcloud ئارقىلىق مەن بىلەن ئورتاقلىشىڭ",
     "Cloud ID copied to the clipboard" : "بۇلۇت كىملىكى چاپلاش تاختىسىغا كۆچۈرۈلدى",
     "Copy to clipboard" : "چاپلاش تاختىسىغا كۆچۈرۈڭ",
     "Clipboard not available. Please copy the cloud ID manually." : "چاپلاش تاختىسى يوق. بۇلۇت كىملىكىنى قولدا كۆچۈرۈڭ.",
@@ -45,17 +46,12 @@ OC.L10N.register(
     "formerly Twitter" : "ئىلگىرى Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "تور بېتىڭىزگە قوشۇڭ",
-    "Share with me via Nextcloud" : "Nextcloud ئارقىلىق مەن بىلەن ئورتاقلىشىڭ",
     "HTML Code:" : "HTML كودى:",
     "Cancel" : "ۋاز كەچ",
     "Add remote share" : "يىراقتىن ئورتاقلىشىش",
     "Remote share" : "يىراقتىن ئورتاقلىشىش",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{remote} @ {owner} دىن يىراقتىن ئورتاقلىشىش {name} add نى قوشماقچىمۇ؟",
     "Remote share password" : "يىراقتىن ئورتاقلىشىش پارولى",
-    "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ",
-    "Clipboard is not available" : "چاپلاش تاختىسى يوق",
-    "Your Federated Cloud ID:" : "فېدېراتسىيە بۇلۇت كىملىكىڭىز:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ"
 },
 "nplurals=2; plural=(n != 1);");

@@ -96,7 +96,7 @@ OC.L10N.register(
     "System tag creation is now restricted to administrators" : "Sistem etiketlerini yalnızca yöneticiler oluşturabilir",
     "System tag creation is now allowed for everybody" : "Sistem etiketlerini tüm kullanıcılar oluşturabilir",
     "System tag management" : "Sistem etiket yönetimi",
-    "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Bu seçenek kullanıma alındığında, etiketleri yalnızca yöneticiler ekleyebilir ve düzenleyebilir. Kullanıcı hesapları yalnızca dosyalara atayabilir ve kaldırabilir.",
+    "If enabled, only administrators can create and edit tags. Accounts can still assign and remove them from files." : "Açıksa, etiketleri yalnızca yöneticiler ekleyebilir ve düzenleyebilir. Kullanıcı hesapları etiketleri yalnızca dosyalara atayabilir ve kaldırabilir.",
     "Restrict tag creation and editing to administrators" : "Etiket ekleme ve düzenleme yöneticilerle sınırlansın",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "İş birlikli etiketleri tüm kullanıcılar kullanabilir. Kısıtlanmış etiketleri kullanıcılar görebilir ancak atayamaz. Görünmeyen etiketler iç kullanım içindir ve kullanıcılar tarafından görülüp ve atanamaz.",
     "Assigned collaborative tags" : "Atanmış iş birlikli etiketler",
@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Aynı adlı bir etiket zaten var",
     "Failed to load tags for file" : "Dosyanın etiketleri yüklenemedi",
     "Failed to set tag for file" : "Dosyanın etiketi ayarlanamadı",
-    "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
-    "This file has the tag {tag}" : "Dosya {tag} olarak etiketlenmiş",
-    "This file has the tags {firstTags} and {lastTag}" : "Dosya {firstTags} ve {lastTag} olarak etiketlenmiş"
+    "Failed to delete tag for file" : "Dosyanın etiketi silinemedi"
 },
 "nplurals=2; plural=(n > 1);");

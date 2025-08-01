@@ -119,12 +119,7 @@ OC.L10N.register(
     "Reset to default" : "重設為預設值",
     "Upload" : "上傳",
     "Remove background image" : "移除背景圖片",
-    "Color" : "顏色",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "我們非常重視無障礙存取。我們遵循網頁標準，並透過檢查來確保所有內容皆可在沒有滑鼠，或是在輔助軟體，例如螢幕閱讀器的情況下使用。我們目標是能達到《{guidelines}網頁內容無障礙指引{linkend}》2.1 版的 AA 等級，加上高對比度主題後，甚至還能達到 AAA 等級。",
-    ". Unable to apply the setting." : "無法套用設定。",
-    "Background" : "背景",
-    "Set a custom background" : "設定自訂背景",
-    "Change color" : "變更顏色",
-    "No background" : "無背景"
+    ". Unable to apply the setting." : "無法套用設定。"
 },
 "nplurals=1; plural=0;");

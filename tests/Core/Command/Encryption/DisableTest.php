@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -33,7 +34,7 @@ class DisableTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\IConfig $config */
+		/** @var IConfig $config */
 		$this->command = new Disable($config);
 	}
 
@@ -46,12 +47,12 @@ class DisableTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDisable
 	 *
 	 * @param string $oldStatus
 	 * @param bool $isUpdating
 	 * @param string $expectedString
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDisable')]
 	public function testDisable($oldStatus, $isUpdating, $expectedString): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')

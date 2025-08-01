@@ -27,21 +27,12 @@ use Test\TestCase;
  * @group DB
  */
 class AccountMigratorTest extends TestCase {
-
 	private IUserManager $userManager;
-
 	private IAvatarManager $avatarManager;
-
 	private AccountMigrator $migrator;
-
-	/** @var IImportSource|MockObject */
-	private $importSource;
-
-	/** @var IExportDestination|MockObject */
-	private $exportDestination;
-
-	/** @var OutputInterface|MockObject */
-	private $output;
+	private IImportSource&MockObject $importSource;
+	private IExportDestination&MockObject $exportDestination;
+	private OutputInterface&MockObject $output;
 
 	private const ASSETS_DIR = __DIR__ . '/assets/';
 
@@ -72,9 +63,9 @@ class AccountMigratorTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function dataImportExportAccount(): array {
+	public static function dataImportExportAccount(): array {
 		return array_map(
-			function (string $filename) {
+			static function (string $filename): array {
 				$dataPath = static::ASSETS_DIR . $filename;
 				// For each account json file there is an avatar image and a config json file with the same basename
 				$basename = pathinfo($filename, PATHINFO_FILENAME);
@@ -94,9 +85,7 @@ class AccountMigratorTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataImportExportAccount
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataImportExportAccount')]
 	public function testImportExportAccount(string $userId, array $importData, string $avatarPath, array $importConfig): void {
 		$user = $this->userManager->createUser($userId, 'topsecretpassword');
 		$avatarExt = pathinfo($avatarPath, PATHINFO_EXTENSION);
@@ -111,17 +100,18 @@ class AccountMigratorTest extends TestCase {
 			->with($this->migrator->getId())
 			->willReturn(1);
 
+		$calls = [
+			[static::REGEX_ACCOUNT_FILE, json_encode($importData)],
+			[static::REGEX_CONFIG_FILE, json_encode($importConfig)],
+		];
 		$this->importSource
 			->expects($this->exactly(2))
 			->method('getFileContents')
-			->withConsecutive(
-				[$this->matchesRegularExpression(static::REGEX_ACCOUNT_FILE)],
-				[$this->matchesRegularExpression(static::REGEX_CONFIG_FILE)],
-			)
-			->willReturnOnConsecutiveCalls(
-				json_encode($importData),
-				json_encode($importConfig),
-			);
+			->willReturnCallback(function ($path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertMatchesRegularExpression($expected[0], $path);
+				return $expected[1];
+			});
 
 		$this->importSource
 			->expects($this->once())
@@ -152,13 +142,18 @@ class AccountMigratorTest extends TestCase {
 			);
 		}
 
+		$calls = [
+			[static::REGEX_ACCOUNT_FILE, new JsonMatches(json_encode($importData))],
+			[static::REGEX_CONFIG_FILE,new JsonMatches(json_encode($importConfig))],
+		];
 		$this->exportDestination
 			->expects($this->exactly(2))
 			->method('addFileContents')
-			->withConsecutive(
-				[$this->matchesRegularExpression(static::REGEX_ACCOUNT_FILE), new JsonMatches(json_encode($exportData))],
-				[$this->matchesRegularExpression(static::REGEX_CONFIG_FILE), new JsonMatches(json_encode($exportConfig))],
-			);
+			->willReturnCallback(function ($path) use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertMatchesRegularExpression($expected[0], $path);
+				return $expected[1];
+			});
 
 		$this->exportDestination
 			->expects($this->once())

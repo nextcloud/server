@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2020-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,7 +15,7 @@ use OCA\Files_External\Lib\StorageConfig;
 class AuthMechanismTest extends \Test\TestCase {
 	public function testJsonSerialization(): void {
 		$mechanism = $this->getMockBuilder(AuthMechanism::class)
-			->setMethods(['jsonSerializeDefinition'])
+			->onlyMethods(['jsonSerializeDefinition'])
 			->getMock();
 		$mechanism->expects($this->once())
 			->method('jsonSerializeDefinition')
@@ -26,7 +28,7 @@ class AuthMechanismTest extends \Test\TestCase {
 		$this->assertEquals('scheme', $json['scheme']);
 	}
 
-	public function validateStorageProvider() {
+	public static function validateStorageProvider(): array {
 		return [
 			[true, 'scheme', true],
 			[false, 'scheme', false],
@@ -35,12 +37,10 @@ class AuthMechanismTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider validateStorageProvider
-	 */
-	public function testValidateStorage($expectedSuccess, $scheme, $definitionSuccess): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('validateStorageProvider')]
+	public function testValidateStorage(bool $expectedSuccess, string $scheme, bool $definitionSuccess): void {
 		$mechanism = $this->getMockBuilder(AuthMechanism::class)
-			->setMethods(['validateStorageDefinition'])
+			->onlyMethods(['validateStorageDefinition'])
 			->getMock();
 		$mechanism->expects($this->atMost(1))
 			->method('validateStorageDefinition')
@@ -48,16 +48,12 @@ class AuthMechanismTest extends \Test\TestCase {
 
 		$mechanism->setScheme($scheme);
 
-		$backend = $this->getMockBuilder(Backend::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$backend = $this->createMock(Backend::class);
 		$backend->expects($this->once())
 			->method('getAuthSchemes')
 			->willReturn(['scheme' => true, 'foobar' => true]);
 
-		$storageConfig = $this->getMockBuilder(StorageConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$storageConfig = $this->createMock(StorageConfig::class);
 		$storageConfig->expects($this->once())
 			->method('getBackend')
 			->willReturn($backend);

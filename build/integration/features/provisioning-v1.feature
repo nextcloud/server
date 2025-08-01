@@ -187,6 +187,18 @@ Feature: provisioning
       | timezoneOffset | 0 |
       | pronouns | NULL |
 
+  Scenario: Edit a user with mixed case emails
+    Given As an "admin"
+    And user "brand-new-user" exists
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | email |
+      | value | mixed-CASE@Nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has
+      | id | brand-new-user |
+      | email | mixed-case@nextcloud.com |
+
   Scenario: Edit a user account properties scopes
     Given user "brand-new-user" exists
     And As an "brand-new-user"
@@ -208,21 +220,6 @@ Feature: provisioning
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | emailScope |
       | value | v2-published |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | websiteScope |
-      | value | public |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | displaynameScope |
-      | value | contacts |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | avatarScope |
-      | value | private |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And sending "PUT" to "/cloud/users/brand-new-user" with
@@ -253,9 +250,6 @@ Feature: provisioning
       | twitterScope | v2-local |
       | addressScope | v2-federated |
       | emailScope | v2-published |
-      | websiteScope | v2-published |
-      | displaynameScope | v2-federated |
-      | avatarScope | v2-local |
 
   Scenario: Edit a user account multivalue property scopes
     Given user "brand-new-user" exists
@@ -470,6 +464,7 @@ Feature: provisioning
     Then groups returned are
       | España |
       | admin |
+      | hidden_group |
       | new-group |
 
   Scenario: create a subadmin

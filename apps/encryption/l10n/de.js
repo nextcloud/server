@@ -4,7 +4,7 @@ OC.L10N.register(
     "Missing recovery key password" : "Schlüsselpasswort zur Wiederherstellung fehlt",
     "Please repeat the recovery key password" : "Schlüsselpasswort zur Wiederherstellung bitte wiederholen",
     "Repeated recovery key password does not match the provided recovery key password" : "Das wiederholte Schlüsselpasswort zur Wiederherstellung stimmt nicht mit dem geforderten Schlüsselpasswort zur Wiederherstellung überein",
-    "Recovery key successfully enabled" : "Wiederherstellungsschlüssel wurde erfolgreich aktiviert",
+    "Recovery key successfully enabled" : "Wiederherstellungsschlüssel wurde aktiviert",
     "Could not enable recovery key. Please check your recovery key password!" : "Der Wiederherstellungsschlüssel konnte nicht aktiviert werden. Bitte überprüfe das Passwort für den Wiederherstellungsschlüssel!",
     "Recovery key successfully disabled" : "Wiederherstellungsschlüssel deaktiviert.",
     "Could not disable recovery key. Please check your recovery key password!" : "Der Wiederherstellungsschlüssel konnte nicht deaktiviert werden. Bitte überprüfe das Passwort für den Wiederherstellungsschlüssel!",

@@ -56,8 +56,8 @@ export default defineComponent({
 	:deep() {
 		svg {
 			// We added a stroke for a11y so we must increase the size to include the stroke
-			width: 26px !important;
-			height: 26px !important;
+			width: 20px !important;
+			height: 20px !important;
 
 			// Override NcIconSvgWrapper defaults of 20px
 			max-width: unset !important;

@@ -108,8 +108,6 @@
     "A tag with the same name already exists" : "Uma etiqueta com o mesmo nome já existe",
     "Failed to load tags for file" : "Falha ao carregar etiquetas para arquivo",
     "Failed to set tag for file" : "Falha ao definir etiqueta para arquivo",
-    "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo",
-    "This file has the tag {tag}" : "Este arquivo tem a etiqueta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Este arquivo tem as etiquetas {firstTags} e {lastTag}"
+    "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

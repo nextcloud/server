@@ -19,6 +19,7 @@
     "Apps" : "යෙදුම්",
     "Settings" : "සැකසුම්",
     "Log out" : "නික්මෙන්න",
+    "Accounts" : "Accounts",
     "Email" : "විද්‍යුත් තැපෑල",
     "Phone" : "දුරකථනය",
     "Twitter" : "ට්විටර්",
@@ -60,9 +61,8 @@
     "October" : "ඔක්තෝම්බර්",
     "November" : "නොවැම්බර්",
     "December" : "දෙසැම්බර්",
+    "Images" : "පින්තූර",
     "Summary" : "සාරාංශය",
-    "Translate" : "පරිවර්තනය",
-    "File name is too long" : "ගොනුවේ නම දිග වැඩිය",
-    "Users" : "පරිශීලකයින්"
+    "Translate" : "පරිවර්තනය"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

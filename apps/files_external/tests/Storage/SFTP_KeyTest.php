@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -40,7 +42,7 @@ class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	
+
 	public function testInvalidAddressShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -52,24 +54,24 @@ class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($this->instance->assertHostAddressValid('localhost'));
 	}
 
-	
+
 	public function testNegativePortNumberShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->instance->assertPortNumberValid('-1');
 	}
 
-	
+
 	public function testNonNumericalPortNumberShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->instance->assertPortNumberValid('a');
 	}
 
-	
+
 	public function testHighPortNumberShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
- 
+
 		$this->instance->assertPortNumberValid('65536');
 	}
 

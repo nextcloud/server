@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Segurtasun kodeak berriz sortzen badituzu, zaharrak desaktibatu egingo dira.",
     "{name} backup codes" : "{name} segurtasun kodeak",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Erabili bi faktoreko autentifikazioa aktibatu zenuenean sortutako segurtasun kodeetako bat",
-    "Submit" : "Bidali",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Hauexek dira zure segurtasun kodeak. Gorde edo/eta inprimatu itzazu ez baitira berriz agertuko."
+    "Submit" : "Bidali"
 },
 "nplurals=2; plural=(n != 1);");

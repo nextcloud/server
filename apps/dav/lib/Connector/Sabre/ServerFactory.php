@@ -15,6 +15,7 @@ use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCA\DAV\Files\Sharing\RootCollection;
 use OCA\DAV\Upload\CleanupService;
 use OCA\Theming\ThemingDefaults;
 use OCP\Accounts\IAccountManager;
@@ -150,7 +151,7 @@ class ServerFactory {
 				);
 
 				// Mount the share collection at /public.php/dav/shares/<share token>
-				$rootCollection->addChild(new \OCA\DAV\Files\Sharing\RootCollection(
+				$rootCollection->addChild(new RootCollection(
 					$root,
 					$userPrincipalBackend,
 					'principals/shares',
@@ -183,7 +184,7 @@ class ServerFactory {
 					!$this->config->getSystemValue('debug', false)
 				)
 			);
-			$server->addPlugin(new QuotaPlugin($view, true));
+			$server->addPlugin(new QuotaPlugin($view));
 			$server->addPlugin(new ChecksumUpdatePlugin());
 
 			// Allow view-only plugin for webdav requests

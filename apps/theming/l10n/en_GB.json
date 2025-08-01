@@ -117,12 +117,7 @@
     "Reset to default" : "Reset to default",
     "Upload" : "Upload",
     "Remove background image" : "Remove background image",
-    "Color" : "Colour",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level.",
-    ". Unable to apply the setting." : ". Unable to apply the setting.",
-    "Background" : "Background",
-    "Set a custom background" : "Set a custom background",
-    "Change color" : "Change colour",
-    "No background" : "No background"
+    ". Unable to apply the setting." : ". Unable to apply the setting."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

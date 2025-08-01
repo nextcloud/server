@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "Halló, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Til hamingju með afmælið 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Til hamingju með afmælið {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"{title} táknmynd\"",
     "Customize" : "Sérsníða",
     "Edit widgets" : "Breyta viðmótshlutum",
     "Get more widgets from the App Store" : "Náðu í fleiri viðmótshluta í forritasafninu",

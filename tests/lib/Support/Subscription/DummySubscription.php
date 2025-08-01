@@ -9,24 +9,20 @@ declare(strict_types=1);
 
 namespace Test\Support\Subscription;
 
-class DummySubscription implements \OCP\Support\Subscription\ISubscription {
-	/** @var bool */
-	private $hasValidSubscription;
-	/** @var bool */
-	private $hasExtendedSupport;
-	/** @var bool */
-	private $isHardUserLimitReached;
+use OCP\Support\Subscription\ISubscription;
 
+class DummySubscription implements ISubscription {
 	/**
 	 * DummySubscription constructor.
 	 *
 	 * @param bool $hasValidSubscription
 	 * @param bool $hasExtendedSupport
 	 */
-	public function __construct(bool $hasValidSubscription, bool $hasExtendedSupport, bool $isHardUserLimitReached) {
-		$this->hasValidSubscription = $hasValidSubscription;
-		$this->hasExtendedSupport = $hasExtendedSupport;
-		$this->isHardUserLimitReached = $isHardUserLimitReached;
+	public function __construct(
+		private bool $hasValidSubscription,
+		private bool $hasExtendedSupport,
+		private bool $isHardUserLimitReached,
+	) {
 	}
 
 	/**

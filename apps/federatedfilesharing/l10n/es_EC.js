@@ -24,6 +24,7 @@ OC.L10N.register(
     "Unable to update federated files sharing config" : "No se pudo actualizar la configuración de compartición federada de archivos",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Comparte conmigo a través de mi ID de Nube Federada de #Nextcloud, consulta {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartir conmigo a través de mi ID de Nube Federada #Nextcloud",
+    "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
     "Cloud ID copied to the clipboard" : "ID de Nube copiado al portapapeles",
     "Copy to clipboard" : "Copiar al portapapeles",
     "Copied!" : "¡Copiado!",
@@ -33,16 +34,11 @@ OC.L10N.register(
     "Facebook" : "Facebook",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Agregar a tu sitio web",
-    "Share with me via Nextcloud" : "Compartir conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",
     "Cancel" : "Cancelar",
     "Add remote share" : "Agregar elemento compartido remoto",
     "Remote share" : "Elemento compartido remoto",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Desea agregar el elemento compartido remoto {name} de {owner}@{remote}?",
-    "Remote share password" : "Contraseña del elemento compartido remoto",
-    "Clipboard is not available" : "El portapapeles no está disponible",
-    "Your Federated Cloud ID:" : "Tu ID de Nube Federada:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Remote share password" : "Contraseña del elemento compartido remoto"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

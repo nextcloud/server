@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -30,7 +31,7 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 		$this->repair = new ClearGeneratedAvatarCache($this->config, $this->avatarManager, $this->jobList);
 	}
 
-	public function shouldRunDataProvider() {
+	public static function shouldRunDataProvider(): array {
 		return [
 			['11.0.0.0', true],
 			['15.0.0.3', true],
@@ -44,11 +45,11 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider shouldRunDataProvider
 	 *
 	 * @param string $from
 	 * @param boolean $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('shouldRunDataProvider')]
 	public function testShouldRun($from, $expected): void {
 		$this->config->expects($this->any())
 			->method('getSystemValueString')

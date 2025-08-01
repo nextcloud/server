@@ -14,6 +14,7 @@ return array(
     'OCA\\Files_External\\Command\\Config' => $baseDir . '/../lib/Command/Config.php',
     'OCA\\Files_External\\Command\\Create' => $baseDir . '/../lib/Command/Create.php',
     'OCA\\Files_External\\Command\\Delete' => $baseDir . '/../lib/Command/Delete.php',
+    'OCA\\Files_External\\Command\\Dependencies' => $baseDir . '/../lib/Command/Dependencies.php',
     'OCA\\Files_External\\Command\\Export' => $baseDir . '/../lib/Command/Export.php',
     'OCA\\Files_External\\Command\\Import' => $baseDir . '/../lib/Command/Import.php',
     'OCA\\Files_External\\Command\\ListCommand' => $baseDir . '/../lib/Command/ListCommand.php',

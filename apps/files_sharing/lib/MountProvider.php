@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -55,7 +56,7 @@ class MountProvider implements IMountProvider {
 
 		// filter out excluded shares and group shares that includes self
 		$shares = array_filter($shares, function (IShare $share) use ($user) {
-			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID();
+			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID() && $share->getSharedBy() !== $user->getUID();
 		});
 
 		$superShares = $this->buildSuperShares($shares, $user);
@@ -77,10 +78,10 @@ class MountProvider implements IMountProvider {
 				/** @var IShare $parentShare */
 				$parentShare = $share[0];
 
-				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED &&
-					($parentShare->getShareType() === IShare::TYPE_GROUP ||
-						$parentShare->getShareType() === IShare::TYPE_USERGROUP ||
-						$parentShare->getShareType() === IShare::TYPE_USER)) {
+				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED
+					&& ($parentShare->getShareType() === IShare::TYPE_GROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USERGROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USER)) {
 					continue;
 				}
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,22 +22,14 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
-	private static $tempStorage = [];
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $configMock;
+	protected Util $instance;
+	protected static $tempStorage = [];
 
-	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
-	private $filesMock;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManagerMock;
-
-	/** @var IMountPoint|\PHPUnit\Framework\MockObject\MockObject */
-	private $mountMock;
-
-	/** @var Util */
-	private $instance;
+	protected IConfig&MockObject $configMock;
+	protected View&MockObject $filesMock;
+	protected IUserManager&MockObject $userManagerMock;
+	protected IMountPoint&MockObject $mountMock;
 
 	public function testSetRecoveryForUser(): void {
 		$this->instance->setRecoveryForUser('1');
@@ -121,11 +115,11 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsMasterKeyEnabled
 	 *
 	 * @param string $value
 	 * @param bool $expect
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsMasterKeyEnabled')]
 	public function testIsMasterKeyEnabled($value, $expect): void {
 		$this->configMock->expects($this->once())->method('getAppValue')
 			->with('encryption', 'useMasterKey', '1')->willReturn($value);
@@ -134,7 +128,7 @@ class UtilTest extends TestCase {
 		);
 	}
 
-	public function dataTestIsMasterKeyEnabled() {
+	public static function dataTestIsMasterKeyEnabled(): array {
 		return [
 			['0', false],
 			['1', true]
@@ -142,10 +136,10 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestShouldEncryptHomeStorage
 	 * @param string $returnValue return value from getAppValue()
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShouldEncryptHomeStorage')]
 	public function testShouldEncryptHomeStorage($returnValue, $expected): void {
 		$this->configMock->expects($this->once())->method('getAppValue')
 			->with('encryption', 'encryptHomeStorage', '1')
@@ -155,7 +149,7 @@ class UtilTest extends TestCase {
 			$this->instance->shouldEncryptHomeStorage());
 	}
 
-	public function dataTestShouldEncryptHomeStorage() {
+	public static function dataTestShouldEncryptHomeStorage(): array {
 		return [
 			['1', true],
 			['0', false]
@@ -163,17 +157,17 @@ class UtilTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetEncryptHomeStorage
 	 * @param $value
 	 * @param $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetEncryptHomeStorage')]
 	public function testSetEncryptHomeStorage($value, $expected): void {
 		$this->configMock->expects($this->once())->method('setAppValue')
 			->with('encryption', 'encryptHomeStorage', $expected);
 		$this->instance->setEncryptHomeStorage($value);
 	}
 
-	public function dataTestSetEncryptHomeStorage() {
+	public static function dataTestSetEncryptHomeStorage(): array {
 		return [
 			[true, '1'],
 			[false, '0']

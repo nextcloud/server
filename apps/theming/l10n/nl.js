@@ -54,8 +54,8 @@ OC.L10N.register(
     "Privacy policy link" : "Privacybeleid link",
     "Header logo" : "Top logo",
     "Upload new header logo" : "Upload een nieuwe top afbeelding",
-    "Favicon" : "Favorietenpictogram",
-    "Upload new favicon" : "Upload een nieuwe favorietenpictogram",
+    "Favicon" : "Favicon",
+    "Upload new favicon" : "Nieuw favicon uploaden",
     "User settings" : "Instellingen gebruiker",
     "Disable user theming" : "Gebruiker thema's uitschakelen",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Thematiseren maakt het mogelijk om uiterlijk en gevoel van je systeem en ondersteunde clients aan te passen. Dit wordt zichtbaar voor alle gebruikers.",
@@ -79,11 +79,6 @@ OC.L10N.register(
     "Reset to default" : "Herstellen naar standaard",
     "Upload" : "Uploaden",
     "Remove background image" : "Achtergrond beeld verwijderen",
-    "Color" : "Kleur",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universele toegang is heel belangrijk voor ons. We volgen webstandaarden en controleren dat alles ook zonder muis en met ondersteunende software zoals schermlezers bruikbaar is. We streven om de {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 op AA-niveau te volgen, en met het hoge contrast thema zelfs op AAA-niveau.",
-    "Background" : "Achtergrond",
-    "Set a custom background" : "Stel persoonlijke achtergrond in",
-    "Change color" : "Wijzigen kleur",
-    "No background" : "Geen achtergrond"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universele toegang is heel belangrijk voor ons. We volgen webstandaarden en controleren dat alles ook zonder muis en met ondersteunende software zoals schermlezers bruikbaar is. We streven om de {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 op AA-niveau te volgen, en met het hoge contrast thema zelfs op AAA-niveau."
 },
 "nplurals=2; plural=(n != 1);");

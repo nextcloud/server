@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
@@ -34,6 +35,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 
 /**
  * @psalm-import-type CoreLoginFlowV2Credentials from ResponseDefinitions
@@ -204,7 +206,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		$this->session->remove(self::STATE_NAME);
 
 		try {
-			$token = \OC::$server->get(\OC\Authentication\Token\IProvider::class)->getToken($password);
+			$token = Server::get(\OC\Authentication\Token\IProvider::class)->getToken($password);
 			if ($token->getLoginName() !== $user) {
 				throw new InvalidTokenException('login name does not match');
 			}
@@ -227,6 +229,7 @@ class ClientFlowLoginV2Controller extends Controller {
 
 	#[NoAdminRequired]
 	#[UseSession]
+	#[PasswordConfirmationRequired(strict: false)]
 	#[FrontpageRoute(verb: 'POST', url: '/login/v2/grant')]
 	public function generateAppPassword(?string $stateToken): Response {
 		if ($stateToken === null) {
@@ -290,7 +293,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function init(): JSONResponse {
 		// Get client user agent
-		$userAgent = $this->request->getHeader('USER_AGENT');
+		$userAgent = $this->request->getHeader('user-agent');
 
 		$tokens = $this->loginFlowV2Service->createTokens($userAgent);
 

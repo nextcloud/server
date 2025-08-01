@@ -11,7 +11,6 @@ use InvalidArgumentException;
 use OC\Accounts\AccountManager;
 use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
-use OC_Helper;
 use OCP\Accounts\IAccountManager;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -155,6 +154,7 @@ class User implements IUser {
 	 */
 	public function setSystemEMailAddress(string $mailAddress): void {
 		$oldMailAddress = $this->getSystemEMailAddress();
+		$mailAddress = mb_strtolower(trim($mailAddress));
 
 		if ($mailAddress === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'email');
@@ -177,6 +177,7 @@ class User implements IUser {
 	 * @inheritDoc
 	 */
 	public function setPrimaryEMailAddress(string $mailAddress): void {
+		$mailAddress = mb_strtolower(trim($mailAddress));
 		if ($mailAddress === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'primary_email');
 			return;
@@ -515,14 +516,16 @@ class User implements IUser {
 	 * @inheritDoc
 	 */
 	public function getSystemEMailAddress(): ?string {
-		return $this->config->getUserValue($this->uid, 'settings', 'email', null);
+		$email = $this->config->getUserValue($this->uid, 'settings', 'email', null);
+		return $email ? mb_strtolower(trim($email)) : null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getPrimaryEMailAddress(): ?string {
-		return $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);
+		$email = $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);
+		return $email ? mb_strtolower(trim($email)) : null;
 	}
 
 	/**
@@ -559,6 +562,19 @@ class User implements IUser {
 		return $quota;
 	}
 
+	public function getQuotaBytes(): int|float {
+		$quota = $this->getQuota();
+		if ($quota === 'none') {
+			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
+		}
+
+		$bytes = \OCP\Util::computerFileSize($quota);
+		if ($bytes === false) {
+			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+		}
+		return $bytes;
+	}
+
 	/**
 	 * set the users' quota
 	 *
@@ -570,11 +586,11 @@ class User implements IUser {
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' and $quota !== 'default') {
-			$bytesQuota = OC_Helper::computerFileSize($quota);
+			$bytesQuota = \OCP\Util::computerFileSize($quota);
 			if ($bytesQuota === false) {
 				throw new InvalidArgumentException('Failed to set quota to invalid value ' . $quota);
 			}
-			$quota = OC_Helper::humanFileSize($bytesQuota);
+			$quota = \OCP\Util::humanFileSize($bytesQuota);
 		}
 		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);

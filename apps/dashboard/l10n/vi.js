@@ -13,7 +13,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Chào buổi tối, {name}",
     "Hello" : "Xin chào",
     "Hello, {name}" : "Xin chào, {name}",
-    "\"{title} icon\"" : "\"{title} icon\"",
     "Customize" : "Tuỳ chỉnh",
     "Edit widgets" : "Chỉnh sửa widget",
     "Get more widgets from the App Store" : "Tải thêm widget từ App Store",

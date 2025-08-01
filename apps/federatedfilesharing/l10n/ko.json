@@ -24,6 +24,7 @@
     "Unable to update federated files sharing config" : "연합 파일 공유 설정을 갱신할 수 없음",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "내 #Nextcloud 연합 클라우드 ID를 통해서 공유됨, 더 알아보기: {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "내 #Nextcloud 연합 클라우드 ID를 통해서 공유됨",
+    "Share with me via Nextcloud" : "Nextcloud로 나와 공유하기",
     "Cloud ID copied to the clipboard" : "클라우드 ID가 클립보드에 복사됨",
     "Copy to clipboard" : "클립보드로 복사",
     "Copied!" : "복사 성공!",
@@ -33,15 +34,11 @@
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (구 Twitter)",
     "Add to your website" : "내 웹 사이트에 추가",
-    "Share with me via Nextcloud" : "Nextcloud로 나와 공유하기",
     "HTML Code:" : "HTML 코드:",
     "Cancel" : "취소",
     "Add remote share" : "원격 공유 추가",
     "Remote share" : "원격 공유",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}의 원격 공유 {name}을(를) 추가하시겠습니까?",
-    "Remote share password" : "원격 공유 암호",
-    "Clipboard is not available" : "클립보드를 사용할 수 없습니다.",
-    "Your Federated Cloud ID:" : "내 연합 클라우드 ID:",
-    "Twitter" : "Twitter"
+    "Remote share password" : "원격 공유 암호"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

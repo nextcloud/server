@@ -37,7 +37,7 @@ OC.L10N.register(
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Es ist ein Fehler aufgetreten. Bitte überprüfen Sie die Base DN wie auch die Verbindungseinstellungen und Anmeldeinformationen.",
     "Do you really want to delete the current Server Configuration?" : "Möchten Sie die aktuelle Serverkonfiguration wirklich löschen?",
     "Confirm Deletion" : "Löschen bestätigen",
-    "Mappings cleared successfully!" : "Zuordnungen erfolgreich gelöscht!",
+    "Mappings cleared successfully!" : "Zuordnungen gelöscht!",
     "Error while clearing the mappings." : "Fehler beim Löschen der Zuordnungen.",
     "Anonymous bind is not allowed. Please provide a User DN and Password." : "Anonymous Bind ist nicht erlaubt. Bitte geben Sie eine Benutzer-DN und ein Passwort angeben.",
     "LDAP Operations error. Anonymous bind might not be allowed." : "Fehler in den LDAP-Operationen. Anonymous Bind ist anscheinend nicht erlaubt.",

@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Yedek kodlarını yeniden oluşturursanız, eski kodlar geçersiz olur.",
     "{name} backup codes" : "{name} yedek kodları",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "İki adımlı doğrulamayı ayarlarken yedek kodlarından birini kullanın.",
-    "Submit" : "Gönder",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Yedek kodlarınızı burada görebilirsiniz. Kodları daha sonra göremeyeceğiniz için bu kodları kaydedin ya da yazdırın"
+    "Submit" : "Gönder"
 },
 "nplurals=2; plural=(n > 1);");

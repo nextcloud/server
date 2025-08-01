@@ -22,17 +22,6 @@
     "Could not find share" : "Nepavyko rasti viešinio",
     "Share provider which allows you to share files by mail" : "Bendrinimo teikėjas, kuris leidžia bendrinti failus el. paštu",
     "Send password by mail" : "Siųsti slaptažodį el. paštu",
-    "Reply to initiator" : "Atsakyti iniciatoriui",
-    "%1$s shared »%2$s« with you" : "%1$s pasidalino „%2$s“ su jumis",
-    "%1$s shared »%2$s« with you." : "%1$s pasidalino „%2$s“ su jumis.",
-    "Click the button below to open it." : "Norėdami atverti failą, spustelėkite žemiau esantį mygtuką.",
-    "Open »%s«" : "Atverti „%s“",
-    "Password to access »%1$s« shared to you by %2$s" : "%2$s pasidalino slaptažodžiu, reikalingu atverti „%1$s“",
-    "Password to access »%s«" : "Slaptažodis, skirtas prieigai prie „%s“",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s pasidalino „%2$s“ su jumis ir parašė pastabą:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s pasidalino „%2$s“ su jumis ir parašė pastabą",
-    "»%s« added a note to a file shared with you" : "„%s“ parašė pastabą su jumis pasidalintam failui",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Ką tik su %2$s pradėjote bendrinti „%1$s“. Viešinys jau išsiųstas gavėjui. Dėl %3$s administratoriaus apibrėžtų saugumo politikų, kiekvienas viešinys turi būti apsaugotas slaptažodžiu, o slaptažodžio neleidžiama siųsti tiesiogiai gavėjui. Todėl turėsite persiųsti slaptažodį gavėjui rankiniu būdu.",
-    "Password to access »%1$s« shared by you with %2$s" : "Pasidalinote slaptažodžiu, reikalingu atverti „%1$s“ su %2$s"
+    "Reply to initiator" : "Atsakyti iniciatoriui"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

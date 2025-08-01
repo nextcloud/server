@@ -108,6 +108,7 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
+	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
 	 * @return list<IComment>
 	 * @since 14.0.0
 	 * @deprecated 24.0.0 - Use getCommentsWithVerbForObjectSinceComment instead
@@ -119,6 +120,7 @@ interface ICommentsManager {
 		string $sortDirection = 'asc',
 		int $limit = 30,
 		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array;
 
 	/**
@@ -130,6 +132,7 @@ interface ICommentsManager {
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
+	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
 	 * @return list<IComment>
 	 * @since 24.0.0
 	 */
@@ -141,6 +144,7 @@ interface ICommentsManager {
 		string $sortDirection = 'asc',
 		int $limit = 30,
 		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array;
 
 	/**

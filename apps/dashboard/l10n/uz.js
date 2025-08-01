@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "Assalomu aleykum, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Tug'ilgan kun muborak bo'lsin 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Tug'ilgan kun muborak bo'lsin, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"{title} belgisi\"",
     "Customize" : "Moslashtirish",
     "Edit widgets" : "Vidjetlarni tahrirlash",
     "Get more widgets from the App Store" : "App Store'dan ko'proq vidjetlarni oling",

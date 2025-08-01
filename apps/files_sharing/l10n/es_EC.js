@@ -163,7 +163,6 @@ OC.L10N.register(
     "on {server}" : "en {server}",
     "File drop" : "Soltar archivo",
     "Terms of service" : "Terms of service",
-    "Name" : "Nombre",
     "Read" : "Leer",
     "Create" : "Crear",
     "Edit" : "Editar",
@@ -252,10 +251,9 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "No se encontró un servidor compatible en {remote}",
     "Invalid server URL" : "URL del servidor inválido",
     "Failed to add the public link to your Nextcloud" : "Se presentó una falla al agregar el enlace público a tu Nextcloud",
-    "Files" : "Archivos",
     "Download all files" : "Descargar todos los archivos",
     "Search for share recipients" : "Buscar destinatarios de la compartición",
     "No recommendations. Start typing." : "No hay recomendaciones. Comienza a escribir.",
-    "Allow download" : "Permitir descarga"
+    "Name" : "Nombre"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

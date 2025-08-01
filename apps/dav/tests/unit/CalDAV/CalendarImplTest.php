@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,11 +23,10 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
 
 class CalendarImplTest extends \Test\TestCase {
-
-	private Calendar|MockObject $calendar;
+	private Calendar&MockObject $calendar;
 	private array $calendarInfo;
-	private CalDavBackend|MockObject $backend;
-	private CalendarImpl|MockObject $calendarImpl;
+	private CalDavBackend&MockObject $backend;
+	private CalendarImpl $calendarImpl;
 	private array $mockExportCollection;
 
 	protected function setUp(): void {
@@ -197,8 +198,8 @@ EOF;
 		/** @var \Sabre\DAVACL\Plugin|MockObject $schedulingPlugin */
 		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
 
-		$server =
-			$this->createMock(Server::class);
+		$server
+			= $this->createMock(Server::class);
 		$server->expects($this->any())
 			->method('getPlugin')
 			->willReturnMap([
@@ -299,7 +300,7 @@ EOF;
 		foreach ($this->calendarImpl->export(null) as $entry) {
 			$exported[] = $entry;
 		}
-		
+
 		// Assert
 		$this->assertCount(1, $exported, 'Invalid exported items count');
 	}

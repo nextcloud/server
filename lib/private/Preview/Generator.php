@@ -165,7 +165,7 @@ class Generator {
 						$maxPreviewImage = $this->helper->getImage($maxPreview);
 					}
 
-					$this->logger->warning('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
+					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
 					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
 					// New file, augment our array
 					$previewFiles[] = $preview;

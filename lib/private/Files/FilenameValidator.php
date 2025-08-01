@@ -228,6 +228,43 @@ class FilenameValidator implements IFilenameValidator {
 		return false;
 	}
 
+	public function sanitizeFilename(string $name, ?string $charReplacement = null): string {
+		$forbiddenCharacters = $this->getForbiddenCharacters();
+
+		if ($charReplacement === null) {
+			$charReplacement = array_diff(['_', '-', ' '], $forbiddenCharacters);
+			$charReplacement = reset($charReplacement) ?: '';
+		}
+		if (mb_strlen($charReplacement) !== 1) {
+			throw new \InvalidArgumentException('No or invalid character replacement given');
+		}
+
+		$nameLowercase = mb_strtolower($name);
+		foreach ($this->getForbiddenExtensions() as $extension) {
+			if (str_ends_with($nameLowercase, $extension)) {
+				$name = substr($name, 0, strlen($name) - strlen($extension));
+			}
+		}
+
+		$basename = strlen($name) > 1
+			? substr($name, 0, strpos($name, '.', 1) ?: null)
+			: $name;
+		if (in_array(mb_strtolower($basename), $this->getForbiddenBasenames())) {
+			$name = str_replace($basename, $this->l10n->t('%1$s (renamed)', [$basename]), $name);
+		}
+
+		if ($name === '') {
+			$name = $this->l10n->t('renamed file');
+		}
+
+		if (in_array(mb_strtolower($name), $this->getForbiddenFilenames())) {
+			$name = $this->l10n->t('%1$s (renamed)', [$name]);
+		}
+
+		$name = str_replace($forbiddenCharacters, $charReplacement, $name);
+		return $name;
+	}
+
 	protected function checkForbiddenName(string $filename): void {
 		$filename = mb_strtolower($filename);
 		if ($this->isForbidden($filename)) {

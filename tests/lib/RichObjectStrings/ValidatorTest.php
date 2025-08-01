@@ -80,9 +80,7 @@ class ValidatorTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateParameterKeys
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateParameterKeys')]
 	public function testValidateParameterKeys(mixed $key, ?string $throws): void {
 
 		if ($throws !== null) {

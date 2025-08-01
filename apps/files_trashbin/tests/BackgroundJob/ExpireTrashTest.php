@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,23 +20,12 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ExpireTrashTest extends TestCase {
-	/** @var IAppConfig&MockObject */
-	private $appConfig;
-
-	/** @var IUserManager&MockObject */
-	private $userManager;
-
-	/** @var Expiration&MockObject */
-	private $expiration;
-
-	/** @var IJobList&MockObject */
-	private $jobList;
-
-	/** @var LoggerInterface&MockObject */
-	private $logger;
-
-	/** @var ITimeFactory&MockObject */
-	private $time;
+	private IAppConfig&MockObject $appConfig;
+	private IUserManager&MockObject $userManager;
+	private Expiration&MockObject $expiration;
+	private IJobList&MockObject $jobList;
+	private LoggerInterface&MockObject $logger;
+	private ITimeFactory&MockObject $time;
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -24,37 +26,18 @@ use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
 
-	/** @var SettingsController */
-	private $controller;
+	protected SettingsController $controller;
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $requestMock;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10nMock;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManagerMock;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSessionMock;
-
-	/** @var KeyManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $keyManagerMock;
-
-	/** @var Crypt|\PHPUnit\Framework\MockObject\MockObject */
-	private $cryptMock;
-
-	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
-	private $sessionMock;
-	/** @var MockObject|IUser */
-	private $user;
-
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $ocSessionMock;
-
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
-	private $utilMock;
+	protected IRequest&MockObject $requestMock;
+	protected IL10N&MockObject $l10nMock;
+	protected IUserManager&MockObject $userManagerMock;
+	protected IUserSession&MockObject $userSessionMock;
+	protected KeyManager&MockObject $keyManagerMock;
+	protected Crypt&MockObject $cryptMock;
+	protected Session&MockObject $sessionMock;
+	protected IUser&MockObject $user;
+	protected ISession&MockObject $ocSessionMock;
+	protected Util&MockObject $utilMock;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -171,21 +154,17 @@ class SettingsControllerTest extends TestCase {
 		$newPassword = 'new';
 
 		$this->ocSessionMock->expects($this->once())
-			->method('get')->with('loginname')->willReturn('testUser');
+			->method('get')
+			->with('loginname')
+			->willReturn('testUser');
 
 		$this->userManagerMock
 			->expects($this->exactly(2))
 			->method('checkPassword')
-			->withConsecutive(
-				['testUserUid', 'new'],
-				['testUser', 'new'],
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				true,
-			);
-
-
+			->willReturnMap([
+				['testUserUid', 'new', false],
+				['testUser', 'new', true],
+			]);
 
 		$this->cryptMock
 			->expects($this->once())

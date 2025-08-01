@@ -91,6 +91,9 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 				'disclaimer',
 				$this->appConfig->getValueString('core', 'shareapi_public_link_disclaimertext'),
 			);
+			// file drops do not request the root folder so we need to provide label and note if available
+			$this->initialState->provideInitialState('label', $share->getLabel());
+			$this->initialState->provideInitialState('note', $share->getNote());
 		}
 		// Set up initial state
 		$this->initialState->provideInitialState('isPublic', true);
@@ -104,13 +107,12 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		Util::addInitScript(Application::APP_ID, 'init');
 		Util::addInitScript(Application::APP_ID, 'init-public');
 		Util::addScript('files', 'main');
+		Util::addScript(Application::APP_ID, 'public-nickname-handler');
 
 		// Add file-request script if needed
 		$attributes = $share->getAttributes();
 		$isFileRequest = $attributes?->getAttribute('fileRequest', 'enabled') === true;
-		if ($isFileRequest) {
-			Util::addScript(Application::APP_ID, 'public-file-request');
-		}
+		$this->initialState->provideInitialState('isFileRequest', $isFileRequest);
 
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {
@@ -149,10 +151,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		$headerActions = [];
 		if ($view !== 'public-file-drop' && !$share->getHideDownload()) {
 			// The download URL is used for the "download" header action as well as in some cases for the direct link
-			$downloadUrl = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', [
-				'token' => $token,
-				'filename' => ($shareNode instanceof File) ? $shareNode->getName() : null,
-			]);
+			$downloadUrl = $this->urlGenerator->getAbsoluteURL('/public.php/dav/files/' . $token . '/?accept=zip');
 
 			// If not a file drop, then add the download header action
 			$headerActions[] = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $downloadUrl, 0, (string)$shareNode->getSize());

@@ -25,21 +25,11 @@ use Test\TestCase;
 
 class OutOfOfficeEventDispatcherJobTest extends TestCase {
 	private OutOfOfficeEventDispatcherJob $job;
-
-	/** @var MockObject|ITimeFactory */
-	private $timeFactory;
-
-	/** @var MockObject|AbsenceMapper */
-	private $absenceMapper;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var MockObject|IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var MockObject|IUserManager */
-	private $userManager;
+	private ITimeFactory&MockObject $timeFactory;
+	private AbsenceMapper&MockObject $absenceMapper;
+	private LoggerInterface&MockObject $logger;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IUserManager&MockObject $userManager;
 	private MockObject|TimezoneService $timezoneService;
 
 	protected function setUp(): void {

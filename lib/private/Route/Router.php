@@ -53,10 +53,10 @@ class Router implements IRouter {
 	public function __construct(
 		protected LoggerInterface $logger,
 		IRequest $request,
-		private IConfig $config,
-		private IEventLogger $eventLogger,
+		protected IConfig $config,
+		protected IEventLogger $eventLogger,
 		private ContainerInterface $container,
-		private IAppManager $appManager,
+		protected IAppManager $appManager,
 	) {
 		$baseUrl = \OC::$WEBROOT;
 		if (!($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
@@ -74,6 +74,14 @@ class Router implements IRouter {
 		$this->root = $this->getCollection('root');
 	}
 
+	public function setContext(RequestContext $context): void {
+		$this->context = $context;
+	}
+
+	public function getRouteCollection() {
+		return $this->root;
+	}
+
 	/**
 	 * Get the files to load the routes from
 	 *
@@ -82,7 +90,7 @@ class Router implements IRouter {
 	public function getRoutingFiles() {
 		if ($this->routingFiles === null) {
 			$this->routingFiles = [];
-			foreach (\OC_APP::getEnabledApps() as $app) {
+			foreach ($this->appManager->getEnabledApps() as $app) {
 				try {
 					$appPath = $this->appManager->getAppPath($app);
 					$file = $appPath . '/appinfo/routes.php';
@@ -102,7 +110,7 @@ class Router implements IRouter {
 	 *
 	 * @param null|string $app
 	 */
-	public function loadRoutes($app = null) {
+	public function loadRoutes(?string $app = null, bool $skipLoadingCore = false): void {
 		if (is_string($app)) {
 			$app = $this->appManager->cleanAppId($app);
 		}
@@ -116,9 +124,11 @@ class Router implements IRouter {
 			$this->loaded = true;
 			$routingFiles = $this->getRoutingFiles();
 
-			foreach (\OC_App::getEnabledApps() as $enabledApp) {
+			$this->eventLogger->start('route:load:attributes', 'Loading Routes from attributes');
+			foreach ($this->appManager->getEnabledApps() as $enabledApp) {
 				$this->loadAttributeRoutes($enabledApp);
 			}
+			$this->eventLogger->end('route:load:attributes');
 		} else {
 			if (isset($this->loadedApps[$app])) {
 				return;
@@ -140,6 +150,7 @@ class Router implements IRouter {
 			}
 		}
 
+		$this->eventLogger->start('route:load:files', 'Loading Routes from files');
 		foreach ($routingFiles as $app => $file) {
 			if (!isset($this->loadedApps[$app])) {
 				if (!$this->appManager->isAppLoaded($app)) {
@@ -160,12 +171,13 @@ class Router implements IRouter {
 				$this->root->addCollection($collection);
 			}
 		}
+		$this->eventLogger->end('route:load:files');
 
-		if (!isset($this->loadedApps['core'])) {
+		if (!$skipLoadingCore && !isset($this->loadedApps['core'])) {
 			$this->loadedApps['core'] = true;
 			$this->useCollection('root');
 			$this->setupRoutes($this->getAttributeRoutes('core'), 'core');
-			require __DIR__ . '/../../../core/routes.php';
+			$this->requireRouteFile(__DIR__ . '/../../../core/routes.php', 'core');
 
 			// Also add the OCS collection
 			$collection = $this->getCollection('root.ocs');
@@ -265,6 +277,7 @@ class Router implements IRouter {
 			$this->loadRoutes();
 		}
 
+		$this->eventLogger->start('route:url:match', 'Symfony url matcher call');
 		$matcher = new UrlMatcher($this->root, $this->context);
 		try {
 			$parameters = $matcher->match($url);
@@ -283,6 +296,7 @@ class Router implements IRouter {
 				throw $e;
 			}
 		}
+		$this->eventLogger->end('route:url:match');
 
 		$this->eventLogger->end('route:match');
 		return $parameters;
@@ -306,21 +320,41 @@ class Router implements IRouter {
 			$application = $this->getApplicationClass($caller[0]);
 			\OC\AppFramework\App::main($caller[1], $caller[2], $application->getContainer(), $parameters);
 		} elseif (isset($parameters['action'])) {
-			$action = $parameters['action'];
-			if (!is_callable($action)) {
-				throw new \Exception('not a callable action');
-			}
-			unset($parameters['action']);
-			unset($parameters['caller']);
-			$this->eventLogger->start('route:run:call', 'Run callable route');
-			call_user_func($action, $parameters);
-			$this->eventLogger->end('route:run:call');
+			$this->logger->warning('Deprecated action route used', ['parameters' => $parameters]);
+			$this->callLegacyActionRoute($parameters);
 		} elseif (isset($parameters['file'])) {
-			include $parameters['file'];
+			$this->logger->debug('Deprecated file route used', ['parameters' => $parameters]);
+			$this->includeLegacyFileRoute($parameters);
 		} else {
 			throw new \Exception('no action available');
 		}
 		$this->eventLogger->end('route:run');
+	}
+
+	/**
+	 * @param array{file:mixed, ...} $parameters
+	 */
+	protected function includeLegacyFileRoute(array $parameters): void {
+		$param = $parameters;
+		unset($param['_route']);
+		$_GET = array_merge($_GET, $param);
+		unset($param);
+		require_once $parameters['file'];
+	}
+
+	/**
+	 * @param array{action:mixed, ...} $parameters
+	 */
+	protected function callLegacyActionRoute(array $parameters): void {
+		$action = $parameters['action'];
+		if (!is_callable($action)) {
+			throw new \Exception('not a callable action');
+		}
+		unset($parameters['action']);
+		unset($parameters['caller']);
+		$this->eventLogger->start('route:run:call', 'Run callable route');
+		call_user_func($action, $parameters);
+		$this->eventLogger->end('route:run:call');
 	}
 
 	/**
@@ -486,7 +520,7 @@ class Router implements IRouter {
 	 * @param string $file the route file location to include
 	 * @param string $appName
 	 */
-	private function requireRouteFile($file, $appName) {
+	protected function requireRouteFile(string $file, string $appName): void {
 		$this->setupRoutes(include $file, $appName);
 	}
 

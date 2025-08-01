@@ -19,6 +19,7 @@ module.exports = {
 		main: path.join(__dirname, 'core/src', 'main.js'),
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
 		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
+		'public-page-user-menu': path.resolve(__dirname, 'core/src', 'public-page-user-menu.ts'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.ts'),
@@ -26,6 +27,7 @@ module.exports = {
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
 		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
 		public: path.join(__dirname, 'core/src', 'public.ts'),
+		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
 	},
 	dashboard: {
 		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
@@ -58,7 +60,7 @@ module.exports = {
 		'init-public': path.join(__dirname, 'apps/files_sharing/src', 'init-public.ts'),
 		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
-		'public-file-request': path.join(__dirname, 'apps/files_sharing/src', 'public-file-request.ts'),
+		'public-nickname-handler': path.join(__dirname, 'apps/files_sharing/src', 'public-nickname-handler.ts'),
 	},
 	files_trashbin: {
 		init: path.join(__dirname, 'apps/files_trashbin/src', 'files-init.ts'),

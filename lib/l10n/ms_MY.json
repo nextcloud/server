@@ -4,6 +4,7 @@
     "Apps" : "Aplikasi",
     "Settings" : "Tetapan",
     "Log out" : "Log keluar",
+    "Accounts" : "Accounts",
     "Email" : "Email",
     "Phone" : "Telefon",
     "Address" : "Alamat",
@@ -47,8 +48,6 @@
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dis.",
-    "Authentication error" : "Ralat pengesahan",
-    "Users" : "Pengguna",
-    "Open »%s«" : "Buka %s"
+    "Authentication error" : "Ralat pengesahan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

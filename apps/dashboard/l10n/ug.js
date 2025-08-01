@@ -14,7 +14,6 @@ OC.L10N.register(
     "Good evening, {name}" : "خەيرلىك كەچ ، {name}",
     "Hello" : "ياخشىمۇسىز",
     "Hello, {name}" : "ياخشىمۇسىز ، {name}",
-    "\"{title} icon\"" : "\"{title} سىنبەلگىسى\"",
     "Customize" : "Customize",
     "Edit widgets" : "كىچىك قوراللارنى تەھرىرلەش",
     "Get more widgets from the App Store" : "ئەپ دۇكىنىدىن تېخىمۇ كۆپ كىچىك قوراللارغا ئېرىشىڭ",

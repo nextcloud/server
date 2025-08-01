@@ -33,6 +33,7 @@ SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Max <max@nextcloud.com>
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
 SPDX-FileCopyrightText: Mapbox
@@ -85,7 +86,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.4.0
+	- version: 2.5.2
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.1
@@ -97,7 +98,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 6.1.1
+	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -109,7 +110,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 3.2.0
+	- version: 3.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -118,13 +119,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.4
+	- version: 0.2.5
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.25.1
+	- version: 8.28.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -140,9 +141,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - axios
 	- version: 1.9.0
-	- license: MIT
-- bail
-	- version: 2.0.2
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -178,7 +176,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.2.5
+	- version: 3.2.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
 	- version: 15.0.4
@@ -193,7 +191,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.0-beta.19
 	- license: MIT
 - focus-trap
-	- version: 7.6.4
+	- version: 7.6.5
 	- license: MIT
 - hast-to-hyperscript
 	- version: 10.0.3
@@ -219,15 +217,15 @@ This file is generated from multiple sources. Included packages:
 - is-buffer
 	- version: 1.1.6
 	- license: MIT
-- is-plain-obj
-	- version: 4.1.0
-	- license: MIT
 - jquery
 	- version: 3.7.1
 	- license: MIT
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
+- mdast-squeeze-paragraphs
+	- version: 6.0.0
+	- license: MIT
 - escape-string-regexp
 	- version: 5.0.0
 	- license: MIT
@@ -342,6 +340,9 @@ This file is generated from multiple sources. Included packages:
 - remark-rehype
 	- version: 11.1.0
 	- license: MIT
+- remark-unlink-protocols
+	- version: 1.0.0
+	- license: MIT
 - space-separated-tokens
 	- version: 2.0.2
 	- license: MIT
@@ -418,7 +419,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - webpack
-	- version: 5.99.7
+	- version: 5.99.9
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

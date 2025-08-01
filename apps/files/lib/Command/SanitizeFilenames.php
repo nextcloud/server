@@ -27,7 +27,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SanitizeFilenames extends Base {
 
 	private OutputInterface $output;
-	private string $charReplacement;
+	private ?string $charReplacement;
 	private bool $dryRun;
 
 	public function __construct(
@@ -42,10 +42,6 @@ class SanitizeFilenames extends Base {
 
 	protected function configure(): void {
 		parent::configure();
-
-		$forbiddenCharacter = $this->filenameValidator->getForbiddenCharacters();
-		$charReplacement = array_diff([' ', '_', '-'], $forbiddenCharacter);
-		$charReplacement = reset($charReplacement) ?: '';
 
 		$this
 			->setName('files:sanitize-filenames')
@@ -65,16 +61,25 @@ class SanitizeFilenames extends Base {
 				'c',
 				mode: InputOption::VALUE_REQUIRED,
 				description: 'Replacement for invalid character (by default space, underscore or dash is used)',
-				default: $charReplacement,
 			);
-			
+
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->charReplacement = $input->getOption('char-replacement');
-		if ($this->charReplacement === '' || mb_strlen($this->charReplacement) > 1) {
-			$output->writeln('<error>No character replacement given</error>');
-			return 1;
+		// check if replacement is needed
+		$c = $this->filenameValidator->getForbiddenCharacters();
+		if (count($c) > 0) {
+			try {
+				$this->filenameValidator->sanitizeFilename($c[0], $this->charReplacement);
+			} catch (\InvalidArgumentException) {
+				if ($this->charReplacement === null) {
+					$output->writeln('<error>Character replacement required</error>');
+				} else {
+					$output->writeln('<error>Invalid character replacement given</error>');
+				}
+				return 1;
+			}
 		}
 
 		$this->dryRun = $input->getOption('dry-run');
@@ -115,8 +120,8 @@ class SanitizeFilenames extends Base {
 
 			try {
 				$oldName = $node->getName();
-				if (!$this->filenameValidator->isFilenameValid($oldName)) {
-					$newName = $this->sanitizeName($oldName);
+				$newName = $this->filenameValidator->sanitizeFilename($oldName, $this->charReplacement);
+				if ($oldName !== $newName) {
 					$newName = $folder->getNonExistingName($newName);
 					$path = rtrim(dirname($node->getPath()), '/');
 
@@ -132,8 +137,9 @@ class SanitizeFilenames extends Base {
 				$this->output->writeln('<comment>skipping: ' . $node->getPath() . ' (file is locked)</>');
 			} catch (NotPermittedException) {
 				$this->output->writeln('<comment>skipping: ' . $node->getPath() . ' (no permissions)</>');
-			} catch (Exception) {
+			} catch (Exception $error) {
 				$this->output->writeln('<error>failed: ' . $node->getPath() . '</>');
+				$this->output->writeln('<error>' . $error->getMessage() . '</>', OutputInterface::OUTPUT_NORMAL | OutputInterface::VERBOSITY_VERBOSE);
 			}
 
 			if ($node instanceof Folder) {
@@ -142,27 +148,4 @@ class SanitizeFilenames extends Base {
 		}
 	}
 
-	private function sanitizeName(string $name): string {
-		$l10n = $this->l10nFactory->get('files');
-
-		foreach ($this->filenameValidator->getForbiddenExtensions() as $extension) {
-			if (str_ends_with($name, $extension)) {
-				$name = substr($name, 0, strlen($name) - strlen($extension));
-			}
-		}
-
-		$basename = substr($name, 0, strpos($name, '.', 1) ?: null);
-		if (in_array($basename, $this->filenameValidator->getForbiddenBasenames())) {
-			$name = str_replace($basename, $l10n->t('%1$s (renamed)', [$basename]), $name);
-		}
-
-		if ($name === '') {
-			$name = $l10n->t('renamed file');
-		}
-
-		$forbiddenCharacter = $this->filenameValidator->getForbiddenCharacters();
-		$name = str_replace($forbiddenCharacter, $this->charReplacement, $name);
-
-		return $name;
-	}
 }

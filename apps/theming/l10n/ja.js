@@ -119,12 +119,7 @@ OC.L10N.register(
     "Reset to default" : "デフォルトに戻す",
     "Upload" : "アップロード",
     "Remove background image" : "背景画像を削除",
-    "Color" : "色",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "ユニバーサルアクセスは私たちにとって非常に重要なことです。そのためウェブ標準に従い、マウスやスクリーンリーダーなどの支援ソフトウェアが無くても全ての機能をご利用いただけるようにチェックしています。AAAレベルのハイコントラストのテーマを採用することで、{guidelines} Webコンテンツアクセシビリティガイドライン2.1  {linkend} のAAAレベルに準拠することを目指しています。",
-    ". Unable to apply the setting." : "設定を適用できません。",
-    "Background" : "背景",
-    "Set a custom background" : "背景を設定",
-    "Change color" : "色を変える",
-    "No background" : "背景なし"
+    ". Unable to apply the setting." : "設定を適用できません。"
 },
 "nplurals=1; plural=0;");

@@ -35,6 +35,7 @@ OC.L10N.register(
     "Automatically accept shares from trusted federated accounts and groups by default" : "Onartu federatutako kontu eta talde fidagarrien partekatzeak modu lehenetsian",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz, ikus {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz",
+    "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud bidez",
     "Cloud ID copied to the clipboard" : "Hodei IDa arbelean kopiatu da",
     "Copy to clipboard" : "Kopiatu arbelera",
     "Clipboard not available. Please copy the cloud ID manually." : "Arbela ez dago eskuragarri, mesedez kopiatu hodei IDa eskuz.",
@@ -48,17 +49,12 @@ OC.L10N.register(
     "formerly Twitter" : "lehen Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Gehitu zure webgunera",
-    "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud bidez",
     "HTML Code:" : "HTML kodea:",
     "Cancel" : "Ezeztatu",
     "Add remote share" : "Gehitu urruneko partekatzea",
     "Remote share" : "Urruneko partekatzea",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}(r)en {name} urruneko partekatzea gehitu nahi duzu?",
     "Remote share password" : "Urruneko partekatzearen pasahitza",
-    "Incoming share could not be processed" : "Sarrerako partekatzea ezin izan da prozesatu",
-    "Clipboard is not available" : "Arbela ez dago erabilgarri",
-    "Your Federated Cloud ID:" : "Zure federatutako hodei IDa:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Sarrerako partekatzea ezin izan da prozesatu"
 },
 "nplurals=2; plural=(n != 1);");

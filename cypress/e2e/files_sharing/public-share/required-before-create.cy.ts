@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ShareContext } from './setup-public-share.ts'
+import type { ShareContext } from './PublicShareUtils.ts'
 import type { ShareOptions } from '../ShareOptionsType.ts'
 import { defaultShareOptions } from '../ShareOptionsType.ts'
-import { setupData, createShare } from './setup-public-share.ts'
+import { setupData, createLinkShare } from './PublicShareUtils.ts'
 
 describe('files_sharing: Before create checks', () => {
 
@@ -49,7 +49,7 @@ describe('files_sharing: Before create checks', () => {
 		applyShareOptions(shareOptions)
 		const shareName = 'passwordAndExpireEnforced'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, shareOptions).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, shareOptions).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})
@@ -64,7 +64,7 @@ describe('files_sharing: Before create checks', () => {
 		applyShareOptions(shareOptions)
 		const shareName = 'passwordEnforcedDefaultExpire'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, shareOptions).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, shareOptions).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})
@@ -79,7 +79,7 @@ describe('files_sharing: Before create checks', () => {
 		applyShareOptions(shareOptions)
 		const shareName = 'defaultPasswordExpireEnforced'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, shareOptions).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, shareOptions).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})
@@ -93,7 +93,7 @@ describe('files_sharing: Before create checks', () => {
 		  applyShareOptions(shareOptions)
 		const shareName = 'defaultPasswordAndExpire'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, shareOptions).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, shareOptions).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})
@@ -109,7 +109,7 @@ describe('files_sharing: Before create checks', () => {
 		applyShareOptions(shareOptions)
 		const shareName = 'passwordEnforcedExpireSetNotEnforced'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, shareOptions).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, shareOptions).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})
@@ -125,7 +125,7 @@ describe('files_sharing: Before create checks', () => {
 		applyShareOptions(shareOptions)
 		const shareName = 'defaultPasswordAndExpirationNotEnforced'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, shareOptions).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, shareOptions).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})
@@ -141,7 +141,7 @@ describe('files_sharing: Before create checks', () => {
 		applyShareOptions(shareOptions)
 		const shareName = 'noPasswordExpireEnforced'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, shareOptions).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, shareOptions).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})
@@ -157,7 +157,7 @@ describe('files_sharing: Before create checks', () => {
 		applyShareOptions(shareOptions)
 		const shareName = 'defaultExpireNoPasswordEnforced'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, shareOptions).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, shareOptions).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})
@@ -173,7 +173,7 @@ describe('files_sharing: Before create checks', () => {
 
 		const shareName = 'noPasswordExpireDefault'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, shareOptions).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, shareOptions).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})
@@ -183,7 +183,7 @@ describe('files_sharing: Before create checks', () => {
 		applyShareOptions()
 		const shareName = 'noPasswordNoExpireNoDefaults'
 		setupData(shareContext.user, shareName)
-		createShare(shareContext, shareName, null).then((shareUrl) => {
+		createLinkShare(shareContext, shareName, null).then((shareUrl) => {
 		  shareContext.url = shareUrl
 		  cy.log(`Created share with URL: ${shareUrl}`)
 		})

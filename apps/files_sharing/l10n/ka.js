@@ -165,8 +165,6 @@ OC.L10N.register(
     "on {server}" : "on {server}",
     "File drop" : "File drop",
     "Terms of service" : "Terms of service",
-    "Name" : "სახელი",
-    "Enter your name" : "Enter your name",
     "Share with {userName}" : "Share with {userName}",
     "Share with group" : "Share with group",
     "Share in conversation" : "Share in conversation",
@@ -267,10 +265,10 @@ OC.L10N.register(
     "No compatible server found at {remote}" : "No compatible server found at {remote}",
     "Invalid server URL" : "Invalid server URL",
     "Failed to add the public link to your Nextcloud" : "Failed to add the public link to your Nextcloud",
-    "Files" : "ფაილები",
     "Download all files" : "Download all files",
     "Search for share recipients" : "Search for share recipients",
     "No recommendations. Start typing." : "No recommendations. Start typing.",
-    "Allow download" : "Allow download"
+    "Enter your name" : "Enter your name",
+    "Name" : "სახელი"
 },
 "nplurals=2; plural=(n!=1);");

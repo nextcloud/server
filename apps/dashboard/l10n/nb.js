@@ -14,7 +14,6 @@ OC.L10N.register(
     "Good evening, {name}" : "God kveld, {name}",
     "Hello" : "Hallo",
     "Hello, {name}" : "Hallo, {name}",
-    "\"{title} icon\"" : "\"{title} ikon\"",
     "Customize" : "Tilpass",
     "Edit widgets" : "Rediger widgets",
     "Get more widgets from the App Store" : "Få flere widgets fra app-butikken",

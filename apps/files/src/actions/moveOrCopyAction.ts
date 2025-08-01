@@ -16,8 +16,8 @@ import { openConflictPicker, hasConflict } from '@nextcloud/upload'
 import { basename, join } from 'path'
 import Vue from 'vue'
 
-import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
-import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
+import CopyIconSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
+import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
 
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
 import { getContents } from '../services/Files'

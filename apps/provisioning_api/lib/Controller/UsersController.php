@@ -21,6 +21,7 @@ use OCA\Settings\Settings\Admin\Users;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -79,6 +80,7 @@ class UsersController extends AUserDataOCSController {
 		private KnownUserService $knownUserService,
 		private IEventDispatcher $eventDispatcher,
 		private IPhoneNumberUtil $phoneNumberUtil,
+		private IAppManager $appManager,
 	) {
 		parent::__construct(
 			$appName,
@@ -535,14 +537,21 @@ class UsersController extends AUserDataOCSController {
 			$generatePasswordResetToken = true;
 		}
 
+		$email = mb_strtolower(trim($email));
 		if ($email === '' && $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes') {
 			throw new OCSException($this->l10n->t('Required email address was not provided'), 110);
 		}
 
+		// Create the user
 		try {
 			$newUser = $this->userManager->createUser($userid, $password);
-			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
+			if (!$newUser instanceof IUser) {
+				// If the user is not an instance of IUser, it means the user creation failed
+				$this->logger->error('Failed addUser attempt: User creation failed.', ['app' => 'ocs_api']);
+				throw new OCSException($this->l10n->t('User creation failed'), 111);
+			}
 
+			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
 			foreach ($groups as $group) {
 				$this->groupManager->get($group)->addUser($newUser);
 				$this->logger->info('Added userid ' . $userid . ' to group ' . $group, ['app' => 'ocs_api']);
@@ -581,7 +590,7 @@ class UsersController extends AUserDataOCSController {
 
 			// Send new user mail only if a mail is set
 			if ($email !== '') {
-				$newUser->setEMailAddress($email);
+				$newUser->setSystemEMailAddress($email);
 				if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
 					try {
 						$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
@@ -707,6 +716,19 @@ class UsersController extends AUserDataOCSController {
 		}
 
 		return $this->getEditableFieldsForUser($currentLoggedInUser->getUID());
+	}
+
+	/**
+	 * Get a list of enabled apps for the current user
+	 *
+	 * @return DataResponse<Http::STATUS_OK, array{apps: list<string>}, array{}>
+	 *
+	 * 200: Enabled apps returned
+	 */
+	#[NoAdminRequired]
+	public function getEnabledApps(): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+		return new DataResponse(['apps' => $this->appManager->getEnabledAppsForUser($currentLoggedInUser)]);
 	}
 
 	/**
@@ -842,6 +864,7 @@ class UsersController extends AUserDataOCSController {
 				$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 				$mailCollection->removePropertyByValue($key);
 				if ($value !== '') {
+					$value = mb_strtolower(trim($value));
 					$mailCollection->addPropertyWithDefaults($value);
 					$property = $mailCollection->getPropertyByValue($key);
 					if ($isAdminOrSubadmin && $property) {
@@ -931,17 +954,17 @@ class UsersController extends AUserDataOCSController {
 			$permittedFields[] = self::USER_FIELD_PASSWORD;
 			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
 			if (
-				$this->config->getSystemValue('force_language', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
-				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+				$this->config->getSystemValue('force_language', false) === false
+				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 			}
 
 			if (
-				$this->config->getSystemValue('force_locale', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
-				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+				$this->config->getSystemValue('force_locale', false) === false
+				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LOCALE;
 				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
@@ -985,8 +1008,8 @@ class UsersController extends AUserDataOCSController {
 			// Check if admin / subadmin
 			$subAdminManager = $this->groupManager->getSubAdmin();
 			if (
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
-				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
 				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				// They have permissions over the user
@@ -1127,13 +1150,15 @@ class UsersController extends AUserDataOCSController {
 				}
 				break;
 			case IAccountManager::PROPERTY_EMAIL:
+				$value = mb_strtolower(trim($value));
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
-					$targetUser->setEMailAddress($value);
+					$targetUser->setSystemEMailAddress($value);
 				} else {
 					throw new OCSException('', 101);
 				}
 				break;
 			case IAccountManager::COLLECTION_EMAIL:
+				$value = mb_strtolower(trim($value));
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) && $value !== $targetUser->getSystemEMailAddress()) {
 					$userAccount = $this->accountManager->getAccount($targetUser);
 					$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);

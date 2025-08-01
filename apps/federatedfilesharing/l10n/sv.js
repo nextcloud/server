@@ -46,6 +46,7 @@ OC.L10N.register(
     "Automatically accept shares from trusted federated accounts and groups by default" : "Acceptera automatiskt delningar från betrodda federerade konton och grupper som standard",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Dela med mig genom mitt #Nextcloud federerade moln-ID, se {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dela med mig genom mitt #Nextcloud federerade moln-ID",
+    "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "Cloud ID copied to the clipboard" : "Moln-ID kopierades till urklippet",
     "Copy to clipboard" : "Kopiera till urklipp",
     "Clipboard not available. Please copy the cloud ID manually." : "Urklipp är inte tillgängligt. Kopiera moln-ID manuellt.",
@@ -59,17 +60,12 @@ OC.L10N.register(
     "formerly Twitter" : "tidigare Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Lägg till på din hemsida",
-    "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
     "Cancel" : "Avbryt",
     "Add remote share" : "Lägg till extern delning",
     "Remote share" : "Extern delning",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vill du lägga till extern delning {name} från {owner}@{remote}?",
     "Remote share password" : "Lösenord för extern delning",
-    "Incoming share could not be processed" : "Inkommande delning kunde inte behandlas",
-    "Clipboard is not available" : "Urklipp är inte tillgängligt",
-    "Your Federated Cloud ID:" : "Ditt federerade moln-ID:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Inkommande delning kunde inte behandlas"
 },
 "nplurals=2; plural=(n != 1);");

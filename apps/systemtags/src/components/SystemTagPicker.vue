@@ -148,9 +148,9 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import CheckIcon from 'vue-material-design-icons/CheckCircle.vue'
 import CircleIcon from 'vue-material-design-icons/Circle.vue'
 import CircleOutlineIcon from 'vue-material-design-icons/CircleOutline.vue'
-import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import TagIcon from 'vue-material-design-icons/Tag.vue'
+import TagIcon from 'vue-material-design-icons/TagOutline.vue'
 
 import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag } from '../services/api.ts'
 import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils.ts'
@@ -241,7 +241,7 @@ export default defineComponent({
 			}
 
 			return this.sortedTags
-				.filter(tag => tag.displayName.normalize().includes(this.input.normalize()))
+				.filter(tag => tag.displayName.normalize().toLowerCase().includes(this.input.normalize().toLowerCase()))
 		},
 
 		hasChanges(): boolean {

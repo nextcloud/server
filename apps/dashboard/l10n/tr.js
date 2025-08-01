@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "Merhaba {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Mutlu yıllar 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Mutlu yıllar, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"{title} simgesi\"",
     "Customize" : "Özelleştir",
     "Edit widgets" : "Pano bileşenlerini düzenle",
     "Get more widgets from the App Store" : "Uygulama mağazasından başka pano bileşenleri alın",

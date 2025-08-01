@@ -74,8 +74,15 @@
   --clickable-area-large: 48px;
   --clickable-area-small: 24px;
   --default-grid-baseline: 4px;
+
   --header-height: 50px;
   --header-menu-item-height: 44px;
+  /* An alpha mask to be applied to all icons on the navigation bar (header menu).
+   * Icons are have a size of 20px but usually we use MDI which have a content of 16px so 2px padding top bottom,
+   * for better gradient we set those 2px (10% of height) as start and stop positions, this is also somewhat size agnostic as we only depend on the percentage.
+   */
+  --header-menu-icon-mask: linear-gradient(var(--color-background-plain-text) 10%, color-mix(in srgb, var(--color-background-plain-text), 25% transparent) 90%) alpha;
+
   --navigation-width: 300px;
   --sidebar-min-width: 300px;
   --sidebar-max-width: 500px;

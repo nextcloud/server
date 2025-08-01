@@ -15,7 +15,6 @@ OC.L10N.register(
     "Hello, {name}" : "Sveiki, {name},",
     "Happy birthday 🥳🤩🎂🎉" : "Su gimtadieniu 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Su gimtadieniu, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "„{title} piktograma“",
     "Customize" : "Tinkinti",
     "Edit widgets" : "Taisyti valdiklius",
     "Get more widgets from the App Store" : "Parsisiųsti įskiepių iš App Store",

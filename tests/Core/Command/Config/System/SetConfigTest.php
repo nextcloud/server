@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,7 @@
 
 namespace Tests\Core\Command\Config\System;
 
+use OC\Core\Command\Config\System\CastHelper;
 use OC\Core\Command\Config\System\SetConfig;
 use OC\SystemConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,8 +36,8 @@ class SetConfigTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OC\SystemConfig $systemConfig */
-		$this->command = new SetConfig($systemConfig);
+		/** @var SystemConfig $systemConfig */
+		$this->command = new SetConfig($systemConfig, new CastHelper());
 	}
 
 
@@ -48,13 +50,13 @@ class SetConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTest
 	 *
 	 * @param array $configNames
 	 * @param string $newValue
 	 * @param mixed $existingData
 	 * @param mixed $expectedValue
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTest')]
 	public function testSet($configNames, $newValue, $existingData, $expectedValue): void {
 		$this->systemConfig->expects($this->once())
 			->method('setValue')
@@ -85,9 +87,7 @@ class SetConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider setUpdateOnlyProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('setUpdateOnlyProvider')]
 	public function testSetUpdateOnly($configNames, $existingData): void {
 		$this->expectException(\UnexpectedValueException::class);
 
@@ -111,54 +111,5 @@ class SetConfigTest extends TestCase {
 			]);
 
 		$this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
-	}
-
-	public static function castValueProvider(): array {
-		return [
-			[null, 'string', ['value' => '', 'readable-value' => 'empty string']],
-
-			['abc', 'string', ['value' => 'abc', 'readable-value' => 'string abc']],
-
-			['123', 'integer', ['value' => 123, 'readable-value' => 'integer 123']],
-			['456', 'int', ['value' => 456, 'readable-value' => 'integer 456']],
-
-			['2.25', 'double', ['value' => 2.25, 'readable-value' => 'double 2.25']],
-			['0.5', 'float', ['value' => 0.5, 'readable-value' => 'double 0.5']],
-
-			['', 'null', ['value' => null, 'readable-value' => 'null']],
-
-			['true', 'boolean', ['value' => true, 'readable-value' => 'boolean true']],
-			['false', 'bool', ['value' => false, 'readable-value' => 'boolean false']],
-		];
-	}
-
-	/**
-	 * @dataProvider castValueProvider
-	 */
-	public function testCastValue($value, $type, $expectedValue): void {
-		$this->assertSame($expectedValue,
-			$this->invokePrivate($this->command, 'castValue', [$value, $type])
-		);
-	}
-
-	public static function castValueInvalidProvider(): array {
-		return [
-			['123', 'foobar'],
-
-			[null, 'integer'],
-			['abc', 'integer'],
-			['76ggg', 'double'],
-			['true', 'float'],
-			['foobar', 'boolean'],
-		];
-	}
-
-	/**
-	 * @dataProvider castValueInvalidProvider
-	 */
-	public function testCastValueInvalid($value, $type): void {
-		$this->expectException(\InvalidArgumentException::class);
-
-		$this->invokePrivate($this->command, 'castValue', [$value, $type]);
 	}
 }

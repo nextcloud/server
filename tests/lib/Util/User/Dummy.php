@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,11 +9,12 @@
 namespace Test\Util\User;
 
 use OC\User\Backend;
+use OCP\IUserBackend;
 
 /**
  * dummy user backend, does not keep state, only for testing use
  */
-class Dummy extends Backend implements \OCP\IUserBackend {
+class Dummy extends Backend implements IUserBackend {
 	private $users = [];
 	private $displayNames = [];
 

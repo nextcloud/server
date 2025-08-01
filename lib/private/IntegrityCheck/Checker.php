@@ -148,10 +148,10 @@ class Checker {
 			}
 			if ($filename === $this->environmentHelper->getServerRoot() . '/core/js/mimetypelist.js') {
 				$oldMimetypeList = new GenerateMimetypeFileBuilder();
-				$newFile = $oldMimetypeList->generateFile($this->mimeTypeDetector->getAllAliases());
+				$newFile = $oldMimetypeList->generateFile($this->mimeTypeDetector->getAllAliases(), $this->mimeTypeDetector->getAllNamings());
 				$oldFile = $this->fileAccessHelper->file_get_contents($filename);
 				if ($newFile === $oldFile) {
-					$hashes[$relativeFileName] = hash('sha512', $oldMimetypeList->generateFile($this->mimeTypeDetector->getOnlyDefaultAliases()));
+					$hashes[$relativeFileName] = hash('sha512', $oldMimetypeList->generateFile($this->mimeTypeDetector->getOnlyDefaultAliases(), $this->mimeTypeDetector->getAllNamings()));
 					continue;
 				}
 			}

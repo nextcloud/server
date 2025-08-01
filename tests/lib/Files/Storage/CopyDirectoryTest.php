@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,7 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Storage\PolyFill\CopyDirectory;
 use OC\Files\Storage\Temporary;
 
 class StorageNoRecursiveCopy extends Temporary {
@@ -19,7 +21,7 @@ class StorageNoRecursiveCopy extends Temporary {
 }
 
 class CopyDirectoryStorage extends StorageNoRecursiveCopy {
-	use \OC\Files\Storage\PolyFill\CopyDirectory;
+	use CopyDirectory;
 }
 
 /**

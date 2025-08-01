@@ -33,7 +33,7 @@ OC.L10N.register(
     "Client ID" : "Client-ID",
     "Client secret" : "Geheime Zeichenkette des Clients",
     "OpenStack v2" : "OpenStack v2",
-    "Login" : "Anmelden",
+    "Login" : "Anmeldename",
     "Password" : "Passwort",
     "Tenant name" : "Name des Mieters",
     "Identity endpoint URL" : "Identität Endpunkt-URL",
@@ -106,7 +106,7 @@ OC.L10N.register(
     "Unable to update this external storage config. {statusMessage}" : "Diese externe Speicherkonfiguration konnte nicht aktualisiert werden. {statusMessage}",
     "New configuration successfully saved" : "Neue Konfiguration gespeichert",
     "Enter missing credentials" : "Fehlende Anmeldeinformationen eingeben",
-    "Credentials successfully set" : "Anmeldeinformationen erfolgreich festgelegt",
+    "Credentials successfully set" : "Anmeldeinformationen festgelegt",
     "Error while setting credentials: {error}" : "Fehler beim Festlegen der Anmeldeinformationen: {error}",
     "Checking storage …" : "Prüfe Speicher…",
     "There was an error with this external storage." : "Mit diesem externen Speicher ist ein Fehler aufgetreten.",
@@ -117,7 +117,7 @@ OC.L10N.register(
     "External mount error" : "Fehler beim Einbinden des externen Speichers",
     "List of external storage." : "Liste der externen Speicher.",
     "There is no external storage configured. You can configure them in your Personal settings." : "Es ist kein externer Speicher eingerichtet. Sie können diese in Ihren persönlichen Einstellungen konfigurieren.",
-    "There is no external storage configured and you don't have the permission to configure them." : "Es ist kein externer Speicher eingerichtet und Sie haben nicht die Berechtigung, einen solchen einzurichten.",
+    "There is no external storage configured and you don't have the permission to configure them." : "Es ist kein externer Speicher eingerichtet und Sie haben keine Berechtigung, einen solchen einzurichten.",
     "No external storage" : "Kein externer Speicher",
     "Storage type" : "Speichertyp",
     "Unknown" : "Unbekannt",
@@ -146,7 +146,7 @@ OC.L10N.register(
     "Save" : "Speichern",
     "Failed to save global credentials" : "Globale Anmeldeinformationen konnten nicht gespeichert werden",
     "Failed to save global credentials: {message}" : "Globale Anmeldeinformationen konnten nicht gespeichert werden: {message}",
-    "No external storage configured or you don't have the permission to configure them" : "Es ist kein externer Speicher eingerichtet oder Sie haben keine Berechtigung diesen einzurichten",
+    "No external storage configured or you don't have the permission to configure them" : "Es ist kein externer Speicher eingerichtet oder Sie haben keine Berechtigung, diesen einzurichten.",
     "Open documentation" : "Dokumentation öffnen",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services." : "Externer Speicher erlaubt es, externe Speicherdienste und Geräte als Zweitspeicher-Geräte in Nextcloud einzubinden. Es kann Personen erlaubt werden eigene externe Speicherdienste einzubinden.",
     "Folder name" : "Ordnername",
@@ -157,6 +157,6 @@ OC.L10N.register(
     "All people" : "Alle Personen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Allow people to mount external storage" : "Personen erlauben, externen Speicher einzubinden",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Zugangsdaten können für die Authentifizierung für mehrere externe Speicher verwendet werden, solange sie identische Zugangsdaten benötigen."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale Anmeldeinformationen können zur Authentifizierung bei mehreren externen Speichern verwendet werden, die dieselben Anmeldeinformationen haben."
 },
 "nplurals=2; plural=(n != 1);");

@@ -38,6 +38,12 @@ class GetConfig extends Base {
 				'returns complete details about the app config value'
 			)
 			->addOption(
+				'--key-details',
+				null,
+				InputOption::VALUE_NONE,
+				'returns complete details about the app config key'
+			)
+			->addOption(
 				'default-value',
 				null,
 				InputOption::VALUE_OPTIONAL,
@@ -62,6 +68,12 @@ class GetConfig extends Base {
 			$details = $this->appConfig->getDetails($appName, $configName);
 			$details['type'] = $details['typeString'];
 			unset($details['typeString']);
+			$this->writeArrayInOutputFormat($input, $output, $details);
+			return 0;
+		}
+
+		if ($input->getOption('key-details')) {
+			$details = $this->appConfig->getKeyDetails($appName, $configName);
 			$this->writeArrayInOutputFormat($input, $output, $details);
 			return 0;
 		}

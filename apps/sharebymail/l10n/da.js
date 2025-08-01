@@ -41,17 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Kan ikke opdatere del via mail konfigurationen",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Giver folk mulighed for at dele et personlig link til en fil eller mappe ved at indsætte en mail adresse.",
     "Send password by mail" : "Send kodeord på mail",
-    "Reply to initiator" : "Svar til initiativtager",
-    "%1$s shared »%2$s« with you" : "%1$s delte »%2$s« med dig",
-    "%1$s shared »%2$s« with you." : "%1$s delte »%2$s« med dig",
-    "Click the button below to open it." : "Klik på knappen nedenunder for at åbne.",
-    "Open »%s«" : "Åbn »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "Adgangskode for at få adgang »%1$s« delt til dig af %2$s",
-    "Password to access »%s«" : "Kodeord for adgang til »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s delte »%2$s« med dig og vil gerne tilføje:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s delte »%2$s« med dig og vil gerne tilføje",
-    "»%s« added a note to a file shared with you" : "»%s« har tilføjet en note til en fil delt med dig",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Du har lige delt »%1$s« med %2$s. Delingen blev allerede sendt til modtageren. På grund af sikkerhedspolitikkerne defineret af administratoren af %3$s skal hver deling beskyttes med adgangskode, og det er ikke tilladt at sende adgangskoden direkte til modtageren. Derfor skal du sende adgangskoden manuelt til modtageren.",
-    "Password to access »%1$s« shared by you with %2$s" : "Adgangskode til adgang til »%1$s« delt af dig med %2$s"
+    "Reply to initiator" : "Svar til initiativtager"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,11 +7,13 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\Cache\Scanner;
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -20,12 +23,14 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\ITagManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
@@ -33,6 +38,7 @@ use OCP\Server;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -48,11 +54,9 @@ class ApiTest extends TestCase {
 
 	private static $tempStorage;
 
-	/** @var Folder */
-	private $userFolder;
-
-	/** @var string */
-	private $subsubfolder;
+	private Folder $userFolder;
+	private string $subsubfolder;
+	protected IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -79,6 +83,8 @@ class ApiTest extends TestCase {
 		$mount->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
 
 		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+
+		$this->appConfig = $this->createMock(IAppConfig::class);
 	}
 
 	protected function tearDown(): void {
@@ -111,6 +117,8 @@ class ApiTest extends TestCase {
 		$logger = $this->createMock(LoggerInterface::class);
 		$providerFactory = $this->createMock(IProviderFactory::class);
 		$mailer = $this->createMock(IMailer::class);
+		$tagManager = $this->createMock(ITagManager::class);
+		$trustedServers = $this->createMock(TrustedServers::class);
 		$dateTimeZone->method('getTimeZone')->willReturn(new \DateTimeZone(date_default_timezone_get()));
 
 		return new ShareAPIController(
@@ -123,6 +131,7 @@ class ApiTest extends TestCase {
 			Server::get(IURLGenerator::class),
 			$l,
 			$config,
+			$this->appConfig,
 			$appManager,
 			$serverContainer,
 			$userStatusManager,
@@ -131,6 +140,8 @@ class ApiTest extends TestCase {
 			$logger,
 			$providerFactory,
 			$mailer,
+			$tagManager,
+			$trustedServers,
 			$userId,
 		);
 	}
@@ -229,19 +240,23 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @group RoutingWeirdness
+	 * @dataProvider dataAllowFederationOnPublicShares
 	 */
-	public function testCreateShareLinkPublicUpload(): void {
+	public function testCreateShareLinkPublicUpload(array $appConfig, int $permissions): void {
+		$this->appConfig->method('getValueBool')
+			->willReturnMap([$appConfig]);
+
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$result = $ocs->createShare($this->folder, Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true');
 		$ocs->cleanup();
 
 		$data = $result->getData();
 		$this->assertEquals(
-			Constants::PERMISSION_READ |
-			Constants::PERMISSION_CREATE |
-			Constants::PERMISSION_UPDATE |
-			Constants::PERMISSION_DELETE |
-			Constants::PERMISSION_SHARE,
+			Constants::PERMISSION_READ
+			| Constants::PERMISSION_CREATE
+			| Constants::PERMISSION_UPDATE
+			| Constants::PERMISSION_DELETE
+			| $permissions,
 			$data['permissions']
 		);
 		$this->assertEmpty($data['expiration']);
@@ -1001,8 +1016,13 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
+	 * @dataProvider dataAllowFederationOnPublicShares
 	 */
-	public function testUpdateShareUpload(): void {
+	public function testUpdateShareUpload(array $appConfig, int $permissions): void {
+		$this->appConfig->method('getValueBool')->willReturnMap([
+			$appConfig,
+		]);
+
 		$node1 = $this->userFolder->get($this->folder);
 		$share1 = $this->shareManager->newShare();
 		$share1->setNode($node1)
@@ -1018,16 +1038,23 @@ class ApiTest extends TestCase {
 
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
 		$this->assertEquals(
-			Constants::PERMISSION_READ |
-			Constants::PERMISSION_CREATE |
-			Constants::PERMISSION_UPDATE |
-			Constants::PERMISSION_DELETE |
-			Constants::PERMISSION_SHARE,
+			Constants::PERMISSION_READ
+			| Constants::PERMISSION_CREATE
+			| Constants::PERMISSION_UPDATE
+			| Constants::PERMISSION_DELETE
+			| $permissions,
 			$share1->getPermissions()
 		);
 
 		// cleanup
 		$this->shareManager->deleteShare($share1);
+	}
+
+	public static function dataAllowFederationOnPublicShares(): array {
+		return [
+			[['core', ConfigLexicon::SHAREAPI_ALLOW_FEDERATION_ON_PUBLIC_SHARES, false, false], 0],
+			[['core', ConfigLexicon::SHAREAPI_ALLOW_FEDERATION_ON_PUBLIC_SHARES, false, true], Constants::PERMISSION_SHARE],
+		];
 	}
 
 	/**
@@ -1277,7 +1304,7 @@ class ApiTest extends TestCase {
 		\OC_Hook::clear('\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
 	}
 
-	public function datesProvider() {
+	public static function datesProvider() {
 		$date = new \DateTime();
 		$date->setTime(0, 0);
 		$date->add(new \DateInterval('P5D'));
@@ -1293,9 +1320,9 @@ class ApiTest extends TestCase {
 	/**
 	 * Make sure only ISO 8601 dates are accepted
 	 *
-	 * @dataProvider datesProvider
 	 * @group RoutingWeirdness
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('datesProvider')]
 	public function testPublicLinkExpireDate($date, $valid): void {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 

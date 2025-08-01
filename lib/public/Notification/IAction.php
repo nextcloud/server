@@ -8,11 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Notification;
 
-/**
- * Interface IAction
- *
- * @since 9.0.0
- */
+use OCP\AppFramework\Attribute\Consumable;
+
+#[Consumable(since: '9.0.0')]
 interface IAction {
 	/**
 	 * @since 17.0.0

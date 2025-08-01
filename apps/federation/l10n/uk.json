@@ -1,5 +1,7 @@
 { "translations": {
     "Added to the list of trusted servers" : "Сервер додано до списку довірених серверів",
+    "No server found with ID: %s" : "Не знайдено сервер з ідентифікатором: %s",
+    "Could not remove server" : "Не вдалося видалити сервер",
     "Server is already in the list of trusted servers." : "Сервер вже знаходиться в переліку довірених серверів",
     "No server to federate with found" : "Не знайдено жодного сервера для об'єднання",
     "Could not add server" : "Не вдалося додати сервер",

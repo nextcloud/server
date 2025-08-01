@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "عندما تقوم بتوليد أكواد احتياطية جديدة، فإن الأكواد القديمة تفقد صلاحيتها تلقائيّتاً.",
     "{name} backup codes" : "{name} أكواد احتياطية",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "استخدم واحداً من الأكواد الاحتياطية التي سبق و أن خزنتها عند تجهيز إعدادات التحقق ثنائي العوامل من الهويّة.",
-    "Submit" : "إرسال ",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "هذه هي الأكواد الاحتياطية. رجاءً إحفظها أو إطبعها حيث أنك لن تستطيع قراءتها مجدّداً في المستقبل"
+    "Submit" : "إرسال "
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

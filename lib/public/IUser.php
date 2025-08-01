@@ -281,6 +281,15 @@ interface IUser {
 	public function getQuota();
 
 	/**
+	 * Get the users' quota in machine readable form. If a specific quota is set
+	 * for the user, then the quota is returned in bytes. Otherwise the default value is returned.
+	 * If a default setting was not set, it is return as `\OCP\Files\FileInfo::SPACE_UNLIMITED`, i.e. quota is not limited.
+	 *
+	 * @since 32.0.0
+	 */
+	public function getQuotaBytes(): int|float;
+
+	/**
 	 * set the users' quota
 	 *
 	 * @param string $quota

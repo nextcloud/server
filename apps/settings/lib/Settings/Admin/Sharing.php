@@ -1,14 +1,17 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Settings\Admin;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -19,6 +22,7 @@ use OCP\Util;
 class Sharing implements IDelegatedSettings {
 	public function __construct(
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IL10N $l,
 		private IManager $shareManager,
 		private IAppManager $appManager,
@@ -46,6 +50,7 @@ class Sharing implements IDelegatedSettings {
 			'allowPublicUpload' => $this->getHumanBooleanConfig('core', 'shareapi_allow_public_upload', true),
 			'allowResharing' => $this->getHumanBooleanConfig('core', 'shareapi_allow_resharing', true),
 			'allowShareDialogUserEnumeration' => $this->getHumanBooleanConfig('core', 'shareapi_allow_share_dialog_user_enumeration', true),
+			'allowFederationOnPublicShares' => $this->appConfig->getValueBool('core', ConfigLexicon::SHAREAPI_ALLOW_FEDERATION_ON_PUBLIC_SHARES),
 			'restrictUserEnumerationToGroup' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_to_group'),
 			'restrictUserEnumerationToPhone' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_to_phone'),
 			'restrictUserEnumerationFullMatch' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match', true),
@@ -72,6 +77,7 @@ class Sharing implements IDelegatedSettings {
 			'remoteExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7'),
 			'enforceRemoteExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_enforce_remote_expire_date'),
 			'allowCustomTokens' => $this->shareManager->allowCustomTokens(),
+			'allowViewWithoutDownload' => $this->shareManager->allowViewWithoutDownload(),
 		];
 
 		$this->initialState->provideInitialState('sharingAppEnabled', $this->appManager->isEnabledForUser('files_sharing'));

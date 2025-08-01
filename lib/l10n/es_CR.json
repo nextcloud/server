@@ -53,6 +53,7 @@
     "Apps" : "Aplicaciones",
     "Settings" : "Configuraciones",
     "Log out" : "Cerrar sesión",
+    "Accounts" : "Accounts",
     "Email" : "Correo electrónico",
     "Phone" : "Teléfono fijo",
     "Twitter" : "Twitter",
@@ -142,18 +143,11 @@
     "Storage connection error. %s" : "Se presentó un error con la conexión al almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
+    "Images" : "Imágenes",
     "Text" : "Texto",
     "Summary" : "Resumen",
     "Translate" : "Traducir",
     "Result" : "Resultado",
-    "Education Edition" : "Edición Educativa",
-    "File name is a reserved word" : "Nombre de archivo es una palabra reservada",
-    "File name contains at least one invalid character" : "El nombre del archivo contiene al menos un caracter inválido",
-    "File name is too long" : "El nombre del archivo es demasiado largo",
-    "Users" : "Usuarios",
-    "Open »%s«" : "Abrir »%s«",
-    "Click the button below to open it." : "Haz click en el botón inferior para abrirlo. ",
-    "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. ",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegurate de que exista una archivo llamado \".ocdata\" en la raíz del directorio de datos. "
+    "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests;
+namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\DataDirectoryProtected;
 use OCP\Http\Client\IClientService;
@@ -30,9 +30,7 @@ class DataDirectoryProtectedTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var IL10N&MockObject */
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($message, array $replace) {
@@ -56,9 +54,7 @@ class DataDirectoryProtectedTest extends TestCase {
 			->getMock();
 	}
 
-	/**
-	 * @dataProvider dataTestStatusCode
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestStatusCode')]
 	public function testStatusCode(array $status, string $expected, bool $hasBody): void {
 		$responses = array_map(function ($state) use ($hasBody) {
 			$response = $this->createMock(IResponse::class);

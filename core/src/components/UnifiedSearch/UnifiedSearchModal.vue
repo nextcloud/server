@@ -159,8 +159,8 @@ import debounce from 'debounce'
 import { unifiedSearchLogger } from '../../logger'
 
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import IconAccountGroup from 'vue-material-design-icons/AccountGroup.vue'
-import IconCalendarRange from 'vue-material-design-icons/CalendarRange.vue'
+import IconAccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
+import IconCalendarRange from 'vue-material-design-icons/CalendarRangeOutline.vue'
 import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
 import IconFilter from 'vue-material-design-icons/Filter.vue'
 import IconListBox from 'vue-material-design-icons/ListBox.vue'
@@ -252,11 +252,10 @@ export default defineComponent({
 			providerResultLimit: 5,
 			dateFilter: { id: 'date', type: 'date', text: '', startFrom: null, endAt: null },
 			personFilter: { id: 'person', type: 'person', name: '' },
-			dateFilterIsApplied: false,
-			personFilterIsApplied: false,
 			filteredProviders: [],
 			searching: false,
 			searchQuery: '',
+			lastSearchQuery: '',
 			placessearchTerm: '',
 			dateTimeFilter: null,
 			filters: [],
@@ -330,7 +329,13 @@ export default defineComponent({
 		query: {
 			immediate: true,
 			handler() {
-				this.searchQuery = this.query.trim()
+				this.searchQuery = this.query
+			},
+		},
+
+		searchQuery: {
+			handler() {
+				this.$emit('update:query', this.searchQuery)
 			},
 		},
 	},
@@ -369,10 +374,16 @@ export default defineComponent({
 				return
 			}
 
+			// Reset the provider result limit when performing a new search
+			if (query !== this.lastSearchQuery) {
+				this.providerResultLimit = 5
+			}
+			this.lastSearchQuery = query
+
 			this.searching = true
 			const newResults = []
 			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
-			const searchProvider = (provider, filters) => {
+			const searchProvider = (provider) => {
 				const params = {
 					type: provider.searchFrom ?? provider.id,
 					query,
@@ -382,18 +393,25 @@ export default defineComponent({
 
 				// This block of filter checks should be dynamic somehow and should be handled in
 				// nextcloud/search lib
-				if (filters.dateFilterIsApplied) {
-					if (provider.filters?.since && provider.filters?.until) {
-						params.since = this.dateFilter.startFrom
-						params.until = this.dateFilter.endAt
-					}
-				}
+				const activeFilters = this.filters.filter(filter => {
+					return filter.type !== 'provider' && this.providerIsCompatibleWithFilters(provider, [filter.type])
+				})
 
-				if (filters.personFilterIsApplied) {
-					if (provider.filters?.person) {
-						params.person = this.personFilter.user
+				activeFilters.forEach(filter => {
+					switch (filter.type) {
+					case 'date':
+						if (provider.filters?.since && provider.filters?.until) {
+							params.since = this.dateFilter.startFrom
+							params.until = this.dateFilter.endAt
+						}
+						break
+					case 'person':
+						if (provider.filters?.person) {
+							params.person = this.personFilter.user
+						}
+						break
 					}
-				}
+				})
 
 				if (this.providerResultLimit > 5) {
 					params.limit = this.providerResultLimit
@@ -404,12 +422,7 @@ export default defineComponent({
 
 				request().then((response) => {
 					newResults.push({
-						id: provider.id,
-						appId: provider.appId,
-						searchFrom: provider.searchFrom,
-						icon: provider.icon,
-						name: provider.name,
-						inAppSearch: provider.inAppSearch,
+						...provider,
 						results: response.data.ocs.data.entries,
 					})
 
@@ -419,12 +432,8 @@ export default defineComponent({
 					this.searching = false
 				})
 			}
-			providersToSearch.forEach(provider => {
-				const dateFilterIsApplied = this.dateFilterIsApplied
-				const personFilterIsApplied = this.personFilterIsApplied
-				searchProvider(provider, { dateFilterIsApplied, personFilterIsApplied })
-			})
 
+			providersToSearch.forEach(searchProvider)
 		},
 		updateResults(newResults) {
 			let updatedResults = [...this.results]
@@ -482,7 +491,7 @@ export default defineComponent({
 			})
 		},
 		applyPersonFilter(person) {
-			this.personFilterIsApplied = true
+
 			const existingPersonFilter = this.filters.findIndex(filter => filter.id === person.id)
 			if (existingPersonFilter === -1) {
 				this.personFilter.id = person.id
@@ -504,8 +513,7 @@ export default defineComponent({
 		},
 		async loadMoreResultsForProvider(provider) {
 			this.providerResultLimit += 5
-			// If load more result for filter, remove other filters
-			this.filters = this.filters.filter(filter => filter.id === provider.id)
+			// Remove all other providers from filteredProviders except the current "loadmore" provider
 			this.filteredProviders = this.filteredProviders.filter(filteredProvider => filteredProvider.id === provider.id)
 			// Plugin filters may have extra parameters, so we need to keep them
 			// See method handlePluginFilter for more details
@@ -513,6 +521,7 @@ export default defineComponent({
 				provider = this.filteredProviders[0]
 			}
 			this.addProviderFilter(provider, true)
+			this.find(this.searchQuery)
 		},
 		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
 			unifiedSearchLogger.debug('Applying provider filter', { providerFilter, loadMoreResultsForProvider })
@@ -556,14 +565,10 @@ export default defineComponent({
 				unifiedSearchLogger.debug('Search filters (recently removed)', { filters: this.filters })
 
 			} else {
+				// Remove non provider filters such as date and person filters
 				for (let i = 0; i < this.filters.length; i++) {
-					// Remove date and person filter
-					if (this.filters[i].id === 'date' || this.filters[i].id === filter.id) {
-						this.dateFilterIsApplied = false
+					if (this.filters[i].id === filter.id) {
 						this.filters.splice(i, 1)
-						if (filter.type === 'person') {
-							this.personFilterIsApplied = false
-						}
 						this.enableAllProviders()
 						break
 					}
@@ -602,7 +607,7 @@ export default defineComponent({
 			} else {
 				this.filters.push(this.dateFilter)
 			}
-			this.dateFilterIsApplied = true
+
 			this.providers.forEach(async (provider, index) => {
 				this.providers[index].disabled = !(await this.providerIsCompatibleWithFilters(provider, ['since', 'until']))
 			})

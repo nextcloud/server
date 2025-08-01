@@ -27,13 +27,22 @@ jobs:
 
     steps:
       - name: Set server major version environment
-        run: |
-          # retrieve version number from branch reference
-          server_major=$(echo "${{ github.base_ref }}" | sed -En 's/stable//p')
-          echo "server_major=$server_major" >> $GITHUB_ENV
-          echo "current_month=$(date +%Y-%m)" >> $GITHUB_ENV
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const regex = /^stable(\d+)$/
+            const baseRef = context.payload.pull_request.base.ref
+            const match = baseRef.match(regex)
+            if (match) {
+              console.log('Setting server_major to ' + match[1]);
+              core.exportVariable('server_major', match[1]);
+              console.log('Setting current_month to ' + (new Date()).toISOString().substr(0, 7));
+              core.exportVariable('current_month', (new Date()).toISOString().substr(0, 7));
+            }
 
-      - name: Checking if ${{ env.server_major }} is EOL
+      - name: Checking if server ${{ env.server_major }} is EOL
+        if: ${{ env.server_major != '' }}
         run: |
           curl -s https://raw.githubusercontent.com/nextcloud-releases/updater_server/production/config/major_versions.json \
             | jq '.["${{ env.server_major }}"]["eol"] // "9999-99" | . >= "${{ env.current_month }}"' \

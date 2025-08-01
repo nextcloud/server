@@ -95,8 +95,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Izen bereko etiketa bat dagoeneko existitzen da",
     "Failed to load tags for file" : "Fitxategiarentzako etiketak kargatzeak huts egin du",
     "Failed to set tag for file" : "Fitxategiarentzako etiketa ezartzeak huts egin du",
-    "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du",
-    "This file has the tag {tag}" : "Fitxategi honek {tag} etiketa dauka",
-    "This file has the tags {firstTags} and {lastTag}" : "Fitxategi honek {firstTags} eta {lastTag} etiketak ditu"
+    "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du"
 },
 "nplurals=2; plural=(n != 1);");

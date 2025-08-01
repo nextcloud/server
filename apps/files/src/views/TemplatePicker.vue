@@ -57,7 +57,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { normalize, extname, join } from 'path'
 import { defineComponent } from 'vue'
-import { createFromTemplate, getTemplates } from '../services/Templates.js'
+import { createFromTemplate, getTemplates, getTemplateFields } from '../services/Templates.js'
 
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcModal from '@nextcloud/vue/components/NcModal'
@@ -215,7 +215,7 @@ export default defineComponent({
 			}
 		},
 
-		async createFile(templateFields) {
+		async createFile(templateFields = []) {
 			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
 
 			// If the file doesn't have an extension, add the default one
@@ -274,9 +274,18 @@ export default defineComponent({
 		},
 
 		async onSubmit() {
-			if (this.selectedTemplate?.fields?.length > 0) {
+			const fileId = this.selectedTemplate?.fileid
+
+			// Only request field extraction if there is a valid template
+			// selected and it's not the blank template
+			let fields = []
+			if (fileId && fileId !== this.emptyTemplate.fileid) {
+				fields = await getTemplateFields(fileId)
+			}
+
+			if (fields.length > 0) {
 				spawnDialog(TemplateFiller, {
-					fields: this.selectedTemplate.fields,
+					fields,
 					onSubmit: this.createFile,
 				})
 			} else {

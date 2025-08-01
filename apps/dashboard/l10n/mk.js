@@ -13,7 +13,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Добровечер, {name}",
     "Hello" : "Здраво",
     "Hello, {name}" : "Здраво, {name}",
-    "\"{title} icon\"" : "\"{title} икона\"",
     "Customize" : "Прилагоди",
     "Edit widgets" : "Уреди графички контроли",
     "Get more widgets from the App Store" : "Преземи повеќе графички контроли од продавницата со апликации",

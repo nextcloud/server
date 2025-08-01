@@ -14,6 +14,7 @@ use OCP\IGroupManager;
 use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
+use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -58,7 +59,7 @@ class RegistryTest extends TestCase {
 
 
 	public function testDoubleRegistration(): void {
-		$this->expectException(\OCP\Support\Subscription\Exception\AlreadyRegisteredException::class);
+		$this->expectException(AlreadyRegisteredException::class);
 
 		/* @var ISubscription $subscription1 */
 		$subscription1 = $this->createMock(ISubscription::class);
@@ -157,7 +158,7 @@ class RegistryTest extends TestCase {
 		$this->assertSame(false, $this->registry->delegateIsHardUserLimitReached($this->notificationManager));
 	}
 
-	public function dataForUserLimitCheck() {
+	public static function dataForUserLimitCheck(): array {
 		return [
 			// $userLimit, $userCount, $disabledUsers, $expectedResult
 			[35, 15, 2, false],
@@ -167,9 +168,7 @@ class RegistryTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataForUserLimitCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataForUserLimitCheck')]
 	public function testDelegateIsHardUserLimitReachedWithoutSupportAppAndUserCount($userLimit, $userCount, $disabledUsers, $expectedResult): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')

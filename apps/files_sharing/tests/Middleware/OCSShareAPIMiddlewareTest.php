@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -72,12 +73,12 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataBeforeController
 	 *
 	 * @param Controller $controller
 	 * @param bool $enabled
 	 * @param bool $exception
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataBeforeController')]
 	public function testBeforeController(Controller $controller, $enabled, $exception): void {
 		$this->shareManager->method('shareApiEnabled')->willReturn($enabled);
 
@@ -104,11 +105,11 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataAfterController
 	 *
 	 * @param Controller $controller
 	 * @param bool $called
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAfterController')]
 	public function testAfterController(Controller $controller): void {
 		if ($controller instanceof ShareAPIController) {
 			$controller->expects($this->once())->method('cleanup');

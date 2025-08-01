@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "توجد سمة بنفس الاسم مسبقاً",
     "Failed to load tags for file" : "تعذّر تحميل وسوم الملف",
     "Failed to set tag for file" : "تعذّر وضع وسم على الملف",
-    "Failed to delete tag for file" : "تعذّر حذف وسم من على ملف",
-    "This file has the tag {tag}" : "هذا الملف له الوسم {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "هذا الملف له واصفات {firstTags} و {lastTag}"
+    "Failed to delete tag for file" : "تعذّر حذف وسم من على ملف"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

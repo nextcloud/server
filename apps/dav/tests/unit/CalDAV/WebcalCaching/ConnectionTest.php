@@ -13,7 +13,6 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\Http\Client\LocalServerException;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -21,9 +20,9 @@ use Test\TestCase;
 
 class ConnectionTest extends TestCase {
 
-	private IClientService|MockObject $clientService;
-	private IConfig|MockObject $config;
-	private LoggerInterface|MockObject $logger;
+	private IClientService&MockObject $clientService;
+	private IAppConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
 	private Connection $connection;
 
 	public function setUp(): void {
@@ -33,9 +32,7 @@ class ConnectionTest extends TestCase {
 		$this->connection = new Connection($this->clientService, $this->config, $this->logger);
 	}
 
-	/**
-	 * @dataProvider runLocalURLDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('runLocalURLDataProvider')]
 	public function testLocalUrl($source): void {
 		$subscription = [
 			'id' => 42,
@@ -95,8 +92,8 @@ class ConnectionTest extends TestCase {
 	/**
 	 * @param string $result
 	 * @param string $contentType
-	 * @dataProvider urlDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('urlDataProvider')]
 	public function testConnection(string $url, string $result, string $contentType): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);

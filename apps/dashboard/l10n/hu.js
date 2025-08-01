@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "Üdv {name}!",
     "Happy birthday 🥳🤩🎂🎉" : "Boldog születésnapot 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Boldog születésnapot, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "„{title} ikon”",
     "Customize" : "Testreszabás",
     "Edit widgets" : "Modulok szerkesztése",
     "Get more widgets from the App Store" : "További modulok letöltése az alkalmazástárból.",

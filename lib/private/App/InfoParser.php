@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -22,7 +23,7 @@ class InfoParser {
 	 * @param string $file the xml file to be loaded
 	 * @return null|array where null is an indicator for an error
 	 */
-	public function parse($file) {
+	public function parse(string $file): ?array {
 		if (!file_exists($file)) {
 			return null;
 		}
@@ -43,7 +44,7 @@ class InfoParser {
 		}
 		$array = $this->xmlToArray($xml);
 
-		if (is_null($array)) {
+		if (is_string($array)) {
 			return null;
 		}
 
@@ -207,11 +208,7 @@ class InfoParser {
 		return $array;
 	}
 
-	/**
-	 * @param $data
-	 * @return bool
-	 */
-	private function isNavigationItem($data): bool {
+	private function isNavigationItem(array $data): bool {
 		// Allow settings navigation items with no route entry
 		$type = $data['type'] ?? 'link';
 		if ($type === 'settings') {
@@ -220,17 +217,17 @@ class InfoParser {
 		return isset($data['name'], $data['route']);
 	}
 
-	/**
-	 * @param \SimpleXMLElement $xml
-	 * @return array
-	 */
-	public function xmlToArray($xml) {
-		if (!$xml->children()) {
+	public function xmlToArray(\SimpleXMLElement $xml): array|string {
+		$children = $xml->children();
+		if ($children === null || count($children) === 0) {
 			return (string)$xml;
 		}
 
 		$array = [];
-		foreach ($xml->children() as $element => $node) {
+		foreach ($children as $element => $node) {
+			if ($element === null) {
+				throw new \InvalidArgumentException('xml contains a null element');
+			}
 			$totalElement = count($xml->{$element});
 
 			if (!isset($array[$element])) {
@@ -242,15 +239,18 @@ class InfoParser {
 				$data = [
 					'@attributes' => [],
 				];
-				if (!count($node->children())) {
-					$value = (string)$node;
-					if (!empty($value)) {
-						$data['@value'] = $value;
+				$converted = $this->xmlToArray($node);
+				if (is_string($converted)) {
+					if (!empty($converted)) {
+						$data['@value'] = $converted;
 					}
 				} else {
-					$data = array_merge($data, $this->xmlToArray($node));
+					$data = array_merge($data, $converted);
 				}
 				foreach ($attributes as $attr => $value) {
+					if ($attr === null) {
+						throw new \InvalidArgumentException('xml contains a null element');
+					}
 					$data['@attributes'][$attr] = (string)$value;
 				}
 
@@ -270,5 +270,79 @@ class InfoParser {
 		}
 
 		return $array;
+	}
+
+	/**
+	 * Select the appropriate l10n version for fields name, summary and description
+	 */
+	public function applyL10N(array $data, ?string $lang = null): array {
+		if ($lang !== '' && $lang !== null) {
+			if (isset($data['name']) && is_array($data['name'])) {
+				$data['name'] = $this->findBestL10NOption($data['name'], $lang);
+			}
+			if (isset($data['summary']) && is_array($data['summary'])) {
+				$data['summary'] = $this->findBestL10NOption($data['summary'], $lang);
+			}
+			if (isset($data['description']) && is_array($data['description'])) {
+				$data['description'] = trim($this->findBestL10NOption($data['description'], $lang));
+			}
+		} elseif (isset($data['description']) && is_string($data['description'])) {
+			$data['description'] = trim($data['description']);
+		} else {
+			$data['description'] = '';
+		}
+
+		return $data;
+	}
+
+	protected function findBestL10NOption(array $options, string $lang): string {
+		// only a single option
+		if (isset($options['@value'])) {
+			return $options['@value'];
+		}
+
+		$fallback = $similarLangFallback = $englishFallback = false;
+
+		$lang = strtolower($lang);
+		$similarLang = $lang;
+		$pos = strpos($similarLang, '_');
+		if ($pos !== false && $pos > 0) {
+			// For "de_DE" we want to find "de" and the other way around
+			$similarLang = substr($lang, 0, $pos);
+		}
+
+		foreach ($options as $option) {
+			if (is_array($option)) {
+				if ($fallback === false) {
+					$fallback = $option['@value'];
+				}
+
+				if (!isset($option['@attributes']['lang'])) {
+					continue;
+				}
+
+				$attributeLang = strtolower($option['@attributes']['lang']);
+				if ($attributeLang === $lang) {
+					return $option['@value'];
+				}
+
+				if ($attributeLang === $similarLang) {
+					$similarLangFallback = $option['@value'];
+				} elseif (str_starts_with($attributeLang, $similarLang . '_')) {
+					if ($similarLangFallback === false) {
+						$similarLangFallback = $option['@value'];
+					}
+				}
+			} else {
+				$englishFallback = $option;
+			}
+		}
+
+		if ($similarLangFallback !== false) {
+			return $similarLangFallback;
+		} elseif ($englishFallback !== false) {
+			return $englishFallback;
+		}
+		return (string)$fallback;
 	}
 }

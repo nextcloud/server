@@ -2,7 +2,7 @@ OC.L10N.register(
     "federatedfilesharing",
     {
     "Invalid Federated Cloud ID" : "Birleşik bulut kimliği geçersiz",
-    "Server to server sharing is not enabled on this server" : "Bu sunucuda, sunucudan sunucuya paylaşım özelliği kullanıma alınmamış",
+    "Server to server sharing is not enabled on this server" : "Bu sunucuda, sunucudan sunucuya paylaşım özelliği kapalı",
     "Couldn't establish a federated share." : "Birleşik bir paylaşım oluşturulamadı.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Birleşik bir paylaşım oluşturulamadı. Parola yanlış olabilir.",
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Birleşik paylaşım isteği gönderildi. Bir davet alacaksınız. Bildirimlerinizi denetleyin.",
@@ -46,6 +46,7 @@ OC.L10N.register(
     "Automatically accept shares from trusted federated accounts and groups by default" : "Varsayılan olarak güvenilir birleşim hesaplarından ve gruplardan gelen paylaşımlar otomatik olarak kabul edilsin",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "#Nextcloud birleşik bulut kimliğim ile paylaş,  {url} adresine bakın",
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud birleşik bulut kimliğim üzerinden benimle paylaş",
+    "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
     "Cloud ID copied to the clipboard" : "Bulut kimliği panoya kopyalandı",
     "Copy to clipboard" : "Panoya kopyala",
     "Clipboard not available. Please copy the cloud ID manually." : "Pano kullanılamıyor. Lütfen bulut kimliğini el ile kopyalayın.",
@@ -59,17 +60,12 @@ OC.L10N.register(
     "formerly Twitter" : "eski Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Sitenize ekleyin",
-    "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
     "HTML Code:" : "HTML kodu:",
     "Cancel" : "İptal",
     "Add remote share" : "Uzak paylaşım ekle",
     "Remote share" : "Uzak paylaşım",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} konumundan {name} uzak paylaşımını eklemek istiyor musunuz?",
     "Remote share password" : "Uzak paylaşım parolası",
-    "Incoming share could not be processed" : "Gelen paylaşım işlenemedi",
-    "Clipboard is not available" : "Pano kullanılamıyor",
-    "Your Federated Cloud ID:" : "Birleşik bulut kimliğiniz:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "Gelen paylaşım işlenemedi"
 },
 "nplurals=2; plural=(n > 1);");

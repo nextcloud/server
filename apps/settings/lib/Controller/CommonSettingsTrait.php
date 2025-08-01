@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -143,6 +144,14 @@ trait CommonSettingsTrait {
 
 		$this->declarativeSettingsManager->loadSchemas();
 		$declarativeSettings = $this->declarativeSettingsManager->getFormsWithValues($user, $type, $section);
+
+		foreach ($declarativeSettings as &$form) {
+			foreach ($form['fields'] as &$field) {
+				if (isset($field['sensitive']) && $field['sensitive'] === true && !empty($field['value'])) {
+					$field['value'] = 'dummySecret';
+				}
+			}
+		}
 
 		if ($type === 'personal') {
 			$settings = array_values($this->settingsManager->getPersonalSettings($section));

@@ -100,7 +100,7 @@
 					:file-info="fileInfo"
 					@open-sharing-details="toggleShareDetailsView" />
 				<!-- link shares list -->
-				<SharingLinkList v-if="!loading"
+				<SharingLinkList v-if="!loading && isLinkSharingAllowed"
 					ref="linkShareList"
 					:can-reshare="canReshare"
 					:file-info="fileInfo"
@@ -138,7 +138,7 @@
 				<div v-if="projectsEnabled"
 					v-show="!showSharingDetailsView && fileInfo"
 					class="sharingTab__additionalContent">
-					<CollectionList :id="`${fileInfo.id}`"
+					<NcCollectionList :id="`${fileInfo.id}`"
 						type="file"
 						:name="fileInfo.name" />
 				</div>
@@ -157,19 +157,20 @@
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
-import { CollectionList } from 'nextcloud-vue-collections'
 import { ShareType } from '@nextcloud/sharing'
 
-import InfoIcon from 'vue-material-design-icons/Information.vue'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCollectionList from '@nextcloud/vue/components/NcCollectionList'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
+import InfoIcon from 'vue-material-design-icons/InformationOutline.vue'
 
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcButton from '@nextcloud/vue/components/NcButton'
 
 import { shareWithTitle } from '../utils/SharedWithMe.js'
 
@@ -191,10 +192,10 @@ export default {
 	name: 'SharingTab',
 
 	components: {
-		CollectionList,
 		InfoIcon,
 		NcAvatar,
 		NcButton,
+		NcCollectionList,
 		NcPopover,
 		SharingEntryInternal,
 		SharingEntrySimple,
@@ -242,7 +243,24 @@ export default {
 		 * @return {boolean}
 		 */
 		isSharedWithMe() {
-			return Object.keys(this.sharedWithMe).length > 0
+			return this.sharedWithMe !== null
+				&& this.sharedWithMe !== undefined
+		},
+
+		/**
+		 * Is link sharing allowed for the current user?
+		 *
+		 * @return {boolean}
+		 */
+		isLinkSharingAllowed() {
+			const currentUser = getCurrentUser()
+			if (!currentUser) {
+				return false
+			}
+
+			const capabilities = getCapabilities()
+			const publicSharing = capabilities.files_sharing?.public || {}
+			return publicSharing.enabled === true
 		},
 
 		canReshare() {
@@ -252,14 +270,17 @@ export default {
 
 		internalShareInputPlaceholder() {
 			return this.config.showFederatedSharesAsInternal
-				? t('files_sharing', 'Share with accounts, teams, federated cloud id')
+				? t('files_sharing', 'Share with accounts, teams, federated cloud IDs')
 				: t('files_sharing', 'Share with accounts and teams')
 		},
 
 		externalShareInputPlaceholder() {
+			if (!this.isLinkSharingAllowed) {
+				return t('files_sharing', 'Federated cloud ID')
+			}
 			return this.config.showFederatedSharesAsInternal
 				? t('files_sharing', 'Email')
-				: t('files_sharing', 'Email, federated cloud id')
+				: t('files_sharing', 'Email, federated cloud ID')
 		},
 	},
 
@@ -381,7 +402,13 @@ export default {
 					if ([ShareType.Link, ShareType.Email].includes(share.type)) {
 						this.linkShares.push(share)
 					} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
-						if (this.config.showFederatedSharesAsInternal) {
+						if (this.config.showFederatedSharesToTrustedServersAsInternal) {
+							if (share.isTrustedServer) {
+								this.shares.push(share)
+							} else {
+								this.externalShares.push(share)
+							}
+						} else if (this.config.showFederatedSharesAsInternal) {
 							this.shares.push(share)
 						} else {
 							this.externalShares.push(share)
@@ -457,6 +484,10 @@ export default {
 			} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
 				if (this.config.showFederatedSharesAsInternal) {
 					this.shares.unshift(share)
+				} if (this.config.showFederatedSharesToTrustedServersAsInternal) {
+					if (share.isTrustedServer) {
+						this.shares.unshift(share)
+					}
 				} else {
 					this.externalShares.unshift(share)
 				}

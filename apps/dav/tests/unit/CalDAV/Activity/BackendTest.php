@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,21 +21,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BackendTest extends TestCase {
-
-	/** @var IManager|MockObject */
-	protected $activityManager;
-
-	/** @var IGroupManager|MockObject */
-	protected $groupManager;
-
-	/** @var IUserSession|MockObject */
-	protected $userSession;
-
-	/** @var IAppManager|MockObject */
-	protected $appManager;
-
-	/** @var IUserManager|MockObject */
-	protected $userManager;
+	protected IManager&MockObject $activityManager;
+	protected IGroupManager&MockObject $groupManager;
+	protected IUserSession&MockObject $userSession;
+	protected IAppManager&MockObject $appManager;
+	protected IUserManager&MockObject $userManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,10 +37,9 @@ class BackendTest extends TestCase {
 	}
 
 	/**
-	 * @param array $methods
-	 * @return Backend|MockObject
+	 * @return Backend|(Backend&MockObject)
 	 */
-	protected function getBackend(array $methods = []) {
+	protected function getBackend(array $methods = []): Backend {
 		if (empty($methods)) {
 			return new Backend(
 				$this->activityManager,
@@ -71,7 +62,7 @@ class BackendTest extends TestCase {
 		}
 	}
 
-	public function dataCallTriggerCalendarActivity() {
+	public static function dataCallTriggerCalendarActivity(): array {
 		return [
 			['onCalendarAdd', [['data']], Calendar::SUBJECT_ADD, [['data'], [], []]],
 			['onCalendarUpdate', [['data'], ['shares'], ['changed-properties']], Calendar::SUBJECT_UPDATE, [['data'], ['shares'], ['changed-properties']]],
@@ -80,15 +71,8 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCallTriggerCalendarActivity
-	 *
-	 * @param string $method
-	 * @param array $payload
-	 * @param string $expectedSubject
-	 * @param array $expectedPayload
-	 */
-	public function testCallTriggerCalendarActivity($method, array $payload, $expectedSubject, array $expectedPayload): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCallTriggerCalendarActivity')]
+	public function testCallTriggerCalendarActivity(string $method, array $payload, string $expectedSubject, array $expectedPayload): void {
 		$backend = $this->getBackend(['triggerCalendarActivity']);
 		$backend->expects($this->once())
 			->method('triggerCalendarActivity')
@@ -101,7 +85,7 @@ class BackendTest extends TestCase {
 		call_user_func_array([$backend, $method], $payload);
 	}
 
-	public function dataTriggerCalendarActivity() {
+	public static function dataTriggerCalendarActivity(): array {
 		return [
 			// Add calendar
 			[Calendar::SUBJECT_ADD, [], [], [], '', '', null, []],
@@ -182,18 +166,8 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTriggerCalendarActivity
-	 * @param string $action
-	 * @param array $data
-	 * @param array $shares
-	 * @param array $changedProperties
-	 * @param string $currentUser
-	 * @param string $author
-	 * @param string[]|null $shareUsers
-	 * @param string[] $users
-	 */
-	public function testTriggerCalendarActivity($action, array $data, array $shares, array $changedProperties, $currentUser, $author, $shareUsers, array $users): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTriggerCalendarActivity')]
+	public function testTriggerCalendarActivity(string $action, array $data, array $shares, array $changedProperties, string $currentUser, string $author, ?array $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
 		if ($shareUsers === null) {
@@ -278,7 +252,7 @@ class BackendTest extends TestCase {
 		], [], []]);
 	}
 
-	public function dataGetUsersForShares() {
+	public static function dataGetUsersForShares(): array {
 		return [
 			[
 				[],
@@ -321,12 +295,7 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetUsersForShares
-	 * @param array $shares
-	 * @param array $groups
-	 * @param array $expected
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsersForShares')]
 	public function testGetUsersForShares(array $shares, array $groups, array $expected): void {
 		$backend = $this->getBackend();
 
@@ -356,7 +325,7 @@ class BackendTest extends TestCase {
 
 	/**
 	 * @param string[] $users
-	 * @return IUser[]|MockObject[]
+	 * @return IUser[]&MockObject[]
 	 */
 	protected function getUsers(array $users) {
 		$list = [];
@@ -368,7 +337,7 @@ class BackendTest extends TestCase {
 
 	/**
 	 * @param string $uid
-	 * @return IUser|MockObject
+	 * @return IUser&MockObject
 	 */
 	protected function getUserMock($uid) {
 		$user = $this->createMock(IUser::class);

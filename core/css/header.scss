@@ -85,10 +85,8 @@
 	max-height: calc(100vh - #{variables.$header-height} - 8px);
 }
 
+/* Header menu */
 #header {
-	/* Header menu */
-	$header-menu-entry-height: 44px;
-
 	.header-end > div > .menu {
 		background-color: var(--color-main-background);
 		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
@@ -267,5 +265,20 @@ header .emptycontent {
 		background-size: 48px;
 		height: 48px;
 		width: 48px;
+	}
+}
+
+@media (display-mode: standalone) or (display-mode: minimal-ui) {
+	#header {
+		display: none !important;
+	}
+
+	#content, #content-vue {
+		margin-top: var(--body-container-margin);
+	}
+
+	:root {
+		// Override the body height to make up for the additional height due to the missing header.
+		--body-height: calc(100% - env(safe-area-inset-bottom) - var(--body-container-margin) * 2) !important;
 	}
 }

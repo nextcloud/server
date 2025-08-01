@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,6 +14,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Local;
 use OC\Files\View;
 use OC\SystemConfig;
+use OC\User\Database;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OCA\Files_Trashbin\Expiration;
@@ -21,6 +24,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\Files\FileInfo;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -40,16 +44,8 @@ class TrashbinTest extends \Test\TestCase {
 	private $trashRoot2;
 
 	private static $rememberRetentionObligation;
-
-	/**
-	 * @var bool
-	 */
-	private static $trashBinStatus;
-
-	/**
-	 * @var View
-	 */
-	private $rootView;
+	private static bool $trashBinStatus;
+	private View $rootView;
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -59,7 +55,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		// reset backend
 		Server::get(IUserManager::class)->clearBackends();
-		Server::get(IUserManager::class)->registerBackend(new \OC\User\Database());
+		Server::get(IUserManager::class)->registerBackend(new Database());
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
@@ -73,7 +69,7 @@ class TrashbinTest extends \Test\TestCase {
 
 		$config = Server::get(IConfig::class);
 		//configure trashbin
-		self::$rememberRetentionObligation = $config->getSystemValue('trashbin_retention_obligation', Expiration::DEFAULT_RETENTION_OBLIGATION);
+		self::$rememberRetentionObligation = (string)$config->getSystemValue('trashbin_retention_obligation', Expiration::DEFAULT_RETENTION_OBLIGATION);
 		/** @var Expiration $expiration */
 		$expiration = Server::get(Expiration::class);
 		$expiration->setRetentionObligation('auto, 2');
@@ -115,8 +111,11 @@ class TrashbinTest extends \Test\TestCase {
 
 		Server::get(IAppManager::class)->enableApp('files_trashbin');
 		$config = Server::get(IConfig::class);
-		$mockConfig = $this->createMock(IConfig::class);
-		$mockConfig
+		$mockConfig = $this->getMockBuilder(AllConfig::class)
+			->onlyMethods(['getSystemValue'])
+			->setConstructorArgs([Server::get(SystemConfig::class)])
+			->getMock();
+		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(static function ($key, $default) use ($config) {
 				if ($key === 'filesystem_check_changes') {
@@ -124,16 +123,6 @@ class TrashbinTest extends \Test\TestCase {
 				} else {
 					return $config->getSystemValue($key, $default);
 				}
-			});
-		$mockConfig
-			->method('getUserValue')
-			->willReturnCallback(static function ($userId, $appName, $key, $default = '') use ($config) {
-				return $config->getUserValue($userId, $appName, $key, $default);
-			});
-		$mockConfig
-			->method('getAppValue')
-			->willReturnCallback(static function ($appName, $key, $default = '') use ($config) {
-				return $config->getAppValue($appName, $key, $default);
 			});
 		$this->overwriteService(AllConfig::class, $mockConfig);
 
@@ -196,14 +185,14 @@ class TrashbinTest extends \Test\TestCase {
 
 		// only file2.txt should be left
 		$remainingFiles = array_slice($manipulatedList, $count);
-		$this->assertSame(1, count($remainingFiles));
+		$this->assertCount(1, $remainingFiles);
 		$remainingFile = reset($remainingFiles);
 		// TODO: failing test
 		#$this->assertSame('file2.txt', $remainingFile['name']);
 
 		// check that file1.txt and file3.txt was really deleted
 		$newTrashContent = Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
-		$this->assertSame(1, count($newTrashContent));
+		$this->assertCount(1, $newTrashContent);
 		$element = reset($newTrashContent);
 		// TODO: failing test
 		#$this->assertSame('file2.txt', $element['name']);
@@ -291,8 +280,8 @@ class TrashbinTest extends \Test\TestCase {
 	 * @param FileInfo[] $result
 	 * @param string[] $expected
 	 */
-	private function verifyArray($result, $expected) {
-		$this->assertSame(count($expected), count($result));
+	private function verifyArray(array $result, array $expected): void {
+		$this->assertCount(count($expected), $result);
 		foreach ($expected as $expectedFile) {
 			$found = false;
 			foreach ($result as $fileInTrash) {
@@ -310,10 +299,8 @@ class TrashbinTest extends \Test\TestCase {
 
 	/**
 	 * @param FileInfo[] $files
-	 * @param string $trashRoot
-	 * @param integer $expireDate
 	 */
-	private function manipulateDeleteTime($files, $trashRoot, $expireDate) {
+	private function manipulateDeleteTime(array $files, string $trashRoot, int $expireDate): array {
 		$counter = 0;
 		foreach ($files as &$file) {
 			// modify every second file
@@ -367,7 +354,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * Test restoring a file
 	 */
 	public function testRestoreFileInRoot(): void {
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$file = $userFolder->newFile('file1.txt');
 		$file->putContent('foo');
 
@@ -399,7 +386,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * Test restoring a file in subfolder
 	 */
 	public function testRestoreFileInSubfolder(): void {
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -432,7 +419,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * Test restoring a folder
 	 */
 	public function testRestoreFolder(): void {
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -465,7 +452,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * Test restoring a file from inside a trashed folder
 	 */
 	public function testRestoreFileFromTrashedSubfolder(): void {
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -499,7 +486,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * The file should then land in the root.
 	 */
 	public function testRestoreFileWithMissingSourceFolder(): void {
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -536,7 +523,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * with the same name in the root folder
 	 */
 	public function testRestoreFileDoesNotOverwriteExistingInRoot(): void {
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$file = $userFolder->newFile('file1.txt');
 		$file->putContent('foo');
 
@@ -576,7 +563,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * with the same name in the source folder
 	 */
 	public function testRestoreFileDoesNotOverwriteExistingInSubfolder(): void {
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -630,7 +617,7 @@ class TrashbinTest extends \Test\TestCase {
 	 * the file to root instead
 	 */
 	public function testRestoreFileIntoReadOnlySourceFolder(): void {
-		$userFolder = \OC::$server->getUserFolder();
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::TEST_TRASHBIN_USER1);
 		$folder = $userFolder->newFolder('folder');
 		$file = $folder->newFile('file1.txt');
 		$file->putContent('foo');
@@ -686,7 +673,7 @@ class TrashbinTest extends \Test\TestCase {
 		Filesystem::tearDown();
 		\OC_User::setUserId($user);
 		\OC_Util::setupFS($user);
-		\OC::$server->getUserFolder($user);
+		Server::get(IRootFolder::class)->getUserFolder($user);
 	}
 }
 

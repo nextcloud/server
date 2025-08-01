@@ -16,7 +16,6 @@ OC.L10N.register(
     "Hello, {name}" : "Ola, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Feliz aniversario 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Feliz aniversario, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "«icona {title}»",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar trebellos",
     "Get more widgets from the App Store" : "Obter máis trebellos na tenda de aplicacións",

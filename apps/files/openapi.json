@@ -847,12 +847,14 @@
                                     "editorId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the editor"
                                     },
                                     "fileId": {
                                         "type": "integer",
                                         "format": "int64",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the file"
                                     }
                                 }
@@ -1032,6 +1034,7 @@
                                     "templateId": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "ID of the template"
                                     }
                                 }
@@ -1221,6 +1224,80 @@
                                                     "type": "array",
                                                     "items": {
                                                         "$ref": "#/components/schemas/TemplateFileCreatorWithTemplates"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/files/api/v1/templates/fields/{fileId}": {
+            "get": {
+                "operationId": "template-list-template-fields",
+                "summary": "List the fields for the template specified by the given file ID",
+                "tags": [
+                    "template"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "fileId",
+                        "in": "path",
+                        "description": "File ID of the template",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fields returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "$ref": "#/components/schemas/TemplateField"
                                                     }
                                                 }
                                             }
@@ -2292,6 +2369,7 @@
                                     "destination": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "The target path of the converted file. Written to a temporary file if left empty"
                                     }
                                 }

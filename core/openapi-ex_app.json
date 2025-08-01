@@ -181,8 +181,12 @@
                         "$ref": "#/components/schemas/TaskProcessingIO"
                     },
                     "output": {
-                        "$ref": "#/components/schemas/TaskProcessingIO",
-                        "nullable": true
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskProcessingIO"
+                            }
+                        ]
                     },
                     "customId": {
                         "type": "string",
@@ -754,6 +758,7 @@
                                     "output": {
                                         "type": "object",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "The resulting task output, files are represented by their IDs",
                                         "additionalProperties": {
                                             "type": "object"
@@ -762,6 +767,7 @@
                                     "errorMessage": {
                                         "type": "string",
                                         "nullable": true,
+                                        "default": null,
                                         "description": "An error message if the task failed"
                                     }
                                 }

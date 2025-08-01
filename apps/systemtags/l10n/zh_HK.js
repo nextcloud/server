@@ -110,8 +110,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "另一個同名的標籤已經存在",
     "Failed to load tags for file" : "無法載入檔案的標籤",
     "Failed to set tag for file" : "無法設定檔案的標籤",
-    "Failed to delete tag for file" : "無法刪除檔案的標籤",
-    "This file has the tag {tag}" : "此檔案帶有 {tag} 標籤",
-    "This file has the tags {firstTags} and {lastTag}" : "此檔案帶有 {firstTags} 及 {lastTag} 標籤"
+    "Failed to delete tag for file" : "無法刪除檔案的標籤"
 },
 "nplurals=1; plural=0;");

@@ -35,6 +35,7 @@ OC.L10N.register(
     "Automatically accept shares from trusted federated accounts and groups by default" : "A megbízható föderált fiókokból és csoportokból származó megosztások automatikus elfogadása alapértelmezés szerint",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Ossza meg velem a #Nextcloud föderált felhőazonosítóm segítségével, lásd {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ossza meg velem a #Nextcloud föderált felhőazonosítóm segítségével ",
+    "Share with me via Nextcloud" : "Ossza meg velem a Nextcloudon keresztül",
     "Cloud ID copied to the clipboard" : "Felhőazonosító a vágólapra másolva",
     "Copy to clipboard" : "Másolás a vágólapra",
     "Clipboard not available. Please copy the cloud ID manually." : "A vágólap nem érhető el. Másolja át a felhőazonosítót kézileg.",
@@ -48,17 +49,12 @@ OC.L10N.register(
     "formerly Twitter" : "korábban Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Adja hozzá saját weboldalához",
-    "Share with me via Nextcloud" : "Ossza meg velem a Nextcloudon keresztül",
     "HTML Code:" : "HTML-kód:",
     "Cancel" : "Mégse",
     "Add remote share" : "Távoli megosztás hozzáadása",
     "Remote share" : "Távoli megosztás",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Hozzáadja a(z) {name} távoli megosztást innen: {owner}@{remote}?",
     "Remote share password" : "Jelszó a távoli megosztáshoz",
-    "Incoming share could not be processed" : "A bejövő megosztás nem dolgozható fel",
-    "Clipboard is not available" : "A vágólap nem érhető el",
-    "Your Federated Cloud ID:" : "Az Ön föderált felhőazonosítója:",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "A bejövő megosztás nem dolgozható fel"
 },
 "nplurals=2; plural=(n != 1);");

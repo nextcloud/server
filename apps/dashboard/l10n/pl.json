@@ -14,7 +14,6 @@
     "Hello, {name}" : "Witaj {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Najlepsze życzenia urodzinowe 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Najlepsze życzenia urodzinowe, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "\"ikona {title}\"",
     "Customize" : "Dostosuj",
     "Edit widgets" : "Edytuj widżety",
     "Get more widgets from the App Store" : "Pobierz więcej widżetów z Nextcloud App Store",

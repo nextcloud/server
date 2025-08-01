@@ -9,66 +9,12 @@ namespace OCA\Files;
 
 use OC\Files\Filesystem;
 use OCP\Files\FileInfo;
-use OCP\Files\IMimeTypeDetector;
-use OCP\Files\NotFoundException;
-use OCP\ITagManager;
-use OCP\Server;
 use OCP\Util;
 
 /**
  * Helper class for manipulating file information
  */
 class Helper {
-	/**
-	 * @param string $dir
-	 * @return array
-	 * @throws NotFoundException
-	 */
-	public static function buildFileStorageStatistics($dir) {
-		// information about storage capacities
-		$storageInfo = \OC_Helper::getStorageInfo($dir);
-		$l = Util::getL10N('files');
-		$maxUploadFileSize = Util::maxUploadFilesize($dir, $storageInfo['free']);
-		$maxHumanFileSize = Util::humanFileSize($maxUploadFileSize);
-		$maxHumanFileSize = $l->t('Upload (max. %s)', [$maxHumanFileSize]);
-
-		return [
-			'uploadMaxFilesize' => $maxUploadFileSize,
-			'maxHumanFilesize' => $maxHumanFileSize,
-			'freeSpace' => $storageInfo['free'],
-			'quota' => $storageInfo['quota'],
-			'total' => $storageInfo['total'],
-			'used' => $storageInfo['used'],
-			'usedSpacePercent' => $storageInfo['relative'],
-			'owner' => $storageInfo['owner'],
-			'ownerDisplayName' => $storageInfo['ownerDisplayName'],
-			'mountType' => $storageInfo['mountType'],
-			'mountPoint' => $storageInfo['mountPoint'],
-		];
-	}
-
-	/**
-	 * Determine icon for a given file
-	 *
-	 * @param FileInfo $file file info
-	 * @return string icon URL
-	 */
-	public static function determineIcon($file) {
-		if ($file['type'] === 'dir') {
-			$icon = Server::get(IMimeTypeDetector::class)->mimeTypeIcon('dir');
-			// TODO: move this part to the client side, using mountType
-			if ($file->isShared()) {
-				$icon = Server::get(IMimeTypeDetector::class)->mimeTypeIcon('dir-shared');
-			} elseif ($file->isMounted()) {
-				$icon = Server::get(IMimeTypeDetector::class)->mimeTypeIcon('dir-external');
-			}
-		} else {
-			$icon = Server::get(IMimeTypeDetector::class)->mimeTypeIcon($file->getMimetype());
-		}
-
-		return substr($icon, 0, -3) . 'svg';
-	}
-
 	/**
 	 * Comparator function to sort files alphabetically and have
 	 * the directories appear first
@@ -162,20 +108,6 @@ class Helper {
 	}
 
 	/**
-	 * Format file info for JSON
-	 * @param FileInfo[] $fileInfos file infos
-	 * @return array
-	 */
-	public static function formatFileInfos($fileInfos) {
-		$files = [];
-		foreach ($fileInfos as $i) {
-			$files[] = self::formatFileInfo($i);
-		}
-
-		return $files;
-	}
-
-	/**
 	 * Retrieves the contents of the given directory and
 	 * returns it as a sorted array of FileInfo.
 	 *
@@ -189,43 +121,6 @@ class Helper {
 		$content = Filesystem::getDirectoryContent($dir, $mimetypeFilter);
 
 		return self::sortFiles($content, $sortAttribute, $sortDescending);
-	}
-
-	/**
-	 * Populate the result set with file tags
-	 *
-	 * @psalm-template T of array{tags?: list<string>, file_source: int, ...array<string, mixed>}
-	 * @param list<T> $fileList
-	 * @return list<T> file list populated with tags
-	 */
-	public static function populateTags(array $fileList, ITagManager $tagManager) {
-		$tagger = $tagManager->load('files');
-		$tags = $tagger->getTagsForObjects(array_map(static fn (array $fileData) => $fileData['file_source'], $fileList));
-
-		if (!is_array($tags)) {
-			throw new \UnexpectedValueException('$tags must be an array');
-		}
-
-		// Set empty tag array
-		foreach ($fileList as &$fileData) {
-			$fileData['tags'] = [];
-		}
-		unset($fileData);
-
-		if (!empty($tags)) {
-			foreach ($tags as $fileId => $fileTags) {
-				foreach ($fileList as &$fileData) {
-					if ($fileId !== $fileData['file_source']) {
-						continue;
-					}
-
-					$fileData['tags'] = $fileTags;
-				}
-				unset($fileData);
-			}
-		}
-
-		return $fileList;
 	}
 
 	/**

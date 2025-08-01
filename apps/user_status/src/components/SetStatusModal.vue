@@ -5,8 +5,8 @@
 
 <template>
 	<NcModal size="normal"
-		:name="$t('user_status', 'Set status')"
-		aria-labelledby="user_status-set-dialog"
+		label-id="user_status-set-dialog"
+		dark
 		:set-return-focus="setReturnFocus"
 		@close="closeModal">
 		<div class="set-status-modal">
@@ -336,6 +336,10 @@ export default {
 .set-status-modal {
 	padding: 8px 20px 20px 20px;
 
+	&, & * {
+		box-sizing: border-box;
+	}
+
 	&__header {
 		font-size: 21px;
 		text-align: center;
@@ -343,12 +347,14 @@ export default {
 		min-height: var(--default-clickable-area);
 		line-height: var(--default-clickable-area);
 		overflow-wrap: break-word;
-		margin-block: 0 12px;
+		margin-block: 0 calc(2 * var(--default-grid-baseline));
 	}
 
 	&__online-status {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
+		display: flex;
+		flex-direction: column;
+		gap: calc(2 * var(--default-grid-baseline));
+		margin-block: 0 calc(2 * var(--default-grid-baseline));
 	}
 
 	&__custom-input {
@@ -357,13 +363,14 @@ export default {
 		align-items: center;
 		gap: var(--default-grid-baseline);
 		width: 100%;
-		margin-bottom: 10px;
+		padding-inline-start: var(--default-grid-baseline);
+		margin-block: 0 calc(2 * var(--default-grid-baseline));
 	}
 
 	&__automation-hint {
 		display: flex;
 		width: 100%;
-		margin-bottom: 10px;
+		margin-block: 0 calc(2 * var(--default-grid-baseline));
 		color: var(--color-text-maxcontrast);
 	}
 

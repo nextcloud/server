@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -93,7 +94,7 @@ class AddTest extends TestCase {
 		$tag->method('getAccessLevel')->willReturn(ISystemTag::ACCESS_LEVEL_PUBLIC);
 
 		$this->systemTagManager->method('createTag')
-			->willReturnCallback(function ($tagName, $userVisible, $userAssignable) {
+			->willReturnCallback(function ($tagName, $userVisible, $userAssignable): void {
 				throw new TagAlreadyExistsException(
 					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);

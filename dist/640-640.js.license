@@ -1,0 +1,13 @@
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
+
+
+This file is generated from multiple sources. Included packages:
+- @nextcloud/dialogs
+	- version: 6.3.1
+	- license: AGPL-3.0-or-later
+- vue
+	- version: 2.7.16
+	- license: MIT

@@ -16,7 +16,7 @@ use OCP\Security\ISecureRandom;
 class MySQL extends AbstractDatabase {
 	public $dbprettyname = 'MySQL/MariaDB';
 
-	public function setupDatabase($username) {
+	public function setupDatabase() {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
 
@@ -28,7 +28,7 @@ class MySQL extends AbstractDatabase {
 		}
 
 		if ($this->tryCreateDbUser) {
-			$this->createSpecificUser($username, new ConnectionAdapter($connection));
+			$this->createSpecificUser('oc_admin', new ConnectionAdapter($connection));
 		}
 
 		$this->config->setValues([

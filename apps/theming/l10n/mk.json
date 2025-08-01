@@ -105,11 +105,6 @@
     "Reset to default" : "Ресетирај на стандардно",
     "Upload" : "Прикачи",
     "Remove background image" : "Избриши ја позадинската слика",
-    "Color" : "Боја",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзалниот пристап е многу важен за нас. Ние ги следиме веб-стандардите и ги имплементираме за да го направиме користењето попристапно, како користење без маус, и помошни апликации за читање на екранот. Наша цел е да бидеме во согласност со {guidelines} {linkend}2.1 на ниво АА, со висока контрастна тема дури и на ниво на ААА.",
-    "Background" : "Позадина",
-    "Set a custom background" : "Постави позадина",
-    "Change color" : "Промени боја",
-    "No background" : "Без позадина"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзалниот пристап е многу важен за нас. Ние ги следиме веб-стандардите и ги имплементираме за да го направиме користењето попристапно, како користење без маус, и помошни апликации за читање на екранот. Наша цел е да бидеме во согласност со {guidelines} {linkend}2.1 на ниво АА, со висока контрастна тема дури и на ниво на ААА."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

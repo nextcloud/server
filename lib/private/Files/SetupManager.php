@@ -21,19 +21,19 @@ use OC\Files\Storage\Wrapper\Quota;
 use OC\Lockdown\Filesystem\NullStorage;
 use OC\Share\Share;
 use OC\Share20\ShareDisableChecker;
-use OC_App;
 use OC_Hook;
-use OC_Util;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\Files_Sharing\External\Mount;
 use OCA\Files_Sharing\ISharedMountPoint;
 use OCA\Files_Sharing\SharedMount;
+use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\InvalidateMountCacheEvent;
@@ -81,6 +81,7 @@ class SetupManager {
 		private LoggerInterface $logger,
 		private IConfig $config,
 		private ShareDisableChecker $shareDisableChecker,
+		private IAppManager $appManager,
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -104,7 +105,7 @@ class SetupManager {
 		$this->setupBuiltinWrappersDone = true;
 
 		// load all filesystem apps before, so no setup-hook gets lost
-		OC_App::loadApps(['filesystem']);
+		$this->appManager->loadApps(['filesystem']);
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		Filesystem::addStorageWrapper('mount_options', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
@@ -156,7 +157,7 @@ class SetupManager {
 			if ($mount instanceof HomeMountPoint) {
 				$user = $mount->getUser();
 				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-					return OC_Util::getUserQuota($user);
+					return $user->getQuotaBytes();
 				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
 			}
 
@@ -171,9 +172,9 @@ class SetupManager {
 				return new PermissionsMask([
 					'storage' => $storage,
 					'mask' => Constants::PERMISSION_ALL & ~(
-						Constants::PERMISSION_UPDATE |
-						Constants::PERMISSION_CREATE |
-						Constants::PERMISSION_DELETE
+						Constants::PERMISSION_UPDATE
+						| Constants::PERMISSION_CREATE
+						| Constants::PERMISSION_DELETE
 					),
 				]);
 			}
@@ -280,14 +281,18 @@ class SetupManager {
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($userRoot) {
 			return str_starts_with($mount->getMountPoint(), $userRoot);
 		});
-		$allProviders = array_map(function (IMountProvider $provider) {
+		$allProviders = array_map(function (IMountProvider|IHomeMountProvider|IRootMountProvider $provider) {
 			return get_class($provider);
-		}, $this->mountProviderCollection->getProviders());
+		}, array_merge(
+			$this->mountProviderCollection->getProviders(),
+			$this->mountProviderCollection->getHomeProviders(),
+			$this->mountProviderCollection->getRootProviders(),
+		));
 		$newProviders = array_diff($allProviders, $previouslySetupProviders);
 		$mounts = array_filter($mounts, function (IMountPoint $mount) use ($previouslySetupProviders) {
 			return !in_array($mount->getMountProvider(), $previouslySetupProviders);
 		});
-		$this->userMountCache->registerMounts($user, $mounts, $newProviders);
+		$this->registerMounts($user, $mounts, $newProviders);
 
 		$cacheDuration = $this->config->getSystemValueInt('fs_mount_cache_duration', 5 * 60);
 		if ($cacheDuration > 0) {
@@ -452,7 +457,7 @@ class SetupManager {
 		}
 
 		if (count($mounts)) {
-			$this->userMountCache->registerMounts($user, $mounts, $currentProviders);
+			$this->registerMounts($user, $mounts, $currentProviders);
 			$this->setupForUserWith($user, function () use ($mounts) {
 				array_walk($mounts, [$this->mountManager, 'addMount']);
 			});
@@ -523,7 +528,7 @@ class SetupManager {
 			$mounts = $this->mountProviderCollection->getUserMountsForProviderClasses($user, $providers);
 		}
 
-		$this->userMountCache->registerMounts($user, $mounts, $providers);
+		$this->registerMounts($user, $mounts, $providers);
 		$this->setupForUserWith($user, function () use ($mounts) {
 			array_walk($mounts, [$this->mountManager, 'addMount']);
 		});
@@ -593,6 +598,12 @@ class SetupManager {
 			$this->eventDispatcher->addListener($genericEvent, function ($event) {
 				$this->cache->clear();
 			});
+		}
+	}
+
+	private function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null): void {
+		if ($this->lockdownManager->canAccessFilesystem()) {
+			$this->userMountCache->registerMounts($user, $mounts, $mountProviderClasses);
 		}
 	}
 }

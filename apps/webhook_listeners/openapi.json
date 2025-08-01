@@ -121,7 +121,8 @@
                         "description": "The callback URI to filter by",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -254,6 +255,13 @@
                     }
                 },
                 "parameters": [
+                    {
+                        "name": "ex-app-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -548,6 +556,13 @@
                         }
                     },
                     {
+                        "name": "ex-app-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
@@ -794,7 +809,7 @@
                     {
                         "name": "appid",
                         "in": "path",
-                        "description": "id of the app, as in the EX-APP-ID for creation",
+                        "description": "id of the app, as in the ex-app-id for creation",
                         "required": true,
                         "schema": {
                             "type": "string"

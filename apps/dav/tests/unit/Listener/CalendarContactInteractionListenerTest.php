@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Unit\Listener;
+namespace OCA\DAV\Tests\unit\Listener;
 
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\Events\CalendarShareUpdatedEvent;
@@ -23,24 +23,12 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CalendarContactInteractionListenerTest extends TestCase {
-
-	/** @var IEventDispatcher|MockObject */
-	private $eventDispatcher;
-
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var Principal|MockObject */
-	private $principalConnector;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var IMailer|MockObject */
-	private $mailer;
-
-	/** @var CalendarContactInteractionListener */
-	private $listener;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IUserSession&MockObject $userSession;
+	private Principal&MockObject $principalConnector;
+	private LoggerInterface&MockObject $logger;
+	private IMailer&MockObject $mailer;
+	private CalendarContactInteractionListener $listener;
 
 	protected function setUp(): void {
 		parent::setUp();

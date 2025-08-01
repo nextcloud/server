@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,7 @@
 
 namespace Test\Preview;
 
+use OC\Preview\Movie;
 use OCP\IBinaryFinder;
 use OCP\Server;
 
@@ -18,6 +20,10 @@ use OCP\Server;
  * @package Test\Preview
  */
 class MovieTest extends Provider {
+	protected string $fileName = 'testimage.mp4';
+	protected int $width = 560;
+	protected int $height = 320;
+
 	protected function setUp(): void {
 		$binaryFinder = Server::get(IBinaryFinder::class);
 		$movieBinary = $binaryFinder->findBinaryPath('avconv');
@@ -28,11 +34,8 @@ class MovieTest extends Provider {
 		if (is_string($movieBinary)) {
 			parent::setUp();
 
-			$fileName = 'testimage.mp4';
-			$this->imgPath = $this->prepareTestFile($fileName, \OC::$SERVERROOT . '/tests/data/' . $fileName);
-			$this->width = 560;
-			$this->height = 320;
-			$this->provider = new \OC\Preview\Movie(['movieBinary' => $movieBinary]);
+			$this->imgPath = $this->prepareTestFile($this->fileName, \OC::$SERVERROOT . '/tests/data/' . $this->fileName);
+			$this->provider = new Movie(['movieBinary' => $movieBinary]);
 		} else {
 			$this->markTestSkipped('No Movie provider present');
 		}

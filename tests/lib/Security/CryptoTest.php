@@ -11,9 +11,11 @@ declare(strict_types=1);
 namespace Test\Security;
 
 use OC\Security\Crypto;
+use OCP\IConfig;
+use OCP\Server;
 
 class CryptoTest extends \Test\TestCase {
-	public function defaultEncryptionProvider() {
+	public static function defaultEncryptionProvider(): array {
 		return [
 			['Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.'],
 			[''],
@@ -26,12 +28,10 @@ class CryptoTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->crypto = new Crypto(\OC::$server->getConfig());
+		$this->crypto = new Crypto(Server::get(IConfig::class));
 	}
 
-	/**
-	 * @dataProvider defaultEncryptionProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('defaultEncryptionProvider')]
 	public function testDefaultEncrypt($stringToEncrypt): void {
 		$ciphertext = $this->crypto->encrypt($stringToEncrypt);
 		$this->assertEquals($stringToEncrypt, $this->crypto->decrypt($ciphertext));

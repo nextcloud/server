@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,6 +17,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
 
 /**
@@ -24,20 +26,9 @@ use Test\Traits\UserTrait;
 class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	use UserTrait;
 
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject groupManager */
-	protected $groupManager;
-
-	/**
-	 * @var StoragesService
-	 */
-	protected $globalStoragesService;
-
-	/**
-	 * @var UserGlobalStoragesService
-	 */
-	protected $service;
-
-	protected $user;
+	protected IGroupManager&MockObject $groupManager;
+	protected StoragesService $globalStoragesService;
+	protected User $user;
 
 	public const USER_ID = 'test_user';
 	public const GROUP_ID = 'test_group';
@@ -49,7 +40,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->globalStoragesService = $this->service;
 
 		$this->user = new User(self::USER_ID, null, Server::get(IEventDispatcher::class));
-		/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
+		/** @var IUserSession&MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession
 			->expects($this->any())
@@ -87,7 +78,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		);
 	}
 
-	public function applicableStorageProvider() {
+	public static function applicableStorageProvider(): array {
 		return [
 			[[], [], true],
 
@@ -107,9 +98,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		];
 	}
 
-	/**
-	 * @dataProvider applicableStorageProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('applicableStorageProvider')]
 	public function testGetStorageWithApplicable($applicableUsers, $applicableGroups, $isVisible): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
@@ -183,9 +172,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->ActualNonExistingStorageTest();
 	}
 
-	/**
-	 * @dataProvider deleteStorageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('deleteStorageDataProvider')]
 	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		$this->expectException(\DomainException::class);
 
@@ -211,7 +198,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->actualDeletedUnexistingStorageTest();
 	}
 
-	public function getUniqueStoragesProvider() {
+	public static function getUniqueStoragesProvider(): array {
 		return [
 			// 'all' vs group
 			[100, [], [], 100, [], [self::GROUP_ID], 2],
@@ -239,9 +226,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		];
 	}
 
-	/**
-	 * @dataProvider getUniqueStoragesProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getUniqueStoragesProvider')]
 	public function testGetUniqueStorages(
 		$priority1, $applicableUsers1, $applicableGroups1,
 		$priority2, $applicableUsers2, $applicableGroups2,

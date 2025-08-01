@@ -9,6 +9,7 @@ namespace OC\Files\Storage\Wrapper;
 
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Storage;
+use OCP\Files;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IScanner;
@@ -322,7 +323,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 			return $storage->writeStream($path, $stream, $size);
 		} else {
 			$target = $this->fopen($path, 'w');
-			[$count, $result] = \OC_Helper::streamCopy($stream, $target);
+			$count = Files::streamCopy($stream, $target);
 			fclose($stream);
 			fclose($target);
 			return $count;

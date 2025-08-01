@@ -355,7 +355,7 @@ kbd {
 				/* counter can also be inside the link */
 				> .app-navigation-entry-utils  {
 					display: inline-block;
-					/* Check Floating fix below */ 
+					/* Check Floating fix below */
 					.app-navigation-entry-utils-counter {
 						padding-inline-end: 0 !important;
 					}
@@ -658,7 +658,7 @@ kbd {
 }
 
 /* Floating and background-position fix */
-/* Cannot use inline-start and :dir to support Samsung Internet */ 
+/* Cannot use inline-start and :dir to support Samsung Internet */
 body[dir='ltr'] {
 	.app-navigation-personal,
 	.app-navigation-administration {
@@ -698,7 +698,7 @@ body[dir='rtl'] {
 	box-sizing: border-box;
 	position: static;
 	margin: var(--body-container-margin);
-	margin-top: 50px;
+	margin-top: var(--header-height);
 	padding: 0;
 	display: flex;
 	width: calc(100% - var(--body-container-margin) * 2);
@@ -1024,7 +1024,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 	}
 }
 
-/* Cannot use inline-start to support Samsung Internet*/ 
+/* Cannot use inline-start to support Samsung Internet*/
 body[dir='ltr'] .tabsContainer {
 	clear: left;
 }

@@ -18,13 +18,12 @@ class AdvancedCapabilitiesTest extends TestCase {
 	protected AdvancedCapabilities $capabilities;
 
 	protected function setUp(): void {
+		parent::setUp();
 		$this->service = $this->createMock(SettingsService::class);
 		$this->capabilities = new AdvancedCapabilities($this->service);
 	}
 
-	/**
-	 * @dataProvider dataGetCapabilities
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCapabilities')]
 	public function testGetCapabilities(bool $wcf): void {
 		$this->service
 			->expects(self::once())

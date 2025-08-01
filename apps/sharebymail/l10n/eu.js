@@ -41,17 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "Ezin da eguneratu partekatzea posta konfigurazioaren bidez",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Pertsonei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz.",
     "Send password by mail" : "Bidali pasahitza posta bidez",
-    "Reply to initiator" : "Erantzun hasieragailuari",
-    "%1$s shared »%2$s« with you" : "%1$serabiltzaileak »%2$s« partekatu du zurekin",
-    "%1$s shared »%2$s« with you." : "%1$serabiltzaileak »%2$s« partekatu du zurekin",
-    "Click the button below to open it." : "Egin klik beheko botoian hura irekitzeko",
-    "Open »%s«" : "Ireki »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "»%1$s« atzitzeko pasahitza partekatu du zurekin %2$s(e)k",
-    "Password to access »%s«" : "»%s« atzitzeko pasahitza",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$serabiltzaileak »%2$s« partekatu du zurekin eta hau gehitu nahi du:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$serabiltzaileak »%2$s« partekatu du zurekin eta hau gehitu nahi du",
-    "»%s« added a note to a file shared with you" : "»%s« erabiltzaileak nota bat gehitu dio partekatu dizun fitxategi batean",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "%1$spartekatu duzu %2$s-(a)rekin. Partekatzea dgoeneko hartzaileari bidali zaio. %3$s-(e)ko administratzaileak zehaztutako segurtasun politikak direla eta, partekatze bakoitza pasahitz bidez babestu behar da eta ezin da pasahitza zuzenean hartzaileari bidali. Beraz, pasahitza eskuz birbidali behar diozu hartzaileari.",
-    "Password to access »%1$s« shared by you with %2$s" : "»%1$s«  atzitzeko pasahitza partekatu duzu %2$s-(a)rekin"
+    "Reply to initiator" : "Erantzun hasieragailuari"
 },
 "nplurals=2; plural=(n != 1);");

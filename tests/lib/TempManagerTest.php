@@ -9,6 +9,8 @@
 namespace Test;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\TempManager;
+use OCP\Files;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
@@ -26,7 +28,7 @@ class TempManagerTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		if ($this->baseDir !== null) {
-			\OC_Helper::rmdirr($this->baseDir);
+			Files::rmdirr($this->baseDir);
 		}
 		$this->baseDir = null;
 		parent::tearDown();
@@ -48,7 +50,7 @@ class TempManagerTest extends \Test\TestCase {
 				->willReturn('/tmp');
 		}
 		$iniGetWrapper = $this->createMock(IniGetWrapper::class);
-		$manager = new \OC\TempManager($logger, $config, $iniGetWrapper);
+		$manager = new TempManager($logger, $config, $iniGetWrapper);
 		if ($this->baseDir) {
 			$manager->overrideTempBaseDir($this->baseDir);
 		}

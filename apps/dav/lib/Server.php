@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -63,6 +64,7 @@ use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
+use OCA\DAV\Upload\UploadAutoMkcolPlugin;
 use OCA\Theming\ThemingDefaults;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -72,7 +74,6 @@ use OCP\Comments\ICommentsManager;
 use OCP\Defaults;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IRootFolder;
 use OCP\FilesMetadata\IFilesMetadataManager;
@@ -216,10 +217,7 @@ class Server {
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new MultiGetExportPlugin());
 			$this->server->addPlugin(new HasPhotoPlugin());
-			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(
-				\OCP\Server::get(IAppDataFactory::class)->get('dav-photocache'),
-				$logger)
-			));
+			$this->server->addPlugin(new ImageExportPlugin(\OCP\Server::get(PhotoCache::class)));
 
 			$this->server->addPlugin(\OCP\Server::get(CardDavRateLimitingPlugin::class));
 			$this->server->addPlugin(\OCP\Server::get(CardDavValidatePlugin::class));
@@ -236,6 +234,7 @@ class Server {
 
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OCP\Server::get(IRequest::class)));
+		$this->server->addPlugin(new UploadAutoMkcolPlugin());
 		$this->server->addPlugin(new ChunkingV2Plugin(\OCP\Server::get(ICacheFactory::class)));
 		$this->server->addPlugin(new ChunkingPlugin());
 		$this->server->addPlugin(new ZipFolderPlugin(
@@ -356,6 +355,7 @@ class Server {
 						\OCP\Server::get(IAppManager::class)
 					));
 					$lazySearchBackend->setBackend(new FileSearchBackend(
+						$this->server,
 						$this->server->tree,
 						$user,
 						\OCP\Server::get(IRootFolder::class),

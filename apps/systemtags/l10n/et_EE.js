@@ -103,15 +103,13 @@ OC.L10N.register(
     "Open in Files" : "Ava failirakenduses",
     "List of tags and their associated files and folders." : "Siltude ja nendega seotud failide ja kaustade loend.",
     "No tags found" : "Silte ei leidinud",
-    "Tags you have created will show up here." : "Sinu loodud sildid saavad  olema nähtavad siin.",
+    "Tags you have created will show up here." : "Sinu loodud sildid saavad olema nähtavad siin.",
     "Failed to load tag" : "Sildi laadimine ei õnnestunud",
     "Failed to load last used tags" : "Viimatikasutatud siltide laadimine ei õnnestunud",
     "Missing \"Content-Location\" header" : "„Content-Location“ päisekirje on puudu",
     "A tag with the same name already exists" : "Sellise nimega silt on juba olemas",
     "Failed to load tags for file" : "Faili silte ei õnnestunud laadida",
     "Failed to set tag for file" : "Failile ei õnnestunud silte lisada",
-    "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada",
-    "This file has the tag {tag}" : "See fail on seotud sildiga „{tag}“",
-    "This file has the tags {firstTags} and {lastTag}" : "See fail on seotud siltidega „{firstTags}“ ja „{lastTag}“"
+    "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada"
 },
 "nplurals=2; plural=(n != 1);");

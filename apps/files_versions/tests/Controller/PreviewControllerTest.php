@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,7 +14,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
-use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -25,29 +26,14 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PreviewControllerTest extends TestCase {
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var string */
-	private $userId;
-
-	/** @var IMimeTypeDetector|\PHPUnit\Framework\MockObject\MockObject */
-	private $mimeTypeDetector;
-
-	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
-	private $previewManager;
-
-	/** @var PreviewController|\PHPUnit\Framework\MockObject\MockObject */
-	private $controller;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-
-	/** @var IVersionManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $versionManager;
+	private IRootFolder&MockObject $rootFolder;
+	private string $userId;
+	private IPreview&MockObject $previewManager;
+	private IUserSession&MockObject $userSession;
+	private IVersionManager&MockObject $versionManager;
 
 	private IMimeIconProvider&MockObject $mimeIconProvider;
+	private PreviewController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();

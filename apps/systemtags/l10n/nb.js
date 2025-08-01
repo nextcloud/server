@@ -95,8 +95,6 @@ OC.L10N.register(
     "A tag with the same name already exists" : "En merkelapp med det navnet finnes allerede",
     "Failed to load tags for file" : "Lasting av merkelapper for filen feilet",
     "Failed to set tag for file" : "Kunne ikke angi merkelapp for fil",
-    "Failed to delete tag for file" : "Sletting av merkelappen for filen feilet",
-    "This file has the tag {tag}" : "Denne filen har merket {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Denne filen har merkene {firstTags} og {lastTag}"
+    "Failed to delete tag for file" : "Sletting av merkelappen for filen feilet"
 },
 "nplurals=2; plural=(n != 1);");

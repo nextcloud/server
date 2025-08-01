@@ -16,7 +16,6 @@
     "If you regenerate backup codes, you automatically invalidate old codes." : "Pokud necháte vytvořit nové záložní kódy, staré budou automaticky zneplatněny.",
     "{name} backup codes" : "{name} záložní kódy",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Použijte jeden ze svých záložních kódů které jste si uložili při nastavování dvoufázového ověřování.",
-    "Submit" : "Odeslat",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Zde jsou vaše záložní kódy. Kódy si uložte a/nebo vytiskněte, protože už je nebude možné zobrazit znovu."
+    "Submit" : "Odeslat"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

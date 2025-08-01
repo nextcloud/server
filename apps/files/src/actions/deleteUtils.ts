@@ -10,6 +10,8 @@ import { FileType } from '@nextcloud/files'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { n, t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
+import { useUserConfigStore } from '../store/userconfig'
+import { getPinia } from '../store'
 
 export const isTrashbinEnabled = () => (getCapabilities() as Capabilities)?.files?.undelete === true
 
@@ -99,6 +101,11 @@ export const displayName = (nodes: Node[], view: View) => {
 	}
 
 	return t('files', 'Delete')
+}
+
+export const shouldAskForConfirmation = () => {
+	const userConfig = useUserConfigStore(getPinia())
+	return userConfig.userConfig.show_dialog_deletion !== false
 }
 
 export const askConfirmation = async (nodes: Node[], view: View) => {

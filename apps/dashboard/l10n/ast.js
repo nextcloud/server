@@ -14,7 +14,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Bones nueches, {name}",
     "Hello" : "Hola",
     "Hello, {name}" : "Hola, {name}",
-    "\"{title} icon\"" : "«Iconu de: {title}»",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar los widgets",
     "Get more widgets from the App Store" : "Consigui más widgets de l'App Store",

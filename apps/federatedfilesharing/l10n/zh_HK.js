@@ -46,6 +46,7 @@ OC.L10N.register(
     "Automatically accept shares from trusted federated accounts and groups by default" : "默認自動接受來自可信聯邦帳戶和組的分享。",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享，請見 {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "可透過我的 #Nextcloud 聯盟雲端 ID 與我分享",
+    "Share with me via Nextcloud" : "透過 Nextcloud 與我分享",
     "Cloud ID copied to the clipboard" : "已複製 Cloud ID 至剪貼板",
     "Copy to clipboard" : "複製到剪貼板",
     "Clipboard not available. Please copy the cloud ID manually." : "剪貼板不可用。請人手複製 cloud ID。",
@@ -59,17 +60,12 @@ OC.L10N.register(
     "formerly Twitter" : "前身為 Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "新增至您的網站",
-    "Share with me via Nextcloud" : "透過 Nextcloud 與我分享",
     "HTML Code:" : "HTML 代碼：",
     "Cancel" : "取消",
     "Add remote share" : "添加遠端分享",
     "Remote share" : "遠端分享",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "是否要加入來自 {owner}@{remote} 的遠端分享 {name} ？",
     "Remote share password" : "遠端分享密碼",
-    "Incoming share could not be processed" : "無法處理傳入的分享",
-    "Clipboard is not available" : "剪貼板不可用",
-    "Your Federated Cloud ID:" : "您的雲端聯盟 ID：",
-    "Twitter" : "Twitter",
-    "Diaspora" : "Diaspora"
+    "Incoming share could not be processed" : "無法處理傳入的分享"
 },
 "nplurals=1; plural=0;");

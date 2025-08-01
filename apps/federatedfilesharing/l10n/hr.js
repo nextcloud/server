@@ -22,6 +22,7 @@ OC.L10N.register(
     "Federated file sharing" : "Udruženo dijeljenje datoteka",
     "Provide federated file sharing across servers" : "Omogućite udruženo dijeljenje datoteka između poslužitelja",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dijeli sa mnom putem mog #ID-ja udruženog oblaka Nextclouda",
+    "Share with me via Nextcloud" : "Dijelite sa mnom putem Nextclouda",
     "Copy to clipboard" : "Kopiraj u međuspremnik",
     "Copied!" : "Kopirano!",
     "Federated Cloud" : "Udruženi oblak",
@@ -29,14 +30,11 @@ OC.L10N.register(
     "Share it so your friends can share files with you:" : "Dijelite ga kako bi vaši prijatelji mogli dijeliti datoteke s vama:",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Dodajte na svoje web-mjesto",
-    "Share with me via Nextcloud" : "Dijelite sa mnom putem Nextclouda",
     "HTML Code:" : "HTML kod:",
     "Cancel" : "Odustani",
     "Add remote share" : "Dodaj udaljeno dijeljenje",
     "Remote share" : "Udaljeno dijeljenje",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Želite li dodati udaljeni udjel {name} od {owner} u {remote}?",
-    "Remote share password" : "Zaporka za udaljeno dijeljenje",
-    "Your Federated Cloud ID:" : "ID vašeg udruženog oblaka:",
-    "Twitter" : "Twitter"
+    "Remote share password" : "Zaporka za udaljeno dijeljenje"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

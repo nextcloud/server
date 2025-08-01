@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,29 +21,20 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NewUserMailHelperTest extends TestCase {
-	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
-	private $defaults;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10nFactory;
-	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
-	private $mailer;
-	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
-	private $secureRandom;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
-	private $crypto;
-	/** @var NewUserMailHelper */
-	private $newUserMailHelper;
+	private Defaults&MockObject $defaults;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $l10n;
+	private IFactory&MockObject $l10nFactory;
+	private IMailer&MockObject $mailer;
+	private ISecureRandom&MockObject $secureRandom;
+	private ITimeFactory&MockObject $timeFactory;
+	private IConfig&MockObject $config;
+	private ICrypto&MockObject $crypto;
+	private NewUserMailHelper $newUserMailHelper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,7 +105,7 @@ class NewUserMailHelperTest extends TestCase {
 			->expects($this->once())
 			->method('getTime')
 			->willReturn(12345);
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var IUser&MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->any())
@@ -371,7 +363,7 @@ EOF;
 				['myLogo',''],
 			]);
 
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var IUser&MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->any())
@@ -611,7 +603,7 @@ EOF;
 				['myLogo', ''],
 			]);
 
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var IUser&MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->any())
@@ -830,7 +822,7 @@ EOF;
 	}
 
 	public function testSendMail(): void {
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
+		/** @var IUser&MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -840,7 +832,7 @@ EOF;
 			->expects($this->once())
 			->method('getDisplayName')
 			->willReturn('John Doe');
-		/** @var IEMailTemplate|\PHPUnit\Framework\MockObject\MockObject $emailTemplate */
+		/** @var IEMailTemplate&MockObject $emailTemplate */
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$message = $this->createMock(Message::class);
 		$message
