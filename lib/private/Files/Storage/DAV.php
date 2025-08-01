@@ -116,7 +116,7 @@ class DAV extends Common {
 				// inject mock for testing
 				$this->certManager = \OC::$server->getCertificateManager();
 			}
-			$this->root = $parameters['root'] ?? '/';
+			$this->root = rawurldecode($parameters['root'] ?? '/');
 			$this->root = '/' . ltrim($this->root, '/');
 			$this->root = rtrim($this->root, '/') . '/';
 		} else {
@@ -191,7 +191,7 @@ class DAV extends Common {
 		if ($this->secure) {
 			$baseUri .= 's';
 		}
-		$baseUri .= '://' . $this->host . $this->root;
+		$baseUri .= '://' . $this->host . $this->encodePath($this->root);
 		return $baseUri;
 	}
 
