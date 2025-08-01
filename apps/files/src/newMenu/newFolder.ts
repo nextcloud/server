@@ -8,7 +8,7 @@ import { basename } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Permission, Folder } from '@nextcloud/files'
-import { showError, showInfo, showSuccess } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
@@ -51,7 +51,6 @@ export const entry = {
 	async handler(context: Folder, content: Node[]) {
 		const name = await newNodeName(t('files', 'New folder'), content)
 		if (name === null) {
-			showInfo(t('files', 'New folder creation cancelled'))
 			return
 		}
 		try {

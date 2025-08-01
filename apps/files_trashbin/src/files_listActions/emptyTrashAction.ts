@@ -11,7 +11,6 @@ import { t } from '@nextcloud/l10n'
 import {
 	DialogSeverity,
 	getDialogBuilder,
-	showInfo,
 } from '@nextcloud/dialogs'
 import { emptyTrash } from '../services/api.ts'
 import { TRASHBIN_VIEW_ID } from '../files_views/trashbinView.ts'
@@ -71,7 +70,6 @@ export const emptyTrashAction = new FileListAction({
 			return null
 		}
 
-		showInfo(t('files_trashbin', 'Deletion cancelled'))
 		return null
 	},
 })
