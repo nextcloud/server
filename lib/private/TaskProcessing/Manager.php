@@ -73,6 +73,11 @@ class Manager implements IManager {
 	public const LEGACY_PREFIX_TEXTTOIMAGE = 'legacy:TextToImage:';
 	public const LEGACY_PREFIX_SPEECHTOTEXT = 'legacy:SpeechToText:';
 
+	public const LAZY_CONFIG_KEYS = [
+		'ai.taskprocessing_type_preferences',
+		'ai.taskprocessing_provider_preferences',
+	];
+
 	/** @var list<IProvider>|null */
 	private ?array $providers = null;
 
