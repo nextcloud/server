@@ -32,6 +32,10 @@ class FederatedCalendarSyncService {
 		$remoteUrl = $calendar->getRemoteUrl();
 		$syncToken = $calendar->getSyncTokenForSabre();
 
+		// Need to encode the cloud id as it might contain a colon which is not allowed in basic
+		// auth according to RFC 7617
+		$calDavUser = base64_encode($calDavUser);
+
 		$newSyncToken = $this->syncService->syncRemoteCalendar(
 			$remoteUrl,
 			$calDavUser,

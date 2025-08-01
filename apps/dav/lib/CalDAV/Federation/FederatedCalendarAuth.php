@@ -36,7 +36,7 @@ final class FederatedCalendarAuth implements BackendInterface {
 		string $username,
 		string $password,
 	): ?string {
-		$remoteUserPrincipalUri = RemoteUserPrincipalBackend::PRINCIPAL_PREFIX . '/' . base64_encode($username);
+		$remoteUserPrincipalUri = RemoteUserPrincipalBackend::PRINCIPAL_PREFIX . "/$username";
 		[, $remoteUserPrincipalId] = \Sabre\Uri\split($remoteUserPrincipalUri);
 
 		$qb = $this->db->getQueryBuilder();
@@ -81,8 +81,11 @@ final class FederatedCalendarAuth implements BackendInterface {
 	}
 
 	public function check(RequestInterface $request, ResponseInterface $response): array {
-		$auth = new BasicAuth($this->realm, $request, $response);
+		if (!str_starts_with($request->getPath(), "remote-calendars/")) {
+			return [false, 'This request is not for a federated calendar'];
+		}
 
+		$auth = new BasicAuth($this->realm, $request, $response);
 		$userpass = $auth->getCredentials();
 		if (!$userpass) {
 			return [false, "No 'Authorization: Basic' header found. Either the client didn't send one, or the server is misconfigured"];
