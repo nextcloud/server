@@ -1,6 +1,5 @@
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
- * SPDX-FileCopyrightText: 2025 Informatyka Boguslawski sp. z o.o. sp.k.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { encodePath } from '@nextcloud/paths'
