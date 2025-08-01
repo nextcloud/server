@@ -26,6 +26,17 @@ use OCP\TaskProcessing\Exception\ValidationException;
  * @since 30.0.0
  */
 interface IManager {
+
+	/**
+	 * Task processing config keys that can be stored and loaded lazily
+	 *
+	 * @since 32.0.0
+	 */
+	public const LAZY_CONFIG_KEYS = [
+		'ai.taskprocessing_type_preferences',
+		'ai.taskprocessing_provider_preferences',
+	];
+
 	/**
 	 * @since 30.0.0
 	 */
