@@ -38,6 +38,7 @@ class LoadSidebarListener implements IEventListener {
 
 		$appConfig = Server::get(IAppConfig::class);
 		$this->initialState->provideInitialState('showFederatedSharesAsInternal', $appConfig->getValueBool('files_sharing', ConfigLexicon::SHOW_FEDERATED_AS_INTERNAL));
+		$this->initialState->provideInitialState('showFederatedSharesToTrustedServersAsInternal', $appConfig->getValueBool('files_sharing', ConfigLexicon::SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL));
 		Util::addScript(Application::APP_ID, 'files_sharing_tab', 'files');
 	}
 }

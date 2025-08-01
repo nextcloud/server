@@ -22,6 +22,7 @@ use NCU\Config\ValueType;
  */
 class ConfigLexicon implements IConfigLexicon {
 	public const SHOW_FEDERATED_AS_INTERNAL = 'show_federated_shares_as_internal';
+	public const SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL = 'show_federated_shares_to_trusted_servers_as_internal';
 
 	public function getStrictness(): ConfigLexiconStrictness {
 		return ConfigLexiconStrictness::IGNORE;
@@ -30,6 +31,7 @@ class ConfigLexicon implements IConfigLexicon {
 	public function getAppConfigs(): array {
 		return [
 			new ConfigLexiconEntry(self::SHOW_FEDERATED_AS_INTERNAL, ValueType::BOOL, false, 'shows federated shares as internal shares', true),
+			new ConfigLexiconEntry(self::SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL, ValueType::BOOL, false, 'shows federated shares to trusted servers as internal shares', true),
 		];
 	}
 

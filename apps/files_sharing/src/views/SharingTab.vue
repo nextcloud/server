@@ -399,7 +399,13 @@ export default {
 					if ([ShareType.Link, ShareType.Email].includes(share.type)) {
 						this.linkShares.push(share)
 					} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
-						if (this.config.showFederatedSharesAsInternal) {
+						if (this.config.showFederatedSharesToTrustedServersAsInternal) {
+							if (share.isTrustedServer) {
+								this.shares.push(share)
+							} else {
+								this.externalShares.push(share)
+							}
+						} else if (this.config.showFederatedSharesAsInternal) {
 							this.shares.push(share)
 						} else {
 							this.externalShares.push(share)
@@ -475,6 +481,10 @@ export default {
 			} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
 				if (this.config.showFederatedSharesAsInternal) {
 					this.shares.unshift(share)
+				} if (this.config.showFederatedSharesToTrustedServersAsInternal) {
+					if (share.isTrustedServer) {
+						this.shares.unshift(share)
+					}
 				} else {
 					this.externalShares.unshift(share)
 				}
