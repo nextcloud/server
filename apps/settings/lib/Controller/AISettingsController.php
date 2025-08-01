@@ -38,7 +38,7 @@ class AISettingsController extends Controller {
 			if (!isset($settings[$key])) {
 				continue;
 			}
-			$this->appConfig->setValueString('core', $key, json_encode($settings[$key]), lazy: in_array($key, \OCP\TaskProcessing\IManager::LAZY_CONFIG_KEYS, true));
+			$this->appConfig->setValueString('core', $key, json_encode($settings[$key]), lazy: in_array($key, \OC\TaskProcessing\Manager::LAZY_CONFIG_KEYS, true));
 		}
 
 		return new DataResponse();

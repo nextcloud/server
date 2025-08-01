@@ -145,7 +145,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;
-			$json = $this->appConfig->getValueString('core', $key, '', lazy: in_array($key, \OCP\TaskProcessing\IManager::LAZY_CONFIG_KEYS, true));
+			$json = $this->appConfig->getValueString('core', $key, '', lazy: in_array($key, \OC\TaskProcessing\Manager::LAZY_CONFIG_KEYS, true));
 			if ($json !== '') {
 				try {
 					$value = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
