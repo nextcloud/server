@@ -211,7 +211,7 @@ class SMB extends Common implements INotifyStorage {
 		try {
 			$acls = $file->getAcls();
 		} catch (Exception $e) {
-			$this->logger->error('Error while getting file acls', ['exception' => $e]);
+			$this->logger->warning('Error while getting file acls', ['exception' => $e]);
 			return null;
 		}
 		foreach ($acls as $user => $acl) {
@@ -462,6 +462,7 @@ class SMB extends Common implements INotifyStorage {
 				case 'r':
 				case 'rb':
 					if (!$this->file_exists($path)) {
+						$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', file doesn\'t exist.');
 						return false;
 					}
 					return $this->share->read($fullPath);
@@ -489,11 +490,13 @@ class SMB extends Common implements INotifyStorage {
 					}
 					if ($this->file_exists($path)) {
 						if (!$this->isUpdatable($path)) {
+							$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', file not updatable.');
 							return false;
 						}
 						$tmpFile = $this->getCachedFile($path);
 					} else {
 						if (!$this->isCreatable(dirname($path))) {
+							$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', parent directory not writable.');
 							return false;
 						}
 						$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
@@ -508,10 +511,13 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return false;
 		} catch (NotFoundException $e) {
+			$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', not found.', ['exception' => $e]);
 			return false;
 		} catch (ForbiddenException $e) {
+			$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', forbidden.', ['exception' => $e]);
 			return false;
 		} catch (OutOfSpaceException $e) {
+			$this->logger->warning('Failed to open ' . $path . ' on ' . $this->getId() . ', out of space.', ['exception' => $e]);
 			throw new EntityTooLargeException('not enough available space to create file', 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while opening file', ['exception' => $e]);
