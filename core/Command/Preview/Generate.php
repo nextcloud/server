@@ -78,7 +78,7 @@ class Generate extends Command {
 			return self::FAILURE;
 		}
 		if (!$node instanceof File) {
-			$output->writeln("<error>specified file ($fileInput) is not a file (did you specify a folder by accident?)</error>");
+			$output->writeln("<error>File ($fileInput) is not a file (did you specify a folder by accident?)</error>");
 			return self::INVALID;
 		}
 		// No point in continuing if there isn't a configured preview provider for the file
