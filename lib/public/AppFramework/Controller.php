@@ -43,8 +43,10 @@ abstract class Controller {
 	 * @param IRequest $request an instance of the request
 	 * @since 6.0.0 - parameter $appName was added in 7.0.0 - parameter $app was removed in 7.0.0
 	 */
-	public function __construct($appName,
-		IRequest $request) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+	) {
 		$this->appName = $appName;
 		$this->request = $request;
 
@@ -90,7 +92,7 @@ abstract class Controller {
 	 * @since 7.0.0
 	 * @since 9.1.0 Added default parameter
 	 */
-	public function getResponderByHTTPHeader($acceptHeader, $default = 'json') {
+	public function getResponderByHTTPHeader(string $acceptHeader, string $default = 'json') {
 		$headers = explode(',', $acceptHeader);
 
 		// return the first matching responder
@@ -115,7 +117,7 @@ abstract class Controller {
 	 * @param \Closure $responder
 	 * @since 7.0.0
 	 */
-	protected function registerResponder($format, \Closure $responder) {
+	protected function registerResponder(string $format, \Closure $responder) {
 		$this->responders[$format] = $responder;
 	}
 
@@ -129,7 +131,7 @@ abstract class Controller {
 	 * @return Response
 	 * @since 7.0.0
 	 */
-	public function buildResponse($response, $format = 'json') {
+	public function buildResponse($response, string $format = 'json') {
 		if (array_key_exists($format, $this->responders)) {
 			$responder = $this->responders[$format];
 
