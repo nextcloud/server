@@ -161,8 +161,8 @@ jobs:
                 echo "No changes after conflict resolution, skipping commit"
                 git rebase --skip
               else
-                echo "Changes found, continuing rebase"
-                git rebase --continue
+                echo "Changes found, continuing rebase without editing commit message"
+                git -c core.editor=true rebase --continue
               fi
               
               # Break if rebase is complete
