@@ -16,7 +16,9 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\L10N\IFactory;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -38,6 +40,8 @@ class InstallerTest extends TestCase {
 	private $logger;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	private IAppManager&MockObject $appManager;
+	private IFactory&MockObject $l10nFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -47,18 +51,13 @@ class InstallerTest extends TestCase {
 		$this->tempManager = $this->createMock(ITempManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
 
 		$config = Server::get(IConfig::class);
 		$this->appstore = $config->setSystemValue('appstoreenabled', true);
 		$config->setSystemValue('appstoreenabled', true);
-		$installer = new Installer(
-			Server::get(AppFetcher::class),
-			Server::get(IClientService::class),
-			Server::get(ITempManager::class),
-			Server::get(LoggerInterface::class),
-			$config,
-			false
-		);
+		$installer = Server::get(Installer::class);
 		$installer->removeApp(self::$appid);
 	}
 
@@ -69,19 +68,14 @@ class InstallerTest extends TestCase {
 			$this->tempManager,
 			$this->logger,
 			$this->config,
+			$this->appManager,
+			$this->l10nFactory,
 			false
 		);
 	}
 
 	protected function tearDown(): void {
-		$installer = new Installer(
-			Server::get(AppFetcher::class),
-			Server::get(IClientService::class),
-			Server::get(ITempManager::class),
-			Server::get(LoggerInterface::class),
-			Server::get(IConfig::class),
-			false
-		);
+		$installer = Server::get(Installer::class);
 		$installer->removeApp(self::$appid);
 		Server::get(IConfig::class)->setSystemValue('appstoreenabled', $this->appstore);
 
@@ -93,14 +87,7 @@ class InstallerTest extends TestCase {
 		Server::get(IAppManager::class)->getAppVersion('testapp', true);
 
 		// Build installer
-		$installer = new Installer(
-			Server::get(AppFetcher::class),
-			Server::get(IClientService::class),
-			Server::get(ITempManager::class),
-			Server::get(LoggerInterface::class),
-			Server::get(IConfig::class),
-			false
-		);
+		$installer = Server::get(Installer::class);
 
 		// Extract app
 		$pathOfTestApp = __DIR__ . '/../data/testapp.zip';
@@ -158,6 +145,10 @@ class InstallerTest extends TestCase {
 			->expects($this->once())
 			->method('get')
 			->willReturn($appArray);
+		$this->appManager
+			->expects($this->exactly(2))
+			->method('getAppVersion')
+			->willReturn('1.0');
 
 		$installer = $this->getInstaller();
 		$this->assertSame($updateAvailable, $installer->isUpdateAvailable('files'));
@@ -699,6 +690,11 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 			->willReturn($client);
 		$this->assertTrue(file_exists(__DIR__ . '/../../apps/testapp/appinfo/info.xml'));
 		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
+
+		$this->appManager
+			->expects($this->once())
+			->method('getAppVersion')
+			->willReturn('0.9');
 
 		$installer = $this->getInstaller();
 		$installer->downloadApp('testapp');

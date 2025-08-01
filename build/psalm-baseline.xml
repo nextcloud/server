@@ -3993,15 +3993,6 @@
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Installer.php">
-    <InvalidArgument>
-      <code><![CDATA[false]]></code>
-      <code><![CDATA[false]]></code>
-    </InvalidArgument>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
-  </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
     <InvalidArrayAccess>
       <code><![CDATA[$x509->getDN(X509::DN_OPENSSL)['CN']]]></code>
@@ -4377,9 +4368,6 @@
     <InvalidArgument>
       <code><![CDATA[$groupsList]]></code>
     </InvalidArgument>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
     <InvalidArrayOffset>

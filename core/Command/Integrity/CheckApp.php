@@ -5,11 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Core\Command\Integrity;
 
 use OC\Core\Command\Base;
 use OC\IntegrityCheck\Checker;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OCP\App\IAppManager;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,7 +25,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CheckApp extends Base {
 	public function __construct(
 		private Checker $checker,
-		private AppLocator $appLocator,
 		private FileAccessHelper $fileAccessHelper,
 		private IAppManager $appManager,
 	) {
@@ -70,7 +69,7 @@ class CheckApp extends Base {
 		foreach ($appIds as $appId) {
 			$path = (string)$input->getOption('path');
 			if ($path === '') {
-				$path = $this->appLocator->getAppPath($appId);
+				$path = $this->appManager->getAppPath($appId);
 			}
 
 			if ($this->appManager->isShipped($appId) || $this->fileAccessHelper->file_exists($path . '/appinfo/signature.json')) {

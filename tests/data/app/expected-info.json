@@ -16,7 +16,6 @@
 		"admin": "admin-encryption"
 	},
 	"types": ["filesystem"],
-	"ocsid": "166047",
 	"dependencies": {
 		"php": {
 			"@attributes" : {

@@ -10,7 +10,6 @@ namespace OC\IntegrityCheck;
 
 use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
 use OC\IntegrityCheck\Exceptions\InvalidSignatureException;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
@@ -44,7 +43,6 @@ class Checker {
 		private ServerVersion $serverVersion,
 		private EnvironmentHelper $environmentHelper,
 		private FileAccessHelper $fileAccessHelper,
-		private AppLocator $appLocator,
 		private ?IConfig $config,
 		private ?IAppConfig $appConfig,
 		ICacheFactory $cacheFactory,
@@ -460,7 +458,7 @@ class Checker {
 	public function verifyAppSignature(string $appId, string $path = '', bool $forceVerify = false): array {
 		try {
 			if ($path === '') {
-				$path = $this->appLocator->getAppPath($appId);
+				$path = $this->appManager->getAppPath($appId);
 			}
 			$result = $this->verify(
 				$path . '/appinfo/signature.json',
@@ -545,7 +543,7 @@ class Checker {
 			$appNeedsToBeChecked = false;
 			if ($isShipped) {
 				$appNeedsToBeChecked = true;
-			} elseif ($this->fileAccessHelper->file_exists($this->appLocator->getAppPath($appId) . '/appinfo/signature.json')) {
+			} elseif ($this->fileAccessHelper->file_exists($this->appManager->getAppPath($appId) . '/appinfo/signature.json')) {
 				// Otherwise only if the application explicitly ships a signature.json file
 				$appNeedsToBeChecked = true;
 			}
