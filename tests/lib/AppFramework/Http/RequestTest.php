@@ -777,12 +777,12 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame($expected, $request->getHttpProtocol());
 	}
 
-	public function testGetServerProtocolWithOverride(): void {
+	public function testGetServerProtocolWithOverrideValid(): void {
 		$this->config
 			->expects($this->exactly(3))
 			->method('getSystemValueString')
 			->willReturnMap([
-				['overwriteprotocol', '', 'customProtocol'],
+				['overwriteprotocol', '', 'HTTPS'], // should be automatically lowercased
 				['overwritecondaddr', '', ''],
 			]);
 
@@ -794,7 +794,27 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$this->assertSame('customProtocol', $request->getServerProtocol());
+		$this->assertSame('https', $request->getServerProtocol());
+	}
+
+	public function testGetServerProtocolWithOverrideInValid(): void {
+		$this->config
+			->expects($this->exactly(3))
+			->method('getSystemValueString')
+			->willReturnMap([
+				['overwriteprotocol', '', 'bogusProtocol'], // should trigger fallback to http
+				['overwritecondaddr', '', ''],
+			]);
+
+		$request = new Request(
+			[],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('http', $request->getServerProtocol());
 	}
 
 	public function testGetServerProtocolWithProtoValid(): void {
