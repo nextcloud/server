@@ -57,7 +57,7 @@ class PhpOpcacheSetup implements ISetupCheck {
 		} elseif ($this->iniGetWrapper->getBool('opcache.file_cache_only')) {
 			$recommendations[] = $this->l10n->t('The shared memory based OPcache is disabled. For better performance, it is recommended to apply "opcache.file_cache_only=0" to your PHP configuration and use the file cache as second level cache only.');
 		} else {
-			// Check whether opcache_get_status has been explicitly disabled an in case skip usage based checks
+			// Check whether opcache_get_status has been explicitly disabled and in case skip usage based checks
 			$disabledFunctions = $this->iniGetWrapper->getString('disable_functions');
 			if (isset($disabledFunctions) && str_contains($disabledFunctions, 'opcache_get_status')) {
 				return [$level, $recommendations];
@@ -70,21 +70,19 @@ class PhpOpcacheSetup implements ISetupCheck {
 				$level = 'error';
 			}
 
-			// Recommend to raise value, if more than 90% of max value is reached
-			if (
-				empty($status['opcache_statistics']['max_cached_keys']) ||
-				($status['opcache_statistics']['num_cached_keys'] / $status['opcache_statistics']['max_cached_keys'] > 0.9)
-			) {
-				$recommendations[] = $this->l10n->t('The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be kept in the cache, it is recommended to apply "opcache.max_accelerated_files" to your PHP configuration with a value higher than "%s".', [($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') ?: 'currently')]);
+			// Check whether OPcache is full, which can be either the overall OPcache size or limit of cached keys reached.
+			// If the limit of cached keys has been reached, num_cached_keys equals max_cached_keys. The recommendation contains this value instead of opcache.max_accelerated_files, since the effective limit is a next higher prime number: https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.max-accelerated-files
+			// Else, the remaining $status['memory_usage']['free_memory'] was too low to store another script. Aside of used_memory, this can be also due to wasted_memory, remaining cache keys from scripts changed on disk.
+			// Wasted memory is cleared only via opcache_reset(), or if $status['memory_usage']['current_wasted_percentage'] reached opcache.max_wasted_percentage, which triggers an engine restart and hence OPcache reset. Due to this complexity, we check for $status['cache_full'] only.
+			if ($status['cache_full'] === true) {
+				if ($status['opcache_statistics']['num_cached_keys'] === $status['opcache_statistics']['max_cached_keys']) {
+					$recommendations[] = $this->l10n->t('The maximum number of OPcache keys is nearly exceeded. To assure that all scripts can be kept in the cache, it is recommended to apply "opcache.max_accelerated_files" to your PHP configuration with a value higher than "%s".', [($status['opcache_statistics']['max_cached_keys'] ?: 'currently')]);
+				} else {
+					$recommendations[] = $this->l10n->t('The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply "opcache.memory_consumption" to your PHP configuration with a value higher than "%s".', [($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently')]);
+				}
 			}
 
-			if (
-				empty($status['memory_usage']['free_memory']) ||
-				($status['memory_usage']['used_memory'] / $status['memory_usage']['free_memory'] > 9)
-			) {
-				$recommendations[] = $this->l10n->t('The OPcache buffer is nearly full. To assure that all scripts can be hold in cache, it is recommended to apply "opcache.memory_consumption" to your PHP configuration with a value higher than "%s".', [($this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?: 'currently')]);
-			}
-
+			// Interned strings buffer: recommend to raise size if more than 90% is used
 			$interned_strings_buffer = $this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') ?? 0;
 			$memory_consumption = $this->iniGetWrapper->getNumeric('opcache.memory_consumption') ?? 0;
 			if (
