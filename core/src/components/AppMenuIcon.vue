@@ -14,24 +14,25 @@
 </template>
 
 <script setup lang="ts">
-import type { INavigationEntry } from '../types/navigation'
+import type { INavigationEntry } from '../types/navigation.ts'
+
 import { n } from '@nextcloud/l10n'
 import { computed } from 'vue'
-
 import IconDot from 'vue-material-design-icons/CircleOutline.vue'
 
 const props = defineProps<{
 	app: INavigationEntry
 }>()
 
-const ariaHidden = computed(() => String(props.app.unread > 0))
+// only hide if there are no unread notifications
+const ariaHidden = computed(() => !props.app.unread ? 'true' : undefined)
 
 const ariaLabel = computed(() => {
-	if (ariaHidden.value === 'true') {
-		return ''
+	if (!props.app.unread) {
+		return undefined
 	}
-	return props.app.name
-		+ (props.app.unread > 0 ? ` (${n('core', '{count} notification', '{count} notifications', props.app.unread, { count: props.app.unread })})` : '')
+
+	return `${props.app.name} (${n('core', '{count} notification', '{count} notifications', props.app.unread, { count: props.app.unread })})`
 })
 </script>
 
