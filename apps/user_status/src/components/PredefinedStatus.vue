@@ -81,10 +81,19 @@ export default {
 		flex-basis: 100%;
 		border-radius: var(--border-radius);
 		align-items: center;
-		min-height: 44px;
+		min-height: var(--default-clickable-area);
+		padding-inline: var(--default-grid-baseline);
+
+		&, & * {
+			cursor: pointer;
+		}
+
+		&:hover {
+			background-color: var(--color-background-dark);
+		}
 
 		&--icon {
-			flex-basis: 40px;
+			flex-basis: var(--default-clickable-area);
 			text-align: center;
 		}
 
@@ -106,11 +115,13 @@ export default {
 	&__label:active {
 		outline: 2px solid var(--color-main-text);
 		box-shadow: 0 0 0 4px var(--color-main-background);
+		background-color: var(--color-background-dark);
 		border-radius: var(--border-radius-large);
 	}
 
 	&__input:focus-visible + &__label {
 		outline: 2px solid var(--color-primary-element) !important;
+		background-color: var(--color-background-dark);
 		border-radius: var(--border-radius-large);
 	}
 }

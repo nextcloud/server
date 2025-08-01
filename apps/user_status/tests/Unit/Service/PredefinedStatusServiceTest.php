@@ -26,7 +26,7 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	public function testGetDefaultStatuses(): void {
-		$this->l10n->expects($this->exactly(7))
+		$this->l10n->expects($this->exactly(8))
 			->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
@@ -50,6 +50,15 @@ class PredefinedStatusServiceTest extends TestCase {
 				'clearAt' => [
 					'type' => 'period',
 					'time' => 1800,
+				],
+			],
+			[
+				'id' => 'be-right-back',
+				'icon' => '⏳',
+				'message' => 'Be right back',
+				'clearAt' => [
+					'type' => 'period',
+					'time' => 900,
 				],
 			],
 			[
@@ -106,6 +115,7 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', '🤒'],
 			['vacationing', '🌴'],
 			['remote-work', '🏡'],
+			['be-right-back', '⏳'],
 			['call', '💬'],
 			['unknown-id', null],
 		];
@@ -127,6 +137,7 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', 'Out sick'],
 			['vacationing', 'Vacationing'],
 			['remote-work', 'Working remotely'],
+			['be-right-back', 'Be right back'],
 			['call', 'In a call'],
 			['unknown-id', null],
 		];
@@ -145,13 +156,14 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', true],
 			['vacationing', true],
 			['remote-work', true],
+			['be-right-back', true],
 			['call', true],
 			['unknown-id', false],
 		];
 	}
 
 	public function testGetDefaultStatusById(): void {
-		$this->l10n->expects($this->exactly(7))
+		$this->l10n->expects($this->exactly(8))
 			->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
