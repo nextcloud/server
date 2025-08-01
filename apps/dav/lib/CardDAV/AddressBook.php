@@ -157,7 +157,9 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	}
 
 	public function getChildren() {
-		$objs = $this->carddavBackend->getCards($this->addressBookInfo['id']);
+		$offset = $_SERVER['HTTP_X_NEXTCLOUD_OFFSET'];
+		$limit = $_SERVER['HTTP_X_NEXTCLOUD_LIMIT'];
+		$objs = $this->carddavBackend->getCards($this->addressBookInfo['id'], $offset, $limit);
 		$children = [];
 		foreach ($objs as $obj) {
 			$obj['acl'] = $this->getChildACL();
