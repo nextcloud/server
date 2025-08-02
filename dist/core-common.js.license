@@ -397,7 +397,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.17.21
 	- license: MIT
 - marked
-	- version: 15.0.12
+	- version: 16.1.1
 	- license: MIT
 - math-intrinsics
 	- version: 1.1.0
