@@ -8,10 +8,9 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\Config;
 
-use OC\Config\ConfigManager;
+use OC\Config\PresetManager;
 use OC\Core\Command\Base;
 use OCP\Config\Lexicon\Preset as ConfigLexiconPreset;
-use OCP\IConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,8 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Preset extends Base {
 	public function __construct(
-		private readonly IConfig $config,
-		private readonly ConfigManager $configManager,
+		private readonly PresetManager $presetManager,
 	) {
 		parent::__construct();
 	}
@@ -49,10 +47,10 @@ class Preset extends Base {
 				return self::INVALID;
 			}
 
-			$this->configManager->setLexiconPreset($preset);
+			$this->presetManager->setLexiconPreset($preset);
 		}
 
-		$current = ConfigLexiconPreset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? ConfigLexiconPreset::NONE;
+		$current = $this->presetManager->getLexiconPreset();
 		$this->writeArrayInOutputFormat($input, $output, [$current->name], 'current preset: ');
 		return self::SUCCESS;
 	}
