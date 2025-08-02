@@ -94,7 +94,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.28.0
 	- license: AGPL-3.0-or-later
 - @simplewebauthn/browser
-	- version: 13.1.0
+	- version: 13.1.2
 	- license: MIT
 - @vueuse/core
 	- version: 11.3.0
@@ -103,7 +103,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.9.0
+	- version: 1.11.0
 	- license: MIT
 - backbone
 	- version: 1.6.1
@@ -169,7 +169,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - query-string
-	- version: 9.2.0
+	- version: 9.2.2
 	- license: MIT
 - safe-buffer
 	- version: 5.2.1
@@ -205,7 +205,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.99.9
+	- version: 5.101.0
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
