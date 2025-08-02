@@ -210,5 +210,11 @@ class AddMissingIndicesListener implements IEventListener {
 			'systag_objecttype',
 			['objecttype']
 		);
+
+		$event->addMissingUniqueIndex(
+			'vcategory',
+			'unique_category_per_user',
+			['uid', 'type', 'category']
+		);
 	}
 }

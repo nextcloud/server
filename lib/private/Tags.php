@@ -268,15 +268,17 @@ class Tags implements ITags {
 	public function add(string $name) {
 		$name = trim($name);
 
-		if ($name === '') {
+		if (empty($name)) {
 			$this->logger->debug(__METHOD__ . ' Cannot add an empty tag', ['app' => 'core']);
 			return false;
 		}
+
+		// Prevent duplicate
 		if ($this->userHasTag($name, $this->user)) {
-			// TODO use unique db properties instead of an additional check
 			$this->logger->debug(__METHOD__ . ' Tag with name already exists', ['app' => 'core']);
 			return false;
 		}
+
 		try {
 			$tag = new Tag($this->user, $this->type, $name);
 			$tag = $this->mapper->insert($tag);
@@ -288,6 +290,7 @@ class Tags implements ITags {
 			]);
 			return false;
 		}
+
 		$this->logger->debug(__METHOD__ . ' Added an tag with ' . $tag->getId(), ['app' => 'core']);
 		return $tag->getId();
 	}
@@ -303,7 +306,7 @@ class Tags implements ITags {
 		$from = trim($from);
 		$to = trim($to);
 
-		if ($to === '' || $from === '') {
+		if (empty($to) || empty($from)) {
 			$this->logger->debug(__METHOD__ . 'Cannot use an empty tag names', ['app' => 'core']);
 			return false;
 		}
@@ -313,12 +316,14 @@ class Tags implements ITags {
 		} else {
 			$key = $this->getTagByName($from);
 		}
+
 		if ($key === false) {
 			$this->logger->debug(__METHOD__ . 'Tag ' . $from . 'does not exist', ['app' => 'core']);
 			return false;
 		}
 		$tag = $this->tags[$key];
 
+		// Prevent duplicate
 		if ($this->userHasTag($to, $tag->getOwner())) {
 			$this->logger->debug(__METHOD__ . 'A tag named' . $to . 'already exists for user' . $tag->getOwner(), ['app' => 'core']);
 			return false;
@@ -355,7 +360,7 @@ class Tags implements ITags {
 
 		$newones = [];
 		foreach ($names as $name) {
-			if (!$this->hasTag($name) && $name !== '') {
+			if (!$this->hasTag($name) && !empty($name)) {
 				$newones[] = new Tag($this->user, $this->type, $name);
 			}
 			if (!is_null($id)) {
@@ -504,13 +509,15 @@ class Tags implements ITags {
 	public function tagAs($objid, $tag, string $path = '') {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
-			if ($tag === '') {
+			if (empty($tag)) {
 				$this->logger->debug(__METHOD__ . ', Cannot add an empty tag');
 				return false;
 			}
+
 			if (!$this->hasTag($tag)) {
 				$this->add($tag);
 			}
+
 			$tagId = $this->getTagId($tag);
 		} else {
 			$tagId = $tag;
@@ -547,7 +554,7 @@ class Tags implements ITags {
 	public function unTag($objid, $tag, string $path = '') {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
-			if ($tag === '') {
+			if (empty($tag)) {
 				$this->logger->debug(__METHOD__ . ', Tag name is empty');
 				return false;
 			}
