@@ -11,6 +11,7 @@ namespace OCA\DAV\CalDAV\AppCalendar;
 
 use OCA\DAV\CalDAV\CachedSubscriptionImpl;
 use OCA\DAV\CalDAV\CalendarImpl;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarImpl;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCP\Calendar\IManager;
@@ -51,7 +52,11 @@ class AppCalendarPlugin implements ICalendarProvider {
 		return array_values(
 			array_filter($this->manager->getCalendarsForPrincipal($principalUri, $calendarUris), function ($c) {
 				// We must not provide a wrapper for DAV calendars
-				return ! (($c instanceof CalendarImpl) || ($c instanceof CachedSubscriptionImpl));
+				return !(
+					($c instanceof CalendarImpl)
+					|| ($c instanceof CachedSubscriptionImpl)
+					|| ($c instanceof FederatedCalendarImpl)
+				);
 			})
 		);
 	}

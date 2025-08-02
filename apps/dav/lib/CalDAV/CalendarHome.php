@@ -8,6 +8,8 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CalDAV\Federation\FederatedCalendar;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
@@ -37,6 +39,8 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 	/** @var PluginManager */
 	private $pluginManager;
+
+	private readonly FederatedCalendarMapper $federatedCalendarMapper;
 	private ?array $cachedChildren = null;
 
 	public function __construct(
@@ -48,6 +52,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		parent::__construct($caldavBackend, $principalInfo);
 		$this->l10n = \OC::$server->getL10N('dav');
 		$this->config = Server::get(IConfig::class);
+		$this->federatedCalendarMapper = Server::get(FederatedCalendarMapper::class);
 		$this->pluginManager = new PluginManager(
 			\OC::$server,
 			Server::get(IAppManager::class)
@@ -102,6 +107,20 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 		if ($this->caldavBackend instanceof CalDavBackend) {
 			$objects[] = new TrashbinHome($this->caldavBackend, $this->principalInfo);
+
+			$federatedCalendars = $this->caldavBackend->getFederatedCalendarsForUser(
+				$this->principalInfo['uri'],
+			);
+			foreach ($federatedCalendars as $federatedCalendarInfo) {
+				$objects[] = new FederatedCalendar(
+					$this->caldavBackend,
+					$federatedCalendarInfo,
+					$this->l10n,
+					$this->config,
+					$this->logger,
+					$this->federatedCalendarMapper,
+				);
+			}
 		}
 
 		// If the backend supports subscriptions, we'll add those as well,
@@ -147,12 +166,28 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			return new TrashbinHome($this->caldavBackend, $this->principalInfo);
 		}
 
-		// Calendar - this covers all "regular" calendars, but not shared
-		// only check if the method is available
+		// Only check if the methods are available
 		if ($this->caldavBackend instanceof CalDavBackend) {
+			// Calendar - this covers all "regular" calendars, but not shared
 			$calendar = $this->caldavBackend->getCalendarByUri($this->principalInfo['uri'], $name);
 			if (!empty($calendar)) {
 				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
+			}
+
+			// Federated calendar
+			$federatedCalendar = $this->caldavBackend->getFederatedCalendarByUri(
+				$this->principalInfo['uri'],
+				$name,
+			);
+			if ($federatedCalendar !== null) {
+				return new FederatedCalendar(
+					$this->caldavBackend,
+					$federatedCalendar,
+					$this->l10n,
+					$this->config,
+					$this->logger,
+					$this->federatedCalendarMapper,
+				);
 			}
 		}
 

@@ -10,6 +10,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
@@ -71,6 +72,7 @@ $calDavBackend = new CalDavBackend(
 	$dispatcher,
 	$config,
 	Server::get(\OCA\DAV\CalDAV\Sharing\Backend::class),
+	Server::get(FederatedCalendarMapper::class),
 	true
 );
 

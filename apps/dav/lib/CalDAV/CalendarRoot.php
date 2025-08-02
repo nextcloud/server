@@ -7,6 +7,10 @@
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\CalDAV\Federation\RemoteUserCalendarHome;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
+use OCP\IConfig;
+use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend;
 use Sabre\DAVACL\PrincipalBackend;
@@ -19,11 +23,24 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 		Backend\BackendInterface $caldavBackend,
 		$principalPrefix,
 		private LoggerInterface $logger,
+		private IL10N $l10n,
+		private IConfig $config,
 	) {
 		parent::__construct($principalBackend, $caldavBackend, $principalPrefix);
 	}
 
 	public function getChildForPrincipal(array $principal) {
+		[$prefix] = \Sabre\Uri\split($principal['uri']);
+		if ($prefix === RemoteUserPrincipalBackend::PRINCIPAL_PREFIX) {
+			return new RemoteUserCalendarHome(
+				$this->caldavBackend,
+				$principal,
+				$this->l10n,
+				$this->config,
+				$this->logger,
+			);
+		}
+
 		return new CalendarHome(
 			$this->caldavBackend,
 			$principal,
@@ -38,6 +55,10 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 			$parts = explode('/', $this->principalPrefix);
 
 			return $parts[1];
+		}
+
+		if ($this->principalPrefix === RemoteUserPrincipalBackend::PRINCIPAL_PREFIX) {
+			return 'remote-calendars';
 		}
 
 		return parent::getName();
