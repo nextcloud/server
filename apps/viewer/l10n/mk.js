@@ -9,6 +9,8 @@ OC.L10N.register(
     "Your browser does not support videos." : "Вашиот прелистувач не поддржува видео.",
     "There is no plugin available to display this file type" : "Нема достапен додаток за приказ на овој вид на датотека",
     "Edit" : "Уреди",
+    "Exit full screen" : "Излез од цел екран",
+    "Full screen" : "Цел екран",
     "Open sidebar" : "Отвори странична лента",
     "Download" : "Преземи",
     "Delete" : "Избриши",
