@@ -21,7 +21,6 @@
     "There was an error saving the status" : "Wystąpił błąd podczas zapisywania statusu",
     "There was an error clearing the status" : "Wystąpił błąd podczas usuwania statusu",
     "There was an error reverting the status" : "Podczas przywracania statusu wystąpił błąd",
-    "Set status" : "Ustaw status",
     "Online status" : "Status online",
     "Status message" : "Komunikat statusu",
     "Set absence period" : "Ustaw okres nieobecności",
@@ -37,10 +36,12 @@
     "Do not disturb" : "Nie przeszkadzać",
     "Invisible" : "Niewidoczny",
     "Offline" : "Offline",
+    "Set status" : "Ustaw status",
     "There was an error saving the new status" : "Wystąpił błąd podczas zapisywania nowego statusu",
     "30 minutes" : "30 minut",
     "1 hour" : "1 godzina",
     "4 hours" : "4 godziny",
+    "Busy" : "Brak dostępności",
     "Mute all notifications" : "Wycisz wszystkie powiadomienia",
     "Appear offline" : "Widnieje jako offline"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"

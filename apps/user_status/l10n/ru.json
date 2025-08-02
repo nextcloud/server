@@ -21,7 +21,6 @@
     "There was an error saving the status" : "Произошла ошибка при сохранении статуса",
     "There was an error clearing the status" : "Произошла ошибка при удалении статуса",
     "There was an error reverting the status" : "Произошла ошибка при сбросе статуса",
-    "Set status" : "Установить статус",
     "Online status" : "Онлайн статус",
     "Status message" : "Описание статуса",
     "Set absence period" : "Задать период отсутствия",
@@ -37,10 +36,12 @@
     "Do not disturb" : "Не беспокоить",
     "Invisible" : "Невидимый",
     "Offline" : "Не в сети",
+    "Set status" : "Установить статус",
     "There was an error saving the new status" : "Произошла ошибка при сохранении нового статуса",
     "30 minutes" : "30 минут",
     "1 hour" : "1 час",
     "4 hours" : "4 часа",
+    "Busy" : "Занят",
     "Mute all notifications" : "Отключить все уведомления",
     "Appear offline" : "\"Не в сети\" для остальных"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
