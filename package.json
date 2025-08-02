@@ -136,7 +136,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/user-event": "^14.6.1",
     "@testing-library/vue": "^5.8.3",
-    "@types/dockerode": "^3.3.38",
+    "@types/dockerode": "^3.3.42",
     "@types/wait-on": "^5.3.4",
     "@vitejs/plugin-vue2": "^2.3.3",
     "@vitest/coverage-v8": "^3.2.3",
