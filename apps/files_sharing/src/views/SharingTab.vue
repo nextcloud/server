@@ -243,8 +243,7 @@ export default {
 		 * @return {boolean}
 		 */
 		isSharedWithMe() {
-			return this.sharedWithMe !== null
-				&& this.sharedWithMe !== undefined
+			return !!this.sharedWithMe?.user
 		},
 
 		/**
