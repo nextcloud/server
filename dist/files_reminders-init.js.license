@@ -82,7 +82,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.9.0
+	- version: 1.11.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -151,7 +151,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.99.9
+	- version: 5.101.0
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -199,7 +199,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.9.0
+	- version: 1.11.0
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -538,7 +538,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.13.0
 	- license: BSD-3-Clause
 - query-string
-	- version: 9.2.0
+	- version: 9.2.2
 	- license: MIT
 - querystringify
 	- version: 2.2.0
