@@ -197,6 +197,7 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('templates_enabled', ($this->config->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton') !== '') || ($this->config->getSystemValueString('templatedirectory', \OC::$SERVERROOT . '/core/skeleton/Templates') !== ''));
 		$this->initialState->provideInitialState('templates_path', $this->templateManager->hasTemplateDirectory() ? $this->templateManager->getTemplatePath() : false);
 		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
+		$this->initialState->provideInitialState('integration_local_client_enabled', ($this->config->getSystemValueBool('web_ui_integration_local_client_enabled', true)));
 
 		$isTwoFactorEnabled = false;
 		foreach ($this->twoFactorRegistry->getProviderStates($user) as $providerId => $providerState) {

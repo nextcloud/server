@@ -2740,4 +2740,11 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'enable_lazy_objects' => true,
+
+/**
+ * Enables web UI integration with local client.
+ *
+ * Defaults to ``true``
+ */
+'web_ui_integration_local_client_enabled' => true,
 ];
