@@ -17,7 +17,7 @@ describe('Open sidebar action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('details')
-		expect(action.displayName([], view)).toBe('Open details')
+		expect(action.displayName([], view)).toBe('Details')
 		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-50)

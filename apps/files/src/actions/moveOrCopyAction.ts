@@ -158,7 +158,6 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 							}
 						} catch (error) {
 							// User cancelled
-							showError(t('files', 'Move cancelled'))
 							return
 						}
 					}
@@ -330,7 +329,6 @@ export const action = new FileAction({
 			return false
 		}
 		if (result === false) {
-			showInfo(t('files', 'Cancelled move or copy of "{filename}".', { filename: node.displayname }))
 			return null
 		}
 
@@ -352,10 +350,6 @@ export const action = new FileAction({
 		const result = await openFilePickerForAction(action, dir, nodes)
 		// Handle cancellation silently
 		if (result === false) {
-			showInfo(nodes.length === 1
-				? t('files', 'Cancelled move or copy of "{filename}".', { filename: nodes[0].displayname })
-				: t('files', 'Cancelled move or copy operation'),
-			)
 			return nodes.map(() => null)
 		}
 

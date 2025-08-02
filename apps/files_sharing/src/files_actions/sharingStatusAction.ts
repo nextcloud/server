@@ -53,7 +53,7 @@ export const action = new FileAction({
 		const sharees = node.attributes.sharees?.sharee as { id: string, 'display-name': string, type: ShareType }[] | undefined
 		if (!sharees) {
 			// No sharees so just show the default message to create a new share
-			return t('files_sharing', 'Show sharing options')
+			return t('files_sharing', 'Sharing options')
 		}
 
 		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate

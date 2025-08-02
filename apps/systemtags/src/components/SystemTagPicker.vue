@@ -89,7 +89,7 @@
 			<!-- Note -->
 			<div class="systemtags-picker__note">
 				<NcNoteCard v-if="!hasChanges" type="info">
-					{{ canEditOrCreateTag ? t('systemtags', 'Select or create tags to apply to all selected files'): t('systemtags', 'Select tags to apply to all selected files') }}
+					{{ t('systemtags', 'Choose tags for the selected files') }}
 				</NcNoteCard>
 				<NcNoteCard v-else type="info">
 					<span v-html="statusMessage" />
@@ -107,7 +107,7 @@
 			<NcButton :disabled="!hasChanges || status !== Status.BASE"
 				data-cy-systemtags-picker-button-submit
 				@click="onSubmit">
-				{{ t('systemtags', 'Apply changes') }}
+				{{ t('systemtags', 'Apply') }}
 			</NcButton>
 		</template>
 
@@ -131,7 +131,6 @@ import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLanguage, n, t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
-import { showError, showInfo } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 import domPurify from 'dompurify'
 import escapeHTML from 'escape-html'
@@ -547,7 +546,6 @@ export default defineComponent({
 
 		onCancel() {
 			this.opened = false
-			showInfo(t('systemtags', 'File tags modification canceled'))
 			this.$emit('close', null)
 		},
 
