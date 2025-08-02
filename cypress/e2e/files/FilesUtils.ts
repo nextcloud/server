@@ -48,7 +48,8 @@ export const triggerActionForFileId = (fileid: number, actionId: string) => {
 	// Even if it's inline, we open the action menu to get all actions visible
 	getActionButtonForFileId(fileid).click({ force: true })
 	// wait for the actions menu to be visible
-	cy.findByRole('menu').findAllByRole('menuitem').first().should('be.visible')
+	cy.findByRole('menu', { timeout: 5000 })
+		.findAllByRole('menuitem', { timeout: 5000 }).first().should('be.visible')
 	getActionEntryForFileId(fileid, actionId)
 		.find('button').last().as('actionButton')
 		.scrollIntoView()
@@ -60,7 +61,8 @@ export const triggerActionForFile = (filename: string, actionId: string) => {
 	// Even if it's inline, we open the action menu to get all actions visible
 	getActionButtonForFile(filename).click({ force: true })
 	// wait for the actions menu to be visible
-	cy.findByRole('menu').findAllByRole('menuitem').first().should('be.visible')
+	cy.findByRole('menu', { timeout: 5000 })
+		.findAllByRole('menuitem', { timeout: 5000 }).first().should('be.visible')
 	getActionEntryForFile(filename, actionId)
 		.find('button').last().as('actionButton')
 		.scrollIntoView()
