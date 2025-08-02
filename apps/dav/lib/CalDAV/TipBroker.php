@@ -101,7 +101,11 @@ class TipBroker extends Broker {
 				$message->method = $icalMsg->METHOD = 'CANCEL';
 				$message->significantChange = true;
 				// clone base event
-				$event = clone $eventInfo['instances']['master'];
+				if (isset($eventInfo['instances']['master'])) {
+					$event = clone $eventInfo['instances']['master'];
+				} else {
+					$event = clone $oldEventInfo['instances']['master'];
+				}
 				// alter some properties
 				unset($event->ATTENDEE);
 				$event->add('ATTENDEE', $attendee['href'], ['CN' => $attendee['name'],]);
