@@ -368,6 +368,7 @@ OC.L10N.register(
     "No favorites yet" : "Noch keine Favoriten vorhanden",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die als Favoriten markiert werden, erscheinen hier",
     "List of your files and folders." : "Liste deiner Dateien und Ordner",
+    "Folder tree" : "Ordnerbaum",
     "List of your files and folders that are not shared." : "Liste deiner Dateien und Ordner, die nicht geteilt wurden.",
     "No personal files found" : "Keine persönlichen Dateien gefunden",
     "Files that are not shared will show up here." : "Dateien, die nicht geteilt wurden, werden hier angezeigt.",

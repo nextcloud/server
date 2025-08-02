@@ -93,6 +93,7 @@ OC.L10N.register(
     "Yes" : "Да",
     "Failed to add the public link to your Nextcloud" : "Неуспешно додавање на јавниот линк",
     "Create share" : "Ново споделување",
+    "Direct link copied to clipboard" : "Линкот е копиран во клипборд",
     "Pick start date" : "Избери почетен датум",
     "Pick end date" : "Избери краен датум",
     "Search everywhere" : "Барај насекаде",
