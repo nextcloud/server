@@ -11,6 +11,7 @@ use OCP\Activity\ActivitySettings;
 use OCP\Activity\Exceptions\FilterNotFoundException;
 use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\Activity\Exceptions\SettingNotFoundException;
+use OCP\Activity\IBulkConsumer;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IFilter;
@@ -106,7 +107,7 @@ class Manager implements IManager {
 			$event->setTimestamp(time());
 		}
 
-		if (!$event->isValid()) {
+		if ($event->getAffectedUser() === '' || !$event->isValid()) {
 			throw new IncompleteActivityException('The given event is invalid');
 		}
 
@@ -114,6 +115,40 @@ class Manager implements IManager {
 			$c->receive($event);
 		}
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function bulkPublish(IEvent $event, array $affectedUserIds, ISetting $setting): void {
+		if (empty($affectedUserIds)) {
+			throw new IncompleteActivityException('The given event is invalid');
+		}
+
+		if ($event->getAuthor() === '') {
+			if ($this->session->getUser() instanceof IUser) {
+				$event->setAuthor($this->session->getUser()->getUID());
+			}
+		}
+
+		if (!$event->getTimestamp()) {
+			$event->setTimestamp(time());
+		}
+
+		if (!$event->isValid()) {
+			throw new IncompleteActivityException('The given event is invalid');
+		}
+
+		foreach ($this->getConsumers() as $c) {
+			if ($c instanceof IBulkConsumer) {
+				$c->bulkReceive($event, $affectedUserIds, $setting);
+			}
+			foreach ($affectedUserIds as $affectedUserId) {
+				$event->setAffectedUser($affectedUserId);
+				$c->receive($event);
+			}
+		}
+	}
+
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case
