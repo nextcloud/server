@@ -1027,7 +1027,7 @@ class AppConfig implements IAppConfig {
 			if ($lazy === $this->isLazy($app, $key)) {
 				return false;
 			}
-		} catch (AppConfigUnknownKeyException $e) {
+		} catch (AppConfigUnknownKeyException) {
 			return false;
 		}
 
@@ -1722,6 +1722,12 @@ class AppConfig implements IAppConfig {
 		}
 		if ($lexiconEntry->isDeprecated()) {
 			$this->logger->notice('App config key ' . $app . '/' . $key . ' is set as deprecated.');
+		}
+
+		if ($lazy && isset($this->fastCache[$app][$key])) {
+			// while the Lexicon indicate that the config value is expected Lazy, we could
+			// have a previous entry still in fast cache. Updating Laziness.
+			$this->updateLazy($app, $key, true);
 		}
 
 		return true;
