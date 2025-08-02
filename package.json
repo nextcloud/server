@@ -150,7 +150,7 @@
     "cypress-axe": "^1.6.0",
     "cypress-delete-downloads-folder": "^0.0.6",
     "cypress-if": "^1.13.2",
-    "cypress-split": "^1.24.18",
+    "cypress-split": "^1.24.20",
     "cypress-wait-until": "^3.0.2",
     "dockerode": "^4.0.7",
     "eslint-plugin-cypress": "^3.6.0",
