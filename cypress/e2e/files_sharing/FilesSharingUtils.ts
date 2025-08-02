@@ -30,6 +30,10 @@ export function createShare(fileName: string, username: string, shareSettings: P
 
 	// HACK: Save the share and then update it, as permissions changes are currently not saved for new share.
 	cy.get('[data-cy-files-sharing-share-editor-action="save"]').click({ scrollBehavior: 'nearest' })
+
+	// Success message is shown
+	cy.get('.toastify.toast-success').contains(/Share.+Saved/i).should('exist')
+
 	updateShare(fileName, 0, shareSettings)
 }
 
