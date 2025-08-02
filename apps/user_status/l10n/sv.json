@@ -21,7 +21,6 @@
     "There was an error saving the status" : "Ett fel inträffade när statusen skulle ändras",
     "There was an error clearing the status" : "Ett fel inträffade när statusen skulle rensas",
     "There was an error reverting the status" : "Det gick inte att återställa statusen",
-    "Set status" : "Sätt status",
     "Online status" : "Online-status",
     "Status message" : "Statusmeddelande",
     "Set absence period" : "Ställ in frånvaroperiod",
@@ -37,10 +36,12 @@
     "Do not disturb" : "Stör ej",
     "Invisible" : "Osynlig",
     "Offline" : "Frånkopplad",
+    "Set status" : "Sätt status",
     "There was an error saving the new status" : "Ett fel inträffade när den nya statusen skulle sparas",
     "30 minutes" : "30 minuter",
     "1 hour" : "1 timme",
     "4 hours" : "4 timmar",
+    "Busy" : "Upptagen",
     "Mute all notifications" : "Dölj alla aviseringar",
     "Appear offline" : "Visa som frånkopplad"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -368,6 +368,7 @@ OC.L10N.register(
     "No favorites yet" : "尚無喜愛",
     "Files and folders you mark as favorite will show up here" : "您標記為喜愛的檔案與資料夾將會顯示在這裡",
     "List of your files and folders." : "您的檔案與資料夾清單。",
+    "Folder tree" : "資料夾樹",
     "List of your files and folders that are not shared." : "未分享的檔案與資料夾清單。",
     "No personal files found" : "找不到個人檔案",
     "Files that are not shared will show up here." : "尚未分享的檔案將會顯示在此處。",

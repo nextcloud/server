@@ -21,7 +21,6 @@
     "There was an error saving the status" : "Errore bat gertatu da egoera gordetzean",
     "There was an error clearing the status" : "Errore bat gertatu da egoera garbitzean",
     "There was an error reverting the status" : "Errore bat gertatu da egoera berrezartzean",
-    "Set status" : "Ezarri egoera",
     "Online status" : "Lineako egoera",
     "Status message" : "Egoera-mezua",
     "Set absence period" : "Ezarri absentzia aldia",
@@ -37,10 +36,12 @@
     "Do not disturb" : "Ez molestatu",
     "Invisible" : "Ikusezina",
     "Offline" : "Lineaz kanpo",
+    "Set status" : "Ezarri egoera",
     "There was an error saving the new status" : "Errore bat gertatu da egoera berria gordetzean",
     "30 minutes" : "30 minutu",
     "1 hour" : "Ordu 1",
     "4 hours" : "4 ordu",
+    "Busy" : "Lanpetua",
     "Mute all notifications" : "Mututu jakinarazpen guztiak",
     "Appear offline" : "Lineaz kanpo agertu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -27,7 +27,7 @@
     "{user} deleted an encrypted file in {file}" : "{user} heeft een versleuteld bestand gewist in {file}",
     "You restored {file}" : "Je herstelde {file}",
     "{user} restored {file}" : "{user} herstelde {file}",
-    "You renamed {oldfile} (hidden) to {newfile} (hidden)" : "Je hernoemde {oldfile} (verborgen) naar {newfile}",
+    "You renamed {oldfile} (hidden) to {newfile} (hidden)" : "Je hernoemde {oldfile} (verborgen) naar {newfile}(verborgen)",
     "You renamed {oldfile} (hidden) to {newfile}" : "Je hernoemde {oldfile} (verborgen) naar {newfile}",
     "You renamed {oldfile} to {newfile} (hidden)" : "Je hernoemde {oldfile} naar {newfile} (verborgen)",
     "You renamed {oldfile} to {newfile}" : "Je hernoemde {oldfile} naar {newfile}",
