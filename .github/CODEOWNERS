@@ -103,3 +103,5 @@ ResponseDefinitions.php             @provokateurin @nextcloud/server-backend
 # Personal interest
 */Activity/*                                     @nickvergessen @nextcloud/server-backend
 */Notifications/*                                @nickvergessen @nextcloud/talk-backend
+/apps/workflowengine/lib                         @nickvergessen
+
