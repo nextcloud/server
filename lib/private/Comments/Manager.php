@@ -359,38 +359,6 @@ class Manager implements ICommentsManager {
 	/**
 	 * @param string $objectType the object type, e.g. 'files'
 	 * @param string $objectId the id of the object
-	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
-	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
-	 * @param int $limit optional, number of maximum comments to be returned. if
-	 *                   set to 0, all comments are returned.
-	 * @param bool $includeLastKnown
-	 * @param string $topmostParentId Limit the comments to a list of replies and its original root comment
-	 * @return list<IComment>
-	 */
-	public function getForObjectSince(
-		string $objectType,
-		string $objectId,
-		int $lastKnownCommentId,
-		string $sortDirection = 'asc',
-		int $limit = 30,
-		bool $includeLastKnown = false,
-		string $topmostParentId = '',
-	): array {
-		return $this->getCommentsWithVerbForObjectSinceComment(
-			$objectType,
-			$objectId,
-			[],
-			$lastKnownCommentId,
-			$sortDirection,
-			$limit,
-			$includeLastKnown,
-			$topmostParentId,
-		);
-	}
-
-	/**
-	 * @param string $objectType the object type, e.g. 'files'
-	 * @param string $objectId the id of the object
 	 * @param string[] $verbs List of verbs to filter by
 	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
@@ -699,22 +667,6 @@ class Manager implements ICommentsManager {
 	 * @param string $objectType
 	 * @param string $objectId
 	 * @param int $lastRead
-	 * @param string $verb
-	 * @return int
-	 * @since 21.0.0
-	 */
-	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int {
-		if ($verb !== '') {
-			return $this->getNumberOfCommentsWithVerbsForObjectSinceComment($objectType, $objectId, $lastRead, [$verb]);
-		}
-
-		return $this->getNumberOfCommentsWithVerbsForObjectSinceComment($objectType, $objectId, $lastRead, []);
-	}
-
-	/**
-	 * @param string $objectType
-	 * @param string $objectId
-	 * @param int $lastRead
 	 * @param string[] $verbs
 	 * @return int
 	 * @since 24.0.0
@@ -803,30 +755,6 @@ class Manager implements ICommentsManager {
 		$result->closeCursor();
 
 		return $lastComments;
-	}
-
-	/**
-	 * Get the number of unread comments for all files in a folder
-	 *
-	 * This is unused since 8bd39fccf411195839f2dadee085fad18ec52c23
-	 *
-	 * @param int $folderId
-	 * @param IUser $user
-	 * @return array [$fileId => $unreadCount]
-	 */
-	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
-		$directory = $this->rootFolder->getFirstNodeById($folderId);
-		if (!$directory instanceof Folder) {
-			return [];
-		}
-		$children = $directory->getDirectoryListing();
-		$ids = array_map(fn (FileInfo $child) => (string)$child->getId(), $children);
-
-		$ids[] = (string)$directory->getId();
-		$counts = $this->getNumberOfUnreadCommentsForObjects('files', $ids, $user);
-		return array_filter($counts, function (int $count) {
-			return $count > 0;
-		});
 	}
 
 	/**
