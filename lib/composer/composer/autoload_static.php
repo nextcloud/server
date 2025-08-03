@@ -1228,6 +1228,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Info\\File' => __DIR__ . '/../../..' . '/core/Command/Info/File.php',
         'OC\\Core\\Command\\Info\\FileUtils' => __DIR__ . '/../../..' . '/core/Command/Info/FileUtils.php',
         'OC\\Core\\Command\\Info\\Space' => __DIR__ . '/../../..' . '/core/Command/Info/Space.php',
+        'OC\\Core\\Command\\Info\\Storage' => __DIR__ . '/../../..' . '/core/Command/Info/Storage.php',
+        'OC\\Core\\Command\\Info\\Storages' => __DIR__ . '/../../..' . '/core/Command/Info/Storages.php',
         'OC\\Core\\Command\\Integrity\\CheckApp' => __DIR__ . '/../../..' . '/core/Command/Integrity/CheckApp.php',
         'OC\\Core\\Command\\Integrity\\CheckCore' => __DIR__ . '/../../..' . '/core/Command/Integrity/CheckCore.php',
         'OC\\Core\\Command\\Integrity\\SignApp' => __DIR__ . '/../../..' . '/core/Command/Integrity/SignApp.php',
