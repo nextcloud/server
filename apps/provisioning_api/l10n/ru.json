@@ -11,6 +11,7 @@
     "Invalid password value" : "Некорректное значение пароля",
     "An email address is required, to send a password link to the user." : "Требуется адрес электронной почты для отправки ссылки на установку пароля пользователю.",
     "Required email address was not provided" : "Не указан обязательный адрес электронной почты",
+    "User creation failed" : "Не удалось создать пользователя",
     "Invalid quota value: %1$s" : "Недопустимое значение квоты: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Недопустимое значение квоты.%1$s превышает максимальное значение",
     "Unlimited quota is forbidden on this instance" : "Безлимитная квота запрещена в этом инстансе",

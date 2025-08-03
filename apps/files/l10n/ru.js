@@ -368,6 +368,7 @@ OC.L10N.register(
     "No favorites yet" : "В избранное ещё ничего не добавлено ",
     "Files and folders you mark as favorite will show up here" : "Здесь будут показаны файлы и каталоги, отмеченные как избранные",
     "List of your files and folders." : "Список ваших файлов и каталогов.",
+    "Folder tree" : "Дерево папок",
     "List of your files and folders that are not shared." : "Список ваших неопубликованных файлов и папок.",
     "No personal files found" : "Личные файлы не найдены",
     "Files that are not shared will show up here." : "Файлы, которые не опубликованы, показаны здесь.",
