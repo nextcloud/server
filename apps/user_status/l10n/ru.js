@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Вне офиса",
     "Working remotely" : "Удалённо",
     "In a call" : "В вызове",
+    "Be right back" : "Скоро вернусь",
     "User status" : "Статус пользователя",
     "Clear status after" : "Очистить статус после",
     "Emoji for your status message" : "Эмодзи для вашего сообщения к статусу",

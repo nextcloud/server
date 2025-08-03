@@ -97,6 +97,7 @@ OC.L10N.register(
     "is" : "is",
     "is not" : "is not",
     "File name" : "File name",
+    "Directory" : "Directory",
     "File MIME type" : "File MIME type",
     "File size (upload)" : "File size (upload)",
     "less" : "less",

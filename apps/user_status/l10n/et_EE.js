@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Kontorist väljas",
     "Working remotely" : "Kaugtööl",
     "In a call" : "Kõnes",
+    "Be right back" : "Kohe jõuan tagasi",
     "User status" : "Kasutaja olek",
     "Clear status after" : "Eemalda olekuteade peale",
     "Emoji for your status message" : "Sinu olekuteate emoji",

@@ -368,6 +368,7 @@ OC.L10N.register(
     "No favorites yet" : "Bado hakuna vinavyopendwa",
     "Files and folders you mark as favorite will show up here" : "Faili na visunduku ulivyoweka alama kama vipendwa vitaonekana hapa",
     "List of your files and folders." : "Orodha ya faili na vikasha vyako",
+    "Folder tree" : "Mti wa folda",
     "List of your files and folders that are not shared." : "Orodha ya faili na vikasha ambavyo havijashirikishwa",
     "No personal files found" : "Hakuna faili binafsi zilizopatikana",
     "Files that are not shared will show up here." : "Faili ambazo hazija shirikishwa zitaonekana hapa",

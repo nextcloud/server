@@ -297,6 +297,7 @@ OC.L10N.register(
     "Access through untrusted domain" : "Доступ праз ненадзейны дамен",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Звярніцеся да адміністратара. Калі вы адміністратар, адрэдагуйце параметр \"trusted_domains\" у config/config.php, як у прыкладзе ў config.sample.php.",
     "App update required" : "Патрэбна абнавіць праграму",
+    "%1$s will be updated to version %2$s" : "%1$s будзе абноўлена да версіі %2$s",
     "The following apps will be updated:" : "Будуць абноўлены наступныя праграмы:",
     "These incompatible apps will be disabled:" : "Гэтыя несумяшчальныя праграмы будуць адключаныя:",
     "Start update" : "Запусціць абнаўленне",
