@@ -7,6 +7,7 @@ OC.L10N.register(
     "The selected file cannot be read." : "Не ўдалося прачытаць выбраны файл.",
     "Missing a temporary folder" : "Адсутнічае часовая папка",
     "Could not write file to disk" : "Не ўдалося запісаць файл на дыск",
+    "A PHP extension stopped the file upload" : "Пашырэнне PHP спыніла запампоўванне файла",
     "Invalid file provided" : "Прапанаваны файл некарэктны",
     "Unknown filetype" : "Невядомы тып файла",
     "An error occurred. Please contact your admin." : "Узнікла памылка. Звярніцеся да адміністратара.",

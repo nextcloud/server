@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Nicht im Büro",
     "Working remotely" : "Arbeitet aus der Ferne",
     "In a call" : "In einem Anruf",
+    "Be right back" : "Bin gleich zurück",
     "User status" : "Benutzerstatus",
     "Clear status after" : "Status löschen nach",
     "Emoji for your status message" : "Emoji für deine Statusnachricht",
