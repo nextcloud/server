@@ -696,6 +696,7 @@ return array(
     'OCP\\Notification\\IManager' => $baseDir . '/lib/public/Notification/IManager.php',
     'OCP\\Notification\\INotification' => $baseDir . '/lib/public/Notification/INotification.php',
     'OCP\\Notification\\INotifier' => $baseDir . '/lib/public/Notification/INotifier.php',
+    'OCP\\Notification\\IPreloadableNotifier' => $baseDir . '/lib/public/Notification/IPreloadableNotifier.php',
     'OCP\\Notification\\IncompleteNotificationException' => $baseDir . '/lib/public/Notification/IncompleteNotificationException.php',
     'OCP\\Notification\\IncompleteParsedNotificationException' => $baseDir . '/lib/public/Notification/IncompleteParsedNotificationException.php',
     'OCP\\Notification\\InvalidValueException' => $baseDir . '/lib/public/Notification/InvalidValueException.php',
