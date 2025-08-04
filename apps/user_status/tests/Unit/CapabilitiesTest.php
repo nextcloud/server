@@ -35,6 +35,7 @@ class CapabilitiesTest extends TestCase {
 				'enabled' => true,
 				'restore' => true,
 				'supports_emoji' => $supportsEmojis,
+				'supports_busy' => true,
 			]
 		], $this->capabilities->getCapabilities());
 	}
