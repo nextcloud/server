@@ -25,6 +25,7 @@
 					<!-- Uploader -->
 					<UploadPicker v-if="canUpload && !isQuotaExceeded && currentFolder"
 						allow-folders
+						:noLabel="fileListWidth <= 511"
 						class="files-list__header-upload-button"
 						:content="getContent"
 						:destination="currentFolder"
