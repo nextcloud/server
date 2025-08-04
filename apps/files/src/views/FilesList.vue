@@ -57,7 +57,7 @@
 				</NcActionButton>
 			</NcActions>
 
-			<NcButton v-if="fileListWidth >= 512 && enableGridView"
+			<NcButton v-if="enableGridView"
 				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
 				class="files-list__header-grid-button"
