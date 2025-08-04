@@ -247,7 +247,7 @@ class EncryptAll {
 		while ($root = array_pop($directories)) {
 			$content = $this->rootView->getDirectoryContent($root);
 			foreach ($content as $file) {
-				$path = $root . '/' . $file['name'];
+				$path = $root . '/' . $file->getName();
 				if ($file->isShared()) {
 					$progress->setMessage("Skip shared file/folder $path");
 					$progress->advance();
