@@ -12,6 +12,7 @@ use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
+use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
@@ -247,14 +248,18 @@ class EncryptAll {
 			$content = $this->rootView->getDirectoryContent($root);
 			foreach ($content as $file) {
 				$path = $root . '/' . $file['name'];
-				if ($this->rootView->is_dir($path)) {
+				if ($file->isShared()) {
+					$progress->setMessage("Skip shared file/folder $path");
+					$progress->advance();
+					continue;
+				} elseif ($file->getType() === FileInfo::TYPE_FOLDER) {
 					$directories[] = $path;
 					continue;
 				} else {
 					$progress->setMessage("encrypt files for user $userCount: $path");
 					$progress->advance();
 					try {
-						if ($this->encryptFile($path) === false) {
+						if ($this->encryptFile($file, $path) === false) {
 							$progress->setMessage("encrypt files for user $userCount: $path (already encrypted)");
 							$progress->advance();
 						}
@@ -275,17 +280,9 @@ class EncryptAll {
 		}
 	}
 
-	/**
-	 * encrypt file
-	 *
-	 * @param string $path
-	 * @return bool
-	 */
-	protected function encryptFile($path) {
-
+	protected function encryptFile(FileInfo $fileInfo, string $path): bool {
 		// skip already encrypted files
-		$fileInfo = $this->rootView->getFileInfo($path);
-		if ($fileInfo !== false && $fileInfo->isEncrypted()) {
+		if ($fileInfo->isEncrypted()) {
 			return true;
 		}
 
