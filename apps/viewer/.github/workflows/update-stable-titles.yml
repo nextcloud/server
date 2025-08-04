@@ -14,6 +14,7 @@ concurrency:
 
 jobs:
   update-pr-title:
+    if: github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest-low
     permissions:
       pull-requests: write
@@ -24,6 +25,8 @@ jobs:
         run: sleep 15
 
       - name: Get PR details and update title
+        # Renovate already have ùatching branch in the title
+        if: github.event.pull_request.user.login != 'renovate[bot]'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
