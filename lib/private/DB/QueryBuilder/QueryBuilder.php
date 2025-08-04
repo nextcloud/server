@@ -96,6 +96,7 @@ class QueryBuilder implements IQueryBuilder {
 		return match($this->connection->getDatabaseProvider()) {
 			IDBConnection::PLATFORM_ORACLE => new OCIExpressionBuilder($this->connection, $this, $this->logger),
 			IDBConnection::PLATFORM_POSTGRES => new PgSqlExpressionBuilder($this->connection, $this, $this->logger),
+			IDBConnection::PLATFORM_MARIADB,
 			IDBConnection::PLATFORM_MYSQL => new MySqlExpressionBuilder($this->connection, $this, $this->logger),
 			IDBConnection::PLATFORM_SQLITE => new SqliteExpressionBuilder($this->connection, $this, $this->logger),
 		};
@@ -121,6 +122,7 @@ class QueryBuilder implements IQueryBuilder {
 		return match($this->connection->getDatabaseProvider()) {
 			IDBConnection::PLATFORM_ORACLE => new OCIFunctionBuilder($this->connection, $this, $this->helper),
 			IDBConnection::PLATFORM_POSTGRES => new PgSqlFunctionBuilder($this->connection, $this, $this->helper),
+			IDBConnection::PLATFORM_MARIADB,
 			IDBConnection::PLATFORM_MYSQL => new FunctionBuilder($this->connection, $this, $this->helper),
 			IDBConnection::PLATFORM_SQLITE => new SqliteFunctionBuilder($this->connection, $this, $this->helper),
 		};
