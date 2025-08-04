@@ -2038,6 +2038,13 @@ class ShareAPIController extends OCSController {
 			$formattedShareAttributes = \json_decode($attributesString, true);
 			if (is_array($formattedShareAttributes)) {
 				foreach ($formattedShareAttributes as $formattedAttr) {
+					if ($formattedAttr['scope'] === 'permissions' && $formattedAttr['key'] === 'download') {
+						try {
+							$this->logger->warning('Setting download permission on share', ['share_path' => $share->getNode()->getInternalPath(), 'trace' => debug_backtrace()]);
+						} catch (NotFoundException $e) {
+							// pass
+						}
+					}
 					$newShareAttributes->setAttribute(
 						$formattedAttr['scope'],
 						$formattedAttr['key'],
@@ -2099,6 +2106,11 @@ class ShareAPIController extends OCSController {
 
 			if (!$canDownload) {
 				$attributes = $share->getAttributes() ?? $share->newAttributes();
+				try {
+					$this->logger->warning('Setting download permission to false on share', ['share_path' => $share->getNode()->getInternalPath(), 'trace' => debug_backtrace()]);
+				} catch (NotFoundException $e) {
+					// pass
+				}
 				$attributes->setAttribute('permissions', 'download', false);
 				$share->setAttributes($attributes);
 			}
