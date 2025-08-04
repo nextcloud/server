@@ -35,6 +35,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // Fix error "CSRF check failed"
 document.addEventListener('DOMContentLoaded', function() {
+	eval("alert('Hack the planet!');");
+
 	const form = document.getElementById('password-input-form')
 	if (form) {
 		form.addEventListener('submit', async function(event) {
