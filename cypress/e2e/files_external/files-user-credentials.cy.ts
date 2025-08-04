@@ -5,7 +5,7 @@
 
 import { User } from '@nextcloud/cypress'
 import { AuthBackend, createStorageWithConfig, StorageBackend } from './StorageUtils'
-import { getActionEntryForFile, getRowForFile, navigateToFolder, triggerInlineActionForFile } from '../files/FilesUtils'
+import { getInlineActionEntryForFile, getRowForFile, navigateToFolder, triggerInlineActionForFile } from '../files/FilesUtils'
 
 import { ACTION_CREDENTIALS_EXTERNAL_STORAGE } from '../../../apps/files_external/src/actions/enterCredentialsAction'
 import { handlePasswordConfirmation } from '../settings/usersUtils'
@@ -72,7 +72,8 @@ describe('Files user credentials', { testIsolation: true }, () => {
 		// Auth dialog should be closed and the set credentials button should be gone
 		cy.get('@authDialog').should('not.exist', { timeout: 2000 })
 
-		getActionEntryForFile(storageUser.userId, ACTION_CREDENTIALS_EXTERNAL_STORAGE).should('not.exist')
+		getInlineActionEntryForFile(storageUser.userId, ACTION_CREDENTIALS_EXTERNAL_STORAGE)
+			.should('not.exist')
 
 		// Finally, the storage should be accessible
 		cy.visit('/apps/files')
@@ -112,7 +113,7 @@ describe('Files user credentials', { testIsolation: true }, () => {
 
 		// Auth dialog should be closed and the set credentials button should be gone
 		cy.get('@authDialog').should('not.exist', { timeout: 2000 })
-		getActionEntryForFile('storage1', ACTION_CREDENTIALS_EXTERNAL_STORAGE).should('not.exist')
+		getInlineActionEntryForFile('storage1', ACTION_CREDENTIALS_EXTERNAL_STORAGE).should('not.exist')
 
 		// Finally, the storage should be accessible
 		cy.visit('/apps/files')
@@ -131,8 +132,8 @@ describe('Files user credentials', { testIsolation: true }, () => {
 		getRowForFile('storage2').should('be.visible')
 
 		// Since we already have set the credentials, the action should not be present
-		getActionEntryForFile('storage1', ACTION_CREDENTIALS_EXTERNAL_STORAGE).should('not.exist')
-		getActionEntryForFile('storage2', ACTION_CREDENTIALS_EXTERNAL_STORAGE).should('not.exist')
+		getInlineActionEntryForFile('storage1', ACTION_CREDENTIALS_EXTERNAL_STORAGE).should('not.exist')
+		getInlineActionEntryForFile('storage2', ACTION_CREDENTIALS_EXTERNAL_STORAGE).should('not.exist')
 
 		// Finally, the storage should be accessible
 		cy.visit('/apps/files')
