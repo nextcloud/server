@@ -13,59 +13,36 @@ use OCP\App\IAppManager;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
-	protected $config;
+	private IConfig&MockObject $config;
+	private IManager&MockObject $encryptionManager;
+	private IAppManager&MockObject $appManager;
+	private InputInterface&MockObject $consoleInput;
+	private OutputInterface&MockObject $consoleOutput;
+	private QuestionHelper&MockObject $questionHelper;
+	private IEncryptionModule&MockObject $encryptionModule;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager */
-	protected $encryptionManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IAppManager */
-	protected $appManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
-	protected $consoleInput;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
-	protected $consoleOutput;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
-	protected $questionHelper;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject|IEncryptionModule */
-	protected $encryptionModule;
-
-	/** @var EncryptAll */
-	protected $command;
+	private EncryptAll $command;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->encryptionManager = $this->getMockBuilder(IManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->appManager = $this->getMockBuilder(IAppManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->encryptionModule = $this->getMockBuilder(IEncryptionModule::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->questionHelper = $this->getMockBuilder(QuestionHelper::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->encryptionManager = $this->createMock(IManager::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->encryptionModule = $this->createMock(IEncryptionModule::class);
+		$this->questionHelper = $this->createMock(QuestionHelper::class);
+		$this->consoleInput = $this->createMock(InputInterface::class);
 		$this->consoleInput->expects($this->any())
 			->method('isInteractive')
 			->willReturn(true);
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 	}
 
 	public function testEncryptAll(): void {
