@@ -26,6 +26,7 @@ use OCP\TaskProcessing\Exception\ValidationException;
  * @since 30.0.0
  */
 interface IManager {
+
 	/**
 	 * @since 30.0.0
 	 */

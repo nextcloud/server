@@ -2018,11 +2018,6 @@
       <code><![CDATA[getSettingsManager]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/settings/lib/Controller/AISettingsController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/settings/lib/Controller/AppSettingsController.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -2083,9 +2078,6 @@
 				continue;
 			}]]></code>
     </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Settings/Admin/Security.php">
     <UndefinedInterfaceMethod>
@@ -3007,12 +2999,6 @@
   <file src="core/Command/Security/BruteforceResetAttempts.php">
     <DeprecatedMethod>
       <code><![CDATA[resetDelayForIP]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Command/TaskProcessing/EnabledCommand.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/Upgrade.php">
