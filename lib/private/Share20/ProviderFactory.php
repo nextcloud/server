@@ -21,6 +21,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Files\IRootFolder;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IServerContainer;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
@@ -89,6 +90,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->query(ITimeFactory::class),
 				$this->serverContainer->get(LoggerInterface::class),
 				$this->serverContainer->get(IManager::class),
+				$this->serverContainer->get(IConfig::class),
 			);
 		}
 
@@ -204,8 +206,8 @@ class ProviderFactory implements IProviderFactory {
 			return null;
 		}
 
-		if (!$this->serverContainer->getAppManager()->isEnabledForUser('circles') ||
-			!class_exists('\OCA\Circles\ShareByCircleProvider')
+		if (!$this->serverContainer->getAppManager()->isEnabledForUser('circles')
+			|| !class_exists('\OCA\Circles\ShareByCircleProvider')
 		) {
 			$this->circlesAreNotAvailable = true;
 			return null;
@@ -309,9 +311,9 @@ class ProviderFactory implements IProviderFactory {
 	public function getProviderForType($shareType) {
 		$provider = null;
 
-		if ($shareType === IShare::TYPE_USER ||
-			$shareType === IShare::TYPE_GROUP ||
-			$shareType === IShare::TYPE_LINK
+		if ($shareType === IShare::TYPE_USER
+			|| $shareType === IShare::TYPE_GROUP
+			|| $shareType === IShare::TYPE_LINK
 		) {
 			$provider = $this->defaultShareProvider();
 		} elseif ($shareType === IShare::TYPE_REMOTE || $shareType === IShare::TYPE_REMOTE_GROUP) {
