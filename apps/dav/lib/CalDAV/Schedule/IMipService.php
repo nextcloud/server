@@ -1110,7 +1110,7 @@ class IMipService {
 		$sequence = $iTipMessage->sequence;
 		$recurrenceId = isset($vevent->{'RECURRENCE-ID'}) ?
 			$vevent->{'RECURRENCE-ID'}->serialize() : null;
-		$uid = $vevent->{'UID'};
+		$uid = $vevent->{'UID'}?->getValue();
 
 		$query = $this->db->getQueryBuilder();
 		$query->insert('calendar_invitations')
