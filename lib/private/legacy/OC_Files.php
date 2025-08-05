@@ -109,7 +109,6 @@ class OC_Files {
 				}
 			}
 
-			self::lockFiles($view, $dir, $files);
 			$numberOfFiles = 0;
 			$fileSize = 0;
 
@@ -132,7 +131,11 @@ class OC_Files {
 				}
 			}
 
-			//Dispatch an event to see if any apps have problem with download
+			// Lock the files AFTER we retrieved the files infos
+			// this allows us to ensure they're still available
+			self::lockFiles($view, $dir, $files);
+
+			// Dispatch an event to see if any apps have problem with download
 			$event = new BeforeZipCreatedEvent($dir, is_array($files) ? $files : [$files]);
 			$dispatcher = \OCP\Server::get(IEventDispatcher::class);
 			$dispatcher->dispatchTyped($event);
