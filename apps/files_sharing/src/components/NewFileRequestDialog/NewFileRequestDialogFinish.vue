@@ -16,7 +16,7 @@
 			:label="t('files_sharing', 'Share link')"
 			:readonly="true"
 			:show-trailing-button="true"
-			:trailing-button-label="t('files_sharing', 'Copy to clipboard')"
+			:trailing-button-label="t('files_sharing', 'Copy')"
 			data-cy-file-request-dialog-fieldset="link"
 			@click="copyShareLink"
 			@trailing-button-click="copyShareLink">
@@ -140,7 +140,7 @@ export default defineComponent({
 
 			await navigator.clipboard.writeText(this.shareLink)
 
-			showSuccess(t('files_sharing', 'Link copied to clipboard'))
+			showSuccess(t('files_sharing', 'Link copied'))
 			this.isCopied = true
 			event.target?.select?.()
 

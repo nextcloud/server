@@ -83,14 +83,11 @@ export default {
 				}
 				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
-			return t('files_sharing', 'Copy internal link to clipboard')
+			return t('files_sharing', 'Copy internal link')
 		},
 
 		internalLinkSubtitle() {
-			if (this.fileInfo.type === 'dir') {
-				return t('files_sharing', 'Only works for people with access to this folder')
-			}
-			return t('files_sharing', 'Only works for people with access to this file')
+			return t('files_sharing', 'For people who already have access')
 		},
 	},
 

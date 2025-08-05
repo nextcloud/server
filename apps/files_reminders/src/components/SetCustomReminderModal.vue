@@ -106,7 +106,7 @@ export default Vue.extend({
 		},
 
 		label(): string {
-			return t('files_reminders', 'Set reminder at custom date & time')
+			return t('files_reminders', 'Reminder at custom date & time')
 		},
 
 		clearAriaLabel(): string {

@@ -8,7 +8,7 @@
 		:name="t('files', 'Files settings')"
 		@update:open="onClose">
 		<!-- Settings API-->
-		<NcAppSettingsSection id="settings" :name="t('files', 'Files settings')">
+		<NcAppSettingsSection id="settings" :name="t('files', 'General')">
 			<fieldset class="files-settings__default-view"
 				data-cy-files-settings-setting="default_view">
 				<legend>
@@ -42,12 +42,12 @@
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="folder_tree"
 				:checked="userConfig.folder_tree"
 				@update:checked="setConfig('folder_tree', $event)">
-				{{ t('files', 'Enable folder tree') }}
+				{{ t('files', 'Folder tree') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
-		<!-- Visual settings -->
-		<NcAppSettingsSection id="settings" :name="t('files', 'Visual settings')">
+		<!-- Appearance -->
+		<NcAppSettingsSection id="settings" :name="t('files', 'Appearance')">
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_hidden"
 				:checked="userConfig.show_hidden"
 				@update:checked="setConfig('show_hidden', $event)">
@@ -58,15 +58,15 @@
 				@update:checked="setConfig('show_mime_column', $event)">
 				{{ t('files', 'Show file type column') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_files_extensions"
+				:checked="userConfig.show_files_extensions"
+				@update:checked="setConfig('show_files_extensions', $event)">
+				{{ t('files', 'Show file extensions') }}
+			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="crop_image_previews"
 				:checked="userConfig.crop_image_previews"
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
-			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_files_extensions"
-				:checked="userConfig.show_files_extensions"
-				@update:checked="setConfig('show_files_extensions', $event)">
-				{{ t('files', 'Show files extensions') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
@@ -85,7 +85,7 @@
 				:label="t('files', 'WebDAV URL')"
 				:show-trailing-button="true"
 				:success="webdavUrlCopied"
-				:trailing-button-label="t('files', 'Copy to clipboard')"
+				:trailing-button-label="t('files', 'Copy')"
 				:value="webdavUrl"
 				class="webdav-url-input"
 				readonly="readonly"
@@ -101,7 +101,7 @@
 					:href="webdavDocs"
 					target="_blank"
 					rel="noreferrer noopener">
-					{{ t('files', 'Use this address to access your Files via WebDAV.') }} ↗
+					{{ t('files', 'How to access files using WebDAV') }} ↗
 				</a>
 			</em>
 			<br>
@@ -113,22 +113,20 @@
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="warning" :name="t('files', 'Warnings')">
-			<em>{{ t('files', 'Prevent warning dialogs from open or reenable them.') }}</em>
 			<NcCheckboxRadioSwitch type="switch"
 				:checked="userConfig.show_dialog_file_extension"
 				@update:checked="setConfig('show_dialog_file_extension', $event)">
-				{{ t('files', 'Show a warning dialog when changing a file extension.') }}
+				{{ t('files', 'Warn before changing a file extension') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch type="switch"
 				:checked="userConfig.show_dialog_deletion"
 				@update:checked="setConfig('show_dialog_deletion', $event)">
-				{{ t('files', 'Show a warning dialog when deleting files.') }}
+				{{ t('files', 'Warn before deleting files') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
 		<NcAppSettingsSection id="shortcuts"
 			:name="t('files', 'Keyboard shortcuts')">
-			<em>{{ t('files', 'Speed up your Files experience with these quick shortcuts.') }}</em>
 
 			<h3>{{ t('files', 'Actions') }}</h3>
 			<dl>
@@ -137,7 +135,7 @@
 						<kbd>a</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Open the actions menu for a file') }}
+						{{ t('files', 'File actions') }}
 					</dd>
 				</div>
 				<div>
@@ -145,7 +143,7 @@
 						<kbd>F2</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Rename a file') }}
+						{{ t('files', 'Rename') }}
 					</dd>
 				</div>
 				<div>
@@ -153,7 +151,7 @@
 						<kbd>Del</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Delete a file') }}
+						{{ t('files', 'Delete') }}
 					</dd>
 				</div>
 				<div>
@@ -161,7 +159,7 @@
 						<kbd>s</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Favorite or remove a file from favorites') }}
+						{{ t('files', 'Add or remove favorite') }}
 					</dd>
 				</div>
 				<div v-if="isSystemtagsEnabled">
@@ -169,7 +167,7 @@
 						<kbd>t</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Manage tags for a file') }}
+						{{ t('files', 'Manage tags') }}
 					</dd>
 				</div>
 			</dl>
@@ -189,7 +187,7 @@
 						<kbd>ESC</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Deselect all files') }}
+						{{ t('files', 'Deselect all') }}
 					</dd>
 				</div>
 				<div>
@@ -197,7 +195,7 @@
 						<kbd>Ctrl</kbd> + <kbd>Space</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Select or deselect a file') }}
+						{{ t('files', 'Select or deselect') }}
 					</dd>
 				</div>
 				<div>
@@ -205,7 +203,7 @@
 						<kbd>Ctrl</kbd> + <kbd>Shift</kbd> <span>+ <kbd>Space</kbd></span>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Select a range of files') }}
+						{{ t('files', 'Select a range') }}
 					</dd>
 				</div>
 			</dl>
@@ -217,7 +215,7 @@
 						<kbd>Alt</kbd> + <kbd>↑</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Navigate to the parent folder') }}
+						{{ t('files', 'Go to parent folder') }}
 					</dd>
 				</div>
 				<div>
@@ -225,7 +223,7 @@
 						<kbd>↑</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Navigate to the file above') }}
+						{{ t('files', 'Go to file above') }}
 					</dd>
 				</div>
 				<div>
@@ -233,7 +231,7 @@
 						<kbd>↓</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Navigate to the file below') }}
+						{{ t('files', 'Go to file below') }}
 					</dd>
 				</div>
 				<div>
@@ -241,7 +239,7 @@
 						<kbd>←</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Navigate to the file on the left (in grid mode)') }}
+						{{ t('files', 'Go left in grid') }}
 					</dd>
 				</div>
 				<div>
@@ -249,7 +247,7 @@
 						<kbd>→</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Navigate to the file on the right (in grid mode)') }}
+						{{ t('files', 'Go right in grid') }}
 					</dd>
 				</div>
 			</dl>
@@ -261,7 +259,7 @@
 						<kbd>V</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Toggle the grid view') }}
+						{{ t('files', 'Toggle grid view') }}
 					</dd>
 				</div>
 				<div>
@@ -269,7 +267,7 @@
 						<kbd>D</kbd>
 					</dt>
 					<dd class="shortcut-description">
-						{{ t('files', 'Open the sidebar for a file') }}
+						{{ t('files', 'Open file sidebar') }}
 					</dd>
 				</div>
 				<div>
@@ -400,7 +398,7 @@ export default {
 
 			await navigator.clipboard.writeText(this.webdavUrl)
 			this.webdavUrlCopied = true
-			showSuccess(t('files', 'WebDAV URL copied to clipboard'))
+			showSuccess(t('files', 'WebDAV URL copied'))
 			setTimeout(() => {
 				this.webdavUrlCopied = false
 			}, 5000)
