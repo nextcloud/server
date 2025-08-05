@@ -161,7 +161,7 @@ class QueryBuilder implements IQueryBuilder {
 			try {
 				$params = [];
 				foreach ($this->getParameters() as $placeholder => $value) {
-					if ($value instanceof \DateTime) {
+					if ($value instanceof \DateTimeInterface) {
 						$params[] = $placeholder . ' => DateTime:\'' . $value->format('c') . '\'';
 					} elseif (is_array($value)) {
 						$params[] = $placeholder . ' => (\'' . implode('\', \'', $value) . '\')';
