@@ -156,14 +156,14 @@ export default {
 </a>`
 		},
 		copyLinkTooltip() {
-			return this.isCopied ? t('federatedfilesharing', 'Cloud ID copied to the clipboard') : t('federatedfilesharing', 'Copy to clipboard')
+			return this.isCopied ? t('federatedfilesharing', 'Cloud ID copied') : t('federatedfilesharing', 'Copy')
 		},
 	},
 	methods: {
 		async copyCloudId(): Promise<void> {
 			try {
 				await navigator.clipboard.writeText(this.cloudId)
-				showSuccess(t('federatedfilesharing', 'Cloud ID copied to the clipboard'))
+				showSuccess(t('federatedfilesharing', 'Cloud ID copied'))
 			} catch (e) {
 				// no secure context or really old browser - need a fallback
 				window.prompt(t('federatedfilesharing', 'Clipboard not available. Please copy the cloud ID manually.'), this.reference)

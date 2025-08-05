@@ -29,7 +29,7 @@ export function humanizeWebDAVError(error: unknown) {
 			} else if (status === 403) {
 				return t('files', 'This operation is forbidden')
 			} else if (status === 500) {
-				return t('files', 'This directory is unavailable, please check the logs or contact the administrator')
+				return t('files', 'This folder is unavailable, please try again later or contact the administration')
 			} else if (status === 503) {
 				return t('files', 'Storage is temporarily not available')
 			}

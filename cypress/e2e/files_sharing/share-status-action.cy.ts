@@ -40,7 +40,7 @@ describe('files_sharing: Sharing status action', { testIsolation: true }, () => 
 		getRowForFile('folder')
 			.should('be.visible')
 			.find('[data-cy-files-list-row-actions]')
-			.findByRole('button', { name: /Show sharing options/ })
+			.findByRole('button', { name: /Sharing options/ })
 			.should('be.visible')
 			.click()
 
