@@ -98,28 +98,28 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		];
 
 		foreach ($requestedShareTypes as $requestedShareType) {
-			$result = array_merge($result, $this->shareManager->getSharesBy(
+			$result[] = $this->shareManager->getSharesBy(
 				$this->userId,
 				$requestedShareType,
 				$node,
 				false,
 				-1
-			));
+			);
 
 			// Also check for shares where the user is the recipient
 			try {
-				$result = array_merge($result, $this->shareManager->getSharedWith(
+				$result[] = $this->shareManager->getSharedWith(
 					$this->userId,
 					$requestedShareType,
 					$node,
 					-1
-				));
+				);
 			} catch (BackendError $e) {
 				// ignore
 			}
 		}
 
-		return $result;
+		return array_merge(...$result);
 	}
 
 	/**
