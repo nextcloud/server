@@ -32,19 +32,6 @@ const FileChecks = [
 	},
 
 	{
-		class: 'OCA\\WorkflowEngine\\Check\\Directory',
-		name: t('workflowengine', 'Directory'),
-		operators: stringOrRegexOperators,
-		placeholder: (check) => {
-			if (check.operator === 'matches' || check.operator === '!matches') {
-				return '/^myfolder/.+$/i'
-			}
-			return 'myfolder/subfolder'
-		},
-		validate: stringValidator,
-	},
-
-	{
 		class: 'OCA\\WorkflowEngine\\Check\\FileMimeType',
 		name: t('workflowengine', 'File MIME type'),
 		operators: stringOrRegexOperators,

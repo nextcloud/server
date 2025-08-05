@@ -10,7 +10,6 @@ return array(
     'OCA\\WorkflowEngine\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\WorkflowEngine\\BackgroundJobs\\Rotate' => $baseDir . '/../lib/BackgroundJobs/Rotate.php',
     'OCA\\WorkflowEngine\\Check\\AbstractStringCheck' => $baseDir . '/../lib/Check/AbstractStringCheck.php',
-    'OCA\\WorkflowEngine\\Check\\Directory' => $baseDir . '/../lib/Check/Directory.php',
     'OCA\\WorkflowEngine\\Check\\FileMimeType' => $baseDir . '/../lib/Check/FileMimeType.php',
     'OCA\\WorkflowEngine\\Check\\FileName' => $baseDir . '/../lib/Check/FileName.php',
     'OCA\\WorkflowEngine\\Check\\FileSize' => $baseDir . '/../lib/Check/FileSize.php',
