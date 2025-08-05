@@ -354,7 +354,7 @@ class SMB extends Common implements INotifyStorage {
 			if ($retry) {
 				return $this->stat($path, false);
 			} else {
-				throw $e;
+				throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 			}
 		}
 		if ($this->remoteIsShare() && $this->isRootDir($path)) {
