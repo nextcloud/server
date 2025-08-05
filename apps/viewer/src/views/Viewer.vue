@@ -528,6 +528,13 @@ export default defineComponent({
 
 		// register on load
 		document.addEventListener('DOMContentLoaded', () => {
+			// load all init handlers
+			if (window._oca_viewer_handlers) {
+				window._oca_viewer_handlers.forEach((handler) => {
+					OCA.Viewer.registerHandler(handler)
+				})
+			}
+
 			// register all primary components mimes
 			this.handlers.forEach(handler => {
 				this.registerHandler(handler)
