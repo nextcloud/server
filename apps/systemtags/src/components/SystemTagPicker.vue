@@ -137,7 +137,7 @@ import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getLanguage, n, t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
-import { showError, showInfo } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 import domPurify from 'dompurify'
 import escapeHTML from 'escape-html'
@@ -553,7 +553,6 @@ export default defineComponent({
 
 		onCancel() {
 			this.opened = false
-			showInfo(t('systemtags', 'File tags modification canceled'))
 			this.$emit('close', null)
 		},
 

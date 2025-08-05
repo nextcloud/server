@@ -2,10 +2,8 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { showInfo } from '@nextcloud/dialogs'
 import { Permission, Node, View, FileAction } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t } from '@nextcloud/l10n'
 import PQueue from 'p-queue'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
@@ -64,7 +62,6 @@ export const action = new FileAction({
 
 			// If the user cancels the deletion, we don't want to do anything
 			if (confirm === false) {
-				showInfo(t('files', 'Deletion cancelled'))
 				return null
 			}
 
@@ -88,7 +85,6 @@ export const action = new FileAction({
 
 		// If the user cancels the deletion, we don't want to do anything
 		if (confirm === false) {
-			showInfo(t('files', 'Deletion cancelled'))
 			return Promise.all(nodes.map(() => null))
 		}
 
