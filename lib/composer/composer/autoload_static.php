@@ -444,6 +444,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\AlreadyExistsException' => __DIR__ . '/../../..' . '/lib/public/Files/AlreadyExistsException.php',
         'OCP\\Files\\AppData\\IAppDataFactory' => __DIR__ . '/../../..' . '/lib/public/Files/AppData/IAppDataFactory.php',
         'OCP\\Files\\Cache\\AbstractCacheEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/AbstractCacheEvent.php',
+        'OCP\\Files\\Cache\\CacheEntriesRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntriesRemovedEvent.php',
         'OCP\\Files\\Cache\\CacheEntryInsertedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryInsertedEvent.php',
         'OCP\\Files\\Cache\\CacheEntryRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryRemovedEvent.php',
         'OCP\\Files\\Cache\\CacheEntryUpdatedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Cache/CacheEntryUpdatedEvent.php',
