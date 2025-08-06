@@ -10,19 +10,17 @@ declare(strict_types=1);
 namespace OC\Avatar;
 
 use Imagick;
+use OC\User\User;
 use OCP\Color;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
-use Psr\Log\LoggerInterface;
-use OC\User\User;
 use OCP\IConfig;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class gets and sets users avatars.
  */
 abstract class Avatar implements IAvatar {
-	protected LoggerInterface $logger;
-
 	/**
 	 * https://github.com/sebdesign/cap-height -- for 500px height
 	 * Automated check: https://codepen.io/skjnldsv/pen/PydLBK/
@@ -37,8 +35,10 @@ abstract class Avatar implements IAvatar {
 			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#{fgFill}">{letter}</text>
 		</svg>';
 
-	public function __construct(LoggerInterface $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -97,12 +97,11 @@ abstract class Avatar implements IAvatar {
 	}
 
 	/**
-	 * Select the rendering font based on the user's display name and language 
+	 * Select the rendering font based on the user's display name and language
 	 */
 	private function getFont(string $userDisplayName): string {
 		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
-			$userlang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', '');
-			switch ($userlang) {
+			switch ($this->getAvatarLanguage()) {
 				case 'zh_TW':
 					return __DIR__ . '/../../../core/fonts/NotoSansTC-Regular.ttf';
 				case 'zh_HK':
@@ -129,7 +128,7 @@ abstract class Avatar implements IAvatar {
 		// Avatar generation breaks if RSVG format is enabled. Fall back to gd in that case
 		if (in_array('RSVG', $formats, true)) {
 			return null;
-		}		
+		}
 		$text = $this->getAvatarText();
 		try {
 			$font = $this->getFont($text);
@@ -281,5 +280,13 @@ abstract class Avatar implements IAvatar {
 		$finalPalette = array_merge($palette1, $palette2, $palette3);
 
 		return $finalPalette[$this->hashToInt($hash, $steps * 3)];
+	}
+
+	/**
+	 * Get the language to be used for avatar generation.
+	 * This is used to determine the font to use for the avatar text (e.g. CJK characters).
+	 */
+	protected function getAvatarLanguage(): string {
+		return $this->config->getSystemValueString('default_language', 'en');
 	}
 }

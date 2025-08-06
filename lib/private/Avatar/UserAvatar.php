@@ -28,9 +28,9 @@ class UserAvatar extends Avatar {
 		private IL10N $l,
 		protected User $user,
 		LoggerInterface $logger,
-		protected IConfig $config,
+		IConfig $config,
 	) {
-		parent::__construct($logger);
+		parent::__construct($config, $logger);
 	}
 
 	/**
@@ -294,5 +294,10 @@ class UserAvatar extends Avatar {
 	 */
 	public function isCustomAvatar(): bool {
 		return $this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', 'false') !== 'true';
+	}
+
+	#[\Override]
+	protected function getAvatarLanguage(): string {
+		return $this->config->getUserValue($this->user->getUID(), 'core', 'lang', parent::getAvatarLanguage());
 	}
 }
