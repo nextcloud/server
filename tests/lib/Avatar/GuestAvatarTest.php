@@ -34,8 +34,9 @@ class GuestAvatarTest extends TestCase {
 	 */
 	public function setupGuestAvatar() {
 		/* @var MockObject|LoggerInterface $logger */
-		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->guestAvatar = new GuestAvatar('einstein', $logger);
+		$logger = $this->createMock(LoggerInterface::class);
+		$config = $this->createMock(\OCP\IConfig::class);
+		$this->guestAvatar = new GuestAvatar('einstein', $config, $logger);
 	}
 
 	/**
