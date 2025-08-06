@@ -11,7 +11,6 @@ namespace OCA\AdminAudit\AppInfo;
 
 use OCA\AdminAudit\Actions\Files;
 use OCA\AdminAudit\Actions\Sharing;
-use OCA\AdminAudit\Actions\Trashbin;
 use OCA\AdminAudit\Actions\Versions;
 use OCA\AdminAudit\AuditLogger;
 use OCA\AdminAudit\IAuditLogger;
@@ -25,7 +24,10 @@ use OCA\AdminAudit\Listener\GroupManagementEventListener;
 use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCA\AdminAudit\Listener\SharingEventListener;
 use OCA\AdminAudit\Listener\TagEventListener;
+use OCA\AdminAudit\Listener\TrashbinEventListener;
 use OCA\AdminAudit\Listener\UserManagementEventListener;
+use OCA\Files_Trashbin\Events\BeforeNodeDeletedEvent as TrashbinBeforeNodeDeletedEvent;
+use OCA\Files_Trashbin\Events\NodeRestoredEvent;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
@@ -156,6 +158,10 @@ class Application extends App implements IBootstrap {
 		// Files sharing recipient events
 		$context->registerEventListener(ShareAcceptedEvent::class, SharingEventListener::class);
 		$context->registerEventListener(ShareDeletedFromSelfEvent::class, SharingEventListener::class);
+
+		// Trashbin events
+		$context->registerEventListener(TrashbinBeforeNodeDeletedEvent::class, TrashbinEventListener::class);
+		$context->registerEventListener(NodeRestoredEvent::class, TrashbinEventListener::class);
 	}
 
 	#[\Override]
@@ -178,7 +184,6 @@ class Application extends App implements IBootstrap {
 		$eventDispatcher = $serverContainer->get(IEventDispatcher::class);
 		$this->sharingLegacyHooks($logger);
 		$this->fileHooks($logger, $eventDispatcher);
-		$this->trashbinHooks($logger);
 		$this->versionsHooks($logger);
 	}
 
@@ -240,11 +245,5 @@ class Application extends App implements IBootstrap {
 	private function versionsHooks(IAuditLogger $logger): void {
 		$versionsActions = new Versions($logger);
 		Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete');
-	}
-
-	private function trashbinHooks(IAuditLogger $logger): void {
-		$trashActions = new Trashbin($logger);
-		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
-		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
 	}
 }
