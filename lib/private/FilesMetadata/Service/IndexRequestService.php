@@ -175,4 +175,30 @@ class IndexRequestService {
 
 		$qb->executeStatement();
 	}
+
+	/**
+	 * Drop indexes related to multiple file ids
+	 * if a key is specified, only drop entries related to it
+	 *
+	 * @param int[] $fileIds file ids
+	 * @param string $key metadata key
+	 *
+	 * @throws DbException
+	 */
+	public function dropIndexForFiles(array $fileIds, string $key = ''): void {
+		$chunks = array_chunk($fileIds, 1000);
+
+		foreach ($chunks as $chunk) {
+			$qb = $this->dbConnection->getQueryBuilder();
+			$expr = $qb->expr();
+			$qb->delete(self::TABLE_METADATA_INDEX)
+				->where($expr->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+
+			if ($key !== '') {
+				$qb->andWhere($expr->eq('meta_key', $qb->createNamedParameter($key)));
+			}
+
+			$qb->executeStatement();
+		}
+	}
 }
