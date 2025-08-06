@@ -23,8 +23,27 @@ use Psr\Log\LoggerInterface;
  * @since 6.0.0
  */
 class App {
-	/** @var IAppContainer */
-	private $container;
+	private IAppContainer $container;
+
+	/**
+	 * @param string $appName
+	 * @param array $urlParams an array with variables extracted from the routes
+	 * @since 6.0.0
+	 */
+	public function __construct(string $appName, array $urlParams = []) {
+		$debugMode = Server::get(IConfig::class)->getSystemValueBool('debug');
+		$excludeArgsFromTraces = ini_get('zend.exception_ignore_args');
+		// Check if application class was setup incorrectly (and log it) when in debug mode
+		if ($debugMode && !$excludeArgsFromTraces) { 
+			$this->checkIfSetupDirectly();
+		}
+		
+		try {
+			$this->container = \OC::$server->getRegisteredAppContainer($appName);
+		} catch (QueryException $e) {
+			$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
+		}
+	}
 
 	/**
 	 * Turns an app id into a namespace by convention. The id is split at the
@@ -38,63 +57,8 @@ class App {
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
 		return \OC\AppFramework\App::buildAppNamespace($appId, $topNamespace);
-	}
-
-
-	/**
-	 * @param string $appName
-	 * @param array $urlParams an array with variables extracted from the routes
-	 * @since 6.0.0
-	 */
-	public function __construct(string $appName, array $urlParams = []) {
-		$runIsSetupDirectly = Server::get(IConfig::class)->getSystemValueBool('debug')
-			&& !ini_get('zend.exception_ignore_args');
-
-		if ($runIsSetupDirectly) {
-			$applicationClassName = get_class($this);
-			$e = new \RuntimeException('App class ' . $applicationClassName . ' is not setup via query() but directly');
-			$setUpViaQuery = false;
-
-			$classNameParts = explode('\\', trim($applicationClassName, '\\'));
-
-			foreach ($e->getTrace() as $step) {
-				if (isset($step['class'], $step['function'], $step['args'][0])
-					&& $step['class'] === ServerContainer::class
-					&& $step['function'] === 'query'
-					&& $step['args'][0] === $applicationClassName) {
-					$setUpViaQuery = true;
-					break;
-				} elseif (isset($step['class'], $step['function'], $step['args'][0])
-					&& $step['class'] === ServerContainer::class
-					&& $step['function'] === 'getAppContainer'
-					&& $step['args'][1] === $classNameParts[1]) {
-					$setUpViaQuery = true;
-					break;
-				} elseif (isset($step['class'], $step['function'], $step['args'][0])
-					&& $step['class'] === SimpleContainer::class
-					&& preg_match('/{closure:OC\\\\AppFramework\\\\Utility\\\\SimpleContainer::buildClass\\(\\):\\d+}/', $step['function'])
-					&& $step['args'][0] === $this) {
-					/* We are setup through a lazy ghost, fine */
-					$setUpViaQuery = true;
-					break;
-				}
-			}
-
-			if (!$setUpViaQuery && $applicationClassName !== \OCP\AppFramework\App::class) {
-				Server::get(LoggerInterface::class)->error($e->getMessage(), [
-					'app' => $appName,
-					'exception' => $e,
-				]);
-			}
-		}
-
-		try {
-			$this->container = \OC::$server->getRegisteredAppContainer($appName);
-		} catch (QueryException $e) {
-			$this->container = new \OC\AppFramework\DependencyInjection\DIContainer($appName, $urlParams);
-		}
-	}
-
+	}	
+	
 	/**
 	 * @return IAppContainer
 	 * @since 6.0.0
@@ -134,7 +98,47 @@ class App {
 	 * @param string $methodName the method that you want to call
 	 * @since 6.0.0
 	 */
-	public function dispatch(string $controllerName, string $methodName) {
+	public function dispatch(string $controllerName, string $methodName): void {
 		\OC\AppFramework\App::main($controllerName, $methodName, $this->container);
+	}
+
+	/**
+ 	 * Log an error when the application class was setup incorrectly.
+   	 */
+	protected function checkIfSetupDirectly(): void {
+		$appClassName = get_class($this);
+		$setUpViaQuery = false;
+		$classNameParts = explode('\\', trim($appClassName, '\\'));
+
+		$e = new \RuntimeException('App class ' . $appClassName . ' is not setup via query() but directly');													
+		foreach ($e->getTrace() as $step) {
+			if (isset($step['class'], $step['function'], $step['args'][0])
+				&& $step['class'] === ServerContainer::class
+				&& $step['function'] === 'query'
+				&& $step['args'][0] === $appClassName) {
+				$setUpViaQuery = true;
+				break;
+			} elseif (isset($step['class'], $step['function'], $step['args'][0])
+				&& $step['class'] === ServerContainer::class
+				&& $step['function'] === 'getAppContainer'
+				&& $step['args'][1] === $classNameParts[1]) {
+				$setUpViaQuery = true;
+				break;
+			} elseif (isset($step['class'], $step['function'], $step['args'][0])
+				&& $step['class'] === SimpleContainer::class
+				&& preg_match('/{closure:OC\\\\AppFramework\\\\Utility\\\\SimpleContainer::buildClass\\(\\):\\d+}/', $step['function'])
+				&& $step['args'][0] === $this) {
+				/* We are setup through a lazy ghost, fine */
+				$setUpViaQuery = true;
+				break;
+			}
+		}
+		if (!$setUpViaQuery && $appClassName !== \OCP\AppFramework\App::class) {
+			// log as an exception but continue on
+			Server::get(LoggerInterface::class)->error($e->getMessage(), [
+				'app' => $appName,
+				'exception' => $e,
+			]);
+		}
 	}
 }
