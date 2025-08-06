@@ -1495,15 +1495,19 @@ class Manager implements IManager {
 	 * @return \Generator
 	 */
 	public function cleanupOldTasks(int $ageInSeconds = self::MAX_TASK_AGE_SECONDS): \Generator {
+		$taskIdsToCleanup = [];
 		try {
-			foreach ($this->cleanupTaskProcessingTaskFiles($ageInSeconds) as $cleanedUpEntry) {
+			$fileCleanupGenerator = $this->cleanupTaskProcessingTaskFiles($ageInSeconds);
+			foreach ($fileCleanupGenerator as $cleanedUpEntry) {
 				yield $cleanedUpEntry;
 			}
+			$taskIdsToCleanup = $fileCleanupGenerator->getReturn();
 		} catch (\Exception $e) {
 			$this->logger->warning('Failed to delete stale task processing tasks files', ['exception' => $e]);
 		}
 		try {
 			$deletedTaskCount = $this->taskMapper->deleteOlderThan($ageInSeconds);
+			yield ['deleted_task_id_list' => $taskIdsToCleanup];
 			yield ['deleted_task_count' => $deletedTaskCount];
 		} catch (\OCP\DB\Exception $e) {
 			$this->logger->warning('Failed to delete stale task processing tasks', ['exception' => $e]);
@@ -1555,7 +1559,9 @@ class Manager implements IManager {
 	 * @throws \OCP\Files\NotFoundException
 	 */
 	private function cleanupTaskProcessingTaskFiles(int $ageInSeconds): \Generator {
+		$taskIdsToCleanup = [];
 		foreach ($this->taskMapper->getTasksToCleanup($ageInSeconds) as $task) {
+			$taskIdsToCleanup[] = $task->getId();
 			$ocpTask = $task->toPublicTask();
 			$fileIds = $this->extractFileIdsFromTask($ocpTask);
 			foreach ($fileIds as $fileId) {
@@ -1573,6 +1579,7 @@ class Manager implements IManager {
 				}
 			}
 		}
+		return $taskIdsToCleanup;
 	}
 
 	/**

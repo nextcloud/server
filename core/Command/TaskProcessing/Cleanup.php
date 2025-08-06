@@ -34,15 +34,19 @@ class Cleanup extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maxAgeSeconds = $input->getArgument('maxAgeSeconds') ?? Manager::MAX_TASK_AGE_SECONDS;
-		$output->writeln('Cleanup up tasks older than '. $maxAgeSeconds . ' seconds and the related output files');
+		$output->writeln('<comment>Cleanup up tasks older than '. $maxAgeSeconds . ' seconds and the related output files</comment>');
 		$cleanupResult = $this->taskProcessingManager->cleanupOldTasks($maxAgeSeconds);
 		foreach ($cleanupResult as $entry) {
 			if (isset($entry['task_id'], $entry['file_id'], $entry['file_name'])) {
-				$output->writeln("\t - " . 'Deleted appData/core/TaskProcessing/' . $entry['file_name'] . '(fileId: ' . $entry['file_id'] . ', taskId: ' . $entry['task_id'] . ')');
+				$output->writeln("<info>\t - " . 'Deleted appData/core/TaskProcessing/' . $entry['file_name'] . ' (fileId: ' . $entry['file_id'] . ', taskId: ' . $entry['task_id'] . ')</info>');
 			} elseif (isset($entry['directory_name'])) {
-				$output->writeln("\t - " . 'Deleted appData/core/'. $entry['directory_name'] . '/' . $entry['file_name']);
+				$output->writeln("<info>\t - " . 'Deleted appData/core/'. $entry['directory_name'] . '/' . $entry['file_name'] . '</info>');
 			} elseif (isset($entry['deleted_task_count'])) {
-				$output->writeln("\t - " . 'Deleted '. $entry['deleted_task_count'] . ' tasks from the database');
+				$output->writeln("<comment>\t - " . 'Deleted '. $entry['deleted_task_count'] . ' tasks from the database</comment>');
+			} elseif (isset($entry['deleted_task_id_list'])) {
+				foreach ($entry['deleted_task_id_list'] as $taskId) {
+					$output->writeln("<info>\t - " . 'Deleted task '. $taskId . ' from the database</info>');
+				}
 			}
 		}
 		return 0;
