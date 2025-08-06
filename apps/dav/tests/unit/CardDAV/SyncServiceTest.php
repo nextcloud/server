@@ -108,7 +108,7 @@ class SyncServiceTest extends TestCase {
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/1', $token);
 	}
@@ -179,7 +179,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/2', $token);
 	}
@@ -250,7 +250,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/3', $token);
 	}
@@ -291,7 +291,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/4', $token);
 	}
