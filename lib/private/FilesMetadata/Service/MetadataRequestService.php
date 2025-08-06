@@ -108,8 +108,10 @@ class MetadataRequestService {
 	 */
 	public function getMetadataFromFileIds(array $fileIds): array {
 		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('file_id', 'json', 'sync_token')->from(self::TABLE_METADATA);
-		$qb->where($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+		$qb->select('file_id', 'json', 'sync_token')
+			->from(self::TABLE_METADATA)
+			->where($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+			->runAcrossAllShards();
 
 		$list = [];
 		$result = $qb->executeQuery();
@@ -141,6 +143,22 @@ class MetadataRequestService {
 		$qb->delete(self::TABLE_METADATA)
 			->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 		$qb->executeStatement();
+	}
+
+	/**
+	 * @param int[] $fileIds
+	 * @return void
+	 * @throws Exception
+	 */
+	public function dropMetadataForFiles(array $fileIds): void {
+		$chunks = array_chunk($fileIds, 1000);
+
+		foreach ($chunks as $chunk) {
+			$qb = $this->dbConnection->getQueryBuilder();
+			$qb->delete(self::TABLE_METADATA)
+				->where($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			$qb->executeStatement();
+		}
 	}
 
 	/**

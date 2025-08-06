@@ -17,7 +17,7 @@ use OCA\Files\Service\LivePhotosService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Exceptions\AbortedEventException;
-use OCP\Files\Cache\CacheEntryRemovedEvent;
+use OCP\Files\Cache\CacheEntriesRemovedEvent;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
@@ -63,8 +63,8 @@ class SyncLivePhotosListener implements IEventListener {
 				$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getSource()->getId());
 			} elseif ($event instanceof BeforeNodeDeletedEvent) {
 				$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getNode()->getId());
-			} elseif ($event instanceof CacheEntryRemovedEvent) {
-				$peerFileId = $this->livePhotosService->getLivePhotoPeerId($event->getFileId());
+			} elseif ($event instanceof CacheEntriesRemovedEvent) {
+				$this->handleCacheEntriesRemovedEvent($event);
 			}
 
 			if ($peerFileId === null) {
@@ -83,9 +83,27 @@ class SyncLivePhotosListener implements IEventListener {
 				$this->handleMove($event->getSource(), $event->getTarget(), $peerFile);
 			} elseif ($event instanceof BeforeNodeDeletedEvent) {
 				$this->handleDeletion($event, $peerFile);
-			} elseif ($event instanceof CacheEntryRemovedEvent) {
-				$peerFile->delete();
 			}
+		}
+	}
+
+	public function handleCacheEntriesRemovedEvent(CacheEntriesRemovedEvent $cacheEntriesRemovedEvent): void {
+		$entries = $cacheEntriesRemovedEvent->getCacheEntryRemovedEvents();
+		$fileIds = [];
+		foreach ($entries as $entry) {
+			$fileIds[] = $entry->getFileId();
+		}
+
+		$peerFileIds = $this->livePhotosService->getLivePhotoPeerIds($fileIds);
+
+		foreach ($peerFileIds as $peerFileId) {
+			// Check the user's folder.
+			$peerFile = $this->userFolder->getFirstNodeById($peerFileId);
+
+			if ($peerFile === null) {
+				return; // Peer file not found.
+			}
+			$peerFile->delete();
 		}
 	}
 
