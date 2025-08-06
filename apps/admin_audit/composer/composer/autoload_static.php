@@ -41,6 +41,7 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Listener\\SecurityEventListener' => __DIR__ . '/..' . '/../lib/Listener/SecurityEventListener.php',
         'OCA\\AdminAudit\\Listener\\SharingEventListener' => __DIR__ . '/..' . '/../lib/Listener/SharingEventListener.php',
         'OCA\\AdminAudit\\Listener\\TagEventListener' => __DIR__ . '/..' . '/../lib/Listener/TagEventListener.php',
+        'OCA\\AdminAudit\\Listener\\TrashbinEventListener' => __DIR__ . '/..' . '/../lib/Listener/TrashbinEventListener.php',
         'OCA\\AdminAudit\\Listener\\UserManagementEventListener' => __DIR__ . '/..' . '/../lib/Listener/UserManagementEventListener.php',
     );
 
