@@ -136,7 +136,7 @@ class App {
 		if (!$setUpViaQuery && $appClassName !== \OCP\AppFramework\App::class) {
 			// log as an exception but continue on
 			Server::get(LoggerInterface::class)->error($e->getMessage(), [
-				'app' => $appName,
+				'app' => $this->appName,
 				'exception' => $e,
 			]);
 		}
