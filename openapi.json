@@ -677,7 +677,8 @@
                     "progress",
                     "scheduledAt",
                     "startedAt",
-                    "endedAt"
+                    "endedAt",
+                    "cleanup"
                 ],
                 "properties": {
                     "id": {
@@ -748,6 +749,9 @@
                         "type": "integer",
                         "format": "int64",
                         "nullable": true
+                    },
+                    "cleanup": {
+                        "type": "boolean"
                     }
                 }
             },

@@ -973,6 +973,8 @@ class TaskProcessingTest extends \Test\TestCase {
 		$bgJob = new RemoveOldTasksBackgroundJob(
 			$timeFactory,
 			$this->taskMapper,
+			$this->manager,
+			Server::get(IRootFolder::class),
 			Server::get(LoggerInterface::class),
 			Server::get(IAppDataFactory::class),
 		);
