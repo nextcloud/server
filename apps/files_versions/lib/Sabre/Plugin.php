@@ -78,7 +78,10 @@ class Plugin extends ServerPlugin {
 		if ($node instanceof VersionFile) {
 			$propFind->handle(self::VERSION_LABEL, fn () => $node->getMetadataValue('label'));
 			$propFind->handle(self::VERSION_AUTHOR, fn () => $node->getMetadataValue('author'));
-			$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, fn () => $this->previewManager->isMimeSupported($node->getContentType()));
+			$propFind->handle(
+				FilesPlugin::HAS_PREVIEW_PROPERTYNAME,
+				fn (): string => $this->previewManager->isMimeSupported($node->getContentType()) ? 'true' : 'false',
+			);
 		}
 	}
 
