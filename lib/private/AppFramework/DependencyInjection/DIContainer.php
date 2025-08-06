@@ -63,7 +63,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
-	private string $appName;
+	protected string $appName;
 	private array $middleWares = [];
 	private ServerContainer $server;
 
