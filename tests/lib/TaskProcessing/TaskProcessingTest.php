@@ -943,11 +943,6 @@ class TaskProcessingTest extends \Test\TestCase {
 		$timeFactory->expects($this->any())->method('getDateTime')->willReturnCallback(fn () => $currentTime);
 		$timeFactory->expects($this->any())->method('getTime')->willReturnCallback(fn () => $currentTime->getTimestamp());
 
-		$this->taskMapper = new TaskMapper(
-			Server::get(IDBConnection::class),
-			$timeFactory,
-		);
-
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', SuccessfulSyncProvider::class)
 		]);
@@ -968,11 +963,34 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$task = $this->manager->getTask($task->getId());
 
+		$taskMapper = new TaskMapper(
+			Server::get(IDBConnection::class),
+			$timeFactory,
+		);
+		$manager = new Manager(
+			$this->appConfig,
+			$this->coordinator,
+			$this->serverContainer,
+			Server::get(LoggerInterface::class),
+			$taskMapper,
+			$this->jobList,
+			Server::get(IEventDispatcher::class),
+			Server::get(IAppDataFactory::class),
+			Server::get(IRootFolder::class),
+			Server::get(\OC\TextToImage\Manager::class),
+			$this->userMountCache,
+			Server::get(IClientService::class),
+			Server::get(IAppManager::class),
+			Server::get(IUserManager::class),
+			Server::get(IUserSession::class),
+			Server::get(ICacheFactory::class),
+		);
 		$currentTime = $currentTime->add(new \DateInterval('P1Y'));
 		// run background job
 		$bgJob = new RemoveOldTasksBackgroundJob(
 			$timeFactory,
-			$this->manager,
+			// use a locally defined manager to make sure the taskMapper uses the mocked timeFactory
+			$manager,
 		);
 		$bgJob->setArgument([]);
 		$bgJob->start($this->jobList);
