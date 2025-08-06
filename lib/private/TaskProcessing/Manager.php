@@ -1449,6 +1449,45 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @param Task $task
+	 * @return list<int>
+	 * @throws NotFoundException
+	 */
+	public function extractFileIdsFromTask(Task $task): array {
+		$ids = [];
+		$taskTypes = $this->getAvailableTaskTypes();
+		if (!isset($taskTypes[$task->getTaskTypeId()])) {
+			throw new NotFoundException('Could not find task type');
+		}
+		$taskType = $taskTypes[$task->getTaskTypeId()];
+		foreach ($taskType['inputShape'] + $taskType['optionalInputShape'] as $key => $descriptor) {
+			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+				/** @var int|list<int> $inputSlot */
+				$inputSlot = $task->getInput()[$key];
+				if (is_array($inputSlot)) {
+					$ids = array_merge($inputSlot, $ids);
+				} else {
+					$ids[] = $inputSlot;
+				}
+			}
+		}
+		if ($task->getOutput() !== null) {
+			foreach ($taskType['outputShape'] + $taskType['optionalOutputShape'] as $key => $descriptor) {
+				if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+					/** @var int|list<int> $outputSlot */
+					$outputSlot = $task->getOutput()[$key];
+					if (is_array($outputSlot)) {
+						$ids = array_merge($outputSlot, $ids);
+					} else {
+						$ids[] = $outputSlot;
+					}
+				}
+			}
+		}
+		return $ids;
+	}
+
+	/**
 	 * Make a request to the task's webhookUri if necessary
 	 *
 	 * @param Task $task
