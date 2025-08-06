@@ -4185,7 +4185,8 @@
                         "required": [
                             "enabled",
                             "restore",
-                            "supports_emoji"
+                            "supports_emoji",
+                            "supports_busy"
                         ],
                         "properties": {
                             "enabled": {
@@ -4195,6 +4196,9 @@
                                 "type": "boolean"
                             },
                             "supports_emoji": {
+                                "type": "boolean"
+                            },
+                            "supports_busy": {
                                 "type": "boolean"
                             }
                         }
