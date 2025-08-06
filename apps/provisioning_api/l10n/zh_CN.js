@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid password value" : "密码值无效",
     "An email address is required, to send a password link to the user." : "需要电子邮件地址，以将密码链接发送给用户。",
     "Required email address was not provided" : "未提供所需的电子邮件地址",
+    "User creation failed" : "用户创建失败",
     "Invalid quota value: %1$s" : "配额值无效：%1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "配额值无效。%1$s 超过了最大配额",
     "Unlimited quota is forbidden on this instance" : "此实例上禁止无限配额",

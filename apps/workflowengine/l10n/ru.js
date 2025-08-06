@@ -97,7 +97,6 @@ OC.L10N.register(
     "is" : "равняется",
     "is not" : "не равняется",
     "File name" : "Имя файла",
-    "Directory" : "Директория",
     "File MIME type" : "MIME-тип файла",
     "File size (upload)" : "Размер передаваемого на сервер файла",
     "less" : "меньше",

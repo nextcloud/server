@@ -97,7 +97,6 @@ OC.L10N.register(
     "is" : "是",
     "is not" : "不是",
     "File name" : "檔案名稱",
-    "Directory" : "目錄",
     "File MIME type" : "檔案MIME類型",
     "File size (upload)" : "檔案大小（上傳）",
     "less" : "更少",

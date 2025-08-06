@@ -97,7 +97,6 @@ OC.L10N.register(
     "is" : "tá",
     "is not" : "níl",
     "File name" : "Ainm comhaid",
-    "Directory" : "Eolaire",
     "File MIME type" : "Cineál comhaid MIME",
     "File size (upload)" : "Méid comhaid (uaslódáil)",
     "less" : "níos lú",

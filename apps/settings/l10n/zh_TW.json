@@ -393,6 +393,7 @@
     "Default expiration time of remote shares in days" : "遠端分享預設到期時間（天）",
     "Expire remote shares after x days" : "x 天後遠端分享過期",
     "Set default expiration date for shares via link or mail" : "設定透過連結或郵件分享的預設過期日",
+    "Enforce expiration date for link or mail shares" : "強制設定連結或郵件分享的到期日",
     "Default expiration time of shares in days" : "分享預設到期時間（天）",
     "Privacy settings for sharing" : "分享的隱私設定",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "允許在分享對話方塊中自動補齊帳號名稱並允許存取系統通訊錄",
