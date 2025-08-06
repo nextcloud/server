@@ -59,9 +59,15 @@
 						@submit="openedPicker = false">
 						<NcButton :aria-label="t('systemtags', 'Change tag color')" type="tertiary">
 							<template #icon>
-								<CircleIcon v-if="tag.color" :size="24" fill-color="var(--color-circle-icon)" />
-								<CircleOutlineIcon v-else :size="24" fill-color="var(--color-circle-icon)" />
-								<PencilIcon />
+								<CircleIcon v-if="tag.color"
+									:size="24"
+									fill-color="var(--color-circle-icon)"
+									class="button-color-circle" />
+								<CircleOutlineIcon v-else
+									:size="24"
+									fill-color="var(--color-circle-icon)"
+									class="button-color-empty" />
+								<PencilIcon class="button-color-pencil" />
 							</template>
 						</NcButton>
 					</NcColorPicker>
@@ -622,7 +628,7 @@ export default defineComponent({
 	.systemtags-picker__tag-color button {
 		margin-inline-start: calc(var(--default-grid-baseline) * 2);
 
-		span.pencil-icon {
+		.button-color-pencil {
 			display: none;
 			color: var(--color-main-text);
 		}
@@ -630,11 +636,11 @@ export default defineComponent({
 		&:focus,
 		&:hover,
 		&[aria-expanded='true'] {
-			.pencil-icon {
+			.button-color-pencil {
 				display: block;
 			}
-			.circle-icon,
-			.circle-outline-icon {
+			.button-color-circle,
+			.button-color-empty {
 				display: none;
 			}
 		}
