@@ -395,6 +395,7 @@ OC.L10N.register(
     "Default expiration time of remote shares in days" : "Standardablaufzeit für Remote-Freigaben in Tagen",
     "Expire remote shares after x days" : "Remote-Freigaben laufen nach x Tagen ab",
     "Set default expiration date for shares via link or mail" : "Standardablaufzeit für Link- oder E-Mail-Freigaben festlegen",
+    "Enforce expiration date for link or mail shares" : "Ablaufdatum für Link- oder E-Mail-Freigaben erzwingen",
     "Default expiration time of shares in days" : "Standardablaufzeit für Freigaben in Tagen",
     "Privacy settings for sharing" : "Datenschutzeinstellungen bezüglich des Teilens",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Automatische Vervollständigung des Kontonamens im Freigabedialog und Zugriff auf das Systemadressbuch zulassen",
