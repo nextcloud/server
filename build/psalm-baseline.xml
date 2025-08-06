@@ -11,8 +11,6 @@
       <code><![CDATA[ManagerEvent::EVENT_CREATE]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore')]]></code>
-      <code><![CDATA[Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete')]]></code>
       <code><![CDATA[Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete')]]></code>
       <code><![CDATA[Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate')]]></code>
       <code><![CDATA[Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword')]]></code>
@@ -1643,14 +1641,6 @@
     <MismatchingDocblockReturnType>
       <code><![CDATA[INode]]></code>
     </MismatchingDocblockReturnType>
-  </file>
-  <file src="apps/files_trashbin/lib/Sabre/TrashRoot.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$entry]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[ITrash]]></code>
-    </InvalidReturnType>
   </file>
   <file src="apps/files_trashbin/lib/Storage.php">
     <DeprecatedMethod>
