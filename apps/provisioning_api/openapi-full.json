@@ -153,6 +153,7 @@
                     "role",
                     "subadmin",
                     "twitter",
+                    "bluesky",
                     "website"
                 ],
                 "properties": {
@@ -312,6 +313,12 @@
                         "type": "string"
                     },
                     "twitterScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "bluesky": {
+                        "type": "string"
+                    },
+                    "blueskyScope": {
                         "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "website": {

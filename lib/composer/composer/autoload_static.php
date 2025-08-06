@@ -1945,6 +1945,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\WatcherConnector' => __DIR__ . '/../../..' . '/lib/private/Preview/WatcherConnector.php',
         'OC\\Preview\\WebP' => __DIR__ . '/../../..' . '/lib/private/Preview/WebP.php',
         'OC\\Preview\\XBitmap' => __DIR__ . '/../../..' . '/lib/private/Preview/XBitmap.php',
+        'OC\\Profile\\Actions\\BlueskyAction' => __DIR__ . '/../../..' . '/lib/private/Profile/Actions/BlueskyAction.php',
         'OC\\Profile\\Actions\\EmailAction' => __DIR__ . '/../../..' . '/lib/private/Profile/Actions/EmailAction.php',
         'OC\\Profile\\Actions\\FediverseAction' => __DIR__ . '/../../..' . '/lib/private/Profile/Actions/FediverseAction.php',
         'OC\\Profile\\Actions\\PhoneAction' => __DIR__ . '/../../..' . '/lib/private/Profile/Actions/PhoneAction.php',

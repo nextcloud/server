@@ -1904,6 +1904,7 @@ return array(
     'OC\\Preview\\WatcherConnector' => $baseDir . '/lib/private/Preview/WatcherConnector.php',
     'OC\\Preview\\WebP' => $baseDir . '/lib/private/Preview/WebP.php',
     'OC\\Preview\\XBitmap' => $baseDir . '/lib/private/Preview/XBitmap.php',
+    'OC\\Profile\\Actions\\BlueskyAction' => $baseDir . '/lib/private/Profile/Actions/BlueskyAction.php',
     'OC\\Profile\\Actions\\EmailAction' => $baseDir . '/lib/private/Profile/Actions/EmailAction.php',
     'OC\\Profile\\Actions\\FediverseAction' => $baseDir . '/lib/private/Profile/Actions/FediverseAction.php',
     'OC\\Profile\\Actions\\PhoneAction' => $baseDir . '/lib/private/Profile/Actions/PhoneAction.php',
