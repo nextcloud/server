@@ -373,7 +373,7 @@ export default {
 		title() {
 			switch (this.share.type) {
 			case ShareType.User:
-				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
+				return t('files_sharing', 'Share with {user}', { user: this.share.shareWithDisplayName })
 			case ShareType.Email:
 			    return t('files_sharing', 'Share with email {email}', { email: this.share.shareWith })
 			case ShareType.Link:
@@ -384,6 +384,9 @@ export default {
 				return t('files_sharing', 'Share in conversation')
 			case ShareType.Remote: {
 				const [user, server] = this.share.shareWith.split('@')
+				if (this.config.showFederatedSharesAsInternal) {
+					return t('files_sharing', 'Share with {user}', { user })
+				}
 				return t('files_sharing', 'Share with {user} on remote server {server}', { user, server })
 			}
 			case ShareType.RemoteGroup:
