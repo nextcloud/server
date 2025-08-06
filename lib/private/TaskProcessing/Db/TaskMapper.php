@@ -205,7 +205,8 @@ class TaskMapper extends QBMapper {
 	 */
 	public function getTasksToCleanup(int $timeout, bool $force = false): \Generator {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select($this->tableName)
+		$qb->select(Task::$columns)
+			->from($this->tableName)
 			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($this->timeFactory->getDateTime()->getTimestamp() - $timeout)));
 		if (!$force) {
 			$qb->andWhere($qb->expr()->eq('cleanup', $qb->createPositionalParameter(1, IQueryBuilder::PARAM_INT)));

@@ -30,6 +30,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\ICache;
@@ -77,6 +78,8 @@ class Manager implements IManager {
 		'ai.taskprocessing_type_preferences',
 		'ai.taskprocessing_provider_preferences',
 	];
+
+	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 30 * 4; // 4 months
 
 	/** @var list<IProvider>|null */
 	private ?array $providers = null;
@@ -1485,6 +1488,91 @@ class Manager implements IManager {
 			}
 		}
 		return $ids;
+	}
+
+	/**
+	 * @param int $ageInSeconds
+	 * @return \Generator
+	 */
+	public function cleanupOldTasks(int $ageInSeconds = self::MAX_TASK_AGE_SECONDS): \Generator {
+		try {
+			foreach ($this->cleanupTaskProcessingTaskFiles($ageInSeconds) as $cleanedUpEntry) {
+				yield $cleanedUpEntry;
+			}
+		} catch (\Exception $e) {
+			$this->logger->warning('Failed to delete stale task processing tasks files', ['exception' => $e]);
+		}
+		try {
+			$deletedTaskCount = $this->taskMapper->deleteOlderThan($ageInSeconds);
+			yield ['deleted_task_count' => $deletedTaskCount];
+		} catch (\OCP\DB\Exception $e) {
+			$this->logger->warning('Failed to delete stale task processing tasks', ['exception' => $e]);
+		}
+		try {
+			$textToImageDeletedFiles = $this->clearFilesOlderThan($this->appData->getFolder('text2image'), $ageInSeconds);
+			foreach ($textToImageDeletedFiles as $entry) {
+				yield $entry;
+			}
+		} catch (\OCP\Files\NotFoundException $e) {
+			// noop
+		}
+		try {
+			$audioToTextDeletedFiles = $this->clearFilesOlderThan($this->appData->getFolder('audio2text'), $ageInSeconds);
+			foreach ($audioToTextDeletedFiles as $entry) {
+				yield $entry;
+			}
+		} catch (\OCP\Files\NotFoundException $e) {
+			// noop
+		}
+	}
+
+	/**
+	 * @param ISimpleFolder $folder
+	 * @param int $ageInSeconds
+	 * @return \Generator
+	 */
+	private function clearFilesOlderThan(ISimpleFolder $folder, int $ageInSeconds): \Generator {
+		foreach ($folder->getDirectoryListing() as $file) {
+			if ($file->getMTime() < time() - $ageInSeconds) {
+				try {
+					$fileName = $file->getName();
+					$file->delete();
+					yield ['directory_name' => $folder->getName(), 'file_name' => $fileName];
+				} catch (NotPermittedException $e) {
+					$this->logger->warning('Failed to delete a stale task processing file', ['exception' => $e]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param int $ageInSeconds
+	 * @return \Generator
+	 * @throws Exception
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws \JsonException
+	 * @throws \OCP\Files\NotFoundException
+	 */
+	private function cleanupTaskProcessingTaskFiles(int $ageInSeconds): \Generator {
+		foreach ($this->taskMapper->getTasksToCleanup($ageInSeconds) as $task) {
+			$ocpTask = $task->toPublicTask();
+			$fileIds = $this->extractFileIdsFromTask($ocpTask);
+			foreach ($fileIds as $fileId) {
+				// only look for output files stored in appData/TaskProcessing/
+				$file = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/core/TaskProcessing/');
+				if ($file instanceof File) {
+					try {
+						$fileId = $file->getId();
+						$fileName = $file->getName();
+						$file->delete();
+						yield ['task_id' => $task->getId(), 'file_id' => $fileId, 'file_name' => $fileName];
+					} catch (NotPermittedException $e) {
+						$this->logger->warning('Failed to delete a stale task processing file', ['exception' => $e]);
+					}
+				}
+			}
+		}
 	}
 
 	/**

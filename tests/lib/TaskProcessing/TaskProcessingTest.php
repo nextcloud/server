@@ -972,11 +972,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		// run background job
 		$bgJob = new RemoveOldTasksBackgroundJob(
 			$timeFactory,
-			$this->taskMapper,
 			$this->manager,
-			Server::get(IRootFolder::class),
-			Server::get(LoggerInterface::class),
-			Server::get(IAppDataFactory::class),
 		);
 		$bgJob->setArgument([]);
 		$bgJob->start($this->jobList);
