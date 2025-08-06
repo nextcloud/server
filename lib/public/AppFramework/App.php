@@ -34,10 +34,10 @@ class App {
 		$debugMode = Server::get(IConfig::class)->getSystemValueBool('debug');
 		$excludeArgsFromTraces = ini_get('zend.exception_ignore_args');
 		// Check if application class was setup incorrectly (and log it) when in debug mode
-		if ($debugMode && !$excludeArgsFromTraces) { 
+		if ($debugMode && !$excludeArgsFromTraces) {
 			$this->checkIfSetupDirectly();
 		}
-		
+
 		try {
 			$this->container = \OC::$server->getRegisteredAppContainer($appName);
 		} catch (QueryException $e) {
@@ -57,8 +57,8 @@ class App {
 	 */
 	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
 		return \OC\AppFramework\App::buildAppNamespace($appId, $topNamespace);
-	}	
-	
+	}
+
 	/**
 	 * @return IAppContainer
 	 * @since 6.0.0
@@ -103,14 +103,14 @@ class App {
 	}
 
 	/**
- 	 * Log an error when the application class was setup incorrectly.
-   	 */
+	 * Log an error when the application class was setup incorrectly.
+	 */
 	protected function checkIfSetupDirectly(): void {
 		$appClassName = get_class($this);
 		$setUpViaQuery = false;
 		$classNameParts = explode('\\', trim($appClassName, '\\'));
 
-		$e = new \RuntimeException('App class ' . $appClassName . ' is not setup via query() but directly');													
+		$e = new \RuntimeException('App class ' . $appClassName . ' is not setup via query() but directly');
 		foreach ($e->getTrace() as $step) {
 			if (isset($step['class'], $step['function'], $step['args'][0])
 				&& $step['class'] === ServerContainer::class
