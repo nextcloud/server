@@ -261,6 +261,7 @@ OC.L10N.register(
     "Default expiration time of remote shares in days" : "Kaugserveris asuva jaosmeedia vaikimisi aegumine päevades",
     "Expire remote shares after x days" : "Jaosmeedia aegub x päeva möödudes",
     "Set default expiration date for shares via link or mail" : "Määra lingi või e-kirjaga jagatava jaosmeedia vaikimisi aegumiskuupäev",
+    "Enforce expiration date for link or mail shares" : "Jõusta lingiga või e-postiga jagamise aegumiskuupäev",
     "Default expiration time of shares in days" : "Jaosmeedia vaikimisi aegumine päevades",
     "Privacy settings for sharing" : "Jagamise privaatsusseadistused",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Kuva avaliku lingiga üleslaadimise lehel lahtiütluste tekst (vaid siis, kui failide loend on peidetud)",

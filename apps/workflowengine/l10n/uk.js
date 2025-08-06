@@ -97,7 +97,6 @@ OC.L10N.register(
     "is" : "є",
     "is not" : "не",
     "File name" : "Ім'я файлу",
-    "Directory" : "Каталог",
     "File MIME type" : "Тип MIME файлу",
     "File size (upload)" : "Розмір файлу (завантаження)",
     "less" : "менше",
