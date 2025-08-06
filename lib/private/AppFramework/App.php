@@ -134,8 +134,7 @@ class App {
 		$eventLogger->start('app:controller:dispatcher', 'Initialize dispatcher and pre-middleware');
 
 		// initialize the dispatcher and run all the middleware before the controller
-		/** @var Dispatcher $dispatcher */
-		$dispatcher = $container['Dispatcher'];
+		$dispatcher = $container->get(Dispatcher::class);
 
 		$eventLogger->end('app:controller:dispatcher');
 

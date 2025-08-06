@@ -152,7 +152,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerDeprecatedAlias('Dispatcher', Dispatcher::class);
 		$this->registerService(Dispatcher::class, function (ContainerInterface $c) {
 			return new Dispatcher(
-				$c->get('Protocol'),
+				$c->get(Http::class),
 				$c->get(MiddlewareDispatcher::class),
 				$c->get(IControllerMethodReflector::class),
 				$c->get(IRequest::class),
