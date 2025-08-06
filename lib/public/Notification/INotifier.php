@@ -10,6 +10,11 @@ namespace OCP\Notification;
 
 use OCP\AppFramework\Attribute\Implementable;
 
+/**
+ * Please consider implementing {@see IPreloadableNotifier} to improve performance. It allows to
+ * preload and cache data for many notifications at once instead of loading the data for each
+ * prepared notification separately.
+ */
 #[Implementable(since: '9.0.0')]
 interface INotifier {
 	/**
