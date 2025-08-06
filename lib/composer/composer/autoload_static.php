@@ -1387,6 +1387,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\SystemTag\\Delete' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Delete.php',
         'OC\\Core\\Command\\SystemTag\\Edit' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Edit.php',
         'OC\\Core\\Command\\SystemTag\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/SystemTag/ListCommand.php',
+        'OC\\Core\\Command\\TaskProcessing\\Cleanup' => __DIR__ . '/../../..' . '/core/Command/TaskProcessing/Cleanup.php',
         'OC\\Core\\Command\\TaskProcessing\\EnabledCommand' => __DIR__ . '/../../..' . '/core/Command/TaskProcessing/EnabledCommand.php',
         'OC\\Core\\Command\\TaskProcessing\\GetCommand' => __DIR__ . '/../../..' . '/core/Command/TaskProcessing/GetCommand.php',
         'OC\\Core\\Command\\TaskProcessing\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/TaskProcessing/ListCommand.php',
