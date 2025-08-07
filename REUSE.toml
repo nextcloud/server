@@ -334,6 +334,12 @@ SPDX-FileCopyrightText = "X Corp."
 SPDX-License-Identifier = "LicenseRef-XTrademarks"
 
 [[annotations]]
+path = ["core/img/bluesky.svg", "core/img/actions/bluesky.svg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Bluesky PBC"
+SPDX-License-Identifier = "LicenseRef-BlueskyTrademarks"
+
+[[annotations]]
 path = ["core/img/facebook.svg", "apps/federatedfilesharing/img/social-facebook.svg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2024 Meta"

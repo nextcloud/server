@@ -96,6 +96,7 @@ interface IAccountManager {
 	public const PROPERTY_ADDRESS = 'address';
 
 	/**
+	 * @since 15.0.0
 	 * @deprecated 32.0.0
 	 */
 	public const PROPERTY_TWITTER = 'twitter';
