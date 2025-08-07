@@ -1778,7 +1778,7 @@ class Manager implements IManager {
 				}
 			}
 		}
-		return $this->config->getAppValue('core', 'shareapi_enforce_links_password', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_ENFORCED);
 	}
 
 	/**

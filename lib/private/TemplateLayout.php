@@ -20,6 +20,7 @@ use OC\Template\JSResourceLocator;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
@@ -44,6 +45,7 @@ class TemplateLayout {
 
 	public function __construct(
 		private IConfig $config,
+		private readonly IAppConfig $appConfig,
 		private IAppManager $appManager,
 		private InitialStateService $initialState,
 		private INavigationManager $navigationManager,
@@ -223,6 +225,7 @@ class TemplateLayout {
 				\OC::$server->getSession(),
 				\OC::$server->getUserSession()->getUser(),
 				$this->config,
+				$this->appConfig,
 				\OC::$server->getGroupManager(),
 				\OC::$server->get(IniGetWrapper::class),
 				\OC::$server->getURLGenerator(),

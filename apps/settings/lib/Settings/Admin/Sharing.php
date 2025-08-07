@@ -68,7 +68,7 @@ class Sharing implements IDelegatedSettings {
 			'excludeGroups' => $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no'),
 			'excludeGroupsList' => json_decode($excludedGroups, true) ?? [],
 			'publicShareDisclaimerText' => $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext'),
-			'enableLinkPasswordByDefault' => $this->getHumanBooleanConfig('core', 'shareapi_enable_link_password_by_default'),
+			'enableLinkPasswordByDefault' => $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT),
 			'defaultPermissions' => (int)$this->config->getAppValue('core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL),
 			'defaultInternalExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_default_internal_expire_date'),
 			'internalExpireAfterNDays' => $this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7'),
