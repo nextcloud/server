@@ -156,7 +156,6 @@ export default {
 				|| !!(this.reshare && this.reshare.hasSharePermission && this.config.isResharingAllowed)
 		},
 	},
-
 	methods: {
 		/**
 		 * Update current fileInfo and fetch new data
@@ -168,7 +167,6 @@ export default {
 			this.resetState()
 			this.getShares()
 		},
-
 		/**
 		 * Get the existing shares infos
 		 */
