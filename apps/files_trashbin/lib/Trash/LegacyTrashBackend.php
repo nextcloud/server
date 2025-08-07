@@ -118,4 +118,9 @@ class LegacyTrashBackend implements ITrashBackend {
 			return null;
 		}
 	}
+
+	public function getTrashRootsForUser(IUser $user): array {
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		return [$userFolder->getParent()->get('files_trashbin/files')];
+	}
 }

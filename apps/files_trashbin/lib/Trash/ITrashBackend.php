@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Trashbin\Trash;
 
+use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
@@ -64,4 +65,10 @@ interface ITrashBackend {
 	 * @return Node|null
 	 */
 	public function getTrashNodeById(IUser $user, int $fileId);
+
+	/**
+	 * @return Folder[]
+	 * @since 32.0.0
+	 */
+	public function getTrashRootsForUser(IUser $user): array;
 }

@@ -108,4 +108,10 @@ class TrashManager implements ITrashManager {
 	public function resumeTrash() {
 		$this->trashPaused = false;
 	}
+
+	public function getTrashRootsForUser(IUser $user): array {
+		return array_reduce($this->getBackends(), function (array $items, ITrashBackend $backend) use ($user) {
+			return array_merge($items, $backend->getTrashRootsForUser($user));
+		}, []);
+	}
 }
