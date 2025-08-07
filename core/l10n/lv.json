@@ -125,6 +125,7 @@
     "Log in to {productName}" : "Pieteikties {productName}",
     "Wrong login or password." : "Nepareizs lietotājvārds vai parole.",
     "This account is disabled" : "Šis konts ir atspējots",
+    "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Mēs esam noteikuši vairākus nederīgus pieteikšanās mēģinājumus no šīs IP adreses, tādējādi nākamā pieteikšanās ir ierobežota līdz 30 sekundēm.",
     "Account name or email" : "Konta nosaukums vai e-pasta adrese",
     "Account name" : "Konta nosaukums",
     "Server side authentication failed!" : "Servera autentifikācija neizdevās!",

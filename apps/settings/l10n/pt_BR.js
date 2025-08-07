@@ -395,6 +395,7 @@ OC.L10N.register(
     "Default expiration time of remote shares in days" : "Tempo de expiração padrão de compartilhamentos remotos em dias",
     "Expire remote shares after x days" : "Expiração de compartilhamentos remotos após x dias",
     "Set default expiration date for shares via link or mail" : "Definir a data de expiração padrão para compartilhamentos via link ou e-mail",
+    "Enforce expiration date for link or mail shares" : "Impor data de expiração para compartilhamentos de link ou e-mail",
     "Default expiration time of shares in days" : "Tempo de expiração padrão dos compartilhamentos em dias",
     "Privacy settings for sharing" : "Configurações de privacidade para compartilhamento",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Permitir o preenchimento automático de nomes das contas na caixa de diálogo de compartilhamento e permitir o acesso ao catálogo de endereços do sistema",
