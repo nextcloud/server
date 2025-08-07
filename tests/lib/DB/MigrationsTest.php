@@ -20,6 +20,7 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
 use OC\Migration\MetadataManager;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\IDBConnection;
 use OCP\Migration\Attributes\AddColumn;
@@ -81,10 +82,10 @@ class MigrationsTest extends \Test\TestCase {
 
 
 	public function testUnknownApp(): void {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('App not found');
+		$this->expectException(AppPathNotFoundException::class);
+		$this->expectExceptionMessage('Could not find path for unknown_bloody_app');
 
-		$migrationService = new MigrationService('unknown-bloody-app', $this->db);
+		$migrationService = new MigrationService('unknown_bloody_app', $this->db);
 	}
 
 

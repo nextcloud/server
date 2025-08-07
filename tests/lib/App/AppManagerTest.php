@@ -11,12 +11,12 @@ declare(strict_types=1);
 namespace Test\App;
 
 use OC\App\AppManager;
+use OC\App\DependencyAnalyzer;
 use OC\AppConfig;
 use OC\Config\ConfigManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
-use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -95,9 +95,9 @@ class AppManagerTest extends TestCase {
 	protected IURLGenerator&MockObject $urlGenerator;
 	protected ServerVersion&MockObject $serverVersion;
 	protected ConfigManager&MockObject $configManager;
+	protected DependencyAnalyzer&MockObject $dependencyAnalyzer;
 
-	/** @var IAppManager */
-	protected $manager;
+	protected AppManager $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,6 +113,7 @@ class AppManagerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->configManager = $this->createMock(ConfigManager::class);
+		$this->dependencyAnalyzer = $this->createMock(DependencyAnalyzer::class);
 
 		$this->overwriteService(AppConfig::class, $this->appConfig);
 		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
@@ -136,6 +137,7 @@ class AppManagerTest extends TestCase {
 			$this->logger,
 			$this->serverVersion,
 			$this->configManager,
+			$this->dependencyAnalyzer,
 		);
 	}
 
@@ -278,6 +280,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -332,6 +335,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -395,6 +399,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -475,16 +480,16 @@ class AppManagerTest extends TestCase {
 			'writable' => false,
 		];
 
-		$fakeTestAppPath = $fakeAppPath . '/' . 'test-test-app';
+		$fakeTestAppPath = $fakeAppPath . '/' . 'test_test_app';
 		mkdir($fakeTestAppPath);
 
-		$generatedAppPath = $this->manager->getAppPath('test-test-app');
+		$generatedAppPath = $this->manager->getAppPath('test_test_app');
 
 		rmdir($fakeTestAppPath);
 		unlink($fakeAppLink);
 		rmdir($fakeAppPath);
 
-		$this->assertEquals($fakeAppLink . '/test-test-app', $generatedAppPath);
+		$this->assertEquals($fakeAppLink . '/test_test_app', $generatedAppPath);
 	}
 
 	public function testGetAppPathFail(): void {
@@ -601,6 +606,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -662,6 +668,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -802,6 +809,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -834,6 +842,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -865,6 +874,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -885,5 +895,4 @@ class AppManagerTest extends TestCase {
 			$manager->getAppVersion('unknown'),
 		);
 	}
-
 }
