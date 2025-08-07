@@ -200,7 +200,7 @@ namespace OC\Core;
  *     scheduledAt: ?int,
  *     startedAt: ?int,
  *     endedAt: ?int,
- *     cleanup: bool,
+ *     allowCleanup: bool,
  * }
  *
  * @psalm-type CoreProfileAction = array{

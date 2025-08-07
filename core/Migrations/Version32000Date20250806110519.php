@@ -19,7 +19,7 @@ use OCP\Migration\SimpleMigrationStep;
 /**
  *
  */
-#[AddColumn(table: 'taskprocessing_tasks', name: 'cleanup', type: ColumnType::SMALLINT)]
+#[AddColumn(table: 'taskprocessing_tasks', name: 'allow_cleanup', type: ColumnType::SMALLINT)]
 class Version32000Date20250806110519 extends SimpleMigrationStep {
 
 	/**
@@ -34,8 +34,8 @@ class Version32000Date20250806110519 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('taskprocessing_tasks')) {
 			$table = $schema->getTable('taskprocessing_tasks');
-			if (!$table->hasColumn('cleanup')) {
-				$table->addColumn('cleanup', Types::SMALLINT, [
+			if (!$table->hasColumn('allow_cleanup')) {
+				$table->addColumn('allow_cleanup', Types::SMALLINT, [
 					'notnull' => true,
 					'default' => 1,
 					'unsigned' => true,

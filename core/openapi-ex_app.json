@@ -146,7 +146,7 @@
                     "scheduledAt",
                     "startedAt",
                     "endedAt",
-                    "cleanup"
+                    "allowCleanup"
                 ],
                 "properties": {
                     "id": {
@@ -218,7 +218,7 @@
                         "format": "int64",
                         "nullable": true
                     },
-                    "cleanup": {
+                    "allowCleanup": {
                         "type": "boolean"
                     }
                 }

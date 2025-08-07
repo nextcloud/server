@@ -45,8 +45,8 @@ use OCP\TaskProcessing\Task as OCPTask;
  * @method int getStartedAt()
  * @method setEndedAt(int $endedAt)
  * @method int getEndedAt()
- * @method setCleanup(int $cleanup)
- * @method int getCleanup()
+ * @method setAllowCleanup(int $allowCleanup)
+ * @method int getAllowCleanup()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -65,17 +65,17 @@ class Task extends Entity {
 	protected $scheduledAt;
 	protected $startedAt;
 	protected $endedAt;
-	protected $cleanup;
+	protected $allowCleanup;
 
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'cleanup'];
+	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'webhook_uri', 'webhook_method', 'scheduled_at', 'started_at', 'ended_at', 'allow_cleanup'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'cleanup'];
+	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'webhookUri', 'webhookMethod', 'scheduledAt', 'startedAt', 'endedAt', 'allowCleanup'];
 
 
 	public function __construct() {
@@ -97,7 +97,7 @@ class Task extends Entity {
 		$this->addType('scheduledAt', 'integer');
 		$this->addType('startedAt', 'integer');
 		$this->addType('endedAt', 'integer');
-		$this->addType('cleanup', 'integer');
+		$this->addType('allowCleanup', 'integer');
 	}
 
 	public function toRow(): array {
@@ -126,7 +126,7 @@ class Task extends Entity {
 			'scheduledAt' => $task->getScheduledAt(),
 			'startedAt' => $task->getStartedAt(),
 			'endedAt' => $task->getEndedAt(),
-			'cleanup' => $task->getCleanup(),
+			'allowCleanup' => $task->getAllowCleanup(),
 		]);
 		return $taskEntity;
 	}
@@ -149,7 +149,7 @@ class Task extends Entity {
 		$task->setScheduledAt($this->getScheduledAt());
 		$task->setStartedAt($this->getStartedAt());
 		$task->setEndedAt($this->getEndedAt());
-		$task->setCleanup($this->getCleanup() !== 0);
+		$task->setAllowCleanup($this->getAllowCleanup() !== 0);
 		return $task;
 	}
 }

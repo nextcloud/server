@@ -183,7 +183,7 @@ class TaskMapper extends QBMapper {
 
 	/**
 	 * @param int $timeout
-	 * @param bool $force If true, ignore the cleanup flag
+	 * @param bool $force If true, ignore the allow_cleanup flag
 	 * @return int the number of deleted tasks
 	 * @throws Exception
 	 */
@@ -192,14 +192,14 @@ class TaskMapper extends QBMapper {
 		$qb->delete($this->tableName)
 			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($this->timeFactory->getDateTime()->getTimestamp() - $timeout)));
 		if (!$force) {
-			$qb->andWhere($qb->expr()->eq('cleanup', $qb->createPositionalParameter(1, IQueryBuilder::PARAM_INT)));
+			$qb->andWhere($qb->expr()->eq('allow_cleanup', $qb->createPositionalParameter(1, IQueryBuilder::PARAM_INT)));
 		}
 		return $qb->executeStatement();
 	}
 
 	/**
 	 * @param int $timeout
-	 * @param bool $force If true, ignore the cleanup flag
+	 * @param bool $force If true, ignore the allow_cleanup flag
 	 * @return \Generator<Task>
 	 * @throws Exception
 	 */
@@ -209,7 +209,7 @@ class TaskMapper extends QBMapper {
 			->from($this->tableName)
 			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($this->timeFactory->getDateTime()->getTimestamp() - $timeout)));
 		if (!$force) {
-			$qb->andWhere($qb->expr()->eq('cleanup', $qb->createPositionalParameter(1, IQueryBuilder::PARAM_INT)));
+			$qb->andWhere($qb->expr()->eq('allow_cleanup', $qb->createPositionalParameter(1, IQueryBuilder::PARAM_INT)));
 		}
 		foreach ($this->yieldEntities($qb) as $entity) {
 			yield $entity;
