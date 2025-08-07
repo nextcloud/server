@@ -127,7 +127,7 @@ class Encryption implements IEncryptionModule {
 		/* If useLegacyFileKey is not specified in header, auto-detect, to be safe */
 		$useLegacyFileKey = (($header['useLegacyFileKey'] ?? '') == 'false' ? false : null);
 
-		$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user, $useLegacyFileKey, $this->session->decryptAllModeActivated());
+		$this->fileKey = $this->keyManager->getFileKey($this->path, null, $useLegacyFileKey, $this->session->decryptAllModeActivated());
 
 		// always use the version from the original file, also part files
 		// need to have a correct version number if they get moved over to the
@@ -322,7 +322,7 @@ class Encryption implements IEncryptionModule {
 	 * update encrypted file, e.g. give additional users access to the file
 	 *
 	 * @param string $path path to the file which should be updated
-	 * @param string $uid of the user who performs the operation
+	 * @param string $uid ignored
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 * @return bool
 	 */
@@ -335,7 +335,7 @@ class Encryption implements IEncryptionModule {
 			return false;
 		}
 
-		$fileKey = $this->keyManager->getFileKey($path, $uid, null);
+		$fileKey = $this->keyManager->getFileKey($path, null, null);
 
 		if (!empty($fileKey)) {
 			$publicKeys = [];
