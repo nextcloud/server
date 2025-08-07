@@ -126,7 +126,7 @@ class Task extends Entity {
 			'scheduledAt' => $task->getScheduledAt(),
 			'startedAt' => $task->getStartedAt(),
 			'endedAt' => $task->getEndedAt(),
-			'allowCleanup' => $task->getAllowCleanup(),
+			'allowCleanup' => $task->getAllowCleanup() ? 1 : 0,
 		]);
 		return $taskEntity;
 	}
