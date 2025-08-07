@@ -111,8 +111,8 @@ class TrashbinPlugin extends ServerPlugin {
 			return $node->getFileId();
 		});
 
-		$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
-			return $this->previewManager->isAvailable($node->getFileInfo());
+		$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, function () use ($node): string {
+			return $this->previewManager->isAvailable($node->getFileInfo()) ? 'true' : 'false';
 		});
 
 		$propFind->handle(FilesPlugin::MOUNT_TYPE_PROPERTYNAME, function () {
