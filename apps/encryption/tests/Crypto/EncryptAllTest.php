@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -31,52 +33,23 @@ use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCA\Encryption\KeyManager */
-	protected $keyManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCA\Encryption\Util */
-	protected $util;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IUserManager */
-	protected $userManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCA\Encryption\Users\Setup */
-	protected $setupUser;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Files\View */
-	protected $view;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
-	protected $config;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Mail\IMailer */
-	protected $mailer;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
-	protected $l;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | IFactory */
-	protected $l10nFactory;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
-	protected $questionHelper;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
-	protected $inputInterface;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
-	protected $outputInterface;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\UserInterface */
-	protected $userInterface;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Security\ISecureRandom */
-	protected $secureRandom;
-
+	protected KeyManager&MockObject $keyManager;
+	protected Util&MockObject $util;
+	protected IUserManager&MockObject $userManager;
+	protected Setup&MockObject $setupUser;
+	protected View&MockObject $view;
+	protected IConfig&MockObject $config;
+	protected IMailer&MockObject $mailer;
+	protected IL10N&MockObject $l;
+	protected IFactory&MockObject $l10nFactory;
+	protected \Symfony\Component\Console\Helper\QuestionHelper&MockObject $questionHelper;
+	protected \Symfony\Component\Console\Input\InputInterface&MockObject $inputInterface;
+	protected \Symfony\Component\Console\Output\OutputInterface&MockObject $outputInterface;
+	protected UserInterface&MockObject $userInterface;
+	protected ISecureRandom&MockObject $secureRandom;
 	protected LoggerInterface&MockObject $logger;
 
-	/** @var EncryptAll */
-	protected $encryptAll;
+	protected EncryptAll $encryptAll;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -109,7 +82,7 @@ class EncryptAllTest extends TestCase {
 
 		/**
 		 * We need format method to return a string
-		 * @var OutputFormatterInterface|\PHPUnit\Framework\MockObject\MockObject
+		 * @var OutputFormatterInterface&MockObject
 		 */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
 		$outputFormatter->method('isDecorated')->willReturn(false);
@@ -141,6 +114,13 @@ class EncryptAllTest extends TestCase {
 		);
 	}
 
+	protected function createFileInfoMock($type, string $name): FileInfo&MockObject {
+		$fileInfo = $this->createMock(FileInfo::class);
+		$fileInfo->method('getType')->willReturn($type);
+		$fileInfo->method('getName')->willReturn($name);
+		return $fileInfo;
+	}
+
 	public function testEncryptAll(): void {
 		/** @var EncryptAll&MockObject $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
@@ -160,7 +140,7 @@ class EncryptAllTest extends TestCase {
 					$this->logger,
 				]
 			)
-			->setMethods(['createKeyPairs', 'encryptAllUsersFiles', 'outputPasswords'])
+			->onlyMethods(['createKeyPairs', 'encryptAllUsersFiles', 'outputPasswords'])
 			->getMock();
 
 		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
@@ -190,7 +170,7 @@ class EncryptAllTest extends TestCase {
 					$this->logger,
 				]
 			)
-			->setMethods(['createKeyPairs', 'encryptAllUsersFiles', 'outputPasswords'])
+			->onlyMethods(['createKeyPairs', 'encryptAllUsersFiles', 'outputPasswords'])
 			->getMock();
 
 		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(true);
@@ -221,7 +201,7 @@ class EncryptAllTest extends TestCase {
 					$this->logger,
 				]
 			)
-			->setMethods(['setupUserFS', 'generateOneTimePassword'])
+			->onlyMethods(['setupUserFS', 'generateOneTimePassword'])
 			->getMock();
 
 
@@ -253,8 +233,8 @@ class EncryptAllTest extends TestCase {
 		$this->assertSame('', $userPasswords['user2']);
 	}
 
-	public function testEncryptAllUsersFiles() {
-		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
+	public function testEncryptAllUsersFiles(): void {
+		/** @var EncryptAll&MockObject $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
@@ -272,7 +252,7 @@ class EncryptAllTest extends TestCase {
 					$this->logger,
 				]
 			)
-			->setMethods(['encryptUsersFiles'])
+			->onlyMethods(['encryptUsersFiles'])
 			->getMock();
 
 		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
@@ -281,17 +261,22 @@ class EncryptAllTest extends TestCase {
 		$this->invokePrivate($encryptAll, 'output', [$this->outputInterface]);
 		$this->invokePrivate($encryptAll, 'userPasswords', [['user1' => 'pwd1', 'user2' => 'pwd2']]);
 
-		$encryptAll->expects($this->exactly(2))->method('encryptUsersFiles')
-			->withConsecutive(
-				['user1'],
-				['user2'],
-			);
+		$encryptAllCalls = [];
+		$encryptAll->expects($this->exactly(2))
+			->method('encryptUsersFiles')
+			->willReturnCallback(function ($uid) use (&$encryptAllCalls): void {
+				$encryptAllCalls[] = $uid;
+			});
 
 		$this->invokePrivate($encryptAll, 'encryptAllUsersFiles');
+		self::assertEquals([
+			'user1',
+			'user2',
+		], $encryptAllCalls);
 	}
 
-	public function testEncryptUsersFiles() {
-		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
+	public function testEncryptUsersFiles(): void {
+		/** @var EncryptAll&MockObject $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
 				[
@@ -309,40 +294,39 @@ class EncryptAllTest extends TestCase {
 					$this->logger,
 				]
 			)
-			->setMethods(['encryptFile', 'setupUserFS'])
+			->onlyMethods(['encryptFile', 'setupUserFS'])
 			->getMock();
 
 		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
 
 		$this->view->expects($this->exactly(2))->method('getDirectoryContent')
-			->withConsecutive(
-				['/user1/files'],
-				['/user1/files/foo'],
-			)->willReturnOnConsecutiveCalls(
+			->willReturnMap([
 				[
-					['name' => 'foo', 'type' => 'dir'],
-					['name' => 'bar', 'type' => 'file'],
+					'/user1/files',
+					'',
+					null,
+					[
+						$this->createFileInfoMock(FileInfo::TYPE_FOLDER, 'foo'),
+						$this->createFileInfoMock(FileInfo::TYPE_FILE, 'bar'),
+					],
 				],
 				[
-					['name' => 'subfile', 'type' => 'file']
-				]
-			);
+					'/user1/files/foo',
+					'',
+					null,
+					[
+						$this->createFileInfoMock(FileInfo::TYPE_FILE, 'subfile'),
+					],
+				],
+			]);
 
-		$this->view->expects($this->any())->method('is_dir')
-			->willReturnCallback(
-				function ($path) {
-					if ($path === '/user1/files/foo') {
-						return true;
-					}
-					return false;
-				}
-			);
-
-		$encryptAll->expects($this->exactly(2))->method('encryptFile')
-			->withConsecutive(
-				['/user1/files/bar'],
-				['/user1/files/foo/subfile'],
-			);
+		$encryptAllCalls = [];
+		$encryptAll->expects($this->exactly(2))
+			->method('encryptFile')
+			->willReturnCallback(function (FileInfo $file, string $path) use (&$encryptAllCalls): bool {
+				$encryptAllCalls[] = $path;
+				return true;
+			});
 
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
 		$outputFormatter->method('isDecorated')->willReturn(false);
@@ -352,9 +336,13 @@ class EncryptAllTest extends TestCase {
 		$progressBar = new ProgressBar($this->outputInterface);
 
 		$this->invokePrivate($encryptAll, 'encryptUsersFiles', ['user1', $progressBar, '']);
+		self::assertEquals([
+			'/user1/files/bar',
+			'/user1/files/foo/subfile',
+		], $encryptAllCalls);
 	}
 
-	public function testGenerateOneTimePassword() {
+	public function testGenerateOneTimePassword(): void {
 		$password = $this->invokePrivate($this->encryptAll, 'generateOneTimePassword', ['user1']);
 		$this->assertTrue(is_string($password));
 		$this->assertSame(8, strlen($password));
@@ -368,12 +356,11 @@ class EncryptAllTest extends TestCase {
 	 * @dataProvider dataTestEncryptFile
 	 * @param $isEncrypted
 	 */
-	public function testEncryptFile($isEncrypted) {
+	public function testEncryptFile($isEncrypted): void {
 		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->expects($this->any())->method('isEncrypted')
 			->willReturn($isEncrypted);
-		$this->view->expects($this->any())->method('getFileInfo')
-			->willReturn($fileInfo);
+		$this->view->expects($this->never())->method('getFileInfo');
 
 
 		if ($isEncrypted) {
@@ -385,11 +372,11 @@ class EncryptAllTest extends TestCase {
 		}
 
 		$this->assertTrue(
-			$this->invokePrivate($this->encryptAll, 'encryptFile', ['foo.txt'])
+			$this->invokePrivate($this->encryptAll, 'encryptFile', [$fileInfo, 'foo.txt'])
 		);
 	}
 
-	public function dataTestEncryptFile() {
+	public static function dataTestEncryptFile(): array {
 		return [
 			[true],
 			[false],
