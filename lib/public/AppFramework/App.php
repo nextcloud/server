@@ -30,7 +30,10 @@ class App {
 	 * @param array $urlParams an array with variables extracted from the routes
 	 * @since 6.0.0
 	 */
-	public function __construct(private string $appName, array $urlParams = []) {
+	public function __construct(
+		private string $appName,
+		array $urlParams = []
+	) {
 		$debugMode = Server::get(IConfig::class)->getSystemValueBool('debug');
 		$excludeArgsFromTraces = ini_get('zend.exception_ignore_args');
 		// Check if application class was setup incorrectly (and log it) when in debug mode
