@@ -140,4 +140,39 @@ describe('ContactsMenu', function() {
 		expect(view.text()).toContain('Adeline Snider')
 		expect(view.text()).toContain('Show all contacts')
 	})
+
+	it('hides add guest button when not capable', async () => {
+		const view = mount(ContactsMenu, {
+			data() {
+				return {
+					canInviteGuests: false,
+				}
+			},
+		})
+
+		await view.vm.handleOpen()
+
+		expect(view.vm.canInviteGuests).toBe(false)
+		expect(view.findComponent('button[title="Add guest"]').exists()).toBe(false)
+	})
+
+	it('shows add guest button when capable', async () => {
+		const view = mount(ContactsMenu, {
+			data() {
+				return {
+					canInviteGuests: true,
+				}
+			},
+		})
+
+		await view.vm.handleOpen()
+
+		const guestButton = view.findComponent('button[title="Add guest"]')
+
+		expect(view.vm.canInviteGuests).toBe(true)
+		expect(guestButton.exists()).toBe(true)
+		expect(guestButton.vm.$options.name).toBe('NcButton')
+		expect(guestButton.vm.$attrs.title).toBe('Add guest')
+	})
+
 })

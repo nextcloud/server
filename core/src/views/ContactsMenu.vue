@@ -5,6 +5,7 @@
 
 <template>
 	<NcHeaderMenu id="contactsmenu"
+		ref="contactsmenu"
 		class="contactsmenu"
 		:aria-label="t('core', 'Search contacts')"
 		@open="handleOpen">
@@ -12,18 +13,29 @@
 			<NcIconSvgWrapper class="contactsmenu__trigger-icon" :path="mdiContacts" />
 		</template>
 		<div class="contactsmenu__menu">
-			<div class="contactsmenu__menu__input-wrapper">
-				<NcTextField id="contactsmenu__menu__search"
-					ref="contactsMenuInput"
-					:value.sync="searchTerm"
-					trailing-button-icon="close"
-					:label="t('core', 'Search contacts')"
-					:trailing-button-label="t('core','Reset search')"
-					:show-trailing-button="searchTerm !== ''"
-					:placeholder="t('core', 'Search contacts …')"
-					class="contactsmenu__menu__search"
-					@input="onInputDebounced"
-					@trailing-button-click="onReset" />
+			<div class="contactsmenu__menu__search-container">
+				<div class="contactsmenu__menu__input-wrapper">
+					<NcTextField id="contactsmenu__menu__search"
+						ref="contactsMenuInput"
+						:value.sync="searchTerm"
+						trailing-button-icon="close"
+						:label="t('core', 'Search contacts')"
+						:trailing-button-label="t('core','Reset search')"
+						:show-trailing-button="searchTerm !== ''"
+						:placeholder="t('core', 'Search contacts …')"
+						class="contactsmenu__menu__search"
+						@input="onInputDebounced"
+						@trailing-button-click="onReset" />
+				</div>
+				<NcButton v-if="canInviteGuests"
+					variant="tertiary"
+					:aria-label="t('core', 'Add guest')"
+					:title="t('core', 'Add guest')"
+					@click="onGuestButtonClick">
+					<template #icon>
+						<NcIconSvgWrapper :path="mdiAccountPlusOutline" />
+					</template>
+				</NcButton>
 			</div>
 			<NcEmptyContent v-if="error" :name="t('core', 'Could not load your contacts')">
 				<template #icon>
@@ -62,7 +74,7 @@
 </template>
 
 <script>
-import { mdiContacts, mdiMagnify } from '@mdi/js'
+import { mdiAccountPlusOutline, mdiContacts, mdiMagnify } from '@mdi/js'
 import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { t } from '@nextcloud/l10n'
@@ -97,6 +109,7 @@ export default {
 
 	setup() {
 		return {
+			mdiAccountPlusOutline,
 			mdiContacts,
 			mdiMagnify,
 		}
@@ -112,6 +125,7 @@ export default {
 			contacts: [],
 			loadingText: undefined,
 			error: false,
+			canInviteGuests: !!window?.OCA?.Guests?.openGuestDialog,
 			searchTerm: '',
 		}
 	},
@@ -170,6 +184,12 @@ export default {
 			})
 		},
 
+		onGuestButtonClick() {
+			if (window?.OCA?.Guests?.openGuestDialog) {
+				this.$refs.contactsmenu.closeMenu()
+				OCA.Guests.openGuestDialog('core')
+			}
+		},
 	},
 }
 </script>
@@ -195,10 +215,16 @@ export default {
 			margin-inline-start: 13px;
 		}
 
+		&__search-container {
+			display: flex;
+			flex: row nowrap;
+		}
+
 		&__input-wrapper {
 			padding: 10px;
 			z-index: 2;
 			top: 0;
+			flex-grow: 1;
 		}
 
 		&__search {
