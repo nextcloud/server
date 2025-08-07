@@ -7,6 +7,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { CancelablePromise } from 'cancelable-promise'
 import { davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
+import { join } from 'path'
 import { client } from './WebdavClient.ts'
 import logger from '../logger.ts'
 
@@ -17,10 +18,9 @@ import logger from '../logger.ts'
 export const resultToNode = (node: FileStat): Node => davResultToNode(node)
 
 export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => {
+	path = join(davRootPath, path)
 	const controller = new AbortController()
 	const propfindPayload = davGetDefaultPropfind()
-
-	path = `${davRootPath}${path}`
 
 	return new CancelablePromise(async (resolve, reject, onCancel) => {
 		onCancel(() => controller.abort())
