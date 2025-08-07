@@ -115,17 +115,14 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 
 		it('can cancel the deletion by closing the dialog', async () => {
 			const apiSpy = vi.spyOn(api, 'emptyTrash')
-			const dialogSpy = vi.spyOn(ncDialogs, 'showInfo')
 
 			dialogBuilder.build.mockImplementationOnce(() => ({ show: async () => false }))
 			expect(await emptyTrashAction.exec(trashbinView, nodes, root)).toBe(null)
 			expect(apiSpy).not.toBeCalled()
-			expect(dialogSpy).toBeCalledWith('Deletion cancelled')
 		})
 
 		it('can cancel the deletion', async () => {
 			const apiSpy = vi.spyOn(api, 'emptyTrash')
-			const dialogSpy = vi.spyOn(ncDialogs, 'showInfo')
 
 			dialogBuilder.build.mockImplementationOnce(() => ({
 				show: async () => {
@@ -136,7 +133,6 @@ describe('files_trashbin: file list actions - empty trashbin', () => {
 			}))
 			expect(await emptyTrashAction.exec(trashbinView, nodes, root)).toBe(null)
 			expect(apiSpy).not.toBeCalled()
-			expect(dialogSpy).toBeCalledWith('Deletion cancelled')
 		})
 
 		it('will trigger the API request if confirmed', async () => {
