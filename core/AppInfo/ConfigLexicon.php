@@ -22,6 +22,9 @@ use OCP\Config\ValueType;
 class ConfigLexicon implements ILexicon {
 	public const SHAREAPI_ALLOW_FEDERATION_ON_PUBLIC_SHARES = 'shareapi_allow_federation_on_public_shares';
 	public const SHARE_CUSTOM_TOKEN = 'shareapi_allow_custom_tokens';
+	public const SHARE_LINK_PASSWORD_DEFAULT = 'shareapi_enable_link_password_by_default';
+	public const SHARE_LINK_PASSWORD_ENFORCED = 'shareapi_enforce_links_password';
+
 	public const USER_LANGUAGE = 'lang';
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
@@ -48,6 +51,16 @@ class ConfigLexicon implements ILexicon {
 				definition: 'Allow users to set custom share link tokens',
 				lazy: true,
 				note: 'Shares with guessable tokens may be accessed easily. Shares with custom tokens will continue to be accessible after this setting has been disabled.',
+			),
+			new Entry(self::SHARE_LINK_PASSWORD_DEFAULT, ValueType::BOOL, false, 'Always ask for a password when sharing document'),
+			new Entry(
+				key: self::SHARE_LINK_PASSWORD_ENFORCED,
+				type: ValueType::BOOL,
+				defaultRaw: fn (Preset $p): bool => match ($p) {
+					Preset::SCHOOL, Preset::UNIVERSITY, Preset::SHARED, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => true,
+					default => false,
+				},
+				definition: 'Enforce password protection when sharing document'
 			),
 			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
 		];
