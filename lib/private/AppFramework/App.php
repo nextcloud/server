@@ -71,7 +71,6 @@ class App {
 		return null;
 	}
 
-
 	/**
 	 * Shortcut for calling a controller method and printing the result
 	 *
@@ -82,7 +81,12 @@ class App {
 	 * @param array $urlParams list of URL parameters (optional)
 	 * @throws HintException
 	 */
-	public static function main(string $controllerName, string $methodName, DIContainer $container, ?array $urlParams = null) {
+	public static function main(
+		string $controllerName,
+		string $methodName,
+		DIContainer $container,
+		?array $urlParams = null,
+	): void {
 		/** @var IProfiler $profiler */
 		$profiler = $container->get(IProfiler::class);
 		$eventLogger = $container->get(IEventLogger::class);
@@ -209,26 +213,5 @@ class App {
 				$io->setOutput($output);
 			}
 		}
-	}
-
-	/**
-	 * Shortcut for calling a controller method and printing the result.
-	 * Similar to App:main except that no headers will be sent.
-	 *
-	 * @param string $controllerName the name of the controller under which it is
-	 *                               stored in the DI container
-	 * @param string $methodName the method that you want to call
-	 * @param array $urlParams an array with variables extracted from the routes
-	 * @param DIContainer $container an instance of a pimple container.
-	 */
-	public static function part(string $controllerName, string $methodName, array $urlParams,
-		DIContainer $container) {
-		$container['urlParams'] = $urlParams;
-		$controller = $container[$controllerName];
-
-		$dispatcher = $container['Dispatcher'];
-
-		[, , $output] = $dispatcher->dispatch($controller, $methodName);
-		return $output;
 	}
 }
