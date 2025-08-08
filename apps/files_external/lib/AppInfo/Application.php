@@ -14,7 +14,6 @@ use OCA\Files_External\ConfigLexicon;
 use OCA\Files_External\Lib\Auth\AmazonS3\AccessKey;
 use OCA\Files_External\Lib\Auth\Builtin;
 use OCA\Files_External\Lib\Auth\NullMechanism;
-use OCA\Files_External\Lib\Auth\OAuth1\OAuth1;
 use OCA\Files_External\Lib\Auth\OAuth2\OAuth2;
 use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV2;
 use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV3;
@@ -135,9 +134,6 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->get(UserProvided::class),
 			$container->get(GlobalAuth::class),
 			$container->get(UserGlobalAuth::class),
-
-			// AuthMechanism::SCHEME_OAUTH1 mechanisms
-			$container->get(OAuth1::class),
 
 			// AuthMechanism::SCHEME_OAUTH2 mechanisms
 			$container->get(OAuth2::class),
