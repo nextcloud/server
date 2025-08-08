@@ -5,9 +5,9 @@
 
 <template>
 	<AccountPropertySection v-bind.sync="value"
-													:readable="readable"
-													:on-validate="onValidate"
-													:placeholder="t('settings', 'Bluesky handle')" />
+		:readable="readable"
+		:on-validate="onValidate"
+		:placeholder="t('settings', 'Bluesky handle')" />
 </template>
 
 <script setup lang="ts">
