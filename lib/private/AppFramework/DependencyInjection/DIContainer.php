@@ -63,7 +63,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
-	private string $appName;
+	protected string $appName;
 	private array $middleWares = [];
 	private ServerContainer $server;
 
@@ -152,7 +152,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerDeprecatedAlias('Dispatcher', Dispatcher::class);
 		$this->registerService(Dispatcher::class, function (ContainerInterface $c) {
 			return new Dispatcher(
-				$c->get('Protocol'),
+				$c->get(Http::class),
 				$c->get(MiddlewareDispatcher::class),
 				$c->get(IControllerMethodReflector::class),
 				$c->get(IRequest::class),
