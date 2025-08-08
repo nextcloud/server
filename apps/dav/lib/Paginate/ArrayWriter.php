@@ -118,7 +118,7 @@ class ArrayWriter extends Writer {
 	 * Pushes an element inside the parent element.
 	 */
 	private function pushToParent(array &$element): void {
-		$parent = &$this->elementStack[count($this->elementStack) - 1]['value'];
+		$parent = &$this->elementStack[\count($this->elementStack) - 1]['value'];
 		$parent[] = &$element;
 	}
 
@@ -138,14 +138,14 @@ class ArrayWriter extends Writer {
 
 	#[Override]
 	public function write(mixed $value): void {
-		if (is_scalar($value) || $value === null) {
+		if (\is_scalar($value) || $value === null) {
 			$this->text((string)($value ?? ''));
 		} elseif ($value instanceof XmlSerializable) {
 			$value->xmlSerialize($this);
-		} elseif (is_array($value)) {
+		} elseif (\is_array($value)) {
 			$this->decomposeArray($value);
-		} elseif (is_object($value) && isset($this->classMap[get_class($value)])) {
-			$this->classMap[get_class($value)]($this, $value);
+		} elseif (\is_object($value) && isset($this->classMap[\get_class($value)])) {
+			$this->classMap[\get_class($value)]($this, $value);
 		} else {
 			throw new InvalidArgumentException('The writer cannot serialize values of type: ' . get_debug_type($value));
 		}
@@ -169,7 +169,7 @@ class ArrayWriter extends Writer {
 	 */
 	private function decomposeArray(array $array): void {
 		// Array format 2 with name, attributes, value keys
-		if (array_key_exists('name', $array)) {
+		if (\array_key_exists('name', $array)) {
 			// array with name, attributes and value keys
 			$this->decomposeElement(
 				$array['name'],
@@ -181,13 +181,13 @@ class ArrayWriter extends Writer {
 
 		// instead of checking that all keys are int, we check if href exists
 		// as this key will exist in file properties provided by SabreDAV
-		$isHref = array_key_exists('href', $array);
+		$isHref = \array_key_exists('href', $array);
 		// Array format 1 with key => value.
 		foreach ($array as $name => $value) {
-			if (!$isHref && is_int($name)) {
+			if (!$isHref && \is_int($name)) {
 				// simple array with children
 				$this->write($value);
-			} elseif (is_array($value) && isset($value['attributes'])) {
+			} elseif (\is_array($value) && isset($value['attributes'])) {
 				// array with attributes
 				$this->decomposeElement($name, $value['attributes'], $value['value'] ?? null);
 			} else {
@@ -231,7 +231,7 @@ class ArrayWriter extends Writer {
 	#[Override]
 	public function endElement(): bool {
 		array_pop($this->elementStack);
-		$this->currentElement = &$this->elementStack[count($this->elementStack) - 1];
+		$this->currentElement = &$this->elementStack[\count($this->elementStack) - 1];
 
 		return true;
 	}
