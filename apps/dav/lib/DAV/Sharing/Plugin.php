@@ -16,6 +16,7 @@ use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
@@ -89,6 +90,7 @@ class Plugin extends ServerPlugin {
 		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}invite'] = Invite::class;
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
+		$this->server->on('preloadCollection', $this->preloadCollection(...));
 		$this->server->on('propFind', [$this, 'propFind']);
 	}
 
@@ -168,6 +170,24 @@ class Plugin extends ServerPlugin {
 		}
 	}
 
+	private function preloadCollection(PropFind $propFind, ICollection $collection): void {
+		if (!$collection instanceof CalendarHome || $propFind->getDepth() !== 1) {
+			return;
+		}
+
+		$backend = $collection->getCalDAVBackend();
+		if (!$backend instanceof CalDavBackend) {
+			return;
+		}
+
+		$calendars = $collection->getChildren();
+		$calendars = array_filter($calendars, static fn (INode $node) => $node instanceof IShareable);
+		/** @var int[] $resourceIds */
+		$resourceIds = array_map(
+			static fn (IShareable $node) => $node->getResourceId(), $calendars);
+		$backend->preloadShares($resourceIds);
+	}
+
 	/**
 	 * This event is triggered when properties are requested for a certain
 	 * node.
@@ -179,20 +199,6 @@ class Plugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function propFind(PropFind $propFind, INode $node) {
-		if ($node instanceof CalendarHome && $propFind->getDepth() === 1) {
-			$backend = $node->getCalDAVBackend();
-			if ($backend instanceof CalDavBackend) {
-				$calendars = $node->getChildren();
-				$calendars = array_filter($calendars, function (INode $node) {
-					return $node instanceof IShareable;
-				});
-				/** @var int[] $resourceIds */
-				$resourceIds = array_map(function (IShareable $node) {
-					return $node->getResourceId();
-				}, $calendars);
-				$backend->preloadShares($resourceIds);
-			}
-		}
 		if ($node instanceof IShareable) {
 			$propFind->handle('{' . Plugin::NS_OWNCLOUD . '}invite', function () use ($node) {
 				return new Invite(

@@ -10,6 +10,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCP\Comments\ICommentsManager;
 use OCP\IUserSession;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -21,6 +22,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 
 	protected ?Server $server = null;
 	private array $cachedUnreadCount = [];
+	private array $cachedDirectories = [];
 
 	public function __construct(
 		private ICommentsManager $commentsManager,
@@ -41,6 +43,8 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
+
+		$this->server->on('preloadCollection', $this->preloadCollection(...));
 		$this->server->on('propFind', [$this, 'handleGetProperties']);
 	}
 
@@ -69,6 +73,21 @@ class CommentPropertiesPlugin extends ServerPlugin {
 		}
 	}
 
+	private function preloadCollection(PropFind $propFind, ICollection $collection):
+	void {
+		if (!($collection instanceof Directory)) {
+			return;
+		}
+
+		$collectionPath = $collection->getPath();
+		if (!isset($this->cachedDirectories[$collectionPath]) && $propFind->getStatus(
+			self::PROPERTY_NAME_UNREAD
+		) !== null) {
+			$this->cacheDirectory($collection);
+			$this->cachedDirectories[$collectionPath] = true;
+		}
+	}
+
 	/**
 	 * Adds tags and favorites properties to the response,
 	 * if requested.
@@ -83,14 +102,6 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	) {
 		if (!($node instanceof File) && !($node instanceof Directory)) {
 			return;
-		}
-
-		// need prefetch ?
-		if ($node instanceof Directory
-			&& $propFind->getDepth() !== 0
-			&& !is_null($propFind->getStatus(self::PROPERTY_NAME_UNREAD))
-		) {
-			$this->cacheDirectory($node);
 		}
 
 		$propFind->handle(self::PROPERTY_NAME_COUNT, function () use ($node): int {

@@ -27,6 +27,7 @@ use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Conflict;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\UnsupportedMediaType;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\HTTP\RequestInterface;
@@ -94,6 +95,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$server->protectedProperties[] = self::ID_PROPERTYNAME;
 
+		$server->on('preloadCollection', $this->preloadCollection(...));
 		$server->on('propFind', [$this, 'handleGetProperties']);
 		$server->on('propPatch', [$this, 'handleUpdateProperties']);
 		$server->on('method:POST', [$this, 'httpPost']);
@@ -199,6 +201,40 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 	}
 
+	private function preloadCollection(
+		PropFind $propFind,
+		ICollection $collection,
+	): void {
+		if (!$collection instanceof Node) {
+			return;
+		}
+
+		if ($collection instanceof Directory
+			&& !isset($this->cachedTagMappings[$collection->getId()])
+			&& $propFind->getStatus(
+				self::SYSTEM_TAGS_PROPERTYNAME
+			) !== null) {
+			$fileIds = [$collection->getId()];
+
+			// note: pre-fetching only supported for depth <= 1
+			$folderContent = $collection->getChildren();
+			foreach ($folderContent as $info) {
+				if ($info instanceof Node) {
+					$fileIds[] = $info->getId();
+				}
+			}
+
+			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
+
+			$this->cachedTagMappings += $tags;
+			$emptyFileIds = array_diff($fileIds, array_keys($tags));
+
+			// also cache the ones that were not found
+			foreach ($emptyFileIds as $fileId) {
+				$this->cachedTagMappings[$fileId] = [];
+			}
+		}
+	}
 
 	/**
 	 * Retrieves system tag properties
@@ -297,29 +333,6 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	private function propfindForFile(PropFind $propFind, Node $node): void {
-		if ($node instanceof Directory
-			&& $propFind->getDepth() !== 0
-			&& !is_null($propFind->getStatus(self::SYSTEM_TAGS_PROPERTYNAME))) {
-			$fileIds = [$node->getId()];
-
-			// note: pre-fetching only supported for depth <= 1
-			$folderContent = $node->getChildren();
-			foreach ($folderContent as $info) {
-				if ($info instanceof Node) {
-					$fileIds[] = $info->getId();
-				}
-			}
-
-			$tags = $this->tagMapper->getTagIdsForObjects($fileIds, 'files');
-
-			$this->cachedTagMappings = $this->cachedTagMappings + $tags;
-			$emptyFileIds = array_diff($fileIds, array_keys($tags));
-
-			// also cache the ones that were not found
-			foreach ($emptyFileIds as $fileId) {
-				$this->cachedTagMappings[$fileId] = [];
-			}
-		}
 
 		$propFind->handle(self::SYSTEM_TAGS_PROPERTYNAME, function () use ($node) {
 			$user = $this->userSession->getUser();

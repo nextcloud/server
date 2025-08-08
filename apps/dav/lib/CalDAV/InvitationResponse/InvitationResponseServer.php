@@ -19,6 +19,7 @@ use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
+use OCA\DAV\Connector\Sabre\PropFindPreloadNotifyPlugin;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\RootCollection;
 use OCA\Theming\ThemingDefaults;
@@ -97,6 +98,9 @@ class InvitationResponseServer {
 			Server::get(IConfig::class),
 			Server::get(IURLGenerator::class)
 		));
+
+		// collection preload plugin
+		$this->server->addPlugin(new PropFindPreloadNotifyPlugin());
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod:*', function () use ($root): void {
