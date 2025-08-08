@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (ограничено)",
     "Only admins can create new tags" : "Только администраторы могут создать новые метки",
     "Failed to apply tags changes" : "Не удалось применить изменения тегов",
-    "File tags modification canceled" : "Изменение меток отменено",
     "Manage tags" : "Управление метками",
     "Applying tags changes…" : "Изменение меток…",
     "Search or create tag" : "Найти или создать тег",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Метка с таким именем уже существует",
     "Failed to load tags for file" : "Не удалось загрузить метки для файла",
     "Failed to set tag for file" : "Не удалось поставить метку файлу",
-    "Failed to delete tag for file" : "Не удалось удалить метку у файла"
+    "Failed to delete tag for file" : "Не удалось удалить метку у файла",
+    "File tags modification canceled" : "Изменение меток отменено"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

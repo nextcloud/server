@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Potvrdit nevratné smazání",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Opravdu chcete nevratně smazat veškeré soubory a složky v koši? Toto nelze vzít zpět!",
     "Cancel" : "Storno",
-    "Deletion cancelled" : "Mazání zrušeno",
     "Original location" : "Původní umístění",
     "Deleted by" : "Smazal(a)",
     "Deleted" : "Smazáno",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "No deleted files" : "Žádné smazané soubory",
     "Files and folders you have deleted will show up here" : "Zde budou zobrazeny soubory a složky, které jste smazali",
     "All files have been permanently deleted" : "Veškeré soubory byly nevratně smazány",
-    "Failed to empty deleted files" : "Nepodařilo se vyprázdnit smazané soubory"
+    "Failed to empty deleted files" : "Nepodařilo se vyprázdnit smazané soubory",
+    "Deletion cancelled" : "Mazání zrušeno"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

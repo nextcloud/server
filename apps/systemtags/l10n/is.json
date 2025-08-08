@@ -64,7 +64,6 @@
     "{displayName} (hidden)" : "{displayName} (falið)",
     "{displayName} (restricted)" : "{displayName} (takmarkað)",
     "Failed to apply tags changes" : "Mistókst að virkja breytingar á merkjum",
-    "File tags modification canceled" : "Hætt við breytingar á merkjum skráa",
     "Manage tags" : "Sýsla með merki",
     "Applying tags changes…" : "Virkja breytingar á merkjum…",
     "Search or create tag" : "Leita eða búa til merki",
@@ -90,6 +89,7 @@
     "A tag with the same name already exists" : "Merki með sama heiti er þegar til staðar",
     "Failed to load tags for file" : "Mistókst að hlaða inn merkjum af skrá",
     "Failed to set tag for file" : "Mistókst að setja merki á skrá",
-    "Failed to delete tag for file" : "Mistókst að eyða merki á skrá"
+    "Failed to delete tag for file" : "Mistókst að eyða merki á skrá",
+    "File tags modification canceled" : "Hætt við breytingar á merkjum skráa"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Підтвердити остаточне вилучення",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Дійсно остаточно вилучити усі файли та каталоги у кошику? Цю операцію буде неможливо скасувати.",
     "Cancel" : "Скасувати",
-    "Deletion cancelled" : "Вилучення скасовано",
     "Original location" : "Звідки вилучено",
     "Deleted by" : "Ким вилучено",
     "Deleted" : "Вилучено",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "No deleted files" : "Кошик порожній",
     "Files and folders you have deleted will show up here" : "Тут показуватимуться файли та каталоги, які ви вилучили",
     "All files have been permanently deleted" : "Всі файли було безпворотно вилучено",
-    "Failed to empty deleted files" : "Не вдалося очистити вилучені файли"
+    "Failed to empty deleted files" : "Не вдалося очистити вилучені файли",
+    "Deletion cancelled" : "Вилучення скасовано"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

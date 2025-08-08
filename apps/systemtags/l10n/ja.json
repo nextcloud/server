@@ -72,7 +72,6 @@
     "{displayName} (restricted)" : "{displayName} (制限)　",
     "Only admins can create new tags" : "新しいタグを作成できるのは管理者のみです",
     "Failed to apply tags changes" : "タグの変更の適用に失敗しました",
-    "File tags modification canceled" : "ファイルタグの変更がキャンセルされました",
     "Manage tags" : "タグを管理",
     "Applying tags changes…" : "タグの変更を適用しています...",
     "Search or create tag" : "タグを検索または作成する",
@@ -108,6 +107,7 @@
     "A tag with the same name already exists" : "同じ名前のタグがすでに存在しています",
     "Failed to load tags for file" : "ファイルのタグのロードに失敗しました",
     "Failed to set tag for file" : "ファイルのタグの設定に失敗しました",
-    "Failed to delete tag for file" : "ファイルのタグを削除できませんでした"
+    "Failed to delete tag for file" : "ファイルのタグを削除できませんでした",
+    "File tags modification canceled" : "ファイルタグの変更がキャンセルされました"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (eingeschränkt)",
     "Only admins can create new tags" : "Nur die Administration kann neue Schlagworte erstellen",
     "Failed to apply tags changes" : "Schlagwort-Änderungen konnten nicht angewendet werden",
-    "File tags modification canceled" : "Änderung der Datei-Schlagworte abgebrochen",
     "Manage tags" : "Schlagworte verwalten",
     "Applying tags changes…" : "Schlagwort-Änderungen werden angewendet…",
     "Search or create tag" : "Schlagwort suchen oder erstellen",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Ein Schlagwort mit demselben Namen existiert bereits",
     "Failed to load tags for file" : "Schlagworte für Datei konnten nicht geladen werden",
     "Failed to set tag for file" : "Schlagwort für Datei konnte nicht gesetzt werden",
-    "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden"
+    "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
+    "File tags modification canceled" : "Änderung der Datei-Schlagworte abgebrochen"
 },
 "nplurals=2; plural=(n != 1);");

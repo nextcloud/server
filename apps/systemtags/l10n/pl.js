@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (ograniczony)",
     "Only admins can create new tags" : "Tylko administratorzy mogą tworzyć nowe tagi",
     "Failed to apply tags changes" : "Nie udało się zastosować zmian tagów",
-    "File tags modification canceled" : "Modyfikacja tagów pliku została anulowana",
     "Manage tags" : "Zarządzaj etykietami",
     "Applying tags changes…" : "Zastosowywanie zmian etykiet…",
     "Search or create tag" : "Wyszukaj lub utwórz etykietę",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Tag o tej samej nazwie już istnieje",
     "Failed to load tags for file" : "Nie udało się załadować tagów dla pliku",
     "Failed to set tag for file" : "Nie udało się ustawić tagu dla pliku",
-    "Failed to delete tag for file" : "Nie udało się usunąć tagu z pliku"
+    "Failed to delete tag for file" : "Nie udało się usunąć tagu z pliku",
+    "File tags modification canceled" : "Modyfikacja tagów pliku została anulowana"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

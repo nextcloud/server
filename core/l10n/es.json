@@ -212,7 +212,7 @@
     "Update to {version}" : "Actualice a {version}",
     "An error occurred." : "Ocurrió un error.",
     "Please reload the page." : "Recargue/Actualice la página",
-    "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La actualización tuvo un problema. Para más información <a href=\"{url}\">consulta nuestro artículo del foro</a> cubriendo este tema.",
+    "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La actualización tuvo un problema. Para más información <a href=\"{url}\">consulte nuestro artículo del foro</a> que cubre este tema.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "La actualización ha fallado. Por favor, informa de este problema a la  <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">comunidad de Nextcloud</a>.",
     "Continue to {productName}" : "Continuar a {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["La actualización ha terminado con éxito. Redirigiendo a su {productName} en %n segundo. ","La actualización ha terminado con éxito. Redirigiendo a su {productName} en %n segundos. ","La actualización ha terminado con éxito. Redirigiendo a su {productName} en %n segundos. "],
