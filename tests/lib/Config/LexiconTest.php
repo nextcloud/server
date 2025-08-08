@@ -10,6 +10,7 @@ namespace Tests\lib\Config;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
+use OC\Config\UserConfig;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Exceptions\UnknownKeyException;
 use OCP\Config\IUserConfig;
@@ -17,7 +18,11 @@ use OCP\Config\Lexicon\Preset;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Security\ICrypto;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -67,6 +72,81 @@ class LexiconTest extends TestCase {
 		$this->assertSame(true, $this->appConfig->isSensitive(TestLexicon_E::APPID, 'key1'));
 		$this->appConfig->deleteKey(TestLexicon_E::APPID, 'key1');
 	}
+
+	public function testAppConfigMigrationToLazy() {
+		$app = TestConfigLexicon_Migration::APPID . '_app';
+		// to avoid filling cache with an empty Lexicon, we use a new IAppConfig
+		$appConfig = new AppConfig(
+			Server::get(IDBConnection::class),
+			Server::get(IConfig::class),
+			Server::get(LoggerInterface::class),
+			Server::get(ICrypto::class),
+		);
+		$this->assertSame(true, $appConfig->setValueString($app, 'key1', 'value1'));
+
+		// confirm that key1 is not lazy, even after a refresh of the cache
+		$appConfig->clearCache();
+		$this->assertSame('value1', $appConfig->getValueString($app, 'key1'));
+		$this->assertSame(true, array_key_exists('key1', $appConfig->statusCache()['fastCache'][$app]));
+
+		// loading new Lexicon that set key1 as lazy
+		$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
+		$bootstrapCoordinator->getRegistrationContext()?->registerConfigLexicon($app, TestConfigLexicon_Migration::class);
+
+		// caching
+		$this->assertSame('default0', $this->appConfig->getValueString($app, 'key0'));
+		// still not lazy
+		$this->assertSame(true, array_key_exists('key1', $this->appConfig->statusCache()['fastCache'][$app]));
+		// trigger update of status
+		$this->assertSame('value1', $this->appConfig->getValueString($app, 'key1'));
+		// should be lazy now
+		$this->assertSame(true, array_key_exists('key1', $this->appConfig->statusCache()['lazyCache'][$app]));
+
+		$this->appConfig->clearCache();
+		$this->assertSame('default0', $this->appConfig->getValueString($app, 'key0'));
+		// definitively lazy
+		$this->assertSame(false, array_key_exists($app, $this->appConfig->statusCache()['fastCache']));
+
+		$this->appConfig->deleteKey($app, 'key1');
+	}
+
+	public function testUserConfigMigrationToLazy() {
+		$app = TestConfigLexicon_Migration::APPID . '_user';
+		// to avoid filling cache with an empty Lexicon, we use a new IAppConfig
+		$userConfig = new UserConfig(
+			Server::get(IDBConnection::class),
+			Server::get(IConfig::class),
+			Server::get(LoggerInterface::class),
+			Server::get(ICrypto::class),
+		);
+		$this->assertSame(true, $userConfig->setValueString('user1', $app, 'key1', 'value1'));
+
+		// confirm that key1 is not lazy, even after a refresh of Lexicon
+		$userConfig->clearCache('user1');
+		$this->assertSame('value1', $userConfig->getValueString('user1', $app, 'key1'));
+		$this->assertSame(true, array_key_exists('key1', $userConfig->statusCache()['fastCache']['user1'][$app]));
+
+		// loading new Lexicon that set key1 as lazy
+		$bootstrapCoordinator = \OCP\Server::get(Coordinator::class);
+		$bootstrapCoordinator->getRegistrationContext()?->registerConfigLexicon($app, TestConfigLexicon_Migration::class);
+
+		// caching
+		$this->assertSame('default0', $this->userConfig->getValueString('user1', $app, 'key0'));
+		// still not lazy
+		$this->assertSame(true, array_key_exists('key1', $this->userConfig->statusCache()['fastCache']['user1'][$app]));
+		// trigger update of status
+		$this->assertSame('value1', $this->userConfig->getValueString('user1', $app, 'key1'));
+		// should be lazy now
+		$this->assertSame(true, array_key_exists('key1', $this->userConfig->statusCache()['lazyCache']['user1'][$app]));
+
+		$this->userConfig->clearCache('user1');
+		$this->assertSame('default0', $this->userConfig->getValueString('user1', $app, 'key0'));
+		// definitively lazy
+		$this->assertSame(false, array_key_exists($app, $this->userConfig->statusCache()['fastCache']['user1']));
+
+		$this->userConfig->deleteKey($app, 'key1');
+	}
+
 
 	public function testAppLexiconGetCorrect() {
 		$this->assertSame('abcde', $this->appConfig->getValueString(TestLexicon_E::APPID, 'key1', 'default'));

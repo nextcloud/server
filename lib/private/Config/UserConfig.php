@@ -1929,6 +1929,19 @@ class UserConfig implements IUserConfig {
 			$this->logger->notice('User config key ' . $app . '/' . $key . ' is set as deprecated.');
 		}
 
+		// There should be no downside to load all config values if search for
+		// a lazy config value while fast value are still not loaded.
+		if ($lazy && !($this->fastLoaded[$userId] ?? false)) {
+			$this->loadConfigAll($userId);
+		}
+
+		// while the Lexicon indicate that the config value is expected Lazy, we could
+		// have a previous entry still in fast cache. Updating Laziness for all users.
+		if ($lazy && isset($this->fastCache[$userId][$app][$key])) {
+			$this->updateGlobalLazy($app, $key, true);
+		}
+
+		// TODO: remove this feature before 32 if https://github.com/nextcloud/server/issues/51804 is implemented
 		$enforcedValue = $this->config->getSystemValue('lexicon.default.userconfig.enforced', [])[$app][$key] ?? false;
 		if (!$enforcedValue && $this->hasKey($userId, $app, $key, $lazy)) {
 			// if key exists there should be no need to extract default
