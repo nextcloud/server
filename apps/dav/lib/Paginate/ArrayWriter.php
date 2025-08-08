@@ -144,8 +144,6 @@ class ArrayWriter extends Writer {
 			$value->xmlSerialize($this);
 		} elseif (is_array($value)) {
 			$this->decomposeArray($value);
-		} elseif (is_callable($value)) {
-			$value($this);
 		} elseif (is_object($value) && isset($this->classMap[get_class($value)])) {
 			$this->classMap[get_class($value)]($this, $value);
 		} else {

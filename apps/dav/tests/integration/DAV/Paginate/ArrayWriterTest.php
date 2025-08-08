@@ -362,6 +362,7 @@ HI;
 	}
 
 	public function testCallback(): void {
+		$this->expectException(\InvalidArgumentException::class);
 		$this->compare([
 			'{http://sabredav.org/ns}root' => function (Writer $writer) {
 				$writer->text('deferred writer');

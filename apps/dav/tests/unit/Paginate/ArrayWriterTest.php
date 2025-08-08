@@ -116,13 +116,12 @@ class ArrayWriterTest extends TestCase {
 		);
 	}
 
-	public function testWriteWithCallable(): void {
+	public function testWriteWithCallableShouldThrow(): void {
+		// callable support disabled for security reasons
+		$this->expectException(InvalidArgumentException::class);
+
 		$this->writer->startElement('element');
 		$this->writer->write(fn ($w) => $w->write('bogus'));
-		$this->writer->endElement();
-
-		$this->compare([['name' => 'element', 'value' => ['bogus']]],
-			$this->writer->getDocument());
 	}
 
 	protected function setUp(): void {
