@@ -39,7 +39,14 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 
 	/** @var IShare[][] */
 	private array $cachedShares = [];
-	/** @var string[] */
+
+	/**
+	 * Tracks which folders have been cached.
+	 * When a folder is cached, it will appear with its path as key and true
+	 * as value.
+	 *
+	 * @var bool[]
+	 */
 	private array $cachedFolders = [];
 
 	public function __construct(

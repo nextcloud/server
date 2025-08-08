@@ -77,6 +77,7 @@ class Server extends \Sabre\DAV\Server {
 		callable $callBack,
 		int $priority = 100,
 	): void {
+		/** @psalm-suppress TypeDoesNotContainType */
 		$pluginName = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['class'] ?? 'unknown';
 		// The NotifyPlugin needs to be excluded as it emits the
 		// `preloadCollection` event, which causes many plugins run queries.
