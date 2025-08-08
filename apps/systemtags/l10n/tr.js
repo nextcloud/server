@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (kısıtlanmış)",
     "Only admins can create new tags" : "Yalnızca yöneticiler yeni etiketler ekleyebilir",
     "Failed to apply tags changes" : "Etiket değişiklikleri uygulanamadı",
-    "File tags modification canceled" : "Dosya etiket değişikliği iptal edildi",
     "Manage tags" : "Etiket yönetimi",
     "Applying tags changes…" : "Etiket değişikllikleri uygulanıyor…",
     "Search or create tag" : "Etiket arayın ya da oluşturun",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Aynı adlı bir etiket zaten var",
     "Failed to load tags for file" : "Dosyanın etiketleri yüklenemedi",
     "Failed to set tag for file" : "Dosyanın etiketi ayarlanamadı",
-    "Failed to delete tag for file" : "Dosyanın etiketi silinemedi"
+    "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
+    "File tags modification canceled" : "Dosya etiket değişikliği iptal edildi"
 },
 "nplurals=2; plural=(n > 1);");

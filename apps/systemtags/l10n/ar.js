@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (محضور)",
     "Only admins can create new tags" : "المشرفون وحدهم يمكنهم إنشاء وسوم جديدة",
     "Failed to apply tags changes" : "تعذّر تطبيق التغييرات في الوسوم",
-    "File tags modification canceled" : "تمّ إلغاء تعديل وسوم الملف",
     "Manage tags" : "إدارة الوسوم",
     "Applying tags changes…" : "يتم تطبيق التغييرات في الوسوم...",
     "Search or create tag" : "إنشاء أو بحث عن وسم",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "توجد سمة بنفس الاسم مسبقاً",
     "Failed to load tags for file" : "تعذّر تحميل وسوم الملف",
     "Failed to set tag for file" : "تعذّر وضع وسم على الملف",
-    "Failed to delete tag for file" : "تعذّر حذف وسم من على ملف"
+    "Failed to delete tag for file" : "تعذّر حذف وسم من على ملف",
+    "File tags modification canceled" : "تمّ إلغاء تعديل وسوم الملف"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Потврдите трајно брисање",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Да ли сте сигурни да желите трајно да обришете све фајлове и фолдере у корпи за отпад? Ово не може да се поништи.",
     "Cancel" : "Откажи",
-    "Deletion cancelled" : "Брисање је отказано",
     "Original location" : "Оригинална локација",
     "Deleted by" : "Обрисао је",
     "Deleted" : "Обрисано",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "No deleted files" : "Нема обрисаних фајлова",
     "Files and folders you have deleted will show up here" : "Фајлови и фолдери које обришете ће се појавити овде",
     "All files have been permanently deleted" : "Сви фајлови су неповратно обрисани",
-    "Failed to empty deleted files" : "Није успело пражњење обрисаних фајлова"
+    "Failed to empty deleted files" : "Није успело пражњење обрисаних фајлова",
+    "Deletion cancelled" : "Брисање је отказано"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

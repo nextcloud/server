@@ -68,7 +68,6 @@ OC.L10N.register(
     "{displayName} (hidden)" : "{displayName} (skjult)",
     "{displayName} (restricted)" : "{displayName} (begrenset tilgang)",
     "Failed to apply tags changes" : "Kunne ikke utføre endring av merkelapper",
-    "File tags modification canceled" : "Endring av merkelapper for fil ble avbrutt",
     "Manage tags" : "Håndtere etiketter",
     "Applying tags changes…" : "Utfører endring av merkelapper…",
     "Search or create tag" : "Søk etter eller opprett merkelapp",
@@ -95,6 +94,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "En merkelapp med det navnet finnes allerede",
     "Failed to load tags for file" : "Lasting av merkelapper for filen feilet",
     "Failed to set tag for file" : "Kunne ikke angi merkelapp for fil",
-    "Failed to delete tag for file" : "Sletting av merkelappen for filen feilet"
+    "Failed to delete tag for file" : "Sletting av merkelappen for filen feilet",
+    "File tags modification canceled" : "Endring av merkelapper for fil ble avbrutt"
 },
 "nplurals=2; plural=(n != 1);");

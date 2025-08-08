@@ -72,7 +72,6 @@
     "{displayName} (restricted)" : "{displayName} (ограничено)",
     "Only admins can create new tags" : "Нове ознаке могу да креирају само админи",
     "Failed to apply tags changes" : "Није успело примењивање измена ознака",
-    "File tags modification canceled" : "Отказана је измена ознака фајла",
     "Manage tags" : "Управљање ознакама",
     "Applying tags changes…" : "Примењују се измене ознака…",
     "Search or create tag" : "Претражи или креирај ознаку",
@@ -108,6 +107,7 @@
     "A tag with the same name already exists" : "Већ постоји ознака са истим именом",
     "Failed to load tags for file" : "Није успело учитавање ознака за фајл",
     "Failed to set tag for file" : "Није успело постављање ознака за фајл",
-    "Failed to delete tag for file" : "Није успело брисање ознака за фајл"
+    "Failed to delete tag for file" : "Није успело брисање ознака за фајл",
+    "File tags modification canceled" : "Отказана је измена ознака фајла"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

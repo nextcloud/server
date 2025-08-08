@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (piiratud)",
     "Only admins can create new tags" : "Vaid peakasutajad saavad luua uusi silte",
     "Failed to apply tags changes" : "Siltide muudatusi ei õnnestunud salvestada",
-    "File tags modification canceled" : "Failide siltide muutmine on katkestatud",
     "Manage tags" : "Halda silte",
     "Applying tags changes…" : "Salvestan sildi muudatusi…",
     "Search or create tag" : "Otsi või loo silt",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Sellise nimega silt on juba olemas",
     "Failed to load tags for file" : "Faili silte ei õnnestunud laadida",
     "Failed to set tag for file" : "Failile ei õnnestunud silte lisada",
-    "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada"
+    "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada",
+    "File tags modification canceled" : "Failide siltide muutmine on katkestatud"
 },
 "nplurals=2; plural=(n != 1);");

@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (restricted)",
     "Only admins can create new tags" : "Only admins can create new tags",
     "Failed to apply tags changes" : "Failed to apply tags changes",
-    "File tags modification canceled" : "File tags modification cancelled",
     "Manage tags" : "Manage tags",
     "Applying tags changes…" : "Applying tags changes…",
     "Search or create tag" : "Search or create tag",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "A tag with the same name already exists",
     "Failed to load tags for file" : "Failed to load tags for file",
     "Failed to set tag for file" : "Failed to set tag for file",
-    "Failed to delete tag for file" : "Failed to delete tag for file"
+    "Failed to delete tag for file" : "Failed to delete tag for file",
+    "File tags modification canceled" : "File tags modification cancelled"
 },
 "nplurals=2; plural=(n != 1);");
