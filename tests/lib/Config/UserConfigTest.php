@@ -7,6 +7,8 @@ declare(strict_types=1);
  */
 namespace Test\lib\Config;
 
+use OC\Config\ConfigManager;
+use OC\Config\PresetManager;
 use OC\Config\UserConfig;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Exceptions\UnknownKeyException;
@@ -29,6 +31,8 @@ use Test\TestCase;
 class UserConfigTest extends TestCase {
 	protected IDBConnection $connection;
 	private IConfig $config;
+	private ConfigManager $configManager;
+	private PresetManager $presetManager;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
 	private array $originalPreferences;
@@ -173,6 +177,8 @@ class UserConfigTest extends TestCase {
 
 		$this->connection = Server::get(IDBConnection::class);
 		$this->config = Server::get(IConfig::class);
+		$this->configManager = Server::get(ConfigManager::class);
+		$this->presetManager = Server::get(PresetManager::class);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->crypto = Server::get(ICrypto::class);
 
@@ -282,6 +288,8 @@ class UserConfigTest extends TestCase {
 		$userConfig = new UserConfig(
 			$this->connection,
 			$this->config,
+			$this->configManager,
+			$this->presetManager,
 			$this->logger,
 			$this->crypto,
 		);
