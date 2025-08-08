@@ -619,7 +619,6 @@ export default defineComponent({
 				max-width: none;
 				// recalculate padding
 				box-sizing: border-box;
-				min-height: calc(var(--default-grid-baseline) * 2 + var(--default-clickable-area));
 			}
 		}
 	}
