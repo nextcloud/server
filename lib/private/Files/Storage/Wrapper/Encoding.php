@@ -37,7 +37,7 @@ class Encoding extends Wrapper {
 	 * Returns whether the given string is only made of ASCII characters
 	 */
 	private function isAscii(string $str): bool {
-		return !preg_match('/[\\x80-\\xff]+/', $str);
+		return mb_check_encoding($str, 'ASCII');
 	}
 
 	/**
