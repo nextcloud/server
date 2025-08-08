@@ -21,7 +21,6 @@ class PaginatePlugin extends ServerPlugin {
 	public const PAGINATE_OFFSET_HEADER = 'X-NC-Paginate-Offset';
 	public const PAGINATE_COUNT_HEADER = 'X-NC-Paginate-Count';
 
-	/** @var Server */
 	private Server $server;
 
 	public function __construct(
