@@ -180,7 +180,7 @@ import Vue, { defineComponent } from 'vue'
 
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
-import { File as NcFile, Node, davRemoteURL, davRootPath, davGetRootPath } from '@nextcloud/files'
+import { File as NcFile, Node, davRemoteURL, davRootPath, davGetRootPath, sortNodes } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 
@@ -188,7 +188,7 @@ import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
 import { canDownload } from '../utils/canDownload.ts'
-import { extractFilePaths, sortCompare, extractFilePathFromSource } from '../utils/fileUtils.ts'
+import { extractFilePaths, extractFilePathFromSource } from '../utils/fileUtils.ts'
 import getSortingConfig from '../services/FileSortingConfig.ts'
 import cancelableRequest from '../utils/CancelableRequest.js'
 import Error from '../components/Error.vue'
@@ -770,7 +770,23 @@ export default defineComponent({
 				// sort like the files list
 				// TODO: implement global sorting API
 				// https://github.com/nextcloud/server/blob/a83b79c5f8ab20ed9b4d751167417a65fa3c42b8/apps/files/lib/Controller/ApiController.php#L247
-				this.fileList = filteredFiles.sort((a, b) => sortCompare(a, b, this.sortingConfig.key, this.sortingConfig.asc))
+				const url = this.currentFile.source ?? this.currentFile.davPath
+				const nodes = filteredFiles.map(
+					file => new NcFile({
+						source: davRemoteURL + davGetRootPath() + file.filename,
+						fileid: file.fileid,
+						displayname: file.displayname,
+						mime: file.mime,
+						mtime: new Date(file.lastmod),
+						owner: this.currentFile.ownerId,
+						root: url.includes('remote.php/dav') ? davGetRootPath() : undefined,
+					}),
+				)
+				const sortedNodes = sortNodes(nodes, {
+					sortingMode: this.sortingConfig.key,
+					sortingOrder: this.sortingConfig.asc ? 'asc' : 'desc',
+				})
+				this.fileList = sortedNodes.map(node => filteredFiles.find(file => file.filename === node.path))
 
 				// store current position
 				this.currentIndex = this.fileList.findIndex(file => file.filename === fileInfo.filename)
