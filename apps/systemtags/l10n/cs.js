@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (omezený)",
     "Only admins can create new tags" : "Nové štítky mohou vytvářet pouze správci",
     "Failed to apply tags changes" : "Změny štítků se nepodařilo uplatnit",
-    "File tags modification canceled" : "Změna štítků souboru zrušena",
     "Manage tags" : "Spravovat štítky",
     "Applying tags changes…" : "Uplatňování směn štítků…",
     "Search or create tag" : "Hledat nebo vytvořit štítek",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Takto znazvaný štítek už existuje",
     "Failed to load tags for file" : "Nepodařilo se načíst štítky pro soubor",
     "Failed to set tag for file" : "Nepodařilo se nastavit štítek pro soubor",
-    "Failed to delete tag for file" : "Nepodařilo se smazat štítek pro soubor"
+    "Failed to delete tag for file" : "Nepodařilo se smazat štítek pro soubor",
+    "File tags modification canceled" : "Změna štítků souboru zrušena"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

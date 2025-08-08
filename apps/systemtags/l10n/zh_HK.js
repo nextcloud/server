@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName}（受限）",
     "Only admins can create new tags" : "僅管理員可以建立新標籤",
     "Failed to apply tags changes" : "應用標籤失敗",
-    "File tags modification canceled" : "檔案標籤修改已取消",
     "Manage tags" : "管理標籤",
     "Applying tags changes…" : "正在套用標籤更新 …",
     "Search or create tag" : "搜尋或創建標籤",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "另一個同名的標籤已經存在",
     "Failed to load tags for file" : "無法載入檔案的標籤",
     "Failed to set tag for file" : "無法設定檔案的標籤",
-    "Failed to delete tag for file" : "無法刪除檔案的標籤"
+    "Failed to delete tag for file" : "無法刪除檔案的標籤",
+    "File tags modification canceled" : "檔案標籤修改已取消"
 },
 "nplurals=1; plural=0;");

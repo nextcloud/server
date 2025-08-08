@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (begrænset)",
     "Only admins can create new tags" : "Kun administratorer kan oprette nye tags",
     "Failed to apply tags changes" : "Kunne ikke anvende tagændringer",
-    "File tags modification canceled" : "Ændring af filmærker annulleret",
     "Manage tags" : "Administrer tags",
     "Applying tags changes…" : "Anvender ændringer på mærker...",
     "Search or create tag" : "Søg eller opret mærke",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Et mærke med samme navn findes allerede",
     "Failed to load tags for file" : "Kunne ikke indlæse tags til fil",
     "Failed to set tag for file" : "Failed to set tag for file",
-    "Failed to delete tag for file" : "Failed to delete tag for file"
+    "Failed to delete tag for file" : "Failed to delete tag for file",
+    "File tags modification canceled" : "Ændring af filmærker annulleret"
 },
 "nplurals=2; plural=(n != 1);");

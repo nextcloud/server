@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Confirme exclusão permanente",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Tem certeza de que deseja excluir permanentemente todos os arquivos e pastas na lixeira? Isso não pode ser desfeito.",
     "Cancel" : "Cancelar",
-    "Deletion cancelled" : "Operação de exclusão cancelada",
     "Original location" : "Localização original",
     "Deleted by" : "Excluído por",
     "Deleted" : "Excluído",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "No deleted files" : "Nenhum arquivo excluído",
     "Files and folders you have deleted will show up here" : "Arquivos e pastas que você excluiu aparecerão aqui",
     "All files have been permanently deleted" : "Todos os arquivos foram excluídos permanentemente",
-    "Failed to empty deleted files" : "Falha ao esvaziar arquivos excluídos"
+    "Failed to empty deleted files" : "Falha ao esvaziar arquivos excluídos",
+    "Deletion cancelled" : "Operação de exclusão cancelada"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

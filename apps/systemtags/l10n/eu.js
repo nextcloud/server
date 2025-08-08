@@ -68,7 +68,6 @@ OC.L10N.register(
     "{displayName} (hidden)" : "{displayName} (ezkutua)",
     "{displayName} (restricted)" : "{displayName} (mugatua)",
     "Failed to apply tags changes" : "Etiketen aldaketak aplikatzeak huts egin du",
-    "File tags modification canceled" : "Fitxategien etiketen aldaketa baztertuta",
     "Manage tags" : "Kudeatu etiketak",
     "Applying tags changes…" : "Etiketen aldaketak aplikatzen...",
     "Search or create tag" : "Bilatu edo sortu etiketa",
@@ -95,6 +94,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Izen bereko etiketa bat dagoeneko existitzen da",
     "Failed to load tags for file" : "Fitxategiarentzako etiketak kargatzeak huts egin du",
     "Failed to set tag for file" : "Fitxategiarentzako etiketa ezartzeak huts egin du",
-    "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du"
+    "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du",
+    "File tags modification canceled" : "Fitxategien etiketen aldaketa baztertuta"
 },
 "nplurals=2; plural=(n != 1);");

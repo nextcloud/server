@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Kalıcı olarak silmeyi onaylayın",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Çöp kutusundaki tüm dosyaları ve klasörleri kalıcı olarak silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
     "Cancel" : "İptal",
-    "Deletion cancelled" : "Silme iptal edildi",
     "Original location" : "Özgün konum",
     "Deleted by" : "Silen",
     "Deleted" : "Silindi",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "No deleted files" : "Silinmiş bir dosya yok",
     "Files and folders you have deleted will show up here" : "Sildiğiniz dosya ve klasörler burada görüntülenir",
     "All files have been permanently deleted" : "Tüm dosyalar kalıcı olarak silindi",
-    "Failed to empty deleted files" : "Silinmiş dosyalar bölümü boşaltılamadı"
+    "Failed to empty deleted files" : "Silinmiş dosyalar bölümü boşaltılamadı",
+    "Deletion cancelled" : "Silme iptal edildi"
 },
 "nplurals=2; plural=(n > 1);");

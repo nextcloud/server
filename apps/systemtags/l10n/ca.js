@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (restringit)",
     "Only admins can create new tags" : "Només els administradors poden crear etiquetes noves",
     "Failed to apply tags changes" : "No s'han pogut aplicar els canvis d'etiquetes",
-    "File tags modification canceled" : "S'ha cancel·lat la modificació de les etiquetes del fitxer",
     "Manage tags" : "Administrar les etiquetes",
     "Applying tags changes…" : "S'estan aplicant els canvis d'etiquetes…",
     "Search or create tag" : "Cerca o crea una etiqueta",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Ja existeix una etiqueta amb el mateix nom",
     "Failed to load tags for file" : "No s'han pogut carregar les etiquetes del fitxer",
     "Failed to set tag for file" : "No s'ha pogut definit l'etiqueta per al fitxer",
-    "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer"
+    "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer",
+    "File tags modification canceled" : "S'ha cancel·lat la modificació de les etiquetes del fitxer"
 },
 "nplurals=2; plural=(n != 1);");

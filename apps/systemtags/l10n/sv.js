@@ -74,7 +74,6 @@ OC.L10N.register(
     "{displayName} (restricted)" : "{displayName} (begränsad)",
     "Only admins can create new tags" : "Endast administratörer kan skapa nya taggar",
     "Failed to apply tags changes" : "Kunde inte tillämpa taggändringar",
-    "File tags modification canceled" : "Ändring av filtaggar avbröts",
     "Manage tags" : "Hantera taggar",
     "Applying tags changes…" : "Tillämpar taggändringar...",
     "Search or create tag" : "Sök eller skapa tagg",
@@ -110,6 +109,7 @@ OC.L10N.register(
     "A tag with the same name already exists" : "En tagg med samma namn finns redan",
     "Failed to load tags for file" : "Kunde inte läsa in taggar för filen",
     "Failed to set tag for file" : "Kunde inte sätta tagg för filen",
-    "Failed to delete tag for file" : "Kunde inte ta bort tagg för filen"
+    "Failed to delete tag for file" : "Kunde inte ta bort tagg för filen",
+    "File tags modification canceled" : "Ändring av filtaggar avbröts"
 },
 "nplurals=2; plural=(n != 1);");
