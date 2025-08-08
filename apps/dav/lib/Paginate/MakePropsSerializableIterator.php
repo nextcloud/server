@@ -38,13 +38,13 @@ class MakePropsSerializableIterator implements \Iterator {
 		$current = $this->inner->current();
 
 		foreach ($current as &$value) {
-			if (!is_array($value)) {
+			if (!\is_array($value)) {
 				// no need to handle simple properties like 'href'
 				continue;
 			}
 
 			foreach ($value as &$property) {
-				if (is_object($property)) {
+				if (\is_object($property)) {
 					$property = $this->getSerializable($property);
 				}
 			}
