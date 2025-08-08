@@ -43,7 +43,6 @@ return array(
     'OCA\\Files_External\\Lib\\Auth\\IUserProvided' => $baseDir . '/../lib/Lib/Auth/IUserProvided.php',
     'OCA\\Files_External\\Lib\\Auth\\InvalidAuth' => $baseDir . '/../lib/Lib/Auth/InvalidAuth.php',
     'OCA\\Files_External\\Lib\\Auth\\NullMechanism' => $baseDir . '/../lib/Lib/Auth/NullMechanism.php',
-    'OCA\\Files_External\\Lib\\Auth\\OAuth1\\OAuth1' => $baseDir . '/../lib/Lib/Auth/OAuth1/OAuth1.php',
     'OCA\\Files_External\\Lib\\Auth\\OAuth2\\OAuth2' => $baseDir . '/../lib/Lib/Auth/OAuth2/OAuth2.php',
     'OCA\\Files_External\\Lib\\Auth\\OpenStack\\OpenStackV2' => $baseDir . '/../lib/Lib/Auth/OpenStack/OpenStackV2.php',
     'OCA\\Files_External\\Lib\\Auth\\OpenStack\\OpenStackV3' => $baseDir . '/../lib/Lib/Auth/OpenStack/OpenStackV3.php',
