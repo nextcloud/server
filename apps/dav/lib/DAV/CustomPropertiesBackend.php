@@ -224,7 +224,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		$node = $this->tree->getNodeForPath($path);
 		if (($node instanceof Directory) && $propFind->getDepth() !== 0) {
 			$this->cacheDirectory($path, $node->getNode());
-		} else if ($node instanceof TrashRoot) {
+		} elseif ($node instanceof TrashRoot) {
 			$trashNodes = $node->getTrashRoots();
 			foreach ($trashNodes as $trashNode) {
 				$this->cacheDirectory($path, $trashNode);
