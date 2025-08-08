@@ -2424,14 +2424,6 @@
       <code><![CDATA[getName]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/twofactor_backupcodes/lib/Provider/BackupCodesProvider.php">
-    <DeprecatedInterface>
-      <code><![CDATA[private]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[provideInitialState]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/ajax/clearMappings.php">
     <DeprecatedMethod>
       <code><![CDATA[\OC_JSON::callCheck()]]></code>
@@ -4011,6 +4003,11 @@
       <code><![CDATA[createGroup]]></code>
       <code><![CDATA[getGroupDetails]]></code>
       <code><![CDATA[isAdmin]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/InitialStateService.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[query]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Installer.php">
