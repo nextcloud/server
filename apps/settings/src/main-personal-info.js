@@ -27,6 +27,7 @@ import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilit
 import PronounsSection from './components/PersonalInfo/PronounsSection.vue'
 import RoleSection from './components/PersonalInfo/RoleSection.vue'
 import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
+import BlueskySection from './components/PersonalInfo/BlueskySection.vue'
 import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
 
 __webpack_nonce__ = getCSPNonce()
@@ -52,6 +53,7 @@ const LocationView = Vue.extend(LocationSection)
 const PhoneView = Vue.extend(PhoneSection)
 const PronounsView = Vue.extend(PronounsSection)
 const TwitterView = Vue.extend(TwitterSection)
+const BlueskyView = Vue.extend(BlueskySection)
 const WebsiteView = Vue.extend(WebsiteSection)
 
 new AvatarView().$mount('#vue-avatar-section')
@@ -62,6 +64,7 @@ new PhoneView().$mount('#vue-phone-section')
 new LocationView().$mount('#vue-location-section')
 new WebsiteView().$mount('#vue-website-section')
 new TwitterView().$mount('#vue-twitter-section')
+new BlueskyView().$mount('#vue-bluesky-section')
 new FediverseView().$mount('#vue-fediverse-section')
 new LanguageView().$mount('#vue-language-section')
 new LocaleView().$mount('#vue-locale-section')

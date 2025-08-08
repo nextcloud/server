@@ -64,6 +64,7 @@ class AccountTest extends TestCase {
 			IAccountManager::PROPERTY_AVATAR => new AccountProperty(IAccountManager::PROPERTY_AVATAR, '', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, ''),
 			IAccountManager::PROPERTY_PHONE => new AccountProperty(IAccountManager::PROPERTY_PHONE, '+358407991028', IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED, ''),
 			IAccountManager::PROPERTY_TWITTER => new AccountProperty(IAccountManager::PROPERTY_TWITTER, 'therealsteve', IAccountManager::SCOPE_PRIVATE, IAccountManager::NOT_VERIFIED, ''),
+			IAccountManager::PROPERTY_BLUESKY => new AccountProperty(IAccountManager::PROPERTY_BLUESKY, 'therealsteve.bsky.social', IAccountManager::SCOPE_PRIVATE, IAccountManager::NOT_VERIFIED, ''),
 			IAccountManager::PROPERTY_ORGANISATION => new AccountProperty(IAccountManager::PROPERTY_ORGANISATION, 'Steve Incorporated', IAccountManager::SCOPE_FEDERATED, IAccountManager::NOT_VERIFIED, ''),
 			IAccountManager::PROPERTY_ROLE => new AccountProperty(IAccountManager::PROPERTY_ROLE, 'Founder', IAccountManager::SCOPE_FEDERATED, IAccountManager::NOT_VERIFIED, ''),
 			IAccountManager::PROPERTY_HEADLINE => new AccountProperty(IAccountManager::PROPERTY_HEADLINE, 'I am Steve', IAccountManager::SCOPE_PUBLISHED, IAccountManager::NOT_VERIFIED, ''),

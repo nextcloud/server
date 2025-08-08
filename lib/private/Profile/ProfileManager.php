@@ -14,6 +14,7 @@ use OC\Core\Db\ProfileConfig;
 use OC\Core\Db\ProfileConfigMapper;
 use OC\Core\ResponseDefinitions;
 use OC\KnownUser\KnownUserService;
+use OC\Profile\Actions\BlueskyAction;
 use OC\Profile\Actions\EmailAction;
 use OC\Profile\Actions\FediverseAction;
 use OC\Profile\Actions\PhoneAction;
@@ -56,6 +57,7 @@ class ProfileManager implements IProfileManager {
 		PhoneAction::class,
 		WebsiteAction::class,
 		TwitterAction::class,
+		BlueskyAction::class,
 		FediverseAction::class,
 	];
 
