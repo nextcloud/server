@@ -49,6 +49,7 @@ return array(
     'OCP\\Activity\\Exceptions\\InvalidValueException' => $baseDir . '/lib/public/Activity/Exceptions/InvalidValueException.php',
     'OCP\\Activity\\Exceptions\\SettingNotFoundException' => $baseDir . '/lib/public/Activity/Exceptions/SettingNotFoundException.php',
     'OCP\\Activity\\Exceptions\\UnknownActivityException' => $baseDir . '/lib/public/Activity/Exceptions/UnknownActivityException.php',
+    'OCP\\Activity\\IBulkConsumer' => $baseDir . '/lib/public/Activity/IBulkConsumer.php',
     'OCP\\Activity\\IConsumer' => $baseDir . '/lib/public/Activity/IConsumer.php',
     'OCP\\Activity\\IEvent' => $baseDir . '/lib/public/Activity/IEvent.php',
     'OCP\\Activity\\IEventMerger' => $baseDir . '/lib/public/Activity/IEventMerger.php',

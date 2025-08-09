@@ -657,7 +657,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(\OCP\IConfig::class),
 				$c->get(IValidator::class),
 				$c->get(IRichTextFormatter::class),
-				$l10n
+				$l10n,
+				$c->get(ITimeFactory::class),
 			);
 		});
 

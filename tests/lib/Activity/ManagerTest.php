@@ -11,6 +11,7 @@ namespace Test\Activity;
 use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -46,7 +47,8 @@ class ManagerTest extends TestCase {
 			$this->config,
 			$this->validator,
 			$this->richTextFormatter,
-			$this->createMock(IL10N::class)
+			$this->createMock(IL10N::class),
+			$this->createMock(ITimeFactory::class),
 		);
 
 		$this->assertSame([], self::invokePrivate($this->activityManager, 'getConsumers'));
