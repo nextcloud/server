@@ -15,6 +15,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IAppConfig;
+use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
@@ -57,6 +58,7 @@ class CapabilitiesTest extends \Test\TestCase {
 	 */
 	private function getResults(array $map) {
 		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
+		$appManager = $this->getMockBuilder(IAppManager::class)->disableOriginalConstructor()->getMock();
 		$config->method('getAppValue')->willReturnMap($map);
 		$shareManager = new Manager(
 			$this->createMock(LoggerInterface::class),
@@ -79,7 +81,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IDateTimeZone::class),
 			$this->createMock(IAppConfig::class),
 		);
-		$cap = new Capabilities($config, $shareManager);
+		$cap = new Capabilities($config, $shareManager, $appManager);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());
 		return $result;
 	}

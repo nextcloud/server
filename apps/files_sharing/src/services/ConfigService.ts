@@ -213,6 +213,13 @@ export default class Config {
 	}
 
 	/**
+	 * Is federation enabled ?
+	 */
+	get isFederationEnabled(): boolean {
+		return this._capabilities?.files_sharing?.federation?.outgoing === true
+	}
+
+	/**
 	 * Is public sharing enabled ?
 	 */
 	get isPublicShareAllowed(): boolean {

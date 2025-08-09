@@ -268,21 +268,20 @@ export default {
 		},
 
 		internalShareInputPlaceholder() {
-			return this.config.showFederatedSharesAsInternal
+			return this.config.showFederatedSharesAsInternal && this.config.isFederationEnabled
 				? t('files_sharing', 'Share with accounts, teams, federated cloud IDs')
 				: t('files_sharing', 'Share with accounts and teams')
 		},
 
 		externalShareInputPlaceholder() {
 			if (!this.isLinkSharingAllowed) {
-				return t('files_sharing', 'Federated cloud ID')
+				return this.config.isFederationEnabled ? t('files_sharing', 'Federated cloud ID') : ''
 			}
-			return this.config.showFederatedSharesAsInternal
+			return !this.config.showFederatedSharesAsInternal && !this.config.isFederationEnabled
 				? t('files_sharing', 'Email')
 				: t('files_sharing', 'Email, federated cloud ID')
 		},
 	},
-
 	methods: {
 		/**
 		 * Update current fileInfo and fetch new data
@@ -294,7 +293,6 @@ export default {
 			this.resetState()
 			this.getShares()
 		},
-
 		/**
 		 * Get the existing shares infos
 		 */
