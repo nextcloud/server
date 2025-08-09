@@ -11,8 +11,6 @@
       <code><![CDATA[ManagerEvent::EVENT_CREATE]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
-      <code><![CDATA[Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore')]]></code>
-      <code><![CDATA[Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete')]]></code>
       <code><![CDATA[Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete')]]></code>
       <code><![CDATA[Util::connectHook(Share::class, 'post_set_expiration_date', $shareActions, 'updateExpirationDate')]]></code>
       <code><![CDATA[Util::connectHook(Share::class, 'post_update_password', $shareActions, 'updatePassword')]]></code>
@@ -1862,7 +1860,6 @@
     <DeprecatedMethod>
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
 				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))])]]></code>
-      <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath])]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getUserFolder]]></code>
       <code><![CDATA[getUserFolder]]></code>
