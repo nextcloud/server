@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Permite s'atzessu",
-    "Error configuring OAuth1" : "Errore de cunfiguratzione OAuth1",
-    "Please provide a valid app key and secret." : "Fruni una crae bàlida e segreta.",
     "Error configuring OAuth2" : "Errore de cunfiguratzione OAuth2",
     "Generate keys" : "Gènera craes",
     "Error generating key pair" : "Errore creende sa croba de craes",
@@ -22,9 +20,6 @@ OC.L10N.register(
     "Secret key" : "Crae segreta",
     "Builtin" : "Integrada",
     "None" : "Perunu",
-    "OAuth1" : "OAuth1",
-    "App key" : "Crae de s'aplicatzione",
-    "App secret" : "Segretu de s'aplicatzione",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID cliente",
     "Client secret" : "Segretu de su cliente",
@@ -113,6 +108,11 @@ OC.L10N.register(
     "Available for" : "A disponimentu pro",
     "Add storage" : "Agiunghe archiviatzione",
     "Advanced settings" : "Cunfiguratziones avantzadas",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is credentziales globales si podent impreare puru pro s'autenticatzione cun prus archiviatziones de foras chi tenent is matessi credentziales.",
+    "Error configuring OAuth1" : "Errore de cunfiguratzione OAuth1",
+    "Please provide a valid app key and secret." : "Fruni una crae bàlida e segreta.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Crae de s'aplicatzione",
+    "App secret" : "Segretu de s'aplicatzione"
 },
 "nplurals=2; plural=(n != 1);");

@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Дозволити доступ",
-    "Error configuring OAuth1" : "Помилка з конфігуруванням OAuth1",
-    "Please provide a valid app key and secret." : "Будь ласка, надайте дійсний ключ застосунку та пароль.",
     "Error configuring OAuth2" : "Помилка налаштування OAuth2",
     "Generate keys" : "Створити ключі",
     "Error generating key pair" : "Помилка створення ключової пари",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Пароль",
     "Builtin" : "Вбудовано",
     "None" : "Жоден",
-    "OAuth1" : "OAuth1",
-    "App key" : "Ключ застосунку",
-    "App secret" : "Секретний ключ застосунку",
     "OAuth2" : "OAuth2",
     "Client ID" : "Ідентифікатор клієнта",
     "Client secret" : "Ключ клієнта",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Всі користувачі",
     "Advanced settings" : "Розширені",
     "Allow people to mount external storage" : "Дозволити користувачам під'єднувати зовнішні сховища даних",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Універсальні облікові дані можна використовувати для авторизації з кількома зовнішніми сховищами, які мають тотодні облікові дані."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Універсальні облікові дані можна використовувати для авторизації з кількома зовнішніми сховищами, які мають тотодні облікові дані.",
+    "Error configuring OAuth1" : "Помилка з конфігуруванням OAuth1",
+    "Please provide a valid app key and secret." : "Будь ласка, надайте дійсний ключ застосунку та пароль.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Ключ застосунку",
+    "App secret" : "Секретний ключ застосунку"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

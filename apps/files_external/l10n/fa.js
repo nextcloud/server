@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : " مجوز اعطا دسترسی",
-    "Error configuring OAuth1" : "خطا پیکربندی OAuth1",
-    "Please provide a valid app key and secret." : "لطفا یک کلید و رمز معتبر برای برنامه فرآهم کنید.",
     "Error configuring OAuth2" : "خطا پیکربندی OAuth2",
     "Generate keys" : "تولید کلید",
     "Error generating key pair" : "خطا در تولید جفت کلید",
@@ -23,9 +21,6 @@ OC.L10N.register(
     "Secret key" : "کلید مخفی",
     "Builtin" : "ساخته شده",
     "None" : "هیچ‌کدام",
-    "OAuth1" : "OAuth1",
-    "App key" : "کلید برنامه",
-    "App secret" : "کد برنامه",
     "OAuth2" : "OAuth2",
     "Client ID" : "شناسه مشتری",
     "Client secret" : "رمز مشتری",
@@ -130,6 +125,11 @@ OC.L10N.register(
     "Available for" : "در دسترس برای",
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "از اعتبار جهانی می توان برای تأیید اعتبار با چندین انبار خارجی که دارای اعتبار یکسانی هستند استفاده کرد.",
+    "Error configuring OAuth1" : "خطا پیکربندی OAuth1",
+    "Please provide a valid app key and secret." : "لطفا یک کلید و رمز معتبر برای برنامه فرآهم کنید.",
+    "OAuth1" : "OAuth1",
+    "App key" : "کلید برنامه",
+    "App secret" : "کد برنامه"
 },
 "nplurals=2; plural=(n > 1);");

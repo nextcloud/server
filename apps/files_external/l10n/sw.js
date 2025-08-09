@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Toa ufikiaji",
-    "Error configuring OAuth1" : "Hitilafu katika kusanidi OAuth1",
-    "Please provide a valid app key and secret." : "Tafadhali toa ufunguo halali wa programu na siri.",
     "Error configuring OAuth2" : "Hitilafu katika kusanidi OAuth2",
     "Generate keys" : "Tengeneza funguo",
     "Error generating key pair" : "Hitilafu katika kuzalisha jozi za funguo",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : " Ufunguo wa siri",
     "Builtin" : "Builtin",
     "None" : "Hakuna",
-    "OAuth1" : "OAuth1",
-    "App key" : "Kitufe cha programu",
-    "App secret" : "Siri ya programu",
     "OAuth2" : "OAuth2",
     "Client ID" : "Kitambulisho cha mteja",
     "Client secret" : "Siri ya mteja",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Watu wote",
     "Advanced settings" : "Mipangilio ya kiwangi cha juu",
     "Allow people to mount external storage" : "Ruhusu watu kupachika hifadhi ya nje",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Vitambulisho vya kimataifa vinaweza kutumika kuthibitisha kwa hifadhi nyingi za nje ambazo zina vitambulisho sawa."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Vitambulisho vya kimataifa vinaweza kutumika kuthibitisha kwa hifadhi nyingi za nje ambazo zina vitambulisho sawa.",
+    "Error configuring OAuth1" : "Hitilafu katika kusanidi OAuth1",
+    "Please provide a valid app key and secret." : "Tafadhali toa ufunguo halali wa programu na siri.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Kitufe cha programu",
+    "App secret" : "Siri ya programu"
 },
 "nplurals=2; plural=(n != 1);");

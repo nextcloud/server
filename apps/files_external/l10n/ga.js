@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Deonaigh rochtain",
-    "Error configuring OAuth1" : "Earráid agus OAuth1 á chumrú",
-    "Please provide a valid app key and secret." : "Tabhair eochair feidhmchláir agus rún bailí le do thoil.",
     "Error configuring OAuth2" : "Earráid agus OAuth2 á chumrú",
     "Generate keys" : "Gin eochracha",
     "Error generating key pair" : "Earráid agus péire eochair á nginiúint",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Eochair rúnda",
     "Builtin" : "Tógtha",
     "None" : "aon cheann",
-    "OAuth1" : "OAuth1",
-    "App key" : "Eochair aip",
-    "App secret" : "Rúnda aip",
     "OAuth2" : "OAuth2",
     "Client ID" : "Aitheantas Cliant",
     "Client secret" : "Rún an chliaint",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Gach duine",
     "Advanced settings" : "Ardsocruithe",
     "Allow people to mount external storage" : "Lig do dhaoine stóráil sheachtrach a shuiteáil",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is féidir dintiúir dhomhanda a úsáid chun fíordheimhniú a dhéanamh le stórais sheachtracha iolracha a bhfuil na dintiúir chéanna acu."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Is féidir dintiúir dhomhanda a úsáid chun fíordheimhniú a dhéanamh le stórais sheachtracha iolracha a bhfuil na dintiúir chéanna acu.",
+    "Error configuring OAuth1" : "Earráid agus OAuth1 á chumrú",
+    "Please provide a valid app key and secret." : "Tabhair eochair feidhmchláir agus rún bailí le do thoil.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Eochair aip",
+    "App secret" : "Rúnda aip"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

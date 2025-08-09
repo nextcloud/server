@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Odobri dostop",
-    "Error configuring OAuth1" : "Napaka nastavljanja OAuth1",
-    "Please provide a valid app key and secret." : "Vpisati je treba veljaven ključ programa in kodo PIN.",
     "Error configuring OAuth2" : "Napaka nastavljanja OAuth2",
     "Generate keys" : "Ustvari ključe",
     "Error generating key pair" : "Prišlo je do napake med ustvarjanjem para ključev",
@@ -23,9 +21,6 @@ OC.L10N.register(
     "Secret key" : "Skrivni ključ",
     "Builtin" : "Vgrajeno",
     "None" : "Brez",
-    "OAuth1" : "OAuth1",
-    "App key" : "Programski ključ",
-    "App secret" : "Skrivni programski ključ",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID odjemalca",
     "Client secret" : "Skrivni ključ odjemalca",
@@ -122,6 +117,11 @@ OC.L10N.register(
     "Available for" : "Na voljo za",
     "Add storage" : "Dodaj shrambo",
     "Advanced settings" : "Napredne nastavitve",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Splošna poverila je mogoče uporabiti za overitev z več zunanjimi shrambami, ki uporabljajo enaka poverila.",
+    "Error configuring OAuth1" : "Napaka nastavljanja OAuth1",
+    "Please provide a valid app key and secret." : "Vpisati je treba veljaven ključ programa in kodo PIN.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Programski ključ",
+    "App secret" : "Skrivni programski ključ"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
