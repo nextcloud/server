@@ -42,6 +42,26 @@ class Movie extends ProviderV2 {
 		return is_string($this->binary);
 	}
 
+	private function connectDirect(File $file): string|false {
+		if (stream_get_meta_data($file->fopen('r'))['seekable']!== true) {
+			return false;
+		}
+
+		// Checks for availability to access the video file directly via HTTP/HTTPS.
+		// Returns a string containing URL if available. Only implemented and tested
+		// with Amazon S3 currently.  In all other cases, return false. ffmpeg
+		// supports other protocols so this function may expand in the future.
+		$gddValues = $file->getStorage()->getDirectDownload($file->getName());
+		
+		if (is_array($gddValues)) {
+			if (array_key_exists('url', $gddValues) && array_key_exists('presigned', $gddValues)) {
+				$directUrl = (str_starts_with($gddValues['url'], 'http') && ($gddValues['presigned'] === true)) ? $gddValues['url'] : false;
+				return $directUrl;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -51,54 +71,60 @@ class Movie extends ProviderV2 {
 		if (!$this->isAvailable($file)) {
 			return null;
 		}
-
 		$result = null;
-		if ($this->useTempFile($file)) {
-			// Try downloading 5 MB first, as it's likely that the first frames are present there.
-			// In some cases this doesn't work, for example when the moov atom is at the
-			// end of the file, so if it fails we fall back to getting the full file.
-			// Unless the file is not local (e.g. S3) as we do not want to download the whole (e.g. 37Gb) file
-			if ($file->getStorage()->isLocal()) {
-				$sizeAttempts = [5242880, null];
+		$connectDirect = $this->connectDirect($file);
+		if (($connectDirect === false) || $file->isEncrypted()) {
+			// If HTTP/HTTPS direct connect is not available or if the file is encrypted,
+			// process normally with temp files
+			if ($this->useTempFile($file)) {
+				// Try downloading 5 MB first, as it's likely that the first frames are
+				// present there. In some cases this doesn't work (e.g. when the
+				// moov atom is at the end) so if it fails, fall back to
+				// getting the full file, unless the file is not local as we do not want
+				// to download the whole (e.g. 37GB) file from remote.
+				if ($file->getStorage()->isLocal()) {
+					$sizeAttempts = [5242880, null];
+				} else {
+					$sizeAttempts = [5242880];
+				}
 			} else {
-				$sizeAttempts = [5242880];
+				// size is irrelevant, only attempt once
+				$sizeAttempts = [null];
 			}
-		} else {
-			// size is irrelevant, only attempt once
-			$sizeAttempts = [null];
-		}
+	 
+			foreach ($sizeAttempts as $size) {
+				$absPath = $this->getLocalFile($file, $size);
+				if ($absPath === false) {
+					Server::get(LoggerInterface::class)->error(
+						'Failed to get local file to generate thumbnail for: ' .
+						$file->getPath(), ['app' => 'core']
+					);
+					return null;
+				}
 
-		foreach ($sizeAttempts as $size) {
-			$absPath = $this->getLocalFile($file, $size);
-			if ($absPath === false) {
-				Server::get(LoggerInterface::class)->error(
-					'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
-					['app' => 'core']
-				);
-				return null;
-			}
+				$result = ($this->generateThumbNail($maxX, $maxY, $absPath, 5)) ??
+							($this->generateThumbNail($maxX, $maxY, $absPath, 1)) ??
+							($this->generateThumbNail($maxX, $maxY, $absPath, 0));
+	 
+				$this->cleanTmpFiles();
 
-			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
-			if ($result === null) {
-				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
-				if ($result === null) {
-					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
+				if ($result !== null) {
+					break;
 				}
 			}
-
-			$this->cleanTmpFiles();
-
-			if ($result !== null) {
-				break;
-			}
+		} else {
+			// HTTP/HTTPS direct connect is available so pass the URL directly to ffmpeg
+			$result = ($this->generateThumbNail($maxX, $maxY, $connectDirect, 5)) ??
+				($this->generateThumbNail($maxX, $maxY, $connectDirect, 1)) ??
+				($this->generateThumbNail($maxX, $maxY, $connectDirect, 0));
 		}
-
 		return $result;
 	}
 
 	private function useHdr(string $absPath): bool {
 		// load ffprobe path from configuration, otherwise generate binary path using ffmpeg binary path
-		$ffprobe_binary = $this->config->getSystemValue('preview_ffprobe_path', null) ?? (pathinfo($this->binary, PATHINFO_DIRNAME) . '/ffprobe');
+		$ffprobe_binary = ($this->config->getSystemValue('preview_ffprobe_path', null)) ??
+			(pathinfo($this->binary, PATHINFO_DIRNAME) . '/ffprobe');
 		// run ffprobe on the video file to get value of "color_transfer"
 		$test_hdr_cmd = [$ffprobe_binary,'-select_streams', 'v:0',
 			'-show_entries', 'stream=color_transfer',
