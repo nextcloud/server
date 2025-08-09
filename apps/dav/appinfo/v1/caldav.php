@@ -1,11 +1,10 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// Backends
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
@@ -29,20 +28,20 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
-$authBackend = new Auth(
-	Server::get(ISession::class),
-	Server::get(IUserSession::class),
-	Server::get(IRequest::class),
-	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
-	Server::get(IThrottler::class),
-	'principals/'
-);
-$principalBackend = new Principal(
+/* Loads in the scope of /remote.php */
+
+/**
+ * Establish the backends
+ */
+$principalPrefix = 'principals/';
+
+$principalBackend = new Principal( // /principals
 	Server::get(IUserManager::class),
 	Server::get(IGroupManager::class),
 	Server::get(IAccountManager::class),
@@ -52,69 +51,104 @@ $principalBackend = new Principal(
 	Server::get(ProxyMapper::class),
 	Server::get(KnownUserService::class),
 	Server::get(IConfig::class),
-	\OC::$server->getL10NFactory(),
-	'principals/'
+	Server::get(IFactory::class), // L10N
+	$principalPrefix,
 );
-$db = Server::get(IDBConnection::class);
-$userManager = Server::get(IUserManager::class);
-$random = Server::get(ISecureRandom::class);
-$logger = Server::get(LoggerInterface::class);
-$dispatcher = Server::get(IEventDispatcher::class);
-$config = Server::get(IConfig::class);
 
-$calDavBackend = new CalDavBackend(
-	$db,
+$calDavBackend = new CalDavBackend( // /calendars
+	Server::get(IDBConnection::class),
 	$principalBackend,
-	$userManager,
-	$random,
-	$logger,
-	$dispatcher,
-	$config,
+	Server::get(IUserManager::class),
+	Server::get(ISecureRandom::class),
+	Server::get(LoggerInterface::class),
+	Server::get(IEventDispatcher::class),
+	Server::get(IConfig::class),
 	Server::get(\OCA\DAV\CalDAV\Sharing\Backend::class),
-	true
+	true, // legacyEndpoint
 );
 
-$debugging = Server::get(IConfig::class)->getSystemValue('debug', false);
-$sendInvitations = Server::get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
+$authBackend = new Auth(
+	Server::get(ISession::class),
+	Server::get(IUserSession::class),
+	Server::get(IRequest::class),
+	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
+	Server::get(IThrottler::class),
+	$principalPrefix,
+);
 
-// Root nodes
-$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
-$principalCollection->disableListing = !$debugging; // Disable listing
+/**
+ * Load config toggles
+ */
+$debugging = Server::get(IConfig::class)->getSystemValueBool('debug', false);
+$sendInvitations = Server::get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes'; // XXX IAppConfig?
 
-$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $logger);
-$addressBookRoot->disableListing = !$debugging; // Disable listing
+/**
+ * Define the nodes we're handling here:
+ * - /principals
+ * - /calendars
+ */
+$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend); // /principals
+$principalCollection->disableListing = !$debugging;
+
+$calendarRoot = new CalendarRoot( // /calendars
+	$principalBackend,
+	$calDavBackend,
+	'principals',
+	Server::get(LoggerInterface::class),
+);
+$calendarRoot->disableListing = !$debugging;
 
 $nodes = [
-	$principalCollection,
-	$addressBookRoot,
+	$principalCollection, // /principals
+	$calendarRoot, // /calendars
 ];
 
-// Fire up server
+/**
+ * Set up a DAV server for the above nodes
+ */
 $server = new \Sabre\DAV\Server($nodes);
 $server::$exposeVersion = false;
 $server->httpRequest->setUrl(Server::get(IRequest::class)->getRequestUri());
-$server->setBaseUri($baseuri);
+/** @var string $baseuri defined in remote.php */
+if (isset($baseuri)) {
+	$server->setBaseUri($baseuri);
+}
 
-// Add plugins
-$server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), \OC::$server->getL10N('dav')));
-$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
-$server->addPlugin(new \Sabre\CalDAV\Plugin());
-
-$server->addPlugin(new LegacyDAVACL());
+/**
+ * Enable/configure plugins
+ */
 if ($debugging) {
 	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
 }
-
-$server->addPlugin(new \Sabre\DAV\Sync\Plugin());
-$server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-$server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(Server::get(IConfig::class), Server::get(LoggerInterface::class), Server::get(DefaultCalendarValidator::class)));
-
 if ($sendInvitations) {
 	$server->addPlugin(Server::get(IMipPlugin::class));
 }
-$server->addPlugin(new ExceptionLoggerPlugin('caldav', $logger));
+$server->addPlugin(
+	new MaintenancePlugin(
+		Server::get(IConfig::class),
+		Server::get(IFactory::class)->get('dav'), // L10N
+	)
+);
+$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
+$server->addPlugin(new \Sabre\CalDAV\Plugin());
+$server->addPlugin(new LegacyDAVACL());
+$server->addPlugin(new \Sabre\DAV\Sync\Plugin());
+$server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
+$server->addPlugin(
+	new \OCA\DAV\CalDAV\Schedule\Plugin(
+		Server::get(IConfig::class),
+		Server::get(LoggerInterface::class),
+		Server::get(DefaultCalendarValidator::class)
+	)
+);
+$server->addPlugin(
+	new ExceptionLoggerPlugin(
+		'caldav',
+		Server::get(LoggerInterface::class),
+	)
+);
 $server->addPlugin(Server::get(RateLimitingPlugin::class));
 $server->addPlugin(Server::get(CalDavValidatePlugin::class));
 
-// And off we go!
-$server->exec();
+// Start a DAV server
+$server->start();
