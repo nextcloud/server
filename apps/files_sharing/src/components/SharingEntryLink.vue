@@ -550,7 +550,7 @@ export default {
 				}
 				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
-			return t('files_sharing', 'Copy public link of "{title}" to clipboard', { title: this.title })
+			return t('files_sharing', 'Copy public link of "{title}"', { title: this.title })
 		},
 
 		/**

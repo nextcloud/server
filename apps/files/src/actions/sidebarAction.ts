@@ -16,7 +16,7 @@ export const ACTION_DETAILS = 'details'
 
 export const action = new FileAction({
 	id: ACTION_DETAILS,
-	displayName: () => t('files', 'Open details'),
+	displayName: () => t('files', 'Details'),
 	iconSvgInline: () => InformationSvg,
 
 	// Sidebar currently supports user folder only, /files/USER
