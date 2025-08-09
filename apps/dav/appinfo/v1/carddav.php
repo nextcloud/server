@@ -1,11 +1,10 @@
 <?php
 
 /**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-// Backends
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
@@ -30,20 +29,19 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
-use Sabre\CardDAV\Plugin;
 
-$authBackend = new Auth(
-	Server::get(ISession::class),
-	Server::get(IUserSession::class),
-	Server::get(IRequest::class),
-	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
-	Server::get(IThrottler::class),
-	'principals/'
-);
-$principalBackend = new Principal(
+/* Loads in the scope of /remote.php */
+
+/**
+ * Establish the backends
+ */
+$principalPrefix = 'principals/';
+
+$principalBackend = new Principal( // /principals
 	Server::get(IUserManager::class),
 	Server::get(IGroupManager::class),
 	Server::get(IAccountManager::class),
@@ -53,12 +51,12 @@ $principalBackend = new Principal(
 	Server::get(ProxyMapper::class),
 	Server::get(KnownUserService::class),
 	Server::get(IConfig::class),
-	\OC::$server->getL10NFactory(),
-	'principals/'
+	Server::get(IFactory::class), // L10N
+	$principalPrefix,
 );
-$db = Server::get(IDBConnection::class);
-$cardDavBackend = new CardDavBackend(
-	$db,
+
+$cardDavBackend = new CardDavBackend( // /addressbooks
+	Server::get(IDBConnection::class),
 	$principalBackend,
 	Server::get(IUserManager::class),
 	Server::get(IEventDispatcher::class),
@@ -66,42 +64,83 @@ $cardDavBackend = new CardDavBackend(
 	Server::get(IConfig::class),
 );
 
-$debugging = Server::get(IConfig::class)->getSystemValue('debug', false);
+$authBackend = new Auth(
+	Server::get(ISession::class),
+	Server::get(IUserSession::class),
+	Server::get(IRequest::class),
+	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
+	Server::get(IThrottler::class),
+	$principalPrefix,
+);
 
-// Root nodes
-$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
-$principalCollection->disableListing = !$debugging; // Disable listing
+/**
+ * Load config toggles
+ */
+$debugging = Server::get(IConfig::class)->getSystemValueBool('debug', false);
 
-$pluginManager = new PluginManager(\OC::$server, Server::get(IAppManager::class));
-$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, $pluginManager, Server::get(IUserSession::class)->getUser(), Server::get(IGroupManager::class));
-$addressBookRoot->disableListing = !$debugging; // Disable listing
+/**
+ * Define the nodes we're handling here:
+ * - /principals
+ * - /addressbooks
+ */
+$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend); // /principals
+$principalCollection->disableListing = !$debugging;
+
+$addressBookRoot = new AddressBookRoot( // /addressbooks
+	$principalBackend,
+	$cardDavBackend,
+	new PluginManager(
+		Server::class,
+		Server::get(IAppManager::class)
+	),
+	Server::get(IUserSession::class)->getUser(),
+	Server::get(IGroupManager::class),
+	'principals',
+);
+$addressBookRoot->disableListing = !$debugging;
 
 $nodes = [
-	$principalCollection,
-	$addressBookRoot,
+	$principalCollection, // /principals
+	$addressBookRoot, // /addressbooks
 ];
 
-// Fire up server
+/**
+ * Set up a DAV server for the above nodes
+ */
 $server = new \Sabre\DAV\Server($nodes);
 $server::$exposeVersion = false;
 $server->httpRequest->setUrl(Server::get(IRequest::class)->getRequestUri());
-$server->setBaseUri($baseuri);
-// Add plugins
-$server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), \OC::$server->getL10N('dav')));
-$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
-$server->addPlugin(new Plugin());
+/** @var string $baseuri defined in remote.php */
+if (isset($baseuri)) {
+	$server->setBaseUri($baseuri);
+}
 
-$server->addPlugin(new LegacyDAVACL());
+/**
+ * Enable/configure plugins
+ */
 if ($debugging) {
 	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
 }
-
+$server->addPlugin(
+	new MaintenancePlugin(
+		Server::get(IConfig::class),
+		Server::get(IFactory::class)->get('dav'), // L10N
+	)
+);
+$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
+$server->addPlugin(new \Sabre\CardDAV\Plugin());
+$server->addPlugin(new LegacyDAVACL());
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
 $server->addPlugin(new ImageExportPlugin(Server::get(PhotoCache::class)));
-$server->addPlugin(new ExceptionLoggerPlugin('carddav', Server::get(LoggerInterface::class)));
+$server->addPlugin(
+	new ExceptionLoggerPlugin(
+		'carddav',
+		Server::get(LoggerInterface::class)
+	)
+);
 $server->addPlugin(Server::get(CardDavRateLimitingPlugin::class));
 $server->addPlugin(Server::get(CardDavValidatePlugin::class));
 
-// And off we go!
-$server->exec();
+// Start a DAV server
+$server->start();
