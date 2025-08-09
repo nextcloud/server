@@ -231,6 +231,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\Node' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Node.php',
         'OCA\\DAV\\Connector\\Sabre\\ObjectTree' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ObjectTree.php',
         'OCA\\DAV\\Connector\\Sabre\\Principal' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Principal.php',
+        'OCA\\DAV\\Connector\\Sabre\\PropFindMonitorPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/PropFindMonitorPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\PropfindCompressionPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/PropfindCompressionPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\PublicAuth' => __DIR__ . '/..' . '/../lib/Connector/Sabre/PublicAuth.php',
         'OCA\\DAV\\Connector\\Sabre\\QuotaPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/QuotaPlugin.php',

@@ -18,6 +18,7 @@ use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
+use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\RootCollection;
 use OCA\Theming\ThemingDefaults;
@@ -40,6 +41,8 @@ class InvitationResponseServer {
 		$baseUri = \OC::$WEBROOT . '/remote.php/dav/';
 		$logger = Server::get(LoggerInterface::class);
 		$dispatcher = Server::get(IEventDispatcher::class);
+		$config = Server::get(IConfig::class);
+		$debugEnabled = $config->getSystemValue('debug', false);
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
@@ -68,6 +71,10 @@ class InvitationResponseServer {
 		$event = new SabrePluginAuthInitEvent($this->server);
 		$dispatcher->dispatchTyped($event);
 
+		if ($debugEnabled) {
+			$this->server->debugEnabled = $debugEnabled;
+			$this->server->addPlugin(new PropFindMonitorPlugin());
+		}
 		$this->server->addPlugin(new ExceptionLoggerPlugin('webdav', $logger));
 		$this->server->addPlugin(new LockPlugin());
 		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
