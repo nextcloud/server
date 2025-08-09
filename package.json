@@ -124,7 +124,7 @@
     "@babel/preset-typescript": "^7.27.1",
     "@codecov/webpack-plugin": "^1.9.1",
     "@cypress/vue2": "^2.1.1",
-    "@cypress/webpack-preprocessor": "^6.0.4",
+    "@cypress/webpack-preprocessor": "^7.0.0",
     "@nextcloud/babel-config": "^1.2.0",
     "@nextcloud/cypress": "^1.0.0-beta.15",
     "@nextcloud/eslint-config": "^8.4.2",
