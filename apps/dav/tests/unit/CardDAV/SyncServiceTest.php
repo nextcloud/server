@@ -66,13 +66,13 @@ class SyncServiceTest extends TestCase {
 			->willReturn($this->client);
 
 		$this->service = new SyncService(
+			$clientService,
+			$this->config,
 			$this->backend,
 			$this->userManager,
 			$this->dbConnection,
 			$this->logger,
 			$this->converter,
-			$clientService,
-			$this->config
 		);
 	}
 
@@ -314,7 +314,7 @@ END:VCARD';
 		$clientService = $this->createMock(IClientService::class);
 		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
+		$ss = new SyncService($clientService, $config, $backend, $userManager, $dbConnection, $logger, $converter);
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
@@ -359,7 +359,7 @@ END:VCARD';
 		$clientService = $this->createMock(IClientService::class);
 		$config = $this->createMock(IConfig::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService, $config);
+		$ss = new SyncService($clientService, $config, $backend, $userManager, $dbConnection, $logger, $converter);
 		$ss->updateUser($user);
 
 		$ss->updateUser($user);

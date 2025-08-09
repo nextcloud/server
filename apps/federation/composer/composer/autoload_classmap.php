@@ -11,6 +11,7 @@ return array(
     'OCA\\Federation\\BackgroundJob\\GetSharedSecret' => $baseDir . '/../lib/BackgroundJob/GetSharedSecret.php',
     'OCA\\Federation\\BackgroundJob\\RequestSharedSecret' => $baseDir . '/../lib/BackgroundJob/RequestSharedSecret.php',
     'OCA\\Federation\\Command\\SyncFederationAddressBooks' => $baseDir . '/../lib/Command/SyncFederationAddressBooks.php',
+    'OCA\\Federation\\Command\\SyncFederationCalendars' => $baseDir . '/../lib/Command/SyncFederationCalendars.php',
     'OCA\\Federation\\Controller\\OCSAuthAPIController' => $baseDir . '/../lib/Controller/OCSAuthAPIController.php',
     'OCA\\Federation\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
     'OCA\\Federation\\DAV\\FedAuth' => $baseDir . '/../lib/DAV/FedAuth.php',
@@ -19,6 +20,7 @@ return array(
     'OCA\\Federation\\Migration\\Version1010Date20200630191302' => $baseDir . '/../lib/Migration/Version1010Date20200630191302.php',
     'OCA\\Federation\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\Federation\\SyncFederationAddressBooks' => $baseDir . '/../lib/SyncFederationAddressBooks.php',
+    'OCA\\Federation\\SyncFederationCalendars' => $baseDir . '/../lib/SyncFederationCalendars.php',
     'OCA\\Federation\\SyncJob' => $baseDir . '/../lib/SyncJob.php',
     'OCA\\Federation\\TrustedServers' => $baseDir . '/../lib/TrustedServers.php',
 );

@@ -10,6 +10,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
@@ -29,6 +30,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory as IL10NFactory;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
@@ -61,6 +63,9 @@ $random = Server::get(ISecureRandom::class);
 $logger = Server::get(LoggerInterface::class);
 $dispatcher = Server::get(IEventDispatcher::class);
 $config = Server::get(IConfig::class);
+$l10nFactory = Server::get(IL10NFactory::class);
+$davL10n = $l10nFactory->get('dav');
+$federatedCalendarMapper = Server::get(FederatedCalendarMapper::class);
 
 $calDavBackend = new CalDavBackend(
 	$db,
@@ -71,6 +76,7 @@ $calDavBackend = new CalDavBackend(
 	$dispatcher,
 	$config,
 	Server::get(\OCA\DAV\CalDAV\Sharing\Backend::class),
+	Server::get(FederatedCalendarMapper::class),
 	true
 );
 
@@ -81,7 +87,7 @@ $sendInvitations = Server::get(IConfig::class)->getAppValue('dav', 'sendInvitati
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $logger);
+$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $logger, $davL10n, $config, $federatedCalendarMapper);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = [
@@ -96,7 +102,7 @@ $server->httpRequest->setUrl(Server::get(IRequest::class)->getRequestUri());
 $server->setBaseUri($baseuri);
 
 // Add plugins
-$server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), \OC::$server->getL10N('dav')));
+$server->addPlugin(new MaintenancePlugin(Server::get(IConfig::class), $davL10n));
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
 $server->addPlugin(new \Sabre\CalDAV\Plugin());
 

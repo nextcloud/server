@@ -8,12 +8,14 @@
 namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OC\KnownUser\KnownUserService;
+use OCA\DAV\CalDAV\Federation\FederationSharingService;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Sharing\Backend;
 use OCA\DAV\CardDAV\Sharing\Service;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCA\DAV\DAV\Sharing\SharingMapper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -51,6 +53,8 @@ class CardDavBackendTest extends TestCase {
 	private IGroupManager&MockObject $groupManager;
 	private IEventDispatcher&MockObject $dispatcher;
 	private IConfig&MockObject $config;
+	private RemoteUserPrincipalBackend&MockObject $remoteUserPrincipalBackend;
+	private FederationSharingService&MockObject $federationSharingService;
 	private Backend $sharingBackend;
 	private IDBConnection $db;
 	private CardDavBackend $backend;
@@ -122,13 +126,17 @@ class CardDavBackendTest extends TestCase {
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP]);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->remoteUserPrincipalBackend = $this->createMock(RemoteUserPrincipalBackend::class);
+		$this->federationSharingService = $this->createMock(FederationSharingService::class);
 
 		$this->db = Server::get(IDBConnection::class);
 		$this->sharingBackend = new Backend($this->userManager,
 			$this->groupManager,
 			$this->principal,
+			$this->remoteUserPrincipalBackend,
 			$this->createMock(ICacheFactory::class),
 			new Service(new SharingMapper($this->db)),
+			$this->federationSharingService,
 			$this->createMock(LoggerInterface::class)
 		);
 

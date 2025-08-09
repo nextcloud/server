@@ -11,8 +11,10 @@ namespace OCA\DAV\Tests\integration\DAV\Sharing;
 
 use OC\Memcache\NullCache;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\Federation\FederationSharingService;
 use OCA\DAV\CalDAV\Sharing\Service;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\SharingMapper;
 use OCA\DAV\DAV\Sharing\SharingService;
@@ -22,6 +24,7 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -39,6 +42,8 @@ class CalDavSharingBackendTest extends TestCase {
 	private SharingMapper $sharingMapper;
 	private SharingService $sharingService;
 	private Backend $sharingBackend;
+	private RemoteUserPrincipalBackend&MockObject $remoteUserPrincipalBackend;
+	private FederationSharingService&MockObject $federationSharingService;
 
 	private $resourceIds = [10001];
 
@@ -54,6 +59,8 @@ class CalDavSharingBackendTest extends TestCase {
 		$this->cacheFactory->method('createInMemory')
 			->willReturn(new NullCache());
 		$this->logger = new \Psr\Log\NullLogger();
+		$this->remoteUserPrincipalBackend = $this->createMock(RemoteUserPrincipalBackend::class);
+		$this->federationSharingService = $this->createMock(FederationSharingService::class);
 
 		$this->sharingMapper = new SharingMapper($this->db);
 		$this->sharingService = new Service($this->sharingMapper);
@@ -62,8 +69,10 @@ class CalDavSharingBackendTest extends TestCase {
 			$this->userManager,
 			$this->groupManager,
 			$this->principalBackend,
+			$this->remoteUserPrincipalBackend,
 			$this->cacheFactory,
 			$this->sharingService,
+			$this->federationSharingService,
 			$this->logger
 		);
 
