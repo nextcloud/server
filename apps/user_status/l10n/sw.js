@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Nje ya ofisi",
     "Working remotely" : "Kufanyia kazi mbali",
     "In a call" : "Katika simu",
+    "Be right back" : "Rudi mara moja",
     "User status" : "Hadhi ya mtumiaji",
     "Clear status after" : "Futa hali baada ya",
     "Emoji for your status message" : "Emoji kwa hali yako ya ujumbe",

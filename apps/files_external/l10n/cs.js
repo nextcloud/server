@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Udělit přístup",
-    "Error configuring OAuth1" : "Chyba při nastavování OAuth1",
-    "Please provide a valid app key and secret." : "Zadejte platný klíč aplikace a tajné heslo.",
     "Error configuring OAuth2" : "Chyba při nastavování OAuth2",
     "Generate keys" : "Vytvořit klíče",
     "Error generating key pair" : "Chyba při vytváření páru klíčů",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Tajný klíč",
     "Builtin" : "Vestavěné",
     "None" : "Žádné",
-    "OAuth1" : "OAuth1",
-    "App key" : "Klíč aplikace",
-    "App secret" : "Tajemství aplikace",
     "OAuth2" : "OAuth2",
     "Client ID" : "Identif. klienta",
     "Client secret" : "Klientské tajemství",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Všichni lidé",
     "Advanced settings" : "Pokročilá nastavení",
     "Allow people to mount external storage" : "Povolit lidem připojovat externí úložiště",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření se vůči vícero externím úložištím, která mají stejné přihlašovací údaje."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globální přihlašovací údaje je možné použít pro ověření se vůči vícero externím úložištím, která mají stejné přihlašovací údaje.",
+    "Error configuring OAuth1" : "Chyba při nastavování OAuth1",
+    "Please provide a valid app key and secret." : "Zadejte platný klíč aplikace a tajné heslo.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Klíč aplikace",
+    "App secret" : "Tajemství aplikace"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

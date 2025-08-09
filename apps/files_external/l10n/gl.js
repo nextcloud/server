@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Permitir o acceso",
-    "Error configuring OAuth1" : "Produciuse un erro ao configurar OAuth1",
-    "Please provide a valid app key and secret." : "Forneza unha chave de aplicación e o segredo",
     "Error configuring OAuth2" : "Produciuse un erro ao configurar OAuth2",
     "Generate keys" : "Xerar chaves",
     "Error generating key pair" : "Produciuse un erro ao xerar o par de chaves",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "Chave secreta",
     "Builtin" : "Integrado",
     "None" : "Ningún",
-    "OAuth1" : "OAuth1",
-    "App key" : "Chave da aplicación",
-    "App secret" : "Segredo da aplicación",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID de cliente",
     "Client secret" : "Segredo do cliente",
@@ -153,6 +148,11 @@ OC.L10N.register(
     "All people" : "Todas as persoas",
     "Advanced settings" : "Axustes avanzados",
     "Allow people to mount external storage" : "Permitirlle á xente montar almacenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poden empregarse credenciais globais para autenticar con múltiples almacenamentos externos que teñan as mesmas credenciais.",
+    "Error configuring OAuth1" : "Produciuse un erro ao configurar OAuth1",
+    "Please provide a valid app key and secret." : "Forneza unha chave de aplicación e o segredo",
+    "OAuth1" : "OAuth1",
+    "App key" : "Chave da aplicación",
+    "App secret" : "Segredo da aplicación"
 },
 "nplurals=2; plural=(n != 1);");

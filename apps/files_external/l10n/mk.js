@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Дозволи пристап",
-    "Error configuring OAuth1" : "Грешка во конфигурацијата на OAuth1",
-    "Please provide a valid app key and secret." : "Внесете валиден клуч на апликацијата и лозинка.",
     "Error configuring OAuth2" : "Грешка во конфигурацијата на OAuth2",
     "Generate keys" : "Генерирај клучеви",
     "Error generating key pair" : "Грешка при генерирање на клучеви",
@@ -15,9 +13,6 @@ OC.L10N.register(
     "Secret key" : "Таен клуч",
     "Builtin" : "Вграден",
     "None" : "Ништо",
-    "OAuth1" : "OAuth1",
-    "App key" : "Клуч на апликацијата",
-    "App secret" : "Тајна на апликацијата",
     "OAuth2" : "OAuth2",
     "Client ID" : "Клиент ИД",
     "Client secret" : "Тајна на клиент",
@@ -99,6 +94,11 @@ OC.L10N.register(
     "Available for" : "Достапно за",
     "Add storage" : "Додади складиште",
     "Advanced settings" : "Напредни параметри",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните акредитиви можат да се искористат за пристапување во повеќе надворешни складишта кој користат исти акредитиви.",
+    "Error configuring OAuth1" : "Грешка во конфигурацијата на OAuth1",
+    "Please provide a valid app key and secret." : "Внесете валиден клуч на апликацијата и лозинка.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Клуч на апликацијата",
+    "App secret" : "Тајна на апликацијата"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

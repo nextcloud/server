@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Udziel dostępu",
-    "Error configuring OAuth1" : "Błąd konfiguracji OAuth1",
-    "Please provide a valid app key and secret." : "Podaj prawidłowy klucz aplikacji i tajny klucz.",
     "Error configuring OAuth2" : "Błąd konfiguracji OAuth2",
     "Generate keys" : "Wygeneruj klucze",
     "Error generating key pair" : "Błąd podczas generowania pary kluczy",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Tajny klucz",
     "Builtin" : "Wbudowane",
     "None" : "Nic",
-    "OAuth1" : "OAuth1",
-    "App key" : "Klucz aplikacji",
-    "App secret" : "Tajny klucz aplikacji",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID klienta",
     "Client secret" : "Tajny klucz klienta",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Wszystkie osoby",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Allow people to mount external storage" : "Zezwalaj innym na montowanie pamięci zewnętrznej",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne dane uwierzytelniające mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same dane uwierzytelniające."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne dane uwierzytelniające mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same dane uwierzytelniające.",
+    "Error configuring OAuth1" : "Błąd konfiguracji OAuth1",
+    "Please provide a valid app key and secret." : "Podaj prawidłowy klucz aplikacji i tajny klucz.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Klucz aplikacji",
+    "App secret" : "Tajny klucz aplikacji"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

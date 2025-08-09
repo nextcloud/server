@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Baimendu sarrera",
-    "Error configuring OAuth1" : "Errorea OAuth1 konfiguratzean",
-    "Please provide a valid app key and secret." : "Eman baliozko aplikazio-gakoa eta sekretua.",
     "Error configuring OAuth2" : "Errorea OAuth2 konfiguratzean",
     "Generate keys" : "Sortu gakoak",
     "Error generating key pair" : "Errorea gako bikotea sortzean",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "Gako sekretua",
     "Builtin" : "Integratua",
     "None" : "Bat ere ez",
-    "OAuth1" : "OAuth1",
-    "App key" : "Aplikazio-gakoa",
-    "App secret" : "Aplikazio-sekretua",
     "OAuth2" : "OAuth2",
     "Client ID" : "Bezero ID",
     "Client secret" : "Bezeroaren sekretua",
@@ -149,6 +144,11 @@ OC.L10N.register(
     "All people" : "Pertsona guztiak",
     "Advanced settings" : "Ezarpen aurreratuak",
     "Allow people to mount external storage" : "Baimendu pertsonek kanpoko biltegiratze zerbitzuak muntatzea",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Kredentzial globalak erabil daitezke kredentzial berdinak dituzten kanpoko hainbat biltegiratzerekin autentifikatzeko.",
+    "Error configuring OAuth1" : "Errorea OAuth1 konfiguratzean",
+    "Please provide a valid app key and secret." : "Eman baliozko aplikazio-gakoa eta sekretua.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Aplikazio-gakoa",
+    "App secret" : "Aplikazio-sekretua"
 },
 "nplurals=2; plural=(n != 1);");

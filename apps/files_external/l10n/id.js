@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Berikan hak akses",
-    "Error configuring OAuth1" : "Kesalahan mengkonfigurasi OAuth1",
-    "Please provide a valid app key and secret." : "Silakan berikan kunci dan kerahasiaan aplikasi yang benar.",
     "Error configuring OAuth2" : "Kesalahan mengkonfigurasi OAuth2",
     "Generate keys" : "Hasilkan kunci",
     "Error generating key pair" : "Kesalahan saat menghasilkan pasangan kunci",
@@ -21,9 +19,6 @@ OC.L10N.register(
     "Secret key" : "Kunci rahasia",
     "Builtin" : "Internal",
     "None" : "Tidak ada",
-    "OAuth1" : "OAuth1",
-    "App key" : "Kunci Apl",
-    "App secret" : "Rahasia Apl",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID Klien",
     "Client secret" : "Rahasia klien",
@@ -94,6 +89,11 @@ OC.L10N.register(
     "Configuration" : "Konfigurasi",
     "Available for" : "Tersedia untuk",
     "Add storage" : "Tambahkan penyimpanan",
-    "Advanced settings" : "Pengaturan Lanjutan"
+    "Advanced settings" : "Pengaturan Lanjutan",
+    "Error configuring OAuth1" : "Kesalahan mengkonfigurasi OAuth1",
+    "Please provide a valid app key and secret." : "Silakan berikan kunci dan kerahasiaan aplikasi yang benar.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Kunci Apl",
+    "App secret" : "Rahasia Apl"
 },
 "nplurals=1; plural=0;");
