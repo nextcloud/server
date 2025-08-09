@@ -129,7 +129,7 @@ export default defineComponent({
 		 * @param event The keyboard event
 		 */
 		onKeyDown(event: KeyboardEvent) {
-			if (event.ctrlKey && event.code === 'KeyF') {
+			if (event.ctrlKey && event.key === 'f') {
 				// only handle search if not already open - in this case the browser native search should be used
 				if (!this.showLocalSearch && !this.showUnifiedSearch) {
 					event.preventDefault()
