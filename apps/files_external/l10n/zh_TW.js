@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "授予存取權",
-    "Error configuring OAuth1" : "設定 OAuth1 時發生錯誤",
-    "Please provide a valid app key and secret." : "請提供有效的應用程式金鑰及密碼。",
     "Error configuring OAuth2" : "設定 OAuth2 時發生錯誤",
     "Generate keys" : "生成金鑰",
     "Error generating key pair" : "生成金鑰對時發生錯誤",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "私密金鑰",
     "Builtin" : "內建",
     "None" : "無",
-    "OAuth1" : "OAuth1",
-    "App key" : "應用程式金鑰",
-    "App secret" : "應用程式密鑰",
     "OAuth2" : "OAuth2",
     "Client ID" : "客戶端 ID",
     "Client secret" : "客戶端密碼",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "所有使用者",
     "Advanced settings" : "進階設定",
     "Allow people to mount external storage" : "允許使用者自行掛載外部儲存空間",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於認證多個有相同憑證的外部儲存空間。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "全域憑證可用於認證多個有相同憑證的外部儲存空間。",
+    "Error configuring OAuth1" : "設定 OAuth1 時發生錯誤",
+    "Please provide a valid app key and secret." : "請提供有效的應用程式金鑰及密碼。",
+    "OAuth1" : "OAuth1",
+    "App key" : "應用程式金鑰",
+    "App secret" : "應用程式密鑰"
 },
 "nplurals=1; plural=0;");

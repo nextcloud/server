@@ -11,6 +11,7 @@
     "Invalid password value" : "無効なパスワード値",
     "An email address is required, to send a password link to the user." : "ユーザーにパスワードリンクを送信するため、メールアドレスが必要です。",
     "Required email address was not provided" : "必要のEメールアドレスが提供されていません",
+    "User creation failed" : "ユーザーの作成に失敗しました",
     "Invalid quota value: %1$s" : "無効なクォータ値: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "無効なクォータ値。%1$sは最大クォータを超えています",
     "Unlimited quota is forbidden on this instance" : "このインスタンスでは無制限のクォータは禁止されています。",

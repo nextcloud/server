@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "オフィス外",
     "Working remotely" : "リモートワーク中",
     "In a call" : "通話中",
+    "Be right back" : "すぐ戻ります",
     "User status" : "ユーザーステータス",
     "Clear status after" : "ステータスの有効期限",
     "Emoji for your status message" : "あなたのステータスメッセージに絵文字を",

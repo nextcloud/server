@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "アクセスを許可",
-    "Error configuring OAuth1" : "OAuth1設定エラー",
-    "Please provide a valid app key and secret." : "有効なアプリのキーとパスワードを入力してください。",
     "Error configuring OAuth2" : "OAuth2設定エラー",
     "Generate keys" : "キーを生成",
     "Error generating key pair" : "キーペアの生成エラー",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "シークレットキー",
     "Builtin" : "ビルトイン",
     "None" : "なし",
-    "OAuth1" : "OAuth1",
-    "App key" : "アプリキー",
-    "App secret" : "アプリシークレット",
     "OAuth2" : "OAuth2",
     "Client ID" : "クライアントID",
     "Client secret" : "クライアント秘密鍵",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "すべての人",
     "Advanced settings" : "詳細設定",
     "Allow people to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。"
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "グローバル資格情報を使用して、同じ資格情報を持つ複数の外部記憶装置で認証することができます。",
+    "Error configuring OAuth1" : "OAuth1設定エラー",
+    "Please provide a valid app key and secret." : "有効なアプリのキーとパスワードを入力してください。",
+    "OAuth1" : "OAuth1",
+    "App key" : "アプリキー",
+    "App secret" : "アプリシークレット"
 },
 "nplurals=1; plural=0;");

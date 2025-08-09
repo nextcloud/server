@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Gi tilgang",
-    "Error configuring OAuth1" : "Feil ved oppsett av OAuth1",
-    "Please provide a valid app key and secret." : "Oppgi gyldig appnøkkel og hemmelighet.",
     "Error configuring OAuth2" : "Feil ved oppsett av OAuth2",
     "Generate keys" : "Generer nøkler",
     "Error generating key pair" : "Feil ved nøkkelgenerering",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "Hemmelig nøkkel",
     "Builtin" : "Innebygget",
     "None" : "Ingen",
-    "OAuth1" : "OAuth1",
-    "App key" : "App-nøkkel",
-    "App secret" : "App-hemmelighet",
     "OAuth2" : "OAuth2",
     "Client ID" : "Klient-ID",
     "Client secret" : "Klient-hemmelighet",
@@ -144,6 +139,11 @@ OC.L10N.register(
     "All people" : "Alle personer",
     "Advanced settings" : "Avanserte innstillinger",
     "Allow people to mount external storage" : "Tillatt personer å montere ekstern lagring",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale påloggingsdetaljer kan brukes til å autentisere med flere eksterne lagringer som krever de samme påloggingsdetaljer."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale påloggingsdetaljer kan brukes til å autentisere med flere eksterne lagringer som krever de samme påloggingsdetaljer.",
+    "Error configuring OAuth1" : "Feil ved oppsett av OAuth1",
+    "Please provide a valid app key and secret." : "Oppgi gyldig appnøkkel og hemmelighet.",
+    "OAuth1" : "OAuth1",
+    "App key" : "App-nøkkel",
+    "App secret" : "App-hemmelighet"
 },
 "nplurals=2; plural=(n != 1);");

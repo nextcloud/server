@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Povoliť prístup",
-    "Error configuring OAuth1" : "Chyba konfigurovania OAuth1",
-    "Please provide a valid app key and secret." : "Zadajte prosím platný aplikačný kľúč a heslo (secret).",
     "Error configuring OAuth2" : "Chyba konfigurovania OAuth2",
     "Generate keys" : "Vytvoriť kľúče",
     "Error generating key pair" : "Chyba pri vytváraní dvojice kľúčov",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Tajný kľúč",
     "Builtin" : "Vstavaný",
     "None" : "Žiadny",
-    "OAuth1" : "OAuth1",
-    "App key" : "Kľúč aplikácie",
-    "App secret" : "Heslo aplikácie",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Heslo klienta",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Všetci ľudia",
     "Advanced settings" : "Rozšírené nastavenia",
     "Allow people to mount external storage" : "Povoliť užívateľom pripojiť externé úložiská",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globálne prihlasovacie údaje je možné použiť pre overenie s viacerými externými úložiskami, ktoré majú rovnaké prihlasovacie údaje.",
+    "Error configuring OAuth1" : "Chyba konfigurovania OAuth1",
+    "Please provide a valid app key and secret." : "Zadajte prosím platný aplikačný kľúč a heslo (secret).",
+    "OAuth1" : "OAuth1",
+    "App key" : "Kľúč aplikácie",
+    "App secret" : "Heslo aplikácie"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
