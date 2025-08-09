@@ -1728,6 +1728,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\ObjectStore\\AppdataPreviewObjectStoreStorage' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/AppdataPreviewObjectStoreStorage.php',
         'OC\\Files\\ObjectStore\\Azure' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/Azure.php',
         'OC\\Files\\ObjectStore\\HomeObjectStoreStorage' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/HomeObjectStoreStorage.php',
+        'OC\\Files\\ObjectStore\\InvalidObjectStoreConfigurationException' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/InvalidObjectStoreConfigurationException.php',
         'OC\\Files\\ObjectStore\\Mapper' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/Mapper.php',
         'OC\\Files\\ObjectStore\\ObjectStoreScanner' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/ObjectStoreScanner.php',
         'OC\\Files\\ObjectStore\\ObjectStoreStorage' => __DIR__ . '/../../..' . '/lib/private/Files/ObjectStore/ObjectStoreStorage.php',
