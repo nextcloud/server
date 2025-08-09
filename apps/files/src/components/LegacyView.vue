@@ -33,7 +33,7 @@ export default {
 	},
 	methods: {
 		setFileInfo(fileInfo) {
-			this.component.setFileInfo(new OCA.Files.FileInfoModel(fileInfo))
+			this.component.setFileInfo(fileInfo)
 		},
 	},
 }
