@@ -4,9 +4,6 @@
  */
 import { getCSPNonce } from '@nextcloud/auth'
 
-import './share.js'
-import './sharebreadcrumbview.js'
-import './style/sharebreadcrumb.scss'
 import './collaborationresourceshandler.js'
 
 // eslint-disable-next-line camelcase
