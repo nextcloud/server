@@ -13,7 +13,9 @@ use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\Files_Trashbin\Sabre\TrashRoot;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\Folder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use Sabre\DAV\Exception as DavException;
@@ -220,9 +222,15 @@ class CustomPropertiesBackend implements BackendInterface {
 		}
 
 		$node = $this->tree->getNodeForPath($path);
-		if ($node instanceof Directory && $propFind->getDepth() !== 0) {
-			$this->cacheDirectory($path, $node);
+		if (($node instanceof Directory) && $propFind->getDepth() !== 0) {
+			$this->cacheDirectory($path, $node->getNode());
+		} elseif ($node instanceof TrashRoot) {
+			$trashNodes = $node->getTrashRoots();
+			foreach ($trashNodes as $trashNode) {
+				$this->cacheDirectory($path, $trashNode);
+			}
 		}
+
 
 		// First fetch the published properties (set by another user), then get the ones set by
 		// the current user. If both are set then the latter as priority.
@@ -344,18 +352,17 @@ class CustomPropertiesBackend implements BackendInterface {
 	/**
 	 * prefetch all user properties in a directory
 	 */
-	private function cacheDirectory(string $path, Directory $node): void {
+	private function cacheDirectory(string $path, Folder $node): void {
 		$prefix = ltrim($path . '/', '/');
 		$query = $this->connection->getQueryBuilder();
 		$query->select('name', 'p.propertypath', 'p.propertyname', 'p.propertyvalue', 'p.valuetype')
 			->from('filecache', 'f')
-			->hintShardKey('storage', $node->getNode()->getMountPoint()->getNumericStorageId())
+			->hintShardKey('storage', $node->getMountPoint()->getNumericStorageId())
 			->leftJoin('f', 'properties', 'p', $query->expr()->eq('p.propertypath', $query->func()->concat(
 				$query->createNamedParameter($prefix),
 				'f.name'
-			)),
-			)
-			->where($query->expr()->eq('parent', $query->createNamedParameter($node->getInternalFileId(), IQueryBuilder::PARAM_INT)))
+			)))
+			->where($query->expr()->eq('parent', $query->createNamedParameter($node->getId(), IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->orX(
 				$query->expr()->eq('p.userid', $query->createNamedParameter($this->user->getUID())),
 				$query->expr()->isNull('p.userid'),

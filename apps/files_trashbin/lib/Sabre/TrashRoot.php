@@ -13,12 +13,14 @@ use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class TrashRoot implements ICollection {
+	private ?Folder $trashFilesRoot = null;
 
 	public function __construct(
 		private IUser $user,
@@ -89,5 +91,12 @@ class TrashRoot implements ICollection {
 
 	public function getLastModified(): int {
 		return 0;
+	}
+
+	/**
+	 * @return Folder[]
+	 */
+	public function getTrashRoots(): array {
+		return $this->trashManager->getTrashRootsForUser($this->user);
 	}
 }
