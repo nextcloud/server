@@ -282,7 +282,7 @@ SPDX-License-Identifier = "OFL-1.1"
 [[annotations]]
 path = "apps/settings/img/ai.svg"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2019 GreenTurtwig <https://pictogrammers.com/contributor/GreenTurtwig/>"
+SPDX-FileCopyrightText = "2018-2024 Google LLC"
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]

@@ -29,7 +29,7 @@ class ArtificialIntelligence implements IIconSection {
 	}
 
 	public function getName(): string {
-		return $this->l->t('Artificial Intelligence');
+		return $this->l->t('Assistant');
 	}
 
 	public function getPriority(): int {
