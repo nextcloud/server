@@ -264,8 +264,20 @@ class Trashbin implements IEventListener {
 		$lockingProvider = Server::get(ILockingProvider::class);
 
 		// disable proxy to prevent recursive calls
-		$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
+		$trashPath = '/files_trashbin/files/' . $location . '/' . static::getTrashFilename($filename, $timestamp);
 		$gotLock = false;
+
+		// Reproduce folder hierarchy of deleted file in trash
+		$parentDirs = explode('/', $location);
+		$pathPrefix = '/files_trashbin/files/';
+		foreach ($parentDirs as $parentDir) {
+			$pathPrefix .= $parentDir . '/';
+			if ($ownerView->is_dir($pathPrefix)) {
+				continue;
+			}
+
+			$ownerView->mkdir($pathPrefix);
+		}
 
 		do {
 			/** @var ILockingStorage & IStorage $trashStorage */
@@ -279,7 +291,7 @@ class Trashbin implements IEventListener {
 
 				$timestamp = $timestamp + 1;
 
-				$trashPath = '/files_trashbin/files/' . static::getTrashFilename($filename, $timestamp);
+				$trashPath = '/files_trashbin/files/' . $location . static::getTrashFilename($filename, $timestamp);
 			}
 		} while (!$gotLock);
 
