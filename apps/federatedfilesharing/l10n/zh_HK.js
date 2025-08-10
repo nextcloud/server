@@ -59,6 +59,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X（前身為 Twitter）",
     "formerly Twitter" : "前身為 Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "新增至您的網站",
     "HTML Code:" : "HTML 代碼：",
     "Cancel" : "取消",
