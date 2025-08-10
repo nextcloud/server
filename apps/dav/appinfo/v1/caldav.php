@@ -54,7 +54,7 @@ $authBackend = new Auth(
 	Server::get(IThrottler::class),
 	$principalPrefix,
 );
-$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend)
+$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
 // DAV Principals (`/principals`)
 $principalBackend = new Principal(
