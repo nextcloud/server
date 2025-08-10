@@ -37,11 +37,27 @@ use Psr\Log\LoggerInterface;
 /* Loads in the scope of /remote.php */
 
 /**
- * Establish the backends
+ * Set-up
  */
-$principalPrefix = 'principals/';
 
-$principalBackend = new Principal( // /principals
+// Admin Config Customization
+$debugging = Server::get(IConfig::class)->getSystemValueBool('debug', false);
+$sendInvitations = Server::get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes'; // XXX IAppConfig?
+
+// DAV Authentication
+$principalPrefix = 'principals/';
+$authBackend = new Auth(
+	Server::get(ISession::class),
+	Server::get(IUserSession::class),
+	Server::get(IRequest::class),
+	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
+	Server::get(IThrottler::class),
+	$principalPrefix,
+);
+$authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend)
+
+// DAV Principals (`/principals`)
+$principalBackend = new Principal(
 	Server::get(IUserManager::class),
 	Server::get(IGroupManager::class),
 	Server::get(IAccountManager::class),
@@ -54,8 +70,11 @@ $principalBackend = new Principal( // /principals
 	Server::get(IFactory::class), // L10N
 	$principalPrefix,
 );
+$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
+$principalCollection->disableListing = !$debugging;
 
-$calDavBackend = new CalDavBackend( // /calendars
+// CalDAV (`/calendars`)
+$calDavBackend = new CalDavBackend(
 	Server::get(IDBConnection::class),
 	$principalBackend,
 	Server::get(IUserManager::class),
@@ -66,61 +85,29 @@ $calDavBackend = new CalDavBackend( // /calendars
 	Server::get(\OCA\DAV\CalDAV\Sharing\Backend::class),
 	true, // legacyEndpoint
 );
-
-$authBackend = new Auth(
-	Server::get(ISession::class),
-	Server::get(IUserSession::class),
-	Server::get(IRequest::class),
-	Server::get(\OC\Authentication\TwoFactorAuth\Manager::class),
-	Server::get(IThrottler::class),
-	$principalPrefix,
-);
-
-/**
- * Load config toggles
- */
-$debugging = Server::get(IConfig::class)->getSystemValueBool('debug', false);
-$sendInvitations = Server::get(IConfig::class)->getAppValue('dav', 'sendInvitations', 'yes') === 'yes'; // XXX IAppConfig?
-
-/**
- * Define the nodes we're handling here:
- * - /principals
- * - /calendars
- */
-$principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend); // /principals
-$principalCollection->disableListing = !$debugging;
-
-$calendarRoot = new CalendarRoot( // /calendars
+$calendarRoot = new CalendarRoot(
 	$principalBackend,
 	$calDavBackend,
-	'principals',
+	trim($principalPrefix, '/'), // needed here unlike `Auth()` & `Principal()`
 	Server::get(LoggerInterface::class),
 );
 $calendarRoot->disableListing = !$debugging;
 
-$nodes = [
-	$principalCollection, // /principals
-	$calendarRoot, // /calendars
+// Server
+$nodes = [ // Directory Tree
+	$principalCollection, // `/principals`
+	$calendarRoot, // `/calendars`
 ];
-
-/**
- * Set up a DAV server for the above nodes
- */
 $server = new \Sabre\DAV\Server($nodes);
 $server::$exposeVersion = false;
 $server->httpRequest->setUrl(Server::get(IRequest::class)->getRequestUri());
-/** @var string $baseuri defined in remote.php */
-if (isset($baseuri)) {
+if (isset($baseuri)) { /** @var string $baseuri defined in remote.php */
 	$server->setBaseUri($baseuri);
 }
-
-/**
- * Enable/configure plugins
- */
-if ($debugging) {
+if ($debugging) { // default is false
 	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
 }
-if ($sendInvitations) {
+if ($sendInvitations) { // default is true
 	$server->addPlugin(Server::get(IMipPlugin::class));
 }
 $server->addPlugin(
@@ -129,7 +116,7 @@ $server->addPlugin(
 		Server::get(IFactory::class)->get('dav'), // L10N
 	)
 );
-$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
+$server->addPlugin($authPlugin);
 $server->addPlugin(new \Sabre\CalDAV\Plugin());
 $server->addPlugin(new LegacyDAVACL());
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
@@ -138,7 +125,7 @@ $server->addPlugin(
 	new \OCA\DAV\CalDAV\Schedule\Plugin(
 		Server::get(IConfig::class),
 		Server::get(LoggerInterface::class),
-		Server::get(DefaultCalendarValidator::class)
+		Server::get(DefaultCalendarValidator::class),
 	)
 );
 $server->addPlugin(
@@ -150,5 +137,7 @@ $server->addPlugin(
 $server->addPlugin(Server::get(RateLimitingPlugin::class));
 $server->addPlugin(Server::get(CalDavValidatePlugin::class));
 
-// Start a DAV server
+/**
+ * Start the Server!
+ */
 $server->start();
