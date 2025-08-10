@@ -90,7 +90,7 @@ $addressBookRoot = new AddressBookRoot( // /addressbooks
 	$principalBackend,
 	$cardDavBackend,
 	new PluginManager(
-		Server::class,
+		\OC::$server,
 		Server::get(IAppManager::class)
 	),
 	Server::get(IUserSession::class)->getUser(),
