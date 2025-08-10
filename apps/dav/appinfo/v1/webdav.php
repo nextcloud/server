@@ -76,7 +76,7 @@ $serverFactory = new ServerFactory(
 	Server::get(ITagManager::class),
 	Server::get(IRequest::class),
 	Server::get(IPreview::class),
-	Server::get(IEventDispatcher::class);
+	Server::get(IEventDispatcher::class),
 	Server::get(IFactory::class)->get('dav'), // L10N
 );
 $viewCallback = function () {
