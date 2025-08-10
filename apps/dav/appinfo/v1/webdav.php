@@ -19,6 +19,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\SabrePluginEvent;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
