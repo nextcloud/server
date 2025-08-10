@@ -59,6 +59,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (Twitter roimhe seo)",
     "formerly Twitter" : "Twitter roimhe seo",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "Cuir le do láithreán gréasáin",
     "HTML Code:" : "Cód HTML:",
     "Cancel" : "Cealaigh",

@@ -59,6 +59,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (раніше відома як Twitter)",
     "formerly Twitter" : "раніше відома як Twitter",
     "Mastodon" : "Мастодонт",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "Додати на ваш вебсайт",
     "HTML Code:" : "Код HTML:",
     "Cancel" : "Скасувати",
