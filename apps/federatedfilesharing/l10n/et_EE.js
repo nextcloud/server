@@ -59,6 +59,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (varasemalt Twitter)",
     "formerly Twitter" : "varasemalt Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "Lisa oma veebisaidile",
     "HTML Code:" : "HTML kood:",
     "Cancel" : "Tühista",
