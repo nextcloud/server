@@ -20,10 +20,10 @@ class TruncateMounts implements IRepairStep {
 	}
 
 	public function getName(): string {
-		return 'Deduplicate mounts';
+		return 'Truncate mounts';
 	}
 
 	public function run(IOutput $output): void {
-		$this->connection->truncateTable('mounts', false);
+		$this->connection->truncateTable('*PREFIX*mounts', false);
 	}
 }
