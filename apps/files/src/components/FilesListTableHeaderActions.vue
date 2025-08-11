@@ -151,6 +151,10 @@ export default defineComponent({
 				.filter(action => !action.renderInline)
 				// We don't handle actions that are not visible
 				.filter(action => action.default !== DefaultType.HIDDEN)
+				// We allow top-level actions that have no execBatch method
+				// but children actions always need to have it
+				.filter(action => action.execBatch || !action.parent)
+				// We filter out actions that are not enabled for the current selection
 				.filter(action => !action.enabled || action.enabled(this.nodes, this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
@@ -190,7 +194,11 @@ export default defineComponent({
 			})
 
 			// Generate list of all top-level actions ids
-			const childrenActionsIds = actions.filter(action => action.parent).map(action => action.parent) as string[]
+			const childrenActionsIds = actions
+				.filter(action => action.parent)
+				// Filter out all actions that are not batch actions
+				.filter(action => action.execBatch)
+				.map(action => action.parent) as string[]
 
 			const menuActions = actions
 				.filter(action => {
