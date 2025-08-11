@@ -164,6 +164,66 @@ class TrustedServersTest extends TestCase {
 		);
 	}
 
+	public static function dataTestGetServer() {
+		return [
+			[
+				15,
+				[
+					'id' => 15,
+					'otherData' => 'first server',
+				]
+			],
+			[
+				16,
+				[
+					'id' => 16,
+					'otherData' => 'second server',
+				]
+			],
+			[
+				42,
+				[
+					'id' => 42,
+					'otherData' => 'last server',
+				]
+			],
+			[
+				108,
+				null
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestGetServer
+	 */
+	public function testGetServer(int $id, ?array $expectedServer): void {
+		$servers = [
+			[
+				'id' => 15,
+				'otherData' => 'first server',
+			],
+			[
+				'id' => 16,
+				'otherData' => 'second server',
+			],
+			[
+				'id' => 42,
+				'otherData' => 'last server',
+			],
+		];
+		$this->dbHandler->expects($this->once())->method('getAllServer')->willReturn($servers);
+
+		if ($expectedServer === null) {
+			$this->expectException(\Exception::class);
+			$this->expectExceptionMessage('No server found with ID: ' . $id);
+		}
+
+		$this->assertEquals(
+			$expectedServer,
+			$this->trustedServers->getServer($id)
+		);
+	}
 
 	public function testIsTrustedServer(): void {
 		$this->dbHandler->expects($this->once())
