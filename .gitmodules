@@ -7,3 +7,6 @@
 [submodule "IONOS"]
 	path = IONOS
 	url = git@github.com:IONOS-Productivity/ncw-config.git
+[submodule "apps-external/richdocuments"]
+	path = apps-external/richdocuments
+	url = git@github.com:nextcloud/richdocuments.git
