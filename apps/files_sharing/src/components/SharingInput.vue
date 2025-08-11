@@ -195,17 +195,15 @@ export default {
 			const remoteTypes = [ShareType.Remote, ShareType.RemoteGroup]
 			const shareType = []
 
-			const showFederatedAsInternal
-	= this.config.showFederatedSharesAsInternal
-	|| this.config.showFederatedSharesToTrustedServersAsInternal
+			const showFederatedAsInternal = this.config.showFederatedSharesAsInternal
+				|| this.config.showFederatedSharesToTrustedServersAsInternal
 
-			const shouldAddRemoteTypes
-	// For internal users, add remote types if config says to show them as internal
-	= (!this.isExternal && showFederatedAsInternal)
-	// For external users, add them if config *doesn't* say to show them as internal
-	|| (this.isExternal && !showFederatedAsInternal)
-	// Edge case: federated-to-trusted is a separate "add" trigger for external users
-	|| (this.isExternal && this.config.showFederatedSharesToTrustedServersAsInternal)
+			// For internal users, add remote types if config says to show them as internal
+			const shouldAddRemoteTypes = (!this.isExternal && showFederatedAsInternal)
+				// For external users, add them if config *doesn't* say to show them as internal
+				|| (this.isExternal && !showFederatedAsInternal)
+				// Edge case: federated-to-trusted is a separate "add" trigger for external users
+				|| (this.isExternal && this.config.showFederatedSharesToTrustedServersAsInternal)
 
 			if (this.isExternal) {
 				if (getCapabilities().files_sharing.public.enabled === true) {
@@ -244,13 +242,10 @@ export default {
 				return
 			}
 
-			const data = request.data.ocs.data
-			const exact = request.data.ocs.data.exact
-			data.exact = [] // removing exact from general results
-
+			const { exact, ...data } = request.data.ocs.data
 			// flatten array of arrays
-			const rawExactSuggestions = Object.values(exact).reduce((arr, elem) => arr.concat(elem), [])
-			const rawSuggestions = Object.values(data).reduce((arr, elem) => arr.concat(elem), [])
+			const rawExactSuggestions = Object.values(exact).flat()
+			const rawSuggestions = Object.values(data).flat()
 
 			// remove invalid data and format to user-select layout
 			const exactSuggestions = this.filterOutExistingShares(rawExactSuggestions)
@@ -470,14 +465,19 @@ export default {
 		 */
 		formatForMultiselect(result) {
 			let subname
+			let displayName = result.name || result.label
+
 			if (result.value.shareType === ShareType.User && this.config.shouldAlwaysShowUnique) {
 				subname = result.shareWithDisplayNameUnique ?? ''
-			} else if ((result.value.shareType === ShareType.Remote
-					|| result.value.shareType === ShareType.RemoteGroup
-			) && result.value.server) {
-				subname = t('files_sharing', 'on {server}', { server: result.value.server })
 			} else if (result.value.shareType === ShareType.Email) {
 				subname = result.value.shareWith
+			} else if (result.value.shareType === ShareType.Remote || result.value.shareType === ShareType.RemoteGroup) {
+				if (this.config.showFederatedSharesAsInternal) {
+					subname = result.extra?.email?.value ?? ''
+					displayName = result.extra?.name?.value ?? displayName
+				} else if (result.value.server) {
+					subname = t('files_sharing', 'on {server}', { server: result.value.server })
+				}
 			} else {
 				subname = result.shareWithDescription ?? ''
 			}
@@ -487,7 +487,7 @@ export default {
 				shareType: result.value.shareType,
 				user: result.uuid || result.value.shareWith,
 				isNoUser: result.value.shareType !== ShareType.User,
-				displayName: result.name || result.label,
+				displayName,
 				subname,
 				shareWithDisplayNameUnique: result.shareWithDisplayNameUnique || '',
 				...this.shareTypeToIcon(result.value.shareType),
