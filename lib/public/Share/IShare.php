@@ -103,7 +103,7 @@ interface IShare {
 
 	/**
 	 * Extension to remote group share
-	 * @since 30.0.0
+	 * @since 32.0.0
 	 */
 	public const TYPE_FEDERATED_GROUP = 14;
 

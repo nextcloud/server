@@ -95,7 +95,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Migration\\Version22000Date20210216084241' => __DIR__ . '/..' . '/../lib/Migration/Version22000Date20210216084241.php',
         'OCA\\Files_Sharing\\Migration\\Version24000Date20220208195521' => __DIR__ . '/..' . '/../lib/Migration/Version24000Date20220208195521.php',
         'OCA\\Files_Sharing\\Migration\\Version24000Date20220404142216' => __DIR__ . '/..' . '/../lib/Migration/Version24000Date20220404142216.php',
-        'OCA\\Files_Sharing\\Migration\\Version26000Date20230117143027' => __DIR__ . '/..' . '/../lib/Migration/Version26000Date20230117143027.php',
+        'OCA\\Files_Sharing\\Migration\\Version26000Date20230117143027' => __DIR__ . '/..' . '/../lib/Migration/Version32000Date20230117143027.php',
         'OCA\\Files_Sharing\\Migration\\Version31000Date20240821142813' => __DIR__ . '/..' . '/../lib/Migration/Version31000Date20240821142813.php',
         'OCA\\Files_Sharing\\MountProvider' => __DIR__ . '/..' . '/../lib/MountProvider.php',
         'OCA\\Files_Sharing\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
