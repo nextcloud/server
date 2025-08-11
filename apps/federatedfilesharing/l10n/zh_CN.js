@@ -1,7 +1,7 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Invalid Federated Cloud ID" : "联合云ID不正确",
+    "Invalid Federated Cloud ID" : "联合云 ID 无效",
     "Server to server sharing is not enabled on this server" : "此服务器未启用服务器间的共享功能",
     "Couldn't establish a federated share." : "无法建立一个联合云共享",
     "Couldn't establish a federated share, maybe the password was wrong." : "无法建立联合云共享，可能密码是错误的。",
@@ -59,6 +59,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X（原 Twitter）",
     "formerly Twitter" : "原 Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "添加到您的网站",
     "HTML Code:" : "HTML 代码：",
     "Cancel" : "取消",

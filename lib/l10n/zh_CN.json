@@ -1,5 +1,5 @@
 { "translations": {
-    "Cannot write into \"config\" directory!" : "无法写入 \"config\" 目录！",
+    "Cannot write into \"config\" directory!" : "无法写入“config”目录！",
     "This can usually be fixed by giving the web server write access to the config directory." : "通常可以为 Web 服务器授予对 config 目录的写入权限来修复这个问题。",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "但是，如果您更希望将 config.php 文件设为只读，可以将 \"config_is_read_only\" 选项设置为 true。",
     "See %s" : "查看 %s",
@@ -127,6 +127,8 @@
     "Settings" : "设置",
     "Log out" : "注销",
     "Accounts" : "账号",
+    "Bluesky" : "Bluesky",
+    "View %s on Bluesky" : "在 Bluesky 上查看 %s",
     "Email" : "电子邮箱",
     "Mail %s" : "发邮件给 %s",
     "Fediverse" : "联邦宇宙",
