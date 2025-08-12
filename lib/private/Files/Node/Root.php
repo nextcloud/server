@@ -415,7 +415,7 @@ class Root extends Folder implements IRootFolder {
 	 */
 	public function getByIdInPath(int $id, string $path): array {
 		$mountCache = $this->getUserMountCache();
-		if (strpos($path, '/', 1) > 0) {
+		if ($path !== '' && strpos($path, '/', 1) > 0) {
 			[, $user] = explode('/', $path);
 		} else {
 			$user = null;
