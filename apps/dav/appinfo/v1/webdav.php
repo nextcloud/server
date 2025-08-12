@@ -31,16 +31,16 @@ use Psr\Log\LoggerInterface;
  * Low-level
  */
 
-// try to keep client disconnects from abruptly aborting execution (best effort) 
-ignore_user_abort(true); 
+// try to keep client disconnects from abruptly aborting execution (best effort)
+ignore_user_abort(true);
 // Turn off output buffer (to prevent memory problems)
 while (ob_get_level()) {
-	ob_end_clean(); 
+	ob_end_clean();
 }
 
 /** XXX Not why the above aren't either:
  * (a) universal and thus handled elsewhere so all code paths benefit
- * (such as in existing `OC::setRequiredIniValues()`); or (b) removed 
+ * (such as in existing `OC::setRequiredIniValues()`); or (b) removed
  * since we seem not to need them elsewhere for the most part.
  */
 
@@ -93,8 +93,8 @@ $server = $serverFactory->createServer( // default plugins are specified within 
 
 // Trigger registration of any additional plugins
 $dispatcher = Server::get(IEventDispatcher::class);
-$typedEvent = new SabrePluginAddEvent($server);
-$dispatcher->dispatchTyped($typedEvent);
+$event = new SabrePluginAddEvent($server);
+$dispatcher->dispatchTyped($event);
 /** @deprecated 28.0.0 */
 $legacyEvent = new SabrePluginEvent($server);
 $dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $legacyEvent);
