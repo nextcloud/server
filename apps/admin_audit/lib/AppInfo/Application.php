@@ -27,6 +27,8 @@ use OCA\AdminAudit\Listener\GroupManagementEventListener;
 use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCA\AdminAudit\Listener\SharingEventListener;
 use OCA\AdminAudit\Listener\UserManagementEventListener;
+use OCA\Files_Trashbin\Events\NodeRestoredEvent;
+use OCA\Files_Trashbin\Events\BeforeNodeDeletedEvent as TrashbinBeforeNodeDeletedEvent;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
@@ -44,6 +46,7 @@ use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Group\Events\GroupCreatedEvent;
@@ -144,7 +147,7 @@ class Application extends App implements IBootstrap {
 		$eventDispatcher = $serverContainer->get(IEventDispatcher::class);
 		$this->sharingLegacyHooks($logger);
 		$this->fileHooks($logger, $eventDispatcher);
-		$this->trashbinHooks($logger);
+		$this->trashbinHooks($logger, $eventDispatcher);
 		$this->versionsHooks($logger);
 		$this->tagHooks($logger, $eventDispatcher);
 	}
@@ -217,9 +220,20 @@ class Application extends App implements IBootstrap {
 		Util::connectHook('\OCP\Versions', 'delete', $versionsActions, 'delete');
 	}
 
-	private function trashbinHooks(IAuditLogger $logger): void {
+	private function trashbinHooks(IAuditLogger $logger, IEventDispatcher $eventDispatcher): void {
 		$trashActions = new Trashbin($logger);
-		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
-		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
+
+		$eventDispatcher->addListener(TrashbinBeforeNodeDeletedEvent::class,
+			function (TrashbinBeforeNodeDeletedEvent $event) use ($trashActions): void {
+				$trashActions->delete($event);
+			}
+		);
+
+		$eventDispatcher->addListener(
+			NodeRestoredEvent::class,
+			function (NodeRestoredEvent $event) use ($trashActions): void {
+				$trashActions->restore($event);
+			}
+		);
 	}
 }

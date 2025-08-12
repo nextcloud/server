@@ -7,16 +7,19 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\Actions;
 
+use OCA\Files_Trashbin\Events\BeforeNodeDeletedEvent;
+use OCA\Files_Trashbin\Events\NodeRestoredEvent;
+
 class Trashbin extends Action {
-	public function delete(array $params): void {
+	public function delete(BeforeNodeDeletedEvent $beforeNodeDeletedEvent): void {
 		$this->log('File "%s" deleted from trash bin.',
-			['path' => $params['path']], ['path']
+			['path' => $beforeNodeDeletedEvent->getSource()->getPath()], ['path']
 		);
 	}
 
-	public function restore(array $params): void {
+	public function restore(NodeRestoredEvent $nodeRestoredEvent): void {
 		$this->log('File "%s" restored from trash bin.',
-			['path' => $params['filePath']], ['path']
+			['path' => $nodeRestoredEvent->getTarget()], ['path']
 		);
 	}
 }
