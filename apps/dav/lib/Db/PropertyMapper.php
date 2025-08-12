@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Db;
 
 use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
@@ -39,17 +40,19 @@ class PropertyMapper extends QBMapper {
 	}
 
 	/**
+	 * @param string $userId
+	 * @param string[] $paths
 	 * @return Property[]
+	 * @throws \OCP\DB\Exception
 	 */
-	public function findPropertiesByPath(string $userId, string $path): array {
+	public function findPropertiesByPaths(string $userId, array $paths): array {
 		$selectQb = $this->db->getQueryBuilder();
 		$selectQb->select('*')
 			->from(self::TABLE_NAME)
 			->where(
 				$selectQb->expr()->eq('userid', $selectQb->createNamedParameter($userId)),
-				$selectQb->expr()->eq('propertypath', $selectQb->createNamedParameter($path)),
+				$selectQb->expr()->in('propertypath', $selectQb->createNamedParameter($paths, IQueryBuilder::PARAM_STR_ARRAY)),
 			);
 		return $this->findEntities($selectQb);
 	}
-
 }
