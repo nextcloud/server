@@ -64,6 +64,23 @@ class CollaborationContext implements Context {
 	}
 
 	/**
+	 * @Given /^delete example content$/
+	 */
+	public function deleteExampleContact(): void {
+		$this->usingNewDavPath();
+		try {
+			$destination = '/users/admin/contacts/default.vcf';
+			$this->response = $this->makeDavRequest($this->currentUser, 'DELETE', $destination, []);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 5xx responses cause a server exception
+			$this->response = $e->getResponse();
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx responses cause a client exception
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @Given /^there is a contact in an addressbook$/
 	 */
 	public function thereIsAContactInAnAddressbook() {

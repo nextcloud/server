@@ -47,6 +47,7 @@ Feature: autocomplete
       | key | email |
       | value | autocomplete@example.com |
     And there is a contact in an addressbook
+    And delete example content
     Then get email autocomplete for "example"
       | id | source |
       | autocomplete | users |
@@ -68,6 +69,7 @@ Feature: autocomplete
       | key | email |
       | value | autocomplete@example.com |
     And there is a contact in an addressbook
+    And delete example content
     And parameter "shareapi_allow_share_dialog_user_enumeration" of app "core" is set to "no"
     When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
     Then get email autocomplete for "example"
