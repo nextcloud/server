@@ -55,9 +55,9 @@ const isSearchView = computed(() => currentView.value.id === VIEW_ID)
  */
 const searchLabel = computed(() => {
 	if (searchStore.scope === 'globally') {
-		return t('files', 'Search globally by filename …')
+		return t('files', 'Search everywhere …')
 	}
-	return t('files', 'Search here by filename …')
+	return t('files', 'Search here …')
 })
 </script>
 
@@ -72,13 +72,13 @@ const searchLabel = computed(() => {
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiMagnify" />
 					</template>
-					{{ t('files', 'Filter and search from this location') }}
+					{{ t('files', 'Search here') }}
 				</NcActionButton>
 				<NcActionButton close-after-click @click="searchStore.scope = 'globally'">
 					<template #icon>
 						<NcIconSvgWrapper :path="mdiSearchWeb" />
 					</template>
-					{{ t('files', 'Search globally') }}
+					{{ t('files', 'Search everywhere') }}
 				</NcActionButton>
 			</NcActions>
 		</template>

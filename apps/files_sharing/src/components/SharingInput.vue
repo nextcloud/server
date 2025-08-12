@@ -264,7 +264,7 @@ export default {
 				lookupEntry.push({
 					id: 'global-lookup',
 					isNoUser: true,
-					displayName: t('files_sharing', 'Search globally'),
+					displayName: t('files_sharing', 'Search everywhere'),
 					lookup: true,
 				})
 			}

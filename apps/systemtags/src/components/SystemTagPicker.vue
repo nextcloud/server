@@ -95,7 +95,7 @@
 			<!-- Note -->
 			<div class="systemtags-picker__note">
 				<NcNoteCard v-if="!hasChanges" type="info">
-					{{ canEditOrCreateTag ? t('systemtags', 'Select or create tags to apply to all selected files'): t('systemtags', 'Select tags to apply to all selected files') }}
+					{{ t('systemtags', 'Choose tags for the selected files') }}
 				</NcNoteCard>
 				<NcNoteCard v-else type="info">
 					<span v-html="statusMessage" />
@@ -113,7 +113,7 @@
 			<NcButton :disabled="!hasChanges || status !== Status.BASE"
 				data-cy-systemtags-picker-button-submit
 				@click="onSubmit">
-				{{ t('systemtags', 'Apply changes') }}
+				{{ t('systemtags', 'Apply') }}
 			</NcButton>
 		</template>
 
