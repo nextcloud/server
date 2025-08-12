@@ -1793,6 +1793,15 @@ $CONFIG = [
 'cache_chunk_gc_ttl' => 60*60*24,
 
 /**
+ * Enable caching of the app config values.
+ * If enabled the app config will be cached locally for a short TTL,
+ * reducing database load significatly on larger setups.
+ *
+ * Defaults to ``true``
+ */
+'cache_app_config' => true,
+
+/**
  * Using Object Store with Nextcloud
  */
 

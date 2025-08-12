@@ -14,20 +14,20 @@ use OC\Config\PresetManager;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class AppConfigTest
- *
  * @group DB
  *
  * @package Test
  */
-class AppConfigTest extends TestCase {
+class AppConfigIntegrationTest extends TestCase {
 	protected IAppConfig $appConfig;
 	protected IDBConnection $connection;
 	private IConfig $config;
@@ -35,6 +35,7 @@ class AppConfigTest extends TestCase {
 	private PresetManager $presetManager;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
+	private ICacheFactory&MockObject $cacheFactory;
 
 	private array $originalConfig;
 
@@ -107,6 +108,8 @@ class AppConfigTest extends TestCase {
 		$this->presetManager = Server::get(PresetManager::class);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->crypto = Server::get(ICrypto::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory->method('isLocalCacheAvailable')->willReturn(false);
 
 		// storing current config and emptying the data table
 		$sql = $this->connection->getQueryBuilder();
@@ -200,6 +203,7 @@ class AppConfigTest extends TestCase {
 			$this->presetManager,
 			$this->logger,
 			$this->crypto,
+			$this->cacheFactory,
 		);
 		$msg = ' generateAppConfig() failed to confirm cache status';
 
