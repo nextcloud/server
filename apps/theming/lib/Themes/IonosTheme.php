@@ -40,7 +40,65 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 	public function getCustomCss(): string {
 		$customCss = $this->loadCustomCssFiles();
-		return $customCss;
+
+		$regularEot = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Regular-webfont.eot');
+		$regularWoff = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Regular-webfont.woff');
+		$regularWoff2 = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Regular-webfont.woff2');
+		$regularTtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Regular-webfont.ttf');
+		$regularSvg = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Regular-webfont.svg#open_sansregular');
+
+		$semiBoldEot = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-SemiBold-webfont.eot');
+		$semiBoldWoff = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-SemiBold-webfont.woff');
+		$semiBoldWoff2 = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-SemiBold-webfont.woff2');
+		$semiBoldTtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-SemiBold-webfont.ttf');
+		$semiBoldSvg = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-SemiBold-webfont.svg#open_sansregular');
+
+		$boldEot = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Bold-webfont.eot');
+		$boldWoff = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Bold-webfont.woff');
+		$boldWoff2 = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Bold-webfont.woff2');
+		$boldTtf = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Bold-webfont.ttf');
+		$boldSvg = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Bold-webfont.svg#open_sansregular');
+		$fontCss = "
+		@font-face {
+			font-family: 'Open sans';
+			src: url('$regularEot') format('embedded-opentype'),
+				url('$regularWoff') format('woff'),
+				url('$regularWoff2') format('woff2'),
+				url('$regularTtf') format('truetype'),
+				url('$regularSvg') format('svg');
+			font-weight: normal;
+			font-style: normal;
+			font-display: swap;
+		}
+
+		/* Open sans semi-bold variant */
+		@font-face {
+			font-family: 'Open sans';
+			src: url('$semiBoldEot') format('embedded-opentype'),
+				url('$semiBoldWoff') format('woff'),
+				url($semiBoldWoff2) format('woff2'),
+				url('$semiBoldTtf') format('truetype'),
+				url('$semiBoldSvg') format('svg');
+			font-weight: 600;
+			font-style: normal;
+			font-display: swap;
+		}
+
+		/* Open sans bold variant */
+		@font-face {
+			font-family: 'Open sans';
+			src: url('$boldEot') format('embedded-opentype'),
+				url('$boldWoff') format('woff'),
+				url('$boldWoff2') format('woff2'),
+				url('$boldTtf') format('truetype'),
+				url('$boldSvg') format('svg');
+			font-weight: bold;
+			font-style: normal;
+			font-display: swap;
+		}
+		";
+
+		return $customCss . PHP_EOL . $fontCss;
 	}
 
 	/**
@@ -59,6 +117,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
+		$originalFontFace = $defaultVariables['--font-face'];
 
 		// IONOS COLORS
 		$ionColorMainBackground = '#fff';
@@ -216,7 +275,10 @@ class IonosTheme extends DefaultTheme implements ITheme {
 			$defaultVariables,
 			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
 			$ionosVariables,
-			$variables
+			$variables,
+			[
+				'--font-face' => '"Open sans", ' . $originalFontFace
+			]
 		);
 	}
 
