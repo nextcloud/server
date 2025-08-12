@@ -17,7 +17,7 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 	public function __construct(
 		PrincipalBackend\BackendInterface $principalBackend,
 		Backend\BackendInterface $caldavBackend,
-		string $principalPrefix = 'principals',
+		string $principalPrefix,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($principalBackend, $caldavBackend, $principalPrefix);
