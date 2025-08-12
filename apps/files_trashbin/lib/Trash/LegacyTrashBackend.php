@@ -45,12 +45,12 @@ class LegacyTrashBackend implements ITrashBackend {
 			}
 			/** @psalm-suppress UndefinedInterfaceMethod */
 			$deletedBy = $this->userManager->get($file['deletedBy']) ?? $parent?->getDeletedBy();
-			$trashFilename = Trashbin::getTrashFilename($file->getName(), $file->getMtime());
+			$trashFilename = $file->getMtime() === 0 ? $file->getName() : Trashbin::getTrashFilename($file->getName(), $file->getMtime());
 			return new TrashItem(
 				$this,
 				$originalLocation,
 				$file->getMTime(),
-				$parentTrashPath . '/' . ($isRoot ? $trashFilename : $file->getName()),
+				$parentTrashPath . '/' . $trashFilename,
 				$file,
 				$user,
 				$deletedBy,
