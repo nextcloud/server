@@ -11,10 +11,10 @@ use InvalidArgumentException;
 use OC\AppConfig;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
+use OC\Memcache\Factory as CacheFactory;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
-use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -35,7 +35,7 @@ class AppConfigIntegrationTest extends TestCase {
 	private PresetManager $presetManager;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
-	private ICacheFactory&MockObject $cacheFactory;
+	private CacheFactory&MockObject $cacheFactory;
 
 	private array $originalConfig;
 
@@ -108,7 +108,7 @@ class AppConfigIntegrationTest extends TestCase {
 		$this->presetManager = Server::get(PresetManager::class);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->crypto = Server::get(ICrypto::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory = $this->createMock(CacheFactory::class);
 		$this->cacheFactory->method('isLocalCacheAvailable')->willReturn(false);
 
 		// storing current config and emptying the data table

@@ -14,6 +14,7 @@ use JsonException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
+use OC\Memcache\Factory as CacheFactory;
 use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\Strictness;
 use OCP\Config\ValueType;
@@ -79,10 +80,12 @@ class AppConfig implements IAppConfig {
 		private readonly PresetManager $presetManager,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
-		readonly ICacheFactory $cacheFactory,
+		readonly CacheFactory $cacheFactory,
 	) {
 		if ($config->getSystemValueBool('cache_app_config', true) && $cacheFactory->isLocalCacheAvailable()) {
-			$this->localCache = $cacheFactory->createLocal();
+			$cacheFactory->withServerVersionPrefix(function (ICacheFactory $factory) {
+				$this->localCache = $factory->createLocal();
+			});
 		}
 	}
 
