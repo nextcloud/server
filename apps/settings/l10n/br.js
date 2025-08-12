@@ -88,6 +88,7 @@ OC.L10N.register(
     "Administration" : "Merouriez",
     "Users" : "Implijer",
     "Additional settings" : "Stummoù ouzhpenn",
+    "Assistant" : "Skoazeller",
     "Groupware" : "Labour a stroll",
     "Overview" : "Taol-lagad",
     "Basic settings" : "Stummoù diazez",

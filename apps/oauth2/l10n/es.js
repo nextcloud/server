@@ -11,7 +11,7 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Redirection URI" : "URI de redirección",
     "Client Identifier" : "Identificador de cliente",
-    "Secret key" : "Llave secreta",
+    "Secret key" : "Clave secreta",
     "Delete client" : "Eliminar cliente",
     "Make sure you store the secret key, it cannot be recovered." : "Asegúrese de guardar la clave secreta, ya que no podrá ser recuperada.",
     "Add client" : "Añadir cliente",
