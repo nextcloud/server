@@ -12,6 +12,8 @@ use OCA\Theming\ITheme;
 class IonosTheme extends DefaultTheme implements ITheme {
 
 	private const THEME_ID = 'ionos';
+	private const FONT_FAMILY = 'Open sans';
+	private const FONT_PATH_PREFIX = 'fonts/OpenSans/';
 
 	// CSS file paths for custom styling
 	private const CSS_FILES = [
@@ -40,7 +42,9 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 	public function getCustomCss(): string {
 		$customCss = $this->loadCustomCssFiles();
-		return $customCss;
+		$fontCss = $this->generateFontFacesCss();
+
+		return $customCss . PHP_EOL . $fontCss;
 	}
 
 	/**
@@ -57,8 +61,57 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		return rtrim($customCss, PHP_EOL);
 	}
 
+	/**
+	 * Generate CSS font face declarations for Open Sans font variants
+	 *
+	 * @return string CSS font-face declarations
+	 */
+	private function generateFontFacesCss(): string {
+		$fontVariants = [
+			'regular' => ['weight' => 'normal', 'file' => 'Regular'],
+			'semibold' => ['weight' => '600', 'file' => 'SemiBold'],
+			'bold' => ['weight' => 'bold', 'file' => 'Bold']
+		];
+
+		$fontCss = '';
+		foreach ($fontVariants as $variant => $config) {
+			$fontCss .= $this->generateSingleFontFace($config['file'], $config['weight']);
+		}
+
+		return $fontCss;
+	}
+
+	private function generateSingleFontFace(string $fileVariant, string $weight): string {
+		$basePath = self::FONT_PATH_PREFIX . 'OpenSans-' . $fileVariant . '-webfont';
+
+		$eot = $this->urlGenerator->linkTo('theming', $basePath . '.eot');
+		$woff = $this->urlGenerator->linkTo('theming', $basePath . '.woff');
+		$woff2 = $this->urlGenerator->linkTo('theming', $basePath . '.woff2');
+		$ttf = $this->urlGenerator->linkTo('theming', $basePath . '.ttf');
+		$svg = $this->urlGenerator->linkTo('theming', $basePath . '.svg#open_sansregular');
+
+		$comment = ($weight === '600') ? '/* Open sans semi-bold variant */' :
+					(($weight === 'bold') ? '/* Open sans bold variant */' : '');
+
+		return "
+		{$comment}
+		@font-face {
+			font-family: '" . self::FONT_FAMILY . "';
+			src: url('{$eot}') format('embedded-opentype'),
+				url('{$woff}') format('woff'),
+				url('{$woff2}') format('woff2'),
+				url('{$ttf}') format('truetype'),
+				url('{$svg}') format('svg');
+			font-weight: {$weight};
+			font-style: normal;
+			font-display: swap;
+		}
+		";
+	}
+
 	public function getCSSVariables(): array {
 		$defaultVariables = parent::getCSSVariables();
+		$originalFontFace = $defaultVariables['--font-face'];
 
 		// IONOS COLORS
 		$ionColorMainBackground = '#fff';
@@ -216,7 +269,10 @@ class IonosTheme extends DefaultTheme implements ITheme {
 			$defaultVariables,
 			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
 			$ionosVariables,
-			$variables
+			$variables,
+			[
+				'--font-face' => '"Open sans", ' . $originalFontFace
+			]
 		);
 	}
 
