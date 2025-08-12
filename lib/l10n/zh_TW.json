@@ -127,6 +127,8 @@
     "Settings" : "設定",
     "Log out" : "登出",
     "Accounts" : "帳號",
+    "Bluesky" : "Bluesky",
+    "View %s on Bluesky" : "在 Bluesky 上檢視 %s",
     "Email" : "電子郵件",
     "Mail %s" : "寄送郵件給 %s",
     "Fediverse" : "聯邦宇宙",

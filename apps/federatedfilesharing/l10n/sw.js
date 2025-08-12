@@ -59,6 +59,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (zamani Twitter)",
     "formerly Twitter" : "zamani Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Angabluu",
     "Add to your website" : "Ongeza kwenye tovuti yako",
     "HTML Code:" : "Msimbo wa HTML:",
     "Cancel" : "Ghaili",
