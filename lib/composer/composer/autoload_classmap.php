@@ -701,6 +701,7 @@ return array(
     'OCP\\Notification\\IncompleteNotificationException' => $baseDir . '/lib/public/Notification/IncompleteNotificationException.php',
     'OCP\\Notification\\IncompleteParsedNotificationException' => $baseDir . '/lib/public/Notification/IncompleteParsedNotificationException.php',
     'OCP\\Notification\\InvalidValueException' => $baseDir . '/lib/public/Notification/InvalidValueException.php',
+    'OCP\\Notification\\NotificationPreloadReason' => $baseDir . '/lib/public/Notification/NotificationPreloadReason.php',
     'OCP\\Notification\\UnknownNotificationException' => $baseDir . '/lib/public/Notification/UnknownNotificationException.php',
     'OCP\\OCM\\Events\\ResourceTypeRegisterEvent' => $baseDir . '/lib/public/OCM/Events/ResourceTypeRegisterEvent.php',
     'OCP\\OCM\\Exceptions\\OCMArgumentException' => $baseDir . '/lib/public/OCM/Exceptions/OCMArgumentException.php',
