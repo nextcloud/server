@@ -685,7 +685,7 @@ class OC_App {
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
 			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
+		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid') !== '') {
 			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {
