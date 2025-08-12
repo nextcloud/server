@@ -11,6 +11,7 @@
     "Invalid password value" : "Nieprawidłowa wartość hasła",
     "An email address is required, to send a password link to the user." : "Wymagany jest adres e-mail, aby wysłać użytkownikowi link do ustawienia hasła.",
     "Required email address was not provided" : "Nie podano wymaganego adresu e-mail",
+    "User creation failed" : "Nie udało się utworzyć użytkownika",
     "Invalid quota value: %1$s" : "Nieprawidłowa wartość limitu: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Nieprawidłowy limit. %1$s przekracza maksymalny dopuszczalny limit",
     "Unlimited quota is forbidden on this instance" : "Nieograniczony limit jest zabroniony na tej instancji",

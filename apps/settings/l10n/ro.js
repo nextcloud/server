@@ -90,6 +90,7 @@ OC.L10N.register(
     "Administration" : "Administrare",
     "Users" : "Utilizatori",
     "Additional settings" : "Setări adiționale",
+    "Assistant" : "Asistent",
     "Administration privileges" : "Privilegii de administrare",
     "Groupware" : "Articole de grup",
     "Overview" : "Prezentare generală",

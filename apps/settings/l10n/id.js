@@ -94,6 +94,7 @@ OC.L10N.register(
     "Administration" : "Administrasi",
     "Users" : "Pengguna",
     "Additional settings" : "Setelan tambahan",
+    "Assistant" : "Asisten",
     "Administration privileges" : "Hak administrator",
     "Groupware" : "Peralatan Grup",
     "Overview" : "Ringkasan",
