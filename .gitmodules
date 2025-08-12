@@ -10,3 +10,6 @@
 [submodule "apps-external/richdocuments"]
 	path = apps-external/richdocuments
 	url = git@github.com:nextcloud/richdocuments.git
+[submodule "apps-external/viewer"]
+	path = apps-external/viewer
+	url = git@github.com:nextcloud/viewer.git
