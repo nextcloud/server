@@ -57,6 +57,13 @@ jobs:
               "has_npm": true,
               "has_composer": true,
               "makefile_target": "build_richdocuments_app"
+            },
+            {
+              "name": "viewer",
+              "path": "apps-external/viewer",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_dep_viewer_app"
             }
           ]'
 
