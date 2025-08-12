@@ -15,7 +15,6 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
 use OCP\Config\Lexicon\Entry;
-use OCP\Config\Lexicon\ILexicon;
 use OCP\Config\Lexicon\Strictness;
 use OCP\Config\ValueType;
 use OCP\DB\Exception as DBException;
@@ -24,6 +23,8 @@ use OCP\Exceptions\AppConfigIncorrectTypeException;
 use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -53,10 +54,12 @@ class AppConfig implements IAppConfig {
 	private const KEY_MAX_LENGTH = 64;
 	private const ENCRYPTION_PREFIX = '$AppConfigEncryption$';
 	private const ENCRYPTION_PREFIX_LENGTH = 21; // strlen(self::ENCRYPTION_PREFIX)
+	private const LOCAL_CACHE_KEY = 'OC\\AppConfig';
+	private const LOCAL_CACHE_TTL = 3;
 
-	/** @var array<string, array<string, mixed>> ['app_id' => ['config_key' => 'config_value']] */
+	/** @var array<string, array<string, string>> ['app_id' => ['config_key' => 'config_value']] */
 	private array $fastCache = [];   // cache for normal config keys
-	/** @var array<string, array<string, mixed>> ['app_id' => ['config_key' => 'config_value']] */
+	/** @var array<string, array<string, string>> ['app_id' => ['config_key' => 'config_value']] */
 	private array $lazyCache = [];   // cache for lazy config keys
 	/** @var array<string, array<string, int>> ['app_id' => ['config_key' => bitflag]] */
 	private array $valueTypes = [];  // type for all config values
@@ -67,6 +70,7 @@ class AppConfig implements IAppConfig {
 	private bool $ignoreLexiconAliases = false;
 	/** @var ?array<string, string> */
 	private ?array $appVersionsCache = null;
+	private ?ICache $localCache = null;
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -75,7 +79,11 @@ class AppConfig implements IAppConfig {
 		private readonly PresetManager $presetManager,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
+		readonly ICacheFactory $cacheFactory,
 	) {
+		if ($config->getSystemValueBool('cache_app_config', true) && $cacheFactory->isLocalCacheAvailable()) {
+			$this->localCache = $cacheFactory->createLocal();
+		}
 	}
 
 	/**
@@ -85,7 +93,7 @@ class AppConfig implements IAppConfig {
 	 * @since 7.0.0
 	 */
 	public function getApps(): array {
-		$this->loadConfigAll();
+		$this->loadConfig(lazy: true);
 		$apps = array_merge(array_keys($this->fastCache), array_keys($this->lazyCache));
 		sort($apps);
 
@@ -103,7 +111,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function getKeys(string $app): array {
 		$this->assertParams($app);
-		$this->loadConfigAll($app);
+		$this->loadConfig($app, true);
 		$keys = array_merge(array_keys($this->fastCache[$app] ?? []), array_keys($this->lazyCache[$app] ?? []));
 		sort($keys);
 
@@ -149,19 +157,16 @@ class AppConfig implements IAppConfig {
 	 */
 	public function hasKey(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfig($app, $lazy);
+		$this->loadConfig($app, $lazy ?? true);
 		$this->matchAndApplyLexiconDefinition($app, $key);
 
+		$hasLazy = isset($this->lazyCache[$app][$key]);
+		$hasFast = isset($this->fastCache[$app][$key]);
 		if ($lazy === null) {
-			$appCache = $this->getAllValues($app);
-			return isset($appCache[$key]);
+			return $hasLazy || $hasFast;
+		} else {
+			return $lazy ? $hasLazy : $hasFast;
 		}
-
-		if ($lazy) {
-			return isset($this->lazyCache[$app][$key]);
-		}
-
-		return isset($this->fastCache[$app][$key]);
 	}
 
 	/**
@@ -175,7 +180,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function isSensitive(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfig(null, $lazy);
+		$this->loadConfig(null, $lazy ?? true);
 		$this->matchAndApplyLexiconDefinition($app, $key);
 
 		if (!isset($this->valueTypes[$app][$key])) {
@@ -227,7 +232,7 @@ class AppConfig implements IAppConfig {
 	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array {
 		$this->assertParams($app, $prefix);
 		// if we want to filter values, we need to get sensitivity
-		$this->loadConfigAll($app);
+		$this->loadConfig($app, true);
 		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
 		$values = $this->formatAppValues($app, ($this->fastCache[$app] ?? []) + ($this->lazyCache[$app] ?? []));
 		$values = array_filter(
@@ -479,7 +484,7 @@ class AppConfig implements IAppConfig {
 			return $default;
 		}
 
-		$this->loadConfig($app, $lazy);
+		$this->loadConfig($app, $lazy ?? true);
 
 		/**
 		 * We ignore check if mixed type is requested.
@@ -551,7 +556,7 @@ class AppConfig implements IAppConfig {
 		}
 
 		$this->assertParams($app, $key);
-		$this->loadConfig($app, $lazy);
+		$this->loadConfig($app, $lazy ?? true);
 
 		if (!isset($this->valueTypes[$app][$key])) {
 			throw new AppConfigUnknownKeyException('unknown config key');
@@ -788,7 +793,7 @@ class AppConfig implements IAppConfig {
 		if (!$this->matchAndApplyLexiconDefinition($app, $key, $lazy, $type)) {
 			return false; // returns false as database is not updated
 		}
-		$this->loadConfig(null, $lazy);
+		$this->loadConfig(null, $lazy ?? true);
 
 		$sensitive = $this->isTyped(self::VALUE_SENSITIVE, $type);
 		$inserted = $refreshCache = false;
@@ -803,7 +808,7 @@ class AppConfig implements IAppConfig {
 			 * no update if key is already known with set lazy status and value is
 			 * not different, unless sensitivity is switched from false to true.
 			 */
-			if ($origValue === $this->getTypedValue($app, $key, $value, $lazy, $type)
+			if ($origValue === $this->getTypedValue($app, $key, $value, $lazy ?? true, $type)
 				&& (!$sensitive || $this->isSensitive($app, $key, $lazy))) {
 				return false;
 			}
@@ -835,7 +840,7 @@ class AppConfig implements IAppConfig {
 		if (!$inserted) {
 			$currType = $this->valueTypes[$app][$key] ?? 0;
 			if ($currType === 0) { // this might happen when switching lazy loading status
-				$this->loadConfigAll();
+				$this->loadConfig(lazy: true);
 				$currType = $this->valueTypes[$app][$key] ?? 0;
 			}
 
@@ -856,7 +861,7 @@ class AppConfig implements IAppConfig {
 				&& ($type | self::VALUE_SENSITIVE) !== ($currType | self::VALUE_SENSITIVE)) {
 				try {
 					$currType = $this->convertTypeToString($currType);
-					$type = $this->convertTypeToString($type);
+					$this->convertTypeToString($type);
 				} catch (AppConfigIncorrectTypeException) {
 					// can be ignored, this was just needed for a better exception message.
 				}
@@ -895,6 +900,7 @@ class AppConfig implements IAppConfig {
 			$this->fastCache[$app][$key] = $value;
 		}
 		$this->valueTypes[$app][$key] = $type;
+		$this->clearLocalCache();
 
 		return true;
 	}
@@ -916,7 +922,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function updateType(string $app, string $key, int $type = self::VALUE_MIXED): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfigAll();
+		$this->loadConfig(lazy: true);
 		$this->matchAndApplyLexiconDefinition($app, $key);
 		$this->isLazy($app, $key); // confirm key exists
 
@@ -959,7 +965,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function updateSensitive(string $app, string $key, bool $sensitive): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfigAll();
+		$this->loadConfig(lazy: true);
 		$this->matchAndApplyLexiconDefinition($app, $key);
 
 		try {
@@ -1019,7 +1025,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function updateLazy(string $app, string $key, bool $lazy): bool {
 		$this->assertParams($app, $key);
-		$this->loadConfigAll();
+		$this->loadConfig(lazy: true);
 		$this->matchAndApplyLexiconDefinition($app, $key);
 
 		try {
@@ -1055,7 +1061,7 @@ class AppConfig implements IAppConfig {
 	 */
 	public function getDetails(string $app, string $key): array {
 		$this->assertParams($app, $key);
-		$this->loadConfigAll();
+		$this->loadConfig(lazy: true);
 		$this->matchAndApplyLexiconDefinition($app, $key);
 		$lazy = $this->isLazy($app, $key);
 
@@ -1198,6 +1204,7 @@ class AppConfig implements IAppConfig {
 		unset($this->lazyCache[$app][$key]);
 		unset($this->fastCache[$app][$key]);
 		unset($this->valueTypes[$app][$key]);
+		$this->clearLocalCache();
 	}
 
 	/**
@@ -1227,12 +1234,13 @@ class AppConfig implements IAppConfig {
 	public function clearCache(bool $reload = false): void {
 		$this->lazyLoaded = $this->fastLoaded = false;
 		$this->lazyCache = $this->fastCache = $this->valueTypes = $this->configLexiconDetails = [];
+		$this->localCache?->remove(self::LOCAL_CACHE_KEY);
 
 		if (!$reload) {
 			return;
 		}
 
-		$this->loadConfigAll();
+		$this->loadConfig(lazy: true);
 	}
 
 
@@ -1293,35 +1301,49 @@ class AppConfig implements IAppConfig {
 		}
 	}
 
-	private function loadConfigAll(?string $app = null): void {
-		$this->loadConfig($app, null);
-	}
-
 	/**
 	 * Load normal config or config set as lazy loaded
 	 *
-	 * @param bool|null $lazy set to TRUE to load config set as lazy loaded, set to NULL to load all config
+	 * @param bool $lazy set to TRUE to also load config values set as lazy loaded
 	 */
-	private function loadConfig(?string $app = null, ?bool $lazy = false): void {
+	private function loadConfig(?string $app = null, bool $lazy = false): void {
 		if ($this->isLoaded($lazy)) {
 			return;
 		}
 
 		// if lazy is null or true, we debug log
-		if (($lazy ?? true) !== false && $app !== null) {
+		if ($lazy === true && $app !== null) {
 			$exception = new \RuntimeException('The loading of lazy AppConfig values have been triggered by app "' . $app . '"');
 			$this->logger->debug($exception->getMessage(), ['exception' => $exception, 'app' => $app]);
 		}
 
+		$loadLazyOnly = $lazy && $this->isLoaded();
+
+		/** @var array<mixed> */
+		$cacheContent = $this->localCache?->get(self::LOCAL_CACHE_KEY) ?? [];
+		$includesLazyValues = !empty($cacheContent) && !empty($cacheContent['lazyCache']);
+		if (!empty($cacheContent) && (!$lazy || $includesLazyValues)) {
+			$this->valueTypes = $cacheContent['valueTypes'];
+			$this->fastCache = $cacheContent['fastCache'];
+			$this->fastLoaded = !empty($this->fastCache);
+			if ($includesLazyValues) {
+				$this->lazyCache = $cacheContent['lazyCache'];
+				$this->lazyLoaded = !empty($this->lazyCache);
+			}
+			return;
+		}
+
+		// Otherwise no cache available and we need to fetch from database
 		$qb = $this->connection->getQueryBuilder();
-		$qb->from('appconfig');
+		$qb->from('appconfig')
+			->select('appid', 'configkey', 'configvalue', 'type');
 
-		// we only need value from lazy when loadConfig does not specify it
-		$qb->select('appid', 'configkey', 'configvalue', 'type');
-
-		if ($lazy !== null) {
-			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
+		if ($lazy === false) {
+			$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)));
 		} else {
+			if ($loadLazyOnly) {
+				$qb->where($qb->expr()->eq('lazy', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
+			}
 			$qb->addSelect('lazy');
 		}
 
@@ -1329,56 +1351,34 @@ class AppConfig implements IAppConfig {
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
 			// most of the time, 'lazy' is not in the select because its value is already known
-			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
+			if ($lazy && ((int)$row['lazy']) === 1) {
 				$this->lazyCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
 				$this->fastCache[$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			}
 			$this->valueTypes[$row['appid']][$row['configkey']] = (int)($row['type'] ?? 0);
 		}
+
 		$result->closeCursor();
-		$this->setAsLoaded($lazy);
+		$this->localCache?->set(
+			self::LOCAL_CACHE_KEY,
+			[
+				'fastCache' => $this->fastCache,
+				'lazyCache' => $this->lazyCache,
+				'valueTypes' => $this->valueTypes,
+			],
+			self::LOCAL_CACHE_TTL,
+		);
+
+		$this->fastLoaded = true;
+		$this->lazyLoaded = $lazy;
 	}
 
 	/**
-	 * if $lazy is:
-	 *  - false: will returns true if fast config is loaded
-	 *  - true : will returns true if lazy config is loaded
-	 *  - null : will returns true if both config are loaded
-	 *
-	 * @param bool $lazy
-	 *
-	 * @return bool
+	 * @param bool $lazy - If set to true then also check if lazy values are loaded
 	 */
-	private function isLoaded(?bool $lazy): bool {
-		if ($lazy === null) {
-			return $this->lazyLoaded && $this->fastLoaded;
-		}
-
-		return $lazy ? $this->lazyLoaded : $this->fastLoaded;
-	}
-
-	/**
-	 * if $lazy is:
-	 * - false: set fast config as loaded
-	 * - true : set lazy config as loaded
-	 * - null : set both config as loaded
-	 *
-	 * @param bool $lazy
-	 */
-	private function setAsLoaded(?bool $lazy): void {
-		if ($lazy === null) {
-			$this->fastLoaded = true;
-			$this->lazyLoaded = true;
-
-			return;
-		}
-
-		if ($lazy) {
-			$this->lazyLoaded = true;
-		} else {
-			$this->fastLoaded = true;
-		}
+	private function isLoaded(bool $lazy = false): bool {
+		return $this->fastLoaded && (!$lazy || $this->lazyLoaded);
 	}
 
 	/**
@@ -1388,7 +1388,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
 	 *
-	 * @return string the value or $default
+	 * @return ?string the value or $default
 	 * @deprecated 29.0.0 use getValue*()
 	 *
 	 * This function gets a value from the appconfig table. If the key does
@@ -1421,7 +1421,7 @@ class AppConfig implements IAppConfig {
 		 * or enabled (lazy=lazy-2)
 		 *
 		 * this solution would remove the loading of config values from disabled app
-		 * unless calling the method {@see loadConfigAll()}
+		 * unless calling the method.
 		 */
 		return $this->setTypedValue($app, $key, (string)$value, false, self::VALUE_MIXED);
 	}
@@ -1733,7 +1733,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @return bool TRUE if conflict can be fully ignored, FALSE if action should be not performed
 	 * @throws AppConfigUnknownKeyException if strictness implies exception
-	 * @see ILexicon::getStrictness()
+	 * @see \OCP\Config\Lexicon\ILexicon::getStrictness()
 	 */
 	private function applyLexiconStrictness(
 		?Strictness $strictness,
@@ -1772,8 +1772,9 @@ class AppConfig implements IAppConfig {
 			$configLexicon = $bootstrapCoordinator->getRegistrationContext()?->getConfigLexicon($appId);
 			foreach ($configLexicon?->getAppConfigs() ?? [] as $configEntry) {
 				$entries[$configEntry->getKey()] = $configEntry;
-				if ($configEntry->getRename() !== null) {
-					$aliases[$configEntry->getRename()] = $configEntry->getKey();
+				$newName = $configEntry->getRename();
+				if ($newName !== null) {
+					$aliases[$newName] = $configEntry->getKey();
 				}
 			}
 
@@ -1818,5 +1819,9 @@ class AppConfig implements IAppConfig {
 			);
 		}
 		return $this->appVersionsCache;
+	}
+
+	private function clearLocalCache(): void {
+		$this->localCache?->remove(self::LOCAL_CACHE_KEY);
 	}
 }

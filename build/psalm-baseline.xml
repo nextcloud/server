@@ -3314,11 +3314,6 @@
       <code><![CDATA[version_compare($first, $second, $operator)]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/AppConfig.php">
-    <NullableReturnStatement>
-      <code><![CDATA[$this->fastCache[$app][$key] ?? $default]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
     <UndefinedMethod>
       <code><![CDATA[getName]]></code>

@@ -195,7 +195,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function getAppValue($appName, $key, $default = '') {
-		return \OC::$server->get(AppConfig::class)->getValue($appName, $key, $default);
+		return \OC::$server->get(AppConfig::class)->getValue($appName, $key, $default) ?? $default;
 	}
 
 	/**
