@@ -12,6 +12,12 @@ use OCA\Theming\ITheme;
 class IonosTheme extends DefaultTheme implements ITheme {
 
 	private const THEME_ID = 'ionos';
+
+	// CSS file paths for custom styling
+	private const CSS_FILES = [
+		'_layout.css'
+	];
+
 	public function getId(): string {
 		return self::THEME_ID;
 	}
@@ -33,124 +39,22 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	}
 
 	public function getCustomCss(): string {
-	return "
-			#header {
-				box-shadow: var(--ion-shadow-header);
-				#nextcloud {
-				padding-inline-start: 220px;
-					.logo {
-						width: 200px;
-					}
-				}
+		$customCss = $this->loadCustomCssFiles();
+		return $customCss;
+	}
 
+	/**
+	 * Load custom CSS files for IONOS theme
+	 *
+	 * @return string Combined CSS content from all theme files
+	 */
+	private function loadCustomCssFiles(): string {
+		$customCss = '';
+		foreach (self::CSS_FILES as $file) {
+			$customCss .= file_get_contents(__DIR__ . '/../../css/' . self::THEME_ID . '/' . $file) . PHP_EOL;
+		}
 
-				.app-menu-entry--active::before {
-					background-color: var(--ion-color-secondary);
-				}
-
-				.app-menu-entry__label {
-					color: var(--ion-color-secondary);
-				}
-
-				.app-menu-entry__icon .app-menu-icon__icon{
-					color: var(--ion-color-secondary);
-					fill: var(--ion-color-secondary);
-					filter: var(--background-invert-if-bright);
-				}
-			}
-
-			div.app-navigation:has(nav#app-navigation-vue) {
-				background-color: var(--ion-surface-secondary);
-				.app-navigation-entry {
-					span[role=img]>svg {
-						color: var(--ion-button-sidebar-text);
-						height: 16px;
-						width: auto;
-					}
-					.app-navigation-entry__name {
-						font-weight: 600;
-						color: var(--ion-button-sidebar-text) !important;
-					}
-					border-radius: var(--border-radius-pill);
-					&.active {
-						background-color: var(--ion-button-sidebar-background-active) !important;
-						.app-navigation-entry-link {
-							color: var(--ion-button-sidebar-text) !important;
-						}
-					}
-					&:hover {
-						background-color: var(--ion-button-sidebar-background-hover);
-					}
-				}
-
-				.app-navigation-entry--opened:has(.app-navigation-entry__children) {
-					background: var(--ion-surface-primary);
-					border-radius: 8px;
-					.app-navigation-entry__children {
-						padding: 0 8px;
-						gap: 0;
-						.app-navigation-entry {
-							display: flex;
-							align-items: center;
-							border-radius: 4px;
-						}
-						.app-navigation-entry-wrapper {
-							background: var(--ion-surface-primary);
-							border-radius: 8px;
-							min-height: 40px;
-							margin: 4px 0;
-						}
-					}
-				}
-
-				/* Navigation Toggle Button */
-				div.app-navigation-toggle-wrapper button.app-navigation-toggle.button-vue--icon-only {
-					margin: 18px 0;
-					background-color: var(--ion-button-sidebar--icon-only-background) !important;
-					@media only screen and (max-width: 1023px) {
-						margin: 12px 0;
-					}
-					span[role=img]>svg {
-						color: var(--ion-button-sidebar--icon-only-text) !important;
-					}
-					&:hover {
-						background-color: var(--ion-button-sidebar--icon-only-background-hover) !important;
-						span[role=img]>svg {
-							color: var(--ion-button-sidebar--icon-only-text) !important;
-						}
-					}
-				}
-
-				/* Sub Navigation Toggle Icon Button */
-				.button-vue--icon-only:not(.app-navigation-toggle) {
-					background-color: transparent;
-					span[role=img]>svg {
-						color: var(--ion-button-sidebar-text);
-					}
-					&:hover {
-						background-color: transparent;
-						span[role=img]>svg {
-							color: var(--ion-button-sidebar-text);
-						}
-					}
-				}
-
-				@media only screen and (max-width: 767px) {
-					&:has(span.menu-open-icon) {
-						width: auto;
-						max-width: inherit;
-
-						.app-navigation-list {
-							padding-right: calc(var(--default-clickable-area) + 16px);
-						}
-
-						div.app-navigation-toggle-wrapper {
-							margin-inline-end: calc(var(--default-clickable-area) - 24px);
-						}
-					}
-				}
-			}
-		";
+		return rtrim($customCss, PHP_EOL);
 	}
 
 	public function getCSSVariables(): array {

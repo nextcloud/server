@@ -1,0 +1,32 @@
+#header {
+	box-shadow: var(--ion-shadow-header);
+	#nextcloud {
+	padding-inline-start: 220px;
+		.logo {
+			width: 200px;
+		}
+	}
+
+
+	.app-menu-entry--active::before {
+		background-color: var(--ion-color-secondary);
+	}
+
+	.app-menu-entry__label {
+		color: var(--ion-color-secondary);
+	}
+
+	.app-menu-entry__icon .app-menu-icon__icon{
+		color: var(--ion-color-secondary);
+		fill: var(--ion-color-secondary);
+		filter: var(--background-invert-if-bright);
+	}
+}
+
+#content-vue {
+	margin: 0;
+	margin-top: 50px;
+	width: 100%;
+	height: 100%;
+	border-radius: 0;
+}
