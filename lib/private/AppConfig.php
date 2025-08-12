@@ -1386,15 +1386,15 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app app
 	 * @param string $key key
-	 * @param string $default = null, default value if the key does not exist
+	 * @param string $default - Default value if the key does not exist
 	 *
-	 * @return ?string the value or $default
+	 * @return string the value or $default
 	 * @deprecated 29.0.0 use getValue*()
 	 *
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
 	 */
-	public function getValue($app, $key, $default = null) {
+	public function getValue($app, $key, $default = '') {
 		$this->loadConfig($app);
 		$this->matchAndApplyLexiconDefinition($app, $key);
 
