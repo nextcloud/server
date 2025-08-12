@@ -10,11 +10,11 @@ namespace Test;
 use OC\AppConfig;
 use OC\Config\ConfigManager;
 use OC\Config\PresetManager;
+use OC\Memcache\Factory as CacheFactory;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\ICache;
-use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -33,7 +33,7 @@ class AppConfigTest extends TestCase {
 	private PresetManager&MockObject $presetManager;
 	private LoggerInterface&MockObject $logger;
 	private ICrypto&MockObject $crypto;
-	private ICacheFactory&MockObject $cacheFactory;
+	private CacheFactory&MockObject $cacheFactory;
 	private ICache&MockObject $localCache;
 
 	protected function setUp(): void {
@@ -45,7 +45,7 @@ class AppConfigTest extends TestCase {
 		$this->presetManager = $this->createMock(PresetManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->crypto = $this->createMock(ICrypto::class);
-		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cacheFactory = $this->createMock(CacheFactory::class);
 		$this->localCache = $this->createMock(ICache::class);
 	}
 
@@ -55,6 +55,9 @@ class AppConfigTest extends TestCase {
 			->willReturn(true);
 		$this->cacheFactory->method('isLocalCacheAvailable')->willReturn($cached);
 		if ($cached) {
+			$this->cacheFactory->method('withServerVersionPrefix')->willReturnCallback(function (\Closure $closure): void {
+				$closure($this->cacheFactory);
+			});
 			$this->cacheFactory->method('createLocal')->willReturn($this->localCache);
 		}
 
