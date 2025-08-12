@@ -27,11 +27,14 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 	 * Returns the name of the node.
 	 */
 	public function getName(): string {
-		if ($this->principalPrefix === 'principals') {
-			return parent::getName();
+		if ($this->principalPrefix === 'principals/calendar-resources'
+			|| $this->principalPrefix === 'principals/calendar-rooms') {
+			$parts = explode('/', $this->principalPrefix);
+			return $parts[1]; // i.e. `calendar-resources` (or) `calendar-rooms`
 		}
-		$parts = explode('/', $this->principalPrefix);
-		return $parts[1];
+		//if ($this->principalPrefix === 'principals') {
+		return parent::getName(); // `calendars`
+		//}
 	}
 
 	/**
