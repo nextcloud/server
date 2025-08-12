@@ -20,6 +20,9 @@ use OC\Security\IdentityProof\Manager;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\Server;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -41,7 +44,6 @@ class OCMSignatoryManager implements ISignatoryManager {
 		private readonly ISignatureManager $signatureManager,
 		private readonly IURLGenerator $urlGenerator,
 		private readonly Manager $identityProofManager,
-		private readonly OCMDiscoveryService $ocmDiscoveryService,
 		private readonly LoggerInterface $logger,
 	) {
 	}
@@ -144,7 +146,7 @@ class OCMSignatoryManager implements ISignatoryManager {
 	 */
 	public function getRemoteSignatory(string $remote): ?Signatory {
 		try {
-			$ocmProvider = $this->ocmDiscoveryService->discover($remote, true);
+			$ocmProvider = Server::get(OCMDiscoveryService::class)->discover($remote, true);
 			/**
 			 * @experimental 31.0.0
 			 * @psalm-suppress UndefinedInterfaceMethod
@@ -152,7 +154,7 @@ class OCMSignatoryManager implements ISignatoryManager {
 			$signatory = $ocmProvider->getSignatory();
 			$signatory?->setSignatoryType(SignatoryType::TRUSTED);
 			return $signatory;
-		} catch (OCMProviderException $e) {
+		} catch (NotFoundExceptionInterface|ContainerExceptionInterface|OCMProviderException $e) {
 			$this->logger->warning('fail to get remote signatory', ['exception' => $e, 'remote' => $remote]);
 			return null;
 		}
