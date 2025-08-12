@@ -63,18 +63,6 @@
       <code><![CDATA[CommentsEvent::EVENT_PRE_UPDATE]]></code>
     </DeprecatedConstant>
   </file>
-  <file src="apps/comments/lib/Search/CommentsSearchProvider.php">
-    <DeprecatedClass>
-      <code><![CDATA[Result]]></code>
-    </DeprecatedClass>
-    <DeprecatedProperty>
-      <code><![CDATA[$result->authorId]]></code>
-      <code><![CDATA[$result->authorId]]></code>
-      <code><![CDATA[$result->authorId]]></code>
-      <code><![CDATA[$result->name]]></code>
-      <code><![CDATA[$result->path]]></code>
-    </DeprecatedProperty>
-  </file>
   <file src="apps/comments/lib/Search/LegacyProvider.php">
     <DeprecatedClass>
       <code><![CDATA[Provider]]></code>
