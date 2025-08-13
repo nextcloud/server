@@ -111,7 +111,6 @@ OC.L10N.register(
     "Federated user" : "Usuari federat",
     "user@your-nextcloud.org" : "usuari@el-teu-nextcloud.org",
     "Create share" : "Crea l'element compartit",
-    "Direct link copied to clipboard" : "Enllaç directe copiat al porta-retalls",
     "Please copy the link manually:" : "Copieu l'enllaç manualment:",
     "Custom date range" : "Interval de dates personalitzat",
     "Pick start date" : "Trieu la data d'inici",
@@ -400,6 +399,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Canvia la visibilitat de la contrasenya",
     "Configure the database" : "Configuració de la base de dades",
     "Only %s is available." : "Només hi ha disponible %s.",
-    "Database account" : "Compte de base de dades"
+    "Database account" : "Compte de base de dades",
+    "Direct link copied to clipboard" : "Enllaç directe copiat al porta-retalls"
 },
 "nplurals=2; plural=(n != 1);");

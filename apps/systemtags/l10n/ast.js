@@ -67,6 +67,7 @@ OC.L10N.register(
     "Loading …" : "Cargando…",
     "Manage tags" : "Xestionar les etiquetes",
     "Cancel" : "Encaboxar",
+    "Apply" : "Aplicar",
     "Failed to load tags" : "Nun se puen cargar les etiquetes",
     "Failed to load selected tags" : "Nun se puen cargar les etiquetes seleicionaes",
     "Failed to select tag" : "Nun se pue seleicionar la etiqueta",

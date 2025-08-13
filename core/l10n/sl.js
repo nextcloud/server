@@ -205,7 +205,6 @@ OC.L10N.register(
     "Federated user" : "Zvezni uporabnik",
     "user@your-nextcloud.org" : "uporabnik@oblak-nextcloud.org",
     "Create share" : "Ustvari predmet souporabe",
-    "Direct link copied to clipboard" : "Povezava je kopirana v odložišče.",
     "Please copy the link manually:" : "Povezave je treba kopirati ročno.",
     "Custom date range" : "Obseg datuma po meri",
     "Pick start date" : "Izbor začetnega datuma",
@@ -496,6 +495,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Preklopi vidnost gesla",
     "Configure the database" : "Nastavi podatkovno zbirko",
     "Only %s is available." : "Na voljo je le %s.",
-    "Database account" : "Račun podatkovne zbirke"
+    "Database account" : "Račun podatkovne zbirke",
+    "Direct link copied to clipboard" : "Povezava je kopirana v odložišče."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

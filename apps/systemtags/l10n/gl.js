@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "Buscar etiqueta",
     "Change tag color" : "Cambiar a cor da etiqueta",
     "Create new tag" : "Crear unha nova etiqueta",
-    "Select or create tags to apply to all selected files" : "Seleccionar ou crear etiquetas para aplicalas a todos os ficheiros seleccionados",
-    "Select tags to apply to all selected files" : "Seleccionar etiquetas para aplicalas a todos os ficheiros seleccionados",
     "Cancel" : "Cancelar",
-    "Apply changes" : "Aplicar os cambios",
+    "Apply" : "Aplicar",
     "Failed to load tags" : "Produciuse un fallo ao cargar as etiquetas",
     "Failed to load selected tags" : "Produciuse un fallo ao cargar as etiquetas seleccionadas",
     "Failed to select tag" : "Produciuse un fallo ao seleccionar a etiqueta",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "Produciuse un fallo ao cargar as etiquetas do ficheiro",
     "Failed to set tag for file" : "Produciuse un fallo ao definir a etiqueta para o ficheiro",
     "Failed to delete tag for file" : "Produciuse un fallo ao eliminar a etiqueta do ficheiro",
-    "File tags modification canceled" : "Cancelouse a modificación das etiquetas do ficheiro"
+    "File tags modification canceled" : "Cancelouse a modificación das etiquetas do ficheiro",
+    "Select or create tags to apply to all selected files" : "Seleccionar ou crear etiquetas para aplicalas a todos os ficheiros seleccionados",
+    "Select tags to apply to all selected files" : "Seleccionar etiquetas para aplicalas a todos os ficheiros seleccionados",
+    "Apply changes" : "Aplicar os cambios"
 },
 "nplurals=2; plural=(n != 1);");

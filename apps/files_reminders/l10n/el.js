@@ -6,7 +6,6 @@ OC.L10N.register(
     "View file" : "Προβολή αρχείου",
     "View folder" : "Προβολή φακέλου",
     "Set file reminders" : "Ορίστε υπενθυμίσεις αρχείων",
-    "Set reminder at custom date & time" : "Ορίστε την υπενθύμιση σε προσαρμοσμένη ημερομηνία και ώρα",
     "Clear reminder" : "Εκκαθάριση υπενθύμισης",
     "Please choose a valid date & time" : "Επιλέξτε μια έγκυρη ημερομηνία και ώρα",
     "Reminder set for \"{fileName}\"" : "Ορίστηκε υπενθύμιση για \"{fileName}\"",
@@ -14,7 +13,6 @@ OC.L10N.register(
     "Failed to clear reminder" : "Αποτυχία εκκαθάρισης της υπενθύμισης",
     "Cancel" : "Ακύρωση",
     "Set reminder" : "Προσθήκη υπενθύμισης",
-    "Set custom reminder" : "Ορισμός προσαρμοσμένης υπενθύμισης",
     "Later today" : "Αργότερα σήμερα",
     "Set reminder for later today" : "Ορισμός υπενθύμισης για αργότερα σήμερα",
     "Tomorrow" : "Αύριο",
@@ -22,6 +20,8 @@ OC.L10N.register(
     "This weekend" : "Αυτό το Σαββατοκύριακο",
     "Set reminder for this weekend" : "Ορίστε υπενθύμιση για αυτό το Σαββατοκύριακο",
     "Next week" : "Επόμενη εβδομάδα",
-    "Set reminder for next week" : "Ορίστε υπενθύμιση για την επόμενη εβδομάδα"
+    "Set reminder for next week" : "Ορίστε υπενθύμιση για την επόμενη εβδομάδα",
+    "Set reminder at custom date & time" : "Ορίστε την υπενθύμιση σε προσαρμοσμένη ημερομηνία και ώρα",
+    "Set custom reminder" : "Ορισμός προσαρμοσμένης υπενθύμισης"
 },
 "nplurals=2; plural=(n != 1);");

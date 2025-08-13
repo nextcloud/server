@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "搜索标签",
     "Change tag color" : "更改标签颜色",
     "Create new tag" : "创建新标签",
-    "Select or create tags to apply to all selected files" : "选择或创建标签以应用于所有选定文件",
-    "Select tags to apply to all selected files" : "选择要应用于所有选定文件的标签",
     "Cancel" : "取消",
-    "Apply changes" : "应用更改",
+    "Apply" : "应用",
     "Failed to load tags" : "加载标签失败",
     "Failed to load selected tags" : "无法加载选中标签",
     "Failed to select tag" : "无法选中该标签",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "无法加载该文件的标签",
     "Failed to set tag for file" : "无法设置该文件的标签",
     "Failed to delete tag for file" : "无法删除该文件的标签",
-    "File tags modification canceled" : "文件标签修改已取消"
+    "File tags modification canceled" : "文件标签修改已取消",
+    "Select or create tags to apply to all selected files" : "选择或创建标签以应用于所有选定文件",
+    "Select tags to apply to all selected files" : "选择要应用于所有选定文件的标签",
+    "Apply changes" : "应用更改"
 },
 "nplurals=1; plural=0;");

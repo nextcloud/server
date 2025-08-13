@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "Search tag",
     "Change tag color" : "Change tag colour",
     "Create new tag" : "Create new tag",
-    "Select or create tags to apply to all selected files" : "Select or create tags to apply to all selected files",
-    "Select tags to apply to all selected files" : "Select tags to apply to all selected files",
     "Cancel" : "Cancel",
-    "Apply changes" : "Apply changes",
+    "Apply" : "Apply",
     "Failed to load tags" : "Failed to load tags",
     "Failed to load selected tags" : "Failed to load selected tags",
     "Failed to select tag" : "Failed to select tag",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "Failed to load tags for file",
     "Failed to set tag for file" : "Failed to set tag for file",
     "Failed to delete tag for file" : "Failed to delete tag for file",
-    "File tags modification canceled" : "File tags modification cancelled"
+    "File tags modification canceled" : "File tags modification cancelled",
+    "Select or create tags to apply to all selected files" : "Select or create tags to apply to all selected files",
+    "Select tags to apply to all selected files" : "Select tags to apply to all selected files",
+    "Apply changes" : "Apply changes"
 },
 "nplurals=2; plural=(n != 1);");

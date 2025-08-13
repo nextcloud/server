@@ -73,9 +73,8 @@ OC.L10N.register(
     "Search or create tag" : "Vyhľadať alebo vytvoriť štítok",
     "Change tag color" : "Zmeniť farbu štítkov",
     "Create new tag" : "Vytvoriť nový štítok",
-    "Select or create tags to apply to all selected files" : "Vybrať alebo vytvoriť štítok a aplikovať na všetky vybrané súbory",
     "Cancel" : "Zrušiť",
-    "Apply changes" : "Aplikovať zmeny",
+    "Apply" : "Použiť",
     "Failed to load tags" : "Nepodarilo sa načítať štítky",
     "Failed to load selected tags" : "Nepodarilo sa načítať vytvorený štítok",
     "Failed to select tag" : "Nepodarilo sa vybrať štítok",
@@ -99,6 +98,8 @@ OC.L10N.register(
     "Failed to load tags for file" : "Nepodarilo sa načítať štítky pre súbor",
     "Failed to set tag for file" : "Nepodarilo sa nastaviť štítok pre súbor",
     "Failed to delete tag for file" : "Nepodarilo sa odstrániť štítok pre súbor",
-    "File tags modification canceled" : "Zmena štítkov súboru bola zrušená"
+    "File tags modification canceled" : "Zmena štítkov súboru bola zrušená",
+    "Select or create tags to apply to all selected files" : "Vybrať alebo vytvoriť štítok a aplikovať na všetky vybrané súbory",
+    "Apply changes" : "Aplikovať zmeny"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

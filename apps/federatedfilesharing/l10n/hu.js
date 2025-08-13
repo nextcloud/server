@@ -36,8 +36,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Ossza meg velem a #Nextcloud föderált felhőazonosítóm segítségével, lásd {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ossza meg velem a #Nextcloud föderált felhőazonosítóm segítségével ",
     "Share with me via Nextcloud" : "Ossza meg velem a Nextcloudon keresztül",
-    "Cloud ID copied to the clipboard" : "Felhőazonosító a vágólapra másolva",
-    "Copy to clipboard" : "Másolás a vágólapra",
+    "Copy" : "Másolás",
     "Clipboard not available. Please copy the cloud ID manually." : "A vágólap nem érhető el. Másolja át a felhőazonosítót kézileg.",
     "Copied!" : "Másolva!",
     "Federated Cloud" : "Föderált felhő",
@@ -55,6 +54,8 @@ OC.L10N.register(
     "Remote share" : "Távoli megosztás",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Hozzáadja a(z) {name} távoli megosztást innen: {owner}@{remote}?",
     "Remote share password" : "Jelszó a távoli megosztáshoz",
-    "Incoming share could not be processed" : "A bejövő megosztás nem dolgozható fel"
+    "Incoming share could not be processed" : "A bejövő megosztás nem dolgozható fel",
+    "Cloud ID copied to the clipboard" : "Felhőazonosító a vágólapra másolva",
+    "Copy to clipboard" : "Másolás a vágólapra"
 },
 "nplurals=2; plural=(n != 1);");

@@ -78,10 +78,8 @@
     "Search tag" : "Pesquisar etiqueta",
     "Change tag color" : "Alterar cor da etiqueta",
     "Create new tag" : "Criar etiqueta nova",
-    "Select or create tags to apply to all selected files" : "Selecione ou crie etiquetas para aplicar a todos os arquivos selecionados",
-    "Select tags to apply to all selected files" : "Selecione etiquetas para aplicar a todos os arquivos selecionados",
     "Cancel" : "Cancelar",
-    "Apply changes" : "Aplicar alterações",
+    "Apply" : "Aplicar",
     "Failed to load tags" : "Erro ao carregar etiquetas",
     "Failed to load selected tags" : "Falha ao carregar as etiquetas selecionadas",
     "Failed to select tag" : "Falha ao selecionar etiqueta",
@@ -108,6 +106,9 @@
     "Failed to load tags for file" : "Falha ao carregar etiquetas para arquivo",
     "Failed to set tag for file" : "Falha ao definir etiqueta para arquivo",
     "Failed to delete tag for file" : "Falha ao excluir etiqueta do arquivo",
-    "File tags modification canceled" : "Modificação de etiquetas de arquivo cancelada"
+    "File tags modification canceled" : "Modificação de etiquetas de arquivo cancelada",
+    "Select or create tags to apply to all selected files" : "Selecione ou crie etiquetas para aplicar a todos os arquivos selecionados",
+    "Select tags to apply to all selected files" : "Selecione etiquetas para aplicar a todos os arquivos selecionados",
+    "Apply changes" : "Aplicar alterações"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

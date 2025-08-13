@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "Etiket arama",
     "Change tag color" : "Etiket rengini değiştir",
     "Create new tag" : "Etiket ekle",
-    "Select or create tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin ya da oluşturun",
-    "Select tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin",
     "Cancel" : "İptal",
-    "Apply changes" : "Değişiklikleri uygula",
+    "Apply" : "Uygula",
     "Failed to load tags" : "Etiketler yüklenemedi",
     "Failed to load selected tags" : "Seçilmiş etiketler yüklenemedi",
     "Failed to select tag" : "Seçilmiş etiket yüklenemedi",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "Dosyanın etiketleri yüklenemedi",
     "Failed to set tag for file" : "Dosyanın etiketi ayarlanamadı",
     "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
-    "File tags modification canceled" : "Dosya etiket değişikliği iptal edildi"
+    "File tags modification canceled" : "Dosya etiket değişikliği iptal edildi",
+    "Select or create tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin ya da oluşturun",
+    "Select tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin",
+    "Apply changes" : "Değişiklikleri uygula"
 },
 "nplurals=2; plural=(n > 1);");

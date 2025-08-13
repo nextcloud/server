@@ -343,6 +343,7 @@
     "Unified task processing" : "Procesamiento unificado de tareas",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Las tareas de IA pueden ser implementadas por diferentes aplicaciones. Aquí puede definir que app se debería utilizar para cada tarea.",
     "Allow AI usage for guest users" : "Permitir el uso de la IA para los usuarios invitados",
+    "Provider for Task types" : "Proveedor para los tipos de Tareas",
     "Enable" : "Activar",
     "None of your currently installed apps provide Task processing functionality" : "Ninguna de las aplicaciones que tienes actualmente instaladas proveen la funcionalidad de Tareas",
     "Machine translation" : "Traducción de máquina",

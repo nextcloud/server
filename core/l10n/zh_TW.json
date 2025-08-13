@@ -228,7 +228,6 @@
     "Federated user" : "聯盟使用者",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "建立分享",
-    "Direct link copied to clipboard" : "直接連結已複製到剪貼簿",
     "Please copy the link manually:" : "請手動複製連結：",
     "Custom date range" : "自訂日期範圍",
     "Pick start date" : "挑選開始日期",
@@ -525,6 +524,7 @@
     "Toggle password visibility" : "切換密碼可見性",
     "Configure the database" : "設定資料庫組態",
     "Only %s is available." : "剩下 %s 可使用。",
-    "Database account" : "資料庫帳號"
+    "Database account" : "資料庫帳號",
+    "Direct link copied to clipboard" : "直接連結已複製到剪貼簿"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

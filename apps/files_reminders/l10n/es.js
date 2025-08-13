@@ -7,7 +7,6 @@ OC.L10N.register(
     "View folder" : "Ver carpeta",
     "Set file reminders" : "Establecer recordatorios de archivo",
     "Set reminder for \"{fileName}\"" : "Establecer recordatorio para \"{fileName}\"",
-    "Set reminder at custom date & time" : "Establecer recordatorio a una fecha y hora personalizada",
     "Clear reminder" : "Borrar recordatorio",
     "Please choose a valid date & time" : "Por favor, escoja una fecha y hora válidas",
     "Reminder set for \"{fileName}\"" : "Se estableció recordatorio para \"{fileName}\"",
@@ -18,7 +17,6 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Set reminder" : "Enviar recordatorio",
     "Reminder set" : "Recordatorio establecido",
-    "Set custom reminder" : "Configurar recordatorio personalizado",
     "Later today" : "Más tarde hoy",
     "Set reminder for later today" : "Configurar recordatorio para hoy, más tarde",
     "Tomorrow" : "Mañana",
@@ -26,6 +24,8 @@ OC.L10N.register(
     "This weekend" : "Este fin de semana",
     "Set reminder for this weekend" : "Configurar recordatorio para este fin de semana",
     "Next week" : "Semana siguiente",
-    "Set reminder for next week" : "Configurar recordatorio para la semana que viene"
+    "Set reminder for next week" : "Configurar recordatorio para la semana que viene",
+    "Set reminder at custom date & time" : "Establecer recordatorio a una fecha y hora personalizada",
+    "Set custom reminder" : "Configurar recordatorio personalizado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

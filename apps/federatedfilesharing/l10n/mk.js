@@ -26,8 +26,6 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Споделете со мене преку мојот Федерален Cloud ID, види {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Споделете со мене преку мојот Федерален Cloud ID",
     "Share with me via Nextcloud" : "Сподели со мене",
-    "Cloud ID copied to the clipboard" : "Cloud ID е копиран во клипборд",
-    "Copy to clipboard" : "Копирај во клипборд",
     "Copied!" : "Копирано!",
     "Federated Cloud" : "Федерален клауд",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете да споделувате со секој што користи Nextcloud сервер или друг вид на Open Cloud Mesh (OCM) компатибилен сервер или сервис! Само внесете го федералниот ID во полето за споделување. Треба да изгледа korisnik@cloud.primer.com",
@@ -40,6 +38,8 @@ OC.L10N.register(
     "Add remote share" : "Додади далечинско споделување",
     "Remote share" : "Далечинско споделување",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Дали сакате да додадете далечинско споделување на {name} од {owner}@{remote}?",
-    "Remote share password" : "Лозинка за далечинско споделување"
+    "Remote share password" : "Лозинка за далечинско споделување",
+    "Cloud ID copied to the clipboard" : "Cloud ID е копиран во клипборд",
+    "Copy to clipboard" : "Копирај во клипборд"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -228,7 +228,6 @@
     "Federated user" : "フェデレーションユーザー",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "共有を作成",
-    "Direct link copied to clipboard" : "クリップボードにコピーされた直接リンク",
     "Please copy the link manually:" : "手動でリンクをコピーしてください：",
     "Custom date range" : "カスタム日付の範囲",
     "Pick start date" : "開始日を指定",
@@ -525,6 +524,7 @@
     "Toggle password visibility" : "パスワードの表示/非表示を切り替える",
     "Configure the database" : "データベースを設定してください",
     "Only %s is available." : "%s のみ有効です。",
-    "Database account" : "データベースアカウント"
+    "Database account" : "データベースアカウント",
+    "Direct link copied to clipboard" : "クリップボードにコピーされた直接リンク"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

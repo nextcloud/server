@@ -65,6 +65,7 @@ OC.L10N.register(
     "Loading …" : "Betöltés…",
     "Manage tags" : "Címkék kezelése",
     "Cancel" : "Mégse",
+    "Apply" : "Alkalmaz",
     "Failed to load tags" : "A címkék betöltése sikertelen",
     "Failed to load selected tags" : "A kiválasztott címkék betöltése sikertelen",
     "Failed to select tag" : "A címke kiválasztása sikertelen",
