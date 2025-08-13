@@ -170,7 +170,6 @@ OC.L10N.register(
     "Deselect all" : "Bỏ chọn tất cả",
     "Navigation" : "Điều hướng",
     "View" : "Xem",
-    "Toggle grid view" : "‎Chuyển đổi dạng xem lưới‎",
     "You" : "Bạn",
     "Shared multiple times with different people" : "Được chia sẻ nhiều lần với những người khác nhau",
     "Error while loading the file data" : "Lỗi xảy ra trong khi tải dữ liệu tệp",

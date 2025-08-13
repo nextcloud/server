@@ -230,6 +230,7 @@ OC.L10N.register(
     "Federated user" : "Обʼєднаний користувач",
     "user@your-nextcloud.org" : "користувач@ваш-nextcloud.org",
     "Create share" : "Передати у публічний доступ",
+    "Direct link copied" : "Пряме посилання скопійовано",
     "Please copy the link manually:" : "Будь ласка, скопіюйте посилання вручну:",
     "Custom date range" : "Власний вибір проміжку",
     "Pick start date" : "Виберіть початкову дату",
