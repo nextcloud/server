@@ -76,7 +76,7 @@
 			<NcActionInput v-if="pendingEnforcedPassword || isPasswordProtected"
 				class="share-link-password"
 				:label="t('files_sharing', 'Enter a password')"
-				:value.sync="share.newPassword"
+				:value.sync="share.password"
 				:disabled="saving"
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
