@@ -132,7 +132,7 @@ export const action = new FileAction({
 		// You need read permissions to see the sidebar
 		if ((node.permissions & Permission.READ) !== 0) {
 			window.OCA?.Files?.Sidebar?.setActiveTab?.('sharing')
-			return sidebarAction.exec(node, view, dir)
+			return await sidebarAction.exec(node, view, dir)
 		}
 		return null
 	},
