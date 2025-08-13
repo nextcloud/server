@@ -625,14 +625,17 @@ class Manager implements ICommentsManager {
 	 * @return Int
 	 * @since 9.0.0
 	 */
-	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = '') {
+	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = ''): int {
+		return $this->getNumberOfCommentsForObjects($objectType, [$objectId], $notOlderThan, $verb)[$objectId];
+	}
+
+	/** @inheritDoc */
+	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = ''): array {
 		$qb = $this->dbConn->getQueryBuilder();
-		$query = $qb->select($qb->func()->count('id'))
+		$query = $qb->select($qb->func()->count('id'), 'object_id')
 			->from('comments')
-			->where($qb->expr()->eq('object_type', $qb->createParameter('type')))
-			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('id')))
-			->setParameter('type', $objectType)
-			->setParameter('id', $objectId);
+			->where($qb->expr()->eq('object_type', $qb->createNamedParameter($objectType, IQueryBuilder::PARAM_STR)))
+			->andWhere($qb->expr()->in('object_id', $qb->createNamedParameter($objectIds, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		if (!is_null($notOlderThan)) {
 			$query
@@ -644,10 +647,15 @@ class Manager implements ICommentsManager {
 			$query->andWhere($qb->expr()->eq('verb', $qb->createNamedParameter($verb)));
 		}
 
+		$query->groupBy('object_id');
+		$comments = array_fill_keys($objectIds, 0);
 		$resultStatement = $query->execute();
-		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
+		while ($data = $resultStatement->fetch()) {
+			$comments[$data[1]] = (int)$data[0];
+		}
 		$resultStatement->closeCursor();
-		return (int)$data[0];
+
+		return $comments;
 	}
 
 	/**
