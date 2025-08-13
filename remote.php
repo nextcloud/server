@@ -33,7 +33,7 @@ function handleException(Exception|Error $e): void {
 	try {
 		$request = Server::get(IRequest::class);
 		// treat XML as a WebDAV request
-		$contentType = (string)$request->getHeader('Content-Type');
+		$contentType = $request->getHeader('Content-Type');
 		if (str_contains($contentType, 'application/xml') || str_contains($contentType, 'text/xml')) { // TODO: consider centralizing this repetitive check
 			// fire up a simple server to properly process the exception
 			$server = new \Sabre\DAV\Server();
