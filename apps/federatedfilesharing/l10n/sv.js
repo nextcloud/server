@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Dela med mig genom mitt #Nextcloud federerade moln-ID, se {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dela med mig genom mitt #Nextcloud federerade moln-ID",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
-    "Cloud ID copied to the clipboard" : "Moln-ID kopierades till urklippet",
-    "Copy to clipboard" : "Kopiera till urklipp",
+    "Copy" : "Kopiera",
     "Clipboard not available. Please copy the cloud ID manually." : "Urklipp är inte tillgängligt. Kopiera moln-ID manuellt.",
     "Copied!" : "Kopierad!",
     "Federated Cloud" : "Federerat moln",
@@ -66,6 +65,8 @@ OC.L10N.register(
     "Remote share" : "Extern delning",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vill du lägga till extern delning {name} från {owner}@{remote}?",
     "Remote share password" : "Lösenord för extern delning",
-    "Incoming share could not be processed" : "Inkommande delning kunde inte behandlas"
+    "Incoming share could not be processed" : "Inkommande delning kunde inte behandlas",
+    "Cloud ID copied to the clipboard" : "Moln-ID kopierades till urklippet",
+    "Copy to clipboard" : "Kopiera till urklipp"
 },
 "nplurals=2; plural=(n != 1);");

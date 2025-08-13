@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "Wyszukaj tag",
     "Change tag color" : "Zmień kolor etykiety",
     "Create new tag" : "Utwórz nową etykietę",
-    "Select or create tags to apply to all selected files" : "Wybierz lub utwórz etykiety do zastosowania do wszystkich zaznaczonych plików",
-    "Select tags to apply to all selected files" : "Wybierz tagi do zastosowania do wszystkich zaznaczonych plików",
     "Cancel" : "Anuluj",
-    "Apply changes" : "Zastosuj zmiany",
+    "Apply" : "Zastosuj",
     "Failed to load tags" : "Nie udało się załadować etykiet",
     "Failed to load selected tags" : "Nie udało się załadować wybranych tagów",
     "Failed to select tag" : "Nie udało się wybrać tagu",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "Nie udało się załadować tagów dla pliku",
     "Failed to set tag for file" : "Nie udało się ustawić tagu dla pliku",
     "Failed to delete tag for file" : "Nie udało się usunąć tagu z pliku",
-    "File tags modification canceled" : "Modyfikacja tagów pliku została anulowana"
+    "File tags modification canceled" : "Modyfikacja tagów pliku została anulowana",
+    "Select or create tags to apply to all selected files" : "Wybierz lub utwórz etykiety do zastosowania do wszystkich zaznaczonych plików",
+    "Select tags to apply to all selected files" : "Wybierz tagi do zastosowania do wszystkich zaznaczonych plików",
+    "Apply changes" : "Zastosuj zmiany"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

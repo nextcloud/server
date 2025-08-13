@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Sdílejte se mnou prostřednictvím mého #Nextcloud identifikátoru v rámci federovaného cloudu – více na {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Sdílejte se mnou pomocí mého #Nextcloud identifikátoru v rámci federovaného cloudu",
     "Share with me via Nextcloud" : "Sdílet se mnou přes Nextcloud",
-    "Cloud ID copied to the clipboard" : "Cloudový identifikátor zkopírován do schránky",
-    "Copy to clipboard" : "Zkopírovat do schránky",
+    "Copy" : "Zkopírovat",
     "Clipboard not available. Please copy the cloud ID manually." : "Schránka není k dispozici. Zkopírujte cloudový identifikátor ručně.",
     "Copied!" : "Zkopírováno",
     "Federated Cloud" : "Federovaný cloud",
@@ -66,6 +65,8 @@ OC.L10N.register(
     "Remote share" : "Vzdálené sdílení",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
     "Remote share password" : "Heslo ke vzdálenému sdílení",
-    "Incoming share could not be processed" : "Příchozí sdílení se nepodařilo zpracovat"
+    "Incoming share could not be processed" : "Příchozí sdílení se nepodařilo zpracovat",
+    "Cloud ID copied to the clipboard" : "Cloudový identifikátor zkopírován do schránky",
+    "Copy to clipboard" : "Zkopírovat do schránky"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

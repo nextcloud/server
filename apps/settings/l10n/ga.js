@@ -345,6 +345,7 @@ OC.L10N.register(
     "Unified task processing" : "Próiseáil tasc aontaithe",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Is féidir le apps éagsúla tascanna AI a chur i bhfeidhm. Anseo is féidir leat a shocrú cén aipeanna ba chóir a úsáid le haghaidh an tasc.",
     "Allow AI usage for guest users" : "Ceadaigh úsáid AI d'úsáideoirí aoi",
+    "Provider for Task types" : "Soláthraí do chineálacha Tascanna",
     "Enable" : "Cumasaigh",
     "None of your currently installed apps provide Task processing functionality" : "Ní sholáthraíonn aon cheann de na haipeanna atá suiteáilte agat faoi láthair feidhmiúlacht phróiseála Tasc",
     "Machine translation" : "Aistriúchán meaisín",

@@ -230,7 +230,6 @@ OC.L10N.register(
     "Federated user" : "Utilizador federado",
     "user@your-nextcloud.org" : "utilizador@o-seu-nextcloud.org",
     "Create share" : "Criar partilha",
-    "Direct link copied to clipboard" : "Ligação direta copiada para a área de transferência",
     "Please copy the link manually:" : "Por favor copie a ligação manualmente:",
     "Custom date range" : "Intervalo de datas personalizado",
     "Pick start date" : "Escolher data de início",
@@ -527,6 +526,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Altere a visibilidade da palavra-passe",
     "Configure the database" : "Configure a base de dados",
     "Only %s is available." : "Só está disponível %s.",
-    "Database account" : "Conta da base de dados"
+    "Database account" : "Conta da base de dados",
+    "Direct link copied to clipboard" : "Ligação direta copiada para a área de transferência"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

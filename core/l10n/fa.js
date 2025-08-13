@@ -229,7 +229,6 @@ OC.L10N.register(
     "Federated user" : "کاربر فدرال.",
     "user@your-nextcloud.org" : "user@your-nextcloud.org.",
     "Create share" : "ساختن اشتراک.",
-    "Direct link copied to clipboard" : "لینک مستقیم در کلیپ‌بورد کپی شد.",
     "Please copy the link manually:" : "لطفاً لینک را به صورت دستی کپی کنید:",
     "Custom date range" : "بازه تاریخی سفارشی.",
     "Pick start date" : "انتخاب تاریخ شروع.",
@@ -519,6 +518,7 @@ OC.L10N.register(
     "Toggle password visibility" : "تغییر دید گذرواژه",
     "Configure the database" : "پایگاه داده برنامه ریزی شدند",
     "Only %s is available." : "تنها %s موجود است.",
-    "Database account" : "حساب پایگاه داده"
+    "Database account" : "حساب پایگاه داده",
+    "Direct link copied to clipboard" : "لینک مستقیم در کلیپ‌بورد کپی شد."
 },
 "nplurals=2; plural=(n > 1);");

@@ -66,6 +66,7 @@ OC.L10N.register(
     "Loading …" : "Cargando …",
     "Manage tags" : "Administrar etiquetas",
     "Cancel" : "Cancelar",
+    "Apply" : "Aplicar",
     "Failed to load tags" : "No se pudieron cargar las etiquetas",
     "Failed to load selected tags" : "No se pudieron cargar las etiquetas seleccionadas",
     "Failed to select tag" : "No se pudieron seleccionar las etiquetas",

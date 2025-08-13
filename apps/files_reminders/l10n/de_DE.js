@@ -11,7 +11,6 @@ OC.L10N.register(
     "Set file reminders" : "Dateierinnerungen setzen",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Dateierinnerungen**\n\nDateierinnerungen festlegen.\n\nHinweis: Um die App ``Dateierinnerungen` zu verwenden, stellen Sie sicher, dass die App `Benachrichtigungen` installiert und aktiviert ist. Die App `Benachrichtigungen` bietet die erforderlichen APIs, damit die App `Dateierinnerungen` ordnungsgemäß funktioniert.",
     "Set reminder for \"{fileName}\"" : "Erinnerung für \"{fileName}\" setzen",
-    "Set reminder at custom date & time" : "Erinnerung für benutzerdefinierten Zeitpunkt und Tag erstellen",
     "Clear reminder" : "Erinnerung löschen",
     "Please choose a valid date & time" : "Bitte gültiges Datum und Uhrzeit wählen",
     "Reminder set for \"{fileName}\"" : "Erinnerung für \"{fileName}\" gesetzt",
@@ -22,7 +21,6 @@ OC.L10N.register(
     "Cancel" : "Abbrechen",
     "Set reminder" : "Erinnerung erstellen",
     "Reminder set" : "Erinnerung gesetzt",
-    "Set custom reminder" : "Benutzerdefinierte Erinnerung erstellen",
     "Later today" : "Später heute",
     "Set reminder for later today" : "Erinnerung für später heute erstellen",
     "Tomorrow" : "Morgen",
@@ -32,6 +30,8 @@ OC.L10N.register(
     "Next week" : "Nächste Woche",
     "Set reminder for next week" : "Erinnerung für nächste Woche erstellen",
     "This files_reminder can work properly." : "Die App \"files_reminders\" kann ordnungsgemäß funktionieren.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Die App \"files_reminders“ benötigt die Benachrichtigungs-App, um ordnungsgemäß zu funktionieren. Sie sollten entweder Benachrichtigungen aktivieren oder „files_reminders“ deaktivieren."
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Die App \"files_reminders“ benötigt die Benachrichtigungs-App, um ordnungsgemäß zu funktionieren. Sie sollten entweder Benachrichtigungen aktivieren oder „files_reminders“ deaktivieren.",
+    "Set reminder at custom date & time" : "Erinnerung für benutzerdefinierten Zeitpunkt und Tag erstellen",
+    "Set custom reminder" : "Benutzerdefinierte Erinnerung erstellen"
 },
 "nplurals=2; plural=(n != 1);");

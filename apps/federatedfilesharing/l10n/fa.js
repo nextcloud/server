@@ -26,8 +26,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "از طریق شناسه ابری فدرال #Nextcloud با من به اشتراک بگذارید، به {url} مراجعه کنید",
     "Share with me through my #Nextcloud Federated Cloud ID" : "از طریق شناسه ابری فدرال #Nextcloud با من به اشتراک بگذارید",
     "Share with me via Nextcloud" : "هم‌رسانی با من روی نسکت‌کلود",
-    "Cloud ID copied to the clipboard" : "Cloud ID در کلیپ بورد کپی شد",
-    "Copy to clipboard" : "رونوشت به تخته‌گیره",
+    "Copy" : "کپی",
     "Copied!" : "رونوشت شد!",
     "Federated Cloud" : "ابر خودگردان",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "می‌توانید با هر کسی که از سرور Nextcloud یا سایر سرورها و سرویس‌های سازگار با Open Cloud Mesh (OCM) استفاده می‌کند، اشتراک‌گذاری کنید! فقط شناسه ابری فدرال آنها را در گفتگوی اشتراک گذاری قرار دهید. به نظر می رسد person@cloud.example.com",
@@ -40,6 +39,8 @@ OC.L10N.register(
     "Add remote share" : "افزودن هم‌رسانی دوردست",
     "Remote share" : "هم‌رسانی دوردست",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "می‌خواهید هم‌رسانی دوردست {name} را از ‪{owner}@{remote}‬ بیفزایید؟",
-    "Remote share password" : "گذرواژهٔ هم‌رسانی دوردست"
+    "Remote share password" : "گذرواژهٔ هم‌رسانی دوردست",
+    "Cloud ID copied to the clipboard" : "Cloud ID در کلیپ بورد کپی شد",
+    "Copy to clipboard" : "رونوشت به تخته‌گیره"
 },
 "nplurals=2; plural=(n > 1);");

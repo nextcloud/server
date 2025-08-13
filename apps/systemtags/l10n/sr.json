@@ -78,10 +78,8 @@
     "Search tag" : "Претражи ознаку",
     "Change tag color" : "Промени боју ознаке",
     "Create new tag" : "Креирај нову ознаку",
-    "Select or create tags to apply to all selected files" : "Избор или креирање ознака које ће се применити на све изабране фајлове",
-    "Select tags to apply to all selected files" : "Изаберите ознаке које ће се применити на све изабране фајлове",
     "Cancel" : "Откажи",
-    "Apply changes" : "Примени измене",
+    "Apply" : "Примени",
     "Failed to load tags" : "Грешка при учитавању ознака",
     "Failed to load selected tags" : "Изабрана ознака није могла да се учита",
     "Failed to select tag" : "Ознака није могла да се изабере",
@@ -108,6 +106,9 @@
     "Failed to load tags for file" : "Није успело учитавање ознака за фајл",
     "Failed to set tag for file" : "Није успело постављање ознака за фајл",
     "Failed to delete tag for file" : "Није успело брисање ознака за фајл",
-    "File tags modification canceled" : "Отказана је измена ознака фајла"
+    "File tags modification canceled" : "Отказана је измена ознака фајла",
+    "Select or create tags to apply to all selected files" : "Избор или креирање ознака које ће се применити на све изабране фајлове",
+    "Select tags to apply to all selected files" : "Изаберите ознаке које ће се применити на све изабране фајлове",
+    "Apply changes" : "Примени измене"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

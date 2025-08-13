@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "Schlagworte suchen",
     "Change tag color" : "Schlagwortfarbe ändern",
     "Create new tag" : "Neues Schlagwort erstellen",
-    "Select or create tags to apply to all selected files" : "Schlagwort auswählen oder erstellen, die auf alle ausgewählten Dateien angewendet werden sollen",
-    "Select tags to apply to all selected files" : "Schlagworte auswählen, die auf alle ausgewählten Dateien angewendet werden sollen",
     "Cancel" : "Abbrechen",
-    "Apply changes" : "Änderungen anwenden",
+    "Apply" : "Anwenden",
     "Failed to load tags" : "Schlagworte konnten nicht geladen werden",
     "Failed to load selected tags" : "Ausgewählte Schlagworte konnten nicht geladen werden",
     "Failed to select tag" : "Schlagwort konnte nicht ausgewählt werden",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "Schlagworte für Datei konnten nicht geladen werden",
     "Failed to set tag for file" : "Schlagwort für Datei konnte nicht gesetzt werden",
     "Failed to delete tag for file" : "Schlagwort für Datei konnte nicht gelöscht werden",
-    "File tags modification canceled" : "Änderung der Datei-Schlagwörter abgebrochen"
+    "File tags modification canceled" : "Änderung der Datei-Schlagwörter abgebrochen",
+    "Select or create tags to apply to all selected files" : "Schlagwort auswählen oder erstellen, die auf alle ausgewählten Dateien angewendet werden sollen",
+    "Select tags to apply to all selected files" : "Schlagworte auswählen, die auf alle ausgewählten Dateien angewendet werden sollen",
+    "Apply changes" : "Änderungen anwenden"
 },
 "nplurals=2; plural=(n != 1);");

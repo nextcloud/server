@@ -111,7 +111,6 @@ OC.L10N.register(
     "Federated user" : "Notandi í skýjasambandi",
     "user@your-nextcloud.org" : "notandi@þitt-nextcloud.org",
     "Create share" : "Búa til sameign",
-    "Direct link copied to clipboard" : "Beinn tengill afritaður á klippispjald",
     "Please copy the link manually:" : "Afritaðu tengilinn handvirkt:",
     "Custom date range" : "Sérsniðið dagsetningabil",
     "Pick start date" : "Veldu upphafsdagsetningu",
@@ -400,6 +399,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Breyta sýnileika lykilorðs",
     "Configure the database" : "Stilla gagnagrunninn",
     "Only %s is available." : "Aðeins %s eru laus.",
-    "Database account" : "Gagnagrunnsaðgangur"
+    "Database account" : "Gagnagrunnsaðgangur",
+    "Direct link copied to clipboard" : "Beinn tengill afritaður á klippispjald"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

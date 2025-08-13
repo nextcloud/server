@@ -114,7 +114,6 @@ OC.L10N.register(
     "Federated user" : "Federerad användare",
     "user@your-nextcloud.org" : "användare@din-nextcloud.se",
     "Create share" : "Skapa delning",
-    "Direct link copied to clipboard" : "Direktlänk kopierad till urklipp",
     "Please copy the link manually:" : "Kopiera länken manuellt:",
     "Custom date range" : "Anpassat datumintervall",
     "Pick start date" : "Välj startdatum",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Växla lösenordsynlighet",
     "Configure the database" : "Konfigurera databasen",
     "Only %s is available." : "Endast %s är tillgänglig.",
-    "Database account" : "Databaskonto"
+    "Database account" : "Databaskonto",
+    "Direct link copied to clipboard" : "Direktlänk kopierad till urklipp"
 },
 "nplurals=2; plural=(n != 1);");

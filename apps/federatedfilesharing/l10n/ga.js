@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Roinn liom trí m'aitheantas scamall #Nextcloud Federated Cloud, féach {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Roinn liom trí m'aitheantas scamall #Nextcloud Federated Cloud",
     "Share with me via Nextcloud" : "Roinn liom trí Nextcloud",
-    "Cloud ID copied to the clipboard" : "Cóipeáladh Cloud ID chuig an ngearrthaisce",
-    "Copy to clipboard" : "Cóipeáil chuig an ngearrthaisce",
+    "Copy" : "Cóipeáil",
     "Clipboard not available. Please copy the cloud ID manually." : "Níl an gearrthaisce ar fáil. Cóipeáil an t-aitheantas néil de láimh.",
     "Copied!" : "Cóipeáladh!",
     "Federated Cloud" : "Scamall Cónaidhme",
@@ -67,6 +66,8 @@ OC.L10N.register(
     "Remote share" : "Comhroinnt iargúlta",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar mhaith leat an sciar cianda {name} ó {owner}@{remote} a chur leis?",
     "Remote share password" : "Pasfhocal comhroinnte cianda",
-    "Incoming share could not be processed" : "Níorbh fhéidir an sciar isteach a phróiseáil"
+    "Incoming share could not be processed" : "Níorbh fhéidir an sciar isteach a phróiseáil",
+    "Cloud ID copied to the clipboard" : "Cóipeáladh Cloud ID chuig an ngearrthaisce",
+    "Copy to clipboard" : "Cóipeáil chuig an ngearrthaisce"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

@@ -228,7 +228,6 @@
     "Federated user" : "Birleşik kullanıcı",
     "user@your-nextcloud.org" : "kullanici@nextcloud-kopyaniz.org",
     "Create share" : "Paylaşım ekle",
-    "Direct link copied to clipboard" : "Doğrudan bağlantı panoya kopyalandı",
     "Please copy the link manually:" : "Lütfen bağlantıyı el ile kopyalayın:",
     "Custom date range" : "Özel tarih aralığı",
     "Pick start date" : "Başlangıç tarihini seçin",
@@ -525,6 +524,7 @@
     "Toggle password visibility" : "Parolayı görüntüle/gizle",
     "Configure the database" : "Veri tabanını yapılandır",
     "Only %s is available." : "Yalnızca %s kullanılabilir.",
-    "Database account" : "Veri tabanı hesabı"
+    "Database account" : "Veri tabanı hesabı",
+    "Direct link copied to clipboard" : "Doğrudan bağlantı panoya kopyalandı"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

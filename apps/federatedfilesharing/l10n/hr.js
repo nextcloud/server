@@ -23,7 +23,7 @@ OC.L10N.register(
     "Provide federated file sharing across servers" : "Omogućite udruženo dijeljenje datoteka između poslužitelja",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dijeli sa mnom putem mog #ID-ja udruženog oblaka Nextclouda",
     "Share with me via Nextcloud" : "Dijelite sa mnom putem Nextclouda",
-    "Copy to clipboard" : "Kopiraj u međuspremnik",
+    "Copy" : "Kopirajte",
     "Copied!" : "Kopirano!",
     "Federated Cloud" : "Udruženi oblak",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Možete dijeliti sa svima koji upotrebljavaju poslužitelj Nextcloud ili druge poslužitelje i usluge kompatibilne s Open Cloud Mesh (OCM)! Samo unesite njihov Federated Cloud ID u dijaloški okvir za dijeljenje. Primjerice: osoba@cloud.example.com",
@@ -35,6 +35,7 @@ OC.L10N.register(
     "Add remote share" : "Dodaj udaljeno dijeljenje",
     "Remote share" : "Udaljeno dijeljenje",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Želite li dodati udaljeni udjel {name} od {owner} u {remote}?",
-    "Remote share password" : "Zaporka za udaljeno dijeljenje"
+    "Remote share password" : "Zaporka za udaljeno dijeljenje",
+    "Copy to clipboard" : "Kopiraj u međuspremnik"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

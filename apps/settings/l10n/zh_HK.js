@@ -345,6 +345,7 @@ OC.L10N.register(
     "Unified task processing" : "統一任務處理",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "人工智能任務可以由不同的應用程式來實現。 您可以在此處設置哪個應用程式應用於哪個任務。",
     "Allow AI usage for guest users" : "允許訪客使用者使用 AI",
+    "Provider for Task types" : "任務類型提供者",
     "Enable" : "啟用",
     "None of your currently installed apps provide Task processing functionality" : "您目前已安裝的應用程式均不提供任務處理功能",
     "Machine translation" : "機器翻譯",

@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID, див. {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Поділіться зі мною через мій #Nextcloud Federated Cloud ID",
     "Share with me via Nextcloud" : "Поділися зі мною через Nextcloud",
-    "Cloud ID copied to the clipboard" : "Cloud ID скопійовано в буфер обміну",
-    "Copy to clipboard" : "Копіювати до буферу обміну",
+    "Copy" : "Копіювати",
     "Clipboard not available. Please copy the cloud ID manually." : "Буфер обміну недоступний. Будь ласка, скопіюйте ідентифікатор хмари вручну.",
     "Copied!" : "Скопійовано!",
     "Federated Cloud" : "Об'єднана хмара",
@@ -67,6 +66,8 @@ OC.L10N.register(
     "Remote share" : "Віддалений каталог",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Додати віддалений каталог {name} з {owner}@{remote}?",
     "Remote share password" : "Пароль для віддаленого каталогу",
-    "Incoming share could not be processed" : "Неможливо обробити вхідну частку"
+    "Incoming share could not be processed" : "Неможливо обробити вхідну частку",
+    "Cloud ID copied to the clipboard" : "Cloud ID скопійовано в буфер обміну",
+    "Copy to clipboard" : "Копіювати до буферу обміну"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
