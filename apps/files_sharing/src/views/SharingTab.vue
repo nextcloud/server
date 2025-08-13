@@ -127,11 +127,10 @@
 					</NcPopover>
 				</div>
 				<!-- additional entries, use it with cautious -->
-				<div v-for="(section, index) in sections"
-					:ref="'section-' + index"
+				<div v-for="(component, index) in sectionComponents"
 					:key="index"
 					class="sharingTab__additionalContent">
-					<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
+					<component :is="component" :file-info="fileInfo" />
 				</div>
 
 				<!-- projects (deprecated as of NC25 (replaced by related_resources) - see instance config "projects.enabled" ; ignore this / remove it / move into own section) -->
@@ -285,6 +284,10 @@ export default {
 				? t('files_sharing', 'Type an email')
 				// TRANSLATORS: Type as in with a keyboard
 				: t('files_sharing', 'Type an email or federated cloud ID')
+		},
+
+		sectionComponents() {
+			return this.sections.map((section) => section(undefined, this.fileInfo))
 		},
 	},
 	methods: {
