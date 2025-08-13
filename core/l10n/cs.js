@@ -230,7 +230,6 @@ OC.L10N.register(
     "Federated user" : "Federovaný uživatel",
     "user@your-nextcloud.org" : "uzivatel@vas-nextcloud.org",
     "Create share" : "Vytvořit sdílení",
-    "Direct link copied to clipboard" : "Přímý odkaz zkopírován do schránky",
     "Please copy the link manually:" : "Zkopírujte odkaz ručně:",
     "Custom date range" : "Uživatelsky určené datumové rozmezí",
     "Pick start date" : "Vybrat datum začátku",
@@ -527,6 +526,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Přepnout viditelnost hesla",
     "Configure the database" : "Nastavit databázi",
     "Only %s is available." : "Je k dispozici pouze %s.",
-    "Database account" : "Účet do databáze"
+    "Database account" : "Účet do databáze",
+    "Direct link copied to clipboard" : "Přímý odkaz zkopírován do schránky"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -111,7 +111,6 @@ OC.L10N.register(
     "Federated user" : "Erabiltzaile federatua",
     "user@your-nextcloud.org" : "erabiltzaile@zure-nextcloud.org",
     "Create share" : "Sortu partekatzea",
-    "Direct link copied to clipboard" : "Esteka zuzena arbelera kopiatuta",
     "Please copy the link manually:" : "Mesedez kopiatu esteka eskuz:",
     "Custom date range" : "Data-tarte pertsonalizatua",
     "Pick start date" : "Aukeratu hasiera-data",
@@ -383,6 +382,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Txandakatu pasahitzaren ikusgaitasuna",
     "Configure the database" : "Konfiguratu datu-basea",
     "Only %s is available." : "Soilik %s dago eskuragarri.",
-    "Database account" : "Datu-basearen kontua"
+    "Database account" : "Datu-basearen kontua",
+    "Direct link copied to clipboard" : "Esteka zuzena arbelera kopiatuta"
 },
 "nplurals=2; plural=(n != 1);");

@@ -110,7 +110,6 @@ OC.L10N.register(
     "Federated user" : "Korporativ foydalanuvchi",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "Tarqatish yaratish",
-    "Direct link copied to clipboard" : "Klipbordga nusxa olish",
     "Please copy the link manually:" : "Iltimos, havolani qo'lda nusxalash:",
     "Custom date range" : "Maxsus sana oralig'i",
     "Pick start date" : "Boshlanish sanasini tanlang",
@@ -401,6 +400,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Parol ko'rinishini o'zgartiring",
     "Configure the database" : "Ma'lumotlar bazasini moslashtiring",
     "Only %s is available." : "Faqat %s uchun mavjud.",
-    "Database account" : "Akkauntlar ma`lumotlar bazasi"
+    "Database account" : "Akkauntlar ma`lumotlar bazasi",
+    "Direct link copied to clipboard" : "Klipbordga nusxa olish"
 },
 "nplurals=1; plural=0;");

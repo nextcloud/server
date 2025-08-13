@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "Sök tagg",
     "Change tag color" : "Ändra färg på tagg",
     "Create new tag" : "Skapa ny tagg",
-    "Select or create tags to apply to all selected files" : "Välj eller skapa taggar som ska tillämpas på alla valda filer",
-    "Select tags to apply to all selected files" : "Välj taggar att använda på alla valda filer",
     "Cancel" : "Avbryt",
-    "Apply changes" : "Tillämpa ändringar",
+    "Apply" : "Tillämpa",
     "Failed to load tags" : "Kunde inte läsa in taggar",
     "Failed to load selected tags" : "Det gick inte att läsa in valda taggar",
     "Failed to select tag" : "Det gick inte att välja tagg",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "Kunde inte läsa in taggar för filen",
     "Failed to set tag for file" : "Kunde inte sätta tagg för filen",
     "Failed to delete tag for file" : "Kunde inte ta bort tagg för filen",
-    "File tags modification canceled" : "Ändring av filtaggar avbröts"
+    "File tags modification canceled" : "Ändring av filtaggar avbröts",
+    "Select or create tags to apply to all selected files" : "Välj eller skapa taggar som ska tillämpas på alla valda filer",
+    "Select tags to apply to all selected files" : "Välj taggar att använda på alla valda filer",
+    "Apply changes" : "Tillämpa ändringar"
 },
 "nplurals=2; plural=(n != 1);");

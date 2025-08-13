@@ -71,9 +71,8 @@ OC.L10N.register(
     "Manage tags" : "خەتكۈچلەرنى باشقۇرۇش",
     "Applying tags changes…" : "خەتكۈچ ئۆزگەرتىش…",
     "Search or create tag" : "بەلگە ئىزدەش ياكى قۇرۇش",
-    "Select or create tags to apply to all selected files" : "بارلىق تاللانغان ھۆججەتلەرگە ماس كېلىدىغان بەلگىلەرنى تاللاڭ ياكى قۇرالايسىز",
     "Cancel" : "بىكار قىلىش",
-    "Apply changes" : "ئۆزگەرتىشلەرنى ئىشلىتىڭ",
+    "Apply" : "ئىلتىماس قىلىڭ",
     "Failed to load tags" : "خەتكۈچلەرنى يۈكلىيەلمىدى",
     "Failed to load selected tags" : "تاللانغان خەتكۈچلەرنى يۈكلىيەلمىدى",
     "Failed to select tag" : "خەتكۈچنى تاللىيالمىدى",
@@ -93,6 +92,8 @@ OC.L10N.register(
     "Failed to load tags for file" : "ھۆججەتنىڭ خەتكۈچلىرىنى يۈكلىيەلمىدى",
     "Failed to set tag for file" : "ھۆججەتكە بەلگە بەلگىلەش مەغلۇپ بولدى",
     "Failed to delete tag for file" : "ھۆججەتنىڭ بەلگىسىنى ئۆچۈرەلمىدى",
-    "File tags modification canceled" : "ھۆججەت خەتكۈچلىرىنى ئۆزگەرتىش ئەمەلدىن قالدۇرۇلدى"
+    "File tags modification canceled" : "ھۆججەت خەتكۈچلىرىنى ئۆزگەرتىش ئەمەلدىن قالدۇرۇلدى",
+    "Select or create tags to apply to all selected files" : "بارلىق تاللانغان ھۆججەتلەرگە ماس كېلىدىغان بەلگىلەرنى تاللاڭ ياكى قۇرالايسىز",
+    "Apply changes" : "ئۆزگەرتىشلەرنى ئىشلىتىڭ"
 },
 "nplurals=2; plural=(n != 1);");

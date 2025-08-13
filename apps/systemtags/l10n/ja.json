@@ -78,10 +78,8 @@
     "Search tag" : "タグを検索",
     "Change tag color" : "タグの色を変更する",
     "Create new tag" : "新しいタグを作成",
-    "Select or create tags to apply to all selected files" : "選択した全てのファイルに適用するタグを選択または作成する",
-    "Select tags to apply to all selected files" : "選択した全てのファイルに適用するタグを選択",
     "Cancel" : "キャンセル",
-    "Apply changes" : "変更を適用する",
+    "Apply" : "適用",
     "Failed to load tags" : "タグの読込に失敗しました",
     "Failed to load selected tags" : "選択したタグの読み込みに失敗しました",
     "Failed to select tag" : "タグの選択に失敗しました",
@@ -108,6 +106,9 @@
     "Failed to load tags for file" : "ファイルのタグのロードに失敗しました",
     "Failed to set tag for file" : "ファイルのタグの設定に失敗しました",
     "Failed to delete tag for file" : "ファイルのタグを削除できませんでした",
-    "File tags modification canceled" : "ファイルタグの変更がキャンセルされました"
+    "File tags modification canceled" : "ファイルタグの変更がキャンセルされました",
+    "Select or create tags to apply to all selected files" : "選択した全てのファイルに適用するタグを選択または作成する",
+    "Select tags to apply to all selected files" : "選択した全てのファイルに適用するタグを選択",
+    "Apply changes" : "変更を適用する"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

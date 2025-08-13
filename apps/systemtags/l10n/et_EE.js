@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "Otsi silti",
     "Change tag color" : "Muuda sildi värvi",
     "Create new tag" : "Loo uus silt",
-    "Select or create tags to apply to all selected files" : "Vali või loo sildid kõikide valitud failide jaoks",
-    "Select tags to apply to all selected files" : "Vali sildid kõikide valitud failide jaoks",
     "Cancel" : "Tühista",
-    "Apply changes" : "Rakenda muudatused",
+    "Apply" : "Rakenda",
     "Failed to load tags" : "Siltide laadimine ei õnnestu",
     "Failed to load selected tags" : "Valitud siltide laadimine ei õnnestu",
     "Failed to select tag" : "Sildi valimine ei õnnestu",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "Faili silte ei õnnestunud laadida",
     "Failed to set tag for file" : "Failile ei õnnestunud silte lisada",
     "Failed to delete tag for file" : "Faililt ei õnnestunud silte eemaldada",
-    "File tags modification canceled" : "Failide siltide muutmine on katkestatud"
+    "File tags modification canceled" : "Failide siltide muutmine on katkestatud",
+    "Select or create tags to apply to all selected files" : "Vali või loo sildid kõikide valitud failide jaoks",
+    "Select tags to apply to all selected files" : "Vali sildid kõikide valitud failide jaoks",
+    "Apply changes" : "Rakenda muudatused"
 },
 "nplurals=2; plural=(n != 1);");

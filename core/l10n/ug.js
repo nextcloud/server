@@ -107,7 +107,6 @@ OC.L10N.register(
     "Federated user" : "فېدېراتسىيە ئىشلەتكۈچى",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "ئورتاقلىشىش",
-    "Direct link copied to clipboard" : "چاپلاش تاختىسىغا كۆچۈرۈلگەن بىۋاسىتە ئۇلىنىش",
     "Please copy the link manually:" : "ئۇلىنىشنى قولدا كۆچۈرۈڭ:",
     "Custom date range" : "ئىختىيارى چېسلا دائىرىسى",
     "Pick start date" : "باشلىنىش ۋاقتىنى تاللاڭ",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Toggle password visibility" : "پارولنىڭ كۆرۈنۈشچانلىقىنى توغرىلاڭ",
     "Configure the database" : "سانداننى سەپلەڭ",
     "Only %s is available." : "پەقەت% s نىلا ئىشلەتكىلى بولىدۇ.",
-    "Database account" : "ساندان ھېساباتى"
+    "Database account" : "ساندان ھېساباتى",
+    "Direct link copied to clipboard" : "چاپلاش تاختىسىغا كۆچۈرۈلگەن بىۋاسىتە ئۇلىنىش"
 },
 "nplurals=2; plural=(n != 1);");

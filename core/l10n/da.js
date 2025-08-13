@@ -111,7 +111,6 @@ OC.L10N.register(
     "Federated user" : "Sammenkoblet bruger",
     "user@your-nextcloud.org" : "bruger@din-nextcloud.dk",
     "Create share" : "Opret share",
-    "Direct link copied to clipboard" : "Direkte link kopieret til udklipsholder",
     "Please copy the link manually:" : "Kopier venligst linket manuelt:",
     "Custom date range" : " Brugerdefineret datointerval",
     "Pick start date" : "Vælg en startdato",
@@ -402,6 +401,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Skift adgangskodesynlighed",
     "Configure the database" : "Konfigurer databasen",
     "Only %s is available." : "Kun %s er tilgængelig.",
-    "Database account" : "Database konto"
+    "Database account" : "Database konto",
+    "Direct link copied to clipboard" : "Direkte link kopieret til udklipsholder"
 },
 "nplurals=2; plural=(n != 1);");

@@ -230,7 +230,6 @@ OC.L10N.register(
     "Federated user" : "Gefedereerde gebruiker",
     "user@your-nextcloud.org" : "gebruiker@your-nextcloud.org",
     "Create share" : "Creëren share",
-    "Direct link copied to clipboard" : "Directe link gekopieerd naar klembord",
     "Please copy the link manually:" : "Kopieer de link handmatig:",
     "Custom date range" : "Aangepast datumbereik",
     "Pick start date" : "Kies startdatum",
@@ -527,6 +526,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Omschakelen zichtbaarheid wachtwoord",
     "Configure the database" : "Configureer de database",
     "Only %s is available." : "Alleen %s is beschikbaar.",
-    "Database account" : "Database account"
+    "Database account" : "Database account",
+    "Direct link copied to clipboard" : "Directe link gekopieerd naar klembord"
 },
 "nplurals=2; plural=(n != 1);");

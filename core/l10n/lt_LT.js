@@ -95,7 +95,6 @@ OC.L10N.register(
     "Yes" : "Taip",
     "Failed to add the public link to your Nextcloud" : "Nepavyko pridėti viešosios nuorodos į jūsų Nextcloud",
     "Create share" : "Sukurti viešinį",
-    "Direct link copied to clipboard" : "Tiesioginė nuoroda nukopijuota į iškarpinę",
     "Please copy the link manually:" : "Nukopijuokite nuorodą rankiniu būdu:",
     "Clear search" : "Išvalyti paiešką",
     "Searching …" : "Ieškoma…",
@@ -317,6 +316,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Perjungti slaptažodžio matomumą",
     "Configure the database" : "Konfigūruokite duomenų bazę",
     "Only %s is available." : "Yra prieinama tik %s.",
-    "Database account" : "Duomenų bazės paskyra"
+    "Database account" : "Duomenų bazės paskyra",
+    "Direct link copied to clipboard" : "Tiesioginė nuoroda nukopijuota į iškarpinę"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

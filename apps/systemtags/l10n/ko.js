@@ -65,6 +65,7 @@ OC.L10N.register(
     "Loading …" : "불러오는 중 ...",
     "Manage tags" : "태그 관리하기",
     "Cancel" : "취소",
+    "Apply" : "적용",
     "Failed to load tags" : "태그 불러오기 실패",
     "Failed to load selected tags" : "선택 태그 불러오기 실패",
     "Failed to select tag" : "태그 선택 실패",

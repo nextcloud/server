@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "Etiqueta de cerca",
     "Change tag color" : "Canvia el color de l'etiqueta",
     "Create new tag" : "Crea una etiqueta nova",
-    "Select or create tags to apply to all selected files" : "Seleccioneu o creeu etiquetes per aplicar-les a tots els fitxers seleccionats",
-    "Select tags to apply to all selected files" : "Seleccioneu les etiquetes per aplicar a tots els fitxers seleccionats",
     "Cancel" : "Cancel·la",
-    "Apply changes" : "Aplica els canvis",
+    "Apply" : "Aplica",
     "Failed to load tags" : "No s'han pogut carregar les etiquetes",
     "Failed to load selected tags" : "No s'han pogut carregar les etiquetes seleccionades",
     "Failed to select tag" : "No s'ha pogut seleccionar l'etiqueta",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "No s'han pogut carregar les etiquetes del fitxer",
     "Failed to set tag for file" : "No s'ha pogut definit l'etiqueta per al fitxer",
     "Failed to delete tag for file" : "No s'ha pogut suprimir l'etiqueta del fitxer",
-    "File tags modification canceled" : "S'ha cancel·lat la modificació de les etiquetes del fitxer"
+    "File tags modification canceled" : "S'ha cancel·lat la modificació de les etiquetes del fitxer",
+    "Select or create tags to apply to all selected files" : "Seleccioneu o creeu etiquetes per aplicar-les a tots els fitxers seleccionats",
+    "Select tags to apply to all selected files" : "Seleccioneu les etiquetes per aplicar a tots els fitxers seleccionats",
+    "Apply changes" : "Aplica els canvis"
 },
 "nplurals=2; plural=(n != 1);");

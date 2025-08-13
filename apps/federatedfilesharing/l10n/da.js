@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Del med mig gennem min #Nextcloud Sammenkoblings Cloud ID, se {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Del med mig gennem min #Nextcloud sammenkoblings Cloud ID",
     "Share with me via Nextcloud" : "Del med mig gennem Nextcloud",
-    "Cloud ID copied to the clipboard" : "Cloud ID er kopieret til udklipsholderen.",
-    "Copy to clipboard" : "Kopier til udklipsholder",
+    "Copy" : "Kopiér",
     "Clipboard not available. Please copy the cloud ID manually." : "Udklipsholder ikke tilgængelig. Kopier venligst Cloud ID'et manuelt.",
     "Copied!" : "Kopieret!",
     "Federated Cloud" : "Sammenkoblet Cloud",
@@ -66,6 +65,8 @@ OC.L10N.register(
     "Remote share" : "Eksterne drev",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du at tilføje det eksterne drev  {name} fra {owner}@{remote}?",
     "Remote share password" : "Fjerndrev adgangskode",
-    "Incoming share could not be processed" : "Indgående deling kunne ikke behandles"
+    "Incoming share could not be processed" : "Indgående deling kunne ikke behandles",
+    "Cloud ID copied to the clipboard" : "Cloud ID er kopieret til udklipsholderen.",
+    "Copy to clipboard" : "Kopier til udklipsholder"
 },
 "nplurals=2; plural=(n != 1);");

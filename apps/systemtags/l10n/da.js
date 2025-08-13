@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "Søgemærke",
     "Change tag color" : "Skift mærkefarve",
     "Create new tag" : "Opret nyt mærke",
-    "Select or create tags to apply to all selected files" : "Vælg eller opret tags der skal gælde for alle markerede filer",
-    "Select tags to apply to all selected files" : "Vælg tags der skal gælde for alle markerede filer",
     "Cancel" : "Annuller",
-    "Apply changes" : "Anvend ændringer",
+    "Apply" : "Anvend",
     "Failed to load tags" : "Kunne ikke indlæse tags.",
     "Failed to load selected tags" : "Kunne ikke indlæse markerede mærker",
     "Failed to select tag" : "Kunne ikke vælge mærke",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "Kunne ikke indlæse tags til fil",
     "Failed to set tag for file" : "Failed to set tag for file",
     "Failed to delete tag for file" : "Failed to delete tag for file",
-    "File tags modification canceled" : "Ændring af filmærker annulleret"
+    "File tags modification canceled" : "Ændring af filmærker annulleret",
+    "Select or create tags to apply to all selected files" : "Vælg eller opret tags der skal gælde for alle markerede filer",
+    "Select tags to apply to all selected files" : "Vælg tags der skal gælde for alle markerede filer",
+    "Apply changes" : "Anvend ændringer"
 },
 "nplurals=2; plural=(n != 1);");

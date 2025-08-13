@@ -230,7 +230,6 @@ OC.L10N.register(
     "Federated user" : "联合云用户",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "创建共享",
-    "Direct link copied to clipboard" : "直链已复制至粘贴板",
     "Please copy the link manually:" : "请手动复制链接：",
     "Custom date range" : "自定义日期范围",
     "Pick start date" : "选择起始日期",
@@ -527,6 +526,7 @@ OC.L10N.register(
     "Toggle password visibility" : "切换密码可见性",
     "Configure the database" : "配置数据库",
     "Only %s is available." : "仅 %s 可用。",
-    "Database account" : "数据库账号"
+    "Database account" : "数据库账号",
+    "Direct link copied to clipboard" : "直链已复制至粘贴板"
 },
 "nplurals=1; plural=0;");

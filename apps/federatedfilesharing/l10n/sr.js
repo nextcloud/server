@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Делите самном помоћу мог #Nextcloud Federated Cloud ID, погледајте {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Дели са мном преко мог #Некстклауд Здруженог облака",
     "Share with me via Nextcloud" : "Дели са мном преко Некстклауда",
-    "Cloud ID copied to the clipboard" : "Cloud ID је копиран у клипборд",
-    "Copy to clipboard" : "Копирај у оставу",
+    "Copy" : "Копирај",
     "Clipboard not available. Please copy the cloud ID manually." : "Клипборд није доступан. Молимо вас да ручно копирате ID облака.",
     "Copied!" : "Копирано!",
     "Federated Cloud" : "Здружени облак",
@@ -66,6 +65,8 @@ OC.L10N.register(
     "Remote share" : "Удаљено дељење",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Да ли желите да додате удаљено дељење {name} од {owner}@{remote}?",
     "Remote share password" : "Лозинка удаљеног дељења",
-    "Incoming share could not be processed" : "Долазеће дељење не може да се обради"
+    "Incoming share could not be processed" : "Долазеће дељење не може да се обради",
+    "Cloud ID copied to the clipboard" : "Cloud ID је копиран у клипборд",
+    "Copy to clipboard" : "Копирај у оставу"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

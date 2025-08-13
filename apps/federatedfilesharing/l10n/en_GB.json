@@ -45,8 +45,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Share with me through my #Nextcloud Federated Cloud ID, see {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Share with me through my #Nextcloud Federated Cloud ID",
     "Share with me via Nextcloud" : "Share with me via Nextcloud",
-    "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
-    "Copy to clipboard" : "Copy to clipboard",
+    "Copy" : "Copy",
     "Clipboard not available. Please copy the cloud ID manually." : "Clipboard not available. Please copy the cloud ID manually.",
     "Copied!" : "Copied!",
     "Federated Cloud" : "Federated Cloud",
@@ -65,6 +64,8 @@
     "Remote share" : "Remote share",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
     "Remote share password" : "Remote share password",
-    "Incoming share could not be processed" : "Incoming share could not be processed"
+    "Incoming share could not be processed" : "Incoming share could not be processed",
+    "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
+    "Copy to clipboard" : "Copy to clipboard"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
