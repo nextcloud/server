@@ -72,7 +72,7 @@ class CalendarProvider implements ICalendarProvider {
 			$calendars[$user][] = 'calendars/' . $user . '/' . $uri['uri'];
 		}
 
-		$properties = $this->propertyMapper->findPropertiesByPaths($calendars);
+		$properties = $this->propertyMapper->findPropertiesByPathsAndUsers($calendars);
 
 		$list = [];
 		foreach ($properties as $property) {

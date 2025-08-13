@@ -12,6 +12,7 @@ use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\DAV\CustomPropertiesBackend;
+use OCA\DAV\Db\PropertyMapper;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
@@ -52,6 +53,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			$this->tree,
 			Server::get(IDBConnection::class),
 			$this->user,
+			Server::get(PropertyMapper::class),
 			$this->defaultCalendarValidator,
 		);
 	}
