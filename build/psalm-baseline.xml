@@ -3298,11 +3298,6 @@
       <code><![CDATA[ActivitySettings[]]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="lib/private/AllConfig.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$key]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
   <file src="lib/private/App/DependencyAnalyzer.php">
     <InvalidNullableReturnType>
       <code><![CDATA[bool]]></code>

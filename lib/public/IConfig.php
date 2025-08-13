@@ -112,8 +112,8 @@ interface IConfig {
 	 * Writes a new app wide value
 	 *
 	 * @param string $appName the appName that we want to store the value under
-	 * @param string|float|int $key the key of the value, under which will be saved
-	 * @param string $value the value that should be stored
+	 * @param string $key the key of the value, under which will be saved
+	 * @param string|float|int $value the value that should be stored
 	 * @return void
 	 * @since 6.0.0
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
