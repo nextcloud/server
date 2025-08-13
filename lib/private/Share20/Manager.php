@@ -1787,18 +1787,17 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function shareApiLinkDefaultExpireDate() {
-		return $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
+		return $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
 	}
 
 	/**
 	 * Is default link expire date enforced
-	 *`
 	 *
 	 * @return bool
 	 */
 	public function shareApiLinkDefaultExpireDateEnforced() {
 		return $this->shareApiLinkDefaultExpireDate()
-			&& $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
+			&& $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
 	}
 
 

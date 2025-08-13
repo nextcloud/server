@@ -98,11 +98,11 @@ class JSConfigHelper {
 		}
 
 		$enableLinkPasswordByDefault = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
-		$defaultExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
+		$defaultExpireDateEnabled = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
 		$defaultExpireDate = $enforceDefaultExpireDate = null;
 		if ($defaultExpireDateEnabled) {
 			$defaultExpireDate = (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
-			$enforceDefaultExpireDate = $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
+			$enforceDefaultExpireDate = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
 		}
 		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 
