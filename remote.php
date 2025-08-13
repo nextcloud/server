@@ -22,62 +22,12 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 
 /**
- * Class RemoteException
- * Dummy exception class to be use locally to identify certain conditions
- * Will not be logged to avoid DoS
- */
-class RemoteException extends \Exception {
-}
-
-function handleException(Exception|Error $e): void {
-	try {
-		$request = Server::get(IRequest::class);
-		// treat XML as a WebDAV request
-		$contentType = $request->getHeader('Content-Type');
-		if (str_contains($contentType, 'application/xml') || str_contains($contentType, 'text/xml')) { // TODO: consider centralizing this repetitive check
-			// fire up a simple server to properly process the exception
-			$server = new \Sabre\DAV\Server();
-			if (!($e instanceof RemoteException)) {
-				// we shall not log on RemoteException
-				$server->addPlugin(new ExceptionLoggerPlugin('webdav', Server::get(LoggerInterface::class)));
-			}
-			$server->on('beforeMethod:*', function () use ($e): void {
-				if ($e instanceof RemoteException) {
-					switch ($e->getCode()) {
-						case 503:
-							throw new ServiceUnavailable($e->getMessage());
-						case 404:
-							throw new NotFound($e->getMessage());
-					}
-				}
-				$class = get_class($e);
-				$msg = $e->getMessage();
-				throw new ServiceUnavailable("$class: $msg");
-			});
-			$server->exec();
-		} else {
-			$statusCode = 500;
-			if ($e instanceof ServiceUnavailableException) {
-				$statusCode = 503;
-			}
-			if ($e instanceof RemoteException) {
-				// we shall not log on RemoteException
-				Server::get(ITemplateManager::class)->printErrorPage($e->getMessage(), '', $e->getCode());
-			} else {
-				Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
-				Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $statusCode);
-			}
-		}
-	} catch (\Exception $e) {
-		Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
-	}
-}
-
-/**
+ * Resolve the requested service to a handler.
+ *
  * @param string $service
  * @return string
  */
-function resolveService($service) {
+function resolveService(string $service): string {
 	$services = [
 		'webdav' => 'dav/appinfo/v1/webdav.php',
 		'dav' => 'dav/appinfo/v2/remote.php',
@@ -134,10 +84,10 @@ try {
 	$file = ltrim($file, '/');
 	$parts = explode('/', $file, 2);
 	$app = $parts[0];
-
+	\OC::$REQUESTEDAPP = $app;
+	
 	// Load all required applications
 	$appManager = Server::get(IAppManager::class);
-	\OC::$REQUESTEDAPP = $app;
 	$appManager->loadApps(['authentication']);
 	$appManager->loadApps(['extended_authentication']);
 	$appManager->loadApps(['filesystem', 'logging']);
@@ -156,4 +106,76 @@ try {
 	handleException($ex);
 } catch (Error $e) {
 	handleException($e);
+}
+
+/**
+ * Class RemoteException
+ * Dummy exception class to be use locally to identify certain conditions
+ * Will not be logged to avoid DoS
+ */
+class RemoteException extends \Exception {
+}
+
+function handleException(Exception|Error $e): void {
+	try {
+		// treat XML as a WebDAV request
+		$contentType = Server::get(IRequest::class)->getHeader('Content-Type');
+		if (
+			str_contains($contentType, 'application/xml')
+			|| str_contains($contentType, 'text/xml')
+		) {
+			// fire up a simple server to properly process the exception
+			$server = new \Sabre\DAV\Server();
+			if (!($e instanceof RemoteException)) {
+				// we shall not log on RemoteException
+				$server->addPlugin(
+					new ExceptionLoggerPlugin(
+						'webdav',
+						Server::get(LoggerInterface::class)
+					)
+				);
+			}
+			$server->on('beforeMethod:*', function () use ($e): void {
+				if ($e instanceof RemoteException) {
+					switch ($e->getCode()) {
+						case 503:
+							throw new ServiceUnavailable($e->getMessage());
+						case 404:
+							throw new NotFound($e->getMessage());
+					}
+				}
+				$class = get_class($e);
+				$msg = $e->getMessage();
+				throw new ServiceUnavailable("$class: $msg");
+			});
+			$server->start();
+		} else {
+			$statusCode = 500;
+			if ($e instanceof ServiceUnavailableException) {
+				$statusCode = 503;
+			}
+			if ($e instanceof RemoteException) {
+				// we shall not log on RemoteException
+				Server::get(ITemplateManager::class)->printErrorPage(
+					$e->getMessage(),
+					'',
+					$e->getCode()
+				);
+			} else {
+				Server::get(LoggerInterface::class)->error(
+					$e->getMessage(),
+					['app' => 'remote','exception' => $e]
+				);
+				Server::get(ITemplateManager::class)->printExceptionErrorPage(
+					$e,
+					$statusCode
+				);
+			}
+		}
+	} catch (\Exception $e) {
+		Server::get(ITemplateManager::class)->printExceptionErrorPage(
+			$e,
+			500
+		);
+	}
 }
