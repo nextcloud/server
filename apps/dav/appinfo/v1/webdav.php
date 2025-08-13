@@ -28,17 +28,18 @@ use Psr\Log\LoggerInterface;
 /* Loads in the scope of /remote.php */
 
 /**
- * Low-level
+ * Preparation
  */
 
 // try to keep client disconnects from abruptly aborting execution (best effort)
 ignore_user_abort(true);
-// Turn off output buffer (to prevent memory problems)
+
+// Turn off output buffer
 while (ob_get_level()) {
 	ob_end_clean();
 }
 
-/** XXX Not why the above aren't either:
+/** XXX Not sure why the above aren't either:
  * (a) universal and thus handled elsewhere so all code paths benefit
  * (such as in existing `OC::setRequiredIniValues()`); or (b) removed
  * since we seem not to need them elsewhere for the most part.
@@ -80,10 +81,12 @@ $serverFactory = new ServerFactory(
 	Server::get(IEventDispatcher::class),
 	Server::get(IFactory::class)->get('dav'), // L10N
 );
-$viewCallback = function () {
-	return Filesystem::getView(); // i.e. use the View of the logged in user
+
+/** @var callable $viewCallback Closure that should return the View for the DAV endpoint */
+$viewCallback = function (): ?View {
+	return Filesystem::getView(); // use the default View of the logged in user
 };
-$server = $serverFactory->createServer( // default plugins are specified within `createServer()` not here)
+$server = $serverFactory->createServer(
 	false,
 	$baseuri, /** @var string $baseuri defined in remote.php */
 	Server::get(IRequest::class)->getRequestUri(),
@@ -91,9 +94,10 @@ $server = $serverFactory->createServer( // default plugins are specified within 
 	$viewCallback,
 );
 
-// Trigger registration of any additional plugins
-$dispatcher = Server::get(IEventDispatcher::class);
+// Trigger any other listening plugins
+// Note: `createServer()` loads various plugins internally
 $event = new SabrePluginAddEvent($server);
+$dispatcher = Server::get(IEventDispatcher::class);
 $dispatcher->dispatchTyped($event);
 /** @deprecated 28.0.0 */
 $legacyEvent = new SabrePluginEvent($server);
