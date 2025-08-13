@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "搜尋標籤",
     "Change tag color" : "更新標籤顏色",
     "Create new tag" : "創建新標籤",
+    "Choose tags for the selected files" : "為選定的檔案選擇標籤",
     "Cancel" : "取消",
     "Apply" : "使用",
     "Failed to load tags" : "載入標記失敗",

@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Schlagworte suchen",
     "Change tag color" : "Schlagwortfarbe ändern",
     "Create new tag" : "Neues Schlagwort erstellen",
+    "Choose tags for the selected files" : "Schlagworte für die gewählten Dateien wählen",
     "Cancel" : "Abbrechen",
     "Apply" : "Anwenden",
     "Failed to load tags" : "Schlagworte konnten nicht geladen werden",

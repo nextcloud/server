@@ -343,6 +343,7 @@
     "Unified task processing" : "Централізована обробка завдань ",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Завдання штучного інтелекту можуть виконуватися різними програмами. Тут ви можете вказати, яку програму слід використовувати для виконання того чи іншого завдання.",
     "Allow AI usage for guest users" : "Дозволити використання ШІ для гостьових користувачів",
+    "Provider for Task types" : "Постачальник для типів завдань",
     "Enable" : "Увімкнути",
     "None of your currently installed apps provide Task processing functionality" : "Жодний зі встановлених застосунків не надає функціональність з обробки завдань",
     "Machine translation" : "Машинний переклад",

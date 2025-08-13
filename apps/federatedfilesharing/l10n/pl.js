@@ -47,6 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej, zobacz {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej",
     "Share with me via Nextcloud" : "Udostępnij mi za pomocą Nextcloud",
+    "Cloud ID copied" : "Identyfikator Chmury skopiowany",
     "Copy" : "Skopiuj",
     "Clipboard not available. Please copy the cloud ID manually." : "Schowek niedostępny. Skopiuj identyfikator chmury ręcznie.",
     "Copied!" : "Skopiowano!",

@@ -345,6 +345,7 @@ OC.L10N.register(
     "Unified task processing" : "Ujednolicone przetwarzanie zadań",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Zadania AI mogą być realizowane przez różne aplikacje. Tutaj możesz ustawić, która aplikacja ma być używana do jakiego zadania.",
     "Allow AI usage for guest users" : "Zezwól na użycie AI dla użytkowników gości",
+    "Provider for Task types" : "Dostawca dla typów zadań",
     "Enable" : "Włącz",
     "None of your currently installed apps provide Task processing functionality" : "Żadna z aktualnie zainstalowanych aplikacji nie udostępnia funkcji przetwarzania zadań",
     "Machine translation" : "Tłumaczenie maszynowe",
