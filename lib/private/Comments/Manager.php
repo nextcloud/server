@@ -632,7 +632,7 @@ class Manager implements ICommentsManager {
 	/** @inheritDoc */
 	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = ''): array {
 		$qb = $this->dbConn->getQueryBuilder();
-		$query = $qb->select($qb->func()->count('id'), 'object_id')
+		$query = $qb->select($qb->func()->count('id', 'num_comments'), 'object_id')
 			->from('comments')
 			->where($qb->expr()->eq('object_type', $qb->createNamedParameter($objectType, IQueryBuilder::PARAM_STR)))
 			->andWhere($qb->expr()->in('object_id', $qb->createNamedParameter($objectIds, IQueryBuilder::PARAM_STR_ARRAY)));
@@ -651,7 +651,7 @@ class Manager implements ICommentsManager {
 		$comments = array_fill_keys($objectIds, 0);
 		$resultStatement = $query->execute();
 		while ($data = $resultStatement->fetch()) {
-			$comments[$data[1]] = (int)$data[0];
+			$comments[$data['object_id']] = (int)$data['num_comments'];
 		}
 		$resultStatement->closeCursor();
 

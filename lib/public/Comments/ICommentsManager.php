@@ -191,7 +191,7 @@ interface ICommentsManager {
 	 * @param $objectIds string[] the ids of the object
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 *                                     that may be returned
-	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
+	 * @param string $verb Limit the verb of the comment
 	 * @return array<string, int>
 	 * @since 32.0.0
 	 */
