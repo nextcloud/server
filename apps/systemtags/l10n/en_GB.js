@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Search tag",
     "Change tag color" : "Change tag colour",
     "Create new tag" : "Create new tag",
+    "Choose tags for the selected files" : "Choose tags for the selected files",
     "Cancel" : "Cancel",
     "Apply" : "Apply",
     "Failed to load tags" : "Failed to load tags",

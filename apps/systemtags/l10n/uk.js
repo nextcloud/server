@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Шукати мітку",
     "Change tag color" : "Змінити колір мітки",
     "Create new tag" : "Створити нову мітку",
+    "Choose tags for the selected files" : "Виберіть теги для вибраних файлів",
     "Cancel" : "Скасувати",
     "Apply" : "Застосувати",
     "Failed to load tags" : "Не вдалося завантажити мітки",

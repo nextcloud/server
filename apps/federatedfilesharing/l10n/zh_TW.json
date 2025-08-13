@@ -45,6 +45,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "透過我的 #Nextcloud 聯邦雲端 ID 與我分享，請見 {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "透過我的 #Nextcloud 聯邦雲端 ID 與我分享",
     "Share with me via Nextcloud" : "透過 Nextcloud 與我分享",
+    "Cloud ID copied" : "已複製雲端 ID",
     "Copy" : "複製",
     "Clipboard not available. Please copy the cloud ID manually." : "無法使用剪貼簿。請手動複製雲端 ID。",
     "Copied!" : "已複製！",

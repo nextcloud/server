@@ -230,6 +230,7 @@ OC.L10N.register(
     "Federated user" : "Usuario federado",
     "user@your-nextcloud.org" : "usuario@su-nextcloud.org",
     "Create share" : "Crear un recurso compartido",
+    "Direct link copied" : "Enlace directo copiado",
     "Please copy the link manually:" : "Por favor, copie el enlace manualmente:",
     "Custom date range" : "Rango de fechas personalizado",
     "Pick start date" : "Escoja una fecha de inicio",
