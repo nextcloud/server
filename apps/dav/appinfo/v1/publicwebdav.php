@@ -26,19 +26,34 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
 
-// load needed apps
-$RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
+/* Loads in the scope of /public.php */
 
+/**
+ * Preparation
+ */
+
+// Load ncessary apps
+$RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
 OC_App::loadApps($RUNTIME_APPTYPES);
 
-OC_Util::obEnd();
+// Turn off output buffer
+while (ob_get_level()) {
+	ob_end_clean();
+}
+
+// Close session otherwise streaming will lead to a blocked instance
 Server::get(ISession::class)->close();
 
-// Backends
+/**
+ * Set-up
+ */
+
+// DAV Authentication
 $authBackend = new LegacyPublicAuth(
 	Server::get(IRequest::class),
 	Server::get(\OCP\Share\IManager::class),
@@ -47,9 +62,7 @@ $authBackend = new LegacyPublicAuth(
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
-/** @var IEventDispatcher $eventDispatcher */
-$eventDispatcher = Server::get(IEventDispatcher::class);
-
+// Server
 $serverFactory = new ServerFactory(
 	Server::get(IConfig::class),
 	Server::get(LoggerInterface::class),
@@ -59,16 +72,14 @@ $serverFactory = new ServerFactory(
 	Server::get(ITagManager::class),
 	Server::get(IRequest::class),
 	Server::get(IPreview::class),
-	$eventDispatcher,
-	\OC::$server->getL10N('dav')
+	Server::get(IEventDispatcher::class),
+	Server::get(IFactory::class)->get('dav'), // L10N
 );
-
-$requestUri = Server::get(IRequest::class)->getRequestUri();
 
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
-
-$server = $serverFactory->createServer(false, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
+/** @var callable $viewCallback Closure that should return the View for the DAV endpoint */
+$viewCallback =	function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin): ?View {
 	$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
 	/** @var FederatedShareProvider $shareProvider */
 	$federatedShareProvider = Server::get(FederatedShareProvider::class);
@@ -108,13 +119,25 @@ $server = $serverFactory->createServer(false, $baseuri, $requestUri, $authPlugin
 
 	$view = new View($node->getPath());
 	return $view;
-});
+};
 
+$server = $serverFactory->createServer(
+	false,
+	$baseuri, /** @var string $baseuri defined in remote.php */
+	Server::get(IRequest::class)->getRequestUri(),
+	$authPlugin,
+	$viewCallback,
+);
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
-// allow setup of additional plugins
-$event = new BeforeSabrePubliclyLoadedEvent($server);
-$eventDispatcher->dispatchTyped($event);
 
-// And off we go!
-$server->exec();
+// Trigger any other listening plugins
+// Note: `createServer()` loads various plugins internally
+$event = new BeforeSabrePubliclyLoadedEvent($server);
+$dispatcher = Server::get(IEventDispatcher::class);
+$dispatcher->dispatchTyped($event);
+
+/**
+ * Start the Server!
+ */
+$server->start();
