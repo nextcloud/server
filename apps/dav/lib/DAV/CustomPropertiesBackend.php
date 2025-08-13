@@ -439,7 +439,7 @@ class CustomPropertiesBackend implements BackendInterface {
 				];
 
 				// If it was null, we need to delete the property
-				if (is_null($propertyValue)) {
+				if (is_null($propertyValue) || ($propertyName === '{http://owncloud.org/ns}calendar-enabled' && $propertyValue === '1')) {
 					if (array_key_exists($propertyName, $existing)) {
 						$deleteQuery = $deleteQuery ?? $this->createDeleteQuery();
 						$deleteQuery
