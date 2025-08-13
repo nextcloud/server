@@ -2,7 +2,6 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Pinia } from 'pinia'
 import { getCSPNonce } from '@nextcloud/auth'
 import { PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
@@ -15,16 +14,6 @@ import SettingsModel from './models/Setting.js'
 import SettingsService from './services/Settings.js'
 
 __webpack_nonce__ = getCSPNonce()
-
-declare global {
-	interface Window {
-		OC: Nextcloud.v29.OC
-		OCP: Nextcloud.v29.OCP
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		OCA: Record<string, any>
-		_nc_files_pinia: Pinia
-	}
-}
 
 // Init private and public Files namespace
 window.OCA.Files = window.OCA.Files ?? {}
