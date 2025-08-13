@@ -1791,7 +1791,13 @@ class AppConfig implements IAppConfig {
 		return $this->configLexiconDetails[$appId];
 	}
 
-	private function getLexiconEntry(string $appId, string $key): ?Entry {
+	/**
+	 * get Lexicon Entry using appId and config key entry
+	 *
+	 * @return Entry|null NULL if entry does not exist in app's Lexicon
+	 * @internal
+	 */
+	public function getLexiconEntry(string $appId, string $key): ?Entry {
 		return $this->getConfigDetailsFromLexicon($appId)['entries'][$key] ?? null;
 	}
 
