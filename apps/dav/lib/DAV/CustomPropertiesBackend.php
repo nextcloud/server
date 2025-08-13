@@ -11,7 +11,6 @@ use Exception;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\Connector\Sabre\Directory;
-use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -65,38 +64,16 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{DAV:}getetag',
 		'{DAV:}quota-used-bytes',
 		'{DAV:}quota-available-bytes',
-		'{http://owncloud.org/ns}permissions',
-		'{http://owncloud.org/ns}downloadURL',
-		'{http://owncloud.org/ns}dDC',
-		'{http://owncloud.org/ns}size',
-		'{http://nextcloud.org/ns}is-encrypted',
+	];
 
-		// Currently, returning null from any propfind handler would still trigger the backend,
-		// so we add all known Nextcloud custom properties in here to avoid that
-
-		// text app
-		'{http://nextcloud.org/ns}rich-workspace',
-		'{http://nextcloud.org/ns}rich-workspace-file',
-		// groupfolders
-		'{http://nextcloud.org/ns}acl-enabled',
-		'{http://nextcloud.org/ns}acl-can-manage',
-		'{http://nextcloud.org/ns}acl-list',
-		'{http://nextcloud.org/ns}inherited-acl-list',
-		'{http://nextcloud.org/ns}group-folder-id',
-		// files_lock
-		'{http://nextcloud.org/ns}lock',
-		'{http://nextcloud.org/ns}lock-owner-type',
-		'{http://nextcloud.org/ns}lock-owner',
-		'{http://nextcloud.org/ns}lock-owner-displayname',
-		'{http://nextcloud.org/ns}lock-owner-editor',
-		'{http://nextcloud.org/ns}lock-time',
-		'{http://nextcloud.org/ns}lock-timeout',
-		'{http://nextcloud.org/ns}lock-token',
-		// photos
-		'{http://nextcloud.org/ns}realpath',
-		'{http://nextcloud.org/ns}nbItems',
-		'{http://nextcloud.org/ns}face-detections',
-		'{http://nextcloud.org/ns}face-preview-image',
+	/**
+	 * Allowed properties for the oc/nc namespace, all other properties in the namespace are ignored
+	 *
+	 * @var string[]
+	 */
+	private const ALLOWED_NC_PROPERTIES = [
+		'{http://owncloud.org/ns}calendar-enabled',
+		'{http://owncloud.org/ns}enabled',
 	];
 
 	/**
@@ -154,14 +131,9 @@ class CustomPropertiesBackend implements BackendInterface {
 	public function propFind($path, PropFind $propFind) {
 		$requestedProps = $propFind->get404Properties();
 
-		// these might appear
-		$requestedProps = array_diff(
-			$requestedProps,
-			self::IGNORED_PROPERTIES,
-		);
 		$requestedProps = array_filter(
 			$requestedProps,
-			fn ($prop) => !str_starts_with($prop, FilesPlugin::FILE_METADATA_PREFIX),
+			$this->isPropertyAllowed(...),
 		);
 
 		// substr of calendars/ => path is inside the CalDAV component
@@ -241,6 +213,16 @@ class CustomPropertiesBackend implements BackendInterface {
 			}
 			$propFind->set($propName, $propValue);
 		}
+	}
+
+	private function isPropertyAllowed(string $property): bool {
+		if (in_array($property, self::IGNORED_PROPERTIES)) {
+			return false;
+		}
+		if (str_starts_with($property, '{http://owncloud.org/ns}') || str_starts_with($property, '{http://nextcloud.org/ns}')) {
+			return in_array($property, self::ALLOWED_NC_PROPERTIES);
+		}
+		return true;
 	}
 
 	/**
