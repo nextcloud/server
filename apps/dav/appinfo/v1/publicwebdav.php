@@ -78,12 +78,22 @@ $serverFactory = new ServerFactory(
 
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
-/** @var callable $viewCallback Closure that should return the View for the DAV endpoint */
-$viewCallback =	function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin): ?View {
-	$isAjax = in_array('XMLHttpRequest', explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? ''));
+/** @var callable $viewCallback returns the View for this DAV endpoint */
+$viewCallback =	function (\Sabre\DAV\Server $server) use (
+	$authBackend,
+	$linkCheckPlugin,
+	$filesDropPlugin,
+): ?View {
+	$isAjax = in_array(
+		'XMLHttpRequest',
+		explode(',', $_SERVER['HTTP_X_REQUESTED_WITH'] ?? '')
+	);
 	/** @var FederatedShareProvider $shareProvider */
 	$federatedShareProvider = Server::get(FederatedShareProvider::class);
-	if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
+	if (
+		$federatedShareProvider->isOutgoingServer2serverShareEnabled() === false
+		&& !$isAjax
+	) {
 		// this is what is thrown when trying to access a non-existing share
 		throw new \Sabre\DAV\Exception\NotAuthenticated();
 	}
@@ -95,11 +105,26 @@ $viewCallback =	function (\Sabre\DAV\Server $server) use ($authBackend, $linkChe
 
 	// FIXME: should not add storage wrappers outside of preSetup, need to find a better way
 	$previousLog = Filesystem::logWarningWhenAddingStorageWrapper(false);
-	Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
-		return new PermissionsMask(['storage' => $storage, 'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE]);
-	});
-	Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
-		return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
+	Filesystem::addStorageWrapper(
+		'sharePermissions',
+		function ($mountPoint, $storage) use ($share) {
+		    return new PermissionsMask(
+				[
+				    'storage' => $storage,
+				    'mask' => $share->getPermissions() | Constants::PERMISSION_SHARE
+				]
+			);
+	    }
+	);
+	Filesystem::addStorageWrapper(
+		'shareOwner',
+		function ($mountPoint, $storage) use ($share) {
+		    return new PublicOwnerWrapper(
+				[
+				    'storage' => $storage,
+				    'owner' => $share->getShareOwner()
+				]
+			);
 	});
 	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
