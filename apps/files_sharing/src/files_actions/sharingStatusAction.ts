@@ -17,6 +17,7 @@ import { action as sidebarAction } from '../../../files/src/actions/sidebarActio
 import { generateAvatarSvg } from '../utils/AccountIcon'
 
 import './sharingStatusAction.scss'
+import { showError } from '@nextcloud/dialogs'
 
 const isExternal = (node: Node) => {
 	return node.attributes?.['is-federated'] ?? false
@@ -125,7 +126,10 @@ export const action = new FileAction({
 			return true
 		}
 
+		// You need share permissions to share this file
+		// and read permissions to see the sidebar
 		return (node.permissions & Permission.SHARE) !== 0
+			&& (node.permissions & Permission.READ) !== 0
 	},
 
 	async exec(node: Node, view: View, dir: string) {
@@ -134,6 +138,10 @@ export const action = new FileAction({
 			window.OCA?.Files?.Sidebar?.setActiveTab?.('sharing')
 			return sidebarAction.exec(node, view, dir)
 		}
+
+		// Should not happen as the enabled check should prevent this
+		// leaving it here for safety or in case someone calls this action directly
+		showError(t('files_sharing', 'You do not have enough permissions to share this file.'))
 		return null
 	},
 
