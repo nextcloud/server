@@ -236,6 +236,7 @@
     "Two-factor authentication is not enforced for members of the following groups." : "Two-factor authentication is not enforced for members of the following groups.",
     "Excluded groups" : "Excluded groups",
     "Save changes" : "Save changes",
+    "Default" : "Default",
     "Show details for {appName} app" : "Show details for {appName} app",
     "Update to {update}" : "Update to {update}",
     "Remove" : "Remove",

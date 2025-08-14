@@ -278,6 +278,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "A kétfaktoros hitelesítés az alábbi csoportok számára nem kötelező.",
     "Excluded groups" : "Kizárt csoportok",
     "Save changes" : "Változások mentése",
+    "Default" : "Alapértelmezett",
     "Update to {update}" : "Frissítés erre: {update}",
     "Remove" : "Eltávolítás",
     "Featured" : "Kiemelt",
