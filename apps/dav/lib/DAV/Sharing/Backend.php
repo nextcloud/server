@@ -150,7 +150,10 @@ abstract class Backend {
 		$sharesByResource = array_fill_keys($resourceIds, []);
 		foreach ($rows as $row) {
 			$resourceId = (int)$row['resourceid'];
-			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
+			$p = $this->principalBackend->getPrincipalPropertiesByPath($row['principaluri'], [
+				'uri',
+				'{DAV:}displayname',
+			]);
 			$sharesByResource[$resourceId][] = [
 				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
