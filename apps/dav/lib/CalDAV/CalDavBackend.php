@@ -110,8 +110,6 @@ use function time;
 class CalDavBackend extends AbstractBackend implements SyncSupport, SubscriptionSupport, SchedulingSupport {
 	use TTransactional;
 
-	public const NS_Nextcloud = 'http://nextcloud.com/ns';
-
 	public const CALENDAR_TYPE_CALENDAR = 0;
 	public const CALENDAR_TYPE_SUBSCRIPTION = 1;
 	public const CALENDAR_TYPE_FEDERATED = 2;
@@ -793,10 +791,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $this->rowToSubscription($row, $subscription);
 	}
 
-	public const PROP_FEDERATED = '{' . self::NS_Nextcloud . '}federated';
-	public const PROP_FEDERATION_REMOTE = '{' . self::NS_Nextcloud . '}federation-remote';
-	public const PROP_FEDERATION_TOKEN = '{' . self::NS_Nextcloud . '}federation-token';
-
 	/**
 	 * Creates a new calendar for a principal.
 	 *
@@ -840,16 +834,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$transp = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 		if (isset($properties[$transp])) {
 			$values['transparent'] = (int)($properties[$transp]->getValue() === 'transparent');
-		}
-
-		if (isset($properties[self::PROP_FEDERATED])) {
-			$values['federated'] = true;
-		}
-		if (isset($properties[self::PROP_FEDERATION_TOKEN])) {
-			$values['federation_token'] = $properties[self::PROP_FEDERATION_TOKEN];
-		}
-		if (isset($properties[self::PROP_FEDERATION_REMOTE])) {
-			$values['remote'] = $properties[self::PROP_FEDERATION_REMOTE];
 		}
 
 		foreach ($this->propertyMap as $xmlName => [$dbName, $type]) {
