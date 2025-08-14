@@ -12,6 +12,12 @@ use OCA\Theming\ITheme;
 class IonosTheme extends DefaultTheme implements ITheme {
 
 	private const THEME_ID = 'ionos';
+
+	// CSS file paths for custom styling
+	private const CSS_FILES = [
+		'_layout.css'
+	];
+
 	public function getId(): string {
 		return self::THEME_ID;
 	}
@@ -33,8 +39,22 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	}
 
 	public function getCustomCss(): string {
-		$customCss = file_get_contents(__DIR__ . '/../../css/ionos.css');
+		$customCss = $this->loadCustomCssFiles();
 		return $customCss;
+	}
+
+	/**
+	 * Load custom CSS files for IONOS theme
+	 *
+	 * @return string Combined CSS content from all theme files
+	 */
+	private function loadCustomCssFiles(): string {
+		$customCss = '';
+		foreach (self::CSS_FILES as $file) {
+			$customCss .= file_get_contents(__DIR__ . '/../../css/' . self::THEME_ID . '/' . $file) . PHP_EOL;
+		}
+
+		return rtrim($customCss, PHP_EOL);
 	}
 
 	public function getCSSVariables(): array {
