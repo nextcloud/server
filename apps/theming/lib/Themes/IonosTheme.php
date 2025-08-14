@@ -11,8 +11,9 @@ use OCA\Theming\ITheme;
 
 class IonosTheme extends DefaultTheme implements ITheme {
 
+	private const THEME_ID = 'ionos';
 	public function getId(): string {
-		return 'ionos';
+		return self::THEME_ID;
 	}
 
 	public function getTitle(): string {
