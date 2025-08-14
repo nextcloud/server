@@ -81,6 +81,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IPreview;
@@ -246,6 +247,7 @@ class Server {
 			$this->server->tree,
 			$logger,
 			$eventDispatcher,
+			\OCP\Server::get(IDateTimeZone::class),
 		));
 		$this->server->addPlugin(\OCP\Server::get(PaginatePlugin::class));
 
