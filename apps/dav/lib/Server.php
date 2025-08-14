@@ -45,6 +45,7 @@ use OCA\DAV\Connector\Sabre\FilesReportPlugin;
 use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
+use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
@@ -108,6 +109,7 @@ class Server {
 		private IRequest $request,
 		private string $baseUri,
 	) {
+		$debugEnabled = \OCP\Server::get(IConfig::class)->getSystemValue('debug', false);
 		$this->profiler = \OCP\Server::get(IProfiler::class);
 		if ($this->profiler->isEnabled()) {
 			/** @var IEventLogger $eventLogger */
@@ -120,6 +122,7 @@ class Server {
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
+		$this->server->setLogger($logger);
 
 		// Add maintenance plugin
 		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
@@ -167,7 +170,9 @@ class Server {
 		$authPlugin->addBackend($authBackend);
 
 		// debugging
-		if (\OCP\Server::get(IConfig::class)->getSystemValue('debug', false)) {
+		if ($debugEnabled) {
+			$this->server->debugEnabled = true;
+			$this->server->addPlugin(new PropFindMonitorPlugin());
 			$this->server->addPlugin(new \Sabre\DAV\Browser\Plugin());
 		} else {
 			$this->server->addPlugin(new DummyGetResponsePlugin());
