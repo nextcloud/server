@@ -17,30 +17,36 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 	public function __construct(
 		PrincipalBackend\BackendInterface $principalBackend,
 		Backend\BackendInterface $caldavBackend,
-		$principalPrefix,
+		string $principalPrefix,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($principalBackend, $caldavBackend, $principalPrefix);
 	}
 
-	public function getChildForPrincipal(array $principal) {
+	/**
+	 * Returns the name of the node.
+	 */
+	public function getName(): string {
+		if ($this->principalPrefix === 'principals/calendar-resources'
+			|| $this->principalPrefix === 'principals/calendar-rooms') {
+			$parts = explode('/', $this->principalPrefix);
+			return $parts[1]; // i.e. `calendar-resources` (or) `calendar-rooms`
+		}
+		//if ($this->principalPrefix === 'principals') {
+		return parent::getName(); // `calendars`
+		//}
+	}
+
+	/**
+	 * Returns a node for a principal.
+	 */
+	public function getChildForPrincipal(array $principal): \Sabre\DAV\INode {
 		return new CalendarHome(
 			$this->caldavBackend,
 			$principal,
 			$this->logger,
 			array_key_exists($principal['uri'], $this->returnCachedSubscriptions)
 		);
-	}
-
-	public function getName() {
-		if ($this->principalPrefix === 'principals/calendar-resources'
-			|| $this->principalPrefix === 'principals/calendar-rooms') {
-			$parts = explode('/', $this->principalPrefix);
-
-			return $parts[1];
-		}
-
-		return parent::getName();
 	}
 
 	public function enableReturnCachedSubscriptions(string $principalUri): void {
