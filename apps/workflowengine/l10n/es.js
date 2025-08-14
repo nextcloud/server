@@ -70,7 +70,7 @@ OC.L10N.register(
     "Select groups" : "Seleccionar grupos",
     "Groups" : "Grupos",
     "Type to search for group …" : "Teclee para buscar un grupo …",
-    "Select a trigger" : "Seleccione un trigger",
+    "Select a trigger" : "Seleccione un disparador",
     "At least one event must be selected" : "Has de seleccionar al menos un evento",
     "Add new flow" : "Añadir nuevo flujo",
     "The configuration is invalid" : "La configuración es incorrecta",

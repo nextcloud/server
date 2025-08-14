@@ -163,6 +163,7 @@
     "Two-factor authentication is not enforced for members of the following groups." : "Dviejų faktorių tapatybės nustatymas nėra priverstinis šių grupių nariams.",
     "Excluded groups" : "Pašalintos grupės",
     "Save changes" : "Įrašyti pakeitimus",
+    "Default" : "Numatytasis",
     "Update to {update}" : "Atnaujinti į {update}",
     "Remove" : "Šalinti",
     "Featured" : "Siūlomos",

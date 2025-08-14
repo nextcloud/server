@@ -135,6 +135,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "אימות דו־שלבי לא נאכף על החברים בקבוצות הבאות.",
     "Excluded groups" : "קבוצות חריגות",
     "Save changes" : "שמירת שינויים",
+    "Default" : "ברירת מחדל",
     "Update to {update}" : "עדכון ל־{update}",
     "Remove" : "הסרה",
     "Featured" : "מומלץ",

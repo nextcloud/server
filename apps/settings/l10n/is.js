@@ -264,6 +264,7 @@ OC.L10N.register(
     "Excluded groups" : "Útilokaðir hópar",
     "When groups are selected/excluded, they use the following logic to determine if an account has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If an account is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Þegar hópar eru valdir/útilokaðir, styðjast þeir við eftirfarandi röksemdafærslu til að ákvarða hvort notandaaðgangur sé með þvingaða/virka tveggja-þrepa auðkenningu: tveggja-þrepa auðkenning er virk fyrir alla nema meðlimi útilokaðra hópa. Ef hópar eru valdir, er tveggja-þrepa auðkenning virk fyrir alla meðlimi þessara hópa. Ef notandi er bæði í völdum og í útilokuðum hópum, ræður valið og því er tveggja-þrepa auðkenning virk.",
     "Save changes" : "Vista breytingar",
+    "Default" : "Sjálfgefið",
     "Show details for {appName} app" : "Birta ítarlegri upplýsingar fyrir {appName} forritið",
     "Update to {update}" : "Uppfæra í {update}",
     "Remove" : "Fjarlægja",

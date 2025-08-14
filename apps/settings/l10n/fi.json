@@ -190,6 +190,7 @@
     "Two-factor authentication is not enforced for members of the following groups." : "Kaksivaiheisen tunnistautuminen ei ole pakotettu seuraavien ryhmien jäsenille.",
     "Excluded groups" : "Poissuljetut ryhmät",
     "Save changes" : "Tallenna muutokset",
+    "Default" : "Oletus",
     "Show details for {appName} app" : "Näytä sovelluksen {appName} tiedot",
     "Update to {update}" : "Päivitä versioon {update}",
     "Remove" : "Poista",
