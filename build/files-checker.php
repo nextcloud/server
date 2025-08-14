@@ -92,6 +92,7 @@ $expectedFiles = [
 	'webpack.common.js',
 	'webpack.config.js',
 	'webpack.modules.js',
+	'window.d.ts',
 ];
 $actualFiles = [];
 
