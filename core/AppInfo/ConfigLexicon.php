@@ -52,7 +52,7 @@ class ConfigLexicon implements ILexicon {
 				lazy: true,
 				note: 'Shares with guessable tokens may be accessed easily. Shares with custom tokens will continue to be accessible after this setting has been disabled.',
 			),
-			new Entry(self::SHARE_LINK_PASSWORD_DEFAULT, ValueType::BOOL, false, 'Always ask for a password when sharing document'),
+			new Entry(self::SHARE_LINK_PASSWORD_DEFAULT, ValueType::BOOL, false, 'Ask for a password when sharing document by default'),
 			new Entry(
 				key: self::SHARE_LINK_PASSWORD_ENFORCED,
 				type: ValueType::BOOL,
