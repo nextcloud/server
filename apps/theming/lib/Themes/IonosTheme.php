@@ -284,7 +284,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
 		return [[
 			'name' => 'color-scheme',
-			'content' => 'light',
+			'content' => 'only light', // Remove only when dark mode is supported
 		]];
 	}
 }
