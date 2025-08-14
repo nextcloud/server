@@ -1,0 +1,86 @@
+:root {
+	/* Text colors */
+	--ion-text: light-dark(var(--ion-color-secondary), var(--ion-color-cool-grey-c1));
+	--ion-text-bright: var(--ion-color-cool-grey-c7);
+	--ion-text-dimm: var(--ion-color-blue-b9);
+	--ion-text-disabled: var(--ion-color-cool-grey-c4);
+	--ion-text-high-contrast: #000;
+
+	--color-background-plain: var(--ion-color-main-background);
+
+	--ion-breadcrumb-text-default: light-dark(var(--ion-color-secondary), var(--ion-color-cool-grey-c1));
+	--ion-breadcrumb-text-hover: var(--ion-color-blue-b4);
+	--ion-breadcrumb-text-active: var(--ion-color-blue-b5);
+	--ion-breadcrumb-text-disabled: var(--ion-color-cool-grey-c4);
+
+	--ion-files-list-background-hover: light-dark(var(--ion-color-blue-b1), var(--ion-color-cool-grey-c8));
+	--ion-files-list-background-active: light-dark(var(--ion-color-blue-b2), var(--ion-color-cool-grey-c6));
+	--ion-files-list-icon: var(--ion-color-blue-b4);
+
+	--ion-context-menu-background: var(--color-main-background);
+	--ion-context-menu-border: light-dark(var(--ion-color-blue-b4), var(--ion-color-cool-grey-c4));
+	--ion-context-menu-item-background-hover: light-dark(var(--ion-color-blue-b1), var(--ion-color-cool-grey-c7));
+	--ion-context-menu-item-background-active: light-dark(var(--ion-color-blue-b2), var(--ion-color-cool-grey-c6));
+	--ion-context-menu-item-background-disabled: var(--ion-context-menu-background);
+	--ion-context-menu-item-text: light-dark(var(--ion-color-secondary), var(--ion-color-cool-grey-c1));
+	--ion-context-menu-item-text-disabled: light-dark(var(--ion-color-cool-grey-c4), var(--ion-color-cool-grey-c6));
+
+	--ion-button-primary-background-default: light-dark(var(--ion-color-blue-b7), var(--ion-color-blue-b4));
+	--ion-button-primary-background-hover: light-dark(var(--ion-color-blue-b4), var(--ion-color-blue-b5));
+	--ion-button-primary-background-active: light-dark(var(--ion-color-blue-b5), var(--ion-color-blue-b6));
+	--ion-button-primary-background-disabled: light-dark(var(--ion-color-cool-grey-c4), var(--ion-color-cool-grey-c8));
+	--ion-button-primary-text: #fff;
+	--ion-button-primary-text-disabled: light-dark(var(--ion-color-cool-grey-c2), var(--ion-color-cool-grey-c6));
+
+	--ion-button-secondary-background-default: transparent;
+	--ion-button-secondary-background-hover: light-dark(var(--ion-color-blue-b7), var(--ion-color-cool-grey-c1));
+	--ion-button-secondary-background-active: light-dark(var(--ion-color-secondary), var(--ion-color-cool-grey-c3));
+	--ion-button-secondary-background-disabled: transparent;
+	--ion-button-secondary-border-default: 2px solid light-dark(var(--ion-color-blue-b7), var(--ion-color-cool-grey-c1));
+	--ion-button-secondary-border-disabled: 2px solid light-dark(var(--ion-color-cool-grey-c4), var(--ion-color-cool-grey-c3));
+	--ion-button-secondary-text: light-dark(var(--ion-color-blue-b7), var(--ion-color-cool-grey-c1));
+	--ion-button-secondary-text-hover: light-dark(#fff, var(--ion-color-blue-b7));
+	--ion-button-secondary-text-active: light-dark(#fff, var(--ion-color-blue-b7));
+	--ion-button-secondary-text-disabled: light-dark(var(--ion-color-cool-grey-c4), var(--ion-color-cool-grey-c3));
+
+	--ion-button-tertiary-background-default: light-dark(var(--ion-color-blue-b1), var(--ion-color-blue-b7));
+	--ion-button-tertiary-background-hover: light-dark(var(--ion-color-cool-grey-c2), var(--ion-color-cool-grey-c7));
+	--ion-button-tertiary-background-active: light-dark(var(--ion-color-cool-grey-c3), var(--ion-color-cool-grey-c6));
+	--ion-button-tertiary-text: light-dark(var(--ion-color-secondary), var(--ion-color-cool-grey-c1));
+
+	--ion-button--icon-only-background: transparent;
+	--ion-button--icon-only-text: light-dark(var(--ion-color-blue-b4), var(--ion-color-cool-grey-c3));
+	--ion-button--icon-only-background-hover: light-dark(var(--ion-color-blue-b4), var(--ion-color-blue-b4));
+	--ion-button--icon-only-background-active: light-dark(var(--ion-color-blue-b6), var(--ion-color-blue-b3));
+	--ion-button--icon-only-text-hover: #fff;
+
+	--ion-button-sidebar-background: transparent;
+	--ion-button-sidebar-background-hover: light-dark(var(--ion-color-cool-grey-c2), var(--ion-color-cool-grey-c7));
+	--ion-button-sidebar-background-active: light-dark(var(--ion-color-cool-grey-c3), var(--ion-color-cool-grey-c6));
+	--ion-button-sidebar-text: light-dark(var(--ion-color-secondary), var(--ion-color-cool-grey-c1));
+
+	--ion-button-sidebar--icon-only-background: light-dark(var(--ion-color-cool-grey-c2), var(--ion-color-cool-grey-c2));
+	--ion-button-sidebar--icon-only-background-hover: light-dark(var(--ion-color-cool-grey-c3), var(--ion-color-cool-grey-c3));
+	--ion-button-sidebar--icon-only-text: light-dark(var(--ion-color-secondary), var(--ion-color-secondary));
+
+	--ion-dropdown-classic: var(--ion-color-cool-grey-c3);
+
+	--ion-icon-filter-secondary: invert(8%) sepia(43%) saturate(7496%) hue-rotate(218deg) brightness(90%) contrast(91%);
+	--ion-icon-filter-secondary-text-hover: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7460%) hue-rotate(259deg) brightness(112%) contrast(100%);
+	--ion-icon-filter-blue-b4: brightness(0) saturate(100%) invert(37%) sepia(26%) saturate(3654%) hue-rotate(185deg) brightness(88%) contrast(90%);
+	--ion-icon-filter-blue-b5: brightness(0) saturate(100%) invert(21%) sepia(91%) saturate(6261%) hue-rotate(202deg) brightness(87%) contrast(93%);
+	--ion-icon-filter-blue-b6: brightness(0) saturate(100%) invert(9%) sepia(91%) saturate(5873%) hue-rotate(206deg) brightness(85%) contrast(104%);
+	--ion-icon-filter-blue-b8: brightness(0) saturate(100%) invert(10%) sepia(32%) saturate(3782%) hue-rotate(197deg) brightness(98%) contrast(106%);
+	--ion-icon-filter-cool-grey-c1: brightness(0) saturate(100%) invert(100%) sepia(26%) saturate(874%) hue-rotate(176deg) brightness(100%) contrast(96%);
+
+	--ion-surface-primary: var(--ion-color-main-background);
+	--ion-surface-secondary: light-dark(var(--ion-color-cool-grey-c1), var(--ion-color-cool-grey-c8));
+	--ion-surface-dialog: light-dark(#fff, var(--ion-color-cool-grey-c8));
+
+	--ion-dialog-filter-button-background: light-dark(var(--ion-color-cool-grey-c1), var(--ion-color-blue-b9));
+	--ion-dialog-files-list-background: transparent;
+	--ion-dialog-files-list-background-hover: light-dark(var(--ion-color-blue-b1), var(--ion-color-cool-grey-c7));
+
+	--ion-chip-background: light-dark(var(--ion-color-blue-b4), var(--ion-color-cool-grey-c6));
+	--ion-chip-text: #fff;
+}
