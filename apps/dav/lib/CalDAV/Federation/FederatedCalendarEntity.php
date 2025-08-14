@@ -87,6 +87,7 @@ class FederatedCalendarEntity extends Entity {
 			'id' => $this->getId(),
 			'uri' => $this->getUri(),
 			'principaluri' => $this->getPrincipaluri(),
+			'federated' => 1,
 
 			'{DAV:}displayname' => $this->getDisplayName(),
 			'{http://sabredav.org/ns}sync-token' => $this->getSyncToken(),

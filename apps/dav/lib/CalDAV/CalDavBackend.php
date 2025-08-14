@@ -1984,7 +1984,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$outerQuery = $this->db->getQueryBuilder();
 		$innerQuery = $this->db->getQueryBuilder();
 
-		// TODO: improve this
 		if (isset($calendarInfo['source'])) {
 			$calendarType = self::CALENDAR_TYPE_SUBSCRIPTION;
 		} elseif (isset($calendarInfo['federated'])) {
