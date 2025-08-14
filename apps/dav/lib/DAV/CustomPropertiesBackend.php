@@ -383,7 +383,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		$this->userCache = array_merge($this->userCache, $propsByPath);
 	}
 
-	private function cacheCalendars(CalendarHome $node): void {
+	private function cacheCalendars(CalendarHome $node, array $requestedProperties): void {
 		$calendars = $node->getChildren();
 
 		$users = [];
@@ -421,6 +421,10 @@ class CustomPropertiesBackend implements BackendInterface {
 		$this->userCache = array_merge($this->userCache, $propsByPath);
 
 		// published properties
+		$allowedProps = array_intersect(self::PUBLISHED_READ_ONLY_PROPERTIES, $requestedProperties);
+		if (empty($allowedProps)) {
+			return;
+		}
 		$paths = [];
 		foreach ($users as $nestedPaths) {
 			$paths = array_merge($paths, $nestedPaths);
@@ -428,7 +432,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		$paths = array_unique($paths);
 
 		$propsByPath = array_fill_keys(array_values($paths), []);
-		$properties = $this->propertyMapper->findPropertiesByPaths($paths);
+		$properties = $this->propertyMapper->findPropertiesByPaths($paths, $allowedProps);
 		foreach ($properties as $property) {
 			$propsByPath[$property->getPropertypath()][$property->getPropertyname()] = $this->decodeValueFromDatabase($property->getPropertyvalue(), $property->getValuetype());
 		}
