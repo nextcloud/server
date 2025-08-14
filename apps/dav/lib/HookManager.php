@@ -102,6 +102,7 @@ class HookManager {
 			);
 		}
 		$this->calDav->deleteAllSharesByUser('principals/users/' . $uid);
+		$this->cardDav->deleteAllSharesByUser('principals/users/' . $uid);
 
 		foreach ($this->addressBooksToDelete as $addressBook) {
 			$this->cardDav->deleteAddressBook($addressBook['id']);
