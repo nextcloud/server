@@ -72,6 +72,8 @@ class FilesPlugin extends ServerPlugin {
 	public const SUBFILE_COUNT_PROPERTYNAME = '{http://nextcloud.org/ns}contained-file-count';
 	public const FILE_METADATA_PREFIX = '{http://nextcloud.org/ns}metadata-';
 	public const HIDDEN_PROPERTYNAME = '{http://nextcloud.org/ns}hidden';
+	public const CAN_RENAME_PROPERTYNAME = '{http://owncloud.org/ns}can-rename';
+	public const CAN_MOVE_PROPERTYNAME = '{http://owncloud.org/ns}can-move';
 
 	/** Reference to main server object */
 	private ?Server $server = null;
@@ -128,6 +130,10 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::MOUNT_TYPE_PROPERTYNAME;
 		$server->protectedProperties[] = self::IS_FEDERATED_PROPERTYNAME;
 		$server->protectedProperties[] = self::SHARE_NOTE;
+		$server->protectedProperties[] = self::CAN_RENAME_PROPERTYNAME;
+		$server->protectedProperties[] = self::CAN_MOVE_PROPERTYNAME;
+
+
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -320,6 +326,16 @@ class FilesPlugin extends ServerPlugin {
 					$perms = str_replace(['S', 'M'], '', $perms);
 				}
 				return $perms;
+			});
+
+			$propFind->handle(self::CAN_RENAME_PROPERTYNAME, function () use (
+				$node) {
+				return $this->computeCanRename($node) ? 'true' : 'false';
+			});
+
+			$propFind->handle(self::CAN_MOVE_PROPERTYNAME, function () use (
+				$node) {
+				return $this->computeCanMove($node) ? 'true' : 'false'; 
 			});
 
 			$propFind->handle(self::SHARE_PERMISSIONS_PROPERTYNAME, function () use ($node, $httpRequest) {
