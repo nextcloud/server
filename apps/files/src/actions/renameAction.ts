@@ -3,9 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { emit } from '@nextcloud/event-bus'
-import { Permission, type Node, FileAction } from '@nextcloud/files'
+import { Permission, type Node, FileAction, View } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import PencilSvg from '@mdi/svg/svg/pencil.svg?raw'
+import { pinia } from '../store'
+import { useFilesStore } from '../store/files'
+import { dirname } from 'path'
 
 export const ACTION_DETAILS = 'details'
 
@@ -14,10 +17,18 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Rename'),
 	iconSvgInline: () => PencilSvg,
 
-	enabled: (nodes: Node[]) => {
-		return nodes.length > 0 && nodes
-			.map(node => node.permissions)
-			.every(permission => Boolean(permission & Permission.DELETE))
+	enabled: (nodes: Node[], view: View) => {
+		const node = nodes[0]
+		const filesStore = useFilesStore(pinia)
+		const parentNode = node.dirname === '/'
+			? filesStore.getRoot(view.id)
+			: filesStore.getNode(dirname(node.source))
+		const parentPermissions = parentNode?.permissions || Permission.NONE
+
+		// Only enable if the node have the delete permission
+		// and if the parent folder allows creating files
+		return Boolean(node.permissions & Permission.DELETE)
+			&& Boolean(parentPermissions & Permission.CREATE)
 	},
 
 	async exec(node: Node) {
