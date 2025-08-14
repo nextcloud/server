@@ -10,6 +10,7 @@ namespace OCA\DAV\DAV;
 
 use Exception;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -194,6 +195,11 @@ class CustomPropertiesBackend implements BackendInterface {
 		$node = $this->tree->getNodeForPath($path);
 		if ($node instanceof Directory && $propFind->getDepth() !== 0) {
 			$this->cacheDirectory($path, $node);
+		}
+
+		if ($node instanceof CalendarObject) {
+			// No custom properties supported on individual events
+			return;
 		}
 
 		// First fetch the published properties (set by another user), then get the ones set by
