@@ -13,6 +13,11 @@ use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCP\Files\FileInfo;
 use Test\TestCase;
 
+/**
+ * Class QuotaPluginTest
+ *
+ * @group DB
+ */
 class QuotaPluginTest extends TestCase {
 	private \Sabre\DAV\Server $server;
 
