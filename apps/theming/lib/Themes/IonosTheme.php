@@ -17,6 +17,9 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 	// CSS file paths for custom styling
 	private const CSS_FILES = [
+		'variables.css',
+		'sidebar.css',
+		'files.css',
 		'_layout.css'
 	];
 
@@ -235,6 +238,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 			'--color-scrollbar' => $ionColorTypoMild,
 
+		 	'--default-clickable-area' => '44px',
 			// error/warning/success/info feedback colours
 			'--color-error' => $colorError,
 			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
@@ -280,7 +284,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
 		return [[
 			'name' => 'color-scheme',
-			'content' => 'light',
+			'content' => 'light', // Remove only when dark mode is supported
 		]];
 	}
 }
