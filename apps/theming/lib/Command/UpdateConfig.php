@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateConfig extends Command {
 	public const SUPPORTED_KEYS = [
-		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color', 'primary_color', 'disable-user-theming'
+		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color', 'primary_color', 'disable-user-theming', 'disable_admin_theming'
 	];
 
 	public function __construct(

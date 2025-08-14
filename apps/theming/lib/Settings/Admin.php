@@ -72,6 +72,7 @@ class Admin implements IDelegatedSettings {
 			'docUrlIcons' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
 			'canThemeIcons' => $this->imageManager->shouldReplaceIcons(),
 			'userThemingDisabled' => $this->themingDefaults->isUserThemingDisabled(),
+			'adminThemingDisabled' => $this->themingDefaults->isAdminThemingDisabled(),
 			'defaultApps' => $this->navigationManager->getDefaultEntryIds(),
 		]);
 

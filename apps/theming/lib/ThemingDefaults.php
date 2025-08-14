@@ -524,4 +524,11 @@ class ThemingDefaults extends \OC_Defaults {
 	public function isUserThemingDisabled(): bool {
 		return $this->appConfig->getValueBool(Application::APP_ID, 'disable-user-theming');
 	}
+
+	/**
+	 * Has the admin disabled admin theming customization
+	 */
+	public function isAdminThemingDisabled(): bool {
+		return $this->appConfig->getValueBool(Application::APP_ID, 'disable_admin_theming');
+	}
 }

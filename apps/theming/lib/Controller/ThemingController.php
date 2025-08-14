@@ -159,6 +159,16 @@ class ThemingController extends Controller {
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function updateAppMenu($setting, $value) {
+		// Check if admin theming is disabled
+		if ($this->themingDefaults->isAdminThemingDisabled()) {
+			return new DataResponse([
+				'data' => [
+					'message' => $this->l10n->t('Admin theming is disabled'),
+				],
+				'status' => 'error'
+			], Http::STATUS_FORBIDDEN);
+		}
+
 		$error = null;
 		switch ($setting) {
 			case 'defaultApps':

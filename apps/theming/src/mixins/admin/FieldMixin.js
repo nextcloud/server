@@ -10,6 +10,7 @@ const styleRefreshFields = [
 	'logoheader',
 	'favicon',
 	'disable-user-theming',
+	'disable_admin_theming',
 ]
 
 export default {

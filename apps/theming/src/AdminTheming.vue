@@ -29,25 +29,6 @@
 					:value.sync="field.value"
 					@update:theming="refreshStyles" />
 
-				<!-- Primary color picker -->
-				<ColorPickerField :name="primaryColorPickerField.name"
-					:description="primaryColorPickerField.description"
-					:default-value="primaryColorPickerField.defaultValue"
-					:display-name="primaryColorPickerField.displayName"
-					:value.sync="primaryColorPickerField.value"
-					data-admin-theming-setting-primary-color
-					@update:theming="refreshStyles" />
-
-				<!-- Background color picker -->
-				<ColorPickerField name="background_color"
-					:description="t('theming', 'Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons.')"
-					:default-value.sync="defaultBackgroundColor"
-					:display-name="t('theming', 'Background color')"
-					:value.sync="backgroundColor"
-					data-admin-theming-setting-background-color
-					@update:theming="refreshStyles" />
-
-				<!-- Default background picker -->
 				<FileInputField :aria-label="t('theming', 'Upload new logo')"
 					data-admin-theming-setting-file="logo"
 					:display-name="t('theming', 'Logo')"
@@ -56,18 +37,39 @@
 					name="logo"
 					@update:theming="refreshStyles" />
 
-				<FileInputField :aria-label="t('theming', 'Upload new background and login image')"
-					data-admin-theming-setting-file="background"
-					:display-name="t('theming', 'Background and login image')"
-					mime-name="backgroundMime"
-					:mime-value.sync="backgroundMime"
-					name="background"
-					@uploaded="backgroundURL = $event"
-					@update:theming="refreshStyles" />
+				<template v-if="!adminThemingDisabled">
+					<!-- Primary color picker -->
+					<ColorPickerField :name="primaryColorPickerField.name"
+						:description="primaryColorPickerField.description"
+						:default-value="primaryColorPickerField.defaultValue"
+						:display-name="primaryColorPickerField.displayName"
+						:value.sync="primaryColorPickerField.value"
+						data-admin-theming-setting-primary-color
+						@update:theming="refreshStyles" />
 
-				<div class="admin-theming__preview" data-admin-theming-preview>
-					<div class="admin-theming__preview-logo" data-admin-theming-preview-logo />
-				</div>
+					<!-- Background color picker -->
+					<ColorPickerField name="background_color"
+						:description="t('theming', 'Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons.')"
+						:default-value.sync="defaultBackgroundColor"
+						:display-name="t('theming', 'Background color')"
+						:value.sync="backgroundColor"
+						data-admin-theming-setting-background-color
+						@update:theming="refreshStyles" />
+
+					<!-- Default background picker -->
+					<FileInputField :aria-label="t('theming', 'Upload new background and login image')"
+						data-admin-theming-setting-file="background"
+						:display-name="t('theming', 'Background and login image')"
+						mime-name="backgroundMime"
+						:mime-value.sync="backgroundMime"
+						name="background"
+						@uploaded="backgroundURL = $event"
+						@update:theming="refreshStyles" />
+
+					<div class="admin-theming__preview" data-admin-theming-preview>
+						<div class="admin-theming__preview-logo" data-admin-theming-preview-logo />
+					</div>
+				</template>
 			</div>
 		</NcSettingsSection>
 
@@ -92,7 +94,8 @@
 					:display-name="field.displayName"
 					:aria-label="field.ariaLabel"
 					@update:theming="refreshStyles" />
-				<CheckboxField :name="userThemingField.name"
+				<CheckboxField v-if="!adminThemingDisabled"
+					:name="userThemingField.name"
 					:value="userThemingField.value"
 					:default-value="userThemingField.defaultValue"
 					:display-name="userThemingField.displayName"
@@ -144,6 +147,7 @@ const {
 	slogan,
 	url,
 	userThemingDisabled,
+	adminThemingDisabled,
 	defaultApps,
 } = loadState('theming', 'adminThemingParameters')
 
@@ -268,6 +272,7 @@ export default {
 			docUrlIcons,
 			isThemable,
 			notThemableErrorMessage,
+			adminThemingDisabled,
 		}
 	},
 
