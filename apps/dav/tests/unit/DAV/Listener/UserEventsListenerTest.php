@@ -132,7 +132,7 @@ class UserEventsListenerTest extends TestCase {
 		$this->userEventsListener->firstLogin($user);
 	}
 
-	public function testDeleteCalendar(): void {
+	public function testDeleteUser(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())->method('getUID')->willReturn('newUser');
 
@@ -148,6 +148,7 @@ class UserEventsListenerTest extends TestCase {
 		$this->calDavBackend->expects($this->once())->method('deleteCalendar')->with('personal');
 		$this->calDavBackend->expects($this->once())->method('deleteSubscription')->with('some-subscription');
 		$this->calDavBackend->expects($this->once())->method('deleteAllSharesByUser');
+		$this->cardDavBackend->expects($this->once())->method('deleteAllSharesByUser');
 
 		$this->cardDavBackend->expects($this->once())->method('getUsersOwnAddressBooks')->willReturn([
 			['id' => 'personal']
