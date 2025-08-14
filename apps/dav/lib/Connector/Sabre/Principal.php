@@ -109,7 +109,7 @@ class Principal implements BackendInterface {
 	 * The returned structure should be the exact same as from
 	 * getPrincipalsByPrefix.
 	 *
-	 * It is possible to optionally filter retrieved properties in case only a limited set are
+	 * It is possible to optionally filter retrieved properties in case only a limited set is
 	 * required. Note that the implementation might return more properties than requested.
 	 *
 	 * @param string $path The path of the principal
