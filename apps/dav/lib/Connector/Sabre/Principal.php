@@ -113,7 +113,7 @@ class Principal implements BackendInterface {
 	 * required. Note that the implementation might return more properties than requested.
 	 *
 	 * @param string $path The path of the principal
-	 * @param array<string, boolean>|null $propertyFilter An associative array to filter which props to receive or all if null.
+	 * @param string[]|null $propertyFilter A list of properties to be retrieved or all if null. An empty array will cause a very shallow principal to be retrieved.
 	 */
 	public function getPrincipalPropertiesByPath($path, ?array $propertyFilter = null): ?array {
 		[$prefix, $name] = \Sabre\Uri\split($path);
@@ -481,11 +481,19 @@ class Principal implements BackendInterface {
 
 	/**
 	 * @param IUser $user
+	 * @param string[]|null $propertyFilter
 	 * @return array
 	 * @throws PropertyDoesNotExistException
 	 */
 	protected function userToPrincipal($user, ?array $propertyFilter = null) {
-		$includeAll = $propertyFilter === null;
+		$wantsProperty = static function (string $name) use ($propertyFilter) {
+			if ($propertyFilter === null) {
+				return true;
+			}
+
+			return in_array($name, $propertyFilter, true);
+		};
+
 
 		$userId = $user->getUID();
 		$displayName = $user->getDisplayName();
@@ -495,20 +503,20 @@ class Principal implements BackendInterface {
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
 		];
 
-		if ($includeAll || $propertyFilter['{http://nextcloud.com/ns}language'] ?? false) {
+		if ($wantsProperty('{http://nextcloud.com/ns}language')) {
 			$principal['{http://nextcloud.com/ns}language'] = $this->languageFactory->getUserLanguage($user);
 		}
 
-		if ($includeAll || $propertyFilter['{http://sabredav.org/ns}email-address'] ?? false) {
+		if ($wantsProperty('{http://sabredav.org/ns}email-address')) {
 			$email = $user->getSystemEMailAddress();
 			if (!empty($email)) {
 				$principal['{http://sabredav.org/ns}email-address'] = $email;
 			}
 		}
 
-		if ($includeAll || $propertyFilter['{DAV:}alternate-URI-set'] ?? false) {
+		if ($wantsProperty('{DAV:}alternate-URI-set')) {
 			$account = $this->accountManager->getAccount($user);
-			$alternativeEmails = array_map(fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
+			$alternativeEmails = array_map(static fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
 			if (!empty($alternativeEmails)) {
 				$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
 			}
