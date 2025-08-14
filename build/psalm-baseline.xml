@@ -732,8 +732,6 @@
       <code><![CDATA[$results]]></code>
     </InvalidScalarArgument>
     <NullableReturnStatement>
-      <code><![CDATA[$this->circleToPrincipal($decodedName)
-					?: $this->circleToPrincipal($name)]]></code>
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
