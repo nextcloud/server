@@ -494,7 +494,6 @@ class Principal implements BackendInterface {
 			return in_array($name, $propertyFilter, true);
 		};
 
-
 		$userId = $user->getUID();
 		$displayName = $user->getDisplayName();
 		$principal = [
