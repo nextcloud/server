@@ -14,12 +14,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteConfig extends Base {
-	protected function configure() {
+	protected function configure(): void {
 		parent::configure();
-
 		$this
 			->setName('config:app:delete')
-			->setDescription('Delete an app config value')
+			->setDescription('Delete an app config key')
 			->addArgument(
 				'app',
 				InputArgument::REQUIRED,
@@ -28,13 +27,13 @@ class DeleteConfig extends Base {
 			->addArgument(
 				'name',
 				InputArgument::REQUIRED,
-				'Name of the config to delete'
+				'Name of the config key to delete'
 			)
 			->addOption(
 				'error-if-not-exists',
 				null,
 				InputOption::VALUE_NONE,
-				'Checks whether the config exists before deleting it'
+				'Fail if the config key does not exist'
 			)
 		;
 	}
@@ -43,13 +42,17 @@ class DeleteConfig extends Base {
 		$appName = $input->getArgument('app');
 		$configName = $input->getArgument('name');
 
-		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->appConfig->getKeys($appName), true)) {
+		if ($input->hasParameterOption('--error-if-not-exists') 
+			&& !in_array($configName, $this->appConfig->getKeys($appName), true)
+		) {
 			$output->writeln('<error>Config ' . $configName . ' of app ' . $appName . ' could not be deleted because it did not exist</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$this->appConfig->deleteKey($appName, $configName);
+
 		$output->writeln('<info>Config value ' . $configName . ' of app ' . $appName . ' deleted</info>');
-		return 0;
+
+		return self::SUCCESS;
 	}
 }
