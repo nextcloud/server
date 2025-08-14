@@ -40,7 +40,31 @@ class IonosTheme extends DefaultTheme implements ITheme {
 
 	public function getCustomCss(): string {
 		$customCss = $this->loadCustomCssFiles();
+		$fontCss = $this->generateFontFacesCss();
 
+		return $customCss . PHP_EOL . $fontCss;
+	}
+
+	/**
+	 * Load custom CSS files for IONOS theme
+	 *
+	 * @return string Combined CSS content from all theme files
+	 */
+	private function loadCustomCssFiles(): string {
+		$customCss = '';
+		foreach (self::CSS_FILES as $file) {
+			$customCss .= file_get_contents(__DIR__ . '/../../css/' . self::THEME_ID . '/' . $file) . PHP_EOL;
+		}
+
+		return rtrim($customCss, PHP_EOL);
+	}
+
+	/**
+	 * Generate CSS font face declarations for Open Sans font variants
+	 *
+	 * @return string CSS font-face declarations
+	 */
+	private function generateFontFacesCss(): string {
 		$regularEot = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Regular-webfont.eot');
 		$regularWoff = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Regular-webfont.woff');
 		$regularWoff2 = $this->urlGenerator->linkTo('theming', 'fonts/OpenSans/OpenSans-Regular-webfont.woff2');
@@ -97,22 +121,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 			font-display: swap;
 		}
 		";
-
-		return $customCss . PHP_EOL . $fontCss;
-	}
-
-	/**
-	 * Load custom CSS files for IONOS theme
-	 *
-	 * @return string Combined CSS content from all theme files
-	 */
-	private function loadCustomCssFiles(): string {
-		$customCss = '';
-		foreach (self::CSS_FILES as $file) {
-			$customCss .= file_get_contents(__DIR__ . '/../../css/' . self::THEME_ID . '/' . $file) . PHP_EOL;
-		}
-
-		return rtrim($customCss, PHP_EOL);
+		return $fontCss;
 	}
 
 	public function getCSSVariables(): array {
