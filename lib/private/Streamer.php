@@ -41,7 +41,12 @@ class Streamer {
 	 * @param int $numberOfFiles The number of files (and directories) that will
 	 *                           be included in the streamed file
 	 */
-	public function __construct(IRequest|bool $preferTar, int|float $size, int $numberOfFiles) {
+	public function __construct(
+		IRequest|bool $preferTar,
+		int|float $size,
+		int $numberOfFiles,
+		private IDateTimeZone $timezoneFactory,
+	) {
 		if ($preferTar instanceof IRequest) {
 			$preferTar = self::isUserAgentPreferTar($preferTar);
 		}
@@ -197,7 +202,7 @@ class Streamer {
 		if ($this->streamerInstance instanceof ZipStreamer) {
 			// Zip does not support any timezone information
 			// while tar is interpreted as Unix time the Zip time is interpreted as local time of the user...
-			$zone = \OCP\Server::get(IDateTimeZone::class)->getTimeZone($timestamp);
+			$zone = $this->timezoneFactory->getTimeZone($timestamp);
 			$timestamp += $zone->getOffset(new \DateTimeImmutable('@' . (string)$timestamp));
 		}
 		return $timestamp;
