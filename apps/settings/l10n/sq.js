@@ -88,6 +88,7 @@ OC.L10N.register(
     "This text will be shown on the public link upload page when the file list is hidden." : "Ky tekst do të shfaqet në linkun publik të faqes së ngarkuar kur lista e skedarit të jetë e fshehur.",
     "Limit to groups" : "Kufizo grupet",
     "Save changes" : "Ruaj ndryshimet",
+    "Default" : "Paraprake",
     "Remove" : "Hiqe",
     "Featured" : "I paraqitur",
     "Icon" : "Ikonë",

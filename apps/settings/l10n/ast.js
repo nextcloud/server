@@ -220,6 +220,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "L'autenticación en dos pasos nun ye obligatoria pa los miembros de los grupos siguientes.",
     "Excluded groups" : "Grupos escluyíos",
     "Save changes" : "Guardar los cambeos",
+    "Default" : "Por defeutu",
     "Remove" : "Quitar",
     "Featured" : "Destacada",
     "Disable all" : "Desactivar too",

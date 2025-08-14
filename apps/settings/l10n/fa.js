@@ -167,6 +167,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "Two-factor authentication is not enforced for members of the following groups.",
     "Excluded groups" : "گروه‌های مستثنی",
     "Save changes" : "ذخیرهٔ تغییرات",
+    "Default" : "پیش‌فرض",
     "Update to {update}" : "به‌روز رسانی به {update} ",
     "Remove" : "برداشتن",
     "Featured" : "برگزیده",

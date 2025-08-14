@@ -342,6 +342,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "L'autenticazione a due fattori non è applicata per i membri dei gruppi seguenti.",
     "Excluded groups" : "Gruppi esclusi",
     "Save changes" : "Salva le modifiche",
+    "Default" : "Predefinito",
     "Show details for {appName} app" : "Mostra dettagli per l'applicazione {appName}",
     "Update to {update}" : "Aggiorna a {update}",
     "Remove" : "Rimuovi",

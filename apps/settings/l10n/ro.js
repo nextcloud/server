@@ -138,6 +138,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "Autentificarea cu doi factori nu este impusă pentru membrii următoarelor grupuri.",
     "Excluded groups" : "Grupuri excluse",
     "Save changes" : "Salvează modificările",
+    "Default" : "Implicită",
     "Remove" : "Șterge",
     "Featured" : "Recomandată",
     "Icon" : "Pictogramă",

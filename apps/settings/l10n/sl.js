@@ -286,6 +286,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "Dvo-stopenjsko overjanje ni obvezno za člane navedenih skupin.",
     "Excluded groups" : "Izločene skupine",
     "Save changes" : "Shrani spremembe",
+    "Default" : "Privzeto",
     "Show details for {appName} app" : "Pokaži podrobnosti programa {appName}",
     "Update to {update}" : "Posodobi na različico {update}",
     "Remove" : "Odstrani",

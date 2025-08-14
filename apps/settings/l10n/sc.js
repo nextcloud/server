@@ -144,6 +144,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "S'autenticatzione a duos fatores no est cunfigurada pro cumponentes de is grupos in fatu.",
     "Excluded groups" : "Grupos esclùdidos",
     "Save changes" : "Sarva càmbios",
+    "Default" : "Predefinidu",
     "Update to {update}" : "Agiorna a {update}",
     "Remove" : "Boga",
     "Featured" : "In evidèntzia",
