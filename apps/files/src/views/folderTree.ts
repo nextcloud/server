@@ -12,7 +12,7 @@ import { emit, subscribe } from '@nextcloud/event-bus'
 import { isSamePath } from '@nextcloud/paths'
 import { loadState } from '@nextcloud/initial-state'
 
-import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
+import FolderSvg from '@mdi/svg/svg/folder-outline.svg?raw'
 import FolderMultipleSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 
 import {
