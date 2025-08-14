@@ -196,9 +196,9 @@ class DefaultTheme implements ITheme {
 			'--header-menu-item-height' => '44px',
 			/* An alpha mask to be applied to all icons on the navigation bar (header menu).
 			 * Icons are have a size of 20px but usually we use MDI which have a content of 16px so 2px padding top bottom,
-			 * for better gradient we set those 2px (10% of height) as start and stop positions, this is also somewhat size agnostic as we only depend on the percentage.
+			 * for better gradient we must at first begin at those 2px (10% of height) as start and stop positions.
 			 */
-			'--header-menu-icon-mask' => 'linear-gradient(var(--color-background-plain-text) 10%, color-mix(in srgb, var(--color-background-plain-text), 25% transparent) 90%) alpha',
+			'--header-menu-icon-mask' => 'linear-gradient(var(--color-background-plain-text) 25%, color-mix(in srgb, var(--color-background-plain-text), 55% transparent) 90%) alpha',
 
 			// various structure data
 			'--navigation-width' => '300px',
