@@ -14,6 +14,7 @@ use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\ShareByMail\ShareByMailProvider;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -717,7 +718,7 @@ class Manager implements IManager {
 
 			// Pre share event
 			$event = new Share\Events\BeforeShareCreatedEvent($share);
-			$this->dispatcher->dispatchTyped($event);
+			$this->dispatchEvent($event, 'before share created');
 			if ($event->isPropagationStopped() && $event->getError()) {
 				throw new \Exception($event->getError());
 			}
@@ -744,7 +745,7 @@ class Manager implements IManager {
 		}
 
 		// Post share event
-		$this->dispatcher->dispatchTyped(new ShareCreatedEvent($share));
+		$this->dispatchEvent(new ShareCreatedEvent($share), 'share created');
 
 		// Send email if needed
 		if ($this->config->getSystemValueBool('sharing.enable_share_mail', true)) {
@@ -934,7 +935,7 @@ class Manager implements IManager {
 		$provider->acceptShare($share, $recipientId);
 
 		$event = new ShareAcceptedEvent($share);
-		$this->dispatcher->dispatchTyped($event);
+		$this->dispatchEvent($event, 'share accepted');
 
 		return $share;
 	}
@@ -1016,13 +1017,13 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType($share->getShareType());
 
 		foreach ($provider->getChildren($share) as $child) {
-			$this->dispatcher->dispatchTyped(new BeforeShareDeletedEvent($child));
+			$this->dispatchEvent(new BeforeShareDeletedEvent($child), 'before share deleted');
 
 			$deletedChildren = $this->deleteChildren($child);
 			$deletedShares = array_merge($deletedShares, $deletedChildren);
 
 			$provider->delete($child);
-			$this->dispatcher->dispatchTyped(new ShareDeletedEvent($child));
+			$this->dispatchEvent(new ShareDeletedEvent($child), 'share deleted');
 			$deletedShares[] = $child;
 		}
 
@@ -1131,7 +1132,7 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException($this->l->t('Share does not have a full ID'));
 		}
 
-		$this->dispatcher->dispatchTyped(new BeforeShareDeletedEvent($share));
+		$this->dispatchEvent(new BeforeShareDeletedEvent($share), 'before share deleted');
 
 		// Get all children and delete them as well
 		$this->deleteChildren($share);
@@ -1140,7 +1141,7 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$provider->delete($share);
 
-		$this->dispatcher->dispatchTyped(new ShareDeletedEvent($share));
+		$this->dispatchEvent(new ShareDeletedEvent($share), 'share deleted');
 
 		// Promote reshares of the deleted share
 		$this->promoteReshares($share);
@@ -1162,7 +1163,7 @@ class Manager implements IManager {
 
 		$provider->deleteFromSelf($share, $recipientId);
 		$event = new ShareDeletedFromSelfEvent($share);
-		$this->dispatcher->dispatchTyped($event);
+		$this->dispatchEvent($event, 'leave share');
 	}
 
 	public function restoreShare(IShare $share, string $recipientId): IShare {
@@ -2062,5 +2063,13 @@ class Manager implements IManager {
 		} while ($tokenExists);
 
 		return $token;
+	}
+
+	private function dispatchEvent(Event $event, string $name): void {
+		try {
+			$this->dispatcher->dispatchTyped($event);
+		} catch (\Exception $e) {
+			$this->logger->error("Error while sending ' . $name . ' event", ['exception' => $e]);
+		}
 	}
 }
