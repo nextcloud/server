@@ -780,6 +780,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\SabrePluginEvent' => __DIR__ . '/../../..' . '/lib/public/SabrePluginEvent.php',
         'OCP\\SabrePluginException' => __DIR__ . '/../../..' . '/lib/public/SabrePluginException.php',
         'OCP\\Search\\FilterDefinition' => __DIR__ . '/../../..' . '/lib/public/Search/FilterDefinition.php',
+        'OCP\\Search\\IExternalProvider' => __DIR__ . '/../../..' . '/lib/public/Search/IExternalProvider.php',
         'OCP\\Search\\IFilter' => __DIR__ . '/../../..' . '/lib/public/Search/IFilter.php',
         'OCP\\Search\\IFilterCollection' => __DIR__ . '/../../..' . '/lib/public/Search/IFilterCollection.php',
         'OCP\\Search\\IFilteringProvider' => __DIR__ . '/../../..' . '/lib/public/Search/IFilteringProvider.php',

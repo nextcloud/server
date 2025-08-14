@@ -739,6 +739,7 @@ return array(
     'OCP\\SabrePluginEvent' => $baseDir . '/lib/public/SabrePluginEvent.php',
     'OCP\\SabrePluginException' => $baseDir . '/lib/public/SabrePluginException.php',
     'OCP\\Search\\FilterDefinition' => $baseDir . '/lib/public/Search/FilterDefinition.php',
+    'OCP\\Search\\IExternalProvider' => $baseDir . '/lib/public/Search/IExternalProvider.php',
     'OCP\\Search\\IFilter' => $baseDir . '/lib/public/Search/IFilter.php',
     'OCP\\Search\\IFilterCollection' => $baseDir . '/lib/public/Search/IFilterCollection.php',
     'OCP\\Search\\IFilteringProvider' => $baseDir . '/lib/public/Search/IFilteringProvider.php',

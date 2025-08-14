@@ -86,6 +86,13 @@
 						<IconFilter :size="20" />
 					</template>
 				</NcButton>
+				<NcCheckboxRadioSwitch v-if="hasExternalResources"
+					v-model="searchExternalResources"
+					type="switch"
+					class="unified-search-modal__search-external-resources"
+					:class="{'unified-search-modal__search-external-resources--aligned': localSearch}">
+					{{ t('core', 'Search connected services') }}
+				</NcCheckboxRadioSwitch>
 			</div>
 			<div class="unified-search-modal__filters-applied">
 				<FilterChip v-for="filter in filters"
@@ -172,6 +179,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import FilterChip from './SearchFilterChip.vue'
@@ -198,6 +206,7 @@ export default defineComponent({
 		NcEmptyContent,
 		NcDialog,
 		NcInputField,
+		NcCheckboxRadioSwitch,
 		SearchableList,
 		SearchResult,
 	},
@@ -264,6 +273,7 @@ export default defineComponent({
 			showDateRangeModal: false,
 			internalIsVisible: this.open,
 			initialized: false,
+			searchExternalResources: false,
 		}
 	},
 
@@ -301,6 +311,10 @@ export default defineComponent({
 		debouncedFilterContacts() {
 			return debounce(this.filterContacts, 300)
 		},
+
+		hasExternalResources() {
+			return this.providers.some(provider => provider.isExternalProvider)
+		},
 	},
 
 	watch: {
@@ -337,6 +351,12 @@ export default defineComponent({
 			handler() {
 				this.$emit('update:query', this.searchQuery)
 			},
+		},
+
+		searchExternalResources() {
+			if (this.searchQuery) {
+				this.find(this.searchQuery)
+			}
 		},
 	},
 
@@ -416,6 +436,14 @@ export default defineComponent({
 				if (this.providerResultLimit > 5) {
 					params.limit = this.providerResultLimit
 					unifiedSearchLogger.debug('Limiting search to', params.limit)
+				}
+
+				const shouldSkipSearch = !this.searchExternalResources && provider.isExternalProvider
+				const wasManuallySelected = this.filteredProviders.some(filteredProvider => filteredProvider.id === provider.id)
+				// if the provider is an external resource and the user has not manually selected it, skip the search
+				if (shouldSkipSearch && !wasManuallySelected) {
+					this.searching = false
+					return
 				}
 
 				const request = unifiedSearch(params).request
@@ -740,6 +768,21 @@ export default defineComponent({
 		gap: 4px;
 		justify-content: start;
 		padding-top: 4px;
+	}
+
+	&__search-external-resources {
+		:deep(span.checkbox-content) {
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+
+		:deep(.checkbox-content__icon) {
+			margin: auto !important;
+		}
+
+		&--aligned {
+			margin-inline-start: auto;
+		}
 	}
 
 	&__filters-applied {
