@@ -7,8 +7,10 @@
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\Connector\Sabre\Principal;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAVACL\PrincipalBackend;
 
 class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
@@ -45,5 +47,26 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 
 	public function enableReturnCachedSubscriptions(string $principalUri): void {
 		$this->returnCachedSubscriptions['principals/users/' . $principalUri] = true;
+	}
+
+	public function childExists($name) {
+		if (!($this->principalBackend instanceof Principal)) {
+			return parent::childExists($name);
+		}
+
+		// Fetch the most shallow version of the principal just to determine if it exists
+		$principalInfo = $this->principalBackend->getPrincipalPropertiesByPath(
+			$this->principalPrefix . '/' . $name,
+			[],
+		);
+		if ($principalInfo === null) {
+			return false;
+		}
+
+		try {
+			return $this->getChildForPrincipal($principalInfo) !== null;
+		} catch (NotFound $e) {
+			return false;
+		}
 	}
 }
