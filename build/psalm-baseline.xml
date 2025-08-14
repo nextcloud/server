@@ -740,8 +740,6 @@
       <code><![CDATA[$results]]></code>
     </InvalidScalarArgument>
     <NullableReturnStatement>
-      <code><![CDATA[$this->circleToPrincipal($decodedName)
-					?: $this->circleToPrincipal($name)]]></code>
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
@@ -831,11 +829,6 @@
       <code><![CDATA[$principal]]></code>
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
-  </file>
-  <file src="apps/dav/lib/DAV/Sharing/Backend.php">
-    <LessSpecificReturnType>
-      <code><![CDATA[?array]]></code>
-    </LessSpecificReturnType>
   </file>
   <file src="apps/dav/lib/DAV/Sharing/Plugin.php">
     <DeprecatedMethod>

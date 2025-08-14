@@ -139,7 +139,10 @@ abstract class Backend {
 		$rows = $this->service->getShares($resourceId);
 		$shares = [];
 		foreach ($rows as $row) {
-			$p = $this->getPrincipalByPath($row['principaluri']);
+			$p = $this->getPrincipalByPath($row['principaluri'], [
+				'uri',
+				'{DAV:}displayname',
+			]);
 			$shares[] = [
 				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
@@ -165,7 +168,10 @@ abstract class Backend {
 		$sharesByResource = array_fill_keys($resourceIds, []);
 		foreach ($rows as $row) {
 			$resourceId = (int)$row['resourceid'];
-			$p = $this->getPrincipalByPath($row['principaluri']);
+			$p = $this->getPrincipalByPath($row['principaluri'], [
+				'uri',
+				'{DAV:}displayname',
+			]);
 			$sharesByResource[$resourceId][] = [
 				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
@@ -257,12 +263,15 @@ abstract class Backend {
 		return $this->service->getSharesByPrincipals([$principal]);
 	}
 
-	private function getPrincipalByPath(string $principalUri): ?array {
+	/**
+	 * @param string[]|null $propertyFilter A list of properties to be retrieved or all if null. Is not guaranteed to always be applied and might overfetch.
+	 */
+	private function getPrincipalByPath(string $principalUri, ?array $propertyFilter = null): ?array {
 		// Hacky code below ... shouldn't we check the whole (principal) root collection instead?
 		if (str_starts_with($principalUri, RemoteUserPrincipalBackend::PRINCIPAL_PREFIX)) {
 			return $this->remoteUserPrincipalBackend->getPrincipalByPath($principalUri);
 		}
 
-		return $this->principalBackend->getPrincipalByPath($principalUri);
+		return $this->principalBackend->getPrincipalPropertiesByPath($principalUri, $propertyFilter);
 	}
 }

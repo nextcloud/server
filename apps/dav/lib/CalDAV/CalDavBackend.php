@@ -3584,7 +3584,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$uri = $calendarInfo['principaluri'];
 		}
 
-		$principalInformation = $this->principalBackend->getPrincipalByPath($uri);
+		$principalInformation = $this->principalBackend->getPrincipalPropertiesByPath($uri, [
+			'{DAV:}displayname',
+		]);
 		if (isset($principalInformation['{DAV:}displayname'])) {
 			$calendarInfo[$displaynameKey] = $principalInformation['{DAV:}displayname'];
 		}

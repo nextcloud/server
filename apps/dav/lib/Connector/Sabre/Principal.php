@@ -101,6 +101,21 @@ class Principal implements BackendInterface {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
+		return $this->getPrincipalPropertiesByPath($path);
+	}
+
+	/**
+	 * Returns a specific principal, specified by its path.
+	 * The returned structure should be the exact same as from
+	 * getPrincipalsByPrefix.
+	 *
+	 * It is possible to optionally filter retrieved properties in case only a limited set is
+	 * required. Note that the implementation might return more properties than requested.
+	 *
+	 * @param string $path The path of the principal
+	 * @param string[]|null $propertyFilter A list of properties to be retrieved or all if null. An empty array will cause a very shallow principal to be retrieved.
+	 */
+	public function getPrincipalPropertiesByPath($path, ?array $propertyFilter = null): ?array {
 		[$prefix, $name] = \Sabre\Uri\split($path);
 		$decodedName = urldecode($name);
 
@@ -127,7 +142,7 @@ class Principal implements BackendInterface {
 			$user = $this->userManager->get($decodedName);
 
 			if ($user !== null) {
-				return $this->userToPrincipal($user);
+				return $this->userToPrincipal($user, $propertyFilter);
 			}
 		} elseif ($prefix === 'principals/circles') {
 			if ($this->userSession->getUser() !== null) {
@@ -466,29 +481,44 @@ class Principal implements BackendInterface {
 
 	/**
 	 * @param IUser $user
+	 * @param string[]|null $propertyFilter
 	 * @return array
 	 * @throws PropertyDoesNotExistException
 	 */
-	protected function userToPrincipal($user) {
+	protected function userToPrincipal($user, ?array $propertyFilter = null) {
+		$wantsProperty = static function (string $name) use ($propertyFilter) {
+			if ($propertyFilter === null) {
+				return true;
+			}
+
+			return in_array($name, $propertyFilter, true);
+		};
+
 		$userId = $user->getUID();
 		$displayName = $user->getDisplayName();
 		$principal = [
 			'uri' => $this->principalPrefix . '/' . $userId,
 			'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
 			'{urn:ietf:params:xml:ns:caldav}calendar-user-type' => 'INDIVIDUAL',
-			'{http://nextcloud.com/ns}language' => $this->languageFactory->getUserLanguage($user),
 		];
 
-		$account = $this->accountManager->getAccount($user);
-		$alternativeEmails = array_map(fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
-
-		$email = $user->getSystemEMailAddress();
-		if (!empty($email)) {
-			$principal['{http://sabredav.org/ns}email-address'] = $email;
+		if ($wantsProperty('{http://nextcloud.com/ns}language')) {
+			$principal['{http://nextcloud.com/ns}language'] = $this->languageFactory->getUserLanguage($user);
 		}
 
-		if (!empty($alternativeEmails)) {
-			$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
+		if ($wantsProperty('{http://sabredav.org/ns}email-address')) {
+			$email = $user->getSystemEMailAddress();
+			if (!empty($email)) {
+				$principal['{http://sabredav.org/ns}email-address'] = $email;
+			}
+		}
+
+		if ($wantsProperty('{DAV:}alternate-URI-set')) {
+			$account = $this->accountManager->getAccount($user);
+			$alternativeEmails = array_map(static fn (IAccountProperty $property) => 'mailto:' . $property->getValue(), $account->getPropertyCollection(IAccountManager::COLLECTION_EMAIL)->getProperties());
+			if (!empty($alternativeEmails)) {
+				$principal['{DAV:}alternate-URI-set'] = $alternativeEmails;
+			}
 		}
 
 		return $principal;
