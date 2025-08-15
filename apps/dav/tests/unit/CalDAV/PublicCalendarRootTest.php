@@ -13,6 +13,7 @@ use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -42,6 +43,7 @@ class PublicCalendarRootTest extends TestCase {
 	protected IConfig&MockObject $config;
 	private ISecureRandom $random;
 	private LoggerInterface&MockObject $logger;
+	protected ICacheFactory&MockObject $cacheFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -52,6 +54,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->random = Server::get(ISecureRandom::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$config = $this->createMock(IConfig::class);
 		$sharingBackend = $this->createMock(\OCA\DAV\CalDAV\Sharing\Backend::class);
@@ -73,6 +76,7 @@ class PublicCalendarRootTest extends TestCase {
 			$dispatcher,
 			$config,
 			$sharingBackend,
+			$this->cacheFactory,
 			false,
 		);
 		$this->l10n = $this->createMock(IL10N::class);
