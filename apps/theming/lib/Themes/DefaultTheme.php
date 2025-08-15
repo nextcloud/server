@@ -70,7 +70,6 @@ class DefaultTheme implements ITheme {
 
 	public function getCSSVariables(): array {
 		$colorMainText = '#222222';
-		$colorMainTextRgb = join(',', $this->util->hexToRGB($colorMainText));
 		// Color that still provides enough contrast for text, so we need a ratio of 4.5:1 on main background AND hover
 		$colorTextMaxcontrast = '#6b6b6b'; // 4.5 : 1 for hover background and background dark
 		$colorMainBackground = '#ffffff';
@@ -78,10 +77,14 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#DB0606';
-		$colorWarning = '#A37200';
-		$colorSuccess = '#2d7b41';
-		$colorInfo = '#0071ad';
+		$colorError = '#8A0000';
+		$colorErrorElement = '#FFE7E7';
+		$colorWarning = '#664700';
+		$colorWarningElement = '#FFEEC5';
+		$colorSuccess = '#005416';
+		$colorSuccessElement = '#D8F3DA';
+		$colorInfo = '#0066AC';
+		$colorInfoElement = '#D5F1FA';
 
 		$user = $this->userSession->getUser();
 		// Chromium based browsers currently (2024) have huge performance issues with blur filters
@@ -129,22 +132,22 @@ class DefaultTheme implements ITheme {
 			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
 
 			// error/warning/success/info feedback colours
-			'--color-error' => $colorError,
-			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
-			'--color-error-hover' => $this->util->mix($colorError, $colorMainBackground, 75),
-			'--color-error-text' => $this->util->darken($colorError, 5),
-			'--color-warning' => $colorWarning,
-			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
-			'--color-warning-hover' => $this->util->darken($colorWarning, 5),
-			'--color-warning-text' => $this->util->darken($colorWarning, 7),
-			'--color-success' => $colorSuccess,
-			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
-			'--color-success-hover' => $this->util->mix($colorSuccess, $colorMainBackground, 80),
-			'--color-success-text' => $this->util->darken($colorSuccess, 4),
-			'--color-info' => $colorInfo,
-			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
-			'--color-info-hover' => $this->util->mix($colorInfo, $colorMainBackground, 80),
-			'--color-info-text' => $this->util->darken($colorInfo, 4),
+			'--color-error' => $colorErrorElement,
+			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorErrorElement)),
+			'--color-error-hover' => $this->util->darken($colorErrorElement, 7),
+			'--color-error-text' => $colorError,
+			'--color-warning' => $colorWarningElement,
+			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarningElement)),
+			'--color-warning-hover' => $this->util->darken($colorWarningElement, 7),
+			'--color-warning-text' => $colorWarning,
+			'--color-success' => $colorSuccessElement,
+			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccessElement)),
+			'--color-success-hover' => $this->util->darken($colorSuccessElement, 7),
+			'--color-success-text' => $colorSuccess,
+			'--color-info' => $colorInfoElement,
+			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfoElement)),
+			'--color-info-hover' => $this->util->darken($colorInfoElement, 7),
+			'--color-info-text' => $colorInfo,
 			'--color-favorite' => '#A37200',
 
 			// used for the icon loading animation

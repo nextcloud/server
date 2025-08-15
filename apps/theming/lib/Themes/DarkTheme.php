@@ -52,10 +52,14 @@ class DarkTheme extends DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#FF3333';
-		$colorWarning = '#FFCC00';
-		$colorSuccess = '#3B973B';
+		$colorError = '#FFCCCC';
+		$colorErrorElement = '#552121';
+		$colorWarning = '#FFEEC5';
+		$colorWarningElement = '#3D3010';
+		$colorSuccess = '#D5F2DC';
+		$colorSuccessElement = '#11321A';
 		$colorInfo = '#00AEFF';
+		$colorInfoElement = '#003553';
 
 		return array_merge(
 			$defaultVariables,
@@ -79,21 +83,21 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-text-light' => 'var(--color-main-text)', // deprecated
 				'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
-				'--color-error' => $colorError,
-				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
-				'--color-error-hover' => $this->util->lighten($colorError, 10),
-				'--color-error-text' => $this->util->lighten($colorError, 15),
-				'--color-warning' => $colorWarning,
-				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
-				'--color-warning-hover' => $this->util->lighten($colorWarning, 10),
+				'--color-error' => $colorErrorElement,
+				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorErrorElement)),
+				'--color-error-hover' => $this->util->lighten($colorErrorElement, 10),
+				'--color-error-text' => $colorError,
+				'--color-warning' => $colorWarningElement,
+				'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarningElement)),
+				'--color-warning-hover' => $this->util->lighten($colorWarningElement, 10),
 				'--color-warning-text' => $colorWarning,
-				'--color-success' => $colorSuccess,
-				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
-				'--color-success-hover' => $this->util->lighten($colorSuccess, 10),
-				'--color-success-text' => $this->util->lighten($colorSuccess, 15),
-				'--color-info' => $colorInfo,
-				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
-				'--color-info-hover' => $this->util->lighten($colorInfo, 10),
+				'--color-success' => $colorSuccessElement,
+				'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccessElement)),
+				'--color-success-hover' => $this->util->lighten($colorSuccessElement, 10),
+				'--color-success-text' => $colorSuccess,
+				'--color-info' => $colorInfoElement,
+				'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfoElement)),
+				'--color-info-hover' => $this->util->lighten($colorInfoElement, 10),
 				'--color-info-text' => $colorInfo,
 				'--color-favorite' => '#ffde00',
 
