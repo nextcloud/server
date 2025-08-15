@@ -408,7 +408,20 @@ class EventsSearchProviderTest extends TestCase {
 		$this->assertFalse($result2Data['rounded']);
 	}
 
-	public function testGetDeepLinkToCalendarApp(): void {
+	public static function provideDeepLinkData(): array {
+		return [
+			['principals/users/john.doe', 'bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obi5kb2UvZm9vL2Jhci5pY3M='],
+			['principals/users/John Doe', 'bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvSm9obiUyMERvZS9mb28vYmFyLmljcw=='],
+		];
+	}
+
+	/**
+	 * @dataProvider provideDeepLinkData
+	 */
+	public function testGetDeepLinkToCalendarApp(
+		string $principalUri,
+		string $expectedBase64DavUrl,
+	): void {
 		$this->urlGenerator->expects($this->once())
 			->method('linkTo')
 			->with('', 'remote.php')
@@ -419,10 +432,14 @@ class EventsSearchProviderTest extends TestCase {
 			->willReturn('link-to-route-calendar/');
 		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
-			->with('link-to-route-calendar/edit/bGluay10by1yZW1vdGUucGhwL2Rhdi9jYWxlbmRhcnMvam9obi5kb2UvZm9vL2Jhci5pY3M=')
+			->with("link-to-route-calendar/edit/$expectedBase64DavUrl")
 			->willReturn('absolute-url-to-route');
 
-		$actual = self::invokePrivate($this->provider, 'getDeepLinkToCalendarApp', ['principals/users/john.doe', 'foo', 'bar.ics']);
+		$actual = self::invokePrivate($this->provider, 'getDeepLinkToCalendarApp', [
+			$principalUri,
+			'foo',
+			'bar.ics',
+		]);
 
 		$this->assertEquals('absolute-url-to-route', $actual);
 	}
