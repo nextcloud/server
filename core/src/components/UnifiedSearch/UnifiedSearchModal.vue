@@ -5,6 +5,7 @@
 <template>
 	<NcDialog id="unified-search"
 		ref="unifiedSearchModal"
+		class="unified-search-modal-root"
 		content-classes="unified-search-modal__content"
 		dialog-classes="unified-search-modal"
 		:name="t('core', 'Unified search')"
@@ -708,13 +709,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-:deep(.unified-search-modal .unified-search-modal__content) {
-	--dialog-height: min(80vh, 800px);
+.unified-search-modal-root :deep(.modal-container) {
 	box-sizing: border-box;
-	height: var(--dialog-height);
-	max-height: var(--dialog-height);
-	min-height: var(--dialog-height);
+	height: min(80vh, 800px);
+}
 
+:deep(.unified-search-modal .unified-search-modal__content) {
 	display: flex;
 	flex-direction: column;
 	// No padding to prevent scrollbar misplacement
