@@ -8,6 +8,8 @@
 namespace OCA\User_LDAP\Mapping;
 
 use OCP\HintException;
+use OCP\IAppConfig;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\Server;
@@ -24,9 +26,12 @@ class UserMapping extends AbstractMapping {
 
 	public function __construct(
 		IDBConnection $dbc,
+		ICacheFactory $cacheFactory,
+		IAppConfig $config,
+		bool $isCLI,
 		private IAssertion $assertion,
 	) {
-		parent::__construct($dbc);
+		parent::__construct($dbc, $cacheFactory, $config, $isCLI);
 	}
 
 	/**
