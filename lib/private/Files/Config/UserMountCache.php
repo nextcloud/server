@@ -19,6 +19,7 @@ use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -42,6 +43,8 @@ class UserMountCache implements IUserMountCache {
 	/** @var CappedMemoryCache<array> */
 	private CappedMemoryCache $cacheInfoCache;
 
+	private bool $debugLog = false;
+
 	/**
 	 * UserMountCache constructor.
 	 */
@@ -51,10 +54,14 @@ class UserMountCache implements IUserMountCache {
 		private LoggerInterface $logger,
 		private IEventLogger $eventLogger,
 		private IEventDispatcher $eventDispatcher,
+		?IConfig $config = null,
 	) {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->internalPathCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
+		if ($config) {
+			$this->debugLog = $config->getSystemValueBool('debug_user_mount_cache');
+		}
 	}
 
 	public function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null) {
@@ -193,6 +200,10 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	private function removeFromCache(ICachedMountInfo $mount) {
+		if ($this->debugLog) {
+			$e = new \Exception('Removing cached mount ' . $mount->getMountPoint() . ' for user ' . $mount->getUser()->getUID());
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+		}
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->delete('mounts')
@@ -398,16 +409,24 @@ class UserMountCache implements IUserMountCache {
 	 * @param IUser $user
 	 */
 	public function removeUserMounts(IUser $user) {
-		$builder = $this->connection->getQueryBuilder();
+		if ($this->debugLog) {
+			$e = new \Exception('Clearing cached mounts for user ' . $user->getUID());
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+		}
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())));
 		$query->executeStatement();
 	}
 
 	public function removeUserStorageMount($storageId, $userId) {
-		$builder = $this->connection->getQueryBuilder();
+		if ($this->debugLog) {
+			$e = new \Exception('Removing cached mounts for storage ' . $storageId . ' for user ' . $userId);
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+		}
 
+		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($userId)))
 			->andWhere($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
@@ -415,6 +434,10 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	public function remoteStorageMounts($storageId) {
+		if ($this->debugLog) {
+			$e = new \Exception('Clearing cached mounts for storage ' . $storageId);
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+		}
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->delete('mounts')
