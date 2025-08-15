@@ -78,6 +78,7 @@ $calDavBackend = new CalDavBackend(
 	$config,
 	Server::get(\OCA\DAV\CalDAV\Sharing\Backend::class),
 	Server::get(FederatedCalendarMapper::class),
+	Server::get(\OCP\ICacheFactory::class),
 	true
 );
 
