@@ -38,8 +38,10 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
+use Sabre\DAV\INodeByPath;
 
-class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget {
+class Directory extends Node implements \Sabre\DAV\ICollection,
+	\Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget, INodeByPath {
 	/**
 	 * Cached directory content
 	 * @var FileInfo[]
@@ -489,5 +491,41 @@ class Directory extends Node implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuot
 
 	public function getNode(): Folder {
 		return $this->node;
+	}
+
+	public function getNodeForPath($path) {
+		try {
+			// when parts of the path were cached, $path will only contain the
+			// remaining parts of the path
+			$fullPath = str_contains($path, '/') ? $path : $this->path . '/' . $path;
+			[$destinationDir, $destinationName] = \Sabre\Uri\split($fullPath);
+			$this->fileView->verifyPath($destinationDir, $destinationName, true);
+			$info = $this->fileView->getFileInfo($fullPath);
+		} catch (StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
+		} catch (InvalidPathException $ex) {
+			throw new InvalidPath($ex->getMessage(), false, $ex);
+		} catch (ForbiddenException $e) {
+			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage(), $e->getCode(), $e);
+		}
+
+		if (!$info) {
+			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $path . ' could not be located');
+		}
+
+		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
+		} else {
+			// In case reading a directory was allowed but it turns out the node was a not a directory, reject it now.
+			if (!$this->info->isReadable()) {
+				throw new NotFound();
+			}
+
+			$node = new File($this->fileView, $info, $this->shareManager);
+		}
+		if ($this->tree) {
+			$this->tree->cacheNode($node);
+		}
+		return $node;
 	}
 }
