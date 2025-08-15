@@ -54,6 +54,7 @@ use OCA\DAV\Connector\Sabre\ZipFolderPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
@@ -306,6 +307,7 @@ class Server {
 							$this->server->tree,
 							\OCP\Server::get(IDBConnection::class),
 							\OCP\Server::get(IUserSession::class)->getUser(),
+							\OCP\Server::get(PropertyMapper::class),
 							\OCP\Server::get(DefaultCalendarValidator::class),
 						)
 					)

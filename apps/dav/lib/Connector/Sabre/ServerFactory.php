@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\Sharing\RootCollection;
 use OCA\DAV\Upload\CleanupService;
@@ -226,6 +227,7 @@ class ServerFactory {
 							$tree,
 							$this->databaseConnection,
 							$this->userSession->getUser(),
+							\OCP\Server::get(PropertyMapper::class),
 							\OCP\Server::get(DefaultCalendarValidator::class),
 						)
 					)
