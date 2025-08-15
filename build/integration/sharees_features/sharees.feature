@@ -229,7 +229,7 @@ Feature: sharees
       | test (localhost) | 6 | test@localhost |
     Then "remotes" sharees returned is empty
 
-  Scenario: Remote sharee for calendars not allowed
+  Scenario: Remote sharee for calendars
     Given As an "test"
     When getting sharees for
       | search | test@localhost |
@@ -240,7 +240,8 @@ Feature: sharees
     Then "users" sharees returned is empty
     Then "exact groups" sharees returned is empty
     Then "groups" sharees returned is empty
-    Then "exact remotes" sharees returned is empty
+    Then "exact remotes" sharees returned are
+      | test (localhost) | 6 | test@localhost |
     Then "remotes" sharees returned is empty
 
   Scenario: Group sharees not returned when group sharing is disabled

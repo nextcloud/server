@@ -26,6 +26,7 @@ class ComposerStaticInitFederation
         'OCA\\Federation\\BackgroundJob\\GetSharedSecret' => __DIR__ . '/..' . '/../lib/BackgroundJob/GetSharedSecret.php',
         'OCA\\Federation\\BackgroundJob\\RequestSharedSecret' => __DIR__ . '/..' . '/../lib/BackgroundJob/RequestSharedSecret.php',
         'OCA\\Federation\\Command\\SyncFederationAddressBooks' => __DIR__ . '/..' . '/../lib/Command/SyncFederationAddressBooks.php',
+        'OCA\\Federation\\Command\\SyncFederationCalendars' => __DIR__ . '/..' . '/../lib/Command/SyncFederationCalendars.php',
         'OCA\\Federation\\Controller\\OCSAuthAPIController' => __DIR__ . '/..' . '/../lib/Controller/OCSAuthAPIController.php',
         'OCA\\Federation\\Controller\\SettingsController' => __DIR__ . '/..' . '/../lib/Controller/SettingsController.php',
         'OCA\\Federation\\DAV\\FedAuth' => __DIR__ . '/..' . '/../lib/DAV/FedAuth.php',
