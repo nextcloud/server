@@ -116,6 +116,7 @@ abstract class Backend {
 	 * @return list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}>
 	 */
 	public function getShares(int $resourceId): array {
+		/** @var list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}>|null $cached */
 		$cached = $this->shareCache->get((string)$resourceId);
 		if (is_array($cached)) {
 			return $cached;
