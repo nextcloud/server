@@ -104,8 +104,8 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 			->willReturn($user);
 
 		$this->commentsManager->expects($this->any())
-			->method('getNumberOfCommentsForObject')
-			->willReturn(42);
+			->method('getNumberOfUnreadCommentsForObjects')
+			->willReturn(['4567' => 42]);
 
 		$unread = $this->plugin->getUnreadCount($node);
 		if (is_null($user)) {
