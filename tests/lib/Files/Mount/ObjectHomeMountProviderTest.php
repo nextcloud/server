@@ -268,4 +268,8 @@ class FakeObjectStore implements IObjectStore {
 
 	public function copyObject($from, $to) {
 	}
+
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+		return null;
+	}
 }
