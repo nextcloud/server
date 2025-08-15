@@ -14,14 +14,23 @@ use OCP\EventDispatcher\Event;
  * @since 25.0.0
  */
 class TrustedServerRemovedEvent extends Event {
-	private string $urlHash;
 
 	/**
 	 * @since 25.0.0
+	 * @since 32.0.0 Added $url argument
 	 */
-	public function __construct(string $urlHash) {
+	public function __construct(
+		private readonly string $url,
+		private readonly string $urlHash,
+	) {
 		parent::__construct();
-		$this->urlHash = $urlHash;
+	}
+
+	/**
+	 * @since 32.0.0
+	 */
+	public function getUrl(): string {
+		return $this->url;
 	}
 
 	/**

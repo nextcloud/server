@@ -120,15 +120,15 @@ class TrustedServersTest extends TestCase {
 
 	public function testRemoveServer(): void {
 		$id = 42;
-		$server = ['url_hash' => 'url_hash'];
+		$server = ['url' => 'url', 'url_hash' => 'url_hash'];
 		$this->dbHandler->expects($this->once())->method('removeServer')->with($id);
 		$this->dbHandler->expects($this->once())->method('getServerById')->with($id)
 			->willReturn($server);
 		$this->dispatcher->expects($this->once())->method('dispatchTyped')
 			->willReturnCallback(
 				function ($event): void {
-					$this->assertSame(get_class($event), TrustedServerRemovedEvent::class);
-					/** @var \OCP\Federated\Events\TrustedServerRemovedEvent $event */
+					$this->assertInstanceOf(TrustedServerRemovedEvent::class, $event);
+					$this->assertSame('url', $event->getUrl());
 					$this->assertSame('url_hash', $event->getUrlHash());
 				}
 			);
