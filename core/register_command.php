@@ -253,6 +253,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(EnabledCommand::class));
 	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
 	$application->add(Server::get(Statistics::class));
+	$application->add(Server::get(Command\TaskProcessing\Cleanup::class));
 
 	$application->add(Server::get(RedisCommand::class));
 	$application->add(Server::get(DistributedClear::class));
