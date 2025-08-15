@@ -1,8 +1,10 @@
 { "translations": {
     "Other activities" : "Other activities",
+    "%1$s and %2$s" : "%1$s na %2$s",
     "Authentication" : "Uthibitisho",
     "Unknown filetype" : "Aina ya faili haijulikani",
     "Invalid image" : "Taswira si halisi",
+    "Avatar image is not square" : "Avatar image is not square",
     "Files" : "Mafaili",
     "View profile" : "Angalia wasifu",
     "Local time: %s" : "Muda wa kawaida: %s",
