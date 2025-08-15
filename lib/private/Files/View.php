@@ -869,6 +869,11 @@ class View {
 		$l = \OC::$server->get(IFactory::class)->get('files');
 		foreach ($mounts as $mount) {
 			$sourcePath = $this->getRelativePath($mount->getMountPoint());
+			$sourceInfo = $this->getFileInfo($source);
+			if ($sourceInfo && !($sourceInfo->getPermissions() & \OCP\Constants::PERMISSION_UPDATE)) {
+
+			    throw new ForbiddenException('You do not have permission to move this item', false);
+			}
 			if ($sourcePath) {
 				$sourcePath = trim($sourcePath, '/');
 			} else {
