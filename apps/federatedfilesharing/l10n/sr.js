@@ -58,6 +58,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (бивши Twitter)",
     "formerly Twitter" : "бивши Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "Додај на свој веб сајт",
     "HTML Code:" : "ХТМЛ кôд:",
     "Cancel" : "Одустани",
