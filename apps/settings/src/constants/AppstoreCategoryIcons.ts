@@ -11,6 +11,7 @@ import {
 	mdiClose,
 	mdiCog,
 	mdiControllerClassic,
+	mdiCreation,
 	mdiDownload,
 	mdiFileDocumentEdit,
 	mdiFolder,
@@ -43,6 +44,7 @@ export default Object.freeze({
 	updates: mdiDownload,
 
 	// generic categories
+	ai: mdiCreation,
 	auth: mdiKey,
 	customization: mdiCog,
 	dashboard: mdiViewColumn,
