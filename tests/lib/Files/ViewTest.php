@@ -131,8 +131,8 @@ class ViewTest extends \Test\TestCase {
 		//login
 		$userManager = Server::get(IUserManager::class);
 		$groupManager = Server::get(IGroupManager::class);
-		$this->user = 'test_' . uniqid();
-		$this->userObject = $userManager->createUser($this->user, 'test');
+		$this->user = 'test';
+		$this->userObject = $userManager->createUser('test', 'test');
 
 		$this->groupObject = $groupManager->createGroup('group1');
 		$this->groupObject->addUser($this->userObject);
