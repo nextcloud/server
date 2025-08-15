@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Sharing;
 
+use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\Constants;
 use OCP\IConfig;
@@ -17,10 +18,10 @@ use OCP\Share\IManager;
  * @package OCA\Files_Sharing
  */
 class Capabilities implements ICapability {
-
 	public function __construct(
 		private IConfig $config,
 		private IManager $shareManager,
+		private IAppManager $appManager,
 	) {
 	}
 
@@ -157,14 +158,23 @@ class Capabilities implements ICapability {
 		}
 
 		//Federated sharing
-		$res['federation'] = [
-			'outgoing' => $this->shareManager->outgoingServer2ServerSharesAllowed(),
-			'incoming' => $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes',
-			// old bogus one, expire_date was not working before, keeping for compatibility
-			'expire_date' => ['enabled' => true],
-			// the real deal, signifies that expiration date can be set on federated shares
-			'expire_date_supported' => ['enabled' => true],
-		];
+		if ($this->appManager->isInstalled('federation')) {
+			$res['federation'] = [
+				'outgoing' => $this->shareManager->outgoingServer2ServerSharesAllowed(),
+				'incoming' => $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes',
+				// old bogus one, expire_date was not working before, keeping for compatibility
+				'expire_date' => ['enabled' => true],
+				// the real deal, signifies that expiration date can be set on federated shares
+				'expire_date_supported' => ['enabled' => true],
+			];
+		} else {
+			$res['federation'] = [
+				'outgoing' => false,
+				'incoming' => false,
+				'expire_date' => ['enabled' => false],
+				'expire_date_supported' => ['enabled' => false],
+			];
+		}
 
 		// Sharee searches
 		$res['sharee'] = [

@@ -10,6 +10,7 @@ use OC\KnownUser\KnownUserService;
 use OC\Share20\Manager;
 use OC\Share20\ShareDisableChecker;
 use OCA\Files_Sharing\Capabilities;
+use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
@@ -54,9 +55,11 @@ class CapabilitiesTest extends \Test\TestCase {
 	 * @param (string[])[] $map Map of arguments to return types for the getAppValue function in the mock
 	 * @return string[]
 	 */
-	private function getResults(array $map) {
+	private function getResults(array $map, bool $federationEnabled = true) {
 		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
+		$appManager = $this->getMockBuilder(IAppManager::class)->disableOriginalConstructor()->getMock();
 		$config->method('getAppValue')->willReturnMap($map);
+		$appManager->method('isInstalled')->with('federation')->willReturn($federationEnabled);
 		$shareManager = new Manager(
 			$this->createMock(LoggerInterface::class),
 			$config,
@@ -78,7 +81,7 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(IDateTimeZone::class),
 			$this->createMock(IAppConfig::class),
 		);
-		$cap = new Capabilities($config, $shareManager);
+		$cap = new Capabilities($config, $shareManager, $appManager);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());
 		return $result;
 	}
@@ -321,5 +324,14 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertArrayHasKey('federation', $result);
 		$this->assertEquals(['enabled' => true], $result['federation']['expire_date']);
 		$this->assertEquals(['enabled' => true], $result['federation']['expire_date_supported']);
+	}
+
+	public function testFederatedSharingDisabled(): void {
+		$result = $this->getResults([], false);
+		$this->assertArrayHasKey('federation', $result);
+		$this->assertFalse($result['federation']['incoming']);
+		$this->assertFalse($result['federation']['outgoing']);
+		$this->assertEquals(['enabled' => false], $result['federation']['expire_date']);
+		$this->assertEquals(['enabled' => false], $result['federation']['expire_date_supported']);
 	}
 }
