@@ -46,6 +46,7 @@ use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
 use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
+use OCA\DAV\Connector\Sabre\PropFindPreloadNotifyPlugin;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
@@ -238,6 +239,7 @@ class Server {
 			\OCP\Server::get(IUserSession::class)
 		));
 
+		// performance improvement plugins
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OCP\Server::get(IRequest::class)));
 		$this->server->addPlugin(new UploadAutoMkcolPlugin());
@@ -249,6 +251,7 @@ class Server {
 			$eventDispatcher,
 		));
 		$this->server->addPlugin(\OCP\Server::get(PaginatePlugin::class));
+		$this->server->addPlugin(new PropFindPreloadNotifyPlugin());
 
 		// allow setup of additional plugins
 		$eventDispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);

@@ -217,6 +217,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\ObjectTree' => $baseDir . '/../lib/Connector/Sabre/ObjectTree.php',
     'OCA\\DAV\\Connector\\Sabre\\Principal' => $baseDir . '/../lib/Connector/Sabre/Principal.php',
     'OCA\\DAV\\Connector\\Sabre\\PropFindMonitorPlugin' => $baseDir . '/../lib/Connector/Sabre/PropFindMonitorPlugin.php',
+    'OCA\\DAV\\Connector\\Sabre\\PropFindPreloadNotifyPlugin' => $baseDir . '/../lib/Connector/Sabre/PropFindPreloadNotifyPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\PropfindCompressionPlugin' => $baseDir . '/../lib/Connector/Sabre/PropfindCompressionPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\PublicAuth' => $baseDir . '/../lib/Connector/Sabre/PublicAuth.php',
     'OCA\\DAV\\Connector\\Sabre\\QuotaPlugin' => $baseDir . '/../lib/Connector/Sabre/QuotaPlugin.php',

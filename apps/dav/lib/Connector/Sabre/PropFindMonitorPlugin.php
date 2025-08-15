@@ -48,30 +48,34 @@ class PropFindMonitorPlugin extends ServerPlugin {
 		if (empty($pluginQueries)) {
 			return;
 		}
-		$maxDepth = max(0, ...array_keys($pluginQueries));
-		// entries at the top are usually not interesting
-		unset($pluginQueries[$maxDepth]);
 
 		$logger = $this->server->getLogger();
-		foreach ($pluginQueries as $depth => $propFinds) {
-			foreach ($propFinds as $pluginName => $propFind) {
-				[
-					'queries' => $queries,
-					'nodes' => $nodes
-				] = $propFind;
-				if ($queries === 0 || $nodes > $queries || $nodes < self::THRESHOLD_NODES
-					|| $queries < $nodes * self::THRESHOLD_QUERY_FACTOR) {
-					continue;
+		foreach ($pluginQueries as $eventName => $eventQueries) {
+			$maxDepth = max(0, ...array_keys($eventQueries));
+			// entries at the top are usually not interesting
+			unset($eventQueries[$maxDepth]);
+			foreach ($eventQueries as $depth => $propFinds) {
+				foreach ($propFinds as $pluginName => $propFind) {
+					[
+						'queries' => $queries,
+						'nodes' => $nodes
+					] = $propFind;
+					if ($queries === 0 || $nodes > $queries || $nodes < self::THRESHOLD_NODES
+						|| $queries < $nodes * self::THRESHOLD_QUERY_FACTOR) {
+						continue;
+					}
+					$logger->error(
+						'{name}:{event} scanned {scans} nodes with {count} queries in depth {depth}/{maxDepth}. This is bad for performance, please report to the plugin developer!',
+						[
+							'name' => $pluginName,
+							'scans' => $nodes,
+							'count' => $queries,
+							'depth' => $depth,
+							'maxDepth' => $maxDepth,
+							'event' => $eventName,
+						]
+					);
 				}
-				$logger->error(
-					'{name} scanned {scans} nodes with {count} queries in depth {depth}/{maxDepth}. This is bad for performance, please report to the plugin developer!', [
-						'name' => $pluginName,
-						'scans' => $nodes,
-						'count' => $queries,
-						'depth' => $depth,
-						'maxDepth' => $maxDepth,
-					]
-				);
 			}
 		}
 	}

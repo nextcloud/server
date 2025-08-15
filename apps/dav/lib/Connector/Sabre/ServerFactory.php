@@ -95,6 +95,8 @@ class ServerFactory {
 			$server->debugEnabled = $debugEnabled;
 			$server->addPlugin(new PropFindMonitorPlugin());
 		}
+
+		$server->addPlugin(new PropFindPreloadNotifyPlugin());
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new DummyGetResponsePlugin());
 		$server->addPlugin(new ExceptionLoggerPlugin('webdav', $this->logger));
