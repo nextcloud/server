@@ -10,11 +10,12 @@ namespace Test\Files\Mount;
 
 use OC\Files\Mount\RootMountProvider;
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\ObjectStore\S3;
 use OC\Files\Storage\LocalRootStorage;
 use OC\Files\Storage\StorageFactory;
+use OCP\App\IAppManager;
 use OCP\IConfig;
-use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -40,8 +41,8 @@ class RootMountProviderTest extends TestCase {
 
 	private function getProvider(array $systemConfig): RootMountProvider {
 		$config = $this->getConfig($systemConfig);
-		$provider = new RootMountProvider($config, $this->createMock(LoggerInterface::class));
-		return $provider;
+		$objectStoreConfig = new PrimaryObjectStoreConfig($config, $this->createMock(IAppManager::class));
+		return new RootMountProvider($objectStoreConfig, $config);
 	}
 
 	public function testLocal(): void {

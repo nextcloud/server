@@ -55,6 +55,7 @@ use OC\Files\Mount\RootMountProvider;
 use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
+use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SetupManager;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\Template\TemplateManager;
@@ -824,10 +825,11 @@ class Server extends ServerContainer implements IServerContainer {
 
 			$config = $c->get(\OCP\IConfig::class);
 			$logger = $c->get(LoggerInterface::class);
+			$objectStoreConfig = $c->get(PrimaryObjectStoreConfig::class);
 			$manager->registerProvider(new CacheMountProvider($config));
 			$manager->registerHomeProvider(new LocalHomeMountProvider());
-			$manager->registerHomeProvider(new ObjectHomeMountProvider($config));
-			$manager->registerRootProvider(new RootMountProvider($config, $c->get(LoggerInterface::class)));
+			$manager->registerHomeProvider(new ObjectHomeMountProvider($objectStoreConfig));
+			$manager->registerRootProvider(new RootMountProvider($objectStoreConfig, $config));
 			$manager->registerRootProvider(new ObjectStorePreviewCacheMountProvider($logger, $config));
 
 			return $manager;
