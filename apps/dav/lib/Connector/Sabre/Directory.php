@@ -40,8 +40,12 @@ use Sabre\DAV\IFile;
 use Sabre\DAV\INode;
 use Sabre\DAV\INodeByPath;
 
-class Directory extends Node implements \Sabre\DAV\ICollection,
-	\Sabre\DAV\IQuota, \Sabre\DAV\IMoveTarget, \Sabre\DAV\ICopyTarget, INodeByPath {
+class Directory extends Node implements
+	\Sabre\DAV\ICollection,
+	\Sabre\DAV\IQuota,
+	\Sabre\DAV\IMoveTarget,
+	\Sabre\DAV\ICopyTarget,
+	INodeByPath {
 	/**
 	 * Cached directory content
 	 * @var FileInfo[]
