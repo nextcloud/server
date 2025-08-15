@@ -104,6 +104,13 @@ class CustomPropertiesBackend implements BackendInterface {
 	];
 
 	/**
+	 * Map of well-known property names to default values
+	 */
+	private const PROPERTY_DEFAULT_VALUES = [
+		'{http://owncloud.org/ns}calendar-enabled' => '1',
+	];
+
+	/**
 	 * Properties cache
 	 */
 	private array $userCache = [];
@@ -485,6 +492,14 @@ class CustomPropertiesBackend implements BackendInterface {
 		return $props;
 	}
 
+	private function isPropertyDefaultValue(string $name, mixed $value): bool {
+		if (!isset(self::PROPERTY_DEFAULT_VALUES[$name])) {
+			return false;
+		}
+
+		return self::PROPERTY_DEFAULT_VALUES[$name] === $value;
+	}
+
 	/**
 	 * @throws Exception
 	 */
@@ -501,8 +516,8 @@ class CustomPropertiesBackend implements BackendInterface {
 					'propertyName' => $propertyName,
 				];
 
-				// If it was null, we need to delete the property
-				if (is_null($propertyValue)) {
+				// If it was null or set to the default value, we need to delete the property
+				if (is_null($propertyValue) || $this->isPropertyDefaultValue($propertyName, $propertyValue)) {
 					if (array_key_exists($propertyName, $existing)) {
 						$deleteQuery = $deleteQuery ?? $this->createDeleteQuery();
 						$deleteQuery
