@@ -246,3 +246,12 @@ Cypress.Commands.add('userFileExists', (user: string, path: string) => {
 	return cy.runCommand(`stat --printf="%s" "data/${user}/files/${path}"`, { failOnNonZeroExit: true })
 		.then((exec) => Number.parseInt(exec.stdout || '0'))
 })
+
+Cypress.Commands.overwrite('runOccCommand', (original, command: string, options?: Partial<Cypress.ExecOptions>) => {
+	return original(command, options)
+		.then((context) =>
+			// OCC cannot clear the APCu cache
+			// eslint-disable-next-line cypress/no-unnecessary-waiting
+			cy.wait(3000).then(() => context),
+		)
+})
