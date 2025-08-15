@@ -21,7 +21,7 @@ class AccessibleThemeTestCase extends TestCase {
 	protected static bool $WCAGaaa = false;
 
 	public static function dataAccessibilityPairs(): array {
-		$textContrast = self::$WCAGaaa ? 7.0 : 4.5;
+		$textContrast = static::$WCAGaaa ? 7.0 : 4.5;
 		$elementContrast = 3.0;
 
 		return [
@@ -39,16 +39,8 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$elementContrast,
 			],
-			'status color elements on background' => [
+			'favorite elements on background' => [
 				[
-					'--color-error',
-					'--color-error-hover',
-					'--color-warning',
-					'--color-warning-hover',
-					'--color-info',
-					'--color-info-hover',
-					'--color-success',
-					'--color-success-hover',
 					'--color-favorite',
 				],
 				[
@@ -129,7 +121,7 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$textContrast,
 			],
-			'status-text' => [
+			'status-text-on-background' => [
 				[
 					'--color-error-text',
 					'--color-warning-text',
@@ -141,6 +133,55 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-background-hover',
 					'--color-background-dark',
 					'--color-main-background-blur',
+				],
+				$textContrast,
+			],
+			'text-on-status-background' => [
+				[
+					'--color-main-text',
+					'--color-text-maxcontrast',
+				],
+				[
+					'--color-error',
+					'--color-info',
+					'--color-success',
+					'--color-warning',
+				],
+				$textContrast,
+			],
+			'text-on-status-background-hover' => [
+				[
+					'--color-main-text',
+				],
+				[
+					'--color-error-hover',
+					'--color-info-hover',
+					'--color-success-hover',
+					'--color-warning-hover',
+				],
+				$textContrast,
+			],
+			'error-text-on-error-background' => [
+				['--color-error-text'],
+				[
+					'--color-error',
+					'--color-error-hover',
+				],
+				$textContrast,
+			],
+			'warning-text-on-warning-background' => [
+				['--color-warning-text'],
+				[
+					'--color-warning',
+					'--color-warning-hover',
+				],
+				$textContrast,
+			],
+			'success-text-on-success-background' => [
+				['--color-success-text'],
+				[
+					'--color-success',
+					'--color-success-hover',
 				],
 				$textContrast,
 			],
