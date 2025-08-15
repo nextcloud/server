@@ -844,4 +844,22 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		return $available;
 	}
+
+	public function getDirectDownload(string $path): array|false {
+		if (is_numeric($path)) {
+			$fileId = (int)$path;
+		} else {
+			$path = $this->normalizePath($path);
+			$cacheEntry = $this->getCache()->get($path);
+
+			if (!$cacheEntry || $cacheEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+				return false;
+			}
+			$fileId = $cacheEntry->getId();
+		}
+
+		$expiration = new \DateTimeImmutable('+60 minutes');
+		$url = $this->objectStore->preSignedUrl($this->getURN($fileId), $expiration);
+		return $url ? ['url' => $url, 'expiration' => $expiration->getTimestamp()] : false;
+	}
 }

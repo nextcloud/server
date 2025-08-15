@@ -50,6 +50,7 @@ class FilesPlugin extends ServerPlugin {
 	public const OCM_SHARE_PERMISSIONS_PROPERTYNAME = '{http://open-cloud-mesh.org/ns}share-permissions';
 	public const SHARE_ATTRIBUTES_PROPERTYNAME = '{http://nextcloud.org/ns}share-attributes';
 	public const DOWNLOADURL_PROPERTYNAME = '{http://owncloud.org/ns}downloadURL';
+	public const DOWNLOADURL_EXPIRATION_PROPERTYNAME = '{http://nextcloud.org/ns}download-url-expiration';
 	public const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	public const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	public const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
@@ -120,6 +121,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::SHARE_ATTRIBUTES_PROPERTYNAME;
 		$server->protectedProperties[] = self::SIZE_PROPERTYNAME;
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
+		$server->protectedProperties[] = self::DOWNLOADURL_EXPIRATION_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_ID_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_DISPLAY_NAME_PROPERTYNAME;
 		$server->protectedProperties[] = self::CHECKSUMS_PROPERTYNAME;
@@ -471,16 +473,32 @@ class FilesPlugin extends ServerPlugin {
 		}
 
 		if ($node instanceof File) {
-			$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, function () use ($node) {
+			$requestProperties = $propFind->getRequestedProperties();
+			if (in_array(self::DOWNLOADURL_PROPERTYNAME, $requestProperties, true)
+				|| in_array(self::DOWNLOADURL_EXPIRATION_PROPERTYNAME, $requestProperties, true)) {
 				try {
 					$directDownloadUrl = $node->getDirectDownload();
-					if (isset($directDownloadUrl['url'])) {
-						return $directDownloadUrl['url'];
+					if ($directDownloadUrl && isset($directDownloadUrl['url'])) {
+						$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, $directDownloadUrl['url']);
+						$propFind->handle(self::DOWNLOADURL_EXPIRATION_PROPERTYNAME, $directDownloadUrl['expiration']);
 					}
-				} catch (StorageNotAvailableException $e) {
-					return false;
-				} catch (ForbiddenException $e) {
-					return false;
+				} catch (StorageNotAvailableException|ForbiddenException) {
+					$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, false);
+					$propFind->handle(self::DOWNLOADURL_EXPIRATION_PROPERTYNAME, false);
+				}
+			}
+
+			$propFind->handle(self::PREVIEW_METADATA_PROPERTYNAME, function () use ($node) {
+				try {
+					if (isset($this->previewMetadataCache[$node->getInternalFileId()])) {
+						$previews = $this->previewMetadataCache[$node->getInternalFileId()];
+					} else {
+						[$node->getInternalFileId() => $previews] = $this->previewService->getAvailablePreviews([$node->getInternalFileId()]);
+					}
+
+					$data = array_map(static fn (Preview $preview) => $preview->jsonSerialize(), $previews);
+					return json_encode($data, JSON_THROW_ON_ERROR);
+				} catch (\Exception $e) {
 				}
 				return false;
 			});
