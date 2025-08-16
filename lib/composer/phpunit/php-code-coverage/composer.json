@@ -1,0 +1,69 @@
+{
+    "name": "phpunit/php-code-coverage",
+    "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
+    "type": "library",
+    "keywords": [
+        "coverage",
+        "testing",
+        "xunit"
+    ],
+    "homepage": "https://github.com/sebastianbergmann/php-code-coverage",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
+        "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy"
+    },
+    "config": {
+        "platform": {
+            "php": "8.1.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.1",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "ext-xmlwriter": "*",
+        "nikic/php-parser": "^4.19.1 || ^5.1.0",
+        "phpunit/php-file-iterator": "^4.1.0",
+        "phpunit/php-text-template": "^3.0.1",
+        "sebastian/code-unit-reverse-lookup": "^3.0.0",
+        "sebastian/complexity": "^3.2.0",
+        "sebastian/environment": "^6.1.0",
+        "sebastian/lines-of-code": "^2.0.2",
+        "sebastian/version": "^4.0.1",
+        "theseer/tokenizer": "^1.2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.1"
+    },
+    "suggest": {
+        "ext-pcov": "PHP extension that provides line coverage",
+        "ext-xdebug": "PHP extension that provides line coverage as well as branch and path coverage"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "files": [
+            "tests/TestCase.php",
+            "tests/_files/BankAccountTest.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "10.1.x-dev"
+        }
+    }
+}

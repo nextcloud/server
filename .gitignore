@@ -186,3 +186,8 @@ cypress/snapshots
 cypress/videos
 
 /.direnv
+dav-propfind*
+
+.env
+workspace/
+

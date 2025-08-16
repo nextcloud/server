@@ -45,7 +45,8 @@
 		"ext-zlib": "*"
 	},
 	"require-dev": {
-		"bamarni/composer-bin-plugin": "^1.4"
+		"bamarni/composer-bin-plugin": "^1.4",
+		"phpunit/phpunit": "^10.5"
 	},
 	"scripts": {
 		"post-install-cmd": [
