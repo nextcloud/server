@@ -76,6 +76,32 @@ class OC {
 
 	private static \OC\Config $config;
 
+	public function static registerAutoloading(): void {
+		// Add default composer PSR-4 autoloader
+		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
+		// Ensure apcu is disabled
+		self::$composerAutoloader->setApcuPrefix(null);
+
+
+		try {
+			self::initPaths();
+			// setup 3rdparty autoloader
+			$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
+			if (!file_exists($vendorAutoLoad)) {
+				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
+			}
+			require_once $vendorAutoLoad;
+		} catch (\RuntimeException $e) {
+			if (!self::$CLI) {
+				http_response_code(503);
+			}
+			// we can't use the template error page here, because this needs the
+			// DI container which isn't available yet
+			print($e->getMessage());
+			exit();
+		}
+	}
+	
 	/**
 	 * @throws \RuntimeException when the 3rdparty directory is missing or
 	 *                           the app path list is empty or contains an invalid path
@@ -483,6 +509,23 @@ class OC {
 
 		@ini_set('default_charset', 'UTF-8');
 		@ini_set('gd.jpeg_ignore_warning', '1');
+		
+		// Set default timezone before the Server object is booted
+		if (!date_default_timezone_set('UTC')) {
+			throw new \RuntimeException('Could not set timezone to UTC');
+		}
+		
+		// Override php.ini and log everything if we're troubleshooting
+		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
+			error_reporting(E_ALL);
+		}
+		
+		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
+		// see https://github.com/nextcloud/server/pull/2619
+		if (!function_exists('simplexml_load_file')) {
+			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
+		}
+
 	}
 
 	/**
@@ -578,102 +621,76 @@ class OC {
 		}
 	}
 
+	/**
+ 	 * init() is always called
+	 */
+
 	public static function init(): void {
+		
 		// First handle PHP configuration and copy auth headers to the expected
 		// $_SERVER variable before doing anything Server object related
 		self::setRequiredIniValues();
 		self::handleAuthHeaders();
 
-		// prevent any XML processing from loading external entities
+		// Prevent any XML processing from loading external entities
 		libxml_set_external_entity_loader(static function () {
 			return null;
 		});
 
-		// Set default timezone before the Server object is booted
-		if (!date_default_timezone_set('UTC')) {
-			throw new \RuntimeException('Could not set timezone to UTC');
-		}
-
-		// calculate the root directories
+		// Calculate the root directories
 		OC::$SERVERROOT = str_replace('\\', '/', substr(__DIR__, 0, -4));
 
-		// register autoloader
+		// Pay attention to whether we're in the CLI SAPI or not
+		self::$CLI = (PHP_SAPI == 'cli');
+
+		// Register autoloader and time it
 		$loaderStart = microtime(true);
-
-		self::$CLI = (php_sapi_name() == 'cli');
-
-		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
-		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		self::$composerAutoloader->setApcuPrefix(null);
-
-
-		try {
-			self::initPaths();
-			// setup 3rdparty autoloader
-			$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
-			if (!file_exists($vendorAutoLoad)) {
-				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
-			}
-			require_once $vendorAutoLoad;
-		} catch (\RuntimeException $e) {
-			if (!self::$CLI) {
-				http_response_code(503);
-			}
-			// we can't use the template error page here, because this needs the
-			// DI container which isn't available yet
-			print($e->getMessage());
-			exit();
-		}
+		self::registerAutoloading();
 		$loaderEnd = microtime(true);
 
-		// Enable lazy loading if activated
+		// Enable lazy loading unless it has been disabled
 		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
 
-		// setup the basic server
+		// Setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
 
+		// Activate the built-in-profiler (if the Excimer PHP extension is installed)
 		try {
-			$profiler = new BuiltInProfiler(
-				Server::get(IConfig::class),
-				Server::get(IRequest::class),
-			);
+			$profiler = new BuiltInProfiler(Server::get(IConfig::class), Server::get(IRequest::class));
 			$profiler->start();
 		} catch (\Throwable $e) {
 			logger('core')->error('Failed to start profiler: ' . $e->getMessage(), ['app' => 'base']);
 		}
 
+		// Check for the `--debug-log` CLI parameter
 		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
 			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
 		}
 
 		$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
 		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
+		
 		$eventLogger->start('boot', 'Initialize');
 
-		// Override php.ini and log everything if we're troubleshooting
-		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
-			error_reporting(E_ALL);
-		}
-
-		// initialize intl fallback if necessary
-		OC_Util::isSetLocaleWorking();
+		// Set the locale to one which supports UTF-8
+		OC_Util::isSetLocaleWorking(); // FIXME: we should probably check the return value and throw/log
 
 		$config = Server::get(IConfig::class);
+
+		// Register our error, exception, and shutdown handlers (unless running unit tests)
 		if (!defined('PHPUNIT_RUN')) {
-			$errorHandler = new OC\Log\ErrorHandler(
-				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
-			);
-			$exceptionHandler = [$errorHandler, 'onException'];
-			if ($config->getSystemValueBool('debug', false)) {
+			$errorHandler = new OC\Log\ErrorHandler(Server::get(\Psr\Log\LoggerInterface::class));
+			register_shutdown_function([$errorHandler, 'onShutdown']);
+			if (!$config->getSystemValueBool('debug', false)) {
+				set_error_handler([$errorHandler, 'onError']);
+				$exceptionHandler = [$errorHandler, 'onException'];
+			} else { // debug mode
 				set_error_handler([$errorHandler, 'onAll'], E_ALL);
-				if (\OC::$CLI) {
+				if (self::$CLI) { // debug debug mode at CLI
 					$exceptionHandler = [Server::get(ITemplateManager::class), 'printExceptionErrorPage'];
 				}
-			} else {
-				set_error_handler([$errorHandler, 'onError']);
 			}
-			register_shutdown_function([$errorHandler, 'onShutdown']);
 			set_exception_handler($exceptionHandler);
 		}
 
@@ -681,31 +698,34 @@ class OC {
 		$bootstrapCoordinator = Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$bootstrapCoordinator->runInitialRegistration();
 
-		$eventLogger->start('init_session', 'Initialize session');
-
-		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
-		// see https://github.com/nextcloud/server/pull/2619
-		if (!function_exists('simplexml_load_file')) {
-			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
-		}
-
 		$systemConfig = Server::get(\OC\SystemConfig::class);
 		$appManager = Server::get(\OCP\App\IAppManager::class);
+		
+		$eventLogger->start('init_session', 'Initialize session');
+		
 		if ($systemConfig->getValue('installed', false)) {
+			// loadApps will return w/o doing anything if in maintenance mode
 			$appManager->loadApps(['session']);
 		}
 		if (!self::$CLI) {
 			self::initSession();
 		}
+		
 		$eventLogger->end('init_session');
+
+		// Check if `config/config.php` exists, create it if need be, and confirm it's writable
 		self::checkConfig();
+
+		// If not installed, throw (CLI) or redirect to installer (Web)
 		self::checkInstalled($systemConfig);
 
+		// Provide some sane default security headers (mostly for legacy components)
 		OC_Response::addSecurityHeaders();
 
+		// Check + set a same set cookie(s) with every request
 		self::performSameSiteCookieProtection($config);
 
-		if (!defined('OC_CONSOLE')) {
+		if (!defined('OC_CONSOLE')) { // Run via Web or via `cron.php` but not `occ`
 			$eventLogger->start('check_server', 'Run a few configuration checks');
 			$errors = OC_Util::checkServer($systemConfig);
 			if (count($errors) > 0) {
