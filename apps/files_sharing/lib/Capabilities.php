@@ -7,9 +7,11 @@
  */
 namespace OCA\Files_Sharing;
 
+use OC\Core\AppInfo\ConfigLexicon;
 use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Share\IManager;
 
@@ -21,6 +23,7 @@ use OCP\Share\IManager;
 class Capabilities implements ICapability {
 	public function __construct(
 		private IConfig $config,
+		private readonly IAppConfig $appConfig,
 		private IManager $shareManager,
 		private IAppManager $appManager,
 	) {
@@ -111,7 +114,7 @@ class Capabilities implements ICapability {
 				if ($public['password']['enforced']) {
 					$public['password']['askForOptionalPassword'] = false;
 				} else {
-					$public['password']['askForOptionalPassword'] = ($this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no') === 'yes');
+					$public['password']['askForOptionalPassword'] = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
 				}
 
 				$public['expire_date'] = [];

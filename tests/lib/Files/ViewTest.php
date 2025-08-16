@@ -23,6 +23,7 @@ use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
@@ -258,28 +259,36 @@ class ViewTest extends \Test\TestCase {
 	 * @medium
 	 */
 	public function testGetPath(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('test');
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
 
-		Filesystem::mount($storage1, [], '/');
-		Filesystem::mount($storage2, [], '/substorage');
-		Filesystem::mount($storage3, [], '/folder/anotherstorage');
+		Filesystem::mount($storage1, [], '/test/files');
+		Filesystem::mount($storage2, [], '/test/files/substorage');
+		Filesystem::mount($storage3, [], '/test/files/folder/anotherstorage');
 
-		$rootView = new View('');
+		$userMountCache = Server::get(IUserMountCache::class);
+		$userMountCache->registerMounts($user, [
+			new MountPoint($storage1, '/test/files'),
+			new MountPoint($storage2, '/test/files/substorage'),
+			new MountPoint($storage3, '/test/files/folder/anotherstorage'),
+		]);
+
+		$rootView = new View('/test/files');
 
 
 		$cachedData = $rootView->getFileInfo('/foo.txt');
-		/** @var int $id1 */
-		$id1 = $cachedData['fileid'];
+		$id1 = $cachedData->getId();
 		$this->assertEquals('/foo.txt', $rootView->getPath($id1));
 
 		$cachedData = $rootView->getFileInfo('/substorage/foo.txt');
-		/** @var int $id2 */
-		$id2 = $cachedData['fileid'];
+		$id2 = $cachedData->getId();
 		$this->assertEquals('/substorage/foo.txt', $rootView->getPath($id2));
 
-		$folderView = new View('/substorage');
+		$folderView = new View('/test/files/substorage');
 		$this->assertEquals('/foo.txt', $folderView->getPath($id2));
 	}
 

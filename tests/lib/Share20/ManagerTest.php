@@ -722,7 +722,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config->method('getAppValue')->willReturnMap([
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
-			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
+		]);
+
+		$this->appConfig->method('getValueBool')->willReturnMap([
+			['core', 'shareapi_enforce_links_password', true],
 		]);
 
 		self::invokePrivate($this->manager, 'verifyPassword', [null]);

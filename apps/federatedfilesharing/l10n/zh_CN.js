@@ -47,6 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "通过我的 #Nextcloud 联合云 ID 与我分享文件，链接 {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "通过我的 #Nextcloud 联合云 ID 与我共享",
     "Share with me via Nextcloud" : "通过联合云与我共享",
+    "Cloud ID copied" : "云 ID 已复制",
     "Copy" : "复制",
     "Clipboard not available. Please copy the cloud ID manually." : "剪贴板不可用，请手动复制云 ID。",
     "Copied!" : "已复制！",

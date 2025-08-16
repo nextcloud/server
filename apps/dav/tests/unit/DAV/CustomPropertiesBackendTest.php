@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\DAV;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\DAV\CustomPropertiesBackend;
+use OCA\DAV\Db\PropertyMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -36,6 +37,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	private IUser&MockObject $user;
 	private DefaultCalendarValidator&MockObject $defaultCalendarValidator;
 	private CustomPropertiesBackend $backend;
+	private PropertyMapper $propertyMapper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,6 +51,7 @@ class CustomPropertiesBackendTest extends TestCase {
 			->with()
 			->willReturn('dummy_user_42');
 		$this->dbConnection = \OCP\Server::get(IDBConnection::class);
+		$this->propertyMapper = \OCP\Server::get(PropertyMapper::class);
 		$this->defaultCalendarValidator = $this->createMock(DefaultCalendarValidator::class);
 
 		$this->backend = new CustomPropertiesBackend(
@@ -56,6 +59,7 @@ class CustomPropertiesBackendTest extends TestCase {
 			$this->tree,
 			$this->dbConnection,
 			$this->user,
+			$this->propertyMapper,
 			$this->defaultCalendarValidator,
 		);
 	}
@@ -129,6 +133,7 @@ class CustomPropertiesBackendTest extends TestCase {
 			$this->tree,
 			$db,
 			$this->user,
+			$this->propertyMapper,
 			$this->defaultCalendarValidator,
 		);
 

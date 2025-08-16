@@ -234,4 +234,14 @@ interface IManager {
 	 * @since 30.0.0
 	 */
 	public function setTaskStatus(Task $task, int $status): void;
+
+	/**
+	 * Extract all input and output file IDs from a task
+	 *
+	 * @param Task $task
+	 * @return list<int>
+	 * @throws NotFoundException
+	 * @since 32.0.0
+	 */
+	public function extractFileIdsFromTask(Task $task): array;
 }

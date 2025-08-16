@@ -202,6 +202,7 @@ OC.L10N.register(
     "Unshare" : "Укини дељење",
     "Cannot copy, please copy the link manually" : "Не могу да копирам, копирајте везу ручно",
     "Copy internal link" : "Копирај интерну везу",
+    "For people who already have access" : "Особе које већ имају приступ",
     "Internal link" : "Интерна веза",
     "{shareWith} by {initiator}" : "{shareWith} od {initiator}",
     "Shared via link by {initiator}" : "{initiator} поделио преко везе",

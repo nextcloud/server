@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\Sharing\RootCollection;
 use OCA\DAV\Upload\CleanupService;
@@ -94,6 +95,8 @@ class ServerFactory {
 			$server->debugEnabled = $debugEnabled;
 			$server->addPlugin(new PropFindMonitorPlugin());
 		}
+
+		$server->addPlugin(new PropFindPreloadNotifyPlugin());
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new DummyGetResponsePlugin());
 		$server->addPlugin(new ExceptionLoggerPlugin('webdav', $this->logger));
@@ -226,6 +229,7 @@ class ServerFactory {
 							$tree,
 							$this->databaseConnection,
 							$this->userSession->getUser(),
+							\OCP\Server::get(PropertyMapper::class),
 							\OCP\Server::get(DefaultCalendarValidator::class),
 						)
 					)

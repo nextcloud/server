@@ -36,7 +36,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 
 	public function __construct(
 		BackendInterface $caldavBackend,
-		$calendarInfo,
+		array $calendarInfo,
 		IL10N $l10n,
 		private IConfig $config,
 		private LoggerInterface $logger,
@@ -58,6 +58,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Personal');
 		}
 		$this->l10n = $l10n;
+	}
+
+	public function getUri(): string {
+		return $this->calendarInfo['uri'];
 	}
 
 	/**

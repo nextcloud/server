@@ -30,6 +30,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\ICache;
@@ -77,6 +78,8 @@ class Manager implements IManager {
 		'ai.taskprocessing_type_preferences',
 		'ai.taskprocessing_provider_preferences',
 	];
+
+	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 30 * 4; // 4 months
 
 	/** @var list<IProvider>|null */
 	private ?array $providers = null;
@@ -1446,6 +1449,97 @@ class Manager implements IManager {
 		if (!in_array($userId, $userIds)) {
 			throw new UnauthorizedException('User ' . $userId . ' does not have access to file ' . $fileId);
 		}
+	}
+
+	/**
+	 * @param Task $task
+	 * @return list<int>
+	 * @throws NotFoundException
+	 */
+	public function extractFileIdsFromTask(Task $task): array {
+		$ids = [];
+		$taskTypes = $this->getAvailableTaskTypes();
+		if (!isset($taskTypes[$task->getTaskTypeId()])) {
+			throw new NotFoundException('Could not find task type');
+		}
+		$taskType = $taskTypes[$task->getTaskTypeId()];
+		foreach ($taskType['inputShape'] + $taskType['optionalInputShape'] as $key => $descriptor) {
+			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+				/** @var int|list<int> $inputSlot */
+				$inputSlot = $task->getInput()[$key];
+				if (is_array($inputSlot)) {
+					$ids = array_merge($inputSlot, $ids);
+				} else {
+					$ids[] = $inputSlot;
+				}
+			}
+		}
+		if ($task->getOutput() !== null) {
+			foreach ($taskType['outputShape'] + $taskType['optionalOutputShape'] as $key => $descriptor) {
+				if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
+					/** @var int|list<int> $outputSlot */
+					$outputSlot = $task->getOutput()[$key];
+					if (is_array($outputSlot)) {
+						$ids = array_merge($outputSlot, $ids);
+					} else {
+						$ids[] = $outputSlot;
+					}
+				}
+			}
+		}
+		return $ids;
+	}
+
+	/**
+	 * @param ISimpleFolder $folder
+	 * @param int $ageInSeconds
+	 * @return \Generator
+	 */
+	public function clearFilesOlderThan(ISimpleFolder $folder, int $ageInSeconds = self::MAX_TASK_AGE_SECONDS): \Generator {
+		foreach ($folder->getDirectoryListing() as $file) {
+			if ($file->getMTime() < time() - $ageInSeconds) {
+				try {
+					$fileName = $file->getName();
+					$file->delete();
+					yield $fileName;
+				} catch (NotPermittedException $e) {
+					$this->logger->warning('Failed to delete a stale task processing file', ['exception' => $e]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param int $ageInSeconds
+	 * @return \Generator
+	 * @throws Exception
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws \JsonException
+	 * @throws \OCP\Files\NotFoundException
+	 */
+	public function cleanupTaskProcessingTaskFiles(int $ageInSeconds = self::MAX_TASK_AGE_SECONDS): \Generator {
+		$taskIdsToCleanup = [];
+		foreach ($this->taskMapper->getTasksToCleanup($ageInSeconds) as $task) {
+			$taskIdsToCleanup[] = $task->getId();
+			$ocpTask = $task->toPublicTask();
+			$fileIds = $this->extractFileIdsFromTask($ocpTask);
+			foreach ($fileIds as $fileId) {
+				// only look for output files stored in appData/TaskProcessing/
+				$file = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/core/TaskProcessing/');
+				if ($file instanceof File) {
+					try {
+						$fileId = $file->getId();
+						$fileName = $file->getName();
+						$file->delete();
+						yield ['task_id' => $task->getId(), 'file_id' => $fileId, 'file_name' => $fileName];
+					} catch (NotPermittedException $e) {
+						$this->logger->warning('Failed to delete a stale task processing file', ['exception' => $e]);
+					}
+				}
+			}
+		}
+		return $taskIdsToCleanup;
 	}
 
 	/**

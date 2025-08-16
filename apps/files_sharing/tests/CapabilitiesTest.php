@@ -56,11 +56,30 @@ class CapabilitiesTest extends \Test\TestCase {
 	 * @param (string[])[] $map Map of arguments to return types for the getAppValue function in the mock
 	 * @return string[]
 	 */
-	private function getResults(array $map, bool $federationEnabled = true) {
+	private function getResults(array $map, array $typedMap = [], bool $federationEnabled = true) {
 		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
 		$appManager = $this->getMockBuilder(IAppManager::class)->disableOriginalConstructor()->getMock();
 		$config->method('getAppValue')->willReturnMap($map);
 		$appManager->method('isEnabledForAnyone')->with('federation')->willReturn($federationEnabled);
+
+		if (empty($typedMap)) {
+			$appConfig = $this->createMock(IAppConfig::class);
+		} else {
+			// hack to help transition from old IConfig to new IAppConfig
+			$appConfig = $this->getMockBuilder(IAppConfig::class)->disableOriginalConstructor()->getMock();
+			$appConfig->expects($this->any())->method('getValueBool')->willReturnCallback(function (...$args) use ($typedMap): bool {
+				foreach ($typedMap as $entry) {
+					if ($entry[0] !== $args[0] || $entry[1] !== $args[1]) {
+						continue;
+					}
+
+					return $entry[2];
+				}
+
+				return false;
+			});
+		}
+
 		$shareManager = new Manager(
 			$this->createMock(LoggerInterface::class),
 			$config,
@@ -80,9 +99,10 @@ class CapabilitiesTest extends \Test\TestCase {
 			$this->createMock(KnownUserService::class),
 			$this->createMock(ShareDisableChecker::class),
 			$this->createMock(IDateTimeZone::class),
-			$this->createMock(IAppConfig::class),
+			$appConfig,
 		);
-		$cap = new Capabilities($config, $shareManager, $appManager);
+
+		$cap = new Capabilities($config, $appConfig, $shareManager, $appManager);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());
 		return $result;
 	}
@@ -135,9 +155,11 @@ class CapabilitiesTest extends \Test\TestCase {
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
-			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
 		];
-		$result = $this->getResults($map);
+		$typedMap = [
+			['core', 'shareapi_enforce_links_password', true],
+		];
+		$result = $this->getResults($map, $typedMap);
 		$this->assertArrayHasKey('password', $result['public']);
 		$this->assertArrayHasKey('enforced', $result['public']['password']);
 		$this->assertTrue($result['public']['password']['enforced']);
@@ -328,7 +350,7 @@ class CapabilitiesTest extends \Test\TestCase {
 	}
 
 	public function testFederatedSharingDisabled(): void {
-		$result = $this->getResults([], false);
+		$result = $this->getResults([], federationEnabled: false);
 		$this->assertArrayHasKey('federation', $result);
 		$this->assertFalse($result['federation']['incoming']);
 		$this->assertFalse($result['federation']['outgoing']);

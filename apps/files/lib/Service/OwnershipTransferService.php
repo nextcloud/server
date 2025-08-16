@@ -333,15 +333,10 @@ class OwnershipTransferService {
 				if ($path !== "$sourceUid/files") {
 					$sharePage = array_filter($sharePage, function (IShare $share) use ($view, $normalizedPath) {
 						try {
-							$relativePath = $view->getPath($share->getNodeId());
-							$singleFileTranfer = $view->is_file($normalizedPath);
-							if ($singleFileTranfer) {
-								return Filesystem::normalizePath($relativePath) === $normalizedPath;
-							}
+							$sourceNode = $share->getNode();
+							$relativePath = $view->getRelativePath($sourceNode->getPath());
 
-							return mb_strpos(
-								Filesystem::normalizePath($relativePath . '/', false),
-								$normalizedPath . '/') === 0;
+							return str_starts_with($relativePath . '/', $normalizedPath . '/');
 						} catch (Exception $e) {
 							return false;
 						}
@@ -357,7 +352,7 @@ class OwnershipTransferService {
 
 		return array_values(array_filter(array_map(function (IShare $share) use ($view, $normalizedPath, $output, $sourceUid) {
 			try {
-				$nodePath = $view->getPath($share->getNodeId());
+				$nodePath = $view->getRelativePath($share->getNode()->getPath());
 			} catch (NotFoundException $e) {
 				$output->writeln("<error>Failed to find path for shared file {$share->getNodeId()} for user $sourceUid, skipping</error>");
 				return null;

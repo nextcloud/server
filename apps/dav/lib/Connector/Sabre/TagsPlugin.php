@@ -31,6 +31,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITagManager;
 use OCP\ITags;
 use OCP\IUserSession;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 
@@ -61,6 +62,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @var array
 	 */
 	private $cachedTags;
+	private array $cachedDirectories;
 
 	/**
 	 * @param \Sabre\DAV\Tree $tree tree
@@ -92,6 +94,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->xml->elementMap[self::TAGS_PROPERTYNAME] = TagList::class;
 
 		$this->server = $server;
+		$this->server->on('preloadCollection', $this->preloadCollection(...));
 		$this->server->on('propFind', [$this, 'handleGetProperties']);
 		$this->server->on('propPatch', [$this, 'handleUpdateProperties']);
 		$this->server->on('preloadProperties', [$this, 'handlePreloadProperties']);
@@ -194,6 +197,29 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 	}
 
+	private function preloadCollection(PropFind $propFind, ICollection $collection):
+	void {
+		if (!($collection instanceof Node)) {
+			return;
+		}
+
+		// need prefetch ?
+		if ($collection instanceof Directory
+			&& !isset($this->cachedDirectories[$collection->getPath()])
+			&& (!is_null($propFind->getStatus(self::TAGS_PROPERTYNAME))
+				|| !is_null($propFind->getStatus(self::FAVORITE_PROPERTYNAME))
+			)) {
+			// note: pre-fetching only supported for depth <= 1
+			$folderContent = $collection->getChildren();
+			$fileIds = [(int)$collection->getId()];
+			foreach ($folderContent as $info) {
+				$fileIds[] = (int)$info->getId();
+			}
+			$this->prefetchTagsForFileIds($fileIds);
+			$this->cachedDirectories[$collection->getPath()] = true;
+		}
+	}
+
 	/**
 	 * Adds tags and favorites properties to the response,
 	 * if requested.
@@ -208,21 +234,6 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	) {
 		if (!($node instanceof Node)) {
 			return;
-		}
-
-		// need prefetch ?
-		if ($node instanceof Directory
-			&& $propFind->getDepth() !== 0
-			&& (!is_null($propFind->getStatus(self::TAGS_PROPERTYNAME))
-			|| !is_null($propFind->getStatus(self::FAVORITE_PROPERTYNAME))
-			)) {
-			// note: pre-fetching only supported for depth <= 1
-			$folderContent = $node->getChildren();
-			$fileIds = [(int)$node->getId()];
-			foreach ($folderContent as $info) {
-				$fileIds[] = (int)$info->getId();
-			}
-			$this->prefetchTagsForFileIds($fileIds);
 		}
 
 		$isFav = null;

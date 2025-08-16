@@ -147,6 +147,8 @@ class TagsPluginTest extends \Test\TestCase {
 			0
 		);
 
+		$this->server->emit('preloadCollection', [$propFindRoot, $node]);
+
 		$this->plugin->handleGetProperties(
 			$propFindRoot,
 			$node

@@ -639,7 +639,8 @@
                     "progress",
                     "scheduledAt",
                     "startedAt",
-                    "endedAt"
+                    "endedAt",
+                    "allowCleanup"
                 ],
                 "properties": {
                     "id": {
@@ -710,6 +711,9 @@
                         "type": "integer",
                         "format": "int64",
                         "nullable": true
+                    },
+                    "allowCleanup": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -1045,6 +1049,7 @@
                     "name",
                     "icon",
                     "order",
+                    "isExternalProvider",
                     "triggers",
                     "filters",
                     "inAppSearch"
@@ -1065,6 +1070,9 @@
                     "order": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "isExternalProvider": {
+                        "type": "boolean"
                     },
                     "triggers": {
                         "type": "array",
