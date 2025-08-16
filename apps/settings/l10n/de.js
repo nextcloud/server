@@ -425,7 +425,7 @@ OC.L10N.register(
     "Registered Deploy daemons list" : "Liste von registrierten Bereitstellungsdaemons",
     "No Deploy daemons configured" : "Keine Bereitstellungsdämonen konfiguriert",
     "Register a custom one or setup from available templates" : "Eine benutzerdefinierte Vorlage registrieren oder aus einer verfügbaren Vorlagen einrichten",
-    "Manage Deploy daemons" : "Bereitstellungs-Daemone verwalten",
+    "Manage Deploy daemons" : "Bereitstellungs-Daemons verwalten",
     "Show details for {appName} app" : "Details der App {appName} anzeigen",
     "Update to {update}" : "Aktualisieren auf {update}",
     "Remove" : "Entfernen",

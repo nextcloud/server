@@ -29,66 +29,76 @@ class PropFindMonitorPluginTest extends TestCase {
 			'No queries logged' => [[], 0],
 			'Plugins with queries in less than threshold nodes should not be logged' => [
 				[
-					[
-						'PluginName' => ['queries' => 100, 'nodes'
-							=> PropFindMonitorPlugin::THRESHOLD_NODES - 1]
-					],
-					[],
+					'propFind' => [
+						[
+							'PluginName' => [
+								'queries' => 100,
+								'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES - 1]
+						],
+						[],
+					]
 				],
 				0
 			],
 			'Plugins with query-to-node ratio less than threshold should not be logged' => [
 				[
-					[
-						'PluginName' => [
-							'queries' => $minQueriesTrigger - 1,
-							'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES ],
-					],
-					[],
+					'propFind' => [
+						[
+							'PluginName' => [
+								'queries' => $minQueriesTrigger - 1,
+								'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES ],
+						],
+						[],
+					]
 				],
 				0
 			],
 			'Plugins with more nodes scanned than queries executed should not be logged' => [
 				[
-					[
-						'PluginName' => [
-							'queries' => $minQueriesTrigger,
-							'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES * 2],
-					],
-					[],
+					'propFind' => [
+						[
+							'PluginName' => [
+								'queries' => $minQueriesTrigger,
+								'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES * 2],
+						],
+						[],]
 				],
 				0
 			],
 			'Plugins with queries only in highest depth level should not be logged' => [
 				[
-					[
-						'PluginName' => [
-							'queries' => $minQueriesTrigger,
-							'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES - 1
-						]
-					],
-					[
-						'PluginName' => [
-							'queries' => $minQueriesTrigger * 2,
-							'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES
-						]
+					'propFind' => [
+						[
+							'PluginName' => [
+								'queries' => $minQueriesTrigger,
+								'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES - 1
+							]
+						],
+						[
+							'PluginName' => [
+								'queries' => $minQueriesTrigger * 2,
+								'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES
+							]
+						],
 					]
 				],
 				0
 			],
 			'Plugins with too many queries should be logged' => [
 				[
-					[
-						'FirstPlugin' => [
-							'queries' => $minQueriesTrigger,
-							'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES,
+					'propFind' => [
+						[
+							'FirstPlugin' => [
+								'queries' => $minQueriesTrigger,
+								'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES,
+							],
+							'SecondPlugin' => [
+								'queries' => $minQueriesTrigger,
+								'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES,
+							]
 						],
-						'SecondPlugin' => [
-							'queries' => $minQueriesTrigger,
-							'nodes' => PropFindMonitorPlugin::THRESHOLD_NODES,
-						]
-					],
-					[]
+						[],
+					]
 				],
 				2
 			]
