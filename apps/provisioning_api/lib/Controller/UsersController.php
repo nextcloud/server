@@ -954,6 +954,7 @@ class UsersController extends AUserDataOCSController {
 
 			$permittedFields[] = self::USER_FIELD_PASSWORD;
 			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
+			$permittedFields[] = self::USER_FIELD_TIMEZONE;
 			if (
 				$this->config->getSystemValue('force_language', false) === false
 				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
@@ -1028,6 +1029,7 @@ class UsersController extends AUserDataOCSController {
 				$permittedFields[] = self::USER_FIELD_PASSWORD;
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 				$permittedFields[] = self::USER_FIELD_LOCALE;
+				$permittedFields[] = self::USER_FIELD_TIMEZONE;
 				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
 				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
@@ -1121,6 +1123,12 @@ class UsersController extends AUserDataOCSController {
 					throw new OCSException($this->l10n->t('Invalid locale'), 101);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
+				break;
+			case self::USER_FIELD_TIMEZONE:
+				if (!in_array($value, \DateTimeZone::listIdentifiers())) {
+					throw new OCSException($this->l10n->t('Invalid timezone'), 101);
+				}
+				$this->config->setUserValue($targetUser->getUID(), 'core', 'timezone', $value);
 				break;
 			case self::USER_FIELD_FIRST_DAY_OF_WEEK:
 				$intValue = (int)$value;

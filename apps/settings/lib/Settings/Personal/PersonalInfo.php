@@ -110,6 +110,7 @@ class PersonalInfo implements ISettings {
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
 			'firstDayOfWeek' => $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK),
+			'timezone' => $this->config->getUserValue($uid, 'core', 'timezone', ''),
 			'pronouns' => $this->getProperty($account, IAccountManager::PROPERTY_PRONOUNS),
 		];
 

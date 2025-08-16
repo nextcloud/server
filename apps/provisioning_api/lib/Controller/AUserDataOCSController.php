@@ -43,6 +43,7 @@ abstract class AUserDataOCSController extends OCSController {
 	public const USER_FIELD_DISPLAYNAME = 'display';
 	public const USER_FIELD_LANGUAGE = 'language';
 	public const USER_FIELD_LOCALE = 'locale';
+	public const USER_FIELD_TIMEZONE = 'timezone';
 	public const USER_FIELD_FIRST_DAY_OF_WEEK = 'first_day_of_week';
 	public const USER_FIELD_PASSWORD = 'password';
 	public const USER_FIELD_QUOTA = 'quota';
@@ -187,6 +188,7 @@ abstract class AUserDataOCSController extends OCSController {
 		$data['groups'] = $gids;
 		$data[self::USER_FIELD_LANGUAGE] = $this->l10nFactory->getUserLanguage($targetUserObject);
 		$data[self::USER_FIELD_LOCALE] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
+		$data[self::USER_FIELD_TIMEZONE] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'timezone');
 		$data[self::USER_FIELD_NOTIFICATION_EMAIL] = $targetUserObject->getPrimaryEMailAddress();
 
 		$backend = $targetUserObject->getBackend();

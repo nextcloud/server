@@ -1225,6 +1225,7 @@ class UsersControllerTest extends TestCase {
 			'groups' => ['group0', 'group1', 'group2'],
 			'language' => 'de',
 			'locale' => null,
+			'timezone' => null,
 			'backendCapabilities' => [
 				'setDisplayName' => true,
 				'setPassword' => true,
@@ -1372,6 +1373,7 @@ class UsersControllerTest extends TestCase {
 			'groups' => [],
 			'language' => 'da',
 			'locale' => null,
+			'timezone' => null,
 			'backendCapabilities' => [
 				'setDisplayName' => true,
 				'setPassword' => true,
@@ -1557,6 +1559,7 @@ class UsersControllerTest extends TestCase {
 			'groups' => [],
 			'language' => 'ru',
 			'locale' => null,
+			'timezone' => null,
 			'backendCapabilities' => [
 				'setDisplayName' => false,
 				'setPassword' => false,
