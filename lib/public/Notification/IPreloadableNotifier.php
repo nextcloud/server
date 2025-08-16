@@ -26,6 +26,11 @@ interface IPreloadableNotifier extends INotifier {
 	 *
 	 * @param INotification[] $notifications The notifications which are about to be prepared in the next step.
 	 * @param string $languageCode The code of the language that should be used to prepare the notification.
+	 * @param NotificationPreloadReason $reason The reason for preloading the given notifications to facilitate smarter decisions about what data to preload.
 	 */
-	public function preloadDataForParsing(array $notifications, string $languageCode): void;
+	public function preloadDataForParsing(
+		array $notifications,
+		string $languageCode,
+		NotificationPreloadReason $reason,
+	): void;
 }
