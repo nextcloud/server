@@ -25,6 +25,7 @@
 					<!-- Uploader -->
 					<UploadPicker v-if="canUpload && !isQuotaExceeded && currentFolder"
 						allow-folders
+						:no-label="fileListWidth <= 511"
 						class="files-list__header-upload-button"
 						:content="getContent"
 						:destination="currentFolder"
@@ -57,7 +58,7 @@
 				</NcActionButton>
 			</NcActions>
 
-			<NcButton v-if="fileListWidth >= 512 && enableGridView"
+			<NcButton v-if="enableGridView"
 				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
 				class="files-list__header-grid-button"
