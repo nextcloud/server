@@ -4,10 +4,17 @@
  */
 import type { Node, View } from '@nextcloud/files'
 import { FileAction, FileType, DefaultType } from '@nextcloud/files'
+import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
-import { isDownloadable } from '../utils/permissions'
+import axios from '@nextcloud/axios'
 
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
+
+import { isDownloadable } from '../utils/permissions'
+import { usePathsStore } from '../store/paths'
+import { getPinia } from '../store'
+import { useFilesStore } from '../store/files'
+import { emit } from '@nextcloud/event-bus'
 
 /**
  * Trigger downloading a file.
@@ -15,7 +22,10 @@ import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
  * @param url The url of the asset to download
  * @param name Optionally the recommended name of the download (browsers might ignore it)
  */
-function triggerDownload(url: string, name?: string) {
+async function triggerDownload(url: string, name?: string) {
+	// try to see if the resource is still available
+	await axios.head(url)
+
 	const hiddenElement = document.createElement('a')
 	hiddenElement.download = name ?? ''
 	hiddenElement.href = url
@@ -44,12 +54,21 @@ function longestCommonPath(first: string, second: string): string {
 	return base
 }
 
-const downloadNodes = function(nodes: Node[]) {
+/**
+ * Download the given nodes.
+ *
+ * If only one node is given, it will be downloaded directly.
+ * If multiple nodes are given, they will be zipped and downloaded.
+ *
+ * @param nodes The node(s) to download
+ */
+async function downloadNodes(nodes: Node[]) {
 	let url: URL
 
 	if (nodes.length === 1) {
 		if (nodes[0].type === FileType.File) {
-			return triggerDownload(nodes[0].encodedSource, nodes[0].displayname)
+			await triggerDownload(nodes[0].encodedSource, nodes[0].displayname)
+			return
 		} else {
 			url = new URL(nodes[0].encodedSource)
 			url.searchParams.append('accept', 'zip')
@@ -72,7 +91,29 @@ const downloadNodes = function(nodes: Node[]) {
 		url.pathname = `${url.pathname}/`
 	}
 
-	return triggerDownload(url.href)
+	await triggerDownload(url.href)
+}
+
+/**
+ * Get the current directory node for the given view and path.
+ * TODO: ideally the folder would directly be passed as exec params
+ *
+ * @param view The current view
+ * @param directory The directory path
+ * @return The current directory node or null if not found
+ */
+function getCurrentDirectory(view: View, directory: string): Node | null {
+	const filesStore = useFilesStore(getPinia())
+	const pathsStore = usePathsStore(getPinia())
+	if (!view?.id) {
+		return null
+	}
+
+	if (directory === '/') {
+		return filesStore.getRoot(view.id) || null
+	}
+	const fileId = pathsStore.getPath(view.id, directory)!
+	return filesStore.getNode(fileId) || null
 }
 
 export const action = new FileAction({
@@ -101,12 +142,24 @@ export const action = new FileAction({
 	},
 
 	async exec(node: Node) {
-		downloadNodes([node])
+		try {
+			await downloadNodes([node])
+		} catch (e) {
+			showError(t('files', 'The requested file is not available.'))
+			emit('files:node:deleted', node)
+		}
 		return null
 	},
 
-	async execBatch(nodes: Node[]) {
-		downloadNodes(nodes)
+	async execBatch(nodes: Node[], view: View, dir: string) {
+		try {
+			await downloadNodes(nodes)
+		} catch (e) {
+			showError(t('files', 'The requested files are not available.'))
+			// Try to reload the current directory to update the view
+			const directory = getCurrentDirectory(view, dir)!
+			emit('files:node:updated', directory)
+		}
 		return new Array(nodes.length).fill(null)
 	},
 
