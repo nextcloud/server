@@ -5,6 +5,9 @@
 const path = require('path')
 
 module.exports = {
+	circles: {
+		'teams-widget': path.join(__dirname, 'apps/circles/js', 'teams-widget.js'),
+	},
 	comments: {
 		'comments-app': path.join(__dirname, 'apps/comments/src', 'comments-app.js'),
 		'comments-tab': path.join(__dirname, 'apps/comments/src', 'comments-tab.js'),
