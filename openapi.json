@@ -137,7 +137,8 @@
                             "webdav-root",
                             "reference-api",
                             "reference-regex",
-                            "mod-rewrite-working"
+                            "mod-rewrite-working",
+                            "user"
                         ],
                         "properties": {
                             "pollinterval": {
@@ -155,6 +156,26 @@
                             },
                             "mod-rewrite-working": {
                                 "type": "boolean"
+                            },
+                            "user": {
+                                "type": "object",
+                                "nullable": true,
+                                "required": [
+                                    "language",
+                                    "locale",
+                                    "timezone"
+                                ],
+                                "properties": {
+                                    "language": {
+                                        "type": "string"
+                                    },
+                                    "locale": {
+                                        "type": "string"
+                                    },
+                                    "timezone": {
+                                        "type": "string"
+                                    }
+                                }
                             }
                         }
                     }
