@@ -11,6 +11,7 @@ namespace OC\Core\Command\Config;
 use OC\Config\PresetManager;
 use OC\Core\Command\Base;
 use OCP\Config\Lexicon\Preset as ConfigLexiconPreset;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,12 +29,31 @@ class Preset extends Base {
 		$this->setName('config:preset')
 			->setDescription('Select a config preset')
 			->addArgument('preset', InputArgument::OPTIONAL, 'Preset to use for all unset config values', '')
-			->addOption('list', '', InputOption::VALUE_NONE, 'display available preset');
+			->addOption('list', '', InputOption::VALUE_NONE, 'display available preset')
+			->addOption('compare', '', InputOption::VALUE_NONE, 'compare preset');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('list')) {
 			$this->getEnum('', $list);
+			$this->writeArrayInOutputFormat($input, $output, $list);
+			return self::SUCCESS;
+		}
+
+		if ($input->getOption('compare')) {
+			$list = $this->presetManager->retrieveLexiconPreset();
+			if ($input->getOption('output') === 'plain') {
+				$table = new Table($output);
+				$table->setHeaders(['app', 'config key', 'value', ...array_map(static fn (ConfigLexiconPreset $p): string => $p->name, ConfigLexiconPreset::cases())]);
+				foreach ($list as $appId => $entries) {
+					foreach ($entries as $item) {
+						$table->addRow([$appId, $item['entry']['key'], '<comment>' . ($item['value'] ?? '') . '</comment>', ...($item['defaults'] ?? [])]);
+					}
+				}
+				$table->render();
+				return self::SUCCESS;
+			}
+
 			$this->writeArrayInOutputFormat($input, $output, $list);
 			return self::SUCCESS;
 		}
