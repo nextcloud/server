@@ -382,7 +382,7 @@ class BackendTest extends TestCase {
 			->with($resourceIds)
 			->willReturn($rows);
 		$this->principalBackend->expects(self::exactly(2))
-			->method('getPrincipalByPath')
+			->method('getPrincipalPropertiesByPath')
 			->willReturnCallback(function (string $principal) use ($principalResults) {
 				switch ($principal) {
 					case 'principals/groups/bob':
