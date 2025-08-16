@@ -78,6 +78,7 @@
     "Search tag" : "Buscar etiqueta",
     "Change tag color" : "Cambiar color de etiqueta",
     "Create new tag" : "Crear nueva etiqueta",
+    "Choose tags for the selected files" : "Escoja las etiquetas para los archivos seleccionados",
     "Cancel" : "Cancelar",
     "Apply" : "Aplicar",
     "Failed to load tags" : "Fallo al cargar etiquetas",
