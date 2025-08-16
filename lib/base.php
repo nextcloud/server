@@ -340,7 +340,7 @@ class OC {
 		});
 	}
 	
-	public function static registerAutoloading(): void {
+	public static function registerAutoloading(): void {
 		// Add default composer PSR-4 autoloader
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
 		// Ensure apcu is disabled
