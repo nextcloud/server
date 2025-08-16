@@ -446,7 +446,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, 
 	}
 
 	/**
-	 * A custom storage implementation can return an url for direct download of a give file.
+	 * A custom storage implementation can return a url for direct download of a give file.
 	 *
 	 * For now the returned array can hold the parameter url - in future more attributes might follow.
 	 */
