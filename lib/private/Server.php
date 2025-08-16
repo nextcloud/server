@@ -585,62 +585,37 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IURLGenerator::class, URLGenerator::class);
 
-		$this->registerService(ICache::class, function ($c) {
-			return new Cache\File();
-		});
-
+		$this->registerAlias(ICache::class, Cache\File::class);
 		$this->registerService(Factory::class, function (Server $c) {
 			$profiler = $c->get(IProfiler::class);
-			$arrayCacheFactory = new \OC\Memcache\Factory(fn () => '', $c->get(LoggerInterface::class),
-				$profiler,
-				ArrayCache::class,
-				ArrayCache::class,
-				ArrayCache::class
-			);
+			$logger = $c->get(LoggerInterface::class);
+			$serverVersion = $c->get(ServerVersion::class);
 			/** @var SystemConfig $config */
 			$config = $c->get(SystemConfig::class);
-			/** @var ServerVersion $serverVersion */
-			$serverVersion = $c->get(ServerVersion::class);
-
-			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
-				$logQuery = $config->getValue('log_query');
-				$prefixClosure = function () use ($logQuery, $serverVersion): ?string {
-					if (!$logQuery) {
-						try {
-							$v = \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions(true);
-						} catch (\Doctrine\DBAL\Exception $e) {
-							// Database service probably unavailable
-							// Probably related to https://github.com/nextcloud/server/issues/37424
-							return null;
-						}
-					} else {
-						// If the log_query is enabled, we can not get the app versions
-						// as that does a query, which will be logged and the logging
-						// depends on redis and here we are back again in the same function.
-						$v = [
-							'log_query' => 'enabled',
-						];
-					}
-					$v['core'] = implode(',', $serverVersion->getVersion());
-					$version = implode(',', array_keys($v)) . implode(',', $v);
-					$instanceId = \OC_Util::getInstanceId();
-					$path = \OC::$SERVERROOT;
-					return md5($instanceId . '-' . $version . '-' . $path);
-				};
-				return new \OC\Memcache\Factory($prefixClosure,
-					$c->get(LoggerInterface::class),
+			if (!$config->getValue('installed', false) || (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+				return new \OC\Memcache\Factory(
+					$logger,
 					$profiler,
-					/** @psalm-taint-escape callable */
-					$config->getValue('memcache.local', null),
-					/** @psalm-taint-escape callable */
-					$config->getValue('memcache.distributed', null),
-					/** @psalm-taint-escape callable */
-					$config->getValue('memcache.locking', null),
-					/** @psalm-taint-escape callable */
-					$config->getValue('redis_log_file')
+					$serverVersion,
+					ArrayCache::class,
+					ArrayCache::class,
+					ArrayCache::class
 				);
 			}
-			return $arrayCacheFactory;
+
+			return new \OC\Memcache\Factory(
+				$logger,
+				$profiler,
+				$serverVersion,
+				/** @psalm-taint-escape callable */
+				$config->getValue('memcache.local', null),
+				/** @psalm-taint-escape callable */
+				$config->getValue('memcache.distributed', null),
+				/** @psalm-taint-escape callable */
+				$config->getValue('memcache.locking', null),
+				/** @psalm-taint-escape callable */
+				$config->getValue('redis_log_file')
+			);
 		});
 		$this->registerAlias(ICacheFactory::class, Factory::class);
 
