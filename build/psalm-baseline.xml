@@ -2599,9 +2599,6 @@
       <code><![CDATA[$matches[0][$last_match]]]></code>
       <code><![CDATA[$matches[1][$last_match]]]></code>
     </InvalidArrayOffset>
-    <InvalidScalarArgument>
-      <code><![CDATA[$path]]></code>
-    </InvalidScalarArgument>
     <UndefinedInterfaceMethod>
       <code><![CDATA[getQuota]]></code>
     </UndefinedInterfaceMethod>
