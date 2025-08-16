@@ -116,8 +116,9 @@ abstract class Backend {
 	 * @return list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}>
 	 */
 	public function getShares(int $resourceId): array {
+		/** @var list<array{href: string, commonName: string, status: int, readOnly: bool, '{http://owncloud.org/ns}principal': string, '{http://owncloud.org/ns}group-share': bool}>|null $cached */
 		$cached = $this->shareCache->get((string)$resourceId);
-		if ($cached) {
+		if (is_array($cached)) {
 			return $cached;
 		}
 
@@ -160,6 +161,23 @@ abstract class Backend {
 				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && str_starts_with($p['uri'], 'principals/groups')
 			];
 			$this->shareCache->set((string)$resourceId, $sharesByResource[$resourceId]);
+		}
+
+		// Also remember resources with no shares to prevent superfluous (empty) queries later on
+		foreach ($resourceIds as $resourceId) {
+			$hasShares = false;
+			foreach ($rows as $row) {
+				if ((int)$row['resourceid'] === $resourceId) {
+					$hasShares = true;
+					break;
+				}
+			}
+
+			if ($hasShares) {
+				continue;
+			}
+
+			$this->shareCache->set((string)$resourceId, []);
 		}
 	}
 
