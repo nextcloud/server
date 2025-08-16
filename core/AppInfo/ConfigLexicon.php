@@ -24,7 +24,8 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_CUSTOM_TOKEN = 'shareapi_allow_custom_tokens';
 	public const SHARE_LINK_PASSWORD_DEFAULT = 'shareapi_enable_link_password_by_default';
 	public const SHARE_LINK_PASSWORD_ENFORCED = 'shareapi_enforce_links_password';
-
+	public const SHARE_LINK_EXPIRE_DATE_DEFAULT = 'shareapi_default_expire_date';
+	public const SHARE_LINK_EXPIRE_DATE_ENFORCED = 'shareapi_enforce_expire_date';
 	public const USER_LANGUAGE = 'lang';
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
@@ -61,6 +62,24 @@ class ConfigLexicon implements ILexicon {
 					default => false,
 				},
 				definition: 'Enforce password protection when sharing document'
+			),
+			new Entry(
+				key: self::SHARE_LINK_EXPIRE_DATE_DEFAULT,
+				type: ValueType::BOOL,
+				defaultRaw: fn (Preset $p): bool => match ($p) {
+					Preset::SHARED, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => true,
+					default => false,
+				},
+				definition: 'Set default expiration date for shares via link or mail'
+			),
+			new Entry(
+				key: self::SHARE_LINK_EXPIRE_DATE_ENFORCED,
+				type: ValueType::BOOL,
+				defaultRaw: fn (Preset $p): bool => match ($p) {
+					Preset::SHARED, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => true,
+					default => false,
+				},
+				definition: 'Enforce expiration date for shares via link or mail'
 			),
 			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
 		];

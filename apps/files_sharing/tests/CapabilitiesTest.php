@@ -195,12 +195,16 @@ class CapabilitiesTest extends \Test\TestCase {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
-			['core', 'shareapi_default_expire_date', 'no', 'yes'],
 			['core', 'shareapi_expire_after_n_days', '7', '7'],
-			['core', 'shareapi_enforce_expire_date', 'no', 'no'],
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
-		$result = $this->getResults($map);
+
+		$typedMap = [
+			['core', 'shareapi_default_expire_date', true],
+			['core', 'shareapi_enforce_expire_date', false],
+		];
+
+		$result = $this->getResults($map, $typedMap);
 		$this->assertArrayHasKey('expire_date', $result['public']);
 		$this->assertIsArray($result['public']['expire_date']);
 		$this->assertTrue($result['public']['expire_date']['enabled']);
@@ -212,11 +216,15 @@ class CapabilitiesTest extends \Test\TestCase {
 		$map = [
 			['core', 'shareapi_enabled', 'yes', 'yes'],
 			['core', 'shareapi_allow_links', 'yes', 'yes'],
-			['core', 'shareapi_default_expire_date', 'no', 'yes'],
-			['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 			['core', 'shareapi_enforce_links_password_excluded_groups', '', ''],
 		];
-		$result = $this->getResults($map);
+
+		$typedMap = [
+			['core', 'shareapi_default_expire_date', true],
+			['core', 'shareapi_enforce_expire_date', true],
+		];
+
+		$result = $this->getResults($map, $typedMap);
 		$this->assertArrayHasKey('expire_date', $result['public']);
 		$this->assertIsArray($result['public']['expire_date']);
 		$this->assertTrue($result['public']['expire_date']['enforced']);
