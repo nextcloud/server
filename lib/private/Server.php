@@ -1260,7 +1260,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IPhoneNumberUtil::class, PhoneNumberUtil::class);
 
-		$this->registerAlias(ICapabilityAwareOCMProvider::class, OCMProvider::class);
+		// there is no reason for having OCMProvider as a Service
+		$this->registerDeprecatedAlias(ICapabilityAwareOCMProvider::class, OCMProvider::class);
 		$this->registerDeprecatedAlias(IOCMProvider::class, OCMProvider::class);
 
 		$this->registerAlias(ISetupCheckManager::class, SetupCheckManager::class);

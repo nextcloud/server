@@ -26,6 +26,7 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_LINK_PASSWORD_ENFORCED = 'shareapi_enforce_links_password';
 
 	public const USER_LANGUAGE = 'lang';
+	public const OCM_DISCOVERY_ENABLED = 'ocm_discovery_enabled';
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
 	public function getStrictness(): Strictness {
@@ -63,6 +64,7 @@ class ConfigLexicon implements ILexicon {
 				definition: 'Enforce password protection when sharing document'
 			),
 			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
+			new Entry(self::OCM_DISCOVERY_ENABLED, ValueType::BOOL, true, 'enable/disable OCM', lazy: true),
 		];
 	}
 
