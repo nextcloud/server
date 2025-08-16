@@ -42,7 +42,7 @@ class DataDownloadResponse extends DownloadResponse {
 	 * @param string $data
 	 * @since 8.0.0
 	 */
-	public function setData($data) {
+	public function setData(string $data) {
 		$this->data = $data;
 	}
 
