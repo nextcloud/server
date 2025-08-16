@@ -119,6 +119,7 @@ OC.L10N.register(
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto será exibido na página de carregamento de ligações públicas quando a lista de ficheiros estiver oculta. ",
     "Limit to groups" : "Limitado a grupos",
     "Save changes" : "Guardar alterações",
+    "Default" : "Predefinido",
     "Update to {update}" : "Atualizar para {update}",
     "Remove" : "Remover",
     "Featured" : "Destacado",

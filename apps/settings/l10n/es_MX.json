@@ -326,6 +326,7 @@
     "Two-factor authentication is not enforced for members of the following groups." : "La autentificación de dos factores no se impone a los miembros de los siguientes grupos.",
     "Excluded groups" : "Grupos excluidos",
     "Save changes" : "Guardar cambios",
+    "Default" : "Por omisión",
     "Show details for {appName} app" : "Mostrar detalles para la aplicación {appName}",
     "Update to {update}" : "Actualizar a {update}",
     "Remove" : "Eliminar",

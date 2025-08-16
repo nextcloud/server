@@ -72,7 +72,7 @@ OC.L10N.register(
     "Search tag" : "Барај ознака",
     "Create new tag" : "Креирај нова ознака",
     "Cancel" : "Откажи",
-    "Apply changes" : "Промени ги промените",
+    "Apply" : "Примени",
     "Failed to load tags" : "Неуспешно вчитување на ознаки",
     "Failed to load selected tags" : "Неуспешно вчитување на избраната ознака",
     "Failed to select tag" : "Неуспешно избирање на ознака",
@@ -84,6 +84,7 @@ OC.L10N.register(
     "No tags found" : "Не се пронајдени ознаки",
     "Tags you have created will show up here." : "Ознаките што ги имате креирано ќе се појават овде",
     "Failed to load last used tags" : "Неуспешно вчитување на последно користените ознаки",
-    "Missing \"Content-Location\" header" : "Недостасува \"Content-Location\" заглавие"
+    "Missing \"Content-Location\" header" : "Недостасува \"Content-Location\" заглавие",
+    "Apply changes" : "Промени ги промените"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

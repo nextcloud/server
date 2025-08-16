@@ -285,6 +285,7 @@
     "Two-factor authentication is not enforced for members of the following groups." : "Tvåfaktorsautentisering är inte påtvingad för medlemmar i följande grupper.",
     "Excluded groups" : "Exkluderade grupper",
     "Save changes" : "Spara ändringar",
+    "Default" : "Förvald",
     "Show details for {appName} app" : "Visa detaljer för appen {appName}",
     "Update to {update}" : "Uppdatera till {update}",
     "Remove" : "Ta bort",

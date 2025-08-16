@@ -47,8 +47,8 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej, zobacz {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Udostępnij mi poprzez mój ID #Nextcloud Chmury Federacyjnej",
     "Share with me via Nextcloud" : "Udostępnij mi za pomocą Nextcloud",
-    "Cloud ID copied to the clipboard" : "ID chmury skopiowany do schowka",
-    "Copy to clipboard" : "Kopiuj do schowka",
+    "Cloud ID copied" : "Identyfikator Chmury skopiowany",
+    "Copy" : "Skopiuj",
     "Clipboard not available. Please copy the cloud ID manually." : "Schowek niedostępny. Skopiuj identyfikator chmury ręcznie.",
     "Copied!" : "Skopiowano!",
     "Federated Cloud" : "Chmura Federacyjna",
@@ -67,6 +67,8 @@ OC.L10N.register(
     "Remote share" : "Zdalne udostępnienie",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Czy chcesz dodać zdalne udostępnienie {name} od {owner}@{remote}?",
     "Remote share password" : "Hasło zdalnego udostępnienia",
-    "Incoming share could not be processed" : "Nie można przetworzyć przychodzącego udostępnienia"
+    "Incoming share could not be processed" : "Nie można przetworzyć przychodzącego udostępnienia",
+    "Cloud ID copied to the clipboard" : "ID chmury skopiowany do schowka",
+    "Copy to clipboard" : "Kopiuj do schowka"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

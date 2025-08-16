@@ -53,6 +53,7 @@ OC.L10N.register(
     "Reset" : "Atiestatīt",
     "Loading …" : "Ielādē…",
     "Cancel" : "Atcelt",
+    "Apply" : "Apstiprināt",
     "Failed to load selected tags" : "Neizdevās ielādēt atlasītās birkas",
     "System admin disabled tag creation. You can only use existing ones." : "Sistēmas pārvaldītājs atspējoja birku izveidošanu. Ir iespējams izmantot tikai esošās.",
     "System tag creation is now restricted to administrators" : "Sistēmas birku izveidošana tagad ir pieejama tikai pārvaldītājiem",

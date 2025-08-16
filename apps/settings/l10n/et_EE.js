@@ -279,6 +279,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "Kaheastmeline autentimine pole kohustuslik nende gruppide liikmetele.",
     "Excluded groups" : "Välistatud neis gruppides",
     "Save changes" : "Salvesta muudatused",
+    "Default" : "Vaikimisi",
     "Show details for {appName} app" : "Näita „{appName}“ rakenduse üksikasju",
     "Update to {update}" : "Uuenda versioonini {update}",
     "Remove" : "Eemalda",

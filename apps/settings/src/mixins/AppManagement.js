@@ -188,9 +188,9 @@ export default {
 					.catch((error) => { showError(error) })
 			}
 		},
-		enable(appId, deployOptions = []) {
+		enable(appId, daemon = null, deployOptions = {}) {
 			if (this.app?.app_api) {
-				this.appApiStore.enableApp(appId, deployOptions)
+				this.appApiStore.enableApp(appId, daemon, deployOptions)
 					.then(() => { rebuildNavigation() })
 					.catch((error) => { showError(error) })
 			} else {

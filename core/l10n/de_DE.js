@@ -230,7 +230,7 @@ OC.L10N.register(
     "Federated user" : "Federated-Benutzer",
     "user@your-nextcloud.org" : "benutzer@deine-nextcloud.org",
     "Create share" : "Freigabe erstellen",
-    "Direct link copied to clipboard" : "Direkter Link in die Zwischenablage kopiert",
+    "Direct link copied" : "Direktlink kopiert",
     "Please copy the link manually:" : "Bitte den Link manuell kopieren:",
     "Custom date range" : "Benutzerdefinierter Zeitbereich",
     "Pick start date" : "Startdatum wählen",
@@ -254,6 +254,7 @@ OC.L10N.register(
     "Search people" : "Personen suchen",
     "People" : "Personen",
     "Filter in current view" : "Filter in aktueller Ansicht",
+    "Search connected services" : "Verbundene Dienste durchsuchen",
     "Results" : "Ergebnisse",
     "Load more results" : "Weitere Ergebnisse laden",
     "Search in" : "Suche in",
@@ -527,6 +528,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Passwortsichtbarkeit umschalten",
     "Configure the database" : "Datenbank einrichten",
     "Only %s is available." : "Es ist nur %s verfügbar.",
-    "Database account" : "Datenbankkonto"
+    "Database account" : "Datenbankkonto",
+    "Direct link copied to clipboard" : "Direkter Link in die Zwischenablage kopiert"
 },
 "nplurals=2; plural=(n != 1);");

@@ -228,7 +228,6 @@
     "Federated user" : "Föderált felhasználó",
     "user@your-nextcloud.org" : "felhasználó@az-ön-nextcloudja.org",
     "Create share" : "Megosztás létrehozása",
-    "Direct link copied to clipboard" : "Közvetlen hivatkozás a vágólapra másolva",
     "Please copy the link manually:" : "Másolja kézileg a hivatkozást:",
     "Custom date range" : "Egyéni dátumtartomány",
     "Pick start date" : "Válasszon kezdési dátumot",
@@ -525,6 +524,7 @@
     "Toggle password visibility" : "Jelszó láthatósága be/ki",
     "Configure the database" : "Adatbázis konfigurálása",
     "Only %s is available." : "Csak %s érhető el.",
-    "Database account" : "Adatbázisfiók"
+    "Database account" : "Adatbázisfiók",
+    "Direct link copied to clipboard" : "Közvetlen hivatkozás a vágólapra másolva"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

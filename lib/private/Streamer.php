@@ -170,11 +170,16 @@ class Streamer {
 	/**
 	 * Add an empty directory entry to the archive.
 	 *
-	 * @param string $dirName Directory Path and name to be added to the archive.
-	 * @return bool $success
+	 * @param $dirName - Directory Path and name to be added to the archive.
+	 * @param $timestamp - Modification time of the directory (defaults to current time)
 	 */
-	public function addEmptyDir($dirName) {
-		return $this->streamerInstance->addEmptyDir($dirName);
+	public function addEmptyDir(string $dirName, int $timestamp = 0): bool {
+		$options = null;
+		if ($timestamp > 0) {
+			$options = ['timestamp' => $timestamp];
+		}
+
+		return $this->streamerInstance->addEmptyDir($dirName, $options);
 	}
 
 	/**

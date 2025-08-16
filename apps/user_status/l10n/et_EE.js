@@ -32,7 +32,7 @@ OC.L10N.register(
     "Clear status message" : "Eemalda olekuteade",
     "Set status message" : "Lisa olekusõnum",
     "Don't clear" : "Ära kustuta",
-    "Today" : "Tänast",
+    "Today" : "Täna",
     "This week" : "Käesoleval nädalal",
     "Online" : "Võrgus",
     "Away" : "Eemal",

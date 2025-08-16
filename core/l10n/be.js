@@ -161,7 +161,6 @@ OC.L10N.register(
     "Yes" : "Так",
     "The remote URL must include the user." : "Аддалены URL-адрас павінен уключаць карыстальніка.",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
-    "Direct link copied to clipboard" : "Прамая спасылка скапіявана ў буфер абмену",
     "Please copy the link manually:" : "Скапіюйце спасылку ўручную:",
     "Clear search" : "Ачысціць пошук",
     "Searching …" : "Пошук …",
@@ -322,6 +321,7 @@ OC.L10N.register(
     "Show password" : "Паказаць пароль",
     "Toggle password visibility" : "Пераключыць бачнасць пароля",
     "Only %s is available." : "Даступна толькі %s.",
-    "Database account" : "Уліковы запіс базы даных"
+    "Database account" : "Уліковы запіс базы даных",
+    "Direct link copied to clipboard" : "Прамая спасылка скапіявана ў буфер абмену"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

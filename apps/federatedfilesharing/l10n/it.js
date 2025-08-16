@@ -29,6 +29,8 @@ OC.L10N.register(
     "When enabled, the search input when creating shares will be sent to an external system that provides a public and global address book." : "Se abilitata, l'input di ricerca durante la creazione delle condivisioni verrà inviato a un sistema esterno che fornisce una rubrica pubblica e globale.",
     "This is used to retrieve the federated cloud ID to make federated sharing easier." : "Serve a recuperare l'ID cloud federato per semplificare la condivisione federata.",
     "Moreover, email addresses of users might be sent to that system in order to verify them." : "Inoltre, gli indirizzi email degli utenti potrebbero essere inviati a tale sistema per verificarli.",
+    "Disable querying" : "Disabilita le query",
+    "Enable querying" : "Abilita query",
     "Unable to update federated files sharing config" : "Impossibile aggiornare la configurazione della condivisione federata dei file",
     "Adjust how people can share between servers. This includes shares between people on this server as well if they are using federated sharing." : "Regola come le persone possono condividere tra i server. Ciò include anche le condivisioni tra persone in questo server se usano la condivisione federata.",
     "Allow people on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Consenti alle persone su questo server di inviare condivisioni ad altri server (questa opzione consente anche l'accesso WebDAV alle condivisioni pubbliche)",
@@ -42,8 +44,8 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Condividi con me attraverso il mio ID di cloud federato #Nextcloud, vedi {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Condividi con me attraverso il mio ID di cloud federata #Nextcloud",
     "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
-    "Cloud ID copied to the clipboard" : "ID di cloud copiato negli appunti",
-    "Copy to clipboard" : "Copia negli appunti",
+    "Cloud ID copied" : "ID cloud copiato",
+    "Copy" : "Copia",
     "Clipboard not available. Please copy the cloud ID manually." : "Appunti non disponibili. Copia manualmente l'ID cloud.",
     "Copied!" : "Copiato!",
     "Federated Cloud" : "Cloud federata",
@@ -61,6 +63,8 @@ OC.L10N.register(
     "Remote share" : "Condivisione remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Vuoi aggiungere la condivisione remota {name} da {owner}@{remote}?",
     "Remote share password" : "Password della condivisione remota",
-    "Incoming share could not be processed" : "Non è stato possibile elaborare la condivisione in entrata"
+    "Incoming share could not be processed" : "Non è stato possibile elaborare la condivisione in entrata",
+    "Cloud ID copied to the clipboard" : "ID di cloud copiato negli appunti",
+    "Copy to clipboard" : "Copia negli appunti"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

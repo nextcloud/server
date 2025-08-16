@@ -11,7 +11,6 @@ OC.L10N.register(
     "Set file reminders" : "Weka vikumbusho vya faili",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Vikumbusho vya faili**\n\nWeka vikumbusho vya faili.\n\nKumbuka: ili kutumia programu ya `Vikumbusho vya faili`, hakikisha kuwa programu ya `Arifa` imesakinishwa na kuwashwa. Programu ya `Arifa` hutoa API zinazohitajika ili programu ya `Vikumbusho vya Faili` ifanye kazi ipasavyo.",
     "Set reminder for \"{fileName}\"" : "Weka kikumbusho kwa \"{fileName}\"",
-    "Set reminder at custom date & time" : "Weka kikumbusho kwa tarehe na saa maalum",
     "Clear reminder" : "Futa kikumbusho ",
     "Please choose a valid date & time" : " Tafadhali chagua tarehe na saa halali",
     "Reminder set for \"{fileName}\"" : " Kikumbusho kimewekwa \"{fileName}\"",
@@ -22,7 +21,6 @@ OC.L10N.register(
     "Cancel" : "Ghairi",
     "Set reminder" : "Weka ukumbusho",
     "Reminder set" : " Kikumbusho kimewekwa",
-    "Set custom reminder" : " Weka kikumbusho maalum",
     "Later today" : "Baadaye leo",
     "Set reminder for later today" : "Weka kikumbusho cha baadaye leo",
     "Tomorrow" : "Kesho",
@@ -32,6 +30,8 @@ OC.L10N.register(
     "Next week" : "Wiki ijayo",
     "Set reminder for next week" : " Weka kikumbusho cha wiki ijayo",
     "This files_reminder can work properly." : " Kikumbusho hiki cha faili kinaweza kufanya kazi vizuri.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Programu ya kikumbusho cha faili inahitaji programu ya arifa kufanya kazi vizuri. Unapaswa kuwezesha arifa au kuzima kikumbusho cha faili"
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Programu ya kikumbusho cha faili inahitaji programu ya arifa kufanya kazi vizuri. Unapaswa kuwezesha arifa au kuzima kikumbusho cha faili",
+    "Set reminder at custom date & time" : "Weka kikumbusho kwa tarehe na saa maalum",
+    "Set custom reminder" : " Weka kikumbusho maalum"
 },
 "nplurals=2; plural=(n != 1);");

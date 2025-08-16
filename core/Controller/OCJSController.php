@@ -20,6 +20,7 @@ use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\Defaults;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
@@ -43,6 +44,7 @@ class OCJSController extends Controller {
 		ISession $session,
 		IUserSession $userSession,
 		IConfig $config,
+		IAppConfig $appConfig,
 		IGroupManager $groupManager,
 		IniGetWrapper $iniWrapper,
 		IURLGenerator $urlGenerator,
@@ -62,6 +64,7 @@ class OCJSController extends Controller {
 			$session,
 			$userSession->getUser(),
 			$config,
+			$appConfig,
 			$groupManager,
 			$iniWrapper,
 			$urlGenerator,

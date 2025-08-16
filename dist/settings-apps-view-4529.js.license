@@ -17,6 +17,7 @@ SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
+SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -234,6 +235,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue-loader
 	- version: 15.11.1
+	- license: MIT
+- vue-material-design-icons
+	- version: 5.3.1
 	- license: MIT
 - vue-router
 	- version: 3.6.5

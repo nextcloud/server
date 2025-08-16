@@ -96,6 +96,7 @@ OC.L10N.register(
     "Default share permissions" : "საწყისი გაზიარების პარამეტრები",
     "Limit to groups" : "ლიმიტი ჯგუფებზე",
     "Save changes" : "ცვილებების შენახვა",
+    "Default" : "საწყისი პარამეტრები",
     "Remove" : "წაშლა",
     "Featured" : "გამორჩეულები",
     "Icon" : "პიქტოგრამა",

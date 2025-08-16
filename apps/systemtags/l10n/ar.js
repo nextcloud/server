@@ -80,10 +80,8 @@ OC.L10N.register(
     "Search tag" : "البحث عن وسم",
     "Change tag color" : "تغيير لون الوسم",
     "Create new tag" : "إنشاء وسم جديد",
-    "Select or create tags to apply to all selected files" : "إختيار أو إنشاء وسوم لتطبيقها على جميع الملفات المحددة",
-    "Select tags to apply to all selected files" : "إختَر وسوماً لإضافتها لجميع الملفات المُحدَّدة",
     "Cancel" : "إلغاء",
-    "Apply changes" : "تطبيق التغييرات",
+    "Apply" : "حفظ",
     "Failed to load tags" : "فشل في تحميل الوسوم",
     "Failed to load selected tags" : "فشل في تحميل الوسوم المنتقاة",
     "Failed to select tag" : "فشل في اختيار وسم",
@@ -110,6 +108,9 @@ OC.L10N.register(
     "Failed to load tags for file" : "تعذّر تحميل وسوم الملف",
     "Failed to set tag for file" : "تعذّر وضع وسم على الملف",
     "Failed to delete tag for file" : "تعذّر حذف وسم من على ملف",
-    "File tags modification canceled" : "تمّ إلغاء تعديل وسوم الملف"
+    "File tags modification canceled" : "تمّ إلغاء تعديل وسوم الملف",
+    "Select or create tags to apply to all selected files" : "إختيار أو إنشاء وسوم لتطبيقها على جميع الملفات المحددة",
+    "Select tags to apply to all selected files" : "إختَر وسوماً لإضافتها لجميع الملفات المُحدَّدة",
+    "Apply changes" : "تطبيق التغييرات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

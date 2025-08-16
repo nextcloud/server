@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\Sharing\RootCollection;
 use OCA\DAV\Upload\CleanupService;
@@ -68,6 +69,7 @@ class ServerFactory {
 		Plugin $authPlugin,
 		callable $viewCallBack,
 	): Server {
+		$debugEnabled = $this->config->getSystemValue('debug', false);
 		// Fire up server
 		if ($isPublicShare) {
 			$rootCollection = new SimpleCollection('root');
@@ -89,6 +91,12 @@ class ServerFactory {
 		));
 		$server->addPlugin(new AnonymousOptionsPlugin());
 		$server->addPlugin($authPlugin);
+		if ($debugEnabled) {
+			$server->debugEnabled = $debugEnabled;
+			$server->addPlugin(new PropFindMonitorPlugin());
+		}
+
+		$server->addPlugin(new PropFindPreloadNotifyPlugin());
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new DummyGetResponsePlugin());
 		$server->addPlugin(new ExceptionLoggerPlugin('webdav', $this->logger));
@@ -117,7 +125,8 @@ class ServerFactory {
 		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$server->on('beforeMethod:*', function () use ($server, $tree, $viewCallBack, $isPublicShare, $rootCollection): void {
+		$server->on('beforeMethod:*', function () use ($server, $tree,
+			$viewCallBack, $isPublicShare, $rootCollection, $debugEnabled): void {
 			// ensure the skeleton is copied
 			$userFolder = \OC::$server->getUserFolder();
 
@@ -181,7 +190,7 @@ class ServerFactory {
 					\OCP\Server::get(IFilenameValidator::class),
 					\OCP\Server::get(IAccountManager::class),
 					false,
-					!$this->config->getSystemValue('debug', false)
+					!$debugEnabled
 				)
 			);
 			$server->addPlugin(new QuotaPlugin($view));
@@ -220,6 +229,7 @@ class ServerFactory {
 							$tree,
 							$this->databaseConnection,
 							$this->userSession->getUser(),
+							\OCP\Server::get(PropertyMapper::class),
 							\OCP\Server::get(DefaultCalendarValidator::class),
 						)
 					)

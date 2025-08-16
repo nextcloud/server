@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "#Nextcloud birleşik bulut kimliğim ile paylaş,  {url} adresine bakın",
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud birleşik bulut kimliğim üzerinden benimle paylaş",
     "Share with me via Nextcloud" : "Benimle Nextcloud üzerinden paylaşın",
-    "Cloud ID copied to the clipboard" : "Bulut kimliği panoya kopyalandı",
-    "Copy to clipboard" : "Panoya kopyala",
+    "Copy" : "Kopyala",
     "Clipboard not available. Please copy the cloud ID manually." : "Pano kullanılamıyor. Lütfen bulut kimliğini el ile kopyalayın.",
     "Copied!" : "Kopyalandı!",
     "Federated Cloud" : "Birleşik bulut",
@@ -66,6 +65,8 @@ OC.L10N.register(
     "Remote share" : "Uzak paylaşım",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} konumundan {name} uzak paylaşımını eklemek istiyor musunuz?",
     "Remote share password" : "Uzak paylaşım parolası",
-    "Incoming share could not be processed" : "Gelen paylaşım işlenemedi"
+    "Incoming share could not be processed" : "Gelen paylaşım işlenemedi",
+    "Cloud ID copied to the clipboard" : "Bulut kimliği panoya kopyalandı",
+    "Copy to clipboard" : "Panoya kopyala"
 },
 "nplurals=2; plural=(n > 1);");

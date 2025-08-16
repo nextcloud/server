@@ -47,8 +47,8 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "透過我的 #Nextcloud 聯邦雲端 ID 與我分享，請見 {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "透過我的 #Nextcloud 聯邦雲端 ID 與我分享",
     "Share with me via Nextcloud" : "透過 Nextcloud 與我分享",
-    "Cloud ID copied to the clipboard" : "雲端 ID 已複製到剪貼簿",
-    "Copy to clipboard" : "複製到剪貼簿",
+    "Cloud ID copied" : "已複製雲端 ID",
+    "Copy" : "複製",
     "Clipboard not available. Please copy the cloud ID manually." : "無法使用剪貼簿。請手動複製雲端 ID。",
     "Copied!" : "已複製！",
     "Federated Cloud" : "聯邦雲端",
@@ -67,6 +67,8 @@ OC.L10N.register(
     "Remote share" : "遠端分享",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "是否要新增來自 {owner}@{remote} 的遠端分享 {name} ？",
     "Remote share password" : "遠端分享密碼",
-    "Incoming share could not be processed" : "無法處理收到的分享"
+    "Incoming share could not be processed" : "無法處理收到的分享",
+    "Cloud ID copied to the clipboard" : "雲端 ID 已複製到剪貼簿",
+    "Copy to clipboard" : "複製到剪貼簿"
 },
 "nplurals=1; plural=0;");

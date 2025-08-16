@@ -11,6 +11,7 @@ namespace Test\Activity;
 use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -30,6 +31,7 @@ class ManagerTest extends TestCase {
 	protected IConfig&MockObject $config;
 	protected IValidator&MockObject $validator;
 	protected IRichTextFormatter&MockObject $richTextFormatter;
+	private ITimeFactory&MockObject $time;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -39,6 +41,7 @@ class ManagerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->validator = $this->createMock(IValidator::class);
 		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
+		$this->time = $this->createMock(ITimeFactory::class);
 
 		$this->activityManager = new \OC\Activity\Manager(
 			$this->request,
@@ -46,7 +49,8 @@ class ManagerTest extends TestCase {
 			$this->config,
 			$this->validator,
 			$this->richTextFormatter,
-			$this->createMock(IL10N::class)
+			$this->createMock(IL10N::class),
+			$this->time,
 		);
 
 		$this->assertSame([], self::invokePrivate($this->activityManager, 'getConsumers'));
@@ -217,6 +221,11 @@ class ManagerTest extends TestCase {
 				->willReturn($authorObject);
 		}
 
+		$time = time();
+		$this->time
+			->method('getTime')
+			->willReturn($time);
+
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
 			->setType('test_type')
@@ -230,9 +239,8 @@ class ManagerTest extends TestCase {
 		$consumer->expects($this->once())
 			->method('receive')
 			->with($event)
-			->willReturnCallback(function (IEvent $event) use ($expected): void {
-				$this->assertLessThanOrEqual(time() + 2, $event->getTimestamp(), 'Timestamp not set correctly');
-				$this->assertGreaterThanOrEqual(time() - 2, $event->getTimestamp(), 'Timestamp not set correctly');
+			->willReturnCallback(function (IEvent $event) use ($expected, $time): void {
+				$this->assertEquals($time, $event->getTimestamp(), 'Timestamp not set correctly');
 				$this->assertSame($expected, $event->getAuthor(), 'Author name not set correctly');
 			});
 		$this->activityManager->registerConsumer(function () use ($consumer) {

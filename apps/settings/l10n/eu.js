@@ -396,6 +396,7 @@ OC.L10N.register(
     "Excluded groups" : "Baztertu taldeak",
     "When groups are selected/excluded, they use the following logic to determine if an account has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If an account is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Taldeak aukeratuta daudenean hauxe erabiltzen da kontuentzat bi faktoreko autentikazioa derrigortu ala ez erabakitzeko: talderik ez badago aukeratuta, guztientzat dago derrigortuta kanpoan utzitako taldeetako kideentzat ezik. Taldeak aukeratuta badaude, beren kideentzat derrigortzen da. Kontu bat aukeratutako eta kanpoan utzitako talde bateko kide bada, aukeratutako taldekoa izatea lehenesten da eta bi faktoreko autentikazioa erabiltzera derrigortzen da.",
     "Save changes" : "Gorde aldaketak",
+    "Default" : "Lehenetsia",
     "Show details for {appName} app" : "Erakutsi {appName} aplikazioaren xehetasunak",
     "Update to {update}" : "Eguneratu {update} bertsiora",
     "Remove" : "Ezabatu",

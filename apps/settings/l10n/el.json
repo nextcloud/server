@@ -404,6 +404,7 @@
     "Excluded groups" : "Εξαιρούμενες ομάδες",
     "When groups are selected/excluded, they use the following logic to determine if an account has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If an account is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Όταν επιλέγονται/εξαιρούνται ομάδες, χρησιμοποιείται η ακόλουθη λογική για να καθοριστεί εάν ένας λογαριασμός έχει επιβληθεί 2FA: Εάν δεν επιλεγούν ομάδες, η 2FA είναι ενεργοποιημένη για όλους εκτός από τα μέλη των εξαιρούμενων ομάδων. Εάν επιλεγούν ομάδες, η 2FA είναι ενεργοποιημένη για όλα τα μέλη αυτών. Εάν ένας λογαριασμός ανήκει ταυτόχρονα σε μια επιλεγμένη και μια εξαιρούμενη ομάδα, η επιλεγμένη ομάδα έχει προτεραιότητα και η 2FA επιβάλλεται.",
     "Save changes" : "Αποθήκευση αλλαγών",
+    "Default" : "Προεπιλογή",
     "Show details for {appName} app" : "Εμφάνιση λεπτομερειών για την εφαρμογή {appName}",
     "Update to {update}" : "Ενημέρωση σε {update}",
     "Remove" : "Αφαίρεση",

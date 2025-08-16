@@ -78,10 +78,8 @@
     "Search tag" : "Clib cuardaigh",
     "Change tag color" : "Athraigh dath an chlib",
     "Create new tag" : "Cruthaigh clib nua",
-    "Select or create tags to apply to all selected files" : "Roghnaigh nó cruthaigh clibeanna le cur i bhfeidhm ar gach comhad roghnaithe",
-    "Select tags to apply to all selected files" : "Roghnaigh clibeanna le cur i bhfeidhm ar gach comhad roghnaithe",
     "Cancel" : "Cealaigh",
-    "Apply changes" : "Cuir athruithe i bhfeidhm",
+    "Apply" : "Cuir iarratas isteach",
     "Failed to load tags" : "Theip ar lódáil clibeanna",
     "Failed to load selected tags" : "Theip ar lódáil na gclibeanna roghnaithe",
     "Failed to select tag" : "Theip ar an gclib a roghnú",
@@ -108,6 +106,9 @@
     "Failed to load tags for file" : "Theip ar lódáil clibeanna don chomhad",
     "Failed to set tag for file" : "Theip ar chlib a shocrú don chomhad",
     "Failed to delete tag for file" : "Theip ar scriosadh an chlib don chomhad",
-    "File tags modification canceled" : "Cealaíodh modhnú clibeanna comhaid"
+    "File tags modification canceled" : "Cealaíodh modhnú clibeanna comhaid",
+    "Select or create tags to apply to all selected files" : "Roghnaigh nó cruthaigh clibeanna le cur i bhfeidhm ar gach comhad roghnaithe",
+    "Select tags to apply to all selected files" : "Roghnaigh clibeanna le cur i bhfeidhm ar gach comhad roghnaithe",
+    "Apply changes" : "Cuir athruithe i bhfeidhm"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

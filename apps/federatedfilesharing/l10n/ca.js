@@ -37,8 +37,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Comparteix contingut amb mi amb el meu ID del núvol federat del #Nextcloud, consulta {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparteix contingut amb mi amb el meu ID del núvol federat del #Nextcloud",
     "Share with me via Nextcloud" : "Comparteix contingut amb mi a través del Nextcloud",
-    "Cloud ID copied to the clipboard" : "S'ha copiat l'ID del núvol al porta-retalls",
-    "Copy to clipboard" : "Copia-ho al porta-retalls",
+    "Copy" : "Còpia",
     "Clipboard not available. Please copy the cloud ID manually." : "Porta-retalls no disponible. Copieu l'identificador del núvol manualment.",
     "Copied!" : "S'ha copiat!",
     "Federated Cloud" : "Núvol federat",
@@ -56,6 +55,8 @@ OC.L10N.register(
     "Remote share" : "Element compartit remot",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir l'element compartit remot {name} de {owner}@{remote}?",
     "Remote share password" : "Contrasenya de l'element compartit remot",
-    "Incoming share could not be processed" : "No s'ha pogut processar la compartició entrant"
+    "Incoming share could not be processed" : "No s'ha pogut processar la compartició entrant",
+    "Cloud ID copied to the clipboard" : "S'ha copiat l'ID del núvol al porta-retalls",
+    "Copy to clipboard" : "Copia-ho al porta-retalls"
 },
 "nplurals=2; plural=(n != 1);");

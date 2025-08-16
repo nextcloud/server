@@ -45,8 +45,8 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "通过我的 #Nextcloud 联合云 ID 与我分享文件，链接 {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "通过我的 #Nextcloud 联合云 ID 与我共享",
     "Share with me via Nextcloud" : "通过联合云与我共享",
-    "Cloud ID copied to the clipboard" : "云端 ID 已复制至剪切板",
-    "Copy to clipboard" : "复制到剪贴板",
+    "Cloud ID copied" : "云 ID 已复制",
+    "Copy" : "复制",
     "Clipboard not available. Please copy the cloud ID manually." : "剪贴板不可用，请手动复制云 ID。",
     "Copied!" : "已复制！",
     "Federated Cloud" : "联合云",
@@ -65,6 +65,8 @@
     "Remote share" : "远程共享",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "您想要添加来自 {owner}@{remote}的远程共享 {name} 吗？",
     "Remote share password" : "远程共享密码",
-    "Incoming share could not be processed" : "无法处理传入共享"
+    "Incoming share could not be processed" : "无法处理传入共享",
+    "Cloud ID copied to the clipboard" : "云端 ID 已复制至剪切板",
+    "Copy to clipboard" : "复制到剪贴板"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

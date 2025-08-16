@@ -11,7 +11,7 @@ OC.L10N.register(
     "Set file reminders" : "設定檔案提醒",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 檔案提醒**\n\n設定檔案提醒。\n\n注意：要使用「檔案提醒」應用程式，請確定已安裝並啟用「通知」應用程式。「通知」應用程式提供必要的 API，讓「檔案提醒」應用程式能正常運作。",
     "Set reminder for \"{fileName}\"" : "設定「{fileName}」的提醒",
-    "Set reminder at custom date & time" : "設定自訂日期與時間的提醒",
+    "Reminder at custom date & time" : "自訂日期與時間的提醒",
     "Clear reminder" : "清除提醒",
     "Please choose a valid date & time" : "請選擇有效的日期與時間",
     "Reminder set for \"{fileName}\"" : "「{fileName}」的提醒設定",
@@ -22,7 +22,7 @@ OC.L10N.register(
     "Cancel" : "取消",
     "Set reminder" : "設定提醒",
     "Reminder set" : "提醒設定",
-    "Set custom reminder" : "設定自訂提醒",
+    "Custom reminder" : "自訂提醒",
     "Later today" : "今天稍後",
     "Set reminder for later today" : "設定今天稍後的提醒",
     "Tomorrow" : "明天",
@@ -32,6 +32,8 @@ OC.L10N.register(
     "Next week" : "下週",
     "Set reminder for next week" : "設定下週的提醒",
     "This files_reminder can work properly." : "此 files_reminder 可以正常運作。",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "files_reminder 應用程式需要通知應用程式才能正常運作。您應該啟用通知或停用 files_reminder。"
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "files_reminder 應用程式需要通知應用程式才能正常運作。您應該啟用通知或停用 files_reminder。",
+    "Set reminder at custom date & time" : "設定自訂日期與時間的提醒",
+    "Set custom reminder" : "設定自訂提醒"
 },
 "nplurals=1; plural=0;");

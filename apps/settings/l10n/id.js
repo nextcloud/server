@@ -135,6 +135,7 @@ OC.L10N.register(
     "Limit to groups" : "Batasi ke grup",
     "Excluded groups" : "Grup yang dikecualikan",
     "Save changes" : "Simpan perubahan",
+    "Default" : "Default",
     "Update to {update}" : "Perbarui ke {update}",
     "Remove" : "Hapus",
     "Featured" : "Unggulan",
