@@ -14,6 +14,7 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
 use OC\Migration\NullOutput;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,18 +31,32 @@ class ExpectedSchema extends Base {
 			->setName('db:schema:expected')
 			->setDescription('Export the expected database schema for a fresh installation')
 			->setHelp("Note that the expected schema might not exactly match the exported live schema as the expected schema doesn't take into account any database wide settings or defaults.")
+			->addArgument('table', InputArgument::OPTIONAL, 'Only show the schema for the specified table')
 			->addOption('sql', null, InputOption::VALUE_NONE, 'Dump the SQL statements for creating the expected schema');
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$schema = new Schema();
+		$onlyTable = $input->getArgument('table');
 
 		$this->applyMigrations('core', $schema);
 
 		$apps = \OC_App::getEnabledApps();
 		foreach ($apps as $app) {
 			$this->applyMigrations($app, $schema);
+		}
+
+		if ($onlyTable) {
+			$tablesToDrop = [];
+			foreach ($schema->getTables() as $table) {
+				if ($table->getName() !== $onlyTable) {
+					$tablesToDrop[] = $table->getName();
+				}
+			}
+			foreach ($tablesToDrop as $table) {
+				$schema->dropTable($table);
+			}
 		}
 
 		$sql = $input->getOption('sql');
