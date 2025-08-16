@@ -67,15 +67,16 @@ class ZipFolderPlugin extends ServerPlugin {
 		// Remove the root path from the filename to make it relative to the requested folder
 		$filename = str_replace($rootPath, '', $node->getPath());
 
+		$mtime = $node->getMTime();
 		if ($node instanceof NcFile) {
 			$resource = $node->fopen('rb');
 			if ($resource === false) {
 				$this->logger->info('Cannot read file for zip stream', ['filePath' => $node->getPath()]);
 				throw new \Sabre\DAV\Exception\ServiceUnavailable('Requested file can currently not be accessed.');
 			}
-			$streamer->addFileFromStream($resource, $filename, $node->getSize(), $node->getMTime());
+			$streamer->addFileFromStream($resource, $filename, $node->getSize(), $mtime);
 		} elseif ($node instanceof NcFolder) {
-			$streamer->addEmptyDir($filename);
+			$streamer->addEmptyDir($filename, $mtime);
 			$content = $node->getDirectoryListing();
 			foreach ($content as $subNode) {
 				$this->streamNode($streamer, $subNode, $rootPath);
