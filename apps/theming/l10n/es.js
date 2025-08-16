@@ -75,7 +75,9 @@ OC.L10N.register(
     "Background and login image" : "Imágen de fondo y de inicio de sesión",
     "Advanced options" : "Opciones avanzadas",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale la extensión PHP ImageMagick con soporte a imágenes SVG para generar automáticamente favicons basados en el logo cargado y el color.",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "El acceso universal es muy importante para nosotros. Seguimos los estándares web y verificamos para asegurarnos de que todo sea utilizable incluso sin ratón y con software de asistencia tales como lectores de pantalla. Nuestro objetivo es cumplir con las {linkstart}Directrices de Accesibilidad para el Contenido Web{linkend} 2.1 en el nivel AA, incluso con el tema de alto contraste en el nivel AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si encuentra cualquier problema, no dude en reportarlo en {issuetracker}nuestra herramienta de rastreo de problemas{linkend}. Y, si desea involucrarse, ¡venga y únase a {designteam},nuestro equipo de diseño{linkend}!",
+    "Unable to apply the setting." : "No fue posible aplicar el ajuste.",
     "Appearance and accessibility settings" : "Ajustes de apariencia y accesibilidad",
     "Misc accessibility options" : "Opciones de accesibilidad misceláneas",
     "Enable blur background filter (may increase GPU load)" : "Activar el desenfoque del fondo (puede aumentar el uso de GPU)",
@@ -117,6 +119,7 @@ OC.L10N.register(
     "Reset to default" : "Vovler a configuración por defecto",
     "Upload" : "Subir",
     "Remove background image" : "Eliminar imagen de fondo",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "El acceso universal es muy importante para nosotros. Seguimos los estándares web y verificamos para asegurarnos de que todo sea utilizable incluso sin ratón y con software de asistencia tales como lectores de pantalla. Nuestro objetivo es cumplir con las {guidelines}Directrices de Accesibilidad para el Contenido Web{linkend} 2.1 en el nivel AA, incluso con el tema de alto contraste en el nivel AAA."
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "El acceso universal es muy importante para nosotros. Seguimos los estándares web y verificamos para asegurarnos de que todo sea utilizable incluso sin ratón y con software de asistencia tales como lectores de pantalla. Nuestro objetivo es cumplir con las {guidelines}Directrices de Accesibilidad para el Contenido Web{linkend} 2.1 en el nivel AA, incluso con el tema de alto contraste en el nivel AAA.",
+    ". Unable to apply the setting." : ". No fue posible aplicar el ajuste."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
