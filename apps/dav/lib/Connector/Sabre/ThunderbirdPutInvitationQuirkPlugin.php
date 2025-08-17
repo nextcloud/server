@@ -19,19 +19,19 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader as VObjectReader;
 
 /**
- * Consider the following situation: A user is invited and tries to accept or decline from the
- * invitation email in Thunderbird before the personal calendar was synced.
+ * Consider the following situation: A user is invited and tries to accept or decline the event
+ * attached to the invitation email in Thunderbird before the personal calendar was synced.
  *
  * Thunderbird attempts to PUT the accepted ics to an invalid name, because it doesn't know the name
  * on the remote Nextcloud/CalDAV server (yet). The Nextcloud server responds with an error, as the
  * UID is already existing because the invitation was already added to the invitees personal
  * calendar by Sabre.
  *
- * If Thunderbird knows about the URI of the user's own copy of the event, it will PUT the correct
- * event directly.
- *
  * This plugin attempts to handle this situation gracefully by simply replacing the URI of the event
  * with the actual one before handing off the request to the CalDAV server.
+ *
+ * Note: If Thunderbird knows about the URI of the user's own copy of the event, it will PUT the
+ * correct event directly. This is the case after syncing the personal calendar.
  */
 class ThunderbirdPutInvitationQuirkPlugin extends ServerPlugin {
 	private ?Server $server = null;
