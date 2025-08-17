@@ -41,9 +41,6 @@ class ThunderbirdPutInvitationQuirkPlugin extends ServerPlugin {
 	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function initialize(Server $server) {
 		$this->server = $server;
 

@@ -343,7 +343,7 @@ END:VEVENT
 END:VCALENDAR
 EOF;
 
-	$noVEvent = <<<EOF
+		$noVEvent = <<<EOF
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject 4.5.6//EN
@@ -369,7 +369,7 @@ END:VTIMEZONE
 END:VCALENDAR
 EOF;
 
-	$noVCalendar = <<<EOF
+		$noVCalendar = <<<EOF
 BEGIN:VTIMEZONE
 TZID:Europe/Berlin
 BEGIN:DAYLIGHT
