@@ -254,6 +254,7 @@ OC.L10N.register(
     "Search people" : "Пошук контактів",
     "People" : "Користувачі",
     "Filter in current view" : "Фільтр поточного подання",
+    "Search connected services" : "Пошук під'єднаних сервісів",
     "Results" : "Результат",
     "Load more results" : "Завантажити більше результатів",
     "Search in" : "Шукати у",
