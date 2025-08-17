@@ -51,6 +51,7 @@ use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
+use OCA\DAV\Connector\Sabre\ThunderbirdPutInvitationQuirkPlugin;
 use OCA\DAV\Connector\Sabre\ZipFolderPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\PublicAuth;
@@ -130,6 +131,9 @@ class Server {
 		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
 
 		$this->server->addPlugin(new AppleQuirksPlugin());
+		$this->server->addPlugin(new ThunderbirdPutInvitationQuirkPlugin(
+			\OCP\Server::get(IDBConnection::class),
+		));
 
 		// Backends
 		$authBackend = new Auth(
