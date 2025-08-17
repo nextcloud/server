@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Otsi silti",
     "Change tag color" : "Muuda sildi värvi",
     "Create new tag" : "Loo uus silt",
+    "Choose tags for the selected files" : "Määta sildid valitud failidele",
     "Cancel" : "Tühista",
     "Apply" : "Rakenda",
     "Failed to load tags" : "Siltide laadimine ei õnnestu",

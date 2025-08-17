@@ -45,6 +45,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Jaga minuga minu #Nextcloudi kasutajatunnuse abil liitpilves, vaata {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaga minuga minu #Nextcloudi kasutajatunnuse abil liitpilves",
     "Share with me via Nextcloud" : "Jaga minuga Nextcloudi vahendusel",
+    "Cloud ID copied" : "Kasutajatunnus liitpilves on kopeeritud",
     "Copy" : "Kopeeri",
     "Clipboard not available. Please copy the cloud ID manually." : "Lõikelaud pole saadaval. Palun kopeeri kasutajatunnus liitpilves käsitsi.",
     "Copied!" : "Kopeeritud!",
