@@ -78,15 +78,18 @@ class OC {
 
 	/**
  	 * init() is always called
+   	 *
 	 */
 	public static function init(): void {
-		
-		// First handle PHP configuration and copy auth headers to the expected
-		// $_SERVER variable before doing anything Server object related
+		// Esential PHP configuration
 		self::setRequiredIniValues();
+		
+		// Copy auth headers to the expected  $_SERVER variable before doing anything Server object related
 		self::handleAuthHeaders();
-
-		// Prevent any XML processing from loading external entities
+		
+		// SECURITY: Prevent any XML processing from loading external entities
+		// - An extra safeguard mostly for PHP <8.0.30, <8.1.22, <8.2.8
+		// - see CVE-2023-3823
 		libxml_set_external_entity_loader(static function () {
 			return null;
 		});
@@ -97,10 +100,44 @@ class OC {
 		// Pay attention to whether we're in the CLI SAPI or not
 		self::$CLI = (PHP_SAPI == 'cli');
 
-		// Register autoloader and time it
+		// Track start time for autoloading (base + 3rdparty) which we'll later log (when the event logger becomes available) 
 		$loaderStart = microtime(true);
-		self::registerAutoloading();
+		// Autoloading of our components
+		self::registerBaseAutoloading();
+		self::initBasePaths();
+		
+		// Gain access to the basic config elements needed to bootstrap a Server instance (if available).
+		//
+		// Note: In a new installation, lacking a config file, this will only give us the ability to getValue() 
+		// w/ whatever defaults we specify (if any).
+		// 
+		// - This will only get us access the essentials specified in /config + any environment variables (`NC_*`). 
+		// - Later on - when we have DB access - we'll adjust self::$config to point at \OCP\IConfig so that we 
+		// 		can access App + User values too.
+		//
+		self::$config = new \OC\Config(self::$configDir);
+
+		try {
+			self::initAppPaths();
+			// Autoloading of 3rparty components
+			self::registerThirdPartyAutoloading();
+		} catch (\RuntimeException $e) {
+			if (!self::$CLI) {
+				http_response_code(503);
+			}
+			// we can't use the template error page here, because this needs the
+			// DI container which isn't available yet
+			print($e->getMessage());
+			exit();
+		}
+
+		// End tracking timer for autoloading (base + 3rdparty)
 		$loaderEnd = microtime(true);
+
+		// Override php.ini and log everything if specified in the config
+		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
+			error_reporting(E_ALL);
+		}
 
 		// Enable lazy loading unless it has been disabled
 		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
@@ -123,6 +160,8 @@ class OC {
 		}
 
 		$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
+		
+		// Log the earlier tracked autoloader timing data
 		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
 		
 		$eventLogger->start('boot', 'Initialize');
@@ -130,6 +169,7 @@ class OC {
 		// Set the locale to one which supports UTF-8
 		OC_Util::isSetLocaleWorking(); // FIXME: we should probably check the return value and throw/log
 
+		// Switch to gain access to all configuration sources (sys/config.php, apps/db, user/db)
 		$config = Server::get(IConfig::class);
 
 		// Register our error, exception, and shutdown handlers (unless running unit tests)
@@ -339,38 +379,34 @@ class OC {
 			}
 		});
 	}
-	
-	public static function registerAutoloading(): void {
+
+	/**
+ 	 *
+	 */
+	public static function registerBaseAutoloading(): void {
 		// Add default composer PSR-4 autoloader
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
 		// Ensure apcu is disabled
 		self::$composerAutoloader->setApcuPrefix(null);
+	}
 
-
-		try {
-			self::initPaths();
-			// setup 3rdparty autoloader
-			$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
-			if (!file_exists($vendorAutoLoad)) {
-				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
-			}
-			require_once $vendorAutoLoad;
-		} catch (\RuntimeException $e) {
-			if (!self::$CLI) {
-				http_response_code(503);
-			}
-			// we can't use the template error page here, because this needs the
-			// DI container which isn't available yet
-			print($e->getMessage());
-			exit();
+	/**
+ 	 *
+	 */
+	public static function registerThirdPartyAutoloading(): void {
+		// setup 3rdparty autoloader
+		$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
+		if (!file_exists($vendorAutoLoad)) {
+			throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
 		}
+		require_once $vendorAutoLoad;
 	}
 	
 	/**
-	 * @throws \RuntimeException when the 3rdparty directory is missing or
-	 *                           the app path list is empty or contains an invalid path
+ 	 *
 	 */
-	public static function initPaths(): void {
+	public static function initBasePaths(): void {
+		// Determine location of basic config file(s) - i.e. /config 
 		if (defined('PHPUNIT_CONFIG_DIR')) {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
 		} elseif (defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
@@ -380,8 +416,7 @@ class OC {
 		} else {
 			self::$configDir = OC::$SERVERROOT . '/config/';
 		}
-		self::$config = new \OC\Config(self::$configDir);
-
+		
 		OC::$SUBURI = str_replace('\\', '/', substr(realpath($_SERVER['SCRIPT_FILENAME'] ?? ''), strlen(OC::$SERVERROOT)));
 		/**
 		 * FIXME: The following lines are required because we can't yet instantiate
@@ -438,6 +473,12 @@ class OC {
 				exit();
 			}
 		}
+	}
+	
+	/**
+	 * @throws \RuntimeException when the the app path list is empty or contains an invalid path
+	 */
+	public static function initAppPaths(): void {
 
 		// search the apps folder
 		$config_paths = self::$config->getValue('apps_paths', []);
@@ -778,12 +819,7 @@ class OC {
 		if (!date_default_timezone_set('UTC')) {
 			throw new \RuntimeException('Could not set timezone to UTC');
 		}
-		
-		// Override php.ini and log everything if we're troubleshooting
-		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
-			error_reporting(E_ALL);
-		}
-		
+				
 		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
 		// see https://github.com/nextcloud/server/pull/2619
 		if (!function_exists('simplexml_load_file')) {
