@@ -105,17 +105,6 @@ class OC {
 		// Autoloading of our components
 		self::registerBaseAutoloading();
 		self::initBasePaths();
-		
-		// Gain access to the basic config elements needed to bootstrap a Server instance (if available).
-		//
-		// Note: In a new installation, lacking a config file, this will only give us the ability to getValue() 
-		// w/ whatever defaults we specify (if any).
-		// 
-		// - This will only get us access the essentials specified in /config + any environment variables (`NC_*`). 
-		// - Later on - when we have DB access - we'll adjust self::$config to point at \OCP\IConfig so that we 
-		// 		can access App + User values too.
-		//
-		self::$config = new \OC\Config(self::$configDir);
 
 		try {
 			self::initAppPaths();
@@ -416,6 +405,17 @@ class OC {
 		} else {
 			self::$configDir = OC::$SERVERROOT . '/config/';
 		}
+				
+		// Gain access to the basic config elements needed to bootstrap a Server instance (if available).
+		//
+		// Note: In a new installation, lacking a config file, this will only give us the ability to getValue() 
+		// w/ whatever defaults we specify (if any).
+		// 
+		// - This will only get us access the essentials specified in /config + any environment variables (`NC_*`). 
+		// - Later on - when we have DB access - we'll adjust self::$config to point at \OCP\IConfig so that we 
+		// 		can access App + User values too.
+		//
+		self::$config = new \OC\Config(self::$configDir);
 		
 		OC::$SUBURI = str_replace('\\', '/', substr(realpath($_SERVER['SCRIPT_FILENAME'] ?? ''), strlen(OC::$SERVERROOT)));
 		/**
