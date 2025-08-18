@@ -202,8 +202,15 @@ class AccessibleThemeTestCase extends TestCase {
 		$variables['--color-main-background-blur'] = $this->util->mix($variables['--color-main-background'], $this->util->isBrightColor($variables['--color-main-background']) ? '#000000' : '#ffffff', 75);
 
 		foreach ($backgroundColors as $background) {
+			$matches = [];
+			if (preg_match('/^var\\(([^)]+)\\)$/', $variables[$background], $matches) === 1) {
+				$background = $matches[1];
+			}
 			$this->assertStringStartsWith('#', $variables[$background], 'Is not a plain color variable - consider to remove or fix this test');
 			foreach ($mainColors as $main) {
+				if (preg_match('/^var\\(([^)]+)\\)$/', $variables[$main], $matches) === 1) {
+					$main = $matches[1];
+				}
 				$this->assertStringStartsWith('#', $variables[$main], 'Is not a plain color variable - consider to remove or fix this test');
 				$realContrast = $this->util->colorContrast($variables[$main], $variables[$background]);
 				$this->assertGreaterThanOrEqual($minContrast, $realContrast, "Contrast is not high enough for $main (" . $variables[$main] . ") on $background (" . $variables[$background] . ')');
