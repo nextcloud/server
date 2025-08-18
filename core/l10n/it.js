@@ -254,6 +254,7 @@ OC.L10N.register(
     "Search people" : "Cerca le persone",
     "People" : "Persone",
     "Filter in current view" : "Filtro nella vista corrente",
+    "Search connected services" : "Cerca servizi connessi",
     "Results" : "Risultati",
     "Load more results" : "Carica più risultati",
     "Search in" : "Cerca all'interno",
