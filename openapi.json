@@ -16970,7 +16970,8 @@
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "fileId"
+                                    "fileId",
+                                    "expirationTime"
                                 ],
                                 "properties": {
                                     "fileId": {
