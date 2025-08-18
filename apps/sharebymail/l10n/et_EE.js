@@ -7,6 +7,10 @@ OC.L10N.register(
     "Unshared from {email} by {actor}" : "{actor} lõpetas jagamise {email} aadressile",
     "Password for mail share sent to {email}" : "E-kirjaga jagamise salasõna on saadetud aadressile {email}",
     "Password for mail share sent to you" : "Sulle saadetud e-kirjaga jagamise salasõna",
+    "You shared {file} with {email} by mail" : "Sina jagasid {file} faili e-posti aadressile {email}",
+    "{actor} shared {file} with {email} by mail" : "{actor} jagas {file} faili e-posti aadressile {email}",
+    "You unshared {file} from {email} by mail" : "Sina lõpetasid {file} faili jagamise e-posti aadressile {email}",
+    "{actor} unshared {file} from {email} by mail" : "{actor} lõpetas {file} faili jagamise e-posti aadressile {email}",
     "Password to access {file} was sent to {email}" : "Salasõna ligipääsuks „{file}“ failile saadeti aadressile {email}",
     "Password to access {file} was sent to you" : "Sulle saadeti salasõna ligipääsuks „{file}“ failile",
     "Share by mail" : "Jaga e-postiga",
@@ -35,6 +39,7 @@ OC.L10N.register(
     "Could not find share" : "Jagamist ei leitud.",
     "Share provider which allows you to share files by mail" : "Jagamisteenuse pakkuja, mis võimaldab sul meediat jagada e-posti vahendusel",
     "Unable to update share by mail config" : "E-postiga jagamise seadistuste uuendamine ei õnnestu.",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Võimaldab e-posti aadressi sisestamise alusel jagada faili või kausta konkreetsele adressaadile.",
     "Send password by mail" : "Saada salasõna e-postiga",
     "Reply to initiator" : "Vasta algatajale"
 },
