@@ -67,6 +67,7 @@
     "Prompt" : "Prompt",
     "Describe the image you want to generate" : "Describe the image you want to generate",
     "Describe a task that you want the assistant to do or ask a question" : "Describe a task that you want the assistant to do or ask a question",
+    "Chat" : "Chat",
     "The history of chat messages before the current message, starting with a message by the user" : "The history of chat messages before the current message, starting with a message by the user",
     "Text" : "Maandishi",
     "Summarize" : "Summarize",
