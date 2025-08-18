@@ -3598,11 +3598,6 @@
       <code><![CDATA[string]]></code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/DateTimeZone.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$timestamp]]></code>
-    </InvalidScalarArgument>
-  </file>
   <file src="lib/private/Diagnostics/Query.php">
     <ImplementedReturnTypeMismatch>
       <code><![CDATA[float]]></code>
