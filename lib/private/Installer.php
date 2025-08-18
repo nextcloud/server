@@ -123,14 +123,6 @@ class Installer {
 		$config->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
 		$config->setAppValue($info['id'], 'enabled', 'no');
 
-		//set remote/public handlers
-		foreach ($info['remote'] as $name => $path) {
-			$config->setAppValue('core', 'remote_' . $name, $info['id'] . '/' . $path);
-		}
-		foreach ($info['public'] as $name => $path) {
-			$config->setAppValue('core', 'public_' . $name, $info['id'] . '/' . $path);
-		}
-
 		OC_App::setAppTypes($info['id']);
 
 		return $info['id'];
@@ -614,14 +606,6 @@ class Installer {
 		$config->setAppValue($app, 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($app));
 		if (array_key_exists('ocsid', $info)) {
 			$config->setAppValue($app, 'ocsid', $info['ocsid']);
-		}
-
-		//set remote/public handlers
-		foreach ($info['remote'] as $name => $path) {
-			$config->setAppValue('core', 'remote_' . $name, $app . '/' . $path);
-		}
-		foreach ($info['public'] as $name => $path) {
-			$config->setAppValue('core', 'public_' . $name, $app . '/' . $path);
 		}
 
 		OC_App::setAppTypes($info['id']);
