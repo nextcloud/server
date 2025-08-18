@@ -86,6 +86,11 @@ class Server extends \Sabre\DAV\Server {
 			$parentFn($eventName, $callBack, $priority);
 			return;
 		}
+		// The \Sabre\DAVACL\Plugin needs to excluded as it relies on removeListener()
+		if ($pluginName === \Sabre\DAVACL\Plugin::class) {
+			$parentFn($eventName, $callBack, $priority);
+			return;
+		}
 
 		$callback = $this->getMonitoredCallback($callBack, $pluginName, $eventName);
 
