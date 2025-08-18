@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
+use Doctrine\DBAL\ParameterType;
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -41,7 +42,7 @@ class Version32000Date20250731062008 extends SimpleMigrationStep {
 	/**
 	 * Clean up duplicate categories
 	 */
-	private function cleanupDuplicateCategories(IOutput $output) {
+	private function cleanupDuplicateCategories(IOutput $output): void {
 		$output->info('Starting cleanup of duplicate vcategory records...');
 
 		// Find all categories, ordered to identify duplicates
@@ -58,44 +59,57 @@ class Version32000Date20250731062008 extends SimpleMigrationStep {
 		$seen = [];
 		$duplicateCount = 0;
 
-		while ($category = $result->fetch()) {
-			$key = $category['uid'] . '|' . $category['type'] . '|' . $category['category'];
-			$categoryId = (int)$category['id'];
+		try {
+			while ($category = $result->fetchAssociative()) {
+				$key = $category['uid'] . '|' . $category['type'] . '|' . $category['category'];
+				$categoryId = (int)$category['id'];
 
-			if (!isset($seen[$key])) {
-				// First occurrence - keep this one
-				$seen[$key] = $categoryId;
-				continue;
+				if (!isset($seen[$key])) {
+					// First occurrence - keep this one
+					$seen[$key] = $categoryId;
+					continue;
+				}
+
+				// Duplicate found
+				$keepId = $seen[$key];
+				$duplicateCount++;
+
+				$output->info("Found duplicate: keeping ID $keepId, removing ID $categoryId");
+
+				// Start transaction for this duplicate
+				$this->connection->beginTransaction();
+
+				try {
+					// Update object references
+					$updateQb = $this->connection->getQueryBuilder();
+					$updateQb->update('vcategory_to_object')
+						->set('categoryid', $updateQb->createNamedParameter($keepId, ParameterType::INTEGER))
+						->where($updateQb->expr()->eq('categoryid', $updateQb->createNamedParameter($categoryId, ParameterType::INTEGER)));
+
+					$affectedRows = $updateQb->executeStatement();
+					if ($affectedRows > 0) {
+						$output->info(" - Updated $affectedRows object references from category $categoryId to $keepId");
+					}
+
+					// Remove duplicate category record
+					$deleteQb = $this->connection->getQueryBuilder();
+					$deleteQb->delete('vcategory')
+						->where($deleteQb->expr()->eq('id', $deleteQb->createNamedParameter($categoryId, ParameterType::INTEGER)));
+
+					$deleteQb->executeStatement();
+					$output->info(" - Deleted duplicate category record ID $categoryId");
+
+					// Commit transaction
+					$this->connection->commit();
+				} catch (\Throwable $e) {
+					// Rollback on error
+					$this->connection->rollBack();
+					$output->warning("Error processing duplicate ID $categoryId: " . $e->getMessage());
+				}
 			}
-
-			// Duplicate found
-			$keepId = $seen[$key];
-			$duplicateCount++;
-
-			$output->info("Found duplicate: keeping ID $keepId, removing ID $categoryId");
-
-			// Update object references
-			$updateQb = $this->connection->getQueryBuilder();
-			$updateQb->update('vcategory_to_object')
-				->set('categoryid', $updateQb->createNamedParameter($keepId))
-				->where($updateQb->expr()->eq('categoryid', $updateQb->createNamedParameter($categoryId)));
-
-			$affectedRows = $updateQb->executeStatement();
-			if ($affectedRows > 0) {
-				$output->info(" - Updated $affectedRows object references from category $categoryId to $keepId");
-			}
-
-			// Remove duplicate category record
-			$deleteQb = $this->connection->getQueryBuilder();
-			$deleteQb->delete('vcategory')
-				->where($deleteQb->expr()->eq('id', $deleteQb->createNamedParameter($categoryId)));
-
-			$deleteQb->executeStatement();
-			$output->info(" - Deleted duplicate category record ID $categoryId");
-
+		} finally {
+			$result->closeCursor();
 		}
-
-		$result->closeCursor();
 
 		if ($duplicateCount === 0) {
 			$output->info('No duplicate categories found');
