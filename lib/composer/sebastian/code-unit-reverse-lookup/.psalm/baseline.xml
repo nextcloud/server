@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.5.0@b63061a27f2683ec0f3509012bb22daab3b65b61">
+  <file src="src/Wizard.php">
+    <RedundantCondition>
+      <code>assert(is_array($traits))</code>
+      <code>is_array($traits)</code>
+    </RedundantCondition>
+  </file>
+</files>

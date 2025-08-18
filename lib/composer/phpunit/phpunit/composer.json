@@ -1,0 +1,95 @@
+{
+    "name": "phpunit/phpunit",
+    "description": "The PHP Unit Testing framework.",
+    "type": "library",
+    "keywords": [
+        "phpunit",
+        "xunit",
+        "testing"
+    ],
+    "homepage": "https://phpunit.de/",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/phpunit/issues",
+        "security": "https://github.com/sebastianbergmann/phpunit/security/policy"
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.1",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-xml": "*",
+        "ext-xmlwriter": "*",
+        "myclabs/deep-copy": "^1.13.4",
+        "phar-io/manifest": "^2.0.4",
+        "phar-io/version": "^3.2.1",
+        "phpunit/php-code-coverage": "^10.1.16",
+        "phpunit/php-file-iterator": "^4.1.0",
+        "phpunit/php-invoker": "^4.0.0",
+        "phpunit/php-text-template": "^3.0.1",
+        "phpunit/php-timer": "^6.0.0",
+        "sebastian/cli-parser": "^2.0.1",
+        "sebastian/code-unit": "^2.0.0",
+        "sebastian/comparator": "^5.0.3",
+        "sebastian/diff": "^5.1.1",
+        "sebastian/environment": "^6.1.0",
+        "sebastian/exporter": "^5.1.2",
+        "sebastian/global-state": "^6.0.2",
+        "sebastian/object-enumerator": "^5.0.0",
+        "sebastian/recursion-context": "^5.0.1",
+        "sebastian/type": "^4.0.0",
+        "sebastian/version": "^4.0.1"
+    },
+    "config": {
+        "platform": {
+            "php": "8.1.0"
+        },
+        "classmap-authoritative": true,
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "suggest": {
+        "ext-soap": "To be able to generate mocks based on WSDL files"
+    },
+    "bin": [
+        "phpunit"
+    ],
+    "autoload": {
+        "classmap": [
+            "src/"
+        ],
+        "files": [
+            "src/Framework/Assert/Functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/_files"
+        ],
+        "files": [
+            "tests/unit/Event/AbstractEventTestCase.php",
+            "tests/unit/Framework/MockObject/TestDoubleTestCase.php",
+            "tests/unit/Metadata/Parser/AnnotationParserTestCase.php",
+            "tests/unit/Metadata/Parser/AttributeParserTestCase.php",
+            "tests/_files/CoverageNamespacedFunctionTest.php",
+            "tests/_files/CoveredFunction.php",
+            "tests/_files/Generator.php",
+            "tests/_files/NamespaceCoveredFunction.php",
+            "tests/end-to-end/code-coverage/ignore-function-using-attribute/src/CoveredFunction.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "10.5-dev"
+        }
+    }
+}

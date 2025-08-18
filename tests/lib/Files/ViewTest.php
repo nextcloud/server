@@ -8,6 +8,7 @@
 
 namespace Test\Files;
 
+use OCP\Files\DavUtil;
 use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
@@ -140,7 +141,7 @@ class ViewTest extends \Test\TestCase {
 
 		/** @var IMountManager $manager */
 		$manager = Server::get(IMountManager::class);
-		$manager->removeMount('/test');
+		$manager->removeMount('/' . $this->user);
 
 		$this->tempStorage = null;
 	}
@@ -156,6 +157,7 @@ class ViewTest extends \Test\TestCase {
 		if ($this->tempStorage) {
 			system('rm -rf ' . escapeshellarg($this->tempStorage->getDataDir()));
 		}
+
 
 		self::logout();
 
@@ -2900,4 +2902,53 @@ class ViewTest extends \Test\TestCase {
 		$viewUser1->copy('foo.txt', 'bar.txt');
 		$this->assertEquals('foo', $viewUser1->file_get_contents('bar.txt'));
 	}
+
+	public function testSingleFileReadOnlySharePermissions(): void {
+	    $userManager = Server::get(IUserManager::class);
+	    $shareManager = Server::get(IShareManager::class);
+	    $rootFolder = Server::get(\OCP\Files\IRootFolder::class);
+
+	    $recipient = 'recipient';
+	    $recipientUserObject = $userManager->createUser($recipient, 'testpass');
+
+	    self::loginAsUser($this->user);
+	    $ownerView = new View('/' . $this->user . '/files/');
+
+	    $testFile = 'fileToShare.txt';
+	    $ownerView->file_put_contents($testFile, 'content for sharing');
+	    $node = $rootFolder->getUserFolder($this->user)->get($testFile);
+
+	    $share = $shareManager->newShare();
+	    $share->setSharedWith($recipient)
+	          ->setSharedBy($this->user)
+	          ->setShareType(IShare::TYPE_USER)
+	          ->setPermissions(\OCP\Constants::PERMISSION_READ)  // read-only share
+	          ->setNode($node);
+	    $shareManager->createShare($share);
+
+	    $fileInfo = $ownerView->getFileInfo($testFile);
+	    $this->assertInstanceOf(\OCP\Files\FileInfo::class, $fileInfo, "Owner failed to fetch fileInfo");
+
+	    self::loginAsUser($recipient);
+	    $recipientView = new View('/' . $recipient . '/files/');
+
+	    $sharedFileInfo = $recipientView->getFileInfo($testFile);
+
+	    $canRename = false;
+	    try {
+	        $canRename = $recipientView->rename($testFile, 'moved.txt');
+	    } catch (\Exception $e) {
+	        $canRename = false;
+	    }
+
+	    $this->assertFalse($canRename, "Recipient is falsely able to move/rename a read-only shared file");
+
+	    self::loginAsUser($this->user);
+	    $shareManager->deleteShare($share);
+	    $recipientUserObject->delete();
+	}
+
+
+
+
 }
