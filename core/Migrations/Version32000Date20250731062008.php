@@ -60,7 +60,7 @@ class Version32000Date20250731062008 extends SimpleMigrationStep {
 		$duplicateCount = 0;
 
 		try {
-			while ($category = $result->fetchAssociative()) {
+			while ($category = $result->fetch() !== false) {
 				$key = $category['uid'] . '|' . $category['type'] . '|' . $category['category'];
 				$categoryId = (int)$category['id'];
 
