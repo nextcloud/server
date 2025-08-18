@@ -137,8 +137,7 @@
                             "webdav-root",
                             "reference-api",
                             "reference-regex",
-                            "mod-rewrite-working",
-                            "user"
+                            "mod-rewrite-working"
                         ],
                         "properties": {
                             "pollinterval": {
@@ -159,7 +158,6 @@
                             },
                             "user": {
                                 "type": "object",
-                                "nullable": true,
                                 "required": [
                                     "language",
                                     "locale",
@@ -3585,6 +3583,7 @@
                     "quota",
                     "role",
                     "subadmin",
+                    "timezone",
                     "twitter",
                     "bluesky",
                     "website"
@@ -3741,6 +3740,9 @@
                         "items": {
                             "type": "string"
                         }
+                    },
+                    "timezone": {
+                        "type": "string"
                     },
                     "twitter": {
                         "type": "string"

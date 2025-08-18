@@ -105,6 +105,7 @@
                     "quota",
                     "role",
                     "subadmin",
+                    "timezone",
                     "twitter",
                     "bluesky",
                     "website"
@@ -261,6 +262,9 @@
                         "items": {
                             "type": "string"
                         }
+                    },
+                    "timezone": {
+                        "type": "string"
                     },
                     "twitter": {
                         "type": "string"
