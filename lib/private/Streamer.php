@@ -14,6 +14,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IDateTimeZone;
 use OCP\IRequest;
 use ownCloud\TarStreamer\TarStreamer;
 use Psr\Log\LoggerInterface;
@@ -40,7 +41,12 @@ class Streamer {
 	 * @param int $numberOfFiles The number of files (and directories) that will
 	 *                           be included in the streamed file
 	 */
-	public function __construct(IRequest|bool $preferTar, int|float $size, int $numberOfFiles) {
+	public function __construct(
+		IRequest|bool $preferTar,
+		int|float $size,
+		int $numberOfFiles,
+		private IDateTimeZone $timezoneFactory,
+	) {
 		if ($preferTar instanceof IRequest) {
 			$preferTar = self::isUserAgentPreferTar($preferTar);
 		}
@@ -156,7 +162,7 @@ class Streamer {
 		$options = [];
 		if ($time) {
 			$options = [
-				'timestamp' => $time
+				'timestamp' => $this->fixTimestamp($time),
 			];
 		}
 
@@ -176,7 +182,7 @@ class Streamer {
 	public function addEmptyDir(string $dirName, int $timestamp = 0): bool {
 		$options = null;
 		if ($timestamp > 0) {
-			$options = ['timestamp' => $timestamp];
+			$options = ['timestamp' => $this->fixTimestamp($timestamp)];
 		}
 
 		return $this->streamerInstance->addEmptyDir($dirName, $options);
@@ -190,5 +196,15 @@ class Streamer {
 	 */
 	public function finalize() {
 		return $this->streamerInstance->finalize();
+	}
+
+	private function fixTimestamp(int $timestamp): int {
+		if ($this->streamerInstance instanceof ZipStreamer) {
+			// Zip does not support any timezone information
+			// while tar is interpreted as Unix time the Zip time is interpreted as local time of the user...
+			$zone = $this->timezoneFactory->getTimeZone($timestamp);
+			$timestamp += $zone->getOffset(new \DateTimeImmutable('@' . (string)$timestamp));
+		}
+		return $timestamp;
 	}
 }
