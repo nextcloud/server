@@ -9,6 +9,7 @@
 # this will override the backend code owners if needed
 /__mocks__                                    @nextcloud/server-frontend
 /__tests__                                    @nextcloud/server-frontend
+/dist                                         @nextcloud/server-frontend
 /cypress                                      @nextcloud/server-frontend
 **/css                                        @nextcloud/server-frontend
 **/js                                         @nextcloud/server-frontend
@@ -19,7 +20,6 @@
 # dependency management
 package.json                                  @nextcloud/server-dependabot @nextcloud/server-frontend
 package-lock.json                             @nextcloud/server-dependabot
-/dist                                         @nextcloud/server-dependabot
 
 # App maintainers
 /apps/admin_audit/appinfo/info.xml            @luka-nextcloud @blizzz
