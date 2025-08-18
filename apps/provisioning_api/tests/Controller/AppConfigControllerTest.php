@@ -359,8 +359,6 @@ class AppConfigControllerTest extends TestCase {
 	public static function dataVerifyConfigKey(): array {
 		return [
 			['activity', 'abc', ''],
-			['dav', 'public_route', ''],
-			['files', 'remote_route', ''],
 			['core', 'encryption_enabled', 'yes'],
 		];
 	}
@@ -379,10 +377,6 @@ class AppConfigControllerTest extends TestCase {
 			['contacts', 'types', ''],
 			['core', 'encryption_enabled', 'no'],
 			['core', 'encryption_enabled', ''],
-			['core', 'public_files', ''],
-			['core', 'public_dav', ''],
-			['core', 'remote_files', ''],
-			['core', 'remote_dav', ''],
 		];
 	}
 
