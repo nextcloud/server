@@ -1795,7 +1795,7 @@ $CONFIG = [
 /**
  * Enable caching of the app config values.
  * If enabled the app config will be cached locally for a short TTL,
- * reducing database load significatly on larger setups.
+ * reducing database load significantly on larger setups.
  *
  * Defaults to ``true``
  */

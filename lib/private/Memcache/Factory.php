@@ -128,7 +128,6 @@ class Factory implements ICacheFactory {
 	 * Override the global prefix for a specific closure.
 	 * This should only be used internally for bootstrapping purpose!
 	 *
-	 * @param string $globalPrefix - The prefix to use during the closure execution
 	 * @param \Closure $closure - The closure with the cache factory as the first parameter
 	 */
 	public function withServerVersionPrefix(\Closure $closure): void {
