@@ -12,6 +12,7 @@ namespace Test\App;
 
 use OC\App\AppManager;
 use OC\App\DependencyAnalyzer;
+use OC\App\Platform;
 use OC\AppConfig;
 use OC\Config\ConfigManager;
 use OCP\App\AppPathNotFoundException;
@@ -95,7 +96,8 @@ class AppManagerTest extends TestCase {
 	protected IURLGenerator&MockObject $urlGenerator;
 	protected ServerVersion&MockObject $serverVersion;
 	protected ConfigManager&MockObject $configManager;
-	protected DependencyAnalyzer&MockObject $dependencyAnalyzer;
+
+	protected DependencyAnalyzer $dependencyAnalyzer;
 
 	protected AppManager $manager;
 
@@ -113,7 +115,7 @@ class AppManagerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->configManager = $this->createMock(ConfigManager::class);
-		$this->dependencyAnalyzer = $this->createMock(DependencyAnalyzer::class);
+		$this->dependencyAnalyzer = new DependencyAnalyzer($this->createMock(Platform::class));
 
 		$this->overwriteService(AppConfig::class, $this->appConfig);
 		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
@@ -594,7 +596,7 @@ class AppManagerTest extends TestCase {
 	}
 
 	public function testGetAppsNeedingUpgrade(): void {
-		/** @var AppManager|MockObject $manager */
+		/** @var AppManager&MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
 				$this->userSession,
