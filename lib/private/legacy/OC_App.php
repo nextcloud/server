@@ -682,19 +682,6 @@ class OC_App {
 
 		self::setupBackgroundJobs($appData['background-jobs']);
 
-		//set remote/public handlers
-		if (array_key_exists('ocsid', $appData)) {
-			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid') !== '') {
-			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
-		}
-		foreach ($appData['remote'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
-		}
-		foreach ($appData['public'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
-		}
-
 		self::setAppTypes($appId);
 
 		$version = Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
