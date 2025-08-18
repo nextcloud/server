@@ -863,7 +863,7 @@ class ShareAPIController extends OCSController {
 		$shares = array_merge($userShares, $groupShares, $circleShares, $roomShares, $deckShares, $sciencemeshShares);
 
 		$filteredShares = array_filter($shares, function (IShare $share) {
-			return $share->getShareOwner() !== $this->userId;
+			return $share->getShareOwner() !== $this->userId && $share->getSharedBy() !== $this->userId;
 		});
 
 		$formatted = [];
