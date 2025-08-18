@@ -26,6 +26,7 @@ import ProfileSection from './components/PersonalInfo/ProfileSection/ProfileSect
 import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilitySection/ProfileVisibilitySection.vue'
 import PronounsSection from './components/PersonalInfo/PronounsSection.vue'
 import RoleSection from './components/PersonalInfo/RoleSection.vue'
+import TimezoneSection from './components/PersonalInfo/TimezoneSection.vue'
 import TwitterSection from './components/PersonalInfo/TwitterSection.vue'
 import BlueskySection from './components/PersonalInfo/BlueskySection.vue'
 import WebsiteSection from './components/PersonalInfo/WebsiteSection.vue'
@@ -47,6 +48,7 @@ const DisplayNameView = Vue.extend(DisplayNameSection)
 const EmailView = Vue.extend(EmailSection)
 const FediverseView = Vue.extend(FediverseSection)
 const FirstDayOfWeekView = Vue.extend(FirstDayOfWeekSection)
+const TimezoneView = Vue.extend(TimezoneSection)
 const LanguageView = Vue.extend(LanguageSection)
 const LocaleView = Vue.extend(LocaleSection)
 const LocationView = Vue.extend(LocationSection)
@@ -69,6 +71,7 @@ new FediverseView().$mount('#vue-fediverse-section')
 new LanguageView().$mount('#vue-language-section')
 new LocaleView().$mount('#vue-locale-section')
 new FirstDayOfWeekView().$mount('#vue-fdow-section')
+new TimezoneView().$mount('#vue-timezone-section')
 new BirthdayView().$mount('#vue-birthday-section')
 new PronounsView().$mount('#vue-pronouns-section')
 

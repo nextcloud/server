@@ -1,3 +1,4 @@
+SPDX-License-Identifier: MPL-2.0
 SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
@@ -17,6 +18,7 @@ SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+SPDX-FileCopyrightText: Philipp Kewisch
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
@@ -145,6 +147,9 @@ This file is generated from multiple sources. Included packages:
 - focus-trap
 	- version: 7.6.5
 	- license: MIT
+- ical.js
+	- version: 2.1.0
+	- license: MPL-2.0
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause

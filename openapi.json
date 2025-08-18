@@ -155,6 +155,25 @@
                             },
                             "mod-rewrite-working": {
                                 "type": "boolean"
+                            },
+                            "user": {
+                                "type": "object",
+                                "required": [
+                                    "language",
+                                    "locale",
+                                    "timezone"
+                                ],
+                                "properties": {
+                                    "language": {
+                                        "type": "string"
+                                    },
+                                    "locale": {
+                                        "type": "string"
+                                    },
+                                    "timezone": {
+                                        "type": "string"
+                                    }
+                                }
                             }
                         }
                     }
@@ -3564,6 +3583,7 @@
                     "quota",
                     "role",
                     "subadmin",
+                    "timezone",
                     "twitter",
                     "bluesky",
                     "website"
@@ -3720,6 +3740,9 @@
                         "items": {
                             "type": "string"
                         }
+                    },
+                    "timezone": {
+                        "type": "string"
                     },
                     "twitter": {
                         "type": "string"

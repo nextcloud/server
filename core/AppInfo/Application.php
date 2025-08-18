@@ -81,6 +81,8 @@ class Application extends App implements IBootstrap {
 
 		// config lexicon
 		$context->registerConfigLexicon(ConfigLexicon::class);
+
+		$context->registerCapability(Capabilities::class);
 	}
 
 	public function boot(IBootContext $context): void {

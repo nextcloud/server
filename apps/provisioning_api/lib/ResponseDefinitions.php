@@ -65,6 +65,7 @@ namespace OCA\Provisioning_API;
  *     roleScope?: Provisioning_APIUserDetailsScope,
  *     storageLocation?: string,
  *     subadmin: list<string>,
+ *     timezone: string,
  *     twitter: string,
  *     twitterScope?: Provisioning_APIUserDetailsScope,
  * 	   bluesky: string,

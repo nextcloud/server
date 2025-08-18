@@ -26,6 +26,9 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_LINK_PASSWORD_ENFORCED = 'shareapi_enforce_links_password';
 
 	public const USER_LANGUAGE = 'lang';
+	public const USER_LOCALE = 'locale';
+	public const USER_TIMEZONE = 'timezone';
+
 	public const LASTCRON_TIMESTAMP = 'lastcron';
 
 	public function getStrictness(): Strictness {
@@ -68,7 +71,9 @@ class ConfigLexicon implements ILexicon {
 
 	public function getUserConfigs(): array {
 		return [
-			new Entry(self::USER_LANGUAGE, ValueType::STRING, null, 'language'),
+			new Entry(self::USER_LANGUAGE, ValueType::STRING, definition: 'language'),
+			new Entry(self::USER_LOCALE, ValueType::STRING, definition: 'locale'),
+			new Entry(self::USER_TIMEZONE, ValueType::STRING, definition: 'timezone'),
 		];
 	}
 }
