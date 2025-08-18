@@ -9,10 +9,9 @@ declare(strict_types=1);
 namespace OC\Config;
 
 use OC\App\AppManager;
+use OC\AppConfig;
 use OC\Installer;
 use OCP\App\AppPathNotFoundException;
-use OCP\App\IAppManager;
-use OC\AppConfig;
 use OCP\App\IAppManager;
 use OCP\Config\Lexicon\Preset;
 use OCP\Exceptions\AppConfigUnknownKeyException;
@@ -20,7 +19,6 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Server;
 use Psr\Log\LoggerInterface;
-use OCP\Server;
 
 /**
  * tools to manage the Preset feature
