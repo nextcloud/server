@@ -3286,24 +3286,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			))
 			->executeQuery();
 
-		$idsWithPublishStatuses = [];
+		$hasPublishStatuses = [];
 		while ($row = $result->fetch()) {
 			$this->publishStatusCache->set((string)$row['resourceid'], $row['publicuri']);
-			$idsWithPublishStatuses[] = (int)$row['resourceid'];
+			$hasPublishStatuses[(int)$row['resourceid']] = true;
 		}
 
 		// Also remember resources with no publish status
 		foreach ($resourceIds as $resourceId) {
-			$hasPublishStatus = false;
-			foreach ($idsWithPublishStatuses as $id) {
-				if ($id === $resourceId) {
-					$hasPublishStatus = true;
-				}
-
-				if ($hasPublishStatus) {
-					continue;
-				}
-
+			if (!isset($hasPublishStatuses[$resourceId])) {
 				$this->publishStatusCache->set((string)$resourceId, false);
 			}
 		}
