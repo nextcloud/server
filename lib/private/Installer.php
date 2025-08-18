@@ -558,8 +558,14 @@ class Installer {
 			$queue->add($job);
 		}
 
-		// Run appinfo/install.php
-		self::includeAppScript($appPath . '/appinfo/install.php');
+		// Run deprecated appinfo/install.php if any
+		$appInstallScriptPath = $appPath . '/appinfo/install.php';
+		if (file_exists($appInstallScriptPath)) {
+			$this->logger->warning('Using an appinfo/install.php file is deprecated. Application "{app}" still uses one.', [
+				'app' => $info['id'],
+			]);
+			self::includeAppScript($appInstallScriptPath);
+		}
 
 		\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['install']);
 
