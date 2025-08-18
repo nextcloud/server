@@ -12,7 +12,6 @@ require_once __DIR__ . '/lib/versioncheck.php';
 use OC\ServiceUnavailableException;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCP\App\IAppManager;
-use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Server;
 use OCP\Template\ITemplateManager;
@@ -22,13 +21,13 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 
 /**
- * Resolve the requested service to a handler.
+ * Resolve the requested remote.php service to a handler.
  *
  * @param string $service
- * @return string
+ * @return string (empty if no matches)
  */
 function resolveService(string $service): string {
-	$services = [
+	$remoteServices = [
 		'webdav' => 'dav/appinfo/v1/webdav.php',
 		'dav' => 'dav/appinfo/v2/remote.php',
 		'caldav' => 'dav/appinfo/v1/caldav.php',
@@ -38,7 +37,8 @@ function resolveService(string $service): string {
 		'files' => 'dav/appinfo/v1/webdav.php',
 		'direct' => 'dav/appinfo/v2/direct.php',
 	];
-	$file = $services[$service] ?? '';
+	
+	$file = $remoteServices[$service] ?? '';
 	return $file;
 }
 
@@ -48,7 +48,6 @@ try {
 	// All resources served via the DAV endpoint should have the strictest possible
 	// policy. Exempted from this is the SabreDAV browser plugin which overwrites
 	// this policy with a softer one if debug mode is enabled.
-	//	NOTE: This breaks HTML styling/templates currently
 	header("Content-Security-Policy: default-src 'none';");
 
 	// Check if Nextcloud is in maintenance mode
@@ -72,7 +71,6 @@ try {
 
 	// Resolve the service to a file
 	$file = resolveService($service);
-
 	if (!$file) {
 		throw new RemoteException('Path not found', 404);
 	}
@@ -115,13 +113,13 @@ class RemoteException extends \Exception {
 
 function handleException(Exception|Error $e): void {
 	try {
-		// treat XML as a WebDAV request
+		// Assume XML requests are a DAV request
 		$contentType = Server::get(IRequest::class)->getHeader('Content-Type');
 		if (
 			str_contains($contentType, 'application/xml')
 			|| str_contains($contentType, 'text/xml')
 		) {
-			// fire up a simple server to properly process the exception
+			// Fire up a simple DAV server to properly process the exception
 			$server = new \Sabre\DAV\Server();
 			if (!($e instanceof RemoteException)) {
 				// we shall not log on RemoteException
@@ -146,33 +144,23 @@ function handleException(Exception|Error $e): void {
 				throw new ServiceUnavailable("$class: $msg");
 			});
 			$server->start();
-		} else {
+		} else { // Assume it was interactive
 			$statusCode = 500;
 			if ($e instanceof ServiceUnavailableException) {
 				$statusCode = 503;
 			}
 			if ($e instanceof RemoteException) {
+				// Show the user a detailed error page
+				Server::get(ITemplateManager::class)->printErrorPage($e->getMessage(), '', $e->getCode());
 				// we shall not log on RemoteException
-				Server::get(ITemplateManager::class)->printErrorPage(
-					$e->getMessage(),
-					'',
-					$e->getCode()
-				);
 			} else {
-				Server::get(LoggerInterface::class)->error(
-					$e->getMessage(),
-					['app' => 'remote','exception' => $e]
-				);
-				Server::get(ITemplateManager::class)->printExceptionErrorPage(
-					$e,
-					$statusCode
-				);
+				// Show the user a detailed error page
+				Server::get(LoggerInterface::class)->error($e->getMessage(), ['app' => 'remote','exception' => $e]);
+				Server::get(ITemplateManager::class)->printExceptionErrorPage($e, $statusCode);
 			}
 		}
-	} catch (\Exception $e) {
-		Server::get(ITemplateManager::class)->printExceptionErrorPage(
-			$e,
-			500
-		);
+	} catch (\Exception $e) { // Something went very wrong; do the best we can
+		// Show the user a detailed error page
+		Server::get(ITemplateManager::class)->printExceptionErrorPage($e, 500);
 	}
 }
