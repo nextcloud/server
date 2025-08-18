@@ -82,7 +82,7 @@ try {
 	$parts = explode('/', $file, 2);
 	$app = $parts[0];
 	\OC::$REQUESTEDAPP = $app;
-	
+
 	// Load all required applications
 	$appManager = Server::get(IAppManager::class);
 	$appManager->loadApps(['authentication']);
@@ -93,10 +93,10 @@ try {
 	if (!$appManager->isEnabledForUser($app)) {
 		throw new RemoteException('App not installed: ' . $app, 503); // or maybe 404?
 	}
-	
+
 	// Load the app
 	$appManager->loadApp($app);
-	
+
 	$baseuri = OC::$WEBROOT . '/remote.php/' . $service . '/';
 	require_once $file;
 } catch (Exception $ex) {
