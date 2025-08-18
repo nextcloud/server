@@ -27,6 +27,7 @@ use OC\Core\Command\Config\App\GetConfig;
 use OC\Core\Command\Config\App\SetConfig;
 use OC\Core\Command\Config\Import;
 use OC\Core\Command\Config\ListConfigs;
+use OC\Core\Command\Config\Preset;
 use OC\Core\Command\Db\AddMissingColumns;
 use OC\Core\Command\Db\AddMissingIndices;
 use OC\Core\Command\Db\AddMissingPrimaryKeys;
@@ -149,6 +150,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(SetConfig::class));
 	$application->add(Server::get(Import::class));
 	$application->add(Server::get(ListConfigs::class));
+	$application->add(Server::get(Preset::class));
 	$application->add(Server::get(Command\Config\System\DeleteConfig::class));
 	$application->add(Server::get(Command\Config\System\GetConfig::class));
 	$application->add(Server::get(Command\Config\System\SetConfig::class));
@@ -251,6 +253,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(EnabledCommand::class));
 	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
 	$application->add(Server::get(Statistics::class));
+	$application->add(Server::get(Command\TaskProcessing\Cleanup::class));
 
 	$application->add(Server::get(RedisCommand::class));
 	$application->add(Server::get(DistributedClear::class));

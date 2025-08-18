@@ -54,9 +54,7 @@ class CompareVersionTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider comparisonData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('comparisonData')]
 	public function testComparison(string $actualVersion, string $requiredVersion,
 		string $comparator, bool $expected): void {
 		$isCompatible = $this->compare->isCompatible($actualVersion, $requiredVersion,

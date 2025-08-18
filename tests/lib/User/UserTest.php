@@ -506,10 +506,10 @@ class UserTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDeleteHooks
 	 * @param bool $result
 	 * @param int $expectedHooks
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDeleteHooks')]
 	public function testDeleteHooks($result, $expectedHooks): void {
 		$hooksCalled = 0;
 		$test = $this;
@@ -659,9 +659,7 @@ class UserTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetCloudId
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCloudId')]
 	public function testGetCloudId(string $absoluteUrl, string $cloudId): void {
 		/** @var Backend|MockObject $backend */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);

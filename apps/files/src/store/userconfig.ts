@@ -12,13 +12,16 @@ import { ref, set } from 'vue'
 import axios from '@nextcloud/axios'
 
 const initialUserConfig = loadState<UserConfig>('files', 'config', {
-	show_hidden: false,
 	crop_image_previews: true,
+	default_view: 'files',
+	grid_view: false,
+	show_files_extensions: true,
+	show_hidden: false,
+	show_mime_column: true,
 	sort_favorites_first: true,
 	sort_folders_first: true,
-	grid_view: false,
-	show_mime_column: true,
 
+	show_dialog_deletion: false,
 	show_dialog_file_extension: true,
 })
 

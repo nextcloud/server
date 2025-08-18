@@ -8,7 +8,6 @@ OC.L10N.register(
     "Set file reminders" : "Definir lembretes de ficheiros",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Lembretes de ficheiros**\n\nDefinir lembretes de ficheiros.\n\nNota: para usar a aplicación «Lembretes de ficheiros», asegúrese de que a aplicación «Notificacións» estea instalada e activada. A aplicación «Notificacións» ofrece as API necesarias para que a aplicación «Lembretes de ficheiros» funcione correctamente.",
     "Set reminder for \"{fileName}\"" : "Definir un lembrete para «{fileName}»",
-    "Set reminder at custom date & time" : "Definir lembrete na data e hora personalizadas",
     "Clear reminder" : "Limpar o lembrete",
     "Please choose a valid date & time" : "Escolla unha data e hora válidas",
     "Reminder set for \"{fileName}\"" : "Lembrete definido para «{fileName}»",
@@ -19,7 +18,6 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Set reminder" : "Definir un lembrete",
     "Reminder set" : "Definir lembrete",
-    "Set custom reminder" : "Definir un lembrete personalizado",
     "Later today" : "Hoxe máis tarde",
     "Set reminder for later today" : "Definir un lembrete para hoxe máis tarde",
     "Tomorrow" : "Mañá",
@@ -27,6 +25,8 @@ OC.L10N.register(
     "This weekend" : "Este fin de semana",
     "Set reminder for this weekend" : "Definir un lembrete para este fin de semana",
     "Next week" : "Semana seguinte",
-    "Set reminder for next week" : "Definir un lembrete para a semana seguinte"
+    "Set reminder for next week" : "Definir un lembrete para a semana seguinte",
+    "Set reminder at custom date & time" : "Definir lembrete na data e hora personalizadas",
+    "Set custom reminder" : "Definir un lembrete personalizado"
 },
 "nplurals=2; plural=(n != 1);");

@@ -86,6 +86,13 @@
 						<IconFilter :size="20" />
 					</template>
 				</NcButton>
+				<NcCheckboxRadioSwitch v-if="hasExternalResources"
+					v-model="searchExternalResources"
+					type="switch"
+					class="unified-search-modal__search-external-resources"
+					:class="{'unified-search-modal__search-external-resources--aligned': localSearch}">
+					{{ t('core', 'Search connected services') }}
+				</NcCheckboxRadioSwitch>
 			</div>
 			<div class="unified-search-modal__filters-applied">
 				<FilterChip v-for="filter in filters"
@@ -129,7 +136,7 @@
 						v-bind="result" />
 				</ul>
 				<div class="result-footer">
-					<NcButton type="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
+					<NcButton v-if="providerResult.results.length === providerResult.limit" type="tertiary-no-background" @click="loadMoreResultsForProvider(providerResult)">
 						{{ t('core', 'Load more results') }}
 						<template #icon>
 							<IconDotsHorizontal :size="20" />
@@ -159,8 +166,8 @@ import debounce from 'debounce'
 import { unifiedSearchLogger } from '../../logger'
 
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import IconAccountGroup from 'vue-material-design-icons/AccountGroup.vue'
-import IconCalendarRange from 'vue-material-design-icons/CalendarRange.vue'
+import IconAccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
+import IconCalendarRange from 'vue-material-design-icons/CalendarRangeOutline.vue'
 import IconDotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
 import IconFilter from 'vue-material-design-icons/Filter.vue'
 import IconListBox from 'vue-material-design-icons/ListBox.vue'
@@ -172,6 +179,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import FilterChip from './SearchFilterChip.vue'
@@ -198,6 +206,7 @@ export default defineComponent({
 		NcEmptyContent,
 		NcDialog,
 		NcInputField,
+		NcCheckboxRadioSwitch,
 		SearchableList,
 		SearchResult,
 	},
@@ -264,6 +273,7 @@ export default defineComponent({
 			showDateRangeModal: false,
 			internalIsVisible: this.open,
 			initialized: false,
+			searchExternalResources: false,
 		}
 	},
 
@@ -301,6 +311,10 @@ export default defineComponent({
 		debouncedFilterContacts() {
 			return debounce(this.filterContacts, 300)
 		},
+
+		hasExternalResources() {
+			return this.providers.some(provider => provider.isExternalProvider)
+		},
 	},
 
 	watch: {
@@ -329,8 +343,20 @@ export default defineComponent({
 		query: {
 			immediate: true,
 			handler() {
-				this.searchQuery = this.query.trim()
+				this.searchQuery = this.query
 			},
+		},
+
+		searchQuery: {
+			handler() {
+				this.$emit('update:query', this.searchQuery)
+			},
+		},
+
+		searchExternalResources() {
+			if (this.searchQuery) {
+				this.find(this.searchQuery)
+			}
 		},
 	},
 
@@ -361,7 +387,7 @@ export default defineComponent({
 				this.$refs.searchInput?.focus()
 			})
 		},
-		find(query: string) {
+		find(query: string, providersToSearchOverride = null) {
 			if (query.length === 0) {
 				this.results = []
 				this.searching = false
@@ -376,7 +402,7 @@ export default defineComponent({
 
 			this.searching = true
 			const newResults = []
-			const providersToSearch = this.filteredProviders.length > 0 ? this.filteredProviders : this.providers
+			const providersToSearch = providersToSearchOverride || (this.filteredProviders.length > 0 ? this.filteredProviders : this.providers)
 			const searchProvider = (provider) => {
 				const params = {
 					type: provider.searchFrom ?? provider.id,
@@ -412,12 +438,21 @@ export default defineComponent({
 					unifiedSearchLogger.debug('Limiting search to', params.limit)
 				}
 
+				const shouldSkipSearch = !this.searchExternalResources && provider.isExternalProvider
+				const wasManuallySelected = this.filteredProviders.some(filteredProvider => filteredProvider.id === provider.id)
+				// if the provider is an external resource and the user has not manually selected it, skip the search
+				if (shouldSkipSearch && !wasManuallySelected) {
+					this.searching = false
+					return
+				}
+
 				const request = unifiedSearch(params).request
 
 				request().then((response) => {
 					newResults.push({
 						...provider,
 						results: response.data.ocs.data.entries,
+						limit: params.limit ?? 5,
 					})
 
 					unifiedSearchLogger.debug('Unified search results:', { results: this.results, newResults })
@@ -507,15 +542,7 @@ export default defineComponent({
 		},
 		async loadMoreResultsForProvider(provider) {
 			this.providerResultLimit += 5
-			// Remove all other providers from filteredProviders except the current "loadmore" provider
-			this.filteredProviders = this.filteredProviders.filter(filteredProvider => filteredProvider.id === provider.id)
-			// Plugin filters may have extra parameters, so we need to keep them
-			// See method handlePluginFilter for more details
-			if (this.filteredProviders.length > 0 && this.filteredProviders[0].isPluginFilter) {
-				provider = this.filteredProviders[0]
-			}
-			this.addProviderFilter(provider, true)
-			this.find(this.searchQuery)
+			this.find(this.searchQuery, [provider])
 		},
 		addProviderFilter(providerFilter, loadMoreResultsForProvider = false) {
 			unifiedSearchLogger.debug('Applying provider filter', { providerFilter, loadMoreResultsForProvider })
@@ -741,6 +768,21 @@ export default defineComponent({
 		gap: 4px;
 		justify-content: start;
 		padding-top: 4px;
+	}
+
+	&__search-external-resources {
+		:deep(span.checkbox-content) {
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+
+		:deep(.checkbox-content__icon) {
+			margin: auto !important;
+		}
+
+		&--aligned {
+			margin-inline-start: auto;
+		}
 	}
 
 	&__filters-applied {

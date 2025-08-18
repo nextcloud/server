@@ -22,8 +22,8 @@
     "Unable to update federated files sharing config" : "Unable to update federated files sharing config",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Share with me through my #Nextcloud Federated Cloud ID, see {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Share with me through my #Nextcloud Federated Cloud ID",
-    "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
-    "Copy to clipboard" : "Copy to clipboard",
+    "Share with me via Nextcloud" : "Share with me via Nextcloud",
+    "Copy" : "Copy",
     "Copied!" : "Copied!",
     "Federated Cloud" : "Federated Cloud",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com",
@@ -31,12 +31,13 @@
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (formerly Twitter)",
     "Add to your website" : "Add to your website",
-    "Share with me via Nextcloud" : "Share with me via Nextcloud",
     "HTML Code:" : "HTML Code:",
     "Cancel" : "Cancel",
     "Add remote share" : "Add remote share",
     "Remote share" : "Remote share",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
-    "Remote share password" : "Remote share password"
+    "Remote share password" : "Remote share password",
+    "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
+    "Copy to clipboard" : "Copy to clipboard"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

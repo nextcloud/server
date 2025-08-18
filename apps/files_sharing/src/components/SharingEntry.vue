@@ -19,8 +19,9 @@
 				:href="share.shareWithLink"
 				class="sharing-entry__summary__desc">
 				<span>{{ title }}
-					<span v-if="!isUnique" class="sharing-entry__summary__desc-unique"> ({{
-						share.shareWithDisplayNameUnique }})</span>
+					<span v-if="!isUnique" class="sharing-entry__summary__desc-unique">
+						({{ share.shareWithDisplayNameUnique }})
+					</span>
 					<small v-if="hasStatus && share.status.message">({{ share.status.message }})</small>
 				</span>
 			</component>
@@ -73,11 +74,15 @@ export default {
 	computed: {
 		title() {
 			let title = this.share.shareWithDisplayName
-			if (this.share.type === ShareType.Group) {
+
+			const showAsInternal = this.config.showFederatedSharesAsInternal
+				|| (this.share.isTrustedServer && this.config.showFederatedSharesToTrustedServersAsInternal)
+
+			if (this.share.type === ShareType.Group || (this.share.type === ShareType.RemoteGroup && showAsInternal)) {
 				title += ` (${t('files_sharing', 'group')})`
 			} else if (this.share.type === ShareType.Room) {
 				title += ` (${t('files_sharing', 'conversation')})`
-			} else if (this.share.type === ShareType.Remote) {
+			} else if (this.share.type === ShareType.Remote && !showAsInternal) {
 				title += ` (${t('files_sharing', 'remote')})`
 			} else if (this.share.type === ShareType.RemoteGroup) {
 				title += ` (${t('files_sharing', 'remote group')})`

@@ -34,7 +34,7 @@ class AddressBookTest extends TestCase {
 		$card = new Card($backend, $addressBookInfo, ['id' => 5, 'carddata' => 'RANDOM VCF DATA', 'uri' => 'something', 'addressbookid' => 23]);
 
 		$backend->expects($this->once())->method('moveCard')
-			->with(23, 666, 'something', 'user1')
+			->with(23, 'something', 666, 'new')
 			->willReturn(true);
 
 		$addressBook->moveInto('new', 'old', $card);
@@ -117,9 +117,7 @@ class AddressBookTest extends TestCase {
 		$addressBook->propPatch(new PropPatch(['{DAV:}displayname' => 'Test address book']));
 	}
 
-	/**
-	 * @dataProvider providesReadOnlyInfo
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesReadOnlyInfo')]
 	public function testAcl(bool $expectsWrite, ?bool $readOnlyValue, bool $hasOwnerSet): void {
 		/** @var MockObject | CardDavBackend $backend */
 		$backend = $this->createMock(CardDavBackend::class);

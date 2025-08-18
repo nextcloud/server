@@ -31,25 +31,25 @@ use Test\TestCase;
  * Unit tests for \OC\Core\Service\LoginFlowV2Service
  */
 class LoginFlowV2ServiceUnitTest extends TestCase {
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	private $config;
 
-	/** @var \OCP\Security\ICrypto */
+	/** @var ICrypto */
 	private $crypto;
 
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
-	/** @var \OC\Core\Db\LoginFlowV2Mapper */
+	/** @var LoginFlowV2Mapper */
 	private $mapper;
 
-	/** @var \OCP\Security\ISecureRandom */
+	/** @var ISecureRandom */
 	private $secureRandom;
 
-	/** @var \OC\Core\Service\LoginFlowV2Service */
+	/** @var LoginFlowV2Service */
 	private $subjectUnderTest;
 
-	/** @var \OCP\AppFramework\Utility\ITimeFactory */
+	/** @var ITimeFactory */
 	private $timeFactory;
 
 	/** @var \OC\Authentication\Token\IProvider */

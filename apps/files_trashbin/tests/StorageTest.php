@@ -311,7 +311,7 @@ class StorageTest extends \Test\TestCase {
 		$recipientUser = $this->getUniqueId('recipient_');
 		Server::get(IUserManager::class)->createUser($recipientUser, $recipientUser);
 
-		$node = \OCP\Server::get(IRootFolder::class)->getUserFolder($this->user)->get('share');
+		$node = Server::get(IRootFolder::class)->getUserFolder($this->user)->get('share');
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
@@ -362,7 +362,7 @@ class StorageTest extends \Test\TestCase {
 
 		$recipientUser = $this->getUniqueId('recipient_');
 		Server::get(IUserManager::class)->createUser($recipientUser, $recipientUser);
-		$node = \OCP\Server::get(IRootFolder::class)->getUserFolder($this->user)->get('share');
+		$node = Server::get(IRootFolder::class)->getUserFolder($this->user)->get('share');
 		$share = Server::get(\OCP\Share\IManager::class)->newShare();
 		$share->setNode($node)
 			->setShareType(IShare::TYPE_USER)
@@ -496,7 +496,7 @@ class StorageTest extends \Test\TestCase {
 		/**
 		 * @var Temporary&MockObject $storage
 		 */
-		$storage = $this->getMockBuilder(\OC\Files\Storage\Temporary::class)
+		$storage = $this->getMockBuilder(Temporary::class)
 			->setConstructorArgs([[]])
 			->onlyMethods(['rename', 'unlink', 'moveFromStorage'])
 			->getMock();
@@ -533,7 +533,7 @@ class StorageTest extends \Test\TestCase {
 		/**
 		 * @var Temporary&MockObject $storage
 		 */
-		$storage = $this->getMockBuilder(\OC\Files\Storage\Temporary::class)
+		$storage = $this->getMockBuilder(Temporary::class)
 			->setConstructorArgs([[]])
 			->onlyMethods(['rename', 'unlink', 'rmdir'])
 			->getMock();
@@ -560,14 +560,12 @@ class StorageTest extends \Test\TestCase {
 		$this->assertCount(0, $results);
 	}
 
-	/**
-	 * @dataProvider dataTestShouldMoveToTrash
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestShouldMoveToTrash')]
 	public function testShouldMoveToTrash(string $mountPoint, string $path, bool $userExists, bool $appDisablesTrash, bool $expected): void {
 		$fileID = 1;
 		$cache = $this->createMock(ICache::class);
 		$cache->expects($this->any())->method('getId')->willReturn($fileID);
-		$tmpStorage = $this->createMock(\OC\Files\Storage\Temporary::class);
+		$tmpStorage = $this->createMock(Temporary::class);
 		$tmpStorage->expects($this->any())->method('getCache')->willReturn($cache);
 		$userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();

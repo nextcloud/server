@@ -43,9 +43,7 @@ class ForwardedForHeadersTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataForwardedForHeadersWorking
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataForwardedForHeadersWorking')]
 	public function testForwardedForHeadersWorking(array $trustedProxies, string $remoteAddrNotForwarded, string $remoteAddr, string $result): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')

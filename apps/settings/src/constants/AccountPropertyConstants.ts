@@ -7,7 +7,7 @@
  * SYNC to be kept in sync with `lib/public/Accounts/IAccountManager.php`
  */
 
-import { mdiAccountGroup, mdiCellphone, mdiLock, mdiWeb } from '@mdi/js'
+import { mdiAccountGroupOutline, mdiCellphone, mdiLockOutline, mdiWeb } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 
 /** Enum of account properties */
@@ -28,6 +28,7 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	PRONOUNS: 'pronouns',
 	ROLE: 'role',
 	TWITTER: 'twitter',
+	BLUESKY: 'bluesky',
 	WEBSITE: 'website',
 })
 
@@ -48,6 +49,7 @@ export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	PRONOUNS: t('settings', 'Pronouns'),
 	ROLE: t('settings', 'Role'),
 	TWITTER: t('settings', 'X (formerly Twitter)'),
+	BLUESKY: t('settings', 'Bluesky'),
 	WEBSITE: t('settings', 'Website'),
 })
 
@@ -64,6 +66,7 @@ export const NAME_READABLE_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_ENUM.PROFILE_ENABLED]: ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED,
 	[ACCOUNT_PROPERTY_ENUM.ROLE]: ACCOUNT_PROPERTY_READABLE_ENUM.ROLE,
 	[ACCOUNT_PROPERTY_ENUM.TWITTER]: ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER,
+	[ACCOUNT_PROPERTY_ENUM.BLUESKY]: ACCOUNT_PROPERTY_READABLE_ENUM.BLUESKY,
 	[ACCOUNT_PROPERTY_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_ENUM.WEBSITE]: ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE,
 	[ACCOUNT_PROPERTY_ENUM.BIRTHDATE]: ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE,
@@ -89,6 +92,7 @@ export const PROPERTY_READABLE_KEYS_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED]: ACCOUNT_PROPERTY_ENUM.PROFILE_ENABLED,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.ROLE]: ACCOUNT_PROPERTY_ENUM.ROLE,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: ACCOUNT_PROPERTY_ENUM.TWITTER,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.BLUESKY]: ACCOUNT_PROPERTY_ENUM.BLUESKY,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: ACCOUNT_PROPERTY_ENUM.WEBSITE,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE]: ACCOUNT_PROPERTY_ENUM.BIRTHDATE,
@@ -104,6 +108,7 @@ export const ACCOUNT_SETTING_PROPERTY_ENUM = Object.freeze({
 	LANGUAGE: 'language',
 	LOCALE: 'locale',
 	FIRST_DAY_OF_WEEK: 'first_day_of_week',
+	TIMEZONE: 'timezone',
 })
 
 /** Enum of account setting properties to human readable setting properties */
@@ -111,6 +116,7 @@ export const ACCOUNT_SETTING_PROPERTY_READABLE_ENUM = Object.freeze({
 	LANGUAGE: t('settings', 'Language'),
 	LOCALE: t('settings', 'Locale'),
 	FIRST_DAY_OF_WEEK: t('settings', 'First day of week'),
+	TIMEZONE: t('settings', 'timezone'),
 })
 
 /** Enum of scopes */
@@ -135,6 +141,7 @@ export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.PROFILE_ENABLED]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.ROLE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.BLUESKY]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
@@ -171,14 +178,14 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 		displayName: t('settings', 'Local'),
 		tooltip: t('settings', 'Only visible to people on this instance and guests'),
 		// tooltipDisabled is not required here as this scope is supported by all account properties
-		icon: mdiLock,
+		icon: mdiLockOutline,
 	},
 	[SCOPE_ENUM.FEDERATED]: {
 		name: SCOPE_ENUM.FEDERATED,
 		displayName: t('settings', 'Federated'),
 		tooltip: t('settings', 'Only synchronize to trusted servers'),
 		tooltipDisabled: t('settings', 'Not available as federation has been disabled for your account, contact your system administration if you have any questions'),
-		icon: mdiAccountGroup,
+		icon: mdiAccountGroupOutline,
 	},
 	[SCOPE_ENUM.PUBLISHED]: {
 		name: SCOPE_ENUM.PUBLISHED,

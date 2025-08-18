@@ -201,9 +201,7 @@ class SimpleContainerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider sanitizeNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sanitizeNameProvider')]
 	public function testSanitizeName($register, $query): void {
 		$this->container->registerService($register, function () {
 			return 'abc';

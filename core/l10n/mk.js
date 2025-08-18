@@ -95,6 +95,7 @@ OC.L10N.register(
     "Create share" : "Ново споделување",
     "Pick start date" : "Избери почетен датум",
     "Pick end date" : "Избери краен датум",
+    "Search everywhere" : "Барај насекаде",
     "Searching …" : "Пребарување ...",
     "Start typing to search" : "Напишете нешто за пребарување",
     "Today" : "Денес",
@@ -341,6 +342,7 @@ OC.L10N.register(
     "Show password" : "Прикажи лозинка",
     "Toggle password visibility" : "Вклучи видливост на лозинки",
     "Configure the database" : "Конфигурирај ја базата",
-    "Only %s is available." : "Само %s е достапно."
+    "Only %s is available." : "Само %s е достапно.",
+    "Direct link copied to clipboard" : "Линкот е копиран во клипборд"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

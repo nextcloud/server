@@ -108,7 +108,7 @@ class SyncServiceTest extends TestCase {
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/1', $token);
 	}
@@ -179,7 +179,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/2', $token);
 	}
@@ -250,7 +250,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/3', $token);
 	}
@@ -291,7 +291,7 @@ END:VCARD';
 			'1',
 			'principals/system/system',
 			[]
-		);
+		)[0];
 
 		$this->assertEquals('http://sabre.io/ns/sync/4', $token);
 	}
@@ -325,9 +325,7 @@ END:VCARD';
 		];
 	}
 
-	/**
-	 * @dataProvider dataActivatedUsers
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataActivatedUsers')]
 	public function testUpdateAndDeleteUser(bool $activated, int $createCalls, int $updateCalls, int $deleteCalls): void {
 		/** @var CardDavBackend | MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
@@ -427,9 +425,7 @@ END:VCARD';
 		);
 	}
 
-	/**
-	 * @dataProvider providerUseAbsoluteUriReport
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerUseAbsoluteUriReport')]
 	public function testUseAbsoluteUriReport(string $host, string $expected): void {
 		$body = '<?xml version="1.0"?>
 <d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">

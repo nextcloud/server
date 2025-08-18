@@ -63,7 +63,6 @@
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
-			<directory name="apps/files_external/3rdparty"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 			<directory name="3rdparty"/>
@@ -71,7 +70,6 @@
 	</projectFiles>
 	<extraFiles>
 		<directory name="3rdparty"/>
-		<directory name="apps/files_external/3rdparty"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>
@@ -106,9 +104,11 @@
 				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException"/>
 				<referencedClass name="OCA\Circles\Model\Circle"/>
 				<referencedClass name="OCA\Circles\Model\Member"/>
+				<referencedClass name="OCA\ContextChat\Public\ContentManager"/>
 				<referencedClass name="OCA\GroupFolders\Mount\GroupFolderStorage"/>
 				<referencedClass name="OCA\TwoFactorNextcloudNotification\Controller\APIController"/>
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
+				<referencedClass name="OCA\Guests\UserBackend"/>
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedFunction>

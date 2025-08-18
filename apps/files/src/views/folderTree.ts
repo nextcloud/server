@@ -13,7 +13,7 @@ import { isSamePath } from '@nextcloud/paths'
 import { loadState } from '@nextcloud/initial-state'
 
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
-import FolderMultipleSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
+import FolderMultipleSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 
 import {
 	folderTreeId,
@@ -151,7 +151,7 @@ const registerTreeRoot = () => {
 	Navigation.register(new View({
 		id: folderTreeId,
 
-		name: t('files', 'All folders'),
+		name: t('files', 'Folder tree'),
 		caption: t('files', 'List of your files and folders.'),
 
 		icon: FolderMultipleSvg,

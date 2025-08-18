@@ -99,12 +99,11 @@ class GetSharedSecret extends Job {
 			$result = $this->httpClient->get(
 				$url,
 				[
-					'query' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
+					'query' => [
+						'url' => $source,
+						'token' => $token,
+						'format' => 'json',
+					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
 					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),

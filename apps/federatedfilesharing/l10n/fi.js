@@ -21,7 +21,8 @@ OC.L10N.register(
     "Federated file sharing" : "Federoitu tiedostojako",
     "Provide federated file sharing across servers" : "Mahdollistaa federoidun tiedostojaon palvelinten välillä",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaa kanssani käyttäen #Nextcloud ja federoitua pilvitunnistetta",
-    "Copy to clipboard" : "Kopioi leikepöydälle",
+    "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
+    "Copy" : "Kopioi",
     "Copied!" : "Kopioitu!",
     "Federated Cloud" : "Federoitu pilvi",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Voit jakaa kenelle tahansa, joka käyttää Nextcloud-palvelinta tai muuta Open Cloud Mesh (OCM) -yhteensopivaa palvelinta tai palvelua! Kirjoita heidän federoidun pilven tunniste jaon kohteeksi. Se on muodossa henkilö@cloud.example.com",
@@ -30,12 +31,12 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (aiemmin Twitter)",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Lisää verkkosivuillesi",
-    "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
     "Cancel" : "Peruuta",
     "Add remote share" : "Lisää etäjako",
     "Remote share" : "Etäjako",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Haluatko lisätä etäjaon {name} kohteesta {owner}@{remote}?",
-    "Remote share password" : "Etäjaon salasana"
+    "Remote share password" : "Etäjaon salasana",
+    "Copy to clipboard" : "Kopioi leikepöydälle"
 },
 "nplurals=2; plural=(n != 1);");

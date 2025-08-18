@@ -8,30 +8,30 @@ declare(strict_types=1);
 
 namespace OCA\Files_External;
 
-use NCU\Config\Lexicon\ConfigLexiconEntry;
-use NCU\Config\Lexicon\ConfigLexiconStrictness;
-use NCU\Config\Lexicon\IConfigLexicon;
-use NCU\Config\ValueType;
+use OCP\Config\Lexicon\Entry;
+use OCP\Config\Lexicon\ILexicon;
+use OCP\Config\Lexicon\Strictness;
+use OCP\Config\ValueType;
 
 /**
  * Config Lexicon for files_sharing.
  *
  * Please Add & Manage your Config Keys in that file and keep the Lexicon up to date!
  *
- * {@see IConfigLexicon}
+ * {@see ILexicon}
  */
-class ConfigLexicon implements IConfigLexicon {
+class ConfigLexicon implements ILexicon {
 	public const ALLOW_USER_MOUNTING = 'allow_user_mounting';
 	public const USER_MOUNTING_BACKENDS = 'user_mounting_backends';
 
-	public function getStrictness(): ConfigLexiconStrictness {
-		return ConfigLexiconStrictness::NOTICE;
+	public function getStrictness(): Strictness {
+		return Strictness::NOTICE;
 	}
 
 	public function getAppConfigs(): array {
 		return [
-			new ConfigLexiconEntry(self::ALLOW_USER_MOUNTING, ValueType::BOOL, false, 'allow users to mount their own external filesystems', true),
-			new ConfigLexiconEntry(self::USER_MOUNTING_BACKENDS, ValueType::STRING, '', 'list of mounting backends available for users', true),
+			new Entry(self::ALLOW_USER_MOUNTING, ValueType::BOOL, false, 'allow users to mount their own external filesystems', true),
+			new Entry(self::USER_MOUNTING_BACKENDS, ValueType::STRING, '', 'list of mounting backends available for users', true),
 		];
 	}
 

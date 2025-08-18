@@ -250,6 +250,7 @@ OC.L10N.register(
     "Completed on %s" : "Terminé le %s",
     "Due on %s by %s" : "Echéance le %s pour %s",
     "Due on %s" : "Echéance le %s",
+    "Example event - open me!" : "Exemple d'événement - ouvrez-moi !",
     "System Address Book" : "Carnet d'adresses du système",
     "The system address book contains contact information for all users in your instance." : "Le carnet d'adresses du système contient les informations de contact de tous les utilisateurs de votre instance.",
     "Enable System Address Book" : "Activer le carnet d'adresses du système",
@@ -330,7 +331,7 @@ OC.L10N.register(
     "There was an error updating your attendance status." : "Une erreur s'est produite lors de la mise à jour de votre statut de présence.",
     "Please contact the organizer directly." : "Merci de contacter l'organisateur directement.",
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
-    "Tentative" : "Tentative",
+    "Tentative" : "Provisoire",
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

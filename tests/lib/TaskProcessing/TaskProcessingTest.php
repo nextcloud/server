@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -23,12 +24,14 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Http\Client\IClientService;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Server;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
@@ -533,6 +536,7 @@ class TaskProcessingTest extends \Test\TestCase {
 	private IUserMountCache $userMountCache;
 	private IRootFolder $rootFolder;
 	private IConfig $config;
+	private IAppConfig $appConfig;
 
 	public const TEST_USER = 'testuser';
 
@@ -598,8 +602,9 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->userMountCache = $this->createMock(IUserMountCache::class);
 		$this->config = Server::get(IConfig::class);
+		$this->appConfig = Server::get(IAppConfig::class);
 		$this->manager = new Manager(
-			$this->config,
+			$this->appConfig,
 			$this->coordinator,
 			$this->serverContainer,
 			Server::get(LoggerInterface::class),
@@ -612,6 +617,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->userMountCache,
 			Server::get(IClientService::class),
 			Server::get(IAppManager::class),
+			$userManager,
+			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 		);
 	}
@@ -637,7 +644,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$taskProcessingTypeSettings = [
 			TextToText::ID => false,
 		];
-		$this->config->setAppValue('core', 'ai.taskprocessing_type_preferences', json_encode($taskProcessingTypeSettings));
+		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', json_encode($taskProcessingTypeSettings), lazy: true);
 		self::assertCount(0, $this->manager->getAvailableTaskTypes());
 		self::assertCount(1, $this->manager->getAvailableTaskTypes(true));
 		self::assertTrue($this->manager->hasProviders());
@@ -647,7 +654,7 @@ class TaskProcessingTest extends \Test\TestCase {
 
 
 	public function testProviderShouldBeRegisteredAndTaskFailValidation(): void {
-		$this->config->setAppValue('core', 'ai.taskprocessing_type_preferences', '');
+		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', '', lazy: true);
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', BrokenSyncProvider::class)
 		]);
@@ -793,7 +800,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$taskProcessingTypeSettings = [
 			TextToText::ID => true,
 		];
-		$this->config->setAppValue('core', 'ai.taskprocessing_type_preferences', json_encode($taskProcessingTypeSettings));
+		$this->appConfig->setValueString('core', 'ai.taskprocessing_type_preferences', json_encode($taskProcessingTypeSettings), lazy: true);
 
 		self::assertCount(1, $this->manager->getAvailableTaskTypes());
 
@@ -965,6 +972,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		// run background job
 		$bgJob = new RemoveOldTasksBackgroundJob(
 			$timeFactory,
+			$this->manager,
 			$this->taskMapper,
 			Server::get(LoggerInterface::class),
 			Server::get(IAppDataFactory::class),
@@ -1235,7 +1243,7 @@ class TaskProcessingTest extends \Test\TestCase {
 
 	private function createManagerInstance(): Manager {
 		// Clear potentially cached config values if needed
-		$this->config->deleteAppValue('core', 'ai.taskprocessing_type_preferences');
+		$this->appConfig->deleteKey('core', 'ai.taskprocessing_type_preferences');
 
 		// Re-create Text2ImageManager if its state matters or mocks change
 		$text2imageManager = new \OC\TextToImage\Manager(
@@ -1249,7 +1257,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		);
 
 		return new Manager(
-			$this->config,
+			$this->appConfig,
 			$this->coordinator,
 			$this->serverContainer,
 			Server::get(LoggerInterface::class),
@@ -1262,6 +1270,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->userMountCache,
 			Server::get(IClientService::class),
 			Server::get(IAppManager::class),
+			Server::get(IUserManager::class),
+			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
 		);
 	}

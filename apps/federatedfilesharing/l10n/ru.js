@@ -46,8 +46,8 @@ OC.L10N.register(
     "Automatically accept shares from trusted federated accounts and groups by default" : "По умолчанию автоматически принимать общие ресурсы от доверенных федеративных учетных записей и групп",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Поделитесь со мной через мой #Nextcloud Federated Cloud ID, см. {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Поделитесь со мной через мой #Nextcloud ID в федерации облачных хранилищ",
-    "Cloud ID copied to the clipboard" : "Идентификатор облака скопирован в буфер обмена",
-    "Copy to clipboard" : "Копировать в буфер",
+    "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
+    "Copy" : "Копировать",
     "Clipboard not available. Please copy the cloud ID manually." : "Буфер обмена недоступен. Пожалуйста, скопируйте cloud ID вручную.",
     "Copied!" : "Скопировано!",
     "Federated Cloud" : "Федерация облачных хранилищ",
@@ -59,13 +59,14 @@ OC.L10N.register(
     "formerly Twitter" : "ранее Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Добавить к себе на сайт",
-    "Share with me via Nextcloud" : "Поделитесь со мной через Nextcloud",
     "HTML Code:" : "HTML код:",
     "Cancel" : "Отмена",
     "Add remote share" : "Добавить общий ресурс другого сервера",
     "Remote share" : "Общий ресурс другого сервера",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Вы хотите добавить удалённый общий каталог {name} из {owner}@{remote}?",
     "Remote share password" : "Пароль общего ресурса другого сервера",
-    "Incoming share could not be processed" : "Не удалось обработать входящий общий доступ"
+    "Incoming share could not be processed" : "Не удалось обработать входящий общий доступ",
+    "Cloud ID copied to the clipboard" : "Идентификатор облака скопирован в буфер обмена",
+    "Copy to clipboard" : "Копировать в буфер"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

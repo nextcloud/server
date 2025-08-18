@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,7 +19,9 @@ use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\RootMountProvider;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SetupManager;
+use OC\Files\View;
 use OC\Template\Base;
+use OCP\AppFramework\QueryException;
 use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
@@ -89,7 +92,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			return false;
 		}
 
-		$this->services[$name] = Server::get($name);
+		try {
+			$this->services[$name] = Server::get($name);
+		} catch (QueryException $e) {
+			$this->services[$name] = false;
+		}
 		$container = \OC::$server->getAppContainerForService($name);
 		$container = $container ?? \OC::$server;
 
@@ -111,9 +118,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			$container = \OC::$server->getAppContainerForService($name);
 			$container = $container ?? \OC::$server;
 
-			$container->registerService($name, function () use ($oldService) {
-				return $oldService;
-			});
+			if ($oldService !== false) {
+				$container->registerService($name, function () use ($oldService) {
+					return $oldService;
+				});
+			} else {
+				unset($container[$oldService]);
+			}
 
 
 			unset($this->services[$name]);
@@ -492,7 +503,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/**
 	 * Check if the given path is locked with a given type
 	 *
-	 * @param \OC\Files\View $view view
+	 * @param View $view view
 	 * @param string $path path to check
 	 * @param int $type lock type
 	 * @param bool $onMountPoint true to check the mount point instead of the

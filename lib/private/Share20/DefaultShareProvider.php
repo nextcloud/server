@@ -13,12 +13,14 @@ use OC\Share20\Exception\BackendError;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
 use OC\User\LazyUser;
+use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -43,9 +45,6 @@ use function str_starts_with;
  * @package OC\Share20
  */
 class DefaultShareProvider implements IShareProviderWithNotification, IShareProviderSupportsAccept, IShareProviderSupportsAllSharesInFolder {
-	// Special share type for user modified group shares
-	public const SHARE_TYPE_USERGROUP = 2;
-
 	public function __construct(
 		private IDBConnection $dbConn,
 		private IUserManager $userManager,
@@ -58,6 +57,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		private ITimeFactory $timeFactory,
 		private LoggerInterface $logger,
 		private IManager $shareManager,
+		private IConfig $config,
 	) {
 	}
 
@@ -127,9 +127,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				$qb->setValue('expiration', $qb->createNamedParameter($expirationDate, 'datetime'));
 			}
 
-			if (method_exists($share, 'getParent')) {
-				$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
-			}
+			$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
 
 			$qb->setValue('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0, IQueryBuilder::PARAM_INT));
 		} else {
@@ -284,7 +282,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				->set('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATETIME_MUTABLE))
 				->set('note', $qb->createNamedParameter($share->getNote()))
 				->set('label', $qb->createNamedParameter($share->getLabel()))
-				->set('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0), IQueryBuilder::PARAM_INT)
+				->set('hide_download', $qb->createNamedParameter($share->getHideDownload() ? 1 : 0, IQueryBuilder::PARAM_INT))
 				->executeStatement();
 		}
 
@@ -358,14 +356,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $share;
 	}
 
-	/**
-	 * Get all children of this share
-	 * FIXME: remove once https://github.com/owncloud/core/pull/21660 is in
-	 *
-	 * @param \OCP\Share\IShare $parent
-	 * @return \OCP\Share\IShare[]
-	 */
-	public function getChildren(\OCP\Share\IShare $parent) {
+	public function getChildren(IShare $parent): array {
 		$children = [];
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -485,6 +476,15 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	protected function createUserSpecificGroupShare(IShare $share, string $recipient): int {
 		$type = $share->getNodeType();
 
+		$shareFolder = $this->config->getSystemValue('share_folder', '/');
+		$allowCustomShareFolder = $this->config->getSystemValueBool('sharing.allow_custom_share_folder', true);
+		if ($allowCustomShareFolder) {
+			$shareFolder = $this->config->getUserValue($recipient, Application::APP_ID, 'share_folder', $shareFolder);
+		}
+
+		$target = $shareFolder . '/' . $share->getNode()->getName();
+		$target = \OC\Files\Filesystem::normalizePath($target);
+
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
@@ -496,7 +496,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				'item_type' => $qb->createNamedParameter($type),
 				'item_source' => $qb->createNamedParameter($share->getNodeId()),
 				'file_source' => $qb->createNamedParameter($share->getNodeId()),
-				'file_target' => $qb->createNamedParameter($share->getTarget()),
+				'file_target' => $qb->createNamedParameter($target),
 				'permissions' => $qb->createNamedParameter($share->getPermissions()),
 				'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
 			])->executeStatement();

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Bekreft permanent sletting",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Er du sikker på at du vil slette alle filer og mapper i papirkurven permanent? Denne handlingen kan ikke angres.",
     "Cancel" : "Avbryt",
-    "Deletion cancelled" : "Sletting avbrutt",
     "Original location" : "Opprinnelig plassering",
     "Deleted by" : "Slettet av",
     "Deleted" : "Slettet",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "You" : "Du",
     "List of files that have been deleted." : "Liste over filer som har blitt slettet.",
     "No deleted files" : "Ingen slettede filer",
-    "Files and folders you have deleted will show up here" : "Filer og mapper du har slettet vil dukke opp her"
+    "Files and folders you have deleted will show up here" : "Filer og mapper du har slettet vil dukke opp her",
+    "Deletion cancelled" : "Sletting avbrutt"
 },
 "nplurals=2; plural=(n != 1);");

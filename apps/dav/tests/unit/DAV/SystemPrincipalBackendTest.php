@@ -14,9 +14,7 @@ use Test\TestCase;
 
 class SystemPrincipalBackendTest extends TestCase {
 
-	/**
-	 * @dataProvider providesPrefix
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesPrefix')]
 	public function testGetPrincipalsByPrefix(array $expected, string $prefix): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getPrincipalsByPrefix($prefix);
@@ -38,9 +36,7 @@ class SystemPrincipalBackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesPath
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesPath')]
 	public function testGetPrincipalByPath(?array $expected, string $path): void {
 		$backend = new SystemPrincipalBackend();
 		$result = $backend->getPrincipalByPath($path);
@@ -59,9 +55,7 @@ class SystemPrincipalBackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesPrincipalForGetGroupMemberSet
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesPrincipalForGetGroupMemberSet')]
 	public function testGetGroupMemberSetExceptional(?string $principal): void {
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Principal not found');
@@ -83,9 +77,7 @@ class SystemPrincipalBackendTest extends TestCase {
 		$this->assertEquals(['principals/system/system'], $result);
 	}
 
-	/**
-	 * @dataProvider providesPrincipalForGetGroupMembership
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesPrincipalForGetGroupMembership')]
 	public function testGetGroupMembershipExceptional(string $principal): void {
 		$this->expectException(Exception::class);
 		$this->expectExceptionMessage('Principal not found');

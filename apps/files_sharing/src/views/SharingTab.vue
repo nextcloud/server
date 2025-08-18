@@ -127,18 +127,17 @@
 					</NcPopover>
 				</div>
 				<!-- additional entries, use it with cautious -->
-				<div v-for="(section, index) in sections"
-					:ref="'section-' + index"
+				<div v-for="(component, index) in sectionComponents"
 					:key="index"
 					class="sharingTab__additionalContent">
-					<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
+					<component :is="component" :file-info="fileInfo" />
 				</div>
 
 				<!-- projects (deprecated as of NC25 (replaced by related_resources) - see instance config "projects.enabled" ; ignore this / remove it / move into own section) -->
 				<div v-if="projectsEnabled"
 					v-show="!showSharingDetailsView && fileInfo"
 					class="sharingTab__additionalContent">
-					<CollectionList :id="`${fileInfo.id}`"
+					<NcCollectionList :id="`${fileInfo.id}`"
 						type="file"
 						:name="fileInfo.name" />
 				</div>
@@ -161,16 +160,16 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
-import { CollectionList } from 'nextcloud-vue-collections'
 import { ShareType } from '@nextcloud/sharing'
 
-import InfoIcon from 'vue-material-design-icons/Information.vue'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCollectionList from '@nextcloud/vue/components/NcCollectionList'
 import NcPopover from '@nextcloud/vue/components/NcPopover'
+import InfoIcon from 'vue-material-design-icons/InformationOutline.vue'
 
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcButton from '@nextcloud/vue/components/NcButton'
 
 import { shareWithTitle } from '../utils/SharedWithMe.js'
 
@@ -192,10 +191,10 @@ export default {
 	name: 'SharingTab',
 
 	components: {
-		CollectionList,
 		InfoIcon,
 		NcAvatar,
 		NcButton,
+		NcCollectionList,
 		NcPopover,
 		SharingEntryInternal,
 		SharingEntrySimple,
@@ -230,9 +229,9 @@ export default {
 			shareDetailsData: {},
 			returnFocusElement: null,
 
-			internalSharesHelpText: t('files_sharing', 'Use this method to share files with individuals or teams within your organization. If the recipient already has access to the share but cannot locate it, you can send them the internal share link for easy access.'),
-			externalSharesHelpText: t('files_sharing', 'Use this method to share files with individuals or organizations outside your organization. Files and folders can be shared via public share links and email addresses. You can also share to other Nextcloud accounts hosted on different instances using their federated cloud ID.'),
-			additionalSharesHelpText: t('files_sharing', 'Shares that are not part of the internal or external shares. This can be shares from apps or other sources.'),
+			internalSharesHelpText: t('files_sharing', 'Share files within your organization. Recipients who can already view the file can also use this link for easy access.'),
+			externalSharesHelpText: t('files_sharing', 'Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID.'),
+			additionalSharesHelpText: t('files_sharing', 'Shares from apps or other sources which are not included in internal or external shares.'),
 		}
 	},
 
@@ -243,8 +242,7 @@ export default {
 		 * @return {boolean}
 		 */
 		isSharedWithMe() {
-			return this.sharedWithMe !== null
-				&& this.sharedWithMe !== undefined
+			return !!this.sharedWithMe?.user
 		},
 
 		/**
@@ -269,21 +267,29 @@ export default {
 		},
 
 		internalShareInputPlaceholder() {
-			return this.config.showFederatedSharesAsInternal
-				? t('files_sharing', 'Share with accounts, teams, federated cloud IDs')
-				: t('files_sharing', 'Share with accounts and teams')
+			return this.config.showFederatedSharesAsInternal && this.config.isFederationEnabled
+				// TRANSLATORS: Type as in with a keyboard
+				? t('files_sharing', 'Type names, teams, federated cloud IDs')
+				// TRANSLATORS: Type as in with a keyboard
+				: t('files_sharing', 'Type names or teams')
 		},
 
 		externalShareInputPlaceholder() {
 			if (!this.isLinkSharingAllowed) {
-				return t('files_sharing', 'Federated cloud ID')
+				// TRANSLATORS: Type as in with a keyboard
+				return this.config.isFederationEnabled ? t('files_sharing', 'Type a federated cloud ID') : ''
 			}
-			return this.config.showFederatedSharesAsInternal
-				? t('files_sharing', 'Email')
-				: t('files_sharing', 'Email, federated cloud ID')
+			return !this.config.showFederatedSharesAsInternal && !this.config.isFederationEnabled
+				// TRANSLATORS: Type as in with a keyboard
+				? t('files_sharing', 'Type an email')
+				// TRANSLATORS: Type as in with a keyboard
+				: t('files_sharing', 'Type an email or federated cloud ID')
+		},
+
+		sectionComponents() {
+			return this.sections.map((section) => section(undefined, this.fileInfo))
 		},
 	},
-
 	methods: {
 		/**
 		 * Update current fileInfo and fetch new data
@@ -295,7 +301,6 @@ export default {
 			this.resetState()
 			this.getShares()
 		},
-
 		/**
 		 * Get the existing shares infos
 		 */
@@ -402,7 +407,13 @@ export default {
 					if ([ShareType.Link, ShareType.Email].includes(share.type)) {
 						this.linkShares.push(share)
 					} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
-						if (this.config.showFederatedSharesAsInternal) {
+						if (this.config.showFederatedSharesToTrustedServersAsInternal) {
+							if (share.isTrustedServer) {
+								this.shares.push(share)
+							} else {
+								this.externalShares.push(share)
+							}
+						} else if (this.config.showFederatedSharesAsInternal) {
 							this.shares.push(share)
 						} else {
 							this.externalShares.push(share)
@@ -478,6 +489,10 @@ export default {
 			} else if ([ShareType.Remote, ShareType.RemoteGroup].includes(share.type)) {
 				if (this.config.showFederatedSharesAsInternal) {
 					this.shares.unshift(share)
+				} if (this.config.showFederatedSharesToTrustedServersAsInternal) {
+					if (share.isTrustedServer) {
+						this.shares.unshift(share)
+					}
 				} else {
 					this.externalShares.unshift(share)
 				}

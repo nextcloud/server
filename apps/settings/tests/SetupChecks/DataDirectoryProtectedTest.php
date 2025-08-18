@@ -54,9 +54,7 @@ class DataDirectoryProtectedTest extends TestCase {
 			->getMock();
 	}
 
-	/**
-	 * @dataProvider dataTestStatusCode
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestStatusCode')]
 	public function testStatusCode(array $status, string $expected, bool $hasBody): void {
 		$responses = array_map(function ($state) use ($hasBody) {
 			$response = $this->createMock(IResponse::class);

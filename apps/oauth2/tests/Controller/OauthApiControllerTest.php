@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -222,7 +223,7 @@ class OauthApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->oauthApiController->getToken('refresh_token', null, 'validrefresh', null, null));
 	}
 
-	public function invalidClientProvider() {
+	public static function invalidClientProvider() {
 		return [
 			['invalidClientId', 'invalidClientSecret'],
 			['clientId', 'invalidClientSecret'],
@@ -231,11 +232,11 @@ class OauthApiControllerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider invalidClientProvider
 	 *
 	 * @param string $clientId
 	 * @param string $clientSecret
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidClientProvider')]
 	public function testRefreshTokenInvalidClient($clientId, $clientSecret): void {
 		$expected = new JSONResponse([
 			'error' => 'invalid_client',
@@ -382,8 +383,8 @@ class OauthApiControllerTest extends TestCase {
 			->method('update')
 			->with(
 				$this->callback(function (AccessToken $token) {
-					return $token->getHashedCode() === hash('sha512', 'random128') &&
-						$token->getEncryptedToken() === 'newEncryptedToken';
+					return $token->getHashedCode() === hash('sha512', 'random128')
+						&& $token->getEncryptedToken() === 'newEncryptedToken';
 				})
 			);
 
@@ -478,8 +479,8 @@ class OauthApiControllerTest extends TestCase {
 			->method('update')
 			->with(
 				$this->callback(function (AccessToken $token) {
-					return $token->getHashedCode() === hash('sha512', 'random128') &&
-						$token->getEncryptedToken() === 'newEncryptedToken';
+					return $token->getHashedCode() === hash('sha512', 'random128')
+						&& $token->getEncryptedToken() === 'newEncryptedToken';
 				})
 			);
 
@@ -577,8 +578,8 @@ class OauthApiControllerTest extends TestCase {
 			->method('update')
 			->with(
 				$this->callback(function (AccessToken $token) {
-					return $token->getHashedCode() === hash('sha512', 'random128') &&
-						$token->getEncryptedToken() === 'newEncryptedToken';
+					return $token->getHashedCode() === hash('sha512', 'random128')
+						&& $token->getEncryptedToken() === 'newEncryptedToken';
 				})
 			);
 

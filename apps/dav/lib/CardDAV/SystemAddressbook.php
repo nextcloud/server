@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CardDAV;
 
-use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCA\Federation\TrustedServers;
 use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
@@ -212,14 +211,7 @@ class SystemAddressbook extends AddressBook {
 		}
 		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
 	}
-
-	/**
-	 * @throws UnsupportedLimitOnInitialSyncException
-	 */
 	public function getChanges($syncToken, $syncLevel, $limit = null) {
-		if (!$syncToken && $limit) {
-			throw new UnsupportedLimitOnInitialSyncException();
-		}
 
 		if (!$this->carddavBackend instanceof SyncSupport) {
 			return null;

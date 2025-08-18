@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -111,7 +112,6 @@ class ModeTest extends TestCase {
 	/**
 	 * Asserts that execute works as expected.
 	 *
-	 * @dataProvider getExecuteTestData
 	 * @param string $option The command option.
 	 * @param bool $currentMaintenanceState The current maintenance state.
 	 * @param null|bool $expectedMaintenanceState
@@ -119,6 +119,7 @@ class ModeTest extends TestCase {
 	 * @param string $expectedOutput The expected command output.
 	 * @throws \Exception
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getExecuteTestData')]
 	public function testExecute(
 		string $option,
 		bool $currentMaintenanceState,

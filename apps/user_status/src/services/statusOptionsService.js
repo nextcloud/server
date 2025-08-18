@@ -18,6 +18,9 @@ const getAllStatusOptions = () => {
 		type: 'away',
 		label: t('user_status', 'Away'),
 	}, {
+		type: 'busy',
+		label: t('user_status', 'Busy'),
+	}, {
 		type: 'dnd',
 		label: t('user_status', 'Do not disturb'),
 		subline: t('user_status', 'Mute all notifications'),

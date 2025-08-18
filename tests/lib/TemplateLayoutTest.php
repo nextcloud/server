@@ -13,6 +13,7 @@ use OC\InitialStateService;
 use OC\TemplateLayout;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\INavigationManager;
 use OCP\ServerVersion;
@@ -21,6 +22,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class TemplateLayoutTest extends \Test\TestCase {
 	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
 	private IAppManager&MockObject $appManager;
 	private InitialStateService&MockObject $initialState;
 	private INavigationManager&MockObject $navigationManager;
@@ -33,6 +35,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->initialState = $this->createMock(InitialStateService::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
@@ -40,7 +43,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 	}
 
-	/** @dataProvider dataVersionHash */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataVersionHash')]
 	public function testVersionHash($path, $file, $installed, $debug, $expected): void {
 		$this->appManager->expects(self::any())
 			->method('getAppVersion')
@@ -68,6 +71,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 			->onlyMethods(['getAppNamefromPath'])
 			->setConstructorArgs([
 				$this->config,
+				$this->appConfig,
 				$this->appManager,
 				$this->initialState,
 				$this->navigationManager,

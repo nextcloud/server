@@ -34,9 +34,7 @@ class ApiHelperTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider versionDataScriptNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionDataScriptNameProvider')]
 	public function testIsV2(string $scriptName, bool $expected): void {
 		$request = $this->getMockBuilder(IRequest::class)
 			->disableOriginalConstructor()

@@ -59,7 +59,7 @@ jobs:
             submodules: true
 
         - name: Set up php ${{ matrix.php-versions }}
-          uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a #v2.33.0
+          uses: shivammathur/setup-php@ccf2c627fe61b1b4d924adfcbd19d661a18133a0 #v2.35.2
           with:
             php-version: ${{ matrix.php-versions }}
             # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -70,7 +70,7 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Set up Python
-          uses: LizardByte/setup-python-action@6fe61189717d4cb073a3219e234749125f53b5c2 # v2025.530.174035
+          uses: LizardByte/actions/actions/setup_python@eddc8fc8b27048e25040e37e3585bd3ef9a968ed # v2025.715.25226
           with:
             python-version: '2.7'
 

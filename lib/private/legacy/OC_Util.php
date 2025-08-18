@@ -343,19 +343,6 @@ class OC_Util {
 			}
 		}
 
-		// Check if there is a writable install folder.
-		if ($config->getValue('appstoreenabled', true)) {
-			if (OC_App::getInstallPath() === null
-				|| !is_writable(OC_App::getInstallPath())
-				|| !is_readable(OC_App::getInstallPath())
-			) {
-				$errors[] = [
-					'error' => $l->t('Cannot write into "apps" directory.'),
-					'hint' => $l->t('This can usually be fixed by giving the web server write access to the apps directory'
-						. ' or disabling the App Store in the config file.')
-				];
-			}
-		}
 		// Create root dir.
 		if ($config->getValue('installed', false)) {
 			if (!is_dir($CONFIG_DATADIRECTORY)) {
@@ -479,8 +466,8 @@ class OC_Util {
 		 * TODO: Should probably be implemented in the above generic dependency
 		 *       check somehow in the long-term.
 		 */
-		if ($iniWrapper->getBool('mbstring.func_overload') !== null &&
-			$iniWrapper->getBool('mbstring.func_overload') === true) {
+		if ($iniWrapper->getBool('mbstring.func_overload') !== null
+			&& $iniWrapper->getBool('mbstring.func_overload') === true) {
 			$errors[] = [
 				'error' => $l->t('<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>.', [$iniWrapper->getString('mbstring.func_overload')]),
 				'hint' => $l->t('To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini.')

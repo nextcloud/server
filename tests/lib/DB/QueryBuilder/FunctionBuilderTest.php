@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -20,7 +21,7 @@ use Test\TestCase;
  * @package Test\DB\QueryBuilder
  */
 class FunctionBuilderTest extends TestCase {
-	/** @var \Doctrine\DBAL\Connection|\OCP\IDBConnection */
+	/** @var \Doctrine\DBAL\Connection|IDBConnection */
 	protected $connection;
 
 	protected function setUp(): void {
@@ -29,9 +30,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 	}
 
-	/**
-	 * @dataProvider providerTestConcatString
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerTestConcatString')]
 	public function testConcatString($closure): void {
 		$query = $this->connection->getQueryBuilder();
 		[$real, $arguments, $return] = $closure($query);
@@ -53,36 +52,36 @@ class FunctionBuilderTest extends TestCase {
 
 	public static function providerTestConcatString(): array {
 		return [
-			'1 column: string param unicode' =>
-				[function ($q) {
+			'1 column: string param unicode'
+				=> [function ($q) {
 					return [false, [$q->createNamedParameter('👍')], '👍'];
 				}],
-			'2 columns: string param and string param' =>
-				[function ($q) {
+			'2 columns: string param and string param'
+				=> [function ($q) {
 					return [false, [$q->createNamedParameter('foo'), $q->createNamedParameter('bar')], 'foobar'];
 				}],
-			'2 columns: string param and int literal' =>
-				[function ($q) {
+			'2 columns: string param and int literal'
+				=> [function ($q) {
 					return [false, [$q->createNamedParameter('foo'), $q->expr()->literal(1)], 'foo1'];
 				}],
-			'2 columns: string param and string literal' =>
-				[function ($q) {
+			'2 columns: string param and string literal'
+				=> [function ($q) {
 					return [false, [$q->createNamedParameter('foo'), $q->expr()->literal('bar')], 'foobar'];
 				}],
-			'2 columns: string real and int literal' =>
-				[function ($q) {
+			'2 columns: string real and int literal'
+				=> [function ($q) {
 					return [true, ['configkey', $q->expr()->literal(2)], '12'];
 				}],
-			'4 columns: string literal' =>
-				[function ($q) {
+			'4 columns: string literal'
+				=> [function ($q) {
 					return [false, [$q->expr()->literal('foo'), $q->expr()->literal('bar'), $q->expr()->literal('foo'), $q->expr()->literal('bar')], 'foobarfoobar'];
 				}],
-			'4 columns: int literal' =>
-				[function ($q) {
+			'4 columns: int literal'
+				=> [function ($q) {
 					return [false, [$q->expr()->literal(1), $q->expr()->literal(2), $q->expr()->literal(3), $q->expr()->literal(4)], '1234'];
 				}],
-			'5 columns: string param with special chars used in the function' =>
-				[function ($q) {
+			'5 columns: string param with special chars used in the function'
+				=> [function ($q) {
 					return [false, [$q->createNamedParameter('b'), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
 				}],
 		];
@@ -334,9 +333,7 @@ class FunctionBuilderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider octetLengthProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('octetLengthProvider')]
 	public function testOctetLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -359,9 +356,7 @@ class FunctionBuilderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider charLengthProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('charLengthProvider')]
 	public function testCharLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 
@@ -372,6 +367,7 @@ class FunctionBuilderTest extends TestCase {
 		$result = $query->execute();
 		$column = $result->fetchOne();
 		$result->closeCursor();
+		$this->assertNotNull($column);
 		$this->assertEquals($bytes, $column);
 	}
 

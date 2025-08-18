@@ -57,9 +57,9 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetApp
 	 * @param string $app
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetApp')]
 	public function testSetApp($app): void {
 		$this->assertSame('', $this->notification->getApp());
 		$this->assertSame($this->notification, $this->notification->setApp($app));
@@ -71,10 +71,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetAppInvalid
 	 * @param mixed $app
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetAppInvalid')]
 	public function testSetAppInvalid($app): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -87,9 +87,9 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetUser
 	 * @param string $user
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetUser')]
 	public function testSetUser($user): void {
 		$this->assertSame('', $this->notification->getUser());
 		$this->assertSame($this->notification, $this->notification->setUser($user));
@@ -101,10 +101,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetUserInvalid
 	 * @param mixed $user
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetUserInvalid')]
 	public function testSetUserInvalid($user): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -126,9 +126,9 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetDateTime
 	 * @param \DateTime $dateTime
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetDateTime')]
 	public function testSetDateTime(\DateTime $dateTime): void {
 		$this->assertSame(0, $this->notification->getDateTime()->getTimestamp());
 		$this->assertSame($this->notification, $this->notification->setDateTime($dateTime));
@@ -144,11 +144,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetDateTimeZero
 	 * @param \DateTime $dateTime
-	 *
 	 * @expectedMessage 'The given date time is invalid'
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetDateTimeZero')]
 	public function testSetDateTimeZero($dateTime): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -163,10 +162,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetObject
 	 * @param string $type
 	 * @param string $id
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetObject')]
 	public function testSetObject($type, $id): void {
 		$this->assertSame('', $this->notification->getObjectType());
 		$this->assertSame('', $this->notification->getObjectId());
@@ -187,11 +186,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetObjectIdInvalid
 	 * @param mixed $id
-	 *
 	 * @expectedMessage 'The given object id is invalid'
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetObjectIdInvalid')]
 	public function testSetObjectIdInvalid($id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -207,10 +205,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetSubject
 	 * @param string $subject
 	 * @param array $parameters
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetSubject')]
 	public function testSetSubject($subject, $parameters): void {
 		$this->assertSame('', $this->notification->getSubject());
 		$this->assertSame([], $this->notification->getSubjectParameters());
@@ -224,10 +222,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetSubjectInvalidSubject
 	 * @param mixed $subject
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetSubjectInvalidSubject')]
 	public function testSetSubjectInvalidSubject($subject): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -239,9 +237,9 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetParsedSubject
 	 * @param string $subject
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetParsedSubject')]
 	public function testSetParsedSubject($subject): void {
 		$this->assertSame('', $this->notification->getParsedSubject());
 		$this->assertSame($this->notification, $this->notification->setParsedSubject($subject));
@@ -253,10 +251,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetParsedSubjectInvalid
 	 * @param mixed $subject
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetParsedSubjectInvalid')]
 	public function testSetParsedSubjectInvalid($subject): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -272,10 +270,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetMessage
 	 * @param string $message
 	 * @param array $parameters
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetMessage')]
 	public function testSetMessage($message, $parameters): void {
 		$this->assertSame('', $this->notification->getMessage());
 		$this->assertSame([], $this->notification->getMessageParameters());
@@ -289,10 +287,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetMessageInvalidMessage
 	 * @param mixed $message
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetMessageInvalidMessage')]
 	public function testSetMessageInvalidMessage($message): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -304,9 +302,9 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetParsedMessage
 	 * @param string $message
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetParsedMessage')]
 	public function testSetParsedMessage($message): void {
 		$this->assertSame('', $this->notification->getParsedMessage());
 		$this->assertSame($this->notification, $this->notification->setParsedMessage($message));
@@ -318,10 +316,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetParsedMessageInvalid
 	 * @param mixed $message
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetParsedMessageInvalid')]
 	public function testSetParsedMessageInvalid($message): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -333,9 +331,9 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLink
 	 * @param string $link
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLink')]
 	public function testSetLink($link): void {
 		$this->assertSame('', $this->notification->getLink());
 		$this->assertSame($this->notification, $this->notification->setLink($link));
@@ -347,10 +345,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetLinkInvalid
 	 * @param mixed $link
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetLinkInvalid')]
 	public function testSetLinkInvalid($link): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -362,9 +360,9 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetIcon
 	 * @param string $icon
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetIcon')]
 	public function testSetIcon($icon): void {
 		$this->assertSame('', $this->notification->getIcon());
 		$this->assertSame($this->notification, $this->notification->setIcon($icon));
@@ -376,10 +374,10 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetIconInvalid
 	 * @param mixed $icon
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetIconInvalid')]
 	public function testSetIconInvalid($icon): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -392,7 +390,7 @@ class NotificationTest extends TestCase {
 	}
 
 	public function testAddAction(): void {
-		/** @var \OCP\Notification\IAction|\PHPUnit\Framework\MockObject\MockObject $action */
+		/** @var IAction|\PHPUnit\Framework\MockObject\MockObject $action */
 		$action = $this->createMock(IAction::class);
 		$action->expects($this->once())
 			->method('isValid')
@@ -410,7 +408,7 @@ class NotificationTest extends TestCase {
 	public function testAddActionInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		/** @var \OCP\Notification\IAction|\PHPUnit\Framework\MockObject\MockObject $action */
+		/** @var IAction|\PHPUnit\Framework\MockObject\MockObject $action */
 		$action = $this->createMock(IAction::class);
 		$action->expects($this->once())
 			->method('isValid')
@@ -422,7 +420,7 @@ class NotificationTest extends TestCase {
 	}
 
 	public function testAddActionSecondPrimary(): void {
-		/** @var \OCP\Notification\IAction|\PHPUnit\Framework\MockObject\MockObject $action */
+		/** @var IAction|\PHPUnit\Framework\MockObject\MockObject $action */
 		$action = $this->createMock(IAction::class);
 		$action->expects($this->exactly(2))
 			->method('isValid')
@@ -438,7 +436,7 @@ class NotificationTest extends TestCase {
 	}
 
 	public function testAddParsedAction(): void {
-		/** @var \OCP\Notification\IAction|\PHPUnit\Framework\MockObject\MockObject $action */
+		/** @var IAction|\PHPUnit\Framework\MockObject\MockObject $action */
 		$action = $this->createMock(IAction::class);
 		$action->expects($this->once())
 			->method('isValidParsed')
@@ -456,7 +454,7 @@ class NotificationTest extends TestCase {
 	public function testAddParsedActionInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		/** @var \OCP\Notification\IAction|\PHPUnit\Framework\MockObject\MockObject $action */
+		/** @var IAction|\PHPUnit\Framework\MockObject\MockObject $action */
 		$action = $this->createMock(IAction::class);
 		$action->expects($this->once())
 			->method('isValidParsed')
@@ -468,7 +466,7 @@ class NotificationTest extends TestCase {
 	}
 
 	public function testAddActionSecondParsedPrimary(): void {
-		/** @var \OCP\Notification\IAction|\PHPUnit\Framework\MockObject\MockObject $action */
+		/** @var IAction|\PHPUnit\Framework\MockObject\MockObject $action */
 		$action = $this->createMock(IAction::class);
 		$action->expects($this->exactly(2))
 			->method('isValidParsed')
@@ -484,7 +482,7 @@ class NotificationTest extends TestCase {
 	}
 
 	public function testAddActionParsedPrimaryEnd(): void {
-		/** @var \OCP\Notification\IAction|\PHPUnit\Framework\MockObject\MockObject $action */
+		/** @var IAction|\PHPUnit\Framework\MockObject\MockObject $action */
 		$action1 = $this->createMock(IAction::class);
 		$action1->expects($this->exactly(2))
 			->method('isValidParsed')
@@ -492,7 +490,7 @@ class NotificationTest extends TestCase {
 		$action1->expects($this->exactly(2))
 			->method('isPrimary')
 			->willReturn(false);
-		/** @var \OCP\Notification\IAction|\PHPUnit\Framework\MockObject\MockObject $action */
+		/** @var IAction|\PHPUnit\Framework\MockObject\MockObject $action */
 		$action2 = $this->createMock(IAction::class);
 		$action2->expects($this->once())
 			->method('isValidParsed')
@@ -518,14 +516,14 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsValid
 	 *
 	 * @param bool $isValidCommon
 	 * @param string $subject
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsValid')]
 	public function testIsValid($isValidCommon, $subject, $expected): void {
-		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(Notification::class)
 			->onlyMethods([
 				'isValidCommon',
@@ -551,14 +549,14 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsValid
 	 *
 	 * @param bool $isValidCommon
 	 * @param string $subject
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsValid')]
 	public function testIsParsedValid($isValidCommon, $subject, $expected): void {
-		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(Notification::class)
 			->onlyMethods([
 				'isValidCommon',
@@ -595,7 +593,6 @@ class NotificationTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsValidCommon
 	 *
 	 * @param string $app
 	 * @param string $user
@@ -604,8 +601,9 @@ class NotificationTest extends TestCase {
 	 * @param string $objectId
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsValidCommon')]
 	public function testIsValidCommon($app, $user, $timestamp, $objectType, $objectId, $expected): void {
-		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
+		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->getMockBuilder(Notification::class)
 			->onlyMethods([
 				'getApp',

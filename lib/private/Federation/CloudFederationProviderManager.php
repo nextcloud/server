@@ -227,8 +227,8 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	private function prepareOcmPayload(string $uri, string $payload): array {
 		$payload = array_merge($this->getDefaultRequestOptions(), ['body' => $payload]);
 
-		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true) &&
-			$this->signatoryManager->getRemoteSignatory($this->signatureManager->extractIdentityFromUri($uri)) === null) {
+		if ($this->appConfig->getValueBool('core', OCMSignatoryManager::APPCONFIG_SIGN_ENFORCED, lazy: true)
+			&& $this->signatoryManager->getRemoteSignatory($this->signatureManager->extractIdentityFromUri($uri)) === null) {
 			return $payload;
 		}
 

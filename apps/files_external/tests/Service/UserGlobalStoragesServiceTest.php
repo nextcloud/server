@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -97,9 +98,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		];
 	}
 
-	/**
-	 * @dataProvider applicableStorageProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('applicableStorageProvider')]
 	public function testGetStorageWithApplicable($applicableUsers, $applicableGroups, $isVisible): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
@@ -173,9 +172,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->ActualNonExistingStorageTest();
 	}
 
-	/**
-	 * @dataProvider deleteStorageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('deleteStorageDataProvider')]
 	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		$this->expectException(\DomainException::class);
 
@@ -229,9 +226,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		];
 	}
 
-	/**
-	 * @dataProvider getUniqueStoragesProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getUniqueStoragesProvider')]
 	public function testGetUniqueStorages(
 		$priority1, $applicableUsers1, $applicableGroups1,
 		$priority2, $applicableUsers2, $applicableGroups2,

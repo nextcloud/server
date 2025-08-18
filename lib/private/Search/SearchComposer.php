@@ -15,6 +15,7 @@ use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\FilterDefinition;
+use OCP\Search\IExternalProvider;
 use OCP\Search\IFilter;
 use OCP\Search\IFilteringProvider;
 use OCP\Search\IInAppSearch;
@@ -118,7 +119,7 @@ class SearchComposer {
 			}
 		}
 
-		$this->providers = $this->filterProviders($this->providers);
+		$this->filterProviders();
 
 		$this->loadFilters();
 	}
@@ -178,6 +179,7 @@ class SearchComposer {
 				if ($order === null) {
 					return;
 				}
+				$isExternalProvider = $provider instanceof IExternalProvider ? $provider->isExternalProvider() : false;
 				$triggers = [$provider->getId()];
 				if ($provider instanceof IFilteringProvider) {
 					$triggers += $provider->getAlternateIds();
@@ -192,6 +194,7 @@ class SearchComposer {
 					'name' => $provider->getName(),
 					'icon' => $this->fetchIcon($appId, $provider->getId()),
 					'order' => $order,
+					'isExternalProvider' => $isExternalProvider,
 					'triggers' => array_values($triggers),
 					'filters' => $this->getFiltersType($filters, $provider->getId()),
 					'inAppSearch' => $provider instanceof IInAppSearch,
@@ -211,19 +214,21 @@ class SearchComposer {
 
 	/**
 	 * Filter providers based on 'unified_search.providers_allowed' core app config array
-	 * @param array $providers
-	 * @return array
+	 * Will remove providers that are not in the allowed list
 	 */
-	private function filterProviders(array $providers): array {
+	private function filterProviders(): void {
 		$allowedProviders = $this->appConfig->getValueArray('core', 'unified_search.providers_allowed');
 
 		if (empty($allowedProviders)) {
-			return $providers;
+			return;
 		}
 
-		return array_values(array_filter($providers, function ($p) use ($allowedProviders) {
-			return in_array($p['id'], $allowedProviders);
-		}));
+		foreach (array_keys($this->providers) as $providerId) {
+			if (!in_array($providerId, $allowedProviders, true)) {
+				unset($this->providers[$providerId]);
+				unset($this->handlers[$providerId]);
+			}
+		}
 	}
 
 	private function fetchIcon(string $appId, string $providerId): string {

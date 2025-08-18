@@ -27,9 +27,7 @@ class DownloadResponseTest extends \Test\TestCase {
 		$this->assertEquals('content', $headers['Content-Type']);
 	}
 
-	/**
-	 * @dataProvider filenameEncodingProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('filenameEncodingProvider')]
 	public function testFilenameEncoding(string $input, string $expected): void {
 		$response = new ChildDownloadResponse($input, 'content');
 		$headers = $response->getHeaders();

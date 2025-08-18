@@ -71,9 +71,7 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCallTriggerAddressBookActivity
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCallTriggerAddressBookActivity')]
 	public function testCallTriggerAddressBookActivity(string $method, array $payload, string $expectedSubject, array $expectedPayload): void {
 		$backend = $this->getBackend(['triggerAddressbookActivity']);
 		$backend->expects($this->once())
@@ -151,10 +149,10 @@ class BackendTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTriggerAddressBookActivity
 	 * @param string[]|null $shareUsers
 	 * @param string[] $users
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTriggerAddressBookActivity')]
 	public function testTriggerAddressBookActivity(string $action, array $data, array $shares, array $changedProperties, string $currentUser, string $author, ?array $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
@@ -315,10 +313,10 @@ class BackendTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTriggerCardActivity
 	 * @param string[]|null $shareUsers
 	 * @param string[] $users
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTriggerCardActivity')]
 	public function testTriggerCardActivity(string $action, array $addressBookData, array $shares, array $cardData, string $currentUser, string $author, ?array $shareUsers, array $users): void {
 		$backend = $this->getBackend(['getUsersForShares']);
 
@@ -432,9 +430,7 @@ class BackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetUsersForShares
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsersForShares')]
 	public function testGetUsersForShares(array $shares, array $groups, array $expected): void {
 		$backend = $this->getBackend();
 

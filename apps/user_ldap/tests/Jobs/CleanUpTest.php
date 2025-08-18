@@ -61,7 +61,7 @@ class CleanUpTest extends TestCase {
 	public function test_runNotAllowedByBrokenHelper(): void {
 		$this->mocks['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
-			->will($this->throwException(new Exception()));
+			->willThrowException(new Exception());
 
 		$this->mocks['ocConfig']->expects($this->never())
 			->method('getSystemValue');

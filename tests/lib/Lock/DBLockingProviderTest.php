@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -27,12 +28,12 @@ class DBLockingProviderTest extends LockingProvider {
 	protected $instance;
 
 	/**
-	 * @var \OCP\IDBConnection
+	 * @var IDBConnection
 	 */
 	protected $connection;
 
 	/**
-	 * @var \OCP\AppFramework\Utility\ITimeFactory
+	 * @var ITimeFactory
 	 */
 	protected $timeFactory;
 
@@ -50,7 +51,7 @@ class DBLockingProviderTest extends LockingProvider {
 	}
 
 	/**
-	 * @return \OCP\Lock\ILockingProvider
+	 * @return ILockingProvider
 	 */
 	protected function getInstance() {
 		$this->connection = Server::get(IDBConnection::class);

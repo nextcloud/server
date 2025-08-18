@@ -8,8 +8,8 @@ import { translate as t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { isPublicShare } from '@nextcloud/sharing/public'
 
-import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
-import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
+import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
+import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
 
@@ -53,7 +53,7 @@ export const action = new FileAction({
 		const sharees = node.attributes.sharees?.sharee as { id: string, 'display-name': string, type: ShareType }[] | undefined
 		if (!sharees) {
 			// No sharees so just show the default message to create a new share
-			return t('files_sharing', 'Show sharing options')
+			return t('files_sharing', 'Sharing options')
 		}
 
 		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate

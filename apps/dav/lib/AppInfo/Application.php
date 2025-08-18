@@ -64,6 +64,7 @@ use OCA\DAV\SetupChecks\WebdavEndpoint;
 use OCA\DAV\UserMigration\CalendarMigrator;
 use OCA\DAV\UserMigration\ContactsMigrator;
 use OCP\Accounts\UserUpdatedEvent;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -217,7 +218,7 @@ class Application extends App implements IBootstrap {
 
 	public function boot(IBootContext $context): void {
 		// Load all dav apps
-		\OC_App::loadApps(['dav']);
+		$context->getServerContainer()->get(IAppManager::class)->loadApps(['dav']);
 
 		$context->injectFn($this->registerContactsManager(...));
 		$context->injectFn($this->registerCalendarManager(...));

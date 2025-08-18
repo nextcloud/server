@@ -60,13 +60,13 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ['8.1']
-        mariadb-versions: ['10.3', '10.6', '10.11', '11.4']
+        mariadb-versions: ['10.3', '10.6', '10.11', '11.4', '11.8']
         include:
           - php-versions: '8.3'
             mariadb-versions: '10.11'
             coverage: ${{ github.event_name != 'pull_request' }}
           - php-versions: '8.4'
-            mariadb-versions: '11.4'
+            mariadb-versions: '11.8'
 
     name: MariaDB ${{ matrix.mariadb-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -96,7 +96,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a # v2.33.0
+        uses: shivammathur/setup-php@ccf2c627fe61b1b4d924adfcbd19d661a18133a0 # v2.35.2
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation

@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "完全削除を承認",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "ごみ箱のすべてのファイルとフォルダーを完全に削除しますか？この操作は元に戻すことができません。",
     "Cancel" : "キャンセル",
-    "Deletion cancelled" : "削除はキャンセルされました",
     "Original location" : "元の場所",
     "Deleted by" : "削除者",
     "Deleted" : "削除日時",
@@ -23,6 +22,9 @@ OC.L10N.register(
     "You" : "自分",
     "List of files that have been deleted." : "削除されたファイルのリスト",
     "No deleted files" : "削除されたファイルはありません",
-    "Files and folders you have deleted will show up here" : "削除したファイルとフォルダーがここに表示されます"
+    "Files and folders you have deleted will show up here" : "削除したファイルとフォルダーがここに表示されます",
+    "All files have been permanently deleted" : "すべてのファイルが完全に削除されました",
+    "Failed to empty deleted files" : "削除されたファイルを空にできませんでした",
+    "Deletion cancelled" : "削除はキャンセルされました"
 },
 "nplurals=1; plural=0;");

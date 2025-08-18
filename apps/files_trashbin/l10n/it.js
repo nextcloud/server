@@ -9,7 +9,6 @@ OC.L10N.register(
     "Restore" : "Ripristina",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Sei sicuro di voler eliminare permanentemente tutti i file e le cartelle nel cestino? Questa operarazione non può essere annullata.",
     "Cancel" : "Annulla",
-    "Deletion cancelled" : "Eliminazione annullata",
     "Original location" : "Percorso originale",
     "Deleted by" : "Eliminato da",
     "Deleted" : "Eliminati",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "You" : "Tu",
     "List of files that have been deleted." : "Lista di file che sono stati eliminati.",
     "No deleted files" : "Nessun file eliminato",
-    "Files and folders you have deleted will show up here" : "I file e le cartelle che hai eliminato saranno mostrati qui"
+    "Files and folders you have deleted will show up here" : "I file e le cartelle che hai eliminato saranno mostrati qui",
+    "Deletion cancelled" : "Eliminazione annullata"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

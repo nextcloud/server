@@ -8,7 +8,7 @@
 		:filter-name="t('files', 'Type')"
 		@reset-filter="resetFilter">
 		<template #icon>
-			<NcIconSvgWrapper :path="mdiFile" />
+			<NcIconSvgWrapper :path="mdiFileOutline" />
 		</template>
 		<NcActionButton v-for="fileType of typePresets"
 			:key="fileType.id"
@@ -27,7 +27,7 @@
 import type { PropType } from 'vue'
 import type { ITypePreset } from '../../filters/TypeFilter.ts'
 
-import { mdiFile } from '@mdi/js'
+import { mdiFileOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
@@ -57,7 +57,7 @@ export default defineComponent({
 
 	setup() {
 		return {
-			mdiFile,
+			mdiFileOutline,
 			t,
 		}
 	},

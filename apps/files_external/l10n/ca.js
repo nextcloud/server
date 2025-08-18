@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Concedeix accés",
-    "Error configuring OAuth1" : "S'ha produït un error en configurar l'OAuth1",
-    "Please provide a valid app key and secret." : "Proporcioneu una clau d'aplicació i un secret vàlids.",
     "Error configuring OAuth2" : "S'ha produït un error en configurar l'OAuth2",
     "Generate keys" : "Genera les claus",
     "Error generating key pair" : "S'ha produït un error en generar el parell de claus",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Clau secreta",
     "Builtin" : "Integrat",
     "None" : "Cap",
-    "OAuth1" : "OAuth1",
-    "App key" : "Clau d'aplicació",
-    "App secret" : "Secret d'aplicació",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID del client",
     "Client secret" : "Secret del client",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Tothom",
     "Advanced settings" : "Paràmetres avançats",
     "Allow people to mount external storage" : "Permet que les persones muntin emmagatzematge extern",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per a autenticar-se amb diversos emmagatzematges externs que tinguin les mateixes credencials."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Les credencials globals es poden utilitzar per a autenticar-se amb diversos emmagatzematges externs que tinguin les mateixes credencials.",
+    "Error configuring OAuth1" : "S'ha produït un error en configurar l'OAuth1",
+    "Please provide a valid app key and secret." : "Proporcioneu una clau d'aplicació i un secret vàlids.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Clau d'aplicació",
+    "App secret" : "Secret d'aplicació"
 },
 "nplurals=2; plural=(n != 1);");

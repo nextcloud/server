@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -45,17 +46,18 @@ class MountProvider implements IMountProvider {
 	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
-		$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_USER, null, -1);
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_CIRCLE, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_ROOM, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_DECK, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_SCIENCEMESH, null, -1));
-
+		$shares = array_merge(
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_USER, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_CIRCLE, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_ROOM, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_DECK, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_SCIENCEMESH, null, -1),
+		);
 
 		// filter out excluded shares and group shares that includes self
 		$shares = array_filter($shares, function (IShare $share) use ($user) {
-			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID();
+			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID() && $share->getSharedBy() !== $user->getUID();
 		});
 
 		$superShares = $this->buildSuperShares($shares, $user);
@@ -77,10 +79,10 @@ class MountProvider implements IMountProvider {
 				/** @var IShare $parentShare */
 				$parentShare = $share[0];
 
-				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED &&
-					($parentShare->getShareType() === IShare::TYPE_GROUP ||
-						$parentShare->getShareType() === IShare::TYPE_USERGROUP ||
-						$parentShare->getShareType() === IShare::TYPE_USER)) {
+				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED
+					&& ($parentShare->getShareType() === IShare::TYPE_GROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USERGROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USER)) {
 					continue;
 				}
 

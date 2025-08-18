@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,7 +14,7 @@ use OC\Files\Storage\Wrapper\Jail;
 
 class JailTest extends \Test\Files\Storage\Storage {
 	/**
-	 * @var \OC\Files\Storage\Temporary
+	 * @var Temporary
 	 */
 	private $sourceStorage;
 

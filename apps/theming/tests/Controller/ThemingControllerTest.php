@@ -97,9 +97,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateStylesheetSuccess
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetSuccess')]
 	public function testUpdateStylesheetSuccess(string $setting, string $value, string $message): void {
 		$this->themingDefaults
 			->expects($this->once())
@@ -114,8 +112,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $message,
 					],
 				'status' => 'success',
@@ -155,9 +153,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateStylesheetError
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateStylesheetError')]
 	public function testUpdateStylesheetError(string $setting, string $value, string $message): void {
 		$this->themingDefaults
 			->expects($this->never())
@@ -172,8 +168,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $message,
 					],
 				'status' => 'error',
@@ -203,8 +199,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'No file uploaded',
 					],
 				'status' => 'failure',
@@ -233,8 +229,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'Invalid key',
 					],
 				'status' => 'failure',
@@ -282,8 +278,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'Unsupported image type',
 					],
 				'status' => 'failure'
@@ -323,8 +319,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'Unsupported image type',
 					],
 				'status' => 'failure'
@@ -346,9 +342,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateImages
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateImages')]
 	public function testUpdateLogoNormalLogoUpload(string $mimeType, bool $folderExists = true): void {
 		$tmpLogo = Server::get(ITempManager::class)->getTemporaryFolder() . '/logo.svg';
 		$destination = Server::get(ITempManager::class)->getTemporaryFolder();
@@ -387,8 +381,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'name' => 'logo.svg',
 						'message' => 'Saved',
 						'url' => 'imageUrl',
@@ -436,8 +430,8 @@ class ThemingControllerTest extends TestCase {
 			->willReturn('imageUrl');
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'name' => 'logo.svg',
 						'message' => 'Saved',
 						'url' => 'imageUrl',
@@ -481,8 +475,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => 'Unsupported image type',
 					],
 				'status' => 'failure'
@@ -504,9 +498,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataPhpUploadErrors
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
 	public function testUpdateLogoLoginScreenUploadWithInvalidImageUpload(int $error, string $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -532,8 +524,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $expectedErrorMessage,
 					],
 				'status' => 'failure'
@@ -543,9 +535,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
-	/**
-	 * @dataProvider dataPhpUploadErrors
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPhpUploadErrors')]
 	public function testUpdateLogoUploadWithInvalidImageUpload($error, $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
@@ -571,8 +561,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $expectedErrorMessage
 					],
 				'status' => 'failure'
@@ -596,8 +586,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'value' => 'MyValue',
 						'message' => 'Saved'
 					],
@@ -614,9 +604,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUndoDelete
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUndoDelete')]
 	public function testUndoDelete(string $value, string $filename): void {
 		$this->l10n
 			->expects($this->once())
@@ -631,8 +619,8 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'value' => $value,
 						'message' => 'Saved',
 					],
@@ -716,9 +704,7 @@ class ThemingControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetManifest
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetManifest')]
 	public function testGetManifest(bool $standalone): void {
 		$this->config
 			->expects($this->once())
@@ -748,8 +734,8 @@ class ThemingControllerTest extends TestCase {
 		$response = new JSONResponse([
 			'name' => 'Nextcloud',
 			'start_url' => 'localhost',
-			'icons' =>
-				[
+			'icons'
+				=> [
 					[
 						'src' => 'touchicon?v=0',
 						'type' => 'image/png',

@@ -28,10 +28,9 @@ class TransactionalTest extends TestCase {
 		$test = new class($this->db) {
 			use TTransactional;
 
-			private IDBConnection $db;
-
-			public function __construct(IDBConnection $db) {
-				$this->db = $db;
+			public function __construct(
+				private IDBConnection $db,
+			) {
 			}
 
 			public function fail(): void {
@@ -55,10 +54,9 @@ class TransactionalTest extends TestCase {
 		$test = new class($this->db) {
 			use TTransactional;
 
-			private IDBConnection $db;
-
-			public function __construct(IDBConnection $db) {
-				$this->db = $db;
+			public function __construct(
+				private IDBConnection $db,
+			) {
 			}
 
 			public function succeed(): int {

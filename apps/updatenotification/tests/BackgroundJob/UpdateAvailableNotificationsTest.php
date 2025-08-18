@@ -152,9 +152,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCheckCoreUpdate
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckCoreUpdate')]
 	public function testCheckCoreUpdate(string $channel, mixed $versionCheck, mixed $version, ?string $readableVersion, ?int $errorDays): void {
 		$job = $this->getJob([
 			'createNotifications',
@@ -231,9 +229,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCheckAppUpdates
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckAppUpdates')]
 	public function testCheckAppUpdates(array $apps, array $isUpdateAvailable, array $notifications): void {
 		$job = $this->getJob([
 			'isUpdateAvailable',
@@ -268,9 +264,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCreateNotifications
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateNotifications')]
 	public function testCreateNotifications(string $app, string $version, string|false $lastNotification, string|false $callDelete, bool $createNotification, ?array $users, ?array $userNotifications): void {
 		$job = $this->getJob([
 			'deleteOutdatedNotifications',
@@ -351,9 +345,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetUsersToNotify
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsersToNotify')]
 	public function testGetUsersToNotify(array $groups, array $groupUsers, array $expected): void {
 		$job = $this->getJob();
 
@@ -394,10 +386,10 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDeleteOutdatedNotifications
 	 * @param string $app
 	 * @param string $version
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDeleteOutdatedNotifications')]
 	public function testDeleteOutdatedNotifications(string $app, string $version): void {
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())

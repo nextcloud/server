@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -335,7 +336,7 @@ class SMB extends Common implements INotifyStorage {
 			if ($retry) {
 				return $this->stat($path, false);
 			} else {
-				throw $e;
+				throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 			}
 		}
 		if ($this->remoteIsShare() && $this->isRootDir($path)) {

@@ -548,6 +548,9 @@
                             1
                         ]
                     },
+                    "is_trusted_server": {
+                        "type": "boolean"
+                    },
                     "is-mount-root": {
                         "type": "boolean"
                     },
@@ -897,40 +900,76 @@
                                         "type": "string"
                                     },
                                     "name": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "email": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "address": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "website": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "twitter": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "phone": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "twitter_signature": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "website_signature": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "userid": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     }
                                 }
                             },

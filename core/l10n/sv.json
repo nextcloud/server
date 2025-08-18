@@ -42,6 +42,7 @@
     "Task not found" : "Uppgiften hittades inte",
     "Internal error" : "Internt fel",
     "Not found" : "Hittades inte",
+    "Node is locked" : "Noden är låst",
     "Bad request" : "Felaktigt anrop",
     "Requested task type does not exist" : "Den begärda uppgiftstypen finns inte",
     "Necessary language model provider is not available" : "Nödvändig språkmodellsleverantör är inte tillgänglig",
@@ -78,6 +79,7 @@
     "%s (incompatible)" : "%s (inkompatibel)",
     "The following apps have been disabled: %s" : "Följande appar har inaktiverats: %s",
     "Already up to date" : "Redan uppdaterad",
+    "JSON document" : "JSON-dokument",
     "Unknown" : "Okänd",
     "PNG image" : "PNG-bild",
     "Error occurred while checking server setup" : "Ett fel inträffade när en kontroll av serverns konfiguration utfördes",
@@ -110,7 +112,6 @@
     "Federated user" : "Federerad användare",
     "user@your-nextcloud.org" : "användare@din-nextcloud.se",
     "Create share" : "Skapa delning",
-    "Direct link copied to clipboard" : "Direktlänk kopierad till urklipp",
     "Please copy the link manually:" : "Kopiera länken manuellt:",
     "Custom date range" : "Anpassat datumintervall",
     "Pick start date" : "Välj startdatum",
@@ -401,6 +402,7 @@
     "Toggle password visibility" : "Växla lösenordsynlighet",
     "Configure the database" : "Konfigurera databasen",
     "Only %s is available." : "Endast %s är tillgänglig.",
-    "Database account" : "Databaskonto"
+    "Database account" : "Databaskonto",
+    "Direct link copied to clipboard" : "Direktlänk kopierad till urklipp"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

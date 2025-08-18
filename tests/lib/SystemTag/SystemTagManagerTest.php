@@ -82,23 +82,10 @@ class SystemTagManagerTest extends TestCase {
 					['two', false, false],
 				]
 			],
-			[
-				// duplicate names, different flags
-				[
-					['one', false, false],
-					['one', true, false],
-					['one', false, true],
-					['one', true, true],
-					['two', false, false],
-					['two', false, true],
-				]
-			]
 		];
 	}
 
-	/**
-	 * @dataProvider getAllTagsDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getAllTagsDataProvider')]
 	public function testGetAllTags($testTags): void {
 		$testTagsById = [];
 		foreach ($testTags as $testTag) {
@@ -165,14 +152,14 @@ class SystemTagManagerTest extends TestCase {
 			[
 				[
 					['one', true, false],
-					['one', false, false],
+					['one_different', false, false],
 					['two', true, false],
 				],
 				null,
 				'on',
 				[
 					['one', true, false],
-					['one', false, false],
+					['one_different', false, false],
 				]
 			],
 			// filter by name pattern and visibility
@@ -181,7 +168,7 @@ class SystemTagManagerTest extends TestCase {
 				[
 					['one', true, false],
 					['two', true, false],
-					['one', false, false],
+					['one_different', false, false],
 				],
 				true,
 				'on',
@@ -205,9 +192,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider getAllTagsFilteredDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getAllTagsFilteredDataProvider')]
 	public function testGetAllTagsFiltered($testTags, $visibilityFilter, $nameSearch, $expectedResults): void {
 		foreach ($testTags as $testTag) {
 			$this->tagManager->createTag($testTag[0], $testTag[1], $testTag[2]);
@@ -238,9 +223,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider oneTagMultipleFlagsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('oneTagMultipleFlagsProvider')]
 	public function testCreateDuplicate($name, $userVisible, $userAssignable): void {
 		$this->expectException(TagAlreadyExistsException::class);
 
@@ -252,14 +235,21 @@ class SystemTagManagerTest extends TestCase {
 		$this->tagManager->createTag($name, $userVisible, $userAssignable);
 	}
 
+	public function testCreateDuplicateWithDifferentFlags(): void {
+		$this->expectException(TagAlreadyExistsException::class);
+
+		// Create a tag with specific flags
+		$this->tagManager->createTag('duplicate', true, false);
+		// Try to create a tag with the same name but different flags - should fail
+		$this->tagManager->createTag('duplicate', false, true);
+	}
+
 	public function testCreateOverlongName(): void {
 		$tag = $this->tagManager->createTag('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas, Salão de Física, Torre Sineira, Paço Velho e Jardim Botânico)', true, true);
 		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas', $tag->getName()); // 63 characters but 64 bytes due to "á"
 	}
 
-	/**
-	 * @dataProvider oneTagMultipleFlagsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('oneTagMultipleFlagsProvider')]
 	public function testGetExistingTag($name, $userVisible, $userAssignable): void {
 		$tag1 = $this->tagManager->createTag($name, $userVisible, $userAssignable);
 		$tag2 = $this->tagManager->getTag($name, $userVisible, $userAssignable);
@@ -327,9 +317,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider updateTagProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('updateTagProvider')]
 	public function testUpdateTag($tagCreate, $tagUpdated): void {
 		$tag1 = $this->tagManager->createTag(
 			$tagCreate[0],
@@ -359,32 +347,20 @@ class SystemTagManagerTest extends TestCase {
 
 	}
 
-	/**
-	 * @dataProvider updateTagProvider
-	 */
-	public function testUpdateTagDuplicate($tagCreate, $tagUpdated): void {
+	public function testUpdateTagToExistingName(): void {
 		$this->expectException(TagAlreadyExistsException::class);
 
-		$this->tagManager->createTag(
-			$tagCreate[0],
-			$tagCreate[1],
-			$tagCreate[2],
-			$tagCreate[3],
-		);
-		$tag2 = $this->tagManager->createTag(
-			$tagUpdated[0],
-			$tagUpdated[1],
-			$tagUpdated[2],
-			$tagUpdated[3],
-		);
+		// Create two different tags
+		$tag1 = $this->tagManager->createTag('first', true, true);
+		$tag2 = $this->tagManager->createTag('second', false, false);
 
-		// update to match the first tag
+		// Try to update tag2 to have the same name as tag1 - should fail
 		$this->tagManager->updateTag(
 			$tag2->getId(),
-			$tagCreate[0],
-			$tagCreate[1],
-			$tagCreate[2],
-			$tagCreate[3],
+			'first',
+			false,
+			false,
+			null
 		);
 	}
 
@@ -436,9 +412,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider visibilityCheckProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('visibilityCheckProvider')]
 	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
@@ -483,9 +457,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider assignabilityCheckProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('assignabilityCheckProvider')]
 	public function testAssignabilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult, $userGroupIds = [], $tagGroupIds = []): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
@@ -542,9 +514,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider allowedToCreateProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('allowedToCreateProvider')]
 	public function testAllowedToCreateTag(bool $isCli, ?bool $isAdmin, bool $isRestricted): void {
 		$oldCli = \OC::$CLI;
 		\OC::$CLI = $isCli;
@@ -580,9 +550,7 @@ class SystemTagManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider disallowedToCreateProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('disallowedToCreateProvider')]
 	public function testDisallowedToCreateTag(?bool $isAdmin): void {
 		$oldCli = \OC::$CLI;
 		\OC::$CLI = false;

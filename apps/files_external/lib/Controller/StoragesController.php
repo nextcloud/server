@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -212,9 +213,8 @@ abstract class StoragesController extends Controller {
 	 * on whether the remote storage is available or not.
 	 *
 	 * @param StorageConfig $storage storage configuration
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 */
-	protected function updateStorageStatus(StorageConfig &$storage, $testOnly = true) {
+	protected function updateStorageStatus(StorageConfig &$storage) {
 		try {
 			$this->manipulateStorageConfig($storage);
 
@@ -225,8 +225,6 @@ abstract class StoragesController extends Controller {
 				MountConfig::getBackendStatus(
 					$backend->getStorageClass(),
 					$storage->getBackendOptions(),
-					false,
-					$testOnly
 				)
 			);
 		} catch (InsufficientDataForMeaningfulAnswerException $e) {
@@ -267,15 +265,14 @@ abstract class StoragesController extends Controller {
 	 * Get an external storage entry.
 	 *
 	 * @param int $id storage id
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
 	 */
-	public function show(int $id, $testOnly = true) {
+	public function show(int $id) {
 		try {
 			$storage = $this->service->getStorage($id);
 
-			$this->updateStorageStatus($storage, $testOnly);
+			$this->updateStorageStatus($storage);
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[

@@ -8,7 +8,6 @@ import { PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 
 import { getPinia } from './store/index.ts'
-import { registerHotkeys } from './services/HotKeysService.ts'
 import FilesApp from './FilesApp.vue'
 import router from './router/router'
 import RouterService from './services/RouterService'
@@ -39,9 +38,6 @@ if (!window.OCP.Files.Router) {
 
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
-
-// Init HotKeys AFTER pinia is set up
-registerHotkeys()
 
 // Init Files App Settings Service
 const Settings = new SettingsService()

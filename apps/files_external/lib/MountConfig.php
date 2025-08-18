@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -75,7 +76,7 @@ class MountConfig {
 	 * @return int see self::STATUS_*
 	 * @throws \Exception
 	 */
-	public static function getBackendStatus($class, $options, $isPersonal, $testOnly = true) {
+	public static function getBackendStatus($class, $options) {
 		if (self::$skipTest) {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
@@ -92,7 +93,7 @@ class MountConfig {
 				$storage = new $class($options);
 
 				try {
-					$result = $storage->test($isPersonal, $testOnly);
+					$result = $storage->test();
 					$storage->setAvailability($result);
 					if ($result) {
 						return StorageNotAvailableException::STATUS_SUCCESS;

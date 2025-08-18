@@ -112,7 +112,6 @@ OC.L10N.register(
     "Federated user" : "연합 사용자",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "공유 만들기",
-    "Direct link copied to clipboard" : "직접 링크가 클립보드에 복사됨",
     "Please copy the link manually:" : "링크를 수동으로 복사해 주세요:",
     "Custom date range" : "맞춤 날짜 범위",
     "Pick start date" : "시작일 선택",
@@ -403,6 +402,7 @@ OC.L10N.register(
     "Toggle password visibility" : "암호 보이기/숨기기",
     "Configure the database" : "데이터베이스 설정",
     "Only %s is available." : "%s만 사용할 수 있습니다.",
-    "Database account" : "데이터베이스 계정"
+    "Database account" : "데이터베이스 계정",
+    "Direct link copied to clipboard" : "직접 링크가 클립보드에 복사됨"
 },
 "nplurals=1; plural=0;");

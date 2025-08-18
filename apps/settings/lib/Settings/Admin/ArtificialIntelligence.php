@@ -10,7 +10,7 @@ namespace OCA\Settings\Settings\Admin;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
 use OCP\SpeechToText\ISpeechToTextManager;
@@ -28,7 +28,7 @@ use Psr\Log\LoggerInterface;
 
 class ArtificialIntelligence implements IDelegatedSettings {
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IL10N $l,
 		private IInitialState $initialState,
 		private ITranslationManager $translationManager,
@@ -125,6 +125,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			$taskProcessingTypeSettings[$taskTypeId] = true;
 		}
 
+
 		$this->initialState->provideInitialState('ai-stt-providers', $sttProviders);
 		$this->initialState->provideInitialState('ai-translation-providers', $translationProviders);
 		$this->initialState->provideInitialState('ai-text-processing-providers', $textProcessingProviders);
@@ -140,10 +141,11 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			'ai.text2image_provider' => count($text2imageProviders) > 0 ? $text2imageProviders[0]['id'] : null,
 			'ai.taskprocessing_provider_preferences' => $taskProcessingSettings,
 			'ai.taskprocessing_type_preferences' => $taskProcessingTypeSettings,
+			'ai.taskprocessing_guests' => false,
 		];
 		foreach ($settings as $key => $defaultValue) {
 			$value = $defaultValue;
-			$json = $this->config->getAppValue('core', $key, '');
+			$json = $this->appConfig->getValueString('core', $key, '', lazy: in_array($key, \OC\TaskProcessing\Manager::LAZY_CONFIG_KEYS, true));
 			if ($json !== '') {
 				try {
 					$value = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
@@ -158,7 +160,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 					}
 					continue;
 				}
-				
+
 				switch ($key) {
 					case 'ai.taskprocessing_provider_preferences':
 					case 'ai.taskprocessing_type_preferences':

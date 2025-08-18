@@ -213,6 +213,13 @@ export default class Config {
 	}
 
 	/**
+	 * Is federation enabled ?
+	 */
+	get isFederationEnabled(): boolean {
+		return this._capabilities?.files_sharing?.federation?.outgoing === true
+	}
+
+	/**
 	 * Is public sharing enabled ?
 	 */
 	get isPublicShareAllowed(): boolean {
@@ -313,6 +320,14 @@ export default class Config {
 	 */
 	get showFederatedSharesAsInternal(): boolean {
 		return loadState('files_sharing', 'showFederatedSharesAsInternal', false)
+	}
+
+	/**
+	 * Show federated shares to trusted servers as internal shares
+	 * @return {boolean}
+	 */
+	get showFederatedSharesToTrustedServersAsInternal(): boolean {
+		return loadState('files_sharing', 'showFederatedSharesToTrustedServersAsInternal', false)
 	}
 
 }

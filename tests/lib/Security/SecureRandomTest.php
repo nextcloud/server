@@ -40,34 +40,26 @@ class SecureRandomTest extends \Test\TestCase {
 		$this->rng = new SecureRandom();
 	}
 
-	/**
-	 * @dataProvider stringGenerationProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('stringGenerationProvider')]
 	public function testGetLowStrengthGeneratorLength($length, $expectedLength): void {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
 	}
 
-	/**
-	 * @dataProvider stringGenerationProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('stringGenerationProvider')]
 	public function testMediumLowStrengthGeneratorLength($length, $expectedLength): void {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
 	}
 
-	/**
-	 * @dataProvider stringGenerationProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('stringGenerationProvider')]
 	public function testUninitializedGenerate($length, $expectedLength): void {
 		$this->assertEquals($expectedLength, strlen($this->rng->generate($length)));
 	}
 
-	/**
-	 * @dataProvider charCombinations
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('charCombinations')]
 	public function testScheme($charName, $chars): void {
 		$generator = $this->rng;
 		$scheme = constant('OCP\Security\ISecureRandom::' . $charName);
@@ -83,9 +75,7 @@ class SecureRandomTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider invalidLengths
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidLengths')]
 	public function testInvalidLengths($length): void {
 		$this->expectException(\LengthException::class);
 		$generator = $this->rng;

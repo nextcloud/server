@@ -64,7 +64,7 @@ import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import FolderOpenIcon from 'vue-material-design-icons/FolderOpen.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
-import NetworkIcon from 'vue-material-design-icons/Network.vue'
+import NetworkIcon from 'vue-material-design-icons/NetworkOutline.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 

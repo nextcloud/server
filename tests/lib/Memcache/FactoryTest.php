@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,6 +12,7 @@ use OC\Memcache\Factory;
 use OC\Memcache\NullCache;
 use OCP\HintException;
 use OCP\Profiler\IProfiler;
+use OCP\ServerVersion;
 use Psr\Log\LoggerInterface;
 
 class Test_Factory_Available_Cache1 extends NullCache {
@@ -105,34 +107,33 @@ class FactoryTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider cacheAvailabilityProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('cacheAvailabilityProvider')]
 	public function testCacheAvailability($localCache, $distributedCache, $lockingCache,
 		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache): void {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
-		$factory = new Factory(fn () => 'abc', $logger, $profiler, $localCache, $distributedCache, $lockingCache);
+		$serverVersion = $this->createMock(ServerVersion::class);
+		$factory = new Factory($logger, $profiler, $serverVersion, $localCache, $distributedCache, $lockingCache);
 		$this->assertTrue(is_a($factory->createLocal(), $expectedLocalCache));
 		$this->assertTrue(is_a($factory->createDistributed(), $expectedDistributedCache));
 		$this->assertTrue(is_a($factory->createLocking(), $expectedLockingCache));
 	}
 
-	/**
-	 * @dataProvider cacheUnavailableProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('cacheUnavailableProvider')]
 	public function testCacheNotAvailableException($localCache, $distributedCache): void {
 		$this->expectException(HintException::class);
 
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
-		new Factory(fn () => 'abc', $logger, $profiler, $localCache, $distributedCache);
+		$serverVersion = $this->createMock(ServerVersion::class);
+		new Factory($logger, $profiler, $serverVersion, $localCache, $distributedCache);
 	}
 
 	public function testCreateInMemory(): void {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
-		$factory = new Factory(fn () => 'abc', $logger, $profiler, null, null, null);
+		$serverVersion = $this->createMock(ServerVersion::class);
+		$factory = new Factory($logger, $profiler, $serverVersion, null, null, null);
 
 		$cache = $factory->createInMemory();
 		$cache->set('test', 48);

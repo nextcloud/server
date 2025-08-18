@@ -386,12 +386,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 			->expects($this->once())
 			->method('insert')
 			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name) {
-				return $token->getUID() === $uid &&
-					$token->getLoginName() === $user &&
-					$token->getName() === $name &&
-					$token->getType() === IToken::DO_NOT_REMEMBER &&
-					$token->getLastActivity() === $this->time &&
-					$token->getPassword() === null;
+				return $token->getUID() === $uid
+					&& $token->getLoginName() === $user
+					&& $token->getName() === $name
+					&& $token->getType() === IToken::DO_NOT_REMEMBER
+					&& $token->getLastActivity() === $this->time
+					&& $token->getPassword() === null;
 			}));
 		$this->mapper
 			->expects($this->once())
@@ -426,13 +426,13 @@ class PublicKeyTokenProviderTest extends TestCase {
 			->expects($this->once())
 			->method('insert')
 			->with($this->callback(function (PublicKeyToken $token) use ($user, $uid, $name): bool {
-				return $token->getUID() === $uid &&
-					$token->getLoginName() === $user &&
-					$token->getName() === $name &&
-					$token->getType() === IToken::DO_NOT_REMEMBER &&
-					$token->getLastActivity() === $this->time &&
-					$token->getPassword() !== null &&
-					$this->tokenProvider->getPassword($token, 'newIdtokentokentokentoken') === 'password';
+				return $token->getUID() === $uid
+					&& $token->getLoginName() === $user
+					&& $token->getName() === $name
+					&& $token->getType() === IToken::DO_NOT_REMEMBER
+					&& $token->getLastActivity() === $this->time
+					&& $token->getPassword() !== null
+					&& $this->tokenProvider->getPassword($token, 'newIdtokentokentokentoken') === 'password';
 			}));
 		$this->mapper
 			->expects($this->once())

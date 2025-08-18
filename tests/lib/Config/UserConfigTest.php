@@ -7,11 +7,13 @@ declare(strict_types=1);
  */
 namespace Test\lib\Config;
 
-use NCU\Config\Exceptions\TypeConflictException;
-use NCU\Config\Exceptions\UnknownKeyException;
-use NCU\Config\IUserConfig;
-use NCU\Config\ValueType;
+use OC\Config\ConfigManager;
+use OC\Config\PresetManager;
 use OC\Config\UserConfig;
+use OCP\Config\Exceptions\TypeConflictException;
+use OCP\Config\Exceptions\UnknownKeyException;
+use OCP\Config\IUserConfig;
+use OCP\Config\ValueType;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -29,6 +31,8 @@ use Test\TestCase;
 class UserConfigTest extends TestCase {
 	protected IDBConnection $connection;
 	private IConfig $config;
+	private ConfigManager $configManager;
+	private PresetManager $presetManager;
 	private LoggerInterface $logger;
 	private ICrypto $crypto;
 	private array $originalPreferences;
@@ -36,10 +40,10 @@ class UserConfigTest extends TestCase {
 	/**
 	 * @var array<string, array<string, array<array<string, string, int, bool, bool>>> [userId => [appId => prefKey, prefValue, valueType, lazy, sensitive]]]
 	 */
-	private array $basePreferences =
-		[
-			'user1' =>
-				[
+	private array $basePreferences
+		= [
+			'user1'
+				=> [
 					'app1' => [
 						'key1' => ['key1', 'value1'],
 						'key22' => ['key22', '31'],
@@ -98,8 +102,8 @@ class UserConfigTest extends TestCase {
 						'key5' => ['key5', true, ValueType::BOOL, true],
 					]
 				],
-			'user2' =>
-				[
+			'user2'
+				=> [
 					'app1' => [
 						'1' => ['1', 'value1'],
 						'2' => ['2', 'value2', ValueType::STRING, true, UserConfig::FLAG_SENSITIVE],
@@ -121,8 +125,8 @@ class UserConfigTest extends TestCase {
 						'key1' => ['key1', 'value1', ValueType::STRING, true, 0, true]
 					]
 				],
-			'user3' =>
-				[
+			'user3'
+				=> [
 					'app2' => [
 						'key2' => ['key2', 'value2c', ValueType::MIXED, false, 0, true],
 						'key3' => ['key3', 'value3', ValueType::STRING, true, ],
@@ -138,8 +142,8 @@ class UserConfigTest extends TestCase {
 						'key3' => ['key3', 'value3', ValueType::STRING, true]
 					]
 				],
-			'user4' =>
-				[
+			'user4'
+				=> [
 					'app2' => [
 						'key1' => ['key1', 'value1'],
 						'key2' => ['key2', 'value2A', ValueType::MIXED, false, 0, true],
@@ -153,8 +157,8 @@ class UserConfigTest extends TestCase {
 						'key1' => ['key1', 123, ValueType::INT, true, 0, true]
 					]
 				],
-			'user5' =>
-				[
+			'user5'
+				=> [
 					'app1' => [
 						'key1' => ['key1', 'value1']
 					],
@@ -173,6 +177,8 @@ class UserConfigTest extends TestCase {
 
 		$this->connection = Server::get(IDBConnection::class);
 		$this->config = Server::get(IConfig::class);
+		$this->configManager = Server::get(ConfigManager::class);
+		$this->presetManager = Server::get(PresetManager::class);
 		$this->logger = Server::get(LoggerInterface::class);
 		$this->crypto = Server::get(ICrypto::class);
 
@@ -282,6 +288,8 @@ class UserConfigTest extends TestCase {
 		$userConfig = new UserConfig(
 			$this->connection,
 			$this->config,
+			$this->configManager,
+			$this->presetManager,
 			$this->logger,
 			$this->crypto,
 		);
@@ -348,9 +356,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerHasKey
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerHasKey')]
 	public function testHasKey(string $userId, string $appId, string $key, ?bool $lazy, bool $result): void {
 		$userConfig = $this->generateUserConfig();
 		$this->assertEquals($result, $userConfig->hasKey($userId, $appId, $key, $lazy));
@@ -375,9 +381,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerIsSensitive
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerIsSensitive')]
 	public function testIsSensitive(
 		string $userId,
 		string $appId,
@@ -406,9 +410,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerIsLazy
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerIsLazy')]
 	public function testIsLazy(
 		string $userId,
 		string $appId,
@@ -541,9 +543,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerGetValues
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValues')]
 	public function testGetValues(
 		string $userId,
 		string $appId,
@@ -642,9 +642,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerGetAllValues
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetAllValues')]
 	public function testGetAllValues(
 		string $userId,
 		bool $filtered,
@@ -686,9 +684,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSearchValuesByApps
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSearchValuesByApps')]
 	public function testSearchValuesByApps(
 		string $userId,
 		string $key,
@@ -736,9 +732,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSearchValuesByUsers
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSearchValuesByUsers')]
 	public function testSearchValuesByUsers(
 		string $app,
 		string $key,
@@ -760,9 +754,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSearchValuesByValueString
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSearchValuesByValueString')]
 	public function testSearchUsersByValueString(
 		string $app,
 		string $key,
@@ -782,9 +774,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSearchValuesByValueInt
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSearchValuesByValueInt')]
 	public function testSearchUsersByValueInt(
 		string $app,
 		string $key,
@@ -802,9 +792,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSearchValuesByValues
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSearchValuesByValues')]
 	public function testSearchUsersByValues(
 		string $app,
 		string $key,
@@ -822,9 +810,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSearchValuesByValueBool
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSearchValuesByValueBool')]
 	public function testSearchUsersByValueBool(
 		string $app,
 		string $key,
@@ -903,9 +889,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerGetValueMixed
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueMixed')]
 	public function testGetValueMixed(
 		?array $preload,
 		string $userId,
@@ -919,9 +903,7 @@ class UserConfigTest extends TestCase {
 		$this->assertEquals($result, $userConfig->getValueMixed($userId, $app, $key, $default, $lazy));
 	}
 
-	/**
-	 * @dataProvider providerGetValueMixed
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueMixed')]
 	public function testGetValueString(
 		?array $preload,
 		string $userId,
@@ -961,9 +943,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerGetValueInt
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueInt')]
 	public function testGetValueInt(
 		?array $preload,
 		string $userId,
@@ -1002,9 +982,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerGetValueFloat
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueFloat')]
 	public function testGetValueFloat(
 		?array $preload,
 		string $userId,
@@ -1063,9 +1041,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerGetValueBool
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueBool')]
 	public function testGetValueBool(
 		?array $preload,
 		string $userId,
@@ -1100,9 +1076,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerGetValueArray
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueArray')]
 	public function testGetValueArray(
 		?array $preload,
 		string $userId,
@@ -1156,9 +1130,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerGetValueType
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetValueType')]
 	public function testGetValueType(
 		?array $preload,
 		string $userId,
@@ -1215,9 +1187,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSetValueMixed
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSetValueMixed')]
 	public function testSetValueMixed(
 		?array $preload,
 		string $userId,
@@ -1298,9 +1268,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSetValueString
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSetValueString')]
 	public function testSetValueString(
 		?array $preload,
 		string $userId,
@@ -1361,9 +1329,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSetValueInt
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSetValueInt')]
 	public function testSetValueInt(
 		?array $preload,
 		string $userId,
@@ -1424,9 +1390,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSetValueFloat
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSetValueFloat')]
 	public function testSetValueFloat(
 		?array $preload,
 		string $userId,
@@ -1488,9 +1452,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerSetValueArray
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerSetValueArray')]
 	public function testSetValueArray(
 		?array $preload,
 		string $userId,
@@ -1534,9 +1496,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerUpdateSensitive
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerUpdateSensitive')]
 	public function testUpdateSensitive(
 		?array $preload,
 		string $userId,
@@ -1563,8 +1523,8 @@ class UserConfigTest extends TestCase {
 			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
 			if ($sensitive) {
 				$this->assertEquals(true, str_starts_with(
-					$userConfig->statusCache()['fastCache'][$userId][$app][$key] ??
-					$userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+					$userConfig->statusCache()['fastCache'][$userId][$app][$key]
+					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key],
 					'$UserConfigEncryption$')
 				);
 			}
@@ -1575,9 +1535,7 @@ class UserConfigTest extends TestCase {
 		return [[true], [false]];
 	}
 
-	/**
-	 * @dataProvider providerUpdateGlobalSensitive
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerUpdateGlobalSensitive')]
 	public function testUpdateGlobalSensitive(bool $sensitive): void {
 		$userConfig = $this->generateUserConfig($preload ?? []);
 		$app = 'app2';
@@ -1594,8 +1552,8 @@ class UserConfigTest extends TestCase {
 			$userConfig->getValueString($userId, $app, $key); // cache loading for userId
 			$this->assertEquals(
 				!$sensitive, str_starts_with(
-					$userConfig->statusCache()['fastCache'][$userId][$app][$key] ??
-					$userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+					$userConfig->statusCache()['fastCache'][$userId][$app][$key]
+					?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key],
 					'$UserConfigEncryption$'
 				)
 			);
@@ -1608,8 +1566,8 @@ class UserConfigTest extends TestCase {
 			$this->assertEquals($sensitive, $userConfig->isSensitive($userId, $app, $key));
 			// should only work if updateGlobalSensitive drop cache
 			$this->assertEquals($sensitive, str_starts_with(
-				$userConfig->statusCache()['fastCache'][$userId][$app][$key] ??
-				$userConfig->statusCache()['lazyCache'][$userId][$app][$key],
+				$userConfig->statusCache()['fastCache'][$userId][$app][$key]
+				?? $userConfig->statusCache()['lazyCache'][$userId][$app][$key],
 				'$UserConfigEncryption$')
 			);
 		}
@@ -1624,9 +1582,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerUpdateLazy
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerUpdateLazy')]
 	public function testUpdateLazy(
 		?array $preload,
 		string $userId,
@@ -1658,9 +1614,7 @@ class UserConfigTest extends TestCase {
 		return [[true], [false]];
 	}
 
-	/**
-	 * @dataProvider providerUpdateGlobalLazy
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerUpdateGlobalLazy')]
 	public function testUpdateGlobalLazy(bool $lazy): void {
 		$userConfig = $this->generateUserConfig($preload ?? []);
 		$app = 'app2';
@@ -1728,9 +1682,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerGetDetails
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerGetDetails')]
 	public function testGetDetails(string $userId, string $app, string $key, array $result): void {
 		$userConfig = $this->generateUserConfig($preload ?? []);
 		$this->assertEqualsCanonicalizing($result, $userConfig->getDetails($userId, $app, $key));
@@ -1748,9 +1700,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerDeletePreference
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerDeletePreference')]
 	public function testDeletePreference(
 		?array $preload,
 		string $userId,
@@ -1779,9 +1729,7 @@ class UserConfigTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providerDeleteKey
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerDeleteKey')]
 	public function testDeleteKey(
 		?array $preload,
 		string $app,

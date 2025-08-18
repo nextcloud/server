@@ -2,14 +2,6 @@
 
 declare(strict_types=1);
 
-use OC\Route\Router;
-use OC\SystemConfig;
-use OC\User\LoginException;
-use OCP\IConfig;
-use OCP\IRequest;
-use OCP\IUserSession;
-use OCP\Server;
-
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -20,9 +12,17 @@ require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
 use OC\OCS\ApiHelper;
+use OC\Route\Router;
+use OC\SystemConfig;
+use OC\User\LoginException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\OCSController;
+use OCP\IConfig;
+use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
@@ -41,20 +41,24 @@ if (Util::needUpgrade()
  * Try the appframework routes
  */
 try {
-	OC_App::loadApps(['session']);
-	OC_App::loadApps(['authentication']);
-	OC_App::loadApps(['extended_authentication']);
+	$appManager = Server::get(IAppManager::class);
+	$appManager->loadApps(['session']);
+	$appManager->loadApps(['authentication']);
+	$appManager->loadApps(['extended_authentication']);
 
 	// load all apps to get all api routes properly setup
 	// FIXME: this should ideally appear after handleLogin but will cause
 	// side effects in existing apps
-	OC_App::loadApps();
+	$appManager->loadApps();
+
+	$request = Server::get(IRequest::class);
+	$request->throwDecodingExceptionIfAny();
 
 	if (!Server::get(IUserSession::class)->isLoggedIn()) {
-		OC::handleLogin(Server::get(IRequest::class));
+		OC::handleLogin($request);
 	}
 
-	Server::get(Router::class)->match('/ocsapp' . Server::get(IRequest::class)->getRawPathInfo());
+	Server::get(Router::class)->match('/ocsapp' . $request->getRawPathInfo());
 } catch (MaxDelayReached $ex) {
 	ApiHelper::respond(Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage());
 } catch (ResourceNotFoundException $e) {

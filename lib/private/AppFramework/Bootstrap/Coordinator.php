@@ -46,7 +46,13 @@ class Coordinator {
 	}
 
 	public function runInitialRegistration(): void {
-		$this->registerApps(OC_App::getEnabledApps());
+		$apps = OC_App::getEnabledApps();
+		if (!empty($apps)) {
+			// make sure to also register the core app
+			$apps = ['core', ...$apps];
+		}
+
+		$this->registerApps($apps);
 	}
 
 	public function runLazyRegistration(string $appId): void {
@@ -178,7 +184,7 @@ class Coordinator {
 	public function isBootable(string $appId) {
 		$appNameSpace = App::buildAppNamespace($appId);
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
-		return class_exists($applicationClassName) &&
-			in_array(IBootstrap::class, class_implements($applicationClassName), true);
+		return class_exists($applicationClassName)
+			&& in_array(IBootstrap::class, class_implements($applicationClassName), true);
 	}
 }

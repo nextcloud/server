@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -175,7 +176,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getShareByToken')
 			->with('invalidtoken')
-			->will($this->throwException(new ShareNotFound()));
+			->willThrowException(new ShareNotFound());
 
 		$this->expectException(NotFoundException::class);
 
@@ -612,9 +613,9 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function ($text, $parameters) {
+			->willReturnCallback(function ($text, $parameters) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$this->defaults->expects(self::any())
 			->method('getProductName')

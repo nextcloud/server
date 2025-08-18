@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -143,9 +144,7 @@ class ManagerTest extends TestCase {
 
 	}
 
-	/**
-	 * @dataProvider searchProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchProvider')]
 	public function testSearch($search1, $search2, $expected): void {
 		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
@@ -170,9 +169,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @dataProvider searchProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchProvider')]
 	public function testSearchOptions($search1, $search2, $expected): void {
 		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
@@ -1078,7 +1075,7 @@ class ManagerTest extends TestCase {
 		$calendarData->add('METHOD', 'REPLY');
 		// construct logger return
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event could not be processed because no corresponding event was found in any calendar ' . $principalUri . 'and UID' . $calendarData->VEVENT->UID->getValue());
+			->with('iMip message event could not be processed because no corresponding event was found in any calendar', ['principalUri' => $principalUri, 'eventUid' => $calendarData->VEVENT->UID->getValue()]);
 		// Act
 		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
 		// Assert
@@ -1526,7 +1523,7 @@ class ManagerTest extends TestCase {
 		$calendarData->add('METHOD', 'CANCEL');
 		// construct logger return
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event could not be processed because no corresponding event was found in any calendar ' . $principalUri . 'and UID' . $calendarData->VEVENT->UID->getValue());
+			->with('iMip message event could not be processed because no corresponding event was found in any calendar', ['principalUri' => $principalUri, 'eventUid' => $calendarData->VEVENT->UID->getValue()]);
 		// Act
 		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
 		// Assert

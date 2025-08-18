@@ -209,7 +209,6 @@
       <code><![CDATA[IAppContainer]]></code>
     </DeprecatedInterface>
     <DeprecatedMethod>
-      <code><![CDATA[\OC_App::loadApps(['dav'])]]></code>
       <code><![CDATA[getServer]]></code>
       <code><![CDATA[getServer]]></code>
       <code><![CDATA[getURLGenerator]]></code>
@@ -557,6 +556,11 @@
       <code><![CDATA[$addressBooks[$row['id']][$readOnlyPropertyName] === 0]]></code>
     </TypeDoesNotContainType>
   </file>
+  <file src="apps/dav/lib/CardDAV/Converter.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
+  </file>
   <file src="apps/dav/lib/CardDAV/MultiGetExportPlugin.php">
     <InvalidNullableReturnType>
       <code><![CDATA[bool]]></code>
@@ -689,15 +693,9 @@
     </MoreSpecificReturnType>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/FilesReportPlugin.php">
-    <InvalidArgument>
-      <code><![CDATA[0]]></code>
-    </InvalidArgument>
     <InvalidNullableReturnType>
       <code><![CDATA[bool]]></code>
     </InvalidNullableReturnType>
-    <TooManyArguments>
-      <code><![CDATA[new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)]]></code>
-    </TooManyArguments>
     <UndefinedClass>
       <code><![CDATA[Circles]]></code>
     </UndefinedClass>
@@ -754,9 +752,6 @@
       <code><![CDATA[getL10NFactory]]></code>
       <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
-    <TooManyArguments>
-      <code><![CDATA[new QuotaPlugin($view, true)]]></code>
-    </TooManyArguments>
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ShareTypeList.php">
     <InvalidArgument>
@@ -1178,11 +1173,6 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/encryption/lib/Session.php">
-    <TooManyArguments>
-      <code><![CDATA[new PrivateKeyMissingException('please try to log-out and log-in again', 0)]]></code>
-    </TooManyArguments>
-  </file>
   <file src="apps/encryption/lib/Settings/Admin.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -1462,11 +1452,6 @@
       <code><![CDATA[class-string<IStorage>]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="apps/files_external/lib/Lib/Backend/SMB.php">
-    <DeprecatedClass>
-      <code><![CDATA[new KerberosApacheAuth()]]></code>
-    </DeprecatedClass>
-  </file>
   <file src="apps/files_external/lib/Lib/Storage/SFTP.php">
     <InternalMethod>
       <code><![CDATA[put]]></code>
@@ -1517,9 +1502,6 @@
       <code><![CDATA[setIV]]></code>
       <code><![CDATA[setKey]]></code>
     </InternalMethod>
-    <TooManyArguments>
-      <code><![CDATA[test]]></code>
-    </TooManyArguments>
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
     <DeprecatedClass>
@@ -1581,9 +1563,6 @@
       <code><![CDATA[new QueryException()]]></code>
       <code><![CDATA[new QueryException()]]></code>
     </DeprecatedClass>
-    <DeprecatedInterface>
-      <code><![CDATA[private]]></code>
-    </DeprecatedInterface>
   </file>
   <file src="apps/files_sharing/lib/Controller/ShareAPIController.php">
     <DeprecatedClass>
@@ -1775,12 +1754,6 @@
       <code><![CDATA[moveMount]]></code>
     </UndefinedMethod>
   </file>
-  <file src="apps/files_sharing/templates/public.php">
-    <RedundantCondition>
-      <code><![CDATA[$_['hideFileList'] !== true]]></code>
-      <code><![CDATA[isset($_['hideFileList']) && $_['hideFileList'] !== true]]></code>
-    </RedundantCondition>
-  </file>
   <file src="apps/files_trashbin/lib/BackgroundJob/ExpireTrash.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($user)]]></code>
@@ -1966,6 +1939,14 @@
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
+  </file>
   <file src="apps/oauth2/lib/Controller/OauthApiController.php">
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
@@ -1978,6 +1959,7 @@
     </DeprecatedClass>
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_DISPLAYNAME_LEGACY]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
@@ -1986,6 +1968,14 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/provisioning_api/lib/Controller/UsersController.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -1995,8 +1985,6 @@
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
       <code><![CDATA[implementsActions]]></code>
-      <code><![CDATA[setEMailAddress]]></code>
-      <code><![CDATA[setEMailAddress]]></code>
     </DeprecatedMethod>
     <TypeDoesNotContainNull>
       <code><![CDATA[$groupid === null]]></code>
@@ -2052,10 +2040,10 @@
       <code><![CDATA[getSettingsManager]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/settings/lib/Controller/AISettingsController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
+  <file src="apps/settings/lib/BackgroundJobs/VerifyUserData.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
   </file>
   <file src="apps/settings/lib/Controller/AppSettingsController.php">
     <DeprecatedMethod>
@@ -2074,6 +2062,12 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Controller/UsersController.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -2117,9 +2111,6 @@
 				continue;
 			}]]></code>
     </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Settings/Admin/Security.php">
     <UndefinedInterfaceMethod>
@@ -2151,6 +2142,10 @@
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
     </DeprecatedClass>
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
   </file>
   <file src="apps/settings/lib/Settings/Personal/Security/Authtokens.php">
     <DeprecatedClass>
@@ -2429,14 +2424,6 @@
       <code><![CDATA[getName]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/twofactor_backupcodes/lib/Provider/BackupCodesProvider.php">
-    <DeprecatedInterface>
-      <code><![CDATA[private]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[provideInitialState]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/user_ldap/ajax/clearMappings.php">
     <DeprecatedMethod>
       <code><![CDATA[\OC_JSON::callCheck()]]></code>
@@ -2671,6 +2658,9 @@
     </InvalidDocblock>
   </file>
   <file src="apps/user_ldap/lib/User/User.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry')]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -2912,9 +2902,6 @@
     <FalsableReturnStatement>
       <code><![CDATA[$this->appConfig->getValues($app, false)]]></code>
     </FalsableReturnStatement>
-    <TooManyArguments>
-      <code><![CDATA[getFilteredValues]]></code>
-    </TooManyArguments>
   </file>
   <file src="core/Command/Db/AddMissingPrimaryKeys.php">
     <DeprecatedMethod>
@@ -2928,8 +2915,6 @@
   </file>
   <file src="core/Command/Db/ConvertType.php">
     <DeprecatedMethod>
-      <code><![CDATA[\OC_App::getAllApps()]]></code>
-      <code><![CDATA[\OC_App::loadApp($app)]]></code>
       <code><![CDATA[execute]]></code>
       <code><![CDATA[getName]]></code>
       <code><![CDATA[getPrimaryKeyColumns]]></code>
@@ -2995,9 +2980,6 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="core/Command/Encryption/MigrateKeyStorage.php">
     <DeprecatedClass>
@@ -3048,12 +3030,6 @@
       <code><![CDATA[resetDelayForIP]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Command/TaskProcessing/EnabledCommand.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Command/Upgrade.php">
     <DeprecatedMethod>
       <code><![CDATA[listen]]></code>
@@ -3101,7 +3077,6 @@
   </file>
   <file src="core/Command/User/Setting.php">
     <DeprecatedMethod>
-      <code><![CDATA[setEMailAddress]]></code>
       <code><![CDATA[setEMailAddress]]></code>
     </DeprecatedMethod>
   </file>
@@ -3323,16 +3298,6 @@
       <code><![CDATA[ActivitySettings[]]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="lib/private/AllConfig.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$key]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/private/App/AppStore/Fetcher/Fetcher.php">
-    <TooManyArguments>
-      <code><![CDATA[fetch]]></code>
-    </TooManyArguments>
-  </file>
   <file src="lib/private/App/DependencyAnalyzer.php">
     <InvalidNullableReturnType>
       <code><![CDATA[bool]]></code>
@@ -3341,41 +3306,18 @@
       <code><![CDATA[version_compare($first, $second, $operator)]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/private/App/InfoParser.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$array[$element][]]]></code>
-      <code><![CDATA[$array[$element][]]]></code>
-    </InvalidArrayOffset>
-    <InvalidReturnStatement>
-      <code><![CDATA[(string)$xml]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[array]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="lib/private/AppConfig.php">
-    <NullableReturnStatement>
-      <code><![CDATA[$this->fastCache[$app][$key] ?? $default]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
     <UndefinedMethod>
       <code><![CDATA[getName]]></code>
     </UndefinedMethod>
   </file>
   <file src="lib/private/AppFramework/DependencyInjection/DIContainer.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[boolean|null]]></code>
-    </ImplementedReturnTypeMismatch>
     <InvalidReturnStatement>
       <code><![CDATA[$this->server]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[\OCP\IServerContainer]]></code>
     </InvalidReturnType>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getAppDataDir]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/AppFramework/Http/Dispatcher.php">
     <NullArgument>
@@ -3807,9 +3749,6 @@
       <code><![CDATA[Mount\MountPoint[]]]></code>
       <code><![CDATA[\OC\Files\Storage\Storage|null]]></code>
     </MoreSpecificReturnType>
-    <TooManyArguments>
-      <code><![CDATA[addStorageWrapper]]></code>
-    </TooManyArguments>
   </file>
   <file src="lib/private/Files/Mount/MountPoint.php">
     <UndefinedInterfaceMethod>
@@ -3943,12 +3882,6 @@
       <code><![CDATA[ArrayCache]]></code>
       <code><![CDATA[ArrayCache]]></code>
     </InvalidClass>
-    <InvalidReturnStatement>
-      <code><![CDATA[$response->getBody()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[fopen]]></code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
     <TypeDoesNotContainNull>
@@ -4059,24 +3992,16 @@
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Http/Client/Response.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string|resource]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$this->stream ?
-			$this->response->getBody()->detach():
-			$this->response->getBody()->getContents()]]></code>
-    </NullableReturnStatement>
+  <file src="lib/private/InitialStateService.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[query]]></code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Installer.php">
     <InvalidArgument>
       <code><![CDATA[false]]></code>
       <code><![CDATA[false]]></code>
     </InvalidArgument>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
     <InvalidArrayAccess>
@@ -4118,11 +4043,6 @@
     <InvalidReturnType>
       <code><![CDATA[getIncomplete]]></code>
     </InvalidReturnType>
-  </file>
-  <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
-    <TooManyArguments>
-      <code><![CDATA[new IteratorDirectory([])]]></code>
-    </TooManyArguments>
   </file>
   <file src="lib/private/Lockdown/LockdownManager.php">
     <InvalidFunctionCall>
@@ -4207,12 +4127,6 @@
     </ImplementedReturnTypeMismatch>
   </file>
   <file src="lib/private/Remote/Instance.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$request->getBody()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[bool|string]]></code>
-    </InvalidReturnType>
     <InvalidScalarArgument>
       <code><![CDATA[$response]]></code>
     </InvalidScalarArgument>
@@ -4337,26 +4251,14 @@
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
-    <TooManyArguments>
-      <code><![CDATA[set]]></code>
-    </TooManyArguments>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getParent]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/Manager.php">
     <InvalidArgument>
       <code><![CDATA[$id]]></code>
     </InvalidArgument>
-    <TooManyArguments>
-      <code><![CDATA[update]]></code>
-    </TooManyArguments>
     <UndefinedClass>
       <code><![CDATA[\OCA\Circles\Api\v1\Circles]]></code>
     </UndefinedClass>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getChildren]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/ProviderFactory.php">
     <InvalidReturnStatement>
@@ -4476,9 +4378,6 @@
     <InvalidArgument>
       <code><![CDATA[$groupsList]]></code>
     </InvalidArgument>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
     <InvalidArrayOffset>
@@ -4514,14 +4413,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getAppManager]]></code>
       <code><![CDATA[getRequest]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="ocs/v1.php">
-    <DeprecatedMethod>
-      <code><![CDATA[OC_App::loadApps()]]></code>
-      <code><![CDATA[OC_App::loadApps(['authentication'])]]></code>
-      <code><![CDATA[OC_App::loadApps(['extended_authentication'])]]></code>
-      <code><![CDATA[OC_App::loadApps(['session'])]]></code>
     </DeprecatedMethod>
   </file>
 </files>

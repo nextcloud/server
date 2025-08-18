@@ -537,14 +537,21 @@ class UsersController extends AUserDataOCSController {
 			$generatePasswordResetToken = true;
 		}
 
+		$email = mb_strtolower(trim($email));
 		if ($email === '' && $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes') {
 			throw new OCSException($this->l10n->t('Required email address was not provided'), 110);
 		}
 
+		// Create the user
 		try {
 			$newUser = $this->userManager->createUser($userid, $password);
-			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
+			if (!$newUser instanceof IUser) {
+				// If the user is not an instance of IUser, it means the user creation failed
+				$this->logger->error('Failed addUser attempt: User creation failed.', ['app' => 'ocs_api']);
+				throw new OCSException($this->l10n->t('User creation failed'), 111);
+			}
 
+			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
 			foreach ($groups as $group) {
 				$this->groupManager->get($group)->addUser($newUser);
 				$this->logger->info('Added userid ' . $userid . ' to group ' . $group, ['app' => 'ocs_api']);
@@ -583,7 +590,7 @@ class UsersController extends AUserDataOCSController {
 
 			// Send new user mail only if a mail is set
 			if ($email !== '') {
-				$newUser->setEMailAddress($email);
+				$newUser->setSystemEMailAddress($email);
 				if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
 					try {
 						$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
@@ -781,6 +788,7 @@ class UsersController extends AUserDataOCSController {
 		$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 		$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 		$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+		$permittedFields[] = IAccountManager::PROPERTY_BLUESKY;
 		$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
 		$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
 		$permittedFields[] = IAccountManager::PROPERTY_ROLE;
@@ -857,6 +865,7 @@ class UsersController extends AUserDataOCSController {
 				$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 				$mailCollection->removePropertyByValue($key);
 				if ($value !== '') {
+					$value = mb_strtolower(trim($value));
 					$mailCollection->addPropertyWithDefaults($value);
 					$property = $mailCollection->getPropertyByValue($key);
 					if ($isAdminOrSubadmin && $property) {
@@ -945,18 +954,19 @@ class UsersController extends AUserDataOCSController {
 
 			$permittedFields[] = self::USER_FIELD_PASSWORD;
 			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
+			$permittedFields[] = self::USER_FIELD_TIMEZONE;
 			if (
-				$this->config->getSystemValue('force_language', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
-				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+				$this->config->getSystemValue('force_language', false) === false
+				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 			}
 
 			if (
-				$this->config->getSystemValue('force_locale', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
-				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
+				$this->config->getSystemValue('force_locale', false) === false
+				|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LOCALE;
 				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
@@ -966,6 +976,7 @@ class UsersController extends AUserDataOCSController {
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 			$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+			$permittedFields[] = IAccountManager::PROPERTY_BLUESKY;
 			$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
 			$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
 			$permittedFields[] = IAccountManager::PROPERTY_ROLE;
@@ -979,6 +990,7 @@ class UsersController extends AUserDataOCSController {
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_BLUESKY . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ROLE . self::SCOPE_SUFFIX;
@@ -1000,8 +1012,8 @@ class UsersController extends AUserDataOCSController {
 			// Check if admin / subadmin
 			$subAdminManager = $this->groupManager->getSubAdmin();
 			if (
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
-				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				|| $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
 				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				// They have permissions over the user
@@ -1017,11 +1029,13 @@ class UsersController extends AUserDataOCSController {
 				$permittedFields[] = self::USER_FIELD_PASSWORD;
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 				$permittedFields[] = self::USER_FIELD_LOCALE;
+				$permittedFields[] = self::USER_FIELD_TIMEZONE;
 				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
 				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
 				$permittedFields[] = IAccountManager::PROPERTY_TWITTER;
+				$permittedFields[] = IAccountManager::PROPERTY_BLUESKY;
 				$permittedFields[] = IAccountManager::PROPERTY_FEDIVERSE;
 				$permittedFields[] = IAccountManager::PROPERTY_ORGANISATION;
 				$permittedFields[] = IAccountManager::PROPERTY_ROLE;
@@ -1110,6 +1124,12 @@ class UsersController extends AUserDataOCSController {
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
+			case self::USER_FIELD_TIMEZONE:
+				if (!in_array($value, \DateTimeZone::listIdentifiers())) {
+					throw new OCSException($this->l10n->t('Invalid timezone'), 101);
+				}
+				$this->config->setUserValue($targetUser->getUID(), 'core', 'timezone', $value);
+				break;
 			case self::USER_FIELD_FIRST_DAY_OF_WEEK:
 				$intValue = (int)$value;
 				if ($intValue < -1 || $intValue > 6) {
@@ -1142,13 +1162,15 @@ class UsersController extends AUserDataOCSController {
 				}
 				break;
 			case IAccountManager::PROPERTY_EMAIL:
+				$value = mb_strtolower(trim($value));
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) || $value === '') {
-					$targetUser->setEMailAddress($value);
+					$targetUser->setSystemEMailAddress($value);
 				} else {
 					throw new OCSException('', 101);
 				}
 				break;
 			case IAccountManager::COLLECTION_EMAIL:
+				$value = mb_strtolower(trim($value));
 				if (filter_var($value, FILTER_VALIDATE_EMAIL) && $value !== $targetUser->getSystemEMailAddress()) {
 					$userAccount = $this->accountManager->getAccount($targetUser);
 					$mailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
@@ -1167,6 +1189,7 @@ class UsersController extends AUserDataOCSController {
 			case IAccountManager::PROPERTY_ADDRESS:
 			case IAccountManager::PROPERTY_WEBSITE:
 			case IAccountManager::PROPERTY_TWITTER:
+			case IAccountManager::PROPERTY_BLUESKY:
 			case IAccountManager::PROPERTY_FEDIVERSE:
 			case IAccountManager::PROPERTY_ORGANISATION:
 			case IAccountManager::PROPERTY_ROLE:
@@ -1214,6 +1237,7 @@ class UsersController extends AUserDataOCSController {
 			case IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_TWITTER . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_BLUESKY . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_FEDIVERSE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_ORGANISATION . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_ROLE . self::SCOPE_SUFFIX:

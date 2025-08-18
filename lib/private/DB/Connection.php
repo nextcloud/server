@@ -16,6 +16,7 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
+use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
@@ -894,9 +895,9 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function reconnectIfNeeded(): void {
 		if (
-			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
-			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
-			$this->isTransactionActive()
+			!isset($this->lastConnectionCheck[$this->getConnectionName()])
+			|| time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30
+			|| $this->isTransactionActive()
 		) {
 			return;
 		}
@@ -915,11 +916,13 @@ class Connection extends PrimaryReadReplicaConnection {
 	}
 
 	/**
-	 * @return IDBConnection::PLATFORM_MYSQL|IDBConnection::PLATFORM_ORACLE|IDBConnection::PLATFORM_POSTGRES|IDBConnection::PLATFORM_SQLITE
+	 * @return IDBConnection::PLATFORM_MYSQL|IDBConnection::PLATFORM_ORACLE|IDBConnection::PLATFORM_POSTGRES|IDBConnection::PLATFORM_SQLITE|IDBConnection::PLATFORM_MARIADB
 	 */
-	public function getDatabaseProvider(): string {
+	public function getDatabaseProvider(bool $strict = false): string {
 		$platform = $this->getDatabasePlatform();
-		if ($platform instanceof MySQLPlatform) {
+		if ($strict && $platform instanceof MariaDBPlatform) {
+			return IDBConnection::PLATFORM_MARIADB;
+		} elseif ($platform instanceof MySQLPlatform) {
 			return IDBConnection::PLATFORM_MYSQL;
 		} elseif ($platform instanceof OraclePlatform) {
 			return IDBConnection::PLATFORM_ORACLE;

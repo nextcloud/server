@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,6 +11,7 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -18,18 +20,22 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SharingTest extends TestCase {
+	private Sharing $admin;
+
 	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
 	private IL10N&MockObject $l10n;
 	private IManager&MockObject $shareManager;
 	private IAppManager&MockObject $appManager;
 	private IURLGenerator&MockObject $urlGenerator;
 	private IInitialState&MockObject $initialState;
-	private Sharing $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
+
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
@@ -37,6 +43,7 @@ class SharingTest extends TestCase {
 
 		$this->admin = new Sharing(
 			$this->config,
+			$this->appConfig,
 			$this->l10n,
 			$this->shareManager,
 			$this->appManager,
@@ -47,6 +54,13 @@ class SharingTest extends TestCase {
 	}
 
 	public function testGetFormWithoutExcludedGroups(): void {
+		$this->appConfig
+			->method('getValueBool')
+			->willReturnMap([
+				['core', 'shareapi_allow_federation_on_public_shares', true],
+				['core', 'shareapi_enable_link_password_by_default', true],
+			]);
+
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -69,7 +83,6 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_enforce_expire_date', 'no', 'no'],
 				['core', 'shareapi_exclude_groups', 'no', 'no'],
 				['core', 'shareapi_public_link_disclaimertext', '', 'Lorem ipsum'],
-				['core', 'shareapi_enable_link_password_by_default', 'no', 'yes'],
 				['core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL, Constants::PERMISSION_ALL],
 				['core', 'shareapi_default_internal_expire_date', 'no', 'no'],
 				['core', 'shareapi_internal_expire_after_n_days', '7', '7'],
@@ -102,6 +115,7 @@ class SharingTest extends TestCase {
 				'allowPublicUpload' => true,
 				'allowResharing' => true,
 				'allowShareDialogUserEnumeration' => true,
+				'allowFederationOnPublicShares' => true,
 				'restrictUserEnumerationToGroup' => false,
 				'restrictUserEnumerationToPhone' => false,
 				'restrictUserEnumerationFullMatch' => true,

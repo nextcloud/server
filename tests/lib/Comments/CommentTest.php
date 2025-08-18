@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,7 +15,7 @@ use Test\TestCase;
 
 class CommentTest extends TestCase {
 	/**
-	 * @throws \OCP\Comments\IllegalIDChangeException
+	 * @throws IllegalIDChangeException
 	 */
 	public function testSettersValidInput(): void {
 		$comment = new Comment();
@@ -73,7 +74,7 @@ class CommentTest extends TestCase {
 	}
 
 	/**
-	 * @throws \OCP\Comments\IllegalIDChangeException
+	 * @throws IllegalIDChangeException
 	 */
 	public function testResetId(): void {
 		$comment = new Comment();
@@ -95,9 +96,7 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider simpleSetterProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('simpleSetterProvider')]
 	public function testSimpleSetterInvalidInput($field, $input): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -120,9 +119,7 @@ class CommentTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider roleSetterProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('roleSetterProvider')]
 	public function testSetRoleInvalidInput($role, $type, $id): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -160,11 +157,11 @@ class CommentTest extends TestCase {
 				/* author: */ 'alice'
 			],
 			[
-				'@foobar and @barfoo you should know, @foo@bar.com is valid' .
-					' and so is @bar@foo.org@foobar.io I hope that clarifies everything.' .
-					' cc @23452-4333-54353-2342 @yolo!' .
-					' however the most important thing to know is that www.croissant.com/@oil is not valid' .
-					' and won\'t match anything at all',
+				'@foobar and @barfoo you should know, @foo@bar.com is valid'
+					. ' and so is @bar@foo.org@foobar.io I hope that clarifies everything.'
+					. ' cc @23452-4333-54353-2342 @yolo!'
+					. ' however the most important thing to know is that www.croissant.com/@oil is not valid'
+					. ' and won\'t match anything at all',
 				[
 					['type' => 'user', 'id' => 'bar@foo.org@foobar.io'],
 					['type' => 'user', 'id' => '23452-4333-54353-2342'],
@@ -208,12 +205,12 @@ class CommentTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider mentionsProvider
 	 *
 	 * @param string $message
 	 * @param array $expectedMentions
 	 * @param ?string $author
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('mentionsProvider')]
 	public function testMentions(string $message, array $expectedMentions, ?string $author = null): void {
 		$comment = new Comment();
 		$comment->setMessage($message);

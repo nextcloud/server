@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -34,7 +35,7 @@ class DeleteTest extends TestCase {
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\IUserManager $userManager */
+		/** @var IUserManager $userManager */
 		$this->command = new Delete($userManager);
 	}
 
@@ -47,11 +48,11 @@ class DeleteTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider validUserLastSeen
 	 *
 	 * @param bool $deleteSuccess
 	 * @param string $expectedString
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('validUserLastSeen')]
 	public function testValidUser($deleteSuccess, $expectedString): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->once())

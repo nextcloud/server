@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -115,9 +116,7 @@ class LegacyHelperTest extends \Test\TestCase {
 		$this->assertEquals('dir/filename(1) (2) (4).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (2) (3).ext', $viewMock));
 	}
 
-	/**
-	 * @dataProvider streamCopyDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('streamCopyDataProvider')]
 	public function testStreamCopy($expectedCount, $expectedResult, $source, $target): void {
 		if (is_string($source)) {
 			$source = fopen($source, 'r');

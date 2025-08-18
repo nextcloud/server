@@ -140,8 +140,8 @@ class VersioningTest extends \Test\TestCase {
 	/**
 	 * @medium
 	 * test expire logic
-	 * @dataProvider versionsProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionsProvider')]
 	public function testGetExpireList($versions, $sizeOfAllDeletedFiles): void {
 
 		// last interval end at 2592000

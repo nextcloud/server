@@ -42,24 +42,23 @@ class CapabilitiesTest extends TestCase {
 			->willReturn(true);
 
 		$capabilities = [
-			'files_sharing' =>
-				[
-					'sharebymail' =>
-						[
+			'files_sharing'
+				=> [
+					'sharebymail' => [
+						'enabled' => true,
+						'send_password_by_mail' => true,
+						'upload_files_drop' => [
 							'enabled' => true,
-							'send_password_by_mail' => true,
-							'upload_files_drop' => [
-								'enabled' => true,
-							],
-							'password' => [
-								'enabled' => true,
-								'enforced' => false,
-							],
-							'expire_date' => [
-								'enabled' => true,
-								'enforced' => false,
-							],
-						]
+						],
+						'password' => [
+							'enabled' => true,
+							'enforced' => false,
+						],
+						'expire_date' => [
+							'enabled' => true,
+							'enforced' => false,
+						],
+					]
 				]
 		];
 

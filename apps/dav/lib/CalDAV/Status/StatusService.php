@@ -141,7 +141,7 @@ class StatusService {
 			$this->logger->debug("Found $count applicable event(s), changing user status", ['user' => $userId]);
 			$this->userStatusService->setUserStatus(
 				$userId,
-				IUserStatus::AWAY,
+				IUserStatus::BUSY,
 				IUserStatus::MESSAGE_CALENDAR_BUSY,
 				true
 			);

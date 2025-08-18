@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -64,9 +65,7 @@ class ContactsManagerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider searchProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchProvider')]
 	public function testSearch($search1, $search2, $expectedResult): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|IAddressBook $addressbook */
 		$addressbook1 = $this->getMockBuilder('\OCP\IAddressBookEnabled')
@@ -108,9 +107,7 @@ class ContactsManagerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
-	/**
-	 * @dataProvider searchProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchProvider')]
 	public function testSearchDisabledAb($search1): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|IAddressBookEnabled $addressbook */
 		$addressbook1 = $this->getMockBuilder('\OCP\IAddressBookEnabled')

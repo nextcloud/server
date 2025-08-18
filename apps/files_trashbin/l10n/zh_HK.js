@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "確認永久刪除",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "您確定要永久刪除回收桶中的所有檔案與資料夾嗎？這無法還原。",
     "Cancel" : "取消",
-    "Deletion cancelled" : "刪除已取消",
     "Original location" : "原先的位置",
     "Deleted by" : "被以下人仕刪除",
     "Deleted" : "已刪除",
@@ -23,6 +22,9 @@ OC.L10N.register(
     "You" : "您",
     "List of files that have been deleted." : "已被刪除檔案的清單。",
     "No deleted files" : "沒有已刪除的檔案",
-    "Files and folders you have deleted will show up here" : "您已刪除的檔案與資料夾將會在此處顯示"
+    "Files and folders you have deleted will show up here" : "您已刪除的檔案與資料夾將會在此處顯示",
+    "All files have been permanently deleted" : "所有檔案都已被永久刪除",
+    "Failed to empty deleted files" : "清空已刪除的檔案失敗",
+    "Deletion cancelled" : "刪除已取消"
 },
 "nplurals=1; plural=0;");

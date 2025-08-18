@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Confirm permanent deletion",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone.",
     "Cancel" : "Cancel",
-    "Deletion cancelled" : "Deletion cancelled",
     "Original location" : "Original location",
     "Deleted by" : "Deleted by",
     "Deleted" : "Deleted",
@@ -23,6 +22,9 @@ OC.L10N.register(
     "You" : "You",
     "List of files that have been deleted." : "List of files that have been deleted.",
     "No deleted files" : "No deleted files",
-    "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here"
+    "Files and folders you have deleted will show up here" : "Files and folders you have deleted will show up here",
+    "All files have been permanently deleted" : "All files have been permanently deleted",
+    "Failed to empty deleted files" : "Failed to empty deleted files",
+    "Deletion cancelled" : "Deletion cancelled"
 },
 "nplurals=2; plural=(n != 1);");

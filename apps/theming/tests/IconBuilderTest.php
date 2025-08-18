@@ -63,9 +63,7 @@ class IconBuilderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataRenderAppIcon
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataRenderAppIcon')]
 	public function testRenderAppIcon(string $app, string $color, string $file): void {
 		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
@@ -89,9 +87,7 @@ class IconBuilderTest extends TestCase {
 		// cloud be something like $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1])
 	}
 
-	/**
-	 * @dataProvider dataRenderAppIcon
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataRenderAppIcon')]
 	public function testGetTouchIcon(string $app, string $color, string $file): void {
 		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
@@ -116,9 +112,7 @@ class IconBuilderTest extends TestCase {
 		// cloud be something like $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1])
 	}
 
-	/**
-	 * @dataProvider dataRenderAppIcon
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataRenderAppIcon')]
 	public function testGetFavicon(string $app, string $color, string $file): void {
 		$this->checkImagick();
 		$this->imageManager->expects($this->once())

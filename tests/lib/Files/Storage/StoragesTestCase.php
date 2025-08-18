@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,16 +8,17 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Storage\Storage;
 use Test\TestCase;
 
 abstract class StoragesTestCase extends TestCase {
 	/**
-	 * @var \OC\Files\Storage\Storage
+	 * @var Storage
 	 */
 	protected $storage1;
 
 	/**
-	 * @var \OC\Files\Storage\Storage
+	 * @var Storage
 	 */
 	protected $storage2;
 

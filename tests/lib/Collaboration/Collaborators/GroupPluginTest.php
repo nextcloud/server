@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -417,7 +418,6 @@ class GroupPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetGroups
 	 *
 	 * @param string $searchTerm
 	 * @param bool $shareWithGroupOnly
@@ -430,6 +430,7 @@ class GroupPluginTest extends TestCase {
 	 * @param bool $reachedEnd
 	 * @param bool|IGroup $singleGroup
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetGroups')]
 	public function testSearch(
 		string $searchTerm,
 		bool $shareWithGroupOnly,

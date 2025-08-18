@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -185,6 +186,9 @@ class Principal implements BackendInterface {
 		if ($this->hasGroups || $needGroups) {
 			$userGroups = $this->groupManager->getUserGroups($user);
 			foreach ($userGroups as $userGroup) {
+				if ($userGroup->hideFromCollaboration()) {
+					continue;
+				}
 				$groups[] = 'principals/groups/' . urlencode($userGroup->getGID());
 			}
 		}

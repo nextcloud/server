@@ -8,7 +8,6 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use NCU\Config\IUserConfig;
 use NCU\Security\Signature\ISignatureManager;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
@@ -139,6 +138,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Command\IBus;
 use OCP\Comments\ICommentsManager;
+use OCP\Config\IUserConfig;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Defaults;
@@ -163,7 +163,6 @@ use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\Template\ITemplateManager;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
-use OCP\GlobalScale\IConfig;
 use OCP\Group\ISubAdmin;
 use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
@@ -238,7 +237,6 @@ use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 use OCP\User\IAvailabilityCoordinator;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -268,9 +266,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
 		});
-		$this->registerService(\OCP\IServerContainer::class, function (ContainerInterface $c) {
-			return $c;
-		});
+		$this->registerDeprecatedAlias(\OCP\IServerContainer::class, ContainerInterface::class);
 
 		$this->registerAlias(\OCP\Calendar\IManager::class, \OC\Calendar\Manager::class);
 
@@ -279,6 +275,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Calendar\Room\IManager::class, \OC\Calendar\Room\Manager::class);
 
 		$this->registerAlias(\OCP\Contacts\IManager::class, \OC\ContactsManager::class);
+
+		$this->registerAlias(\OCP\ContextChat\IContentManager::class, \OC\ContextChat\ContentManager::class);
 
 		$this->registerAlias(\OCP\DirectEditing\IManager::class, \OC\DirectEditing\Manager::class);
 		$this->registerAlias(ITemplateManager::class, TemplateManager::class);
@@ -587,62 +585,37 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IURLGenerator::class, URLGenerator::class);
 
-		$this->registerService(ICache::class, function ($c) {
-			return new Cache\File();
-		});
-
+		$this->registerAlias(ICache::class, Cache\File::class);
 		$this->registerService(Factory::class, function (Server $c) {
 			$profiler = $c->get(IProfiler::class);
-			$arrayCacheFactory = new \OC\Memcache\Factory(fn () => '', $c->get(LoggerInterface::class),
-				$profiler,
-				ArrayCache::class,
-				ArrayCache::class,
-				ArrayCache::class
-			);
+			$logger = $c->get(LoggerInterface::class);
+			$serverVersion = $c->get(ServerVersion::class);
 			/** @var SystemConfig $config */
 			$config = $c->get(SystemConfig::class);
-			/** @var ServerVersion $serverVersion */
-			$serverVersion = $c->get(ServerVersion::class);
-
-			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
-				$logQuery = $config->getValue('log_query');
-				$prefixClosure = function () use ($logQuery, $serverVersion): ?string {
-					if (!$logQuery) {
-						try {
-							$v = \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions(true);
-						} catch (\Doctrine\DBAL\Exception $e) {
-							// Database service probably unavailable
-							// Probably related to https://github.com/nextcloud/server/issues/37424
-							return null;
-						}
-					} else {
-						// If the log_query is enabled, we can not get the app versions
-						// as that does a query, which will be logged and the logging
-						// depends on redis and here we are back again in the same function.
-						$v = [
-							'log_query' => 'enabled',
-						];
-					}
-					$v['core'] = implode(',', $serverVersion->getVersion());
-					$version = implode(',', array_keys($v)) . implode(',', $v);
-					$instanceId = \OC_Util::getInstanceId();
-					$path = \OC::$SERVERROOT;
-					return md5($instanceId . '-' . $version . '-' . $path);
-				};
-				return new \OC\Memcache\Factory($prefixClosure,
-					$c->get(LoggerInterface::class),
+			if (!$config->getValue('installed', false) || (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+				return new \OC\Memcache\Factory(
+					$logger,
 					$profiler,
-					/** @psalm-taint-escape callable */
-					$config->getValue('memcache.local', null),
-					/** @psalm-taint-escape callable */
-					$config->getValue('memcache.distributed', null),
-					/** @psalm-taint-escape callable */
-					$config->getValue('memcache.locking', null),
-					/** @psalm-taint-escape callable */
-					$config->getValue('redis_log_file')
+					$serverVersion,
+					ArrayCache::class,
+					ArrayCache::class,
+					ArrayCache::class
 				);
 			}
-			return $arrayCacheFactory;
+
+			return new \OC\Memcache\Factory(
+				$logger,
+				$profiler,
+				$serverVersion,
+				/** @psalm-taint-escape callable */
+				$config->getValue('memcache.local', null),
+				/** @psalm-taint-escape callable */
+				$config->getValue('memcache.distributed', null),
+				/** @psalm-taint-escape callable */
+				$config->getValue('memcache.locking', null),
+				/** @psalm-taint-escape callable */
+				$config->getValue('redis_log_file')
+			);
 		});
 		$this->registerAlias(ICacheFactory::class, Factory::class);
 
@@ -659,7 +632,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(\OCP\IConfig::class),
 				$c->get(IValidator::class),
 				$c->get(IRichTextFormatter::class),
-				$l10n
+				$l10n,
+				$c->get(ITimeFactory::class),
 			);
 		});
 
@@ -874,7 +848,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IMimeTypeDetector::class)
 			);
 		});
-		$this->registerService(\OCP\IRequest::class, function (ContainerInterface $c) {
+		$this->registerService(Request::class, function (ContainerInterface $c) {
 			if (isset($this['urlParams'])) {
 				$urlParams = $this['urlParams'];
 			} else {
@@ -908,6 +882,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$stream
 			);
 		});
+		$this->registerAlias(\OCP\IRequest::class, Request::class);
 
 		$this->registerService(IRequestId::class, function (ContainerInterface $c): IRequestId {
 			return new RequestId(
@@ -1161,11 +1136,11 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(ICloudIdManager::class, function (ContainerInterface $c) {
 			return new CloudIdManager(
+				$c->get(ICacheFactory::class),
+				$c->get(IEventDispatcher::class),
 				$c->get(\OCP\Contacts\IManager::class),
 				$c->get(IURLGenerator::class),
 				$c->get(IUserManager::class),
-				$c->get(ICacheFactory::class),
-				$c->get(IEventDispatcher::class),
 			);
 		});
 
@@ -1682,7 +1657,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0 Use get(\OCP\Files\AppData\IAppDataFactory::class)->get($app) instead
 	 */
 	public function getAppDataDir($app) {
-		/** @var \OC\Files\AppData\Factory $factory */
 		$factory = $this->get(\OC\Files\AppData\Factory::class);
 		return $factory->get($app);
 	}
@@ -1693,19 +1667,5 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCloudIdManager() {
 		return $this->get(ICloudIdManager::class);
-	}
-
-	private function registerDeprecatedAlias(string $alias, string $target) {
-		$this->registerService($alias, function (ContainerInterface $container) use ($target, $alias) {
-			try {
-				/** @var LoggerInterface $logger */
-				$logger = $container->get(LoggerInterface::class);
-				$logger->debug('The requested alias "' . $alias . '" is deprecated. Please request "' . $target . '" directly. This alias will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
-			} catch (ContainerExceptionInterface $e) {
-				// Could not get logger. Continue
-			}
-
-			return $container->get($target);
-		}, false);
 	}
 }

@@ -230,7 +230,7 @@ OC.L10N.register(
     "Federated user" : "聯盟使用者",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "建立分享",
-    "Direct link copied to clipboard" : "直接連結已複製到剪貼簿",
+    "Direct link copied" : "已複製直接連結",
     "Please copy the link manually:" : "請手動複製連結：",
     "Custom date range" : "自訂日期範圍",
     "Pick start date" : "挑選開始日期",
@@ -254,6 +254,7 @@ OC.L10N.register(
     "Search people" : "搜尋人物",
     "People" : "人物",
     "Filter in current view" : "目前檢視中的篩選條件",
+    "Search connected services" : "搜尋已連結的服務",
     "Results" : "結果",
     "Load more results" : "載入更多結果",
     "Search in" : "搜尋條件",
@@ -527,6 +528,7 @@ OC.L10N.register(
     "Toggle password visibility" : "切換密碼可見性",
     "Configure the database" : "設定資料庫組態",
     "Only %s is available." : "剩下 %s 可使用。",
-    "Database account" : "資料庫帳號"
+    "Database account" : "資料庫帳號",
+    "Direct link copied to clipboard" : "直接連結已複製到剪貼簿"
 },
 "nplurals=1; plural=0;");

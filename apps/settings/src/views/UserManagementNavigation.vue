@@ -22,7 +22,7 @@
 				:name="t('settings', 'All accounts')"
 				:to="{ name: 'users' }">
 				<template #icon>
-					<NcIconSvgWrapper :path="mdiAccount" />
+					<NcIconSvgWrapper :path="mdiAccountOutline" />
 				</template>
 				<template #counter>
 					<NcCounterBubble v-if="userCount" :type="!selectedGroupDecoded ? 'highlighted' : undefined">
@@ -37,7 +37,7 @@
 				:name="t('settings', 'Admins')"
 				:to="{ name: 'group', params: { selectedGroup: 'admin' } }">
 				<template #icon>
-					<NcIconSvgWrapper :path="mdiShieldAccount" />
+					<NcIconSvgWrapper :path="mdiShieldAccountOutline" />
 				</template>
 				<template #counter>
 					<NcCounterBubble v-if="adminGroup && adminGroup.count > 0"
@@ -70,7 +70,7 @@
 				:name="t('settings', 'Disabled accounts')"
 				:to="{ name: 'group', params: { selectedGroup: 'disabled' } }">
 				<template #icon>
-					<NcIconSvgWrapper :path="mdiAccountOff" />
+					<NcIconSvgWrapper :path="mdiAccountOffOutline" />
 				</template>
 				<template v-if="disabledGroup.usercount > 0" #counter>
 					<NcCounterBubble :type="selectedGroupDecoded === 'disabled' ? 'highlighted' : undefined">
@@ -87,7 +87,7 @@
 				type="tertiary"
 				@click="isDialogOpen = true">
 				<template #icon>
-					<NcIconSvgWrapper :path="mdiCog" />
+					<NcIconSvgWrapper :path="mdiCogOutline" />
 				</template>
 				{{ t('settings', 'Account management settings') }}
 			</NcButton>
@@ -97,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAccount, mdiAccountOff, mdiCog, mdiPlus, mdiShieldAccount, mdiHistory } from '@mdi/js'
+import { mdiAccountOutline, mdiAccountOffOutline, mdiCogOutline, mdiPlus, mdiShieldAccountOutline, mdiHistory } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { computed, ref } from 'vue'
 

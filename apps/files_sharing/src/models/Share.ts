@@ -486,4 +486,11 @@ export default class Share {
 		return this._share.status
 	}
 
+	/**
+	 * Is the share from a trusted server
+	 */
+	get isTrustedServer(): boolean {
+		return !!this._share.is_trusted_server
+	}
+
 }

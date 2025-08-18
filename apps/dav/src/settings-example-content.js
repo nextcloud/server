@@ -10,7 +10,7 @@ Vue.mixin({
 	methods: {
 		t: translate,
 		$t: translate,
-	}
+	},
 })
 
 const View = Vue.extend(ExampleContentSettingsSection);

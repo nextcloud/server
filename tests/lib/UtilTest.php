@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -340,9 +341,7 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals('🙈', Util::shortenMultibyteString('🙈🙊🙉', 16, 2));
 	}
 
-	/**
-	 * @dataProvider humanFileSizeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('humanFileSizeProvider')]
 	public function testHumanFileSize($expected, $input): void {
 		$result = Util::humanFileSize($input);
 		$this->assertEquals($expected, $result);
@@ -360,9 +359,7 @@ class UtilTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesComputerFileSize
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesComputerFileSize')]
 	public function testComputerFileSize($expected, $input): void {
 		$result = Util::computerFileSize($input);
 		$this->assertEquals($expected, $result);

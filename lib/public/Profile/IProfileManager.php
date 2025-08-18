@@ -55,6 +55,7 @@ interface IProfileManager {
 		IAccountManager::PROPERTY_EMAIL => self::VISIBILITY_SHOW_USERS_ONLY,
 		IAccountManager::PROPERTY_PHONE => self::VISIBILITY_SHOW_USERS_ONLY,
 		IAccountManager::PROPERTY_TWITTER => self::VISIBILITY_SHOW,
+		IAccountManager::PROPERTY_BLUESKY => self::VISIBILITY_SHOW,
 		IAccountManager::PROPERTY_WEBSITE => self::VISIBILITY_SHOW,
 		IAccountManager::PROPERTY_PRONOUNS => self::VISIBILITY_SHOW,
 	];

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -45,9 +46,9 @@ class SVGTest extends Provider {
 	}
 
 	/**
-	 * @dataProvider dataGetThumbnailSVGHref
 	 * @requires extension imagick
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetThumbnailSVGHref')]
 	public function testGetThumbnailSVGHref(string $content): void {
 		$handle = fopen('php://temp', 'w+');
 		fwrite($handle, '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

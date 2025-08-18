@@ -21,7 +21,6 @@
     "There was an error saving the status" : "Une erreur s'est produite lors de l'enregistrement de l'état",
     "There was an error clearing the status" : "Une erreur s'est produite lors de l'effacement de l'état",
     "There was an error reverting the status" : "Une erreur est survenue dans le rétablissement d'état",
-    "Set status" : "Définir le statut",
     "Online status" : "Statut en ligne",
     "Status message" : "Message d'état",
     "Set absence period" : "Définir une période d'absence",
@@ -37,10 +36,12 @@
     "Do not disturb" : "Ne pas déranger",
     "Invisible" : "Invisible",
     "Offline" : "Hors-ligne",
+    "Set status" : "Définir le statut",
     "There was an error saving the new status" : "Une erreur s'est produite lors de l'enregistrement du nouveau statut",
     "30 minutes" : "30 minutes",
     "1 hour" : "1 heure",
     "4 hours" : "4 heures",
+    "Busy" : "Occupé",
     "Mute all notifications" : "Désactiver les notifications",
     "Appear offline" : "Apparaitre hors-ligne"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

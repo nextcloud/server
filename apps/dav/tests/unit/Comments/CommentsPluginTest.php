@@ -184,7 +184,7 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/' . $path)
-			->will($this->throwException(new \Sabre\DAV\Exception\NotFound()));
+			->willThrowException(new \Sabre\DAV\Exception\NotFound());
 
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()

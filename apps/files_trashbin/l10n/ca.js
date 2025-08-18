@@ -11,7 +11,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Confirmeu l'eliminació permanent",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Esteu segur que voleu suprimir permanentment tots els fitxers i carpetes de la paperera? Això no es pot desfer.",
     "Cancel" : "Cancel·la",
-    "Deletion cancelled" : "S'ha cancel·lat la supressió",
     "Original location" : "Ubicació original",
     "Deleted by" : "Suprimit per",
     "Deleted" : "S'ha suprimit",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "You" : "Vós",
     "List of files that have been deleted." : "Llista de fitxers que s'han suprimit.",
     "No deleted files" : "No hi ha cap fitxer suprimit",
-    "Files and folders you have deleted will show up here" : "Els fitxers i les carpetes que suprimiu es mostraran aquí"
+    "Files and folders you have deleted will show up here" : "Els fitxers i les carpetes que suprimiu es mostraran aquí",
+    "Deletion cancelled" : "S'ha cancel·lat la supressió"
 },
 "nplurals=2; plural=(n != 1);");

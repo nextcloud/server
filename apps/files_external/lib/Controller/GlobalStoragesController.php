@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -132,7 +133,6 @@ class GlobalStoragesController extends StoragesController {
 	 * @param array $applicableUsers users for which to mount the storage
 	 * @param array $applicableGroups groups for which to mount the storage
 	 * @param int $priority priority
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
 	 */
@@ -147,7 +147,6 @@ class GlobalStoragesController extends StoragesController {
 		$applicableUsers,
 		$applicableGroups,
 		$priority,
-		$testOnly = true,
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
@@ -180,7 +179,7 @@ class GlobalStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage, $testOnly);
+		$this->updateStorageStatus($storage);
 
 		return new DataResponse(
 			$storage->jsonSerialize(true),

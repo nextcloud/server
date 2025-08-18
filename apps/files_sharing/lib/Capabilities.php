@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,8 +7,11 @@
  */
 namespace OCA\Files_Sharing;
 
+use OC\Core\AppInfo\ConfigLexicon;
+use OCP\App\IAppManager;
 use OCP\Capabilities\ICapability;
 use OCP\Constants;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Share\IManager;
 
@@ -17,10 +21,11 @@ use OCP\Share\IManager;
  * @package OCA\Files_Sharing
  */
 class Capabilities implements ICapability {
-
 	public function __construct(
 		private IConfig $config,
+		private readonly IAppConfig $appConfig,
 		private IManager $shareManager,
+		private IAppManager $appManager,
 	) {
 	}
 
@@ -109,7 +114,7 @@ class Capabilities implements ICapability {
 				if ($public['password']['enforced']) {
 					$public['password']['askForOptionalPassword'] = false;
 				} else {
-					$public['password']['askForOptionalPassword'] = ($this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no') === 'yes');
+					$public['password']['askForOptionalPassword'] = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
 				}
 
 				$public['expire_date'] = [];
@@ -157,14 +162,23 @@ class Capabilities implements ICapability {
 		}
 
 		//Federated sharing
-		$res['federation'] = [
-			'outgoing' => $this->shareManager->outgoingServer2ServerSharesAllowed(),
-			'incoming' => $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes',
-			// old bogus one, expire_date was not working before, keeping for compatibility
-			'expire_date' => ['enabled' => true],
-			// the real deal, signifies that expiration date can be set on federated shares
-			'expire_date_supported' => ['enabled' => true],
-		];
+		if ($this->appManager->isEnabledForAnyone('federation')) {
+			$res['federation'] = [
+				'outgoing' => $this->shareManager->outgoingServer2ServerSharesAllowed(),
+				'incoming' => $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes',
+				// old bogus one, expire_date was not working before, keeping for compatibility
+				'expire_date' => ['enabled' => true],
+				// the real deal, signifies that expiration date can be set on federated shares
+				'expire_date_supported' => ['enabled' => true],
+			];
+		} else {
+			$res['federation'] = [
+				'outgoing' => false,
+				'incoming' => false,
+				'expire_date' => ['enabled' => false],
+				'expire_date_supported' => ['enabled' => false],
+			];
+		}
 
 		// Sharee searches
 		$res['sharee'] = [

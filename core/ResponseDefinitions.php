@@ -87,6 +87,7 @@ namespace OC\Core;
  *     name: string,
  *     icon: string,
  *     order: int,
+ *     isExternalProvider: bool,
  *     triggers: list<string>,
  *     filters: array<string, string>,
  *     inAppSearch: bool,
@@ -200,6 +201,7 @@ namespace OC\Core;
  *     scheduledAt: ?int,
  *     startedAt: ?int,
  *     endedAt: ?int,
+ *     allowCleanup: bool,
  * }
  *
  * @psalm-type CoreProfileAction = array{

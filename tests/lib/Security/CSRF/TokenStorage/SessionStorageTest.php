@@ -14,7 +14,7 @@ use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OCP\ISession;
 
 class SessionStorageTest extends \Test\TestCase {
-	/** @var \OCP\ISession */
+	/** @var ISession */
 	private $session;
 	/** @var \OC\Security\CSRF\TokenStorage\SessionStorage */
 	private $sessionStorage;
@@ -42,9 +42,9 @@ class SessionStorageTest extends \Test\TestCase {
 
 	/**
 	 * @param string $token
-	 * @dataProvider getTokenDataProvider
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getTokenDataProvider')]
 	public function testGetTokenWithEmptyToken($token): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Session does not contain a requesttoken');

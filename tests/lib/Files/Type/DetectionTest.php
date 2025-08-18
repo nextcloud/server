@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -46,11 +47,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDetectPath
 	 *
 	 * @param string $path
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDetectPath')]
 	public function testDetectPath(string $path, string $expected): void {
 		$this->assertEquals($expected, $this->detection->detectPath($path));
 	}
@@ -66,11 +67,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDetectContent
 	 *
 	 * @param string $path
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDetectContent')]
 	public function testDetectContent(string $path, string $expected): void {
 		$this->assertEquals($expected, $this->detection->detectContent(\OC::$SERVERROOT . '/tests/data' . $path));
 	}
@@ -86,11 +87,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDetect
 	 *
 	 * @param string $path
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDetect')]
 	public function testDetect(string $path, string $expected): void {
 		$this->assertEquals($expected, $this->detection->detect(\OC::$SERVERROOT . '/tests/data' . $path));
 	}
@@ -110,11 +111,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataMimeTypeCustom
 	 *
 	 * @param string $ext
 	 * @param string $mime
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataMimeTypeCustom')]
 	public function testDetectMimeTypeCustom(string $ext, string $mime): void {
 		$confDir = sys_get_temp_dir();
 		file_put_contents($confDir . '/mimetypemapping.dist.json', json_encode([]));
@@ -144,11 +145,11 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetSecureMimeType
 	 *
 	 * @param string $mimeType
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetSecureMimeType')]
 	public function testGetSecureMimeType(string $mimeType, string $expected): void {
 		$this->assertEquals($expected, $this->detection->getSecureMimeType($mimeType));
 	}

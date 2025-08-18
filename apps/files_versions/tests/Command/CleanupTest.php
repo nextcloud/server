@@ -43,9 +43,9 @@ class CleanupTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestDeleteVersions
 	 * @param boolean $nodeExists
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDeleteVersions')]
 	public function testDeleteVersions(bool $nodeExists): void {
 		$this->rootFolder->expects($this->once())
 			->method('nodeExists')

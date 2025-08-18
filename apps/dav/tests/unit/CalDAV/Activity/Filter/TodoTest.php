@@ -57,10 +57,10 @@ class TodoTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataFilterTypes
 	 * @param string[] $types
 	 * @param string[] $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilterTypes')]
 	public function testFilterTypes(array $types, array $expected): void {
 		$this->assertEquals($expected, $this->filter->filterTypes($types));
 	}

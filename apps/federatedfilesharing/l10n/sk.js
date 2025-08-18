@@ -46,8 +46,8 @@ OC.L10N.register(
     "Automatically accept shares from trusted federated accounts and groups by default" : "V predvolenom nastavení automaticky prijímať zdieľania z dôveryhodných federatívnych účtov a skupín",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Zdieľajte so mnou prostredníctvom môjho #identifikátora združeného cloudu Nextcloud, pozrite {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Sprístupnite mi obsah prostredníctvom môjho #identifikátora združeného cloudu Nextcloud",
-    "Cloud ID copied to the clipboard" : "Cloud ID bol skopírovaný do schránky",
-    "Copy to clipboard" : "Skopírovať do schránky",
+    "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
+    "Copy" : "Kopírovať",
     "Clipboard not available. Please copy the cloud ID manually." : "Schránka nie je prístupná. Prosím skopírujte cloud ID manuálne.",
     "Copied!" : "Skopírované!",
     "Federated Cloud" : "Federovaný cloud",
@@ -59,13 +59,14 @@ OC.L10N.register(
     "formerly Twitter" : "predtým Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Pridať na svoju webstránku",
-    "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
     "HTML Code:" : "HTML kód:",
     "Cancel" : "Zrušiť",
     "Add remote share" : "Pridať vzdialené úložisko",
     "Remote share" : "Vzdialené úložisko",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete pridať vzdialené úložisko {name} patriace používateľovi {owner}@{remote}?",
     "Remote share password" : "Heslo k vzdialenému úložisku",
-    "Incoming share could not be processed" : "Prichádzajúce zdieľanie sa nepodarilo spracovať"
+    "Incoming share could not be processed" : "Prichádzajúce zdieľanie sa nepodarilo spracovať",
+    "Cloud ID copied to the clipboard" : "Cloud ID bol skopírovaný do schránky",
+    "Copy to clipboard" : "Skopírovať do schránky"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

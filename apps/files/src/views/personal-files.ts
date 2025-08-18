@@ -2,23 +2,27 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t } from '@nextcloud/l10n'
+
+import { t } from '@nextcloud/l10n'
 import { View, getNavigation } from '@nextcloud/files'
+import { getContents } from '../services/PersonalFiles.ts'
+import { defaultView, hasPersonalFilesView } from '../utils/filesViews.ts'
 
-import { getContents } from '../services/PersonalFiles'
-import AccountIcon from '@mdi/svg/svg/account.svg?raw'
-import { loadState } from '@nextcloud/initial-state'
+import AccountIcon from '@mdi/svg/svg/account-outline.svg?raw'
 
-export default () => {
-	// Don't show this view if the user has no storage quota
-	const storageStats = loadState('files', 'storageStats', { quota: -1 })
-	if (storageStats.quota === 0) {
+export const VIEW_ID = 'personal'
+
+/**
+ * Register the personal files view if allowed
+ */
+export function registerPersonalFilesView(): void {
+	if (!hasPersonalFilesView()) {
 		return
 	}
 
 	const Navigation = getNavigation()
 	Navigation.register(new View({
-		id: 'personal',
+		id: VIEW_ID,
 		name: t('files', 'Personal files'),
 		caption: t('files', 'List of your files and folders that are not shared.'),
 
@@ -26,7 +30,8 @@ export default () => {
 		emptyCaption: t('files', 'Files that are not shared will show up here.'),
 
 		icon: AccountIcon,
-		order: 5,
+		// if this is the default view we set it at the top of the list - otherwise default position of fifth
+		order: defaultView() === VIEW_ID ? 0 : 5,
 
 		getContents,
 	}))

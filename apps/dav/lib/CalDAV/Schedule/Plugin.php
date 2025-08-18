@@ -372,8 +372,8 @@ EOF;
 					return null;
 				}
 
-				$isResourceOrRoom = str_starts_with($principalUrl, 'principals/calendar-resources') ||
-					str_starts_with($principalUrl, 'principals/calendar-rooms');
+				$isResourceOrRoom = str_starts_with($principalUrl, 'principals/calendar-resources')
+					|| str_starts_with($principalUrl, 'principals/calendar-rooms');
 
 				if (str_starts_with($principalUrl, 'principals/users')) {
 					[, $userId] = split($principalUrl);

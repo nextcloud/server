@@ -194,6 +194,7 @@ OC.L10N.register(
     "Collaborative tags" : "תגיות שיתופיות",
     "No tags found" : "לא נמצאו תגים",
     "Personal" : "אישי",
+    "Accounts" : "Accounts",
     "Admin" : "מנהל",
     "Help" : "עזרה",
     "Access forbidden" : "הגישה נחסמה",

@@ -68,14 +68,12 @@ OC.L10N.register(
     "{displayName} (hidden)" : "{displayName} (nascosto)",
     "{displayName} (restricted)" : "{displayName} (limitato)",
     "Failed to apply tags changes" : "Impossibile applicare le modifiche ai tag",
-    "File tags modification canceled" : "Modifiche ai tag dei file annullate",
     "Manage tags" : "Gestisci etichette",
     "Applying tags changes…" : "Applico le modifiche ai tag...",
     "Search or create tag" : "Cerca o crea tag",
     "Create new tag" : "Crea un nuovo tag",
-    "Select or create tags to apply to all selected files" : "Seleziona o crea i tag da applicare a tutti i file selezionati",
     "Cancel" : "Annulla",
-    "Apply changes" : "Applica modifiche",
+    "Apply" : "Applica",
     "Failed to load tags" : "Caricamento etichette non riuscito",
     "Failed to load selected tags" : "Caricamento etichette selezionate fallito",
     "Failed to select tag" : "Selezione etichetta fallita",
@@ -94,6 +92,9 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Esiste già un tag con lo stesso nome",
     "Failed to load tags for file" : "Caricamento delle etichette per il file fallito",
     "Failed to set tag for file" : "Impostazione dell'etichetta per il file fallita",
-    "Failed to delete tag for file" : "Eliminazione dell'etichetta per il file fallita"
+    "Failed to delete tag for file" : "Eliminazione dell'etichetta per il file fallita",
+    "File tags modification canceled" : "Modifiche ai tag dei file annullate",
+    "Select or create tags to apply to all selected files" : "Seleziona o crea i tag da applicare a tutti i file selezionati",
+    "Apply changes" : "Applica modifiche"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

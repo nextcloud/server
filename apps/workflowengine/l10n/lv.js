@@ -26,7 +26,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Nextcloud darbplūsmu dzinis",
     "Folder" : "Mape",
     "Images" : "Attēli",
-    "Files WebDAV" : "WebDAV datnes",
+    "Files WebDAV" : "Datņu WebDAV",
     "Android client" : "Android klients",
     "iOS client" : "iOS klients",
     "Desktop client" : "Darbvirsmas klients",

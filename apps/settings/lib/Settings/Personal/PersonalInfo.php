@@ -98,6 +98,7 @@ class PersonalInfo implements ISettings {
 			'location' => $this->getProperty($account, IAccountManager::PROPERTY_ADDRESS),
 			'website' => $this->getProperty($account, IAccountManager::PROPERTY_WEBSITE),
 			'twitter' => $this->getProperty($account, IAccountManager::PROPERTY_TWITTER),
+			'bluesky' => $this->getProperty($account, IAccountManager::PROPERTY_BLUESKY),
 			'fediverse' => $this->getProperty($account, IAccountManager::PROPERTY_FEDIVERSE),
 			'languageMap' => $this->getLanguageMap($user),
 			'localeMap' => $this->getLocaleMap($user),
@@ -109,6 +110,7 @@ class PersonalInfo implements ISettings {
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
 			'firstDayOfWeek' => $this->config->getUserValue($uid, 'core', AUserDataOCSController::USER_FIELD_FIRST_DAY_OF_WEEK),
+			'timezone' => $this->config->getUserValue($uid, 'core', 'timezone', ''),
 			'pronouns' => $this->getProperty($account, IAccountManager::PROPERTY_PRONOUNS),
 		];
 

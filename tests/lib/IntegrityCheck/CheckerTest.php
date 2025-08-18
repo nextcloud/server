@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -1078,8 +1079,8 @@ class CheckerTest extends TestCase {
 	/**
 	 * @param string $channel
 	 * @param bool $isCodeSigningEnforced
-	 * @dataProvider channelDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced): void {
 		$this->serverVersion
 			->expects($this->once())
@@ -1096,8 +1097,8 @@ class CheckerTest extends TestCase {
 
 	/**
 	 * @param string $channel
-	 * @dataProvider channelDataProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('channelDataProvider')]
 	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel): void {
 		$this->serverVersion
 			->expects($this->once())

@@ -6,6 +6,7 @@
 	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions ref="actionsMenu"
 			container="#app-content-vue"
+			:boundaries-element="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
 			:inline="enabledInlineActions.length"
@@ -123,6 +124,8 @@ export default defineComponent({
 		const fileListWidth = useFileListWidth()
 		const { directory } = useRouteParameters()
 
+		const boundariesElement = document.getElementById('app-content-vue')
+
 		return {
 			directory,
 			fileListWidth,
@@ -130,6 +133,8 @@ export default defineComponent({
 			actionsMenuStore,
 			filesStore,
 			selectionStore,
+
+			boundariesElement,
 		}
 	},
 
@@ -300,16 +305,16 @@ export default defineComponent({
 						return
 					}
 
-					showError(this.t('files', '"{displayName}" failed on some elements', { displayName }))
+					showError(this.t('files', '{displayName}: failed on some elements', { displayName }))
 					return
 				}
 
 				// Show success message and clear selection
-				showSuccess(this.t('files', '"{displayName}" batch action executed successfully', { displayName }))
+				showSuccess(this.t('files', '{displayName}: done', { displayName }))
 				this.selectionStore.reset()
 			} catch (e) {
 				logger.error('Error while executing action', { action, e })
-				showError(this.t('files', '"{displayName}" action failed', { displayName }))
+				showError(this.t('files', '{displayName}: failed', { displayName }))
 			} finally {
 				// Remove loading markers
 				this.loading = null

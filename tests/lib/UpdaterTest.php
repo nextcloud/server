@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -81,7 +82,6 @@ class UpdaterTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider versionCompatibilityTestData
 	 *
 	 * @param string $oldVersion
 	 * @param string $newVersion
@@ -90,6 +90,7 @@ class UpdaterTest extends TestCase {
 	 * @param bool $debug
 	 * @param string $vendor
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionCompatibilityTestData')]
 	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud'): void {
 		$this->config->expects($this->any())
 			->method('getSystemValueBool')

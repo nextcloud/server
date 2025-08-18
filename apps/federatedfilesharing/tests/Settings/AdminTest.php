@@ -53,9 +53,7 @@ class AdminTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider sharingStateProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sharingStateProvider')]
 	public function testGetForm(bool $state): void {
 		$this->federatedShareProvider
 			->expects($this->once())
@@ -110,7 +108,7 @@ class AdminTest extends TestCase {
 		];
 		$this->initialState->expects($this->exactly(10))
 			->method('provideInitialState')
-			->willReturnCallback(function () use (&$calls) {
+			->willReturnCallback(function () use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertSame($expected, func_get_args());
 			});

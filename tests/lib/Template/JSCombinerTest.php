@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -473,8 +474,8 @@ var b = \'world\';
 	 * @param $appName
 	 * @param $fileName
 	 * @param $result
-	 * @dataProvider dataGetCachedSCSS
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetCachedSCSS')]
 	public function testGetCachedSCSS($appName, $fileName, $result): void {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')

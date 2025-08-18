@@ -89,9 +89,7 @@ class NotifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataUpdateAlreadyInstalledCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUpdateAlreadyInstalledCheck')]
 	public function testUpdateAlreadyInstalledCheck(string $versionNotification, string $versionInstalled, bool $exception): void {
 		$notifier = $this->getNotifier();
 

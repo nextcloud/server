@@ -139,9 +139,7 @@ class AppManagerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataGetAppIcon
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAppIcon')]
 	public function testGetAppIcon($callback, ?bool $dark, ?string $expected): void {
 		$this->urlGenerator->expects($this->atLeastOnce())
 			->method('imagePath')
@@ -235,28 +233,25 @@ class AppManagerTest extends TestCase {
 			$this->manager->disableApp('files_trashbin');
 		}
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('files_trashbin'));
+
 		$this->manager->enableApp('files_trashbin');
 		$this->assertEquals('yes', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testDisableApp(): void {
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppDisableEvent('files_trashbin'));
+
 		$this->manager->disableApp('files_trashbin');
 		$this->assertEquals('no', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testNotEnableIfNotInstalled(): void {
-		try {
-			$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
-			$this->assertFalse(true, 'If this line is reached the expected exception is not thrown.');
-		} catch (AppPathNotFoundException $e) {
-			// Exception is expected
-			$this->assertEquals('Could not find path for some_random_name_which_i_hope_is_not_an_app', $e->getMessage());
-		}
+		$this->expectException(AppPathNotFoundException::class);
+		$this->expectExceptionMessage('Could not find path for some_random_name_which_i_hope_is_not_an_app');
+		$this->appConfig->expects(self::never())
+			->method('setValue');
 
-		$this->assertEquals('no', $this->appConfig->getValue(
-			'some_random_name_which_i_hope_is_not_an_app', 'enabled', 'no'
-		));
+		$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
 	}
 
 	public function testEnableAppForGroups(): void {
@@ -291,7 +286,9 @@ class AppManagerTest extends TestCase {
 			->with('test')
 			->willReturn('apps/test');
 
-		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('test', ['group1', 'group2']));
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new AppEnableEvent('test', ['group1', 'group2']));
 
 		$manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
@@ -310,10 +307,9 @@ class AppManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataEnableAppForGroupsAllowedTypes
-	 *
 	 * @param array $appInfo
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEnableAppForGroupsAllowedTypes')]
 	public function testEnableAppForGroupsAllowedTypes(array $appInfo): void {
 		$group1 = $this->createMock(IGroup::class);
 		$group1->method('getGID')
@@ -369,11 +365,11 @@ class AppManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataEnableAppForGroupsForbiddenTypes
 	 *
 	 * @param string $type
 	 *
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEnableAppForGroupsForbiddenTypes')]
 	public function testEnableAppForGroupsForbiddenTypes($type): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('test can\'t be enabled for groups.');
@@ -776,9 +772,7 @@ class AppManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider isBackendRequiredDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('isBackendRequiredDataProvider')]
 	public function testIsBackendRequired(
 		string $backend,
 		array $appBackends,

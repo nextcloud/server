@@ -64,11 +64,11 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->clientService = $this->createMock(IClientService::class);
 		$this->contactsManager = $this->createMock(IContactsManager::class);
 		$this->cloudIdManager = new CloudIdManager(
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->userManager,
-			$this->createMock(ICacheFactory::class),
-			$this->createMock(IEventDispatcher::class)
 		);
 
 		$this->controller = new MountPublicLinkController(
@@ -85,9 +85,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestCreateFederatedShare
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCreateFederatedShare')]
 	public function testCreateFederatedShare(
 		string $shareWith,
 		bool $outgoingSharesAllowed,

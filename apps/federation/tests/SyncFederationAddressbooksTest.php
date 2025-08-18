@@ -35,17 +35,17 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 		$dbHandler->method('getAllServer')
 			->willReturn([
 				[
-					'url' => 'https://cloud.drop.box',
+					'url' => 'https://cloud.example.org',
 					'url_hash' => 'sha1',
-					'shared_secret' => 'iloveowncloud',
+					'shared_secret' => 'ilovenextcloud',
 					'sync_token' => '0'
 				]
 			]);
-		$dbHandler->expects($this->once())->method('setServerStatus')->
-			with('https://cloud.drop.box', 1, '1');
+		$dbHandler->expects($this->once())->method('setServerStatus')
+			->with('https://cloud.example.org', 1, '1');
 		$syncService = $this->createMock(SyncService::class);
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
-			->willReturn('1');
+			->willReturn(['1', false]);
 
 		/** @var SyncService $syncService */
 		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);
@@ -58,15 +58,15 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 	public function testException(): void {
 		/** @var DbHandler&MockObject $dbHandler */
 		$dbHandler = $this->createMock(DbHandler::class);
-		$dbHandler->method('getAllServer')->
-		willReturn([
-			[
-				'url' => 'https://cloud.drop.box',
-				'url_hash' => 'sha1',
-				'shared_secret' => 'iloveowncloud',
-				'sync_token' => '0'
-			]
-		]);
+		$dbHandler->method('getAllServer')
+			->willReturn([
+				[
+					'url' => 'https://cloud.example.org',
+					'url_hash' => 'sha1',
+					'shared_secret' => 'ilovenextcloud',
+					'sync_token' => '0'
+				]
+			]);
 		$syncService = $this->createMock(SyncService::class);
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
 			->willThrowException(new \Exception('something did not work out'));
@@ -85,18 +85,18 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 		$dbHandler->method('getAllServer')
 			->willReturn([
 				[
-					'url' => 'https://cloud.drop.box',
+					'url' => 'https://cloud.example.org',
 					'url_hash' => 'sha1',
 					'shared_secret' => 'ilovenextcloud',
 					'sync_token' => '0'
 				]
 			]);
 		$dbHandler->method('getServerStatus')->willReturn(TrustedServers::STATUS_FAILURE);
-		$dbHandler->expects($this->once())->method('setServerStatus')->
-			with('https://cloud.drop.box', 1);
+		$dbHandler->expects($this->once())->method('setServerStatus')
+			->with('https://cloud.example.org', 1);
 		$syncService = $this->createMock(SyncService::class);
 		$syncService->expects($this->once())->method('syncRemoteAddressBook')
-			->willReturn('0');
+			->willReturn(['0', false]);
 
 		/** @var SyncService $syncService */
 		$s = new SyncFederationAddressBooks($dbHandler, $syncService, $this->discoveryService, $this->logger);

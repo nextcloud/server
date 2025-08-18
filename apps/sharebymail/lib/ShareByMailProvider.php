@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -636,11 +637,6 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		return $token;
 	}
 
-	/**
-	 * Get all children of this share
-	 *
-	 * @return IShare[]
-	 */
 	public function getChildren(IShare $parent): array {
 		$children = [];
 
@@ -722,8 +718,8 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		// a real password was given
 		$validPassword = $plainTextPassword !== null && $plainTextPassword !== '';
 
-		if ($validPassword && ($originalShare->getPassword() !== $share->getPassword() ||
-								($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()))) {
+		if ($validPassword && ($originalShare->getPassword() !== $share->getPassword()
+								|| ($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()))) {
 			$emails = $this->getSharedWithEmails($share);
 			$validEmails = array_filter($emails, function ($email) {
 				return $this->mailer->validateMailAddress($email);

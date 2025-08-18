@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Confirmer la suppression définitive",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Êtes-vous sûr de vouloir supprimer définitivement tous les fichiers et dossiers dans la corbeille ? Cette action est irréversible.",
     "Cancel" : "Annuler",
-    "Deletion cancelled" : "Suppression annulée",
     "Original location" : "Emplacement original",
     "Deleted by" : "Supprimé par",
     "Deleted" : "Supprimé",
@@ -23,6 +22,9 @@ OC.L10N.register(
     "You" : "Vous",
     "List of files that have been deleted." : "Liste des fichiers qui ont été supprimés.",
     "No deleted files" : "Aucun fichier supprimé",
-    "Files and folders you have deleted will show up here" : "Les fichiers et dossiers que vous avez supprimés apparaîtront ici"
+    "Files and folders you have deleted will show up here" : "Les fichiers et dossiers que vous avez supprimés apparaîtront ici",
+    "All files have been permanently deleted" : "Tous les fichiers ont été définitivement supprimés",
+    "Failed to empty deleted files" : "Échec de la vidange des fichiers supprimés",
+    "Deletion cancelled" : "Suppression annulée"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

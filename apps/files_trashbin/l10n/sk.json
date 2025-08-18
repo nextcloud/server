@@ -9,7 +9,6 @@
     "Confirm permanent deletion" : "Potvrdiť premanentné zmazanie",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Naozaj chcete natrvalo odstrániť všetky súbory a priečinky v koši? Toto sa nedá vrátiť späť.",
     "Cancel" : "Zrušiť",
-    "Deletion cancelled" : "Zmazanie zrušené",
     "Original location" : "Pôvodné umiestnenie",
     "Deleted by" : "Odstránil",
     "Deleted" : "Zmazané",
@@ -19,6 +18,7 @@
     "You" : "Vy",
     "List of files that have been deleted." : "Zoznam súborov, ktoré boli vymazané.",
     "No deleted files" : "Žiadne zmazané súbory",
-    "Files and folders you have deleted will show up here" : "Súbory a adresáre, ktoré ste vymazali, sa zobrazia tu"
+    "Files and folders you have deleted will show up here" : "Súbory a adresáre, ktoré ste vymazali, sa zobrazia tu",
+    "Deletion cancelled" : "Zmazanie zrušené"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

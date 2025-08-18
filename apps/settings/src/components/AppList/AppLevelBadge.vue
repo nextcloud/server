@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 
-import { mdiCheck, mdiStarShooting } from '@mdi/js'
+import { mdiCheck, mdiStarShootingOutline } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 
@@ -28,7 +28,7 @@ const props = defineProps<{
 
 const isSupported = computed(() => props.level === 300)
 const isFeatured = computed(() => props.level === 200)
-const badgeIcon = computed(() => isSupported.value ? mdiStarShooting : mdiCheck)
+const badgeIcon = computed(() => isSupported.value ? mdiStarShootingOutline : mdiCheck)
 const badgeText = computed(() => isSupported.value ? t('settings', 'Supported') : t('settings', 'Featured'))
 const badgeTitle = computed(() => isSupported.value
 	? t('settings', 'This app is supported via your current Nextcloud subscription.')

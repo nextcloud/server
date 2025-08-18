@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "წვდომის მინიჭება",
-    "Error configuring OAuth1" : "OAuth1-ის კონფიგურირებისას წარმოიშვა შეცდომა",
-    "Please provide a valid app key and secret." : "გთხოვთ უზრუნველყოთ სწორი აპლიკაციის გასაღები და საიდუმლო.",
     "Error configuring OAuth2" : "OAuth2-ის კონფიგურირებისას წარმოიშვა შეცდომა",
     "Generate keys" : "გასაღებების გენერირება",
     "Error generating key pair" : "გასაღების წყვილის გენერირებისას წარმოიშვა შეცდომა",
@@ -22,9 +20,6 @@ OC.L10N.register(
     "Secret key" : "საიდუმლო გასაღები",
     "Builtin" : "ჩაშენებული",
     "None" : "არც ერთი",
-    "OAuth1" : "OAuth1",
-    "App key" : "აპლიკაციის გასაღები",
-    "App secret" : "აპლიკაციის საიდუმლო",
     "OAuth2" : "OAuth2",
     "Client ID" : "კლიენტის ID",
     "Client secret" : "კლიენტის საიდუმლო",
@@ -101,6 +96,11 @@ OC.L10N.register(
     "Configuration" : "კონფიგურაცია",
     "Available for" : "ხელმისაწვდომია რომ",
     "Add storage" : "საცავის დამატება",
-    "Advanced settings" : "დამატებითი პარამეტრები"
+    "Advanced settings" : "დამატებითი პარამეტრები",
+    "Error configuring OAuth1" : "OAuth1-ის კონფიგურირებისას წარმოიშვა შეცდომა",
+    "Please provide a valid app key and secret." : "გთხოვთ უზრუნველყოთ სწორი აპლიკაციის გასაღები და საიდუმლო.",
+    "OAuth1" : "OAuth1",
+    "App key" : "აპლიკაციის გასაღები",
+    "App secret" : "აპლიკაციის საიდუმლო"
 },
 "nplurals=2; plural=(n!=1);");

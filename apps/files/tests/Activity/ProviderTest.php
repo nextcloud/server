@@ -90,9 +90,7 @@ class ProviderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetFile
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetFile')]
 	public function testGetFile(array|string $parameter, ?int $eventId, string $id, string $name, string $path): void {
 		$provider = $this->getProvider();
 
@@ -136,9 +134,7 @@ class ProviderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetUser
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUser')]
 	public function testGetUser(string $uid, ?string $userDisplayName, ?array $cloudIdData, array $expected): void {
 		$provider = $this->getProvider();
 

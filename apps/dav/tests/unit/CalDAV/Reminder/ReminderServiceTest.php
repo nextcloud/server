@@ -747,7 +747,7 @@ EOD;
 		];
 		$this->backend->expects($this->exactly(5))
 			->method('removeReminder')
-			->willReturnCallback(function () use (&$removeReminderCalls) {
+			->willReturnCallback(function () use (&$removeReminderCalls): void {
 				$expected = array_shift($removeReminderCalls);
 				$this->assertEquals($expected, func_get_args());
 			});

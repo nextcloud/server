@@ -9,7 +9,7 @@
 		:aria-label="t('core', 'Search contacts')"
 		@open="handleOpen">
 		<template #trigger>
-			<Contacts class="contactsmenu__trigger-icon" :size="20" />
+			<NcIconSvgWrapper class="contactsmenu__trigger-icon" :path="mdiContacts" />
 		</template>
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__input-wrapper">
@@ -27,7 +27,7 @@
 			</div>
 			<NcEmptyContent v-if="error" :name="t('core', 'Could not load your contacts')">
 				<template #icon>
-					<Magnify />
+					<NcIconSvgWrapper :path="mdiMagnify" />
 				</template>
 			</NcEmptyContent>
 			<NcEmptyContent v-else-if="loadingText" :name="loadingText">
@@ -37,7 +37,7 @@
 			</NcEmptyContent>
 			<NcEmptyContent v-else-if="contacts.length === 0" :name="t('core', 'No contacts found')">
 				<template #icon>
-					<Magnify />
+					<NcIconSvgWrapper :path="mdiMagnify" />
 				</template>
 			</NcEmptyContent>
 			<div v-else class="contactsmenu__menu__content">
@@ -62,38 +62,45 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import Contacts from 'vue-material-design-icons/Contacts.vue'
-import debounce from 'debounce'
-import { getCurrentUser } from '@nextcloud/auth'
+import { mdiContacts, mdiMagnify } from '@mdi/js'
 import { generateUrl } from '@nextcloud/router'
-import Magnify from 'vue-material-design-icons/Magnify.vue'
+import { getCurrentUser } from '@nextcloud/auth'
+import { t } from '@nextcloud/l10n'
+import axios from '@nextcloud/axios'
+import debounce from 'debounce'
+
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
-import { translate as t } from '@nextcloud/l10n'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import Contact from '../components/ContactsMenu/Contact.vue'
 import logger from '../logger.js'
 import Nextcloud from '../mixins/Nextcloud.js'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default {
 	name: 'ContactsMenu',
 
 	components: {
 		Contact,
-		Contacts,
-		Magnify,
 		NcButton,
 		NcEmptyContent,
 		NcHeaderMenu,
+		NcIconSvgWrapper,
 		NcLoadingIcon,
 		NcTextField,
 	},
 
 	mixins: [Nextcloud],
+
+	setup() {
+		return {
+			mdiContacts,
+			mdiMagnify,
+		}
+	},
 
 	data() {
 		const user = getCurrentUser()

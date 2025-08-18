@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -19,6 +20,7 @@ trait BasicStructure {
 	use Avatar;
 	use Download;
 	use Mail;
+	use Theming;
 
 	/** @var string */
 	private $currentUser = '';

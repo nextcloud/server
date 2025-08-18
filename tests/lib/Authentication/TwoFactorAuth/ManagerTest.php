@@ -218,9 +218,8 @@ class ManagerTest extends TestCase {
 	 * enabled providers.
 	 *
 	 * If any of these providers is active, 2FA is enabled
-	 *
-	 * @dataProvider providerStatesFixData
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providerStatesFixData')]
 	public function testIsTwoFactorAuthenticatedFixesProviderStates(bool $providerEnabled, bool $expected): void {
 		$this->providerRegistry->expects($this->once())
 			->method('getProviderStates')

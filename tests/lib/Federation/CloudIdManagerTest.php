@@ -47,11 +47,11 @@ class CloudIdManagerTest extends TestCase {
 			->willReturn(new ArrayCache(''));
 
 		$this->cloudIdManager = new CloudIdManager(
+			$this->cacheFactory,
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->urlGenerator,
 			$this->userManager,
-			$this->cacheFactory,
-			$this->createMock(IEventDispatcher::class)
 		);
 		$this->overwriteService(ICloudIdManager::class, $this->cloudIdManager);
 	}
@@ -65,9 +65,7 @@ class CloudIdManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetDisplayNameFromContact
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetDisplayNameFromContact')]
 	public function testGetDisplayNameFromContact(string $cloudId, ?string $displayName, ?string $expected): void {
 		$returnedContact = [
 			'CLOUD' => [$cloudId],
@@ -98,9 +96,7 @@ class CloudIdManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider cloudIdProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('cloudIdProvider')]
 	public function testResolveCloudId(string $cloudId, string $user, string $noProtocolRemote, string $cleanId): void {
 		$displayName = 'Ample Ex';
 
@@ -130,9 +126,7 @@ class CloudIdManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider invalidCloudIdProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('invalidCloudIdProvider')]
 	public function testInvalidCloudId(string $cloudId): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -154,9 +148,7 @@ class CloudIdManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider getCloudIdProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getCloudIdProvider')]
 	public function testGetCloudId(string $user, ?string $remote, string $id, ?string $searchCloudId = null, ?string $localHost = 'https://example.com', ?string $expectedRemoteId = null): void {
 		if ($remote !== null) {
 			$this->contactsManager->expects($this->any())

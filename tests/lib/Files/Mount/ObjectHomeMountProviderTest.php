@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -83,7 +84,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->config->method('getUserValue')
 			->willReturn(null);
 
-		$this->config->expects($this->once())
+		$this->config
 			->method('setUserValue')
 			->with(
 				$this->equalTo('uid'),

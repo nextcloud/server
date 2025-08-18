@@ -85,9 +85,7 @@ class ManagerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dnProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dnProvider')]
 	public function testGetByDNExisting(string $inputDN): void {
 		$uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
@@ -184,9 +182,7 @@ class ManagerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider attributeRequestProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attributeRequestProvider')]
 	public function testGetAttributes($minimal): void {
 		$this->connection->setConfiguration([
 			'ldapEmailAttribute' => 'MAIL',

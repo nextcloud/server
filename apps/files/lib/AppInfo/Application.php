@@ -117,7 +117,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(BeforeNodeDeletedEvent::class, SyncLivePhotosListener::class);
-		$context->registerEventListener(CacheEntryRemovedEvent::class, SyncLivePhotosListener::class);
+		$context->registerEventListener(CacheEntryRemovedEvent::class, SyncLivePhotosListener::class, 1); // Ensure this happen before the metadata are deleted.
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(NodeCopiedEvent::class, SyncLivePhotosListener::class);
 		$context->registerEventListener(LoadSearchPlugins::class, LoadSearchPluginsListener::class);

@@ -155,6 +155,25 @@
                             },
                             "mod-rewrite-working": {
                                 "type": "boolean"
+                            },
+                            "user": {
+                                "type": "object",
+                                "required": [
+                                    "language",
+                                    "locale",
+                                    "timezone"
+                                ],
+                                "properties": {
+                                    "language": {
+                                        "type": "string"
+                                    },
+                                    "locale": {
+                                        "type": "string"
+                                    },
+                                    "timezone": {
+                                        "type": "string"
+                                    }
+                                }
                             }
                         }
                     }
@@ -677,7 +696,8 @@
                     "progress",
                     "scheduledAt",
                     "startedAt",
-                    "endedAt"
+                    "endedAt",
+                    "allowCleanup"
                 ],
                 "properties": {
                     "id": {
@@ -713,8 +733,12 @@
                         "$ref": "#/components/schemas/CoreTaskProcessingIO"
                     },
                     "output": {
-                        "$ref": "#/components/schemas/CoreTaskProcessingIO",
-                        "nullable": true
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/CoreTaskProcessingIO"
+                            }
+                        ]
                     },
                     "customId": {
                         "type": "string",
@@ -744,6 +768,9 @@
                         "type": "integer",
                         "format": "int64",
                         "nullable": true
+                    },
+                    "allowCleanup": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -1079,6 +1106,7 @@
                     "name",
                     "icon",
                     "order",
+                    "isExternalProvider",
                     "triggers",
                     "filters",
                     "inAppSearch"
@@ -1099,6 +1127,9 @@
                     "order": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "isExternalProvider": {
+                        "type": "boolean"
                     },
                     "triggers": {
                         "type": "array",
@@ -2562,6 +2593,9 @@
                             1
                         ]
                     },
+                    "is_trusted_server": {
+                        "type": "boolean"
+                    },
                     "is-mount-root": {
                         "type": "boolean"
                     },
@@ -2911,40 +2945,76 @@
                                         "type": "string"
                                     },
                                     "name": {
-                                        "$ref": "#/components/schemas/FilesSharingLookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/FilesSharingLookup"
+                                            }
+                                        ]
                                     },
                                     "email": {
-                                        "$ref": "#/components/schemas/FilesSharingLookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/FilesSharingLookup"
+                                            }
+                                        ]
                                     },
                                     "address": {
-                                        "$ref": "#/components/schemas/FilesSharingLookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/FilesSharingLookup"
+                                            }
+                                        ]
                                     },
                                     "website": {
-                                        "$ref": "#/components/schemas/FilesSharingLookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/FilesSharingLookup"
+                                            }
+                                        ]
                                     },
                                     "twitter": {
-                                        "$ref": "#/components/schemas/FilesSharingLookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/FilesSharingLookup"
+                                            }
+                                        ]
                                     },
                                     "phone": {
-                                        "$ref": "#/components/schemas/FilesSharingLookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/FilesSharingLookup"
+                                            }
+                                        ]
                                     },
                                     "twitter_signature": {
-                                        "$ref": "#/components/schemas/FilesSharingLookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/FilesSharingLookup"
+                                            }
+                                        ]
                                     },
                                     "website_signature": {
-                                        "$ref": "#/components/schemas/FilesSharingLookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/FilesSharingLookup"
+                                            }
+                                        ]
                                     },
                                     "userid": {
-                                        "$ref": "#/components/schemas/FilesSharingLookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/FilesSharingLookup"
+                                            }
+                                        ]
                                     }
                                 }
                             },
@@ -3513,7 +3583,9 @@
                     "quota",
                     "role",
                     "subadmin",
+                    "timezone",
                     "twitter",
+                    "bluesky",
                     "website"
                 ],
                 "properties": {
@@ -3669,10 +3741,19 @@
                             "type": "string"
                         }
                     },
+                    "timezone": {
+                        "type": "string"
+                    },
                     "twitter": {
                         "type": "string"
                     },
                     "twitterScope": {
+                        "$ref": "#/components/schemas/ProvisioningApiUserDetailsScope"
+                    },
+                    "bluesky": {
+                        "type": "string"
+                    },
+                    "blueskyScope": {
                         "$ref": "#/components/schemas/ProvisioningApiUserDetailsScope"
                     },
                     "website": {
@@ -4142,7 +4223,8 @@
                         "required": [
                             "enabled",
                             "restore",
-                            "supports_emoji"
+                            "supports_emoji",
+                            "supports_busy"
                         ],
                         "properties": {
                             "enabled": {
@@ -4152,6 +4234,9 @@
                                 "type": "boolean"
                             },
                             "supports_emoji": {
+                                "type": "boolean"
+                            },
+                            "supports_busy": {
                                 "type": "boolean"
                             }
                         }
@@ -4211,8 +4296,12 @@
                         "type": "string"
                     },
                     "clearAt": {
-                        "$ref": "#/components/schemas/UserStatusClearAt",
-                        "nullable": true
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/UserStatusClearAt"
+                            }
+                        ]
                     }
                 }
             },
@@ -6872,8 +6961,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/CoreReference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/CoreReference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -6981,8 +7074,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/CoreReference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/CoreReference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -7063,8 +7160,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/CoreReference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/CoreReference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -7162,8 +7263,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/CoreReference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/CoreReference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -7254,8 +7359,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/CoreReference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/CoreReference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -7359,8 +7468,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/CoreReference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/CoreReference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }

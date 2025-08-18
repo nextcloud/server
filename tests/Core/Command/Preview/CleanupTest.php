@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -99,9 +100,7 @@ class CleanupTest extends TestCase {
 		$this->assertEquals(1, $this->repair->run($this->input, $this->output));
 	}
 
-	/**
-	 * @dataProvider dataForTestCleanupWithDeleteException
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataForTestCleanupWithDeleteException')]
 	public function testCleanupWithDeleteException(string $exceptionClass, string $errorMessage): void {
 		$previewFolder = $this->createMock(Folder::class);
 		$previewFolder->expects($this->once())

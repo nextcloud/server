@@ -50,19 +50,8 @@ class App {
 		if (isset($appInfo['namespace'])) {
 			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
 		} else {
-			if ($appId !== 'spreed') {
-				// if the tag is not found, fall back to uppercasing the first letter
-				self::$nameSpaceCache[$appId] = ucfirst($appId);
-			} else {
-				// For the Talk app (appid spreed) the above fallback doesn't work.
-				// This leads to a problem when trying to install it freshly,
-				// because the apps namespace is already registered before the
-				// app is downloaded from the appstore, because of the hackish
-				// global route index.php/call/{token} which is registered via
-				// the core/routes.php so it does not have the app namespace.
-				// @ref https://github.com/nextcloud/server/pull/19433
-				self::$nameSpaceCache[$appId] = 'Talk';
-			}
+			// if the tag is not found, fall back to uppercasing the first letter
+			self::$nameSpaceCache[$appId] = ucfirst($appId);
 		}
 
 		return $topNamespace . self::$nameSpaceCache[$appId];
@@ -82,7 +71,6 @@ class App {
 		return null;
 	}
 
-
 	/**
 	 * Shortcut for calling a controller method and printing the result
 	 *
@@ -93,7 +81,12 @@ class App {
 	 * @param array $urlParams list of URL parameters (optional)
 	 * @throws HintException
 	 */
-	public static function main(string $controllerName, string $methodName, DIContainer $container, ?array $urlParams = null) {
+	public static function main(
+		string $controllerName,
+		string $methodName,
+		DIContainer $container,
+		?array $urlParams = null,
+	): void {
 		/** @var IProfiler $profiler */
 		$profiler = $container->get(IProfiler::class);
 		$eventLogger = $container->get(IEventLogger::class);
@@ -101,7 +94,7 @@ class App {
 		$profiler->setEnabled($profiler->isEnabled() && !is_null($urlParams) && isset($urlParams['_route']) && !str_starts_with($urlParams['_route'], 'profiler.'));
 		if ($profiler->isEnabled()) {
 			\OC::$server->get(IEventLogger::class)->activate();
-			$profiler->add(new RoutingDataCollector($container['AppName'], $controllerName, $methodName));
+			$profiler->add(new RoutingDataCollector($container['appName'], $controllerName, $methodName));
 		}
 
 		$eventLogger->start('app:controller:params', 'Gather controller parameters');
@@ -115,7 +108,7 @@ class App {
 			$request = $container->get(IRequest::class);
 			$request->setUrlParameters($container['urlParams']);
 		}
-		$appName = $container['AppName'];
+		$appName = $container['appName'];
 
 		$eventLogger->end('app:controller:params');
 
@@ -145,8 +138,7 @@ class App {
 		$eventLogger->start('app:controller:dispatcher', 'Initialize dispatcher and pre-middleware');
 
 		// initialize the dispatcher and run all the middleware before the controller
-		/** @var Dispatcher $dispatcher */
-		$dispatcher = $container['Dispatcher'];
+		$dispatcher = $container->get(Dispatcher::class);
 
 		$eventLogger->end('app:controller:dispatcher');
 
@@ -221,26 +213,5 @@ class App {
 				$io->setOutput($output);
 			}
 		}
-	}
-
-	/**
-	 * Shortcut for calling a controller method and printing the result.
-	 * Similar to App:main except that no headers will be sent.
-	 *
-	 * @param string $controllerName the name of the controller under which it is
-	 *                               stored in the DI container
-	 * @param string $methodName the method that you want to call
-	 * @param array $urlParams an array with variables extracted from the routes
-	 * @param DIContainer $container an instance of a pimple container.
-	 */
-	public static function part(string $controllerName, string $methodName, array $urlParams,
-		DIContainer $container) {
-		$container['urlParams'] = $urlParams;
-		$controller = $container[$controllerName];
-
-		$dispatcher = $container['Dispatcher'];
-
-		[, , $output] = $dispatcher->dispatch($controller, $methodName);
-		return $output;
 	}
 }

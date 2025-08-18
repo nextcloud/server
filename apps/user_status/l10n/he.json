@@ -12,7 +12,6 @@
     "What is your status?" : "מה המצב שלך?",
     "There was an error saving the status" : "אירעה שגיאה בשמירת המצב",
     "There was an error clearing the status" : "אירעה שגיאה בפינוי המצב",
-    "Set status" : "הגדרת מצב",
     "Online status" : "מצב מקוון",
     "Status message" : "הודעת מצב",
     "Clear status message" : "פינוי הודעת המצב",
@@ -25,10 +24,12 @@
     "Do not disturb" : "לא להפריע",
     "Invisible" : "נסתרת",
     "Offline" : "בלתי מקוון",
+    "Set status" : "הגדרת מצב",
     "There was an error saving the new status" : "אירעה שגיאה בשמירת המצב החדש",
     "30 minutes" : "30 דקות",
     "1 hour" : "שעה",
     "4 hours" : "4 שעות",
+    "Busy" : "עסוק",
     "Mute all notifications" : "השתקת כל ההתראות",
     "Appear offline" : "להופיע במצב בלתי מקוון"
 },"pluralForm" :"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;"

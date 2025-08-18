@@ -77,7 +77,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	private function createGroup(string $gid): IGroup&MockObject {
-		$group = $this->createMock(\OCP\IGroup::class);
+		$group = $this->createMock(IGroup::class);
 		$group
 			->method('getGID')
 			->willReturn($gid);
@@ -161,9 +161,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetGroups
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetGroups')]
 	public function testGetGroups(?string $search, int $limit, int $offset): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 
@@ -180,12 +178,12 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetGroups
 	 *
 	 * @param string|null $search
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetGroups')]
 	public function testGetGroupsDetails($search, $limit, $offset): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 

@@ -201,6 +201,7 @@ OC.L10N.register(
     "Collaborative tags" : "Etiquetas collaborativas",
     "No tags found" : "Cap d’etiqueta pas trobada",
     "Personal" : "Personal",
+    "Accounts" : "Accounts",
     "Admin" : "Admin",
     "Help" : "Ajuda",
     "Access forbidden" : "Accès defendut",

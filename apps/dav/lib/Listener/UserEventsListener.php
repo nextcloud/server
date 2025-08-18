@@ -9,12 +9,14 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Listener;
 
+use OCA\DAV\BackgroundJob\UserStatusAutomation;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Service\ExampleContactService;
 use OCA\DAV\Service\ExampleEventService;
 use OCP\Accounts\UserUpdatedEvent;
+use OCP\BackgroundJob\IJobList;
 use OCP\Defaults;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -49,6 +51,7 @@ class UserEventsListener implements IEventListener {
 		private ExampleContactService $exampleContactService,
 		private ExampleEventService $exampleEventService,
 		private LoggerInterface $logger,
+		private IJobList $jobList,
 	) {
 	}
 
@@ -123,6 +126,8 @@ class UserEventsListener implements IEventListener {
 		foreach ($this->addressBooksToDelete[$uid] as $addressBook) {
 			$this->cardDav->deleteAddressBook($addressBook['id']);
 		}
+
+		$this->jobList->remove(UserStatusAutomation::class, ['userId' => $uid]);
 
 		unset($this->calendarsToDelete[$uid]);
 		unset($this->subscriptionsToDelete[$uid]);

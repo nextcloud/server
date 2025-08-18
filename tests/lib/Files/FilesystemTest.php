@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,6 +16,7 @@ use OC\User\NoUserException;
 use OCP\Files;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\ITempManager;
@@ -37,7 +39,7 @@ class DummyMountProvider implements IMountProvider {
 	 *
 	 * @param IUser $user
 	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint[]
+	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		return isset($this->mounts[$user->getUID()]) ? $this->mounts[$user->getUID()] : [];
@@ -200,9 +202,7 @@ class FilesystemTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider normalizePathData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('normalizePathData')]
 	public function testNormalizePath($expected, $path, $stripTrailingSlash = true): void {
 		$this->assertEquals($expected, Filesystem::normalizePath($path, $stripTrailingSlash));
 	}
@@ -218,9 +218,7 @@ class FilesystemTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider normalizePathKeepUnicodeData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('normalizePathKeepUnicodeData')]
 	public function testNormalizePathKeepUnicode($expected, $path, $keepUnicode = false): void {
 		$this->assertEquals($expected, Filesystem::normalizePath($path, true, false, $keepUnicode));
 	}
@@ -259,9 +257,7 @@ class FilesystemTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider isValidPathData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('isValidPathData')]
 	public function testIsValidPath($path, $expected): void {
 		$this->assertSame($expected, Filesystem::isValidPath($path));
 	}
@@ -281,9 +277,7 @@ class FilesystemTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider isFileBlacklistedData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('isFileBlacklistedData')]
 	public function testIsFileBlacklisted($path, $expected): void {
 		$this->assertSame($expected, Filesystem::isFileBlacklisted($path));
 	}

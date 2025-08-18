@@ -179,8 +179,8 @@ class CleanUp extends TimedJob {
 	 * @param bool $reset whether the offset should be set to 0
 	 */
 	public function setOffset(bool $reset = false): void {
-		$newOffset = $reset ? 0 :
-			$this->getOffset() + $this->getChunkSize();
+		$newOffset = $reset ? 0
+			: $this->getOffset() + $this->getChunkSize();
 		$this->ocConfig->setAppValue('user_ldap', 'cleanUpJobOffset', (string)$newOffset);
 	}
 

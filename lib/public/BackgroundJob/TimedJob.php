@@ -63,8 +63,8 @@ abstract class TimedJob extends Job {
 	 * @since 24.0.0
 	 */
 	public function setTimeSensitivity(int $sensitivity): void {
-		if ($sensitivity !== self::TIME_SENSITIVE &&
-			$sensitivity !== self::TIME_INSENSITIVE) {
+		if ($sensitivity !== self::TIME_SENSITIVE
+			&& $sensitivity !== self::TIME_INSENSITIVE) {
 			throw new \InvalidArgumentException('Invalid sensitivity');
 		}
 

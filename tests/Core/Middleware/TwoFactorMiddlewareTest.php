@@ -243,9 +243,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataRequires2FASetupDone
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataRequires2FASetupDone')]
 	public function testRequires2FASetupDone(bool $hasProvider, bool $missingProviders, bool $expectEception): void {
 		if ($hasProvider) {
 			$provider = $this->createMock(IProvider::class);

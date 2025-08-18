@@ -128,7 +128,7 @@
 						</NcCheckboxRadioSwitch>
 						<NcPasswordField v-if="isPasswordProtected"
 							autocomplete="new-password"
-							:value="hasUnsavedPassword ? share.newPassword : ''"
+							:value="share.newPassword ?? ''"
 							:error="passwordError"
 							:helper-text="errorPasswordLabel || passwordHint"
 							:required="isPasswordEnforced && isNewShare"
@@ -226,19 +226,6 @@
 							{{ t('files_sharing', 'Delete') }}
 						</NcCheckboxRadioSwitch>
 					</section>
-					<div class="sharingTabDetailsView__delete">
-						<NcButton v-if="!isNewShare"
-							:aria-label="t('files_sharing', 'Delete share')"
-							:disabled="false"
-							:readonly="false"
-							type="tertiary"
-							@click.prevent="removeShare">
-							<template #icon>
-								<CloseIcon :size="16" />
-							</template>
-							{{ t('files_sharing', 'Delete share') }}
-						</NcButton>
-					</div>
 				</section>
 			</div>
 		</div>
@@ -249,6 +236,19 @@
 					@click="cancel">
 					{{ t('files_sharing', 'Cancel') }}
 				</NcButton>
+				<div class="sharingTabDetailsView__delete">
+					<NcButton v-if="!isNewShare"
+						:aria-label="t('files_sharing', 'Delete share')"
+						:disabled="false"
+						:readonly="false"
+						variant="tertiary"
+						@click.prevent="removeShare">
+						<template #icon>
+							<CloseIcon :size="20" />
+						</template>
+						{{ t('files_sharing', 'Delete share') }}
+					</NcButton>
+				</div>
 				<NcButton type="primary"
 					data-cy-files-sharing-share-editor-action="save"
 					:disabled="creating"
@@ -281,7 +281,7 @@ import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 
 import CircleIcon from 'vue-material-design-icons/CircleOutline.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
-import EditIcon from 'vue-material-design-icons/Pencil.vue'
+import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
 import EmailIcon from 'vue-material-design-icons/Email.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import GroupIcon from 'vue-material-design-icons/AccountGroup.vue'
@@ -373,7 +373,7 @@ export default {
 		title() {
 			switch (this.share.type) {
 			case ShareType.User:
-				return t('files_sharing', 'Share with {userName}', { userName: this.share.shareWithDisplayName })
+				return t('files_sharing', 'Share with {user}', { user: this.share.shareWithDisplayName })
 			case ShareType.Email:
 			    return t('files_sharing', 'Share with email {email}', { email: this.share.shareWith })
 			case ShareType.Link:
@@ -384,6 +384,9 @@ export default {
 				return t('files_sharing', 'Share in conversation')
 			case ShareType.Remote: {
 				const [user, server] = this.share.shareWith.split('@')
+				if (this.config.showFederatedSharesAsInternal) {
+					return t('files_sharing', 'Share with {user}', { user })
+				}
 				return t('files_sharing', 'Share with {user} on remote server {server}', { user, server })
 			}
 			case ShareType.RemoteGroup:
@@ -872,7 +875,6 @@ export default {
 			if (this.isNewShare) {
 				if ((this.config.enableLinkPasswordByDefault || this.isPasswordEnforced) && this.isPublicShare) {
 					this.$set(this.share, 'newPassword', await GeneratePassword(true))
-					this.$set(this.share, 'password', this.share.newPassword)
 					this.advancedSectionAccordionExpanded = true
 				}
 				/* Set default expiration dates if configured */
@@ -973,10 +975,7 @@ export default {
 				this.share.note = ''
 			}
 			if (this.isPasswordProtected) {
-				if (this.hasUnsavedPassword && this.isValidShareAttribute(this.share.newPassword)) {
-					this.share.password = this.share.newPassword
-					this.$delete(this.share, 'newPassword')
-				} else if (this.isPasswordEnforced && this.isNewShare && !this.isValidShareAttribute(this.share.password)) {
+				if (this.isPasswordEnforced && this.isNewShare && !this.isValidShareAttribute(this.share.password)) {
 					this.passwordError = true
 				}
 			} else {
@@ -1000,7 +999,7 @@ export default {
 				incomingShare.expireDate = this.hasExpirationDate ? this.share.expireDate : ''
 
 				if (this.isPasswordProtected) {
-					incomingShare.password = this.share.password
+					incomingShare.password = this.share.newPassword
 				}
 
 				let share
@@ -1032,9 +1031,8 @@ export default {
 				this.$emit('add:share', this.share)
 			} else {
 				// Let's update after creation as some attrs are only available after creation
+				await this.queueUpdate(...permissionsAndAttributes)
 				this.$emit('update:share', this.share)
-				emit('update:share', this.share)
-				this.queueUpdate(...permissionsAndAttributes)
 			}
 
 			await this.getNode()
@@ -1111,10 +1109,6 @@ export default {
 		 * "sendPasswordByTalk".
 		 */
 		onPasswordProtectedByTalkChange() {
-			if (this.hasUnsavedPassword) {
-				this.share.password = this.share.newPassword.trim()
-			}
-
 			this.queueUpdate('sendPasswordByTalk', 'password')
 		},
 		isValidShareAttribute(value) {

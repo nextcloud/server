@@ -8,6 +8,7 @@ OC.L10N.register(
     "Federated Share request sent, you will receive an invitation. Check your notifications." : "Испратено е барање за федерално споделување, ќе добиете покана. Проверете ги известувањата.",
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Неможе да се воспостави федерално споделување, изгледа дека Федералноиот сервер има премногу стара верзија (<= 9).",
     "It is not allowed to send federated group shares from this server." : "Не е овозможено да испратите федерално групно споделување од овој сервер.",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Споделувањето %1$s е неуспешно, бидејќи ова е веќе споделено со сметката  на %2$s",
     "Federated shares require read permissions" : "Федералното споделување бара дозволи за читање",
     "File is already shared with %s" : "Датотеката е веќе споделена со %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Споделувањето на %1$s е неуспешно, неможе да се пронајде %2$s, можеби серверот моментално не е достапен или користи недоверлив сертификат.",
@@ -24,8 +25,7 @@ OC.L10N.register(
     "Unable to update federated files sharing config" : "Неможе да се ажурираат параметрите за федерално споделување",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Споделете со мене преку мојот Федерален Cloud ID, види {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Споделете со мене преку мојот Федерален Cloud ID",
-    "Cloud ID copied to the clipboard" : "Cloud ID е копиран во клипборд",
-    "Copy to clipboard" : "Копирај во клипборд",
+    "Share with me via Nextcloud" : "Сподели со мене",
     "Copied!" : "Копирано!",
     "Federated Cloud" : "Федерален клауд",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете да споделувате со секој што користи Nextcloud сервер или друг вид на Open Cloud Mesh (OCM) компатибилен сервер или сервис! Само внесете го федералниот ID во полето за споделување. Треба да изгледа korisnik@cloud.primer.com",
@@ -33,12 +33,13 @@ OC.L10N.register(
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (поранешен Twitter)",
     "Add to your website" : "Додади на твојот веб сајт",
-    "Share with me via Nextcloud" : "Сподели со мене",
     "HTML Code:" : "HTML код:",
     "Cancel" : "Откажи",
     "Add remote share" : "Додади далечинско споделување",
     "Remote share" : "Далечинско споделување",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Дали сакате да додадете далечинско споделување на {name} од {owner}@{remote}?",
-    "Remote share password" : "Лозинка за далечинско споделување"
+    "Remote share password" : "Лозинка за далечинско споделување",
+    "Cloud ID copied to the clipboard" : "Cloud ID е копиран во клипборд",
+    "Copy to clipboard" : "Копирај во клипборд"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

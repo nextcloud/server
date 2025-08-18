@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Toegang verlenen",
-    "Error configuring OAuth1" : "Fout bij configureren OAuth1",
-    "Please provide a valid app key and secret." : "Geef een geldige app sleutel en geheime sleutel op.",
     "Error configuring OAuth2" : "Fout bij configureren OAuth2",
     "Generate keys" : "Sleutels genereren",
     "Error generating key pair" : "Fout bij genereren sleutelpaar",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Geheime sleutel",
     "Builtin" : "Ingebouwd",
     "None" : "Geen",
-    "OAuth1" : "OAuth1",
-    "App key" : "App key",
-    "App secret" : "App secret",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Client secret",
@@ -40,7 +35,7 @@ OC.L10N.register(
     "OpenStack v3" : "OpenStack v3",
     "Domain" : "Domein",
     "Rackspace" : "Rackspace",
-    "API key" : "API sleutel",
+    "API key" : "API-sleutel",
     "Global credentials" : "Globale inloggegevens",
     "Log-in credentials, save in database" : "Inloggegevens, bewaren in de database",
     "Login and password" : "Login en wachtwoord",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Iedereen",
     "Advanced settings" : "Geavanceerde instellingen",
     "Allow people to mount external storage" : "Toestaan dat mensen externe opslag aankoppelen",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale inloggegevens kunnen worden gebruikt met meerdere externe opslagsystemen met dezelfde inloggegevens.",
+    "Error configuring OAuth1" : "Fout bij configureren OAuth1",
+    "Please provide a valid app key and secret." : "Geef een geldige app sleutel en geheime sleutel op.",
+    "OAuth1" : "OAuth1",
+    "App key" : "App key",
+    "App secret" : "App secret"
 },
 "nplurals=2; plural=(n != 1);");

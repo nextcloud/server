@@ -1,7 +1,5 @@
 { "translations": {
     "Grant access" : "Conceder acceso",
-    "Error configuring OAuth1" : "Error al configurar OAuth1",
-    "Please provide a valid app key and secret." : "Por favor facilite una clave de app y una clave secreta válidas.",
     "Error configuring OAuth2" : "Error al configurar OAuth2",
     "Generate keys" : "Generar claves",
     "Error generating key pair" : "Error al generar el par de claves",
@@ -24,9 +22,6 @@
     "Secret key" : "Clave secreta",
     "Builtin" : "Incorporado",
     "None" : "Ninguno",
-    "OAuth1" : "OAuth1",
-    "App key" : "App principal",
-    "App secret" : "App secreta",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID de Cliente",
     "Client secret" : "Cliente secreto",
@@ -155,6 +150,11 @@
     "All people" : "Todas as persoas",
     "Advanced settings" : "Configuración avanzada",
     "Allow people to mount external storage" : "Permite que as persoas monten almacenamento externo",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Se pueden usar credenciales globales para autenticar con múltiples almacenamientos externos que tengan las mismas credenciales."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Se pueden usar credenciales globales para autenticar con múltiples almacenamientos externos que tengan las mismas credenciales.",
+    "Error configuring OAuth1" : "Error al configurar OAuth1",
+    "Please provide a valid app key and secret." : "Por favor facilite una clave de app y una clave secreta válidas.",
+    "OAuth1" : "OAuth1",
+    "App key" : "App principal",
+    "App secret" : "App secreta"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

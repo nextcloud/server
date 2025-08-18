@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -385,7 +386,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$subSelect->select('resourceid')
 				->from('dav_shares', 'd')
 				->where($subSelect->expr()->eq('d.access', $select->createNamedParameter(Backend::ACCESS_UNSHARED, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
-				->andWhere($subSelect->expr()->eq('d.principaluri', $select->createNamedParameter($principalUri, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+				->andWhere($subSelect->expr()->in('d.principaluri', $select->createNamedParameter($principals, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY));
 
 			$select->select($fields)
 				->from('dav_shares', 's')
@@ -409,8 +410,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						// New share can not have more permissions than the old one.
 						continue;
 					}
-					if (isset($calendars[$row['id']][$readOnlyPropertyName]) &&
-						$calendars[$row['id']][$readOnlyPropertyName] === 0) {
+					if (isset($calendars[$row['id']][$readOnlyPropertyName])
+						&& $calendars[$row['id']][$readOnlyPropertyName] === 0) {
 						// Old share is already read-write, no more permissions can be gained
 						continue;
 					}
@@ -2009,8 +2010,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		if ($pattern !== '') {
 			$innerQuery->andWhere($innerQuery->expr()->iLike('op.value',
-				$outerQuery->createNamedParameter('%' .
-					$this->db->escapeLikeParameter($pattern) . '%')));
+				$outerQuery->createNamedParameter('%'
+					. $this->db->escapeLikeParameter($pattern) . '%')));
 		}
 
 		$start = null;

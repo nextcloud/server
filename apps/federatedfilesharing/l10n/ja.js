@@ -46,8 +46,8 @@ OC.L10N.register(
     "Automatically accept shares from trusted federated accounts and groups by default" : "信頼できるフェデレーションアカウントとグループからの共有をデフォルトで自動的に受け入れる",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "私の #Nextcloud Federated Cloud ID を通して共有してください、 {url} を参照してください。",
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud の「クラウド共有ID」で私と共有できます。",
-    "Cloud ID copied to the clipboard" : "クリップボードにクラウドIDをコピーしました",
-    "Copy to clipboard" : "クリップボードにコピー",
+    "Share with me via Nextcloud" : "Nextcloud 経由で共有",
+    "Copy" : "コピー",
     "Clipboard not available. Please copy the cloud ID manually." : "クリップボードが使用できません。手動でクラウドIDをコピーしてください。",
     "Copied!" : "コピーしました！",
     "Federated Cloud" : "クラウド共有",
@@ -59,13 +59,14 @@ OC.L10N.register(
     "formerly Twitter" : " 旧 Twitter",
     "Mastodon" : "Mastodon",
     "Add to your website" : "ウェブサイトに追加",
-    "Share with me via Nextcloud" : "Nextcloud 経由で共有",
     "HTML Code:" : "HTMLコード:",
     "Cancel" : "キャンセル",
     "Add remote share" : "リモート共有を追加",
     "Remote share" : "リモート共有",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} からのリモート共有 {name} を追加してもよろしいですか？",
     "Remote share password" : "リモート共有のパスワード",
-    "Incoming share could not be processed" : "受信した共有を処理できませんでした"
+    "Incoming share could not be processed" : "受信した共有を処理できませんでした",
+    "Cloud ID copied to the clipboard" : "クリップボードにクラウドIDをコピーしました",
+    "Copy to clipboard" : "クリップボードにコピー"
 },
 "nplurals=1; plural=0;");

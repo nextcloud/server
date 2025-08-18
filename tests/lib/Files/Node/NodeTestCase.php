@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,10 +13,13 @@ use OC\Files\Mount\Manager;
 use OC\Files\Node\File;
 use OC\Files\Node\Folder;
 use OC\Files\Node\Root;
+use OC\Files\Storage\Storage;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
+use OC\User\User;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
@@ -34,15 +38,15 @@ use Psr\Log\LoggerInterface;
  * @package Test\Files\Node
  */
 abstract class NodeTestCase extends \Test\TestCase {
-	/** @var \OC\User\User */
+	/** @var User */
 	protected $user;
 	/** @var \OC\Files\Mount\Manager */
 	protected $manager;
-	/** @var \OC\Files\View|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	protected $view;
 	/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject */
 	protected $root;
-	/** @var \OCP\Files\Config\IUserMountCache|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserMountCache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userMountCache;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
@@ -83,7 +87,7 @@ abstract class NodeTestCase extends \Test\TestCase {
 	}
 
 	/**
-	 * @return \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
+	 * @return View|\PHPUnit\Framework\MockObject\MockObject $view
 	 */
 	protected function getRootViewMock() {
 		$view = $this->createMock(View::class);
@@ -340,7 +344,7 @@ abstract class NodeTestCase extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 		/**
-		 * @var \OC\Files\Storage\Storage | \PHPUnit\Framework\MockObject\MockObject $storage
+		 * @var Storage|\PHPUnit\Framework\MockObject\MockObject $storage
 		 */
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()
@@ -364,7 +368,7 @@ abstract class NodeTestCase extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 		/**
-		 * @var \OC\Files\Storage\Storage | \PHPUnit\Framework\MockObject\MockObject $storage
+		 * @var Storage|\PHPUnit\Framework\MockObject\MockObject $storage
 		 */
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
 			->disableOriginalConstructor()
@@ -513,7 +517,7 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->expectException(NotPermittedException::class);
 
 		/**
-		 * @var \OC\Files\Storage\Storage | \PHPUnit\Framework\MockObject\MockObject $storage
+		 * @var Storage|\PHPUnit\Framework\MockObject\MockObject $storage
 		 */
 		$storage = $this->createMock('\OC\Files\Storage\Storage');
 
@@ -606,12 +610,12 @@ abstract class NodeTestCase extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider moveOrCopyProvider
 	 * @param string $operationMethod
 	 * @param string $viewMethod
 	 * @param string $preHookName
 	 * @param string $postHookName
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('moveOrCopyProvider')]
 	public function testMoveCopyHooks($operationMethod, $viewMethod, $preHookName, $postHookName): void {
 		/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder(Root::class)
@@ -706,7 +710,7 @@ abstract class NodeTestCase extends \Test\TestCase {
 		$this->expectException(NotFoundException::class);
 
 		/**
-		 * @var \OC\Files\Storage\Storage | \PHPUnit\Framework\MockObject\MockObject $storage
+		 * @var Storage|\PHPUnit\Framework\MockObject\MockObject $storage
 		 */
 		$storage = $this->createMock('\OC\Files\Storage\Storage');
 

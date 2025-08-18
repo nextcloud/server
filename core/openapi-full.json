@@ -117,6 +117,25 @@
                             },
                             "mod-rewrite-working": {
                                 "type": "boolean"
+                            },
+                            "user": {
+                                "type": "object",
+                                "required": [
+                                    "language",
+                                    "locale",
+                                    "timezone"
+                                ],
+                                "properties": {
+                                    "language": {
+                                        "type": "string"
+                                    },
+                                    "locale": {
+                                        "type": "string"
+                                    },
+                                    "timezone": {
+                                        "type": "string"
+                                    }
+                                }
                             }
                         }
                     }
@@ -639,7 +658,8 @@
                     "progress",
                     "scheduledAt",
                     "startedAt",
-                    "endedAt"
+                    "endedAt",
+                    "allowCleanup"
                 ],
                 "properties": {
                     "id": {
@@ -675,8 +695,12 @@
                         "$ref": "#/components/schemas/TaskProcessingIO"
                     },
                     "output": {
-                        "$ref": "#/components/schemas/TaskProcessingIO",
-                        "nullable": true
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/TaskProcessingIO"
+                            }
+                        ]
                     },
                     "customId": {
                         "type": "string",
@@ -706,6 +730,9 @@
                         "type": "integer",
                         "format": "int64",
                         "nullable": true
+                    },
+                    "allowCleanup": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -1041,6 +1068,7 @@
                     "name",
                     "icon",
                     "order",
+                    "isExternalProvider",
                     "triggers",
                     "filters",
                     "inAppSearch"
@@ -1061,6 +1089,9 @@
                     "order": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "isExternalProvider": {
+                        "type": "boolean"
                     },
                     "triggers": {
                         "type": "array",
@@ -3418,8 +3449,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3527,8 +3562,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3609,8 +3648,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3708,8 +3751,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3800,8 +3847,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -3905,8 +3956,12 @@
                                                         "references": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "$ref": "#/components/schemas/Reference",
-                                                                "nullable": true
+                                                                "nullable": true,
+                                                                "allOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/Reference"
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }

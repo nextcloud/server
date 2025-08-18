@@ -21,7 +21,6 @@
     "There was an error saving the status" : "Durum kaydedilirken bir sorun çıktı",
     "There was an error clearing the status" : "Durum kaldırılırken bir sorun çıktı",
     "There was an error reverting the status" : "Durum geri alınırken bir sorun çıktı",
-    "Set status" : "Durumu ayarla",
     "Online status" : "Çevrim içi durumu",
     "Status message" : "Durum iletisi",
     "Set absence period" : "Bulunmama aralığını ayarla",
@@ -37,10 +36,12 @@
     "Do not disturb" : "Rahatsız etmeyin",
     "Invisible" : "Gizli",
     "Offline" : "Çevrim dışı",
+    "Set status" : "Durumu ayarla",
     "There was an error saving the new status" : "Yeni durum kaydedilirken bir sorun çıktı",
     "30 minutes" : "30 dakika",
     "1 hour" : "1 saat",
     "4 hours" : "4 saat",
+    "Busy" : "Meşgul",
     "Mute all notifications" : "Tüm bildirimleri kapat",
     "Appear offline" : "Çevrim dışı görün"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

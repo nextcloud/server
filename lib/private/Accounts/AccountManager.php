@@ -78,6 +78,7 @@ class AccountManager implements IAccountManager {
 		self::PROPERTY_PRONOUNS => self::SCOPE_FEDERATED,
 		self::PROPERTY_ROLE => self::SCOPE_LOCAL,
 		self::PROPERTY_TWITTER => self::SCOPE_LOCAL,
+		self::PROPERTY_BLUESKY => self::SCOPE_LOCAL,
 		self::PROPERTY_WEBSITE => self::SCOPE_LOCAL,
 	];
 
@@ -564,6 +565,13 @@ class AccountManager implements IAccountManager {
 			],
 
 			[
+				'name' => self::PROPERTY_BLUESKY,
+				'value' => '',
+				'scope' => $scopes[self::PROPERTY_BLUESKY],
+				'verified' => self::NOT_VERIFIED,
+			],
+
+			[
 				'name' => self::PROPERTY_FEDIVERSE,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_FEDIVERSE],
@@ -713,6 +721,47 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
+	private function validateBlueSkyHandle(string $text): bool {
+		if ($text === '') {
+			return true;
+		}
+
+		$lowerText = strtolower($text);
+
+		if ($lowerText === 'bsky.social') {
+			// "bsky.social" itself is not a valid handle
+			return false;
+		}
+
+		if (str_ends_with($lowerText, '.bsky.social')) {
+			$parts = explode('.', $lowerText);
+
+			// Must be exactly: username.bsky.social → 3 parts
+			if (count($parts) !== 3 || $parts[1] !== 'bsky' || $parts[2] !== 'social') {
+				return false;
+			}
+
+			$username = $parts[0];
+
+			// Must be 3–18 chars, alphanumeric/hyphen, no start/end hyphen
+			return preg_match('/^[a-z0-9][a-z0-9-]{2,17}$/', $username) === 1;
+		}
+
+		// Allow custom domains (Bluesky handle via personal domain)
+		return filter_var($text, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) !== false;
+	}
+
+
+	private function sanitizePropertyBluesky(IAccountProperty $property): void {
+		if ($property->getName() === self::PROPERTY_BLUESKY) {
+			if (!$this->validateBlueSkyHandle($property->getValue())) {
+				throw new InvalidArgumentException(self::PROPERTY_BLUESKY);
+			}
+
+			$property->setValue($property->getValue());
+		}
+	}
+
 	/**
 	 * @throws InvalidArgumentException If the property value is not a valid fediverse handle (username@instance where instance is a valid domain)
 	 */
@@ -734,7 +783,7 @@ class AccountManager implements IAccountManager {
 
 				try {
 					// try the public account lookup API of mastodon
-					$response = $client->get("https://{$instance}/api/v1/accounts/lookup?acct={$username}@{$instance}");
+					$response = $client->get("https://{$instance}/.well-known/webfinger?resource=acct:{$username}@{$instance}");
 					// should be a json response with account information
 					$data = $response->getBody();
 					if (is_resource($data)) {
@@ -743,8 +792,25 @@ class AccountManager implements IAccountManager {
 					$decoded = json_decode($data, true);
 					// ensure the username is the same the user passed
 					// in this case we can assume this is a valid fediverse server and account
-					if (!is_array($decoded) || ($decoded['username'] ?? '') !== $username) {
+					if (!is_array($decoded) || ($decoded['subject'] ?? '') !== "acct:{$username}@{$instance}") {
 						throw new InvalidArgumentException();
+					}
+					// check for activitypub link
+					if (is_array($decoded['links']) && isset($decoded['links'])) {
+						$found = false;
+						foreach ($decoded['links'] as $link) {
+							// have application/activity+json or application/ld+json
+							if (isset($link['type']) && (
+								$link['type'] === 'application/activity+json'
+								|| $link['type'] === 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'
+							)) {
+								$found = true;
+								break;
+							}
+						}
+						if (!$found) {
+							throw new InvalidArgumentException();
+						}
 					}
 				} catch (InvalidArgumentException) {
 					throw new InvalidArgumentException(self::PROPERTY_FEDIVERSE);
@@ -782,6 +848,15 @@ class AccountManager implements IAccountManager {
 			$property = $account->getProperty(self::PROPERTY_TWITTER);
 			if ($property->getValue() !== '') {
 				$this->sanitizePropertyTwitter($property);
+			}
+		} catch (PropertyDoesNotExistException $e) {
+			//  valid case, nothing to do
+		}
+
+		try {
+			$property = $account->getProperty(self::PROPERTY_BLUESKY);
+			if ($property->getValue() !== '') {
+				$this->sanitizePropertyBluesky($property);
 			}
 		} catch (PropertyDoesNotExistException $e) {
 			//  valid case, nothing to do

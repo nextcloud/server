@@ -64,7 +64,7 @@ class TransferOwnership extends Command {
 				'transfer-incoming-shares',
 				null,
 				InputOption::VALUE_OPTIONAL,
-				'transfer incoming user file shares to destination user. Usage: --transfer-incoming-shares=1 (value required)',
+				'Incoming shares are always transferred now, so this option does not affect the ownership transfer anymore',
 				'2'
 			)->addOption(
 				'include-external-storage',
@@ -129,27 +129,6 @@ class TransferOwnership extends Command {
 		}
 
 		try {
-			$includeIncomingArgument = $input->getOption('transfer-incoming-shares');
-
-			switch ($includeIncomingArgument) {
-				case '0':
-					$includeIncoming = false;
-					break;
-				case '1':
-					$includeIncoming = true;
-					break;
-				case '2':
-					$includeIncoming = $this->config->getSystemValue('transferIncomingShares', false);
-					if (gettype($includeIncoming) !== 'boolean') {
-						$output->writeln("<error> config.php: 'transfer-incoming-shares': wrong usage. Transfer aborted.</error>");
-						return self::FAILURE;
-					}
-					break;
-				default:
-					$output->writeln('<error>Option --transfer-incoming-shares: wrong usage. Transfer aborted.</error>');
-					return self::FAILURE;
-			}
-
 			$this->transferService->transfer(
 				$sourceUserObject,
 				$destinationUserObject,
@@ -157,7 +136,6 @@ class TransferOwnership extends Command {
 				$output,
 				$input->getOption('move') === true,
 				false,
-				$includeIncoming,
 				$includeExternalStorage,
 			);
 		} catch (TransferOwnershipException $e) {

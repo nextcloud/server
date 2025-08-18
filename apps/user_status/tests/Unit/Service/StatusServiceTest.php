@@ -221,9 +221,7 @@ class StatusServiceTest extends TestCase {
 		$this->assertNull($status->getMessageId());
 	}
 
-	/**
-	 * @dataProvider setStatusDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('setStatusDataProvider')]
 	public function testSetStatus(
 		string $userId,
 		string $status,
@@ -344,9 +342,7 @@ class StatusServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider setPredefinedMessageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('setPredefinedMessageDataProvider')]
 	public function testSetPredefinedMessage(
 		string $userId,
 		string $messageId,
@@ -433,9 +429,7 @@ class StatusServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider setCustomMessageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('setCustomMessageDataProvider')]
 	public function testSetCustomMessage(
 		string $userId,
 		?string $statusIcon,
@@ -799,9 +793,7 @@ class StatusServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSetUserStatus
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetUserStatus')]
 	public function testSetUserStatus(string $messageId, string $oldMessageId, bool $expectedUpdateShortcut): void {
 		$previous = new UserStatus();
 		$previous->setId(1);

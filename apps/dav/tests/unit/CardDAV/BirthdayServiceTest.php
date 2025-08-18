@@ -50,9 +50,7 @@ class BirthdayServiceTest extends TestCase {
 			$this->dbConnection, $this->l10n);
 	}
 
-	/**
-	 * @dataProvider providesVCards
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesVCards')]
 	public function testBuildBirthdayFromContact(?string $expectedSummary, ?string $expectedDTStart, ?string $expectedRrule, ?string $expectedFieldType, ?string $expectedUnknownYear, ?string $expectedOriginalYear, ?string $expectedReminder, ?string $data, string $fieldType, string $prefix, bool $supports4Bytes, ?string $configuredReminder): void {
 		$this->dbConnection->method('supports4ByteText')->willReturn($supports4Bytes);
 		$cal = $this->service->buildDateFromContact($data, $fieldType, $prefix, $configuredReminder);
@@ -146,7 +144,7 @@ class BirthdayServiceTest extends TestCase {
 		];
 		$this->calDav->expects($this->exactly(count($calls)))
 			->method('deleteCalendarObject')
-			->willReturnCallback(function ($calendarId, $objectUri) use (&$calls) {
+			->willReturnCallback(function ($calendarId, $objectUri) use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, [$calendarId, $objectUri]);
 			});
@@ -200,9 +198,7 @@ class BirthdayServiceTest extends TestCase {
 		$service->onCardChanged(666, 'gump.vcf', '');
 	}
 
-	/**
-	 * @dataProvider providesCardChanges
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesCardChanges')]
 	public function testOnCardChanged(string $expectedOp): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
@@ -246,7 +242,7 @@ class BirthdayServiceTest extends TestCase {
 			];
 			$this->calDav->expects($this->exactly(count($calls)))
 				->method('deleteCalendarObject')
-				->willReturnCallback(function ($calendarId, $objectUri) use (&$calls) {
+				->willReturnCallback(function ($calendarId, $objectUri) use (&$calls): void {
 					$expected = array_shift($calls);
 					$this->assertEquals($expected, [$calendarId, $objectUri]);
 				});
@@ -264,7 +260,7 @@ class BirthdayServiceTest extends TestCase {
 			];
 			$this->calDav->expects($this->exactly(count($createCalendarObjectCalls)))
 				->method('createCalendarObject')
-				->willReturnCallback(function ($calendarId, $objectUri, $calendarData) use (&$createCalendarObjectCalls) {
+				->willReturnCallback(function ($calendarId, $objectUri, $calendarData) use (&$createCalendarObjectCalls): void {
 					$expected = array_shift($createCalendarObjectCalls);
 					$this->assertEquals($expected, [$calendarId, $objectUri, $calendarData]);
 				});
@@ -284,7 +280,7 @@ class BirthdayServiceTest extends TestCase {
 			];
 			$this->calDav->expects($this->exactly(count($updateCalendarObjectCalls)))
 				->method('updateCalendarObject')
-				->willReturnCallback(function ($calendarId, $objectUri, $calendarData) use (&$updateCalendarObjectCalls) {
+				->willReturnCallback(function ($calendarId, $objectUri, $calendarData) use (&$updateCalendarObjectCalls): void {
 					$expected = array_shift($updateCalendarObjectCalls);
 					$this->assertEquals($expected, [$calendarId, $objectUri, $calendarData]);
 				});
@@ -293,9 +289,7 @@ class BirthdayServiceTest extends TestCase {
 		$service->onCardChanged(666, 'gump.vcf', '');
 	}
 
-	/**
-	 * @dataProvider providesBirthday
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesBirthday')]
 	public function testBirthdayEvenChanged(bool $expected, string $old, string $new): void {
 		$new = Reader::read($new);
 		$this->assertEquals($expected, $this->service->birthdayEvenChanged($old, $new));
@@ -369,7 +363,7 @@ class BirthdayServiceTest extends TestCase {
 		];
 		$this->calDav->expects($this->exactly(count($calls)))
 			->method('deleteCalendarObject')
-			->willReturnCallback(function ($calendarId, $objectUri, $calendarType) use (&$calls) {
+			->willReturnCallback(function ($calendarId, $objectUri, $calendarType) use (&$calls): void {
 				$expected = array_shift($calls);
 				$this->assertEquals($expected, [$calendarId, $objectUri, $calendarType]);
 			});

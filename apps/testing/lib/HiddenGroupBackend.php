@@ -13,12 +13,9 @@ use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IHideFromCollaborationBackend;
 
 class HiddenGroupBackend extends ABackend implements IHideFromCollaborationBackend {
-	private string $groupName;
-
 	public function __construct(
-		string $groupName = 'hidden_group',
+		private string $groupName = 'hidden_group',
 	) {
-		$this->groupName = $groupName;
 	}
 
 	public function inGroup($uid, $gid): bool {

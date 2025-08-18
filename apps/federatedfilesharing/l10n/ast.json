@@ -31,8 +31,8 @@
     "Allow people to publish their data to a global and public address book" : "Permitir que les persones espublicen los sos datos nuna llibreta de direiciones global y pública",
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Compartir conmigo pente la mio ID de nube federada de #Nextcloud, mira {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartir conmigo pente la mio ID de nube federada de #Nextcloud",
-    "Cloud ID copied to the clipboard" : "La ID de la nube copióse nel cartafueyu",
-    "Copy to clipboard" : "Copiar nel cartafueyu",
+    "Share with me via Nextcloud" : "Compartir conmigo per Nextcloud",
+    "Copy" : "Copiar",
     "Copied!" : "¡Copióse!",
     "Federated Cloud" : "Nube federada",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Pues compartir conteníu con cualesquier persona qu'use un sirvidor de Nextcloud o otros sirvidores y servicios compatibles con Open Cloud Mesh (OCM). Namás indica la ID de na nube federada nel cuadru de diálogu d'usu compartíu. Aseméyase a persona@nube.exemplu.com",
@@ -41,12 +41,13 @@
     "X (formerly Twitter)" : "X (anteriormente Twitter)",
     "Mastodon" : "Mastodon",
     "Add to your website" : "Amestar al to sitiu web",
-    "Share with me via Nextcloud" : "Compartir conmigo per Nextcloud",
     "HTML Code:" : "Códigu HTML:",
     "Cancel" : "Encaboxar",
     "Add remote share" : "Amestar un elementu compartíu remotu",
     "Remote share" : "Compartición remota",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Quies amestar la compartición remota «{name}» de {owner}@{remote}?",
-    "Remote share password" : "Contraseña de la compartición remota"
+    "Remote share password" : "Contraseña de la compartición remota",
+    "Cloud ID copied to the clipboard" : "La ID de la nube copióse nel cartafueyu",
+    "Copy to clipboard" : "Copiar nel cartafueyu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

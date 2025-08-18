@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,7 @@ namespace Test\BackgroundJob;
 
 use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJob;
+use OCP\BackgroundJob\Job;
 use OCP\Server;
 
 /**
@@ -131,7 +133,7 @@ class DummyJobList extends JobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param \OCP\BackgroundJob\Job $job
+	 * @param Job $job
 	 */
 	public function setLastJob(IJob $job): void {
 		$i = array_search($job, $this->jobs);

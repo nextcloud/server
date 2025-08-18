@@ -82,9 +82,7 @@ class RequestUserAgentTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecuteCheck
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheck')]
 	public function testExecuteCheck(string $operation, string $checkValue, string $actualValue, bool $expected): void {
 		$this->request->expects($this->once())
 			->method('getHeader')

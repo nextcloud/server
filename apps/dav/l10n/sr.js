@@ -250,6 +250,8 @@ OC.L10N.register(
     "Completed on %s" : "Завршено %s",
     "Due on %s by %s" : "Рок је %s од стране %s",
     "Due on %s" : "Рок је %s",
+    "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Добро дошли у Nextcloud Календар!\n\nОво је догађај за пример - истражите флексибилност планирања са  Nextcloud Календаром тако што ћете направите било какве измене!\n\nСа Nextcloud Календаром, можете да:\n- Креирате, уређујете и управљате догађајима без муке.\n- Креирате више календара и делите их са члановима тима, пријатељима или породицом.\n- Проверавате доступност и осталима приказујете време у које сте заузети.\n- Лако интегришете са осталим апликацијама и уређајима помоћу CalDAV.\n- Прилагодите своје искуство: правите распоред догађаја који се понављају, подешавате обавештења и остале поставке.",
+    "Example event - open me!" : "Догађај за пример - отвори ме!",
     "System Address Book" : "Системски адресар",
     "The system address book contains contact information for all users in your instance." : "Системски адресар садржи информације о свим корисницима на вашој инстанци.",
     "Enable System Address Book" : "Укључи системски адресар",

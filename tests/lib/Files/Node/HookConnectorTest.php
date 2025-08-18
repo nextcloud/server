@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -152,8 +153,8 @@ class HookConnectorTest extends TestCase {
 	/**
 	 * @param callable $operation
 	 * @param string $expectedHook
-	 * @dataProvider viewToNodeProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('viewToNodeProvider')]
 	public function testViewToNode(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
@@ -221,8 +222,8 @@ class HookConnectorTest extends TestCase {
 	/**
 	 * @param callable $operation
 	 * @param string $expectedHook
-	 * @dataProvider viewToNodeProviderCopyRename
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('viewToNodeProviderCopyRename')]
 	public function testViewToNodeCopyRename(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();

@@ -238,21 +238,6 @@ class OC_App {
 	}
 
 	/**
-	 * Get the path where to install apps
-	 */
-	public static function getInstallPath(): ?string {
-		foreach (OC::$APPSROOTS as $dir) {
-			if (isset($dir['writable']) && $dir['writable'] === true) {
-				return $dir['path'];
-			}
-		}
-
-		Server::get(LoggerInterface::class)->error('No application directories are marked as writable.', ['app' => 'core']);
-		return null;
-	}
-
-
-	/**
 	 * Find the apps root for an app id.
 	 *
 	 * If multiple copies are found, the apps root the latest version is returned.
@@ -700,7 +685,7 @@ class OC_App {
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
 			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
+		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid') !== '') {
 			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {
@@ -773,81 +758,6 @@ class OC_App {
 				'app' => $appId,
 				'step' => $step]);
 		}
-	}
-
-	protected static function findBestL10NOption(array $options, string $lang): string {
-		// only a single option
-		if (isset($options['@value'])) {
-			return $options['@value'];
-		}
-
-		$fallback = $similarLangFallback = $englishFallback = false;
-
-		$lang = strtolower($lang);
-		$similarLang = $lang;
-		if (strpos($similarLang, '_')) {
-			// For "de_DE" we want to find "de" and the other way around
-			$similarLang = substr($lang, 0, strpos($lang, '_'));
-		}
-
-		foreach ($options as $option) {
-			if (is_array($option)) {
-				if ($fallback === false) {
-					$fallback = $option['@value'];
-				}
-
-				if (!isset($option['@attributes']['lang'])) {
-					continue;
-				}
-
-				$attributeLang = strtolower($option['@attributes']['lang']);
-				if ($attributeLang === $lang) {
-					return $option['@value'];
-				}
-
-				if ($attributeLang === $similarLang) {
-					$similarLangFallback = $option['@value'];
-				} elseif (str_starts_with($attributeLang, $similarLang . '_')) {
-					if ($similarLangFallback === false) {
-						$similarLangFallback = $option['@value'];
-					}
-				}
-			} else {
-				$englishFallback = $option;
-			}
-		}
-
-		if ($similarLangFallback !== false) {
-			return $similarLangFallback;
-		} elseif ($englishFallback !== false) {
-			return $englishFallback;
-		}
-		return (string)$fallback;
-	}
-
-	/**
-	 * parses the app data array and enhanced the 'description' value
-	 *
-	 * @param array $data the app data
-	 * @param string $lang
-	 * @return array improved app data
-	 */
-	public static function parseAppInfo(array $data, $lang = null): array {
-		if ($lang && isset($data['name']) && is_array($data['name'])) {
-			$data['name'] = self::findBestL10NOption($data['name'], $lang);
-		}
-		if ($lang && isset($data['summary']) && is_array($data['summary'])) {
-			$data['summary'] = self::findBestL10NOption($data['summary'], $lang);
-		}
-		if ($lang && isset($data['description']) && is_array($data['description'])) {
-			$data['description'] = trim(self::findBestL10NOption($data['description'], $lang));
-		} elseif (isset($data['description']) && is_string($data['description'])) {
-			$data['description'] = trim($data['description']);
-		} else {
-			$data['description'] = '';
-		}
-
-		return $data;
 	}
 
 	/**

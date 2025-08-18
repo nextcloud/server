@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -49,9 +50,7 @@ class SecurityProviderTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider subjectData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('subjectData')]
 	public function testParse(string $subject): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);

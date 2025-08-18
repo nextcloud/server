@@ -56,6 +56,7 @@ OC.L10N.register(
     "Loading …" : "در حال بارگذاری...",
     "Manage tags" : "مدیریت برچسب ها",
     "Cancel" : "منصرف شدن",
+    "Apply" : "اعمال",
     "Failed to load tags" : "بارگیری برچسب ها انجام نشد",
     "Failed to load selected tags" : "Failed to load selected tags",
     "Failed to select tag" : "Failed to select tag",

@@ -54,9 +54,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	/**
-	 * @dataProvider sharesGetPropertiesDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sharesGetPropertiesDataProvider')]
 	public function testGetProperties(array $shareTypes): void {
 		$sabreNode = $this->createMock(Node::class);
 		$sabreNode->expects($this->any())
@@ -119,9 +117,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->assertEquals($shareTypes, $result[200][self::SHARETYPES_PROPERTYNAME]->getShareTypes());
 	}
 
-	/**
-	 * @dataProvider sharesGetPropertiesDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sharesGetPropertiesDataProvider')]
 	public function testPreloadThenGetProperties(array $shareTypes): void {
 		$sabreNode1 = $this->createMock(File::class);
 		$sabreNode1->method('getId')
@@ -227,6 +223,7 @@ class SharesPluginTest extends \Test\TestCase {
 			0
 		);
 
+		$this->server->emit('preloadCollection', [$propFindRoot, $sabreNode]);
 		$this->plugin->handleGetProperties(
 			$propFindRoot,
 			$sabreNode

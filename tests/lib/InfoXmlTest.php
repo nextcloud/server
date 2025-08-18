@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -49,10 +50,9 @@ class InfoXmlTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataApps
-	 *
 	 * @param string $app
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataApps')]
 	public function testClasses($app): void {
 		$appInfo = $this->appManager->getAppInfo($app);
 		$appPath = $this->appManager->getAppPath($app);

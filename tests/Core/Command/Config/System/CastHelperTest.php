@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -36,9 +37,7 @@ class CastHelperTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider castValueProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('castValueProvider')]
 	public function testCastValue($value, $type, $expectedValue): void {
 		$this->assertSame(
 			$expectedValue,
@@ -58,9 +57,7 @@ class CastHelperTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider castValueInvalidProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('castValueInvalidProvider')]
 	public function testCastValueInvalid($value, $type): void {
 		$this->expectException(\InvalidArgumentException::class);
 

@@ -26,7 +26,7 @@ class PredefinedStatusServiceTest extends TestCase {
 	}
 
 	public function testGetDefaultStatuses(): void {
-		$this->l10n->expects($this->exactly(7))
+		$this->l10n->expects($this->exactly(8))
 			->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
@@ -50,6 +50,15 @@ class PredefinedStatusServiceTest extends TestCase {
 				'clearAt' => [
 					'type' => 'period',
 					'time' => 1800,
+				],
+			],
+			[
+				'id' => 'be-right-back',
+				'icon' => '⏳',
+				'message' => 'Be right back',
+				'clearAt' => [
+					'type' => 'period',
+					'time' => 900,
 				],
 			],
 			[
@@ -93,9 +102,7 @@ class PredefinedStatusServiceTest extends TestCase {
 		], $actual);
 	}
 
-	/**
-	 * @dataProvider getIconForIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getIconForIdDataProvider')]
 	public function testGetIconForId(string $id, ?string $expectedIcon): void {
 		$actual = $this->service->getIconForId($id);
 		$this->assertEquals($expectedIcon, $actual);
@@ -108,14 +115,13 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', '🤒'],
 			['vacationing', '🌴'],
 			['remote-work', '🏡'],
+			['be-right-back', '⏳'],
 			['call', '💬'],
 			['unknown-id', null],
 		];
 	}
 
-	/**
-	 * @dataProvider getTranslatedStatusForIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('getTranslatedStatusForIdDataProvider')]
 	public function testGetTranslatedStatusForId(string $id, ?string $expected): void {
 		$this->l10n->method('t')
 			->willReturnArgument(0);
@@ -131,14 +137,13 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', 'Out sick'],
 			['vacationing', 'Vacationing'],
 			['remote-work', 'Working remotely'],
+			['be-right-back', 'Be right back'],
 			['call', 'In a call'],
 			['unknown-id', null],
 		];
 	}
 
-	/**
-	 * @dataProvider isValidIdDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('isValidIdDataProvider')]
 	public function testIsValidId(string $id, bool $expected): void {
 		$actual = $this->service->isValidId($id);
 		$this->assertEquals($expected, $actual);
@@ -151,13 +156,14 @@ class PredefinedStatusServiceTest extends TestCase {
 			['sick-leave', true],
 			['vacationing', true],
 			['remote-work', true],
+			['be-right-back', true],
 			['call', true],
 			['unknown-id', false],
 		];
 	}
 
 	public function testGetDefaultStatusById(): void {
-		$this->l10n->expects($this->exactly(7))
+		$this->l10n->expects($this->exactly(8))
 			->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);

@@ -415,8 +415,7 @@ class Event implements IEvent {
 	public function isValid(): bool {
 		return
 			$this->isValidCommon()
-			&&
-			$this->getSubject() !== ''
+			&& $this->getSubject() !== ''
 		;
 	}
 
@@ -443,20 +442,15 @@ class Event implements IEvent {
 
 		return
 			$this->isValidCommon()
-			&&
-			$this->getParsedSubject() !== ''
+			&& $this->getParsedSubject() !== ''
 		;
 	}
 
 	protected function isValidCommon(): bool {
 		return
 			$this->getApp() !== ''
-			&&
-			$this->getType() !== ''
-			&&
-			$this->getAffectedUser() !== ''
-			&&
-			$this->getTimestamp() !== 0
+			&& $this->getType() !== ''
+			&& $this->getTimestamp() !== 0
 			/**
 			 * Disabled for BC with old activities
 			 * &&

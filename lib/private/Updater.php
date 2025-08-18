@@ -167,8 +167,8 @@ class Updater extends BasicEmitter {
 
 		// Vendor was not set correctly on install, so we have to white-list known versions
 		if ($currentVendor === '' && (
-			isset($allowedPreviousVersions['owncloud'][$oldVersion]) ||
-			isset($allowedPreviousVersions['owncloud'][$majorMinor])
+			isset($allowedPreviousVersions['owncloud'][$oldVersion])
+			|| isset($allowedPreviousVersions['owncloud'][$majorMinor])
 		)) {
 			$currentVendor = 'owncloud';
 			$this->config->setAppValue('core', 'vendor', $currentVendor);
@@ -176,13 +176,13 @@ class Updater extends BasicEmitter {
 
 		if ($currentVendor === 'nextcloud') {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
-				&& (version_compare($oldVersion, $newVersion, '<=') ||
-					$this->config->getSystemValueBool('debug', false));
+				&& (version_compare($oldVersion, $newVersion, '<=')
+					|| $this->config->getSystemValueBool('debug', false));
 		}
 
 		// Check if the instance can be migrated
-		return isset($allowedPreviousVersions[$currentVendor][$majorMinor]) ||
-			isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
+		return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
+			|| isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
 	}
 
 	/**
@@ -385,6 +385,13 @@ class Updater extends BasicEmitter {
 				if ($this->installer->isUpdateAvailable($app)) {
 					$this->emit('\OC\Updater', 'upgradeAppStoreApp', [$app]);
 					$this->installer->updateAppstoreApp($app);
+				} elseif (!empty($previousEnableStates)) {
+					/**
+					 * When updating a local app we still need to run updateApp
+					 * so that repair steps and migrations are correctly executed
+					 * Ref: https://github.com/nextcloud/server/issues/53985
+					 */
+					\OC_App::updateApp($app);
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 

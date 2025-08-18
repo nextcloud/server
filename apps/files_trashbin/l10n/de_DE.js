@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Endgültiges Löschen bestätigen",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Möchten Sie wirklich alle Dateien und Ordner im Papierkorb endgültig löschen? Dies kann nicht rückgängig gemacht werden.",
     "Cancel" : "Abbrechen",
-    "Deletion cancelled" : "Löschen abgebrochen",
     "Original location" : "Ursprünglicher Ort",
     "Deleted by" : "Gelöscht von",
     "Deleted" : "Gelöscht",
@@ -23,6 +22,9 @@ OC.L10N.register(
     "You" : "Ihnen",
     "List of files that have been deleted." : "Liste der gelöschten Dateien.",
     "No deleted files" : "Keine gelöschten Dateien",
-    "Files and folders you have deleted will show up here" : "Die von Ihnen gelöschten Dateien und Ordner werden hier angezeigt"
+    "Files and folders you have deleted will show up here" : "Die von Ihnen gelöschten Dateien und Ordner werden hier angezeigt",
+    "All files have been permanently deleted" : "Alle Dateien wurden dauerhaft gelöscht",
+    "Failed to empty deleted files" : "Gelöschte Dateien konnten nicht geleert werden",
+    "Deletion cancelled" : "Löschen abgebrochen"
 },
 "nplurals=2; plural=(n != 1);");

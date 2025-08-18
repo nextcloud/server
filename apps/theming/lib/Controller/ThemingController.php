@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -270,8 +271,8 @@ class ThemingController extends Controller {
 
 		return new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'name' => $name,
 						'url' => $this->imageManager->getImageUrl($key),
 						'message' => $this->l10n->t('Saved'),
@@ -294,8 +295,8 @@ class ThemingController extends Controller {
 
 		return new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'value' => $value,
 						'message' => $this->l10n->t('Saved'),
 					],
@@ -317,8 +318,8 @@ class ThemingController extends Controller {
 
 		return new DataResponse(
 			[
-				'data' =>
-					[
+				'data'
+					=> [
 						'message' => $this->l10n->t('Saved'),
 					],
 				'status' => 'success'
@@ -401,7 +402,17 @@ class ThemingController extends Controller {
 			$css = ":root { $variables } " . $customCss;
 		} else {
 			// If not set, we'll rely on the body class
-			$css = "[data-theme-$themeId] { $variables $customCss }";
+			// We need to separate @-rules from normal selectors, as they can't be nested
+			// This is a replacement for the SCSS compiler that did this automatically before f1448fcf0777db7d4254cb0a3ef94d63be9f7a24
+			// We need a better way to handle this, but for now we just remove comments and split the at-rules
+			// from the rest of the CSS.
+			$customCssWithoutComments = preg_replace('!/\*.*?\*/!s', '', $customCss);
+			$customCssWithoutComments = preg_replace('!//.*!', '', $customCssWithoutComments);
+			preg_match_all('/(@[^{]+{(?:[^{}]*|(?R))*})/', $customCssWithoutComments, $atRules);
+			$atRulesCss = implode('', $atRules[0]);
+			$scopedCss = preg_replace('/(@[^{]+{(?:[^{}]*|(?R))*})/', '', $customCssWithoutComments);
+
+			$css = "$atRulesCss [data-theme-$themeId] { $variables $scopedCss }";
 		}
 
 		try {
@@ -462,8 +473,8 @@ class ThemingController extends Controller {
 			'theme_color' => $this->themingDefaults->getColorPrimary(),
 			'background_color' => $this->themingDefaults->getColorPrimary(),
 			'description' => $description,
-			'icons' =>
-				[
+			'icons'
+				=> [
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon',
 							['app' => $app]) . '?v=' . $cacheBusterValue,

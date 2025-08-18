@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020-2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
@@ -10,10 +11,10 @@ use OC\App\PlatformRepository;
 
 class PlatformRepositoryTest extends \Test\TestCase {
 	/**
-	 * @dataProvider providesVersions
 	 * @param $expected
 	 * @param $input
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesVersions')]
 	public function testVersion($input, $expected): void {
 		$pr = new PlatformRepository();
 		$normalizedVersion = $pr->normalizeVersion($input);
