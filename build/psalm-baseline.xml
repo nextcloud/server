@@ -3298,14 +3298,6 @@
       <code><![CDATA[ActivitySettings[]]]></code>
     </MoreSpecificReturnType>
   </file>
-  <file src="lib/private/App/DependencyAnalyzer.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[bool]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[version_compare($first, $second, $operator)]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
     <UndefinedMethod>
       <code><![CDATA[getName]]></code>
@@ -3996,12 +3988,6 @@
     <UndefinedInterfaceMethod>
       <code><![CDATA[query]]></code>
     </UndefinedInterfaceMethod>
-  </file>
-  <file src="lib/private/Installer.php">
-    <InvalidArgument>
-      <code><![CDATA[false]]></code>
-      <code><![CDATA[false]]></code>
-    </InvalidArgument>
   </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
     <InvalidArrayAccess>
