@@ -182,8 +182,8 @@ async function save() {
 }
 
 .empty-content {
-	color: var(--color-text-lighter);
-	margin-block-start: var(--default-grid-baseline);
 	align-self: center;
+	color: var(--color-text-maxcontrast);
+	margin-block-start: var(--default-grid-baseline);
 }
 </style>

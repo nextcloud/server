@@ -392,12 +392,12 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 	}
 
 	&__bundle-header {
+		color: var(--color-main-text);
 		margin-block: 0;
 		margin-inline: 50px 10px;
 		font-weight: bold;
 		font-size: 20px;
 		line-height: 30px;
-		color: var(--color-text-light);
 	}
 }
 
