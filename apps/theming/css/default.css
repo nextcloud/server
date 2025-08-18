@@ -18,28 +18,33 @@
   --color-text-maxcontrast: #6b6b6b;
   --color-text-maxcontrast-default: #6b6b6b;
   --color-text-maxcontrast-background-blur: #595959;
+  --color-text-error: #c90000;
   /** @deprecated use ` --color-main-text` instead */
   --color-text-light: var(--color-main-text);
   /** @deprecated use `--color-text-maxcontrast` instead */
   --color-text-lighter: var(--color-text-maxcontrast);
   --color-scrollbar: var(--color-border-maxcontrast) transparent;
   --color-error: #FFE7E7;
-  --color-error-rgb: 255,231,231;
   --color-error-hover: #ffc3c3;
   --color-error-text: #8A0000;
   --color-warning: #FFEEC5;
-  --color-warning-rgb: 255,238,197;
   --color-warning-hover: #ffe4a1;
   --color-warning-text: #664700;
   --color-success: #D8F3DA;
-  --color-success-rgb: 216,243,218;
   --color-success-hover: #bdebc0;
   --color-success-text: #005416;
   --color-info: #D5F1FA;
-  --color-info-rgb: 213,241,250;
   --color-info-hover: #b5e6f6;
   --color-info-text: #0066AC;
   --color-favorite: #A37200;
+  /** @deprecated use css color functions */
+  --color-error-rgb: 255,231,231;
+  /** @deprecated use css color functions */
+  --color-warning-rgb: 255,238,197;
+  /** @deprecated use css color functions */
+  --color-success-rgb: 216,243,218;
+  /** @deprecated use css color functions */
+  --color-info-rgb: 213,241,250;
   --color-loading-light: #cccccc;
   --color-loading-dark: #444444;
   --color-box-shadow-rgb: 77,77,77;
@@ -47,6 +52,8 @@
   --color-border: #ededed;
   --color-border-dark: #dbdbdb;
   --color-border-maxcontrast: #7d7d7d;
+  --color-border-error: #c90000;
+  --color-border-success: #099f05;
   --font-face: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --default-font-size: 15px;
   --font-size-small: 13px;

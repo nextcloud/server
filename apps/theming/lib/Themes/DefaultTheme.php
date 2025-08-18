@@ -77,14 +77,16 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
-		$colorError = '#8A0000';
-		$colorErrorElement = '#FFE7E7';
-		$colorWarning = '#664700';
-		$colorWarningElement = '#FFEEC5';
-		$colorSuccess = '#005416';
-		$colorSuccessElement = '#D8F3DA';
-		$colorInfo = '#0066AC';
-		$colorInfoElement = '#D5F1FA';
+		$colorError = '#FFE7E7';
+		$colorErrorText = '#8A0000';
+		$colorErrorElement = '#c90000';
+		$colorWarning = '#FFEEC5';
+		$colorWarningText = '#664700';
+		$colorSuccess = '#D8F3DA';
+		$colorSuccessText = '#005416';
+		$colorSuccessElement = '#099f05';
+		$colorInfo = '#D5F1FA';
+		$colorInfoText = '#0066AC';
 
 		$user = $this->userSession->getUser();
 		// Chromium based browsers currently (2024) have huge performance issues with blur filters
@@ -126,29 +128,31 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
+			'--color-text-error' => $colorErrorElement,
 			'--color-text-light' => 'var(--color-main-text)', // deprecated
 			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
 			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
 
-			// error/warning/success/info feedback colours
-			'--color-error' => $colorErrorElement,
-			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorErrorElement)),
-			'--color-error-hover' => $this->util->darken($colorErrorElement, 7),
-			'--color-error-text' => $colorError,
-			'--color-warning' => $colorWarningElement,
-			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarningElement)),
-			'--color-warning-hover' => $this->util->darken($colorWarningElement, 7),
-			'--color-warning-text' => $colorWarning,
-			'--color-success' => $colorSuccessElement,
-			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccessElement)),
-			'--color-success-hover' => $this->util->darken($colorSuccessElement, 7),
-			'--color-success-text' => $colorSuccess,
-			'--color-info' => $colorInfoElement,
-			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfoElement)),
-			'--color-info-hover' => $this->util->darken($colorInfoElement, 7),
-			'--color-info-text' => $colorInfo,
+			// error/warning/success/info feedback colors
+			'--color-error' => $colorError,
+			'--color-error-hover' => $this->util->darken($colorError, 7),
+			'--color-error-text' => $colorErrorText,
+			'--color-warning' => $colorWarning,
+			'--color-warning-hover' => $this->util->darken($colorWarning, 7),
+			'--color-warning-text' => $colorWarningText,
+			'--color-success' => $colorSuccess,
+			'--color-success-hover' => $this->util->darken($colorSuccess, 7),
+			'--color-success-text' => $colorSuccessText,
+			'--color-info' => $colorInfo,
+			'--color-info-hover' => $this->util->darken($colorInfo, 7),
+			'--color-info-text' => $colorInfoText,
 			'--color-favorite' => '#A37200',
+			// deprecated
+			'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
+			'--color-warning-rgb' => join(',', $this->util->hexToRGB($colorWarning)),
+			'--color-success-rgb' => join(',', $this->util->hexToRGB($colorSuccess)),
+			'--color-info-rgb' => join(',', $this->util->hexToRGB($colorInfo)),
 
 			// used for the icon loading animation
 			'--color-loading-light' => '#cccccc',
@@ -160,6 +164,8 @@ class DefaultTheme implements ITheme {
 			'--color-border' => $this->util->darken($colorMainBackground, 7),
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
 			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
+			'--color-border-error' => $colorErrorElement,
+			'--color-border-success' => $colorSuccessElement,
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
