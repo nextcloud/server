@@ -41,7 +41,7 @@ class Version30000Date20250731062008 extends SimpleMigrationStep {
 	/**
 	 * Clean up duplicate categories
 	 */
-	private function cleanupDuplicateCategories(IOutput $output) {
+	private function cleanupDuplicateCategories(IOutput $output): void {
 		$output->info('Starting cleanup of duplicate vcategory records...');
 
 		// Find all categories, ordered to identify duplicates
@@ -74,6 +74,8 @@ class Version30000Date20250731062008 extends SimpleMigrationStep {
 
 			$output->info("Found duplicate: keeping ID $keepId, removing ID $categoryId");
 
+			$this->cleanupDuplicateAssignments($output, $categoryId, $keepId);
+
 			// Update object references
 			$updateQb = $this->connection->getQueryBuilder();
 			$updateQb->update('vcategory_to_object')
@@ -101,6 +103,43 @@ class Version30000Date20250731062008 extends SimpleMigrationStep {
 			$output->info('No duplicate categories found');
 		} else {
 			$output->info("Duplicate cleanup completed - processed $duplicateCount duplicates");
+		}
+	}
+
+	/**
+	 * Clean up duplicate assignments
+	 * That will delete rows with $categoryId when there is the same row with $keepId
+	 */
+	private function cleanupDuplicateAssignments(IOutput $output, int $categoryId, int $keepId): void {
+		$selectQb = $this->connection->getQueryBuilder();
+		$selectQb->select('o1.*')
+			->from('vcategory_to_object', 'o1')
+			->join(
+				'o1', 'vcategory_to_object', 'o2',
+				$selectQb->expr()->andX(
+					$selectQb->expr()->eq('o1.type', 'o2.type'),
+					$selectQb->expr()->eq('o1.objid', 'o2.objid'),
+				)
+			)
+			->where($selectQb->expr()->eq('o1.categoryid', $selectQb->createNamedParameter($categoryId)))
+			->andWhere($selectQb->expr()->eq('o2.categoryid', $selectQb->createNamedParameter($keepId)));
+
+		$deleteQb = $this->connection->getQueryBuilder();
+		$deleteQb->delete('vcategory_to_object')
+			->where($deleteQb->expr()->eq('objid', $deleteQb->createParameter('objid')))
+			->andWhere($deleteQb->expr()->eq('categoryid', $deleteQb->createParameter('categoryid')))
+			->andWhere($deleteQb->expr()->eq('type', $deleteQb->createParameter('type')));
+
+		$duplicatedAssignments = $selectQb->executeQuery();
+		$count = 0;
+		while ($row = $duplicatedAssignments->fetch()) {
+			$deleteQb
+				->setParameters($row)
+				->executeStatement();
+			$count++;
+		}
+		if ($count > 0) {
+			$output->info(" - Deleted $count duplicate category assignments for $categoryId and $keepId");
 		}
 	}
 }
