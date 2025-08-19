@@ -11,6 +11,7 @@ namespace OCP\Config\Lexicon;
 use Closure;
 use OCP\AppFramework\Attribute\Consumable;
 use OCP\Config\ValueType;
+use OCP\IRequest;
 
 /**
  * Model that represent config values within an app config lexicon.
@@ -59,8 +60,9 @@ class Entry {
 			throw new \Exception('invalid config key');
 		}
 
+		// only store definition if ran from CLI or a request to /settings/preset
 		/** @psalm-suppress UndefinedClass */
-		if (\OC::$CLI) { // only store definition if ran from CLI
+		if (\OC::$CLI || \OCP\Server::get(IRequest::class)->getRequestUri() === '/settings/preset') {
 			$this->definition = $definition;
 			$this->note = $note;
 		}
