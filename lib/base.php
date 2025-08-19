@@ -45,7 +45,7 @@ require_once 'public/Constants.php';
  * - /console.php
  * - /status.php
  * - /cron.php
- * - /core/ajax.update.php
+ * - /core/ajax/update.php
  * - /ocs-provider/index.php
  * - /ocs/v1.php
  * - /apps/profile/templates/404-profile.php (legacy)
@@ -109,300 +109,6 @@ class OC {
  	 * The most basic configuration of Nextcloud (config/config.php + environment variables.
 	 */
 	private static \OC\Config $config;
-
-	/**
-	 * This method is called (automatically) by every entrypoint / code path that includes/requires base.php.
-	 */
-	public static function init(): void {
-		// Esential PHP configuration
-		self::setRequiredIniValues();
-		// Copy auth headers to the expected  $_SERVER variable before doing anything Server object related
-		self::handleAuthHeaders();
-		// Prevent any XML processing from loading external entities
-		// - An extra safeguard mostly for PHP <8.0.30, <8.1.22, <8.2.8
-		// - see CVE-2023-3823
-		libxml_set_external_entity_loader(static function () {
-			return null;
-		});
-
-		// Determine the installation path
-		OC::$SERVERROOT = str_replace('\\', '/', substr(__DIR__, 0, -4));
-
-		// Pay attention to whether we're in the CLI SAPI or not
-		self::$CLI = (PHP_SAPI == 'cli');
-
-		// Track start time for autoloading (base + 3rdparty) which we'll later log (when the event logger becomes available)
-		$loaderStart = microtime(true);
-		// Autoloading of our components
-		self::registerBaseAutoloading();
-		self::initBasePaths();
-
-		try {
-			self::initAppPaths();
-			// Autoloading of 3rparty components
-			self::registerThirdPartyAutoloading();
-		} catch (\RuntimeException $e) {
-			if (!self::$CLI) {
-				http_response_code(503);
-			}
-			// we can't use the template error page here, because this needs the
-			// DI container which isn't available yet
-			print($e->getMessage());
-			exit();
-		}
-
-		// End tracking timer for autoloading (base + 3rdparty)
-		$loaderEnd = microtime(true);
-
-		// Override php.ini and log everything if specified in the config
-		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
-			error_reporting(E_ALL);
-		}
-
-		// Enable lazy loading unless it has been disabled
-		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
-
-		// Setup the basic server
-		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
-		self::$server->boot();
-
-		// Activate the built-in-profiler (if the Excimer PHP extension is installed)
-		try {
-			$profiler = new BuiltInProfiler(Server::get(IConfig::class), Server::get(IRequest::class));
-			$profiler->start();
-		} catch (\Throwable $e) {
-			logger('core')->error('Failed to start profiler: ' . $e->getMessage(), ['app' => 'base']);
-		}
-
-		// Check for the `--debug-log` CLI parameter
-		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
-			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
-		}
-
-		$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
-
-		// Log the earlier tracked autoloader timing data
-		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
-
-		$eventLogger->start('boot', 'Initialize');
-
-		// Set the locale to one which supports UTF-8
-		OC_Util::isSetLocaleWorking(); // FIXME: we should probably check the return value and throw/log
-
-		// Gain access all config sources
-		$config = Server::get(IConfig::class); // FIXME: Don't love this being easily confused with self::$config
-
-		// Register our error, exception, and shutdown handlers (unless running unit tests)
-		if (!defined('PHPUNIT_RUN')) {
-			$errorHandler = new OC\Log\ErrorHandler(Server::get(\Psr\Log\LoggerInterface::class));
-			register_shutdown_function([$errorHandler, 'onShutdown']);
-			if (!$config->getSystemValueBool('debug', false)) {
-				set_error_handler([$errorHandler, 'onError']);
-				$exceptionHandler = [$errorHandler, 'onException'];
-			} else { // debug mode
-				set_error_handler([$errorHandler, 'onAll'], E_ALL);
-				if (self::$CLI) { // debug debug mode at CLI
-					$exceptionHandler = [Server::get(ITemplateManager::class), 'printExceptionErrorPage'];
-				}
-			}
-			set_exception_handler($exceptionHandler);
-		}
-
-		// Let apps register their services
-		/** @var \OC\AppFramework\Bootstrap\Coordinator $bootstrapCoordinator */
-		$bootstrapCoordinator = Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
-		$bootstrapCoordinator->runInitialRegistration();
-
-		$systemConfig = Server::get(\OC\SystemConfig::class);
-		$appManager = Server::get(\OCP\App\IAppManager::class);
-
-		$eventLogger->start('init_session', 'Initialize session');
-
-		if ($systemConfig->getValue('installed', false)) {
-			// loadApps will return w/o doing anything if in maintenance mode
-			$appManager->loadApps(['session']);
-		}
-		if (!self::$CLI) {
-			self::initSession();
-		}
-
-		$eventLogger->end('init_session');
-
-		// Check if `config/config.php` exists, create it if need be, and confirm it's writable
-		self::checkConfig();
-
-		// If not installed, throw (CLI) or redirect to installer (Web)
-		self::checkInstalled($systemConfig);
-
-		// Provide some sane default security headers (mostly for legacy components)
-		OC_Response::addSecurityHeaders();
-
-		// Check + set a same set cookie(s) with every request
-		self::performSameSiteCookieProtection($config);
-
-		if (!defined('OC_CONSOLE')) { // Run via Web or via `cron.php` but not `occ`
-			$eventLogger->start('check_server', 'Run a few configuration checks');
-			$errors = OC_Util::checkServer($systemConfig);
-			if (count($errors) > 0) {
-				if (!self::$CLI) {
-					http_response_code(503);
-					Util::addStyle('guest');
-					try {
-						Server::get(ITemplateManager::class)->printGuestPage('', 'error', ['errors' => $errors]);
-						exit;
-					} catch (\Exception $e) {
-						// In case any error happens when showing the error page, we simply fall back to posting the text.
-						// This might be the case when e.g. the data directory is broken and we can not load/write SCSS to/from it.
-					}
-				}
-
-				// Convert l10n string into regular string for usage in database
-				$staticErrors = [];
-				foreach ($errors as $error) {
-					echo $error['error'] . "\n";
-					echo $error['hint'] . "\n\n";
-					$staticErrors[] = [
-						'error' => (string)$error['error'],
-						'hint' => (string)$error['hint'],
-					];
-				}
-
-				try {
-					$config->setAppValue('core', 'cronErrors', json_encode($staticErrors));
-				} catch (\Exception $e) {
-					echo('Writing to database failed');
-				}
-				exit(1);
-			} elseif (self::$CLI && $config->getSystemValueBool('installed', false)) {
-				$config->deleteAppValue('core', 'cronErrors');
-			}
-			$eventLogger->end('check_server');
-		}
-
-		// User and Groups
-		if (!$systemConfig->getValue('installed', false)) {
-			self::$server->getSession()->set('user_id', '');
-		}
-
-		$eventLogger->start('setup_backends', 'Setup group and user backends');
-		Server::get(\OCP\IUserManager::class)->registerBackend(new \OC\User\Database());
-		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
-
-		// Subscribe to the hook
-		\OCP\Util::connectHook(
-			'\OCA\Files_Sharing\API\Server2Server',
-			'preLoginNameUsedAsUserName',
-			'\OC\User\Database',
-			'preLoginNameUsedAsUserName'
-		);
-
-		//setup extra user backends
-		if (!\OCP\Util::needUpgrade()) {
-			OC_User::setupBackends();
-		} else {
-			// Run upgrades in incognito mode
-			OC_User::setIncognitoMode(true);
-		}
-		$eventLogger->end('setup_backends');
-
-		self::registerCleanupHooks($systemConfig);
-		self::registerShareHooks($systemConfig);
-		self::registerEncryptionWrapperAndHooks();
-		self::registerAccountHooks();
-		self::registerResourceCollectionHooks();
-		self::registerFileReferenceEventListener();
-		self::registerRenderReferenceEventListener();
-		self::registerAppRestrictionsHooks();
-
-		// Make sure that the application class is not loaded before the database is setup
-		if ($systemConfig->getValue('installed', false)) {
-			$appManager->loadApp('settings');
-		}
-
-		//make sure temporary files are cleaned up
-		$tmpManager = Server::get(\OCP\ITempManager::class);
-		register_shutdown_function([$tmpManager, 'clean']);
-		$lockProvider = Server::get(\OCP\Lock\ILockingProvider::class);
-		register_shutdown_function([$lockProvider, 'releaseAll']);
-
-		// Check whether the sample configuration has been copied
-		if ($systemConfig->getValue('copied_sample_config', false)) {
-			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
-			Server::get(ITemplateManager::class)->printErrorPage(
-				$l->t('Sample configuration detected'),
-				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
-				503
-			);
-			return;
-		}
-
-		$request = Server::get(IRequest::class);
-		$host = $request->getInsecureServerHost();
-		/**
-		 * if the host passed in headers isn't trusted
-		 * FIXME: Should not be in here at all :see_no_evil:
-		 */
-		if (!OC::$CLI
-			&& !Server::get(\OC\Security\TrustedDomainHelper::class)->isTrustedDomain($host)
-			&& $config->getSystemValueBool('installed', false)
-		) {
-			// Allow access to CSS resources
-			$isScssRequest = false;
-			if (strpos($request->getPathInfo() ?: '', '/css/') === 0) {
-				$isScssRequest = true;
-			}
-
-			if (substr($request->getRequestUri(), -11) === '/status.php') {
-				http_response_code(400);
-				header('Content-Type: application/json');
-				echo '{"error": "Trusted domain error.", "code": 15}';
-				exit();
-			}
-
-			if (!$isScssRequest) {
-				http_response_code(400);
-				Server::get(LoggerInterface::class)->info(
-					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
-					[
-						'app' => 'core',
-						'remoteAddress' => $request->getRemoteAddress(),
-						'host' => $host,
-					]
-				);
-
-				$tmpl = Server::get(ITemplateManager::class)->getTemplate('core', 'untrustedDomain', 'guest');
-				$tmpl->assign('docUrl', Server::get(IURLGenerator::class)->linkToDocs('admin-trusted-domains'));
-				$tmpl->printPage();
-
-				exit();
-			}
-		}
-		$eventLogger->end('boot');
-		$eventLogger->log('init', 'OC::init', $loaderStart, microtime(true));
-		$eventLogger->start('runtime', 'Runtime');
-		$eventLogger->start('request', 'Full request after boot');
-
-		/* runtime (e.g. /index.php) that loaded us now does continues on and does its thing */
-		
-		register_shutdown_function(function () use ($eventLogger) {
-			$eventLogger->end('request');
-		});
-
-		register_shutdown_function(function () {
-			$memoryPeak = memory_get_peak_usage();
-			$logLevel = match (true) {
-				$memoryPeak > 500_000_000 => ILogger::FATAL,
-				$memoryPeak > 400_000_000 => ILogger::ERROR,
-				$memoryPeak > 300_000_000 => ILogger::WARN,
-				default => null,
-			};
-			if ($logLevel !== null) {
-				$message = 'Request used more than 300 MB of RAM: ' . Util::humanFileSize($memoryPeak);
-				$logger = Server::get(LoggerInterface::class);
-				$logger->log($logLevel, $message, ['app' => 'core']);
-			}
-		});
-	}
 
 	/**
 	 *
@@ -598,8 +304,10 @@ class OC {
 	}
 
 	public static function checkMaintenanceMode(\OC\SystemConfig $systemConfig): void {
-		// Allow ajax update script to execute without being stopped
-		if (((bool)$systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
+		if (
+			(bool)$systemConfig->getValue('maintenance', false) 
+			&& OC::$SUBURI !== '/core/ajax/update.php' // Allow web-based upgrades in maintenance mode
+		) {
 			// send http status 503
 			http_response_code(503);
 			header('X-Nextcloud-Maintenance-Mode: 1');
@@ -956,6 +664,300 @@ class OC {
 	}
 
 	/**
+	 * This method is called (automatically) by every entrypoint / code path that includes/requires base.php.
+	 */
+	public static function init(): void {
+		// Esential PHP configuration
+		self::setRequiredIniValues();
+		// Copy auth headers to the expected  $_SERVER variable before doing anything Server object related
+		self::handleAuthHeaders();
+		// Prevent any XML processing from loading external entities
+		// - An extra safeguard mostly for PHP <8.0.30, <8.1.22, <8.2.8
+		// - see CVE-2023-3823
+		libxml_set_external_entity_loader(static function () {
+			return null;
+		});
+
+		// Determine the installation path
+		OC::$SERVERROOT = str_replace('\\', '/', substr(__DIR__, 0, -4));
+
+		// Pay attention to whether we're in the CLI SAPI or not
+		self::$CLI = (PHP_SAPI == 'cli');
+
+		// Track start time for autoloading (base + 3rdparty) which we'll later log (when the event logger becomes available)
+		$loaderStart = microtime(true);
+		// Autoloading of our components
+		self::registerBaseAutoloading();
+		self::initBasePaths();
+
+		try {
+			self::initAppPaths();
+			// Autoloading of 3rparty components
+			self::registerThirdPartyAutoloading();
+		} catch (\RuntimeException $e) {
+			if (!self::$CLI) {
+				http_response_code(503);
+			}
+			// we can't use the template error page here, because this needs the
+			// DI container which isn't available yet
+			print($e->getMessage());
+			exit();
+		}
+
+		// End tracking timer for autoloading (base + 3rdparty)
+		$loaderEnd = microtime(true);
+
+		// Override php.ini and log everything if specified in the config
+		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
+			error_reporting(E_ALL);
+		}
+
+		// Enable lazy loading unless it has been disabled
+		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
+
+		// Setup the basic server
+		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		self::$server->boot();
+
+		// Activate the built-in-profiler (if the Excimer PHP extension is installed)
+		try {
+			$profiler = new BuiltInProfiler(Server::get(IConfig::class), Server::get(IRequest::class));
+			$profiler->start();
+		} catch (\Throwable $e) {
+			logger('core')->error('Failed to start profiler: ' . $e->getMessage(), ['app' => 'base']);
+		}
+
+		// Check for the `--debug-log` CLI parameter
+		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
+			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
+		}
+
+		$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
+
+		// Log the earlier tracked autoloader timing data
+		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
+
+		$eventLogger->start('boot', 'Initialize');
+
+		// Set the locale to one which supports UTF-8
+		OC_Util::isSetLocaleWorking(); // FIXME: we should probably check the return value and throw/log
+
+		// Gain access all config sources
+		$config = Server::get(IConfig::class); // FIXME: Don't love this being easily confused with self::$config
+
+		// Register our error, exception, and shutdown handlers (unless running unit tests)
+		if (!defined('PHPUNIT_RUN')) {
+			$errorHandler = new OC\Log\ErrorHandler(Server::get(\Psr\Log\LoggerInterface::class));
+			register_shutdown_function([$errorHandler, 'onShutdown']);
+			if (!$config->getSystemValueBool('debug', false)) {
+				set_error_handler([$errorHandler, 'onError']);
+				$exceptionHandler = [$errorHandler, 'onException'];
+			} else { // debug mode
+				set_error_handler([$errorHandler, 'onAll'], E_ALL);
+				if (self::$CLI) { // debug debug mode at CLI
+					$exceptionHandler = [Server::get(ITemplateManager::class), 'printExceptionErrorPage'];
+				}
+			}
+			set_exception_handler($exceptionHandler);
+		}
+
+		// Let apps register their services
+		/** @var \OC\AppFramework\Bootstrap\Coordinator $bootstrapCoordinator */
+		$bootstrapCoordinator = Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$bootstrapCoordinator->runInitialRegistration();
+
+		$systemConfig = Server::get(\OC\SystemConfig::class);
+		$appManager = Server::get(\OCP\App\IAppManager::class);
+
+		$eventLogger->start('init_session', 'Initialize session');
+
+		if ($systemConfig->getValue('installed', false)) {
+			// loadApps will return w/o doing anything if in maintenance mode
+			$appManager->loadApps(['session']);
+		}
+		if (!self::$CLI) {
+			self::initSession();
+		}
+
+		$eventLogger->end('init_session');
+
+		// Check if `config/config.php` exists, create it if need be, and confirm it's writable
+		self::checkConfig();
+
+		// If not installed, throw (CLI) or redirect to installer (Web)
+		self::checkInstalled($systemConfig);
+
+		// Provide some sane default security headers (mostly for legacy components)
+		OC_Response::addSecurityHeaders();
+
+		// Check + set a same set cookie(s) with every request
+		self::performSameSiteCookieProtection($config);
+
+		if (!defined('OC_CONSOLE')) { // Run via Web or via `cron.php` but not `occ`
+			$eventLogger->start('check_server', 'Run a few configuration checks');
+			$errors = OC_Util::checkServer($systemConfig);
+			if (count($errors) > 0) {
+				if (!self::$CLI) {
+					http_response_code(503);
+					Util::addStyle('guest');
+					try {
+						Server::get(ITemplateManager::class)->printGuestPage('', 'error', ['errors' => $errors]);
+						exit;
+					} catch (\Exception $e) {
+						// In case any error happens when showing the error page, we simply fall back to posting the text.
+						// This might be the case when e.g. the data directory is broken and we can not load/write SCSS to/from it.
+					}
+				}
+
+				// Convert l10n string into regular string for usage in database
+				$staticErrors = [];
+				foreach ($errors as $error) {
+					echo $error['error'] . "\n";
+					echo $error['hint'] . "\n\n";
+					$staticErrors[] = [
+						'error' => (string)$error['error'],
+						'hint' => (string)$error['hint'],
+					];
+				}
+
+				try {
+					$config->setAppValue('core', 'cronErrors', json_encode($staticErrors));
+				} catch (\Exception $e) {
+					echo('Writing to database failed');
+				}
+				exit(1);
+			} elseif (self::$CLI && $config->getSystemValueBool('installed', false)) {
+				$config->deleteAppValue('core', 'cronErrors');
+			}
+			$eventLogger->end('check_server');
+		}
+
+		// User and Groups
+		if (!$systemConfig->getValue('installed', false)) {
+			self::$server->getSession()->set('user_id', '');
+		}
+
+		$eventLogger->start('setup_backends', 'Setup group and user backends');
+		Server::get(\OCP\IUserManager::class)->registerBackend(new \OC\User\Database());
+		Server::get(\OCP\IGroupManager::class)->addBackend(new \OC\Group\Database());
+
+		// Subscribe to the hook
+		\OCP\Util::connectHook(
+			'\OCA\Files_Sharing\API\Server2Server',
+			'preLoginNameUsedAsUserName',
+			'\OC\User\Database',
+			'preLoginNameUsedAsUserName'
+		);
+
+		//setup extra user backends
+		if (!\OCP\Util::needUpgrade()) {
+			OC_User::setupBackends();
+		} else {
+			// Run upgrades in incognito mode
+			OC_User::setIncognitoMode(true);
+		}
+		$eventLogger->end('setup_backends');
+
+		self::registerCleanupHooks($systemConfig);
+		self::registerShareHooks($systemConfig);
+		self::registerEncryptionWrapperAndHooks();
+		self::registerAccountHooks();
+		self::registerResourceCollectionHooks();
+		self::registerFileReferenceEventListener();
+		self::registerRenderReferenceEventListener();
+		self::registerAppRestrictionsHooks();
+
+		// Make sure that the application class is not loaded before the database is setup
+		if ($systemConfig->getValue('installed', false)) {
+			$appManager->loadApp('settings');
+		}
+
+		//make sure temporary files are cleaned up
+		$tmpManager = Server::get(\OCP\ITempManager::class);
+		register_shutdown_function([$tmpManager, 'clean']);
+		$lockProvider = Server::get(\OCP\Lock\ILockingProvider::class);
+		register_shutdown_function([$lockProvider, 'releaseAll']);
+
+		// Check whether the sample configuration has been copied
+		if ($systemConfig->getValue('copied_sample_config', false)) {
+			$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
+			Server::get(ITemplateManager::class)->printErrorPage(
+				$l->t('Sample configuration detected'),
+				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php'),
+				503
+			);
+			return;
+		}
+
+		$request = Server::get(IRequest::class);
+		$host = $request->getInsecureServerHost();
+		/**
+		 * if the host passed in headers isn't trusted
+		 * FIXME: Should not be in here at all :see_no_evil:
+		 */
+		if (!OC::$CLI
+			&& !Server::get(\OC\Security\TrustedDomainHelper::class)->isTrustedDomain($host)
+			&& $config->getSystemValueBool('installed', false)
+		) {
+			// Allow access to CSS resources
+			$isScssRequest = false;
+			if (strpos($request->getPathInfo() ?: '', '/css/') === 0) {
+				$isScssRequest = true;
+			}
+
+			if (substr($request->getRequestUri(), -11) === '/status.php') {
+				http_response_code(400);
+				header('Content-Type: application/json');
+				echo '{"error": "Trusted domain error.", "code": 15}';
+				exit();
+			}
+
+			if (!$isScssRequest) {
+				http_response_code(400);
+				Server::get(LoggerInterface::class)->info(
+					'Trusted domain error. "{remoteAddress}" tried to access using "{host}" as host.',
+					[
+						'app' => 'core',
+						'remoteAddress' => $request->getRemoteAddress(),
+						'host' => $host,
+					]
+				);
+
+				$tmpl = Server::get(ITemplateManager::class)->getTemplate('core', 'untrustedDomain', 'guest');
+				$tmpl->assign('docUrl', Server::get(IURLGenerator::class)->linkToDocs('admin-trusted-domains'));
+				$tmpl->printPage();
+
+				exit();
+			}
+		}
+		$eventLogger->end('boot');
+		$eventLogger->log('init', 'OC::init', $loaderStart, microtime(true));
+		$eventLogger->start('runtime', 'Runtime');
+		$eventLogger->start('request', 'Full request after boot');
+
+		/* runtime (e.g. /index.php) that loaded us now does continues on and does its thing */
+		
+		register_shutdown_function(function () use ($eventLogger) {
+			$eventLogger->end('request');
+		});
+
+		register_shutdown_function(function () {
+			$memoryPeak = memory_get_peak_usage();
+			$logLevel = match (true) {
+				$memoryPeak > 500_000_000 => ILogger::FATAL,
+				$memoryPeak > 400_000_000 => ILogger::ERROR,
+				$memoryPeak > 300_000_000 => ILogger::WARN,
+				default => null,
+			};
+			if ($logLevel !== null) {
+				$message = 'Request used more than 300 MB of RAM: ' . Util::humanFileSize($memoryPeak);
+				$logger = Server::get(LoggerInterface::class);
+				$logger->log($logLevel, $message, ['app' => 'core']);
+			}
+		});
+	}
+
+	/**
 	 * register hooks for the cleanup of cache and bruteforce protection
 	 */
 	public static function registerCleanupHooks(\OC\SystemConfig $systemConfig): void {
@@ -1061,33 +1063,53 @@ class OC {
 	}
 
 	/**
-	 * Handle the request
+	 * Handle requests that go thru the front-end controller (i.e. /index.php) 
+  	 * 
+	 * Note: at the moment some routes (namely core/ajax/update.php) may either flow thru here or be direct, depending on web server config (nginx vs apache .htaccess)
 	 */
 	public static function handleRequest(): void {
 		Server::get(\OCP\Diagnostics\IEventLogger::class)->start('handle_request', 'Handle request');
+		
 		$systemConfig = Server::get(\OC\SystemConfig::class);
 
-		// Check if Nextcloud is installed or in maintenance (update) mode
+		/**
+  		 * handleSetup()
+	 	 */
+		// Trigger installation/setup if not installed
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
-			$controller = Server::get(\OC\Core\Controller\SetupController::class);
-			$controller->run($_POST);
-			exit();
+			$setupController = Server::get(\OC\Core\Controller\SetupController::class);
+			$setupController->run($_POST);
+			exit(); // seems unnecessary; use just a `return` instead?
 		}
 
 		$request = Server::get(IRequest::class);
 		$request->throwDecodingExceptionIfAny();
 		$requestPath = $request->getRawPathInfo();
+
+		// Handle the heartbeat request w/o doing extra work
 		if ($requestPath === '/heartbeat') {
 			return;
 		}
-		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
-			self::checkMaintenanceMode($systemConfig);
 
+		/**
+		 * handleMaintenance()
+   		 */
+		// Still load js files in maintenance mode (i.e. for upgrades)
+		// If request isn't for js files, check for maintenance mode and render an appropriate response unless the web-based updater is being requested
+
+		if (substr($requestPath, -3) !== '.js') { // if request isn't for a js file...
+			self::checkMaintenanceMode($systemConfig); // if in maintenance mode and request isn't for the ajax updater script, generate inform client and exit
+
+			/**
+   			 * handleUpgrade()
+	   		 */
+			// if system needs to be upgraded...
 			if (\OCP\Util::needUpgrade()) {
 				if (function_exists('opcache_reset')) {
 					opcache_reset();
 				}
+				// ... and not in maintenance mode, send the visitor to the update.admin page template
 				if (!((bool)$systemConfig->getValue('maintenance', false))) {
 					self::printUpgradePage($systemConfig);
 					exit();
