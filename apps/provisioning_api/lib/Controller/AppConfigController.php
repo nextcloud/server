@@ -196,10 +196,6 @@ class AppConfigController extends OCSController {
 			throw new \InvalidArgumentException('The given key can not be set');
 		}
 
-		if ($app === 'core' && (strpos($key, 'public_') === 0 || strpos($key, 'remote_') === 0)) {
-			throw new \InvalidArgumentException('The given key can not be set');
-		}
-
 		if ($app === 'files'
 			&& $key === 'default_quota'
 			&& $value === 'none'
