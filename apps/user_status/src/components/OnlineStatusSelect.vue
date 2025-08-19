@@ -104,7 +104,7 @@ export default {
 
 	&__subline {
 		display: block;
-		color: var(--color-text-lighter);
+		color: var(--color-text-maxcontrast);
 	}
 }
 </style>

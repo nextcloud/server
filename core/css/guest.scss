@@ -263,10 +263,10 @@ input[type='password'],
 input[type='email'] {
 	width: 266px;
 	padding: 5px 10px;
-	color: var(--color-text-lighter);
-	cursor: text;
 	font-family: inherit;
 	font-weight: normal;
+	color: var(--color-text-maxcontrast);
+	cursor: text;
 	margin-inline: 0;
 }
 

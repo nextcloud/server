@@ -387,7 +387,7 @@ export default defineComponent({
 		// Useful to display no preview icon.
 		display: flex;
 		justify-content: center;
-		color: var(--color-text-light);
+		color: var(--color-main-text);
 	}
 }
 </style>
