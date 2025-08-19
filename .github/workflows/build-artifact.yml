@@ -151,80 +151,28 @@ jobs:
           submodules: true
           fetch-depth: '1'
 
-      - name: Download all build-external-apps artifacts
+      - name: Download richdocuments app
         uses: actions/download-artifact@v5
         with:
-          pattern: external-app-build-*
-          path: ./
-          merge-multiple: false
+          name: external-app-build-richdocuments
+          path: apps-external/richdocuments
 
-      - name: Reorganize artifacts to preserve original folder structure
-        run: |
-          echo "Reorganizing downloaded artifacts to preserve original folder structure:"
-
-          # Parse the matrix configuration
-          EXTERNAL_APPS_MATRIX='${{ needs.prepare-matrix.outputs.external-apps-matrix }}'
-
-          # Create apps-external directory if it doesn't exist
-          mkdir -p apps-external/
-
-          # Debug: List downloaded artifacts
-          echo "Downloaded artifacts:"
-          ls -la external-app-build-*/ | head -20
-
-          # Process each app from the matrix
-          echo "$EXTERNAL_APPS_MATRIX" | jq -r '.[] | @base64' | while read -r encoded_app; do
-            app_data=$(echo "$encoded_app" | base64 -d)
-            app_name=$(echo "$app_data" | jq -r '.name')
-
-            artifact_dir="external-app-build-${app_name}"
-            target_dir="apps-external/${app_name}"
-
-            echo "Processing app: $app_name"
-            echo "  Artifact dir: $artifact_dir"
-            echo "  Target dir: $target_dir"
-
-            # Check if the artifact directory exists
-            if [ -d "$artifact_dir" ]; then
-              echo "  Found artifact directory: $artifact_dir"
-
-              # Move entire artifact content to target dir
-              echo "  Checking artifact contents:"
-              ls -la "$artifact_dir/" | head -10
-
-              echo "  Moving entire artifact directory content to $target_dir"
-              mkdir -p "$target_dir"
-              cp -r "$artifact_dir"/* "$target_dir/"
-            else
-              echo "::fail::Warning: Artifact directory $artifact_dir not found"
-              exit 1
-            fi
-          done
-
-          # Clean up temporary download directories
-          rm -rf external-app-build-*
-
-          echo "Final structure:"
-          ls -la apps-external/ || echo "apps-external directory not found"
+      - name: Download viewer app
+        uses: actions/download-artifact@v5
+        with:
+          name: external-app-build-viewer
+          path: apps-external/viewer
 
       - name: Verify downloaded artifacts structure
         run: |
-          echo "Checking final external apps structure:"
-          ls -la apps-external/ || echo "apps-external directory not found"
-          if [ -d "apps-external" ]; then
-            for app_dir in apps-external/*/; do
-              if [ -d "$app_dir" ]; then
-                echo "Contents of $app_dir:"
-                ls -la "$app_dir"
-                if [ -d "${app_dir}vendor" ]; then
-                  echo "Vendor directory found in $app_dir"
-                  ls -la "${app_dir}vendor" | head -10
-                else
-                  echo "No vendor directory in $app_dir"
-                fi
-              fi
-            done
-          fi
+          echo "External apps structure:"
+          ls -la apps-external/
+          for app_dir in apps-external/*/; do
+            if [ -d "$app_dir" ]; then
+              echo "Contents of $app_dir:"
+              ls -la "$app_dir"
+            fi
+          done
 
       - name: Set up node with version from package.json's engines
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
