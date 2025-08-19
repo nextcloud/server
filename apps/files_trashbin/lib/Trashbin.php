@@ -7,7 +7,6 @@
  */
 namespace OCA\Files_Trashbin;
 
-use Exception;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\CacheQueryBuilder;
@@ -459,6 +458,9 @@ class Trashbin implements IEventListener {
 	 */
 	public static function restore($file, $filename, $timestamp) {
 		$user = OC_User::getUser();
+		if (!$user) {
+			throw new \Exception('Tried to restore a file while not logged in');
+		}
 		$view = new View('/' . $user);
 
 		$location = '';
@@ -495,8 +497,8 @@ class Trashbin implements IEventListener {
 		$sourcePath = Filesystem::normalizePath($file);
 		$targetPath = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
 
-		$sourceNode = self::getNodeForPath($sourcePath);
-		$targetNode = self::getNodeForPath($targetPath);
+		$sourceNode = self::getNodeForPath($user, $sourcePath);
+		$targetNode = self::getNodeForPath($user, $targetPath, 'files');
 		$run = true;
 		$event = new BeforeNodeRestoredEvent($sourceNode, $targetNode, $run);
 		$dispatcher = Server::get(IEventDispatcher::class);
@@ -516,8 +518,8 @@ class Trashbin implements IEventListener {
 			$view->chroot($fakeRoot);
 			Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath]);
 
-			$sourceNode = self::getNodeForPath($sourcePath);
-			$targetNode = self::getNodeForPath($targetPath);
+			$sourceNode = self::getNodeForPath($user, $sourcePath);
+			$targetNode = self::getNodeForPath($user, $targetPath, 'files');
 			$event = new NodeRestoredEvent($sourceNode, $targetNode);
 			$dispatcher = Server::get(IEventDispatcher::class);
 			$dispatcher->dispatchTyped($event);
@@ -1163,27 +1165,20 @@ class Trashbin implements IEventListener {
 		return $trashFilename;
 	}
 
-	private static function getNodeForPath(string $path): Node {
-		$user = OC_User::getUser();
+	private static function getNodeForPath(string $user, string $path, string $baseDir = 'files_trashbin/files'): Node {
 		$rootFolder = Server::get(IRootFolder::class);
+		$path = ltrim($path, '/');
 
-		if ($user !== false) {
-			$userFolder = $rootFolder->getUserFolder($user);
-			/** @var Folder */
-			$trashFolder = $userFolder->getParent()->get('files_trashbin/files');
-			try {
-				return $trashFolder->get($path);
-			} catch (NotFoundException $ex) {
-			}
+		$userFolder = $rootFolder->getUserFolder($user);
+		/** @var Folder $trashFolder */
+		$trashFolder = $userFolder->getParent()->get($baseDir);
+		try {
+			return $trashFolder->get($path);
+		} catch (NotFoundException $ex) {
 		}
 
 		$view = Server::get(View::class);
-		$fsView = Filesystem::getView();
-		if ($fsView === null) {
-			throw new Exception('View should not be null');
-		}
-
-		$fullPath = $fsView->getAbsolutePath($path);
+		$fullPath = '/' . $user . '/' . $baseDir . '/' . $path;
 
 		if (Filesystem::is_dir($path)) {
 			return new NonExistingFolder($rootFolder, $view, $fullPath);
