@@ -49,8 +49,9 @@ const badgeTitle = computed(() => isSupported.value
 	width: fit-content;
 
 	&--supported {
-		border-color: var(--color-success);
-		color: var(--color-success);
+		background-color: var(--color-success);
+		border-color: var(--color-border-success);
+		color: var(--color-success-text);
 	}
 }
 </style>

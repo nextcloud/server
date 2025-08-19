@@ -17,7 +17,7 @@
 			:name="t('systemtags', 'Applying tags changes…')">
 			<template #icon>
 				<NcLoadingIcon v-if="status === Status.LOADING" />
-				<CheckIcon v-else fill-color="var(--color-success)" />
+				<CheckIcon v-else fill-color="var(--color-border-success)" />
 			</template>
 		</NcEmptyContent>
 

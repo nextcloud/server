@@ -475,15 +475,15 @@ export default {
 }
 
 .force {
-	color: var(--color-error);
-	border-color: var(--color-error);
+	color: var(--color-text-error);
+	border-color: var(--color-border-error);
 	background: var(--color-main-background);
 }
 
 .force:hover,
 .force:active {
 	color: var(--color-main-background);
-	border-color: var(--color-error) !important;
+	border-color: var(--color-border-error) !important;
 	background: var(--color-error);
 }
 

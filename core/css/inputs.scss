@@ -330,7 +330,7 @@ input[type='reset'] {
 
 	&.error {
 		background-color: var(--color-error) !important;
-		border-color: var(--color-error) !important;
+		border-color: var(--color-norder-error) !important;
 		color: var(--color-error-text) !important;
 		&:hover{
 			background-color: var(--color-error-hover) !important;
@@ -384,7 +384,7 @@ input[type='email'] {
 	&:not(:active):not(:hover):not(:focus){
 		&:invalid {
 			+ .icon-confirm {
-				border-color: var(--color-error-text);
+				border-color: var(--color-border-error);
 			}
 		}
 		+ .icon-confirm {
