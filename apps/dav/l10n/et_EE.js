@@ -283,7 +283,6 @@ OC.L10N.register(
     "Failed to load availability" : "Saadavuse laadimine ei õnnestunud",
     "Saved availability" : "Saadavus on salvestatud",
     "Failed to save availability" : "Saadavuse salvestamine ei õnnestunud",
-    "Time zone:" : "Ajavöönd:",
     "to" : "saaja",
     "Delete slot" : "Kustuta ajavahemik",
     "No working hours set" : "Tööajad on sisestamata",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Palun võta ühendust korraldajaga otse.",
     "Are you accepting the invitation?" : "Kas sa nõustud kutsega?",
     "Tentative" : "Esialgne",
-    "Your attendance was updated successfully." : "Sinu osalemise oleku muutmine õnnestus."
+    "Your attendance was updated successfully." : "Sinu osalemise oleku muutmine õnnestus.",
+    "Time zone:" : "Ajavöönd:"
 },
 "nplurals=2; plural=(n != 1);");

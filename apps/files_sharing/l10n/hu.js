@@ -104,6 +104,7 @@ OC.L10N.register(
     "People" : "Emberek",
     "Filter accounts" : "Fiókok szűrése",
     "Expiration date" : "Lejárati dátum",
+    "Select a date" : "Válasszon dátumot",
     "Set a password" : "Jelszó beállítása",
     "Password" : "Jelszó",
     "Enter a valid password" : "Adjon meg érvényes jelszót",

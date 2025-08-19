@@ -189,7 +189,6 @@ OC.L10N.register(
     "Failed to load availability" : "Nalaganje seznama razpoložljivih polj je spodletelo",
     "Saved availability" : "Čas razpoložljivosti je shranjen",
     "Failed to save availability" : "Shranjevanje časa razpoložljivosti je spodletelo",
-    "Time zone:" : "Časovni pas:",
     "to" : "do",
     "Delete slot" : "Izbriši možnost",
     "No working hours set" : "Ni navedenih delovnih ur",
@@ -222,6 +221,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Z organizatorjem stopite neposredno v stik.",
     "Are you accepting the invitation?" : "Ali želite sprejeti povabilo?",
     "Tentative" : "Začasno",
-    "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena."
+    "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena.",
+    "Time zone:" : "Časovni pas:"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

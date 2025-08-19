@@ -673,6 +673,7 @@ OC.L10N.register(
     "they/them" : "они/њима",
     "Your pronouns. E.g. {pronounsExample}" : "Ваше заменице. Нпр. {pronounsExample}",
     "Your role" : "Ваша улога",
+    "Timezone" : "Временска зона",
     "Your X (formerly Twitter) handle" : "Ваша X (бивши Twitter) ручка",
     "Your website" : "Ваш веб сајт",
     "Invalid value" : "Неисправна вредност",

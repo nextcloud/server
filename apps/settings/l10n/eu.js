@@ -605,6 +605,7 @@ OC.L10N.register(
     "he/him" : "♂",
     "they/them" : "⚥/☿",
     "Your role" : "Zure rola",
+    "Timezone" : "Ordu-zona",
     "Your X (formerly Twitter) handle" : "Zure X (lehen Twitter) erabiltzailea",
     "Your website" : "Zure web orria",
     "Invalid value" : "Balio baliogabea",

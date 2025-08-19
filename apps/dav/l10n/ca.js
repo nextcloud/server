@@ -281,7 +281,6 @@ OC.L10N.register(
     "Failed to load availability" : "No s'ha pogut carregar la disponibilitat",
     "Saved availability" : "S'ha desat la disponibilitat",
     "Failed to save availability" : "No s'ha pogut desar la disponibilitat",
-    "Time zone:" : "Fus horari:",
     "to" : "a",
     "Delete slot" : "Suprimeix la franja",
     "No working hours set" : "No s'ha definit cap horari laboral",
@@ -314,6 +313,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacteu amb l'organització directament.",
     "Are you accepting the invitation?" : "Accepteu la invitació?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència."
+    "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència.",
+    "Time zone:" : "Fus horari:"
 },
 "nplurals=2; plural=(n != 1);");

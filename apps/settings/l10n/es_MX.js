@@ -536,6 +536,7 @@ OC.L10N.register(
     "he/him" : "él",
     "they/them" : "elle",
     "Your role" : "Su cargo",
+    "Timezone" : "Zona horaria",
     "Your X (formerly Twitter) handle" : "Su X (anteriormente Twitter)",
     "Your website" : "Tu sitio web",
     "Invalid value" : "Valor inválido",

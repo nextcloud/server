@@ -655,6 +655,7 @@ OC.L10N.register(
     "he/him" : "han/ham",
     "they/them" : "de/dem",
     "Your role" : "Din rolle",
+    "Timezone" : "Tidszone",
     "Your X (formerly Twitter) handle" : "Dit X (tidligere Twitter) brugernavn",
     "Your website" : "Vores hjemmeside",
     "Invalid value" : "Ugyldig værdi",

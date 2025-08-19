@@ -283,7 +283,6 @@ OC.L10N.register(
     "Failed to load availability" : "可用时间段加载失败",
     "Saved availability" : "可用时间已保存",
     "Failed to save availability" : "可用时间保存失败",
-    "Time zone:" : "时区：",
     "to" : "到",
     "Delete slot" : "删除插槽",
     "No working hours set" : "尚未设置工作时间",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "请直接联系组织者。",
     "Are you accepting the invitation?" : "您是否接受邀请？",
     "Tentative" : "暂定",
-    "Your attendance was updated successfully." : "您的出席状态更新成功。"
+    "Your attendance was updated successfully." : "您的出席状态更新成功。",
+    "Time zone:" : "时区："
 },
 "nplurals=1; plural=0;");

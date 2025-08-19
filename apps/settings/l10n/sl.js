@@ -477,6 +477,7 @@ OC.L10N.register(
     "Enable profile" : "Omogoči profil",
     "Unable to update visibility of {displayId}" : "Ni mogoče posodobiti vidnosti {displayId}",
     "Your role" : "Vloga",
+    "Timezone" : "Časovni pas",
     "Your X (formerly Twitter) handle" : "Osebni ročnik X (prej Twitter)",
     "Your website" : "Osebna spletna stran",
     "Invalid value" : "Neveljavna vrednost",

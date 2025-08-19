@@ -226,6 +226,7 @@ OC.L10N.register(
     "No language set" : "לא הוגדרה שפה",
     "Week starts on {firstDayOfWeek}" : "השבוע מתחיל ב{firstDayOfWeek}",
     "Your phone number" : "מספר הטלפון שלך",
+    "Timezone" : "אזור זמן",
     "Add" : "הוספה",
     "Change" : "שינוי",
     "Delete" : "מחיקה",

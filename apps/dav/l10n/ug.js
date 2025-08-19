@@ -230,7 +230,6 @@ OC.L10N.register(
     "Failed to load availability" : "ئىشلىتىشچانلىقىنى يۈكلىيەلمىدى",
     "Saved availability" : "تېجەشلىك",
     "Failed to save availability" : "ئىشلەتكىلى بولمىدى",
-    "Time zone:" : "ۋاقىت رايونى:",
     "to" : "to",
     "Delete slot" : "ئورۇننى ئۆچۈرۈڭ",
     "No working hours set" : "خىزمەت ۋاقتى بېكىتىلمىدى",
@@ -263,6 +262,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "تەشكىللىگۈچى بىلەن بىۋاسىتە ئالاقىلىشىڭ.",
     "Are you accepting the invitation?" : "تەكلىپنى قوبۇل قىلامسىز؟",
     "Tentative" : "Tentative",
-    "Your attendance was updated successfully." : "سىزنىڭ قاتنىشىشىڭىز مۇۋەپپەقىيەتلىك يېڭىلاندى."
+    "Your attendance was updated successfully." : "سىزنىڭ قاتنىشىشىڭىز مۇۋەپپەقىيەتلىك يېڭىلاندى.",
+    "Time zone:" : "ۋاقىت رايونى:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -673,6 +673,7 @@ OC.L10N.register(
     "they/them" : "вони/їм",
     "Your pronouns. E.g. {pronounsExample}" : "Ваші займенники. Наприклад, {pronounsExample}",
     "Your role" : "Ваша роль",
+    "Timezone" : "Часовий пояс",
     "Your X (formerly Twitter) handle" : "Ваш ідентифікатор в X (раніше відомій як Twitter)",
     "Your website" : "Ваш сайт",
     "Invalid value" : "Помилкове значення",

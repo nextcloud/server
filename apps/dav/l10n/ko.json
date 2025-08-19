@@ -182,7 +182,6 @@
     "Failed to load availability" : "시간 조율 설정 불러오기 실패",
     "Saved availability" : "시간 조율 설정 저장함",
     "Failed to save availability" : "시간 조율 설정 저장 실패",
-    "Time zone:" : "시간대:",
     "to" : "에서",
     "Delete slot" : "시간대 삭제",
     "No working hours set" : "업무 시간이 설정되지 않음",
@@ -214,6 +213,7 @@
     "Please contact the organizer directly." : "주최자에게 직접 연락하십시오.",
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
-    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다."
+    "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
+    "Time zone:" : "시간대:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

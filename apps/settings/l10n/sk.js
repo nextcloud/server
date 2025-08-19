@@ -653,6 +653,7 @@ OC.L10N.register(
     "he/him" : "on/jeho",
     "they/them" : "oni/ich",
     "Your role" : "Vaša rola",
+    "Timezone" : "Časová zóna",
     "Your X (formerly Twitter) handle" : "Ovládanie Vašeho X (predtým Twitter)",
     "Your website" : "Vaša webstránka",
     "Invalid value" : "Chybná hodnota",

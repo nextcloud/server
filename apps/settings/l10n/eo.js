@@ -207,6 +207,7 @@ OC.L10N.register(
     "No language set" : "Neniu lingvo agordita",
     "Week starts on {firstDayOfWeek}" : "Semajno komencas je {firstDayOfWeek}",
     "Your phone number" : "Via telefonnumero",
+    "Timezone" : "Horzono",
     "Change" : "Ŝanĝi",
     "Delete" : "Forigi",
     "Default language" : "Defaŭlta lingvo",

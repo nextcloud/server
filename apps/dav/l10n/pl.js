@@ -283,7 +283,6 @@ OC.L10N.register(
     "Failed to load availability" : "Nie udało się wczytać dostępności",
     "Saved availability" : "Zapisana dostępność",
     "Failed to save availability" : "Nie udało się zapisać dostępności",
-    "Time zone:" : "Strefa czasowa:",
     "to" : "od",
     "Delete slot" : "Usuń przedział czasu",
     "No working hours set" : "Nie ustawiono godzin pracy",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Skontaktuj się bezpośrednio z orgnizatorem.",
     "Are you accepting the invitation?" : "Czy akceptujesz zaproszenie?",
     "Tentative" : "Niepewne",
-    "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana."
+    "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana.",
+    "Time zone:" : "Strefa czasowa:"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

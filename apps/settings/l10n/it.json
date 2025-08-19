@@ -514,6 +514,7 @@
     "The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to \"Show to everyone\" and scope is set to \"Private\", \"Private\" is respected." : "L'impostazione più restrittiva di visibilità o ambito è rispettata sul tuo profilo. Ad esempio, quando la visibilità è su \"Mostra a tutti\" e l'ambito è su \"Privato\", verrà rispettato \"Privato\".",
     "Unable to update visibility of {displayId}" : "Impossibile aggiornare la visibilità di {displayId}",
     "Your role" : "Il tuo ruolo",
+    "Timezone" : "Fuso orario",
     "Your X (formerly Twitter) handle" : "Il tuo handle di X (ex Twitter)",
     "Your website" : "Il tuo sito web",
     "Invalid value" : "Valore non valido",

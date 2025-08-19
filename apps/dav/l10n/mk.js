@@ -172,7 +172,6 @@ OC.L10N.register(
     "Failed to load availability" : "Неуспешно вчитување на достапноста",
     "Saved availability" : "Достапноста е зачувана",
     "Failed to save availability" : "Неуспешно зачувување на достапноста",
-    "Time zone:" : "Временска зона:",
     "to" : "до",
     "Delete slot" : "Избриши слот",
     "No working hours set" : "Не се поставени работни часови",
@@ -204,6 +203,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Контактирајте го организаторот директно.",
     "Are you accepting the invitation?" : "Дали ја прифаќате поканата?",
     "Tentative" : "Прелиминарно",
-    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано."
+    "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
+    "Time zone:" : "Временска зона:"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

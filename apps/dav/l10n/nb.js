@@ -238,7 +238,6 @@ OC.L10N.register(
     "Failed to load availability" : "Feilet med laste inn arbeidstid",
     "Saved availability" : "Lagret arbeidstid",
     "Failed to save availability" : "Feilet ved lagring av arbeidstid",
-    "Time zone:" : "Tidssone:",
     "to" : "til",
     "Delete slot" : "Slett tidsluke",
     "No working hours set" : "Ingen arbeidstid satt",
@@ -271,6 +270,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ta kontakt med arrangøren direkte.",
     "Are you accepting the invitation?" : "Aksepterer du invitasjonen?",
     "Tentative" : "Foreløpig",
-    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert."
+    "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
+    "Time zone:" : "Tidssone:"
 },
 "nplurals=2; plural=(n != 1);");
