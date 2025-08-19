@@ -828,11 +828,6 @@
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="apps/dav/lib/Direct/Server.php">
-    <UndefinedThisPropertyAssignment>
-      <code><![CDATA[$this->enablePropfindDepthInfinityf]]></code>
-    </UndefinedThisPropertyAssignment>
-  </file>
   <file src="apps/dav/lib/Files/FileSearchBackend.php">
     <InvalidReturnStatement>
       <code><![CDATA[$value]]></code>
