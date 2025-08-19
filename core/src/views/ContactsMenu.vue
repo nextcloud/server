@@ -12,18 +12,31 @@
 			<NcIconSvgWrapper class="contactsmenu__trigger-icon" :path="mdiContacts" />
 		</template>
 		<div class="contactsmenu__menu">
-			<div class="contactsmenu__menu__input-wrapper">
-				<NcTextField id="contactsmenu__menu__search"
-					ref="contactsMenuInput"
-					:value.sync="searchTerm"
-					trailing-button-icon="close"
-					:label="t('core', 'Search contacts')"
-					:trailing-button-label="t('core','Reset search')"
-					:show-trailing-button="searchTerm !== ''"
-					:placeholder="t('core', 'Search contacts …')"
-					class="contactsmenu__menu__search"
-					@input="onInputDebounced"
-					@trailing-button-click="onReset" />
+			<div class="contactsmenu__menu__search-container">
+				<div class="contactsmenu__menu__input-wrapper">
+					<NcTextField id="contactsmenu__menu__search"
+						ref="contactsMenuInput"
+						v-model="searchTerm"
+						trailing-button-icon="close"
+						:label="t('core', 'Search contacts')"
+						:trailing-button-label="t('core','Reset search')"
+						:show-trailing-button="searchTerm !== ''"
+						:placeholder="t('core', 'Search contacts …')"
+						class="contactsmenu__menu__search"
+						@input="onInputDebounced"
+						@trailing-button-click="onReset" />
+				</div>
+				<NcButton v-for="action in actions"
+					:key="action.id"
+					:aria-label="action.label"
+					:title="action.label"
+					class="contactsmenu__menu__action"
+					variant="tertiary-no-background"
+					@click="action.onClick">
+					<template #icon>
+						<NcIconSvgWrapper :svg="action.icon" />
+					</template>
+				</NcButton>
 			</div>
 			<NcEmptyContent v-if="error" :name="t('core', 'Could not load your contacts')">
 				<template #icon>
@@ -105,6 +118,7 @@ export default {
 	data() {
 		const user = getCurrentUser()
 		return {
+			actions: window.OC?.ContactsMenu?.actions || [],
 			contactsAppEnabled: false,
 			contactsAppURL: generateUrl('/apps/contacts'),
 			contactsAppMgmtURL: generateUrl('/settings/apps/social/contacts'),
@@ -195,10 +209,16 @@ export default {
 			margin-inline-start: 13px;
 		}
 
+		&__search-container {
+			display: flex;
+			flex: row nowrap;
+		}
+
 		&__input-wrapper {
 			padding: 10px;
 			z-index: 2;
 			top: 0;
+			flex-grow: 1;
 		}
 
 		&__search {
