@@ -278,7 +278,6 @@ OC.L10N.register(
     "Failed to load availability" : "Produciuse un erro ao cargar a dispoñibilidade",
     "Saved availability" : "Dispoñibilidade gardada",
     "Failed to save availability" : "Produciuse un erro ao gardar a dispoñibilidade",
-    "Time zone:" : "Fuso horario:",
     "to" : "para",
     "Delete slot" : "Eliminar franxa horaria",
     "No working hours set" : "Sen horario de traballo estabelecido",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacte directamente co organizador.",
     "Are you accepting the invitation?" : "Acepta Vde. o convite?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente."
+    "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente.",
+    "Time zone:" : "Fuso horario:"
 },
 "nplurals=2; plural=(n != 1);");

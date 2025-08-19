@@ -281,7 +281,6 @@ OC.L10N.register(
     "Failed to load availability" : "Falha ao carregar disponibilidade",
     "Saved availability" : "Disponibilidade guardada",
     "Failed to save availability" : "Falha ao guardar disponibilidade",
-    "Time zone:" : "Fuso horário:",
     "to" : "Para",
     "Delete slot" : "Eliminar intervalo",
     "No working hours set" : "Sem horário de trabalho definido",
@@ -331,6 +330,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Contacte diretamente o organizador.",
     "Are you accepting the invitation?" : "Aceita o convite?",
     "Tentative" : "Tentativa",
-    "Your attendance was updated successfully." : "O seu estado de participação foi atualizado com sucesso."
+    "Your attendance was updated successfully." : "O seu estado de participação foi atualizado com sucesso.",
+    "Time zone:" : "Fuso horário:"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

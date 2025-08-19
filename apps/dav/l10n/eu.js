@@ -282,7 +282,6 @@ OC.L10N.register(
     "Failed to load availability" : "Ezin izan da eskuragarritasuna kargatu",
     "Saved availability" : "Eskuragarritasuna gorde da",
     "Failed to save availability" : "Ezin izan da eskuragarritasuna gorde",
-    "Time zone:" : "Ordu-zona:",
     "to" : "honi",
     "Delete slot" : "Ezabatu tartea",
     "No working hours set" : "Ez dira laneko orduak ezarri",
@@ -332,6 +331,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Mesedez jarri harremanetan antolatzailearekin zuzenean.",
     "Are you accepting the invitation?" : "Gonbidapena onartzen duzu?",
     "Tentative" : "Behin behinekoa",
-    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da."
+    "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
+    "Time zone:" : "Ordu-zona:"
 },
 "nplurals=2; plural=(n != 1);");

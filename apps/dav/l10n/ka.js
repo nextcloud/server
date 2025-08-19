@@ -184,7 +184,6 @@ OC.L10N.register(
     "Failed to load availability" : "Failed to load availability",
     "Saved availability" : "Saved availability",
     "Failed to save availability" : "Failed to save availability",
-    "Time zone:" : "Time zone:",
     "to" : "to",
     "Delete slot" : "Delete slot",
     "No working hours set" : "No working hours set",
@@ -215,6 +214,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Please contact the organizer directly.",
     "Are you accepting the invitation?" : "Are you accepting the invitation?",
     "Tentative" : "Tentative",
-    "Your attendance was updated successfully." : "Your attendance was updated successfully."
+    "Your attendance was updated successfully." : "Your attendance was updated successfully.",
+    "Time zone:" : "Time zone:"
 },
 "nplurals=2; plural=(n!=1);");

@@ -318,6 +318,7 @@ OC.L10N.register(
     "The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to \"Show to everyone\" and scope is set to \"Private\", \"Private\" is respected." : "Cài đặt hạn chế hơn về khả năng hiển thị hoặc phạm vi được tôn trọng trên Hồ sơ của bạn. Ví dụ: nếu mức độ hiển thị được đặt thành \"Hiển thị cho mọi người\" và phạm vi được đặt thành \"Riêng tư\" thì \"Riêng tư\" sẽ được tôn trọng.",
     "Unable to update visibility of {displayId}" : "Không thể cập nhật mức độ hiển thị của {displayId}",
     "Your role" : "Vai trò của bạn",
+    "Timezone" : "Múi giờ",
     "Your website" : "Trang web của bạn",
     "Unable to update {property}" : "Không thể cập nhật {property}",
     "No {property} set" : "Không có  {property} nào được đặt",

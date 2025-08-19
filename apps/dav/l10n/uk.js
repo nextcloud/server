@@ -283,7 +283,6 @@ OC.L10N.register(
     "Failed to load availability" : "Не вдалося завантажити доступність",
     "Saved availability" : "Збережена наявність",
     "Failed to save availability" : "Не вдалося зберегти наявність",
-    "Time zone:" : "Часовий пояс:",
     "to" : "до",
     "Delete slot" : "Вилучити діапазон",
     "No working hours set" : "Робочий час не встановлено",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Будь-ласка повідомте організатора.",
     "Are you accepting the invitation?" : "Чи приймаєте ви запрошення?",
     "Tentative" : "Попередній",
-    "Your attendance was updated successfully." : "Ваша участь успішно оновлена."
+    "Your attendance was updated successfully." : "Ваша участь успішно оновлена.",
+    "Time zone:" : "Часовий пояс:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

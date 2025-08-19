@@ -412,6 +412,7 @@ OC.L10N.register(
     "he/him" : "él",
     "they/them" : "elle",
     "Your role" : "Tu rol",
+    "Timezone" : "Zona horaria",
     "Your X (formerly Twitter) handle" : "Tu usuario de X (anteriormente Twitter)",
     "Your website" : "Tu sitio web",
     "Add" : "Agregar",

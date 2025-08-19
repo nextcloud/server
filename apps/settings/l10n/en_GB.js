@@ -673,6 +673,7 @@ OC.L10N.register(
     "they/them" : "they/them",
     "Your pronouns. E.g. {pronounsExample}" : "Your pronouns. E.g. {pronounsExample}",
     "Your role" : "Your role",
+    "Timezone" : "Timezone",
     "Your X (formerly Twitter) handle" : "Your X (formerly Twitter) handle",
     "Your website" : "Your website",
     "Invalid value" : "Invalid value",

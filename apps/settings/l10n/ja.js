@@ -669,6 +669,7 @@ OC.L10N.register(
     "they/them" : "彼ら/彼女ら",
     "Your pronouns. E.g. {pronounsExample}" : "あなたの代名詞 例： {pronounsExample}",
     "Your role" : "あなたの役",
+    "Timezone" : "タイムゾーン",
     "Your X (formerly Twitter) handle" : "あなたの X (旧 Twitter) のハンドルネーム",
     "Your website" : "あなたの個人ウェブサイト",
     "Invalid value" : "無効な値",

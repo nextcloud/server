@@ -186,7 +186,6 @@ OC.L10N.register(
     "Failed to load availability" : "Nun se pue cargar la disponibilidá",
     "Saved availability" : "Disponibilidá guardada",
     "Failed to save availability" : "Nun se pue guardar la disponibilidá",
-    "Time zone:" : "Fusu horariu:",
     "to" : "pa",
     "Delete slot" : "Desaniciar la ralura",
     "No working hours set" : "Nun s'afitó nenguna hora llaboral",
@@ -219,6 +218,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Ponte en contautu direutamente cola organización.",
     "Are you accepting the invitation?" : "¿Aceptes la invitación?",
     "Tentative" : "Provisional",
-    "Your attendance was updated successfully." : "La to asistencia anovóse correutamente."
+    "Your attendance was updated successfully." : "La to asistencia anovóse correutamente.",
+    "Time zone:" : "Fusu horariu:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -668,6 +668,7 @@ OC.L10N.register(
     "they/them" : "kişi",
     "Your pronouns. E.g. {pronounsExample}" : "Hitaplarınız, örnek {pronounsExample}",
     "Your role" : "Pozisyonunuz",
+    "Timezone" : "Saat dilimi",
     "Your X (formerly Twitter) handle" : "X (eski Twitter) kullanıcı adınız",
     "Your website" : "Sitenizin adresi",
     "Invalid value" : "Değer geçersiz",

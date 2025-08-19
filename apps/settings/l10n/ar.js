@@ -654,6 +654,7 @@ OC.L10N.register(
     "he/him" : "هو",
     "they/them" : "هم",
     "Your role" : "وظيفتك",
+    "Timezone" : "المنطقة الزمنية",
     "Your X (formerly Twitter) handle" : "حساب منصة X (تويتر سابقاً)",
     "Your website" : "صفحتك على الويب",
     "Invalid value" : "قيمة غير صحيحة",

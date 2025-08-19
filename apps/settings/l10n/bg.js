@@ -326,6 +326,7 @@ OC.L10N.register(
     "The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to \"Show to everyone\" and scope is set to \"Private\", \"Private\" is respected." : "Прилага се по-ограничаващата настройка за видимост на профила или обхват. Например, ако видимостта е зададена на „Всички“, а обхватът е настроен на „Лично“, „Лично“ ще се приложи за Вашия профил.",
     "Unable to update visibility of {displayId}" : "Не може да се актуализира видимостта на {displayId}",
     "Your role" : "Вашата роля",
+    "Timezone" : "Часови пояс",
     "Your website" : "Вашата уеб страница",
     "Invalid value" : "Невалидна стойност",
     "Unable to update {property}" : "Не може да се актуализира {property}",

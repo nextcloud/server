@@ -283,7 +283,6 @@ OC.L10N.register(
     "Failed to load availability" : "Не удалось получить сведения о доступности",
     "Saved availability" : "Сведения о доступности сохранены",
     "Failed to save availability" : "Не удалось сохранить сведения о доступности",
-    "Time zone:" : "Часовой пояс:",
     "to" : "по",
     "Delete slot" : "Удалить интервал",
     "No working hours set" : "Рабочие часы не указаны",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Обратитесь к организатору напрямую.",
     "Are you accepting the invitation?" : "Принять приглашение?",
     "Tentative" : "Под вопросом",
-    "Your attendance was updated successfully." : "Статус участия обновлён."
+    "Your attendance was updated successfully." : "Статус участия обновлён.",
+    "Time zone:" : "Часовой пояс:"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

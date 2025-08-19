@@ -361,6 +361,7 @@ OC.L10N.register(
     "Edit your Profile visibility" : "Muokkaa profiilisi näkyvyyttä",
     "Enable profile" : "Ota profiili käyttöön",
     "Your role" : "Roolisi",
+    "Timezone" : "Aikavyöhyke",
     "Your website" : "Verkkosivustosi",
     "Invalid value" : "Virheellinen arvo",
     "Add additional email" : "Lisää toissijainen sähköpostiosoite",

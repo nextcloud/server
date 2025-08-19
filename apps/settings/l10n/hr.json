@@ -258,6 +258,7 @@
     "The more restrictive setting of either visibility or scope is respected on your Profile. For example, if visibility is set to \"Show to everyone\" and scope is set to \"Private\", \"Private\" is respected." : "Na profilu se primjenjuje stroža postavka vidljivosti ili opsega. Na primjer, ako je vidljivost postavljena na „Prikaži svima”, a opseg je postavljen na „Privatno”, primjenjuje se „Privatno”.",
     "Unable to update visibility of {displayId}" : "Nije moguće ažurirati vidljivost za {displayId}",
     "Your role" : "Vaša uloga",
+    "Timezone" : "Vremenska zona",
     "Unable to update federation scope of the primary {property}" : "Nije moguće ažurirati opseg udruženja primarnog {property}",
     "Unable to update federation scope of additional {property}" : "Nije moguće ažurirati opseg udruženja dodatnog {property}",
     "Add" : "Dodaj",

@@ -281,7 +281,6 @@ OC.L10N.register(
     "Failed to load availability" : "Nepodarilo sa načítať dostupnosť",
     "Saved availability" : "Dostupnosť bola uložená",
     "Failed to save availability" : "Nepodarilo sa uložiť dostupnosť",
-    "Time zone:" : "Časová zóna:",
     "to" : "do",
     "Delete slot" : "Odstrániť slot",
     "No working hours set" : "Nenastavená pracovná doba",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Prosím kontaktujte priamo organizátora.",
     "Are you accepting the invitation?" : "Príjmate pozvánku?",
     "Tentative" : "Neistý",
-    "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne."
+    "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
+    "Time zone:" : "Časová zóna:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

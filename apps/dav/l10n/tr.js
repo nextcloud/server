@@ -283,7 +283,6 @@ OC.L10N.register(
     "Failed to load availability" : "Uygunluk yüklenemedi",
     "Saved availability" : "Uygunluk kaydedildi",
     "Failed to save availability" : "Uygunluk kaydedilemedi",
-    "Time zone:" : "Saat dilimi:",
     "to" : "ile",
     "Delete slot" : "Aralığı sil",
     "No working hours set" : "Çalışma saatleri ayarlanmamış",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Lütfen düzenleyici ile doğrudan görüşün.",
     "Are you accepting the invitation?" : "Daveti kabul ediyor musunuz?",
     "Tentative" : "Kesin değil",
-    "Your attendance was updated successfully." : "Katılımınız güncellendi."
+    "Your attendance was updated successfully." : "Katılımınız güncellendi.",
+    "Time zone:" : "Saat dilimi:"
 },
 "nplurals=2; plural=(n > 1);");
