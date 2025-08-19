@@ -91,7 +91,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		$svg = $this->urlGenerator->linkTo('theming', $basePath . '.svg#open_sansregular');
 
 		$comment = ($weight === '600') ? '/* Open sans semi-bold variant */' :
-				  ($weight === 'bold') ? '/* Open sans bold variant */' : '';
+					(($weight === 'bold') ? '/* Open sans bold variant */' : '');
 
 		return "
 		{$comment}
