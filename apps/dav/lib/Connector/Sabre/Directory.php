@@ -501,7 +501,7 @@ class Directory extends Node implements
 		try {
 			// when parts of the path were cached, $path will only contain the
 			// remaining parts of the path
-			$fullPath = str_contains($path, '/') ? $path : $this->path . '/' . $path;
+			$fullPath = str_contains($path, $this->path) ? $path : $this->path . '/' . $path;
 			[$destinationDir, $destinationName] = \Sabre\Uri\split($fullPath);
 			$this->fileView->verifyPath($destinationDir, $destinationName, true);
 			$info = $this->fileView->getFileInfo($fullPath);
