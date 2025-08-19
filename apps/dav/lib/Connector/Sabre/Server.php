@@ -35,6 +35,16 @@ class Server extends \Sabre\DAV\Server {
 	public bool $debugEnabled = false;
 
 	/**
+	 * @var array<string, array<int, callable>>
+	 */
+	private array $originalListeners = [];
+
+	/**
+	 * @var array<string, array<int, callable>>
+	 */
+	private array $wrappedListeners = [];
+
+	/**
 	 * @see \Sabre\DAV\Server
 	 */
 	public function __construct($treeOrNode = null) {
@@ -86,15 +96,49 @@ class Server extends \Sabre\DAV\Server {
 			$parentFn($eventName, $callBack, $priority);
 			return;
 		}
-		// The \Sabre\DAVACL\Plugin needs to excluded as it relies on removeListener()
-		if ($pluginName === \Sabre\DAVACL\Plugin::class) {
-			$parentFn($eventName, $callBack, $priority);
-			return;
+
+		$wrappedCallback
+			= $this->getMonitoredCallback($callBack, $pluginName, $eventName);
+		$this->originalListeners[$eventName][] = $callBack;
+		$this->wrappedListeners[$eventName][] = $wrappedCallback;
+
+		$parentFn($eventName, $wrappedCallback, $priority);
+	}
+
+	public function removeListener(
+		string $eventName,
+		callable $listener,
+	): bool {
+		$listenerIndex = null;
+		if (isset($this->wrappedListeners[$eventName], $this->originalListeners[$eventName])) {
+			$key = array_search(
+				$listener,
+				$this->originalListeners[$eventName],
+				true
+			);
+			if ($key !== false) {
+				$listenerIndex = $key;
+				$listener = $this->wrappedListeners[$eventName][$listenerIndex];
+			}
+		}
+		$removed = parent::removeListener($eventName, $listener);
+
+		if ($removed && $listenerIndex !== null) {
+			unset($this->originalListeners[$eventName][$listenerIndex], $this->wrappedListeners[$eventName][$listenerIndex]);
 		}
 
-		$callback = $this->getMonitoredCallback($callBack, $pluginName, $eventName);
+		return $removed;
+	}
 
-		$parentFn($eventName, $callback, $priority);
+	public function removeAllListeners(?string $eventName = null): void {
+		parent::removeAllListeners($eventName);
+
+		if ($eventName === null) {
+			$this->originalListeners = [];
+			$this->wrappedListeners = [];
+		} else {
+			unset($this->wrappedListeners[$eventName], $this->originalListeners[$eventName]);
+		}
 	}
 
 	/**
