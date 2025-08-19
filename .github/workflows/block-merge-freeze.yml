@@ -54,4 +54,4 @@ jobs:
 
       - name: Run check
         if: ${{ env.server_ref != '' }}
-        run: cat version.php | grep 'OC_VersionString' | grep -i -v 'RC'
+        run: cat version.php | grep 'OC_VersionString' | grep -viE 'RC|beta'
