@@ -199,7 +199,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		[,, $principalId] = explode('/', $principalUri, 3);
 
 		return $this->urlGenerator->linkTo('', 'remote.php') . '/dav/calendars/'
-			. $principalId . '/'
+			. rawurlencode($principalId) . '/'
 			. $calendarUri . '/'
 			. $calendarObjectUri;
 	}
