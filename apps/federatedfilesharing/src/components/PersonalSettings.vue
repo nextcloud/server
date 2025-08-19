@@ -16,7 +16,7 @@
 			:trailing-button-label="copyLinkTooltip"
 			@trailing-button-click="copyCloudId">
 			<template #trailing-button-icon>
-				<IconCheck v-if="isCopied" :size="20" fill-color="var(--color-success)" />
+				<IconCheck v-if="isCopied" :size="20" fill-color="var(--color-border-success)" />
 				<IconClipboard v-else :size="20" />
 			</template>
 		</NcInputField>

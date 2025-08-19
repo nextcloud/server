@@ -391,7 +391,7 @@ main.app-content[style*="mouse-pos-x"] .v-popper__popper {
 
 	&.files-list__row-action--destructive {
 		::deep(button) {
-			color: var(--color-error) !important;
+			color: var(--color-text-error) !important;
 		}
 	}
 }

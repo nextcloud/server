@@ -853,8 +853,8 @@ export default defineComponent({
 
 				&:invalid {
 					// Show red border on invalid input
-					border-color: var(--color-error);
-					color: red;
+					border-color: var(--color-border-error);
+					color: var(--color-text-error);
 				}
 			}
 		}

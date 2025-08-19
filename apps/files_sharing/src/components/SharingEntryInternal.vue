@@ -127,7 +127,7 @@ export default {
 	}
 	.icon-checkmark-color {
 		opacity: 1;
-		color: var(--color-success);
+		color: var(--color-border-success);
 	}
 }
 </style>
