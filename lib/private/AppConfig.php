@@ -864,7 +864,7 @@ class AppConfig implements IAppConfig {
 				&& ($type | self::VALUE_SENSITIVE) !== ($currType | self::VALUE_SENSITIVE)) {
 				try {
 					$currType = $this->convertTypeToString($currType);
-					$this->convertTypeToString($type);
+					$type = $this->convertTypeToString($type);
 				} catch (AppConfigIncorrectTypeException) {
 					// can be ignored, this was just needed for a better exception message.
 				}
