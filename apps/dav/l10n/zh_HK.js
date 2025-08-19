@@ -283,7 +283,6 @@ OC.L10N.register(
     "Failed to load availability" : "加載空閒時間失敗",
     "Saved availability" : "已保存空閒時間",
     "Failed to save availability" : "未能保存空閒時間",
-    "Time zone:" : "時區：",
     "to" : "至",
     "Delete slot" : "刪除欄位",
     "No working hours set" : "尚未設置工作時間",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "請直接聯繫絡主辦人",
     "Are you accepting the invitation?" : "接受邀請嗎？",
     "Tentative" : "暫定",
-    "Your attendance was updated successfully." : "您的參與狀況成功更新"
+    "Your attendance was updated successfully." : "您的參與狀況成功更新",
+    "Time zone:" : "時區："
 },
 "nplurals=1; plural=0;");

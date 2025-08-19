@@ -174,6 +174,7 @@ OC.L10N.register(
     "Your phone number" : "Tavs tālruņa numurs",
     "Edit your Profile visibility" : "Labot sava profila redzamību",
     "Your role" : "Tava loma",
+    "Timezone" : "Laika josla",
     "Your website" : "Tava tīmekļvietne",
     "Add" : "Pievienot",
     "Change" : "Mainīt",

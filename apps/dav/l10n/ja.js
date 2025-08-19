@@ -283,7 +283,6 @@ OC.L10N.register(
     "Failed to load availability" : "可用性の読み込みに失敗",
     "Saved availability" : "可用性を保存しました",
     "Failed to save availability" : "可用性を保存しました",
-    "Time zone:" : "タイムゾーン：",
     "to" : "宛先",
     "Delete slot" : "スロットを削除",
     "No working hours set" : "勤務時間未設定",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "主催者に直接お問い合わせください。",
     "Are you accepting the invitation?" : "招待を受け入れていますか？",
     "Tentative" : "暫定的",
-    "Your attendance was updated successfully." : "出席は正常に更新されました。"
+    "Your attendance was updated successfully." : "出席は正常に更新されました。",
+    "Time zone:" : "タイムゾーン："
 },
 "nplurals=1; plural=0;");

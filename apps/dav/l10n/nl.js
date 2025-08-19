@@ -242,7 +242,6 @@ OC.L10N.register(
     "Failed to load availability" : "Kon beschikbaarheid niet laden",
     "Saved availability" : "Beschikbaarheid opgeslagen",
     "Failed to save availability" : "Opslaan beschikbaarheid mislukt",
-    "Time zone:" : "Tijdzone:",
     "to" : "aan",
     "Delete slot" : "Verwijder slot",
     "No working hours set" : "Geen werkuren ingesteld",
@@ -270,6 +269,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Neem rechtstreeks contact op met de organisator.",
     "Are you accepting the invitation?" : "Neem je de uitnodiging aan?",
     "Tentative" : "Onder voorbehoud",
-    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt."
+    "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
+    "Time zone:" : "Tijdzone:"
 },
 "nplurals=2; plural=(n != 1);");

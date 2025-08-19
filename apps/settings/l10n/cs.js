@@ -668,6 +668,7 @@ OC.L10N.register(
     "they/them" : "oni/jim",
     "Your pronouns. E.g. {pronounsExample}" : "Vaše zájmena. Např. {pronounsExample}",
     "Your role" : "Vaše úloha",
+    "Timezone" : "Časová zóna",
     "Your X (formerly Twitter) handle" : "Vaše přezdívka na X (dříve Twitter)",
     "Your website" : "Vlastní webová stránka",
     "Invalid value" : "Neplatná hodnota",

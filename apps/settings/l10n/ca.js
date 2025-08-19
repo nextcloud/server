@@ -649,6 +649,7 @@ OC.L10N.register(
     "he/him" : "ell/el",
     "they/them" : "ells/elles",
     "Your role" : "El teu rol",
+    "Timezone" : "Fus horari",
     "Your X (formerly Twitter) handle" : "El vostre identificador X (anteriorment Twitter)",
     "Your website" : "El teu lloc web",
     "Invalid value" : "El valor no és vàlid",

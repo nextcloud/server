@@ -281,7 +281,6 @@ OC.L10N.register(
     "Failed to load availability" : "بارگذاری در دسترس بودن با شکست مواجه شد",
     "Saved availability" : "در دسترس بودن ذخیره شد",
     "Failed to save availability" : "ذخیره در دسترس بودن با شکست مواجه شد",
-    "Time zone:" : "منطقه زمانی:",
     "to" : "تا",
     "Delete slot" : "حذف بازه زمانی",
     "No working hours set" : "ساعات کاری تعیین نشده است",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "لطفاً مستقیماً با برگزارکننده تماس بگیرید.",
     "Are you accepting the invitation?" : "آیا دعوت را می‌پذیرید؟",
     "Tentative" : "آزمایشی",
-    "Your attendance was updated successfully." : "وضعیت حضور شما با موفقیت به‌روزرسانی شد."
+    "Your attendance was updated successfully." : "وضعیت حضور شما با موفقیت به‌روزرسانی شد.",
+    "Time zone:" : "منطقه زمانی:"
 },
 "nplurals=2; plural=(n > 1);");

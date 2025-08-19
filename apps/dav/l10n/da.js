@@ -281,7 +281,6 @@ OC.L10N.register(
     "Failed to load availability" : "Kunne ikke indlæse tilgængelighed",
     "Saved availability" : "Gemt tilgængelighed",
     "Failed to save availability" : "Kunne ikke gemme tilgængelighed",
-    "Time zone:" : "Tidszone:",
     "to" : "til",
     "Delete slot" : "Slet slot",
     "No working hours set" : "Arbejdstider er ikke sat",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Kontakt venligst arrangøren direkte.",
     "Are you accepting the invitation?" : "Accepter du invitationen?",
     "Tentative" : "Foreløbig",
-    "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret."
+    "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret.",
+    "Time zone:" : "Tidszone:"
 },
 "nplurals=2; plural=(n != 1);");

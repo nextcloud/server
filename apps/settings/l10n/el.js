@@ -645,6 +645,7 @@ OC.L10N.register(
     "he/him" : "αυτός/του",
     "they/them" : "αυτοί/τους",
     "Your role" : "Ο ρόλος σας",
+    "Timezone" : "Ζώνη ώρας",
     "Your X (formerly Twitter) handle" : "Το handle σας στο X (πρώην Twitter)",
     "Your website" : "Η ιστοσελίδα σας",
     "Invalid value" : "Μη έγκυρη τιμή",

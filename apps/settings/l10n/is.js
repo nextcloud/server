@@ -483,6 +483,7 @@ OC.L10N.register(
     "he/him" : "hann",
     "they/them" : "hán/þau",
     "Your role" : "Hlutverk þitt",
+    "Timezone" : "Tímabelti",
     "Your X (formerly Twitter) handle" : "X (fyrrum Twitter) notandanafnið þitt",
     "Your website" : "Vefsvæðið þitt",
     "Invalid value" : "Ógilt gildi",

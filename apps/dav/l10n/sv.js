@@ -282,7 +282,6 @@ OC.L10N.register(
     "Failed to load availability" : "Misslyckades med att ladda tidsluckor",
     "Saved availability" : "Sparade tidslucka",
     "Failed to save availability" : "Misslyckades med att spara tidslucka",
-    "Time zone:" : "Tidszon:",
     "to" : "till",
     "Delete slot" : "Radera lucka",
     "No working hours set" : "Inga arbetstimmar satta",
@@ -332,6 +331,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vänligen kontakta arrangören direkt.",
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
     "Tentative" : "Preliminärt",
-    "Your attendance was updated successfully." : "Dina närvaro uppdaterades."
+    "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
+    "Time zone:" : "Tidszon:"
 },
 "nplurals=2; plural=(n != 1);");
