@@ -33,7 +33,6 @@ SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://jos
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
@@ -110,7 +109,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.28.0
+	- version: 8.29.1
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
