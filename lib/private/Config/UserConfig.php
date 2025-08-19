@@ -1999,8 +1999,7 @@ class UserConfig implements IUserConfig {
 	 * @param string $appId
 	 *
 	 * @return array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}
-	 *@internal
-	 *
+	 * @internal
 	 */
 	public function getConfigDetailsFromLexicon(string $appId): array {
 		if (!array_key_exists($appId, $this->configLexiconDetails)) {
@@ -2024,7 +2023,13 @@ class UserConfig implements IUserConfig {
 		return $this->configLexiconDetails[$appId];
 	}
 
-	private function getLexiconEntry(string $appId, string $key): ?Entry {
+	/**
+	 * get Lexicon Entry using appId and config key entry
+	 *
+	 * @return Entry|null NULL if entry does not exist in user's Lexicon
+	 * @internal
+	 */
+	public function getLexiconEntry(string $appId, string $key): ?Entry {
 		return $this->getConfigDetailsFromLexicon($appId)['entries'][$key] ?? null;
 	}
 
