@@ -64,17 +64,6 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$elementContrast,
 			],
-			// Those two colors are used for borders which will be `color-main-text` on focussed state, thus need 3:1 contrast to it
-			'success-error-border-colors' => [
-				[
-					'--color-error',
-					'--color-success',
-				],
-				[
-					'--color-main-text',
-				],
-				$elementContrast,
-			],
 			'primary-element-text' => [
 				[
 					'--color-primary-element-text',
@@ -121,21 +110,6 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$textContrast,
 			],
-			'status-text-on-background' => [
-				[
-					'--color-error-text',
-					'--color-warning-text',
-					'--color-success-text',
-					'--color-info-text',
-				],
-				[
-					'--color-main-background',
-					'--color-background-hover',
-					'--color-background-dark',
-					'--color-main-background-blur',
-				],
-				$textContrast,
-			],
 			'text-on-status-background' => [
 				[
 					'--color-main-text',
@@ -158,6 +132,30 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-info-hover',
 					'--color-success-hover',
 					'--color-warning-hover',
+				],
+				$textContrast,
+			],
+			'status-border-colors-on-background' => [
+				[
+					'--color-border-error',
+					'--color-border-success',
+				],
+				[
+					'--color-main-background',
+					'--color-background-hover',
+					'--color-background-dark',
+				],
+				$elementContrast,
+			],
+			'error-text-on-background' => [
+				[
+					'--color-text-error',
+				],
+				[
+					'--color-main-background',
+					'--color-background-hover',
+					'--color-background-dark',
+					'--color-main-background-blur',
 				],
 				$textContrast,
 			],
