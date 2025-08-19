@@ -80,6 +80,7 @@ interface IMailer {
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
 	 * @since 8.1.0
+	 * @deprecated 26.0.0 use IEmailValidator.isValid instead
 	 */
 	public function validateMailAddress(string $email): bool;
 }
