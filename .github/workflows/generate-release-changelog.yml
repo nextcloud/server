@@ -47,8 +47,13 @@ jobs:
           TAGS=$(git log --decorate --oneline | egrep 'tag: ' | sed -r 's/^.+tag: ([^,\)]+)[,\)].+$/\1/g')
           CURRENT_TAG=$(echo "$TAGS" | head -n 1)
 
+          # If current tag is the first beta, we use the previous major RC1
+          if echo "$CURRENT_TAG" | grep -q 'beta1'; then
+            MAJOR=$(echo "$CURRENT_TAG" | sed -E 's/^v([0-9]+).*/\1/')
+            PREV=$((MAJOR - 1))
+            PREVIOUS_TAG="v${PREV}.0.0rc1"
           # Get the previous tag - filter pre-releases only if current tag is stable
-          if echo "$CURRENT_TAG" | grep -q 'rc\|beta\|alpha'; then
+          elif echo "$CURRENT_TAG" | grep -q 'rc\|beta\|alpha'; then
             # Current tag is pre-release, don't filter
             PREVIOUS_TAG=$(echo "$TAGS" | sed -n '2p')
           else
