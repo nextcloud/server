@@ -92,6 +92,7 @@ OC.config = {
 	session_lifetime: 600 * 1000,
 	session_keepalive: false,
 	blacklist_files_regex: '\.(part|filepart)$',
+	version: '32.0.0',
 };
 OC.appConfig = {
 	core: {}
