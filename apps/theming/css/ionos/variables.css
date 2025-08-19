@@ -4,7 +4,7 @@
 	--ion-text-bright: var(--ion-color-cool-grey-c7);
 	--ion-text-dimm: var(--ion-color-blue-b9);
 	--ion-text-disabled: var(--ion-color-cool-grey-c4);
-	--ion-text-high-contrast: var(#000);
+	--ion-text-high-contrast: #000;
 
 	--color-background-plain: var(--ion-color-main-background);
 
