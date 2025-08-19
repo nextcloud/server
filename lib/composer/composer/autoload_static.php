@@ -1831,7 +1831,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Installer' => __DIR__ . '/../../..' . '/lib/private/Installer.php',
         'OC\\IntegrityCheck\\Checker' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Checker.php',
         'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Exceptions/InvalidSignatureException.php',
-        'OC\\IntegrityCheck\\Helpers\\AppLocator' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Helpers/AppLocator.php',
         'OC\\IntegrityCheck\\Helpers\\EnvironmentHelper' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Helpers/EnvironmentHelper.php',
         'OC\\IntegrityCheck\\Helpers\\FileAccessHelper' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Helpers/FileAccessHelper.php',
         'OC\\IntegrityCheck\\Iterator\\ExcludeFileByNameFilterIterator' => __DIR__ . '/../../..' . '/lib/private/IntegrityCheck/Iterator/ExcludeFileByNameFilterIterator.php',

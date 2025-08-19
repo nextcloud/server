@@ -1790,7 +1790,6 @@ return array(
     'OC\\Installer' => $baseDir . '/lib/private/Installer.php',
     'OC\\IntegrityCheck\\Checker' => $baseDir . '/lib/private/IntegrityCheck/Checker.php',
     'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException' => $baseDir . '/lib/private/IntegrityCheck/Exceptions/InvalidSignatureException.php',
-    'OC\\IntegrityCheck\\Helpers\\AppLocator' => $baseDir . '/lib/private/IntegrityCheck/Helpers/AppLocator.php',
     'OC\\IntegrityCheck\\Helpers\\EnvironmentHelper' => $baseDir . '/lib/private/IntegrityCheck/Helpers/EnvironmentHelper.php',
     'OC\\IntegrityCheck\\Helpers\\FileAccessHelper' => $baseDir . '/lib/private/IntegrityCheck/Helpers/FileAccessHelper.php',
     'OC\\IntegrityCheck\\Iterator\\ExcludeFileByNameFilterIterator' => $baseDir . '/lib/private/IntegrityCheck/Iterator/ExcludeFileByNameFilterIterator.php',

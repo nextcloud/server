@@ -12,7 +12,6 @@ use NCU\Security\Signature\ISignatureManager;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
-use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
@@ -66,7 +65,6 @@ use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
 use OC\Http\Client\NegativeDnsCache;
 use OC\IntegrityCheck\Checker;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\KnownUser\KnownUserService;
@@ -842,7 +840,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(ServerVersion::class),
 				$c->get(EnvironmentHelper::class),
 				new FileAccessHelper(),
-				new AppLocator(),
 				$config,
 				$appConfig,
 				$c->get(ICacheFactory::class),
@@ -1174,17 +1171,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IShareHelper::class, function (ContainerInterface $c) {
 			return new ShareHelper(
 				$c->get(\OCP\Share\IManager::class)
-			);
-		});
-
-		$this->registerService(Installer::class, function (ContainerInterface $c) {
-			return new Installer(
-				$c->get(AppFetcher::class),
-				$c->get(IClientService::class),
-				$c->get(ITempManager::class),
-				$c->get(LoggerInterface::class),
-				$c->get(\OCP\IConfig::class),
-				\OC::$CLI
 			);
 		});
 
