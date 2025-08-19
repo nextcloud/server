@@ -14,6 +14,7 @@ namespace OCP;
  */
 class ServerVersion {
 
+	/** @var list{int, int, int, int} */
 	private array $version;
 	private string $versionString;
 	private string $build;
@@ -27,13 +28,13 @@ class ServerVersion {
 		$versionFile = __DIR__ . '/../../version.php';
 		require $versionFile;
 
-		/** @var int[] $OC_Version */
+		/** @var list{int, int, int, int} $OC_Version */
 		$this->version = $OC_Version;
 		/** @var string $OC_VersionString */
 		$this->versionString = $OC_VersionString;
 		/** @var string $OC_Build */
 		$this->build = $OC_Build;
-		/** @var string $OC_Channel */
+		/** @var 'beta'|'stable'|'enterprise'|'git' $OC_Channel */
 		$this->channel = $OC_Channel;
 	}
 
@@ -59,6 +60,7 @@ class ServerVersion {
 	}
 
 	/**
+	 * @psalm-return list{int, int, int, int}
 	 * @since 31.0.0
 	 */
 	public function getVersion(): array {

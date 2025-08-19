@@ -10,6 +10,7 @@ namespace OC\OCS;
 use OCP\Capabilities\ICapability;
 use OCP\IConfig;
 use OCP\IURLGenerator;
+use OCP\ServerVersion;
 
 /**
  * Class Capabilities
@@ -22,6 +23,7 @@ class CoreCapabilities implements ICapability {
 	 */
 	public function __construct(
 		private IConfig $config,
+		private ServerVersion $serverVersion,
 	) {
 	}
 
@@ -35,10 +37,13 @@ class CoreCapabilities implements ICapability {
 	 *         reference-api: boolean,
 	 *         reference-regex: string,
 	 *         mod-rewrite-working: boolean,
+	 *         version: list{int, int, int, int},
 	 *     },
 	 * }
 	 */
 	public function getCapabilities(): array {
+		/** @var list{int, int, int, int} */
+		$version = $this->serverVersion->getVersion();
 		return [
 			'core' => [
 				'pollinterval' => $this->config->getSystemValueInt('pollinterval', 60),
@@ -46,6 +51,7 @@ class CoreCapabilities implements ICapability {
 				'reference-api' => true,
 				'reference-regex' => IURLGenerator::URL_REGEX_NO_MODIFIERS,
 				'mod-rewrite-working' => $this->config->getSystemValueBool('htaccess.IgnoreFrontController') || getenv('front_controller_active') === 'true',
+				'version' => $version,
 			],
 		];
 	}
