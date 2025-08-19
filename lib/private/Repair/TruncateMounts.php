@@ -24,6 +24,6 @@ class TruncateMounts implements IRepairStep {
 	}
 
 	public function run(IOutput $output): void {
-		$this->connection->truncateTable('*PREFIX*mounts', false);
+		$this->connection->truncateTable('mounts', false);
 	}
 }
