@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace OCP\Calendar;
 
 use InvalidArgumentException;
-use OCA\DAV\CalDAV\Import\ImportService;
 
 /**
  * Calendar Import Options
@@ -56,7 +55,7 @@ final class CalendarImportOptions {
 	 */
 	public function setFormat(string $value): void {
 		if (!in_array($value, self::FORMATS, true)) {
-			throw new InvalidArgumentException("Format <$value> is not valid.");
+			throw new InvalidArgumentException("Format is not valid.");
 		}
 		$this->format = $value;
 	}
