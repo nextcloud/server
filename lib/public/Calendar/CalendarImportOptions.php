@@ -17,6 +17,8 @@ use OCA\DAV\CalDAV\Import\ImportService;
  */
 final class CalendarImportOptions {
 
+	public const FORMATS = ['ical', 'jcal', 'xcal'];
+
 	public const VALIDATE_NONE = 0;
 	public const VALIDATE_SKIP = 1;
 	public const VALIDATE_FAIL = 2;
@@ -50,10 +52,10 @@ final class CalendarImportOptions {
 	/**
 	 * Sets the import format
 	 *
-	 * @param 'ical'|'jcal'|'xcal' $format
+	 * @param 'ical'|'jcal'|'xcal' $value
 	 */
 	public function setFormat(string $value): void {
-		if (!in_array($value, ImportService::FORMATS, true)) {
+		if (!in_array($value, self::FORMATS, true)) {
 			throw new InvalidArgumentException("Format <$value> is not valid.");
 		}
 		$this->format = $value;

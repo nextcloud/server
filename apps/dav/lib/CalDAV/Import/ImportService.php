@@ -23,8 +23,6 @@ use Sabre\VObject\UUIDUtil;
  */
 class ImportService {
 
-	public const FORMATS = ['ical', 'jcal', 'xcal'];
-
 	private $source;
 
 	public function __construct(
@@ -68,7 +66,7 @@ class ImportService {
 	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
-	private function importText(CalendarImportOptions $options): Generator {
+	private function importText(): Generator {
 		$importer = new TextImporter($this->source);
 		$structure = $importer->structure();
 		$sObjectPrefix = $importer::OBJECT_PREFIX;
@@ -117,7 +115,7 @@ class ImportService {
 	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
-	private function importXml(CalendarImportOptions $options): Generator {
+	private function importXml(): Generator {
 		$importer = new XmlImporter($this->source);
 		$structure = $importer->structure();
 		$sObjectPrefix = $importer::OBJECT_PREFIX;
@@ -159,7 +157,7 @@ class ImportService {
 	 *
 	 * @return Generator<\Sabre\VObject\Component\VCalendar>
 	 */
-	private function importJson(CalendarImportOptions $options): Generator {
+	private function importJson(): Generator {
 		/** @var VCALENDAR $importer */
 		$importer = Reader::readJson($this->source);
 		// calendar time zones
