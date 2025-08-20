@@ -201,7 +201,12 @@ class Dispatcher {
 		}
 
 		$this->eventLogger->start('controller:' . get_class($controller) . '::' . $methodName, 'App framework controller execution');
-		$response = \call_user_func_array([$controller, $methodName], $arguments);
+		try {
+			$response = \call_user_func_array([$controller, $methodName], $arguments);
+		} catch (\TypeError $e) {
+			$this->logger->debug('Failed to call controller method: ' . $e->getMessage(), ['exception' => $e]);
+			return new Response(Http::STATUS_BAD_REQUEST);
+		}
 		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
 
 		if (!($response instanceof Response)) {
