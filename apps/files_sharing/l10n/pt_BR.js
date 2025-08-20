@@ -258,7 +258,7 @@ OC.L10N.register(
     "Successfully uploaded files" : "Arquivos carregados com sucesso",
     "View terms of service" : "Ver os termos de serviço",
     "Terms of service" : "Termos de serviço",
-    "Share with {user}" : "Compartilhe com {user}",
+    "Share with {user}" : "Compartilhar com {user}",
     "Share with email {email}" : "Compartilhar com e-mail {email}",
     "Share with group" : "Compartilhar com grupo",
     "Share in conversation" : "Compartilhar na conversa",

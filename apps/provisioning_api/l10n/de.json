@@ -18,6 +18,7 @@
     "Setting the password is not supported by the users backend" : "Das Passwort kann nicht über das Benutzerbackend festgelegt werden",
     "Invalid language" : "Ungültige Sprache",
     "Invalid locale" : "Ungültige Lokalisierung",
+    "Invalid timezone" : "Ungültige Zeitzone",
     "Invalid first day of week" : "Ungültiger erster Tag der Woche",
     "Cannot remove yourself from the admin group" : "Du kannst dich nicht selbst aus der Administrationsgruppe entfernen.",
     "Cannot remove yourself from this group as you are a sub-admin" : "Du kannst dich nicht selbst aus dieser Gruppe entfernen, da du zur Unteradministration gehörst.",

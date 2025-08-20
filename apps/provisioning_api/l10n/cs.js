@@ -20,6 +20,7 @@ OC.L10N.register(
     "Setting the password is not supported by the users backend" : "Nastavování hesla není touto podpůrnou vrstvou pro uživatelské účty podporována",
     "Invalid language" : "Neplatný jazyk",
     "Invalid locale" : "Neplatná místní a jazyková nastavení",
+    "Invalid timezone" : "Neplatné časové pásmo",
     "Invalid first day of week" : "Neplatný první den v týdnu",
     "Cannot remove yourself from the admin group" : "Není možné odebrat sama sebe ze skupiny správců",
     "Cannot remove yourself from this group as you are a sub-admin" : "Není možné odebrat sama sebe z této skupiny protože jste dílčím správcem",

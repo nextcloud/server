@@ -1,5 +1,6 @@
 { "translations": {
     "Logged in account must be an administrator or have authorization to edit this setting." : "Sisselogitud kasutajakonto peab olema peakasutajat või omama eraldi õigust selle seadustuse muutmiseks.",
+    "Could not create non-existing user ID" : "Mitteolemasoleva kasutaja tunnuse loomine ei õnnestunud",
     "User already exists" : "Kasutaja on juba olemas",
     "Group %1$s does not exist" : "%1$s gruppi pole olemas",
     "Insufficient privileges for group %1$s" : "%1$s grupi jaoks pole pole piisavalt õigusi",
@@ -17,6 +18,7 @@
     "Setting the password is not supported by the users backend" : "Salasõna lisamine pole kasutajate taustateenuse poolt toetatud",
     "Invalid language" : "Vigane keel",
     "Invalid locale" : "Vigane lokaat",
+    "Invalid timezone" : "Vigane ajavöönd",
     "Invalid first day of week" : "Vigane nädala esimene päev",
     "Cannot remove yourself from the admin group" : "Sa ei saa end peakasutajate grupist eemaldada",
     "Cannot remove yourself from this group as you are a sub-admin" : "Kuna oled peakasutajate alamgrupi liige, siis sa ei saa end eemaldada",
@@ -34,6 +36,7 @@
     "Could not verify mail because the token is invalid." : "Kuna tunnusluba on vigane, siis e-posti aadressi kinnitamine pole võimalik.",
     "An unexpected error occurred. Please contact your admin." : "Tekkis ootamatu viga. Palun võta ühendust peakasutajaga.",
     "Email confirmation successful" : "E-posti aadressi kinnitamine õnnestus.",
+    "Provisioning API" : "API kasutajate valmenduse jaoks",
     "This application enables a set of APIs that external systems can use to manage accounts, groups and apps." : "See rakendus võtab kasutusele sellised API-d mis võimaldavad välistel süsteemidel hallata kasutajakontosid, gruppe ja rakendusi."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
