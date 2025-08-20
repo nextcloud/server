@@ -14,7 +14,7 @@ use OCP\IConfig;
 use OCP\IUser;
 
 /**
- * @psalm-type ObjectStoreConfig array{class: class-string<IObjectStore>, arguments: array{multibucket: bool, ...}}
+ * @psalm-type ObjectStoreConfig array{class: class-string<IObjectStore>, arguments: array{multibucket: bool, objectPrefix: ?string, ...}}
  */
 class PrimaryObjectStoreConfig {
 	public function __construct(
