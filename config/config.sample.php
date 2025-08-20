@@ -2461,6 +2461,14 @@ $CONFIG = [
 'upgrade.cli-upgrade-link' => '',
 
 /**
+ * Additional line(s) (string or array of strings)
+ * that will be added to .user.ini on each update by the updater.
+ *
+ * Defaults to ``''`` (empty string)
+ */
+'user_ini_additional_lines' => '',
+
+/**
  * Customize the server logs documentation link for exception handling.
  */
 'documentation_url.server_logs' => '',
