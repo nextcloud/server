@@ -88,6 +88,9 @@
 #### Rewrites
 #############
 
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
 ##
 ## Rule: Workaround for WebDAV with apache+php-cgi
 ##
@@ -98,10 +101,7 @@
 ##    - XXX: SetEnvIf approach is already in use above for mod_proxy_cgi / mod_lsapi / mod_fcgid
 ##
 
-<IfModule mod_rewrite.c>
-    RewriteEngine on
     RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-</IfModule>
 
 ##
 ## Rule: Workaround for WebDAV with MS DavClnt
@@ -111,29 +111,20 @@
 ##    - Redirects the client to the endpoint rather than the login page (which confuses DavClnt)
 ##
 
-<IfModule mod_rewrite.c>
-    RewriteEngine on
     RewriteCond %{HTTP_USER_AGENT} DavClnt
     RewriteRule ^$ /remote.php/webdav/ [L,R=302]
-</IfModule>
 
 ##
 ## Rule: Map the RFC 8615 / RFC 6764 compliant well-known URI for CardDAV to our Remote DAV endpoint
 ##
 
-<IfModule mod_rewrite.c>
-    RewriteEngine on
     RewriteRule ^\.well-known/carddav /remote.php/dav/ [R=301,L]
-</IfModule>
 
 ##
 ## Rule: Map the RFC 8615 / RFC 6764 compliant well-known URI for CalDAV to our Remote DAV endpoint
 ##
 
-<IfModule mod_rewrite.c>
-    RewriteEngine on
     RewriteRule ^\.well-known/caldav /remote.php/dav/ [R=301,L]
-</IfModule>
 
 ##
 ## Rule: Map /remote* --> /remote.php* including the query string
@@ -143,19 +134,13 @@
 ##    - XXX: Is this even used anymore? Seems a relic from <NC12
 ##
 
-<IfModule mod_rewrite.c>
-    RewriteEngine on
     RewriteRule ^remote/(.*) remote.php [QSA,L]
-</IfModule>
 
 ##
 ## Rule: Prevent access to non-public files
 ##
 
-<IfModule mod_rewrite.c>
-    RewriteEngine on
     RewriteRule ^(?:build|tests|config|lib|3rdparty|templates)/.* - [R=404,L]
-</IfModule>
 
 ##
 ## Rule: Maps most RFC 8615 compliant well-known URIs to our main frontend controller (/index.php) by default
@@ -168,10 +153,7 @@
 ##    - XXX: Sometimes we are using `/index.php` and other times `index.php` as our replacement URI; this may be incorrect
 ##
 
-<IfModule mod_rewrite.c>
-    RewriteEngine on
     RewriteRule ^\.well-known/(?!acme-challenge|pki-validation) /index.php [QSA,L]
-</IfModule>
 
 ##
 ## Rule: Map the ocm-provider handling to our main frontend controller (/index.php)
@@ -181,10 +163,7 @@
 ##    - XXX: Sometimes we are using `/index.php` and other times `index.php` as our replacement URI; this may be incorrect
 ##
 
-<IfModule mod_rewrite.c>
-    RewriteEngine on
     RewriteRule ^ocm-provider/?$ index.php [QSA,L]
-</IfModule>
 
 ##
 ## Rule: Prevent access to more non-public files
@@ -193,9 +172,8 @@
 ##    - XXX It may make sense to merge some of these with the others (i.e. the ones that don't need to be last)
 ##
 
-<IfModule mod_rewrite.c>
-    RewriteEngine on
     RewriteRule ^(?:\.(?!well-known)|autotest|occ|issue|indie|db_|console).* - [R=404,L]
+
 </IfModule>
 
 # Clients like xDavv5 on Android, or Cyberduck, use chunked requests.
