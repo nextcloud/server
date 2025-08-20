@@ -916,10 +916,12 @@ class AppManager implements IAppManager {
 
 	public function isBackendRequired(string $backend): bool {
 		foreach ($this->appInfos as $appInfo) {
-			foreach ($appInfo['dependencies']['backend'] as $appBackend) {
-				if ($backend === $appBackend) {
-					return true;
-				}
+			if (
+				isset($appInfo['dependencies']['backend'])
+				&& is_array($appInfo['dependencies']['backend'])
+				&& in_array($backend, $appInfo['dependencies']['backend'], true)
+			) {
+				return true;
 			}
 		}
 
