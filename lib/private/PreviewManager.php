@@ -8,9 +8,11 @@
 namespace OC;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Generator;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
+use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -140,6 +142,8 @@ class PreviewManager implements IPreview {
 				),
 				$this->eventDispatcher,
 				$this->container->get(LoggerInterface::class),
+				$this->container->get(PreviewMapper::class),
+				$this->container->get(StorageFactory::class),
 			);
 		}
 		return $this->generator;
