@@ -149,13 +149,16 @@ const {
 	userThemingDisabled,
 	adminThemingDisabled,
 	defaultApps,
+	defaultName,
+	defaultUrl,
+	defaultSlogan,
 } = loadState('theming', 'adminThemingParameters')
 
 const textFields = [
 	{
 		name: 'name',
 		value: name,
-		defaultValue: 'Nextcloud',
+		defaultValue: defaultName,
 		type: 'text',
 		displayName: t('theming', 'Name'),
 		placeholder: t('theming', 'Name'),
@@ -164,7 +167,7 @@ const textFields = [
 	{
 		name: 'url',
 		value: url,
-		defaultValue: 'https://nextcloud.com',
+		defaultValue: defaultUrl,
 		type: 'url',
 		displayName: t('theming', 'Web link'),
 		placeholder: 'https://…',
@@ -173,7 +176,7 @@ const textFields = [
 	{
 		name: 'slogan',
 		value: slogan,
-		defaultValue: t('theming', 'a safe home for all your data'),
+		defaultValue: defaultSlogan,
 		type: 'text',
 		displayName: t('theming', 'Slogan'),
 		placeholder: t('theming', 'Slogan'),

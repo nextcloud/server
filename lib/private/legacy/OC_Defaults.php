@@ -34,9 +34,9 @@ class OC_Defaults {
 		$config = Server::get(IConfig::class);
 		$serverVersion = Server::get(ServerVersion::class);
 
-		$this->defaultEntity = 'Nextcloud'; /* e.g. company name, used for footers and copyright notices */
-		$this->defaultName = 'Nextcloud'; /* short name, used when referring to the software */
-		$this->defaultTitle = 'Nextcloud'; /* can be a longer name, for titles */
+		$this->defaultEntity = 'Nextcloud Workspace'; /* e.g. company name, used for footers and copyright notices */
+		$this->defaultName = 'Nextcloud Workspace'; /* short name, used when referring to the software */
+		$this->defaultTitle = 'Nextcloud Workspace'; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = 'https://nextcloud.com';
 		$this->defaultSyncClientUrl = $config->getSystemValue('customclient_desktop', 'https://nextcloud.com/install/#install-clients');
 		$this->defaultiOSClientUrl = $config->getSystemValue('customclient_ios', 'https://geo.itunes.apple.com/us/app/nextcloud/id1125420102?mt=8');
@@ -48,7 +48,8 @@ class OC_Defaults {
 		$this->defaultColorBackground = '#00679e';
 		$this->defaultColorPrimary = '#00679e';
 		$this->defaultTextColorPrimary = '#ffffff';
-		$this->defaultProductName = 'Nextcloud';
+		$this->defaultProductName = 'Nextcloud Workspace';
+		$this->defaultSlogan = 'powered by IONOS';
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {
