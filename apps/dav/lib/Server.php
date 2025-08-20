@@ -27,6 +27,7 @@ use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\Security\CardDavRateLimitingPlugin;
 use OCA\DAV\CardDAV\Validation\CardDavValidatePlugin;
 use OCA\DAV\Comments\CommentsPlugin;
+use OCA\DAV\Connector\Sabre\AddExtraHeadersPlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\AppleQuirksPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
@@ -385,6 +386,7 @@ class Server {
 						)
 					);
 				}
+				$this->server->addPlugin(new AddExtraHeadersPlugin($logger, false));
 				$this->server->addPlugin(new EnablePlugin(
 					\OCP\Server::get(IConfig::class),
 					\OCP\Server::get(BirthdayService::class),
