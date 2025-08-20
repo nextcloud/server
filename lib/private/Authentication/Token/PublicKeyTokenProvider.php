@@ -270,9 +270,16 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function invalidateToken(string $token) {
 		$tokenHash = $this->hashToken($token);
+		$tokenEntry = null;
+		try {
+			$tokenEntry = $this->mapper->getToken($tokenHash);
+		} catch (DoesNotExistException) {}
 		$this->mapper->invalidate($this->hashToken($token));
 		$this->mapper->invalidate($this->hashTokenWithEmptySecret($token));
 		$this->cacheInvalidHash($tokenHash);
+		if ($tokenEntry !== null) {
+			$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($tokenEntry->getUID(), $tokenEntry->getId()));
+		}
 	}
 
 	public function invalidateTokenById(string $uid, int $id) {
