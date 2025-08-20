@@ -27,6 +27,7 @@ class ConfigLexicon implements ILexicon {
 	public const SHARE_LINK_EXPIRE_DATE_DEFAULT = 'shareapi_default_expire_date';
 	public const SHARE_LINK_EXPIRE_DATE_ENFORCED = 'shareapi_enforce_expire_date';
 	public const USER_LANGUAGE = 'lang';
+	public const OCM_DISCOVERY_ENABLED = 'ocm_discovery_enabled';
 	public const USER_LOCALE = 'locale';
 	public const USER_TIMEZONE = 'timezone';
 
@@ -85,6 +86,7 @@ class ConfigLexicon implements ILexicon {
 				definition: 'Enforce expiration date for shares via link or mail'
 			),
 			new Entry(self::LASTCRON_TIMESTAMP, ValueType::INT, 0, 'timestamp of last cron execution'),
+			new Entry(self::OCM_DISCOVERY_ENABLED, ValueType::BOOL, true, 'enable/disable OCM', lazy: true),
 		];
 	}
 

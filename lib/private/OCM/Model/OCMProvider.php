@@ -10,9 +10,6 @@ declare(strict_types=1);
 namespace OC\OCM\Model;
 
 use NCU\Security\Signature\Model\Signatory;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
-use OCP\OCM\Events\ResourceTypeRegisterEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\ICapabilityAwareOCMProvider;
@@ -22,7 +19,6 @@ use OCP\OCM\IOCMResource;
  * @since 28.0.0
  */
 class OCMProvider implements ICapabilityAwareOCMProvider {
-	private string $provider;
 	private bool $enabled = false;
 	private string $apiVersion = '';
 	private string $inviteAcceptDialog = '';
@@ -31,13 +27,10 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
 	private ?Signatory $signatory = null;
-	private bool $emittedEvent = false;
 
 	public function __construct(
-		protected IEventDispatcher $dispatcher,
-		protected IConfig $config,
+		private readonly string $provider = '',
 	) {
-		$this->provider = 'Nextcloud ' . $config->getSystemValue('version');
 	}
 
 	/**
@@ -180,12 +173,6 @@ class OCMProvider implements ICapabilityAwareOCMProvider {
 	 * @return IOCMResource[]
 	 */
 	public function getResourceTypes(): array {
-		if (!$this->emittedEvent) {
-			$this->emittedEvent = true;
-			$event = new ResourceTypeRegisterEvent($this);
-			$this->dispatcher->dispatchTyped($event);
-		}
-
 		return $this->resourceTypes;
 	}
 
