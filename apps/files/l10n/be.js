@@ -96,6 +96,8 @@ OC.L10N.register(
     "New owner" : "Новы ўладальнік",
     "Share" : "Абагуліць",
     "Upload was cancelled by user" : "Карыстальнік скасаваў запампоўванне",
+    "Retry" : "Паўтарыць спробу",
+    "No files in here" : "Тут няма файлаў",
     "Go back" : "Назад",
     "Your files" : "Вашы файлы",
     "File cannot be accessed" : "Немагчыма атрымаць доступ да файла",

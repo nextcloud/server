@@ -825,6 +825,7 @@ OC.L10N.register(
     "Profile visibility" : "Видимість профілю",
     "Locale" : "Локаль",
     "First day of week" : "Тиждень починається",
+    "timezone" : "часовий пояс",
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Недоступно, оскільки ця властивість необхідна для основних функцій, включно спільний доступ до файлів та запрошення в календарі",
     "Not available as federation has been disabled for your account, contact your system administration if you have any questions" : "Недоступно, оскільки об'єднання хмар вимкнено для вашого облікового запису",
     "Not available as publishing account specific data to the lookup server is not allowed, contact your system administration if you have any questions" : "Недоступно, оскільки публікацію даних користувача на пошуковому сервері заборонено",

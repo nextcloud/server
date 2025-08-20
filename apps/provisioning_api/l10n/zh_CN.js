@@ -20,6 +20,7 @@ OC.L10N.register(
     "Setting the password is not supported by the users backend" : "用户后端不支持设置密码",
     "Invalid language" : "语言无效",
     "Invalid locale" : "区域设置无效",
+    "Invalid timezone" : "时区无效",
     "Invalid first day of week" : "一周的第一天无效",
     "Cannot remove yourself from the admin group" : "无法将自己从管理员组中移除",
     "Cannot remove yourself from this group as you are a sub-admin" : "无法将自己从此组中移除，因为您是子管理员",

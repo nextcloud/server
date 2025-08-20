@@ -825,6 +825,7 @@ OC.L10N.register(
     "Profile visibility" : "Widoczność profilu",
     "Locale" : "Region",
     "First day of week" : "Pierwszy dzień tygodnia",
+    "timezone" : "strefa czasowa",
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Niedostępne, ponieważ ta właściwość jest wymagana do podstawowych funkcji, w tym udostępniania pliku i zaproszeń do kalendarza",
     "Not available as federation has been disabled for your account, contact your system administration if you have any questions" : "Niedostępne, ponieważ federacja została wyłączona dla Twojego konta. Jeśli masz jakiekolwiek pytania, skontaktuj się z administratorem systemu",
     "Not available as publishing account specific data to the lookup server is not allowed, contact your system administration if you have any questions" : "Niedostępne, ponieważ publikowanie danych specyficznych dla konta na serwerze wyszukiwania jest niedozwolone. W razie pytań skontaktuj się z administratorem systemu",

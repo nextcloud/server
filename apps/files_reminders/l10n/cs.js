@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "Storno",
     "Set reminder" : "Nastavit připomínku",
     "Reminder set" : "Nastavit připomínku",
+    "Custom reminder" : "Uživatelsky určená připomínka",
     "Later today" : "Později dnes",
     "Set reminder for later today" : "Nastavit připomínku na později dnes",
     "Tomorrow" : "Zítra",

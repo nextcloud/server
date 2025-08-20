@@ -18,6 +18,7 @@
     "Setting the password is not supported by the users backend" : "用戶後端系統不支援設定密碼",
     "Invalid language" : "無效的語言",
     "Invalid locale" : "無效的地區設定",
+    "Invalid timezone" : "無效的時區",
     "Invalid first day of week" : "無效的一星期的第一天",
     "Cannot remove yourself from the admin group" : "無法將您自己從管理員群組移除",
     "Cannot remove yourself from this group as you are a sub-admin" : "因為您是子管理員，因此無法將自己從該群組中移除",
