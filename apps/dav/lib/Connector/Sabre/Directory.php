@@ -498,10 +498,13 @@ class Directory extends Node implements
 	}
 
 	public function getNodeForPath($path) {
+		$nodePath = ltrim($this->path, '/');
+		// path may be a partial path, due to caching in Tree.php
+		$fullPath = str_starts_with($path, $nodePath) ? $path :
+			$nodePath . '/' .
+			$path;
+
 		try {
-			// when parts of the path were cached, $path will only contain the
-			// remaining parts of the path
-			$fullPath = str_contains($path, $this->path) ? $path : $this->path . '/' . $path;
 			[$destinationDir, $destinationName] = \Sabre\Uri\split($fullPath);
 			$this->fileView->verifyPath($destinationDir, $destinationName, true);
 			$info = $this->fileView->getFileInfo($fullPath);
@@ -514,7 +517,8 @@ class Directory extends Node implements
 		}
 
 		if (!$info) {
-			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $path . ' could not be located');
+			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $fullPath .
+				' could not be located');
 		}
 
 		if ($info->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
