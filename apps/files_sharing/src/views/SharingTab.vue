@@ -272,14 +272,13 @@ export default {
 
 		externalShareInputPlaceholder() {
 			if (!this.isLinkSharingAllowed) {
-				return t('files_sharing', 'Federated cloud ID')
+				return this.config.isFederationEnabled ? t('files_sharing', 'Federated cloud ID') : ''
 			}
-			return this.config.showFederatedSharesAsInternal
+			return !this.config.showFederatedSharesAsInternal && !this.config.isFederationEnabled
 				? t('files_sharing', 'Email')
 				: t('files_sharing', 'Email, federated cloud id')
 		},
 	},
-
 	methods: {
 		/**
 		 * Update current fileInfo and fetch new data
@@ -291,7 +290,6 @@ export default {
 			this.resetState()
 			this.getShares()
 		},
-
 		/**
 		 * Get the existing shares infos
 		 */
