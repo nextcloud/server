@@ -55,7 +55,7 @@ final class CalendarImportOptions {
 	 */
 	public function setFormat(string $value): void {
 		if (!in_array($value, self::FORMATS, true)) {
-			throw new InvalidArgumentException("Format is not valid.");
+			throw new InvalidArgumentException('Format is not valid.');
 		}
 		$this->format = $value;
 	}

@@ -221,7 +221,7 @@ class ImportService {
 		$calendarId = $calendar->getKey();
 		$principalUri = $calendar->getPrincipalUri();
 		$outcome = [];
-		foreach ($generator($options) as $vObject) {
+		foreach ($generator() as $vObject) {
 			$components = $vObject->getBaseComponents();
 			// determine if the object has no base component types
 			if (count($components) === 0) {
