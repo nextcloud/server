@@ -165,7 +165,7 @@ export default {
 		isPasswordProtected: {
 			get() {
 				return this.config.enforcePasswordForPublicLink
-						|| this.share.password !== ''
+						|| this.share.password !== undefined
 						|| this.share.newPassword !== undefined
 			},
 			async set(enabled) {
