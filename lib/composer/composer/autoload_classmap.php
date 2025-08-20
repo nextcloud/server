@@ -157,6 +157,7 @@ return array(
     'OCP\\App\\ManagerEvent' => $baseDir . '/lib/public/App/ManagerEvent.php',
     'OCP\\Authentication\\Events\\AnyLoginFailedEvent' => $baseDir . '/lib/public/Authentication/Events/AnyLoginFailedEvent.php',
     'OCP\\Authentication\\Events\\LoginFailedEvent' => $baseDir . '/lib/public/Authentication/Events/LoginFailedEvent.php',
+    'OCP\\Authentication\\Events\\TokenInvalidatedEvent' => $baseDir . '/lib/public/Authentication/Events/TokenInvalidatedEvent.php',
     'OCP\\Authentication\\Exceptions\\CredentialsUnavailableException' => $baseDir . '/lib/public/Authentication/Exceptions/CredentialsUnavailableException.php',
     'OCP\\Authentication\\Exceptions\\ExpiredTokenException' => $baseDir . '/lib/public/Authentication/Exceptions/ExpiredTokenException.php',
     'OCP\\Authentication\\Exceptions\\InvalidTokenException' => $baseDir . '/lib/public/Authentication/Exceptions/InvalidTokenException.php',

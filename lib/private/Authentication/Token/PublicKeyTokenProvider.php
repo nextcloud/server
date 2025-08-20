@@ -15,7 +15,9 @@ use OC\Authentication\Exceptions\WipeTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Events\TokenInvalidatedEvent;
 use OCP\Authentication\Token\IToken as OCPIToken;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -55,6 +57,8 @@ class PublicKeyTokenProvider implements IProvider {
 	/** @var IHasher */
 	private $hasher;
 
+	private IEventDispatcher $eventDispatcher;
+
 	public function __construct(PublicKeyTokenMapper $mapper,
 		ICrypto $crypto,
 		IConfig $config,
@@ -62,7 +66,9 @@ class PublicKeyTokenProvider implements IProvider {
 		LoggerInterface $logger,
 		ITimeFactory $time,
 		IHasher $hasher,
-		ICacheFactory $cacheFactory) {
+		ICacheFactory $cacheFactory,
+		IEventDispatcher $eventDispatcher,
+	) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
@@ -74,6 +80,7 @@ class PublicKeyTokenProvider implements IProvider {
 			? $cacheFactory->createLocal('authtoken_')
 			: $cacheFactory->createInMemory();
 		$this->hasher = $hasher;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -275,7 +282,7 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 		$this->mapper->invalidate($token->getToken());
 		$this->cacheInvalidHash($token->getToken());
-
+		$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($uid, $id));
 	}
 
 	public function invalidateOldTokens() {
