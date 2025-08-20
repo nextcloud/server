@@ -20,6 +20,7 @@ OC.L10N.register(
     "Setting the password is not supported by the users backend" : "Ní thacaíonn inneall na n-úsáideoirí leis an bhfocal faire a shocrú",
     "Invalid language" : "Teanga neamhbhailí",
     "Invalid locale" : "Logán neamhbhailí",
+    "Invalid timezone" : "Crios ama neamhbhailí",
     "Invalid first day of week" : "An chéad lá den tseachtain neamhbhailí",
     "Cannot remove yourself from the admin group" : "Ní féidir tú féin a bhaint den ghrúpa riaracháin",
     "Cannot remove yourself from this group as you are a sub-admin" : "Ní féidir tú féin a bhaint den ghrúpa seo toisc gur fo-riarthóir tú",

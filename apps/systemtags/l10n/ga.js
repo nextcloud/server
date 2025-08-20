@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Clib cuardaigh",
     "Change tag color" : "Athraigh dath an chlib",
     "Create new tag" : "Cruthaigh clib nua",
+    "Choose tags for the selected files" : "Roghnaigh clibeanna do na comhaid roghnaithe",
     "Cancel" : "Cealaigh",
     "Apply" : "Cuir iarratas isteach",
     "Failed to load tags" : "Theip ar lódáil clibeanna",

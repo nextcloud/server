@@ -18,6 +18,7 @@
     "Setting the password is not supported by the users backend" : "Встановлення паролю не підтримується бекендом користувача",
     "Invalid language" : "Недійсний вибір мови",
     "Invalid locale" : "Недійсний вибір локалі",
+    "Invalid timezone" : "Неправильний часовий пояс",
     "Invalid first day of week" : "Недійсний перший день тижня",
     "Cannot remove yourself from the admin group" : "Неможливо вилучити себе із групи адміністраторів",
     "Cannot remove yourself from this group as you are a sub-admin" : "Неможливо вилучити себе із цієї групи, оскільки ви є другорядним адміністратором",

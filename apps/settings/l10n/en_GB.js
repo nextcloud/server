@@ -825,6 +825,7 @@ OC.L10N.register(
     "Profile visibility" : "Profile visibility",
     "Locale" : "Locale",
     "First day of week" : "First day of week",
+    "timezone" : "timezone",
     "Not available as this property is required for core functionality including file sharing and calendar invitations" : "Not available as this property is required for core functionality including file sharing and calendar invitations",
     "Not available as federation has been disabled for your account, contact your system administration if you have any questions" : "Not available as federation has been disabled for your account, contact your system administration if you have any questions",
     "Not available as publishing account specific data to the lookup server is not allowed, contact your system administration if you have any questions" : "Not available as publishing account specific data to the lookup server is not allowed, contact your system administration if you have any questions",
