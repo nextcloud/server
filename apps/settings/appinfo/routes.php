@@ -56,7 +56,10 @@ return [
 		['name' => 'TwoFactorSettings#index', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'TwoFactorSettings#update', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'PUT' , 'root' => ''],
 		['name' => 'AISettings#update', 'url' => '/settings/api/admin/ai', 'verb' => 'PUT' , 'root' => ''],
+
 		['name' => 'Preset#getPreset', 'url' => '/settings/preset', 'verb' => 'GET' , 'root' => ''],
+		['name' => 'Preset#getCurrentPreset', 'url' => '/settings/preset/current', 'verb' => 'GET' , 'root' => ''],
+		['name' => 'Preset#setCurrentPreset', 'url' => '/settings/preset/current', 'verb' => 'POST' , 'root' => ''],
 
 		['name' => 'Help#help', 'url' => '/settings/help/{mode}', 'verb' => 'GET', 'defaults' => ['mode' => ''] , 'root' => ''],
 

@@ -184,6 +184,20 @@ class PresetManager {
 	}
 
 	/**
+	 * return list of apps that are enabled/disabled when switching current Preset
+	 *
+	 * @return array{CLUB: array{disabled: list<string>, enabled: list<string>}, FAMILY: array{disabled: list<string>, enabled: list<string>}, LARGE: array{disabled: list<string>, enabled: list<string>}, MEDIUM: array{disabled: list<string>, enabled: list<string>}, NONE: array{disabled: list<string>, enabled: list<string>}, PRIVATE: array{disabled: list<string>, enabled: list<string>}, SCHOOL: array{disabled: list<string>, enabled: list<string>}, SHARED: array{disabled: list<string>, enabled: list<string>}, SMALL: array{disabled: list<string>, enabled: list<string>}, UNIVERSITY: array{disabled: list<string>, enabled: list<string>}}
+	 */
+	public function retrieveLexiconPresetApps(): array {
+		$apps = [];
+		foreach (Preset::cases() as $case) {
+			$apps[$case->name] = $this->getPresetApps($case);
+		}
+
+		return $apps;
+	}
+
+	/**
 	 * get listing of enabled/disabled app from Preset
 	 *
 	 * @return array{enabled: list<string>, disabled: list<string>}
