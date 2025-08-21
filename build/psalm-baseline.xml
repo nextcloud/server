@@ -371,6 +371,12 @@
     </UndefinedMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/EmailProvider.php">
+    <DeprecatedMethod>
+      <code><![CDATA[validateMailAddress]]></code>
+      <code><![CDATA[validateMailAddress]]></code>
+      <code><![CDATA[validateMailAddress]]></code>
+      <code><![CDATA[validateMailAddress]]></code>
+    </DeprecatedMethod>
     <LessSpecificReturnStatement>
       <code><![CDATA[$emailAddresses]]></code>
     </LessSpecificReturnStatement>
@@ -452,6 +458,9 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
+    <DeprecatedMethod>
+      <code><![CDATA[validateMailAddress]]></code>
+    </DeprecatedMethod>
     <RedundantCast>
       <code><![CDATA[(string)$iTipMessage->recipientName]]></code>
     </RedundantCast>
@@ -555,6 +564,11 @@
     <TypeDoesNotContainType>
       <code><![CDATA[$addressBooks[$row['id']][$readOnlyPropertyName] === 0]]></code>
     </TypeDoesNotContainType>
+  </file>
+  <file src="apps/dav/lib/CardDAV/Converter.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
   </file>
   <file src="apps/dav/lib/CardDAV/MultiGetExportPlugin.php">
     <InvalidNullableReturnType>
@@ -823,11 +837,6 @@
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
   </file>
-  <file src="apps/dav/lib/Direct/Server.php">
-    <UndefinedThisPropertyAssignment>
-      <code><![CDATA[$this->enablePropfindDepthInfinityf]]></code>
-    </UndefinedThisPropertyAssignment>
-  </file>
   <file src="apps/dav/lib/Files/FileSearchBackend.php">
     <InvalidReturnStatement>
       <code><![CDATA[$value]]></code>
@@ -857,6 +866,11 @@
   <file src="apps/dav/lib/Files/RootCollection.php">
     <DeprecatedMethod>
       <code><![CDATA[getUserFolder]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="apps/dav/lib/Listener/CalendarContactInteractionListener.php">
+    <DeprecatedMethod>
+      <code><![CDATA[validateMailAddress]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Migration/BuildCalendarSearchIndex.php">
@@ -1549,7 +1563,6 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/Controller/DeletedShareAPIController.php">
@@ -1567,6 +1580,7 @@
     </DeprecatedClass>
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
+      <code><![CDATA[validateMailAddress]]></code>
     </DeprecatedMethod>
     <RedundantCast>
       <code><![CDATA[(int)$code]]></code>
@@ -1934,6 +1948,14 @@
       <code><![CDATA[dispatch]]></code>
     </DeprecatedMethod>
   </file>
+  <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
+  </file>
   <file src="apps/oauth2/lib/Controller/OauthApiController.php">
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
@@ -1946,6 +1968,7 @@
     </DeprecatedClass>
     <DeprecatedConstant>
       <code><![CDATA[IAccountManager::PROPERTY_DISPLAYNAME_LEGACY]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
     </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
@@ -1954,6 +1977,14 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/provisioning_api/lib/Controller/UsersController.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -2018,10 +2049,10 @@
       <code><![CDATA[getSettingsManager]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/settings/lib/Controller/AISettingsController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
+  <file src="apps/settings/lib/BackgroundJobs/VerifyUserData.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
   </file>
   <file src="apps/settings/lib/Controller/AppSettingsController.php">
     <DeprecatedMethod>
@@ -2040,6 +2071,12 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Controller/UsersController.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[dispatch]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -2051,6 +2088,7 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
+      <code><![CDATA[validateMailAddress]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Controller/WebAuthnController.php">
@@ -2083,9 +2121,6 @@
 				continue;
 			}]]></code>
     </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/settings/lib/Settings/Admin/Security.php">
     <UndefinedInterfaceMethod>
@@ -2117,6 +2152,10 @@
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::setupFS($user->getUID())]]></code>
     </DeprecatedClass>
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
   </file>
   <file src="apps/settings/lib/Settings/Personal/Security/Authtokens.php">
     <DeprecatedClass>
@@ -2172,6 +2211,10 @@
     </DeprecatedMethod>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
+    <DeprecatedMethod>
+      <code><![CDATA[validateMailAddress]]></code>
+      <code><![CDATA[validateMailAddress]]></code>
+    </DeprecatedMethod>
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[(int)$data['id']]]></code>
@@ -2393,14 +2436,6 @@
   <file src="apps/twofactor_backupcodes/lib/Migration/Version1002Date20170919123342.php">
     <DeprecatedMethod>
       <code><![CDATA[getName]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Provider/BackupCodesProvider.php">
-    <DeprecatedInterface>
-      <code><![CDATA[private]]></code>
-    </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[provideInitialState]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/user_ldap/ajax/clearMappings.php">
@@ -2637,6 +2672,9 @@
     </InvalidDocblock>
   </file>
   <file src="apps/user_ldap/lib/User/User.php">
+    <DeprecatedConstant>
+      <code><![CDATA[IAccountManager::PROPERTY_TWITTER]]></code>
+    </DeprecatedConstant>
     <DeprecatedMethod>
       <code><![CDATA[Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry')]]></code>
       <code><![CDATA[getAppValue]]></code>
@@ -2767,7 +2805,6 @@
     <DeprecatedMethod>
       <code><![CDATA[execute]]></code>
       <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[query]]></code>
       <code><![CDATA[query]]></code>
       <code><![CDATA[query]]></code>
       <code><![CDATA[query]]></code>
@@ -2957,9 +2994,6 @@
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="core/Command/Encryption/MigrateKeyStorage.php">
     <DeprecatedClass>
@@ -3010,12 +3044,6 @@
       <code><![CDATA[resetDelayForIP]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="core/Command/TaskProcessing/EnabledCommand.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="core/Command/Upgrade.php">
     <DeprecatedMethod>
       <code><![CDATA[listen]]></code>
@@ -3034,6 +3062,11 @@
       <code><![CDATA[listen]]></code>
       <code><![CDATA[listen]]></code>
       <code><![CDATA[listen]]></code>
+    </DeprecatedMethod>
+  </file>
+  <file src="core/Command/User/Add.php">
+    <DeprecatedMethod>
+      <code><![CDATA[validateMailAddress]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Command/User/AuthTokens/Add.php">
@@ -3283,24 +3316,6 @@
     <MoreSpecificReturnType>
       <code><![CDATA[ActivitySettings[]]]></code>
     </MoreSpecificReturnType>
-  </file>
-  <file src="lib/private/AllConfig.php">
-    <MoreSpecificImplementedParamType>
-      <code><![CDATA[$key]]></code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/private/App/DependencyAnalyzer.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[bool]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[version_compare($first, $second, $operator)]]></code>
-    </NullableReturnStatement>
-  </file>
-  <file src="lib/private/AppConfig.php">
-    <NullableReturnStatement>
-      <code><![CDATA[$this->fastCache[$app][$key] ?? $default]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/AppFramework/Bootstrap/FunctionInjector.php">
     <UndefinedMethod>
@@ -3593,11 +3608,6 @@
     <InvalidReturnType>
       <code><![CDATA[string]]></code>
     </InvalidReturnType>
-  </file>
-  <file src="lib/private/DateTimeZone.php">
-    <InvalidScalarArgument>
-      <code><![CDATA[$timestamp]]></code>
-    </InvalidScalarArgument>
   </file>
   <file src="lib/private/Diagnostics/Query.php">
     <ImplementedReturnTypeMismatch>
@@ -3988,14 +3998,10 @@
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/Installer.php">
-    <InvalidArgument>
-      <code><![CDATA[false]]></code>
-      <code><![CDATA[false]]></code>
-    </InvalidArgument>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
+  <file src="lib/private/InitialStateService.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[query]]></code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
     <InvalidArrayAccess>
@@ -4372,9 +4378,6 @@
     <InvalidArgument>
       <code><![CDATA[$groupsList]]></code>
     </InvalidArgument>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="lib/private/legacy/OC_Helper.php">
     <InvalidArrayOffset>

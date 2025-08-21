@@ -55,7 +55,8 @@ class Detection implements IMimeTypeDetector {
 	 * @param string $mimeType
 	 * @param string|null $secureMimeType
 	 */
-	public function registerType(string $extension,
+	public function registerType(
+		string $extension,
 		string $mimeType,
 		?string $secureMimeType = null): void {
 		// Make sure the extension is a string
@@ -217,14 +218,10 @@ class Detection implements IMimeTypeDetector {
 			return 'httpd/unix-directory';
 		}
 
-		if (function_exists('finfo_open')
-			&& function_exists('finfo_file')
-			&& $finfo = finfo_open(FILEINFO_MIME)) {
-			$info = @finfo_file($finfo, $path);
-			finfo_close($finfo);
-			if ($info) {
-				$info = strtolower($info);
-				$mimeType = str_contains($info, ';') ? substr($info, 0, strpos($info, ';')) : $info;
+		if (class_exists(finfo::class)) {
+			$finfo = new finfo(FILEINFO_MIME_TYPE);
+			$mimeType = @$finfo->file($path);
+			if ($mimeType) {
 				$mimeType = $this->getSecureMimeType($mimeType);
 				if ($mimeType !== 'application/octet-stream') {
 					return $mimeType;
@@ -240,7 +237,7 @@ class Detection implements IMimeTypeDetector {
 		if (function_exists('mime_content_type')) {
 			// use mime magic extension if available
 			$mimeType = mime_content_type($path);
-			if ($mimeType !== false) {
+			if ($mimeType) {
 				$mimeType = $this->getSecureMimeType($mimeType);
 				if ($mimeType !== 'application/octet-stream') {
 					return $mimeType;
@@ -258,7 +255,7 @@ class Detection implements IMimeTypeDetector {
 			if ($fp !== false) {
 				$mimeType = fgets($fp);
 				pclose($fp);
-				if ($mimeType !== false) {
+				if ($mimeType) {
 					//trim the newline
 					$mimeType = trim($mimeType);
 					$mimeType = $this->getSecureMimeType($mimeType);
@@ -293,19 +290,21 @@ class Detection implements IMimeTypeDetector {
 	 * @return string
 	 */
 	public function detectString($data): string {
-		if (function_exists('finfo_open') && function_exists('finfo_file')) {
-			$finfo = finfo_open(FILEINFO_MIME);
-			$info = finfo_buffer($finfo, $data);
-			return str_contains($info, ';') ? substr($info, 0, strpos($info, ';')) : $info;
+		if (class_exists(finfo::class)) {
+			$finfo = new finfo(FILEINFO_MIME_TYPE);
+			$mimeType = $finfo->buffer($data);
+			if ($mimeType) {
+				return $mimeType;
+			}
 		}
 
 		$tmpFile = \OCP\Server::get(ITempManager::class)->getTemporaryFile();
 		$fh = fopen($tmpFile, 'wb');
 		fwrite($fh, $data, 8024);
 		fclose($fh);
-		$mime = $this->detect($tmpFile);
+		$mimeType = $this->detect($tmpFile);
 		unset($tmpFile);
-		return $mime;
+		return $mimeType;
 	}
 
 	/**

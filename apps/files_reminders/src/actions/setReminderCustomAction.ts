@@ -14,8 +14,8 @@ import { pickCustomDate } from '../services/customPicker'
 
 export const action = new FileAction({
 	id: 'set-reminder-custom',
-	displayName: () => t('files_reminders', 'Set custom reminder'),
-	title: () => t('files_reminders', 'Set reminder at custom date & time'),
+	displayName: () => t('files_reminders', 'Custom reminder'),
+	title: () => t('files_reminders', 'Reminder at custom date & time'),
 	iconSvgInline: () => CalendarClockSvg,
 
 	enabled: (nodes: Node[], view: View) => {

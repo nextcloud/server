@@ -269,7 +269,7 @@ section {
 		width: min(100%, 300px);
 
 		span {
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 		}
 	}
 

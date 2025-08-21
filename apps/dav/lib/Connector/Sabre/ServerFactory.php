@@ -14,6 +14,7 @@ use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\ViewOnlyPlugin;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\Sharing\RootCollection;
 use OCA\DAV\Upload\CleanupService;
@@ -27,6 +28,7 @@ use OCP\Files\IFilenameValidator;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -68,6 +70,7 @@ class ServerFactory {
 		Plugin $authPlugin,
 		callable $viewCallBack,
 	): Server {
+		$debugEnabled = $this->config->getSystemValue('debug', false);
 		// Fire up server
 		if ($isPublicShare) {
 			$rootCollection = new SimpleCollection('root');
@@ -89,6 +92,12 @@ class ServerFactory {
 		));
 		$server->addPlugin(new AnonymousOptionsPlugin());
 		$server->addPlugin($authPlugin);
+		if ($debugEnabled) {
+			$server->debugEnabled = $debugEnabled;
+			$server->addPlugin(new PropFindMonitorPlugin());
+		}
+
+		$server->addPlugin(new PropFindPreloadNotifyPlugin());
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new DummyGetResponsePlugin());
 		$server->addPlugin(new ExceptionLoggerPlugin('webdav', $this->logger));
@@ -100,6 +109,7 @@ class ServerFactory {
 			$tree,
 			$this->logger,
 			$this->eventDispatcher,
+			\OCP\Server::get(IDateTimeZone::class),
 		));
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
@@ -117,7 +127,8 @@ class ServerFactory {
 		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$server->on('beforeMethod:*', function () use ($server, $tree, $viewCallBack, $isPublicShare, $rootCollection): void {
+		$server->on('beforeMethod:*', function () use ($server, $tree,
+			$viewCallBack, $isPublicShare, $rootCollection, $debugEnabled): void {
 			// ensure the skeleton is copied
 			$userFolder = \OC::$server->getUserFolder();
 
@@ -181,7 +192,7 @@ class ServerFactory {
 					\OCP\Server::get(IFilenameValidator::class),
 					\OCP\Server::get(IAccountManager::class),
 					false,
-					!$this->config->getSystemValue('debug', false)
+					!$debugEnabled
 				)
 			);
 			$server->addPlugin(new QuotaPlugin($view));
@@ -220,6 +231,7 @@ class ServerFactory {
 							$tree,
 							$this->databaseConnection,
 							$this->userSession->getUser(),
+							\OCP\Server::get(PropertyMapper::class),
 							\OCP\Server::get(DefaultCalendarValidator::class),
 						)
 					)

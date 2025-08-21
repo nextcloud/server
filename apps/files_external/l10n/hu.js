@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Hozzáférés megadása",
-    "Error configuring OAuth1" : "OAuth1 beállítási hiba",
-    "Please provide a valid app key and secret." : "Adjon meg egy érvényes alkalmazáskulcsot és titkot.",
     "Error configuring OAuth2" : "OAuth2 beállítási hiba",
     "Generate keys" : "Kulcsok előállítása",
     "Error generating key pair" : "Hiba történt a kulcspár előállítása során",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Titkos kulcs",
     "Builtin" : "Beépített",
     "None" : "Egyik sem",
-    "OAuth1" : "OAuth1",
-    "App key" : "Alkalmazáskulcs",
-    "App secret" : "Alkalmazás titka",
     "OAuth2" : "OAuth2",
     "Client ID" : "Kliensazonosító",
     "Client secret" : "Kliens titka",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Mindenki",
     "Advanced settings" : "Speciális beállítások",
     "Allow people to mount external storage" : "Külső tárolók csatolásának engedélyezése az emberek számára",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "A globális hitelesítő adatokkal azonos külső hitelesítő adatokkal rendelkező külső tárhelyek hitelesíthetők.",
+    "Error configuring OAuth1" : "OAuth1 beállítási hiba",
+    "Please provide a valid app key and secret." : "Adjon meg egy érvényes alkalmazáskulcsot és titkot.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Alkalmazáskulcs",
+    "App secret" : "Alkalmazás titka"
 },
 "nplurals=2; plural=(n != 1);");

@@ -97,7 +97,6 @@ OC.L10N.register(
     "is" : "on",
     "is not" : "ei ole",
     "File name" : "Failinimi",
-    "Directory" : "Kaust",
     "File MIME type" : "Faili MIME-tüüp",
     "File size (upload)" : "Faili suurus (üleslaadimine)",
     "less" : "väiksem",

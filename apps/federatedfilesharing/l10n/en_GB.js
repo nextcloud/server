@@ -47,8 +47,8 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Share with me through my #Nextcloud Federated Cloud ID, see {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Share with me through my #Nextcloud Federated Cloud ID",
     "Share with me via Nextcloud" : "Share with me via Nextcloud",
-    "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
-    "Copy to clipboard" : "Copy to clipboard",
+    "Cloud ID copied" : "Cloud ID copied",
+    "Copy" : "Copy",
     "Clipboard not available. Please copy the cloud ID manually." : "Clipboard not available. Please copy the cloud ID manually.",
     "Copied!" : "Copied!",
     "Federated Cloud" : "Federated Cloud",
@@ -59,6 +59,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (formerly Twitter)",
     "formerly Twitter" : "formerly Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "Add to your website",
     "HTML Code:" : "HTML Code:",
     "Cancel" : "Cancel",
@@ -66,6 +67,8 @@ OC.L10N.register(
     "Remote share" : "Remote share",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Do you want to add the remote share {name} from {owner}@{remote}?",
     "Remote share password" : "Remote share password",
-    "Incoming share could not be processed" : "Incoming share could not be processed"
+    "Incoming share could not be processed" : "Incoming share could not be processed",
+    "Cloud ID copied to the clipboard" : "Cloud ID copied to the clipboard",
+    "Copy to clipboard" : "Copy to clipboard"
 },
 "nplurals=2; plural=(n != 1);");

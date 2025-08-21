@@ -20,6 +20,7 @@ use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
+use OCA\DAV\Connector\Sabre\PropFindPreloadNotifyPlugin;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\RootCollection;
 use OCA\Theming\ThemingDefaults;
@@ -95,6 +96,9 @@ class EmbeddedCalDavServer {
 		if ($appConfig->getValueString('dav', 'sendInvitations', 'yes') === 'yes') {
 			$this->server->addPlugin(Server::get(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 		}
+
+		// collection preload plugin
+		$this->server->addPlugin(new PropFindPreloadNotifyPlugin());
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod:*', function () use ($root): void {

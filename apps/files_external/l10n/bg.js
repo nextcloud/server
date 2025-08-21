@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Разреши достъпa",
-    "Error configuring OAuth1" : "Грешка при конфигурирането на OAuth1",
-    "Please provide a valid app key and secret." : "Моля да предоставете валиден ключ и тайна на приложението.",
     "Error configuring OAuth2" : "Грешка при конфигурирането на OAuth2",
     "Generate keys" : "Генериране на криптографски ключове",
     "Error generating key pair" : "Грешка при генериране на криптографски ключове",
@@ -23,9 +21,6 @@ OC.L10N.register(
     "Secret key" : "Секретен ключ",
     "Builtin" : "Вграден",
     "None" : "Няма",
-    "OAuth1" : "OAuth1",
-    "App key" : " Ключ на приложение",
-    "App secret" : "Тайна на приложение",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Тайна на клиент",
@@ -118,6 +113,11 @@ OC.L10N.register(
     "Available for" : "Достъпно за",
     "Add storage" : "Добави хранилище",
     "Advanced settings" : "Допълнителни настройки",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни.",
+    "Error configuring OAuth1" : "Грешка при конфигурирането на OAuth1",
+    "Please provide a valid app key and secret." : "Моля да предоставете валиден ключ и тайна на приложението.",
+    "OAuth1" : "OAuth1",
+    "App key" : " Ключ на приложение",
+    "App secret" : "Тайна на приложение"
 },
 "nplurals=2; plural=(n != 1);");

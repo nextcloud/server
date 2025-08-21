@@ -12,7 +12,6 @@ use NCU\Security\Signature\ISignatureManager;
 use OC\Accounts\AccountManager;
 use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
-use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\RequestId;
@@ -66,7 +65,6 @@ use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
 use OC\Http\Client\NegativeDnsCache;
 use OC\IntegrityCheck\Checker;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\KnownUser\KnownUserService;
@@ -77,6 +75,7 @@ use OC\Lock\NoopLockingProvider;
 use OC\Lockdown\LockdownManager;
 use OC\Log\LogFactory;
 use OC\Log\PsrLoggerAdapter;
+use OC\Mail\EmailValidator;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
@@ -195,6 +194,7 @@ use OCP\LDAP\ILDAPProviderFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Log\ILogFactory;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
@@ -585,62 +585,37 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IURLGenerator::class, URLGenerator::class);
 
-		$this->registerService(ICache::class, function ($c) {
-			return new Cache\File();
-		});
-
+		$this->registerAlias(ICache::class, Cache\File::class);
 		$this->registerService(Factory::class, function (Server $c) {
 			$profiler = $c->get(IProfiler::class);
-			$arrayCacheFactory = new \OC\Memcache\Factory(fn () => '', $c->get(LoggerInterface::class),
-				$profiler,
-				ArrayCache::class,
-				ArrayCache::class,
-				ArrayCache::class
-			);
+			$logger = $c->get(LoggerInterface::class);
+			$serverVersion = $c->get(ServerVersion::class);
 			/** @var SystemConfig $config */
 			$config = $c->get(SystemConfig::class);
-			/** @var ServerVersion $serverVersion */
-			$serverVersion = $c->get(ServerVersion::class);
-
-			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
-				$logQuery = $config->getValue('log_query');
-				$prefixClosure = function () use ($logQuery, $serverVersion): ?string {
-					if (!$logQuery) {
-						try {
-							$v = \OCP\Server::get(IAppConfig::class)->getAppInstalledVersions(true);
-						} catch (\Doctrine\DBAL\Exception $e) {
-							// Database service probably unavailable
-							// Probably related to https://github.com/nextcloud/server/issues/37424
-							return null;
-						}
-					} else {
-						// If the log_query is enabled, we can not get the app versions
-						// as that does a query, which will be logged and the logging
-						// depends on redis and here we are back again in the same function.
-						$v = [
-							'log_query' => 'enabled',
-						];
-					}
-					$v['core'] = implode(',', $serverVersion->getVersion());
-					$version = implode(',', array_keys($v)) . implode(',', $v);
-					$instanceId = \OC_Util::getInstanceId();
-					$path = \OC::$SERVERROOT;
-					return md5($instanceId . '-' . $version . '-' . $path);
-				};
-				return new \OC\Memcache\Factory($prefixClosure,
-					$c->get(LoggerInterface::class),
+			if (!$config->getValue('installed', false) || (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+				return new \OC\Memcache\Factory(
+					$logger,
 					$profiler,
-					/** @psalm-taint-escape callable */
-					$config->getValue('memcache.local', null),
-					/** @psalm-taint-escape callable */
-					$config->getValue('memcache.distributed', null),
-					/** @psalm-taint-escape callable */
-					$config->getValue('memcache.locking', null),
-					/** @psalm-taint-escape callable */
-					$config->getValue('redis_log_file')
+					$serverVersion,
+					ArrayCache::class,
+					ArrayCache::class,
+					ArrayCache::class
 				);
 			}
-			return $arrayCacheFactory;
+
+			return new \OC\Memcache\Factory(
+				$logger,
+				$profiler,
+				$serverVersion,
+				/** @psalm-taint-escape callable */
+				$config->getValue('memcache.local', null),
+				/** @psalm-taint-escape callable */
+				$config->getValue('memcache.distributed', null),
+				/** @psalm-taint-escape callable */
+				$config->getValue('memcache.locking', null),
+				/** @psalm-taint-escape callable */
+				$config->getValue('redis_log_file')
+			);
 		});
 		$this->registerAlias(ICacheFactory::class, Factory::class);
 
@@ -657,7 +632,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(\OCP\IConfig::class),
 				$c->get(IValidator::class),
 				$c->get(IRichTextFormatter::class),
-				$l10n
+				$l10n,
+				$c->get(ITimeFactory::class),
 			);
 		});
 
@@ -864,7 +840,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(ServerVersion::class),
 				$c->get(EnvironmentHelper::class),
 				new FileAccessHelper(),
-				new AppLocator(),
 				$config,
 				$appConfig,
 				$c->get(ICacheFactory::class),
@@ -915,6 +890,9 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
+		/** @since 32.0.0 */
+		$this->registerAlias(IEmailValidator::class, EmailValidator::class);
+
 		$this->registerService(IMailer::class, function (Server $c) {
 			return new Mailer(
 				$c->get(\OCP\IConfig::class),
@@ -923,7 +901,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IURLGenerator::class),
 				$c->getL10N('lib'),
 				$c->get(IEventDispatcher::class),
-				$c->get(IFactory::class)
+				$c->get(IFactory::class),
+				$c->get(IEmailValidator::class),
 			);
 		});
 
@@ -1192,17 +1171,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IShareHelper::class, function (ContainerInterface $c) {
 			return new ShareHelper(
 				$c->get(\OCP\Share\IManager::class)
-			);
-		});
-
-		$this->registerService(Installer::class, function (ContainerInterface $c) {
-			return new Installer(
-				$c->get(AppFetcher::class),
-				$c->get(IClientService::class),
-				$c->get(ITempManager::class),
-				$c->get(LoggerInterface::class),
-				$c->get(\OCP\IConfig::class),
-				\OC::$CLI
 			);
 		});
 

@@ -26,11 +26,7 @@ describe('hasPersonalFilesView', () => {
 })
 
 describe('defaultView', () => {
-	beforeEach(() => {
-		document.querySelectorAll('input[type="hidden"]').forEach((el) => {
-			el.remove()
-		})
-	})
+	beforeEach(removeInitialState)
 
 	test('Returns files view if set', () => {
 		mockInitialState('files', 'config', { default_view: 'files' })
@@ -57,6 +53,8 @@ function removeInitialState(): void {
 	document.querySelectorAll('input[type="hidden"]').forEach((el) => {
 		el.remove()
 	})
+	// clear the cache
+	delete globalThis._nc_initial_state
 }
 
 /**

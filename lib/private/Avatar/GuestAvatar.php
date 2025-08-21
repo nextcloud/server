@@ -10,6 +10,7 @@ namespace OC\Avatar;
 
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -23,9 +24,10 @@ class GuestAvatar extends Avatar {
 	 */
 	public function __construct(
 		private string $userDisplayName,
+		IConfig $config,
 		LoggerInterface $logger,
 	) {
-		parent::__construct($logger);
+		parent::__construct($config, $logger);
 	}
 
 	/**

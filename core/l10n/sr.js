@@ -230,7 +230,7 @@ OC.L10N.register(
     "Federated user" : "Федерисани корисник",
     "user@your-nextcloud.org" : "korisnik@vas-nextcloud.org",
     "Create share" : "Kreirajte deljenje",
-    "Direct link copied to clipboard" : "Директни линк је копиран у клипборд",
+    "Direct link copied" : "Директни линк је копиран",
     "Please copy the link manually:" : "Молимо вас да ручно корпирате линк:",
     "Custom date range" : "Произвољни опсег датума",
     "Pick start date" : "Изаберите почетни датум",
@@ -527,6 +527,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Укључи/искључи видљивост лозинке",
     "Configure the database" : "Подешавање базе",
     "Only %s is available." : "Само %s је доступна.",
-    "Database account" : "Налог базе података"
+    "Database account" : "Налог базе података",
+    "Direct link copied to clipboard" : "Директни линк је копиран у клипборд"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

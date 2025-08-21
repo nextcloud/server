@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Partagez avec moi grâce à mon ID de Cloud Fédéré #Nextcloud, voir {url}.",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partagez avec moi grâce à mon ID de Cloud Fédéré #Nextcloud",
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
-    "Cloud ID copied to the clipboard" : "ID de Cloud Fédéré copié dans le presse-papiers",
-    "Copy to clipboard" : "Copier dans le presse-papiers",
+    "Copy" : "Copier",
     "Clipboard not available. Please copy the cloud ID manually." : "Presse-papiers non disponible. Veuillez copier l'ID cloud manuellement.",
     "Copied!" : "Copié !",
     "Federated Cloud" : "Cloud Fédéré",
@@ -66,6 +65,8 @@ OC.L10N.register(
     "Remote share" : "Partage distant",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voulez-vous ajouter le partage distant {name} depuis {owner}@{remote} ?",
     "Remote share password" : "Mot de passe du partage distant",
-    "Incoming share could not be processed" : "Le partage entrant n'a pas pu être traité"
+    "Incoming share could not be processed" : "Le partage entrant n'a pas pu être traité",
+    "Cloud ID copied to the clipboard" : "ID de Cloud Fédéré copié dans le presse-papiers",
+    "Copy to clipboard" : "Copier dans le presse-papiers"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

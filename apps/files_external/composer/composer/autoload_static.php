@@ -58,7 +58,6 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Lib\\Auth\\IUserProvided' => __DIR__ . '/..' . '/../lib/Lib/Auth/IUserProvided.php',
         'OCA\\Files_External\\Lib\\Auth\\InvalidAuth' => __DIR__ . '/..' . '/../lib/Lib/Auth/InvalidAuth.php',
         'OCA\\Files_External\\Lib\\Auth\\NullMechanism' => __DIR__ . '/..' . '/../lib/Lib/Auth/NullMechanism.php',
-        'OCA\\Files_External\\Lib\\Auth\\OAuth1\\OAuth1' => __DIR__ . '/..' . '/../lib/Lib/Auth/OAuth1/OAuth1.php',
         'OCA\\Files_External\\Lib\\Auth\\OAuth2\\OAuth2' => __DIR__ . '/..' . '/../lib/Lib/Auth/OAuth2/OAuth2.php',
         'OCA\\Files_External\\Lib\\Auth\\OpenStack\\OpenStackV2' => __DIR__ . '/..' . '/../lib/Lib/Auth/OpenStack/OpenStackV2.php',
         'OCA\\Files_External\\Lib\\Auth\\OpenStack\\OpenStackV3' => __DIR__ . '/..' . '/../lib/Lib/Auth/OpenStack/OpenStackV3.php',

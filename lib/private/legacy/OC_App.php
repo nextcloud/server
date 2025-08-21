@@ -6,17 +6,14 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+use OC\App\AppManager;
 use OC\App\DependencyAnalyzer;
-use OC\App\Platform;
 use OC\AppFramework\Bootstrap\Coordinator;
-use OC\Config\ConfigManager;
-use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
-use OCP\App\Events\AppUpdateEvent;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
-use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
@@ -205,6 +202,7 @@ class OC_App {
 	 * @param array $groups (optional) when set, only these groups will have access to the app
 	 * @throws \Exception
 	 * @return void
+	 * @deprecated 32.0.0 Use the installer and the app manager instead
 	 *
 	 * This function set an app as enabled in appconfig.
 	 */
@@ -242,49 +240,12 @@ class OC_App {
 	 *
 	 * If multiple copies are found, the apps root the latest version is returned.
 	 *
-	 * @param string $appId
 	 * @param bool $ignoreCache ignore cache and rebuild it
 	 * @return false|array{path: string, url: string} the apps root shape
+	 * @deprecated 32.0.0 internal, use getAppPath or getAppWebPath
 	 */
 	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
-		$sanitizedAppId = self::cleanAppId($appId);
-		if ($sanitizedAppId !== $appId) {
-			return false;
-		}
-		static $app_dir = [];
-
-		if (isset($app_dir[$appId]) && !$ignoreCache) {
-			return $app_dir[$appId];
-		}
-
-		$possibleApps = [];
-		foreach (OC::$APPSROOTS as $dir) {
-			if (file_exists($dir['path'] . '/' . $appId)) {
-				$possibleApps[] = $dir;
-			}
-		}
-
-		if (empty($possibleApps)) {
-			return false;
-		} elseif (count($possibleApps) === 1) {
-			$dir = array_shift($possibleApps);
-			$app_dir[$appId] = $dir;
-			return $dir;
-		} else {
-			$versionToLoad = [];
-			foreach ($possibleApps as $possibleApp) {
-				$version = self::getAppVersionByPath($possibleApp['path'] . '/' . $appId);
-				if (empty($versionToLoad) || version_compare($version, $versionToLoad['version'], '>')) {
-					$versionToLoad = [
-						'dir' => $possibleApp,
-						'version' => $version,
-					];
-				}
-			}
-			$app_dir[$appId] = $versionToLoad['dir'];
-			return $versionToLoad['dir'];
-			//TODO - write test
-		}
+		return Server::get(AppManager::class)->findAppInDirectories($appId, $ignoreCache);
 	}
 
 	/**
@@ -299,17 +260,11 @@ class OC_App {
 	 * @deprecated 11.0.0 use Server::get(IAppManager)->getAppPath()
 	 */
 	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
-		$appId = self::cleanAppId($appId);
-		if ($appId === '') {
+		try {
+			return Server::get(IAppManager::class)->getAppPath($appId, $refreshAppPath);
+		} catch (AppPathNotFoundException) {
 			return false;
-		} elseif ($appId === 'core') {
-			return __DIR__ . '/../../../core';
 		}
-
-		if (($dir = self::findAppInDirectories($appId, $refreshAppPath)) != false) {
-			return $dir['path'] . '/' . $appId;
-		}
-		return false;
 	}
 
 	/**
@@ -318,20 +273,20 @@ class OC_App {
 	 *
 	 * @param string $appId
 	 * @return string|false
-	 * @deprecated 18.0.0 use \OC::$server->getAppManager()->getAppWebPath()
+	 * @deprecated 18.0.0 use Server::get(IAppManager)->getAppWebPath()
 	 */
 	public static function getAppWebPath(string $appId) {
-		if (($dir = self::findAppInDirectories($appId)) != false) {
-			return OC::$WEBROOT . $dir['url'] . '/' . $appId;
+		try {
+			return Server::get(IAppManager::class)->getAppWebPath($appId);
+		} catch (AppPathNotFoundException) {
+			return false;
 		}
-		return false;
 	}
 
 	/**
 	 * get app's version based on it's path
 	 *
-	 * @param string $path
-	 * @return string
+	 * @deprecated 32.0.0 use Server::get(IAppManager)->getAppInfoByPath() with the path to info.xml directly
 	 */
 	public static function getAppVersionByPath(string $path): string {
 		$infoFile = $path . '/appinfo/info.xml';
@@ -542,38 +497,11 @@ class OC_App {
 		return $appList;
 	}
 
-	public static function shouldUpgrade(string $app): bool {
-		$versions = self::getAppVersions();
-		$currentVersion = Server::get(\OCP\App\IAppManager::class)->getAppVersion($app);
-		if ($currentVersion && isset($versions[$app])) {
-			$installedVersion = $versions[$app];
-			if (!version_compare($currentVersion, $installedVersion, '=')) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	/**
-	 * Adjust the number of version parts of $version1 to match
-	 * the number of version parts of $version2.
-	 *
-	 * @param string $version1 version to adjust
-	 * @param string $version2 version to take the number of parts from
-	 * @return string shortened $version1
+	 * @deprecated 32.0.0 Use IAppManager::isUpgradeRequired instead
 	 */
-	private static function adjustVersionParts(string $version1, string $version2): string {
-		$version1 = explode('.', $version1);
-		$version2 = explode('.', $version2);
-		// reduce $version1 to match the number of parts in $version2
-		while (count($version1) > count($version2)) {
-			array_pop($version1);
-		}
-		// if $version1 does not have enough parts, add some
-		while (count($version1) < count($version2)) {
-			$version1[] = '0';
-		}
-		return implode('.', $version1);
+	public static function shouldUpgrade(string $app): bool {
+		return Server::get(\OCP\App\IAppManager::class)->isUpgradeRequired($app);
 	}
 
 	/**
@@ -590,42 +518,11 @@ class OC_App {
 	 * @param string $ocVersion Nextcloud version to check against
 	 * @param array $appInfo app info (from xml)
 	 *
-	 * @return boolean true if compatible, otherwise false
+	 * @return bool true if compatible, otherwise false
+	 * @deprecated 32.0.0 Use IAppManager::isAppCompatible instead
 	 */
 	public static function isAppCompatible(string $ocVersion, array $appInfo, bool $ignoreMax = false): bool {
-		$requireMin = '';
-		$requireMax = '';
-		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['min-version'])) {
-			$requireMin = $appInfo['dependencies']['nextcloud']['@attributes']['min-version'];
-		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['min-version'])) {
-			$requireMin = $appInfo['dependencies']['owncloud']['@attributes']['min-version'];
-		} elseif (isset($appInfo['requiremin'])) {
-			$requireMin = $appInfo['requiremin'];
-		} elseif (isset($appInfo['require'])) {
-			$requireMin = $appInfo['require'];
-		}
-
-		if (isset($appInfo['dependencies']['nextcloud']['@attributes']['max-version'])) {
-			$requireMax = $appInfo['dependencies']['nextcloud']['@attributes']['max-version'];
-		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['max-version'])) {
-			$requireMax = $appInfo['dependencies']['owncloud']['@attributes']['max-version'];
-		} elseif (isset($appInfo['requiremax'])) {
-			$requireMax = $appInfo['requiremax'];
-		}
-
-		if (!empty($requireMin)
-			&& version_compare(self::adjustVersionParts($ocVersion, $requireMin), $requireMin, '<')
-		) {
-			return false;
-		}
-
-		if (!$ignoreMax && !empty($requireMax)
-			&& version_compare(self::adjustVersionParts($ocVersion, $requireMax), $requireMax, '>')
-		) {
-			return false;
-		}
-
-		return true;
+		return Server::get(\OCP\App\IAppManager::class)->isAppCompatible($ocVersion, $appInfo, $ignoreMax);
 	}
 
 	/**
@@ -639,77 +536,14 @@ class OC_App {
 	/**
 	 * update the database for the app and call the update script
 	 *
-	 * @param string $appId
-	 * @return bool
+	 * @deprecated 32.0.0 Use IAppManager::upgradeApp instead
 	 */
 	public static function updateApp(string $appId): bool {
-		// for apps distributed with core, we refresh app path in case the downloaded version
-		// have been installed in custom apps and not in the default path
-		$appPath = self::getAppPath($appId, true);
-		if ($appPath === false) {
+		try {
+			return Server::get(\OC\App\AppManager::class)->upgradeApp($appId);
+		} catch (\OCP\App\AppPathNotFoundException $e) {
 			return false;
 		}
-
-		if (is_file($appPath . '/appinfo/database.xml')) {
-			Server::get(LoggerInterface::class)->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
-			return false;
-		}
-
-		\OC::$server->getAppManager()->clearAppsCache();
-		$l = \OC::$server->getL10N('core');
-		$appData = Server::get(\OCP\App\IAppManager::class)->getAppInfo($appId, false, $l->getLanguageCode());
-
-		$ignoreMaxApps = \OC::$server->getConfig()->getSystemValue('app_install_overwrite', []);
-		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
-		\OC_App::checkAppDependencies(
-			\OC::$server->getConfig(),
-			$l,
-			$appData,
-			$ignoreMax
-		);
-
-		self::registerAutoloading($appId, $appPath, true);
-		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
-
-		$ms = new MigrationService($appId, \OC::$server->get(\OC\DB\Connection::class));
-		$ms->migrate();
-
-		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
-		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
-		// update appversion in app manager
-		\OC::$server->getAppManager()->clearAppsCache();
-		\OC::$server->getAppManager()->getAppVersion($appId, false);
-
-		self::setupBackgroundJobs($appData['background-jobs']);
-
-		//set remote/public handlers
-		if (array_key_exists('ocsid', $appData)) {
-			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
-			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
-		}
-		foreach ($appData['remote'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
-		}
-		foreach ($appData['public'] as $name => $path) {
-			\OC::$server->getConfig()->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
-		}
-
-		self::setAppTypes($appId);
-
-		$version = Server::get(\OCP\App\IAppManager::class)->getAppVersion($appId);
-		\OC::$server->getConfig()->setAppValue($appId, 'installed_version', $version);
-
-		// migrate eventual new config keys in the process
-		/** @psalm-suppress InternalMethod */
-		Server::get(ConfigManager::class)->migrateConfigLexiconKeys($appId);
-
-		\OC::$server->get(IEventDispatcher::class)->dispatchTyped(new AppUpdateEvent($appId));
-		\OC::$server->get(IEventDispatcher::class)->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
-			ManagerEvent::EVENT_APP_UPDATE, $appId
-		));
-
-		return true;
 	}
 
 	/**
@@ -740,23 +574,13 @@ class OC_App {
 		$r->run();
 	}
 
+	/**
+	 * @deprecated 32.0.0 Use the IJobList directly instead
+	 */
 	public static function setupBackgroundJobs(array $jobs) {
 		$queue = \OC::$server->getJobList();
 		foreach ($jobs as $job) {
 			$queue->add($job);
-		}
-	}
-
-	/**
-	 * @param string $appId
-	 * @param string[] $steps
-	 */
-	private static function setupLiveMigrations(string $appId, array $steps) {
-		$queue = \OC::$server->getJobList();
-		foreach ($steps as $step) {
-			$queue->add('OC\Migration\BackgroundRepair', [
-				'app' => $appId,
-				'step' => $step]);
 		}
 	}
 
@@ -767,7 +591,7 @@ class OC_App {
 	 * @throws \Exception
 	 */
 	public static function checkAppDependencies(\OCP\IConfig $config, \OCP\IL10N $l, array $info, bool $ignoreMax) {
-		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
+		$dependencyAnalyzer = Server::get(DependencyAnalyzer::class);
 		$missing = $dependencyAnalyzer->analyze($info, $ignoreMax);
 		if (!empty($missing)) {
 			$missingMsg = implode(PHP_EOL, $missing);

@@ -68,7 +68,7 @@
 						type="button"
 						:value="enableButtonText"
 						:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
-						@click="enable(app.id)">
+						@click="enableButtonAction">
 					<input v-else-if="!app.active && !app.canInstall"
 						:title="forceEnableButtonTooltip"
 						:aria-label="forceEnableButtonTooltip"
@@ -195,11 +195,16 @@
 			<AppDeployOptionsModal v-if="app?.app_api"
 				:show.sync="showDeployOptionsModal"
 				:app="app" />
+			<DaemonSelectionDialog v-if="app?.app_api"
+				:show.sync="showSelectDaemonModal"
+				:app="app"
+				:deploy-options="deployOptions" />
 		</div>
 	</NcAppSidebarTab>
 </template>
 
 <script>
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcDateTime from '@nextcloud/vue/components/NcDateTime'
@@ -207,6 +212,7 @@ import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import AppDeployOptionsModal from './AppDeployOptionsModal.vue'
+import DaemonSelectionDialog from '../AppAPI/DaemonSelectionDialog.vue'
 
 import AppManagement from '../../mixins/AppManagement.js'
 import { mdiBugOutline, mdiFeatureSearchOutline, mdiStar, mdiTextBoxOutline, mdiTooltipQuestionOutline, mdiToyBrickPlusOutline } from '@mdi/js'
@@ -224,6 +230,7 @@ export default {
 		NcSelect,
 		NcCheckboxRadioSwitch,
 		AppDeployOptionsModal,
+		DaemonSelectionDialog,
 	},
 	mixins: [AppManagement],
 
@@ -256,6 +263,8 @@ export default {
 			groupCheckedAppsData: false,
 			removeData: false,
 			showDeployOptionsModal: false,
+			showSelectDaemonModal: false,
+			deployOptions: null,
 		}
 	},
 
@@ -365,14 +374,39 @@ export default {
 			this.removeData = false
 		},
 	},
+	beforeUnmount() {
+		this.deployOptions = null
+		unsubscribe('showDaemonSelectionModal')
+	},
 	mounted() {
 		if (this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true
 		}
+		subscribe('showDaemonSelectionModal', (deployOptions) => {
+			this.showSelectionModal(deployOptions)
+		})
 	},
 	methods: {
 		toggleRemoveData() {
 			this.removeData = !this.removeData
+		},
+		showSelectionModal(deployOptions = null) {
+			this.deployOptions = deployOptions
+			this.showSelectDaemonModal = true
+		},
+		async enableButtonAction() {
+			if (!this.app?.app_api) {
+				this.enable(this.app.id)
+				return
+			}
+			await this.appApiStore.fetchDockerDaemons()
+			if (this.appApiStore.dockerDaemons.length === 1 && this.app.needsDownload) {
+				this.enable(this.app.id, this.appApiStore.dockerDaemons[0])
+			} else if (this.app.needsDownload) {
+				this.showSelectionModal()
+			} else {
+				this.enable(this.app.id, this.app.daemon)
+			}
 		},
 	},
 }
@@ -441,15 +475,15 @@ export default {
 }
 
 .force {
-	color: var(--color-error);
-	border-color: var(--color-error);
+	color: var(--color-text-error);
+	border-color: var(--color-border-error);
 	background: var(--color-main-background);
 }
 
 .force:hover,
 .force:active {
 	color: var(--color-main-background);
-	border-color: var(--color-error) !important;
+	border-color: var(--color-border-error) !important;
 	background: var(--color-error);
 }
 

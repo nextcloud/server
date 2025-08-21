@@ -11,7 +11,6 @@ namespace Test\IntegrityCheck;
 use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
 use OC\Files\Type\Detection;
 use OC\IntegrityCheck\Checker;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\Memcache\NullCache;
@@ -29,10 +28,6 @@ class CheckerTest extends TestCase {
 	private $serverVersion;
 	/** @var EnvironmentHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $environmentHelper;
-	/** @var AppLocator|\PHPUnit\Framework\MockObject\MockObject */
-	private $appLocator;
-	/** @var Checker */
-	private $checker;
 	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $fileAccessHelper;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -46,12 +41,13 @@ class CheckerTest extends TestCase {
 	/** @var \OC\Files\Type\Detection|\PHPUnit\Framework\MockObject\MockObject */
 	private $mimeTypeDetector;
 
+	private Checker $checker;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->environmentHelper = $this->createMock(EnvironmentHelper::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
-		$this->appLocator = $this->createMock(AppLocator::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
@@ -71,7 +67,6 @@ class CheckerTest extends TestCase {
 			$this->serverVersion,
 			$this->environmentHelper,
 			$this->fileAccessHelper,
-			$this->appLocator,
 			$this->config,
 			$this->appConfig,
 			$this->cacheFactory,
@@ -186,7 +181,7 @@ class CheckerTest extends TestCase {
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
-		$this->appLocator
+		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
@@ -221,7 +216,7 @@ class CheckerTest extends TestCase {
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
-		$this->appLocator
+		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
@@ -262,7 +257,7 @@ class CheckerTest extends TestCase {
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
-		$this->appLocator
+		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
@@ -319,7 +314,7 @@ class CheckerTest extends TestCase {
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
-		$this->appLocator
+		$this->appManager
 			->expects($this->never())
 			->method('getAppPath')
 			->with('SomeApp');
@@ -374,7 +369,7 @@ class CheckerTest extends TestCase {
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
-		$this->appLocator
+		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
@@ -415,7 +410,7 @@ class CheckerTest extends TestCase {
 			->with('integrity.check.disabled', false)
 			->willReturn(false);
 
-		$this->appLocator
+		$this->appManager
 			->expects($this->once())
 			->method('getAppPath')
 			->with('SomeApp')
@@ -984,7 +979,6 @@ class CheckerTest extends TestCase {
 				$this->serverVersion,
 				$this->environmentHelper,
 				$this->fileAccessHelper,
-				$this->appLocator,
 				$this->config,
 				$this->appConfig,
 				$this->cacheFactory,
@@ -1032,7 +1026,7 @@ class CheckerTest extends TestCase {
 				$this->assertSame($expected, $app);
 				return [];
 			});
-		$this->appLocator
+		$this->appManager
 			->expects($this->exactly(2))
 			->method('getAppPath')
 			->willReturnMap([

@@ -47,8 +47,8 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Jaga minuga minu #Nextcloudi kasutajatunnuse abil liitpilves, vaata {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaga minuga minu #Nextcloudi kasutajatunnuse abil liitpilves",
     "Share with me via Nextcloud" : "Jaga minuga Nextcloudi vahendusel",
-    "Cloud ID copied to the clipboard" : "Kasutajatunnus liitpilves on kopeeritud lõikelauale",
-    "Copy to clipboard" : "Kopeeri lõikelauale",
+    "Cloud ID copied" : "Kasutajatunnus liitpilves on kopeeritud",
+    "Copy" : "Kopeeri",
     "Clipboard not available. Please copy the cloud ID manually." : "Lõikelaud pole saadaval. Palun kopeeri kasutajatunnus liitpilves käsitsi.",
     "Copied!" : "Kopeeritud!",
     "Federated Cloud" : "Liitpilv",
@@ -59,6 +59,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (varasemalt Twitter)",
     "formerly Twitter" : "varasemalt Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "Lisa oma veebisaidile",
     "HTML Code:" : "HTML kood:",
     "Cancel" : "Tühista",
@@ -66,6 +67,8 @@ OC.L10N.register(
     "Remote share" : "Kaugjagamine",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soovid lisada kaugjagamise {name} asukohast {owner}@{remote}?",
     "Remote share password" : "Kaugjagamise salasõna",
-    "Incoming share could not be processed" : "Sissetulevat kausta ei saanud töödelda"
+    "Incoming share could not be processed" : "Sissetulevat kausta ei saanud töödelda",
+    "Cloud ID copied to the clipboard" : "Kasutajatunnus liitpilves on kopeeritud lõikelauale",
+    "Copy to clipboard" : "Kopeeri lõikelauale"
 },
 "nplurals=2; plural=(n != 1);");

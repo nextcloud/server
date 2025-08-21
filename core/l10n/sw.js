@@ -230,7 +230,6 @@ OC.L10N.register(
     "Federated user" : "Mtumiaji aliyeshirikishwa",
     "user@your-nextcloud.org" : "mtimiaji@nextcloudyako.org",
     "Create share" : "Tengeneza ushirikishaji",
-    "Direct link copied to clipboard" : "Kiungio cha moja kwa moja kimenakiliwa kwenye ubao wa kunakili",
     "Please copy the link manually:" : "Tafadhali nakili kiungio kikawaida",
     "Custom date range" : "Safu ya tarehe maalum",
     "Pick start date" : "Chagua tarehe ya kuanza",
@@ -527,6 +526,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Geuza mwonekano wa nenosiri",
     "Configure the database" : "Sanidi hifadhidata",
     "Only %s is available." : "Yupo tu %s",
-    "Database account" : "Akaunti ya kanzidata"
+    "Database account" : "Akaunti ya kanzidata",
+    "Direct link copied to clipboard" : "Kiungio cha moja kwa moja kimenakiliwa kwenye ubao wa kunakili"
 },
 "nplurals=2; plural=(n != 1);");

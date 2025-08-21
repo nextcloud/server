@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Conceder acceso",
-    "Error configuring OAuth1" : "Se presentó un error al configurar OAuth1",
-    "Please provide a valid app key and secret." : "Por favor proporciona una llave de aplicación y secreto válidos.",
     "Error configuring OAuth2" : "Se presentó un error al configurar OAuth2",
     "Generate keys" : "Generar llaves",
     "Error generating key pair" : "Se presentó un error al generar el juego de llaves",
@@ -22,9 +20,6 @@ OC.L10N.register(
     "Secret key" : "Llave secreta",
     "Builtin" : "Integrado",
     "None" : "Ninguno",
-    "OAuth1" : "OAuth1",
-    "App key" : "Llave de la aplicación",
-    "App secret" : "Secreto de la aplicación",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID del cliente",
     "Client secret" : "Secreto del cliente",
@@ -93,6 +88,11 @@ OC.L10N.register(
     "Configuration" : "Configuración",
     "Available for" : "Disponible para",
     "Add storage" : "Agregar almacenamiento",
-    "Advanced settings" : "Configuraciones avanzadas"
+    "Advanced settings" : "Configuraciones avanzadas",
+    "Error configuring OAuth1" : "Se presentó un error al configurar OAuth1",
+    "Please provide a valid app key and secret." : "Por favor proporciona una llave de aplicación y secreto válidos.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Llave de la aplicación",
+    "App secret" : "Secreto de la aplicación"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

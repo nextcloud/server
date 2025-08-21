@@ -223,6 +223,7 @@ class SharesPluginTest extends \Test\TestCase {
 			0
 		);
 
+		$this->server->emit('preloadCollection', [$propFindRoot, $sabreNode]);
 		$this->plugin->handleGetProperties(
 			$propFindRoot,
 			$sabreNode

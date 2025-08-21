@@ -230,7 +230,7 @@ OC.L10N.register(
     "Federated user" : "Kasutaja liitpilves",
     "user@your-nextcloud.org" : "kasutaja@sinu-nextcloud.ee",
     "Create share" : "Lisa jagamine",
-    "Direct link copied to clipboard" : "Otselink on lõikelauale kopeeritud",
+    "Direct link copied" : "Otselink on kopeeritud",
     "Please copy the link manually:" : "Palun kopeeri link käsitsi:",
     "Custom date range" : "Sinu valitud kuupäevavahemik",
     "Pick start date" : "Vali algkuupäev",
@@ -254,6 +254,7 @@ OC.L10N.register(
     "Search people" : "Otsi inimesi",
     "People" : "Inimesed",
     "Filter in current view" : "Filtreeri selles vaates",
+    "Search connected services" : "Otsi ühendatud seadmeid",
     "Results" : "Tulemused",
     "Load more results" : "Laadi veel tulemusi",
     "Search in" : "Otsi siin:",
@@ -527,6 +528,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Lülita salasõna nähtavus sisse/välja",
     "Configure the database" : "Seadista andmebaasi",
     "Only %s is available." : "Ainult %s on saadaval.",
-    "Database account" : "Andmebaasi kasutajakonto"
+    "Database account" : "Andmebaasi kasutajakonto",
+    "Direct link copied to clipboard" : "Otselink on lõikelauale kopeeritud"
 },
 "nplurals=2; plural=(n != 1);");

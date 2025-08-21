@@ -182,7 +182,6 @@ OC.L10N.register(
     "Failed to load availability" : "Неуспешно зареждане на наличност",
     "Saved availability" : "Запазена наличност",
     "Failed to save availability" : "Неуспешно записване на наличност",
-    "Time zone:" : "Часова зона",
     "to" : "до",
     "Delete slot" : "Изтриване на слот",
     "No working hours set" : "Няма зададено работно време",
@@ -211,6 +210,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Моля, свържете се директно с организатора.",
     "Are you accepting the invitation?" : "Приемате ли поканата?",
     "Tentative" : "Несигурно",
-    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно."
+    "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
+    "Time zone:" : "Часова зона"
 },
 "nplurals=2; plural=(n != 1);");

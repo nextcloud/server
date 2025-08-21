@@ -45,6 +45,8 @@ use OCA\DAV\Connector\Sabre\FilesReportPlugin;
 use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
+use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
+use OCA\DAV\Connector\Sabre\PropFindPreloadNotifyPlugin;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
@@ -53,6 +55,7 @@ use OCA\DAV\Connector\Sabre\ZipFolderPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
@@ -80,6 +83,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IPreview;
@@ -108,6 +112,7 @@ class Server {
 		private IRequest $request,
 		private string $baseUri,
 	) {
+		$debugEnabled = \OCP\Server::get(IConfig::class)->getSystemValue('debug', false);
 		$this->profiler = \OCP\Server::get(IProfiler::class);
 		if ($this->profiler->isEnabled()) {
 			/** @var IEventLogger $eventLogger */
@@ -120,6 +125,7 @@ class Server {
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
+		$this->server->setLogger($logger);
 
 		// Add maintenance plugin
 		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
@@ -167,7 +173,9 @@ class Server {
 		$authPlugin->addBackend($authBackend);
 
 		// debugging
-		if (\OCP\Server::get(IConfig::class)->getSystemValue('debug', false)) {
+		if ($debugEnabled) {
+			$this->server->debugEnabled = true;
+			$this->server->addPlugin(new PropFindMonitorPlugin());
 			$this->server->addPlugin(new \Sabre\DAV\Browser\Plugin());
 		} else {
 			$this->server->addPlugin(new DummyGetResponsePlugin());
@@ -232,6 +240,7 @@ class Server {
 			\OCP\Server::get(IUserSession::class)
 		));
 
+		// performance improvement plugins
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OCP\Server::get(IRequest::class)));
 		$this->server->addPlugin(new UploadAutoMkcolPlugin());
@@ -241,8 +250,10 @@ class Server {
 			$this->server->tree,
 			$logger,
 			$eventDispatcher,
+			\OCP\Server::get(IDateTimeZone::class),
 		));
 		$this->server->addPlugin(\OCP\Server::get(PaginatePlugin::class));
+		$this->server->addPlugin(new PropFindPreloadNotifyPlugin());
 
 		// allow setup of additional plugins
 		$eventDispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
@@ -301,6 +312,7 @@ class Server {
 							$this->server->tree,
 							\OCP\Server::get(IDBConnection::class),
 							\OCP\Server::get(IUserSession::class)->getUser(),
+							\OCP\Server::get(PropertyMapper::class),
 							\OCP\Server::get(DefaultCalendarValidator::class),
 						)
 					)

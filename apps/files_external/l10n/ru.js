@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Предоставить доступ",
-    "Error configuring OAuth1" : "Ошибка настройки OAuth1",
-    "Please provide a valid app key and secret." : "Укажите верные ключ и секрет приложения.",
     "Error configuring OAuth2" : "Ошибка настройки OAuth2",
     "Generate keys" : "Создать ключи",
     "Error generating key pair" : "Ошибка создания пары ключей",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Секретный ключ",
     "Builtin" : "Встроенный",
     "None" : "Отсутствует",
-    "OAuth1" : "OAuth1",
-    "App key" : "Ключ приложения",
-    "App secret" : "Секретный ключ ",
     "OAuth2" : "OAuth2",
     "Client ID" : "Идентификатор клиента",
     "Client secret" : "Клиентский ключ ",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Все люди",
     "Advanced settings" : "Расширенные настройки",
     "Allow people to mount external storage" : "Разрешить пользователям подключать внешнее хранилище",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",
+    "Error configuring OAuth1" : "Ошибка настройки OAuth1",
+    "Please provide a valid app key and secret." : "Укажите верные ключ и секрет приложения.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Ключ приложения",
+    "App secret" : "Секретный ключ "
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

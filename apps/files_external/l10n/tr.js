@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Erişim ver",
-    "Error configuring OAuth1" : "OAuth1 yapılandırması sorunu",
-    "Please provide a valid app key and secret." : "Lütfen geçerli bir uygulama anahtarı ve parola yazın.",
     "Error configuring OAuth2" : "OAuth2 yapılandırması sorunu",
     "Generate keys" : "Anahtarları oluştur",
     "Error generating key pair" : "Anahtar çifti oluşturulurken sorun çıktı",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Gizli anahtar",
     "Builtin" : "Yerleşik",
     "None" : "Hiçbiri",
-    "OAuth1" : "OAuth1",
-    "App key" : "Uygulama anahtarı",
-    "App secret" : "Uygulama parolası",
     "OAuth2" : "OAuth2",
     "Client ID" : "İstemci kimliği",
     "Client secret" : "İstemci parolası",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Tüm kişiler",
     "Advanced settings" : "Gelişmiş ayarlar",
     "Allow people to mount external storage" : "Kişiler dış depolama bağlayabilsin",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Aynı kimlik doğrulama bilgilerini kullanan bir çok dış depolama aygıtına genel kimlik doğrulama bilgileri ile erişebilirsiniz.",
+    "Error configuring OAuth1" : "OAuth1 yapılandırması sorunu",
+    "Please provide a valid app key and secret." : "Lütfen geçerli bir uygulama anahtarı ve parola yazın.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Uygulama anahtarı",
+    "App secret" : "Uygulama parolası"
 },
 "nplurals=2; plural=(n > 1);");

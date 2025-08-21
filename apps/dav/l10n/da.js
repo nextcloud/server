@@ -80,7 +80,7 @@ OC.L10N.register(
     "_In a month on %1$s for the entire day_::_In %n months on %1$s for the entire day_" : ["I en måned på %1$s for hele dagen","Om %n måneder den %1$s for hele dagen"],
     "_In a year on %1$s for the entire day_::_In %n years on %1$s for the entire day_" : ["I et år på %1$s for hele dagen","Om %n år den %1$s for hele dagen"],
     "In the past on %1$s between %2$s - %3$s" : "Tidligere den %1$s mellem %2$s - %3$s",
-    "_In a minute on %1$s between %2$s - %3$s_::_In %n minutes on %1$s between %2$s - %3$s_" : ["I et minut på %1$s mellem% %2$s - %3$s","Om %n minutter den %1$s mellem %2$s - %3$s"],
+    "_In a minute on %1$s between %2$s - %3$s_::_In %n minutes on %1$s between %2$s - %3$s_" : ["I et minut på %1$s mellem %2$s - %3$s","Om %n minutter den %1$s mellem %2$s - %3$s"],
     "_In a hour on %1$s between %2$s - %3$s_::_In %n hours on %1$s between %2$s - %3$s_" : ["I en time på %1$s mellem %2$s - %3$s","Om %n timer den %1$s mellem %2$s - %3$s"],
     "_In a day on %1$s between %2$s - %3$s_::_In %n days on %1$s between %2$s - %3$s_" : ["I en dag på %1$s mellem %2$s - %3$s","Om %n dage den %1$s mellem %2$s - %3$s"],
     "_In a week on %1$s between %2$s - %3$s_::_In %n weeks on %1$s between %2$s - %3$s_" : ["I en uge på %1$s mellem %2$s - %3$s","Om %n uger den %1$s mellem %2$s - %3$s"],
@@ -281,7 +281,6 @@ OC.L10N.register(
     "Failed to load availability" : "Kunne ikke indlæse tilgængelighed",
     "Saved availability" : "Gemt tilgængelighed",
     "Failed to save availability" : "Kunne ikke gemme tilgængelighed",
-    "Time zone:" : "Tidszone:",
     "to" : "til",
     "Delete slot" : "Slet slot",
     "No working hours set" : "Arbejdstider er ikke sat",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Kontakt venligst arrangøren direkte.",
     "Are you accepting the invitation?" : "Accepter du invitationen?",
     "Tentative" : "Foreløbig",
-    "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret."
+    "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret.",
+    "Time zone:" : "Tidszone:"
 },
 "nplurals=2; plural=(n != 1);");

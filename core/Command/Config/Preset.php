@@ -8,10 +8,10 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\Config;
 
-use OC\Config\ConfigManager;
+use OC\Config\PresetManager;
 use OC\Core\Command\Base;
 use OCP\Config\Lexicon\Preset as ConfigLexiconPreset;
-use OCP\IConfig;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,8 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Preset extends Base {
 	public function __construct(
-		private readonly IConfig $config,
-		private readonly ConfigManager $configManager,
+		private readonly PresetManager $presetManager,
 	) {
 		parent::__construct();
 	}
@@ -30,12 +29,31 @@ class Preset extends Base {
 		$this->setName('config:preset')
 			->setDescription('Select a config preset')
 			->addArgument('preset', InputArgument::OPTIONAL, 'Preset to use for all unset config values', '')
-			->addOption('list', '', InputOption::VALUE_NONE, 'display available preset');
+			->addOption('list', '', InputOption::VALUE_NONE, 'display available preset')
+			->addOption('compare', '', InputOption::VALUE_NONE, 'compare preset');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('list')) {
 			$this->getEnum('', $list);
+			$this->writeArrayInOutputFormat($input, $output, $list);
+			return self::SUCCESS;
+		}
+
+		if ($input->getOption('compare')) {
+			$list = $this->presetManager->retrieveLexiconPreset();
+			if ($input->getOption('output') === 'plain') {
+				$table = new Table($output);
+				$table->setHeaders(['app', 'config key', 'value', ...array_map(static fn (ConfigLexiconPreset $p): string => $p->name, ConfigLexiconPreset::cases())]);
+				foreach ($list as $appId => $entries) {
+					foreach ($entries as $item) {
+						$table->addRow([$appId, $item['entry']['key'], '<comment>' . ($item['value'] ?? '') . '</comment>', ...($item['defaults'] ?? [])]);
+					}
+				}
+				$table->render();
+				return self::SUCCESS;
+			}
+
 			$this->writeArrayInOutputFormat($input, $output, $list);
 			return self::SUCCESS;
 		}
@@ -49,10 +67,10 @@ class Preset extends Base {
 				return self::INVALID;
 			}
 
-			$this->configManager->setLexiconPreset($preset);
+			$this->presetManager->setLexiconPreset($preset);
 		}
 
-		$current = ConfigLexiconPreset::tryFrom($this->config->getSystemValueInt(ConfigManager::PRESET_CONFIGKEY, 0)) ?? ConfigLexiconPreset::NONE;
+		$current = $this->presetManager->getLexiconPreset();
 		$this->writeArrayInOutputFormat($input, $output, [$current->name], 'current preset: ');
 		return self::SUCCESS;
 	}

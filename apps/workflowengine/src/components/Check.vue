@@ -224,6 +224,6 @@ export default {
 	}
 
 	.invalid {
-		border-color: var(--color-error) !important;
+		border-color: var(--color-border-error) !important;
 	}
 </style>

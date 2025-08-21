@@ -10,6 +10,8 @@ namespace Tests\lib\Config;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
+use OC\Config\PresetManager;
+use OCP\App\IAppManager;
 use OCP\Config\Exceptions\TypeConflictException;
 use OCP\Config\Exceptions\UnknownKeyException;
 use OCP\Config\IUserConfig;
@@ -32,6 +34,8 @@ class LexiconTest extends TestCase {
 	private IAppConfig $appConfig;
 	private IUserConfig $userConfig;
 	private ConfigManager $configManager;
+	private PresetManager $presetManager;
+	private IAppManager $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,6 +49,8 @@ class LexiconTest extends TestCase {
 		$this->appConfig = Server::get(IAppConfig::class);
 		$this->userConfig = Server::get(IUserConfig::class);
 		$this->configManager = Server::get(ConfigManager::class);
+		$this->presetManager = Server::get(PresetManager::class);
+		$this->appManager = Server::get(IAppManager::class);
 	}
 
 	protected function tearDown(): void {
@@ -206,26 +212,26 @@ class LexiconTest extends TestCase {
 	}
 
 	public function testAppConfigLexiconPreset() {
-		$this->configManager->setLexiconPreset(Preset::FAMILY);
+		$this->presetManager->setLexiconPreset(Preset::FAMILY);
 		$this->assertSame('family', $this->appConfig->getValueString(TestLexicon_E::APPID, 'key3'));
 	}
 
 	public function testAppConfigLexiconPresets() {
-		$this->configManager->setLexiconPreset(Preset::MEDIUM);
+		$this->presetManager->setLexiconPreset(Preset::MEDIUM);
 		$this->assertSame('club+medium', $this->appConfig->getValueString(TestLexicon_E::APPID, 'key3'));
-		$this->configManager->setLexiconPreset(Preset::FAMILY);
+		$this->presetManager->setLexiconPreset(Preset::FAMILY);
 		$this->assertSame('family', $this->appConfig->getValueString(TestLexicon_E::APPID, 'key3'));
 	}
 
 	public function testUserConfigLexiconPreset() {
-		$this->configManager->setLexiconPreset(Preset::FAMILY);
+		$this->presetManager->setLexiconPreset(Preset::FAMILY);
 		$this->assertSame('family', $this->userConfig->getValueString('user1', TestLexicon_E::APPID, 'key3'));
 	}
 
 	public function testUserConfigLexiconPresets() {
-		$this->configManager->setLexiconPreset(Preset::MEDIUM);
+		$this->presetManager->setLexiconPreset(Preset::MEDIUM);
 		$this->assertSame('club+medium', $this->userConfig->getValueString('user1', TestLexicon_E::APPID, 'key3'));
-		$this->configManager->setLexiconPreset(Preset::FAMILY);
+		$this->presetManager->setLexiconPreset(Preset::FAMILY);
 		$this->assertSame('family', $this->userConfig->getValueString('user1', TestLexicon_E::APPID, 'key3'));
 	}
 }

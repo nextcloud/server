@@ -57,7 +57,10 @@ class SharingTest extends TestCase {
 		$this->appConfig
 			->method('getValueBool')
 			->willReturnMap([
-				['core', 'shareapi_allow_federation_on_public_shares', false, false, true],
+				['core', 'shareapi_allow_federation_on_public_shares', true],
+				['core', 'shareapi_enable_link_password_by_default', true],
+				['core', 'shareapi_default_expire_date', false],
+				['core', 'shareapi_enforce_expire_date', false],
 			]);
 
 		$this->config
@@ -77,12 +80,9 @@ class SharingTest extends TestCase {
 				['core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn', 'no', 'no'],
 				['core', 'shareapi_enabled', 'yes', 'yes'],
-				['core', 'shareapi_default_expire_date', 'no', 'no'],
 				['core', 'shareapi_expire_after_n_days', '7', '7'],
-				['core', 'shareapi_enforce_expire_date', 'no', 'no'],
 				['core', 'shareapi_exclude_groups', 'no', 'no'],
 				['core', 'shareapi_public_link_disclaimertext', '', 'Lorem ipsum'],
-				['core', 'shareapi_enable_link_password_by_default', 'no', 'yes'],
 				['core', 'shareapi_default_permissions', (string)Constants::PERMISSION_ALL, Constants::PERMISSION_ALL],
 				['core', 'shareapi_default_internal_expire_date', 'no', 'no'],
 				['core', 'shareapi_internal_expire_after_n_days', '7', '7'],

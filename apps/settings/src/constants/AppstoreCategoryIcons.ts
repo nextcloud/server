@@ -3,14 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import {
-	mdiAccountOutline,
 	mdiAccountMultipleOutline,
+	mdiAccountOutline,
 	mdiArchiveOutline,
 	mdiCheck,
 	mdiClipboardFlowOutline,
 	mdiClose,
 	mdiCogOutline,
 	mdiControllerClassicOutline,
+	mdiCreationOutline,
 	mdiDownload,
 	mdiFileDocumentEdit,
 	mdiFolder,
@@ -42,7 +43,8 @@ export default Object.freeze({
 	featured: mdiStar,
 	updates: mdiDownload,
 
-	// generic categories
+	// generic category
+	ai: mdiCreationOutline,
 	auth: mdiKeyOutline,
 	customization: mdiCogOutline,
 	dashboard: mdiViewColumnOutline,

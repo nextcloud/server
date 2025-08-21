@@ -11,12 +11,13 @@ declare(strict_types=1);
 namespace Test\App;
 
 use OC\App\AppManager;
+use OC\App\DependencyAnalyzer;
+use OC\App\Platform;
 use OC\AppConfig;
 use OC\Config\ConfigManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
-use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -96,8 +97,9 @@ class AppManagerTest extends TestCase {
 	protected ServerVersion&MockObject $serverVersion;
 	protected ConfigManager&MockObject $configManager;
 
-	/** @var IAppManager */
-	protected $manager;
+	protected DependencyAnalyzer $dependencyAnalyzer;
+
+	protected AppManager $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -113,6 +115,7 @@ class AppManagerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->serverVersion = $this->createMock(ServerVersion::class);
 		$this->configManager = $this->createMock(ConfigManager::class);
+		$this->dependencyAnalyzer = new DependencyAnalyzer($this->createMock(Platform::class));
 
 		$this->overwriteService(AppConfig::class, $this->appConfig);
 		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
@@ -136,6 +139,7 @@ class AppManagerTest extends TestCase {
 			$this->logger,
 			$this->serverVersion,
 			$this->configManager,
+			$this->dependencyAnalyzer,
 		);
 	}
 
@@ -233,28 +237,25 @@ class AppManagerTest extends TestCase {
 			$this->manager->disableApp('files_trashbin');
 		}
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('files_trashbin'));
+
 		$this->manager->enableApp('files_trashbin');
 		$this->assertEquals('yes', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testDisableApp(): void {
 		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppDisableEvent('files_trashbin'));
+
 		$this->manager->disableApp('files_trashbin');
 		$this->assertEquals('no', $this->appConfig->getValue('files_trashbin', 'enabled', 'no'));
 	}
 
 	public function testNotEnableIfNotInstalled(): void {
-		try {
-			$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
-			$this->assertFalse(true, 'If this line is reached the expected exception is not thrown.');
-		} catch (AppPathNotFoundException $e) {
-			// Exception is expected
-			$this->assertEquals('Could not find path for some_random_name_which_i_hope_is_not_an_app', $e->getMessage());
-		}
+		$this->expectException(AppPathNotFoundException::class);
+		$this->expectExceptionMessage('Could not find path for some_random_name_which_i_hope_is_not_an_app');
+		$this->appConfig->expects(self::never())
+			->method('setValue');
 
-		$this->assertEquals('no', $this->appConfig->getValue(
-			'some_random_name_which_i_hope_is_not_an_app', 'enabled', 'no'
-		));
+		$this->manager->enableApp('some_random_name_which_i_hope_is_not_an_app');
 	}
 
 	public function testEnableAppForGroups(): void {
@@ -278,6 +279,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -289,7 +291,9 @@ class AppManagerTest extends TestCase {
 			->with('test')
 			->willReturn('apps/test');
 
-		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new AppEnableEvent('test', ['group1', 'group2']));
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new AppEnableEvent('test', ['group1', 'group2']));
 
 		$manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
@@ -332,6 +336,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -395,6 +400,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -475,16 +481,16 @@ class AppManagerTest extends TestCase {
 			'writable' => false,
 		];
 
-		$fakeTestAppPath = $fakeAppPath . '/' . 'test-test-app';
+		$fakeTestAppPath = $fakeAppPath . '/' . 'test_test_app';
 		mkdir($fakeTestAppPath);
 
-		$generatedAppPath = $this->manager->getAppPath('test-test-app');
+		$generatedAppPath = $this->manager->getAppPath('test_test_app');
 
 		rmdir($fakeTestAppPath);
 		unlink($fakeAppLink);
 		rmdir($fakeAppPath);
 
-		$this->assertEquals($fakeAppLink . '/test-test-app', $generatedAppPath);
+		$this->assertEquals($fakeAppLink . '/test_test_app', $generatedAppPath);
 	}
 
 	public function testGetAppPathFail(): void {
@@ -590,7 +596,7 @@ class AppManagerTest extends TestCase {
 	}
 
 	public function testGetAppsNeedingUpgrade(): void {
-		/** @var AppManager|MockObject $manager */
+		/** @var AppManager&MockObject $manager */
 		$manager = $this->getMockBuilder(AppManager::class)
 			->setConstructorArgs([
 				$this->userSession,
@@ -601,6 +607,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -662,6 +669,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -802,6 +810,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -834,6 +843,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -865,6 +875,7 @@ class AppManagerTest extends TestCase {
 				$this->logger,
 				$this->serverVersion,
 				$this->configManager,
+				$this->dependencyAnalyzer,
 			])
 			->onlyMethods([
 				'getAppInfo',
@@ -885,5 +896,4 @@ class AppManagerTest extends TestCase {
 			$manager->getAppVersion('unknown'),
 		);
 	}
-
 }

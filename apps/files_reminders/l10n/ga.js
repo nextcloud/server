@@ -11,7 +11,6 @@ OC.L10N.register(
     "Set file reminders" : "Socraigh meabhrúcháin comhaid",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 Meabhrúcháin comhaid**\n\nSocraigh meabhrúcháin comhaid.\n\nTabhair faoi deara: chun an aip `Meabhrúcháin Comhad` a úsáid, cinntigh go bhfuil an aip `Fógraí` suiteáilte agus cumasaithe. Soláthraíonn an aip `Fógraí` na APInna riachtanacha chun go n-oibreoidh an aip `Meabhrúcháin Comhad` i gceart.",
     "Set reminder for \"{fileName}\"" : "Socraigh meabhrúchán do \"{fileName}\"",
-    "Set reminder at custom date & time" : "Socraigh meabhrúchán ar dháta agus am saincheaptha",
     "Clear reminder" : "Meabhrúchán soiléir",
     "Please choose a valid date & time" : "Roghnaigh dáta agus am bailí le do thoil",
     "Reminder set for \"{fileName}\"" : "Meabhrúchán socraithe do \"{fileName}\"",
@@ -22,7 +21,6 @@ OC.L10N.register(
     "Cancel" : "Cealaigh",
     "Set reminder" : "Socraigh meabhrúchán",
     "Reminder set" : "Meabhrúchán socraithe",
-    "Set custom reminder" : "Socraigh meabhrúchán saincheaptha",
     "Later today" : "Níos déanaí inniu",
     "Set reminder for later today" : "Socraigh meabhrúchán le haghaidh níos déanaí inniu",
     "Tomorrow" : "Amárach",
@@ -32,6 +30,8 @@ OC.L10N.register(
     "Next week" : "An tseachtain seo chugainn",
     "Set reminder for next week" : "Socraigh meabhrúchán don tseachtain seo chugainn",
     "This files_reminder can work properly." : "Is féidir leis an gcomhad_reminder seo oibriú i gceart.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Teastaíonn an aip fógraí ón aip files_reminder chun oibriú i gceart. Ba cheart duit fógraí a chumasú nó comhaid_reminder a dhíchumasú."
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Teastaíonn an aip fógraí ón aip files_reminder chun oibriú i gceart. Ba cheart duit fógraí a chumasú nó comhaid_reminder a dhíchumasú.",
+    "Set reminder at custom date & time" : "Socraigh meabhrúchán ar dháta agus am saincheaptha",
+    "Set custom reminder" : "Socraigh meabhrúchán saincheaptha"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

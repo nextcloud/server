@@ -241,14 +241,15 @@ class AddressBookImplTest extends TestCase {
 	public static function dataTestGetPermissions(): array {
 		return [
 			[[], 0],
-			[[['privilege' => '{DAV:}read']], 1],
-			[[['privilege' => '{DAV:}write']], 6],
-			[[['privilege' => '{DAV:}all']], 31],
-			[[['privilege' => '{DAV:}read'],['privilege' => '{DAV:}write']], 7],
-			[[['privilege' => '{DAV:}read'],['privilege' => '{DAV:}all']], 31],
-			[[['privilege' => '{DAV:}all'],['privilege' => '{DAV:}write']], 31],
-			[[['privilege' => '{DAV:}read'],['privilege' => '{DAV:}write'],['privilege' => '{DAV:}all']], 31],
-			[[['privilege' => '{DAV:}all'],['privilege' => '{DAV:}read'],['privilege' => '{DAV:}write']], 31],
+			[[['privilege' => '{DAV:}read', 'principal' => 'principals/system/system']], 1],
+			[[['privilege' => '{DAV:}read', 'principal' => 'principals/system/system'], ['privilege' => '{DAV:}write', 'principal' => 'principals/someone/else']], 1],
+			[[['privilege' => '{DAV:}write', 'principal' => 'principals/system/system']], 6],
+			[[['privilege' => '{DAV:}all', 'principal' => 'principals/system/system']], 31],
+			[[['privilege' => '{DAV:}read', 'principal' => 'principals/system/system'],['privilege' => '{DAV:}write', 'principal' => 'principals/system/system']], 7],
+			[[['privilege' => '{DAV:}read', 'principal' => 'principals/system/system'],['privilege' => '{DAV:}all', 'principal' => 'principals/system/system']], 31],
+			[[['privilege' => '{DAV:}all', 'principal' => 'principals/system/system'],['privilege' => '{DAV:}write', 'principal' => 'principals/system/system']], 31],
+			[[['privilege' => '{DAV:}read', 'principal' => 'principals/system/system'],['privilege' => '{DAV:}write', 'principal' => 'principals/system/system'],['privilege' => '{DAV:}all', 'principal' => 'principals/system/system']], 31],
+			[[['privilege' => '{DAV:}all', 'principal' => 'principals/system/system'],['privilege' => '{DAV:}read', 'principal' => 'principals/system/system'],['privilege' => '{DAV:}write', 'principal' => 'principals/system/system']], 31],
 		];
 	}
 

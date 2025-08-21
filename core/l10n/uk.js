@@ -230,7 +230,7 @@ OC.L10N.register(
     "Federated user" : "Обʼєднаний користувач",
     "user@your-nextcloud.org" : "користувач@ваш-nextcloud.org",
     "Create share" : "Передати у публічний доступ",
-    "Direct link copied to clipboard" : "Посилання прямого доступу скопійовано в буфер обміну",
+    "Direct link copied" : "Пряме посилання скопійовано",
     "Please copy the link manually:" : "Будь ласка, скопіюйте посилання вручну:",
     "Custom date range" : "Власний вибір проміжку",
     "Pick start date" : "Виберіть початкову дату",
@@ -254,6 +254,7 @@ OC.L10N.register(
     "Search people" : "Пошук контактів",
     "People" : "Користувачі",
     "Filter in current view" : "Фільтр поточного подання",
+    "Search connected services" : "Пошук під'єднаних сервісів",
     "Results" : "Результат",
     "Load more results" : "Завантажити більше результатів",
     "Search in" : "Шукати у",
@@ -527,6 +528,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Перемкнути видимість пароля",
     "Configure the database" : "Налаштування бази даних",
     "Only %s is available." : "Доступно тільки %s.",
-    "Database account" : "Обліковий запис БД"
+    "Database account" : "Обліковий запис БД",
+    "Direct link copied to clipboard" : "Посилання прямого доступу скопійовано в буфер обміну"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

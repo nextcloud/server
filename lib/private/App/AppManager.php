@@ -10,12 +10,15 @@ namespace OC\App;
 use OC\AppConfig;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Config\ConfigManager;
+use OC\DB\MigrationService;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\Events\AppDisableEvent;
 use OCP\App\Events\AppEnableEvent;
+use OCP\App\Events\AppUpdateEvent;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
+use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\AutoComplete\IManager as IAutoCompleteManager;
 use OCP\Collaboration\Collaborators\ISearch as ICollaboratorSearch;
 use OCP\Diagnostics\IEventLogger;
@@ -86,6 +89,7 @@ class AppManager implements IAppManager {
 		private LoggerInterface $logger,
 		private ServerVersion $serverVersion,
 		private ConfigManager $configManager,
+		private DependencyAnalyzer $dependencyAnalyzer,
 	) {
 	}
 
@@ -249,9 +253,14 @@ class AppManager implements IAppManager {
 		foreach ($apps as $app) {
 			// If the app is already loaded then autoloading it makes no sense
 			if (!$this->isAppLoaded($app)) {
-				$path = \OC_App::getAppPath($app);
-				if ($path !== false) {
+				try {
+					$path = $this->getAppPath($app);
 					\OC_App::registerAutoloading($app, $path);
+				} catch (AppPathNotFoundException $e) {
+					$this->logger->info('Error during app loading: ' . $e->getMessage(), [
+						'exception' => $e,
+						'app' => $app,
+					]);
 				}
 			}
 		}
@@ -447,8 +456,13 @@ class AppManager implements IAppManager {
 			return;
 		}
 		$this->loadedApps[$app] = true;
-		$appPath = \OC_App::getAppPath($app);
-		if ($appPath === false) {
+		try {
+			$appPath = $this->getAppPath($app);
+		} catch (AppPathNotFoundException $e) {
+			$this->logger->info('Error during app loading: ' . $e->getMessage(), [
+				'exception' => $e,
+				'app' => $app,
+			]);
 			return;
 		}
 		$eventLogger = \OC::$server->get(IEventLogger::class);
@@ -675,29 +689,87 @@ class AppManager implements IAppManager {
 	/**
 	 * Get the directory for the given app.
 	 *
+	 * @psalm-taint-specialize
+	 *
 	 * @throws AppPathNotFoundException if app folder can't be found
 	 */
-	public function getAppPath(string $appId): string {
-		$appPath = \OC_App::getAppPath($appId);
-		if ($appPath === false) {
-			throw new AppPathNotFoundException('Could not find path for ' . $appId);
+	public function getAppPath(string $appId, bool $ignoreCache = false): string {
+		$appId = $this->cleanAppId($appId);
+		if ($appId === '') {
+			throw new AppPathNotFoundException('App id is empty');
+		} elseif ($appId === 'core') {
+			return __DIR__ . '/../../../core';
 		}
-		return $appPath;
+
+		if (($dir = $this->findAppInDirectories($appId, $ignoreCache)) != false) {
+			return $dir['path'] . '/' . $appId;
+		}
+		throw new AppPathNotFoundException('Could not find path for ' . $appId);
 	}
 
 	/**
 	 * Get the web path for the given app.
 	 *
-	 * @param string $appId
-	 * @return string
 	 * @throws AppPathNotFoundException if app path can't be found
 	 */
 	public function getAppWebPath(string $appId): string {
-		$appWebPath = \OC_App::getAppWebPath($appId);
-		if ($appWebPath === false) {
-			throw new AppPathNotFoundException('Could not find web path for ' . $appId);
+		if (($dir = $this->findAppInDirectories($appId)) != false) {
+			return \OC::$WEBROOT . $dir['url'] . '/' . $appId;
 		}
-		return $appWebPath;
+		throw new AppPathNotFoundException('Could not find web path for ' . $appId);
+	}
+
+	/**
+	 * Find the apps root for an app id.
+	 *
+	 * If multiple copies are found, the apps root the latest version is returned.
+	 *
+	 * @param bool $ignoreCache ignore cache and rebuild it
+	 * @return false|array{path: string, url: string} the apps root shape
+	 */
+	public function findAppInDirectories(string $appId, bool $ignoreCache = false) {
+		$sanitizedAppId = $this->cleanAppId($appId);
+		if ($sanitizedAppId !== $appId) {
+			return false;
+		}
+		// FIXME replace by a property or a cache
+		static $app_dir = [];
+
+		if (isset($app_dir[$appId]) && !$ignoreCache) {
+			return $app_dir[$appId];
+		}
+
+		$possibleApps = [];
+		foreach (\OC::$APPSROOTS as $dir) {
+			if (file_exists($dir['path'] . '/' . $appId)) {
+				$possibleApps[] = $dir;
+			}
+		}
+
+		if (empty($possibleApps)) {
+			return false;
+		} elseif (count($possibleApps) === 1) {
+			$dir = array_shift($possibleApps);
+			$app_dir[$appId] = $dir;
+			return $dir;
+		} else {
+			$versionToLoad = [];
+			foreach ($possibleApps as $possibleApp) {
+				$appData = $this->getAppInfoByPath($possibleApp['path'] . '/' . $appId . '/appinfo/info.xml');
+				$version = $appData['version'] ?? '';
+				if (empty($versionToLoad) || version_compare($version, $versionToLoad['version'], '>')) {
+					$versionToLoad = [
+						'dir' => $possibleApp,
+						'version' => $version,
+					];
+				}
+			}
+			if (!isset($versionToLoad['dir'])) {
+				return false;
+			}
+			$app_dir[$appId] = $versionToLoad['dir'];
+			return $versionToLoad['dir'];
+		}
 	}
 
 	/**
@@ -724,7 +796,7 @@ class AppManager implements IAppManager {
 			if ($appDbVersion
 				&& isset($appInfo['version'])
 				&& version_compare($appInfo['version'], $appDbVersion, '>')
-				&& \OC_App::isAppCompatible($version, $appInfo)
+				&& $this->isAppCompatible($version, $appInfo)
 			) {
 				$appsToUpgrade[] = $appInfo;
 			}
@@ -814,7 +886,7 @@ class AppManager implements IAppManager {
 			$info = $this->getAppInfo($appId);
 			if ($info === null) {
 				$incompatibleApps[] = ['id' => $appId, 'name' => $appId];
-			} elseif (!\OC_App::isAppCompatible($version, $info)) {
+			} elseif (!$this->isAppCompatible($version, $info)) {
 				$incompatibleApps[] = $info;
 			}
 		}
@@ -948,5 +1020,95 @@ class AppManager implements IAppManager {
 	public function cleanAppId(string $app): string {
 		/* Only lowercase alphanumeric is allowed */
 		return preg_replace('/(^[0-9_]|[^a-z0-9_]+|_$)/', '', $app);
+	}
+
+	/**
+	 * Run upgrade tasks for an app after the code has already been updated
+	 *
+	 * @throws AppPathNotFoundException if app folder can't be found
+	 */
+	public function upgradeApp(string $appId): bool {
+		// for apps distributed with core, we refresh app path in case the downloaded version
+		// have been installed in custom apps and not in the default path
+		$appPath = $this->getAppPath($appId, true);
+
+		$this->clearAppsCache();
+		$l = \OC::$server->getL10N('core');
+		$appData = $this->getAppInfo($appId, false, $l->getLanguageCode());
+		if ($appData === null) {
+			throw new AppPathNotFoundException('Could not find ' . $appId);
+		}
+
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		$ignoreMax = in_array($appId, $ignoreMaxApps, true);
+		\OC_App::checkAppDependencies(
+			$this->config,
+			$l,
+			$appData,
+			$ignoreMax
+		);
+
+		\OC_App::registerAutoloading($appId, $appPath, true);
+		\OC_App::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
+
+		$ms = new MigrationService($appId, Server::get(\OC\DB\Connection::class));
+		$ms->migrate();
+
+		\OC_App::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
+		$queue = Server::get(IJobList::class);
+		foreach ($appData['repair-steps']['live-migration'] as $step) {
+			$queue->add(\OC\Migration\BackgroundRepair::class, [
+				'app' => $appId,
+				'step' => $step]);
+		}
+
+		// update appversion in app manager
+		$this->clearAppsCache();
+		$this->getAppVersion($appId, false);
+
+		// Setup background jobs
+		foreach ($appData['background-jobs'] as $job) {
+			$queue->add($job);
+		}
+
+		//set remote/public handlers
+		foreach ($appData['remote'] as $name => $path) {
+			$this->config->setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
+		}
+		foreach ($appData['public'] as $name => $path) {
+			$this->config->setAppValue('core', 'public_' . $name, $appId . '/' . $path);
+		}
+
+		\OC_App::setAppTypes($appId);
+
+		$version = $this->getAppVersion($appId);
+		$this->config->setAppValue($appId, 'installed_version', $version);
+
+		// migrate eventual new config keys in the process
+		/** @psalm-suppress InternalMethod */
+		$this->configManager->migrateConfigLexiconKeys($appId);
+
+		$this->dispatcher->dispatchTyped(new AppUpdateEvent($appId));
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(
+			ManagerEvent::EVENT_APP_UPDATE, $appId
+		));
+
+		return true;
+	}
+
+	public function isUpgradeRequired(string $appId): bool {
+		$versions = $this->getAppInstalledVersions();
+		$currentVersion = $this->getAppVersion($appId);
+		if ($currentVersion && isset($versions[$appId])) {
+			$installedVersion = $versions[$appId];
+			if (!version_compare($currentVersion, $installedVersion, '=')) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function isAppCompatible(string $serverVersion, array $appInfo, bool $ignoreMax = false): bool {
+		return count($this->dependencyAnalyzer->analyzeServerVersion($serverVersion, $appInfo, $ignoreMax)) === 0;
 	}
 }

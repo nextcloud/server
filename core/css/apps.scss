@@ -648,7 +648,7 @@ kbd {
 	}
 
 	.error {
-		color: var(--color-error);
+		color: var(--color-error-text);
 	}
 
 	.app-navigation-entry-utils ul,
@@ -831,7 +831,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	.info-text {
 		padding-block: 5px 7px;
 		padding-inline: 22px 0;
-		color: var(--color-text-lighter);
+		color: var(--color-text-maxcontrast);
 	}
 	input {
 		&[type='checkbox'],
@@ -971,7 +971,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		cursor: pointer;
-		color: var(--color-text-lighter);
+		color: var(--color-text-maxcontrast);
 		margin-bottom: 1px;
 		padding: 5px;
 
@@ -1000,7 +1000,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 		}
 
 		a {
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 			margin-bottom: 1px;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -1013,7 +1013,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 		&:focus {
 			margin-bottom: 0px;
 			color: var(--color-main-text);
-			border-bottom: 1px solid var(--color-text-lighter);
+			border-bottom: 1px solid var(--color-text-maxcontrast);
 		}
 	}
 }

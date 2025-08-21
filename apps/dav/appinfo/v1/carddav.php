@@ -63,6 +63,7 @@ $cardDavBackend = new CardDavBackend(
 	Server::get(IUserManager::class),
 	Server::get(IEventDispatcher::class),
 	Server::get(\OCA\DAV\CardDAV\Sharing\Backend::class),
+	Server::get(IConfig::class),
 );
 
 $debugging = Server::get(IConfig::class)->getSystemValue('debug', false);

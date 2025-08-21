@@ -230,7 +230,7 @@ OC.L10N.register(
     "Federated user" : "Föderált felhasználó",
     "user@your-nextcloud.org" : "felhasználó@az-ön-nextcloudja.org",
     "Create share" : "Megosztás létrehozása",
-    "Direct link copied to clipboard" : "Közvetlen hivatkozás a vágólapra másolva",
+    "Direct link copied" : "Közvetlen hivatkozás másolva",
     "Please copy the link manually:" : "Másolja kézileg a hivatkozást:",
     "Custom date range" : "Egyéni dátumtartomány",
     "Pick start date" : "Válasszon kezdési dátumot",
@@ -254,6 +254,7 @@ OC.L10N.register(
     "Search people" : "Emberek keresése",
     "People" : "Emberek",
     "Filter in current view" : "Jelenlegi nézet szűrése",
+    "Search connected services" : "Összekapcsolt szolgáltatások keresése",
     "Results" : "Eredmények",
     "Load more results" : "További találatok betöltése",
     "Search in" : "Keresés ebben:",
@@ -527,6 +528,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Jelszó láthatósága be/ki",
     "Configure the database" : "Adatbázis konfigurálása",
     "Only %s is available." : "Csak %s érhető el.",
-    "Database account" : "Adatbázisfiók"
+    "Database account" : "Adatbázisfiók",
+    "Direct link copied to clipboard" : "Közvetlen hivatkozás a vágólapra másolva"
 },
 "nplurals=2; plural=(n != 1);");

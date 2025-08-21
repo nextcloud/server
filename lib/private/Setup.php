@@ -443,7 +443,8 @@ class Setup {
 
 		// Install shipped apps and specified app bundles
 		$this->outputDebug($output, 'Install default apps');
-		Installer::installShippedApps(false, $output);
+		$installer = Server::get(Installer::class);
+		$installer->installShippedApps(false, $output);
 
 		// create empty file in data dir, so we can later find
 		// out that this is indeed a Nextcloud data directory

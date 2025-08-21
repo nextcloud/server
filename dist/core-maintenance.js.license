@@ -48,7 +48,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - webpack
-	- version: 5.101.0
+	- version: 5.101.2
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

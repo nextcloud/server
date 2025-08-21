@@ -37,6 +37,15 @@ class Util {
 	}
 
 	/**
+	 * Get the best text color contrast-wise for the given color.
+	 *
+	 * @since 32.0.0
+	 */
+	public function getTextColor(string $color): string {
+		return $this->invertTextColor($color) ? '#000000' : '#ffffff';
+	}
+
+	/**
 	 * Is this color too bright ?
 	 * @param string $color rgb color value
 	 * @return bool

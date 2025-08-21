@@ -125,8 +125,8 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 export function openSharingPanel(fileName: string) {
 	triggerActionForFile(fileName, 'details')
 
-	cy.get('#app-sidebar-vue')
-		.get('[aria-controls="tab-sharing"]')
+	cy.get('[data-cy-sidebar]')
+		.find('[aria-controls="tab-sharing"]')
 		.click()
 }
 

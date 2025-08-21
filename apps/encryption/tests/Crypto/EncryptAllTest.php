@@ -82,7 +82,7 @@ class EncryptAllTest extends TestCase {
 
 		/**
 		 * We need format method to return a string
-		 * @var OutputFormatterInterface|\PHPUnit\Framework\MockObject\MockObject
+		 * @var OutputFormatterInterface&MockObject
 		 */
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
 		$outputFormatter->method('isDecorated')->willReturn(false);
@@ -112,6 +112,13 @@ class EncryptAllTest extends TestCase {
 			$this->secureRandom,
 			$this->logger,
 		);
+	}
+
+	protected function createFileInfoMock($type, string $name): FileInfo&MockObject {
+		$fileInfo = $this->createMock(FileInfo::class);
+		$fileInfo->method('getType')->willReturn($type);
+		$fileInfo->method('getName')->willReturn($name);
+		return $fileInfo;
 	}
 
 	public function testEncryptAll(): void {
@@ -299,8 +306,8 @@ class EncryptAllTest extends TestCase {
 					'',
 					null,
 					[
-						['name' => 'foo', 'type' => 'dir'],
-						['name' => 'bar', 'type' => 'file'],
+						$this->createFileInfoMock(FileInfo::TYPE_FOLDER, 'foo'),
+						$this->createFileInfoMock(FileInfo::TYPE_FILE, 'bar'),
 					],
 				],
 				[
@@ -308,26 +315,17 @@ class EncryptAllTest extends TestCase {
 					'',
 					null,
 					[
-						['name' => 'subfile', 'type' => 'file']
+						$this->createFileInfoMock(FileInfo::TYPE_FILE, 'subfile'),
 					],
 				],
 			]);
 
-		$this->view->expects($this->any())->method('is_dir')
-			->willReturnCallback(
-				function ($path) {
-					if ($path === '/user1/files/foo') {
-						return true;
-					}
-					return false;
-				}
-			);
-
 		$encryptAllCalls = [];
 		$encryptAll->expects($this->exactly(2))
 			->method('encryptFile')
-			->willReturnCallback(function (string $path) use (&$encryptAllCalls): void {
+			->willReturnCallback(function (FileInfo $file, string $path) use (&$encryptAllCalls): bool {
 				$encryptAllCalls[] = $path;
+				return true;
 			});
 
 		$outputFormatter = $this->createMock(OutputFormatterInterface::class);
@@ -362,8 +360,7 @@ class EncryptAllTest extends TestCase {
 		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->expects($this->any())->method('isEncrypted')
 			->willReturn($isEncrypted);
-		$this->view->expects($this->any())->method('getFileInfo')
-			->willReturn($fileInfo);
+		$this->view->expects($this->never())->method('getFileInfo');
 
 
 		if ($isEncrypted) {
@@ -375,7 +372,7 @@ class EncryptAllTest extends TestCase {
 		}
 
 		$this->assertTrue(
-			$this->invokePrivate($this->encryptAll, 'encryptFile', ['foo.txt'])
+			$this->invokePrivate($this->encryptAll, 'encryptFile', [$fileInfo, 'foo.txt'])
 		);
 	}
 

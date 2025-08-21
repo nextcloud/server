@@ -13,8 +13,8 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use OC\App\InfoParser;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\DB\ISchemaWrapper;
@@ -39,7 +39,12 @@ class MigrationService {
 	/**
 	 * @throws \Exception
 	 */
-	public function __construct(string $appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null, ?LoggerInterface $logger = null) {
+	public function __construct(
+		string $appName,
+		Connection $connection,
+		?IOutput $output = null,
+		?LoggerInterface $logger = null,
+	) {
 		$this->appName = $appName;
 		$this->connection = $connection;
 		if ($logger === null) {
@@ -58,10 +63,8 @@ class MigrationService {
 			$this->migrationsNamespace = 'OC\\Core\\Migrations';
 			$this->checkOracle = true;
 		} else {
-			if ($appLocator === null) {
-				$appLocator = new AppLocator();
-			}
-			$appPath = $appLocator->getAppPath($appName);
+			$appManager = Server::get(IAppManager::class);
+			$appPath = $appManager->getAppPath($appName);
 			$namespace = App::buildAppNamespace($appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
@@ -728,7 +731,7 @@ class MigrationService {
 		}
 	}
 
-	private function ensureMigrationsAreLoaded() {
+	private function ensureMigrationsAreLoaded(): void {
 		if (empty($this->migrations)) {
 			$this->migrations = $this->findMigrations();
 		}

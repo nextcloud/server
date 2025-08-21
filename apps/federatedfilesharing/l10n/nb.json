@@ -32,8 +32,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Del med meg gjennom min #Nextcloud ID for sammenknyttet sky, se {url}.",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Del med meg gjennom min #Nextcloud-ID for sammenknyttet sky",
     "Share with me via Nextcloud" : "Del med meg via Nextcloud",
-    "Cloud ID copied to the clipboard" : "Sky-ID kopiert til utklippstavlen",
-    "Copy to clipboard" : "Kopiert til utklippstavlen",
+    "Copy" : "Kopi",
     "Copied!" : "Kopiert!",
     "Federated Cloud" : "Sammenknyttet sky",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle som bruker en Nextcloud-server eller andre Open Cloud Mesh (OCM)-kompatible servere og tjenester! Bare legg inn deres ID for sammenknyttet sky i delingsdialogen. Det ser ut som person@cloud.example.com.",
@@ -47,6 +46,8 @@
     "Add remote share" : "Legg til ekstern ressurs",
     "Remote share" : "Ekstern ressurs",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du å legge til ekstern ressurs {name} fra {owner}@{remote}?",
-    "Remote share password" : "Passord for ekstern ressurs"
+    "Remote share password" : "Passord for ekstern ressurs",
+    "Cloud ID copied to the clipboard" : "Sky-ID kopiert til utklippstavlen",
+    "Copy to clipboard" : "Kopiert til utklippstavlen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

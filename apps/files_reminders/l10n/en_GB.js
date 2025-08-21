@@ -11,7 +11,7 @@ OC.L10N.register(
     "Set file reminders" : "Set file reminders",
     "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly." : "**📣 File reminders**\n\nSet file reminders.\n\nNote: to use the `File reminders` app, ensure that the `Notifications` app is installed and enabled. The `Notifications` app provides the necessary APIs for the `File reminders` app to work correctly.",
     "Set reminder for \"{fileName}\"" : "Set reminder for \"{fileName}\"",
-    "Set reminder at custom date & time" : "Set reminder at custom date & time",
+    "Reminder at custom date & time" : "Reminder at custom date & time",
     "Clear reminder" : "Clear reminder",
     "Please choose a valid date & time" : "Please choose a valid date & time",
     "Reminder set for \"{fileName}\"" : "Reminder set for \"{fileName}\"",
@@ -22,7 +22,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Set reminder" : "Set reminder",
     "Reminder set" : "Reminder set",
-    "Set custom reminder" : "Set custom reminder",
+    "Custom reminder" : "Custom reminder",
     "Later today" : "Later today",
     "Set reminder for later today" : "Set reminder for later today",
     "Tomorrow" : "Tomorrow",
@@ -32,6 +32,8 @@ OC.L10N.register(
     "Next week" : "Next week",
     "Set reminder for next week" : "Set reminder for next week",
     "This files_reminder can work properly." : "This files_reminder can work properly.",
-    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder."
+    "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "The files_reminder app needs the notification app to work properly. You should either enable notifications or disable files_reminder.",
+    "Set reminder at custom date & time" : "Set reminder at custom date & time",
+    "Set custom reminder" : "Set custom reminder"
 },
 "nplurals=2; plural=(n != 1);");

@@ -18,20 +18,15 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\Image;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class UserAvatarTest extends \Test\TestCase {
-	/** @var SimpleFolder | \PHPUnit\Framework\MockObject\MockObject */
-	private $folder;
 
-	/** @var \OC\Avatar\UserAvatar */
-	private $avatar;
-
-	/** @var User|\PHPUnit\Framework\MockObject\MockObject $user */
-	private $user;
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
+	private UserAvatar $avatar;
+	private SimpleFolder&MockObject $folder;
+	private IConfig&MockObject $config;
+	private User&MockObject $user;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -236,7 +231,7 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	public function testGenerateSvgAvatar(): void {
-		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [64, false]);
+		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [$this->user->getDisplayName(), 64, false]);
 
 		$svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="64" height="64" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
@@ -245,7 +240,6 @@ class UserAvatarTest extends \Test\TestCase {
 		</svg>';
 		$this->assertEquals($avatar, $svg);
 	}
-
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('avatarTextData')]
 	public function testGetAvatarText($displayName, $expectedAvatarText): void {

@@ -38,6 +38,7 @@ use OC\Log\PsrLoggerAdapter;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
 use OCA\WorkflowEngine\Manager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
@@ -63,7 +64,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class DIContainer extends SimpleContainer implements IAppContainer {
-	private string $appName;
+	protected string $appName;
 	private array $middleWares = [];
 	private ServerContainer $server;
 
@@ -152,7 +153,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerDeprecatedAlias('Dispatcher', Dispatcher::class);
 		$this->registerService(Dispatcher::class, function (ContainerInterface $c) {
 			return new Dispatcher(
-				$c->get('Protocol'),
+				$c->get(Http::class),
 				$c->get(MiddlewareDispatcher::class),
 				$c->get(IControllerMethodReflector::class),
 				$c->get(IRequest::class),
@@ -200,7 +201,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getUserSession()->isLoggedIn(),
 				$c->get(IGroupManager::class),
 				$c->get(ISubAdmin::class),
-				$server->getAppManager(),
+				$c->get(IAppManager::class),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
 				$c->get(IUserSession::class),

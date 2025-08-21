@@ -223,7 +223,7 @@ section {
 		}
 
 		&--error {
-			color: var(--color-error);
+			color: var(--color-text-error);
 		}
 	}
 

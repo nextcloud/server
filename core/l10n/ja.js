@@ -230,7 +230,7 @@ OC.L10N.register(
     "Federated user" : "フェデレーションユーザー",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "共有を作成",
-    "Direct link copied to clipboard" : "クリップボードにコピーされた直接リンク",
+    "Direct link copied" : "ダイレクトリンクをコピーしました",
     "Please copy the link manually:" : "手動でリンクをコピーしてください：",
     "Custom date range" : "カスタム日付の範囲",
     "Pick start date" : "開始日を指定",
@@ -254,6 +254,7 @@ OC.L10N.register(
     "Search people" : "人物を検索",
     "People" : "ユーザー",
     "Filter in current view" : "現在のビューでフィルタ",
+    "Search connected services" : "関連サービスを検索",
     "Results" : "結果",
     "Load more results" : "次の結果を読み込む",
     "Search in" : "検索対象",
@@ -527,6 +528,7 @@ OC.L10N.register(
     "Toggle password visibility" : "パスワードの表示/非表示を切り替える",
     "Configure the database" : "データベースを設定してください",
     "Only %s is available." : "%s のみ有効です。",
-    "Database account" : "データベースアカウント"
+    "Database account" : "データベースアカウント",
+    "Direct link copied to clipboard" : "クリップボードにコピーされた直接リンク"
 },
 "nplurals=1; plural=0;");

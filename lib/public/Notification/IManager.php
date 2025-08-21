@@ -11,7 +11,7 @@ namespace OCP\Notification;
 use OCP\AppFramework\Attribute\Consumable;
 
 #[Consumable(since: '9.0.0')]
-interface IManager extends IApp, INotifier {
+interface IManager extends IApp, IPreloadableNotifier {
 	/**
 	 * @param string $appClass The service must implement IApp, otherwise a
 	 *                         \InvalidArgumentException is thrown later

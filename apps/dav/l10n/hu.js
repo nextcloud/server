@@ -235,7 +235,6 @@ OC.L10N.register(
     "Failed to load availability" : "Az elérhetőség betöltése sikertelen",
     "Saved availability" : "Elérhetőség mentve",
     "Failed to save availability" : "Az elérhetőség mentése sikertelen",
-    "Time zone:" : "Időzóna:",
     "to" : "–",
     "Delete slot" : "Idősáv törlése",
     "No working hours set" : "Nincs munkaidő beállítva",
@@ -268,6 +267,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Vegye fel a kapcsolatot közvetlenül a szervezővel.",
     "Are you accepting the invitation?" : "Elfogadja az meghívást?",
     "Tentative" : "Feltételes",
-    "Your attendance was updated successfully." : "A részvétele frissítése sikeres."
+    "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
+    "Time zone:" : "Időzóna:"
 },
 "nplurals=2; plural=(n != 1);");

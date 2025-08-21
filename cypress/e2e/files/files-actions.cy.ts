@@ -10,7 +10,6 @@ import { getActionButtonForFileId, getActionEntryForFileId, getRowForFile, getSe
 import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction'
 import { ACTION_DELETE } from '../../../apps/files/src/actions/deleteAction'
 import { ACTION_DETAILS } from '../../../apps/files/src/actions/sidebarAction'
-import { ACTION_SHARING_STATUS } from '../../../apps/files_sharing/src/files_actions/sharingStatusAction'
 
 declare global {
 	interface Window {
@@ -24,7 +23,6 @@ const expectedDefaultActionsIDs = [
 	ACTION_COPY_MOVE,
 	ACTION_DELETE,
 	ACTION_DETAILS,
-	ACTION_SHARING_STATUS,
 ]
 const expectedDefaultSelectionActionsIDs = [
 	ACTION_COPY_MOVE,
@@ -90,11 +88,13 @@ describe('Files: Actions', { testIsolation: true }, () => {
 				win._nc_fileactions.push(parent)
 				win._nc_fileactions.push(child1)
 				win._nc_fileactions.push(child2)
-			}
+			},
 		})
 
 		// Open the menu
-		getActionButtonForFileId(fileId).click({ force: true })
+		getActionButtonForFileId(fileId)
+			.scrollIntoView()
+			.click({ force: true })
 
 		// Check we have the parent action but not the children
 		getActionEntryForFileId(fileId, 'nested-action').should('be.visible')
@@ -104,8 +104,8 @@ describe('Files: Actions', { testIsolation: true }, () => {
 
 		// Click on the parent action
 		getActionEntryForFileId(fileId, 'nested-action')
-			.find('button').last()
-			.should('exist').click({ force: true })
+			.should('be.visible')
+			.click()
 
 		// Check we have the children and the back button but not the parent
 		getActionEntryForFileId(fileId, 'nested-action').should('not.exist')
@@ -115,8 +115,8 @@ describe('Files: Actions', { testIsolation: true }, () => {
 
 		// Click on the back button
 		getActionEntryForFileId(fileId, 'menu-back')
-			.find('button').last()
-			.should('exist').click({ force: true })
+			.should('be.visible')
+			.click()
 
 		// Check we have the parent action but not the children
 		getActionEntryForFileId(fileId, 'nested-action').should('be.visible')
@@ -177,7 +177,7 @@ describe('Files: Actions', { testIsolation: true }, () => {
 				win._nc_fileactions.push(parent)
 				win._nc_fileactions.push(child1)
 				win._nc_fileactions.push(child2)
-			}
+			},
 		})
 
 		selectRowForFile('image.jpg')

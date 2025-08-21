@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Thibitisha ufutaji wa kudumu",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Je, una uhakika unataka kufuta kabisa faili na folda zote kwenye tupio? Hili haliwezi kutenduliwa.",
     "Cancel" : "Ghairi",
-    "Deletion cancelled" : "Ufutaji umesitishwa",
     "Original location" : "Mahali pa asili",
     "Deleted by" : "Imefutwa na",
     "Deleted" : "Vilivyofutwa",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "No deleted files" : "Hakuna faili zilizofutwa",
     "Files and folders you have deleted will show up here" : "Faili na folda ambazo umefuta zitaonekana hapa",
     "All files have been permanently deleted" : "Faili zote zimefutwa kabisa",
-    "Failed to empty deleted files" : "Imeshindwa kufuta faili zilizofutwa"
+    "Failed to empty deleted files" : "Imeshindwa kufuta faili zilizofutwa",
+    "Deletion cancelled" : "Ufutaji umesitishwa"
 },
 "nplurals=2; plural=(n != 1);");

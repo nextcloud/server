@@ -283,7 +283,6 @@ OC.L10N.register(
     "Failed to load availability" : "Theip ar infhaighteacht a lódáil",
     "Saved availability" : "Infhaighteacht shábháilte",
     "Failed to save availability" : "Theip ar infhaighteacht a shábháil",
-    "Time zone:" : "Crios ama:",
     "to" : "chun",
     "Delete slot" : "Scrios sliotán",
     "No working hours set" : "Níl aon uaireanta oibre socraithe",
@@ -333,6 +332,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Téigh i dteagmháil leis an eagraí go díreach le do thoil.",
     "Are you accepting the invitation?" : "An bhfuil tú ag glacadh leis an gcuireadh?",
     "Tentative" : "Sealadach",
-    "Your attendance was updated successfully." : "D'éirigh le do thinreamh a nuashonrú."
+    "Your attendance was updated successfully." : "D'éirigh le do thinreamh a nuashonrú.",
+    "Time zone:" : "Crios ama:"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

@@ -36,8 +36,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz, ikus {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partekatu nirekin, nire federatutako #Nextcloud hodei IDa erabiliz",
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud bidez",
-    "Cloud ID copied to the clipboard" : "Hodei IDa arbelean kopiatu da",
-    "Copy to clipboard" : "Kopiatu arbelera",
+    "Copy" : "Kopiatu",
     "Clipboard not available. Please copy the cloud ID manually." : "Arbela ez dago eskuragarri, mesedez kopiatu hodei IDa eskuz.",
     "Copied!" : "Kopiatuta!",
     "Federated Cloud" : "Hodei Federatua",
@@ -55,6 +54,8 @@ OC.L10N.register(
     "Remote share" : "Urruneko partekatzea",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}(r)en {name} urruneko partekatzea gehitu nahi duzu?",
     "Remote share password" : "Urruneko partekatzearen pasahitza",
-    "Incoming share could not be processed" : "Sarrerako partekatzea ezin izan da prozesatu"
+    "Incoming share could not be processed" : "Sarrerako partekatzea ezin izan da prozesatu",
+    "Cloud ID copied to the clipboard" : "Hodei IDa arbelean kopiatu da",
+    "Copy to clipboard" : "Kopiatu arbelera"
 },
 "nplurals=2; plural=(n != 1);");
