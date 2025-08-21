@@ -78,7 +78,7 @@ class Preview extends Entity {
 	}
 
 	public function getName(): string {
-		$path = ($this->getVersion() ? $this->getVersion() . '-' : '') . $this->getWidth() . '-' . $this->getHeight();
+		$path = ($this->getVersion() > -1 ? $this->getVersion() . '-' : '') . $this->getWidth() . '-' . $this->getHeight();
 		if ($this->getCrop()) {
 			$path .= '-crop';
 		}

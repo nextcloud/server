@@ -5,6 +5,7 @@ namespace OC\Preview\Storage;
 use Icewind\Streams\CountWrapper;
 use OC\Files\Storage\Local;
 use OC\Preview\Db\Preview;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\Storage\IStorage;
 use OCP\IPreview;
 
@@ -39,5 +40,10 @@ class LocalPreviewStorage implements IPreviewStorage {
 
 	private function constructPath(Preview $preview): string {
 		return implode('/', str_split(substr(md5((string)$preview->getFileId()), 0, 7))) . '/' . $preview->getFileId() . '/' . $preview->getName();
+	}
+
+	public function migratePreview(Preview $preview, ISimpleFile $simpleFile) {
+		// TODO: move file directly as we should be in the same storage?
+		$this->writePreview($preview, $simpleFile->getContent());
 	}
 }

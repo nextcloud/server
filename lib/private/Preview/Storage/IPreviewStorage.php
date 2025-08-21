@@ -4,6 +4,7 @@ namespace OC\Preview\Storage;
 
 use OC\Preview\Db\Preview;
 use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\ISimpleFile;
 
 interface IPreviewStorage {
 	/**
@@ -19,4 +20,6 @@ interface IPreviewStorage {
 	public function readPreview(Preview $preview);
 
 	public function deletePreview(Preview $preview);
+
+	public function migratePreview(Preview $preview, ISimpleFile $simpleFile);
 }

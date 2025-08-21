@@ -5,6 +5,7 @@ namespace OC\Preview\Storage;
 use OC;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Preview\Db\Preview;
+use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 
 class StorageFactory implements IPreviewStorage {
@@ -40,5 +41,9 @@ class StorageFactory implements IPreviewStorage {
 		}
 
 		return $this->backend;
+	}
+
+	public function migratePreview(Preview $preview, ISimpleFile $file): void {
+		$this->getBackend()->migratePreview($preview, $file);
 	}
 }

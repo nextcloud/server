@@ -5,6 +5,7 @@ namespace OC\Preview\Storage;
 use Icewind\Streams\CountWrapper;
 use OC\Preview\Db\Preview;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\SimpleFS\ISimpleFile;
 
 class ObjectStorePreviewStorage implements IPreviewStorage {
 	private string $objectPrefix = 'urn:oid:preview:';
@@ -46,5 +47,10 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 
 	private function constructUrn(Preview $preview): string {
 		return $this->objectPrefix . $preview->getId();
+	}
+
+	public function migratePreview(Preview $preview, ISimpleFile $simpleFile) {
+		// TODO: Just rename the object store key
+		$this->writePreview($preview, $simpleFile->getContent());
 	}
 }
