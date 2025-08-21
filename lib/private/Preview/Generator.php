@@ -552,6 +552,7 @@ class Generator {
 	public function savePreview(File $file, int $width, int $height, bool $crop, bool $max, IImage $preview, ?int $version): Preview {
 		$previewEntry = new Preview();
 		$previewEntry->setFileId($file->getId());
+		$previewEntry->setStorageId((int)$file->getStorage()->getId());
 		$previewEntry->setWidth($width);
 		$previewEntry->setHeight($height);
 		$previewEntry->setVersion($version);
