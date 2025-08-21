@@ -109,7 +109,7 @@ OC.L10N.register(
     "Confirm" : "Apstiprināt",
     "Cancel" : "Atcelt",
     "Description" : "Apraksts",
-    "Visit website" : "Apmeklējiet vietni",
+    "Visit website" : "Apmeklēt tīmekļvietni",
     "Admin documentation" : "Pārvaldītāja dokumentācija",
     "Developer documentation" : "Izstrādātāja dokumentācija",
     "Details" : "Informācija",
