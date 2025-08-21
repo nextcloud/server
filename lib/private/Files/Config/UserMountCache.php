@@ -393,7 +393,7 @@ class UserMountCache implements IUserMountCache {
 
 		$mounts = [];
 		while ($row = $result->fetch()) {
-			if (!$this->userManager->userExists($row['user_id'])) {
+			if ($user === null && !$this->userManager->userExists($row['user_id'])) {
 				continue;
 			}
 
