@@ -279,7 +279,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->mapper->invalidate($this->hashTokenWithEmptySecret($token));
 		$this->cacheInvalidHash($tokenHash);
 		if ($tokenEntry !== null) {
-			$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($tokenEntry->getUID(), $tokenEntry->getId()));
+			$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($tokenEntry));
 		}
 	}
 
@@ -290,7 +290,7 @@ class PublicKeyTokenProvider implements IProvider {
 		}
 		$this->mapper->invalidate($token->getToken());
 		$this->cacheInvalidHash($token->getToken());
-		$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($uid, $id));
+		$this->eventDispatcher->dispatchTyped(new TokenInvalidatedEvent($token));
 	}
 
 	public function invalidateOldTokens() {

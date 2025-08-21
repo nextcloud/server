@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCP\Authentication\Events;
 
+use OCP\Authentication\Token\IToken;
 use OCP\EventDispatcher\Event;
 
 /**
@@ -21,27 +22,17 @@ class TokenInvalidatedEvent extends Event {
 	 * @since 32.0.0
 	 */
 	public function __construct(
-		private string $userId,
-		private int $tokenId,
+		private IToken $token,
 	) {
 		parent::__construct();
 	}
 
 	/**
-	 * returns the uid of the user associated with the invalidated token
+	 * returns the token that has been invalidated
 	 *
 	 * @since 32.0.0
 	 */
-	public function getUserId(): string {
-		return $this->userId;
-	}
-
-	/**
-	 * returns the ID of the token that is being invalidated
-	 *
-	 * @since 32.0.0
-	 */
-	public function getTokenId(): int {
-		return $this->tokenId;
+	public function getToken(): IToken {
+		return $this->token;
 	}
 }
