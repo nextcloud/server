@@ -136,7 +136,8 @@ export const action = new FileAction({
 		// You need read permissions to see the sidebar
 		if ((node.permissions & Permission.READ) !== 0) {
 			window.OCA?.Files?.Sidebar?.setActiveTab?.('sharing')
-			return sidebarAction.exec(node, view, dir)
+			sidebarAction.exec(node, view, dir)
+			return null
 		}
 
 		// Should not happen as the enabled check should prevent this
