@@ -498,11 +498,8 @@ class Directory extends Node implements
 	}
 
 	public function getNodeForPath($path) {
-		$nodePath = ltrim($this->path, '/');
-		// path may be a partial path, due to caching in Tree.php
-		$fullPath = str_starts_with($path, $nodePath) ? $path
-			: $nodePath . '/'
-			. $path;
+		$nodeIsRoot = $this->path === '/';
+		$fullPath = $nodeIsRoot ? $this->path . $path : $this->path . '/' . $path;
 
 		try {
 			[$destinationDir, $destinationName] = \Sabre\Uri\split($fullPath);
