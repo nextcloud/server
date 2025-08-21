@@ -22,13 +22,13 @@ SPDX-FileCopyrightText = "2022 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["img/background/jo-myoung-hee-fluid.webp", "img/background/jo-myoung-hee-fluid-dark.webp", "img/background/preview/jo-myoung-hee-fluid.jpg"]
+path = ["img/background/jo-myoung-hee-fluid.webp", "img/background/jo-myoung-hee-fluid-dark.webp", "img/background/preview/jo-myoung-hee-fluid.webp"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 Nextcloud GmbH"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
 
 [[annotations]]
-path = ["img/background/jenna-kim-the-globe.webp", "img/background/jenna-kim-the-globe-dark.webp", "img/background/preview/jenna-kim-the-globe.jpg"]
+path = ["img/background/jenna-kim-the-globe.webp", "img/background/jenna-kim-the-globe-dark.webp", "img/background/preview/jenna-kim-the-globe.webp"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2024 Nextcloud GmbH"
 SPDX-License-Identifier = "CC-BY-SA-4.0"
