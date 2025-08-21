@@ -3703,7 +3703,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
-	 * @param string $principalUri
 	 * @return array<string, mixed>[]
 	 */
 	public function getFederatedCalendarsForUser(string $principalUri): array {
