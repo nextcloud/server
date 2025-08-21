@@ -17,6 +17,8 @@ use OCP\IPreview;
 /**
  * @method \int getFileId()
  * @method void setFileId(int $fileId)
+ * @method \int getStorageId()
+ * @method void setStorageId(\int $fileId)
  * @method \int getWidth()
  * @method void setWidth(int $width)
  * @method \int getHeight()
@@ -41,6 +43,8 @@ use OCP\IPreview;
 class Preview extends Entity {
 	protected ?int $fileId = null;
 
+	protected ?int $storageId = null;
+
 	protected ?int $width = null;
 
 	protected ?int $height = null;
@@ -56,10 +60,12 @@ class Preview extends Entity {
 	protected ?bool $crop = null;
 
 	protected ?string $etag = null;
+
 	protected ?int $version = null;
 
 	public function __construct() {
-		$this->addType('fileId', Types::INTEGER);
+		$this->addType('fileId', Types::BIGINT);
+		$this->addType('storageId', Types::BIGINT);
 		$this->addType('width', Types::INTEGER);
 		$this->addType('height', Types::INTEGER);
 		$this->addType('mimetype', Types::INTEGER);
@@ -68,7 +74,7 @@ class Preview extends Entity {
 		$this->addType('isMax', Types::BOOLEAN);
 		$this->addType('crop', Types::BOOLEAN);
 		$this->addType('etag', Types::STRING);
-		$this->addType('version', Types::INTEGER);
+		$this->addType('version', Types::BIGINT);
 	}
 
 	public function getName(): string {
