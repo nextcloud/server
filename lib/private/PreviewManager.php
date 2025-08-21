@@ -135,7 +135,6 @@ class PreviewManager implements IPreview {
 			$this->generator = new Generator(
 				$this->config,
 				$this,
-				$this->appData,
 				new GeneratorHelper(
 					$this->rootFolder,
 					$this->config

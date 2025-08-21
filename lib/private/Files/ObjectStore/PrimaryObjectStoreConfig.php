@@ -14,7 +14,7 @@ use OCP\IConfig;
 use OCP\IUser;
 
 /**
- * @psalm-type ObjectStoreConfig array{class: class-string<IObjectStore>, arguments: array{multibucket: bool, objectPrefix: ?string, ...}}
+ * @psalm-type ObjectStoreConfig array{class: class-string<IObjectStore>, arguments: array{multibucket: bool, objectPrefix?: string, ...}}
  */
 class PrimaryObjectStoreConfig {
 	public function __construct(
@@ -155,7 +155,7 @@ class PrimaryObjectStoreConfig {
 	}
 
 	/**
-	 * @param array|string $config
+	 * @param array{multibucket?: bool, objectPrefix?: string, ...}|string $config
 	 * @return string|ObjectStoreConfig
 	 */
 	private function validateObjectStoreConfig(array|string $config): array|string {

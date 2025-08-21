@@ -78,7 +78,7 @@ class Preview extends Entity {
 	}
 
 	public function getName(): string {
-		$path = ($this->getVersion() ? $this->getVersion() . '-' : '') . $this->getWidth() . '-' . $this->getHeight();
+		$path = ($this->getVersion() > -1 ? $this->getVersion() . '-' : '') . $this->getWidth() . '-' . $this->getHeight();
 		if ($this->getCrop()) {
 			$path .= '-crop';
 		}
@@ -102,7 +102,7 @@ class Preview extends Entity {
 
 	public function getExtension(): string {
 		return match ($this->mimetype) {
-			IPreview::MIMETYPE_JPEG => 'jpeg',
+			IPreview::MIMETYPE_JPEG => 'jpg',
 			IPreview::MIMETYPE_PNG => 'png',
 			IPreview::MIMETYPE_WEBP => 'webp',
 			IPreview::MIMETYPE_GIF => 'gif',

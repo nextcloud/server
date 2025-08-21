@@ -12,13 +12,11 @@ use OC\Preview\Storage\PreviewFile;
 use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
-use OCP\Files\IAppData;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
@@ -27,7 +25,6 @@ use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
 use Psr\Log\LoggerInterface;
-use function Symfony\Component\Translation\t;
 
 class Generator {
 	public const SEMAPHORE_ID_ALL = 0x0a11;
@@ -36,7 +33,6 @@ class Generator {
 	public function __construct(
 		private IConfig $config,
 		private IPreview $previewManager,
-		private IAppData $appData,
 		private GeneratorHelper $helper,
 		private IEventDispatcher $eventDispatcher,
 		private LoggerInterface $logger,
@@ -113,7 +109,7 @@ class Generator {
 
 		[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
 
-		$previewVersion = null;
+		$previewVersion = -1;
 		if ($file instanceof IVersionedPreviewFile) {
 			$previewVersion = (int)$file->getPreviewVersion();
 		}
@@ -135,8 +131,7 @@ class Generator {
 			throw new NotFoundException('The maximum preview sizes are zero or less pixels');
 		}
 
-		$preview = null;
-
+		$previewFile = null;
 		foreach ($specifications as $specification) {
 			$width = $specification['width'] ?? -1;
 			$height = $specification['height'] ?? -1;
@@ -155,7 +150,7 @@ class Generator {
 			// No need to generate a preview that is just the max preview
 			if ($width === $maxWidth && $height === $maxHeight) {
 				// ensure correct return value if this was the last one
-				$preview = $maxPreview;
+				$previewFile = new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper);
 				continue;
 			}
 
@@ -181,9 +176,7 @@ class Generator {
 					}
 
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
-					$preview = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
-					// New file, augment our array
-					//$previews[] = $preview;
+					$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
 				}
 			} catch (\InvalidArgumentException $e) {
 				throw new NotFoundException('', 0, $e);
@@ -307,7 +300,7 @@ class Generator {
 	 * @param Preview[] $previews
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(array $previews, File $file, string $mimeType, ?int $version): Preview {
+	private function getMaxPreview(array $previews, File $file, string $mimeType, int $version): Preview {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previews as $preview) {
@@ -322,7 +315,7 @@ class Generator {
 		return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
 	}
 
-	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?int $version): Preview {
+	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, int $version): Preview {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
 			// Filter out providers that does not support this mime
@@ -368,8 +361,8 @@ class Generator {
 		throw new NotFoundException('No provider successfully handled the preview generation');
 	}
 
-	private function generatePath(int $width, int $height, bool $crop, bool $max, string $mimeType, ?int $version): string {
-		$path = ($version ? $version . '-' : '') . $width . '-' . $height;
+	private function generatePath(int $width, int $height, bool $crop, bool $max, string $mimeType, int $version): string {
+		$path = ($version !== -1 ? $version . '-' : '') . $width . '-' . $height;
 		if ($crop) {
 			$path .= '-crop';
 		}
@@ -549,7 +542,7 @@ class Generator {
 	 * @throws NotPermittedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function savePreview(File $file, int $width, int $height, bool $crop, bool $max, IImage $preview, ?int $version): Preview {
+	public function savePreview(File $file, int $width, int $height, bool $crop, bool $max, IImage $preview, int $version): Preview {
 		$previewEntry = new Preview();
 		$previewEntry->setFileId($file->getId());
 		$previewEntry->setStorageId((int)$file->getStorage()->getId());

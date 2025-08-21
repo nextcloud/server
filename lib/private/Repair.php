@@ -13,6 +13,7 @@ use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\AddMetadataGenerationJob;
+use OC\Repair\AddMovePreviewJob;
 use OC\Repair\AddRemoveOldTasksBackgroundJob;
 use OC\Repair\CleanTags;
 use OC\Repair\CleanUpAbandonedApps;
@@ -199,6 +200,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(RemoveLegacyDatadirFile::class),
 			\OCP\Server::get(AddCleanupDeletedUsersBackgroundJob::class),
 			\OCP\Server::get(SanitizeAccountProperties::class),
+			\OCP\Server::get(AddMovePreviewJob::class),
 		];
 	}
 

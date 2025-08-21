@@ -1,5 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileContributor: Carl Schwan
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 namespace OC\Preview\Storage;
 
 use OC\Preview\Db\Preview;
@@ -7,7 +15,11 @@ use OC\Preview\Db\PreviewMapper;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class PreviewFile implements ISimpleFile {
-	public function __construct(private Preview $preview, private IPreviewStorage $storage, private PreviewMapper $previewMapper) {
+	public function __construct(
+		private readonly Preview $preview,
+		private readonly IPreviewStorage $storage,
+		private readonly PreviewMapper $previewMapper,
+	) {
 	}
 
 	/**
