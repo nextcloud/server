@@ -2,15 +2,19 @@
 
 namespace OC\Preview\Storage;
 
-use OC;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
+use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OCP\IConfig;
 
 class StorageFactory implements IPreviewStorage {
 	private ?IPreviewStorage $backend = null;
 
-	public function __construct(private PrimaryObjectStoreConfig $objectStoreConfig, private IConfig $config) {}
+	public function __construct(
+		private readonly PrimaryObjectStoreConfig $objectStoreConfig,
+		private readonly IConfig $config,
+	) {
+	}
 
 	public function writePreview(Preview $preview, $stream): false|int {
 		return $this->getBackend()->writePreview($preview, $stream);
@@ -20,7 +24,7 @@ class StorageFactory implements IPreviewStorage {
 		return $this->getBackend()->readPreview($preview);
 	}
 
-	public function deletePreview(Preview $preview) {
+	public function deletePreview(Preview $preview): void {
 		$this->getBackend()->deletePreview($preview);
 	}
 
@@ -35,10 +39,13 @@ class StorageFactory implements IPreviewStorage {
 			$objectStore = $this->objectStoreConfig->buildObjectStore($objectStoreConfig);
 			$this->backend = new ObjectStorePreviewStorage($objectStore, $objectStoreConfig['arguments']);
 		} else {
-			$configDataDirectory = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
-			$this->backend = new LocalPreviewStorage($configDataDirectory);
+			$this->backend = new LocalPreviewStorage($this->config);
 		}
 
 		return $this->backend;
+	}
+
+	public function migratePreview(Preview $preview, SimpleFile $file): void {
+		$this->getBackend()->migratePreview($preview, $file);
 	}
 }
