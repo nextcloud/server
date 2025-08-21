@@ -17,7 +17,7 @@ use Sabre\HTTP\Auth\Basic as BasicAuth;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
-final class FederatedCalendarAuth implements BackendInterface {
+class FederatedCalendarAuth implements BackendInterface {
 	private readonly string $realm;
 
 	public function __construct(

@@ -10,6 +10,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
@@ -65,7 +66,7 @@ $dispatcher = Server::get(IEventDispatcher::class);
 $config = Server::get(IConfig::class);
 $l10nFactory = Server::get(IL10NFactory::class);
 $davL10n = $l10nFactory->get('dav');
-$federatedCalendarMapper = Server::get(FederatedCalendarMapper::class);
+$federatedCalendarFactory = Server::get(FederatedCalendarFactory::class);
 
 $calDavBackend = new CalDavBackend(
 	$db,
@@ -87,7 +88,7 @@ $sendInvitations = Server::get(IConfig::class)->getAppValue('dav', 'sendInvitati
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $logger, $davL10n, $config, $federatedCalendarMapper);
+$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $logger, $davL10n, $config, $federatedCalendarFactory);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = [

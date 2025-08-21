@@ -13,7 +13,7 @@ use OCA\DAV\CalDAV\CachedSubscription;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Federation\FederatedCalendar;
-use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Outbox;
@@ -31,7 +31,7 @@ class CalendarHomeTest extends TestCase {
 	private array $principalInfo = [];
 	private PluginManager&MockObject $pluginManager;
 	private LoggerInterface&MockObject $logger;
-	private FederatedCalendarMapper&MockObject $federatedCalendarMapper;
+	private FederatedCalendarFactory&MockObject $federatedCalendarFactory;
 	private CalendarHome $calendarHome;
 
 	protected function setUp(): void {
@@ -43,13 +43,13 @@ class CalendarHomeTest extends TestCase {
 		];
 		$this->pluginManager = $this->createMock(PluginManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->federatedCalendarMapper = $this->createMock(FederatedCalendarMapper::class);
+		$this->federatedCalendarFactory = $this->createMock(FederatedCalendarFactory::class);
 
 		$this->calendarHome = new CalendarHome(
 			$this->backend,
 			$this->principalInfo,
 			$this->logger,
-			$this->federatedCalendarMapper,
+			$this->federatedCalendarFactory,
 			false
 		);
 
@@ -294,7 +294,7 @@ class CalendarHomeTest extends TestCase {
 			$this->backend,
 			$this->principalInfo,
 			$this->logger,
-			$this->federatedCalendarMapper,
+			$this->federatedCalendarFactory,
 			false
 		);
 
@@ -361,7 +361,7 @@ class CalendarHomeTest extends TestCase {
 			$this->backend,
 			$this->principalInfo,
 			$this->logger,
-			$this->federatedCalendarMapper,
+			$this->federatedCalendarFactory,
 			true
 		);
 

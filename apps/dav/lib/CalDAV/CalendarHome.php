@@ -8,8 +8,7 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
-use OCA\DAV\CalDAV\Federation\FederatedCalendar;
-use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
 use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
@@ -46,7 +45,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		BackendInterface $caldavBackend,
 		array $principalInfo,
 		private LoggerInterface $logger,
-		private FederatedCalendarMapper $federatedCalendarMapper,
+		private FederatedCalendarFactory $federatedCalendarFactory,
 		private bool $returnCachedSubscriptions,
 	) {
 		parent::__construct($caldavBackend, $principalInfo);
@@ -111,13 +110,8 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 				$this->principalInfo['uri'],
 			);
 			foreach ($federatedCalendars as $federatedCalendarInfo) {
-				$objects[] = new FederatedCalendar(
-					$this->caldavBackend,
+				$objects[] = $this->federatedCalendarFactory->createFederatedCalendar(
 					$federatedCalendarInfo,
-					$this->l10n,
-					$this->config,
-					$this->logger,
-					$this->federatedCalendarMapper,
 				);
 			}
 		}
@@ -179,14 +173,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 				$name,
 			);
 			if ($federatedCalendar !== null) {
-				return new FederatedCalendar(
-					$this->caldavBackend,
-					$federatedCalendar,
-					$this->l10n,
-					$this->config,
-					$this->logger,
-					$this->federatedCalendarMapper,
-				);
+				return $this->federatedCalendarFactory->createFederatedCalendar($federatedCalendar);
 			}
 		}
 
