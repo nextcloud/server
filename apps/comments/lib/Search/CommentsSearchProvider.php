@@ -69,6 +69,7 @@ class CommentsSearchProvider implements IProvider {
 		$result = [];
 		$numComments = 50;
 		$offset = 0;
+		$limit = $numComments;
 
 		while (count($result) < $numComments) {
 			$comments = $this->commentsManager->search(
@@ -77,7 +78,7 @@ class CommentsSearchProvider implements IProvider {
 				'',
 				'comment',
 				$offset,
-				$numComments
+				$limit,
 			);
 
 			foreach ($comments as $comment) {
@@ -121,13 +122,13 @@ class CommentsSearchProvider implements IProvider {
 				$result[] = $searchResultEntry;
 			}
 
-			if (count($comments) < $numComments) {
+			if (count($comments) < $limit) {
 				// Didn't find more comments when we tried to get, so there are no more comments.
 				break;
 			}
 
-			$offset += $numComments;
-			$numComments = 50 - count($result);
+			$offset += $limit;
+			$limit = $numComments - count($result);
 		}
 
 		return $result;
