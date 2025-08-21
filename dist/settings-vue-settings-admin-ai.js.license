@@ -34,10 +34,10 @@ SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.6.5
+	- version: 1.7.3
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.5
+	- version: 0.2.10
 	- license: MIT
 - @nextcloud/auth
 	- version: 2.5.2
@@ -55,7 +55,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - semver
-	- version: 7.6.3
+	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.2
@@ -169,7 +169,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.24.3
 	- license: MIT
 - webpack
-	- version: 5.101.2
+	- version: 5.101.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -31,7 +31,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - semver
-	- version: 7.6.3
+	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.2
@@ -94,7 +94,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.101.2
+	- version: 5.101.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

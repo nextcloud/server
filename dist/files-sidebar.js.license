@@ -66,10 +66,10 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.6.5
+	- version: 1.7.3
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.5
+	- version: 0.2.10
 	- license: MIT
 - @linusborg/vue-simple-portal
 	- version: 0.1.5
@@ -96,7 +96,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - semver
-	- version: 7.6.3
+	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.2
@@ -224,9 +224,6 @@ This file is generated from multiple sources. Included packages:
 - events
 	- version: 3.3.0
 	- license: MIT
-- fast-xml-parser
-	- version: 4.5.3
-	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
 	- license: MIT
@@ -273,7 +270,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.4
 	- license: ISC
 - is-arguments
-	- version: 1.1.1
+	- version: 1.2.0
 	- license: MIT
 - is-buffer
 	- version: 1.1.6
@@ -282,7 +279,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.7
 	- license: MIT
 - is-generator-function
-	- version: 1.0.10
+	- version: 1.1.0
+	- license: MIT
+- is-regex
+	- version: 1.2.1
 	- license: MIT
 - is-typed-array
 	- version: 1.1.15
@@ -324,7 +324,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.7
 	- license: MIT
 - possible-typed-array-names
-	- version: 1.0.0
+	- version: 1.1.0
 	- license: MIT
 - process
 	- version: 0.11.10
@@ -333,7 +333,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.4.1
 	- license: MIT
 - qs
-	- version: 6.13.0
+	- version: 6.14.0
 	- license: BSD-3-Clause
 - querystringify
 	- version: 2.2.0
@@ -343,6 +343,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - safe-buffer
 	- version: 5.2.1
+	- license: MIT
+- safe-regex-test
+	- version: 1.1.0
 	- license: MIT
 - set-function-length
 	- version: 1.2.2
@@ -376,9 +379,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - striptags
 	- version: 3.2.0
-	- license: MIT
-- strnum
-	- version: 1.1.2
 	- license: MIT
 - style-loader
 	- version: 4.0.0
@@ -428,11 +428,17 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
+- fast-xml-parser
+	- version: 4.5.3
+	- license: MIT
+- strnum
+	- version: 1.1.2
+	- license: MIT
 - webdav
 	- version: 5.8.0
 	- license: MIT
 - webpack
-	- version: 5.101.2
+	- version: 5.101.3
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
