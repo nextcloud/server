@@ -47,7 +47,7 @@ class Connection {
 		if (Connection::isO365Url($url)) {
 			// 2025/08/20 - the required format/values here are not documented; this string based on research 
 			// from: https://github.com/bitfireAT/icsx5/discussions/654#discussioncomment-14158051
-			$uaString = 'NextCloud (Android 16) like Chrome/30';
+			$uaString = 'Nextcloud (Linux) Chrome/66';
 		}
 		
 		$allowLocalAccess = $this->config->getValueString('dav', 'webcalAllowLocalAccess', 'no');
