@@ -16,6 +16,7 @@ OC.L10N.register(
     "Confirm" : "Пацвердзіць",
     "Undo" : "Адрабіць",
     "Redo" : "Узнавіць",
+    "Filters" : "Фільтры",
     "Text" : "Тэкст",
     "Size" : "Памер",
     "Quality" : "Якасць"
