@@ -93,6 +93,8 @@ class Version1034Date20250605132605 extends SimpleMigrationStep {
 				'notnull' => true,
 			]);
 			$federatedCalendarsTable->setPrimaryKey(['id']);
+			$federatedCalendarsTable->addIndex(['principaluri', 'uri'], 'fedcals_uris_index');
+			$federatedCalendarsTable->addIndex(['last_sync'], 'fedcals_last_sync_index');
 		}
 
 		return $schema;

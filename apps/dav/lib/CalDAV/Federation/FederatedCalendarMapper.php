@@ -85,18 +85,6 @@ class FederatedCalendarMapper extends QBMapper {
 	/**
 	 * @return FederatedCalendarEntity[]
 	 */
-	public function findUnsyncedLimited(int $limit): array {
-		$qb = $this->db->getQueryBuilder();
-		$qb->select('*')
-			->from(self::TABLE_NAME)
-			->orderBy('last_sync', 'ASC')
-			->setMaxResults($limit);
-		return $this->findEntities($qb);
-	}
-
-	/**
-	 * @return FederatedCalendarEntity[]
-	 */
 	public function findUnsyncedSinceBefore(int $beforeTimestamp): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')

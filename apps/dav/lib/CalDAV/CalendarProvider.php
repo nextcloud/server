@@ -8,9 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
-use OCA\DAV\CalDAV\Federation\FederatedCalendar;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarImpl;
-use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\Db\Property;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendarProvider;
@@ -26,7 +24,6 @@ class CalendarProvider implements ICalendarProvider {
 		private IConfig $config,
 		private LoggerInterface $logger,
 		private PropertyMapper $propertyMapper,
-		private FederatedCalendarMapper $federatedCalendarMapper,
 	) {
 	}
 
@@ -58,16 +55,14 @@ class CalendarProvider implements ICalendarProvider {
 		}
 
 		foreach ($federatedCalendarInfos as $calendarInfo) {
-			$calendarInfo = array_merge($calendarInfo, $this->getAdditionalProperties($calendarInfo['principaluri'], $calendarInfo['uri']));
-			$calendar = new FederatedCalendar(
-				$this->calDavBackend,
-				$calendarInfo,
-				$this->l10n,
-				$this->config,
-				$this->logger,
-				$this->federatedCalendarMapper,
+			$additionalProps = $this->getAdditionalProperties(
+				$calendarInfo['principaluri'],
+				$calendarInfo['uri'],
 			);
-			$iCalendars[] = new FederatedCalendarImpl($calendarInfo, $this->calDavBackend);
+			$iCalendars[] = new FederatedCalendarImpl([
+				...$calendarInfo,
+				...$additionalProps,
+			], $this->calDavBackend);
 		}
 
 		return $iCalendars;

@@ -16,6 +16,7 @@ use OCA\DAV\CalDAV\SyncService as CalDavSyncService;
 use OCA\DAV\CalDAV\SyncServiceResult;
 use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -112,6 +113,51 @@ class FederatedCalendarSyncServiceTest extends TestCase {
 		$this->federatedCalendarMapper->expects(self::once())
 			->method('updateSyncTime')
 			->with(1);
+
+		$this->assertEquals(0, $this->federatedCalendarSyncService->syncOne($calendar));
+	}
+
+	public static function provideUnexpectedSyncTokenData(): array {
+		return [
+			['http://sabre.io/ns/sync/'],
+			['http://sabre.io/ns/sync/foobar'],
+			['http://sabre.io/ns/sync/23abc'],
+			['http://nextcloud.com/ns/sync/33'],
+		];
+	}
+
+	#[DataProvider('provideUnexpectedSyncTokenData')]
+	public function testSyncOneWithUnexpectedSyncTokenFormat(string $syncToken): void {
+		$calendar = new FederatedCalendarEntity();
+		$calendar->setId(1);
+		$calendar->setPrincipaluri('principals/users/user1');
+		$calendar->setRemoteUrl('https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2');
+		$calendar->setSyncToken(100);
+		$calendar->setToken('token');
+
+		$cloudId = $this->createMock(ICloudId::class);
+		$cloudId->method('getId')
+			->willReturn('user1@nextcloud.testing');
+		$this->cloudIdManager->expects(self::once())
+			->method('getCloudId')
+			->with('user1')
+			->willReturn($cloudId);
+
+		$this->calDavSyncService->expects(self::once())
+			->method('syncRemoteCalendar')
+			->with(
+				'https://remote.tld/remote.php/dav/remote-calendars/abcdef123/cal1_shared_by_user2',
+				'dXNlcjFAbmV4dGNsb3VkLnRlc3Rpbmc=',
+				'token',
+				'http://sabre.io/ns/sync/100',
+				$calendar,
+			)
+			->willReturn(new SyncServiceResult($syncToken, 10));
+
+		$this->federatedCalendarMapper->expects(self::never())
+			->method('updateSyncTokenAndTime');
+		$this->federatedCalendarMapper->expects(self::never())
+			->method('updateSyncTime');
 
 		$this->assertEquals(0, $this->federatedCalendarSyncService->syncOne($calendar));
 	}

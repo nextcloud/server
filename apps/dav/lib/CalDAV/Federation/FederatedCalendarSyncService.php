@@ -15,6 +15,8 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class FederatedCalendarSyncService {
+	private const SYNC_TOKEN_PREFIX = 'http://sabre.io/ns/sync/';
+
 	public function __construct(
 		private readonly FederatedCalendarMapper $federatedCalendarMapper,
 		private readonly LoggerInterface $logger,
@@ -47,7 +49,18 @@ class FederatedCalendarSyncService {
 		);
 
 		$newSyncToken = $syncResponse->getSyncToken();
-		$newSyncToken = (int)substr($newSyncToken, strlen('http://sabre.io/ns/sync/'));
+
+		// Check sync token format and extract the actual sync token integer
+		$matches = [];
+		if (!preg_match('/^http:\/\/sabre\.io\/ns\/sync\/([0-9]+)$/', $newSyncToken, $matches)) {
+			$this->logger->error("Failed to sync federated calendar at $remoteUrl: New sync token has unexpected format: $newSyncToken", [
+				'calendar' => $calendar->toCalendarInfo(),
+				'newSyncToken' => $newSyncToken,
+			]);
+			return 0;
+		}
+
+		$newSyncToken = (int)$matches[1];
 		if ($newSyncToken !== $calendar->getSyncToken()) {
 			$this->federatedCalendarMapper->updateSyncTokenAndTime(
 				$calendar->getId(),

@@ -20,10 +20,20 @@ use Sabre\Xml\ParseException;
  * Abstract sync service to sync CalDAV and CardDAV data from federated instances.
  */
 abstract class ASyncService {
+	private ?IClient $client = null;
+
 	public function __construct(
 		protected IClientService $clientService,
 		protected IConfig $config,
 	) {
+	}
+
+	private function getClient(): IClient {
+		if ($this->client === null) {
+			$this->client = $this->clientService->newClient();
+		}
+
+		return $this->client;
 	}
 
 	protected function prepareUri(string $host, string $path): string {
@@ -67,7 +77,7 @@ abstract class ASyncService {
 		string $sharedSecret,
 		?string $syncToken,
 	): array {
-		$client = $this->clientService->newClient();
+		$client = $this->getClient();
 
 		$options = [
 			'auth' => [$userName, $sharedSecret],
@@ -100,7 +110,7 @@ abstract class ASyncService {
 		string $userName,
 		string $sharedSecret,
 	): string {
-		$client = $this->clientService->newClient();
+		$client = $this->getClient();
 
 		$options = [
 			'auth' => [$userName, $sharedSecret],

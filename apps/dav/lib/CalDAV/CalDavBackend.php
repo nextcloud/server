@@ -3702,20 +3702,20 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}, $this->db);
 	}
 
+	/**
+	 * @param string $principalUri
+	 * @return array<string, mixed>[]
+	 */
 	public function getFederatedCalendarsForUser(string $principalUri): array {
-		return $this->atomic(function () use ($principalUri) {
-			$federatedCalendars = $this->federatedCalendarMapper->findByPrincipalUri($principalUri);
-			return array_map(
-				static fn (FederatedCalendarEntity $entity) => $entity->toCalendarInfo(),
-				$federatedCalendars,
-			);
-		}, $this->db);
+		$federatedCalendars = $this->federatedCalendarMapper->findByPrincipalUri($principalUri);
+		return array_map(
+			static fn (FederatedCalendarEntity $entity) => $entity->toCalendarInfo(),
+			$federatedCalendars,
+		);
 	}
 
 	public function getFederatedCalendarByUri(string $principalUri, string $uri): ?array {
-		return $this->atomic(function () use ($principalUri, $uri) {
-			$federatedCalendar = $this->federatedCalendarMapper->findByUri($principalUri, $uri);
-			return $federatedCalendar?->toCalendarInfo();
-		}, $this->db);
+		$federatedCalendar = $this->federatedCalendarMapper->findByUri($principalUri, $uri);
+		return $federatedCalendar?->toCalendarInfo();
 	}
 }
