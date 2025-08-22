@@ -9,24 +9,19 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Sabre;
 
+use OCA\DAV\DAV\ICacheableDirectory;
 use OCA\Files_Trashbin\Service\ConfigService;
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
-use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\IUser;
-use OCP\Server;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
-class TrashRoot implements ICollection {
-	private ?Folder $trashFilesRoot = null;
-
+class TrashRoot implements ICollection, ICacheableDirectory {
 	public function __construct(
 		private IUser $user,
 		private ITrashManager $trashManager,
@@ -110,7 +105,7 @@ class TrashRoot implements ICollection {
 	/**
 	 * @return Folder[]
 	 */
-	public function getTrashRoots(): array {
-		return $this->trashManager->getTrashRootsForUser($this->user);
+	public function getCacheableDirectories(): array {
+		return $this->trashManager->getCacheableRootsForUser($this->user);
 	}
 }
