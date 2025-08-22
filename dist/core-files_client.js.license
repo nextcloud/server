@@ -10,7 +10,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.3
 	- license: MIT
 - webpack
-	- version: 5.101.2
+	- version: 5.101.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

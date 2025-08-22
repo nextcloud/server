@@ -34,7 +34,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - semver
-	- version: 7.6.3
+	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.2
@@ -55,10 +55,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - browserslist
-	- version: 4.24.4
+	- version: 4.25.3
 	- license: MIT
 - caniuse-lite
-	- version: 1.0.30001713
+	- version: 1.0.30001736
 	- license: CC-BY-4.0
 - css-loader
 	- version: 7.1.2
@@ -67,7 +67,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - electron-to-chromium
-	- version: 1.5.136
+	- version: 1.5.207
 	- license: ISC
 - escape-html
 	- version: 1.0.3
@@ -100,7 +100,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.101.2
+	- version: 5.101.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

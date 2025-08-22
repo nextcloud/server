@@ -45,10 +45,10 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.6.5
+	- version: 1.7.3
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.5
+	- version: 0.2.10
 	- license: MIT
 - @mdi/js
 	- version: 7.4.47
@@ -72,7 +72,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.3.1
 	- license: AGPL-3.0-or-later
 - semver
-	- version: 7.6.3
+	- version: 7.7.2
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.2
@@ -147,7 +147,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.6.5
 	- license: MIT
 - ical.js
-	- version: 2.1.0
+	- version: 2.2.1
 	- license: MPL-2.0
 - ieee754
 	- version: 1.2.1
@@ -156,7 +156,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.6
 	- license: MIT
 - libphonenumber-js
-	- version: 1.12.10
+	- version: 1.12.13
 	- license: MIT
 - md5
 	- version: 2.3.0
@@ -216,7 +216,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.101.2
+	- version: 5.101.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
