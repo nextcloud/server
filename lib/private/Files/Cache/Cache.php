@@ -10,6 +10,8 @@ namespace OC\Files\Cache;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\Sharded\ShardDefinition;
+use OC\Files\Cache\Wrapper\CacheJail;
+use OC\Files\Cache\Wrapper\CacheWrapper;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Encryption;
@@ -1215,8 +1217,16 @@ class Cache implements ICache {
 	}
 
 	private function moveFromStorageSharded(ShardDefinition $shardDefinition, ICache $sourceCache, ICacheEntry $sourceEntry, $targetPath): void {
+		$sourcePath = $sourceEntry->getPath();
+		while ($sourceCache instanceof CacheWrapper) {
+			if ($sourceCache instanceof CacheJail) {
+				$sourcePath = $sourceCache->getSourcePath($sourcePath);
+			}
+			$sourceCache = $sourceCache->getCache();
+		}
+
 		if ($sourceEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
-			$fileIds = $this->getChildIds($sourceCache->getNumericStorageId(), $sourceEntry->getPath());
+			$fileIds = $this->getChildIds($sourceCache->getNumericStorageId(), $sourcePath);
 		} else {
 			$fileIds = [];
 		}
@@ -1234,9 +1244,9 @@ class Cache implements ICache {
 		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
 		$removeEncryptedFlag = ($sourceCache instanceof Cache && $sourceCache->hasEncryptionWrapper()) && !$this->hasEncryptionWrapper();
 
-		$sourcePathLength = strlen($sourceEntry->getPath());
+		$sourcePathLength = strlen($sourcePath);
 		foreach ($cacheItems as &$cacheItem) {
-			if ($cacheItem['path'] === $sourceEntry->getPath()) {
+			if ($cacheItem['path'] === $sourcePath) {
 				$cacheItem['path'] = $targetPath;
 				$cacheItem['parent'] = $this->getParentId($targetPath);
 				$cacheItem['name'] = basename($cacheItem['path']);
