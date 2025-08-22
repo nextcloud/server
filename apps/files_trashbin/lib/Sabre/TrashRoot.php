@@ -15,7 +15,6 @@ use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\Files\FileInfo;
-use OCP\Files\Folder;
 use OCP\IUser;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
@@ -102,9 +101,7 @@ class TrashRoot implements ICollection, ICacheableDirectory {
 		return 0;
 	}
 
-	/**
-	 * @return Folder[]
-	 */
+	#[\Override]
 	public function getCacheableDirectories(): array {
 		return $this->trashManager->getCacheableRootsForUser($this->user);
 	}

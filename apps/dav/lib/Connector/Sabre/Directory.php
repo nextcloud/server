@@ -49,8 +49,7 @@ class Directory extends Node implements
 	\Sabre\DAV\IMoveTarget,
 	\Sabre\DAV\ICopyTarget,
 	INodeByPath,
-	ICacheableDirectory
-{
+	ICacheableDirectory {
 	/**
 	 * Cached directory content
 	 * @var FileInfo[]
@@ -577,6 +576,7 @@ class Directory extends Node implements
 		return $node;
 	}
 
+	#[\Override]
 	public function getCacheableDirectories(): array {
 		return [$this->getNode()];
 	}
