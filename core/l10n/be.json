@@ -9,6 +9,7 @@
     "Invalid file provided" : "Прапанаваны файл некарэктны",
     "Unknown filetype" : "Невядомы тып файла",
     "An error occurred. Please contact your admin." : "Узнікла памылка. Звярніцеся да адміністратара.",
+    "No temporary profile picture available, try again" : "Няма даступных часовых аватараў профілю, паспрабуйце яшчэ раз",
     "Login" : "Лагін",
     "Unsupported email length (>255)" : "Даўжыня электроннага ліста не падтрымліваецца (>255)",
     "Password reset is disabled" : "Скід пароля адключаны",
