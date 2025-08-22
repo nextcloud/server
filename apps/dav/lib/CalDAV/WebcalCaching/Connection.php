@@ -36,7 +36,7 @@ class Connection {
 
 		// calendar/#7234 - ICS feeds hosted on O365 can return HTTP 500 when the UA string isn't satisfactory..
 		$uaString = 'Nextcloud Webcal Service';
-		if (Connection::isO365Url($url)) {
+		if (parse_url($url, PHP_URL_HOST) === 'outlook.office365.com') {
 			// 2025/08/20 - the required format/values here are not documented; this string based on research 
 			// from: https://github.com/bitfireAT/icsx5/discussions/654#discussioncomment-14158051
 			$uaString = 'Nextcloud (Linux) Chrome/66';
