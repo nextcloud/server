@@ -25,14 +25,6 @@ class Connection {
 	}
 
 	/**
- 	 * look for ics feeds hosted on O365 servers.  These can be picky about UA string
-     */
-	private static function isO365Url($url) {
-	    $host = parse_url($url, PHP_URL_HOST);
-	    return $host === 'outlook.office365.com';
-	}   
-	
-	/**
 	 * gets webcal feed from remote server
 	 */
 	public function queryWebcalFeed(array $subscription): ?string {
