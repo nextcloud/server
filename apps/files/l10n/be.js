@@ -111,6 +111,7 @@ OC.L10N.register(
     "Personal files" : "Асабістыя файлы",
     "Appearance" : "Знешні выгляд",
     "Show file extensions" : "Паказваць пашырэнні файлаў",
+    "Additional settings" : "Дадатковыя налады",
     "WebDAV" : "WebDAV",
     "WebDAV URL" : "URL-адрас WebDAV",
     "Copy" : "Капіяваць",
