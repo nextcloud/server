@@ -19,8 +19,6 @@ use OCA\DAV\CalDAV\Outbox;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Db\PropertyMapper;
-use OCA\DAV\Connector\Sabre\FilesPlugin;
-use OCA\Files_Trashbin\Sabre\TrashRoot;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Folder;
 use OCP\IDBConnection;
@@ -211,12 +209,10 @@ class CustomPropertiesBackend implements BackendInterface {
 		}
 
 		$node = $this->tree->getNodeForPath($path);
-		if (($node instanceof Directory) && $propFind->getDepth() !== 0) {
-			$this->cacheDirectory($path, $node->getNode());
-		} else if ($node instanceof TrashRoot) {
-			$trashNodes = $node->getTrashRoots();
-			foreach ($trashNodes as $trashNode) {
-				$this->cacheDirectory($path, $trashNode);
+		if (($node instanceof ICacheableDirectory) && $propFind->getDepth() !== 0) {
+			$directoriesToPrefetch = $node->getCacheableDirectories();
+			foreach ($directoriesToPrefetch as $directory) {
+				$this->cacheDirectory($path, $directory);
 			}
 		}
 

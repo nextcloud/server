@@ -109,9 +109,8 @@ class TrashManager implements ITrashManager {
 		$this->trashPaused = false;
 	}
 
-	public function getTrashRootsForUser(IUser $user): array {
-		return array_reduce($this->getBackends(), function (array $items, ITrashBackend $backend) use ($user) {
-			return array_merge($items, $backend->getTrashRootsForUser($user));
-		}, []);
+	public function getCacheableRootsForUser(IUser $user): array {
+		return array_reduce($this->getBackends(),
+			fn (array $items, ITrashBackend $backend) => array_merge($items, $backend->getCacheableRootsForUser($user)), []);
 	}
 }

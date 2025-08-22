@@ -67,8 +67,11 @@ interface ITrashBackend {
 	public function getTrashNodeById(IUser $user, int $fileId);
 
 	/**
+	 * Returns a non-exhaustive list of folder which can then be used to pre-fetch some metadata
+	 * * for the trash root.
+	 *
 	 * @return Folder[]
 	 * @since 32.0.0
 	 */
-	public function getTrashRootsForUser(IUser $user): array;
+	public function getCacheableRootsForUser(IUser $user): array;
 }
