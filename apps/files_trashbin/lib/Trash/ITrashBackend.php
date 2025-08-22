@@ -68,10 +68,10 @@ interface ITrashBackend {
 
 	/**
 	 * Returns a non-exhaustive list of folder which can then be used to pre-fetch some metadata
-	 * * for the trash root.
+	 * for the trash root.
 	 *
 	 * @return Folder[]
-	 * @since 32.0.0
+	 * @since 34.0.0
 	 */
 	public function getCacheableRootsForUser(IUser $user): array;
 }

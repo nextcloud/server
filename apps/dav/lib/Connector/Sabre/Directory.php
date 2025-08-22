@@ -48,8 +48,7 @@ class Directory extends Node implements
 	\Sabre\DAV\IMoveTarget,
 	\Sabre\DAV\ICopyTarget,
 	INodeByPath,
-	ICacheableDirectory
-{
+	ICacheableDirectory {
 	/**
 	 * Cached directory content
 	 * @var FileInfo[]

@@ -1780,6 +1780,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Lock\\LockManager' => __DIR__ . '/../../..' . '/lib/private/Files/Lock/LockManager.php',
         'OC\\Files\\Mount\\CacheMountProvider' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/CacheMountProvider.php',
         'OC\\Files\\Mount\\HomeMountPoint' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/HomeMountPoint.php',
+        'OC\\Files\\Mount\\LazyMountPoint' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/LazyMountPoint.php',
         'OC\\Files\\Mount\\LocalHomeMountProvider' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/LocalHomeMountProvider.php',
         'OC\\Files\\Mount\\Manager' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/Manager.php',
         'OC\\Files\\Mount\\MountPoint' => __DIR__ . '/../../..' . '/lib/private/Files/Mount/MountPoint.php',

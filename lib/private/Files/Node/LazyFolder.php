@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
+use OC\Files\Mount\LazyMountPoint;
 use OC\Files\Utils\PathHelper;
 use OCP\Constants;
 use OCP\Files\Folder;
@@ -373,7 +374,15 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getMountPoint() {
-		return $this->__call(__FUNCTION__, func_get_args());
+		if (array_any(array_keys($this->data), fn ($key) => str_starts_with($key, 'mountpoint_'))) {
+			return new LazyMountPoint(function () {
+				return $this->__call('getMountPoint', func_get_args());
+			}, [
+				'numericStorageId' => $this->data['mountpoint_numericStorageId'],
+			]);
+		} else {
+			return $this->__call(__FUNCTION__, func_get_args());
+		}
 	}
 
 	/**

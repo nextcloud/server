@@ -1739,6 +1739,7 @@ return array(
     'OC\\Files\\Lock\\LockManager' => $baseDir . '/lib/private/Files/Lock/LockManager.php',
     'OC\\Files\\Mount\\CacheMountProvider' => $baseDir . '/lib/private/Files/Mount/CacheMountProvider.php',
     'OC\\Files\\Mount\\HomeMountPoint' => $baseDir . '/lib/private/Files/Mount/HomeMountPoint.php',
+    'OC\\Files\\Mount\\LazyMountPoint' => $baseDir . '/lib/private/Files/Mount/LazyMountPoint.php',
     'OC\\Files\\Mount\\LocalHomeMountProvider' => $baseDir . '/lib/private/Files/Mount/LocalHomeMountProvider.php',
     'OC\\Files\\Mount\\Manager' => $baseDir . '/lib/private/Files/Mount/Manager.php',
     'OC\\Files\\Mount\\MountPoint' => $baseDir . '/lib/private/Files/Mount/MountPoint.php',
