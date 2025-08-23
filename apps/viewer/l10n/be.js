@@ -14,6 +14,7 @@ OC.L10N.register(
     "Apply" : "Ужыць",
     "Warning" : "Папярэджанне",
     "Confirm" : "Пацвердзіць",
+    "Discard changes" : "Адхіліць змены",
     "Undo" : "Адрабіць",
     "Redo" : "Узнавіць",
     "Filters" : "Фільтры",
