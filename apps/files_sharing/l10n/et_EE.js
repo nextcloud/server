@@ -331,6 +331,7 @@ OC.L10N.register(
     "Shared multiple times with different people" : "Jagatud mitu korda eri kasutajate poolt",
     "Sharing options" : "Jagamise valikud",
     "Shared with others" : "Teistega jagatud",
+    "You do not have enough permissions to share this file." : "Sul pole piisavalt õigusi selle faili jagamiseks.",
     "Create file request" : "Koosta failipäring",
     "Upload files to {foldername}" : "Laadi failid üles kausta {foldername}",
     "Public file share" : "Avalikud jaosfailid",
