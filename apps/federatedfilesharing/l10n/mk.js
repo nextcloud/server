@@ -26,6 +26,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Споделете со мене преку мојот Федерален Cloud ID, види {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Споделете со мене преку мојот Федерален Cloud ID",
     "Share with me via Nextcloud" : "Сподели со мене",
+    "Copy" : "Копирај",
     "Copied!" : "Копирано!",
     "Federated Cloud" : "Федерален клауд",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете да споделувате со секој што користи Nextcloud сервер или друг вид на Open Cloud Mesh (OCM) компатибилен сервер или сервис! Само внесете го федералниот ID во полето за споделување. Треба да изгледа korisnik@cloud.primer.com",
