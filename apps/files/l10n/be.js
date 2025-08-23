@@ -91,6 +91,7 @@ OC.L10N.register(
     "This name is already in use." : "Гэта назва ўжо выкарыстоўваецца.",
     "Create" : "Стварыць",
     "Fill template fields" : "Запоўніце палі шаблону",
+    "Submit" : "Адправіць",
     "Unknown error" : "Невядомая памылка",
     "Change" : "Змяніць",
     "New owner" : "Новы ўладальнік",
