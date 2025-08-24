@@ -32,6 +32,16 @@ class Connection {
 			return null;
 		}
 
+		// ICS feeds hosted on O365 can return HTTP 500 when the UA string isn't satisfactory
+		// Ref https://github.com/nextcloud/calendar/issues/7234
+		$uaString = 'Nextcloud Webcal Service';
+		if (parse_url($url, PHP_URL_HOST) === 'outlook.office365.com') {
+			// The required format/values here are not documented.
+			// Instead, this string based on research.
+			// Ref https://github.com/bitfireAT/icsx5/discussions/654#discussioncomment-14158051
+			$uaString = 'Nextcloud (Linux) Chrome/66';
+		}
+
 		$allowLocalAccess = $this->config->getValueString('dav', 'webcalAllowLocalAccess', 'no');
 
 		$params = [
@@ -39,7 +49,7 @@ class Connection {
 				'allow_local_address' => $allowLocalAccess === 'yes',
 			],
 			RequestOptions::HEADERS => [
-				'User-Agent' => 'Nextcloud Webcal Service',
+				'User-Agent' => $uaString,
 				'Accept' => 'text/calendar, application/calendar+json, application/calendar+xml',
 			],
 		];
