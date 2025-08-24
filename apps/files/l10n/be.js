@@ -18,6 +18,7 @@ OC.L10N.register(
     "You created an encrypted file in {file}" : "Вы стварылі зашыфраваны файл у {file}",
     "{user} created {file}" : "{user} стварыў(-ла) {file}",
     "{user} created an encrypted file in {file}" : "{user} стварыў(-ла) зашыфраваны файл у {file}",
+    "{file} was created in a public folder" : "Файл {file} быў створаны ў публічнай папцы",
     "You changed {file}" : "Вы змянілі {file}",
     "You changed an encrypted file in {file}" : "Вы змянілі зашыфраваны файл у {file}",
     "{user} changed {file}" : "{user} змяніў(-ла) {file}",

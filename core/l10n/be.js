@@ -174,6 +174,7 @@ OC.L10N.register(
     "No" : "Не",
     "Yes" : "Так",
     "The remote URL must include the user." : "Аддалены URL-адрас павінен уключаць карыстальніка.",
+    "Failed to add the public link to your Nextcloud" : "Не ўдалося дадаць публічную спасылку ў ваш Nextcloud",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Please copy the link manually:" : "Скапіюйце спасылку ўручную:",
     "Clear search" : "Ачысціць пошук",

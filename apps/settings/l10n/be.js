@@ -52,6 +52,7 @@ OC.L10N.register(
     "Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface." : "Ваш PHP не падтрымлівае FreeType, што прыводзіць да пашкоджання аватараў профілю і інтэрфейсе налад.",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Аватар профілю, поўнае імя, адрас электроннай пошты, нумар тэлефона, адрас, вэб-сайт, Twitter, арганізацыя, роля, загаловак, біяграфія і ці ўключаны ваш профіль",
     "None" : "Няма",
+    "Allow public uploads" : "Дазволіць публічныя запампоўванні",
     "Save changes" : "Захаваць змены",
     "Update to {update}" : "Абнаўленне да {update}",
     "Remove" : "Выдаліць",

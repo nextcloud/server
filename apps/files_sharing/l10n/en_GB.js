@@ -331,6 +331,7 @@ OC.L10N.register(
     "Shared multiple times with different people" : "Shared multiple times with different people",
     "Sharing options" : "Sharing options",
     "Shared with others" : "Shared with others",
+    "You do not have enough permissions to share this file." : "You do not have enough permissions to share this file.",
     "Create file request" : "Create file request",
     "Upload files to {foldername}" : "Upload files to {foldername}",
     "Public file share" : "Public file share",

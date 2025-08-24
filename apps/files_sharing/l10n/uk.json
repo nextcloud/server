@@ -329,6 +329,7 @@
     "Shared multiple times with different people" : "Поділилися кілька разів з різними людьми",
     "Sharing options" : "Параметри спільного доступу",
     "Shared with others" : "Ви поділилися",
+    "You do not have enough permissions to share this file." : "У вас відсутні повноваження надавати цей файл у спільний доступ.",
     "Create file request" : "Створити запит на файл",
     "Upload files to {foldername}" : "Завантажити файли до {foldername}",
     "Public file share" : "Публічний спільний ресурс",
