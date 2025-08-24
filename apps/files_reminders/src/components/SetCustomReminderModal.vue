@@ -59,11 +59,11 @@ import { emit } from '@nextcloud/event-bus'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import { getDateString, getInitialCustomDueDate } from '../shared/utils.ts'
 import { logger } from '../shared/logger.ts'
@@ -93,20 +93,20 @@ export default Vue.extend({
 	},
 
 	computed: {
-		fileId(): number {
-			return this.node.fileid
+		fileId(): number|undefined {
+			return this.node?.fileid
 		},
 
-		fileName(): string {
-			return this.node.basename
+		fileName(): string|undefined {
+			return this.node?.basename
 		},
 
 		name() {
-			return t('files_reminders', 'Set reminder for "{fileName}"', { fileName: this.fileName })
+			return this.fileName ? t('files_reminders', 'Set reminder for "{fileName}"', { fileName: this.fileName }) : ''
 		},
 
 		label(): string {
-			return t('files_reminders', 'Set reminder at custom date & time')
+			return t('files_reminders', 'Reminder at custom date & time')
 		},
 
 		clearAriaLabel(): string {

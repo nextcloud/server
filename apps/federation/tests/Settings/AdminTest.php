@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,24 +11,23 @@ use OCA\Federation\Settings\Admin;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var Admin */
-	private $admin;
-	/** @var TrustedServers */
-	private $trustedServers;
+	private TrustedServers&MockObject $trustedServers;
+	private Admin $admin;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->trustedServers = $this->getMockBuilder('\OCA\Federation\TrustedServers')->disableOriginalConstructor()->getMock();
+		$this->trustedServers = $this->createMock(TrustedServers::class);
 		$this->admin = new Admin(
 			$this->trustedServers,
 			$this->createMock(IL10N::class)
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$this->trustedServers
 			->expects($this->once())
 			->method('getServers')
@@ -39,11 +40,11 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('sharing', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(30, $this->admin->getPriority());
 	}
 }

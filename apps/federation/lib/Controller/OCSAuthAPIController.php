@@ -10,7 +10,10 @@ namespace OCA\Federation\Controller;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -30,50 +33,33 @@ use Psr\Log\LoggerInterface;
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class OCSAuthAPIController extends OCSController {
-	private ISecureRandom $secureRandom;
-	private IJobList $jobList;
-	private TrustedServers $trustedServers;
-	private DbHandler $dbHandler;
-	private LoggerInterface $logger;
-	private ITimeFactory $timeFactory;
-	private IThrottler $throttler;
-
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		ISecureRandom $secureRandom,
-		IJobList $jobList,
-		TrustedServers $trustedServers,
-		DbHandler $dbHandler,
-		LoggerInterface $logger,
-		ITimeFactory $timeFactory,
-		IThrottler $throttler
+		private ISecureRandom $secureRandom,
+		private IJobList $jobList,
+		private TrustedServers $trustedServers,
+		private DbHandler $dbHandler,
+		private LoggerInterface $logger,
+		private ITimeFactory $timeFactory,
+		private IThrottler $throttler,
 	) {
 		parent::__construct($appName, $request);
-
-		$this->secureRandom = $secureRandom;
-		$this->jobList = $jobList;
-		$this->trustedServers = $trustedServers;
-		$this->dbHandler = $dbHandler;
-		$this->logger = $logger;
-		$this->timeFactory = $timeFactory;
-		$this->throttler = $throttler;
 	}
 
 	/**
 	 * Request received to ask remote server for a shared secret, for legacy end-points
 	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=federationSharedSecret)
-	 *
 	 * @param string $url URL of the server
 	 * @param string $token Token of the server
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSForbiddenException Requesting shared secret is not allowed
 	 *
 	 * 200: Shared secret requested successfully
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'federationSharedSecret')]
 	public function requestSharedSecretLegacy(string $url, string $token): DataResponse {
 		return $this->requestSharedSecret($url, $token);
 	}
@@ -82,10 +68,6 @@ class OCSAuthAPIController extends OCSController {
 	/**
 	 * Create shared secret and return it, for legacy end-points
 	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=federationSharedSecret)
-	 *
 	 * @param string $url URL of the server
 	 * @param string $token Token of the server
 	 * @return DataResponse<Http::STATUS_OK, array{sharedSecret: string}, array{}>
@@ -93,6 +75,9 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * 200: Shared secret returned
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'federationSharedSecret')]
 	public function getSharedSecretLegacy(string $url, string $token): DataResponse {
 		return $this->getSharedSecret($url, $token);
 	}
@@ -100,21 +85,20 @@ class OCSAuthAPIController extends OCSController {
 	/**
 	 * Request received to ask remote server for a shared secret
 	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=federationSharedSecret)
-	 *
 	 * @param string $url URL of the server
 	 * @param string $token Token of the server
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSForbiddenException Requesting shared secret is not allowed
 	 *
 	 * 200: Shared secret requested successfully
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'federationSharedSecret')]
 	public function requestSharedSecret(string $url, string $token): DataResponse {
 		if ($this->trustedServers->isTrustedServer($url) === false) {
 			$this->throttler->registerAttempt('federationSharedSecret', $this->request->getRemoteAddress());
-			$this->logger->error('remote server not trusted (' . $url . ') while requesting shared secret', ['app' => 'federation']);
+			$this->logger->error('remote server not trusted (' . $url . ') while requesting shared secret');
 			throw new OCSForbiddenException();
 		}
 
@@ -123,8 +107,7 @@ class OCSAuthAPIController extends OCSController {
 		$localToken = $this->dbHandler->getToken($url);
 		if (strcmp($localToken, $token) > 0) {
 			$this->logger->info(
-				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.',
-				['app' => 'federation']
+				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.'
 			);
 			throw new OCSForbiddenException();
 		}
@@ -144,10 +127,6 @@ class OCSAuthAPIController extends OCSController {
 	/**
 	 * Create shared secret and return it
 	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=federationSharedSecret)
-	 *
 	 * @param string $url URL of the server
 	 * @param string $token Token of the server
 	 * @return DataResponse<Http::STATUS_OK, array{sharedSecret: string}, array{}>
@@ -155,10 +134,13 @@ class OCSAuthAPIController extends OCSController {
 	 *
 	 * 200: Shared secret returned
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'federationSharedSecret')]
 	public function getSharedSecret(string $url, string $token): DataResponse {
 		if ($this->trustedServers->isTrustedServer($url) === false) {
 			$this->throttler->registerAttempt('federationSharedSecret', $this->request->getRemoteAddress());
-			$this->logger->error('remote server not trusted (' . $url . ') while getting shared secret', ['app' => 'federation']);
+			$this->logger->error('remote server not trusted (' . $url . ') while getting shared secret');
 			throw new OCSForbiddenException();
 		}
 
@@ -166,8 +148,7 @@ class OCSAuthAPIController extends OCSController {
 			$this->throttler->registerAttempt('federationSharedSecret', $this->request->getRemoteAddress());
 			$expectedToken = $this->dbHandler->getToken($url);
 			$this->logger->error(
-				'remote server (' . $url . ') didn\'t send a valid token (got "' . $token . '" but expected "'. $expectedToken . '") while getting shared secret',
-				['app' => 'federation']
+				'remote server (' . $url . ') didn\'t send a valid token (got "' . $token . '" but expected "' . $expectedToken . '") while getting shared secret'
 			);
 			throw new OCSForbiddenException();
 		}

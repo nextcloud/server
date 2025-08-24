@@ -79,10 +79,10 @@ class ChangeKeyStorageRoot extends Command {
 	 * @throws \Exception
 	 */
 	protected function moveAllKeys($oldRoot, $newRoot, OutputInterface $output) {
-		$output->writeln("Start to move keys:");
+		$output->writeln('Start to move keys:');
 
 		if ($this->rootView->is_dir($oldRoot) === false) {
-			$output->writeln("No old keys found: Nothing needs to be moved");
+			$output->writeln('No old keys found: Nothing needs to be moved');
 			return false;
 		}
 
@@ -123,8 +123,8 @@ class ChangeKeyStorageRoot extends Command {
 	 */
 	protected function moveSystemKeys($oldRoot, $newRoot) {
 		if (
-			$this->rootView->is_dir($oldRoot . '/files_encryption') &&
-			$this->targetExists($newRoot . '/files_encryption') === false
+			$this->rootView->is_dir($oldRoot . '/files_encryption')
+			&& $this->targetExists($newRoot . '/files_encryption') === false
 		) {
 			$this->rootView->rename($oldRoot . '/files_encryption', $newRoot . '/files_encryption');
 		}
@@ -183,8 +183,8 @@ class ChangeKeyStorageRoot extends Command {
 			$source = $oldRoot . '/' . $user . '/files_encryption';
 			$target = $newRoot . '/' . $user . '/files_encryption';
 			if (
-				$this->rootView->is_dir($source) &&
-				$this->targetExists($target) === false
+				$this->rootView->is_dir($source)
+				&& $this->targetExists($target) === false
 			) {
 				$this->prepareParentFolder($newRoot . '/' . $user);
 				$this->rootView->rename($source, $target);

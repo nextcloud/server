@@ -16,7 +16,11 @@ use OCP\Files\Node;
  * @since 28.0.0
  */
 class BeforeNodeRestoredEvent extends AbstractNodesEvent {
-	public function __construct(Node $source, Node $target, private bool &$run) {
+	public function __construct(
+		Node $source,
+		Node $target,
+		private bool &$run,
+	) {
 		parent::__construct($source, $target);
 	}
 

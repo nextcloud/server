@@ -23,8 +23,8 @@ declare global {
 			/**
 			 * Unmock all initial states or one defined by app and key
 			 *
-			 * @param app app name of the inital state
-			 * @param key the key of the the initial state
+			 * @param app app name of the initial state
+			 * @param key the key of the initial state
 			 */
 			unmockInitialState: (app?: string, key?: string) => void
 		}

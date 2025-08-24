@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,12 +22,10 @@ class MoveToTrashEvent extends Event {
 	/** @var bool */
 	private $moveToTrashBin;
 
-	/** @var Node */
-	private $node;
-
-	public function __construct(Node $node) {
+	public function __construct(
+		private Node $node,
+	) {
 		$this->moveToTrashBin = true;
-		$this->node = $node;
 	}
 
 	/**

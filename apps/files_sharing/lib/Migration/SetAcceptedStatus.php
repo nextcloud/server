@@ -17,16 +17,10 @@ use OCP\Share\IShare;
 
 class SetAcceptedStatus implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var  IConfig */
-	private $config;
-
-
-	public function __construct(IDBConnection $connection, IConfig $config) {
-		$this->connection = $connection;
-		$this->config = $config;
+	public function __construct(
+		private IDBConnection $connection,
+		private IConfig $config,
+	) {
 	}
 
 	/**
@@ -52,7 +46,7 @@ class SetAcceptedStatus implements IRepairStep {
 			->update('share')
 			->set('accepted', $query->createNamedParameter(IShare::STATUS_ACCEPTED))
 			->where($query->expr()->in('share_type', $query->createNamedParameter([IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_USERGROUP], IQueryBuilder::PARAM_INT_ARRAY)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	protected function shouldRun() {

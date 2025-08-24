@@ -11,7 +11,7 @@
 namespace OCP;
 
 /**
- * Interface for collections of of items implemented by another share backend.
+ * Interface for collections of items implemented by another share backend.
  * Extends the Share_Backend interface.
  * @since 5.0.0
  */

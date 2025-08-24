@@ -57,7 +57,7 @@ class RequestManagerTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 		$this->expectException(RuntimeException::class);
 
-		$this->manager->process("webfinger", $request);
+		$this->manager->process('webfinger', $request);
 	}
 
 	public function testProcessNoHandlersRegistered(): void {
@@ -70,7 +70,7 @@ class RequestManagerTest extends TestCase {
 			->method('getWellKnownHandlers')
 			->willReturn([]);
 
-		$response = $this->manager->process("webfinger", $request);
+		$response = $this->manager->process('webfinger', $request);
 
 		self::assertNull($response);
 	}
@@ -91,11 +91,11 @@ class RequestManagerTest extends TestCase {
 		$this->container->expects(self::once())
 			->method('get')
 			->with(get_class($handler))
-			->willThrowException(new QueryException(""));
+			->willThrowException(new QueryException(''));
 		$this->logger->expects(self::once())
 			->method('error');
 
-		$response = $this->manager->process("webfinger", $request);
+		$response = $this->manager->process('webfinger', $request);
 
 		self::assertNull($response);
 	}
@@ -120,7 +120,7 @@ class RequestManagerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('error');
 
-		$response = $this->manager->process("webfinger", $request);
+		$response = $this->manager->process('webfinger', $request);
 
 		self::assertNull($response);
 	}
@@ -146,7 +146,7 @@ class RequestManagerTest extends TestCase {
 			->with(get_class($handler))
 			->willReturn($handler);
 
-		$response = $this->manager->process("webfinger", $request);
+		$response = $this->manager->process('webfinger', $request);
 
 		self::assertNotNull($response);
 		self::assertInstanceOf(JrdResponse::class, $response);

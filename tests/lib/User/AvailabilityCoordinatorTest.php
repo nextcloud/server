@@ -73,6 +73,8 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$absence->setLastDay('2023-10-08');
 		$absence->setStatus('Vacation');
 		$absence->setMessage('On vacation');
+		$absence->setReplacementUserId('batman');
+		$absence->setReplacementUserDisplayName('Bruce Wayne');
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$user = $this->createMock(IUser::class);
@@ -86,10 +88,17 @@ class AvailabilityCoordinatorTest extends TestCase {
 			->method('getAbsence')
 			->with($user->getUID())
 			->willReturn($absence);
+
+		$calls = [
+			[$user->getUID() . '_timezone', 'Europe/Berlin', 3600],
+			[$user->getUID(), '{"id":"420","startDate":1696111200,"endDate":1696802340,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}', 300],
+		];
 		$this->cache->expects(self::exactly(2))
 			->method('set')
-			->withConsecutive([$user->getUID() . '_timezone', 'Europe/Berlin', 3600],
-				[$user->getUID(), '{"id":"420","startDate":1696111200,"endDate":1696802340,"shortMessage":"Vacation","message":"On vacation"}', 300]);
+			->willReturnCallback(static function () use (&$calls): void {
+				$expected = array_shift($calls);
+				self::assertEquals($expected, func_get_args());
+			});
 
 		$expected = new OutOfOfficeData(
 			'420',
@@ -98,6 +107,8 @@ class AvailabilityCoordinatorTest extends TestCase {
 			1696802340,
 			'Vacation',
 			'On vacation',
+			'batman',
+			'Bruce Wayne',
 		);
 		$actual = $this->availabilityCoordinator->getCurrentOutOfOfficeData($user);
 		self::assertEquals($expected, $actual);
@@ -111,6 +122,8 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$absence->setLastDay('2023-10-08');
 		$absence->setStatus('Vacation');
 		$absence->setMessage('On vacation');
+		$absence->setReplacementUserId('batman');
+		$absence->setReplacementUserDisplayName('Bruce Wayne');
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -118,7 +131,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 
 		$this->cache->expects(self::exactly(2))
 			->method('get')
-			->willReturnOnConsecutiveCalls('UTC', '{"id":"420","startDate":1696118400,"endDate":1696809540,"shortMessage":"Vacation","message":"On vacation"}');
+			->willReturnOnConsecutiveCalls('UTC', '{"id":"420","startDate":1696118400,"endDate":1696809540,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}');
 		$this->absenceService->expects(self::never())
 			->method('getAbsence');
 		$this->cache->expects(self::exactly(1))
@@ -131,6 +144,8 @@ class AvailabilityCoordinatorTest extends TestCase {
 			1696809540,
 			'Vacation',
 			'On vacation',
+			'batman',
+			'Bruce Wayne'
 		);
 		$actual = $this->availabilityCoordinator->getCurrentOutOfOfficeData($user);
 		self::assertEquals($expected, $actual);
@@ -170,6 +185,8 @@ class AvailabilityCoordinatorTest extends TestCase {
 		$absence->setLastDay('2023-10-08');
 		$absence->setStatus('Vacation');
 		$absence->setMessage('On vacation');
+		$absence->setReplacementUserId('batman');
+		$absence->setReplacementUserDisplayName('Bruce Wayne');
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$user = $this->createMock(IUser::class);
@@ -185,7 +202,7 @@ class AvailabilityCoordinatorTest extends TestCase {
 			->willReturn($absence);
 		$this->cache->expects(self::once())
 			->method('set')
-			->with('user', '{"id":"420","startDate":1696118400,"endDate":1696809540,"shortMessage":"Vacation","message":"On vacation"}', 300);
+			->with('user', '{"id":"420","startDate":1696118400,"endDate":1696809540,"shortMessage":"Vacation","message":"On vacation","replacementUserId":"batman","replacementUserDisplayName":"Bruce Wayne"}', 300);
 
 		$expected = new OutOfOfficeData(
 			'420',
@@ -194,6 +211,8 @@ class AvailabilityCoordinatorTest extends TestCase {
 			1696809540,
 			'Vacation',
 			'On vacation',
+			'batman',
+			'Bruce Wayne'
 		);
 		$actual = $this->availabilityCoordinator->getCurrentOutOfOfficeData($user);
 		self::assertEquals($expected, $actual);

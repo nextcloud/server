@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -44,15 +46,13 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	/**
-	 * @dataProvider configProvider
-	 */
-	public function testStorageId($config, $expectedStorageId) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('configProvider')]
+	public function testStorageId($config, $expectedStorageId): void {
 		$instance = new SFTP($config);
 		$this->assertEquals($expectedStorageId, $instance->getId());
 	}
 
-	public function configProvider() {
+	public static function configProvider(): array {
 		return [
 			[
 				// no root path

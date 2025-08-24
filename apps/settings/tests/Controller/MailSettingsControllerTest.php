@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,25 +18,18 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @package Tests\Settings\Controller
  */
 class MailSettingsControllerTest extends \Test\TestCase {
-
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
-	private $mailer;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var MailSettingsController */
-	private $mailController;
+	private IConfig&MockObject $config;
+	private IUserSession&MockObject $userSession;
+	private IMailer&MockObject $mailer;
+	private IL10N&MockObject $l;
+	private IURLGenerator&MockObject $urlGenerator;
+	private MailSettingsController $mailController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -44,7 +39,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject $request */
+		/** @var IRequest&MockObject $request */
 		$request = $this->createMock(IRequest::class);
 		$this->mailController = new MailSettingsController(
 			'settings',
@@ -54,37 +49,40 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			$this->userSession,
 			$this->urlGenerator,
 			$this->mailer,
-			'no-reply@nextcloud.com'
 		);
 	}
 
-	public function testSetMailSettings() {
+	public function testSetMailSettings(): void {
+		$calls = [
+			[[
+				'mail_domain' => 'nextcloud.com',
+				'mail_from_address' => 'demo@nextcloud.com',
+				'mail_smtpmode' => 'smtp',
+				'mail_smtpsecure' => 'ssl',
+				'mail_smtphost' => 'mx.nextcloud.org',
+				'mail_smtpauth' => 1,
+				'mail_smtpport' => '25',
+				'mail_sendmailmode' => 'smtp',
+			]],
+			[[
+				'mail_domain' => 'nextcloud.com',
+				'mail_from_address' => 'demo@nextcloud.com',
+				'mail_smtpmode' => 'smtp',
+				'mail_smtpsecure' => 'ssl',
+				'mail_smtphost' => 'mx.nextcloud.org',
+				'mail_smtpauth' => null,
+				'mail_smtpport' => '25',
+				'mail_smtpname' => null,
+				'mail_smtppassword' => null,
+				'mail_sendmailmode' => 'smtp',
+			]],
+		];
 		$this->config->expects($this->exactly(2))
 			->method('setSystemValues')
-			->withConsecutive(
-				[[
-					'mail_domain' => 'nextcloud.com',
-					'mail_from_address' => 'demo@nextcloud.com',
-					'mail_smtpmode' => 'smtp',
-					'mail_smtpsecure' => 'ssl',
-					'mail_smtphost' => 'mx.nextcloud.org',
-					'mail_smtpauth' => 1,
-					'mail_smtpport' => '25',
-					'mail_sendmailmode' => null,
-				]],
-				[[
-					'mail_domain' => 'nextcloud.com',
-					'mail_from_address' => 'demo@nextcloud.com',
-					'mail_smtpmode' => 'smtp',
-					'mail_smtpsecure' => 'ssl',
-					'mail_smtphost' => 'mx.nextcloud.org',
-					'mail_smtpauth' => null,
-					'mail_smtpport' => '25',
-					'mail_smtpname' => null,
-					'mail_smtppassword' => null,
-					'mail_sendmailmode' => null,
-				]]
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		// With authentication
 		$response = $this->mailController->setMailSettings(
@@ -93,9 +91,9 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'smtp',
 			'ssl',
 			'mx.nextcloud.org',
-			1,
+			'1',
 			'25',
-			null
+			'smtp'
 		);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 
@@ -106,14 +104,14 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			'smtp',
 			'ssl',
 			'mx.nextcloud.org',
-			0,
+			'0',
 			'25',
-			null
+			'smtp'
 		);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
-	public function testStoreCredentials() {
+	public function testStoreCredentials(): void {
 		$this->config
 			->expects($this->once())
 			->method('setSystemValues')
@@ -126,7 +124,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
-	public function testSendTestMail() {
+	public function testSendTestMail(): void {
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUID')

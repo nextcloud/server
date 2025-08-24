@@ -73,7 +73,7 @@ style('user_ldap', 'settings');
 	</ul>
 	<?php
 	if (!function_exists('ldap_connect')) {
-		print_unescaped('<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>');
+		print_unescaped('<p class="ldapwarning">' . $l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.') . '</p>');
 	}
 ?>
 	<?php require_once __DIR__ . '/part.wizard-server.php'; ?>
@@ -139,6 +139,7 @@ style('user_ldap', 'settings');
 				<p><label for="ldap_attr_headline"> <?php p($l->t('Headline Field')); ?></label><input type="text" id="ldap_attr_headline" name="ldap_attr_headline" title="<?php p($l->t('User profile Headline will be set from the specified attribute')); ?>" data-default="<?php p($_['ldap_attr_headline_default']); ?>"></p>
 				<p><label for="ldap_attr_biography"> <?php p($l->t('Biography Field')); ?></label><input type="text" id="ldap_attr_biography" name="ldap_attr_biography" title="<?php p($l->t('User profile Biography will be set from the specified attribute')); ?>" data-default="<?php p($_['ldap_attr_biography_default']); ?>"></p>
 				<p><label for="ldap_attr_birthdate"> <?php p($l->t('Birthdate Field')); ?></label><input type="text" id="ldap_attr_birthdate" name="ldap_attr_birthdate" title="<?php p($l->t('User profile Date of birth will be set from the specified attribute')); ?>" data-default="<?php p($_['ldap_attr_birthdate_default']); ?>"></p>
+				<p></p><label for="ldap_attr_pronouns"> <?php p($l->t('Pronouns Field')); ?></label><input type="text" id="ldap_attr_pronouns" name="ldap_attr_pronouns" title="<?php p($l->t('User profile Pronouns will be set from the specified attribute')); ?>" data-default="<?php p($_['ldap_attr_pronouns_default']); ?>"></p>
 			</div>
 		</div>
 		<?php print_unescaped($_['settingControls']); ?>

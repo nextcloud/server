@@ -76,7 +76,7 @@ export default {
 	 * @param {string} html Message to display
 	 * @param {object} [options] options
 	 * @param {string} [options.type] notification type
-	 * @param {number} [options.timeout=0] timeout value, defaults to 0 (permanent)
+	 * @param {number} [options.timeout] timeout value, defaults to 0 (permanent)
 	 * @return {jQuery} jQuery element for notification row
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
@@ -95,7 +95,7 @@ export default {
 	 * @param {string} text Message to display
 	 * @param {object} [options] options
 	 * @param {string} [options.type] notification type
-	 * @param {number} [options.timeout=0] timeout value, defaults to 0 (permanent)
+	 * @param {number} [options.timeout] timeout value, defaults to 0 (permanent)
 	 * @return {jQuery} jQuery element for notification row
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
@@ -120,7 +120,7 @@ export default {
 	 * Updates (replaces) a sanitized notification.
 	 *
 	 * @param {string} text Message to display
-	 * @return {jQuery} JQuery element for notificaiton row
+	 * @return {jQuery} JQuery element for notification row
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
 	showUpdate(text) {
@@ -138,10 +138,10 @@ export default {
 	 *
 	 * @param {string} text Message to show
 	 * @param {Array} [options] options array
-	 * @param {number} [options.timeout=7] timeout in seconds, if this is 0 it will show the message permanently
-	 * @param {boolean} [options.isHTML=false] an indicator for HTML notifications (true) or text (false)
+	 * @param {number} [options.timeout] timeout in seconds, if this is 0 it will show the message permanently
+	 * @param {boolean} [options.isHTML] an indicator for HTML notifications (true) or text (false)
 	 * @param {string} [options.type] notification type
-	 * @return {JQuery} the toast element
+	 * @return {jQuery} the toast element
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
 	showTemporary(text, options) {

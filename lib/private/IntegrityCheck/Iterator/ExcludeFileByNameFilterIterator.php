@@ -24,10 +24,11 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 	 */
 	private $excludedFilenames = [
 		'.DS_Store', // Mac OS X
-		'Thumbs.db', // Microsoft Windows
 		'.directory', // Dolphin (KDE)
-		'.webapp', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage web-apps.
 		'.rnd',
+		'.webapp', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manage web-apps.
+		'Thumbs.db', // Microsoft Windows
+		'nextcloud-init-sync.lock' // Used by nextcloud/docker to prevent running the initialization script on multiple containers at the same time: https://github.com/nextcloud/docker/issues/2299.
 	];
 
 	/**

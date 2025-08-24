@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\Constants;
 use OCP\Share\IShare;
 
 /**
@@ -38,7 +40,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 			'/test',
 			self::TEST_FILES_SHARING_API_USER1,
 			'group1',
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER2);
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1][''] = $view1->getFileInfo('')->getId();
@@ -53,7 +55,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 			'/test',
 			self::TEST_FILES_SHARING_API_USER2,
 			'group2',
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER3);
 		$share = $this->share(
@@ -61,7 +63,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 			'/test/sub',
 			self::TEST_FILES_SHARING_API_USER2,
 			'group3',
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER4);
 
@@ -89,7 +91,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 		}
 	}
 
-	public function testGroupReShareRecipientWrites() {
+	public function testGroupReShareRecipientWrites(): void {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER3);
 
 		Filesystem::file_put_contents('/test/sub/file.txt', 'asd');
@@ -99,7 +101,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 		$this->assertAllUnchanged();
 	}
 
-	public function testGroupReShareSubFolderRecipientWrites() {
+	public function testGroupReShareSubFolderRecipientWrites(): void {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER4);
 
 		Filesystem::file_put_contents('/sub/file.txt', 'asd');
@@ -109,7 +111,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 		$this->assertAllUnchanged();
 	}
 
-	public function testRecipientUnsharesFromSelf() {
+	public function testRecipientUnsharesFromSelf(): void {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue(
 			$this->rootView->unlink('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/test')
@@ -119,7 +121,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 		$this->assertAllUnchanged();
 	}
 
-	public function testRecipientUnsharesFromSelfUniqueGroupShare() {
+	public function testRecipientUnsharesFromSelfUniqueGroupShare(): void {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 		// rename to create an extra entry in the share table
 		$this->rootView->rename('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/test', '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/test_renamed');

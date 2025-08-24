@@ -12,10 +12,10 @@ use OCP\AppFramework\Http;
 /**
  * A renderer for JSON calls
  * @since 6.0.0
- * @template S of int
- * @template-covariant T of array|object|\stdClass|\JsonSerializable
+ * @template S of Http::STATUS_*
+ * @template-covariant T of null|string|int|float|bool|array|\stdClass|\JsonSerializable
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class JSONResponse extends Response {
 	/**
@@ -23,6 +23,11 @@ class JSONResponse extends Response {
 	 * @var T
 	 */
 	protected $data;
+	/**
+	 * Additional `json_encode` flags
+	 * @var int
+	 */
+	protected $encodeFlags;
 
 
 	/**
@@ -30,12 +35,20 @@ class JSONResponse extends Response {
 	 * @param T $data the object or array that should be transformed
 	 * @param S $statusCode the Http status code, defaults to 200
 	 * @param H $headers
+	 * @param int $encodeFlags Additional `json_encode` flags
 	 * @since 6.0.0
+	 * @since 30.0.0 Added `$encodeFlags` param
 	 */
-	public function __construct(mixed $data = [], int $statusCode = Http::STATUS_OK, array $headers = []) {
+	public function __construct(
+		mixed $data = [],
+		int $statusCode = Http::STATUS_OK,
+		array $headers = [],
+		int $encodeFlags = 0,
+	) {
 		parent::__construct($statusCode, $headers);
 
 		$this->data = $data;
+		$this->encodeFlags = $encodeFlags;
 		$this->addHeader('Content-Type', 'application/json; charset=utf-8');
 	}
 
@@ -45,16 +58,19 @@ class JSONResponse extends Response {
 	 * @return string the rendered json
 	 * @since 6.0.0
 	 * @throws \Exception If data could not get encoded
+	 *
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape html
 	 */
 	public function render() {
-		return json_encode($this->data, JSON_HEX_TAG | JSON_THROW_ON_ERROR);
+		return json_encode($this->data, JSON_HEX_TAG | JSON_THROW_ON_ERROR | $this->encodeFlags, 2048);
 	}
 
 	/**
 	 * Sets values in the data json array
 	 * @psalm-suppress InvalidTemplateParam
 	 * @param T $data an array or object which will be transformed
-	 *                             to JSON
+	 *                to JSON
 	 * @return JSONResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */

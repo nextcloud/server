@@ -32,7 +32,7 @@ class ChangesCheck {
 
 	/**
 	 * @throws DoesNotExistException
-	 * @return array{changelogURL: string, whatsNew: array<string, array{admin: string[], regular: string[]}>}
+	 * @return array{changelogURL: string, whatsNew: array<string, array{admin: list<string>, regular: list<string>}>}
 	 */
 	public function getChangesForVersion(string $version): array {
 		$version = $this->normalizeVersion($version);

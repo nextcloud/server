@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\Authentication\Token\IToken;
+use OCP\DB\Types;
 
 /**
  * @method void setId(int $id)
@@ -87,16 +89,16 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$this->addType('passwordHash', 'string');
 		$this->addType('name', 'string');
 		$this->addType('token', 'string');
-		$this->addType('type', 'int');
-		$this->addType('remember', 'int');
-		$this->addType('lastActivity', 'int');
-		$this->addType('lastCheck', 'int');
+		$this->addType('type', Types::INTEGER);
+		$this->addType('remember', Types::INTEGER);
+		$this->addType('lastActivity', Types::INTEGER);
+		$this->addType('lastCheck', Types::INTEGER);
 		$this->addType('scope', 'string');
-		$this->addType('expires', 'int');
+		$this->addType('expires', Types::INTEGER);
 		$this->addType('publicKey', 'string');
 		$this->addType('privateKey', 'string');
-		$this->addType('version', 'int');
-		$this->addType('passwordInvalid', 'bool');
+		$this->addType('version', Types::INTEGER);
+		$this->addType('passwordInvalid', Types::BOOLEAN);
 	}
 
 	public function getId(): int {
@@ -162,7 +164,7 @@ class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 		$scope = json_decode($this->getScope(), true);
 		if (!$scope) {
 			return [
-				'filesystem' => true
+				IToken::SCOPE_FILESYSTEM => true
 			];
 		}
 		return $scope;

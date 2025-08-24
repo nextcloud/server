@@ -76,7 +76,7 @@ class SyncLivePhotosListener implements IEventListener {
 				unset($this->pendingRestores[$peerFile->getId()]);
 				return;
 			} else {
-				$event->abortOperation(new NotPermittedException("Cannot restore the video part of a live photo"));
+				$event->abortOperation(new NotPermittedException('Cannot restore the video part of a live photo'));
 			}
 		} else {
 			$user = $this->userSession?->getUser();
@@ -112,9 +112,9 @@ class SyncLivePhotosListener implements IEventListener {
 	 * TODO: This should be replaced by a proper method in the TrashManager.
 	 */
 	private function getTrashItem(array $trashFolder, string $path): ?ITrashItem {
-		foreach($trashFolder as $trashItem) {
-			if (str_starts_with($path, "files_trashbin/files".$trashItem->getTrashPath())) {
-				if ($path === "files_trashbin/files".$trashItem->getTrashPath()) {
+		foreach ($trashFolder as $trashItem) {
+			if (str_starts_with($path, 'files_trashbin/files' . $trashItem->getTrashPath())) {
+				if ($path === 'files_trashbin/files' . $trashItem->getTrashPath()) {
 					return $trashItem;
 				}
 

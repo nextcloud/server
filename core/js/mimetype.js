@@ -63,6 +63,7 @@ OC.MimeType = {
 		while (mimeType in OC.MimeTypeList.aliases) {
 			mimeType = OC.MimeTypeList.aliases[mimeType];
 		}
+
 		if (mimeType in OC.MimeType._mimeTypeIcons) {
 			return OC.MimeType._mimeTypeIcons[mimeType];
 		}

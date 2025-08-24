@@ -12,6 +12,7 @@ namespace OCP\SpeechToText;
 
 /**
  * @since 29.0.0
+ * @deprecated 30.0.0
  */
 interface ISpeechToTextProviderWithUserId extends ISpeechToTextProvider {
 	/**

@@ -52,7 +52,7 @@ class Add extends Command {
 				'password-from-env',
 				null,
 				InputOption::VALUE_NONE,
-				'read password from environment variable OC_PASS'
+				'read password from environment variable NC_PASS/OC_PASS'
 			)
 			->addOption(
 				'generate-password',
@@ -91,10 +91,10 @@ class Add extends Command {
 
 		// Setup password.
 		if ($input->getOption('password-from-env')) {
-			$password = getenv('OC_PASS');
+			$password = getenv('NC_PASS') ?: getenv('OC_PASS');
 
 			if (!$password) {
-				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
+				$output->writeln('<error>--password-from-env given, but NC_PASS/OC_PASS is empty!</error>');
 				return 1;
 			}
 		} elseif ($input->getOption('generate-password')) {
@@ -114,11 +114,11 @@ class Add extends Command {
 			$confirm = $helper->ask($input, $output, $question);
 
 			if ($password !== $confirm) {
-				$output->writeln("<error>Passwords did not match!</error>");
+				$output->writeln('<error>Passwords did not match!</error>');
 				return 1;
 			}
 		} else {
-			$output->writeln("<error>Interactive input or --password-from-env or --generate-password is needed for setting a password!</error>");
+			$output->writeln('<error>Interactive input or --password-from-env or --generate-password is needed for setting a password!</error>');
 			return 1;
 		}
 

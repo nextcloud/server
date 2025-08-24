@@ -12,11 +12,12 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\CachedSubscriptionImpl;
 use OCA\DAV\CalDAV\CachedSubscriptionProvider;
 use OCA\DAV\CalDAV\CalDavBackend;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CachedSubscriptionProviderTest extends TestCase {
 
-	private CalDavBackend $backend;
+	private CalDavBackend&MockObject $backend;
 	private CachedSubscriptionProvider $provider;
 
 	protected function setUp(): void {
@@ -47,7 +48,7 @@ class CachedSubscriptionProviderTest extends TestCase {
 		$this->provider = new CachedSubscriptionProvider($this->backend);
 	}
 
-	public function testGetCalendars() {
+	public function testGetCalendars(): void {
 		$calendars = $this->provider->getCalendars(
 			'user-principal-123',
 			[]
@@ -58,7 +59,7 @@ class CachedSubscriptionProviderTest extends TestCase {
 		$this->assertInstanceOf(CachedSubscriptionImpl::class, $calendars[1]);
 	}
 
-	public function testGetCalendarsFilterByUri() {
+	public function testGetCalendarsFilterByUri(): void {
 		$calendars = $this->provider->getCalendars(
 			'user-principal-123',
 			['subscription-1']

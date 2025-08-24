@@ -4,8 +4,8 @@
  */
 
 import Vue from 'vue'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
+import { t, n } from '@nextcloud/l10n'
 
 import ShareSearch from './services/ShareSearch.js'
 import ExternalLinkActions from './services/ExternalLinkActions.js'
@@ -16,7 +16,7 @@ import TabSections from './services/TabSections.js'
 import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
 
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 // Init Sharing Tab Service
 if (!window.OCA.Sharing) {
@@ -55,12 +55,16 @@ window.addEventListener('DOMContentLoaded', function() {
 				await TabInstance.update(fileInfo)
 				TabInstance.$mount(el)
 			},
+
 			update(fileInfo) {
 				TabInstance.update(fileInfo)
 			},
+
 			destroy() {
-				TabInstance.$destroy()
-				TabInstance = null
+				if (TabInstance) {
+					TabInstance.$destroy()
+					TabInstance = null
+				}
 			},
 		}))
 	}

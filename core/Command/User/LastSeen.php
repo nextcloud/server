@@ -43,6 +43,7 @@ class LastSeen extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$singleUserId = $input->getArgument('uid');
+
 		if ($singleUserId) {
 			$user = $this->userManager->get($singleUserId);
 			if (is_null($user)) {
@@ -56,25 +57,25 @@ class LastSeen extends Base {
 			} else {
 				$date = new \DateTime();
 				$date->setTimestamp($lastLogin);
-				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i:s T'));
 			}
 
 			return 0;
 		}
 
 		if (!$input->getOption('all')) {
-			$output->writeln("<error>Please specify a username, or \"--all\" to list all</error>");
+			$output->writeln('<error>Please specify a username, or "--all" to list all</error>');
 			return 1;
 		}
 
-		$this->userManager->callForAllUsers(static function (IUser $user) use ($output) {
+		$this->userManager->callForAllUsers(static function (IUser $user) use ($output): void {
 			$lastLogin = $user->getLastLogin();
 			if ($lastLogin === 0) {
 				$output->writeln($user->getUID() . ' has never logged in.');
 			} else {
 				$date = new \DateTime();
 				$date->setTimestamp($lastLogin);
-				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i'));
+				$output->writeln($user->getUID() . "'s last login: " . $date->format('Y-m-d H:i:s T'));
 			}
 		});
 		return 0;

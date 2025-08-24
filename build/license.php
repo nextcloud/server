@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -57,7 +58,7 @@ EOD;
  *
  */
 EOD;
-		$this->licenseTextLegacy = str_replace('@YEAR@', date("Y"), $this->licenseTextLegacy);
+		$this->licenseTextLegacy = str_replace('@YEAR@', date('Y'), $this->licenseTextLegacy);
 	}
 
 	/**
@@ -109,7 +110,7 @@ EOD;
 
 	public function writeAuthorsFile() {
 		ksort($this->authors);
-		$template = "Nextcloud is written by:
+		$template = 'Nextcloud is written by:
 @AUTHORS@
 
 With help from many libraries and frameworks including:
@@ -117,12 +118,12 @@ With help from many libraries and frameworks including:
 	SabreDAV
 	jQuery
 	…
-";
+';
 		$authors = implode(PHP_EOL, array_map(function ($author) {
-			return " - ".$author;
+			return ' - ' . $author;
 		}, $this->authors));
 		$template = str_replace('@AUTHORS@', $authors, $template);
-		file_put_contents(__DIR__.'/../AUTHORS', $template);
+		file_put_contents(__DIR__ . '/../AUTHORS', $template);
 	}
 
 	public function handleFile($path, $gitRoot) {
@@ -153,9 +154,9 @@ With help from many libraries and frameworks including:
 
 		if ($isPhp) {
 			if ($isStrict) {
-				$source = "<?php" . PHP_EOL . PHP_EOL . 'declare(strict_types=1);' . PHP_EOL . PHP_EOL . $license . PHP_EOL . $source;
+				$source = '<?php' . PHP_EOL . PHP_EOL . 'declare(strict_types=1);' . PHP_EOL . PHP_EOL . $license . PHP_EOL . $source;
 			} else {
-				$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
+				$source = '<?php' . PHP_EOL . $license . PHP_EOL . $source;
 			}
 		} else {
 			$source = $license . PHP_EOL . PHP_EOL . $source;
@@ -220,7 +221,7 @@ With help from many libraries and frameworks including:
 				$index++;
 				continue;
 			}
-	
+
 			if (strpos($line, '<?php declare(strict_types') !== false) {
 				$isStrict = true;
 				array_splice($lines, $index, 1);
@@ -262,7 +263,7 @@ With help from many libraries and frameworks including:
 	private function getCopyrightNotices($path, $file) {
 		$licenseHeaderCopyrightAtLines = trim(shell_exec("grep -ni 'copyright' $path | cut -d ':' -f 1"));
 		$lineByLine = explode(PHP_EOL, $file);
-		
+
 		$copyrightNotice = [];
 		if (trim($licenseHeaderCopyrightAtLines !== '')) {
 			$copyrightNotice = array_map(function ($line) use ($lineByLine) {
@@ -310,8 +311,8 @@ With help from many libraries and frameworks including:
 	private function printFilesToCheck() {
 		if (!empty($this->checkFiles)) {
 			print "\n";
-			print "For following files all lines changed since the Nextcloud fork." . PHP_EOL;
-			print "Please check if these files can be moved over to AGPLv3 or later" . PHP_EOL;
+			print 'For following files all lines changed since the Nextcloud fork.' . PHP_EOL;
+			print 'Please check if these files can be moved over to AGPLv3 or later' . PHP_EOL;
 			print "\n";
 			foreach ($this->checkFiles as $file) {
 				print $file . PHP_EOL;
@@ -355,7 +356,7 @@ With help from many libraries and frameworks including:
 		}
 
 		$authors = $this->filterAuthors($authors);
-		
+
 		if ($gitRoot) {
 			$authors = array_map([$this, 'checkCoreMailMap'], $authors);
 			$authors = array_unique($authors);
@@ -422,7 +423,7 @@ With help from many libraries and frameworks including:
 	private function fixInvalidEmail($author) {
 		preg_match('/<(.*)>/', $author, $mailMatch);
 		if (count($mailMatch) === 2 && !filter_var($mailMatch[1], FILTER_VALIDATE_EMAIL)) {
-			$author = str_replace('<'.$mailMatch[1].'>', '"'.$mailMatch[1].'"', $author);
+			$author = str_replace('<' . $mailMatch[1] . '>', '"' . $mailMatch[1] . '"', $author);
 		}
 		return $author;
 	}

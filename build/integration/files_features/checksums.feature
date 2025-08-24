@@ -61,19 +61,3 @@ Feature: checksums
     When user "user0" uploads file "data/textfile.txt" to "/myChecksumFile.txt"
     And user "user0" downloads the file "/myChecksumFile.txt"
     Then The OC-Checksum header should not be there
-
-  Scenario: Uploading a chunked file with checksum should return the checksum in the propfind
-    Given user "user0" exists
-    And user "user0" uploads chunk file "1" of "3" with "AAAAA" to "/myChecksumFile.txt" with checksum "MD5:e892fdd61a74bc89cd05673cc2e22f88"
-    And user "user0" uploads chunk file "2" of "3" with "BBBBB" to "/myChecksumFile.txt" with checksum "MD5:e892fdd61a74bc89cd05673cc2e22f88"
-    And user "user0" uploads chunk file "3" of "3" with "CCCCC" to "/myChecksumFile.txt" with checksum "MD5:e892fdd61a74bc89cd05673cc2e22f88"
-    When user "user0" request the checksum of "/myChecksumFile.txt" via propfind
-    Then The webdav checksum should match "MD5:e892fdd61a74bc89cd05673cc2e22f88"
-
-  Scenario: Uploading a chunked file with checksum should return the checksum in the download header
-    Given user "user0" exists
-    And user "user0" uploads chunk file "1" of "3" with "AAAAA" to "/myChecksumFile.txt" with checksum "MD5:e892fdd61a74bc89cd05673cc2e22f88"
-    And user "user0" uploads chunk file "2" of "3" with "BBBBB" to "/myChecksumFile.txt" with checksum "MD5:e892fdd61a74bc89cd05673cc2e22f88"
-    And user "user0" uploads chunk file "3" of "3" with "CCCCC" to "/myChecksumFile.txt" with checksum "MD5:e892fdd61a74bc89cd05673cc2e22f88"
-    When user "user0" downloads the file "/myChecksumFile.txt"
-    Then The header checksum should match "MD5:e892fdd61a74bc89cd05673cc2e22f88"

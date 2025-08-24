@@ -58,10 +58,10 @@ class DropLegacyFileKey extends Command {
 
 		if ($result) {
 			$output->writeln('All scanned files are properly encrypted.');
-			return 0;
+			return self::SUCCESS;
 		}
 
-		return 1;
+		return self::FAILURE;
 	}
 
 	private function scanFolder(OutputInterface $output, string $folder): bool {
@@ -114,10 +114,10 @@ class DropLegacyFileKey extends Command {
 			$copyResource = $this->rootView->fopen($target, 'r');
 			$sourceResource = $this->rootView->fopen($source, 'w');
 			if ($copyResource === false || $sourceResource === false) {
-				throw new DecryptionFailedException('Failed to open '.$source.' or '.$target);
+				throw new DecryptionFailedException('Failed to open ' . $source . ' or ' . $target);
 			}
 			if (stream_copy_to_stream($copyResource, $sourceResource) === false) {
-				$output->writeln('<error>Failed to copy '.$target.' data into '.$source.'</error>');
+				$output->writeln('<error>Failed to copy ' . $target . ' data into ' . $source . '</error>');
 				$output->writeln('<error>Leaving both files in there to avoid data loss</error>');
 				return;
 			}

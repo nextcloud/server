@@ -27,8 +27,9 @@ interface IReferenceManager {
 	 * but may still return null in case this is disabled or the fetching fails
 	 *
 	 * @since 25.0.0
+	 * @since 30.0.0 optional arguments `$public` and `$sharingToken`
 	 */
-	public function resolveReference(string $referenceId): ?IReference;
+	public function resolveReference(string $referenceId, bool $public = false, string $sharingToken = ''): ?IReference;
 
 	/**
 	 * Get a reference by its cache key
@@ -42,8 +43,9 @@ interface IReferenceManager {
 	 * the cache can then be filled with a separate request from the frontend
 	 *
 	 * @since 25.0.0
+	 * @since 30.0.0 optional arguments `$public` and `$sharingToken`
 	 */
-	public function getReferenceFromCache(string $referenceId): ?IReference;
+	public function getReferenceFromCache(string $referenceId, bool $public = false, string $sharingToken = ''): ?IReference;
 
 	/**
 	 * Invalidate all cache entries with a prefix or just one if the cache key is provided

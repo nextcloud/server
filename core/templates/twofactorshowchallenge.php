@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /** @var \OCP\IL10N $l */
-/** @var array $_*/
+/** @var array $_ */
 /** @var boolean $error */
 $error = $_['error'];
 /* @var $error_message string */
@@ -28,7 +28,7 @@ $template = $_['template'];
 	<?php print_unescaped($template); ?>
 	<?php if (!is_null($_['backupProvider'])): ?>
 	<p>
-		<a class="two-factor-secondary" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+		<a class="two-factor-secondary" href="<?php p(\OCP\Server::get(\OCP\IURLGenerator::class)->linkToRoute('core.TwoFactorChallenge.showChallenge',
 			[
 				'challengeProviderId' => $_['backupProvider']->getId(),
 				'redirect_url' => $_['redirect_url'],
@@ -38,7 +38,7 @@ $template = $_['template'];
 		</a>
 	</p>
 	<?php endif; ?>
-	<p><a class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
+	<p><a id="cancel-login" class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
 		<?php p($l->t('Cancel login')) ?>
 	</a></p>
 </div>

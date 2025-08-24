@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CardDAV;
 
-use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCA\Federation\TrustedServers;
 use OCP\Accounts\IAccountManager;
 use OCP\IConfig;
@@ -30,27 +29,18 @@ use function in_array;
 
 class SystemAddressbook extends AddressBook {
 	public const URI_SHARED = 'z-server-generated--system';
-	/** @var IConfig */
-	private $config;
-	private IUserSession $userSession;
-	private ?TrustedServers $trustedServers;
-	private ?IRequest $request;
-	private ?IGroupManager $groupManager;
 
-	public function __construct(BackendInterface $carddavBackend,
+	public function __construct(
+		BackendInterface $carddavBackend,
 		array $addressBookInfo,
 		IL10N $l10n,
-		IConfig $config,
-		IUserSession $userSession,
-		?IRequest $request = null,
-		?TrustedServers $trustedServers = null,
-		?IGroupManager $groupManager = null) {
+		private IConfig $config,
+		private IUserSession $userSession,
+		private ?IRequest $request = null,
+		private ?TrustedServers $trustedServers = null,
+		private ?IGroupManager $groupManager = null,
+	) {
 		parent::__construct($carddavBackend, $addressBookInfo, $l10n);
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->request = $request;
-		$this->trustedServers = $trustedServers;
-		$this->groupManager = $groupManager;
 
 		$this->addressBookInfo['{DAV:}displayname'] = $l10n->t('Accounts');
 		$this->addressBookInfo['{' . Plugin::NS_CARDDAV . '}addressbook-description'] = $l10n->t('System address book which holds all accounts');
@@ -221,14 +211,7 @@ class SystemAddressbook extends AddressBook {
 		}
 		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
 	}
-
-	/**
-	 * @throws UnsupportedLimitOnInitialSyncException
-	 */
 	public function getChanges($syncToken, $syncLevel, $limit = null) {
-		if (!$syncToken && $limit) {
-			throw new UnsupportedLimitOnInitialSyncException();
-		}
 
 		if (!$this->carddavBackend instanceof SyncSupport) {
 			return null;
@@ -254,7 +237,7 @@ class SystemAddressbook extends AddressBook {
 			try {
 				$this->getChild($uri);
 				$added[] = $uri;
-			} catch (NotFound | Forbidden $e) {
+			} catch (NotFound|Forbidden $e) {
 				$deleted[] = $uri;
 			}
 		}
@@ -262,7 +245,7 @@ class SystemAddressbook extends AddressBook {
 			try {
 				$this->getChild($uri);
 				$modified[] = $uri;
-			} catch (NotFound | Forbidden $e) {
+			} catch (NotFound|Forbidden $e) {
 				$deleted[] = $uri;
 			}
 		}

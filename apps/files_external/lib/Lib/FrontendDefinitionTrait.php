@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,7 +13,7 @@ namespace OCA\Files_External\Lib;
 trait FrontendDefinitionTrait {
 
 	/** @var string human-readable mechanism name */
-	private string $text = "";
+	private string $text = '';
 
 	/** @var array<string, DefinitionParameter> parameters for mechanism */
 	private array $parameters = [];

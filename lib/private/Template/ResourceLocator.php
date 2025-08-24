@@ -75,7 +75,7 @@ abstract class ResourceLocator {
 	 * @return bool True if the resource was found, false otherwise
 	 */
 	protected function appendIfExist($root, $file, $webRoot = null) {
-		if ($root !== false && is_file($root.'/'.$file)) {
+		if ($root !== false && is_file($root . '/' . $file)) {
 			$this->append($root, $file, $webRoot, false);
 			return true;
 		}

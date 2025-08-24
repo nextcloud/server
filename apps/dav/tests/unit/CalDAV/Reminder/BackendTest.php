@@ -10,27 +10,20 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BackendTest extends TestCase {
-
-	/**
-	 * Reminder Backend
-	 *
-	 * @var ReminderBackend|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private $reminderBackend;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
+	private ReminderBackend $reminderBackend;
+	private ITimeFactory&MockObject $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$query = self::$realDatabase->getQueryBuilder();
-		$query->delete('calendar_reminders')->execute();
-		$query->delete('calendarobjects')->execute();
-		$query->delete('calendars')->execute();
+		$query->delete('calendar_reminders')->executeStatement();
+		$query->delete('calendarobjects')->executeStatement();
+		$query->delete('calendars')->executeStatement();
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->reminderBackend = new ReminderBackend(self::$realDatabase, $this->timeFactory);
@@ -40,9 +33,11 @@ class BackendTest extends TestCase {
 
 	protected function tearDown(): void {
 		$query = self::$realDatabase->getQueryBuilder();
-		$query->delete('calendar_reminders')->execute();
-		$query->delete('calendarobjects')->execute();
-		$query->delete('calendars')->execute();
+		$query->delete('calendar_reminders')->executeStatement();
+		$query->delete('calendarobjects')->executeStatement();
+		$query->delete('calendars')->executeStatement();
+
+		parent::tearDown();
 	}
 
 
@@ -95,7 +90,7 @@ class BackendTest extends TestCase {
 
 		$this->assertCount(4, $rows);
 
-		$this->reminderBackend->removeReminder((int) $rows[3]['id']);
+		$this->reminderBackend->removeReminder((int)$rows[3]['id']);
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
@@ -118,7 +113,7 @@ class BackendTest extends TestCase {
 		unset($rows[0]['id']);
 		unset($rows[1]['id']);
 
-		$this->assertEquals($rows[0], [
+		$expected1 = [
 			'calendar_id' => 1,
 			'object_id' => 1,
 			'uid' => 'asd',
@@ -134,8 +129,8 @@ class BackendTest extends TestCase {
 			'calendardata' => 'Calendar data 123',
 			'displayname' => 'Displayname 123',
 			'principaluri' => 'principals/users/user001',
-		]);
-		$this->assertEquals($rows[1], [
+		];
+		$expected2 = [
 			'calendar_id' => 1,
 			'object_id' => 1,
 			'uid' => 'asd',
@@ -151,7 +146,9 @@ class BackendTest extends TestCase {
 			'calendardata' => 'Calendar data 123',
 			'displayname' => 'Displayname 123',
 			'principaluri' => 'principals/users/user001',
-		]);
+		];
+
+		$this->assertEqualsCanonicalizing([$rows[0],$rows[1]], [$expected1,$expected2]);
 	}
 
 	public function testGetAllScheduledRemindersForEvent(): void {
@@ -233,14 +230,14 @@ class BackendTest extends TestCase {
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
 			->from('calendar_reminders')
-			->execute()
+			->executeQuery()
 			->fetchAll();
 
 		$this->assertCount(4, $rows);
 
 		$this->assertEquals($rows[3]['notification_date'], 123600);
 
-		$reminderId = (int)  $rows[3]['id'];
+		$reminderId = (int)$rows[3]['id'];
 		$newNotificationDate = 123700;
 
 		$this->reminderBackend->updateReminder($reminderId, $newNotificationDate);
@@ -249,10 +246,10 @@ class BackendTest extends TestCase {
 		$row = $query->select('notification_date')
 			->from('calendar_reminders')
 			->where($query->expr()->eq('id', $query->createNamedParameter($reminderId)))
-			->execute()
+			->executeQuery()
 			->fetch();
 
-		$this->assertEquals((int) $row['notification_date'], 123700);
+		$this->assertEquals((int)$row['notification_date'], 123700);
 	}
 
 
@@ -264,7 +261,7 @@ class BackendTest extends TestCase {
 				'principaluri' => $query->createNamedParameter('principals/users/user001'),
 				'displayname' => $query->createNamedParameter('Displayname 123'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->insert('calendars')
@@ -273,7 +270,7 @@ class BackendTest extends TestCase {
 				'principaluri' => $query->createNamedParameter('principals/users/user002'),
 				'displayname' => $query->createNamedParameter('Displayname 99'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->insert('calendarobjects')
@@ -283,7 +280,7 @@ class BackendTest extends TestCase {
 				'calendarid' => $query->createNamedParameter(1),
 				'size' => $query->createNamedParameter(42),
 			])
-			->execute();
+			->executeStatement();
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->insert('calendarobjects')
@@ -293,7 +290,7 @@ class BackendTest extends TestCase {
 				'calendarid' => $query->createNamedParameter(1),
 				'size' => $query->createNamedParameter(42),
 			])
-			->execute();
+			->executeStatement();
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->insert('calendarobjects')
@@ -303,7 +300,7 @@ class BackendTest extends TestCase {
 				'calendarid' => $query->createNamedParameter(99),
 				'size' => $query->createNamedParameter(42),
 			])
-			->execute();
+			->executeStatement();
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->insert('calendar_reminders')
@@ -321,7 +318,7 @@ class BackendTest extends TestCase {
 				'notification_date' => $query->createNamedParameter(123456),
 				'is_repeat_based' => $query->createNamedParameter(0),
 			])
-			->execute();
+			->executeStatement();
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->insert('calendar_reminders')
@@ -339,7 +336,7 @@ class BackendTest extends TestCase {
 				'notification_date' => $query->createNamedParameter(123456),
 				'is_repeat_based' => $query->createNamedParameter(0),
 			])
-			->execute();
+			->executeStatement();
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->insert('calendar_reminders')
@@ -357,7 +354,7 @@ class BackendTest extends TestCase {
 				'notification_date' => $query->createNamedParameter(123499),
 				'is_repeat_based' => $query->createNamedParameter(0),
 			])
-			->execute();
+			->executeStatement();
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$query->insert('calendar_reminders')
@@ -375,6 +372,6 @@ class BackendTest extends TestCase {
 				'notification_date' => $query->createNamedParameter(123600),
 				'is_repeat_based' => $query->createNamedParameter(0),
 			])
-			->execute();
+			->executeStatement();
 	}
 }

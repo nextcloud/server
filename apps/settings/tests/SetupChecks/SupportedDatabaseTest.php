@@ -6,13 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests;
+namespace OCA\Settings\Tests\SetupChecks;
 
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\IUrlGenerator;
+use OCP\IURLGenerator;
+use OCP\Server;
 use OCP\SetupCheck\SetupResult;
 use Test\TestCase;
 
@@ -29,24 +29,23 @@ class SupportedDatabaseTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IUrlGenerator::class)->getMock();
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->connection = Server::get(IDBConnection::class);
 
 		$this->check = new SupportedDatabase(
 			$this->l10n,
 			$this->urlGenerator,
-			\OCP\Server::get(IDBConnection::class)
+			Server::get(IDBConnection::class)
 		);
 	}
 
 	public function testPass(): void {
-		$platform = $this->connection->getDatabasePlatform();
-		if ($platform instanceof SqlitePlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 			/** SQlite always gets a warning */
 			$this->assertEquals(SetupResult::WARNING, $this->check->run()->getSeverity());
 		} else {
-			$this->assertEquals(SetupResult::SUCCESS, $this->check->run()->getSeverity());
+			$this->assertContains($this->check->run()->getSeverity(), [SetupResult::SUCCESS, SetupResult::INFO]);
 		}
 	}
 }

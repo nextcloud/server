@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -25,6 +26,9 @@ class APCu extends Cache implements IMemcache {
 	}
 
 	public function set($key, $value, $ttl = 0) {
+		if ($ttl === 0) {
+			$ttl = self::DEFAULT_TTL;
+		}
 		return apcu_store($this->getPrefix() . $key, $value, $ttl);
 	}
 
@@ -56,6 +60,9 @@ class APCu extends Cache implements IMemcache {
 	 * @return bool
 	 */
 	public function add($key, $value, $ttl = 0) {
+		if ($ttl === 0) {
+			$ttl = self::DEFAULT_TTL;
+		}
 		return apcu_add($this->getPrefix() . $key, $value, $ttl);
 	}
 
@@ -67,22 +74,8 @@ class APCu extends Cache implements IMemcache {
 	 * @return int | bool
 	 */
 	public function inc($key, $step = 1) {
-		$this->add($key, 0);
-		/**
-		 * TODO - hack around a PHP 7 specific issue in APCu
-		 *
-		 * on PHP 7 the apcu_inc method on a non-existing object will increment
-		 * "0" and result in "1" as value - therefore we check for existence
-		 * first
-		 *
-		 * on PHP 5.6 this is not the case
-		 *
-		 * see https://github.com/krakjoe/apcu/issues/183#issuecomment-244038221
-		 * for details
-		 */
-		return apcu_exists($this->getPrefix() . $key)
-			? apcu_inc($this->getPrefix() . $key, $step)
-			: false;
+		$success = null;
+		return apcu_inc($this->getPrefix() . $key, $step, $success, self::DEFAULT_TTL);
 	}
 
 	/**
@@ -93,18 +86,6 @@ class APCu extends Cache implements IMemcache {
 	 * @return int | bool
 	 */
 	public function dec($key, $step = 1) {
-		/**
-		 * TODO - hack around a PHP 7 specific issue in APCu
-		 *
-		 * on PHP 7 the apcu_dec method on a non-existing object will decrement
-		 * "0" and result in "-1" as value - therefore we check for existence
-		 * first
-		 *
-		 * on PHP 5.6 this is not the case
-		 *
-		 * see https://github.com/krakjoe/apcu/issues/183#issuecomment-244038221
-		 * for details
-		 */
 		return apcu_exists($this->getPrefix() . $key)
 			? apcu_dec($this->getPrefix() . $key, $step)
 			: false;

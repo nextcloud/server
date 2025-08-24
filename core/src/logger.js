@@ -19,3 +19,8 @@ const getLogger = user => {
 }
 
 export default getLogger(getCurrentUser())
+
+export const unifiedSearchLogger = getLoggerBuilder()
+	.setApp('unified-search')
+	.detectUser()
+	.build()

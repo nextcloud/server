@@ -14,6 +14,7 @@ use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 /**
@@ -38,13 +39,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const USER_AGENT_CHROME = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\)( Ubuntu Chromium\/[0-9.]+|) Chrome\/[0-9.]+ (Mobile Safari|Safari)\/[0-9.]+( (Vivaldi|Brave|OPR)\/[0-9.]+|)$/';
 	// Safari User Agent from http://www.useragentstring.com/pages/Safari/
 	public const USER_AGENT_SAFARI = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/[0-9.]+ Safari\/[0-9.A-Z]+$/';
+	public const USER_AGENT_SAFARI_MOBILE = '/^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/[0-9.]+ (Mobile\/[0-9.A-Z]+) Safari\/[0-9.A-Z]+$/';
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	public const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	public const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
 
 	protected string $inputStream;
-	protected $content;
+	private bool $isPutStreamContentAlreadySent = false;
 	protected array $items = [];
 	protected array $allowedKeys = [
 		'get',
@@ -63,18 +65,19 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected ?CsrfTokenManager $csrfTokenManager;
 
 	protected bool $contentDecoded = false;
+	private ?\JsonException $decodingException = null;
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
-	 *        - array 'urlParams' the parameters which were matched from the URL
-	 *        - array 'get' the $_GET array
-	 *        - array|string 'post' the $_POST array or JSON string
-	 *        - array 'files' the $_FILES array
-	 *        - array 'server' the $_SERVER array
-	 *        - array 'env' the $_ENV array
-	 *        - array 'cookies' the $_COOKIE array
-	 *        - string 'method' the request method (GET, POST etc)
-	 *        - string|false 'requesttoken' the requesttoken or false when not available
+	 *                    - array 'urlParams' the parameters which were matched from the URL
+	 *                    - array 'get' the $_GET array
+	 *                    - array|string 'post' the $_POST array or JSON string
+	 *                    - array 'files' the $_FILES array
+	 *                    - array 'server' the $_SERVER array
+	 *                    - array 'env' the $_ENV array
+	 *                    - array 'cookies' the $_COOKIE array
+	 *                    - string 'method' the request method (GET, POST etc)
+	 *                    - string|false 'requesttoken' the requesttoken or false when not available
 	 * @param IRequestId $requestId
 	 * @param IConfig $config
 	 * @param CsrfTokenManager|null $csrfTokenManager
@@ -283,11 +286,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * In case of json requests the encoded json body is accessed
 	 *
 	 * @param string $key the key which you want to access in the URL Parameter
-	 *                     placeholder, $_POST or $_GET array.
-	 *                     The priority how they're returned is the following:
-	 *                     1. URL parameters
-	 *                     2. POST parameters
-	 *                     3. GET parameters
+	 *                    placeholder, $_POST or $_GET array.
+	 *                    The priority how they're returned is the following:
+	 *                    1. URL parameters
+	 *                    2. POST parameters
+	 *                    3. GET parameters
 	 * @param mixed $default If the key is not found, this value will be returned
 	 * @return mixed the content of the array
 	 */
@@ -355,13 +358,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
 		if ($this->isPutStreamContent()) {
-			if ($this->content === false) {
+			if ($this->isPutStreamContentAlreadySent) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
 					. 'application/x-www-form-urlencoded or application/json.'
 				);
 			}
-			$this->content = false;
+			$this->isPutStreamContentAlreadySent = true;
 			return fopen($this->inputStream, 'rb');
 		} else {
 			$this->decodeContent();
@@ -388,7 +391,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// 'application/json' and other JSON-related content types must be decoded manually.
 		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
-			$params = json_decode(file_get_contents($this->inputStream), true);
+			$content = file_get_contents($this->inputStream);
+			if ($content !== '') {
+				try {
+					$params = json_decode($content, true, flags:JSON_THROW_ON_ERROR);
+				} catch (\JsonException $e) {
+					$this->decodingException = $e;
+				}
+			}
 			if (\is_array($params) && \count($params) > 0) {
 				$this->items['params'] = $params;
 				if ($this->method === 'POST') {
@@ -412,6 +422,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$this->contentDecoded = true;
 	}
 
+	public function throwDecodingExceptionIfAny(): void {
+		if ($this->decodingException !== null) {
+			throw $this->decodingException;
+		}
+	}
+
 
 	/**
 	 * Checks if the CSRF check was correct
@@ -424,6 +440,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		if (!$this->passesStrictCookieCheck()) {
 			return false;
+		}
+
+		if ($this->getHeader('OCS-APIRequest') !== '') {
+			return true;
 		}
 
 		if (isset($this->items['get']['requesttoken'])) {
@@ -479,7 +499,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$prefix = '__Host-';
 		}
 
-		return $prefix.$name;
+		return $prefix . $name;
 	}
 
 	/**
@@ -601,43 +621,53 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function isOverwriteCondition(): bool {
-		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
+		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '') . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}
 
 	/**
 	 * Returns the server protocol. It respects one or more reverse proxies servers
-	 * and load balancers
+	 * and load balancers. Precedence:
+	 *   1. `overwriteprotocol` config value
+	 *   2. `X-Forwarded-Proto` header value
+	 *   3. $_SERVER['HTTPS'] value
+	 * If an invalid protocol is provided, defaults to http, continues, but logs as an error.
+	 *
 	 * @return string Server protocol (http or https)
 	 */
 	public function getServerProtocol(): string {
-		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
-			&& $this->isOverwriteCondition()) {
-			return $this->config->getSystemValueString('overwriteprotocol');
-		}
+		$proto = 'http';
 
-		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
+		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
+			&& $this->isOverwriteCondition()
+		) {
+			$proto = strtolower($this->config->getSystemValueString('overwriteprotocol'));
+		} elseif ($this->fromTrustedProxy()
+			&& isset($this->server['HTTP_X_FORWARDED_PROTO'])
+		) {
 			if (str_contains($this->server['HTTP_X_FORWARDED_PROTO'], ',')) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_PROTO']);
 				$proto = strtolower(trim($parts[0]));
 			} else {
 				$proto = strtolower($this->server['HTTP_X_FORWARDED_PROTO']);
 			}
-
-			// Verify that the protocol is always HTTP or HTTPS
-			// default to http if an invalid value is provided
-			return $proto === 'https' ? 'https' : 'http';
-		}
-
-		if (isset($this->server['HTTPS'])
-			&& $this->server['HTTPS'] !== null
+		} elseif (!empty($this->server['HTTPS'])
 			&& $this->server['HTTPS'] !== 'off'
-			&& $this->server['HTTPS'] !== '') {
-			return 'https';
+		) {
+			$proto = 'https';
 		}
 
-		return 'http';
+		if ($proto !== 'https' && $proto !== 'http') {
+			// log unrecognized value so admin has a chance to fix it
+			\OCP\Server::get(LoggerInterface::class)->critical(
+				'Server protocol is malformed [falling back to http] (check overwriteprotocol and/or X-Forwarded-Proto to remedy): ' . $proto,
+				['app' => 'core']
+			);
+		}
+
+		// default to http if provided an invalid value
+		return $proto === 'https' ? 'https' : 'http';
 	}
 
 	/**
@@ -724,11 +754,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Get PathInfo from request
+	 * Get PathInfo from request (rawurldecoded)
 	 * @throws \Exception
 	 * @return string|false Path info or false when not found
 	 */
-	public function getPathInfo() {
+	public function getPathInfo(): string|false {
 		$pathInfo = $this->getRawPathInfo();
 		return \Sabre\HTTP\decodePath($pathInfo);
 	}
@@ -832,7 +862,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * Returns the overwritehost setting from the config if set and
 	 * if the overwrite condition is met
 	 * @return string|null overwritehost value or null if not defined or the defined condition
-	 * isn't met
+	 *                     isn't met
 	 */
 	private function getOverwriteHost() {
 		if ($this->config->getSystemValueString('overwritehost') !== '' && $this->isOverwriteCondition()) {

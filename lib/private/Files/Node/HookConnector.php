@@ -39,7 +39,7 @@ class HookConnector {
 		private IRootFolder $root,
 		private View $view,
 		private IEventDispatcher $dispatcher,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -171,7 +171,7 @@ class HookConnector {
 
 	public function copy($arguments) {
 		$source = $this->getNodeForPath($arguments['oldpath']);
-		$target = $this->getNodeForPath($arguments['newpath']);
+		$target = $this->getNodeForPath($arguments['newpath'], $source instanceof Folder);
 		$this->root->emit('\OC\Files', 'preCopy', [$source, $target]);
 		$this->dispatcher->dispatch('\OCP\Files::preCopy', new GenericEvent([$source, $target]));
 
@@ -203,7 +203,7 @@ class HookConnector {
 		$this->dispatcher->dispatchTyped($event);
 	}
 
-	private function getNodeForPath(string $path): Node {
+	private function getNodeForPath(string $path, bool $isDir = false): Node {
 		$info = Filesystem::getView()->getFileInfo($path);
 		if (!$info) {
 			$fullPath = Filesystem::getView()->getAbsolutePath($path);
@@ -212,7 +212,7 @@ class HookConnector {
 			} else {
 				$info = null;
 			}
-			if (Filesystem::is_dir($path)) {
+			if ($isDir || Filesystem::is_dir($path)) {
 				return new NonExistingFolder($this->root, $this->view, $fullPath, $info);
 			} else {
 				return new NonExistingFile($this->root, $this->view, $fullPath, $info);

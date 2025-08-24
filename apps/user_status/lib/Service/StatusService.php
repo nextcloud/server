@@ -22,6 +22,7 @@ use OCP\IConfig;
 use OCP\IEmojiHelper;
 use OCP\IUserManager;
 use OCP\UserStatus\IUserStatus;
+use Psr\Log\LoggerInterface;
 use function in_array;
 
 /**
@@ -63,12 +64,15 @@ class StatusService {
 	/** @var int */
 	public const MAXIMUM_MESSAGE_LENGTH = 80;
 
-	public function __construct(private UserStatusMapper $mapper,
+	public function __construct(
+		private UserStatusMapper $mapper,
 		private ITimeFactory $timeFactory,
 		private PredefinedStatusService $predefinedStatusService,
 		private IEmojiHelper $emojiHelper,
 		private IConfig $config,
-		private IUserManager $userManager) {
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+	) {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$this->shareeEnumerationPhone = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
@@ -163,7 +167,7 @@ class StatusService {
 		$userStatus->setIsBackup(false);
 
 		if ($userStatus->getId() === null) {
-			return $this->mapper->insert($userStatus);
+			return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 		}
 
 		return $this->mapper->update($userStatus);
@@ -207,7 +211,7 @@ class StatusService {
 		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() === null) {
-			return $this->mapper->insert($userStatus);
+			return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 		}
 
 		return $this->mapper->update($userStatus);
@@ -244,8 +248,28 @@ class StatusService {
 			$userStatus->setUserId($userId);
 		}
 
-		// CALL trumps CALENDAR status, but we don't need to do anything but overwrite the message
-		if ($userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY && $messageId === IUserStatus::MESSAGE_CALL) {
+		$updateStatus = false;
+		if ($messageId === IUserStatus::MESSAGE_OUT_OF_OFFICE) {
+			// OUT_OF_OFFICE trumps AVAILABILITY, CALL and CALENDAR status
+			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_AVAILABILITY || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALL || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY;
+		} elseif ($messageId === IUserStatus::MESSAGE_AVAILABILITY) {
+			// AVAILABILITY trumps CALL and CALENDAR status
+			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_CALL || $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY;
+		} elseif ($messageId === IUserStatus::MESSAGE_CALL) {
+			// CALL trumps CALENDAR status
+			$updateStatus = $userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY;
+		}
+
+		if ($messageId === IUserStatus::MESSAGE_OUT_OF_OFFICE || $messageId === IUserStatus::MESSAGE_AVAILABILITY || $messageId === IUserStatus::MESSAGE_CALL || $messageId === IUserStatus::MESSAGE_CALENDAR_BUSY) {
+			if ($updateStatus) {
+				$this->logger->debug('User ' . $userId . ' is currently NOT available, overwriting status [status: ' . $userStatus->getStatus() . ', messageId: ' . json_encode($userStatus->getMessageId()) . ']', ['app' => 'dav']);
+			} else {
+				$this->logger->debug('User ' . $userId . ' is currently NOT available, but we are NOT overwriting status [status: ' . $userStatus->getStatus() . ', messageId: ' . json_encode($userStatus->getMessageId()) . ']', ['app' => 'dav']);
+			}
+		}
+
+		// There should be a backup already or none is needed. So we take a shortcut.
+		if ($updateStatus) {
 			$userStatus->setStatus($status);
 			$userStatus->setStatusTimestamp($this->timeFactory->getTime());
 			$userStatus->setIsUserDefined(true);
@@ -265,7 +289,7 @@ class StatusService {
 
 			// If we just created the backup
 			// we need to create a new status to insert
-			// Unfortunatley there's no way to unset the DB ID on an Entity
+			// Unfortunately there's no way to unset the DB ID on an Entity
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($userId);
 		}
@@ -289,7 +313,7 @@ class StatusService {
 		if ($userStatus->getId() !== null) {
 			return $this->mapper->update($userStatus);
 		}
-		return $this->mapper->insert($userStatus);
+		return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 	}
 
 	/**
@@ -336,7 +360,7 @@ class StatusService {
 		$userStatus->setStatusMessageTimestamp($this->timeFactory->now()->getTimestamp());
 
 		if ($userStatus->getId() === null) {
-			return $this->mapper->insert($userStatus);
+			return $this->insertWithoutThrowingUniqueConstrain($userStatus);
 		}
 
 		return $this->mapper->update($userStatus);
@@ -475,10 +499,10 @@ class StatusService {
 			return;
 		}
 		// If there is a custom message, don't overwrite it
-		if(empty($status->getCustomMessage())) {
+		if (empty($status->getCustomMessage())) {
 			$status->setCustomMessage($predefinedMessage['message']);
 		}
-		if(empty($status->getCustomIcon())) {
+		if (empty($status->getCustomIcon())) {
 			$status->setCustomIcon($predefinedMessage['icon']);
 		}
 	}
@@ -559,5 +583,17 @@ class StatusService {
 
 		// For users that matched restore the previous status
 		$this->mapper->restoreBackupStatuses($restoreIds);
+	}
+
+	protected function insertWithoutThrowingUniqueConstrain(UserStatus $userStatus): UserStatus {
+		try {
+			return $this->mapper->insert($userStatus);
+		} catch (Exception $e) {
+			// Ignore if a parallel request already set the status
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
+		}
+		return $userStatus;
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,10 +8,11 @@
 namespace Test\RichObjectStrings;
 
 use OCP\RichObjectStrings\Definitions;
+use OCP\RichObjectStrings\InvalidObjectExeption;
 use Test\TestCase;
 
 class DefinitionsTest extends TestCase {
-	public function dataGetDefinition() {
+	public static function dataGetDefinition() {
 		$definitions = new Definitions();
 		$testsuite = [];
 		foreach ($definitions->definitions as $type => $definition) {
@@ -19,9 +21,9 @@ class DefinitionsTest extends TestCase {
 		return $testsuite;
 	}
 
-	
-	public function testGetDefinitionNotExisting() {
-		$this->expectException(\OCP\RichObjectStrings\InvalidObjectExeption::class);
+
+	public function testGetDefinitionNotExisting(): void {
+		$this->expectException(InvalidObjectExeption::class);
 		$this->expectExceptionMessage('Object type is undefined');
 
 		$definitions = new Definitions();
@@ -29,11 +31,11 @@ class DefinitionsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetDefinition
 	 * @param string $type
 	 * @param array $expected
 	 */
-	public function testGetDefinition($type, array $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetDefinition')]
+	public function testGetDefinition($type, array $expected): void {
 		$definitions = new Definitions();
 		$definition = $definitions->getDefinition($type);
 

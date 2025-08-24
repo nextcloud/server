@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -7,6 +8,7 @@ namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\IConfig;
+use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 
 /**
@@ -14,19 +16,13 @@ use OCP\Share\IManager;
  * @package OCA\User_LDAP
  */
 class DeletedUsersIndex {
-	protected IConfig $config;
-	protected UserMapping $mapping;
 	protected ?array $deletedUsers = null;
-	private IManager $shareManager;
 
 	public function __construct(
-		IConfig $config,
-		UserMapping $mapping,
-		IManager $shareManager
+		protected IConfig $config,
+		protected UserMapping $mapping,
+		private IManager $shareManager,
 	) {
-		$this->config = $config;
-		$this->mapping = $mapping;
-		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -74,7 +70,7 @@ class DeletedUsersIndex {
 	/**
 	 * marks a user as deleted
 	 *
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function markUser(string $ocName): void {
 		if ($this->isUserMarked($ocName)) {

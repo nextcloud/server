@@ -1,10 +1,12 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 
 class Todo extends Event {
@@ -14,12 +16,12 @@ class Todo extends Event {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_todo') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->l = $this->languageFactory->get('dav', $language);
@@ -55,7 +57,7 @@ class Todo extends Event {
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_todo_self') {
 			$subject = $this->l->t('You moved to-do {todo} from list {sourceCalendar} to list {targetCalendar}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$parsedParameters = $this->getParameters($event);
@@ -85,7 +87,7 @@ class Todo extends Event {
 					return [
 						'actor' => $this->generateUserParameter($parameters['actor']),
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
-						'todo' => $this->generateObjectParameter($parameters['object']),
+						'todo' => $this->generateObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 				case self::SUBJECT_OBJECT_ADD . '_todo_self':
 				case self::SUBJECT_OBJECT_DELETE . '_todo_self':
@@ -94,7 +96,7 @@ class Todo extends Event {
 				case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
 					return [
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
-						'todo' => $this->generateObjectParameter($parameters['object']),
+						'todo' => $this->generateObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 			}
 		}
@@ -106,13 +108,13 @@ class Todo extends Event {
 						'actor' => $this->generateUserParameter($parameters['actor']),
 						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
 						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
-						'todo' => $this->generateObjectParameter($parameters['object']),
+						'todo' => $this->generateObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 				case self::SUBJECT_OBJECT_MOVE . '_todo_self':
 					return [
 						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
 						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
-						'todo' => $this->generateObjectParameter($parameters['object']),
+						'todo' => $this->generateObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 			}
 		}
@@ -131,7 +133,7 @@ class Todo extends Event {
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
 					'calendar' => $this->generateLegacyCalendarParameter($event->getObjectId(), $parameters[1]),
-					'todo' => $this->generateObjectParameter($parameters[2]),
+					'todo' => $this->generateObjectParameter($parameters[2], $event->getAffectedUser()),
 				];
 			case self::SUBJECT_OBJECT_ADD . '_todo_self':
 			case self::SUBJECT_OBJECT_DELETE . '_todo_self':
@@ -140,7 +142,7 @@ class Todo extends Event {
 			case self::SUBJECT_OBJECT_UPDATE . '_todo_needs_action_self':
 				return [
 					'calendar' => $this->generateLegacyCalendarParameter($event->getObjectId(), $parameters[1]),
-					'todo' => $this->generateObjectParameter($parameters[2]),
+					'todo' => $this->generateObjectParameter($parameters[2], $event->getAffectedUser()),
 				];
 		}
 

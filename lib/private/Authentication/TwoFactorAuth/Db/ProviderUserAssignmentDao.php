@@ -29,7 +29,7 @@ class ProviderUserAssignmentDao {
 	 * Get all assigned provider IDs for the given user ID
 	 *
 	 * @return array<string, bool> where the array key is the provider ID (string) and the
-	 *                  value is the enabled state (bool)
+	 *                             value is the enabled state (bool)
 	 */
 	public function getState(string $uid): array {
 		$qb = $this->conn->getQueryBuilder();
@@ -37,7 +37,7 @@ class ProviderUserAssignmentDao {
 		$query = $qb->select('provider_id', 'enabled')
 			->from(self::TABLE_NAME)
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$providers = [];
 		foreach ($result->fetchAll() as $row) {
 			$providers[(string)$row['provider_id']] = (int)$row['enabled'] === 1;
@@ -95,7 +95,7 @@ class ProviderUserAssignmentDao {
 			return [
 				'provider_id' => (string)$row['provider_id'],
 				'uid' => (string)$row['uid'],
-				'enabled' => ((int) $row['enabled']) === 1,
+				'enabled' => ((int)$row['enabled']) === 1,
 			];
 		}, $rows));
 	}
@@ -106,6 +106,6 @@ class ProviderUserAssignmentDao {
 		$deleteQuery = $qb->delete(self::TABLE_NAME)
 			->where($qb->expr()->eq('provider_id', $qb->createNamedParameter($providerId)));
 
-		$deleteQuery->execute();
+		$deleteQuery->executeStatement();
 	}
 }

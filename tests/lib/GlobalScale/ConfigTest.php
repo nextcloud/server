@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,7 +12,7 @@ use OCP\IConfig;
 use Test\TestCase;
 
 class ConfigTest extends TestCase {
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -28,14 +29,14 @@ class ConfigTest extends TestCase {
 		if (!empty($mockMethods)) {
 			return $this->getMockBuilder(Config::class)
 				->setConstructorArgs([$this->config])
-				->setMethods($mockMethods)
+				->onlyMethods($mockMethods)
 				->getMock();
 		}
 
 		return new Config($this->config);
 	}
 
-	public function testIsGlobalScaleEnabled() {
+	public function testIsGlobalScaleEnabled(): void {
 		$gsConfig = $this->getInstance();
 		$this->config->expects($this->once())->method('getSystemValueBool')
 			->with('gs.enabled', false)->willReturn(true);
@@ -47,13 +48,13 @@ class ConfigTest extends TestCase {
 
 
 	/**
-	 * @dataProvider dataTestOnlyInternalFederation
 	 *
 	 * @param bool $gsEnabled
 	 * @param string $gsFederation
 	 * @param bool $expected
 	 */
-	public function testOnlyInternalFederation($gsEnabled, $gsFederation, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestOnlyInternalFederation')]
+	public function testOnlyInternalFederation($gsEnabled, $gsFederation, $expected): void {
 		$gsConfig = $this->getInstance(['isGlobalScaleEnabled']);
 
 		$gsConfig->expects($this->any())->method('isGlobalScaleEnabled')->willReturn($gsEnabled);
@@ -64,7 +65,7 @@ class ConfigTest extends TestCase {
 		$this->assertSame($expected, $gsConfig->onlyInternalFederation());
 	}
 
-	public function dataTestOnlyInternalFederation() {
+	public static function dataTestOnlyInternalFederation(): array {
 		return [
 			[true, 'global', false],
 			[true, 'internal', true],

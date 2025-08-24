@@ -3,15 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
-import Vuex, { Store } from 'vuex'
+import { Store } from 'vuex'
 import users from './users.js'
 import apps from './apps.js'
 import settings from './users-settings.js'
 import oc from './oc.js'
 import { showError } from '@nextcloud/dialogs'
-
-Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 

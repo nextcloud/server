@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-script('core', 'login/grant');
+\OCP\Util::addScript('core', 'login/grant', 'core');
 style('core', 'login/authpicker');
 
 /** @var array $_ */
@@ -33,6 +33,9 @@ $urlGenerator = $_['urlGenerator'];
 		<form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.generateAppPassword')) ?>">
 			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 			<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
+			<?php if ($_['direct']) { ?>
+			<input type="hidden" name="direct" value="1" />
+			<?php } ?>
 			<div id="submit-wrapper">
 				<input type="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Grant access')); ?>" />
 			</div>

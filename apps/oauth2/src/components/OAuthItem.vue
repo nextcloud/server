@@ -10,11 +10,12 @@
 		<td>
 			<div class="action-secret">
 				<code>{{ renderedSecret }}</code>
-				<NcButton type="tertiary-no-background"
+				<NcButton v-if="clientSecret !== ''"
+					type="tertiary-no-background"
 					:aria-label="toggleAriaLabel"
 					@click="toggleSecret">
 					<template #icon>
-						<EyeOutline :size="20"/>
+						<EyeOutline :size="20" />
 					</template>
 				</NcButton>
 			</div>
@@ -34,9 +35,9 @@
 
 <script>
 
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
 import EyeOutline from 'vue-material-design-icons/EyeOutline.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 export default {
 	name: 'OAuthItem',
@@ -72,9 +73,9 @@ export default {
 		toggleAriaLabel() {
 			if (!this.renderSecret) {
 				return t('oauth2', 'Show client secret')
-			} 
+			}
 			return t('oauth2', 'Hide client secret')
-		}
+		},
 	},
 	methods: {
 		toggleSecret() {
@@ -89,13 +90,16 @@ export default {
 		display: flex;
 		align-items: center;
 	}
+
 	.action-secret code {
 		padding-top: 5px;
 	}
+
 	td code {
 		display: inline-block;
 		vertical-align: middle;
 	}
+
 	table.inline td {
 		border: none;
 		padding: 5px;
@@ -104,6 +108,6 @@ export default {
 	.action-column {
 		display: flex;
 		justify-content: flex-end;
-		padding-right: 0;
+		padding-inline-end: 0;
 	}
 </style>

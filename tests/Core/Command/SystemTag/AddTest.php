@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -33,14 +34,14 @@ class AddTest extends TestCase {
 		$this->systemTagManager = $this->createMock(ISystemTagManager::class);
 		$this->command = $this->getMockBuilder(Add::class)
 			->setConstructorArgs([$this->systemTagManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$tagId = '42';
 		$tagName = 'wichtig';
 		$tagAccess = 'public';
@@ -82,7 +83,7 @@ class AddTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testAlreadyExists() {
+	public function testAlreadyExists(): void {
 		$tagId = '42';
 		$tagName = 'wichtig';
 		$tagAccess = 'public';
@@ -93,9 +94,9 @@ class AddTest extends TestCase {
 		$tag->method('getAccessLevel')->willReturn(ISystemTag::ACCESS_LEVEL_PUBLIC);
 
 		$this->systemTagManager->method('createTag')
-			->willReturnCallback(function ($tagName, $userVisible, $userAssignable) {
+			->willReturnCallback(function ($tagName, $userVisible, $userAssignable): void {
 				throw new TagAlreadyExistsException(
-					'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists'
+					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);
 			});
 

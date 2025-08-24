@@ -12,9 +12,12 @@ namespace OCA\Files_Trashbin\Migration;
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
+use OCP\Migration\Attributes\AddColumn;
+use OCP\Migration\Attributes\ColumnType;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
+#[AddColumn(table: 'files_trash', name: 'deleted_by', type: ColumnType::STRING)]
 class Version1020Date20240403003535 extends SimpleMigrationStep {
 
 	/**

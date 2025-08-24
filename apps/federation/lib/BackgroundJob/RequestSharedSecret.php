@@ -18,6 +18,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\Job;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
 use Psr\Log\LoggerInterface;
@@ -47,6 +48,7 @@ class RequestSharedSecret extends Job {
 		private IDiscoveryService $ocsDiscoveryService,
 		private LoggerInterface $logger,
 		ITimeFactory $timeFactory,
+		private IConfig $config,
 	) {
 		parent::__construct($timeFactory);
 		$this->httpClient = $httpClientService->newClient();
@@ -93,6 +95,7 @@ class RequestSharedSecret extends Job {
 		// kill job after 30 days of trying
 		$deadline = $currentTime - $this->maxLifespan;
 		if ($created < $deadline) {
+			$this->logger->warning("The job to request the shared secret job is too old and gets stopped now without retention. Setting server status of '{$target}' to failure.");
 			$this->retainJob = false;
 			$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);
 			return;
@@ -115,6 +118,7 @@ class RequestSharedSecret extends Job {
 					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			);
 
@@ -122,16 +126,16 @@ class RequestSharedSecret extends Job {
 		} catch (ClientException $e) {
 			$status = $e->getCode();
 			if ($status === Http::STATUS_FORBIDDEN) {
-				$this->logger->info($target . ' refused to ask for a shared secret.', ['app' => 'federation']);
+				$this->logger->info($target . ' refused to ask for a shared secret.');
 			} else {
-				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage(), ['app' => 'federation']);
+				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage());
 			}
 		} catch (RequestException $e) {
 			$status = -1; // There is no status code if we could not connect
-			$this->logger->info('Could not connect to ' . $target, ['app' => 'federation']);
+			$this->logger->info('Could not connect to ' . $target);
 		} catch (\Throwable $e) {
 			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
-			$this->logger->error($e->getMessage(), ['app' => 'federation', 'exception' => $e]);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 		}
 
 		// if we received a unexpected response we try again later

@@ -18,7 +18,7 @@ class MigratorExecuteSqlEvent extends Event {
 	public function __construct(
 		string $sql,
 		int $current,
-		int $max
+		int $max,
 	) {
 		$this->sql = $sql;
 		$this->current = $current;

@@ -22,6 +22,7 @@ module.exports = {
 		'plugin:cypress/recommended',
 	],
 	rules: {
+		'comma-dangle': 'error',
 		'no-tabs': 'warn',
 		// TODO: make sure we fix this as this is bad vue coding style.
 		// Use proper sync modifier
@@ -30,10 +31,23 @@ module.exports = {
 			// allows custom xxxx:xxx events formats
 			ignores: ['/^[a-z]+(?:-[a-z]+)*:[a-z]+(?:-[a-z]+)*$/u'],
 		}],
+		'vue/html-self-closing': 'error',
 	},
 	settings: {
 		jsdoc: {
 			mode: 'typescript',
 		},
+		'import/resolver': {
+			typescript: {}, // this loads <rootdir>/tsconfig.json to eslint
+		},
 	},
+	overrides: [
+		// Allow any in tests
+		{
+			files: ['**/*.spec.ts'],
+			rules: {
+				'@typescript-eslint/no-explicit-any': 'warn',
+			},
+		},
+	],
 }

@@ -31,8 +31,16 @@ class AnyLoginFailedEvent extends Event {
 
 	/**
 	 * @since 26.0.0
+	 * @deprecated 31.0.0 Use getLoginName() instead
 	 */
 	public function geLoginName(): string {
+		return $this->loginName;
+	}
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function getLoginName(): string {
 		return $this->loginName;
 	}
 

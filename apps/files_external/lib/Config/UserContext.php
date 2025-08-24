@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,26 +15,15 @@ use OCP\Share\IManager as ShareManager;
 
 class UserContext {
 
-	/** @var IUserSession */
-	private $session;
-
-	/** @var ShareManager */
-	private $shareManager;
-
-	/** @var IRequest */
-	private $request;
-
 	/** @var string */
 	private $userId;
 
-	/** @var IUserManager */
-	private $userManager;
-
-	public function __construct(IUserSession $session, ShareManager $manager, IRequest $request, IUserManager $userManager) {
-		$this->session = $session;
-		$this->shareManager = $manager;
-		$this->request = $request;
-		$this->userManager = $userManager;
+	public function __construct(
+		private IUserSession $session,
+		private ShareManager $shareManager,
+		private IRequest $request,
+		private IUserManager $userManager,
+	) {
 	}
 
 	public function getSession(): IUserSession {
@@ -48,7 +38,7 @@ class UserContext {
 		if ($this->userId !== null) {
 			return $this->userId;
 		}
-		if ($this->session && $this->session->getUser() !== null) {
+		if ($this->session->getUser() !== null) {
 			return $this->session->getUser()->getUID();
 		}
 		try {

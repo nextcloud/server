@@ -25,7 +25,7 @@ class IndexRequestService {
 
 	public function __construct(
 		private IDBConnection $dbConnection,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -82,9 +82,9 @@ class IndexRequestService {
 	private function insertIndexString(int $fileId, string $key, string $value): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert(self::TABLE_METADATA_INDEX)
-		   ->setValue('meta_key', $qb->createNamedParameter($key))
-		   ->setValue('meta_value_string', $qb->createNamedParameter($value))
-		   ->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
+			->setValue('meta_key', $qb->createNamedParameter($key))
+			->setValue('meta_value_string', $qb->createNamedParameter($value))
+			->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
 		$qb->executeStatement();
 	}
 
@@ -100,9 +100,9 @@ class IndexRequestService {
 	public function insertIndexInt(int $fileId, string $key, int $value): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert(self::TABLE_METADATA_INDEX)
-		   ->setValue('meta_key', $qb->createNamedParameter($key))
-		   ->setValue('meta_value_int', $qb->createNamedParameter($value, IQueryBuilder::PARAM_INT))
-		   ->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
+			->setValue('meta_key', $qb->createNamedParameter($key))
+			->setValue('meta_value_int', $qb->createNamedParameter($value, IQueryBuilder::PARAM_INT))
+			->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
 		$qb->executeStatement();
 	}
 
@@ -118,9 +118,9 @@ class IndexRequestService {
 	public function insertIndexBool(int $fileId, string $key, bool $value): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert(self::TABLE_METADATA_INDEX)
-		   ->setValue('meta_key', $qb->createNamedParameter($key))
-		   ->setValue('meta_value_int', $qb->createNamedParameter(($value) ? '1' : '0', IQueryBuilder::PARAM_INT))
-		   ->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
+			->setValue('meta_key', $qb->createNamedParameter($key))
+			->setValue('meta_value_int', $qb->createNamedParameter(($value) ? '1' : '0', IQueryBuilder::PARAM_INT))
+			->setValue('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT));
 		$qb->executeStatement();
 	}
 
@@ -167,7 +167,7 @@ class IndexRequestService {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$expr = $qb->expr();
 		$qb->delete(self::TABLE_METADATA_INDEX)
-		   ->where($expr->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+			->where($expr->eq('file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
 
 		if ($key !== '') {
 			$qb->andWhere($expr->eq('meta_key', $qb->createNamedParameter($key)));

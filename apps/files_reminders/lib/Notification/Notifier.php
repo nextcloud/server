@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\FilesReminders\Notification;
 
-use InvalidArgumentException;
 use OCA\FilesReminders\AppInfo\Application;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
@@ -19,6 +18,7 @@ use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 	public function __construct(
@@ -37,14 +37,13 @@ class Notifier implements INotifier {
 	}
 
 	/**
-	 * @throws InvalidArgumentException
-	 * @throws AlreadyProcessedException
+	 * @throws UnknownNotificationException
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		$l = $this->l10nFactory->get(Application::APP_ID, $languageCode);
 
 		if ($notification->getApp() !== Application::APP_ID) {
-			throw new InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 
 		switch ($notification->getSubject()) {
@@ -53,8 +52,8 @@ class Notifier implements INotifier {
 				$fileId = $params['fileId'];
 
 				$node = $this->root->getUserFolder($notification->getUser())->getFirstNodeById($fileId);
-				if (!$node) {
-					throw new InvalidArgumentException();
+				if ($node === null) {
+					throw new AlreadyProcessedException();
 				}
 
 				$path = rtrim($node->getPath(), '/');
@@ -77,7 +76,7 @@ class Notifier implements INotifier {
 						[
 							'name' => [
 								'type' => 'highlight',
-								'id' => $node->getId(),
+								'id' => (string)$node->getId(),
 								'name' => $node->getName(),
 							],
 						],
@@ -92,8 +91,7 @@ class Notifier implements INotifier {
 				$this->addActionButton($notification, $label);
 				break;
 			default:
-				throw new InvalidArgumentException();
-				break;
+				throw new UnknownNotificationException();
 		}
 
 		return $notification;

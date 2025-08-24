@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -51,7 +52,7 @@ class RemoveUserTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testNoGroup() {
+	public function testNoGroup(): void {
 		$this->groupManager->method('get')
 			->with('myGroup')
 			->willReturn(null);
@@ -63,7 +64,7 @@ class RemoveUserTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testNoUser() {
+	public function testNoUser(): void {
 		$group = $this->createMock(IGroup::class);
 		$this->groupManager->method('get')
 			->with('myGroup')
@@ -80,7 +81,7 @@ class RemoveUserTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testAdd() {
+	public function testAdd(): void {
 		$group = $this->createMock(IGroup::class);
 		$this->groupManager->method('get')
 			->with('myGroup')

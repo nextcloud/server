@@ -129,6 +129,9 @@
                                     },
                                     "upload_files_drop": {
                                         "type": "boolean"
+                                    },
+                                    "custom_tokens": {
+                                        "type": "boolean"
                                     }
                                 }
                             },
@@ -480,6 +483,7 @@
                     "file_target",
                     "has_preview",
                     "hide_download",
+                    "is-mount-root",
                     "id",
                     "item_mtime",
                     "item_size",
@@ -488,6 +492,7 @@
                     "label",
                     "mail_send",
                     "mimetype",
+                    "mount-type",
                     "note",
                     "parent",
                     "path",
@@ -543,6 +548,12 @@
                             1
                         ]
                     },
+                    "is_trusted_server": {
+                        "type": "boolean"
+                    },
+                    "is-mount-root": {
+                        "type": "boolean"
+                    },
                     "id": {
                         "type": "string"
                     },
@@ -589,6 +600,9 @@
                         ]
                     },
                     "mimetype": {
+                        "type": "string"
+                    },
+                    "mount-type": {
                         "type": "string"
                     },
                     "note": {
@@ -758,15 +772,9 @@
             "Sharee": {
                 "type": "object",
                 "required": [
-                    "count",
                     "label"
                 ],
                 "properties": {
-                    "count": {
-                        "type": "integer",
-                        "format": "int64",
-                        "nullable": true
-                    },
                     "label": {
                         "type": "string"
                     }
@@ -843,6 +851,24 @@
                     }
                 ]
             },
+            "ShareeGroup": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Sharee"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "value"
+                        ],
+                        "properties": {
+                            "value": {
+                                "$ref": "#/components/schemas/ShareeValue"
+                            }
+                        }
+                    }
+                ]
+            },
             "ShareeLookup": {
                 "allOf": [
                     {
@@ -874,40 +900,76 @@
                                         "type": "string"
                                     },
                                     "name": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "email": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "address": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "website": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "twitter": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "phone": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "twitter_signature": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "website_signature": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     },
                                     "userid": {
-                                        "$ref": "#/components/schemas/Lookup",
-                                        "nullable": true
+                                        "nullable": true,
+                                        "allOf": [
+                                            {
+                                                "$ref": "#/components/schemas/Lookup"
+                                            }
+                                        ]
                                     }
                                 }
                             },
@@ -1019,6 +1081,24 @@
                     }
                 ]
             },
+            "ShareeRoom": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Sharee"
+                    },
+                    {
+                        "type": "object",
+                        "required": [
+                            "value"
+                        ],
+                        "properties": {
+                            "value": {
+                                "$ref": "#/components/schemas/ShareeValue"
+                            }
+                        }
+                    }
+                ]
+            },
             "ShareeUser": {
                 "allOf": [
                     {
@@ -1121,7 +1201,7 @@
                             "groups": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "#/components/schemas/Sharee"
+                                    "$ref": "#/components/schemas/ShareeGroup"
                                 }
                             },
                             "remote_groups": {
@@ -1153,7 +1233,7 @@
                     "groups": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Sharee"
+                            "$ref": "#/components/schemas/ShareeGroup"
                         }
                     },
                     "remote_groups": {
@@ -1218,7 +1298,7 @@
                             "groups": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "#/components/schemas/Sharee"
+                                    "$ref": "#/components/schemas/ShareeGroup"
                                 }
                             },
                             "remote_groups": {
@@ -1236,7 +1316,7 @@
                             "rooms": {
                                 "type": "array",
                                 "items": {
-                                    "$ref": "#/components/schemas/Sharee"
+                                    "$ref": "#/components/schemas/ShareeRoom"
                                 }
                             },
                             "users": {
@@ -1262,7 +1342,7 @@
                     "groups": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Sharee"
+                            "$ref": "#/components/schemas/ShareeGroup"
                         }
                     },
                     "lookup": {
@@ -1286,7 +1366,7 @@
                     "rooms": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Sharee"
+                            "$ref": "#/components/schemas/ShareeRoom"
                         }
                     },
                     "users": {
@@ -1387,6 +1467,15 @@
                 ],
                 "parameters": [
                     {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Token of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "file",
                         "in": "query",
                         "description": "File in the share",
@@ -1429,10 +1518,21 @@
                         }
                     },
                     {
-                        "name": "token",
-                        "in": "path",
-                        "description": "Token of the share",
-                        "required": true,
+                        "name": "mimeFallback",
+                        "in": "query",
+                        "description": "Whether to fallback to the mime icon if no preview is available",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
+                        "name": "x-nc-preview",
+                        "in": "header",
                         "schema": {
                             "type": "string"
                         }
@@ -1473,6 +1573,16 @@
                                 "schema": {}
                             }
                         }
+                    },
+                    "303": {
+                        "description": "Redirect to the mime icon url if mimeFallback is true",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1493,45 +1603,43 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "t",
-                        "in": "query",
-                        "description": "Token of the share",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "Password of the share",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "dir",
-                        "in": "query",
-                        "description": "Subdirectory to get info about",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "depth",
-                        "in": "query",
-                        "description": "Maximum depth to get info about",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": -1
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "t"
+                                ],
+                                "properties": {
+                                    "t": {
+                                        "type": "string",
+                                        "description": "Token of the share"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Password of the share"
+                                    },
+                                    "dir": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Subdirectory to get info about"
+                                    },
+                                    "depth": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": -1,
+                                        "description": "Maximum depth to get info about"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Share info returned",
@@ -1712,108 +1820,97 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "path": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Path of the share"
+                                    },
+                                    "permissions": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Permissions for the share"
+                                    },
+                                    "shareType": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": -1,
+                                        "description": "Type of the share"
+                                    },
+                                    "shareWith": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "The entity this should be shared with"
+                                    },
+                                    "publicUpload": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "enum": [
+                                            "true",
+                                            "false"
+                                        ],
+                                        "description": "If public uploading is allowed (deprecated)"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Password for the share"
+                                    },
+                                    "sendPasswordByTalk": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Send the password for the share over Talk"
+                                    },
+                                    "expireDate": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "The expiry date of the share in the user's timezone at 00:00. If $expireDate is not supplied or set to `null`, the system default will be used."
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Note for the share"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Label for the share (only used in link and email)"
+                                    },
+                                    "attributes": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "Additional attributes for the share"
+                                    },
+                                    "sendMail": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "enum": [
+                                            "false",
+                                            "true"
+                                        ],
+                                        "description": "Send a mail to the recipient"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "path",
-                        "in": "query",
-                        "description": "Path of the share",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "permissions",
-                        "in": "query",
-                        "description": "Permissions for the share",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "shareType",
-                        "in": "query",
-                        "description": "Type of the share",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": -1
-                        }
-                    },
-                    {
-                        "name": "shareWith",
-                        "in": "query",
-                        "description": "The entity this should be shared with",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "publicUpload",
-                        "in": "query",
-                        "description": "If public uploading is allowed",
-                        "schema": {
-                            "type": "string",
-                            "default": "false"
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "Password for the share",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "sendPasswordByTalk",
-                        "in": "query",
-                        "description": "Send the password for the share over Talk",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "expireDate",
-                        "in": "query",
-                        "description": "The expiry date of the share in the user's timezone (UTC) at 00:00. If $expireDate is not supplied or set to `null`, the system default will be used.",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "note",
-                        "in": "query",
-                        "description": "Note for the share",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "label",
-                        "in": "query",
-                        "description": "Label for the share (only used in link and email)",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "attributes",
-                        "in": "query",
-                        "description": "Additional attributes for the share",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -2135,6 +2232,15 @@
                 ],
                 "parameters": [
                     {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the share",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "include_tags",
                         "in": "query",
                         "description": "Include tags in the share",
@@ -2145,15 +2251,6 @@
                                 0,
                                 1
                             ]
-                        }
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the share",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
                         }
                     },
                     {
@@ -2189,7 +2286,10 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/Share"
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Share"
+                                                    }
                                                 }
                                             }
                                         }
@@ -2242,89 +2342,86 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "permissions": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New permissions"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New password"
+                                    },
+                                    "sendPasswordByTalk": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New condition if the password should be send over Talk"
+                                    },
+                                    "publicUpload": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New condition if public uploading is allowed"
+                                    },
+                                    "expireDate": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New expiry date"
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New note"
+                                    },
+                                    "label": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New label"
+                                    },
+                                    "hideDownload": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New condition if the download should be hidden"
+                                    },
+                                    "attributes": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New additional attributes"
+                                    },
+                                    "sendMail": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "if the share should be send by mail. Considering the share already exists, no mail will be send after the share is updated. You will have to use the sendMail action to send the mail."
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "default": null,
+                                        "description": "New token"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "permissions",
-                        "in": "query",
-                        "description": "New permissions",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "New password",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "sendPasswordByTalk",
-                        "in": "query",
-                        "description": "New condition if the password should be send over Talk",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "publicUpload",
-                        "in": "query",
-                        "description": "New condition if public uploading is allowed",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "expireDate",
-                        "in": "query",
-                        "description": "New expiry date",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "note",
-                        "in": "query",
-                        "description": "New note",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "label",
-                        "in": "query",
-                        "description": "New label",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "hideDownload",
-                        "in": "query",
-                        "description": "New condition if the download should be hidden",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "attributes",
-                        "in": "query",
-                        "description": "New additional attributes",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "id",
                         "in": "path",
@@ -2556,6 +2653,175 @@
                     },
                     "403": {
                         "description": "Missing permissions to delete the share",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/files_sharing/api/v1/shares/{id}/send-email": {
+            "post": {
+                "operationId": "shareapi-send-share-email",
+                "summary": "Send a mail notification again for a share. The mail_send option must be enabled for the given share.",
+                "tags": [
+                    "shareapi"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "the password to check against. Necessary for password protected shares."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the share ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Share not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "You are not allowed to send mail notifications",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request or wrong password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "The email notification was sent successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2900,7 +3166,8 @@
                         "description": "Limit to specific item types",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "default": null
                         }
                     },
                     {
@@ -2929,6 +3196,7 @@
                         "description": "Limit to specific share types",
                         "schema": {
                             "nullable": true,
+                            "default": null,
                             "oneOf": [
                                 {
                                     "type": "integer",
@@ -3068,6 +3336,7 @@
                         "description": "Limit to specific share types",
                         "schema": {
                             "nullable": true,
+                            "default": null,
                             "oneOf": [
                                 {
                                     "type": "integer",
@@ -3669,12 +3938,76 @@
                     }
                 }
             }
+        },
+        "/ocs/v2.php/apps/files_sharing/api/v1/token": {
+            "get": {
+                "operationId": "shareapi-generate-token",
+                "summary": "Get a unique share token",
+                "tags": [
+                    "shareapi"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Token generated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "token"
+                                                    ],
+                                                    "properties": {
+                                                        "token": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
-    "tags": [
-        {
-            "name": "external_shares",
-            "description": "Class ExternalSharesController"
-        }
-    ]
+    "tags": []
 }

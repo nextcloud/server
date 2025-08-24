@@ -23,7 +23,7 @@ use Psr\Log\LoggerInterface;
 class MetadataDelete implements IEventListener {
 	public function __construct(
 		private IFilesMetadataManager $filesMetadataManager,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

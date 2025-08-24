@@ -61,23 +61,25 @@ class RecentContactMapper extends QBMapper {
 		?string $cloudId): array {
 		$qb = $this->db->getQueryBuilder();
 
-		$or = $qb->expr()->orX();
+		$additionalWheres = [];
 		if ($uid !== null) {
-			$or->add($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
+			$additionalWheres[] = $qb->expr()->eq('uid', $qb->createNamedParameter($uid));
 		}
 		if ($email !== null) {
-			$or->add($qb->expr()->eq('email', $qb->createNamedParameter($email)));
+			$additionalWheres[] = $qb->expr()->eq('email', $qb->createNamedParameter($email));
 		}
 		if ($cloudId !== null) {
-			$or->add($qb->expr()->eq('federated_cloud_id', $qb->createNamedParameter($cloudId)));
+			$additionalWheres[] = $qb->expr()->eq('federated_cloud_id', $qb->createNamedParameter($cloudId));
 		}
 
 		$select = $qb
 			->select('*')
 			->from($this->getTableName())
-			->where($or)
-			->andWhere($qb->expr()->eq('actor_uid', $qb->createNamedParameter($user->getUID())));
+			->where($qb->expr()->eq('actor_uid', $qb->createNamedParameter($user->getUID())));
 
+		if (!empty($additionalWheres)) {
+			$select->andWhere($select->expr()->orX(...$additionalWheres));
+		}
 		return $this->findEntities($select);
 	}
 

@@ -14,12 +14,11 @@ use OCP\IConfig;
 use OCP\ISession;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class SetUserTimezoneCommandTest extends ALoginCommandTest {
-	/** @var IConfig|MockObject */
-	private $config;
+class SetUserTimezoneCommandTest extends ALoginTestCommand {
 
-	/** @var ISession|MockObject */
-	private $session;
+	private IConfig&MockObject $config;
+
+	private ISession&MockObject $session;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -33,7 +32,7 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcessNoTimezoneSet() {
+	public function testProcessNoTimezoneSet(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->config->expects($this->never())
 			->method('setUserValue');
@@ -45,11 +44,20 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getLoggedInLoginDataWithTimezone();
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($this->username);
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->username,
+				'core',
+				'timezone',
+				''
+			)
+			->willReturn('');
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with(
@@ -58,6 +66,34 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 				'timezone',
 				$this->timezone
 			);
+		$this->session->expects($this->once())
+			->method('set')
+			->with(
+				'timezone',
+				$this->timeZoneOffset
+			);
+
+		$result = $this->cmd->process($data);
+
+		$this->assertTrue($result->isSuccess());
+	}
+
+	public function testProcessAlreadySet(): void {
+		$data = $this->getLoggedInLoginDataWithTimezone();
+		$this->user->expects($this->once())
+			->method('getUID')
+			->willReturn($this->username);
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->username,
+				'core',
+				'timezone',
+				'',
+			)
+			->willReturn('Europe/Berlin');
+		$this->config->expects($this->never())
+			->method('setUserValue');
 		$this->session->expects($this->once())
 			->method('set')
 			->with(

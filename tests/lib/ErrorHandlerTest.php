@@ -16,10 +16,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class ErrorHandlerTest extends TestCase {
-	/** @var MockObject */
-	private LoggerInterface $logger;
-
+	private LoggerInterface&MockObject $logger;
 	private ErrorHandler $errorHandler;
+	private int $errorReporting;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -28,13 +27,20 @@ class ErrorHandlerTest extends TestCase {
 		$this->errorHandler = new ErrorHandler(
 			$this->logger
 		);
+
+		$this->errorReporting = error_reporting(E_ALL);
+	}
+
+	protected function tearDown(): void {
+		error_reporting($this->errorReporting);
+		parent::tearDown();
 	}
 
 	/**
 	 * provide username, password combinations for testRemovePassword
 	 * @return array
 	 */
-	public function passwordProvider() {
+	public static function passwordProvider(): array {
 		return [
 			['us:er', 'pass@word'],
 			['us:er', 'password'],
@@ -49,12 +55,12 @@ class ErrorHandlerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider passwordProvider
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function testRemovePasswordFromError($username, $password) {
-		$url = 'http://'.$username.':'.$password.'@owncloud.org';
+	#[\PHPUnit\Framework\Attributes\DataProvider('passwordProvider')]
+	public function testRemovePasswordFromError($username, $password): void {
+		$url = 'http://' . $username . ':' . $password . '@owncloud.org';
 		$expectedResult = 'http://xxx:xxx@owncloud.org';
 		$this->logger->expects(self::once())
 			->method('log')

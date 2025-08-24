@@ -2,111 +2,24 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { emit } from '@nextcloud/event-bus'
-import { Permission, Node, View, FileAction, FileType } from '@nextcloud/files'
-import { showInfo } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
+import { Permission, Node, View, FileAction } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import PQueue from 'p-queue'
 
 import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
-import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
+import TrashCanSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
 
-import logger from '../logger.js'
-import PQueue from 'p-queue'
+import { TRASHBIN_VIEW_ID } from '../../../files_trashbin/src/files_views/trashbinView.ts'
+import { askConfirmation, canDisconnectOnly, canUnshareOnly, deleteNode, displayName, shouldAskForConfirmation } from './deleteUtils.ts'
+import logger from '../logger.ts'
 
-const canUnshareOnly = (nodes: Node[]) => {
-	return nodes.every(node => node.attributes['is-mount-root'] === true
-		&& node.attributes['mount-type'] === 'shared')
-}
+const queue = new PQueue({ concurrency: 5 })
 
-const canDisconnectOnly = (nodes: Node[]) => {
-	return nodes.every(node => node.attributes['is-mount-root'] === true
-		&& node.attributes['mount-type'] === 'external')
-}
-
-const isMixedUnshareAndDelete = (nodes: Node[]) => {
-	if (nodes.length === 1) {
-		return false
-	}
-
-	const hasSharedItems = nodes.some(node => canUnshareOnly([node]))
-	const hasDeleteItems = nodes.some(node => !canUnshareOnly([node]))
-	return hasSharedItems && hasDeleteItems
-}
-
-const isAllFiles = (nodes: Node[]) => {
-	return !nodes.some(node => node.type !== FileType.File)
-}
-
-const isAllFolders = (nodes: Node[]) => {
-	return !nodes.some(node => node.type !== FileType.Folder)
-}
-
-const displayName = (nodes: Node[], view: View) => {
-	/**
-	 * If we're in the trashbin, we can only delete permanently
-	 */
-	if (view.id === 'trashbin') {
-		return t('files', 'Delete permanently')
-	}
-
-	/**
-	 * If we're in the sharing view, we can only unshare
-	 */
-	if (isMixedUnshareAndDelete(nodes)) {
-		return t('files', 'Delete and unshare')
-	}
-
-	/**
-	 * If those nodes are all the root node of a
-	 * share, we can only unshare them.
-	 */
-	if (canUnshareOnly(nodes)) {
-		if (nodes.length === 1) {
-			return t('files', 'Leave this share')
-		}
-		return t('files', 'Leave these shares')
-	}
-
-	/**
-	 * If those nodes are all the root node of an
-	 * external storage, we can only disconnect it.
-	 */
-	if (canDisconnectOnly(nodes)) {
-		if (nodes.length === 1) {
-			return t('files', 'Disconnect storage')
-		}
-		return t('files', 'Disconnect storages')
-	}
-
-	/**
-	 * If we're only selecting files, use proper wording
-	 */
-	if (isAllFiles(nodes)) {
-		if (nodes.length === 1) {
-			return t('files', 'Delete file')
-		}
-		return t('files', 'Delete files')
-	}
-
-	/**
-	 * If we're only selecting folders, use proper wording
-	 */
-	if (isAllFolders(nodes)) {
-		if (nodes.length === 1) {
-			return t('files', 'Delete folder')
-		}
-		return t('files', 'Delete folders')
-	}
-
-	return t('files', 'Delete')
-}
-
-const queue = new PQueue({ concurrency: 1 })
+export const ACTION_DELETE = 'delete'
 
 export const action = new FileAction({
-	id: 'delete',
+	id: ACTION_DELETE,
 	displayName,
 	iconSvgInline: (nodes: Node[]) => {
 		if (canUnshareOnly(nodes)) {
@@ -120,20 +33,39 @@ export const action = new FileAction({
 		return TrashCanSvg
 	},
 
-	enabled(nodes: Node[]) {
+	enabled(nodes: Node[], view: View): boolean {
+		if (view.id === TRASHBIN_VIEW_ID) {
+			const config = loadState('files_trashbin', 'config', { allow_delete: true })
+			if (config.allow_delete === false) {
+				return false
+			}
+		}
+
 		return nodes.length > 0 && nodes
 			.map(node => node.permissions)
 			.every(permission => (permission & Permission.DELETE) !== 0)
 	},
 
-	async exec(node: Node, view: View, dir: string) {
+	async exec(node: Node, view: View) {
 		try {
-			await axios.delete(node.encodedSource)
+			let confirm = true
 
-			// Let's delete even if it's moved to the trashbin
-			// since it has been removed from the current view
-			// and changing the view will trigger a reload anyway.
-			emit('files:node:deleted', node)
+			// Trick to detect if the action was called from a keyboard event
+			// we need to make sure the method calling have its named containing 'keydown'
+			// here we use `onKeydown` method from the FileEntryActions component
+			const callStack = new Error().stack || ''
+			const isCalledFromEventListener = callStack.toLocaleLowerCase().includes('keydown')
+
+			if (shouldAskForConfirmation() || isCalledFromEventListener) {
+				confirm = await askConfirmation([node], view)
+			}
+
+			// If the user cancels the deletion, we don't want to do anything
+			if (confirm === false) {
+				return null
+			}
+
+			await deleteNode(node)
 
 			return true
 		} catch (error) {
@@ -142,41 +74,32 @@ export const action = new FileAction({
 		}
 	},
 
-	async execBatch(nodes: Node[], view: View, dir: string): Promise<(boolean | null)[]> {
-		const confirm = await new Promise<boolean>(resolve => {
-			if (nodes.length >= 5 && !canUnshareOnly(nodes) && !canDisconnectOnly(nodes)) {
-				// TODO use a proper dialog from @nextcloud/dialogs when available
-				window.OC.dialogs.confirmDestructive(
-					t('files', 'You are about to delete {count} items.', { count: nodes.length }),
-					t('files', 'Confirm deletion'),
-					{
-						type: window.OC.dialogs.YES_NO_BUTTONS,
-						confirm: displayName(nodes, view),
-						confirmClasses: 'error',
-						cancel: t('files', 'Cancel'),
-					},
-					(decision: boolean) => {
-						resolve(decision)
-					},
-				)
-				return
-			}
-			resolve(true)
-		})
+	async execBatch(nodes: Node[], view: View): Promise<(boolean | null)[]> {
+		let confirm = true
+
+		if (shouldAskForConfirmation()) {
+			confirm = await askConfirmation(nodes, view)
+		} else if (nodes.length >= 5 && !canUnshareOnly(nodes) && !canDisconnectOnly(nodes)) {
+			confirm = await askConfirmation(nodes, view)
+		}
 
 		// If the user cancels the deletion, we don't want to do anything
 		if (confirm === false) {
-			showInfo(t('files', 'Deletion cancelled'))
-			return Promise.all(nodes.map(() => false))
+			return Promise.all(nodes.map(() => null))
 		}
 
 		// Map each node to a promise that resolves with the result of exec(node)
 		const promises = nodes.map(node => {
-		    // Create a promise that resolves with the result of exec(node)
-		    const promise = new Promise<boolean>(resolve => {
+			// Create a promise that resolves with the result of exec(node)
+			const promise = new Promise<boolean>(resolve => {
 				queue.add(async () => {
-					const result = await this.exec(node, view, dir)
-					resolve(result !== null ? result : false)
+					try {
+						await deleteNode(node)
+						resolve(true)
+					} catch (error) {
+						logger.error('Error while deleting a file', { error, source: node.source, node })
+						resolve(false)
+					}
 				})
 			})
 			return promise
@@ -185,5 +108,6 @@ export const action = new FileAction({
 		return Promise.all(promises)
 	},
 
+	destructive: true,
 	order: 100,
 })

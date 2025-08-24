@@ -18,13 +18,13 @@ namespace OCA\Dashboard;
  *     icon_url: string,
  *     widget_url: ?string,
  *     item_icons_round: bool,
- *     item_api_versions: int[],
+ *     item_api_versions: list<int>,
  *     reload_interval: int,
- *     buttons?: array{
+ *     buttons?: list<array{
  *         type: string,
  *         text: string,
  *         link: string,
- *     }[],
+ *     }>,
  * }
  *
  * @psalm-type DashboardWidgetItem = array{
@@ -37,7 +37,7 @@ namespace OCA\Dashboard;
  * }
  *
  * @psalm-type DashboardWidgetItems = array{
- *     items: DashboardWidgetItem[],
+ *     items: list<DashboardWidgetItem>,
  *     emptyContentMessage: string,
  *     halfEmptyContentMessage: string,
  *  }

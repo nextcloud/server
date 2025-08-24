@@ -18,15 +18,6 @@ use OCP\EventDispatcher\Event;
  */
 class CalendarDeletedEvent extends Event {
 
-	/** @var int */
-	private $calendarId;
-
-	/** @var array */
-	private $calendarData;
-
-	/** @var array  */
-	private $shares;
-
 	/**
 	 * CalendarDeletedEvent constructor.
 	 *
@@ -35,13 +26,12 @@ class CalendarDeletedEvent extends Event {
 	 * @param array $shares
 	 * @since 20.0.0
 	 */
-	public function __construct(int $calendarId,
-		array $calendarData,
-		array $shares) {
+	public function __construct(
+		private int $calendarId,
+		private array $calendarData,
+		private array $shares,
+	) {
 		parent::__construct();
-		$this->calendarId = $calendarId;
-		$this->calendarData = $calendarData;
-		$this->shares = $shares;
 	}
 
 	/**

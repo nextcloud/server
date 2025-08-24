@@ -2,23 +2,44 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import FolderSvg from '@mdi/svg/svg/folder.svg'
-import ShareSvg from '@mdi/svg/svg/share-variant.svg'
+import type { Navigation } from '@nextcloud/files'
+import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import { createTestingPinia } from '@pinia/testing'
 
 import NavigationView from './Navigation.vue'
-import router from '../router/router'
 import { useViewConfigStore } from '../store/viewConfig'
 import { Folder, View, getNavigation } from '@nextcloud/files'
 
-import Vue from 'vue'
+import router from '../router/router.ts'
+import RouterService from '../services/RouterService'
+
+const resetNavigation = () => {
+	const nav = getNavigation()
+	;[...nav.views].forEach(({ id }) => nav.remove(id))
+	nav.setActive(null)
+}
+
+const createView = (id: string, name: string, parent?: string) => new View({
+	id,
+	name,
+	getContents: async () => ({ folder: {} as Folder, contents: [] }),
+	icon: FolderSvg,
+	order: 1,
+	parent,
+})
+
+function mockWindow() {
+	window.OCP ??= {}
+	window.OCP.Files ??= {}
+	window.OCP.Files.Router = new RouterService(router)
+}
 
 describe('Navigation renders', () => {
-	delete window._nc_navigation
-	const Navigation = getNavigation()
-
-	before(() => {
-		Vue.prototype.$navigation = Navigation
+	before(async () => {
+		delete window._nc_navigation
+		mockWindow()
+		getNavigation().register(createView('files', 'Files'))
+		await router.replace({ name: 'filelist', params: { view: 'files' } })
 
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1000 * 1000 * 1000,
@@ -30,6 +51,7 @@ describe('Navigation renders', () => {
 
 	it('renders', () => {
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -44,29 +66,31 @@ describe('Navigation renders', () => {
 })
 
 describe('Navigation API', () => {
-	delete window._nc_navigation
-	const Navigation = getNavigation()
+	let Navigation: Navigation
 
-	before(() => {
-		Vue.prototype.$navigation = Navigation
+	before(async () => {
+		delete window._nc_navigation
+		Navigation = getNavigation()
+		mockWindow()
+
+		await router.replace({ name: 'filelist', params: { view: 'files' } })
 	})
 
+	beforeEach(() => resetNavigation())
+
 	it('Check API entries rendering', () => {
-		Navigation.register(new View({
-			id: 'files',
-			name: 'Files',
-			getContents: async () => ({ folder: {} as Folder, contents: [] }),
-			icon: FolderSvg,
-			order: 1,
-		}))
+		Navigation.register(createView('files', 'Files'))
+		console.warn(Navigation.views)
 
 		cy.mount(NavigationView, {
-			global: {
-				plugins: [createTestingPinia({
-					createSpy: cy.spy,
-				})],
-			},
 			router,
+			global: {
+				plugins: [
+					createTestingPinia({
+						createSpy: cy.spy,
+					}),
+				],
+			},
 		})
 
 		cy.get('[data-cy-files-navigation]').should('be.visible')
@@ -76,21 +100,16 @@ describe('Navigation API', () => {
 	})
 
 	it('Adds a new entry and render', () => {
-		Navigation.register(new View({
-			id: 'sharing',
-			name: 'Sharing',
-			getContents: async () => ({ folder: {} as Folder, contents: [] }),
-			icon: ShareSvg,
-			order: 2,
-		}))
+		Navigation.register(createView('files', 'Files'))
+		Navigation.register(createView('sharing', 'Sharing'))
 
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
 				})],
 			},
-			router,
 		})
 
 		cy.get('[data-cy-files-navigation]').should('be.visible')
@@ -100,22 +119,17 @@ describe('Navigation API', () => {
 	})
 
 	it('Adds a new children, render and open menu', () => {
-		Navigation.register(new View({
-			id: 'sharingin',
-			name: 'Shared with me',
-			getContents: async () => ({ folder: {} as Folder, contents: [] }),
-			parent: 'sharing',
-			icon: ShareSvg,
-			order: 1,
-		}))
+		Navigation.register(createView('files', 'Files'))
+		Navigation.register(createView('sharing', 'Sharing'))
+		Navigation.register(createView('sharingin', 'Shared with me', 'sharing'))
 
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
 				})],
 			},
-			router,
 		})
 
 		cy.wrap(useViewConfigStore()).as('viewConfigStore')
@@ -143,30 +157,25 @@ describe('Navigation API', () => {
 	})
 
 	it('Throws when adding a duplicate entry', () => {
-		expect(() => {
-			Navigation.register(new View({
-				id: 'files',
-				name: 'Files',
-				getContents: async () => ({ folder: {} as Folder, contents: [] }),
-				icon: FolderSvg,
-				order: 1,
-			}))
-		}).to.throw('View id files is already registered')
+		Navigation.register(createView('files', 'Files'))
+		expect(() => Navigation.register(createView('files', 'Files')))
+			.to.throw('View id files is already registered')
 	})
 })
 
 describe('Quota rendering', () => {
-	delete window._nc_navigation
-	const Navigation = getNavigation()
-
-	before(() => {
-		Vue.prototype.$navigation = Navigation
+	before(async () => {
+		delete window._nc_navigation
+		mockWindow()
+		getNavigation().register(createView('files', 'Files'))
+		await router.replace({ name: 'filelist', params: { view: 'files' } })
 	})
 
 	afterEach(() => cy.unmockInitialState())
 
 	it('Unknown quota', () => {
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -181,9 +190,11 @@ describe('Quota rendering', () => {
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1024 * 1024 * 1024,
 			quota: -1,
+			total: 50 * 1024 * 1024 * 1024,
 		})
 
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -200,10 +211,12 @@ describe('Quota rendering', () => {
 		cy.mockInitialState('files', 'storageStats', {
 			used: 1024 * 1024 * 1024,
 			quota: 5 * 1024 * 1024 * 1024,
+			total: 5 * 1024 * 1024 * 1024,
 			relative: 20, // percent
 		})
 
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -213,18 +226,21 @@ describe('Quota rendering', () => {
 
 		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
 		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '1 GB of 5 GB used')
-		cy.get('[data-cy-files-navigation-settings-quota] progress').should('be.visible')
-		cy.get('[data-cy-files-navigation-settings-quota] progress').should('have.attr', 'value', '20')
+		cy.get('[data-cy-files-navigation-settings-quota] progress')
+			.should('exist')
+			.and('have.attr', 'value', '20')
 	})
 
 	it('Reached quota', () => {
 		cy.mockInitialState('files', 'storageStats', {
 			used: 5 * 1024 * 1024 * 1024,
 			quota: 1024 * 1024 * 1024,
+			total: 1024 * 1024 * 1024,
 			relative: 500, // percent
 		})
 
 		cy.mount(NavigationView, {
+			router,
 			global: {
 				plugins: [createTestingPinia({
 					createSpy: cy.spy,
@@ -234,7 +250,8 @@ describe('Quota rendering', () => {
 
 		cy.get('[data-cy-files-navigation-settings-quota]').should('be.visible')
 		cy.get('[data-cy-files-navigation-settings-quota]').should('contain.text', '5 GB of 1 GB used')
-		cy.get('[data-cy-files-navigation-settings-quota] progress').should('be.visible')
-		cy.get('[data-cy-files-navigation-settings-quota] progress').should('have.attr', 'value', '100') // progress max is 100
+		cy.get('[data-cy-files-navigation-settings-quota] progress')
+			.should('exist')
+			.and('have.attr', 'value', '100') // progress max is 100
 	})
 })

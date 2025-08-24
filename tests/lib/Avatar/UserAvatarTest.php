@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,27 +8,25 @@
 
 namespace Test\Avatar;
 
+use OC\Avatar\UserAvatar;
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\User\User;
+use OCP\Color;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Image;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class UserAvatarTest extends \Test\TestCase {
-	/** @var SimpleFolder | \PHPUnit\Framework\MockObject\MockObject */
-	private $folder;
 
-	/** @var \OC\Avatar\UserAvatar */
-	private $avatar;
-
-	/** @var \OC\User\User | \PHPUnit\Framework\MockObject\MockObject $user */
-	private $user;
-
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
+	private UserAvatar $avatar;
+	private SimpleFolder&MockObject $folder;
+	private IConfig&MockObject $config;
+	private User&MockObject $user;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -40,7 +39,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->avatar = $this->getUserAvatar($this->user);
 	}
 
-	public function avatarTextData() {
+	public static function avatarTextData(): array {
 		return [
 			['', '?'],
 			['matchish', 'M'],
@@ -49,13 +48,13 @@ class UserAvatarTest extends \Test\TestCase {
 		];
 	}
 
-	public function testGetNoAvatar() {
+	public function testGetNoAvatar(): void {
 		$file = $this->createMock(ISimpleFile::class);
 		$this->folder->method('newFile')
 			->willReturn($file);
 
 		$this->folder->method('getFile')
-			->willReturnCallback(function (string $path) {
+			->willReturnCallback(function (string $path): void {
 				if ($path === 'avatar.64.png') {
 					throw new NotFoundException();
 				}
@@ -84,7 +83,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertTrue($result->valid());
 	}
 
-	public function testGetAvatarSizeMatch() {
+	public function testGetAvatarSizeMatch(): void {
 		$this->folder->method('fileExists')
 			->willReturnMap([
 				['avatar.jpg', true],
@@ -92,7 +91,7 @@ class UserAvatarTest extends \Test\TestCase {
 				['generated', false],
 			]);
 
-		$expected = new \OC_Image();
+		$expected = new Image();
 		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->createMock(ISimpleFile::class);
@@ -102,14 +101,14 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertEquals($expected->data(), $this->avatar->get(128)->data());
 	}
 
-	public function testGetAvatarSizeMinusOne() {
+	public function testGetAvatarSizeMinusOne(): void {
 		$this->folder->method('fileExists')
 			->willReturnMap([
 				['avatar.jpg', true],
 				['generated', false],
 			]);
 
-		$expected = new \OC_Image();
+		$expected = new Image();
 		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->createMock(ISimpleFile::class);
@@ -119,7 +118,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertEquals($expected->data(), $this->avatar->get(-1)->data());
 	}
 
-	public function testGetAvatarNoSizeMatch() {
+	public function testGetAvatarNoSizeMatch(): void {
 		$this->folder->method('fileExists')
 			->willReturnMap([
 				['avatar.jpg', false],
@@ -128,9 +127,9 @@ class UserAvatarTest extends \Test\TestCase {
 				['generated', false],
 			]);
 
-		$expected = new \OC_Image();
+		$expected = new Image();
 		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
-		$expected2 = new \OC_Image();
+		$expected2 = new Image();
 		$expected2->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$expected2->resize(32);
 
@@ -143,7 +142,7 @@ class UserAvatarTest extends \Test\TestCase {
 					if ($path === 'avatar.png') {
 						return $file;
 					} else {
-						throw new \OCP\Files\NotFoundException;
+						throw new NotFoundException;
 					}
 				}
 			);
@@ -163,11 +162,11 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertEquals($expected2->data(), $this->avatar->get(32)->data());
 	}
 
-	public function testExistsNo() {
+	public function testExistsNo(): void {
 		$this->assertFalse($this->avatar->exists());
 	}
 
-	public function testExiststJPG() {
+	public function testExiststJPG(): void {
 		$this->folder->method('fileExists')
 			->willReturnMap([
 				['avatar.jpg', true],
@@ -176,7 +175,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertTrue($this->avatar->exists());
 	}
 
-	public function testExistsPNG() {
+	public function testExistsPNG(): void {
 		$this->folder->method('fileExists')
 			->willReturnMap([
 				['avatar.jpg', false],
@@ -185,7 +184,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertTrue($this->avatar->exists());
 	}
 
-	public function testSetAvatar() {
+	public function testSetAvatar(): void {
 		$avatarFileJPG = $this->createMock(File::class);
 		$avatarFileJPG->method('getName')
 			->willReturn('avatar.jpg');
@@ -215,7 +214,7 @@ class UserAvatarTest extends \Test\TestCase {
 			->with('avatar.png')
 			->willReturn($newFile);
 
-		$image = new \OC_Image();
+		$image = new Image();
 		$image->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$newFile->expects($this->once())
 			->method('putContent')
@@ -231,8 +230,8 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->avatar->set($image->data());
 	}
 
-	public function testGenerateSvgAvatar() {
-		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [64, false]);
+	public function testGenerateSvgAvatar(): void {
+		$avatar = $this->invokePrivate($this->avatar, 'getAvatarVector', [$this->user->getDisplayName(), 64, false]);
 
 		$svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 		<svg width="64" height="64" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
@@ -242,11 +241,8 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertEquals($avatar, $svg);
 	}
 
-
-	/**
-	 * @dataProvider avatarTextData
-	 */
-	public function testGetAvatarText($displayName, $expectedAvatarText) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('avatarTextData')]
+	public function testGetAvatarText($displayName, $expectedAvatarText): void {
 		$user = $this->getUserWithDisplayName($displayName);
 		$avatar = $this->getUserAvatar($user);
 
@@ -254,23 +250,23 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertEquals($expectedAvatarText, $avatarText);
 	}
 
-	public function testHashToInt() {
+	public function testHashToInt(): void {
 		$hashToInt = $this->invokePrivate($this->avatar, 'hashToInt', ['abcdef', 18]);
 		$this->assertTrue(gettype($hashToInt) === 'integer');
 	}
 
-	public function testMixPalette() {
-		$colorFrom = new \OCP\Color(0, 0, 0);
-		$colorTo = new \OCP\Color(6, 12, 18);
+	public function testMixPalette(): void {
+		$colorFrom = new Color(0, 0, 0);
+		$colorTo = new Color(6, 12, 18);
 		$steps = 6;
-		$palette = \OCP\Color::mixPalette($steps, $colorFrom, $colorTo);
+		$palette = Color::mixPalette($steps, $colorFrom, $colorTo);
 		foreach ($palette as $j => $color) {
 			// calc increment
 			$incR = $colorTo->red() / $steps * $j;
 			$incG = $colorTo->green() / $steps * $j;
 			$incB = $colorTo->blue() / $steps * $j;
 			// ensure everything is equal
-			$this->assertEquals($color, new \OCP\Color($incR, $incG, $incB));
+			$this->assertEquals($color, new Color($incR, $incG, $incB));
 		}
 		$hashToInt = $this->invokePrivate($this->avatar, 'hashToInt', ['abcdef', 18]);
 		$this->assertTrue(gettype($hashToInt) === 'integer');
@@ -283,11 +279,11 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	private function getUserAvatar($user) {
-		/** @var \OCP\IL10N | \PHPUnit\Framework\MockObject\MockObject $l */
+		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l */
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->willReturnArgument(0);
 
-		return new \OC\Avatar\UserAvatar(
+		return new UserAvatar(
 			$this->folder,
 			$l,
 			$user,

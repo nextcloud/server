@@ -10,9 +10,12 @@ namespace OC\Search;
 
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Core\ResponseDefinitions;
+use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\FilterDefinition;
+use OCP\Search\IExternalProvider;
 use OCP\Search\IFilter;
 use OCP\Search\IFilteringProvider;
 use OCP\Search\IInAppSearch;
@@ -23,7 +26,10 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use function array_filter;
 use function array_map;
+use function array_values;
+use function in_array;
 
 /**
  * Queries individual \OCP\Search\IProvider implementations and composes a
@@ -43,6 +49,7 @@ use function array_map;
  * results are awaited or shown as they come in.
  *
  * @see IProvider::search() for the arguments of the individual search requests
+ * @psalm-import-type CoreUnifiedSearchProvider from ResponseDefinitions
  */
 class SearchComposer {
 	/**
@@ -59,7 +66,8 @@ class SearchComposer {
 		private Coordinator $bootstrapCoordinator,
 		private ContainerInterface $container,
 		private IURLGenerator $urlGenerator,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 		$this->commonFilters = [
 			IFilter::BUILTIN_TERM => new FilterDefinition(IFilter::BUILTIN_TERM, FilterDefinition::TYPE_STRING),
@@ -111,6 +119,8 @@ class SearchComposer {
 			}
 		}
 
+		$this->filterProviders();
+
 		$this->loadFilters();
 	}
 
@@ -130,7 +140,7 @@ class SearchComposer {
 			}
 			foreach ($provider->getSupportedFilters() as $filterName) {
 				if ($this->getFilterDefinition($filterName, $providerId) === null) {
-					throw new InvalidArgumentException('Invalid filter '. $filterName);
+					throw new InvalidArgumentException('Invalid filter ' . $filterName);
 				}
 			}
 		}
@@ -156,7 +166,7 @@ class SearchComposer {
 	 * @param string $route the route the user is currently at
 	 * @param array $routeParameters the parameters of the route the user is currently at
 	 *
-	 * @return array
+	 * @return list<CoreUnifiedSearchProvider>
 	 */
 	public function getProviders(string $route, array $routeParameters): array {
 		$this->loadLazyProviders();
@@ -169,6 +179,7 @@ class SearchComposer {
 				if ($order === null) {
 					return;
 				}
+				$isExternalProvider = $provider instanceof IExternalProvider ? $provider->isExternalProvider() : false;
 				$triggers = [$provider->getId()];
 				if ($provider instanceof IFilteringProvider) {
 					$triggers += $provider->getAlternateIds();
@@ -183,7 +194,8 @@ class SearchComposer {
 					'name' => $provider->getName(),
 					'icon' => $this->fetchIcon($appId, $provider->getId()),
 					'order' => $order,
-					'triggers' => $triggers,
+					'isExternalProvider' => $isExternalProvider,
+					'triggers' => array_values($triggers),
 					'filters' => $this->getFiltersType($filters, $provider->getId()),
 					'inAppSearch' => $provider instanceof IInAppSearch,
 				];
@@ -200,12 +212,31 @@ class SearchComposer {
 		return $providers;
 	}
 
+	/**
+	 * Filter providers based on 'unified_search.providers_allowed' core app config array
+	 * Will remove providers that are not in the allowed list
+	 */
+	private function filterProviders(): void {
+		$allowedProviders = $this->appConfig->getValueArray('core', 'unified_search.providers_allowed');
+
+		if (empty($allowedProviders)) {
+			return;
+		}
+
+		foreach (array_keys($this->providers) as $providerId) {
+			if (!in_array($providerId, $allowedProviders, true)) {
+				unset($this->providers[$providerId]);
+				unset($this->handlers[$providerId]);
+			}
+		}
+	}
+
 	private function fetchIcon(string $appId, string $providerId): string {
 		$icons = [
-			[$providerId, $providerId.'.svg'],
+			[$providerId, $providerId . '.svg'],
 			[$providerId, 'app.svg'],
-			[$appId, $providerId.'.svg'],
-			[$appId, $appId.'.svg'],
+			[$appId, $providerId . '.svg'],
+			[$appId, $appId . '.svg'],
 			[$appId, 'app.svg'],
 			['core', 'places/default-app-icon.svg'],
 		];

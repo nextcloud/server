@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,7 +25,7 @@ class CategoryFetcherTest extends FetcherBase {
 		);
 	}
 
-	public function testAppstoreDisabled() {
+	public function testAppstoreDisabled(): void {
 		$this->config
 			->method('getSystemValueBool')
 			->willReturnCallback(function ($var, $default) {
@@ -40,7 +41,7 @@ class CategoryFetcherTest extends FetcherBase {
 		$this->assertEquals([], $this->fetcher->get());
 	}
 
-	public function testNoInternet() {
+	public function testNoInternet(): void {
 		$this->config
 			->method('getSystemValueBool')
 			->willReturnCallback(function ($var, $default) {

@@ -80,4 +80,42 @@ interface INavigationManager {
 	 * @since 22.0.0
 	 */
 	public function setUnreadCounter(string $id, int $unreadCounter): void;
+
+	/**
+	 * Get a navigation entry by id.
+	 *
+	 * @param string $id ID of the navigation entry
+	 * @since 31.0.0
+	 */
+	public function get(string $id): ?array;
+
+	/**
+	 * Returns the id of the user's default entry
+	 *
+	 * If `user` is not passed, the currently logged in user will be used
+	 *
+	 * @param ?IUser $user User to query default entry for
+	 * @param bool $withFallbacks Include fallback values if no default entry was configured manually
+	 *                            Before falling back to predefined default entries,
+	 *                            the user defined entry order is considered and the first entry would be used as the fallback.
+	 * @since 31.0.0
+	 */
+	public function getDefaultEntryIdForUser(?IUser $user = null, bool $withFallbacks = true): string;
+
+	/**
+	 * Get the global default entries with fallbacks
+	 *
+	 * @return string[] The default entries
+	 * @since 31.0.0
+	 */
+	public function getDefaultEntryIds(): array;
+
+	/**
+	 * Set the global default entries with fallbacks
+	 *
+	 * @param string[] $ids
+	 * @throws \InvalidArgumentException If any of the entries is not available
+	 * @since 31.0.0
+	 */
+	public function setDefaultEntryIds(array $ids): void;
 }

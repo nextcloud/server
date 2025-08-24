@@ -36,12 +36,9 @@ class MiddlewareTest extends \Test\TestCase {
 
 		$this->middleware = new ChildMiddleware();
 
-		$this->api = $this->getMockBuilder(DIContainer::class)
-				->disableOriginalConstructor()
-				->getMock();
+		$this->api = $this->createMock(DIContainer::class);
 
 		$this->controller = $this->getMockBuilder(Controller::class)
-			->setMethods([])
 			->setConstructorArgs([
 				$this->api,
 				new Request(
@@ -51,7 +48,7 @@ class MiddlewareTest extends \Test\TestCase {
 				)
 			])->getMock();
 		$this->exception = new \Exception();
-		$this->response = $this->getMockBuilder(Response::class)->getMock();
+		$this->response = $this->createMock(Response::class);
 	}
 
 

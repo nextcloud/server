@@ -36,7 +36,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 		$this->controller = $this->createMock(Controller::class);
 	}
 
-	public function testGzipOCSV1() {
+	public function testGzipOCSV1(): void {
 		$this->request->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
@@ -58,7 +58,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 		$this->assertSame($output, gzdecode($result));
 	}
 
-	public function testGzipOCSV2() {
+	public function testGzipOCSV2(): void {
 		$this->request->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
@@ -80,7 +80,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 		$this->assertSame($output, gzdecode($result));
 	}
 
-	public function testGzipJSONResponse() {
+	public function testGzipJSONResponse(): void {
 		$this->request->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
@@ -102,7 +102,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 		$this->assertSame($output, gzdecode($result));
 	}
 
-	public function testNoGzipDataResponse() {
+	public function testNoGzipDataResponse(): void {
 		$this->request->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');
@@ -122,7 +122,7 @@ class CompressionMiddlewareTest extends \Test\TestCase {
 		$this->assertSame($output, $result);
 	}
 
-	public function testNoGzipNo200() {
+	public function testNoGzipNo200(): void {
 		$this->request->method('getHeader')
 			->with('Accept-Encoding')
 			->willReturn('gzip');

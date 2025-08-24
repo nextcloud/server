@@ -45,21 +45,33 @@ class TaskMapper extends QBMapper {
 	}
 
 	/**
-	 * @param string|null $taskType
+	 * @param list<string> $taskTypes
+	 * @param list<int> $taskIdsToIgnore
 	 * @return Task
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 */
-	public function findOldestScheduledByType(?string $taskType): Task {
+	public function findOldestScheduledByType(array $taskTypes, array $taskIdsToIgnore): Task {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(Task::$columns)
 			->from($this->tableName)
 			->where($qb->expr()->eq('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1)
 			->orderBy('last_updated', 'ASC');
-		if ($taskType !== null) {
-			$qb->andWhere($qb->expr()->eq('type', $qb->createPositionalParameter($taskType)));
+
+		if (!empty($taskTypes)) {
+			$filter = [];
+			foreach ($taskTypes as $taskType) {
+				$filter[] = $qb->expr()->eq('type', $qb->createPositionalParameter($taskType));
+			}
+
+			$qb->andWhere($qb->expr()->orX(...$filter));
 		}
+
+		if (!empty($taskIdsToIgnore)) {
+			$qb->andWhere($qb->expr()->notIn('id', $qb->createNamedParameter($taskIdsToIgnore, IQueryBuilder::PARAM_INT_ARRAY)));
+		}
+
 		return $this->findEntity($qb);
 	}
 
@@ -102,7 +114,7 @@ class TaskMapper extends QBMapper {
 		if ($customId !== null) {
 			$qb->andWhere($qb->expr()->eq('custom_id', $qb->createPositionalParameter($customId)));
 		}
-		return array_values($this->findEntities($qb));
+		return $this->findEntities($qb);
 	}
 
 	/**
@@ -121,23 +133,104 @@ class TaskMapper extends QBMapper {
 		if ($customId !== null) {
 			$qb->andWhere($qb->expr()->eq('custom_id', $qb->createPositionalParameter($customId)));
 		}
-		return array_values($this->findEntities($qb));
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param string|null $userId
+	 * @param string|null $taskType
+	 * @param string|null $appId
+	 * @param string|null $customId
+	 * @param int|null $status
+	 * @param int|null $scheduleAfter
+	 * @param int|null $endedBefore
+	 * @return list<Task>
+	 * @throws Exception
+	 */
+	public function findTasks(
+		?string $userId, ?string $taskType = null, ?string $appId = null, ?string $customId = null,
+		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName);
+
+		// empty string: no userId filter
+		if ($userId !== '') {
+			$qb->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
+		}
+		if ($taskType !== null) {
+			$qb->andWhere($qb->expr()->eq('type', $qb->createPositionalParameter($taskType)));
+		}
+		if ($appId !== null) {
+			$qb->andWhere($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)));
+		}
+		if ($customId !== null) {
+			$qb->andWhere($qb->expr()->eq('custom_id', $qb->createPositionalParameter($customId)));
+		}
+		if ($status !== null) {
+			$qb->andWhere($qb->expr()->eq('status', $qb->createPositionalParameter($status, IQueryBuilder::PARAM_INT)));
+		}
+		if ($scheduleAfter !== null) {
+			$qb->andWhere($qb->expr()->isNotNull('scheduled_at'));
+			$qb->andWhere($qb->expr()->gt('scheduled_at', $qb->createPositionalParameter($scheduleAfter, IQueryBuilder::PARAM_INT)));
+		}
+		if ($endedBefore !== null) {
+			$qb->andWhere($qb->expr()->isNotNull('ended_at'));
+			$qb->andWhere($qb->expr()->lt('ended_at', $qb->createPositionalParameter($endedBefore, IQueryBuilder::PARAM_INT)));
+		}
+		return $this->findEntities($qb);
 	}
 
 	/**
 	 * @param int $timeout
+	 * @param bool $force If true, ignore the allow_cleanup flag
 	 * @return int the number of deleted tasks
 	 * @throws Exception
 	 */
-	public function deleteOlderThan(int $timeout): int {
+	public function deleteOlderThan(int $timeout, bool $force = false): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)
 			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($this->timeFactory->getDateTime()->getTimestamp() - $timeout)));
+		if (!$force) {
+			$qb->andWhere($qb->expr()->eq('allow_cleanup', $qb->createPositionalParameter(1, IQueryBuilder::PARAM_INT)));
+		}
 		return $qb->executeStatement();
+	}
+
+	/**
+	 * @param int $timeout
+	 * @param bool $force If true, ignore the allow_cleanup flag
+	 * @return \Generator<Task>
+	 * @throws Exception
+	 */
+	public function getTasksToCleanup(int $timeout, bool $force = false): \Generator {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName)
+			->where($qb->expr()->lt('last_updated', $qb->createPositionalParameter($this->timeFactory->getDateTime()->getTimestamp() - $timeout)));
+		if (!$force) {
+			$qb->andWhere($qb->expr()->eq('allow_cleanup', $qb->createPositionalParameter(1, IQueryBuilder::PARAM_INT)));
+		}
+		foreach ($this->yieldEntities($qb) as $entity) {
+			yield $entity;
+		};
 	}
 
 	public function update(Entity $entity): Entity {
 		$entity->setLastUpdated($this->timeFactory->now()->getTimestamp());
 		return parent::update($entity);
+	}
+
+	public function lockTask(Entity $entity): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->tableName)
+			->set('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_RUNNING, IQueryBuilder::PARAM_INT))
+			->where($qb->expr()->eq('id', $qb->createPositionalParameter($entity->getId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->neq('status', $qb->createPositionalParameter(2, IQueryBuilder::PARAM_INT)));
+		try {
+			return $qb->executeStatement();
+		} catch (Exception) {
+			return 0;
+		}
 	}
 }

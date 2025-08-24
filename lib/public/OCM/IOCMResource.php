@@ -39,7 +39,7 @@ interface IOCMResource extends JsonSerializable {
 	/**
 	 * set share types
 	 *
-	 * @param string[] $shareTypes
+	 * @param list<string> $shareTypes
 	 *
 	 * @return $this
 	 * @since 28.0.0
@@ -49,7 +49,7 @@ interface IOCMResource extends JsonSerializable {
 	/**
 	 * get share types
 	 *
-	 * @return string[]
+	 * @return list<string>
 	 * @since 28.0.0
 	 */
 	public function getShareTypes(): array;
@@ -85,7 +85,7 @@ interface IOCMResource extends JsonSerializable {
 	/**
 	 * @return array{
 	 *     name: string,
-	 *     shareTypes: string[],
+	 *     shareTypes: list<string>,
 	 *     protocols: array<string, string>
 	 * }
 	 * @since 28.0.0

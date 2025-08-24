@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,8 @@
  */
 namespace Test\Encryption;
 
+use OC\Encryption\Exceptions\ModuleAlreadyExistsException;
+use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\Encryption\Manager;
 use OC\Encryption\Util;
 use OC\Files\View;
@@ -49,16 +52,16 @@ class ManagerTest extends TestCase {
 		$this->manager = new Manager($this->config, $this->logger, $this->l10n, $this->view, $this->util, $this->arrayCache);
 	}
 
-	public function testManagerIsDisabled() {
+	public function testManagerIsDisabled(): void {
 		$this->assertFalse($this->manager->isEnabled());
 	}
 
-	public function testManagerIsDisabledIfEnabledButNoModules() {
+	public function testManagerIsDisabledIfEnabledButNoModules(): void {
 		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
 		$this->assertFalse($this->manager->isEnabled());
 	}
 
-	public function testManagerIsDisabledIfDisabledButModules() {
+	public function testManagerIsDisabledIfDisabledButModules(): void {
 		$this->config->expects($this->any())->method('getAppValue')->willReturn(false);
 		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn('id');
@@ -69,7 +72,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->isEnabled());
 	}
 
-	public function testManagerIsEnabled() {
+	public function testManagerIsEnabled(): void {
 		$this->config->expects($this->any())->method('getSystemValueBool')->willReturn(true);
 		$this->config->expects($this->any())->method('getAppValue')->willReturn('yes');
 		$this->assertTrue($this->manager->isEnabled());
@@ -87,14 +90,14 @@ class ManagerTest extends TestCase {
 	/**
 	 * @depends testModuleRegistration
 	 */
-	public function testModuleReRegistration($manager) {
-		$this->expectException(\OC\Encryption\Exceptions\ModuleAlreadyExistsException::class);
+	public function testModuleReRegistration($manager): void {
+		$this->expectException(ModuleAlreadyExistsException::class);
 		$this->expectExceptionMessage('Id "ID0" already used by encryption module "TestDummyModule0"');
 
 		$this->addNewEncryptionModule($manager, 0);
 	}
 
-	public function testModuleUnRegistration() {
+	public function testModuleUnRegistration(): void {
 		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
 		$this->addNewEncryptionModule($this->manager, 0);
 		$this->assertCount(1, $this->manager->getEncryptionModules());
@@ -104,8 +107,8 @@ class ManagerTest extends TestCase {
 	}
 
 
-	public function testGetEncryptionModuleUnknown() {
-		$this->expectException(\OC\Encryption\Exceptions\ModuleDoesNotExistsException::class);
+	public function testGetEncryptionModuleUnknown(): void {
+		$this->expectException(ModuleDoesNotExistsException::class);
 		$this->expectExceptionMessage('Module with ID: unknown does not exist.');
 
 		$this->config->expects($this->any())->method('getAppValue')->willReturn(true);
@@ -114,7 +117,7 @@ class ManagerTest extends TestCase {
 		$this->manager->getEncryptionModule('unknown');
 	}
 
-	public function testGetEncryptionModuleEmpty() {
+	public function testGetEncryptionModuleEmpty(): void {
 		global $defaultId;
 		$defaultId = null;
 
@@ -138,7 +141,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('ID1', $this->manager->getEncryptionModule()->getId());
 	}
 
-	public function testGetEncryptionModule() {
+	public function testGetEncryptionModule(): void {
 		global $defaultId;
 		$defaultId = null;
 
@@ -163,7 +166,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals('ID0', $this->manager->getDefaultEncryptionModuleId());
 	}
 
-	public function testSetDefaultEncryptionModule() {
+	public function testSetDefaultEncryptionModule(): void {
 		global $defaultId;
 		$defaultId = null;
 
@@ -263,7 +266,7 @@ class ManagerTest extends TestCase {
 		$encryptionModule->expects($this->any())
 			->method('getDisplayName')
 			->willReturn('TestDummyModule' . $id);
-		/** @var \OCP\Encryption\IEncryptionModule $encryptionModule */
+		/** @var IEncryptionModule $encryptionModule */
 		$manager->registerEncryptionModule('ID' . $id, 'TestDummyModule' . $id, function () use ($encryptionModule) {
 			return $encryptionModule;
 		});

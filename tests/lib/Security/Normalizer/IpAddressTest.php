@@ -13,7 +13,7 @@ use OC\Security\Normalizer\IpAddress;
 use Test\TestCase;
 
 class IpAddressTest extends TestCase {
-	public function subnetDataProvider() {
+	public static function subnetDataProvider(): array {
 		return [
 			[
 				'64.233.191.254',
@@ -36,35 +36,35 @@ class IpAddressTest extends TestCase {
 				'192.168.0.123/32',
 			],
 			[
-				'2001:0db8:85a3:0000:0000:8a2e:0370:7334',
-				'2001:db8:85a3::/64',
+				'2001:0db8:0000:0000:0000:8a2e:0370:7334',
+				'2001:db8::/56',
 			],
 			[
 				'2001:db8:3333:4444:5555:6666:7777:8888',
-				'2001:db8:3333:4444::/64',
+				'2001:db8:3333:4400::/56',
 			],
 			[
 				'::1234:5678',
-				'::/64',
+				'::/56',
 			],
 			[
 				'[::1]',
-				'::/64',
+				'::/56',
 			],
 		];
 	}
 
 	/**
-	 * @dataProvider subnetDataProvider
 	 *
 	 * @param string $input
 	 * @param string $expected
 	 */
-	public function testGetSubnet($input, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('subnetDataProvider')]
+	public function testGetSubnet($input, $expected): void {
 		$this->assertSame($expected, (new IpAddress($input))->getSubnet());
 	}
 
-	public function testToString() {
+	public function testToString(): void {
 		$this->assertSame('127.0.0.1', (string)(new IpAddress('127.0.0.1')));
 	}
 }

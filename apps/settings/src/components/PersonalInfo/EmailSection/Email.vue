@@ -48,7 +48,7 @@
 							:disabled="deleteDisabled"
 							@click="deleteEmail">
 							<template #icon>
-								<NcIconSvgWrapper :path="mdiTrashCan" />
+								<NcIconSvgWrapper :path="mdiTrashCanOutline" />
 							</template>
 							{{ deleteEmailLabel }}
 						</NcActionButton>
@@ -64,17 +64,17 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import debounce from 'debounce'
 
-import { mdiArrowLeft, mdiLock, mdiStar, mdiStarOutline, mdiTrashCan } from '@mdi/js'
+import { mdiArrowLeft, mdiLockOutline, mdiStar, mdiStarOutline, mdiTrashCanOutline } from '@mdi/js'
 
 import FederationControl from '../shared/FederationControl.vue'
-import { handleError } from '../../../utils/handlers.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import {
@@ -133,10 +133,10 @@ export default {
 	setup() {
 		return {
 			mdiArrowLeft,
-			mdiLock,
+			mdiLockOutline,
 			mdiStar,
 			mdiStarOutline,
-			mdiTrashCan,
+			mdiTrashCanOutline,
 			saveAdditionalEmailScope,
 		}
 	},
@@ -262,7 +262,7 @@ export default {
 					}
 				}
 			}
-		}, 500),
+		}, 1000),
 
 		async deleteEmail() {
 			if (this.primary) {
@@ -356,6 +356,9 @@ export default {
 		handleDeleteAdditionalEmail(status) {
 			if (status === 'ok') {
 				this.$emit('delete-additional-email')
+				if (this.isNotificationEmail) {
+					this.$emit('update:notification-email', '')
+				}
 			} else {
 				this.handleResponse({
 					errorMessage: t('settings', 'Unable to delete additional email address'),

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
@@ -6,13 +7,13 @@
  */
 namespace OCA\Settings\Tests\Controller;
 
+use OC\App\AppManager;
 use OC\App\AppStore\Bundles\BundleFetcher;
 use OC\App\AppStore\Fetcher\AppDiscoverFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\Installer;
 use OCA\Settings\Controller\AppSettingsController;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -37,40 +38,23 @@ use Test\TestCase;
  * @group DB
  */
 class AppSettingsControllerTest extends TestCase {
-	/** @var AppSettingsController */
-	private $appSettingsController;
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var IL10N|MockObject */
-	private $l10n;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var INavigationManager|MockObject */
-	private $navigationManager;
-	/** @var IAppManager|MockObject */
-	private $appManager;
-	/** @var CategoryFetcher|MockObject */
-	private $categoryFetcher;
-	/** @var AppFetcher|MockObject */
-	private $appFetcher;
-	/** @var IFactory|MockObject */
-	private $l10nFactory;
-	/** @var BundleFetcher|MockObject */
-	private $bundleFetcher;
-	/** @var Installer|MockObject */
-	private $installer;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-	/** @var IInitialState|MockObject */
-	private $initialState;
-	/** @var IAppDataFactory|MockObject */
-	private $appDataFactory;
-	/** @var AppDiscoverFetcher|MockObject */
-	private $discoverFetcher;
-	/** @var IClientService|MockObject */
-	private $clientService;
+	private IRequest&MockObject $request;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private INavigationManager&MockObject $navigationManager;
+	private AppManager&MockObject $appManager;
+	private CategoryFetcher&MockObject $categoryFetcher;
+	private AppFetcher&MockObject $appFetcher;
+	private IFactory&MockObject $l10nFactory;
+	private BundleFetcher&MockObject $bundleFetcher;
+	private Installer&MockObject $installer;
+	private IURLGenerator&MockObject $urlGenerator;
+	private LoggerInterface&MockObject $logger;
+	private IInitialState&MockObject $initialState;
+	private IAppDataFactory&MockObject $appDataFactory;
+	private AppDiscoverFetcher&MockObject $discoverFetcher;
+	private IClientService&MockObject $clientService;
+	private AppSettingsController $appSettingsController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -83,7 +67,7 @@ class AppSettingsControllerTest extends TestCase {
 			->willReturnArgument(0);
 		$this->config = $this->createMock(IConfig::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
-		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appManager = $this->createMock(AppManager::class);
 		$this->categoryFetcher = $this->createMock(CategoryFetcher::class);
 		$this->appFetcher = $this->createMock(AppFetcher::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
@@ -116,7 +100,7 @@ class AppSettingsControllerTest extends TestCase {
 		);
 	}
 
-	public function testListCategories() {
+	public function testListCategories(): void {
 		$this->installer->expects($this->any())
 			->method('isUpdateAvailable')
 			->willReturn(false);
@@ -171,7 +155,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->appSettingsController->listCategories());
 	}
 
-	public function testViewApps() {
+	public function testViewApps(): void {
 		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
 		$this->installer->expects($this->any())
 			->method('isUpdateAvailable')
@@ -204,7 +188,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());
 	}
 
-	public function testViewAppsAppstoreNotEnabled() {
+	public function testViewAppsAppstoreNotEnabled(): void {
 		$this->installer->expects($this->any())
 			->method('isUpdateAvailable')
 			->willReturn(false);

@@ -21,27 +21,29 @@ use OCP\Files\Search\ISearchOperator;
  * Jail to a subdirectory of the wrapped cache
  */
 class CacheJail extends CacheWrapper {
-	/**
-	 * @var string
-	 */
-	protected $root;
-	protected $unjailedRoot;
+
+	protected string $unjailedRoot;
 
 	public function __construct(
 		?ICache $cache,
-		string $root,
+		protected string $root,
 		?CacheDependencies $dependencies = null,
 	) {
 		parent::__construct($cache, $dependencies);
-		$this->root = $root;
 
-		if ($cache instanceof CacheJail) {
-			$this->unjailedRoot = $cache->getSourcePath($root);
-		} else {
-			$this->unjailedRoot = $root;
+		$this->unjailedRoot = $root;
+		$parent = $cache;
+		while ($parent instanceof CacheWrapper) {
+			if ($parent instanceof CacheJail) {
+				$this->unjailedRoot = $parent->getSourcePath($this->unjailedRoot);
+			}
+			$parent = $parent->getCache();
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function getRoot() {
 		return $this->root;
 	}
@@ -51,11 +53,14 @@ class CacheJail extends CacheWrapper {
 	 *
 	 * @return string
 	 */
-	protected function getGetUnjailedRoot() {
+	public function getGetUnjailedRoot() {
 		return $this->unjailedRoot;
 	}
 
-	protected function getSourcePath($path) {
+	/**
+	 * @return string
+	 */
+	protected function getSourcePath(string $path) {
 		if ($path === '') {
 			return $this->getRoot();
 		} else {
@@ -95,7 +100,7 @@ class CacheJail extends CacheWrapper {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param string /int $file
+	 * @param string|int $file
 	 * @return ICacheEntry|false
 	 */
 	public function get($file) {
@@ -206,12 +211,12 @@ class CacheJail extends CacheWrapper {
 	/**
 	 * update the folder size and the size of all parent folders
 	 *
-	 * @param string|boolean $path
-	 * @param array $data (optional) meta data of the folder
+	 * @param array|ICacheEntry|null $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
-		if ($this->getCache() instanceof Cache) {
-			$this->getCache()->correctFolderSize($this->getSourcePath($path), $data, $isBackgroundScan);
+	public function correctFolderSize(string $path, $data = null, bool $isBackgroundScan = false): void {
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			$cache->correctFolderSize($this->getSourcePath($path), $data, $isBackgroundScan);
 		}
 	}
 
@@ -223,8 +228,9 @@ class CacheJail extends CacheWrapper {
 	 * @return int|float
 	 */
 	public function calculateFolderSize($path, $entry = null) {
-		if ($this->getCache() instanceof Cache) {
-			return $this->getCache()->calculateFolderSize($this->getSourcePath($path), $entry);
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			return $cache->calculateFolderSize($this->getSourcePath($path), $entry);
 		} else {
 			return 0;
 		}

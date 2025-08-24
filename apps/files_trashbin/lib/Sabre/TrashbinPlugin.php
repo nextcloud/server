@@ -8,8 +8,12 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Trashbin\Sabre;
 
+use OC\Files\FileInfo;
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCP\IPreview;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
@@ -24,17 +28,15 @@ class TrashbinPlugin extends ServerPlugin {
 	public const TRASHBIN_TITLE = '{http://nextcloud.org/ns}trashbin-title';
 	public const TRASHBIN_DELETED_BY_ID = '{http://nextcloud.org/ns}trashbin-deleted-by-id';
 	public const TRASHBIN_DELETED_BY_DISPLAY_NAME = '{http://nextcloud.org/ns}trashbin-deleted-by-display-name';
+	public const TRASHBIN_BACKEND = '{http://nextcloud.org/ns}trashbin-backend';
 
 	/** @var Server */
 	private $server;
 
-	/** @var IPreview */
-	private $previewManager;
-
 	public function __construct(
-		IPreview $previewManager
+		private IPreview $previewManager,
+		private View $view,
 	) {
-		$this->previewManager = $previewManager;
 	}
 
 	public function initialize(Server $server) {
@@ -42,6 +44,7 @@ class TrashbinPlugin extends ServerPlugin {
 
 		$this->server->on('propFind', [$this, 'propFind']);
 		$this->server->on('afterMethod:GET', [$this,'httpGet']);
+		$this->server->on('beforeMove', [$this, 'beforeMove']);
 	}
 
 
@@ -74,6 +77,11 @@ class TrashbinPlugin extends ServerPlugin {
 			return $node->getDeletedBy()?->getDisplayName();
 		});
 
+		// Pass the real filename as the DAV display name
+		$propFind->handle(FilesPlugin::DISPLAYNAME_PROPERTYNAME, function () use ($node) {
+			return $node->getFilename();
+		});
+
 		$propFind->handle(FilesPlugin::SIZE_PROPERTYNAME, function () use ($node) {
 			return $node->getSize();
 		});
@@ -96,12 +104,20 @@ class TrashbinPlugin extends ServerPlugin {
 			return $node->getFileId();
 		});
 
-		$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, function () use ($node) {
-			return $this->previewManager->isAvailable($node->getFileInfo());
+		$propFind->handle(FilesPlugin::HAS_PREVIEW_PROPERTYNAME, function () use ($node): string {
+			return $this->previewManager->isAvailable($node->getFileInfo()) ? 'true' : 'false';
 		});
 
 		$propFind->handle(FilesPlugin::MOUNT_TYPE_PROPERTYNAME, function () {
 			return '';
+		});
+
+		$propFind->handle(self::TRASHBIN_BACKEND, function () use ($node) {
+			$fileInfo = $node->getFileInfo();
+			if (!($fileInfo instanceof ITrashItem)) {
+				return '';
+			}
+			return $fileInfo->getTrashBackend()::class;
 		});
 	}
 
@@ -117,5 +133,48 @@ class TrashbinPlugin extends ServerPlugin {
 		if ($node instanceof ITrash) {
 			$response->addHeader('Content-Disposition', 'attachment; filename="' . $node->getFilename() . '"');
 		}
+	}
+
+	/**
+	 * Check if a user has available space before attempting to
+	 * restore from trashbin unless they have unlimited quota.
+	 *
+	 * @param string $sourcePath
+	 * @param string $destinationPath
+	 * @return bool
+	 */
+	public function beforeMove(string $sourcePath, string $destinationPath): bool {
+		try {
+			$node = $this->server->tree->getNodeForPath($sourcePath);
+			$destinationNodeParent = $this->server->tree->getNodeForPath(dirname($destinationPath));
+		} catch (\Sabre\DAV\Exception $e) {
+			\OCP\Server::get(LoggerInterface::class)
+				->error($e->getMessage(), ['app' => 'files_trashbin', 'exception' => $e]);
+			return true;
+		}
+
+		// Check if a file is being restored before proceeding
+		if (!$node instanceof ITrash || !$destinationNodeParent instanceof RestoreFolder) {
+			return true;
+		}
+
+		$fileInfo = $node->getFileInfo();
+		if (!$fileInfo instanceof ITrashItem) {
+			return true;
+		}
+		$restoreFolder = dirname($fileInfo->getOriginalLocation());
+		$freeSpace = $this->view->free_space($restoreFolder);
+		if ($freeSpace === FileInfo::SPACE_NOT_COMPUTED
+			|| $freeSpace === FileInfo::SPACE_UNKNOWN
+			|| $freeSpace === FileInfo::SPACE_UNLIMITED) {
+			return true;
+		}
+		$filesize = $fileInfo->getSize();
+		if ($freeSpace < $filesize) {
+			$this->server->httpResponse->setStatus(507);
+			return false;
+		}
+
+		return true;
 	}
 }

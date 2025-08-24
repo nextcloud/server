@@ -13,30 +13,19 @@ use OC\Authentication\Token\PublicKeyToken;
 use OCA\Settings\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\Token\IToken;
 use OCP\ISession;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AuthtokensTest extends TestCase {
-
-	/** @var IAuthTokenProvider|MockObject */
-	private $authTokenProvider;
-
-	/** @var ISession|MockObject */
-	private $session;
-
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var IInitialState|MockObject */
-	private $initialState;
-
-	/** @var string */
-	private $uid;
-
-	/** @var Authtokens */
-	private $section;
+	private IAuthTokenProvider&MockObject $authTokenProvider;
+	private ISession&MockObject $session;
+	private IUserSession&MockObject $userSession;
+	private IInitialState&MockObject $initialState;
+	private string $uid;
+	private Authtokens $section;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -56,7 +45,7 @@ class AuthtokensTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$token1 = new PublicKeyToken();
 		$token1->setId(100);
 		$token2 = new PublicKeyToken();
@@ -79,34 +68,39 @@ class AuthtokensTest extends TestCase {
 			->method('getToken')
 			->with('session123')
 			->willReturn($sessionToken);
+
+		$calls = [
+			[
+				'app_tokens', [
+					[
+						'id' => 100,
+						'name' => null,
+						'lastActivity' => 0,
+						'type' => 0,
+						'canDelete' => false,
+						'current' => true,
+						'scope' => [IToken::SCOPE_FILESYSTEM => true],
+						'canRename' => false,
+					],
+					[
+						'id' => 200,
+						'name' => null,
+						'lastActivity' => 0,
+						'type' => 0,
+						'canDelete' => true,
+						'scope' => [IToken::SCOPE_FILESYSTEM => true],
+						'canRename' => true,
+					],
+				]
+			],
+			['can_create_app_token', true],
+		];
 		$this->initialState->expects($this->exactly(2))
 			->method('provideInitialState')
-			->withConsecutive(
-				[
-					'app_tokens', [
-						[
-							'id' => 100,
-							'name' => null,
-							'lastActivity' => 0,
-							'type' => 0,
-							'canDelete' => false,
-							'current' => true,
-							'scope' => ['filesystem' => true],
-							'canRename' => false,
-						],
-						[
-							'id' => 200,
-							'name' => null,
-							'lastActivity' => 0,
-							'type' => 0,
-							'canDelete' => true,
-							'scope' => ['filesystem' => true],
-							'canRename' => true,
-						],
-					]
-				],
-				['can_create_app_token', true],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 
 		$form = $this->section->getForm();
 

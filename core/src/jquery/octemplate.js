@@ -89,7 +89,7 @@ const Template = {
 				function(a, b) {
 					const r = o[b]
 					return typeof r === 'string' || typeof r === 'number' ? r : a
-				}
+				},
 			)
 		} catch (e) {
 			console.error(e, 'data:', data)

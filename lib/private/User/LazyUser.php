@@ -36,9 +36,12 @@ class LazyUser implements IUser {
 				$this->user = $this->userManager->get($this->uid);
 			}
 		}
-		/** @var IUser */
-		$user = $this->user;
-		return $user;
+
+		if ($this->user === null) {
+			throw new NoUserException('User not found in backend');
+		}
+
+		return $this->user;
 	}
 
 	public function getUID() {
@@ -57,11 +60,15 @@ class LazyUser implements IUser {
 		return $this->getUser()->setDisplayName($displayName);
 	}
 
-	public function getLastLogin() {
+	public function getLastLogin(): int {
 		return $this->getUser()->getLastLogin();
 	}
 
-	public function updateLastLoginTimestamp() {
+	public function getFirstLogin(): int {
+		return $this->getUser()->getFirstLogin();
+	}
+
+	public function updateLastLoginTimestamp(): bool {
 		return $this->getUser()->updateLastLoginTimestamp();
 	}
 
@@ -71,6 +78,14 @@ class LazyUser implements IUser {
 
 	public function setPassword($password, $recoveryPassword = null) {
 		return $this->getUser()->setPassword($password, $recoveryPassword);
+	}
+
+	public function getPasswordHash(): ?string {
+		return $this->getUser()->getPasswordHash();
+	}
+
+	public function setPasswordHash(string $passwordHash): bool {
+		return $this->getUser()->setPasswordHash($passwordHash);
 	}
 
 	public function getHome() {
@@ -95,6 +110,10 @@ class LazyUser implements IUser {
 
 	public function canChangeDisplayName() {
 		return $this->getUser()->canChangeDisplayName();
+	}
+
+	public function canChangeEmail(): bool {
+		return $this->getUser()->canChangeEmail();
 	}
 
 	public function isEnabled() {
@@ -139,6 +158,10 @@ class LazyUser implements IUser {
 
 	public function getQuota() {
 		return $this->getUser()->getQuota();
+	}
+
+	public function getQuotaBytes(): int|float {
+		return $this->getUser()->getQuotaBytes();
 	}
 
 	public function setQuota($quota) {

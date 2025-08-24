@@ -17,6 +17,8 @@ namespace OCP\AppFramework\Http\Attribute;
  */
 abstract class ARateLimit {
 	/**
+	 * @param int $limit The maximum number of requests that can be made in the given period in seconds.
+	 * @param int $period The time period in seconds.
 	 * @since 27.0.0
 	 */
 	public function __construct(

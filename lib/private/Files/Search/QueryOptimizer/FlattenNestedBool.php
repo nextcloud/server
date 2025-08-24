@@ -14,8 +14,8 @@ class FlattenNestedBool extends QueryOptimizerStep {
 	public function processOperator(ISearchOperator &$operator) {
 		if (
 			$operator instanceof SearchBinaryOperator && (
-				$operator->getType() === ISearchBinaryOperator::OPERATOR_OR ||
-				$operator->getType() === ISearchBinaryOperator::OPERATOR_AND
+				$operator->getType() === ISearchBinaryOperator::OPERATOR_OR
+				|| $operator->getType() === ISearchBinaryOperator::OPERATOR_AND
 			)
 		) {
 			$newArguments = [];

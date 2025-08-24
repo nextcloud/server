@@ -17,29 +17,19 @@ class RetentionService {
 	public const RETENTION_CONFIG_KEY = 'calendarRetentionObligation';
 	private const DEFAULT_RETENTION_SECONDS = 30 * 24 * 60 * 60;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var ITimeFactory */
-	private $time;
-
-	/** @var CalDavBackend */
-	private $calDavBackend;
-
-	public function __construct(IConfig $config,
-		ITimeFactory $time,
-		CalDavBackend $calDavBackend) {
-		$this->config = $config;
-		$this->time = $time;
-		$this->calDavBackend = $calDavBackend;
+	public function __construct(
+		private IConfig $config,
+		private ITimeFactory $time,
+		private CalDavBackend $calDavBackend,
+	) {
 	}
 
 	public function getDuration(): int {
 		return max(
-			(int) $this->config->getAppValue(
+			(int)$this->config->getAppValue(
 				Application::APP_ID,
 				self::RETENTION_CONFIG_KEY,
-				(string) self::DEFAULT_RETENTION_SECONDS
+				(string)self::DEFAULT_RETENTION_SECONDS
 			),
 			0 // Just making sure we don't delete things in the future when a negative number is passed
 		);

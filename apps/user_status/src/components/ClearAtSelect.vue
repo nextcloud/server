@@ -14,12 +14,13 @@
 			:value="option"
 			:clearable="false"
 			placement="top"
+			label-outside
 			@option:selected="select" />
 	</div>
 </template>
 
 <script>
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { getAllClearAtOptions } from '../services/clearAtOptionsService.js'
 import { clearAtFilter } from '../filters/clearAtFilter.js'
 
@@ -72,12 +73,9 @@ export default {
 <style lang="scss" scoped>
 .clear-at-select {
 	display: flex;
-	margin-bottom: 10px;
+	gap: calc(2 * var(--default-grid-baseline));
 	align-items: center;
-
-	&__label {
-		margin-right: 12px;
-	}
+	margin-block: 0 calc(2 * var(--default-grid-baseline));
 
 	&__select {
 		flex-grow: 1;

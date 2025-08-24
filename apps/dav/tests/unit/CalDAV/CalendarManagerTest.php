@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,20 +18,11 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class CalendarManagerTest extends \Test\TestCase {
-	/** @var CalDavBackend | MockObject */
-	private $backend;
-
-	/** @var IL10N | MockObject */
-	private $l10n;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var CalendarManager */
-	private $manager;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
+	private CalDavBackend&MockObject $backend;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
+	private CalendarManager $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -54,7 +47,7 @@ class CalendarManagerTest extends \Test\TestCase {
 				['id' => 456, 'uri' => 'blablub2'],
 			]);
 
-		/** @var IManager | MockObject $calendarManager */
+		/** @var IManager&MockObject $calendarManager */
 		$calendarManager = $this->createMock(Manager::class);
 		$registeredIds = [];
 		$calendarManager->expects($this->exactly(2))

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,27 +11,23 @@ use OCA\User_LDAP\GroupPluginManager;
 use OCP\GroupInterface;
 
 class GroupLDAPPluginTest extends \Test\TestCase {
-
-	/**
-	 * @return GroupPluginManager
-	 */
-	private function getGroupPluginManager() {
+	private function getGroupPluginManager(): GroupPluginManager {
 		return new GroupPluginManager();
 	}
 
-	public function testImplementsActions() {
+	public function testImplementsActions(): void {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
-			->setMethods(['respondToActions'])
+		$plugin = $this->getMockBuilder(LDAPGroupPluginDummy::class)
+			->onlyMethods(['respondToActions'])
 			->getMock();
 
 		$plugin->expects($this->any())
 			->method('respondToActions')
 			->willReturn(GroupInterface::CREATE_GROUP);
 
-		$plugin2 = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
-			->setMethods(['respondToActions'])
+		$plugin2 = $this->getMockBuilder(LDAPGroupPluginDummy::class)
+			->onlyMethods(['respondToActions'])
 			->getMock();
 
 		$plugin2->expects($this->any())
@@ -44,11 +42,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$this->assertTrue($pluginManager->implementsActions(GroupInterface::ADD_TO_GROUP));
 	}
 
-	public function testCreateGroup() {
+	public function testCreateGroup(): void {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
-			->setMethods(['respondToActions', 'createGroup'])
+		$plugin = $this->getMockBuilder(LDAPGroupPluginDummy::class)
+			->onlyMethods(['respondToActions', 'createGroup'])
 			->getMock();
 
 		$plugin->expects($this->any())
@@ -66,7 +64,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	}
 
 
-	public function testCreateGroupNotRegistered() {
+	public function testCreateGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements createGroup in this LDAP Backend.');
 
@@ -74,11 +72,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->createGroup('foo');
 	}
 
-	public function testDeleteGroup() {
+	public function testDeleteGroup(): void {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
-			->setMethods(['respondToActions', 'deleteGroup'])
+		$plugin = $this->getMockBuilder(LDAPGroupPluginDummy::class)
+			->onlyMethods(['respondToActions', 'deleteGroup'])
 			->getMock();
 
 		$plugin->expects($this->any())
@@ -96,7 +94,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	}
 
 
-	public function testDeleteGroupNotRegistered() {
+	public function testDeleteGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements deleteGroup in this LDAP Backend.');
 
@@ -104,11 +102,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->deleteGroup('foo');
 	}
 
-	public function testAddToGroup() {
+	public function testAddToGroup(): void {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
-			->setMethods(['respondToActions', 'addToGroup'])
+		$plugin = $this->getMockBuilder(LDAPGroupPluginDummy::class)
+			->onlyMethods(['respondToActions', 'addToGroup'])
 			->getMock();
 
 		$plugin->expects($this->any())
@@ -127,7 +125,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	}
 
 
-	public function testAddToGroupNotRegistered() {
+	public function testAddToGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements addToGroup in this LDAP Backend.');
 
@@ -135,11 +133,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->addToGroup('foo', 'bar');
 	}
 
-	public function testRemoveFromGroup() {
+	public function testRemoveFromGroup(): void {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
-			->setMethods(['respondToActions', 'removeFromGroup'])
+		$plugin = $this->getMockBuilder(LDAPGroupPluginDummy::class)
+			->onlyMethods(['respondToActions', 'removeFromGroup'])
 			->getMock();
 
 		$plugin->expects($this->any())
@@ -158,7 +156,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	}
 
 
-	public function testRemoveFromGroupNotRegistered() {
+	public function testRemoveFromGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements removeFromGroup in this LDAP Backend.');
 
@@ -166,11 +164,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->removeFromGroup('foo', 'bar');
 	}
 
-	public function testCountUsersInGroup() {
+	public function testCountUsersInGroup(): void {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
-			->setMethods(['respondToActions', 'countUsersInGroup'])
+		$plugin = $this->getMockBuilder(LDAPGroupPluginDummy::class)
+			->onlyMethods(['respondToActions', 'countUsersInGroup'])
 			->getMock();
 
 		$plugin->expects($this->any())
@@ -189,7 +187,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	}
 
 
-	public function testCountUsersInGroupNotRegistered() {
+	public function testCountUsersInGroupNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements countUsersInGroup in this LDAP Backend.');
 
@@ -197,11 +195,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->countUsersInGroup('foo', 'bar');
 	}
 
-	public function testgetGroupDetails() {
+	public function testgetGroupDetails(): void {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
-			->setMethods(['respondToActions', 'getGroupDetails'])
+		$plugin = $this->getMockBuilder(LDAPGroupPluginDummy::class)
+			->onlyMethods(['respondToActions', 'getGroupDetails'])
 			->getMock();
 
 		$plugin->expects($this->any())
@@ -219,7 +217,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	}
 
 
-	public function testgetGroupDetailsNotRegistered() {
+	public function testgetGroupDetailsNotRegistered(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('No plugin implements getGroupDetails in this LDAP Backend.');
 

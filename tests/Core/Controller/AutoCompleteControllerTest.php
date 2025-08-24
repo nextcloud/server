@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,13 +16,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AutoCompleteControllerTest extends TestCase {
-	/** @var  ISearch|MockObject */
+	/** @var ISearch|MockObject */
 	protected $collaboratorSearch;
-	/** @var  IManager|MockObject */
+	/** @var IManager|MockObject */
 	protected $autoCompleteManager;
-	/** @var  IEventDispatcher|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
-	/** @var  AutoCompleteController */
+	/** @var AutoCompleteController */
 	protected $controller;
 
 	protected function setUp(): void {
@@ -42,7 +43,7 @@ class AutoCompleteControllerTest extends TestCase {
 		);
 	}
 
-	public function searchDataProvider() {
+	public static function searchDataProvider(): array {
 		return [
 			[ #0 – regular search
 				// searchResults
@@ -153,10 +154,8 @@ class AutoCompleteControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider searchDataProvider
-	 */
-	public function testGet(array $searchResults, array $expected, string $searchTerm, ?string $itemType, ?string $itemId, ?string $sorter) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchDataProvider')]
+	public function testGet(array $searchResults, array $expected, string $searchTerm, ?string $itemType, ?string $itemId, ?string $sorter): void {
 		$this->collaboratorSearch->expects($this->once())
 			->method('search')
 			->willReturn([$searchResults, false]);

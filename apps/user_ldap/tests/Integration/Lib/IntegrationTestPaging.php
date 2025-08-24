@@ -12,12 +12,13 @@ use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 require_once __DIR__ . '/../Bootstrap.php';
 
 class IntegrationTestPaging extends AbstractIntegrationTest {
-	/** @var  UserMapping */
+	/** @var UserMapping */
 	protected $mapping;
 
 	/** @var User_LDAP */
@@ -34,7 +35,7 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		require(__DIR__ . '/../setup-scripts/createExplicitUsers.php');
 		parent::init();
 
-		$this->backend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
+		$this->backend = new User_LDAP($this->access, Server::get(\OCP\Notification\IManager::class), Server::get(UserPluginManager::class), Server::get(LoggerInterface::class), Server::get(DeletedUsersIndex::class));
 	}
 
 	public function initConnection() {

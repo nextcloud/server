@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,6 +9,7 @@ namespace OCA\Files\Controller;
 use Exception;
 use OCA\Files\Service\DirectEditingService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\DirectEditing\IManager;
@@ -28,19 +30,18 @@ class DirectEditingController extends OCSController {
 		private IURLGenerator $urlGenerator,
 		private IManager $directEditingManager,
 		private DirectEditingService $directEditingService,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request, $corsMethods, $corsAllowedHeaders, $corsMaxAge);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get the direct editing capabilities
-	 * @return DataResponse<Http::STATUS_OK, array{editors: array<string, array{id: string, name: string, mimetypes: string[], optionalMimetypes: string[], secure: bool}>, creators: array<string, array{id: string, editor: string, name: string, extension: string, templates: bool, mimetypes: string[]}>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{editors: array<string, array{id: string, name: string, mimetypes: list<string>, optionalMimetypes: list<string>, secure: bool}>, creators: array<string, array{id: string, editor: string, name: string, extension: string, templates: bool, mimetypes: list<string>}>}, array{}>
 	 *
 	 * 200: Direct editing capabilities returned
 	 */
+	#[NoAdminRequired]
 	public function info(): DataResponse {
 		$response = new DataResponse($this->directEditingService->getDirectEditingCapabilitites());
 		$response->setETag($this->directEditingService->getDirectEditingETag());
@@ -48,8 +49,6 @@ class DirectEditingController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Create a file for direct editing
 	 *
 	 * @param string $path Path of the file
@@ -62,6 +61,7 @@ class DirectEditingController extends OCSController {
 	 * 200: URL for direct editing returned
 	 * 403: Opening file is not allowed
 	 */
+	#[NoAdminRequired]
 	public function create(string $path, string $editorId, string $creatorId, ?string $templateId = null): DataResponse {
 		if (!$this->directEditingManager->isEnabled()) {
 			return new DataResponse(['message' => 'Direct editing is not enabled'], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -85,8 +85,6 @@ class DirectEditingController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Open a file for direct editing
 	 *
 	 * @param string $path Path of the file
@@ -98,6 +96,7 @@ class DirectEditingController extends OCSController {
 	 * 200: URL for direct editing returned
 	 * 403: Opening file is not allowed
 	 */
+	#[NoAdminRequired]
 	public function open(string $path, ?string $editorId = null, ?int $fileId = null): DataResponse {
 		if (!$this->directEditingManager->isEnabled()) {
 			return new DataResponse(['message' => 'Direct editing is not enabled'], Http::STATUS_INTERNAL_SERVER_ERROR);
@@ -123,8 +122,6 @@ class DirectEditingController extends OCSController {
 
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get the templates for direct editing
 	 *
 	 * @param string $editorId ID of the editor
@@ -134,6 +131,7 @@ class DirectEditingController extends OCSController {
 	 *
 	 * 200: Templates returned
 	 */
+	#[NoAdminRequired]
 	public function templates(string $editorId, string $creatorId): DataResponse {
 		if (!$this->directEditingManager->isEnabled()) {
 			return new DataResponse(['message' => 'Direct editing is not enabled'], Http::STATUS_INTERNAL_SERVER_ERROR);

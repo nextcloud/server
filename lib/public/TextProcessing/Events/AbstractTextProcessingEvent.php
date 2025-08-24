@@ -13,13 +13,14 @@ use OCP\TextProcessing\Task;
 
 /**
  * @since 27.1.0
+ * @deprecated 30.0.0
  */
 abstract class AbstractTextProcessingEvent extends Event {
 	/**
 	 * @since 27.1.0
 	 */
 	public function __construct(
-		private Task $task
+		private Task $task,
 	) {
 		parent::__construct();
 	}

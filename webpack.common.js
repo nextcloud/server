@@ -1,19 +1,25 @@
+/* eslint-disable n/no-extraneous-require */
 /* eslint-disable camelcase */
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 const { VueLoaderPlugin } = require('vue-loader')
+const { readFileSync } = require('fs')
 const path = require('path')
+
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const webpack = require('webpack')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
+const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.js')
 
 const modules = require('./webpack.modules.js')
-const { readFileSync } = require('fs')
+const { codecovWebpackPlugin } = require('@codecov/webpack-plugin')
 
-const appVersion = readFileSync('./version.php').toString().match(/OC_VersionString[^']+'([^']+)/)?.[1] ?? 'unknown'
+const appVersion = readFileSync('./version.php').toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
+const isDev = process.env.NODE_ENV === 'development'
+const isTesting = process.env.TESTING === "true"
 
 const formatOutputFromModules = (modules) => {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -46,7 +52,7 @@ const modulesToBuild = () => {
 	return formatOutputFromModules(modules)
 }
 
-module.exports = {
+const config = {
 	entry: modulesToBuild(),
 	output: {
 		// Step away from the src folder and extract to the js folder
@@ -147,26 +153,6 @@ module.exports = {
 	},
 
 	optimization: {
-		minimizer: [{
-			apply: (compiler) => {
-				// Lazy load the Terser plugin
-				const TerserPlugin = require('terser-webpack-plugin')
-				new TerserPlugin({
-					extractComments: {
-						condition: /^\**!|@license|@copyright|SPDX-License-Identifier|SPDX-FileCopyrightText/i,
-						filename: (fileData) => {
-						  // The "fileData" argument contains object with "filename", "basename", "query" and "hash"
-						  return `${fileData.filename}.license${fileData.query}`
-						},
-					},
-					terserOptions: {
-						compress: {
-							passes: 2,
-						},
-					},
-			  }).apply(compiler)
-			},
-		}],
 		splitChunks: {
 			automaticNameDelimiter: '-',
 			minChunks: 3, // minimum number of chunks that must share the module
@@ -185,7 +171,9 @@ module.exports = {
 
 	plugins: [
 		new VueLoaderPlugin(),
-		new NodePolyfillPlugin(),
+		new NodePolyfillPlugin({
+			additionalAliases: ['process'],
+		}),
 		new webpack.ProvidePlugin({
 			// Provide jQuery to jquery plugins as some are loaded before $ is exposed globally.
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
@@ -239,6 +227,11 @@ module.exports = {
 			resourceRegExp: /^\.\/locale$/,
 			contextRegExp: /moment\/min$/,
 		}),
+		codecovWebpackPlugin({
+			enableBundleAnalysis: !isDev && !isTesting,
+			bundleName: 'nextcloud',
+			telemetry: false,
+		}),
 	],
 	externals: {
 		OC: 'OC',
@@ -265,3 +258,35 @@ module.exports = {
 		},
 	},
 }
+
+// Generate reuse license files if not in development mode
+if (!isDev) {
+	config.plugins.push(new WebpackSPDXPlugin({
+		override: {
+			select2: 'MIT',
+			'@nextcloud/axios': 'GPL-3.0-or-later',
+			'@nextcloud/vue': 'AGPL-3.0-or-later',
+			'nextcloud-vue-collections': 'AGPL-3.0-or-later',
+		},
+	}))
+
+	config.optimization.minimizer = [{
+		apply: (compiler) => {
+			// Lazy load the Terser plugin
+			const TerserPlugin = require('terser-webpack-plugin')
+			new TerserPlugin({
+				extractComments: false,
+				terserOptions: {
+					format: {
+						comments: false,
+					},
+					compress: {
+						passes: 2,
+					},
+				},
+		  }).apply(compiler)
+		},
+	}]
+}
+
+module.exports = config

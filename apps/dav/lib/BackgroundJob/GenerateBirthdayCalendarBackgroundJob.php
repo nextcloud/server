@@ -15,26 +15,19 @@ use OCP\IConfig;
 
 class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 
-	/** @var BirthdayService */
-	private $birthdayService;
-
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(ITimeFactory $time,
-		BirthdayService $birthdayService,
-		IConfig $config) {
+	public function __construct(
+		ITimeFactory $time,
+		private BirthdayService $birthdayService,
+		private IConfig $config,
+	) {
 		parent::__construct($time);
-
-		$this->birthdayService = $birthdayService;
-		$this->config = $config;
 	}
 
 	public function run($argument) {
 		$userId = $argument['userId'];
 		$purgeBeforeGenerating = $argument['purgeBeforeGenerating'] ?? false;
 
-		// make sure admin didn't change his mind
+		// make sure admin didn't change their mind
 		$isGloballyEnabled = $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes');
 		if ($isGloballyEnabled !== 'yes') {
 			return;

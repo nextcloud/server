@@ -3,14 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { getCSPNonce } from '@nextcloud/auth'
+import { t } from '@nextcloud/l10n'
+import VTooltip from '@nextcloud/vue/directives/Tooltip'
 import Vue from 'vue'
+
 import DashboardApp from './DashboardApp.vue'
-import { translate as t } from '@nextcloud/l10n'
-import VTooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
-import { getRequestToken } from '@nextcloud/auth'
 
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 Vue.directive('Tooltip', VTooltip)
 

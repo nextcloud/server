@@ -11,16 +11,17 @@
 			name="user-status-online"
 			@change="onChange">
 		<label :for="id" class="user-status-online-select__label">
-			{{ label }}
 			<NcUserStatusIcon :status="type"
+				class="user-status-online-select__icon"
 				aria-hidden="true" />
+			{{ label }}
 			<em class="user-status-online-select__subline">{{ subline }}</em>
 		</label>
 	</div>
 </template>
 
 <script>
-import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
+import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
 
 export default {
 	name: 'OnlineStatusSelect',
@@ -63,50 +64,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use 'sass:math';
-$icon-size: 24px;
-$label-padding: 8px;
-
 .user-status-online-select {
 	&__label {
-		position: relative;
-		display: block;
-		margin: $label-padding;
-		padding: $label-padding;
-		padding-left: $icon-size + $label-padding * 2;
-		border: 2px solid var(--color-main-background);
+		box-sizing: inherit;
+		display: grid;
+		grid-template-columns: var(--default-clickable-area) 1fr 2fr;
+		align-items: center;
+		gap: var(--default-grid-baseline);
+		min-height: var(--default-clickable-area);
+		padding: var(--default-grid-baseline);
 		border-radius: var(--border-radius-large);
 		background-color: var(--color-background-hover);
-		background-position: $label-padding center;
-		background-size: $icon-size;
 
-		span,
-		& {
+		&, & * {
 			cursor: pointer;
 		}
 
-		span {
-			position: absolute;
-			top: calc(50% - 10px);
-			left: 10px;
-			display: block;
-			width: $icon-size;
-			height: $icon-size;
+		&:hover {
+			background-color: var(--color-background-dark);
 		}
+	}
+
+	&__icon {
+		flex-shrink: 0;
+		max-width: 34px;
+		max-height: 100%;
 	}
 
 	&__input:checked + &__label {
 		outline: 2px solid var(--color-main-text);
+		background-color: var(--color-background-dark);
 		box-shadow: 0 0 0 4px var(--color-main-background);
 	}
 
 	&__input:focus-visible + &__label {
 		outline: 2px solid var(--color-primary-element) !important;
+		background-color: var(--color-background-dark);
 	}
 
 	&__subline {
 		display: block;
-		color: var(--color-text-lighter);
+		color: var(--color-text-maxcontrast);
 	}
 }
 </style>

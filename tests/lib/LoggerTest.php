@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,19 +11,18 @@ namespace Test;
 use OC\Log;
 use OC\SystemConfig;
 use OCP\ILogger;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Log\IWriter;
 use OCP\Support\CrashReport\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class LoggerTest extends TestCase implements IWriter {
-	/** @var SystemConfig|MockObject */
-	private $config;
+	private SystemConfig&MockObject $config;
 
-	/** @var IRegistry|MockObject */
-	private $registry;
+	private IRegistry&MockObject $registry;
 
-	/** @var ILogger */
-	private $logger;
+	private Log $logger;
 
 	/** @var array */
 	private array $logs = [];
@@ -33,10 +33,19 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logs = [];
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->registry = $this->createMock(IRegistry::class);
-		$this->logger = new Log($this, $this->config, null, $this->registry);
+		$this->logger = new Log($this, $this->config, crashReporters: $this->registry);
 	}
 
-	public function testInterpolation() {
+	private function mockDefaultLogLevel(): void {
+		$this->config->expects($this->any())
+			->method('getValue')
+			->willReturnMap([
+				['loglevel', ILogger::WARN, ILogger::WARN],
+			]);
+	}
+
+	public function testInterpolation(): void {
+		$this->mockDefaultLogLevel();
 		$logger = $this->logger;
 		$logger->warning('{Message {nothing} {user} {foo.bar} a}', ['user' => 'Bob', 'foo.bar' => 'Bar']);
 
@@ -44,13 +53,13 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->assertEquals($expected, $this->getLogs());
 	}
 
-	public function testAppCondition() {
+	public function testAppCondition(): void {
 		$this->config->expects($this->any())
 			->method('getValue')
-			->will(($this->returnValueMap([
+			->willReturnMap([
 				['loglevel', ILogger::WARN, ILogger::WARN],
 				['log.condition', [], ['apps' => ['files']]]
-			])));
+			]);
 		$logger = $this->logger;
 
 		$logger->info('Don\'t display info messages');
@@ -64,7 +73,95 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->assertEquals($expected, $this->getLogs());
 	}
 
+	public static function dataMatchesCondition(): array {
+		return [
+			[
+				'user0',
+				[
+					'apps' => ['app2'],
+				],
+				[
+					'1 Info of app2',
+				],
+			],
+			[
+				'user2',
+				[
+					'users' => ['user1', 'user2'],
+					'apps' => ['app1'],
+				],
+				[
+					'1 Info of app1',
+				],
+			],
+			[
+				'user3',
+				[
+					'users' => ['user3'],
+				],
+				[
+					'1 Info without app',
+					'1 Info of app1',
+					'1 Info of app2',
+					'0 Debug of app3',
+				],
+			],
+			[
+				'user4',
+				[
+					'users' => ['user4'],
+					'apps' => ['app3'],
+					'loglevel' => 0,
+				],
+				[
+					'0 Debug of app3',
+				],
+			],
+			[
+				'user4',
+				[
+					'message' => ' of ',
+				],
+				[
+					'1 Info of app1',
+					'1 Info of app2',
+					'0 Debug of app3',
+				],
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataMatchesCondition')]
+	public function testMatchesCondition(string $userId, array $conditions, array $expectedLogs): void {
+		$this->config->expects($this->any())
+			->method('getValue')
+			->willReturnMap([
+				['loglevel', ILogger::WARN, ILogger::WARN],
+				['log.condition', [], ['matches' => [
+					$conditions,
+				]]],
+			]);
+		$logger = $this->logger;
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn($userId);
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->method('getUser')
+			->willReturn($user);
+		$this->overwriteService(IUserSession::class, $userSession);
+
+		$logger->info('Info without app');
+		$logger->info('Info of app1', ['app' => 'app1']);
+		$logger->info('Info of app2', ['app' => 'app2']);
+		$logger->debug('Debug of app3', ['app' => 'app3']);
+
+		$this->assertEquals($expectedLogs, $this->getLogs());
+	}
+
 	public function testLoggingWithDataArray(): void {
+		$this->mockDefaultLogLevel();
+		/** @var IWriter&MockObject */
 		$writerMock = $this->createMock(IWriter::class);
 		$logFile = new Log($writerMock, $this->config);
 		$writerMock->expects($this->once())->method('write')->with('no app in context', ['something' => 'extra', 'message' => 'Testing logging with john']);
@@ -80,10 +177,10 @@ class LoggerTest extends TestCase implements IWriter {
 		if (is_array($message)) {
 			$textMessage = $message['message'];
 		}
-		$this->logs[] = $level . " " . $textMessage;
+		$this->logs[] = $level . ' ' . $textMessage;
 	}
 
-	public function userAndPasswordData(): array {
+	public static function userAndPasswordData(): array {
 		return [
 			['mySpecialUsername', 'MySuperSecretPassword'],
 			['my-user', '324324()#ä234'],
@@ -96,10 +193,9 @@ class LoggerTest extends TestCase implements IWriter {
 		];
 	}
 
-	/**
-	 * @dataProvider userAndPasswordData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('userAndPasswordData')]
 	public function testDetectlogin(string $user, string $password): void {
+		$this->mockDefaultLogLevel();
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -118,10 +214,9 @@ class LoggerTest extends TestCase implements IWriter {
 		}
 	}
 
-	/**
-	 * @dataProvider userAndPasswordData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('userAndPasswordData')]
 	public function testDetectcheckPassword(string $user, string $password): void {
+		$this->mockDefaultLogLevel();
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -140,10 +235,9 @@ class LoggerTest extends TestCase implements IWriter {
 		}
 	}
 
-	/**
-	 * @dataProvider userAndPasswordData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('userAndPasswordData')]
 	public function testDetectvalidateUserPass(string $user, string $password): void {
+		$this->mockDefaultLogLevel();
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -162,10 +256,9 @@ class LoggerTest extends TestCase implements IWriter {
 		}
 	}
 
-	/**
-	 * @dataProvider userAndPasswordData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('userAndPasswordData')]
 	public function testDetecttryLogin(string $user, string $password): void {
+		$this->mockDefaultLogLevel();
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -184,11 +277,10 @@ class LoggerTest extends TestCase implements IWriter {
 		}
 	}
 
-	/**
-	 * @dataProvider userAndPasswordData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('userAndPasswordData')]
 	public function testDetectclosure(string $user, string $password): void {
-		$a = function ($user, $password) {
+		$this->mockDefaultLogLevel();
+		$a = function ($user, $password): void {
 			throw new \Exception('test');
 		};
 		$this->registry->expects($this->once())

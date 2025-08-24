@@ -9,7 +9,11 @@ declare(strict_types=1);
 namespace OC\SystemTag;
 
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IServerContainer;
+use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagManagerFactory;
 use OCP\SystemTag\ISystemTagObjectMapper;
@@ -36,9 +40,11 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 */
 	public function getManager(): ISystemTagManager {
 		return new SystemTagManager(
-			$this->serverContainer->getDatabaseConnection(),
-			$this->serverContainer->getGroupManager(),
+			$this->serverContainer->get(IDBConnection::class),
+			$this->serverContainer->get(IGroupManager::class),
 			$this->serverContainer->get(IEventDispatcher::class),
+			$this->serverContainer->get(IUserSession::class),
+			$this->serverContainer->get(IAppConfig::class),
 		);
 	}
 
@@ -50,7 +56,7 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	 */
 	public function getObjectMapper(): ISystemTagObjectMapper {
 		return new SystemTagObjectMapper(
-			$this->serverContainer->getDatabaseConnection(),
+			$this->serverContainer->get(IDBConnection::class),
 			$this->getManager(),
 			$this->serverContainer->get(IEventDispatcher::class),
 		);

@@ -9,12 +9,14 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
+use OC\Core\ResponseDefinitions;
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
 use OC\Search\UnsupportedFilter;
-use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
@@ -40,16 +42,15 @@ class UnifiedSearchController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the providers for unified search
 	 *
 	 * @param string $from the url the user is currently at
-	 * @return DataResponse<Http::STATUS_OK, CoreUnifiedSearchProvider[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreUnifiedSearchProvider>, array{}>
 	 *
 	 * 200: Providers returned
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/providers', root: '/search')]
 	public function getProviders(string $from = ''): DataResponse {
 		[$route, $parameters] = $this->getRouteInformation($from);
@@ -61,9 +62,6 @@ class UnifiedSearchController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Launch a search for a specific search provider.
 	 *
 	 * Additional filters are available for each provider.
@@ -81,6 +79,8 @@ class UnifiedSearchController extends OCSController {
 	 * 200: Search entries returned
 	 * 400: Searching is not possible
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/providers/{providerId}/search', root: '/search')]
 	public function search(
 		string $providerId,

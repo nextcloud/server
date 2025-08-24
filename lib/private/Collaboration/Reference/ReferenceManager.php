@@ -11,6 +11,7 @@ namespace OC\Collaboration\Reference;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Collaboration\Reference\File\FileReferenceProvider;
 use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
+use OCP\Collaboration\Reference\IPublicReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
 use OCP\Collaboration\Reference\IReferenceManager;
 use OCP\Collaboration\Reference\IReferenceProvider;
@@ -59,14 +60,14 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * Try to get a cached reference object from a reference string
 	 */
-	public function getReferenceFromCache(string $referenceId): ?IReference {
-		$matchedProvider = $this->getMatchedProvider($referenceId);
+	public function getReferenceFromCache(string $referenceId, bool $public = false, string $sharingToken = ''): ?IReference {
+		$matchedProvider = $this->getMatchedProvider($referenceId, $public);
 
 		if ($matchedProvider === null) {
 			return null;
 		}
 
-		$cacheKey = $this->getFullCacheKey($matchedProvider, $referenceId);
+		$cacheKey = $this->getFullCacheKey($matchedProvider, $referenceId, $public, $sharingToken);
 		return $this->getReferenceByCacheKey($cacheKey);
 	}
 
@@ -86,20 +87,25 @@ class ReferenceManager implements IReferenceManager {
 	 * Get a reference object from a reference string with a matching provider
 	 * Use a cached reference if possible
 	 */
-	public function resolveReference(string $referenceId): ?IReference {
-		$matchedProvider = $this->getMatchedProvider($referenceId);
+	public function resolveReference(string $referenceId, bool $public = false, $sharingToken = ''): ?IReference {
+		$matchedProvider = $this->getMatchedProvider($referenceId, $public);
 
 		if ($matchedProvider === null) {
 			return null;
 		}
 
-		$cacheKey = $this->getFullCacheKey($matchedProvider, $referenceId);
+		$cacheKey = $this->getFullCacheKey($matchedProvider, $referenceId, $public, $sharingToken);
 		$cached = $this->cache->get($cacheKey);
 		if ($cached) {
 			return Reference::fromCache($cached);
 		}
 
-		$reference = $matchedProvider->resolveReference($referenceId);
+		$reference = null;
+		if ($public && $matchedProvider instanceof IPublicReferenceProvider) {
+			$reference = $matchedProvider->resolveReferencePublic($referenceId, $sharingToken);
+		} elseif ($matchedProvider instanceof IReferenceProvider) {
+			$reference = $matchedProvider->resolveReference($referenceId);
+		}
 		if ($reference) {
 			$cachePrefix = $matchedProvider->getCachePrefix($referenceId);
 			if ($cachePrefix !== '') {
@@ -117,11 +123,14 @@ class ReferenceManager implements IReferenceManager {
 	 * Try to match a reference string with all the registered providers
 	 * Fallback to the link reference provider (using OpenGraph)
 	 *
-	 * @return IReferenceProvider|null the first matching provider
+	 * @return IReferenceProvider|IPublicReferenceProvider|null the first matching provider
 	 */
-	private function getMatchedProvider(string $referenceId): ?IReferenceProvider {
+	private function getMatchedProvider(string $referenceId, bool $public): null|IReferenceProvider|IPublicReferenceProvider {
 		$matchedProvider = null;
 		foreach ($this->getProviders() as $provider) {
+			if ($public && !($provider instanceof IPublicReferenceProvider)) {
+				continue;
+			}
 			$matchedProvider = $provider->matchReference($referenceId) ? $provider : null;
 			if ($matchedProvider !== null) {
 				break;
@@ -138,8 +147,13 @@ class ReferenceManager implements IReferenceManager {
 	/**
 	 * Get a hashed full cache key from a key and prefix given by a provider
 	 */
-	private function getFullCacheKey(IReferenceProvider $provider, string $referenceId): string {
-		$cacheKey = $provider->getCacheKey($referenceId);
+	private function getFullCacheKey(IReferenceProvider $provider, string $referenceId, bool $public, string $sharingToken): string {
+		if ($public && !($provider instanceof IPublicReferenceProvider)) {
+			throw new \RuntimeException('Provider doesn\'t support public lookups');
+		}
+		$cacheKey = $public
+			? $provider->getCacheKeyPublic($referenceId, $sharingToken)
+			: $provider->getCacheKey($referenceId);
 		return md5($provider->getCachePrefix($referenceId)) . (
 			$cacheKey !== null ? ('-' . md5($cacheKey)) : ''
 		);
@@ -217,7 +231,7 @@ class ReferenceManager implements IReferenceManager {
 			}
 
 			$configKey = 'provider-last-use_' . $providerId;
-			$this->config->setUserValue($userId, 'references', $configKey, (string) $timestamp);
+			$this->config->setUserValue($userId, 'references', $configKey, (string)$timestamp);
 			return true;
 		}
 		return false;
@@ -240,7 +254,7 @@ class ReferenceManager implements IReferenceManager {
 		$timestamps = [];
 		foreach ($keys as $key) {
 			$providerId = substr($key, strlen($prefix));
-			$timestamp = (int) $this->config->getUserValue($userId, 'references', $key);
+			$timestamp = (int)$this->config->getUserValue($userId, 'references', $key);
 			$timestamps[$providerId] = $timestamp;
 		}
 		return $timestamps;

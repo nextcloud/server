@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -31,7 +32,7 @@ class UserControllerTest extends TestCase {
 		);
 	}
 
-	public function testGetDisplayNames() {
+	public function testGetDisplayNames(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getDisplayName')
 			->willReturn('FooDisplay Name');

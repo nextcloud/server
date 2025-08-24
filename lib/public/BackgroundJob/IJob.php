@@ -10,7 +10,7 @@ namespace OCP\BackgroundJob;
 use OCP\ILogger;
 
 /**
- * This interface represend a backgroud job run with cron
+ * This interface represents a background job run with cron
  *
  * To implement a background job, you must extend either \OCP\BackgroundJob\Job,
  * \OCP\BackgroundJob\TimedJob or \OCP\BackgroundJob\QueuedJob
@@ -33,7 +33,7 @@ interface IJob {
 	 * @param IJobList $jobList The job list that manages the state of this job
 	 * @param ILogger|null $logger
 	 * @since 7.0.0
-	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
+	 * @deprecated 25.0.0 Use start() instead. This method will be removed
 	 * with the ILogger interface
 	 */
 	public function execute(IJobList $jobList, ?ILogger $logger = null);

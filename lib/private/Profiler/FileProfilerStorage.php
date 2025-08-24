@@ -46,7 +46,7 @@ class FileProfilerStorage {
 		while (\count($result) < $limit && $line = $this->readLineFromFile($file)) {
 			$values = str_getcsv($line);
 			[$csvToken, $csvMethod, $csvUrl, $csvTime, $csvParent, $csvStatusCode] = $values;
-			$csvTime = (int) $csvTime;
+			$csvTime = (int)$csvTime;
 
 			if ($url && !str_contains($csvUrl, $url) || $method && !str_contains($csvMethod, $method) || $statusCode && !str_contains($csvStatusCode, $statusCode)) {
 				continue;
@@ -81,11 +81,11 @@ class FileProfilerStorage {
 		$iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::CHILD_FIRST);
 
 		foreach ($iterator as $file) {
-			$file = (string)$file->getPathInfo();
-			if (is_file($file)) {
-				unlink($file);
+			$path = $file->getPathname();
+			if (is_file($path)) {
+				unlink($path);
 			} else {
-				rmdir($file);
+				rmdir($path);
 			}
 		}
 	}
@@ -96,7 +96,7 @@ class FileProfilerStorage {
 		}
 
 		if (\function_exists('gzcompress')) {
-			$file = 'compress.zlib://'.$file;
+			$file = 'compress.zlib://' . $file;
 		}
 
 		return $this->createProfileFromData($token, unserialize(file_get_contents($file)));
@@ -140,7 +140,7 @@ class FileProfilerStorage {
 		$context = stream_context_create();
 
 		if (\function_exists('gzcompress')) {
-			$file = 'compress.zlib://'.$file;
+			$file = 'compress.zlib://' . $file;
 			stream_context_set_option($context, 'zlib', 'level', 3);
 		}
 
@@ -178,7 +178,7 @@ class FileProfilerStorage {
 		$folderA = substr($token, -2, 2);
 		$folderB = substr($token, -4, 2);
 
-		return $this->folder.'/'.$folderA.'/'.$folderB.'/'.$token;
+		return $this->folder . '/' . $folderA . '/' . $folderB . '/' . $token;
 	}
 
 	/**
@@ -187,7 +187,7 @@ class FileProfilerStorage {
 	 * @return string The index filename
 	 */
 	protected function getIndexFilename(): string {
-		return $this->folder.'/index.csv';
+		return $this->folder . '/index.csv';
 	}
 
 	/**
@@ -220,12 +220,12 @@ class FileProfilerStorage {
 			$buffer = fread($file, $chunkSize);
 
 			if (false === ($upTo = strrpos($buffer, "\n"))) {
-				$line = $buffer.$line;
+				$line = $buffer . $line;
 				continue;
 			}
 
 			$position += $upTo;
-			$line = substr($buffer, $upTo + 1).$line;
+			$line = substr($buffer, $upTo + 1) . $line;
 			fseek($file, max(0, $position), \SEEK_SET);
 
 			if ($line !== '') {
@@ -258,7 +258,7 @@ class FileProfilerStorage {
 			}
 
 			if (\function_exists('gzcompress')) {
-				$file = 'compress.zlib://'.$file;
+				$file = 'compress.zlib://' . $file;
 			}
 
 			$profile->addChild($this->createProfileFromData($token, unserialize(file_get_contents($file)), $profile));

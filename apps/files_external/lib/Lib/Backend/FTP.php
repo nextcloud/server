@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -23,6 +24,8 @@ class FTP extends Backend {
 			->setText($l->t('FTP'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),
+				(new DefinitionParameter('port', $l->t('Port')))
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('root', $l->t('Remote subfolder')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 				(new DefinitionParameter('secure', $l->t('Secure ftps://')))

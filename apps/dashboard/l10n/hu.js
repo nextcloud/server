@@ -3,15 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Irányítópult",
     "Dashboard app" : "Irányítópult alkalmazás",
-    "\"{title} icon\"" : "„{title} ikon”",
-    "Customize" : "Testreszabás",
-    "Edit widgets" : "Modulok szerkesztése",
-    "Get more widgets from the App Store" : "További modulok letöltése az alkalmazástárból.",
-    "Weather service" : "Időjárás szolgáltatás",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Az adatvédelem érdekében az információt a Nextcloud kiszolgáló kéri le az Ön nevében, így az Ön személyes adatai nem kerülnek az időjárási adatok szolgáltatójához.",
-    "Weather data from Met.no" : "Időjárási adatok a Met.no-tól",
-    "geocoding with Nominatim" : "geokódolás a Nominatimmal",
-    "elevation data from OpenTopoData" : "magassági adatok az OpenTopoDatától",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Kezdje informáltan a napot\n\nA Nextcloud irányítópult a napja kezdőpontja, áttekintést nyújtva a közelgő találkozókról, sürgős levelekről, csevegőüzenetekről, hibajegyekről, a legfrissebb tweetekről és sok másról. Modulokat lehet hozzáadni, és tetszés szerint lehet hátteret választani.",
     "Weather" : "Időjárás",
     "Status" : "Állapot",
     "Good morning" : "Jó reggelt",
@@ -22,6 +14,15 @@ OC.L10N.register(
     "Good evening, {name}" : "Jó estét, {name}",
     "Hello" : "Üdv",
     "Hello, {name}" : "Üdv {name}!",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Kezdje informáltan a napot\n\nA Nextcloud irányítópult a napja kezdőpontja, áttekintést nyújtva a közelgő találkozókról, sürgős levelekről, csevegőüzenetekről, hibajegyekről, a legfrissebb tweetekről és sok másról. A felhasználók modulokat adhatnak hozzá, és tetszés szerint változtathatják a hátteret."
+    "Happy birthday 🥳🤩🎂🎉" : "Boldog születésnapot 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Boldog születésnapot, {name} 🥳🤩🎂🎉",
+    "Customize" : "Testreszabás",
+    "Edit widgets" : "Modulok szerkesztése",
+    "Get more widgets from the App Store" : "További modulok letöltése az alkalmazástárból.",
+    "Weather service" : "Időjárás szolgáltatás",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Az adatvédelem érdekében az információt a Nextcloud kiszolgáló kéri le az Ön nevében, így az Ön személyes adatai nem kerülnek az időjárási adatok szolgáltatójához.",
+    "Weather data from Met.no" : "Időjárási adatok a Met.no-tól",
+    "geocoding with Nominatim" : "geokódolás a Nominatimmal",
+    "elevation data from OpenTopoData" : "magassági adatok az OpenTopoDatától"
 },
 "nplurals=2; plural=(n != 1);");

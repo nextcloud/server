@@ -19,7 +19,7 @@ class CleanupLoginFlowV2 extends TimedJob {
 	) {
 		parent::__construct($time);
 
-		$this->setInterval(3600);
+		$this->setInterval(60 * 60);
 	}
 
 	protected function run($argument): void {

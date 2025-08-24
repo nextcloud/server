@@ -2,17 +2,17 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { Folder, Node } from '@nextcloud/files'
+import type { FileAction, Folder, Node, View } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 
 // Global definitions
 export type Service = string
-export type FileId = number
+export type FileSource = string
 export type ViewId = string
 
 // Files store
 export type FilesStore = {
-	[fileid: FileId]: Node
+	[source: FileSource]: Node
 }
 
 export type RootsStore = {
@@ -31,7 +31,7 @@ export interface RootOptions {
 
 // Paths store
 export type PathConfig = {
-	[path: string]: number
+	[path: string]: FileSource
 }
 
 export type ServicesState = {
@@ -45,20 +45,33 @@ export type PathsStore = {
 export interface PathOptions {
 	service: Service
 	path: string
-	fileid: FileId
+	source: FileSource
 }
 
 // User config store
 export interface UserConfig {
-	[key: string]: boolean
+	[key: string]: boolean | string | undefined
+
+	crop_image_previews: boolean
+	default_view: 'files' | 'personal'
+	grid_view: boolean
+	show_files_extensions: boolean
+	show_hidden: boolean
+	show_mime_column: boolean
+	sort_favorites_first: boolean
+	sort_folders_first: boolean
+
+	show_dialog_deletion: boolean
+	show_dialog_file_extension: boolean,
 }
+
 export interface UserConfigStore {
 	userConfig: UserConfig
 }
 
 export interface SelectionStore {
-	selected: FileId[]
-	lastSelection: FileId[]
+	selected: FileSource[]
+	lastSelection: FileSource[]
 	lastSelectedIndex: number | null
 }
 
@@ -92,8 +105,21 @@ export interface UploaderStore {
 
 // Drag and drop store
 export interface DragAndDropStore {
-	dragging: FileId[]
+	dragging: FileSource[]
 }
+
+// Active node store
+export interface ActiveStore {
+	activeAction: FileAction|null
+	activeFolder: Folder|null
+	activeNode: Node|null
+	activeView: View|null
+}
+
+/**
+ * Search scope for the in-files-search
+ */
+export type SearchScope = 'filter'|'globally'
 
 export interface TemplateFile {
 	app: string
@@ -104,4 +130,19 @@ export interface TemplateFile {
 	mimetypes: string[]
 	ratio?: number
 	templates?: Record<string, unknown>[]
+}
+
+export type Capabilities = {
+	files: {
+		bigfilechunking: boolean
+		blacklisted_files: string[]
+		forbidden_filename_basenames: string[]
+		forbidden_filename_characters: string[]
+		forbidden_filename_extensions: string[]
+		forbidden_filenames: string[]
+		undelete: boolean
+		version_deletion: boolean
+		version_labeling: boolean
+		versioning: boolean
+	}
 }

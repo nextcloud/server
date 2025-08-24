@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,9 +10,9 @@ namespace Test\Migration;
 
 use OC\BackgroundJob\JobList;
 use OC\Migration\BackgroundRepair;
-use OC\NeedsUpdateException;
 use OC\Repair;
 use OC\Repair\Events\RepairStepEvent;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Migration\IOutput;
@@ -48,44 +49,29 @@ class BackgroundRepairTest extends TestCase {
 	private LoggerInterface $logger;
 	private IEventDispatcher $dispatcher;
 	private ITimeFactory $time;
+	private IAppManager $appManager;
 	private Repair $repair;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->jobList = $this->getMockBuilder(JobList::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->jobList = $this->createMock(JobList::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->time->method('getTime')
 			->willReturn(999999);
+		$this->appManager = $this->createMock(IAppManager::class);
 		$this->repair = new Repair($this->dispatcher, $this->logger);
-		$this->job = $this->getMockBuilder(BackgroundRepair::class)
-			->setConstructorArgs([$this->repair, $this->time, $this->logger, $this->jobList])
-			->setMethods(['loadApp'])
-			->getMock();
+		$this->job = new BackgroundRepair($this->repair, $this->time, $this->logger, $this->jobList, $this->appManager);
 	}
 
-	public function testNoArguments() {
+	public function testNoArguments(): void {
 		$this->jobList->expects($this->once())->method('remove');
 		$this->job->start($this->jobList);
 	}
 
-	public function testAppUpgrading() {
-		$this->jobList->expects($this->never())->method('remove');
-		$this->job->expects($this->once())->method('loadApp')->with('test')->willThrowException(new NeedsUpdateException());
-		$this->job->setArgument([
-			'app' => 'test',
-			'step' => 'j'
-		]);
-		$this->job->start($this->jobList);
-	}
-
-	public function testUnknownStep() {
+	public function testUnknownStep(): void {
 		$this->dispatcher->expects($this->never())->method('dispatchTyped');
 
 		$this->jobList->expects($this->once())->method('remove');
@@ -98,11 +84,14 @@ class BackgroundRepairTest extends TestCase {
 		$this->job->start($this->jobList);
 	}
 
-	public function testWorkingStep() {
+	public function testWorkingStep(): void {
 		$this->dispatcher->expects($this->once())->method('dispatchTyped')
 			->with($this->equalTo(new RepairStepEvent('A test repair step')));
 
 		$this->jobList->expects($this->once())->method('remove');
+		$this->appManager->expects(self::once())
+			->method('loadApp')
+			->with('test');
 
 		$this->job->setArgument([
 			'app' => 'test',

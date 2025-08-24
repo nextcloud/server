@@ -31,7 +31,7 @@ interface IQueryLogger extends SQLLogger {
 	 * Mark the end of the current active query. Ending query should store \OCP\Diagnostics\IQuery to
 	 * be returned with getQueries() method.
 	 *
-	 * @return mixed
+	 * @return void
 	 * @since 8.0.0
 	 */
 	public function stopQuery();

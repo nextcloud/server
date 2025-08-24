@@ -27,7 +27,8 @@ abstract class Backend {
 
 	private ICache $shareCache;
 
-	public function __construct(private IUserManager $userManager,
+	public function __construct(
+		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private Principal $principalBackend,
 		private ICacheFactory $cacheFactory,
@@ -58,13 +59,13 @@ abstract class Backend {
 			}
 
 			// Don't add share for owner
-			if($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
+			if ($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
 				continue;
 			}
 
 			$principalparts[2] = urldecode($principalparts[2]);
-			if (($principalparts[1] === 'users' && !$this->userManager->userExists($principalparts[2])) ||
-				($principalparts[1] === 'groups' && !$this->groupManager->groupExists($principalparts[2]))) {
+			if (($principalparts[1] === 'users' && !$this->userManager->userExists($principalparts[2]))
+				|| ($principalparts[1] === 'groups' && !$this->groupManager->groupExists($principalparts[2]))) {
 				// User or group does not exist
 				continue;
 			}
@@ -83,20 +84,12 @@ abstract class Backend {
 			}
 
 			// Don't add unshare for owner
-			if($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
+			if ($shareable->getOwner() !== null && strcasecmp($shareable->getOwner(), $principal) === 0) {
 				continue;
 			}
 
 			// Delete any possible direct shares (since the frontend does not separate between them)
 			$this->service->deleteShare($shareable->getResourceId(), $principal);
-
-			// Check if a user has a groupshare that they're trying to free themselves from
-			// If so we need to add a self::ACCESS_UNSHARED row
-			if(!str_contains($principal, 'group')
-				&& $this->service->hasGroupShare($oldShares)
-			) {
-				$this->service->unshare($shareable->getResourceId(), $principal);
-			}
 		}
 	}
 
@@ -130,15 +123,15 @@ abstract class Backend {
 
 		$rows = $this->service->getShares($resourceId);
 		$shares = [];
-		foreach($rows as $row) {
+		foreach ($rows as $row) {
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$shares[] = [
 				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
 				'status' => 1,
-				'readOnly' => (int) $row['access'] === Backend::ACCESS_READ,
+				'readOnly' => (int)$row['access'] === Backend::ACCESS_READ,
 				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
-				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && str_starts_with($p['uri'], 'principals/groups')
+				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && (str_starts_with($p['uri'], 'principals/groups') || str_starts_with($p['uri'], 'principals/circles'))
 			];
 		}
 		$this->shareCache->set((string)$resourceId, $shares);
@@ -155,14 +148,14 @@ abstract class Backend {
 
 		$rows = $this->service->getSharesForIds($resourceIds);
 		$sharesByResource = array_fill_keys($resourceIds, []);
-		foreach($rows as $row) {
+		foreach ($rows as $row) {
 			$resourceId = (int)$row['resourceid'];
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$sharesByResource[$resourceId][] = [
 				'href' => "principal:{$row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? (string)$p['{DAV:}displayname'] : '',
 				'status' => 1,
-				'readOnly' => (int) $row['access'] === self::ACCESS_READ,
+				'readOnly' => (int)$row['access'] === self::ACCESS_READ,
 				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
 				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && str_starts_with($p['uri'], 'principals/groups')
 			];
@@ -202,5 +195,46 @@ abstract class Backend {
 			}
 		}
 		return $acl;
+	}
+
+	public function unshare(IShareable $shareable, string $principalUri): bool {
+		$this->shareCache->clear();
+
+		$principal = $this->principalBackend->findByUri($principalUri, '');
+		if (empty($principal)) {
+			return false;
+		}
+
+		if ($shareable->getOwner() === $principal) {
+			return false;
+		}
+
+		// Delete any possible direct shares (since the frontend does not separate between them)
+		$this->service->deleteShare($shareable->getResourceId(), $principal);
+
+		$needsUnshare = $this->hasAccessByGroupOrCirclesMembership(
+			$shareable->getResourceId(),
+			$principal
+		);
+
+		if ($needsUnshare) {
+			$this->service->unshare($shareable->getResourceId(), $principal);
+		}
+
+		return true;
+	}
+
+	private function hasAccessByGroupOrCirclesMembership(int $resourceId, string $principal) {
+		$memberships = array_merge(
+			$this->principalBackend->getGroupMembership($principal, true),
+			$this->principalBackend->getCircleMembership($principal)
+		);
+
+		$shares = array_column(
+			$this->service->getShares($resourceId),
+			'principaluri'
+		);
+
+		return count(array_intersect($memberships, $shares)) > 0;
 	}
 }

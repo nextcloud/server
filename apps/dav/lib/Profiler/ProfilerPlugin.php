@@ -14,10 +14,9 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class ProfilerPlugin extends \Sabre\DAV\ServerPlugin {
-	private IRequest $request;
-
-	public function __construct(IRequest $request) {
-		$this->request = $request;
+	public function __construct(
+		private IRequest $request,
+	) {
 	}
 
 	/** @return void */

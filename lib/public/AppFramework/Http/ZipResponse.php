@@ -9,15 +9,16 @@ namespace OCP\AppFramework\Http;
 
 use OC\Streamer;
 use OCP\AppFramework\Http;
+use OCP\IDateTimeZone;
 use OCP\IRequest;
 
 /**
  * Public library to send several files in one zip archive.
  *
  * @since 15.0.0
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class ZipResponse extends Response implements ICallbackResponse {
 	/** @var array{internalName: string, resource: resource, size: int, time: int}[] Files to be added to the zip response */
@@ -65,7 +66,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 			$size += $resource['size'];
 		}
 
-		$zip = new Streamer($this->request, $size, $files);
+		$zip = new Streamer($this->request, $size, $files, \OCP\Server::get(IDateTimeZone::class));
 		$zip->sendHeaders($this->name);
 
 		foreach ($this->resources as $resource) {

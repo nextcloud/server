@@ -4,7 +4,7 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 # Nextcloud Server ☁
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/server/?branch=master)
+[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/server)](https://api.reuse.software/info/github.com/nextcloud/server)
 [![codecov](https://codecov.io/gh/nextcloud/server/branch/master/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/209/badge)](https://bestpractices.coreinfrastructure.org/projects/209)
 [![Design](https://contribute.design/api/shield/nextcloud/server)](https://contribute.design/nextcloud/server)
@@ -73,18 +73,21 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 
 - Comment on a pull request with `/update-3rdparty` to update the 3rd party submodule. It will update to the last commit of the 3rd party branch named like the PR target.
 
+#### Ignore code style updates in git blame
+
+`git config blame.ignoreRevsFile .git-blame-ignore-revs`
+
 ## Contribution guidelines 📜
 
 All contributions to this repository from June 16, 2016, and onward are considered to be
 licensed under the AGPLv3 or any later version.
 
 Nextcloud doesn't require a CLA (Contributor License Agreement).
-The copyright belongs to all the individual contributors. Therefore we recommend
-that every contributor adds the following line to the header of a file if they
-changed it substantially:
+The copyright belongs to all the individual contributors. 
+Therefore we recommend that every contributor adds the following line to the [AUTHORS](AUTHORS) file if they made substantial changes to the code:
 
 ```
-@copyright Copyright (c) <year>, <your name> (<your email address>)
+- <your name> <your email address>
 ```
 
 Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere and to explain how together we can strengthen and support each other.

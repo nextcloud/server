@@ -20,7 +20,7 @@ use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class VerifyUserData extends Job {
-	/** @var  bool */
+	/** @var bool */
 	private bool $retainJob = true;
 
 	/** @var int max number of attempts to send the request */
@@ -120,9 +120,11 @@ class VerifyUserData extends Job {
 	}
 
 	protected function verifyViaLookupServer(array $argument, string $dataType): bool {
-		if (empty($this->lookupServerUrl) ||
-			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') !== 'yes' ||
-			$this->config->getSystemValue('has_internet_connection', true) === false) {
+		// TODO: Consider to enable for non-global-scale setups by checking 'files_sharing', 'lookupServerUploadEnabled'
+		if (!$this->config->getSystemValueBool('gs.enabled', false)
+			|| empty($this->lookupServerUrl)
+			|| $this->config->getSystemValue('has_internet_connection', true) === false
+		) {
 			return true;
 		}
 

@@ -34,7 +34,7 @@ class ContextWrite implements ITaskType {
 	public function __construct(
 		IFactory $l10nFactory,
 	) {
-		$this->l = $l10nFactory->get('core');
+		$this->l = $l10nFactory->get('lib');
 	}
 
 
@@ -43,7 +43,7 @@ class ContextWrite implements ITaskType {
 	 * @since 30.0.0
 	 */
 	public function getName(): string {
-		return $this->l->t('ContextWrite');
+		return $this->l->t('Context write');
 	}
 
 	/**

@@ -43,7 +43,7 @@ class ObjectStorePreviewCacheMountProviderTest extends \Test\TestCase {
 		$this->provider = new ObjectStorePreviewCacheMountProvider($this->logger, $this->config);
 	}
 
-	public function testNoMultibucketObjectStorage() {
+	public function testNoMultibucketObjectStorage(): void {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('objectstore_multibucket')
@@ -52,7 +52,7 @@ class ObjectStorePreviewCacheMountProviderTest extends \Test\TestCase {
 		$this->assertEquals([], $this->provider->getRootMounts($this->loader));
 	}
 
-	public function testMultibucketObjectStorage() {
+	public function testMultibucketObjectStorage(): void {
 		$objectstoreConfig = [
 			'class' => S3::class,
 			'arguments' => [

@@ -2,10 +2,10 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.0"
+            "php": "8.1"
         }
     },
     "require": {
-        "phpunit/phpunit": "9.6"
+        "phpunit/phpunit": "^10.5.35"
     }
 }

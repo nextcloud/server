@@ -25,6 +25,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\IManager as ShareManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -43,12 +44,12 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 
 	protected CalDavBackend $backend;
-	protected Principal|MockObject $principal;
-	protected IUserManager|MockObject $userManager;
-	protected IGroupManager|MockObject $groupManager;
-	protected IEventDispatcher|MockObject $dispatcher;
-	private LoggerInterface|MockObject $logger;
-	private IConfig|MockObject $config;
+	protected Principal&MockObject $principal;
+	protected IUserManager&MockObject $userManager;
+	protected IGroupManager&MockObject $groupManager;
+	protected IEventDispatcher&MockObject $dispatcher;
+	private LoggerInterface&MockObject $logger;
+	private IConfig&MockObject $config;
 	private ISecureRandom $random;
 	protected SharingBackend $sharingBackend;
 	protected IDBConnection $db;
@@ -76,7 +77,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(IConfig::class),
 				$this->createMock(IFactory::class)
 			])
-			->setMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
+			->onlyMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
 		$this->principal->expects($this->any())->method('getPrincipalByPath')
 			->willReturn([
@@ -87,8 +88,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
 
-		$this->db = \OC::$server->getDatabaseConnection();
-		$this->random = \OC::$server->getSecureRandom();
+		$this->db = Server::get(IDBConnection::class);
+		$this->random = Server::get(ISecureRandom::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->sharingBackend = new SharingBackend(
@@ -142,7 +143,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		}
 	}
 
-	protected function createTestCalendar() {
+	protected function createTestCalendar(): int {
 		$this->dispatcher->expects(self::any())
 			->method('dispatchTyped');
 
@@ -154,14 +155,12 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->assertEquals(self::UNIT_TEST_USER, $calendars[0]['principaluri']);
 		/** @var SupportedCalendarComponentSet $components */
 		$components = $calendars[0]['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
-		$this->assertEquals(['VEVENT','VTODO'], $components->getValue());
+		$this->assertEquals(['VEVENT','VTODO','VJOURNAL'], $components->getValue());
 		$color = $calendars[0]['{http://apple.com/ns/ical/}calendar-color'];
 		$this->assertEquals('#1C4587FF', $color);
 		$this->assertEquals('Example', $calendars[0]['uri']);
 		$this->assertEquals('Example', $calendars[0]['{DAV:}displayname']);
-		$calendarId = $calendars[0]['id'];
-
-		return $calendarId;
+		return (int)$calendars[0]['id'];
 	}
 
 	protected function createTestSubscription() {
@@ -205,6 +204,33 @@ EOD;
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
 
 		return $uri0;
+	}
+
+	protected function modifyEvent($calendarId, $objectId, $start = '20130912T130000Z', $end = '20130912T140000Z') {
+		$randomPart = self::getUniqueID();
+
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-$randomPart
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:$start
+DTEND;VALUE=DATE-TIME:$end
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->updateCalendarObject($calendarId, $objectId, $calData);
+	}
+
+	protected function deleteEvent($calendarId, $objectId) {
+		$this->backend->deleteCalendarObject($calendarId, $objectId);
 	}
 
 	protected function assertAcl($principal, $privilege, $acl) {

@@ -63,7 +63,7 @@ class TranscriptionJob extends QueuedJob {
 				);
 				return;
 			}
-			$result = $this->speechToTextManager->transcribeFile($file);
+			$result = $this->speechToTextManager->transcribeFile($file, $userId, $appId);
 			$this->eventDispatcher->dispatchTyped(
 				new TranscriptionSuccessfulEvent(
 					$fileId,

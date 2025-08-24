@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,11 +13,14 @@ use OC\Mail\Mailer;
 use OC\Mail\Message;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Mail\Events\BeforeMessageSent;
+use OCP\Mail\IEmailValidator;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Mailer as SymfonyMailer;
@@ -58,14 +62,15 @@ class MailerTest extends TestCase {
 			$this->urlGenerator,
 			$this->l10n,
 			$this->dispatcher,
-			$this->createMock(IFactory::class)
+			$this->createMock(IFactory::class),
+			$this->createMock(IEmailValidator::class),
 		);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function sendmailModeProvider(): array {
+	public static function sendmailModeProvider(): array {
 		return [
 			'smtp' => ['smtp', ' -bs'],
 			'pipe' => ['pipe', ' -t -i'],
@@ -73,11 +78,11 @@ class MailerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider sendmailModeProvider
 	 * @param $sendmailMode
 	 * @param $binaryParam
 	 */
-	public function testGetSendmailInstanceSendMail($sendmailMode, $binaryParam) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('sendmailModeProvider')]
+	public function testGetSendmailInstanceSendMail($sendmailMode, $binaryParam): void {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
@@ -86,7 +91,7 @@ class MailerTest extends TestCase {
 				['mail_sendmailmode', 'smtp', $sendmailMode],
 			]);
 
-		$path = \OC_Helper::findBinaryPath('sendmail');
+		$path = Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
 		if ($path === false) {
 			$path = '/usr/sbin/sendmail';
 		}
@@ -96,11 +101,11 @@ class MailerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider sendmailModeProvider
 	 * @param $sendmailMode
 	 * @param $binaryParam
 	 */
-	public function testGetSendmailInstanceSendMailQmail($sendmailMode, $binaryParam) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('sendmailModeProvider')]
+	public function testGetSendmailInstanceSendMailQmail($sendmailMode, $binaryParam): void {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValueString')
@@ -113,7 +118,27 @@ class MailerTest extends TestCase {
 		$this->assertEquals($sendmail, self::invokePrivate($this->mailer, 'getSendMailInstance'));
 	}
 
-	public function testGetInstanceDefault() {
+	public function testEventForNullTransport(): void {
+		$this->config
+			->expects($this->exactly(1))
+			->method('getSystemValueString')
+			->with('mail_smtpmode', 'smtp')
+			->willReturn('null');
+
+		$message = $this->createMock(Message::class);
+		$message->expects($this->once())
+			->method('getSymfonyEmail')
+			->willReturn((new Email())->to('foo@bar.com')->from('bar@foo.com')->text(''));
+
+		$event = new BeforeMessageSent($message);
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with($this->equalTo($event));
+
+		$this->mailer->send($message);
+	}
+
+	public function testGetInstanceDefault(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -127,7 +152,7 @@ class MailerTest extends TestCase {
 		$this->assertInstanceOf(EsmtpTransport::class, $transport);
 	}
 
-	public function testGetInstanceSendmail() {
+	public function testGetInstanceSendmail(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnMap([
@@ -141,7 +166,7 @@ class MailerTest extends TestCase {
 		$this->assertInstanceOf(SendmailTransport::class, $transport);
 	}
 
-	public function testEvents() {
+	public function testEvents(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -149,7 +174,7 @@ class MailerTest extends TestCase {
 				['mail_smtpport', 25, 25],
 			]);
 		$this->mailer = $this->getMockBuilder(Mailer::class)
-			->setMethods(['getInstance'])
+			->onlyMethods(['getInstance'])
 			->setConstructorArgs(
 				[
 					$this->config,
@@ -158,7 +183,8 @@ class MailerTest extends TestCase {
 					$this->urlGenerator,
 					$this->l10n,
 					$this->dispatcher,
-					$this->createMock(IFactory::class)
+					$this->createMock(IFactory::class),
+					$this->createMock(IEmailValidator::class),
 				]
 			)
 			->getMock();
@@ -173,7 +199,7 @@ class MailerTest extends TestCase {
 		$this->mailer->send($message);
 	}
 
-	public function testCreateMessage() {
+	public function testCreateMessage(): void {
 		$this->config
 			->expects($this->any())
 			->method('getSystemValueBool')
@@ -183,7 +209,7 @@ class MailerTest extends TestCase {
 	}
 
 
-	public function testSendInvalidMailException() {
+	public function testSendInvalidMailException(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -203,44 +229,18 @@ class MailerTest extends TestCase {
 		$this->mailer->send($message);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function mailAddressProvider() {
-		return [
-			['lukas@owncloud.com', true, false],
-			['lukas@localhost', true, false],
-			['lukas@192.168.1.1', true, false],
-			['lukas@éxämplè.com', true, false],
-			['asdf', false, false],
-			['', false, false],
-			['lukas@owncloud.org@owncloud.com', false, false],
-			['test@localhost', true, false],
-			['test@localhost', false, true],
-		];
-	}
-
-	/**
-	 * @dataProvider mailAddressProvider
-	 */
-	public function testValidateMailAddress($email, $expected, $strict) {
-		$this->config
-			->expects($this->atMost(1))
-			->method('getAppValue')
-			->with('core', 'enforce_strict_email_check')
-			->willReturn($strict ? 'yes' : 'no');
-		$this->assertSame($expected, $this->mailer->validateMailAddress($email));
-	}
-
-	public function testCreateEMailTemplate() {
+	public function testCreateEMailTemplate(): void {
 		$this->config->method('getSystemValueString')
 			->with('mail_template_class', '')
 			->willReturnArgument(1);
+		$this->config->method('getAppValue')
+			->with('theming', 'logoDimensions', Mailer::DEFAULT_DIMENSIONS)
+			->willReturn(Mailer::DEFAULT_DIMENSIONS);
 
 		$this->assertSame(EMailTemplate::class, get_class($this->mailer->createEMailTemplate('tests.MailerTest')));
 	}
 
-	public function testStreamingOptions() {
+	public function testStreamingOptions(): void {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
 				['mail_smtpstreamoptions', [], ['foo' => 1]],
@@ -264,7 +264,7 @@ class MailerTest extends TestCase {
 		$this->assertTrue(isset($transport->getStream()->getStreamOptions()['foo']));
 	}
 
-	public function testStreamingOptionsWrongType() {
+	public function testStreamingOptionsWrongType(): void {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
 				['mail_smtpstreamoptions', [], 'bar'],
@@ -332,5 +332,11 @@ class MailerTest extends TestCase {
 		$transport = self::invokePrivate($mailer, 'transport');
 		self::assertInstanceOf(EsmtpTransport::class, $transport);
 		self::assertEquals('[127.0.0.1]', $transport->getLocalDomain());
+	}
+
+	public function testCaching(): void {
+		$symfonyMailer1 = self::invokePrivate($this->mailer, 'getInstance');
+		$symfonyMailer2 = self::invokePrivate($this->mailer, 'getInstance');
+		self::assertSame($symfonyMailer1, $symfonyMailer2);
 	}
 }

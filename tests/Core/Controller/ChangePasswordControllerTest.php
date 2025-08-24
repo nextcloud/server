@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -60,7 +61,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testChangePersonalPasswordWrongPassword() {
+	public function testChangePersonalPasswordWrongPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -82,7 +83,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $actual);
 	}
 
-	public function testChangePersonalPasswordCommonPassword() {
+	public function testChangePersonalPasswordCommonPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -96,7 +97,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$user->expects($this->once())
 			->method('setPassword')
 			->with('new')
-			->will($this->throwException(new HintException('Common password')));
+			->willThrowException(new HintException('Common password'));
 
 		$expects = new JSONResponse([
 			'status' => 'error',
@@ -109,7 +110,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $actual);
 	}
 
-	public function testChangePersonalPasswordNoNewPassword() {
+	public function testChangePersonalPasswordNoNewPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -132,7 +133,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $res->getData());
 	}
 
-	public function testChangePersonalPasswordCantSetPassword() {
+	public function testChangePersonalPasswordCantSetPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -159,7 +160,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $actual);
 	}
 
-	public function testChangePersonalPassword() {
+	public function testChangePersonalPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);

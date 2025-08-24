@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,14 +14,11 @@ use OCP\Share\IManager;
 
 class ShareRecipientSorter implements ISorter {
 
-	private IManager $shareManager;
-	private IRootFolder $rootFolder;
-	private IUserSession $userSession;
-
-	public function __construct(IManager $shareManager, IRootFolder $rootFolder, IUserSession $userSession) {
-		$this->shareManager = $shareManager;
-		$this->rootFolder = $rootFolder;
-		$this->userSession = $userSession;
+	public function __construct(
+		private IManager $shareManager,
+		private IRootFolder $rootFolder,
+		private IUserSession $userSession,
+	) {
 	}
 
 	public function getId(): string {

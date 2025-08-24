@@ -30,31 +30,20 @@ class MigrateBackgroundImages extends QueuedJob {
 	// will be saved in appdata/theming/global/
 	protected const STATE_FILE_NAME = '25_dashboard_to_theming_migration_users.json';
 
-	private IAppDataFactory $appDataFactory;
-	private IJobList $jobList;
-	private IDBConnection $dbc;
-	private IAppData $appData;
-	private LoggerInterface $logger;
-
 	public function __construct(
 		ITimeFactory $time,
-		IAppDataFactory $appDataFactory,
-		IJobList $jobList,
-		IDBConnection $dbc,
-		IAppData $appData,
-		LoggerInterface $logger
+		private IAppDataFactory $appDataFactory,
+		private IJobList $jobList,
+		private IDBConnection $dbc,
+		private IAppData $appData,
+		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-		$this->appDataFactory = $appDataFactory;
-		$this->jobList = $jobList;
-		$this->dbc = $dbc;
-		$this->appData = $appData;
-		$this->logger = $logger;
 	}
 
 	protected function run(mixed $argument): void {
 		if (!is_array($argument) || !isset($argument['stage'])) {
-			throw new \Exception('Job '.self::class.' called with wrong argument');
+			throw new \Exception('Job ' . self::class . ' called with wrong argument');
 		}
 
 		switch ($argument['stage']) {

@@ -13,13 +13,11 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 
 class CalendarRetentionJob extends TimedJob {
-	/** @var RetentionService */
-	private $service;
-
-	public function __construct(ITimeFactory $time,
-		RetentionService $service) {
+	public function __construct(
+		ITimeFactory $time,
+		private RetentionService $service,
+	) {
 		parent::__construct($time);
-		$this->service = $service;
 
 		// Run four times a day
 		$this->setInterval(6 * 60 * 60);

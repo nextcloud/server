@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,10 +18,10 @@ class AccessibleThemeTestCase extends TestCase {
 	/**
 	 * Set to true to check for WCAG AAA level accessibility
 	 */
-	protected bool $WCAGaaa = false;
+	protected static bool $WCAGaaa = false;
 
-	public function dataAccessibilityPairs() {
-		$textContrast = $this->WCAGaaa ? 7.0 : 4.5;
+	public static function dataAccessibilityPairs(): array {
+		$textContrast = static::$WCAGaaa ? 7.0 : 4.5;
 		$elementContrast = 3.0;
 
 		return [
@@ -37,16 +39,8 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$elementContrast,
 			],
-			'status color elements on background' => [
+			'favorite elements on background' => [
 				[
-					'--color-error',
-					'--color-error-hover',
-					'--color-warning',
-					'--color-warning-hover',
-					'--color-info',
-					'--color-info-hover',
-					'--color-success',
-					'--color-success-hover',
 					'--color-favorite',
 				],
 				[
@@ -67,17 +61,6 @@ class AccessibleThemeTestCase extends TestCase {
 					'--color-background-hover',
 					'--color-background-dark',
 					'--color-main-background-blur',
-				],
-				$elementContrast,
-			],
-			// Those two colors are used for borders which will be `color-main-text` on focussed state, thus need 3:1 contrast to it
-			'success-error-border-colors' => [
-				[
-					'--color-error',
-					'--color-success',
-				],
-				[
-					'--color-main-text',
 				],
 				$elementContrast,
 			],
@@ -127,12 +110,46 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$textContrast,
 			],
-			'status-text' => [
+			'text-on-status-background' => [
 				[
-					'--color-error-text',
-					'--color-warning-text',
-					'--color-success-text',
-					'--color-info-text',
+					'--color-main-text',
+					'--color-text-maxcontrast',
+				],
+				[
+					'--color-error',
+					'--color-info',
+					'--color-success',
+					'--color-warning',
+				],
+				$textContrast,
+			],
+			'text-on-status-background-hover' => [
+				[
+					'--color-main-text',
+				],
+				[
+					'--color-error-hover',
+					'--color-info-hover',
+					'--color-success-hover',
+					'--color-warning-hover',
+				],
+				$textContrast,
+			],
+			'status-border-colors-on-background' => [
+				[
+					'--color-border-error',
+					'--color-border-success',
+				],
+				[
+					'--color-main-background',
+					'--color-background-hover',
+					'--color-background-dark',
+				],
+				$elementContrast,
+			],
+			'error-text-on-background' => [
+				[
+					'--color-text-error',
 				],
 				[
 					'--color-main-background',
@@ -142,13 +159,35 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$textContrast,
 			],
+			'error-text-on-error-background' => [
+				['--color-error-text'],
+				[
+					'--color-error',
+					'--color-error-hover',
+				],
+				$textContrast,
+			],
+			'warning-text-on-warning-background' => [
+				['--color-warning-text'],
+				[
+					'--color-warning',
+					'--color-warning-hover',
+				],
+				$textContrast,
+			],
+			'success-text-on-success-background' => [
+				['--color-success-text'],
+				[
+					'--color-success',
+					'--color-success-hover',
+				],
+				$textContrast,
+			],
 		];
 	}
 
-	/**
-	 * @dataProvider dataAccessibilityPairs
-	 */
-	public function testAccessibilityOfVariables($mainColors, $backgroundColors, $minContrast) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAccessibilityPairs')]
+	public function testAccessibilityOfVariables(array $mainColors, array $backgroundColors, float $minContrast): void {
 		if (!isset($this->theme)) {
 			$this->markTestSkipped('You need to setup $this->theme in your setUp function');
 		} elseif (!isset($this->util)) {
@@ -161,8 +200,15 @@ class AccessibleThemeTestCase extends TestCase {
 		$variables['--color-main-background-blur'] = $this->util->mix($variables['--color-main-background'], $this->util->isBrightColor($variables['--color-main-background']) ? '#000000' : '#ffffff', 75);
 
 		foreach ($backgroundColors as $background) {
+			$matches = [];
+			if (preg_match('/^var\\(([^)]+)\\)$/', $variables[$background], $matches) === 1) {
+				$background = $matches[1];
+			}
 			$this->assertStringStartsWith('#', $variables[$background], 'Is not a plain color variable - consider to remove or fix this test');
 			foreach ($mainColors as $main) {
+				if (preg_match('/^var\\(([^)]+)\\)$/', $variables[$main], $matches) === 1) {
+					$main = $matches[1];
+				}
 				$this->assertStringStartsWith('#', $variables[$main], 'Is not a plain color variable - consider to remove or fix this test');
 				$realContrast = $this->util->colorContrast($variables[$main], $variables[$background]);
 				$this->assertGreaterThanOrEqual($minContrast, $realContrast, "Contrast is not high enough for $main (" . $variables[$main] . ") on $background (" . $variables[$background] . ')');

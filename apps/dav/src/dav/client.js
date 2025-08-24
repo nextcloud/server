@@ -27,5 +27,5 @@ export const getClient = memoize((service) => {
 	onRequestTokenUpdate(setHeaders)
 	setHeaders(getRequestToken())
 
-	return client;
+	return client
 })

@@ -115,6 +115,14 @@ interface IGroupManager {
 	public function isAdmin($userId);
 
 	/**
+	 * Checks if a userId is eligible to users administration delegation
+	 * @param string $userId
+	 * @return bool if delegated admin
+	 * @since 30.0.0
+	 */
+	public function isDelegatedAdmin(string $userId): bool;
+
+	/**
 	 * Checks if a userId is in a group
 	 * @param string $userId
 	 * @param string $group

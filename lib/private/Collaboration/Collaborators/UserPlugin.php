@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -73,7 +74,7 @@ class UserPlugin implements ISearchPlugin {
 			foreach ($currentUserGroups as $userGroupId) {
 				$usersInGroup = $this->groupManager->displayNamesInGroup($userGroupId, $search, $limit, $offset);
 				foreach ($usersInGroup as $userId => $displayName) {
-					$userId = (string) $userId;
+					$userId = (string)$userId;
 					$user = $this->userManager->get($userId);
 					if (!$user->isEnabled()) {
 						// Ignore disabled users
@@ -130,7 +131,7 @@ class UserPlugin implements ISearchPlugin {
 		foreach ($users as $uid => $user) {
 			$userDisplayName = $user->getDisplayName();
 			$userEmail = $user->getSystemEMailAddress();
-			$uid = (string) $uid;
+			$uid = (string)$uid;
 
 			$status = [];
 			if (array_key_exists($uid, $userStatuses)) {
@@ -147,11 +148,11 @@ class UserPlugin implements ISearchPlugin {
 
 
 			if (
-				$this->shareeEnumerationFullMatch &&
-				$lowerSearch !== '' && (strtolower($uid) === $lowerSearch ||
-				strtolower($userDisplayName) === $lowerSearch ||
-				($this->shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(strtolower(preg_replace('/ \(.*\)$/', '', $userDisplayName))) === $lowerSearch) ||
-				($this->shareeEnumerationFullMatchEmail && strtolower($userEmail ?? '') === $lowerSearch))
+				$this->shareeEnumerationFullMatch
+				&& $lowerSearch !== '' && (strtolower($uid) === $lowerSearch
+				|| strtolower($userDisplayName) === $lowerSearch
+				|| ($this->shareeEnumerationFullMatchIgnoreSecondDisplayName && trim(strtolower(preg_replace('/ \(.*\)$/', '', $userDisplayName))) === $lowerSearch)
+				|| ($this->shareeEnumerationFullMatchEmail && strtolower($userEmail ?? '') === $lowerSearch))
 			) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
@@ -169,8 +170,8 @@ class UserPlugin implements ISearchPlugin {
 				];
 			} else {
 				$addToWideResults = false;
-				if ($this->shareeEnumeration &&
-					!($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone)) {
+				if ($this->shareeEnumeration
+					&& !($this->shareeEnumerationInGroupOnly || $this->shareeEnumerationPhone)) {
 					$addToWideResults = true;
 				}
 

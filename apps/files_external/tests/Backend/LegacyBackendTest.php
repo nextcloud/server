@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,7 @@
  */
 namespace OCA\Files_External\Tests\Backend;
 
+use OCA\Files_External\Lib\Auth\Builtin;
 use OCA\Files_External\Lib\Backend\LegacyBackend;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\MissingDependency;
@@ -15,24 +17,21 @@ class LegacyBackendTest extends \Test\TestCase {
 	/**
 	 * @return MissingDependency[]
 	 */
-	public static function checkDependencies() {
+	public static function checkDependencies(): array {
 		return [
 			(new MissingDependency('abc'))->setMessage('foobar')
 		];
 	}
 
-	public function testConstructor() {
-		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Builtin')
-			->disableOriginalConstructor()
-			->getMock();
+	public function testConstructor(): void {
+		$auth = $this->createMock(Builtin::class);
 
-		$class = '\OCA\Files_External\Tests\Backend\LegacyBackendTest';
+		$class = self::class;
 		$definition = [
 			'configuration' => [
 				'textfield' => 'Text field',
 				'passwordfield' => '*Password field',
 				'checkbox' => '!Checkbox',
-				'hiddenfield' => '#Hidden field',
 				'optionaltext' => '&Optional text field',
 				'optionalpassword' => '&*Optional password field',
 			],
@@ -44,7 +43,7 @@ class LegacyBackendTest extends \Test\TestCase {
 
 		$backend = new LegacyBackend($class, $definition, $auth);
 
-		$this->assertEquals('\OCA\Files_External\Tests\Backend\LegacyBackendTest', $backend->getStorageClass());
+		$this->assertEquals(self::class, $backend->getStorageClass());
 		$this->assertEquals('Backend text', $backend->getText());
 		$this->assertEquals(123, $backend->getPriority());
 		$this->assertContains('foo/bar.js', $backend->getCustomJs());
@@ -66,9 +65,6 @@ class LegacyBackendTest extends \Test\TestCase {
 		$this->assertEquals('Checkbox', $parameters['checkbox']->getText());
 		$this->assertEquals(DefinitionParameter::VALUE_BOOLEAN, $parameters['checkbox']->getType());
 		$this->assertEquals(DefinitionParameter::FLAG_NONE, $parameters['checkbox']->getFlags());
-		$this->assertEquals('Hidden field', $parameters['hiddenfield']->getText());
-		$this->assertEquals(DefinitionParameter::VALUE_HIDDEN, $parameters['hiddenfield']->getType());
-		$this->assertEquals(DefinitionParameter::FLAG_NONE, $parameters['hiddenfield']->getFlags());
 		$this->assertEquals('Optional text field', $parameters['optionaltext']->getText());
 		$this->assertEquals(DefinitionParameter::VALUE_TEXT, $parameters['optionaltext']->getType());
 		$this->assertEquals(DefinitionParameter::FLAG_OPTIONAL, $parameters['optionaltext']->getFlags());
@@ -77,12 +73,10 @@ class LegacyBackendTest extends \Test\TestCase {
 		$this->assertEquals(DefinitionParameter::FLAG_OPTIONAL, $parameters['optionalpassword']->getFlags());
 	}
 
-	public function testNoDependencies() {
-		$auth = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\Builtin')
-			->disableOriginalConstructor()
-			->getMock();
+	public function testNoDependencies(): void {
+		$auth = $this->createMock(Builtin::class);
 
-		$class = '\OCA\Files_External\Tests\Backend\LegacyBackendTest';
+		$class = self::class;
 		$definition = [
 			'configuration' => [
 			],

@@ -3,77 +3,180 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="header-menu unified-search-menu">
-		<NcButton class="header-menu__trigger"
+	<div class="unified-search-menu">
+		<NcHeaderButton v-show="!showLocalSearch"
 			:aria-label="t('core', 'Unified search')"
-			type="tertiary-no-background"
 			@click="toggleUnifiedSearch">
 			<template #icon>
-				<Magnify class="header-menu__trigger-icon" :size="20" />
+				<NcIconSvgWrapper :path="mdiMagnify" />
 			</template>
-		</NcButton>
-		<UnifiedSearchModal :is-visible="showUnifiedSearch" @update:isVisible="handleModalVisibilityChange" />
+		</NcHeaderButton>
+		<UnifiedSearchLocalSearchBar v-if="supportsLocalSearch"
+			:open.sync="showLocalSearch"
+			:query.sync="queryText"
+			@global-search="openModal" />
+		<UnifiedSearchModal :local-search="supportsLocalSearch"
+			:query.sync="queryText"
+			:open.sync="showUnifiedSearch" />
 	</div>
 </template>
 
-<script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import Magnify from 'vue-material-design-icons/Magnify.vue'
-import UnifiedSearchModal from './UnifiedSearchModal.vue'
+<script lang="ts">
+import { mdiMagnify } from '@mdi/js'
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { t } from '@nextcloud/l10n'
+import { useBrowserLocation } from '@vueuse/core'
+import debounce from 'debounce'
+import { defineComponent } from 'vue'
+import NcHeaderButton from '@nextcloud/vue/components/NcHeaderButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import UnifiedSearchModal from '../components/UnifiedSearch/UnifiedSearchModal.vue'
+import UnifiedSearchLocalSearchBar from '../components/UnifiedSearch/UnifiedSearchLocalSearchBar.vue'
+import logger from '../logger.js'
 
-export default {
+export default defineComponent({
 	name: 'UnifiedSearch',
+
 	components: {
-		NcButton,
-		Magnify,
+		NcHeaderButton,
+		NcIconSvgWrapper,
 		UnifiedSearchModal,
+		UnifiedSearchLocalSearchBar,
 	},
-	data() {
+
+	setup() {
+		const currentLocation = useBrowserLocation()
+
 		return {
-			showUnifiedSearch: false,
+			currentLocation,
+
+			mdiMagnify,
+			t,
 		}
 	},
+
+	data() {
+		return {
+			/** The current search query */
+			queryText: '',
+			/** Open state of the modal */
+			showUnifiedSearch: false,
+			/** Open state of the local search bar */
+			showLocalSearch: false,
+		}
+	},
+
+	computed: {
+		/**
+		 * Debounce emitting the search query by 250ms
+		 */
+		debouncedQueryUpdate() {
+			return debounce(this.emitUpdatedQuery, 250)
+		},
+
+		/**
+		 * Current page (app) supports local in-app search
+		 */
+		supportsLocalSearch() {
+			// TODO: Make this an API
+			const providerPaths = ['/settings/users', '/apps/deck', '/settings/apps']
+			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
+		},
+	},
+
+	watch: {
+		/**
+		 * Emit the updated query as eventbus events
+		 * (This is debounced)
+		 */
+		queryText() {
+			this.debouncedQueryUpdate()
+		},
+	},
+
 	mounted() {
-		console.debug('Unified search initialized!')
+		// register keyboard listener for search shortcut
+		if (window.OCP.Accessibility.disableKeyboardShortcuts() === false) {
+			window.addEventListener('keydown', this.onKeyDown)
+		}
+
+		// Allow external reset of the search / close local search
+		subscribe('nextcloud:unified-search:reset', () => {
+			this.showLocalSearch = false
+			this.queryText = ''
+		})
+
+		// Deprecated events to be removed
+		subscribe('nextcloud:unified-search:reset', () => {
+			emit('nextcloud:unified-search.reset', { query: '' })
+		})
+		subscribe('nextcloud:unified-search:search', ({ query }) => {
+			emit('nextcloud:unified-search.search', { query })
+		})
+
+		// all done
+		logger.debug('Unified search initialized!')
 	},
+
+	beforeDestroy() {
+		// keep in mind to remove the event listener
+		window.removeEventListener('keydown', this.onKeyDown)
+	},
+
 	methods: {
-		toggleUnifiedSearch() {
-			this.showUnifiedSearch = !this.showUnifiedSearch
+		/**
+		 * Handle the key down event to open search on `ctrl + F`
+		 * @param event The keyboard event
+		 */
+		onKeyDown(event: KeyboardEvent) {
+			if (event.ctrlKey && event.key === 'f') {
+				// only handle search if not already open - in this case the browser native search should be used
+				if (!this.showLocalSearch && !this.showUnifiedSearch) {
+					event.preventDefault()
+				}
+				this.toggleUnifiedSearch()
+			}
 		},
-		handleModalVisibilityChange(newVisibilityVal) {
-			this.showUnifiedSearch = newVisibilityVal
+
+		/**
+		 * Toggle the local search if available - otherwise open the unified search modal
+		 */
+		toggleUnifiedSearch() {
+			if (this.supportsLocalSearch) {
+				this.showLocalSearch = !this.showLocalSearch
+			} else {
+				this.showUnifiedSearch = !this.showUnifiedSearch
+				this.showLocalSearch = false
+			}
+		},
+
+		/**
+		 * Open the unified search modal
+		 */
+		openModal() {
+			this.showUnifiedSearch = true
+			this.showLocalSearch = false
+		},
+
+		/**
+		 * Emit the updated search query as eventbus events
+		 */
+		emitUpdatedQuery() {
+			if (this.queryText === '') {
+				emit('nextcloud:unified-search:reset')
+			} else {
+				emit('nextcloud:unified-search:search', { query: this.queryText })
+			}
 		},
 	},
-}
+})
 </script>
 
 <style lang="scss" scoped>
 // this is needed to allow us overriding component styles (focus-visible)
-#header {
-	.header-menu {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		&__trigger {
-			height: var(--header-height);
-			width: var(--header-height) !important;
-
-			&:focus-visible {
-				// align with other header menu entries
-				outline: none !important;
-				box-shadow: none !important;
-			}
-
-			&:not(:hover,:focus,:focus-visible) {
-				opacity: .85;
-			}
-
-			&-icon {
-				// ensure the icon has the correct color
-				color: var(--color-background-plain-text) !important;
-			}
-		}
-	}
+.unified-search-menu {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 </style>

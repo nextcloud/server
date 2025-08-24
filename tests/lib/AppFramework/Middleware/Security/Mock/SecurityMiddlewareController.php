@@ -9,13 +9,15 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Middleware\Security\Mock;
 
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\ExAppRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\StrictCookiesRequired;
 use OCP\AppFramework\Http\Attribute\SubAdminRequired;
 
-class SecurityMiddlewareController extends \OCP\AppFramework\Controller {
+class SecurityMiddlewareController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
@@ -155,5 +157,15 @@ class SecurityMiddlewareController extends \OCP\AppFramework\Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	public function testAttributeNoAdminRequiredNoCSRFRequiredPublicPage() {
+	}
+
+	/**
+	 * @ExAppRequired
+	 */
+	public function testAnnotationExAppRequired() {
+	}
+
+	#[ExAppRequired]
+	public function testAttributeExAppRequired() {
 	}
 }

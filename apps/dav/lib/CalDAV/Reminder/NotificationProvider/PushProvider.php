@@ -30,21 +30,15 @@ class PushProvider extends AbstractProvider {
 	/** @var string */
 	public const NOTIFICATION_TYPE = 'DISPLAY';
 
-	/** @var IManager */
-	private $manager;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	public function __construct(IConfig $config,
-		IManager $manager,
+	public function __construct(
+		IConfig $config,
+		private IManager $manager,
 		LoggerInterface $logger,
 		L10NFactory $l10nFactory,
 		IURLGenerator $urlGenerator,
-		ITimeFactory $timeFactory) {
+		private ITimeFactory $timeFactory,
+	) {
 		parent::__construct($logger, $l10nFactory, $urlGenerator, $config);
-		$this->manager = $manager;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -65,7 +59,7 @@ class PushProvider extends AbstractProvider {
 		}
 
 		$eventDetails = $this->extractEventDetails($vevent);
-		$eventUUID = (string) $vevent->UID;
+		$eventUUID = (string)$vevent->UID;
 		if (!$eventUUID) {
 			return;
 		};
@@ -100,13 +94,13 @@ class PushProvider extends AbstractProvider {
 
 		return [
 			'title' => isset($vevent->SUMMARY)
-				? ((string) $vevent->SUMMARY)
+				? ((string)$vevent->SUMMARY)
 				: null,
 			'description' => isset($vevent->DESCRIPTION)
-				? ((string) $vevent->DESCRIPTION)
+				? ((string)$vevent->DESCRIPTION)
 				: null,
 			'location' => isset($vevent->LOCATION)
-				? ((string) $vevent->LOCATION)
+				? ((string)$vevent->LOCATION)
 				: null,
 			'all_day' => $start instanceof Property\ICalendar\Date,
 			'start_atom' => $start->getDateTime()->format(\DateTimeInterface::ATOM),

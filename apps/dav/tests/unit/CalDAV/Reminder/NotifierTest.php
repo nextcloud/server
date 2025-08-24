@@ -16,24 +16,16 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
+use OCP\Notification\UnknownNotificationException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotifierTest extends TestCase {
-	/** @var Notifier */
-	protected $notifier;
-
-	/** @var IFactory|MockObject */
-	protected $factory;
-
-	/** @var IURLGenerator|MockObject */
-	protected $urlGenerator;
-
-	/** @var IL10N|MockObject */
-	protected $l10n;
-
-	/** @var ITimeFactory|MockObject */
-	protected $timeFactory;
+	protected IFactory&MockObject $factory;
+	protected IURLGenerator&MockObject $urlGenerator;
+	protected IL10N&MockObject $l10n;
+	protected ITimeFactory&MockObject $timeFactory;
+	protected Notifier $notifier;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -88,10 +80,10 @@ class NotifierTest extends TestCase {
 
 
 	public function testPrepareWrongApp(): void {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(UnknownNotificationException::class);
 		$this->expectExceptionMessage('Notification not from this app');
 
-		/** @var INotification|MockObject $notification */
+		/** @var INotification&MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 
 		$notification->expects($this->once())
@@ -105,10 +97,10 @@ class NotifierTest extends TestCase {
 
 
 	public function testPrepareWrongSubject(): void {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(UnknownNotificationException::class);
 		$this->expectExceptionMessage('Unknown subject');
 
-		/** @var INotification|MockObject $notification */
+		/** @var INotification&MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 
 		$notification->expects($this->once())
@@ -129,7 +121,7 @@ class NotifierTest extends TestCase {
 		return $d1->diff($d2)->y < 0;
 	}
 
-	public function dataPrepare(): array {
+	public static function dataPrepare(): array {
 		return [
 			[
 				'calendar_reminder',
@@ -178,18 +170,9 @@ class NotifierTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataPrepare
-	 *
-	 * @param string $subjectType
-	 * @param array $subjectParams
-	 * @param string $subject
-	 * @param array $messageParams
-	 * @param string $message
-	 * @throws \Exception
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPrepare')]
 	public function testPrepare(string $subjectType, array $subjectParams, string $subject, array $messageParams, string $message): void {
-		/** @var INotification|MockObject $notification */
+		/** @var INotification&MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 
 		$notification->expects($this->once())
@@ -234,7 +217,7 @@ class NotifierTest extends TestCase {
 	}
 
 	public function testPassedEvent(): void {
-		/** @var INotification|MockObject $notification */
+		/** @var INotification&MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 
 		$notification->expects($this->once())

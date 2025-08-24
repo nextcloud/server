@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { describe, it, expect } from '@jest/globals'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
 
 import { FileSystemDirectoryEntry, FileSystemFileEntry, fileSystemEntryToDataTransferItem, DataTransferItem as DataTransferItemMock } from '../../../../__tests__/FileSystemAPIUtils'
 import { join } from 'node:path'
@@ -88,20 +88,17 @@ describe('Filesystem API traverseTree', () => {
 describe('DropService dataTransferToFileTree', () => {
 
 	beforeAll(() => {
+		// @ts-expect-error jsdom doesn't have DataTransferItem
+		delete window.DataTransferItem
 		// DataTransferItem doesn't exists in jsdom, let's mock
 		// a dumb one so we can check the instanceof
 		// @ts-expect-error jsdom doesn't have DataTransferItem
 		window.DataTransferItem = DataTransferItemMock
 	})
 
-	afterAll(() => {
-		// @ts-expect-error jsdom doesn't have DataTransferItem
-		delete window.DataTransferItem
-	})
-
 	it('Should return a RootDirectory with Filesystem API', async () => {
-		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
-		jest.spyOn(logger, 'warn').mockImplementation(() => jest.fn())
+		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
+		vi.spyOn(logger, 'warn').mockImplementation(() => vi.fn())
 
 		const dataTransferItems = buildDataTransferItemArray('root', dataTree)
 		const fileTree = await dataTransferToFileTree(dataTransferItems as unknown as DataTransferItem[])
@@ -121,8 +118,8 @@ describe('DropService dataTransferToFileTree', () => {
 	})
 
 	it('Should return a RootDirectory with legacy File API ignoring recursive directories', async () => {
-		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
-		jest.spyOn(logger, 'warn').mockImplementation(() => jest.fn())
+		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
+		vi.spyOn(logger, 'warn').mockImplementation(() => vi.fn())
 
 		const dataTransferItems = buildDataTransferItemArray('root', dataTree, false)
 

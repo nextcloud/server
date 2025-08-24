@@ -2,19 +2,21 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t } from '@nextcloud/l10n'
-import { type Node, FileType, FileAction, DefaultType } from '@nextcloud/files'
 
-/**
- * TODO: Move away from a redirect and handle
- * navigation straight out of the recent view
- */
+import type { Node } from '@nextcloud/files'
+
+import { t } from '@nextcloud/l10n'
+import { FileType, FileAction, DefaultType } from '@nextcloud/files'
+import { VIEW_ID as SEARCH_VIEW_ID } from '../views/search'
+
 export const action = new FileAction({
-	id: 'open-in-files-recent',
+	id: 'open-in-files',
 	displayName: () => t('files', 'Open in Files'),
 	iconSvgInline: () => '',
 
-	enabled: (nodes, view) => view.id === 'recent',
+	enabled(nodes, view) {
+		return view.id === 'recent' || view.id === SEARCH_VIEW_ID
+	},
 
 	async exec(node: Node) {
 		let dir = node.dirname
@@ -24,8 +26,8 @@ export const action = new FileAction({
 
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
-			{ view: 'files', fileid: node.fileid },
-			{ dir },
+			{ view: 'files', fileid: String(node.fileid) },
+			{ dir, openfile: 'true' },
 		)
 		return null
 	},

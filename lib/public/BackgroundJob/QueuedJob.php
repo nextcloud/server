@@ -22,7 +22,7 @@ abstract class QueuedJob extends Job {
 	 * @param ILogger|null $logger
 	 *
 	 * @since 15.0.0
-	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
+	 * @deprecated 25.0.0 Use start() instead. This method will be removed
 	 * with the ILogger interface
 	 */
 	final public function execute($jobList, ?ILogger $logger = null) {
@@ -35,7 +35,11 @@ abstract class QueuedJob extends Job {
 	 * @since 25.0.0
 	 */
 	final public function start(IJobList $jobList): void {
-		$jobList->remove($this, $this->argument);
+		if ($this->id) {
+			$jobList->removeById($this->id);
+		} else {
+			$jobList->remove($this, $this->argument);
+		}
 		parent::start($jobList);
 	}
 }

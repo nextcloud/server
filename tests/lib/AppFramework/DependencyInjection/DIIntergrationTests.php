@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,16 +22,14 @@ class ClassA2 implements Interface1 {
 }
 
 class ClassB {
-	/** @var Interface1 */
-	public $interface1;
-
 	/**
 	 * ClassB constructor.
 	 *
 	 * @param Interface1 $interface1
 	 */
-	public function __construct(Interface1 $interface1) {
-		$this->interface1 = $interface1;
+	public function __construct(
+		public Interface1 $interface1,
+	) {
 	}
 }
 
@@ -48,7 +47,7 @@ class DIIntergrationTests extends TestCase {
 		$this->container = new DIContainer('App1', [], $this->server);
 	}
 
-	public function testInjectFromServer() {
+	public function testInjectFromServer(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});
@@ -64,7 +63,7 @@ class DIIntergrationTests extends TestCase {
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
-	public function testInjectDepFromServer() {
+	public function testInjectDepFromServer(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});
@@ -80,7 +79,7 @@ class DIIntergrationTests extends TestCase {
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
-	public function testOverwriteDepFromServer() {
+	public function testOverwriteDepFromServer(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});
@@ -100,7 +99,7 @@ class DIIntergrationTests extends TestCase {
 		$this->assertSame(ClassA2::class, get_class($res->interface1));
 	}
 
-	public function testIgnoreOverwriteInServerClass() {
+	public function testIgnoreOverwriteInServerClass(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});

@@ -9,9 +9,10 @@ declare(strict_types=1);
 
 namespace Test\AppFramework\Middleware\Security\Mock;
 
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 
-class PasswordConfirmationMiddlewareController extends \OCP\AppFramework\Controller {
+class PasswordConfirmationMiddlewareController extends Controller {
 	public function testNoAnnotationNorAttribute() {
 	}
 
@@ -29,5 +30,9 @@ class PasswordConfirmationMiddlewareController extends \OCP\AppFramework\Control
 
 	#[PasswordConfirmationRequired]
 	public function testAttribute() {
+	}
+
+	#[PasswordConfirmationRequired]
+	public function testSSO() {
 	}
 }

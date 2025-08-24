@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -367,6 +368,18 @@ class Definitions {
 					'required' => false,
 					'description' => 'The height in pixels if the file is an image',
 					'example' => '1080',
+				],
+				'blurhash' => [
+					'since' => '30.0.0',
+					'required' => false,
+					'description' => 'The blurhash of the image',
+					'example' => 'LEHV9uae2yk8pyo0adR*.7kCMdnj',
+				],
+				'hide-download' => [
+					'since' => '31.0.5',
+					'required' => false,
+					'description' => 'Whether the download option should be hidden. If not set to `yes` the option can be shown',
+					'example' => 'yes',
 				],
 			],
 		],

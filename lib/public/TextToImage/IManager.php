@@ -20,6 +20,7 @@ use RuntimeException;
  * API surface for apps interacting with and making use of TextToImage providers
  * without knowing which providers are installed
  * @since 28.0.0
+ * @deprecated 30.0.0
  */
 interface IManager {
 	/**

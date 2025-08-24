@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,7 +12,9 @@ use OC\Security\IdentityProof\Manager;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
@@ -19,6 +22,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\ServerVersion;
 use Psr\Log\LoggerInterface;
 
 class ConfigAPIController extends OCSController {
@@ -29,9 +33,10 @@ class ConfigAPIController extends OCSController {
 		IUserSession $userSession,
 		IUserManager $userManager,
 		Manager $keyManager,
+		ServerVersion $serverVersion,
 		private Helper $ldapHelper,
 		private LoggerInterface $logger,
-		private ConnectionFactory $connectionFactory
+		private ConnectionFactory $connectionFactory,
 	) {
 		parent::__construct(
 			$appName,
@@ -39,19 +44,20 @@ class ConfigAPIController extends OCSController {
 			$capabilitiesManager,
 			$userSession,
 			$userManager,
-			$keyManager
+			$keyManager,
+			$serverVersion,
 		);
 	}
 
 	/**
 	 * Create a new (empty) configuration and return the resulting prefix
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @return DataResponse<Http::STATUS_OK, array{configID: string}, array{}>
 	 * @throws OCSException
 	 *
 	 * 200: Config created successfully
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function create() {
 		try {
 			$configPrefix = $this->ldapHelper->getNextServerConfigurationPrefix();
@@ -68,14 +74,14 @@ class ConfigAPIController extends OCSController {
 	/**
 	 * Delete a LDAP configuration
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID ID of the config
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 * @throws OCSNotFoundException Config not found
 	 *
 	 * 200: Config deleted successfully
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function delete($configID) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -95,16 +101,16 @@ class ConfigAPIController extends OCSController {
 	/**
 	 * Modify a configuration
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID ID of the config
 	 * @param array<string, mixed> $configData New config
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSException
 	 * @throws OCSBadRequestException Modifying config is not possible
 	 * @throws OCSNotFoundException Config not found
 	 *
 	 * 200: Config returned
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function modify($configID, $configData) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -200,7 +206,6 @@ class ConfigAPIController extends OCSController {
 	 *   </data>
 	 * </ocs>
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID ID of the config
 	 * @param bool $showPassword Whether to show the password
 	 * @return DataResponse<Http::STATUS_OK, array<string, mixed>, array{}>
@@ -209,6 +214,7 @@ class ConfigAPIController extends OCSController {
 	 *
 	 * 200: Config returned
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function show($configID, $showPassword = false) {
 		try {
 			$this->ensureConfigIDExists($configID);
@@ -237,10 +243,10 @@ class ConfigAPIController extends OCSController {
 	/**
 	 * If the given config ID is not available, an exception is thrown
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\User_LDAP\Settings\Admin)
 	 * @param string $configID
 	 * @throws OCSNotFoundException
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	private function ensureConfigIDExists($configID): void {
 		$prefixes = $this->ldapHelper->getServerConfigurationPrefixes();
 		if (!in_array($configID, $prefixes, true)) {

@@ -15,7 +15,12 @@ namespace OCP\Dashboard;
  */
 interface IWidget {
 	/**
-	 * @return string Unique id that identifies the widget, e.g. the app id
+	 * Get a unique identifier for the widget
+	 *
+	 * To ensure uniqueness, it is recommended to user the app id or start with the
+	 * app id followed by a dash.
+	 *
+	 * @return string Unique id that identifies the widget, e.g. the app id. Only use alphanumeric characters, dash and underscore
 	 * @since 20.0.0
 	 */
 	public function getId(): string;
@@ -33,6 +38,13 @@ interface IWidget {
 	public function getOrder(): int;
 
 	/**
+	 * CSS class that shows the widget icon (should be colored black or not have a color)
+	 *
+	 * The icon will be inverted automatically in mobile clients and when using dark mode.
+	 * Therefore, it is NOT recommended to use a css class that sets the background with:
+	 * `var(--icon-…)` as those will adapt to dark/bright mode in the web and still be inverted
+	 * resulting in a dark icon on dark background.
+	 *
 	 * @return string css class that displays an icon next to the widget title
 	 * @since 20.0.0
 	 */

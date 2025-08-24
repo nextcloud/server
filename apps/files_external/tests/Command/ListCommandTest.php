@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,33 +18,27 @@ use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\IL10N;
-use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Security\ICrypto;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class ListCommandTest extends CommandTest {
-	/**
-	 * @return ListCommand|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private function getInstance() {
-		/** @var GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject $globalService */
+class ListCommandTest extends CommandTestCase {
+	private function getInstance(): ListCommand {
+		/** @var GlobalStoragesService&MockObject $globalService */
 		$globalService = $this->createMock(GlobalStoragesService::class);
-		/** @var UserStoragesService|\PHPUnit\Framework\MockObject\MockObject $userService */
+		/** @var UserStoragesService&MockObject $userService */
 		$userService = $this->createMock(UserStoragesService::class);
-		/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
+		/** @var IUserManager&MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
-		/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
+		/** @var IUserSession&MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 
 		return new ListCommand($globalService, $userService, $userSession, $userManager);
 	}
 
-	public function testListAuthIdentifier() {
+	public function testListAuthIdentifier(): void {
 		$l10n = $this->createMock(IL10N::class);
-		$session = $this->createMock(ISession::class);
-		$crypto = $this->createMock(ICrypto::class);
 		$instance = $this->getInstance();
 		$mount1 = new StorageConfig();
 		$mount1->setAuthMechanism(new Password($l10n));

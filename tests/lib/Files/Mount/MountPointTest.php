@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,15 +8,14 @@
 
 namespace Test\Files\Mount;
 
+use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
-use OCP\Files\Storage;
-
-class DummyStorage {
-}
+use OC\Lockdown\Filesystem\NullStorage;
+use OCP\Files\Storage\IStorage;
 
 class MountPointTest extends \Test\TestCase {
-	public function testGetStorage() {
-		$storage = $this->createMock(Storage::class);
+	public function testGetStorage(): void {
+		$storage = $this->createMock(IStorage::class);
 		$storage->expects($this->once())
 			->method('getId')
 			->willReturn(123);
@@ -25,9 +25,9 @@ class MountPointTest extends \Test\TestCase {
 			->method('wrap')
 			->willReturn($storage);
 
-		$mountPoint = new \OC\Files\Mount\MountPoint(
+		$mountPoint = new MountPoint(
 			// just use this because a real class is needed
-			'\Test\Files\Mount\DummyStorage',
+			NullStorage::class,
 			'/mountpoint',
 			null,
 			$loader
@@ -41,20 +41,20 @@ class MountPointTest extends \Test\TestCase {
 		$this->assertEquals('/another/', $mountPoint->getMountPoint());
 	}
 
-	public function testInvalidStorage() {
+	public function testInvalidStorage(): void {
 		$loader = $this->createMock(StorageFactory::class);
 		$loader->expects($this->once())
 			->method('wrap')
-			->will($this->throwException(new \Exception('Test storage init exception')));
+			->willThrowException(new \Exception('Test storage init exception'));
 
 		$called = false;
-		$wrapper = function ($mountPoint, $storage) use ($called) {
+		$wrapper = function ($mountPoint, $storage) use ($called): void {
 			$called = true;
 		};
 
-		$mountPoint = new \OC\Files\Mount\MountPoint(
+		$mountPoint = new MountPoint(
 			// just use this because a real class is needed
-			'\Test\Files\Mount\DummyStorage',
+			NullStorage::class,
 			'/mountpoint',
 			null,
 			$loader

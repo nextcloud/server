@@ -20,23 +20,11 @@ use OCP\IUserSession;
 /** @template-implements IEventListener<UserAddedEvent> */
 class UserAddedToGroupActivityListener implements IEventListener {
 
-	/** @var Manager */
-	private $groupManager;
-
-	/** @var IManager */
-	private $activityManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
 	public function __construct(
-		Manager $groupManager,
-		IManager $activityManager,
-		IUserSession $userSession
+		private Manager $groupManager,
+		private IManager $activityManager,
+		private IUserSession $userSession,
 	) {
-		$this->groupManager = $groupManager;
-		$this->activityManager = $activityManager;
-		$this->userSession = $userSession;
 	}
 
 	public function handle(Event $event): void {

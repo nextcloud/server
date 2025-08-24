@@ -13,6 +13,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
 use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Calendar\Resource\Manager;
+use OC\Calendar\ResourcesRoomsUpdater;
 use OCP\Calendar\Resource\IBackend;
 use OCP\IServerContainer;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -25,6 +26,9 @@ class ManagerTest extends TestCase {
 	/** @var IServerContainer|MockObject */
 	private $server;
 
+	/** @var ResourcesRoomsUpdater|MockObject */
+	private $resourcesRoomsUpdater;
+
 	/** @var Manager */
 	private $manager;
 
@@ -33,9 +37,12 @@ class ManagerTest extends TestCase {
 
 		$this->coordinator = $this->createMock(Coordinator::class);
 		$this->server = $this->createMock(IServerContainer::class);
+		$this->resourcesRoomsUpdater = $this->createMock(ResourcesRoomsUpdater::class);
+
 		$this->manager = new Manager(
 			$this->coordinator,
 			$this->server,
+			$this->resourcesRoomsUpdater,
 		);
 	}
 
@@ -125,5 +132,12 @@ class ManagerTest extends TestCase {
 		$this->manager->clear();
 
 		self::assertEquals([], $this->manager->getBackends());
+	}
+
+	public function testUpdate(): void {
+		$this->resourcesRoomsUpdater->expects(self::once())
+			->method('updateResources');
+
+		$this->manager->update();
 	}
 }

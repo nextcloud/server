@@ -35,6 +35,6 @@ class ForbiddenException extends \Exception {
 	 * @since 9.0.0
 	 */
 	public function getRetry() {
-		return (bool) $this->retry;
+		return (bool)$this->retry;
 	}
 }

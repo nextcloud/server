@@ -11,7 +11,6 @@ namespace OCA\FilesReminders\BackgroundJob;
 
 use OCA\FilesReminders\Service\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 
 class CleanUpReminders extends TimedJob {
@@ -22,7 +21,7 @@ class CleanUpReminders extends TimedJob {
 		parent::__construct($time);
 
 		$this->setInterval(24 * 60 * 60); // 1 day
-		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
 	/**

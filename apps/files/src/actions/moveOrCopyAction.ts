@@ -4,26 +4,24 @@
  */
 import type { Folder, Node, View } from '@nextcloud/files'
 import type { IFilePickerButton } from '@nextcloud/dialogs'
-import type { FileStat, ResponseDataDetailed } from 'webdav'
+import type { FileStat, ResponseDataDetailed, WebDAVClientError } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
-// eslint-disable-next-line n/no-extraneous-import
-import { AxiosError } from 'axios'
-import { basename, join } from 'path'
+import { isAxiosError } from '@nextcloud/axios'
+import { FilePickerClosed, getFilePickerBuilder, showError, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
-import { Permission, FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind } from '@nextcloud/files'
+import { FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind, getUniqueName, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { openConflictPicker, hasConflict } from '@nextcloud/upload'
+import { basename, join } from 'path'
 import Vue from 'vue'
 
-import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
-import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
+import CopyIconSvg from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
+import FolderMoveSvg from '@mdi/svg/svg/folder-move-outline.svg?raw'
 
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
 import { getContents } from '../services/Files'
 import logger from '../logger'
-import { getUniqueName } from '../utils/fileUtils'
 
 /**
  * Return the action that is possible for the given nodes
@@ -40,6 +38,28 @@ const getActionForNodes = (nodes: Node[]): MoveCopyAction => {
 
 	// Assuming we can copy as the enabled checks for copy permissions
 	return MoveCopyAction.COPY
+}
+
+/**
+ * Create a loading notification toast
+ * @param mode The move or copy mode
+ * @param source Name of the node that is copied / moved
+ * @param destination Destination path
+ * @return {() => void} Function to hide the notification
+ */
+function createLoadingNotification(mode: MoveCopyAction, source: string, destination: string): () => void {
+	const text = mode === MoveCopyAction.MOVE ? t('files', 'Moving "{source}" to "{destination}" …', { source, destination }) : t('files', 'Copying "{source}" to "{destination}" …', { source, destination })
+
+	let toast: ReturnType<typeof showInfo>|undefined
+	toast = showInfo(
+		`<span class="icon icon-loading-small toast-loading-icon"></span> ${text}`,
+		{
+			isHTML: true,
+			timeout: TOAST_PERMANENT_TIMEOUT,
+			onRemove: () => { toast?.hideToast(); toast = undefined },
+		},
+	)
+	return () => toast && toast.hideToast()
 }
 
 /**
@@ -82,6 +102,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 
 	// Set loading state
 	Vue.set(node, 'status', NodeStatus.LOADING)
+	const actionFinished = createLoadingNotification(method, node.basename, destination.path)
 
 	const queue = getQueue()
 	return await queue.add(async () => {
@@ -125,38 +146,47 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				}
 			} else {
 				// show conflict file popup if we do not allow overwriting
-				const otherNodes = await getContents(destination.path)
-				if (hasConflict([node], otherNodes.contents)) {
-					try {
-						// Let the user choose what to do with the conflicting files
-						const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
-						// if the user selected to keep the old file, and did not select the new file
-						// that means they opted to delete the current node
-						if (!selected.length && !renamed.length) {
-							await client.deleteFile(currentPath)
-							emit('files:node:deleted', node)
+				if (!overwrite) {
+					const otherNodes = await getContents(destination.path)
+					if (hasConflict([node], otherNodes.contents)) {
+						try {
+							// Let the user choose what to do with the conflicting files
+							const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
+							// two empty arrays: either only old files or conflict skipped -> no action required
+							if (!selected.length && !renamed.length) {
+								return
+							}
+						} catch (error) {
+							// User cancelled
 							return
 						}
-					} catch (error) {
-						// User cancelled
-						showError(t('files', 'Move cancelled'))
-						return
 					}
 				}
 				// getting here means either no conflict, file was renamed to keep both files
 				// in a conflict, or the selected file was chosen to be kept during the conflict
-				await client.moveFile(currentPath, join(destinationPath, node.basename))
+				try {
+					await client.moveFile(currentPath, join(destinationPath, node.basename))
+				} catch (error) {
+					const parser = new DOMParser()
+					const text = await (error as WebDAVClientError).response?.text()
+					const message = parser.parseFromString(text ?? '', 'text/xml')
+						.querySelector('message')?.textContent
+					if (message) {
+						showError(message)
+					}
+					throw error
+				}
 				// Delete the node as it will be fetched again
 				// when navigating to the destination folder
 				emit('files:node:deleted', node)
 			}
 		} catch (error) {
-			if (error instanceof AxiosError) {
-				if (error?.response?.status === 412) {
+			if (isAxiosError(error)) {
+				if (error.response?.status === 412) {
 					throw new Error(t('files', 'A file or folder with that name already exists in this folder'))
-				} else if (error?.response?.status === 423) {
+				} else if (error.response?.status === 423) {
 					throw new Error(t('files', 'The files are locked'))
-				} else if (error?.response?.status === 404) {
+				} else if (error.response?.status === 404) {
 					throw new Error(t('files', 'The file does not exist anymore'))
 				} else if (error.message) {
 					throw new Error(error.message)
@@ -165,34 +195,36 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 			logger.debug(error as Error)
 			throw new Error()
 		} finally {
-			Vue.set(node, 'status', undefined)
+			Vue.set(node, 'status', '')
+			actionFinished()
 		}
 	})
 }
 
 /**
  * Open a file picker for the given action
- * @param {MoveCopyAction} action The action to open the file picker for
- * @param {string} dir The directory to start the file picker in
- * @param {Node[]} nodes The nodes to move/copy
- * @return {Promise<MoveCopyResult>} The picked destination
+ * @param action The action to open the file picker for
+ * @param dir The directory to start the file picker in
+ * @param nodes The nodes to move/copy
+ * @return The picked destination or false if cancelled by user
  */
-const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes: Node[]): Promise<MoveCopyResult> => {
+async function openFilePickerForAction(
+	action: MoveCopyAction,
+	dir = '/',
+	nodes: Node[],
+): Promise<MoveCopyResult | false> {
+	const { resolve, reject, promise } = Promise.withResolvers<MoveCopyResult | false>()
 	const fileIDs = nodes.map(node => node.fileid).filter(Boolean)
 	const filePicker = getFilePickerBuilder(t('files', 'Choose destination'))
 		.allowDirectories(true)
 		.setFilter((n: Node) => {
-			// We only want to show folders that we can create nodes in
-			return (n.permissions & Permission.CREATE) !== 0
-				// We don't want to show the current nodes in the file picker
-				&& !fileIDs.includes(n.fileid)
+			// We don't want to show the current nodes in the file picker
+			return !fileIDs.includes(n.fileid)
 		})
 		.setMimeTypeFilter([])
 		.setMultiSelect(false)
 		.startAt(dir)
-
-	return new Promise((resolve, reject) => {
-		filePicker.setButtonFactory((_selection, path: string) => {
+		.setButtonFactory((selection: Node[], path: string) => {
 			const buttons: IFilePickerButton[] = []
 			const target = basename(path)
 
@@ -204,6 +236,7 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 					label: target ? t('files', 'Copy to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Copy'),
 					type: 'primary',
 					icon: CopyIconSvg,
+					disabled: selection.some((node) => (node.permissions & Permission.CREATE) === 0),
 					async callback(destination: Node[]) {
 						resolve({
 							destination: destination[0] as Folder,
@@ -224,6 +257,11 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 				return buttons
 			}
 
+			if (selection.some((node) => (node.permissions & Permission.CREATE) === 0)) {
+				// Missing 'CREATE' permissions for selected destination
+				return buttons
+			}
+
 			if (action === MoveCopyAction.MOVE || action === MoveCopyAction.MOVE_OR_COPY) {
 				buttons.push({
 					label: target ? t('files', 'Move to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Move'),
@@ -240,21 +278,24 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 
 			return buttons
 		})
+		.build()
 
-		const picker = filePicker.build()
-		picker.pick().catch((error) => {
+	filePicker.pick()
+		.catch((error: Error) => {
 			logger.debug(error as Error)
 			if (error instanceof FilePickerClosed) {
-				reject(new Error(t('files', 'Cancelled move or copy operation')))
+				resolve(false)
 			} else {
 				reject(new Error(t('files', 'Move or copy operation failed')))
 			}
 		})
-	})
+
+	return promise
 }
 
+export const ACTION_COPY_MOVE = 'move-copy'
 export const action = new FileAction({
-	id: 'move-copy',
+	id: ACTION_COPY_MOVE,
 	displayName(nodes: Node[]) {
 		switch (getActionForNodes(nodes)) {
 		case MoveCopyAction.MOVE:
@@ -266,7 +307,11 @@ export const action = new FileAction({
 		}
 	},
 	iconSvgInline: () => FolderMoveSvg,
-	enabled(nodes: Node[]) {
+	enabled(nodes: Node[], view: View) {
+		// We can not copy or move in single file shares
+		if (view.id === 'public-file-share') {
+			return false
+		}
 		// We only support moving/copying files within the user folder
 		if (!nodes.every(node => node.root?.startsWith('/files/'))) {
 			return false
@@ -283,6 +328,10 @@ export const action = new FileAction({
 			logger.error(e as Error)
 			return false
 		}
+		if (result === false) {
+			return null
+		}
+
 		try {
 			await handleCopyMoveNodeTo(node, result.destination, result.action)
 			return true
@@ -299,6 +348,11 @@ export const action = new FileAction({
 	async execBatch(nodes: Node[], view: View, dir: string) {
 		const action = getActionForNodes(nodes)
 		const result = await openFilePickerForAction(action, dir, nodes)
+		// Handle cancellation silently
+		if (result === false) {
+			return nodes.map(() => null)
+		}
+
 		const promises = nodes.map(async node => {
 			try {
 				await handleCopyMoveNodeTo(node, result.destination, result.action)

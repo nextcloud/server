@@ -17,7 +17,7 @@
 
 <script>
 import GroupSelect from './AdminDelegation/GroupSelect.vue'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import { loadState } from '@nextcloud/initial-state'
 
 export default {
@@ -39,9 +39,9 @@ export default {
 
 <style lang="scss" scoped>
 label {
+	color: var(--color-text-maxcontrast);
 	display: block;
 	font-size: 16px;
 	margin: 12px 0;
-	color: var(--color-text-light);
 }
 </style>

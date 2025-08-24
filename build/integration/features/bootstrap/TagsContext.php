@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -245,7 +246,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 		if (count($table->getRows()) !== count($tags)) {
 			throw new \Exception(
 				sprintf(
-					"Expected %s tags, got %s.",
+					'Expected %s tags, got %s.',
 					count($table->getRows()),
 					count($tags)
 				)
@@ -255,9 +256,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 		foreach ($table->getRowsHash() as $rowDisplayName => $row) {
 			foreach ($tags as $key => $tag) {
 				if (
-					$tag['display-name'] === $rowDisplayName &&
-					$tag['user-visible'] === $row[0] &&
-					$tag['user-assignable'] === $row[1]
+					$tag['display-name'] === $rowDisplayName
+					&& $tag['user-visible'] === $row[0]
+					&& $tag['user-assignable'] === $row[1]
 				) {
 					unset($tags[$key]);
 				}

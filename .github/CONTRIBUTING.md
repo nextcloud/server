@@ -4,7 +4,7 @@
 -->
 ## Submitting issues
 
-If you have questions about how to install or use Nextcloud, please direct these to our [forum][forum]. We are also available on [IRC][irc].
+If you have questions about how to install or use Nextcloud, please direct these to our [forum][forum]. We are also available on [IRC][irc] (unofficial).
 
 ### Short version
 
@@ -25,7 +25,7 @@ Help us to maximize the effort we can spend fixing issues and adding new feature
 
 [templates]: ./ISSUE_TEMPLATE
 [forum]: https://help.nextcloud.com/
-[irc]: https://webchat.freenode.net/?channels=nextcloud
+[irc]: https://web.libera.chat/#nextcloud
 
 ## Contributing to Source Code
 
@@ -48,7 +48,7 @@ In some areas unit testing is hard (aka almost impossible) as of today - in thes
 
 ### Sign your work
 
-We use the Developer Certificate of Origin (DCO) as a additional safeguard
+We use the Developer Certificate of Origin (DCO) as an additional safeguard
 for the Nextcloud project. This is a well established and widely used
 mechanism to assure contributors have confirmed their right to license
 their contribution under the project's license.

@@ -6,10 +6,11 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import axios from '@nextcloud/axios'
-import { getApiUrl } from './helpers/api.js'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import '@nextcloud/password-confirmation/dist/style.css'
 import { loadState } from '@nextcloud/initial-state'
+import { getApiUrl } from './helpers/api.js'
+
+import '@nextcloud/password-confirmation/dist/style.css'
 
 Vue.use(Vuex)
 
@@ -126,6 +127,10 @@ const store = new Store({
 				return rule1.id - rule2.id || rule2.class - rule1.class
 			})
 		},
+		/**
+		 * @param state
+		 * @return {OperatorPlugin}
+		 */
 		getOperationForRule(state) {
 			return (rule) => state.operations[rule.class]
 		},

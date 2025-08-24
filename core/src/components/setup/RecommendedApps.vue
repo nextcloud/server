@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div class="guest-box">
+	<div class="guest-box" data-cy-setup-recommended-apps>
 		<h2>{{ t('core', 'Recommended apps') }}</h2>
 		<p v-if="loadingApps" class="loading text-center">
 			{{ t('core', 'Loading apps …') }}
@@ -12,20 +12,13 @@
 		<p v-else-if="loadingAppsError" class="loading-error text-center">
 			{{ t('core', 'Could not fetch list of apps from the App Store.') }}
 		</p>
-		<p v-else-if="installingApps" class="text-center">
-			{{ t('core', 'Installing apps …') }}
-		</p>
 
 		<div v-for="app in recommendedApps" :key="app.id" class="app">
 			<template v-if="!isHidden(app.id)">
 				<img :src="customIcon(app.id)" alt="">
 				<div class="info">
-					<h3>
-						{{ customName(app) }}
-						<span v-if="app.loading" class="icon icon-loading-small-dark" />
-						<span v-else-if="app.active" class="icon icon-checkmark-white" />
-					</h3>
-					<p v-html="customDescription(app.id)" />
+					<h3>{{ customName(app) }}</h3>
+					<p v-text="customDescription(app.id)" />
 					<p v-if="app.installationError">
 						<strong>{{ t('core', 'App download or installation failed') }}</strong>
 					</p>
@@ -36,36 +29,42 @@
 						<strong>{{ t('core', 'Cannot install this app') }}</strong>
 					</p>
 				</div>
+				<NcCheckboxRadioSwitch :checked="app.isSelected || app.active"
+					:disabled="!app.isCompatible || app.active"
+					:loading="app.loading"
+					@update:checked="toggleSelect(app.id)" />
 			</template>
 		</div>
 
 		<div class="dialog-row">
-			<NcButton v-if="showInstallButton"
-				type="tertiary"
-				role="link"
-				:href="defaultPageUrl">
+			<NcButton v-if="showInstallButton && !installingApps"
+				data-cy-setup-recommended-apps-skip
+				:href="defaultPageUrl"
+				variant="tertiary">
 				{{ t('core', 'Skip') }}
 			</NcButton>
 
 			<NcButton v-if="showInstallButton"
-				type="primary"
+				data-cy-setup-recommended-apps-install
+				:disabled="installingApps || !isAnyAppSelected"
+				variant="primary"
 				@click.stop.prevent="installApps">
-				{{ t('core', 'Install recommended apps') }}
+				{{ installingApps ? t('core', 'Installing apps …') : t('core', 'Install recommended apps') }}
 			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import { generateUrl, imagePath } from '@nextcloud/router'
+import { t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl, imagePath } from '@nextcloud/router'
+import axios from '@nextcloud/axios'
 import pLimit from 'p-limit'
-import { translate as t } from '@nextcloud/l10n'
-
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-
 import logger from '../../logger.js'
+
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 const recommended = {
 	calendar: {
@@ -81,7 +80,7 @@ const recommended = {
 		icon: imagePath('core', 'actions/mail.svg'),
 	},
 	spreed: {
-		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
+		description: t('core', 'Chatting, video calls, screen sharing, online meetings and web conferencing – in your browser and with mobile apps.'),
 		icon: imagePath('core', 'apps/spreed.svg'),
 	},
 	richdocuments: {
@@ -102,6 +101,7 @@ const recommendedIds = Object.keys(recommended)
 export default {
 	name: 'RecommendedApps',
 	components: {
+		NcCheckboxRadioSwitch,
 		NcButton,
 	},
 	data() {
@@ -111,12 +111,15 @@ export default {
 			loadingApps: true,
 			loadingAppsError: false,
 			apps: [],
-			defaultPageUrl: loadState('core', 'defaultPageUrl')
+			defaultPageUrl: loadState('core', 'defaultPageUrl'),
 		}
 	},
 	computed: {
 		recommendedApps() {
 			return this.apps.filter(app => recommendedIds.includes(app.id))
+		},
+		isAnyAppSelected() {
+			return this.recommendedApps.some(app => app.isSelected)
 		},
 	},
 	async mounted() {
@@ -124,7 +127,7 @@ export default {
 			const { data } = await axios.get(generateUrl('settings/apps/list'))
 			logger.info(`${data.apps.length} apps fetched`)
 
-			this.apps = data.apps.map(app => Object.assign(app, { loading: false, installationError: false }))
+			this.apps = data.apps.map(app => Object.assign(app, { loading: false, installationError: false, isSelected: app.isCompatible }))
 			logger.debug(`${this.recommendedApps.length} recommended apps found`, { apps: this.recommendedApps })
 
 			this.showInstallButton = true
@@ -138,23 +141,24 @@ export default {
 	},
 	methods: {
 		installApps() {
-			this.showInstallButton = false
 			this.installingApps = true
 
 			const limit = pLimit(1)
 			const installing = this.recommendedApps
-				.filter(app => !app.active && app.isCompatible && app.canInstall)
-				.map(app => limit(() => {
+				.filter(app => !app.active && app.isCompatible && app.canInstall && app.isSelected)
+				.map(app => limit(async () => {
 					logger.info(`installing ${app.id}`)
 					app.loading = true
 					return axios.post(generateUrl('settings/apps/enable'), { appIds: [app.id], groups: [] })
 						.catch(error => {
 							logger.error(`could not install ${app.id}`, { error })
+							app.isSelected = false
 							app.installationError = true
 						})
 						.then(() => {
 							logger.info(`installed ${app.id}`)
 							app.loading = false
+							app.active = true
 						})
 				}))
 			logger.debug(`installing ${installing.length} recommended apps`)
@@ -191,6 +195,14 @@ export default {
 				return false
 			}
 			return !!recommended[appId].hidden
+		},
+		toggleSelect(appId) {
+			// disable toggle when installButton is disabled
+			if (!(appId in recommended) || !this.showInstallButton) {
+				return
+			}
+			const index = this.apps.findIndex(app => app.id === appId)
+			this.$set(this.apps[index], 'isSelected', !this.apps[index].isSelected)
 		},
 	},
 }
@@ -234,16 +246,17 @@ p {
 
 	.info {
 		h3, p {
-			text-align: left;
+			text-align: start;
 		}
 
 		h3 {
 			margin-top: 0;
 		}
+	}
 
-		h3 > span.icon {
-			display: inline-block;
-		}
+	.checkbox-radio-switch {
+		margin-inline-start: auto;
+		padding: 0 2px;
 	}
 }
 </style>

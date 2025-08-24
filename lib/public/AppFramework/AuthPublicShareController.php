@@ -46,9 +46,6 @@ abstract class AuthPublicShareController extends PublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * Show the authentication page
 	 * The form has to submit to the authenticate method route
 	 *
@@ -125,10 +122,6 @@ abstract class AuthPublicShareController extends PublicShareController {
 	}
 
 	/**
-	 * @UseSession
-	 * @PublicPage
-	 * @BruteForceProtection(action=publicLinkAuth)
-	 *
 	 * Authenticate the share
 	 *
 	 * @since 14.0.0
@@ -196,10 +189,10 @@ abstract class AuthPublicShareController extends PublicShareController {
 	private function getRoute(string $function): string {
 		$app = strtolower($this->appName);
 		$class = (new \ReflectionClass($this))->getShortName();
-		if (substr($class, -10) === 'Controller') {
+		if (str_ends_with($class, 'Controller')) {
 			$class = substr($class, 0, -10);
 		}
-		return $app .'.'. $class .'.'. $function;
+		return $app . '.' . $class . '.' . $function;
 	}
 
 	/**

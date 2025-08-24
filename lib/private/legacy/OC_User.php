@@ -5,13 +5,18 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-use OC\User\LoginException;
+use OC\Authentication\Token\IProvider;
+use OC\User\DisabledUserException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use Psr\Log\LoggerInterface;
@@ -35,8 +40,6 @@ use Psr\Log\LoggerInterface;
  *   logout()
  */
 class OC_User {
-	private static $_usedBackends = [];
-
 	private static $_setupedBackends = [];
 
 	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
@@ -47,14 +50,13 @@ class OC_User {
 	 *
 	 * @param string|\OCP\UserInterface $backend default: database The backend to use for user management
 	 * @return bool
+	 * @deprecated 32.0.0 Use IUserManager::registerBackend instead
 	 *
 	 * Set the User Authentication Module
-	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function useBackend($backend = 'database') {
 		if ($backend instanceof \OCP\UserInterface) {
-			self::$_usedBackends[get_class($backend)] = $backend;
-			\OC::$server->getUserManager()->registerBackend($backend);
+			Server::get(IUserManager::class)->registerBackend($backend);
 		} else {
 			// You'll never know what happens
 			if ($backend === null or !is_string($backend)) {
@@ -67,18 +69,15 @@ class OC_User {
 				case 'mysql':
 				case 'sqlite':
 					Server::get(LoggerInterface::class)->debug('Adding user backend ' . $backend . '.', ['app' => 'core']);
-					self::$_usedBackends[$backend] = new \OC\User\Database();
-					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
+					Server::get(IUserManager::class)->registerBackend(new \OC\User\Database());
 					break;
 				case 'dummy':
-					self::$_usedBackends[$backend] = new \Test\Util\User\Dummy();
-					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
+					Server::get(IUserManager::class)->registerBackend(new \Test\Util\User\Dummy());
 					break;
 				default:
 					Server::get(LoggerInterface::class)->debug('Adding default user backend ' . $backend . '.', ['app' => 'core']);
 					$className = 'OC_USER_' . strtoupper($backend);
-					self::$_usedBackends[$backend] = new $className();
-					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
+					Server::get(IUserManager::class)->registerBackend(new $className());
 					break;
 			}
 		}
@@ -87,10 +86,10 @@ class OC_User {
 
 	/**
 	 * remove all used backends
+	 * @deprecated 32.0.0 Use IUserManager::clearBackends instead
 	 */
 	public static function clearBackends() {
-		self::$_usedBackends = [];
-		\OC::$server->getUserManager()->clearBackends();
+		Server::get(IUserManager::class)->clearBackends();
 	}
 
 	/**
@@ -140,7 +139,7 @@ class OC_User {
 	public static function loginWithApache(\OCP\Authentication\IApacheBackend $backend) {
 		$uid = $backend->getCurrentUserId();
 		$run = true;
-		OC_Hook::emit("OC_User", "pre_login", ["run" => &$run, "uid" => $uid, 'backend' => $backend]);
+		OC_Hook::emit('OC_User', 'pre_login', ['run' => &$run, 'uid' => $uid, 'backend' => $backend]);
 
 		if ($uid) {
 			if (self::getUser() !== $uid) {
@@ -152,7 +151,7 @@ class OC_User {
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
 					$message = \OC::$server->getL10N('lib')->t('Account disabled');
-					throw new LoginException($message);
+					throw new DisabledUserException($message);
 				}
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
@@ -166,6 +165,22 @@ class OC_User {
 
 				$userSession->createSessionToken($request, $uid, $uid, $password);
 				$userSession->createRememberMeToken($userSession->getUser());
+
+				if (empty($password)) {
+					$tokenProvider = \OC::$server->get(IProvider::class);
+					try {
+						$token = $tokenProvider->getToken($userSession->getSession()->getId());
+						$token->setScope([
+							IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true,
+							IToken::SCOPE_FILESYSTEM => true,
+						]);
+						$tokenProvider->updateToken($token);
+					} catch (InvalidTokenException|WipeTokenException|SessionNotAvailableException) {
+						// swallow the exceptions as we do not deal with them here
+						// simply skip updating the token when is it missing
+					}
+				}
+
 				// setup the filesystem
 				OC_Util::setupFS($uid);
 				// first call the post_login hooks, the login-process needs to be
@@ -200,9 +215,9 @@ class OC_User {
 	 * Verify with Apache whether user is authenticated.
 	 *
 	 * @return boolean|null
-	 *          true: authenticated
-	 *          false: not authenticated
-	 *          null: not handled / no backend available
+	 *                      true: authenticated
+	 *                      false: not authenticated
+	 *                      null: not handled / no backend available
 	 */
 	public static function handleApacheAuth() {
 		$backend = self::findFirstActiveUsedBackend();
@@ -227,7 +242,7 @@ class OC_User {
 	 */
 	public static function setUserId($uid) {
 		$userSession = \OC::$server->getUserSession();
-		$userManager = \OC::$server->getUserManager();
+		$userManager = Server::get(IUserManager::class);
 		if ($user = $userManager->get($uid)) {
 			$userSession->setUser($user);
 		} else {
@@ -238,7 +253,7 @@ class OC_User {
 	/**
 	 * Check if the user is logged in, considers also the HTTP basic credentials
 	 *
-	 * @deprecated use \OC::$server->getUserSession()->isLoggedIn()
+	 * @deprecated 12.0.0 use \OC::$server->getUserSession()->isLoggedIn()
 	 * @return bool
 	 */
 	public static function isLoggedIn() {
@@ -327,7 +342,7 @@ class OC_User {
 	 * Change the password of a user
 	 */
 	public static function setPassword($uid, $password, $recoveryPassword = null) {
-		$user = \OC::$server->getUserManager()->get($uid);
+		$user = Server::get(IUserManager::class)->get($uid);
 		if ($user) {
 			return $user->setPassword($password, $recoveryPassword);
 		} else {
@@ -340,10 +355,10 @@ class OC_User {
 	 * @return string
 	 *
 	 * returns the path to the users home directory
-	 * @deprecated Use \OC::$server->getUserManager->getHome()
+	 * @deprecated 12.0.0 Use \OC::$server->getUserManager->getHome()
 	 */
 	public static function getHome($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
+		$user = Server::get(IUserManager::class)->get($uid);
 		if ($user) {
 			return $user->getHome();
 		} else {
@@ -360,11 +375,11 @@ class OC_User {
 	 * @return array associative array with all display names (value) and corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
-	 * @deprecated Use \OC::$server->getUserManager->searchDisplayName($search, $limit, $offset) instead.
+	 * @deprecated 12.0.0 Use \OC::$server->getUserManager->searchDisplayName($search, $limit, $offset) instead.
 	 */
 	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$displayNames = [];
-		$users = \OC::$server->getUserManager()->searchDisplayName($search, $limit, $offset);
+		$users = Server::get(IUserManager::class)->searchDisplayName($search, $limit, $offset);
 		foreach ($users as $user) {
 			$displayNames[$user->getUID()] = $user->getDisplayName();
 		}
@@ -377,7 +392,7 @@ class OC_User {
 	 * @return OCP\Authentication\IApacheBackend|null if no backend active, otherwise OCP\Authentication\IApacheBackend
 	 */
 	private static function findFirstActiveUsedBackend() {
-		foreach (self::$_usedBackends as $backend) {
+		foreach (Server::get(IUserManager::class)->getBackends() as $backend) {
 			if ($backend instanceof OCP\Authentication\IApacheBackend) {
 				if ($backend->isSessionActive()) {
 					return $backend;

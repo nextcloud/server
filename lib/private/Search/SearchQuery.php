@@ -25,7 +25,7 @@ class SearchQuery implements ISearchQuery {
 		private int $limit = self::LIMIT_DEFAULT,
 		private int|string|null $cursor = null,
 		private string $route = '',
-		private	array $routeParameters = [],
+		private array $routeParameters = [],
 	) {
 	}
 

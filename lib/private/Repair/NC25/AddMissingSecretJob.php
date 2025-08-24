@@ -33,7 +33,7 @@ class AddMissingSecretJob implements IRepairStep {
 			try {
 				$this->config->setSystemValue('passwordsalt', $this->random->generate(30));
 			} catch (HintException $e) {
-				$output->warning("passwordsalt is missing from your config.php and your config.php is read only. Please fix it manually.");
+				$output->warning('passwordsalt is missing from your config.php and your config.php is read only. Please fix it manually.');
 			}
 		}
 
@@ -42,7 +42,7 @@ class AddMissingSecretJob implements IRepairStep {
 			try {
 				$this->config->setSystemValue('secret', $this->random->generate(48));
 			} catch (HintException $e) {
-				$output->warning("secret is missing from your config.php and your config.php is read only. Please fix it manually.");
+				$output->warning('secret is missing from your config.php and your config.php is read only. Please fix it manually.');
 			}
 		}
 	}

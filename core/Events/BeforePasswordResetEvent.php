@@ -35,6 +35,13 @@ class BeforePasswordResetEvent extends Event {
 	}
 
 	/**
+	 * @since 31.0.0
+	 */
+	public function getUid(): string {
+		return $this->user->getUID();
+	}
+
+	/**
 	 * @since 25.0.0
 	 */
 	public function getPassword(): string {

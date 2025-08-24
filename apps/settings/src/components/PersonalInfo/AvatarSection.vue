@@ -80,15 +80,15 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import VueCropper from 'vue-cropperjs'
 // eslint-disable-next-line n/no-extraneous-import
 import 'cropperjs/dist/cropper.css'
 
 import Upload from 'vue-material-design-icons/Upload.vue'
 import Folder from 'vue-material-design-icons/Folder.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
 
 import HeaderBar from './shared/HeaderBar.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
@@ -257,9 +257,10 @@ section {
 	grid-row: 1/3;
 	padding: 10px 10px;
 }
+
 .avatar {
 	&__container {
-		margin: 0 auto;
+		margin: calc(var(--default-grid-baseline) * 2) auto 0 auto;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -268,7 +269,7 @@ section {
 		width: min(100%, 300px);
 
 		span {
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 		}
 	}
 
@@ -296,7 +297,7 @@ section {
 			justify-content: space-between;
 		}
 
-		&::v-deep .cropper-view-box {
+		:deep(.cropper-view-box) {
 			border-radius: 50%;
 		}
 	}

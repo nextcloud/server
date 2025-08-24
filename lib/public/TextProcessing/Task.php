@@ -13,6 +13,7 @@ namespace OCP\TextProcessing;
  * This is a text processing task
  * @since 27.1.0
  * @psalm-template-covariant T of ITaskType
+ * @deprecated 30.0.0
  */
 final class Task implements \JsonSerializable {
 	protected ?int $id = null;

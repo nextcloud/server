@@ -34,6 +34,13 @@ echo
 echo "Regenerating main autoloader"
 $COMPOSER_COMMAND dump-autoload -d $REPODIR
 
+FOUND_COMPOSER_BIN=$(grep --recursive --fixed-strings 'Bamarni\\Composer\\Bin' $REPODIR/lib/composer/composer/)
+if [ -n "$FOUND_COMPOSER_BIN" ]; then
+    echo "The main autoloader contains the composer bin plugin"
+    echo "Run composer again with --no-dev and commit the result"
+    exit 1
+fi
+
 for app in ${REPODIR}/apps/*; do
 	if git check-ignore ${app} -q ; then
 		echo
@@ -45,6 +52,7 @@ for app in ${REPODIR}/apps/*; do
 		echo "Regenerating composer files for ${app}"
 		$COMPOSER_COMMAND i --no-dev -d ${app}/composer || exit 1
 		$COMPOSER_COMMAND dump-autoload -d ${app}/composer || exit 1
+		git checkout ${app}/composer/composer/installed.php
     fi
 done
 

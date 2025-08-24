@@ -1,12 +1,13 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests;
 
-use InvalidArgumentException;
 use OCA\Settings\Activity\SecurityProvider;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IL10N;
@@ -16,51 +17,41 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SecurityProviderTest extends TestCase {
-
-	/** @var IFactory|MockObject */
-	private $l10n;
-
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-
-	/** @var IManager|MockObject */
-	private $activityManager;
-
-	/** @var SecurityProvider */
-	private $provider;
+	private IFactory&MockObject $l10nFactory;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IManager&MockObject $activityManager;
+	private SecurityProvider $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->l10n = $this->createMock(IFactory::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->activityManager = $this->createMock(IManager::class);
 
-		$this->provider = new SecurityProvider($this->l10n, $this->urlGenerator, $this->activityManager);
+		$this->provider = new SecurityProvider($this->l10nFactory, $this->urlGenerator, $this->activityManager);
 	}
 
-	public function testParseUnrelated() {
+	public function testParseUnrelated(): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$event->expects($this->once())
 			->method('getType')
 			->willReturn('comments');
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 
 		$this->provider->parse($lang, $event);
 	}
 
-	public function subjectData() {
+	public static function subjectData(): array {
 		return [
 			['twofactor_success'],
 			['twofactor_failed'],
 		];
 	}
 
-	/**
-	 * @dataProvider subjectData
-	 */
-	public function testParse($subject) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('subjectData')]
+	public function testParse(string $subject): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$l = $this->createMock(IL10N::class);
@@ -68,7 +59,7 @@ class SecurityProviderTest extends TestCase {
 		$event->expects($this->once())
 			->method('getType')
 			->willReturn('security');
-		$this->l10n->expects($this->once())
+		$this->l10nFactory->expects($this->once())
 			->method('get')
 			->with('settings', $lang)
 			->willReturn($l);
@@ -96,7 +87,7 @@ class SecurityProviderTest extends TestCase {
 		$this->provider->parse($lang, $event);
 	}
 
-	public function testParseInvalidSubject() {
+	public function testParseInvalidSubject(): void {
 		$lang = 'ru';
 		$l = $this->createMock(IL10N::class);
 		$event = $this->createMock(IEvent::class);
@@ -104,7 +95,7 @@ class SecurityProviderTest extends TestCase {
 		$event->expects($this->once())
 			->method('getType')
 			->willReturn('security');
-		$this->l10n->expects($this->once())
+		$this->l10nFactory->expects($this->once())
 			->method('get')
 			->with('settings', $lang)
 			->willReturn($l);
@@ -112,7 +103,7 @@ class SecurityProviderTest extends TestCase {
 			->method('getSubject')
 			->willReturn('unrelated');
 
-		$this->expectException(InvalidArgumentException::class);
+		$this->expectException(UnknownActivityException::class);
 		$this->provider->parse($lang, $event);
 	}
 }

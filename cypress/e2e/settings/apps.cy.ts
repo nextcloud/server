@@ -17,8 +17,15 @@ describe('Settings: App management', { testIsolation: true }, () => {
 
 		// I am logged in as the admin
 		cy.login(admin)
+
+		// Intercept the apps list request
+		cy.intercept('GET', '*/settings/apps/list').as('fetchAppsList')
+
 		// I open the Apps management
 		cy.visit('/settings/apps/installed')
+
+		// Wait for the apps list to load
+		cy.wait('@fetchAppsList')
 	})
 
 	it('Can enable an installed app', () => {
@@ -116,7 +123,7 @@ describe('Settings: App management', { testIsolation: true }, () => {
 		cy.get('#app-category-your-bundles').find('.active').should('exist')
 		// I see the app bundles
 		cy.get('#apps-list').contains('tr', 'Enterprise bundle')
-		cy.get('#apps-list').contains('tr', 'Education Edition')
+		cy.get('#apps-list').contains('tr', 'Education bundle')
 		// I see that the "Enterprise bundle" is disabled
 		cy.get('#apps-list').contains('tr', 'Enterprise bundle').contains('button', 'Download and enable all')
 	})

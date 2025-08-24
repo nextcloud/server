@@ -35,6 +35,7 @@
 !/apps/lookup_server_connector
 !/apps/user_ldap
 !/apps/oauth2
+!/apps/profile
 !/apps/provisioning_api
 !/apps/settings
 !/apps/systemtags
@@ -45,6 +46,7 @@
 !/apps/twofactor_backupcodes
 !/apps/user_status
 !/apps/weather_status
+!/apps/webhook_listeners
 !/apps/workflowengine
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
@@ -61,6 +63,9 @@
 /themes/*
 !/themes/example
 !/themes/README
+
+# Love to people that develop the updater
+/updater
 
 # just sane ignores
 .*.sw[po]
@@ -132,7 +137,6 @@ nbproject
 # nodejs
 /build/bin
 /build/lib/
-/build/jsdocs/
 /build/integration/output/
 /build/integration/phpserver.log
 /npm-debug.log
@@ -147,6 +151,8 @@ Vagrantfile
 
 # Tests - auto-generated files
 /data-autotest
+/results.sarif
+/tests/.phpunit.cache
 /tests/.phpunit.result.cache
 /tests/coverage*
 /tests/css
@@ -178,3 +184,5 @@ core/js/mimetypelist.js
 cypress/downloads
 cypress/snapshots
 cypress/videos
+
+/.direnv

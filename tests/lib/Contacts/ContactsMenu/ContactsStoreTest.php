@@ -69,7 +69,7 @@ class ContactsStoreTest extends TestCase {
 		);
 	}
 
-	public function testGetContactsWithoutFilter() {
+	public function testGetContactsWithoutFilter(): void {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
@@ -99,7 +99,7 @@ class ContactsStoreTest extends TestCase {
 		], $entries[1]->getEMailAddresses());
 	}
 
-	public function testGetContactsHidesOwnEntry() {
+	public function testGetContactsHidesOwnEntry(): void {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
@@ -126,7 +126,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertCount(1, $entries);
 	}
 
-	public function testGetContactsWithoutBinaryImage() {
+	public function testGetContactsWithoutBinaryImage(): void {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->urlGenerator->expects($this->any())
@@ -159,7 +159,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertSame('https://urlToNcAvatar.test', $entries[1]->getAvatar());
 	}
 
-	public function testGetContactsWithoutAvatarURI() {
+	public function testGetContactsWithoutAvatarURI(): void {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
@@ -188,7 +188,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('https://photo', $entries[1]->getAvatar());
 	}
 
-	public function testGetContactsWhenUserIsInExcludeGroups() {
+	public function testGetContactsWhenUserIsInExcludeGroups(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -233,7 +233,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertCount(0, $entries);
 	}
 
-	public function testGetContactsOnlyShareIfInTheSameGroup() {
+	public function testGetContactsOnlyShareIfInTheSameGroup(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -255,29 +255,27 @@ class ContactsStoreTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user3 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+			[[$user2], ['group2', 'group3']],
+			[[$user3], ['group8', 'group9']],
+		];
 		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)],
-				[$this->equalTo($user2)],
-				[$this->equalTo($user3)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1'],
-				['group2', 'group3'],
-				['group8', 'group9']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->exactly(3))
 			->method('get')
-			->withConsecutive(
-				['user1'],
-				['user2'],
-				['user3']
-			)
-			->willReturnOnConsecutiveCalls($user1, $user2, $user3);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $user2],
+				['user3', $user3],
+			]);
 
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -308,7 +306,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('contact', $entries[2]->getProperty('UID'));
 	}
 
-	public function testGetContactsOnlyEnumerateIfInTheSameGroup() {
+	public function testGetContactsOnlyEnumerateIfInTheSameGroup(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -330,29 +328,27 @@ class ContactsStoreTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user3 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+			[[$user2], ['group2', 'group3']],
+			[[$user3], ['group8', 'group9']],
+		];
 		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)],
-				[$this->equalTo($user2)],
-				[$this->equalTo($user3)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1'],
-				['group2', 'group3'],
-				['group8', 'group9']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->exactly(3))
 			->method('get')
-			->withConsecutive(
-				['user1'],
-				['user2'],
-				['user3']
-			)
-			->willReturn($user1, $user2, $user3);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $user2],
+				['user3', $user3],
+			]);
 
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -383,7 +379,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('contact', $entries[2]->getProperty('UID'));
 	}
 
-	public function testGetContactsOnlyEnumerateIfPhoneBookMatch() {
+	public function testGetContactsOnlyEnumerateIfPhoneBookMatch(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -441,7 +437,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('contact', $entries[2]->getProperty('UID'));
 	}
 
-	public function testGetContactsOnlyEnumerateIfPhoneBookMatchWithOwnGroupsOnly() {
+	public function testGetContactsOnlyEnumerateIfPhoneBookMatchWithOwnGroupsOnly(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -463,29 +459,27 @@ class ContactsStoreTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user3 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+			[[$user2], ['group2', 'group3']],
+			[[$user3], ['group8', 'group9']],
+		];
 		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)],
-				[$this->equalTo($user2)],
-				[$this->equalTo($user3)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1'],
-				['group2', 'group3'],
-				['group8', 'group9']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->exactly(3))
 			->method('get')
-			->withConsecutive(
-				['user1'],
-				['user2'],
-				['user3']
-			)
-			->willReturnOnConsecutiveCalls($user1, $user2, $user3);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $user2],
+				['user3', $user3],
+			]);
 
 		$this->knownUserService->method('isKnownToUser')
 			->willReturnMap([
@@ -523,7 +517,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('contact', $entries[2]->getProperty('UID'));
 	}
 
-	public function testGetContactsOnlyEnumerateIfPhoneBookOrSameGroup() {
+	public function testGetContactsOnlyEnumerateIfPhoneBookOrSameGroup(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -542,16 +536,17 @@ class ContactsStoreTest extends TestCase {
 
 		$user1 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+		];
 		$this->groupManager->expects($this->exactly(2))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -595,7 +590,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('contact', $entries[3]->getProperty('UID'));
 	}
 
-	public function testGetContactsOnlyEnumerateIfPhoneBookOrSameGroupInOwnGroupsOnly() {
+	public function testGetContactsOnlyEnumerateIfPhoneBookOrSameGroupInOwnGroupsOnly(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -617,29 +612,27 @@ class ContactsStoreTest extends TestCase {
 		$user2 = $this->createMock(IUser::class);
 		$user3 = $this->createMock(IUser::class);
 
+		$calls = [
+			[[$currentUser], ['group1', 'group2', 'group3']],
+			[[$user1], ['group1']],
+			[[$user2], ['group2', 'group3']],
+			[[$user3], ['group8', 'group9']],
+		];
 		$this->groupManager->expects($this->exactly(4))
 			->method('getUserGroupIds')
-			->withConsecutive(
-				[$this->equalTo($currentUser)],
-				[$this->equalTo($user1)],
-				[$this->equalTo($user2)],
-				[$this->equalTo($user3)]
-			)
-			->willReturnOnConsecutiveCalls(
-				['group1', 'group2', 'group3'],
-				['group1'],
-				['group2', 'group3'],
-				['group8', 'group9']
-			);
+			->willReturnCallback(function () use (&$calls): array {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], func_get_args());
+				return $expected[1];
+			});
 
 		$this->userManager->expects($this->exactly(3))
 			->method('get')
-			->withConsecutive(
-				['user1'],
-				['user2'],
-				['user3']
-			)
-			->willReturnOnConsecutiveCalls($user1, $user2, $user3);
+			->willReturnMap([
+				['user1', $user1],
+				['user2', $user2],
+				['user3', $user3],
+			]);
 
 		$this->knownUserService->method('isKnownToUser')
 			->willReturnMap([
@@ -677,7 +670,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals('contact', $entries[2]->getProperty('UID'));
 	}
 
-	public function testGetContactsWithFilter() {
+	public function testGetContactsWithFilter(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -764,7 +757,7 @@ class ContactsStoreTest extends TestCase {
 		], $entry[0]->getEMailAddresses());
 	}
 
-	public function testGetContactsWithFilterWithoutFullMatch() {
+	public function testGetContactsWithFilterWithoutFullMatch(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -848,7 +841,7 @@ class ContactsStoreTest extends TestCase {
 		], $entry[0]->getEMailAddresses());
 	}
 
-	public function testFindOneUser() {
+	public function testFindOneUser(): void {
 		$this->config
 			->method('getAppValue')
 			->willReturnMap([
@@ -891,7 +884,7 @@ class ContactsStoreTest extends TestCase {
 		], $entry->getEMailAddresses());
 	}
 
-	public function testFindOneEMail() {
+	public function testFindOneEMail(): void {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
@@ -922,7 +915,7 @@ class ContactsStoreTest extends TestCase {
 		], $entry->getEMailAddresses());
 	}
 
-	public function testFindOneNotSupportedType() {
+	public function testFindOneNotSupportedType(): void {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 
@@ -931,7 +924,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertEquals(null, $entry);
 	}
 
-	public function testFindOneNoMatches() {
+	public function testFindOneNoMatches(): void {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())

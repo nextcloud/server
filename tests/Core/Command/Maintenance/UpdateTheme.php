@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -42,7 +43,7 @@ class UpdateThemeTest extends TestCase {
 		$this->command = new UpdateTheme($this->detector, $this->cacheFactory);
 	}
 
-	public function testThemeUpdate() {
+	public function testThemeUpdate(): void {
 		$this->consoleInput->method('getOption')
 			->with('maintenance:theme:update')
 			->willReturn(true);

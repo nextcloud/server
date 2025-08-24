@@ -11,15 +11,12 @@ namespace OCA\UserStatus\Tests\Controller;
 use OCA\UserStatus\Controller\PredefinedStatusController;
 use OCA\UserStatus\Service\PredefinedStatusService;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PredefinedStatusControllerTest extends TestCase {
-
-	/** @var PredefinedStatusService|\PHPUnit\Framework\MockObject\MockObject */
-	private $service;
-
-	/** @var PredefinedStatusController */
-	private $controller;
+	private PredefinedStatusService&MockObject $service;
+	private PredefinedStatusController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -27,11 +24,10 @@ class PredefinedStatusControllerTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 		$this->service = $this->createMock(PredefinedStatusService::class);
 
-		$this->controller = new PredefinedStatusController('user_status', $request,
-			$this->service);
+		$this->controller = new PredefinedStatusController('user_status', $request, $this->service);
 	}
 
-	public function testFindAll() {
+	public function testFindAll(): void {
 		$this->service->expects($this->once())
 			->method('getDefaultStatuses')
 			->with()

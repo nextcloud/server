@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,6 +11,8 @@ namespace Test\Files;
 use OC\Files\Storage\Local;
 use OC\Files\View;
 use OCP\Files\InvalidPathException;
+use OCP\IDBConnection;
+use OCP\Server;
 
 /**
  * Class PathVerificationTest
@@ -20,7 +23,7 @@ use OCP\Files\InvalidPathException;
  */
 class PathVerificationTest extends \Test\TestCase {
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	private $view;
 
@@ -30,43 +33,39 @@ class PathVerificationTest extends \Test\TestCase {
 	}
 
 
-	public function testPathVerificationFileNameTooLong() {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
-		$this->expectExceptionMessage('File name is too long');
+	public function testPathVerificationFileNameTooLong(): void {
+		$this->expectException(InvalidPathException::class);
+		$this->expectExceptionMessage('Filename is too long');
 
 		$fileName = str_repeat('a', 500);
 		$this->view->verifyPath('', $fileName);
 	}
 
 
-	/**
-	 * @dataProvider providesEmptyFiles
-	 */
-	public function testPathVerificationEmptyFileName($fileName) {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesEmptyFiles')]
+	public function testPathVerificationEmptyFileName($fileName): void {
+		$this->expectException(InvalidPathException::class);
 		$this->expectExceptionMessage('Empty filename is not allowed');
 
 		$this->view->verifyPath('', $fileName);
 	}
 
-	public function providesEmptyFiles() {
+	public static function providesEmptyFiles(): array {
 		return [
 			[''],
 			[' '],
 		];
 	}
 
-	/**
-	 * @dataProvider providesDotFiles
-	 */
-	public function testPathVerificationDotFiles($fileName) {
-		$this->expectException(\OCP\Files\InvalidPathException::class);
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesDotFiles')]
+	public function testPathVerificationDotFiles($fileName): void {
+		$this->expectException(InvalidPathException::class);
 		$this->expectExceptionMessage('Dot files are not allowed');
 
 		$this->view->verifyPath('', $fileName);
 	}
 
-	public function providesDotFiles() {
+	public static function providesDotFiles(): array {
 		return [
 			['.'],
 			['..'],
@@ -79,11 +78,9 @@ class PathVerificationTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesAstralPlane
-	 */
-	public function testPathVerificationAstralPlane($fileName) {
-		$connection = \OC::$server->getDatabaseConnection();
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesAstralPlane')]
+	public function testPathVerificationAstralPlane($fileName): void {
+		$connection = Server::get(IDBConnection::class);
 
 		if (!$connection->supports4ByteText()) {
 			$this->expectException(InvalidPathException::class);
@@ -95,7 +92,7 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->view->verifyPath('', $fileName);
 	}
 
-	public function providesAstralPlane() {
+	public static function providesAstralPlane(): array {
 		return [
 			// this is the monkey emoji - http://en.wikipedia.org/w/index.php?title=%F0%9F%90%B5&redirect=no
 			['🐵'],
@@ -106,61 +103,8 @@ class PathVerificationTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider providesInvalidCharsPosix
-	 */
-	public function testPathVerificationInvalidCharsPosix($fileName) {
-		$this->expectException(\OCP\Files\InvalidCharacterInPathException::class);
-
-		$storage = new Local(['datadir' => '']);
-
-		$fileName = " 123{$fileName}456 ";
-		self::invokePrivate($storage, 'verifyPosixPath', [$fileName]);
-	}
-
-	public function providesInvalidCharsPosix() {
-		return [
-			[\chr(0)],
-			[\chr(1)],
-			[\chr(2)],
-			[\chr(3)],
-			[\chr(4)],
-			[\chr(5)],
-			[\chr(6)],
-			[\chr(7)],
-			[\chr(8)],
-			[\chr(9)],
-			[\chr(10)],
-			[\chr(11)],
-			[\chr(12)],
-			[\chr(13)],
-			[\chr(14)],
-			[\chr(15)],
-			[\chr(16)],
-			[\chr(17)],
-			[\chr(18)],
-			[\chr(19)],
-			[\chr(20)],
-			[\chr(21)],
-			[\chr(22)],
-			[\chr(23)],
-			[\chr(24)],
-			[\chr(25)],
-			[\chr(26)],
-			[\chr(27)],
-			[\chr(28)],
-			[\chr(29)],
-			[\chr(30)],
-			[\chr(31)],
-			['/'],
-			['\\'],
-		];
-	}
-
-	/**
-	 * @dataProvider providesValidPosixPaths
-	 */
-	public function testPathVerificationValidPaths($fileName) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesValidPosixPaths')]
+	public function testPathVerificationValidPaths($fileName): void {
 		$storage = new Local(['datadir' => '']);
 
 		self::invokePrivate($storage, 'verifyPosixPath', [$fileName]);
@@ -168,7 +112,7 @@ class PathVerificationTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function providesValidPosixPaths() {
+	public static function providesValidPosixPaths(): array {
 		return [
 			['simple'],
 			['simple.txt'],

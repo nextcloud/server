@@ -43,7 +43,7 @@ class PgSqlTools {
 			return preg_match($filterExpression, $asset) !== false;
 		});
 
-		foreach ($conn->getSchemaManager()->listSequences() as $sequence) {
+		foreach ($conn->createSchemaManager()->listSequences() as $sequence) {
 			$sequenceName = $sequence->getName();
 			$sqlInfo = 'SELECT table_schema, table_name, column_name
 				FROM information_schema.columns

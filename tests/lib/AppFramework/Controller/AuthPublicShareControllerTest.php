@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -38,7 +39,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 				$this->request,
 				$this->session,
 				$this->urlGenerator
-			])->setMethods([
+			])->onlyMethods([
 				'authFailed',
 				'getPasswordHash',
 				'isAuthenticated',
@@ -51,20 +52,22 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 			])->getMock();
 	}
 
-	public function testShowAuthenticate() {
+	public function testShowAuthenticate(): void {
 		$expects = new TemplateResponse('core', 'publicshareauth', [], 'guest');
 
 		$this->assertEquals($expects, $this->controller->showAuthenticate());
 	}
 
-	public function testAuthenticateAuthenticated() {
+	public function testAuthenticateAuthenticated(): void {
 		$this->controller->method('isAuthenticated')
 			->willReturn(true);
 
 		$this->controller->setToken('myToken');
 
 		$this->session->method('get')
-			->willReturnMap(['public_link_authenticate_redirect', ['foo' => 'bar']]);
+			->willReturnMap([
+				['public_link_authenticate_redirect', json_encode(['foo' => 'bar'])],
+			]);
 
 		$this->urlGenerator->method('linkToRoute')
 			->willReturn('myLink!');
@@ -74,7 +77,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->assertSame('myLink!', $result->getRedirectURL());
 	}
 
-	public function testAuthenticateInvalidPassword() {
+	public function testAuthenticateInvalidPassword(): void {
 		$this->controller->setToken('token');
 		$this->controller->method('isPasswordProtected')
 			->willReturn(true);
@@ -94,7 +97,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $result);
 	}
 
-	public function testAuthenticateValidPassword() {
+	public function testAuthenticateValidPassword(): void {
 		$this->controller->setToken('token');
 		$this->controller->method('isPasswordProtected')
 			->willReturn(true);
@@ -107,7 +110,9 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('regenerateId');
 		$this->session->method('get')
-			->willReturnMap(['public_link_authenticate_redirect', ['foo' => 'bar']]);
+			->willReturnMap([
+				['public_link_authenticate_redirect', json_encode(['foo' => 'bar'])],
+			]);
 
 		$tokenSet = false;
 		$hashSet = false;

@@ -15,7 +15,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\GenericFileException;
-use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\FilesMetadata\AMetadataEvent;
 use OCP\FilesMetadata\Event\MetadataBackgroundEvent;
@@ -29,8 +28,6 @@ use OCP\Lock\LockedException;
  * @template-implements IEventListener<AMetadataEvent>
  */
 class GenerateBlurhashMetadata implements IEventListener {
-	private const RESIZE_BOXSIZE = 300;
-
 	private const COMPONENTS_X = 4;
 	private const COMPONENTS_Y = 3;
 
@@ -67,54 +64,24 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
-		$image = false;
-		try {
-			// using preview image to generate the blurhash
-			$preview = $this->preview->getPreview($file, 256, 256);
-			$image = @imagecreatefromstring($preview->getContent());
-		} catch (NotFoundException $e) {
-			// https://github.com/nextcloud/server/blob/9d70fd3e64b60a316a03fb2b237891380c310c58/lib/private/legacy/OC_Image.php#L668
-			// The preview system can fail on huge picture, in that case we use our own image resizer.
-			if (str_starts_with($file->getMimetype(), 'image/')) {
-				$image = $this->resizedImageFromFile($file);
-			}
+		if (!str_starts_with($file->getMimetype(), 'image/')) {
+			return;
 		}
 
-		if ($image === false) {
+		// Preview are disabled, so we skip generating the blurhash.
+		if (!$this->preview->isAvailable($file)) {
+			return;
+		}
+
+		$preview = $this->preview->getPreview($file, 64, 64, cacheResult: false);
+		$image = @imagecreatefromstring($preview->getContent());
+
+		if (!$image) {
 			return;
 		}
 
 		$metadata->setString('blurhash', $this->generateBlurHash($image))
-				 ->setEtag('blurhash', $currentEtag);
-	}
-
-	/**
-	 * @param File $file
-	 *
-	 * @return GdImage|false
-	 * @throws GenericFileException
-	 * @throws NotPermittedException
-	 * @throws LockedException
-	 */
-	private function resizedImageFromFile(File $file): GdImage|false {
-		$image = @imagecreatefromstring($file->getContent());
-		if ($image === false) {
-			return false;
-		}
-
-		$currX = imagesx($image);
-		$currY = imagesy($image);
-
-		if ($currX > $currY) {
-			$newX = self::RESIZE_BOXSIZE;
-			$newY = intval($currY * $newX / $currX);
-		} else {
-			$newY = self::RESIZE_BOXSIZE;
-			$newX = intval($currX * $newY / $currY);
-		}
-
-		$newImage = imagescale($image, $newX, $newY);
-		return ($newImage !== false) ? $newImage : $image;
+			->setEtag('blurhash', $currentEtag);
 	}
 
 	/**

@@ -69,8 +69,8 @@ import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import { commonAppDiscoverProps } from './common.ts'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue.ts'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import PostType from './PostType.vue'
 
 export default defineComponent({
@@ -165,10 +165,10 @@ h3 {
 
 		// See padding of discover section
 		&--next {
-			right: -54px;
+			inset-inline-end: -54px;
 		}
 		&--previous {
-			left: -54px;
+			inset-inline-start: -54px;
 		}
 	}
 

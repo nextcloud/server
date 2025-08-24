@@ -147,7 +147,7 @@
 			for (const i in this.shareAttributes) {
 				const attr = this.shareAttributes[i]
 				if (attr.scope === 'permissions' && attr.key === 'download') {
-					return attr.enabled
+					return attr.value === true
 				}
 			}
 

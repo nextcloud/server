@@ -31,7 +31,7 @@ class Listener {
 	public function commentEvent(CommentsEvent $event): void {
 		if ($event->getComment()->getObjectType() !== 'files'
 			|| $event->getEvent() !== CommentsEvent::EVENT_ADD
-			|| !$this->appManager->isInstalled('activity')) {
+			|| !$this->appManager->isEnabledForAnyone('activity')) {
 			// Comment not for file, not adding a comment or no activity-app enabled (save the energy)
 			return;
 		}
@@ -67,7 +67,7 @@ class Listener {
 		$activity->setApp('comments')
 			->setType('comments')
 			->setAuthor($actor)
-			->setObject($event->getComment()->getObjectType(), (int) $event->getComment()->getObjectId())
+			->setObject($event->getComment()->getObjectType(), (int)$event->getComment()->getObjectId())
 			->setMessage('add_comment_message', [
 				'commentId' => $event->getComment()->getId(),
 			]);
@@ -79,7 +79,7 @@ class Listener {
 
 			$activity->setSubject('add_comment_subject', [
 				'actor' => $actor,
-				'fileId' => (int) $event->getComment()->getObjectId(),
+				'fileId' => (int)$event->getComment()->getObjectId(),
 				'filePath' => trim($path, '/'),
 			]);
 			$this->activityManager->publish($activity);

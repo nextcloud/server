@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,15 +11,13 @@ use OCA\Theming\AppInfo\Application;
 use OCA\Theming\Settings\AdminSection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminSectionTest extends TestCase {
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $url;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l;
-	/** @var AdminSection */
-	private $section;
+	private IURLGenerator&MockObject $url;
+	private IL10N&MockObject $l;
+	private AdminSection $section;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -31,11 +31,11 @@ class AdminSectionTest extends TestCase {
 		);
 	}
 
-	public function testGetID() {
+	public function testGetID(): void {
 		$this->assertSame('theming', $this->section->getID());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->l
 			->expects($this->once())
 			->method('t')
@@ -45,11 +45,11 @@ class AdminSectionTest extends TestCase {
 		$this->assertSame('Theming', $this->section->getName());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(30, $this->section->getPriority());
 	}
 
-	public function testGetIcon() {
+	public function testGetIcon(): void {
 		$this->url->expects($this->once())
 			->method('imagePath')
 			->with('theming', 'app-dark.svg')

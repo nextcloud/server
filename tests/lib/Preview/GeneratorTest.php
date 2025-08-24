@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,28 +16,32 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
+use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
+use Psr\Log\LoggerInterface;
 
 class GeneratorTest extends \Test\TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig&\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IPreview&\PHPUnit\Framework\MockObject\MockObject */
 	private $previewManager;
 
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAppData&\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
 
-	/** @var GeneratorHelper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var GeneratorHelper&\PHPUnit\Framework\MockObject\MockObject */
 	private $helper;
 
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher&\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
 
 	/** @var Generator */
 	private $generator;
+
+	private LoggerInterface&\PHPUnit\Framework\MockObject\MockObject $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,17 +51,19 @@ class GeneratorTest extends \Test\TestCase {
 		$this->appData = $this->createMock(IAppData::class);
 		$this->helper = $this->createMock(GeneratorHelper::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->generator = new Generator(
 			$this->config,
 			$this->previewManager,
 			$this->appData,
 			$this->helper,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->logger,
 		);
 	}
 
-	public function testGetCachedPreview() {
+	public function testGetCachedPreview(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -90,13 +97,13 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
 	}
 
-	public function testGetNewPreview() {
+	public function testGetNewPreview(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -161,7 +168,7 @@ class GeneratorTest extends \Test\TestCase {
 				$this->fail('Unexpected provider requested');
 			});
 
-		$image = $this->createMock(\OC_Image::class);
+		$image = $this->createMock(IImage::class);
 		$image->method('width')->willReturn(2048);
 		$image->method('height')->willReturn(2048);
 		$image->method('valid')->willReturn(true);
@@ -190,18 +197,10 @@ class GeneratorTest extends \Test\TestCase {
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([]);
 		$previewFolder->method('newFile')
-			->willReturnCallback(function ($filename) use ($maxPreview, $previewFile) {
-				if ($filename === '2048-2048-max.png') {
-					return $maxPreview;
-				} elseif ($filename === '256-256.png') {
-					return $previewFile;
-				}
-				$this->fail('Unexpected file');
-			});
-
-		$maxPreview->expects($this->once())
-			->method('putContent')
-			->with($this->equalTo('my data'));
+			->willReturnMap([
+				['2048-2048-max.png', 'my data', $maxPreview],
+				['256-256.png', 'my resized data', $previewFile],
+			]);
 
 		$previewFolder->method('getFile')
 			->with($this->equalTo('256-256.png'))
@@ -212,19 +211,15 @@ class GeneratorTest extends \Test\TestCase {
 			->with($this->equalTo($maxPreview))
 			->willReturn($image);
 
-		$previewFile->expects($this->once())
-			->method('putContent')
-			->with('my resized data');
-
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
 		$result = $this->generator->getPreview($file, 100, 100);
 		$this->assertSame($previewFile, $result);
 	}
 
-	public function testInvalidMimeType() {
+	public function testInvalidMimeType(): void {
 		$this->expectException(NotFoundException::class);
 
 		$file = $this->createMock(File::class);
@@ -257,12 +252,12 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER));
+			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType'));
 
 		$this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 	}
 
-	public function testReturnCachedPreviewsWithoutCheckingSupportedMimetype() {
+	public function testReturnCachedPreviewsWithoutCheckingSupportedMimetype(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -294,13 +289,13 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER));
+			->with(new BeforePreviewFetchedEvent($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType'));
 
 		$result = $this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 		$this->assertSame($preview, $result);
 	}
 
-	public function testNoProvider() {
+	public function testNoProvider(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -322,14 +317,14 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
 		$this->expectException(NotFoundException::class);
 		$this->generator->getPreview($file, 100, 100);
 	}
 
 	private function getMockImage($width, $height, $data = null) {
-		$image = $this->createMock(\OC_Image::class);
+		$image = $this->createMock(IImage::class);
 		$image->method('height')->willReturn($width);
 		$image->method('width')->willReturn($height);
 		$image->method('valid')->willReturn(true);
@@ -349,7 +344,7 @@ class GeneratorTest extends \Test\TestCase {
 		return $image;
 	}
 
-	public function dataSize() {
+	public static function dataSize(): array {
 		return [
 			[1024, 2048, 512, 512, false, IPreview::MODE_FILL, 256, 512],
 			[1024, 2048, 512, 512, false, IPreview::MODE_COVER, 512, 1024],
@@ -386,7 +381,6 @@ class GeneratorTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSize
 	 *
 	 * @param int $maxX
 	 * @param int $maxY
@@ -397,7 +391,8 @@ class GeneratorTest extends \Test\TestCase {
 	 * @param int $expectedX
 	 * @param int $expectedY
 	 */
-	public function testCorrectSize($maxX, $maxY, $reqX, $reqY, $crop, $mode, $expectedX, $expectedY) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSize')]
+	public function testCorrectSize($maxX, $maxY, $reqX, $reqY, $crop, $mode, $expectedX, $expectedY): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -447,7 +442,7 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new BeforePreviewFetchedEvent($file, $reqX, $reqY, $crop, $mode));
+			->with(new BeforePreviewFetchedEvent($file, $reqX, $reqY, $crop, $mode, null));
 
 		$result = $this->generator->getPreview($file, $reqX, $reqY, $crop, $mode);
 		if ($expectedX === $maxX && $expectedY === $maxY) {
@@ -457,7 +452,7 @@ class GeneratorTest extends \Test\TestCase {
 		}
 	}
 
-	public function testUnreadbleFile() {
+	public function testUnreadbleFile(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(false);

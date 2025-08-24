@@ -21,16 +21,16 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 		private CalDavBackend $calDavBackend,
 		private LoggerInterface $logger,
 		private IJobList $jobList,
-		ITimeFactory $timeFactory
+		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($timeFactory);
 	}
 
 	public function run($arguments) {
-		$offset = (int) $arguments['offset'];
-		$stopAt = (int) $arguments['stopAt'];
+		$offset = (int)$arguments['offset'];
+		$stopAt = (int)$arguments['stopAt'];
 
-		$this->logger->info('Building calendar index (' . $offset .'/' . $stopAt . ')');
+		$this->logger->info('Building calendar index (' . $offset . '/' . $stopAt . ')');
 
 		$startTime = $this->time->getTime();
 		while (($this->time->getTime() - $startTime) < 15) {

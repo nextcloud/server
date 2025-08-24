@@ -11,15 +11,12 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Migration;
 use OCA\TwoFactorBackupCodes\Migration\CheckBackupCodes;
 use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
+use PHPunit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CheckBackupCodeTest extends TestCase {
-
-	/** @var IJobList|\PHPunit\Framework\MockObject\MockObject */
-	private $jobList;
-
-	/** @var CheckBackupCodes */
-	private $checkBackupsCodes;
+	private IJobList&MockObject $jobList;
+	private CheckBackupCodes $checkBackupsCodes;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -28,11 +25,11 @@ class CheckBackupCodeTest extends TestCase {
 		$this->checkBackupsCodes = new CheckBackupCodes($this->jobList);
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('Add background job to check for backup codes', $this->checkBackupsCodes->getName());
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$this->jobList->expects($this->once())
 			->method('add')
 			->with(

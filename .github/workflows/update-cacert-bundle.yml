@@ -7,6 +7,9 @@ on:
   schedule:
     - cron: "5 2 * * *"
 
+permissions:
+  contents: read
+
 jobs:
   update-ca-certificate-bundle:
     runs-on: ubuntu-latest
@@ -14,13 +17,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable29",  "stable28",  "stable27", "stable26", "stable25", "stable24", "stable23", "stable22"]
+        branches: ['master', 'stable31', 'stable30', 'stable29',  'stable28',  'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
 
     name: update-ca-certificate-bundle-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
+          persist-credentials: false
           ref: ${{ matrix.branches }}
           submodules: true
 
@@ -28,15 +32,15 @@ jobs:
         run: curl --etag-compare build/ca-bundle-etag.txt --etag-save build/ca-bundle-etag.txt --output resources/config/ca-bundle.crt https://curl.se/ca/cacert.pem
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@6d6857d36972b65feb161a90e484f2984215f83e
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: "fix(security): Update CA certificate bundle"
+          commit-message: 'fix(security): Update CA certificate bundle'
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
-          branch: automated/noid/${{ matrix.branches }}-update-ca-cert-bundle
-          title: "[${{ matrix.branches }}] fix(security): Update CA certificate bundle"
+          branch: 'automated/noid/${{ matrix.branches }}-update-ca-cert-bundle'
+          title: '[${{ matrix.branches }}] fix(security): Update CA certificate bundle'
           body: |
             Auto-generated update of CA certificate bundle from [https://curl.se/docs/caextract.html](https://curl.se/docs/caextract.html)
           labels: |

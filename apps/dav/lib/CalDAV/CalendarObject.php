@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,9 +14,6 @@ use Sabre\VObject\Reader;
 
 class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 
-	/** @var IL10N */
-	protected $l10n;
-
 	/**
 	 * CalendarObject constructor.
 	 *
@@ -24,16 +22,17 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	 * @param array $calendarInfo
 	 * @param array $objectData
 	 */
-	public function __construct(CalDavBackend $caldavBackend, IL10N $l10n,
+	public function __construct(
+		CalDavBackend $caldavBackend,
+		protected IL10N $l10n,
 		array $calendarInfo,
-		array $objectData) {
+		array $objectData,
+	) {
 		parent::__construct($caldavBackend, $calendarInfo, $objectData);
 
 		if ($this->isShared()) {
 			unset($this->objectData['size']);
 		}
-
-		$this->l10n = $l10n;
 	}
 
 	/**
@@ -62,7 +61,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	}
 
 	public function getId(): int {
-		return (int) $this->objectData['id'];
+		return (int)$this->objectData['id'];
 	}
 
 	protected function isShared() {

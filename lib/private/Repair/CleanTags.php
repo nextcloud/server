@@ -19,11 +19,6 @@ use OCP\Migration\IRepairStep;
  * @package OC\Repair
  */
 class CleanTags implements IRepairStep {
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var IUserManager */
-	protected $userManager;
 
 	protected $deletedTags = 0;
 
@@ -31,9 +26,10 @@ class CleanTags implements IRepairStep {
 	 * @param IDBConnection $connection
 	 * @param IUserManager $userManager
 	 */
-	public function __construct(IDBConnection $connection, IUserManager $userManager) {
-		$this->connection = $connection;
-		$this->userManager = $userManager;
+	public function __construct(
+		protected IDBConnection $connection,
+		protected IUserManager $userManager,
+	) {
 	}
 
 	/**
@@ -73,7 +69,7 @@ class CleanTags implements IRepairStep {
 			->orderBy('uid')
 			->setMaxResults(50)
 			->setFirstResult($offset);
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$users = [];
 		$hadResults = false;
@@ -94,7 +90,7 @@ class CleanTags implements IRepairStep {
 			$query = $this->connection->getQueryBuilder();
 			$query->delete('vcategory')
 				->where($query->expr()->in('uid', $query->createNamedParameter($users, IQueryBuilder::PARAM_STR_ARRAY)));
-			$this->deletedTags += $query->execute();
+			$this->deletedTags += $query->executeStatement();
 		}
 		return true;
 	}
@@ -107,7 +103,7 @@ class CleanTags implements IRepairStep {
 			$output,
 			'%d tags for delete files have been removed.',
 			'vcategory_to_object', 'objid',
-			'filecache', 'fileid', 'path_hash'
+			'filecache', 'fileid', 'fileid'
 		);
 	}
 
@@ -147,8 +143,8 @@ class CleanTags implements IRepairStep {
 	 * @param string $deleteId
 	 * @param string $sourceTable
 	 * @param string $sourceId
-	 * @param string $sourceNullColumn	If this column is null in the source table,
-	 * 								the entry is deleted in the $deleteTable
+	 * @param string $sourceNullColumn If this column is null in the source table,
+	 *                                 the entry is deleted in the $deleteTable
 	 */
 	protected function deleteOrphanEntries(IOutput $output, $repairInfo, $deleteTable, $deleteId, $sourceTable, $sourceId, $sourceNullColumn) {
 		$qb = $this->connection->getQueryBuilder();
@@ -162,23 +158,24 @@ class CleanTags implements IRepairStep {
 			->andWhere(
 				$qb->expr()->isNull('s.' . $sourceNullColumn)
 			);
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 
 		$orphanItems = [];
 		while ($row = $result->fetch()) {
-			$orphanItems[] = (int) $row[$deleteId];
+			$orphanItems[] = (int)$row[$deleteId];
 		}
 
+		$deleteQuery = $this->connection->getQueryBuilder();
+		$deleteQuery->delete($deleteTable)
+			->where(
+				$deleteQuery->expr()->eq('type', $deleteQuery->expr()->literal('files'))
+			)
+			->andWhere($deleteQuery->expr()->in($deleteId, $deleteQuery->createParameter('ids')));
 		if (!empty($orphanItems)) {
 			$orphanItemsBatch = array_chunk($orphanItems, 200);
 			foreach ($orphanItemsBatch as $items) {
-				$qb->delete($deleteTable)
-					->where(
-						$qb->expr()->eq('type', $qb->expr()->literal('files'))
-					)
-					->andWhere($qb->expr()->in($deleteId, $qb->createParameter('ids')));
-				$qb->setParameter('ids', $items, IQueryBuilder::PARAM_INT_ARRAY);
-				$qb->execute();
+				$deleteQuery->setParameter('ids', $items, IQueryBuilder::PARAM_INT_ARRAY);
+				$deleteQuery->executeStatement();
 			}
 		}
 

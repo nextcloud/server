@@ -1,9 +1,12 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
@@ -34,7 +37,7 @@ trait Provisioning {
 			$this->userExists($user);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
+			$this->currentUser = 'admin';
 			$this->creatingTheUser($user);
 			$this->currentUser = $previous_user;
 		}
@@ -51,7 +54,7 @@ trait Provisioning {
 			$this->userExists($user);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
+			$this->currentUser = 'admin';
 			$this->creatingTheUser($user, $displayname);
 			$this->currentUser = $previous_user;
 		}
@@ -72,7 +75,7 @@ trait Provisioning {
 			return;
 		}
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheUser($user);
 		$this->currentUser = $previous_user;
 		try {
@@ -124,7 +127,7 @@ trait Provisioning {
 	 * @Then /^user "([^"]*)" has$/
 	 *
 	 * @param string $user
-	 * @param \Behat\Gherkin\Node\TableNode|null $settings
+	 * @param TableNode|null $settings
 	 */
 	public function userHasSetting($user, $settings) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
@@ -145,12 +148,43 @@ trait Provisioning {
 			if (isset($value['element']) && in_array($setting[0], ['additional_mail', 'additional_mailScope'], true)) {
 				$expectedValues = explode(';', $setting[1]);
 				foreach ($expectedValues as $expected) {
-					Assert::assertTrue(in_array($expected, $value['element'], true));
+					Assert::assertTrue(in_array($expected, $value['element'], true), 'Data wrong for field: ' . $setting[0]);
 				}
 			} elseif (isset($value[0])) {
-				Assert::assertEqualsCanonicalizing($setting[1], $value[0]);
+				Assert::assertEqualsCanonicalizing($setting[1], $value[0], 'Data wrong for field: ' . $setting[0]);
 			} else {
-				Assert::assertEquals('', $setting[1]);
+				Assert::assertEquals('', $setting[1], 'Data wrong for field: ' . $setting[0]);
+			}
+		}
+	}
+
+	/**
+	 * @Then /^user "([^"]*)" has the following profile data$/
+	 */
+	public function userHasProfileData(string $user, ?TableNode $settings): void {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/profile/$user";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		} else {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
+		}
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+			'Accept' => 'application/json',
+		];
+
+		$response = $client->get($fullUrl, $options);
+		$body = $response->getBody()->getContents();
+		$data = json_decode($body, true);
+		$data = $data['ocs']['data'];
+		foreach ($settings->getRows() as $setting) {
+			Assert::assertArrayHasKey($setting[0], $data, 'Profile data field missing: ' . $setting[0]);
+			if ($setting[1] === 'NULL') {
+				Assert::assertNull($data[$setting[0]], 'Profile data wrong for field: ' . $setting[0]);
+			} else {
+				Assert::assertEquals($setting[1], $data[$setting[0]], 'Profile data wrong for field: ' . $setting[0]);
 			}
 		}
 	}
@@ -159,7 +193,7 @@ trait Provisioning {
 	 * @Then /^group "([^"]*)" has$/
 	 *
 	 * @param string $user
-	 * @param \Behat\Gherkin\Node\TableNode|null $settings
+	 * @param TableNode|null $settings
 	 */
 	public function groupHasSetting($group, $settings) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/details?search=$group";
@@ -191,7 +225,7 @@ trait Provisioning {
 	 * @Then /^user "([^"]*)" has editable fields$/
 	 *
 	 * @param string $user
-	 * @param \Behat\Gherkin\Node\TableNode|null $fields
+	 * @param TableNode|null $fields
 	 */
 	public function userHasEditableFields($user, $fields) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/user/fields";
@@ -221,9 +255,9 @@ trait Provisioning {
 	 * @Then /^search users by phone for region "([^"]*)" with$/
 	 *
 	 * @param string $user
-	 * @param \Behat\Gherkin\Node\TableNode|null $settings
+	 * @param TableNode|null $settings
 	 */
-	public function searchUserByPhone($region, \Behat\Gherkin\Node\TableNode $searchTable) {
+	public function searchUserByPhone($region, TableNode $searchTable) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/search/by-phone";
 		$client = new Client();
 		$options = [];
@@ -250,7 +284,7 @@ trait Provisioning {
 
 	public function createUser($user) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->creatingTheUser($user);
 		$this->userExists($user);
 		$this->currentUser = $previous_user;
@@ -258,7 +292,7 @@ trait Provisioning {
 
 	public function deleteUser($user) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheUser($user);
 		$this->userDoesNotExist($user);
 		$this->currentUser = $previous_user;
@@ -266,7 +300,7 @@ trait Provisioning {
 
 	public function createGroup($group) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->creatingTheGroup($group);
 		$this->groupExists($group);
 		$this->currentUser = $previous_user;
@@ -274,7 +308,7 @@ trait Provisioning {
 
 	public function deleteGroup($group) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheGroup($group);
 		$this->groupDoesNotExist($group);
 		$this->currentUser = $previous_user;
@@ -343,7 +377,7 @@ trait Provisioning {
 	 */
 	public function assureUserBelongsToGroup($user, $group) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 
 		if (!$this->userBelongsToGroup($user, $group)) {
 			$this->addingUserToGroup($user, $group);
@@ -522,7 +556,7 @@ trait Provisioning {
 			$this->groupExists($group);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
+			$this->currentUser = 'admin';
 			$this->creatingTheGroup($group);
 			$this->currentUser = $previous_user;
 		}
@@ -543,7 +577,7 @@ trait Provisioning {
 			return;
 		}
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheGroup($group);
 		$this->currentUser = $previous_user;
 		try {
@@ -624,10 +658,10 @@ trait Provisioning {
 
 	/**
 	 * @Then /^users returned are$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $usersList
+	 * @param TableNode|null $usersList
 	 */
 	public function theUsersShouldBe($usersList) {
-		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($usersList instanceof TableNode) {
 			$users = $usersList->getRows();
 			$usersSimplified = $this->simplifyArray($users);
 			$respondedArray = $this->getArrayOfUsersResponded($this->response);
@@ -637,10 +671,10 @@ trait Provisioning {
 
 	/**
 	 * @Then /^phone matches returned are$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $usersList
+	 * @param TableNode|null $usersList
 	 */
 	public function thePhoneUsersShouldBe($usersList) {
-		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($usersList instanceof TableNode) {
 			$users = $usersList->getRowsHash();
 			$listCheckedElements = simplexml_load_string($this->response->getBody())->data;
 			$respondedArray = json_decode(json_encode($listCheckedElements), true);
@@ -650,10 +684,10 @@ trait Provisioning {
 
 	/**
 	 * @Then /^detailed users returned are$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $usersList
+	 * @param TableNode|null $usersList
 	 */
 	public function theDetailedUsersShouldBe($usersList) {
-		if ($usersList instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($usersList instanceof TableNode) {
 			$users = $usersList->getRows();
 			$usersSimplified = $this->simplifyArray($users);
 			$respondedArray = $this->getArrayOfDetailedUsersResponded($this->response);
@@ -664,10 +698,10 @@ trait Provisioning {
 
 	/**
 	 * @Then /^groups returned are$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $groupsList
+	 * @param TableNode|null $groupsList
 	 */
 	public function theGroupsShouldBe($groupsList) {
-		if ($groupsList instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($groupsList instanceof TableNode) {
 			$groups = $groupsList->getRows();
 			$groupsSimplified = $this->simplifyArray($groups);
 			$respondedArray = $this->getArrayOfGroupsResponded($this->response);
@@ -677,10 +711,10 @@ trait Provisioning {
 
 	/**
 	 * @Then /^subadmin groups returned are$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $groupsList
+	 * @param TableNode|null $groupsList
 	 */
 	public function theSubadminGroupsShouldBe($groupsList) {
-		if ($groupsList instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($groupsList instanceof TableNode) {
 			$groups = $groupsList->getRows();
 			$groupsSimplified = $this->simplifyArray($groups);
 			$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
@@ -690,10 +724,10 @@ trait Provisioning {
 
 	/**
 	 * @Then /^apps returned are$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $appList
+	 * @param TableNode|null $appList
 	 */
 	public function theAppsShouldBe($appList) {
-		if ($appList instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($appList instanceof TableNode) {
 			$apps = $appList->getRows();
 			$appsSimplified = $this->simplifyArray($apps);
 			$respondedArray = $this->getArrayOfAppsResponded($this->response);
@@ -703,7 +737,7 @@ trait Provisioning {
 
 	/**
 	 * @Then /^subadmin users returned are$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $groupsList
+	 * @param TableNode|null $groupsList
 	 */
 	public function theSubadminUsersShouldBe($groupsList) {
 		$this->theSubadminGroupsShouldBe($groupsList);
@@ -775,7 +809,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsDisabled($app) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=disabled";
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=disabled';
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -796,7 +830,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsEnabled($app) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=enabled";
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=enabled';
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -820,7 +854,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsNotEnabled($app) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=enabled";
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=enabled';
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -873,7 +907,7 @@ trait Provisioning {
 
 		$this->response = $client->get($fullUrl, $options);
 		// boolean to string is integer
-		Assert::assertEquals("1", simplexml_load_string($this->response->getBody())->data[0]->enabled);
+		Assert::assertEquals('1', simplexml_load_string($this->response->getBody())->data[0]->enabled);
 	}
 
 	/**
@@ -882,13 +916,13 @@ trait Provisioning {
 	 * @param string $quota
 	 */
 	public function userHasAQuotaOf($user, $quota) {
-		$body = new \Behat\Gherkin\Node\TableNode([
+		$body = new TableNode([
 			0 => ['key', 'quota'],
 			1 => ['value', $quota],
 		]);
 
 		// method used from BasicStructure trait
-		$this->sendingToWith("PUT", "/cloud/users/" . $user, $body);
+		$this->sendingToWith('PUT', '/cloud/users/' . $user, $body);
 	}
 
 	/**
@@ -950,7 +984,7 @@ trait Provisioning {
 	/**
 	 * @Then /^user "([^"]*)" has not$/
 	 */
-	public function userHasNotSetting($user, \Behat\Gherkin\Node\TableNode $settings) {
+	public function userHasNotSetting($user, TableNode $settings) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
 		$client = new Client();
 		$options = [];

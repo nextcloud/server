@@ -74,7 +74,7 @@ class DatabasePendingBigIntConversions implements ISetupCheck {
 			}
 			$list .= "\n";
 			return SetupResult::info(
-				$this->l10n->t('Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running "occ db:convert-filecache-bigint" those pending changes could be applied manually. This operation needs to be made while the instance is offline.').$list,
+				$this->l10n->t('Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running "occ db:convert-filecache-bigint" those pending changes could be applied manually. This operation needs to be made while the instance is offline.') . $list,
 				$this->urlGenerator->linkToDocs('admin-bigint-conversion')
 			);
 		}

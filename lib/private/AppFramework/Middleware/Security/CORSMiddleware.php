@@ -21,6 +21,7 @@ use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
+use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 /**
@@ -30,7 +31,7 @@ use ReflectionMethod;
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
  */
 class CORSMiddleware extends Middleware {
-	/** @var IRequest  */
+	/** @var IRequest */
 	private $request;
 	/** @var ControllerMethodReflector */
 	private $reflector;
@@ -39,10 +40,13 @@ class CORSMiddleware extends Middleware {
 	/** @var IThrottler */
 	private $throttler;
 
-	public function __construct(IRequest $request,
+	public function __construct(
+		IRequest $request,
 		ControllerMethodReflector $reflector,
 		Session $session,
-		IThrottler $throttler) {
+		IThrottler $throttler,
+		private readonly LoggerInterface $logger,
+	) {
 		$this->request = $request;
 		$this->reflector = $reflector;
 		$this->session = $session;
@@ -64,8 +68,8 @@ class CORSMiddleware extends Middleware {
 
 		// ensure that @CORS annotated API routes are not used in conjunction
 		// with session authentication since this enables CSRF attack vectors
-		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class) &&
-			(!$this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn())) {
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'CORS', CORS::class)
+			&& (!$this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class) || $this->session->isLoggedIn())) {
 			$user = array_key_exists('PHP_AUTH_USER', $this->request->server) ? $this->request->server['PHP_AUTH_USER'] : null;
 			$pass = array_key_exists('PHP_AUTH_PW', $this->request->server) ? $this->request->server['PHP_AUTH_PW'] : null;
 
@@ -98,6 +102,7 @@ class CORSMiddleware extends Middleware {
 	 */
 	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, string $annotationName, string $attributeClass): bool {
 		if ($this->reflector->hasAnnotation($annotationName)) {
+			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
 			return true;
 		}
 
@@ -129,10 +134,10 @@ class CORSMiddleware extends Middleware {
 				// allow credentials headers must not be true or CSRF is possible
 				// otherwise
 				foreach ($response->getHeaders() as $header => $value) {
-					if (strtolower($header) === 'access-control-allow-credentials' &&
-					   strtolower(trim($value)) === 'true') {
-						$msg = 'Access-Control-Allow-Credentials must not be '.
-							   'set to true in order to prevent CSRF';
+					if (strtolower($header) === 'access-control-allow-credentials'
+					   && strtolower(trim($value)) === 'true') {
+						$msg = 'Access-Control-Allow-Credentials must not be '
+							   . 'set to true in order to prevent CSRF';
 						throw new SecurityException($msg);
 					}
 				}

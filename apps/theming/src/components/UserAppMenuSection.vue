@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import type { IApp } from './AppOrderSelector.vue'
+import type { INavigationEntry } from '../../../../core/src/types/navigation.d.ts'
 
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
@@ -43,29 +44,9 @@ import { computed, defineComponent, ref } from 'vue'
 import axios from '@nextcloud/axios'
 import AppOrderSelector from './AppOrderSelector.vue'
 import IconUndo from 'vue-material-design-icons/Undo.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-
-/** See NavigationManager */
-interface INavigationEntry {
-	/** Navigation id */
-	id: string
-	/** Order where this entry should be shown */
-	order: number
-	/** Target of the navigation entry */
-	href: string
-	/** The icon used for the naviation entry */
-	icon: string
-	/** Type of the navigation entry ('link' vs 'settings') */
-	type: 'link' | 'settings'
-	/** Localized name of the navigation entry */
-	name: string
-	/** Whether this is the default app */
-	default?: boolean
-	/** App that registered this navigation entry (not necessarly the same as the id) */
-	app?: string
-}
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 
 /** The app order user setting */
 type IAppOrder = Record<string, { order: number, app?: string }>
@@ -98,9 +79,9 @@ export default defineComponent({
 		/**
 		 * Array of all available apps, it is set by a core controller for the app menu, so it is always available
 		 */
-		 const initialAppOrder = Object.values(loadState<Record<string, INavigationEntry>>('core', 'apps'))
+		 const initialAppOrder = loadState<INavigationEntry[]>('core', 'apps')
 			.filter(({ type }) => type === 'link')
-			.map((app) => ({ ...app, label: app.name, default: app.default && app.app === enforcedDefaultApp }))
+			.map((app) => ({ ...app, label: app.name, default: app.default && app.id === enforcedDefaultApp }))
 
 		/**
 		 * Check if a custom app order is used or the default is shown

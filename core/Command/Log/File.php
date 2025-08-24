@@ -8,6 +8,7 @@
 namespace OC\Core\Command\Log;
 
 use OCP\IConfig;
+use OCP\Util;
 
 use Stecman\Component\Symfony\Console\BashCompletion\Completion;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\ShellPathCompletion;
@@ -61,7 +62,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		}
 
 		if (($rotateSize = $input->getOption('rotate-size')) !== null) {
-			$rotateSize = \OCP\Util::computerFileSize($rotateSize);
+			$rotateSize = Util::computerFileSize($rotateSize);
 			$this->validateRotateSize($rotateSize);
 			$toBeSet['log_rotate_size'] = $rotateSize;
 		}
@@ -79,19 +80,19 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		} else {
 			$enabledText = 'disabled';
 		}
-		$output->writeln('Log backend file: '.$enabledText);
+		$output->writeln('Log backend file: ' . $enabledText);
 
-		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
-		$defaultLogFile = rtrim($dataDir, '/').'/nextcloud.log';
-		$output->writeln('Log file: '.$this->config->getSystemValue('logfile', $defaultLogFile));
+		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
+		$defaultLogFile = rtrim($dataDir, '/') . '/nextcloud.log';
+		$output->writeln('Log file: ' . $this->config->getSystemValue('logfile', $defaultLogFile));
 
 		$rotateSize = $this->config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
 		if ($rotateSize) {
-			$rotateString = \OCP\Util::humanFileSize($rotateSize);
+			$rotateString = Util::humanFileSize($rotateSize);
 		} else {
 			$rotateString = 'disabled';
 		}
-		$output->writeln('Rotate at: '.$rotateString);
+		$output->writeln('Rotate at: ' . $rotateString);
 		return 0;
 	}
 

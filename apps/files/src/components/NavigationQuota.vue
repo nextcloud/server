@@ -4,7 +4,7 @@
  -->
 <template>
 	<NcAppNavigationItem v-if="storageStats"
-		:aria-label="t('files', 'Storage informations')"
+		:aria-description="t('files', 'Storage information')"
 		:class="{ 'app-navigation-entry__settings-quota--not-unlimited': storageStats.quota >= 0}"
 		:loading="loadingStorageStats"
 		:name="storageStatsTitle"
@@ -17,6 +17,7 @@
 		<!-- Progress bar -->
 		<NcProgressBar v-if="storageStats.quota >= 0"
 			slot="extra"
+			:aria-label="t('files', 'Storage quota')"
 			:error="storageStats.relative > 80"
 			:value="Math.min(storageStats.relative, 100)" />
 	</NcAppNavigationItem>
@@ -32,11 +33,11 @@ import { subscribe } from '@nextcloud/event-bus'
 import { translate } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
-import ChartPie from 'vue-material-design-icons/ChartPie.vue'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
+import ChartPie from 'vue-material-design-icons/ChartPieOutline.vue'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export default {
 	name: 'NavigationQuota',
@@ -57,7 +58,7 @@ export default {
 	computed: {
 		storageStatsTitle() {
 			const usedQuotaByte = formatFileSize(this.storageStats?.used, false, false)
-			const quotaByte = formatFileSize(this.storageStats?.quota, false, false)
+			const quotaByte = formatFileSize(this.storageStats?.total, false, false)
 
 			// If no quota set
 			if (this.storageStats?.quota < 0) {
@@ -94,15 +95,15 @@ export default {
 	mounted() {
 		// If the user has a quota set, warn if the available account storage is <=0
 		//
-		// NOTE: This doesn't catch situations where actual *server* 
+		// NOTE: This doesn't catch situations where actual *server*
 		// disk (non-quota) space is low, but those should probably
 		// be handled differently anyway since a regular user can't
-		// can't do much about them (If we did want to indicate server disk 
+		// can't do much about them (If we did want to indicate server disk
 		// space matters to users, we'd probably want to use a warning
-		// specific to that situation anyhow. So this covers warning covers 
+		// specific to that situation anyhow. So this covers warning covers
 		// our primary day-to-day concern (individual account quota usage).
 		//
-		if (this.storageStats?.quota > 0 && this.storageStats?.free <= 0) {
+		if (this.storageStats?.quota > 0 && this.storageStats?.free === 0) {
 			this.showStorageFullWarning()
 		}
 	},
@@ -121,7 +122,7 @@ export default {
 		 * Update the storage stats
 		 * Throttled at max 1 refresh per minute
 		 *
-		 * @param {Event} [event = null] if user interaction
+		 * @param {Event} [event] if user interaction
 		 */
 		async updateStorageStats(event = null) {
 			if (this.loadingStorageStats) {
@@ -135,9 +136,9 @@ export default {
 					throw new Error('Invalid storage stats')
 				}
 
-				// Warn the user if the available account storage changed from > 0 to 0 
+				// Warn the user if the available account storage changed from > 0 to 0
 				// (unless only because quota was intentionally set to 0 by admin in the interim)
-				if (this.storageStats?.free > 0 && response.data.data?.free <= 0 && response.data.data?.quota > 0) {
+				if (this.storageStats?.free > 0 && response.data.data?.free === 0 && response.data.data?.quota > 0) {
 					this.showStorageFullWarning()
 				}
 
@@ -166,15 +167,18 @@ export default {
 // User storage stats display
 .app-navigation-entry__settings-quota {
 	// Align title with progress and icon
-	&--not-unlimited::v-deep .app-navigation-entry__name {
-		margin-top: -6px;
+	--app-navigation-quota-margin: calc((var(--default-clickable-area) - 24px) / 2); // 20px icon size and 4px progress bar
+
+	&--not-unlimited :deep(.app-navigation-entry__name) {
+		line-height: 1;
+		margin-top: var(--app-navigation-quota-margin);
 	}
 
 	progress {
 		position: absolute;
-		bottom: 12px;
-		margin-left: 44px;
-		width: calc(100% - 44px - 22px);
+		bottom: var(--app-navigation-quota-margin);
+		margin-inline-start: var(--default-clickable-area);
+		width: calc(100% - (1.5 * var(--default-clickable-area)));
 	}
 }
 </style>

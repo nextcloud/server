@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -203,7 +204,8 @@ trait Auth {
 	 * @param bool $remember
 	 */
 	public function aNewBrowserSessionIsStarted($remember = false) {
-		$loginUrl = substr($this->baseUrl, 0, -5) . '/login';
+		$baseUrl = substr($this->baseUrl, 0, -5);
+		$loginUrl = $baseUrl . '/login';
 		// Request a new session and extract CSRF token
 		$client = new Client();
 		$response = $client->get($loginUrl, [
@@ -222,6 +224,9 @@ trait Auth {
 					'requesttoken' => $this->requestToken,
 				],
 				'cookies' => $this->cookieJar,
+				'headers' => [
+					'Origin' => $baseUrl,
+				],
 			]
 		);
 		$this->extracRequestTokenFromResponse($response);

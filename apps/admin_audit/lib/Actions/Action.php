@@ -32,16 +32,13 @@ class Action {
 			if (!isset($params[$element])) {
 				if ($obfuscateParameters) {
 					$this->logger->critical(
-						'$params["'.$element.'"] was missing.',
+						'$params["' . $element . '"] was missing.',
 						['app' => 'admin_audit']
 					);
 				} else {
 					$this->logger->critical(
-						sprintf(
-							'$params["'.$element.'"] was missing. Transferred value: %s',
-							print_r($params, true)
-						),
-						['app' => 'admin_audit']
+						'$params["' . $element . '"] was missing. Transferred value: {params}',
+						['app' => 'admin_audit', 'params' => $params]
 					);
 				}
 				return;

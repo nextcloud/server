@@ -12,7 +12,6 @@ OC.L10N.register(
     "Secret key" : "රහස්‍ය යතුර",
     "Add client" : "අනුග්‍රාහකයක් එකතු කරන්න",
     "Add" : "එකතු කරන්න",
-    "Show client secret" : "අනුග්‍රාහකයේ රහස්‍යතාව පෙන්වන්න",
-    "Secret" : "රහස"
+    "Show client secret" : "අනුග්‍රාහකයේ රහස්‍යතාව පෙන්වන්න"
 },
 "nplurals=2; plural=(n != 1);");

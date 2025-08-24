@@ -35,7 +35,7 @@ interface GroupInterface {
 
 	/**
 	 * @since 12.0.0
-	 * @deprecated  29.0.0
+	 * @deprecated 29.0.0
 	 */
 	public const REMOVE_FROM_GOUP = 0x00001000; // oops
 
@@ -86,7 +86,7 @@ interface GroupInterface {
 	/**
 	 * Get all groups a user belongs to
 	 * @param string $uid Name of the user
-	 * @return array an array of group names
+	 * @return list<string> an array of group names
 	 * @since 4.5.0
 	 *
 	 * This function fetches all groups a user belongs to. It does not check

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -59,7 +60,7 @@ class Import extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$user = (string) $input->getOption('user');
+		$user = (string)$input->getOption('user');
 		$path = $input->getArgument('path');
 		if ($path === '-') {
 			$json = file_get_contents('php://stdin');
@@ -112,12 +113,12 @@ class Import extends Base {
 		foreach ($mounts as $mount) {
 			foreach ($existingMounts as $existingMount) {
 				if (
-					$existingMount->getMountPoint() === $mount->getMountPoint() &&
-					$existingMount->getApplicableGroups() === $mount->getApplicableGroups() &&
-					$existingMount->getApplicableUsers() === $mount->getApplicableUsers() &&
-					$existingMount->getBackendOptions() === $mount->getBackendOptions()
+					$existingMount->getMountPoint() === $mount->getMountPoint()
+					&& $existingMount->getApplicableGroups() === $mount->getApplicableGroups()
+					&& $existingMount->getApplicableUsers() === $mount->getApplicableUsers()
+					&& $existingMount->getBackendOptions() === $mount->getBackendOptions()
 				) {
-					$output->writeln("<error>Duplicate mount (" . $mount->getMountPoint() . ")</error>");
+					$output->writeln('<error>Duplicate mount (' . $mount->getMountPoint() . ')</error>');
 					return self::FAILURE;
 				}
 			}

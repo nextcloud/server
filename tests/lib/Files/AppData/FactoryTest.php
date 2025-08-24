@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -28,7 +29,7 @@ class FactoryTest extends \Test\TestCase {
 		$this->factory = new Factory($this->rootFolder, $this->systemConfig);
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		$this->rootFolder->expects($this->never())
 			->method($this->anything());
 		$this->systemConfig->expects($this->never())

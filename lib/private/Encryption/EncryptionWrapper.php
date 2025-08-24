@@ -26,10 +26,10 @@ use Psr\Log\LoggerInterface;
  * @package OC\Encryption
  */
 class EncryptionWrapper {
-	/** @var ArrayCache  */
+	/** @var ArrayCache */
 	private $arrayCache;
 
-	/** @var  Manager */
+	/** @var Manager */
 	private $manager;
 
 	private LoggerInterface $logger;
@@ -39,7 +39,7 @@ class EncryptionWrapper {
 	 */
 	public function __construct(ArrayCache $arrayCache,
 		Manager $manager,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->arrayCache = $arrayCache;
 		$this->manager = $manager;
@@ -75,15 +75,6 @@ class EncryptionWrapper {
 				\OC::$server->getGroupManager(),
 				\OC::$server->getConfig()
 			);
-			$update = new Update(
-				new View(),
-				$util,
-				Filesystem::getMountManager(),
-				$this->manager,
-				$fileHelper,
-				$this->logger,
-				$uid
-			);
 			return new Encryption(
 				$parameters,
 				$this->manager,
@@ -92,7 +83,6 @@ class EncryptionWrapper {
 				$fileHelper,
 				$uid,
 				$keyStorage,
-				$update,
 				$mountManager,
 				$this->arrayCache
 			);

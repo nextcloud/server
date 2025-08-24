@@ -12,24 +12,21 @@ use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 
 class ShareRequest implements XmlDeserializable {
-	public $set = [];
-
-	public $remove = [];
-
 	/**
 	 * Constructor
 	 *
 	 * @param array $set
 	 * @param array $remove
 	 */
-	public function __construct(array $set, array $remove) {
-		$this->set = $set;
-		$this->remove = $remove;
+	public function __construct(
+		public array $set,
+		public array $remove,
+	) {
 	}
 
 	public static function xmlDeserialize(Reader $reader) {
 		$elements = $reader->parseInnerTree([
-			'{' . Plugin::NS_OWNCLOUD. '}set' => 'Sabre\\Xml\\Element\\KeyValue',
+			'{' . Plugin::NS_OWNCLOUD . '}set' => 'Sabre\\Xml\\Element\\KeyValue',
 			'{' . Plugin::NS_OWNCLOUD . '}remove' => 'Sabre\\Xml\\Element\\KeyValue',
 		]);
 

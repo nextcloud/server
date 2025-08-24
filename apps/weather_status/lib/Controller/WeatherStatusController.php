@@ -11,6 +11,7 @@ namespace OCA\WeatherStatus\Controller;
 use OCA\WeatherStatus\ResponseDefinitions;
 use OCA\WeatherStatus\Service\WeatherStatusService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
@@ -33,21 +34,18 @@ class WeatherStatusController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Try to use the address set in user personal settings as weather location
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WeatherStatusLocationWithSuccess, array{}>
 	 *
 	 * 200: Address updated
 	 */
+	#[NoAdminRequired]
 	public function usePersonalAddress(): DataResponse {
 		return new DataResponse($this->service->usePersonalAddress());
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Change the weather status mode. There are currently 2 modes:
 	 * - ask the browser
 	 * - use the user defined address
@@ -57,13 +55,12 @@ class WeatherStatusController extends OCSController {
 	 *
 	 * 200: Weather status mode updated
 	 */
+	#[NoAdminRequired]
 	public function setMode(int $mode): DataResponse {
 		return new DataResponse($this->service->setMode($mode));
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Set address and resolve it to get coordinates
 	 * or directly set coordinates and get address with reverse geocoding
 	 *
@@ -74,35 +71,34 @@ class WeatherStatusController extends OCSController {
 	 *
 	 * 200: Location updated
 	 */
+	#[NoAdminRequired]
 	public function setLocation(?string $address, ?float $lat, ?float $lon): DataResponse {
 		$currentWeather = $this->service->setLocation($address, $lat, $lon);
 		return new DataResponse($currentWeather);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get stored user location
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WeatherStatusLocationWithMode, array{}>
 	 *
 	 * 200: Location returned
 	 */
+	#[NoAdminRequired]
 	public function getLocation(): DataResponse {
 		$location = $this->service->getLocation();
 		return new DataResponse($location);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get forecast for current location
 	 *
-	 * @return DataResponse<Http::STATUS_OK, WeatherStatusForecast[]|array{error: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, WeatherStatusSuccess, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<WeatherStatusForecast>|array{error: string}, array{}>|DataResponse<Http::STATUS_NOT_FOUND, WeatherStatusSuccess, array{}>
 	 *
 	 * 200: Forecast returned
 	 * 404: Forecast not found
 	 */
+	#[NoAdminRequired]
 	public function getForecast(): DataResponse {
 		$forecast = $this->service->getForecast();
 		if (isset($forecast['success']) && $forecast['success'] === false) {
@@ -113,28 +109,26 @@ class WeatherStatusController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get favorites list
 	 *
-	 * @return DataResponse<Http::STATUS_OK, string[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<string>, array{}>
 	 *
 	 * 200: Favorites returned
 	 */
+	#[NoAdminRequired]
 	public function getFavorites(): DataResponse {
 		return new DataResponse($this->service->getFavorites());
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Set favorites list
 	 *
-	 * @param string[] $favorites Favorite addresses
+	 * @param list<string> $favorites Favorite addresses
 	 * @return DataResponse<Http::STATUS_OK, WeatherStatusSuccess, array{}>
 	 *
 	 * 200: Favorites updated
 	 */
+	#[NoAdminRequired]
 	public function setFavorites(array $favorites): DataResponse {
 		return new DataResponse($this->service->setFavorites($favorites));
 	}

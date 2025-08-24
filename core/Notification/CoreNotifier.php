@@ -14,6 +14,7 @@ use OCP\L10N\IFactory;
 use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class CoreNotifier implements INotifier {
 	public function __construct(
@@ -45,7 +46,7 @@ class CoreNotifier implements INotifier {
 
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'core') {
-			throw new \InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 		$l = $this->factory->get('core', $languageCode);
 
@@ -71,6 +72,6 @@ class CoreNotifier implements INotifier {
 			return $notification;
 		}
 
-		throw new \InvalidArgumentException('Invalid subject');
+		throw new UnknownNotificationException('Invalid subject');
 	}
 }

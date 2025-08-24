@@ -1,9 +1,11 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\files_external\tests\Config;
+namespace OCA\Files_External\Tests\Config;
 
 use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCP\IRequest;
@@ -12,25 +14,15 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UserPlaceholderHandlerTest extends \Test\TestCase {
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-	protected $user;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var UserPlaceholderHandler */
-	protected $handler;
+	protected IUser&MockObject $user;
+	protected IUserSession&MockObject $session;
+	protected IManager&MockObject $shareManager;
+	protected IRequest&MockObject $request;
+	protected IUserManager&MockObject $userManager;
+	protected UserPlaceholderHandler $handler;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -47,13 +39,13 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 		$this->handler = new UserPlaceholderHandler($this->session, $this->shareManager, $this->request, $this->userManager);
 	}
 
-	protected function setUser() {
+	protected function setUser(): void {
 		$this->session->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
 	}
 
-	public function optionProvider() {
+	public static function optionProvider(): array {
 		return [
 			['/foo/bar/$user/foobar', '/foo/bar/alice/foobar'],
 			[['/foo/bar/$user/foobar'], ['/foo/bar/alice/foobar']],
@@ -61,18 +53,14 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider optionProvider
-	 */
-	public function testHandle($option, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('optionProvider')]
+	public function testHandle(string|array $option, string|array $expected): void {
 		$this->setUser();
 		$this->assertSame($expected, $this->handler->handle($option));
 	}
 
-	/**
-	 * @dataProvider optionProvider
-	 */
-	public function testHandleNoUser($option) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('optionProvider')]
+	public function testHandleNoUser(string|array $option): void {
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
 			->willThrowException(new ShareNotFound());

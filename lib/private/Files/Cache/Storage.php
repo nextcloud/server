@@ -80,7 +80,7 @@ class Storage {
 	 * Adjusts the storage id to use md5 if too long
 	 * @param string $storageId storage id
 	 * @return string unchanged $storageId if its length is less than 64 characters,
-	 * else returns the md5 of $storageId
+	 *                else returns the md5 of $storageId
 	 */
 	public static function adjustStorageId($storageId) {
 		if (strlen($storageId) > 64) {
@@ -149,7 +149,7 @@ class Storage {
 	public function setAvailability($isAvailable, int $delay = 0) {
 		$available = $isAvailable ? 1 : 0;
 		if (!$isAvailable) {
-			\OC::$server->get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
+			\OCP\Server::get(LoggerInterface::class)->info('Storage with ' . $this->storageId . ' marked as unavailable', ['app' => 'lib']);
 		}
 
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
@@ -157,7 +157,7 @@ class Storage {
 			->set('available', $query->createNamedParameter($available))
 			->set('last_checked', $query->createNamedParameter(time() + $delay))
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
@@ -182,13 +182,13 @@ class Storage {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->eq('id', $query->createNamedParameter($storageId)));
-		$query->execute();
+		$query->executeStatement();
 
 		if (!is_null($numericId)) {
 			$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 			$query->delete('filecache')
 				->where($query->expr()->eq('storage', $query->createNamedParameter($numericId)));
-			$query->execute();
+			$query->executeStatement();
 		}
 	}
 
@@ -213,6 +213,7 @@ class Storage {
 			$query = $db->getQueryBuilder();
 			$query->delete('filecache')
 				->where($query->expr()->in('storage', $query->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			$query->runAcrossAllShards();
 			$query->executeStatement();
 
 			$query = $db->getQueryBuilder();

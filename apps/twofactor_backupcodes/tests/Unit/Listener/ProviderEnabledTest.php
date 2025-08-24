@@ -15,11 +15,12 @@ use OCP\Authentication\TwoFactorAuth\TwoFactorProviderForUserRegistered;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ProviderEnabledTest extends TestCase {
-	private IRegistry $registy;
-	private IJobList $jobList;
+	private IRegistry&MockObject $registy;
+	private IJobList&MockObject $jobList;
 	private ProviderEnabled $listener;
 
 	protected function setUp(): void {
@@ -31,7 +32,7 @@ class ProviderEnabledTest extends TestCase {
 		$this->listener = new ProviderEnabled($this->registy, $this->jobList);
 	}
 
-	public function testHandleGenericEvent() {
+	public function testHandleGenericEvent(): void {
 		$event = $this->createMock(Event::class);
 		$this->jobList->expects($this->never())
 			->method($this->anything());
@@ -39,7 +40,7 @@ class ProviderEnabledTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleCodesGeneratedEventAlraedyBackupcodes() {
+	public function testHandleCodesGeneratedEventAlraedyBackupcodes(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');
@@ -59,7 +60,7 @@ class ProviderEnabledTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleCodesGeneratedEventNoBackupcodes() {
+	public function testHandleCodesGeneratedEventNoBackupcodes(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');

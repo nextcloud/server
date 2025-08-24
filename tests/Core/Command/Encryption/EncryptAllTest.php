@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,84 +13,50 @@ use OCP\App\IAppManager;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
-	protected $config;
+	private IConfig&MockObject $config;
+	private IManager&MockObject $encryptionManager;
+	private IAppManager&MockObject $appManager;
+	private InputInterface&MockObject $consoleInput;
+	private OutputInterface&MockObject $consoleOutput;
+	private QuestionHelper&MockObject $questionHelper;
+	private IEncryptionModule&MockObject $encryptionModule;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager  */
-	protected $encryptionManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager  */
-	protected $appManager;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject  | \Symfony\Component\Console\Input\InputInterface */
-	protected $consoleInput;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
-	protected $consoleOutput;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
-	protected $questionHelper;
-
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IEncryptionModule */
-	protected $encryptionModule;
-
-	/** @var  EncryptAll */
-	protected $command;
+	private EncryptAll $command;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->encryptionManager = $this->getMockBuilder(IManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->appManager = $this->getMockBuilder(IAppManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->encryptionModule = $this->getMockBuilder(IEncryptionModule::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->questionHelper = $this->getMockBuilder(QuestionHelper::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->encryptionManager = $this->createMock(IManager::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->encryptionModule = $this->createMock(IEncryptionModule::class);
+		$this->questionHelper = $this->createMock(QuestionHelper::class);
+		$this->consoleInput = $this->createMock(InputInterface::class);
 		$this->consoleInput->expects($this->any())
 			->method('isInteractive')
 			->willReturn(true);
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 	}
 
-	public function testEncryptAll() {
+	public function testEncryptAll(): void {
 		// trash bin needs to be disabled in order to avoid adding dummy files to the users
 		// trash bin which gets deleted during the encryption process
 		$this->appManager->expects($this->once())->method('disableApp')->with('files_trashbin');
-		// enable single user mode to avoid that other user login during encryption
-		// destructor should disable the single user mode again
-		$this->config->expects($this->once())->method('getSystemValueBool')->with('maintenance', false)->willReturn(false);
-		$this->config->expects($this->exactly(2))
-			->method('setSystemValue')
-			->withConsecutive(
-				['maintenance', true],
-				['maintenance', false],
-			);
 
 		$instance = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 		$this->invokePrivate($instance, 'forceMaintenanceAndTrashbin');
 		$this->invokePrivate($instance, 'resetMaintenanceAndTrashbin');
 	}
 
-	/**
-	 * @dataProvider dataTestExecute
-	 */
-	public function testExecute($answer, $askResult) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestExecute')]
+	public function testExecute($answer, $askResult): void {
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 
 		$this->encryptionManager->expects($this->once())->method('isEnabled')->willReturn(true);
@@ -108,14 +75,14 @@ class EncryptAllTest extends TestCase {
 		$this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function dataTestExecute() {
+	public static function dataTestExecute(): array {
 		return [
 			['y', true], ['Y', true], ['n', false], ['N', false], ['', false]
 		];
 	}
 
 
-	public function testExecuteException() {
+	public function testExecuteException(): void {
 		$this->expectException(\Exception::class);
 
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);

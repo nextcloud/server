@@ -92,10 +92,10 @@ abstract class Archive {
 				if ($file === '.' || $file === '..') {
 					continue;
 				}
-				if (is_dir($source.'/'.$file)) {
-					$this->addRecursive($path.'/'.$file, $source.'/'.$file);
+				if (is_dir($source . '/' . $file)) {
+					$this->addRecursive($path . '/' . $file, $source . '/' . $file);
 				} else {
-					$this->addFile($path.'/'.$file, $source.'/'.$file);
+					$this->addFile($path . '/' . $file, $source . '/' . $file);
 				}
 			}
 		}

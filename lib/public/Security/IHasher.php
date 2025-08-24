@@ -19,10 +19,10 @@ namespace OCP\Security;
  *
  * Usage:
  * // Hashing a message
- * $hash = \OC::$server->get(\OCP\Security\IHasher::class)->hash('MessageToHash');
+ * $hash = \OCP\Server::get(\OCP\Security\IHasher::class)->hash('MessageToHash');
  * // Verifying a message - $newHash will contain the newly calculated hash
  * $newHash = null;
- * var_dump(\OC::$server->get(\OCP\Security\IHasher::class)->verify('a', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', $newHash));
+ * var_dump(\OCP\Server::get(\OCP\Security\IHasher::class)->verify('a', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', $newHash));
  * var_dump($newHash);
  *
  * @since 8.0.0
@@ -47,4 +47,11 @@ interface IHasher {
 	 * @since 8.0.0
 	 */
 	public function verify(string $message, string $hash, &$newHash = null): bool ;
+
+	/**
+	 * Check if the prefixed hash is valid
+	 *
+	 * @since 30.0.0
+	 */
+	public function validate(string $prefixedHash): bool;
 }

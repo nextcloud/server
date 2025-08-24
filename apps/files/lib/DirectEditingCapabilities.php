@@ -13,12 +13,10 @@ use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\IURLGenerator;
 
 class DirectEditingCapabilities implements ICapability, IInitialStateExcludedCapability {
-	protected DirectEditingService $directEditingService;
-	protected IURLGenerator $urlGenerator;
-
-	public function __construct(DirectEditingService $directEditingService, IURLGenerator $urlGenerator) {
-		$this->directEditingService = $directEditingService;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		protected DirectEditingService $directEditingService,
+		protected IURLGenerator $urlGenerator,
+	) {
 	}
 
 	/**

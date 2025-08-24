@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\TwoFactorBackupCodes\Activity;
 
-use InvalidArgumentException;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
@@ -17,29 +17,21 @@ use OCP\L10N\IFactory as L10nFactory;
 
 class Provider implements IProvider {
 
-	/** @var L10nFactory */
-	private $l10n;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IManager */
-	private $activityManager;
-
 	/**
 	 * @param L10nFactory $l10n
 	 * @param IURLGenerator $urlGenerator
 	 * @param IManager $activityManager
 	 */
-	public function __construct(L10nFactory $l10n, IURLGenerator $urlGenerator, IManager $activityManager) {
-		$this->urlGenerator = $urlGenerator;
-		$this->activityManager = $activityManager;
-		$this->l10n = $l10n;
+	public function __construct(
+		private L10nFactory $l10n,
+		private IURLGenerator $urlGenerator,
+		private IManager $activityManager,
+	) {
 	}
 
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'twofactor_backupcodes') {
-			throw new InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$l = $this->l10n->get('twofactor_backupcodes', $language);
@@ -55,7 +47,7 @@ class Provider implements IProvider {
 				}
 				break;
 			default:
-				throw new InvalidArgumentException();
+				throw new UnknownActivityException();
 		}
 		return $event;
 	}

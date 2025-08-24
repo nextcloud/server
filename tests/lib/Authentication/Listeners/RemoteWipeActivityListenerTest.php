@@ -43,7 +43,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		);
 	}
 
-	public function testHandleUnrelated() {
+	public function testHandleUnrelated(): void {
 		$event = new Event();
 
 		$this->listener->handle($event);
@@ -51,7 +51,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testHandleRemoteWipeStarted() {
+	public function testHandleRemoteWipeStarted(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
@@ -87,7 +87,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeStartedCanNotPublish() {
+	public function testHandleRemoteWipeStartedCanNotPublish(): void {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
 		$this->activityManager->expects($this->once())
@@ -99,7 +99,7 @@ class RemoteWipeActivityListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeFinished() {
+	public function testHandleRemoteWipeFinished(): void {
 		/** @var IToken|MockObject $token */
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);

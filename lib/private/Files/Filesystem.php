@@ -8,6 +8,7 @@
 namespace OC\Files;
 
 use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\StorageFactory;
 use OC\User\NoUserException;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -178,7 +179,9 @@ class Filesystem {
 		}
 
 		$mounts = self::getMountManager()->getAll();
-		if (!self::getLoader()->addStorageWrapper($wrapperName, $wrapper, $priority, $mounts)) {
+		/** @var StorageFactory $loader */
+		$loader = self::getLoader();
+		if (!$loader->addStorageWrapper($wrapperName, $wrapper, $priority, $mounts)) {
 			// do not re-wrap if storage with this name already existed
 			return;
 		}
@@ -674,7 +677,7 @@ class Filesystem {
 	 *
 	 * @param string $path
 	 * @param bool|string $includeMountPoints whether to add mountpoint sizes,
-	 * defaults to true
+	 *                                        defaults to true
 	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
 	public static function getFileInfo($path, $includeMountPoints = true) {

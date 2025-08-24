@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,6 +7,8 @@
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -16,7 +19,6 @@ use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IManager as ISettingsManager;
-use OCP\Template;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class PersonalSettingsController extends Controller {
@@ -44,54 +46,14 @@ class PersonalSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function index(string $section): TemplateResponse {
-		return $this->getIndexResponse('personal', $section);
-	}
-
-	/**
-	 * @param string $section
-	 * @return array
-	 */
-	protected function getSettings($section) {
-		$settings = $this->settingsManager->getPersonalSettings($section);
-		$formatted = $this->formatSettings($settings);
-		if ($section === 'additional') {
-			$formatted['content'] .= $this->getLegacyForms();
-		}
-		return $formatted;
-	}
-
-	/**
-	 * @return bool|string
-	 */
-	private function getLegacyForms() {
-		$forms = \OC_App::getForms('personal');
-
-		$forms = array_map(function ($form) {
-			if (preg_match('%(<h2(?P<class>[^>]*)>.*?</h2>)%i', $form, $regs)) {
-				$sectionName = str_replace('<h2' . $regs['class'] . '>', '', $regs[0]);
-				$sectionName = str_replace('</h2>', '', $sectionName);
-				$anchor = strtolower($sectionName);
-				$anchor = str_replace(' ', '-', $anchor);
-
-				return [
-					'anchor' => $anchor,
-					'section-name' => $sectionName,
-					'form' => $form
-				];
-			}
-			return [
-				'form' => $form
-			];
-		}, $forms);
-
-		$out = new Template('settings', 'settings/additional');
-		$out->assign('forms', $forms);
-
-		return $out->fetchPage();
+		return $this->getIndexResponse(
+			'personal',
+			$section,
+		);
 	}
 }

@@ -16,6 +16,8 @@ use OC\Security\IdentityProof\Manager;
 use OCP\Files\IAppData;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Security\ICrypto;
@@ -24,18 +26,14 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
-	/** @var Factory|MockObject */
-	private $factory;
-	/** @var IAppData|MockObject */
-	private $appData;
-	/** @var ICrypto|MockObject */
-	private $crypto;
-	/** @var Manager|MockObject */
-	private $manager;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
+	private Factory&MockObject $factory;
+	private IAppData&MockObject $appData;
+	private ICrypto&MockObject $crypto;
+	private Manager&MockObject $manager;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
+	private ICacheFactory&MockObject $cacheFactory;
+	private ICache&MockObject $cache;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -49,6 +47,12 @@ class ManagerTest extends TestCase {
 			->with('identityproof')
 			->willReturn($this->appData);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
+		$this->cache = $this->createMock(ICache::class);
+
+		$this->cacheFactory->expects($this->any())
+			->method('createDistributed')
+			->willReturn($this->cache);
 
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->manager = $this->getManager(['generateKeyPair']);
@@ -66,7 +70,8 @@ class ManagerTest extends TestCase {
 				$this->factory,
 				$this->crypto,
 				$this->config,
-				$this->logger
+				$this->logger,
+				$this->cacheFactory,
 			);
 		} else {
 			return $this->getMockBuilder(Manager::class)
@@ -74,12 +79,15 @@ class ManagerTest extends TestCase {
 					$this->factory,
 					$this->crypto,
 					$this->config,
-					$this->logger
-				])->setMethods($setMethods)->getMock();
+					$this->logger,
+					$this->cacheFactory,
+				])
+				->onlyMethods($setMethods)
+				->getMock();
 		}
 	}
 
-	public function testGetKeyWithExistingKey() {
+	public function testGetKeyWithExistingKey(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -104,25 +112,48 @@ class ManagerTest extends TestCase {
 		$folder
 			->expects($this->exactly(2))
 			->method('getFile')
-			->withConsecutive(
-				['private'],
-				['public']
-			)
-			->willReturnOnConsecutiveCalls(
-				$privateFile,
-				$publicFile
-			);
+			->willReturnMap([
+				['private', $privateFile],
+				['public', $publicFile],
+			]);
 		$this->appData
 			->expects($this->once())
 			->method('getFolder')
 			->with('user-MyUid')
 			->willReturn($folder);
+		$this->cache
+			->expects($this->exactly(2))
+			->method('get')
+			->willReturn(null);
 
 		$expected = new Key('MyPublicKey', 'MyPrivateKey');
 		$this->assertEquals($expected, $this->manager->getKey($user));
 	}
 
-	public function testGetKeyWithNotExistingKey() {
+	public function testGetKeyWithExistingKeyCached(): void {
+		$user = $this->createMock(IUser::class);
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('MyUid');
+		$this->crypto
+			->expects($this->once())
+			->method('decrypt')
+			->with('EncryptedPrivateKey')
+			->willReturn('MyPrivateKey');
+		$this->cache
+			->expects($this->exactly(2))
+			->method('get')
+			->willReturnMap([
+				['user-MyUid-public', 'MyPublicKey'],
+				['user-MyUid-private', 'EncryptedPrivateKey'],
+			]);
+
+		$expected = new Key('MyPublicKey', 'MyPrivateKey');
+		$this->assertEquals($expected, $this->manager->getKey($user));
+	}
+
+	public function testGetKeyWithNotExistingKey(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -155,14 +186,10 @@ class ManagerTest extends TestCase {
 		$folder
 			->expects($this->exactly(2))
 			->method('newFile')
-			->withConsecutive(
-				['private'],
-				['public']
-			)
-			->willReturnOnConsecutiveCalls(
-				$privateFile,
-				$publicFile
-			);
+			->willReturnMap([
+				['private', null, $privateFile],
+				['public', null, $publicFile],
+			]);
 		$this->appData
 			->expects($this->exactly(2))
 			->method('getFolder')
@@ -177,7 +204,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->manager->getKey($user));
 	}
 
-	public function testGenerateKeyPair() {
+	public function testGenerateKeyPair(): void {
 		$manager = $this->getManager();
 		$data = 'MyTestData';
 
@@ -189,7 +216,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame(2048, $details['bits']);
 	}
 
-	public function testGetSystemKey() {
+	public function testGetSystemKey(): void {
 		$manager = $this->getManager(['retrieveKey']);
 
 		/** @var Key|\PHPUnit\Framework\MockObject\MockObject $key */
@@ -206,7 +233,7 @@ class ManagerTest extends TestCase {
 
 
 
-	public function testGetSystemKeyFailure() {
+	public function testGetSystemKeyFailure(): void {
 		$this->expectException(\RuntimeException::class);
 
 		$manager = $this->getManager(['retrieveKey']);

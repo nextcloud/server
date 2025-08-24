@@ -44,13 +44,13 @@ abstract class OCSController extends ApiController {
 	 * @param string $appName the name of the app
 	 * @param IRequest $request an instance of the request
 	 * @param string $corsMethods comma separated string of HTTP verbs which
-	 * should be allowed for websites or webapps when calling your API, defaults to
-	 * 'PUT, POST, GET, DELETE, PATCH'
+	 *                            should be allowed for websites or webapps when calling your API, defaults to
+	 *                            'PUT, POST, GET, DELETE, PATCH'
 	 * @param string $corsAllowedHeaders comma separated string of HTTP headers
-	 * which should be allowed for websites or webapps when calling your API,
-	 * defaults to 'Authorization, Content-Type, Accept'
+	 *                                   which should be allowed for websites or webapps when calling your API,
+	 *                                   defaults to 'Authorization, Content-Type, Accept'
 	 * @param int $corsMaxAge number in seconds how long a preflighted OPTIONS
-	 * request should be cached, defaults to 1728000 seconds
+	 *                        request should be cached, defaults to 1728000 seconds
 	 * @since 8.1.0
 	 */
 	public function __construct($appName,
@@ -81,7 +81,7 @@ abstract class OCSController extends ApiController {
 	 * Since the OCS endpoints default to XML we need to find out the format
 	 * again
 	 * @param mixed $response the value that was returned from a controller and
-	 * is not a Response instance
+	 *                        is not a Response instance
 	 * @param string $format the format for which a formatter has been registered
 	 * @throws \DomainException if format does not match a registered formatter
 	 * @return Response

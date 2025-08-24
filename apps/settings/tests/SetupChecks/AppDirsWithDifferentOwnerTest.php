@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests;
+namespace OCA\Settings\Tests\SetupChecks;
 
 use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
 use OCP\IL10N;
@@ -26,8 +26,7 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($message, array $replace) {
@@ -46,7 +45,7 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testAppDirectoryOwnersOk() {
+	public function testAppDirectoryOwnersOk(): void {
 		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
 		mkdir($tempDir);
 		mkdir($tempDir . DIRECTORY_SEPARATOR . 'app1');
@@ -73,7 +72,7 @@ class AppDirsWithDifferentOwnerTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testAppDirectoryOwnersNotWritable() {
+	public function testAppDirectoryOwnersNotWritable(): void {
 		$tempDir = tempnam(sys_get_temp_dir(), 'apps') . 'dir';
 		\OC::$APPSROOTS = [
 			[

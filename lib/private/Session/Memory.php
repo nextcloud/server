@@ -20,11 +20,6 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
 class Memory extends Session {
 	protected $data;
 
-	public function __construct(string $name) {
-		//no need to use $name since all data is already scoped to this instance
-		$this->data = [];
-	}
-
 	/**
 	 * @param string $key
 	 * @param integer $value

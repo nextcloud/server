@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -83,7 +84,7 @@ class Color {
 	 * @since 25.0.0
 	 */
 	public function name(): string {
-		return sprintf("#%02x%02x%02x", $this->r, $this->g, $this->b);
+		return sprintf('#%02x%02x%02x', $this->r, $this->g, $this->b);
 	}
 
 	/**
@@ -125,7 +126,7 @@ class Color {
 	 * Calculate steps between two Colors
 	 * @param int $steps start color
 	 * @param Color[] $ends end color
-	 * @return array{0: int, 1: int, 2: int} [r,g,b] steps for each color to go from $steps to $ends
+	 * @return array{0: float, 1: float, 2: float} [r,g,b] steps for each color to go from $steps to $ends
 	 * @since 25.0.0
 	 */
 	private static function stepCalc(int $steps, array $ends): array {

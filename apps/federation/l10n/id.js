@@ -9,7 +9,6 @@ OC.L10N.register(
     "Federation" : "Federasi",
     "+ Add trusted server" : "+ Tambah server terpercaya",
     "Trusted server" : "Server terpercaya",
-    "Add" : "Tambah",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federasi memungkinkan Anda untuk terhubung dengan server lainnya yang terpercaya untuk menukar direktori pengguna. Contohnya, ini akan digunakan untuk pengisian-otomatis untuk pengguna eksternal untuk pembagian terfederasi."
+    "Add" : "Tambah"
 },
 "nplurals=1; plural=0;");

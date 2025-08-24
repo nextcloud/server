@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,32 +22,18 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PreviewControllerTest extends TestCase {
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var string */
-	private $userId;
-
-	/** @var IMimeTypeDetector|\PHPUnit\Framework\MockObject\MockObject */
-	private $mimeTypeDetector;
-
-	/** @var IPreview|\PHPUnit\Framework\MockObject\MockObject */
-	private $previewManager;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $time;
-
-	/** @var PreviewController */
-	private $controller;
-
-	/** @var ITrashManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $trashManager;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
+	private IRootFolder&MockObject $rootFolder;
+	private string $userId;
+	private IMimeTypeDetector&MockObject $mimeTypeDetector;
+	private IPreview&MockObject $previewManager;
+	private ITimeFactory&MockObject $time;
+	private ITrashManager&MockObject $trashManager;
+	private IUserSession&MockObject $userSession;
+	private PreviewController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -78,21 +66,21 @@ class PreviewControllerTest extends TestCase {
 		);
 	}
 
-	public function testInvalidWidth() {
+	public function testInvalidWidth(): void {
 		$res = $this->controller->getPreview(42, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidHeight() {
+	public function testInvalidHeight(): void {
 		$res = $this->controller->getPreview(42, 10, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testValidPreview() {
+	public function testValidPreview(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$trash = $this->createMock(Folder::class);
@@ -145,7 +133,7 @@ class PreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testTrashFileNotFound() {
+	public function testTrashFileNotFound(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$trash = $this->createMock(Folder::class);
@@ -169,7 +157,7 @@ class PreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testTrashFolder() {
+	public function testTrashFolder(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$trash = $this->createMock(Folder::class);

@@ -9,8 +9,10 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\IImage;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use wapmorgan\Mp3Info\Mp3Info;
+use function OCP\Log\logger;
 
 class MP3 extends ProviderV2 {
 	/**
@@ -25,15 +27,22 @@ class MP3 extends ProviderV2 {
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$tmpPath = $this->getLocalFile($file);
+		if ($tmpPath === false) {
+			Server::get(LoggerInterface::class)->error(
+				'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
+				['app' => 'core']
+			);
+			return null;
+		}
 
 		try {
 			$audio = new Mp3Info($tmpPath, true);
 			/** @var string|null|false $picture */
 			$picture = $audio->getCover();
 		} catch (\Throwable $e) {
-			\OC::$server->get(LoggerInterface::class)->info($e->getMessage(), [
-				'exception' => $e,
-				'app' => 'core',
+			logger('core')->info('Error while getting cover from mp3 file: ' . $e->getMessage(), [
+				'fileId' => $file->getId(),
+				'filePath' => $file->getPath(),
 			]);
 			return null;
 		} finally {

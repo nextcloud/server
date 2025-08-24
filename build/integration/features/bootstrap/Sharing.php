@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -54,15 +55,19 @@ trait Sharing {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)) {
 				$dateModification = $fd['expireDate'];
-				if (!empty($dateModification)) {
+				if ($dateModification === 'null') {
+					$fd['expireDate'] = null;
+				} elseif (!empty($dateModification)) {
 					$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+				} else {
+					$fd['expireDate'] = '';
 				}
 			}
 			$options['form_params'] = $fd;
 		}
 
 		try {
-			$this->response = $client->request("POST", $fullUrl, $options);
+			$this->response = $client->request('POST', $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
@@ -98,7 +103,7 @@ trait Sharing {
 	public function acceptingLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/pending/$share_id";
-		$this->sendingToWith("POST", $url, null);
+		$this->sendingToWith('POST', $url, null);
 
 		$this->theHTTPStatusCodeShouldBe('200');
 	}
@@ -118,7 +123,7 @@ trait Sharing {
 
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/pending/$share_id";
-		$this->sendingToWith("POST", $url, null);
+		$this->sendingToWith('POST', $url, null);
 
 		$this->currentUser = $previousUser;
 
@@ -134,7 +139,7 @@ trait Sharing {
 		} else {
 			$url = $this->lastShareData->data->url;
 		}
-		$fullUrl = $url . "/download";
+		$fullUrl = $url . '/download';
 		$this->checkDownload($fullUrl, null, 'text/plain');
 	}
 
@@ -148,7 +153,7 @@ trait Sharing {
 			$token = $this->lastShareData->data->token;
 		}
 
-		$fullUrl = substr($this->baseUrl, 0, -4) . "index.php/s/" . $token . "/download";
+		$fullUrl = substr($this->baseUrl, 0, -4) . 'index.php/s/' . $token . '/download';
 		$this->checkDownload($fullUrl, null, 'text/plain');
 	}
 
@@ -194,7 +199,7 @@ trait Sharing {
 	 * @When /^Adding expiration date to last share$/
 	 */
 	public function addingExpirationDate() {
-		$share_id = (string) $this->lastShareData->data[0]->id;
+		$share_id = (string)$this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
 		$options = [];
@@ -203,9 +208,9 @@ trait Sharing {
 		} else {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
-		$date = date('Y-m-d', strtotime("+3 days"));
+		$date = date('Y-m-d', strtotime('+3 days'));
 		$options['form_params'] = ['expireDate' => $date];
-		$this->response = $this->response = $client->request("PUT", $fullUrl, $options);
+		$this->response = $this->response = $client->request('PUT', $fullUrl, $options);
 		Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
@@ -214,7 +219,7 @@ trait Sharing {
 	 * @param TableNode|null $body
 	 */
 	public function updatingLastShare($body) {
-		$share_id = (string) $this->lastShareData->data[0]->id;
+		$share_id = (string)$this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
 		$options = [
@@ -238,7 +243,7 @@ trait Sharing {
 		}
 
 		try {
-			$this->response = $client->request("PUT", $fullUrl, $options);
+			$this->response = $client->request('PUT', $fullUrl, $options);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
 		}
@@ -286,13 +291,13 @@ trait Sharing {
 		}
 
 		if ($viewOnly === true) {
-			$body['attributes'] = json_encode([['scope' => 'permissions', 'key' => 'download', 'enabled' => false]]);
+			$body['attributes'] = json_encode([['scope' => 'permissions', 'key' => 'download', 'value' => false]]);
 		}
 
 		$options['form_params'] = $body;
 
 		try {
-			$this->response = $client->request("POST", $fullUrl, $options);
+			$this->response = $client->request('POST', $fullUrl, $options);
 			$this->lastShareData = simplexml_load_string($this->response->getBody());
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$this->response = $ex->getResponse();
@@ -303,18 +308,18 @@ trait Sharing {
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration') {
-			if(!empty($contentExpected)) {
-				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+			if (!empty($contentExpected)) {
+				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
 			}
 		}
 		if (count($data->element) > 0) {
 			foreach ($data as $element) {
-				if ($contentExpected == "A_TOKEN") {
+				if ($contentExpected == 'A_TOKEN') {
 					return (strlen((string)$element->$field) == 15);
-				} elseif ($contentExpected == "A_NUMBER") {
+				} elseif ($contentExpected == 'A_NUMBER') {
 					return is_numeric((string)$element->$field);
-				} elseif ($contentExpected == "AN_URL") {
-					return $this->isExpectedUrl((string)$element->$field, "index.php/s/");
+				} elseif ($contentExpected == 'AN_URL') {
+					return $this->isExpectedUrl((string)$element->$field, 'index.php/s/');
 				} elseif ((string)$element->$field == $contentExpected) {
 					return true;
 				} else {
@@ -324,14 +329,16 @@ trait Sharing {
 
 			return false;
 		} else {
-			if ($contentExpected == "A_TOKEN") {
+			if ($contentExpected == 'A_TOKEN') {
 				return (strlen((string)$data->$field) == 15);
-			} elseif ($contentExpected == "A_NUMBER") {
+			} elseif ($contentExpected == 'A_NUMBER') {
 				return is_numeric((string)$data->$field);
-			} elseif ($contentExpected == "AN_URL") {
-				return $this->isExpectedUrl((string)$data->$field, "index.php/s/");
+			} elseif ($contentExpected == 'AN_URL') {
+				return $this->isExpectedUrl((string)$data->$field, 'index.php/s/');
 			} elseif ($contentExpected == $data->$field) {
 				return true;
+			} else {
+				print($data->$field);
 			}
 			return false;
 		}
@@ -455,7 +462,7 @@ trait Sharing {
 	public function deletingLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
-		$this->sendingToWith("DELETE", $url, null);
+		$this->sendingToWith('DELETE', $url, null);
 	}
 
 	/**
@@ -464,7 +471,7 @@ trait Sharing {
 	public function gettingInfoOfLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
-		$this->sendingToWith("GET", $url, null);
+		$this->sendingToWith('GET', $url, null);
 	}
 
 	/**
@@ -496,13 +503,13 @@ trait Sharing {
 			$fd = $body->getRowsHash();
 
 			foreach ($fd as $field => $value) {
-				if (substr($field, 0, 10) === "share_with") {
-					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -5), $value);
-					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -5), $value);
+				if (substr($field, 0, 10) === 'share_with') {
+					$value = str_replace('REMOTE', substr($this->remoteBaseUrl, 0, -5), $value);
+					$value = str_replace('LOCAL', substr($this->localBaseUrl, 0, -5), $value);
 				}
-				if (substr($field, 0, 6) === "remote") {
-					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -4), $value);
-					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -4), $value);
+				if (substr($field, 0, 6) === 'remote') {
+					$value = str_replace('REMOTE', substr($this->remoteBaseUrl, 0, -4), $value);
+					$value = str_replace('LOCAL', substr($this->localBaseUrl, 0, -4), $value);
 				}
 				if (!$this->isFieldInResponse($field, $value)) {
 					Assert::fail("$field" . " doesn't have value " . "$value");
@@ -557,18 +564,18 @@ trait Sharing {
 		];
 		$expectedFields = array_merge($defaultExpectedFields, $body->getRowsHash());
 
-		if (!array_key_exists('uid_file_owner', $expectedFields) &&
-				array_key_exists('uid_owner', $expectedFields)) {
+		if (!array_key_exists('uid_file_owner', $expectedFields)
+				&& array_key_exists('uid_owner', $expectedFields)) {
 			$expectedFields['uid_file_owner'] = $expectedFields['uid_owner'];
 		}
-		if (!array_key_exists('displayname_file_owner', $expectedFields) &&
-				array_key_exists('displayname_owner', $expectedFields)) {
+		if (!array_key_exists('displayname_file_owner', $expectedFields)
+				&& array_key_exists('displayname_owner', $expectedFields)) {
 			$expectedFields['displayname_file_owner'] = $expectedFields['displayname_owner'];
 		}
 
-		if (array_key_exists('share_type', $expectedFields) &&
-				$expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */ &&
-				array_key_exists('share_with', $expectedFields)) {
+		if (array_key_exists('share_type', $expectedFields)
+				&& $expectedFields['share_type'] == 10 /* IShare::TYPE_ROOM */
+				&& array_key_exists('share_with', $expectedFields)) {
 			if ($expectedFields['share_with'] === 'private_conversation') {
 				$expectedFields['share_with'] = 'REGEXP /^private_conversation_[0-9a-f]{6}$/';
 			} else {
@@ -603,7 +610,7 @@ trait Sharing {
 		}
 
 		if ($field === 'expiration' && !empty($contentExpected)) {
-			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
 		}
 
 		if ($contentExpected === 'A_NUMBER') {

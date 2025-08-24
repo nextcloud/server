@@ -30,15 +30,15 @@ use Sabre\VObject\Reader;
 use Test\TestCase;
 
 class SystemAddressBookTest extends TestCase {
-	private MockObject|BackendInterface $cardDavBackend;
+	private BackendInterface&MockObject $cardDavBackend;
 	private array $addressBookInfo;
-	private IL10N|MockObject $l10n;
-	private IConfig|MockObject $config;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
 	private IUserSession $userSession;
-	private IRequest|MockObject $request;
+	private IRequest&MockObject $request;
 	private array $server;
-	private TrustedServers|MockObject $trustedServers;
-	private IGroupManager|MockObject $groupManager;
+	private TrustedServers&MockObject $trustedServers;
+	private IGroupManager&MockObject $groupManager;
 	private SystemAddressbook $addressBook;
 
 	protected function setUp(): void {
@@ -150,7 +150,7 @@ VCF;
 			->with(123, 'user.vcf')
 			->willReturn($originalCard);
 
-		$card = $this->addressBook->getChild("user.vcf");
+		$card = $this->addressBook->getChild('user.vcf');
 
 		/** @var VCard $vCard */
 		$vCard = Reader::read($card->get());
@@ -180,7 +180,7 @@ VCF;
 			]);
 		$this->expectException(NotFound::class);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetChildWithoutEnumeration(): void {
@@ -193,7 +193,7 @@ VCF;
 			]);
 		$this->expectException(Forbidden::class);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetChildAsGuest(): void {
@@ -211,7 +211,7 @@ VCF;
 			->willReturn($user);
 		$this->expectException(Forbidden::class);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetChildWithGroupEnumerationRestriction(): void {
@@ -272,7 +272,7 @@ VCF;
 			->willReturn($user);
 		$this->expectException(Forbidden::class);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetOwnChildWithPhoneNumberEnumerationRestriction(): void {
@@ -305,7 +305,7 @@ VCF;
 				'carddata' => $cardData,
 			]);
 
-		$this->addressBook->getChild("LDAP:user.vcf");
+		$this->addressBook->getChild('LDAP:user.vcf');
 	}
 
 	public function testGetMultipleChildrenWithGroupEnumerationRestriction(): void {

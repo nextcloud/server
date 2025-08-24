@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -36,7 +37,7 @@ class FileTest extends TestCase {
 		$this->command = new File($config);
 	}
 
-	public function testEnable() {
+	public function testEnable(): void {
 		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
@@ -49,7 +50,7 @@ class FileTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testChangeFile() {
+	public function testChangeFile(): void {
 		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
@@ -62,7 +63,7 @@ class FileTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function changeRotateSizeProvider() {
+	public static function changeRotateSizeProvider(): array {
 		return [
 			['42', 42],
 			['0', 0],
@@ -71,10 +72,8 @@ class FileTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider changeRotateSizeProvider
-	 */
-	public function testChangeRotateSize($optionValue, $configValue) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('changeRotateSizeProvider')]
+	public function testChangeRotateSize($optionValue, $configValue): void {
 		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
@@ -87,22 +86,26 @@ class FileTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testGetConfiguration() {
+	public function testGetConfiguration(): void {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
 				['log_type', 'file', 'log_type_value'],
-				['datadirectory', \OC::$SERVERROOT.'/data', '/data/directory/'],
+				['datadirectory', \OC::$SERVERROOT . '/data', '/data/directory/'],
 				['logfile', '/data/directory/nextcloud.log', '/var/log/nextcloud.log'],
 				['log_rotate_size', 100 * 1024 * 1024, 5 * 1024 * 1024],
 			]);
 
+		$calls = [
+			['Log backend file: disabled'],
+			['Log file: /var/log/nextcloud.log'],
+			['Rotate at: 5 MB'],
+		];
 		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->withConsecutive(
-				['Log backend file: disabled'],
-				['Log file: /var/log/nextcloud.log'],
-				['Rotate at: 5 MB'],
-			);
+			->willReturnCallback(function (string $message) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected[0], $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

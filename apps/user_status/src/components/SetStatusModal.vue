@@ -5,14 +5,15 @@
 
 <template>
 	<NcModal size="normal"
-		:name="$t('user_status', 'Set status')"
+		label-id="user_status-set-dialog"
+		dark
 		:set-return-focus="setReturnFocus"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->
-			<div class="set-status-modal__header">
-				<h2>{{ $t('user_status', 'Online status') }}</h2>
-			</div>
+			<h2 id="user_status-set-dialog" class="set-status-modal__header">
+				{{ $t('user_status', 'Online status') }}
+			</h2>
 			<div class="set-status-modal__online-status"
 				role="radiogroup"
 				:aria-label="$t('user_status', 'Online status')">
@@ -25,15 +26,22 @@
 
 			<!-- Status message form -->
 			<form @submit.prevent="saveStatus" @reset="clearStatus">
-				<div class="set-status-modal__header">
-					<h2>{{ $t('user_status', 'Status message') }}</h2>
-				</div>
+				<h3 class="set-status-modal__header">
+					{{ $t('user_status', 'Status message') }}
+				</h3>
 				<div class="set-status-modal__custom-input">
 					<CustomMessageInput ref="customMessageInput"
 						:icon="icon"
 						:message="editedMessage"
 						@change="setMessage"
 						@select-icon="setIcon" />
+					<NcButton v-if="messageId === 'vacationing'"
+						:href="absencePageUrl"
+						target="_blank"
+						type="secondary"
+						:aria-label="$t('user_status', 'Set absence period')">
+						{{ $t('user_status', 'Set absence period and replacement') + ' ↗' }}
+					</NcButton>
 				</div>
 				<div v-if="hasBackupStatus"
 					class="set-status-modal__automation-hint">
@@ -69,8 +77,9 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { generateUrl } from '@nextcloud/router'
+import NcModal from '@nextcloud/vue/components/NcModal'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import { getAllStatusOptions } from '../services/statusOptionsService.js'
 import OnlineStatusMixin from '../mixins/OnlineStatusMixin.js'
 import PredefinedStatusesList from './PredefinedStatusesList.vue'
@@ -109,6 +118,7 @@ export default {
 		return {
 			clearAt: null,
 			editedMessage: '',
+			predefinedMessageId: null,
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
@@ -132,6 +142,10 @@ export default {
 		},
 		backupMessage() {
 			return this.$store.state.userBackupStatus.message || ''
+		},
+
+		absencePageUrl() {
+			return generateUrl('settings/user/availability#absence')
 		},
 
 		resetButtonText() {
@@ -176,6 +190,7 @@ export default {
 	mounted() {
 		this.$store.dispatch('fetchBackupFromServer')
 
+		this.predefinedMessageId = this.$store.state.userStatus.messageId
 		if (this.$store.state.userStatus.clearAt !== null) {
 			this.clearAt = {
 				type: '_time',
@@ -196,6 +211,7 @@ export default {
 		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
+			this.predefinedMessageId = null
 			this.$store.dispatch('setCustomMessage', {
 				message: this.message,
 				icon,
@@ -211,6 +227,7 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
+			this.predefinedMessageId = null
 			this.editedMessage = message
 		},
 		/**
@@ -227,6 +244,7 @@ export default {
 		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
+			this.predefinedMessageId = status.id
 			this.clearAt = status.clearAt
 			this.$store.dispatch('setPredefinedMessage', {
 				messageId: status.id,
@@ -246,11 +264,18 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				await this.$store.dispatch('setCustomMessage', {
-					message: this.editedMessage,
-					icon: this.icon,
-					clearAt: this.clearAt,
-				})
+				if (this.predefinedMessageId === null) {
+					await this.$store.dispatch('setCustomMessage', {
+						message: this.editedMessage,
+						icon: this.icon,
+						clearAt: this.clearAt,
+					})
+				} else {
+					this.$store.dispatch('setPredefinedMessage', {
+						messageId: this.predefinedMessageId,
+						clearAt: this.clearAt,
+					})
+				}
 			} catch (err) {
 				showError(this.$t('user_status', 'There was an error saving the status'))
 				console.debug(err)
@@ -278,6 +303,7 @@ export default {
 			}
 
 			this.isSavingStatus = false
+			this.predefinedMessageId = null
 			this.closeModal()
 		},
 		/**
@@ -299,6 +325,7 @@ export default {
 			}
 
 			this.isSavingStatus = false
+			this.predefinedMessageId = this.$store.state.userStatus?.messageId
 		},
 	},
 }
@@ -309,34 +336,48 @@ export default {
 .set-status-modal {
 	padding: 8px 20px 20px 20px;
 
+	&, & * {
+		box-sizing: border-box;
+	}
+
 	&__header {
+		font-size: 21px;
 		text-align: center;
-		font-weight: bold;
-		margin: 15px 0;
+		height: fit-content;
+		min-height: var(--default-clickable-area);
+		line-height: var(--default-clickable-area);
+		overflow-wrap: break-word;
+		margin-block: 0 calc(2 * var(--default-grid-baseline));
 	}
 
 	&__online-status {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
+		display: flex;
+		flex-direction: column;
+		gap: calc(2 * var(--default-grid-baseline));
+		margin-block: 0 calc(2 * var(--default-grid-baseline));
 	}
 
 	&__custom-input {
 		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--default-grid-baseline);
 		width: 100%;
-		margin-bottom: 10px;
+		padding-inline-start: var(--default-grid-baseline);
+		margin-block: 0 calc(2 * var(--default-grid-baseline));
 	}
 
 	&__automation-hint {
 		display: flex;
 		width: 100%;
-		margin-bottom: 10px;
+		margin-block: 0 calc(2 * var(--default-grid-baseline));
 		color: var(--color-text-maxcontrast);
 	}
 
 	.status-buttons {
 		display: flex;
 		padding: 3px;
-		padding-left:0;
+		padding-inline-start:0;
 		gap: 3px;
 	}
 }

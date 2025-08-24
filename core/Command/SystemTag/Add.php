@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -73,7 +74,7 @@ class Add extends Base {
 				]);
 			return 0;
 		} catch (TagAlreadyExistsException $e) {
-			$output->writeln('<error>'.$e->getMessage().'</error>');
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return 2;
 		}
 	}

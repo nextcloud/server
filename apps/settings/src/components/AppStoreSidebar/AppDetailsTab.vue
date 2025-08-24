@@ -8,7 +8,7 @@
 		:name="t('settings', 'Details')"
 		:order="1">
 		<template #icon>
-			<NcIconSvgWrapper :path="mdiTextBox" />
+			<NcIconSvgWrapper :path="mdiTextBoxOutline" />
 		</template>
 		<div class="app-details">
 			<div class="app-details__actions">
@@ -47,19 +47,19 @@
 						class="update primary"
 						type="button"
 						:value="t('settings', 'Update to {version}', { version: app.update })"
-						:disabled="installing || isLoading"
+						:disabled="installing || isLoading || isManualInstall"
 						@click="update(app.id)">
 					<input v-if="app.canUnInstall"
 						class="uninstall"
 						type="button"
 						:value="t('settings', 'Remove')"
 						:disabled="installing || isLoading"
-						@click="remove(app.id)">
+						@click="remove(app.id, removeData)">
 					<input v-if="app.active"
 						class="enable"
 						type="button"
-						:value="t('settings','Disable')"
-						:disabled="installing || isLoading"
+						:value="disableButtonText"
+						:disabled="installing || isLoading || isInitializing || isDeploying"
 						@click="disable(app.id)">
 					<input v-if="!app.active && (app.canInstall || app.isCompatible)"
 						:title="enableButtonTooltip"
@@ -67,8 +67,8 @@
 						class="enable primary"
 						type="button"
 						:value="enableButtonText"
-						:disabled="!app.canInstall || installing || isLoading"
-						@click="enable(app.id)">
+						:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
+						@click="enableButtonAction">
 					<input v-else-if="!app.active && !app.canInstall"
 						:title="forceEnableButtonTooltip"
 						:aria-label="forceEnableButtonTooltip"
@@ -77,7 +77,25 @@
 						:value="forceEnableButtonText"
 						:disabled="installing || isLoading"
 						@click="forceEnable(app.id)">
+					<NcButton v-if="app?.app_api && (app.canInstall || app.isCompatible)"
+						:aria-label="t('settings', 'Advanced deploy options')"
+						type="secondary"
+						@click="() => showDeployOptionsModal = true">
+						<template #icon>
+							<NcIconSvgWrapper :path="mdiToyBrickPlusOutline" />
+						</template>
+						{{ t('settings', 'Deploy options') }}
+					</NcButton>
 				</div>
+				<p v-if="!defaultDeployDaemonAccessible" class="warning">
+					{{ t('settings', 'Default Deploy daemon is not accessible') }}
+				</p>
+				<NcCheckboxRadioSwitch v-if="app.canUnInstall"
+					:checked="removeData"
+					:disabled="installing || isLoading || !defaultDeployDaemonAccessible"
+					@update:checked="toggleRemoveData">
+					{{ t('settings', 'Delete data on remove') }}
+				</NcCheckboxRadioSwitch>
 			</div>
 
 			<ul class="app-details__dependencies">
@@ -97,7 +115,7 @@
 				</li>
 			</ul>
 
-			<div v-if="lastModified" class="app-details__section">
+			<div v-if="lastModified && !app.shipped" class="app-details__section">
 				<h4>
 					{{ t('settings', 'Latest updated') }}
 				</h4>
@@ -144,7 +162,7 @@
 						:aria-label="t('settings', 'Report a bug')"
 						:title="t('settings', 'Report a bug')">
 						<template #icon>
-							<NcIconSvgWrapper :path="mdiBug" />
+							<NcIconSvgWrapper :path="mdiBugOutline" />
 						</template>
 					</NcButton>
 					<NcButton :disabled="!app.bugs"
@@ -152,7 +170,7 @@
 						:aria-label="t('settings', 'Request feature')"
 						:title="t('settings', 'Request feature')">
 						<template #icon>
-							<NcIconSvgWrapper :path="mdiFeatureSearch" />
+							<NcIconSvgWrapper :path="mdiFeatureSearchOutline" />
 						</template>
 					</NcButton>
 					<NcButton v-if="app.appstoreData?.discussion"
@@ -160,7 +178,7 @@
 						:aria-label="t('settings', 'Ask questions or discuss')"
 						:title="t('settings', 'Ask questions or discuss')">
 						<template #icon>
-							<NcIconSvgWrapper :path="mdiTooltipQuestion" />
+							<NcIconSvgWrapper :path="mdiTooltipQuestionOutline" />
 						</template>
 					</NcButton>
 					<NcButton v-if="!app.internal"
@@ -173,20 +191,33 @@
 					</NcButton>
 				</div>
 			</div>
+
+			<AppDeployOptionsModal v-if="app?.app_api"
+				:show.sync="showDeployOptionsModal"
+				:app="app" />
+			<DaemonSelectionDialog v-if="app?.app_api"
+				:show.sync="showSelectDaemonModal"
+				:app="app"
+				:deploy-options="deployOptions" />
 		</div>
 	</NcAppSidebarTab>
 </template>
 
 <script>
-import NcAppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import AppDeployOptionsModal from './AppDeployOptionsModal.vue'
+import DaemonSelectionDialog from '../AppAPI/DaemonSelectionDialog.vue'
 
 import AppManagement from '../../mixins/AppManagement.js'
-import { mdiBug, mdiFeatureSearch, mdiStar, mdiTextBox, mdiTooltipQuestion } from '@mdi/js'
+import { mdiBugOutline, mdiFeatureSearchOutline, mdiStar, mdiTextBoxOutline, mdiTooltipQuestionOutline, mdiToyBrickPlusOutline } from '@mdi/js'
 import { useAppsStore } from '../../store/apps-store'
+import { useAppApiStore } from '../../store/app-api-store'
 
 export default {
 	name: 'AppDetailsTab',
@@ -197,6 +228,9 @@ export default {
 		NcDateTime,
 		NcIconSvgWrapper,
 		NcSelect,
+		NcCheckboxRadioSwitch,
+		AppDeployOptionsModal,
+		DaemonSelectionDialog,
 	},
 	mixins: [AppManagement],
 
@@ -209,21 +243,28 @@ export default {
 
 	setup() {
 		const store = useAppsStore()
+		const appApiStore = useAppApiStore()
 
 		return {
 			store,
+			appApiStore,
 
-			mdiBug,
-			mdiFeatureSearch,
+			mdiBugOutline,
+			mdiFeatureSearchOutline,
 			mdiStar,
-			mdiTextBox,
-			mdiTooltipQuestion,
+			mdiTextBoxOutline,
+			mdiTooltipQuestionOutline,
+			mdiToyBrickPlusOutline,
 		}
 	},
 
 	data() {
 		return {
 			groupCheckedAppsData: false,
+			removeData: false,
+			showDeployOptionsModal: false,
+			showSelectDaemonModal: false,
+			deployOptions: null,
 		}
 	},
 
@@ -328,10 +369,45 @@ export default {
 				.sort((a, b) => a.name.localeCompare(b.name))
 		},
 	},
+	watch: {
+		'app.id'() {
+			this.removeData = false
+		},
+	},
+	beforeUnmount() {
+		this.deployOptions = null
+		unsubscribe('showDaemonSelectionModal')
+	},
 	mounted() {
 		if (this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true
 		}
+		subscribe('showDaemonSelectionModal', (deployOptions) => {
+			this.showSelectionModal(deployOptions)
+		})
+	},
+	methods: {
+		toggleRemoveData() {
+			this.removeData = !this.removeData
+		},
+		showSelectionModal(deployOptions = null) {
+			this.deployOptions = deployOptions
+			this.showSelectDaemonModal = true
+		},
+		async enableButtonAction() {
+			if (!this.app?.app_api) {
+				this.enable(this.app.id)
+				return
+			}
+			await this.appApiStore.fetchDockerDaemons()
+			if (this.appApiStore.dockerDaemons.length === 1 && this.app.needsDownload) {
+				this.enable(this.app.id, this.appApiStore.dockerDaemons[0])
+			} else if (this.app.needsDownload) {
+				this.showSelectionModal()
+			} else {
+				this.enable(this.app.id, this.app.daemon)
+			}
+		},
 	},
 }
 </script>
@@ -345,6 +421,7 @@ export default {
 		&-manage {
 			// if too many, shrink them and ellipsis
 			display: flex;
+			align-items: center;
 			input {
 				flex: 0 1 auto;
 				min-width: 0;
@@ -398,14 +475,15 @@ export default {
 }
 
 .force {
-	color: var(--color-error);
-	border-color: var(--color-error);
+	color: var(--color-text-error);
+	border-color: var(--color-border-error);
 	background: var(--color-main-background);
 }
+
 .force:hover,
 .force:active {
 	color: var(--color-main-background);
-	border-color: var(--color-error) !important;
+	border-color: var(--color-border-error) !important;
 	background: var(--color-error);
 }
 

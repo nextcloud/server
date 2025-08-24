@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,12 +11,16 @@ namespace Test;
 use OC\Installer;
 use OC\IntegrityCheck\Checker;
 use OC\Updater;
+use OCP\App\IAppManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class UpdaterTest extends TestCase {
+	/** @var ServerVersion|MockObject */
+	private $serverVersion;
 	/** @var IConfig|MockObject */
 	private $config;
 	/** @var IAppConfig|MockObject */
@@ -28,38 +33,33 @@ class UpdaterTest extends TestCase {
 	private $checker;
 	/** @var Installer|MockObject */
 	private $installer;
+	private IAppManager&MockObject $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->appConfig = $this->getMockBuilder(IAppConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->checker = $this->getMockBuilder(Checker::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->installer = $this->getMockBuilder(Installer::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->serverVersion = $this->createMock(ServerVersion::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->checker = $this->createMock(Checker::class);
+		$this->installer = $this->createMock(Installer::class);
+		$this->appManager = $this->createMock(IAppManager::class);
 
 		$this->updater = new Updater(
+			$this->serverVersion,
 			$this->config,
 			$this->appConfig,
 			$this->checker,
 			$this->logger,
-			$this->installer
+			$this->installer,
+			$this->appManager,
 		);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function versionCompatibilityTestData() {
+	public static function versionCompatibilityTestData(): array {
 		return [
 			// Upgrade with invalid version
 			['9.1.1.13', '11.0.2.25', ['nextcloud' => ['11.0' => true]], false],
@@ -86,7 +86,6 @@ class UpdaterTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider versionCompatibilityTestData
 	 *
 	 * @param string $oldVersion
 	 * @param string $newVersion
@@ -95,7 +94,8 @@ class UpdaterTest extends TestCase {
 	 * @param bool $debug
 	 * @param string $vendor
 	 */
-	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud') {
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionCompatibilityTestData')]
+	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud'): void {
 		$this->config->expects($this->any())
 			->method('getSystemValueBool')
 			->with('debug', false)

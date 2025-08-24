@@ -9,10 +9,14 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Storage\Storage;
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\ForbiddenException;
+use OCP\Files\InvalidPathException;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\LockedException;
@@ -20,12 +24,12 @@ use OCP\Lock\LockedException;
 class ObjectTree extends CachingTree {
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	protected $fileView;
 
 	/**
-	 * @var  \OCP\Files\Mount\IMountManager
+	 * @var IMountManager
 	 */
 	protected $mountManager;
 
@@ -37,42 +41,13 @@ class ObjectTree extends CachingTree {
 
 	/**
 	 * @param \Sabre\DAV\INode $rootNode
-	 * @param \OC\Files\View $view
-	 * @param  \OCP\Files\Mount\IMountManager $mountManager
+	 * @param View $view
+	 * @param IMountManager $mountManager
 	 */
-	public function init(\Sabre\DAV\INode $rootNode, \OC\Files\View $view, \OCP\Files\Mount\IMountManager $mountManager) {
+	public function init(\Sabre\DAV\INode $rootNode, View $view, IMountManager $mountManager) {
 		$this->rootNode = $rootNode;
 		$this->fileView = $view;
 		$this->mountManager = $mountManager;
-	}
-
-	/**
-	 * If the given path is a chunked file name, converts it
-	 * to the real file name. Only applies if the OC-CHUNKED header
-	 * is present.
-	 *
-	 * @param string $path chunk file path to convert
-	 *
-	 * @return string path to real file
-	 */
-	private function resolveChunkFile($path) {
-		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-			// resolve to real file name to find the proper node
-			[$dir, $name] = \Sabre\Uri\split($path);
-			if ($dir === '/' || $dir === '.') {
-				$dir = '';
-			}
-
-			$info = \OC_FileChunking::decodeName($name);
-			// only replace path if it was really the chunked file
-			if (isset($info['transferid'])) {
-				// getNodePath is called for multiple nodes within a chunk
-				// upload call
-				$path = $dir . '/' . $info['name'];
-				$path = ltrim($path, '/');
-			}
-		}
-		return $path;
 	}
 
 	/**
@@ -99,7 +74,7 @@ class ObjectTree extends CachingTree {
 		if ($path) {
 			try {
 				$this->fileView->verifyPath($path, basename($path));
-			} catch (\OCP\Files\InvalidPathException $ex) {
+			} catch (InvalidPathException $ex) {
 				throw new InvalidPath($ex->getMessage());
 			}
 		}
@@ -117,7 +92,7 @@ class ObjectTree extends CachingTree {
 			$internalPath = $mount->getInternalPath($absPath);
 			if ($storage && $storage->file_exists($internalPath)) {
 				/**
-				 * @var \OC\Files\Storage\Storage $storage
+				 * @var Storage $storage
 				 */
 				// get data directly
 				$data = $storage->getMetaData($internalPath);
@@ -126,9 +101,6 @@ class ObjectTree extends CachingTree {
 				$info = null;
 			}
 		} else {
-			// resolve chunk file name to real name, if applicable
-			$path = $this->resolveChunkFile($path);
-
 			// read from cache
 			try {
 				$info = $this->fileView->getFileInfo($path);
@@ -152,9 +124,9 @@ class ObjectTree extends CachingTree {
 		}
 
 		if ($info->getType() === 'dir') {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this);
+			$node = new Directory($this->fileView, $info, $this);
 		} else {
-			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
+			$node = new File($this->fileView, $info);
 		}
 
 		$this->cache[$path] = $node;
@@ -201,7 +173,7 @@ class ObjectTree extends CachingTree {
 		[$destinationDir, $destinationName] = \Sabre\Uri\split($destinationPath);
 		try {
 			$this->fileView->verifyPath($destinationDir, $destinationName);
-		} catch (\OCP\Files\InvalidPathException $ex) {
+		} catch (InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
 		}
 

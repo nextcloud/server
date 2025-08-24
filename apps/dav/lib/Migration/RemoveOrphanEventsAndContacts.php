@@ -8,84 +8,45 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\Migration;
 
-use OCA\DAV\CalDAV\CalDavBackend;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
+use OCA\DAV\BackgroundJob\CleanupOrphanedChildrenJob;
+use OCP\BackgroundJob\IJobList;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RemoveOrphanEventsAndContacts implements IRepairStep {
-
-	/** @var IDBConnection */
-	private $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private readonly IJobList $jobList,
+	) {
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getName(): string {
-		return 'Clean up orphan event and contact data';
+		return 'Queue jobs to clean up orphan event and contact data';
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function run(IOutput $output) {
-		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendars', 'calendarid');
-		$output->info(sprintf('%d events without a calendar have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('calendarobjects_props', 'calendarobjects', 'objectid');
-		$output->info(sprintf('%d properties without an events have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendars', 'calendarid');
-		$output->info(sprintf('%d changes without a calendar have been cleaned up', $orphanItems));
+	public function run(IOutput $output): void {
+		$this->queueJob('calendarobjects', 'calendars', 'calendarid', '%d events without a calendar have been cleaned up');
+		$this->queueJob('calendarobjects_props', 'calendarobjects', 'objectid', '%d properties without an events have been cleaned up');
+		$this->queueJob('calendarchanges', 'calendars', 'calendarid', '%d changes without a calendar have been cleaned up');
 
-		$orphanItems = $this->removeOrphanChildren('calendarobjects', 'calendarsubscriptions', 'calendarid');
-		$output->info(sprintf('%d cached events without a calendar subscription have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('calendarchanges', 'calendarsubscriptions', 'calendarid');
-		$output->info(sprintf('%d changes without a calendar subscription have been cleaned up', $orphanItems));
+		$this->queueJob('calendarobjects', 'calendarsubscriptions', 'calendarid', '%d cached events without a calendar subscription have been cleaned up');
+		$this->queueJob('calendarchanges', 'calendarsubscriptions', 'calendarid', '%d changes without a calendar subscription have been cleaned up');
 
-		$orphanItems = $this->removeOrphanChildren('cards', 'addressbooks', 'addressbookid');
-		$output->info(sprintf('%d contacts without an addressbook have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('cards_properties', 'cards', 'cardid');
-		$output->info(sprintf('%d properties without a contact have been cleaned up', $orphanItems));
-		$orphanItems = $this->removeOrphanChildren('addressbookchanges', 'addressbooks', 'addressbookid');
-		$output->info(sprintf('%d changes without an addressbook have been cleaned up', $orphanItems));
+		$this->queueJob('cards', 'addressbooks', 'addressbookid', '%d contacts without an addressbook have been cleaned up');
+		$this->queueJob('cards_properties', 'cards', 'cardid', '%d properties without a contact have been cleaned up');
+		$this->queueJob('addressbookchanges', 'addressbooks', 'addressbookid', '%d changes without an addressbook have been cleaned up');
 	}
 
-	protected function removeOrphanChildren($childTable, $parentTable, $parentId): int {
-		$qb = $this->connection->getQueryBuilder();
-
-		$qb->select('c.id')
-			->from($childTable, 'c')
-			->leftJoin('c', $parentTable, 'p', $qb->expr()->eq('c.' . $parentId, 'p.id'))
-			->where($qb->expr()->isNull('p.id'));
-
-		if (\in_array($parentTable, ['calendars', 'calendarsubscriptions'], true)) {
-			$calendarType = $parentTable === 'calendarsubscriptions' ? CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION : CalDavBackend::CALENDAR_TYPE_CALENDAR;
-			$qb->andWhere($qb->expr()->eq('c.calendartype', $qb->createNamedParameter($calendarType, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
-		}
-
-		$result = $qb->execute();
-
-		$orphanItems = [];
-		while ($row = $result->fetch()) {
-			$orphanItems[] = (int) $row['id'];
-		}
-		$result->closeCursor();
-
-		if (!empty($orphanItems)) {
-			$qb->delete($childTable)
-				->where($qb->expr()->in('id', $qb->createParameter('ids')));
-
-			$orphanItemsBatch = array_chunk($orphanItems, 200);
-			foreach ($orphanItemsBatch as $items) {
-				$qb->setParameter('ids', $items, IQueryBuilder::PARAM_INT_ARRAY);
-				$qb->execute();
-			}
-		}
-
-		return count($orphanItems);
+	private function queueJob(
+		string $childTable,
+		string $parentTable,
+		string $parentId,
+		string $logMessage,
+	): void {
+		$this->jobList->add(CleanupOrphanedChildrenJob::class, [
+			CleanupOrphanedChildrenJob::ARGUMENT_CHILD_TABLE => $childTable,
+			CleanupOrphanedChildrenJob::ARGUMENT_PARENT_TABLE => $parentTable,
+			CleanupOrphanedChildrenJob::ARGUMENT_PARENT_ID => $parentId,
+			CleanupOrphanedChildrenJob::ARGUMENT_LOG_MESSAGE => $logMessage,
+		]);
 	}
 }

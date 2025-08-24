@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,10 +10,10 @@ use OCA\Theming\ITheme;
 use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
+use OCP\INavigationManager;
 use OCP\Settings\ISettings;
 use OCP\Util;
 
@@ -25,7 +26,7 @@ class Personal implements ISettings {
 		private ThemesService $themesService,
 		private IInitialState $initialStateService,
 		private ThemingDefaults $themingDefaults,
-		private IAppManager $appManager,
+		private INavigationManager $navigationManager,
 	) {
 	}
 
@@ -49,8 +50,8 @@ class Personal implements ISettings {
 			});
 		}
 
-		// Get the default app enforced by admin
-		$forcedDefaultApp = $this->appManager->getDefaultAppForUser(null, false);
+		// Get the default entry enforced by admin
+		$forcedDefaultEntry = $this->navigationManager->getDefaultEntryIdForUser(null, false);
 
 		/** List of all shipped backgrounds */
 		$this->initialStateService->provideInitialState('shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
@@ -75,9 +76,10 @@ class Personal implements ISettings {
 		$this->initialStateService->provideInitialState('themes', array_values($themes));
 		$this->initialStateService->provideInitialState('enforceTheme', $enforcedTheme);
 		$this->initialStateService->provideInitialState('isUserThemingDisabled', $this->themingDefaults->isUserThemingDisabled());
+		$this->initialStateService->provideInitialState('enableBlurFilter', $this->config->getUserValue($this->userId, 'theming', 'force_enable_blur_filter', ''));
 		$this->initialStateService->provideInitialState('navigationBar', [
 			'userAppOrder' => json_decode($this->config->getUserValue($this->userId, 'core', 'apporder', '[]'), true, flags:JSON_THROW_ON_ERROR),
-			'enforcedDefaultApp' => $forcedDefaultApp
+			'enforcedDefaultApp' => $forcedDefaultEntry
 		]);
 
 		Util::addScript($this->appName, 'personal-theming');
@@ -95,8 +97,8 @@ class Personal implements ISettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 * @since 9.1

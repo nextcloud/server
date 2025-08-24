@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -22,7 +23,9 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
 	public function checkCapabilitiesResponse(\Behat\Gherkin\Node\TableNode $formData) {
-		$capabilitiesXML = simplexml_load_string($this->response->getBody())->data->capabilities;
+		$capabilitiesXML = simplexml_load_string($this->response->getBody());
+		Assert::assertNotFalse($capabilitiesXML, 'Failed to fetch capabilities');
+		$capabilitiesXML = $capabilitiesXML->data->capabilities;
 
 		foreach ($formData->getHash() as $row) {
 			$path_to_element = explode('@@@', $row['path_to_element']);
@@ -32,9 +35,9 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 			}
 			$answeredValue = (string)$answeredValue;
 			Assert::assertEquals(
-				$row['value'] === "EMPTY" ? '' : $row['value'],
+				$row['value'] === 'EMPTY' ? '' : $row['value'],
 				$answeredValue,
-				"Failed field " . $row['capability'] . " " . $row['path_to_element']
+				'Failed field ' . $row['capability'] . ' ' . $row['path_to_element']
 			);
 		}
 	}

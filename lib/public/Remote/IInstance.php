@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,7 +22,7 @@ interface IInstance {
 	public function getUrl();
 
 	/**
-	 * @return string The of of the remote server with protocol
+	 * @return string The of the remote server with protocol
 	 *
 	 * @since 13.0.0
 	 * @deprecated 23.0.0

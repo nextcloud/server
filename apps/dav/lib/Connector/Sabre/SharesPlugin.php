@@ -7,6 +7,7 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Share20\Exception\BackendError;
 use OCA\DAV\Connector\Sabre\Node as DavNode;
 use OCP\Files\Folder;
 use OCP\Files\Node;
@@ -14,6 +15,7 @@ use OCP\Files\NotFoundException;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Sabre\DAV\ICollection;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
@@ -33,24 +35,26 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
-	private IManager $shareManager;
-	private Tree $tree;
 	private string $userId;
-	private Folder $userFolder;
+
 	/** @var IShare[][] */
 	private array $cachedShares = [];
-	/** @var string[] */
+
+	/**
+	 * Tracks which folders have been cached.
+	 * When a folder is cached, it will appear with its path as key and true
+	 * as value.
+	 *
+	 * @var bool[]
+	 */
 	private array $cachedFolders = [];
 
 	public function __construct(
-		Tree $tree,
-		IUserSession $userSession,
-		Folder $userFolder,
-		IManager $shareManager
+		private Tree $tree,
+		private IUserSession $userSession,
+		private Folder $userFolder,
+		private IManager $shareManager,
 	) {
-		$this->tree = $tree;
-		$this->shareManager = $shareManager;
-		$this->userFolder = $userFolder;
 		$this->userId = $userSession->getUser()->getUID();
 	}
 
@@ -71,6 +75,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->protectedProperties[] = self::SHAREES_PROPERTYNAME;
 
 		$this->server = $server;
+		$this->server->on('preloadCollection', $this->preloadCollection(...));
 		$this->server->on('propFind', [$this, 'handleGetProperties']);
 	}
 
@@ -91,19 +96,30 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			IShare::TYPE_DECK,
 			IShare::TYPE_SCIENCEMESH,
 		];
+
 		foreach ($requestedShareTypes as $requestedShareType) {
-			$shares = $this->shareManager->getSharesBy(
+			$result[] = $this->shareManager->getSharesBy(
 				$this->userId,
 				$requestedShareType,
 				$node,
 				false,
 				-1
 			);
-			foreach ($shares as $share) {
-				$result[] = $share;
+
+			// Also check for shares where the user is the recipient
+			try {
+				$result[] = $this->shareManager->getSharedWith(
+					$this->userId,
+					$requestedShareType,
+					$node,
+					-1
+				);
+			} catch (BackendError $e) {
+				// ignore
 			}
 		}
-		return $result;
+
+		return array_merge(...$result);
 	}
 
 	/**
@@ -124,27 +140,50 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	private function getShares(DavNode $sabreNode): array {
 		if (isset($this->cachedShares[$sabreNode->getId()])) {
-			$shares = $this->cachedShares[$sabreNode->getId()];
-		} else {
-			[$parentPath,] = \Sabre\Uri\split($sabreNode->getPath());
-			if ($parentPath === '') {
-				$parentPath = '/';
-			}
-			// if we already cached the folder this file is in we know there are no shares for this file
-			if (array_search($parentPath, $this->cachedFolders) === false) {
-				try {
-					$node = $sabreNode->getNode();
-				} catch (NotFoundException $e) {
-					return [];
-				}
-				$shares = $this->getShare($node);
-				$this->cachedShares[$sabreNode->getId()] = $shares;
-			} else {
-				return [];
-			}
+			return $this->cachedShares[$sabreNode->getId()];
 		}
 
-		return $shares;
+		[$parentPath,] = \Sabre\Uri\split($sabreNode->getPath());
+		if ($parentPath === '') {
+			$parentPath = '/';
+		}
+
+		// if we already cached the folder containing this file
+		// then we already know there are no shares here.
+		if (!isset($this->cachedFolders[$parentPath])) {
+			try {
+				$node = $sabreNode->getNode();
+			} catch (NotFoundException $e) {
+				return [];
+			}
+
+			$shares = $this->getShare($node);
+			$this->cachedShares[$sabreNode->getId()] = $shares;
+			return $shares;
+		}
+
+		return [];
+	}
+
+	private function preloadCollection(PropFind $propFind, ICollection $collection): void {
+		if (!$collection instanceof Directory
+			|| isset($this->cachedFolders[$collection->getPath()])
+			|| (
+				$propFind->getStatus(self::SHARETYPES_PROPERTYNAME) === null
+				&& $propFind->getStatus(self::SHAREES_PROPERTYNAME) === null
+			)
+		) {
+			return;
+		}
+
+		// If the node is a directory and we are requesting share types or sharees
+		// then we get all the shares in the folder and cache them.
+		// This is more performant than iterating each files afterwards.
+		$folderNode = $collection->getNode();
+		$this->cachedFolders[$collection->getPath()] = true;
+		foreach ($this->getSharesFolder($folderNode) as $id => $shares) {
+			$this->cachedShares[$id] = $shares;
+		}
 	}
 
 	/**
@@ -155,26 +194,10 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $sabreNode
+		\Sabre\DAV\INode $sabreNode,
 	) {
 		if (!($sabreNode instanceof DavNode)) {
 			return;
-		}
-
-		// need prefetch ?
-		if ($sabreNode instanceof Directory
-			&& $propFind->getDepth() !== 0
-			&& (
-				!is_null($propFind->getStatus(self::SHARETYPES_PROPERTYNAME)) ||
-				!is_null($propFind->getStatus(self::SHAREES_PROPERTYNAME))
-			)
-		) {
-			$folderNode = $sabreNode->getNode();
-			$this->cachedFolders[] = $sabreNode->getPath();
-			$childShares = $this->getSharesFolder($folderNode);
-			foreach ($childShares as $id => $shares) {
-				$this->cachedShares[$id] = $shares;
-			}
 		}
 
 		$propFind->handle(self::SHARETYPES_PROPERTYNAME, function () use ($sabreNode): ShareTypeList {

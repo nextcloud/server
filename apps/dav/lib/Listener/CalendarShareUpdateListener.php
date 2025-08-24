@@ -16,13 +16,10 @@ use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<CalendarShareUpdatedEvent> */
 class CalendarShareUpdateListener implements IEventListener {
-	private Backend $activityBackend;
-	private LoggerInterface $logger;
-
-	public function __construct(Backend $activityBackend,
-		LoggerInterface $logger) {
-		$this->activityBackend = $activityBackend;
-		$this->logger = $logger;
+	public function __construct(
+		private Backend $activityBackend,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -34,7 +31,7 @@ class CalendarShareUpdateListener implements IEventListener {
 			return;
 		}
 
-		$this->logger->debug("Creating activity for Calendar having its shares updated");
+		$this->logger->debug('Creating activity for Calendar having its shares updated');
 
 		$this->activityBackend->onCalendarUpdateShares(
 			$event->getCalendarData(),
@@ -42,5 +39,7 @@ class CalendarShareUpdateListener implements IEventListener {
 			$event->getAdded(),
 			$event->getRemoved()
 		);
+
+		// Here we should recalculate if reminders should be sent to new or old sharees
 	}
 }

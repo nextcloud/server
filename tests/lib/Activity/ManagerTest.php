@@ -9,26 +9,29 @@
 namespace Test\Activity;
 
 use OCP\Activity\Exceptions\IncompleteActivityException;
+use OCP\Activity\IConsumer;
+use OCP\Activity\IEvent;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 	/** @var \OC\Activity\Manager */
 	private $activityManager;
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	protected $request;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var IValidator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $validator;
+	protected IRequest&MockObject $request;
+	protected IUserSession&MockObject $session;
+	protected IConfig&MockObject $config;
+	protected IValidator&MockObject $validator;
+	protected IRichTextFormatter&MockObject $richTextFormatter;
+	private ITimeFactory&MockObject $time;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,13 +40,17 @@ class ManagerTest extends TestCase {
 		$this->session = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->validator = $this->createMock(IValidator::class);
+		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
+		$this->time = $this->createMock(ITimeFactory::class);
 
 		$this->activityManager = new \OC\Activity\Manager(
 			$this->request,
 			$this->session,
 			$this->config,
 			$this->validator,
-			$this->createMock(IL10N::class)
+			$this->richTextFormatter,
+			$this->createMock(IL10N::class),
+			$this->time,
 		);
 
 		$this->assertSame([], self::invokePrivate($this->activityManager, 'getConsumers'));
@@ -56,14 +63,14 @@ class ManagerTest extends TestCase {
 		$this->assertNotEmpty(self::invokePrivate($this->activityManager, 'getConsumers'));
 	}
 
-	public function testGetConsumers() {
+	public function testGetConsumers(): void {
 		$consumers = self::invokePrivate($this->activityManager, 'getConsumers');
 
 		$this->assertNotEmpty($consumers);
 	}
 
 
-	public function testGetConsumersInvalidConsumer() {
+	public function testGetConsumersInvalidConsumer(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->activityManager->registerConsumer(function () {
@@ -73,7 +80,7 @@ class ManagerTest extends TestCase {
 		self::invokePrivate($this->activityManager, 'getConsumers');
 	}
 
-	public function getUserFromTokenThrowInvalidTokenData() {
+	public static function getUserFromTokenThrowInvalidTokenData(): array {
 		return [
 			[null, []],
 			['', []],
@@ -85,19 +92,19 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getUserFromTokenThrowInvalidTokenData
 	 *
 	 * @param string $token
 	 * @param array $users
 	 */
-	public function testGetUserFromTokenThrowInvalidToken($token, $users) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('getUserFromTokenThrowInvalidTokenData')]
+	public function testGetUserFromTokenThrowInvalidToken($token, $users): void {
 		$this->expectException(\UnexpectedValueException::class);
 
 		$this->mockRSSToken($token, $token, $users);
 		self::invokePrivate($this->activityManager, 'getUserFromToken');
 	}
 
-	public function getUserFromTokenData() {
+	public static function getUserFromTokenData(): array {
 		return [
 			[null, '123456789012345678901234567890', 'user1'],
 			['user2', null, 'user2'],
@@ -106,13 +113,13 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider getUserFromTokenData
 	 *
 	 * @param string $userLoggedIn
 	 * @param string $token
 	 * @param string $expected
 	 */
-	public function testGetUserFromToken($userLoggedIn, $token, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('getUserFromTokenData')]
+	public function testGetUserFromToken($userLoggedIn, $token, $expected): void {
 		if ($userLoggedIn !== null) {
 			$this->mockUserSession($userLoggedIn);
 		}
@@ -152,7 +159,7 @@ class ManagerTest extends TestCase {
 	}
 
 
-	public function testPublishExceptionNoApp() {
+	public function testPublishExceptionNoApp(): void {
 		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
@@ -160,7 +167,7 @@ class ManagerTest extends TestCase {
 	}
 
 
-	public function testPublishExceptionNoType() {
+	public function testPublishExceptionNoType(): void {
 		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
@@ -169,7 +176,7 @@ class ManagerTest extends TestCase {
 	}
 
 
-	public function testPublishExceptionNoAffectedUser() {
+	public function testPublishExceptionNoAffectedUser(): void {
 		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
@@ -179,7 +186,7 @@ class ManagerTest extends TestCase {
 	}
 
 
-	public function testPublishExceptionNoSubject() {
+	public function testPublishExceptionNoSubject(): void {
 		$this->expectException(IncompleteActivityException::class);
 
 		$event = $this->activityManager->generateEvent();
@@ -189,7 +196,7 @@ class ManagerTest extends TestCase {
 		$this->activityManager->publish($event);
 	}
 
-	public function dataPublish() {
+	public static function dataPublish(): array {
 		return [
 			[null, ''],
 			['test_author', 'test_author'],
@@ -197,11 +204,11 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataPublish
 	 * @param string|null $author
 	 * @param string $expected
 	 */
-	public function testPublish($author, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPublish')]
+	public function testPublish($author, $expected): void {
 		if ($author !== null) {
 			$authorObject = $this->getMockBuilder(IUser::class)
 				->disableOriginalConstructor()
@@ -213,6 +220,11 @@ class ManagerTest extends TestCase {
 				->method('getUser')
 				->willReturn($authorObject);
 		}
+
+		$time = time();
+		$this->time
+			->method('getTime')
+			->willReturn($time);
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test')
@@ -227,9 +239,8 @@ class ManagerTest extends TestCase {
 		$consumer->expects($this->once())
 			->method('receive')
 			->with($event)
-			->willReturnCallback(function (\OCP\Activity\IEvent $event) use ($expected) {
-				$this->assertLessThanOrEqual(time() + 2, $event->getTimestamp(), 'Timestamp not set correctly');
-				$this->assertGreaterThanOrEqual(time() - 2, $event->getTimestamp(), 'Timestamp not set correctly');
+			->willReturnCallback(function (IEvent $event) use ($expected, $time): void {
+				$this->assertEquals($time, $event->getTimestamp(), 'Timestamp not set correctly');
 				$this->assertSame($expected, $event->getAuthor(), 'Author name not set correctly');
 			});
 		$this->activityManager->registerConsumer(function () use ($consumer) {
@@ -239,7 +250,7 @@ class ManagerTest extends TestCase {
 		$this->activityManager->publish($event);
 	}
 
-	public function testPublishAllManually() {
+	public function testPublishAllManually(): void {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('test_app')
 			->setType('test_type')
@@ -257,7 +268,7 @@ class ManagerTest extends TestCase {
 			->getMock();
 		$consumer->expects($this->once())
 			->method('receive')
-			->willReturnCallback(function (\OCP\Activity\IEvent $event) {
+			->willReturnCallback(function (IEvent $event): void {
 				$this->assertSame('test_app', $event->getApp(), 'App not set correctly');
 				$this->assertSame('test_type', $event->getType(), 'Type not set correctly');
 				$this->assertSame('test_affected', $event->getAffectedUser(), 'Affected user not set correctly');
@@ -280,7 +291,7 @@ class ManagerTest extends TestCase {
 	}
 }
 
-class NoOpConsumer implements \OCP\Activity\IConsumer {
-	public function receive(\OCP\Activity\IEvent $event) {
+class NoOpConsumer implements IConsumer {
+	public function receive(IEvent $event) {
 	}
 }

@@ -11,6 +11,8 @@ use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
 use OC\DB\Connection;
 use OC\DB\ConnectionAdapter;
+use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\Utils\Scanner;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -23,6 +25,8 @@ use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IUserManager;
+use OCP\Lock\LockedException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -96,17 +100,25 @@ class Scan extends Base {
 			);
 	}
 
-	protected function scanFiles(string $user, string $path, ?string $scanMetadata, OutputInterface $output, bool $backgroundScan = false, bool $recursive = true, bool $homeOnly = false): void {
+	protected function scanFiles(
+		string $user,
+		string $path,
+		?string $scanMetadata,
+		OutputInterface $output,
+		callable $mountFilter,
+		bool $backgroundScan = false,
+		bool $recursive = true,
+	): void {
 		$connection = $this->reconnectToDatabase($output);
-		$scanner = new \OC\Files\Utils\Scanner(
+		$scanner = new Scanner(
 			$user,
 			new ConnectionAdapter($connection),
-			\OC::$server->get(IEventDispatcher::class),
-			\OC::$server->get(LoggerInterface::class)
+			Server::get(IEventDispatcher::class),
+			Server::get(LoggerInterface::class)
 		);
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function (string $path) use ($output, $scanMetadata) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function (string $path) use ($output, $scanMetadata): void {
 			$output->writeln("\tFile\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->filesCounter;
 			$this->abortIfInterrupted();
@@ -120,29 +132,29 @@ class Scan extends Base {
 			}
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output): void {
 			$output->writeln("\tFolder\t<info>$path</info>", OutputInterface::VERBOSITY_VERBOSE);
 			++$this->foldersCounter;
 			$this->abortIfInterrupted();
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output): void {
 			$output->writeln('Error while scanning, storage not available (' . $e->getMessage() . ')', OutputInterface::VERBOSITY_VERBOSE);
 			++$this->errorsCounter;
 		});
 
-		$scanner->listen('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', function ($fullPath) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', function ($fullPath) use ($output): void {
 			$output->writeln("\t<error>Entry \"" . $fullPath . '" will not be accessible due to incompatible encoding</error>');
 			++$this->errorsCounter;
 		});
 
-		$this->eventDispatcher->addListener(NodeAddedToCache::class, function () {
+		$this->eventDispatcher->addListener(NodeAddedToCache::class, function (): void {
 			++$this->newCounter;
 		});
-		$this->eventDispatcher->addListener(FileCacheUpdated::class, function () {
+		$this->eventDispatcher->addListener(FileCacheUpdated::class, function (): void {
 			++$this->updatedCounter;
 		});
-		$this->eventDispatcher->addListener(NodeRemovedFromCache::class, function () {
+		$this->eventDispatcher->addListener(NodeRemovedFromCache::class, function (): void {
 			++$this->removedCounter;
 		});
 
@@ -150,7 +162,7 @@ class Scan extends Base {
 			if ($backgroundScan) {
 				$scanner->backgroundScan($path);
 			} else {
-				$scanner->scan($path, $recursive, $homeOnly ? [$this, 'filterHomeMount'] : null);
+				$scanner->scan($path, $recursive, $mountFilter);
 			}
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Home storage for user $user not writable or 'files' subdirectory missing</error>");
@@ -163,6 +175,12 @@ class Scan extends Base {
 		} catch (NotFoundException $e) {
 			$output->writeln('<error>Path not found: ' . $e->getMessage() . '</error>');
 			++$this->errorsCounter;
+		} catch (LockedException $e) {
+			if (str_starts_with($e->getPath(), 'scanner::')) {
+				$output->writeln('<error>Another process is already scanning \'' . substr($e->getPath(), strlen('scanner::')) . '\'</error>');
+			} else {
+				throw $e;
+			}
 		} catch (\Exception $e) {
 			$output->writeln('<error>Exception during scan: ' . $e->getMessage() . '</error>');
 			$output->writeln('<error>' . $e->getTraceAsString() . '</error>');
@@ -170,7 +188,7 @@ class Scan extends Base {
 		}
 	}
 
-	public function filterHomeMount(IMountPoint $mountPoint): bool {
+	public function isHomeMount(IMountPoint $mountPoint): bool {
 		// any mountpoint inside '/$user/files/'
 		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
 	}
@@ -202,6 +220,29 @@ class Scan extends Base {
 			$metadata = $input->getOption('generate-metadata') ?? '';
 		}
 
+		$homeOnly = $input->getOption('home-only');
+		$scannedStorages = [];
+		$mountFilter = function (IMountPoint $mount) use ($homeOnly, &$scannedStorages) {
+			if ($homeOnly && !$this->isHomeMount($mount)) {
+				return false;
+			}
+
+			// when scanning multiple users, the scanner might encounter the same storage multiple times (e.g. external storages, or group folders)
+			// we can filter out any storage we've already scanned to avoid double work
+			$storage = $mount->getStorage();
+			$storageKey = $storage->getId();
+			while ($storage->instanceOfStorage(Jail::class)) {
+				$storageKey .= '/' . $storage->getUnjailedPath('');
+				$storage = $storage->getUnjailedStorage();
+			}
+			if (array_key_exists($storageKey, $scannedStorages)) {
+				return false;
+			}
+
+			$scannedStorages[$storageKey] = true;
+			return true;
+		};
+
 		$user_count = 0;
 		foreach ($users as $user) {
 			if (is_object($user)) {
@@ -211,7 +252,15 @@ class Scan extends Base {
 			++$user_count;
 			if ($this->userManager->userExists($user)) {
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
-				$this->scanFiles($user, $path, $metadata, $output, $input->getOption('unscanned'), !$input->getOption('shallow'), $input->getOption('home-only'));
+				$this->scanFiles(
+					$user,
+					$path,
+					$metadata,
+					$output,
+					$mountFilter,
+					$input->getOption('unscanned'),
+					!$input->getOption('shallow'),
+				);
 				$output->writeln('', OutputInterface::VERBOSITY_VERBOSE);
 			} else {
 				$output->writeln("<error>Unknown user $user_count $user</error>");
@@ -237,8 +286,8 @@ class Scan extends Base {
 		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
 		set_error_handler(
-			fn (int $severity, string $message, string $file, int $line): bool =>
-				$this->exceptionErrorHandler($output, $severity, $message, $file, $line),
+			fn (int $severity, string $message, string $file, int $line): bool
+				=> $this->exceptionErrorHandler($output, $severity, $message, $file, $line),
 			E_ALL
 		);
 	}
@@ -309,7 +358,7 @@ class Scan extends Base {
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {
 		/** @var Connection $connection */
-		$connection = \OC::$server->get(Connection::class);
+		$connection = Server::get(Connection::class);
 		try {
 			$connection->close();
 		} catch (\Exception $ex) {

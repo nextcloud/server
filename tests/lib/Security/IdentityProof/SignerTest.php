@@ -90,7 +90,7 @@ gQIDAQAB
 		);
 	}
 
-	public function testSign() {
+	public function testSign(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getCloudId')
 			->willReturn('foo@example.com');
@@ -123,7 +123,7 @@ gQIDAQAB
 		$this->assertEquals($expects, $result);
 	}
 
-	public function testVerifyValid() {
+	public function testVerifyValid(): void {
 		$data = [
 			'message' => [
 				'data' => [
@@ -151,7 +151,7 @@ gQIDAQAB
 		$this->assertTrue($this->signer->verify($data));
 	}
 
-	public function testVerifyInvalid() {
+	public function testVerifyInvalid(): void {
 		$data = [
 			'message' => [
 				'data' => [
@@ -179,7 +179,7 @@ gQIDAQAB
 		$this->assertFalse($this->signer->verify($data));
 	}
 
-	public function testVerifyInvalidData() {
+	public function testVerifyInvalidData(): void {
 		$data = [
 		];
 

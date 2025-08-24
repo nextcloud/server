@@ -31,16 +31,16 @@ class OCI extends AbstractDatabase {
 	public function validate($config) {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database Login and name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$this->dbprettyname]);
 		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t("Enter the database Login for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('Enter the database Login for %s', [$this->dbprettyname]);
 		} elseif (empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('Enter the database name for %s', [$this->dbprettyname]);
 		}
 		return $errors;
 	}
 
-	public function setupDatabase($username) {
+	public function setupDatabase() {
 		try {
 			$this->connect();
 		} catch (\Exception $e) {

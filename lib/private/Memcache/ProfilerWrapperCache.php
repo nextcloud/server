@@ -18,7 +18,7 @@ use OCP\IMemcacheTTL;
  * @template-implements \ArrayAccess<string,mixed>
  */
 class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL, \ArrayAccess {
-	/** @var Redis  $wrappedCache*/
+	/** @var Redis $wrappedCache */
 	protected $wrappedCache;
 
 	/** @var string $prefix */
@@ -162,6 +162,18 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 			'start' => $start,
 			'end' => microtime(true),
 			'op' => $this->getPrefix() . '::cad::' . $key,
+		];
+		return $ret;
+	}
+
+	/** @inheritDoc */
+	public function ncad(string $key, mixed $old): bool {
+		$start = microtime(true);
+		$ret = $this->wrappedCache->ncad($key, $old);
+		$this->data['queries'][] = [
+			'start' => $start,
+			'end' => microtime(true),
+			'op' => $this->getPrefix() . '::ncad::' . $key,
 		];
 		return $ret;
 	}

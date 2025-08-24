@@ -46,13 +46,13 @@
 
 <script>
 import debounce from 'debounce'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 
 import HeaderBar from './HeaderBar.vue'
 
 import { savePrimaryAccountProperty } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 export default {
 	name: 'AccountPropertySection',
@@ -148,13 +148,14 @@ export default {
 					return
 				}
 				await this.updateProperty(value)
-			}, 500)
+			}, 1000)
 		},
 	},
 
 	methods: {
 		async updateProperty(value) {
 			try {
+				this.hasError = false
 				const responseData = await savePrimaryAccountProperty(
 					this.name,
 					value,
@@ -180,10 +181,8 @@ export default {
 				this.isSuccess = true
 				setTimeout(() => { this.isSuccess = false }, 2000)
 			} else {
-				this.$emit('update:value', this.initialValue)
 				handleError(error, errorMessage)
 				this.hasError = true
-				setTimeout(() => { this.hasError = false }, 2000)
 			}
 		},
 	},
@@ -207,7 +206,7 @@ section {
 
 			display: flex;
 			gap: 0 2px;
-			margin-right: 5px;
+			margin-inline-end: 5px;
 			margin-bottom: 5px;
 		}
 	}
@@ -218,13 +217,13 @@ section {
 		align-items: center;
 
 		&__icon {
-			margin-right: 8px;
+			margin-inline-end: 8px;
 			align-self: start;
 			margin-top: 4px;
 		}
 
 		&--error {
-			color: var(--color-error);
+			color: var(--color-text-error);
 		}
 	}
 

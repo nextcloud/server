@@ -9,8 +9,10 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Security\Ip\BruteforceAllowList;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
+use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ARateLimit;
@@ -19,6 +21,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -52,6 +55,8 @@ class RateLimitingMiddleware extends Middleware {
 		protected ControllerMethodReflector $reflector,
 		protected Limiter $limiter,
 		protected ISession $session,
+		protected IAppConfig $appConfig,
+		protected BruteforceAllowList $bruteForceAllowList,
 	) {
 	}
 
@@ -63,8 +68,8 @@ class RateLimitingMiddleware extends Middleware {
 		parent::beforeController($controller, $methodName);
 		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
 
-		if ($this->session->exists('app_api_system')) {
-			// Bypass rate limiting for app_api
+		if ($this->userSession instanceof Session && $this->userSession->getSession()->get('app_api') === true && $this->userSession->getUser() === null) {
+			// if userId is not specified and the request is authenticated by AppAPI, we skip the rate limit
 			return;
 		}
 
@@ -72,6 +77,11 @@ class RateLimitingMiddleware extends Middleware {
 			$rateLimit = $this->readLimitFromAnnotationOrAttribute($controller, $methodName, 'UserRateThrottle', UserRateLimit::class);
 
 			if ($rateLimit !== null) {
+				if ($this->appConfig->getValueBool('bruteforcesettings', 'apply_allowlist_to_ratelimit')
+					&& $this->bruteForceAllowList->isBypassListed($this->request->getRemoteAddress())) {
+					return;
+				}
+
 				$this->limiter->registerUserRequest(
 					$rateLimitIdentifier,
 					$rateLimit->getLimit(),
@@ -111,8 +121,8 @@ class RateLimitingMiddleware extends Middleware {
 
 		if ($annotationLimit !== '' && $annotationPeriod !== '') {
 			return new $attributeClass(
-				(int) $annotationLimit,
-				(int) $annotationPeriod,
+				(int)$annotationLimit,
+				(int)$annotationPeriod,
 			);
 		}
 

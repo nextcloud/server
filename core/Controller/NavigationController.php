@@ -1,13 +1,16 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
-use OCA\Core\ResponseDefinitions;
+use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\INavigationManager;
@@ -28,17 +31,16 @@ class NavigationController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the apps navigation
 	 *
 	 * @param bool $absolute Rewrite URLs to absolute ones
-	 * @return DataResponse<Http::STATUS_OK, CoreNavigationEntry[], array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreNavigationEntry>, array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, list<empty>, array{}>
 	 *
 	 * 200: Apps navigation returned
 	 * 304: No apps navigation changed
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/navigation/apps', root: '/core')]
 	public function getAppsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll();
@@ -46,27 +48,22 @@ class NavigationController extends OCSController {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
 		$navigation = array_values($navigation);
-		$etag = $this->generateETag($navigation);
-		if ($this->request->getHeader('If-None-Match') === $etag) {
-			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
-		}
 		$response = new DataResponse($navigation);
-		$response->setETag($etag);
+		$response->setETag($this->generateETag($navigation));
 		return $response;
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the settings navigation
 	 *
 	 * @param bool $absolute Rewrite URLs to absolute ones
-	 * @return DataResponse<Http::STATUS_OK, CoreNavigationEntry[], array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreNavigationEntry>, array{}>|DataResponse<Http::STATUS_NOT_MODIFIED, list<empty>, array{}>
 	 *
 	 * 200: Apps navigation returned
 	 * 304: No apps navigation changed
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/navigation/settings', root: '/core')]
 	public function getSettingsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll('settings');
@@ -74,12 +71,8 @@ class NavigationController extends OCSController {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
 		$navigation = array_values($navigation);
-		$etag = $this->generateETag($navigation);
-		if ($this->request->getHeader('If-None-Match') === $etag) {
-			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
-		}
 		$response = new DataResponse($navigation);
-		$response->setETag($etag);
+		$response->setETag($this->generateETag($navigation));
 		return $response;
 	}
 

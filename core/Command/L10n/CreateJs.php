@@ -11,6 +11,7 @@ namespace OC\Core\Command\L10n;
 
 use DirectoryIterator;
 
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
@@ -147,10 +148,14 @@ class CreateJs extends Command implements CompletionAwareInterface {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
-			return \OC_App::getAllApps();
+			return $this->appManager->getAllAppsInAppsFolders();
 		} elseif ($argumentName === 'lang') {
 			$appName = $context->getWordAtIndex($context->getWordIndex() - 1);
-			return $this->getAllLanguages(\OC_App::getAppPath($appName));
+			try {
+				return $this->getAllLanguages($this->appManager->getAppPath($appName));
+			} catch (AppPathNotFoundException) {
+				return [];
+			}
 		}
 		return [];
 	}

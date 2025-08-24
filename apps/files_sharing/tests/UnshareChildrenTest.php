@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,7 +7,10 @@
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Filesystem;
+use OCP\Constants;
 use OCP\Share\IShare;
+use OCP\Util;
 
 /**
  * Class UnshareChildrenTest
@@ -25,7 +29,7 @@ class UnshareChildrenTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
+		Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder = '/subfolder_share_api_test';
@@ -54,15 +58,15 @@ class UnshareChildrenTest extends TestCase {
 	/**
 	 * @medium
 	 */
-	public function testUnshareChildren() {
-		$fileInfo2 = \OC\Files\Filesystem::getFileInfo($this->folder);
+	public function testUnshareChildren(): void {
+		$fileInfo2 = Filesystem::getFileInfo($this->folder);
 
 		$this->share(
 			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
-			\OCP\Constants::PERMISSION_ALL
+			Constants::PERMISSION_ALL
 		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -72,11 +76,11 @@ class UnshareChildrenTest extends TestCase {
 		$this->assertCount(1, $shares);
 
 		// move shared folder to 'localDir'
-		\OC\Files\Filesystem::mkdir('localDir');
-		$result = \OC\Files\Filesystem::rename($this->folder, '/localDir/' . $this->folder);
+		Filesystem::mkdir('localDir');
+		$result = Filesystem::rename($this->folder, '/localDir/' . $this->folder);
 		$this->assertTrue($result);
 
-		\OC\Files\Filesystem::unlink('localDir');
+		Filesystem::unlink('localDir');
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
@@ -87,6 +91,6 @@ class UnshareChildrenTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		// the folder for the owner should still exists
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->folder));
+		$this->assertTrue(Filesystem::file_exists($this->folder));
 	}
 }

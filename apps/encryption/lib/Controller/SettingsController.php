@@ -13,6 +13,8 @@ use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -22,34 +24,10 @@ use OCP\IUserSession;
 
 class SettingsController extends Controller {
 
-	/** @var IL10N */
-	private $l;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var KeyManager */
-	private $keyManager;
-
-	/** @var Crypt */
-	private $crypt;
-
-	/** @var Session */
-	private $session;
-
-	/** @var ISession  */
-	private $ocSession;
-
-	/** @var  Util */
-	private $util;
-
 	/**
 	 * @param string $AppName
 	 * @param IRequest $request
-	 * @param IL10N $l10n
+	 * @param IL10N $l
 	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
 	 * @param KeyManager $keyManager
@@ -58,37 +36,29 @@ class SettingsController extends Controller {
 	 * @param ISession $ocSession
 	 * @param Util $util
 	 */
-	public function __construct($AppName,
+	public function __construct(
+		$AppName,
 		IRequest $request,
-		IL10N $l10n,
-		IUserManager $userManager,
-		IUserSession $userSession,
-		KeyManager $keyManager,
-		Crypt $crypt,
-		Session $session,
-		ISession $ocSession,
-		Util $util
+		private IL10N $l,
+		private IUserManager $userManager,
+		private IUserSession $userSession,
+		private KeyManager $keyManager,
+		private Crypt $crypt,
+		private Session $session,
+		private ISession $ocSession,
+		private Util $util,
 	) {
 		parent::__construct($AppName, $request);
-		$this->l = $l10n;
-		$this->userSession = $userSession;
-		$this->userManager = $userManager;
-		$this->keyManager = $keyManager;
-		$this->crypt = $crypt;
-		$this->session = $session;
-		$this->ocSession = $ocSession;
-		$this->util = $util;
 	}
 
 
 	/**
-	 * @NoAdminRequired
-	 * @UseSession
-	 *
 	 * @param string $oldPassword
 	 * @param string $newPassword
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
+	#[UseSession]
 	public function updatePrivateKeyPassword($oldPassword, $newPassword) {
 		$result = false;
 		$uid = $this->userSession->getUser()->getUID();
@@ -137,11 +107,10 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @UseSession
-	 *
 	 * @param bool $encryptHomeStorage
 	 * @return DataResponse
 	 */
+	#[UseSession]
 	public function setEncryptHomeStorage($encryptHomeStorage) {
 		$this->util->setEncryptHomeStorage($encryptHomeStorage);
 		return new DataResponse();

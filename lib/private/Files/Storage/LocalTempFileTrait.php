@@ -7,6 +7,8 @@
  */
 namespace OC\Files\Storage;
 
+use OCP\Files;
+
 /**
  * Storage backend class for providing common filesystem operation methods
  * which are not storage-backend specific.
@@ -29,10 +31,7 @@ trait LocalTempFileTrait {
 		return $this->cachedFiles[$path];
 	}
 
-	/**
-	 * @param string $path
-	 */
-	protected function removeCachedFile($path) {
+	protected function removeCachedFile(string $path): void {
 		unset($this->cachedFiles[$path]);
 	}
 
@@ -48,7 +47,7 @@ trait LocalTempFileTrait {
 		}
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($extension);
 		$target = fopen($tmpFile, 'w');
-		\OC_Helper::streamCopy($source, $target);
+		Files::streamCopy($source, $target);
 		fclose($target);
 		return $tmpFile;
 	}

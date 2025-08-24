@@ -11,32 +11,33 @@ use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IServerContainer;
 use OCP\LDAP\IDeletionFlagSupport;
 use OCP\LDAP\ILDAPProvider;
+use Psr\Log\LoggerInterface;
 
 /**
- * LDAP provider for pulic access to the LDAP backend.
+ * LDAP provider for public access to the LDAP backend.
  */
 class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	private $userBackend;
 	private $groupBackend;
 	private $logger;
-	private $helper;
-	private $deletedUsersIndex;
 
 	/**
 	 * Create new LDAPProvider
-	 * @param \OCP\IServerContainer $serverContainer
+	 * @param IServerContainer $serverContainer
 	 * @param Helper $helper
 	 * @param DeletedUsersIndex $deletedUsersIndex
 	 * @throws \Exception if user_ldap app was not enabled
 	 */
-	public function __construct(IServerContainer $serverContainer, Helper $helper, DeletedUsersIndex $deletedUsersIndex) {
-		$this->logger = $serverContainer->getLogger();
-		$this->helper = $helper;
-		$this->deletedUsersIndex = $deletedUsersIndex;
+	public function __construct(
+		IServerContainer $serverContainer,
+		private Helper $helper,
+		private DeletedUsersIndex $deletedUsersIndex,
+	) {
+		$this->logger = $serverContainer->get(LoggerInterface::class);
 		$userBackendFound = false;
 		$groupBackendFound = false;
 		foreach ($serverContainer->getUserManager()->getBackends() as $backend) {
-			$this->logger->debug('instance '.get_class($backend).' user backend.', ['app' => 'user_ldap']);
+			$this->logger->debug('instance ' . get_class($backend) . ' user backend.', ['app' => 'user_ldap']);
 			if ($backend instanceof IUserLDAP) {
 				$this->userBackend = $backend;
 				$userBackendFound = true;
@@ -44,7 +45,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 			}
 		}
 		foreach ($serverContainer->getGroupManager()->getBackends() as $backend) {
-			$this->logger->debug('instance '.get_class($backend).' group backend.', ['app' => 'user_ldap']);
+			$this->logger->debug('instance ' . get_class($backend) . ' group backend.', ['app' => 'user_ldap']);
 			if ($backend instanceof IGroupLDAP) {
 				$this->groupBackend = $backend;
 				$groupBackendFound = true;
@@ -117,8 +118,8 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 
 	/**
 	 * Sanitize a DN received from the LDAP server.
-	 * @param array $dn the DN in question
-	 * @return array the sanitized DN
+	 * @param array|string $dn the DN in question
+	 * @return array|string the sanitized DN
 	 */
 	public function sanitizeDN($dn) {
 		return $this->helper->sanitizeDN($dn);

@@ -17,6 +17,7 @@ use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Property;
+use Sabre\VObject\Property\ICalendar\DateTime;
 use function array_combine;
 use function array_fill;
 use function array_key_exists;
@@ -157,8 +158,16 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 				$calendar = $subscriptionsById[$eventRow['calendarid']];
 			}
 			$resourceUrl = $this->getDeepLinkToCalendarApp($calendar['principaluri'], $calendar['uri'], $eventRow['uri']);
+			$result = new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
 
-			return new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
+			$dtStart = $component->DTSTART;
+
+			if ($dtStart instanceof DateTime) {
+				$startDateTime = $dtStart->getDateTime()->format('U');
+				$result->addAttribute('createdAt', $startDateTime);
+			}
+
+			return $result;
 		}, $searchResults);
 
 		return SearchResult::paginated(
@@ -185,12 +194,12 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	protected function getDavUrlForCalendarObject(
 		string $principalUri,
 		string $calendarUri,
-		string $calendarObjectUri
+		string $calendarObjectUri,
 	): string {
 		[,, $principalId] = explode('/', $principalUri, 3);
 
 		return $this->urlGenerator->linkTo('', 'remote.php') . '/dav/calendars/'
-			. $principalId . '/'
+			. rawurlencode($principalId) . '/'
 			. $calendarUri . '/'
 			. $calendarObjectUri;
 	}

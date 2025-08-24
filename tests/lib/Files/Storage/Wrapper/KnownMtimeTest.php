@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -50,7 +51,7 @@ class KnownMtimeTest extends Storage {
 		]);
 	}
 
-	public function testNewerKnownMtime() {
+	public function testNewerKnownMtime(): void {
 		$future = time() + 1000;
 		$this->fakeTime = $future;
 

@@ -18,6 +18,7 @@ use OCP\ICacheFactory;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Support\Subscription\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -28,8 +29,8 @@ class ManagerTest extends TestCase {
 	/** @var IManager */
 	protected $manager;
 
-	/** @var IValidator|MockObject */
-	protected $validator;
+	protected IValidator&MockObject $validator;
+	protected IRichTextFormatter&MockObject $richTextFormatter;
 	/** @var IUserManager|MockObject */
 	protected $userManager;
 	/** @var ICacheFactory|MockObject */
@@ -49,6 +50,7 @@ class ManagerTest extends TestCase {
 		parent::setUp();
 
 		$this->validator = $this->createMock(IValidator::class);
+		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->cache = $this->createMock(ICache::class);
 		$this->subscriptionRegistry = $this->createMock(IRegistry::class);
@@ -64,7 +66,15 @@ class ManagerTest extends TestCase {
 		$this->coordinator->method('getRegistrationContext')
 			->willReturn($this->registrationContext);
 
-		$this->manager = new Manager($this->validator, $this->userManager, $this->cacheFactory, $this->subscriptionRegistry, $this->logger, $this->coordinator);
+		$this->manager = new Manager(
+			$this->validator,
+			$this->userManager,
+			$this->cacheFactory,
+			$this->subscriptionRegistry,
+			$this->logger,
+			$this->coordinator,
+			$this->richTextFormatter,
+		);
 	}
 
 	public function testRegisterApp(): void {
@@ -141,8 +151,9 @@ class ManagerTest extends TestCase {
 				$this->subscriptionRegistry,
 				$this->logger,
 				$this->coordinator,
+				$this->richTextFormatter,
 			])
-			->setMethods(['getApps'])
+			->onlyMethods(['getApps'])
 			->getMock();
 
 		$manager->expects($this->once())
@@ -172,8 +183,9 @@ class ManagerTest extends TestCase {
 				$this->subscriptionRegistry,
 				$this->logger,
 				$this->coordinator,
+				$this->richTextFormatter,
 			])
-			->setMethods(['getApps'])
+			->onlyMethods(['getApps'])
 			->getMock();
 
 		$manager->expects($this->never())
@@ -196,8 +208,9 @@ class ManagerTest extends TestCase {
 				$this->subscriptionRegistry,
 				$this->logger,
 				$this->coordinator,
+				$this->richTextFormatter,
 			])
-			->setMethods(['getApps'])
+			->onlyMethods(['getApps'])
 			->getMock();
 
 		$manager->expects($this->once())
@@ -221,8 +234,9 @@ class ManagerTest extends TestCase {
 				$this->subscriptionRegistry,
 				$this->logger,
 				$this->coordinator,
+				$this->richTextFormatter,
 			])
-			->setMethods(['getApps'])
+			->onlyMethods(['getApps'])
 			->getMock();
 
 		$manager->expects($this->once())
@@ -232,7 +246,7 @@ class ManagerTest extends TestCase {
 		$manager->getCount($notification);
 	}
 
-	public function dataIsFairUseOfFreePushService(): array {
+	public static function dataIsFairUseOfFreePushService(): array {
 		return [
 			[true, 999, true],
 			[true, 1000, true],
@@ -242,11 +256,11 @@ class ManagerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataIsFairUseOfFreePushService
 	 * @param bool $hasValidSubscription
 	 * @param int $userCount
 	 * @param bool $isFair
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsFairUseOfFreePushService')]
 	public function testIsFairUseOfFreePushService(bool $hasValidSubscription, int $userCount, bool $isFair): void {
 		$this->subscriptionRegistry->method('delegateHasValidSubscription')
 			->willReturn($hasValidSubscription);

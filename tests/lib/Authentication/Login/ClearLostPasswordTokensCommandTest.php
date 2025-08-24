@@ -13,7 +13,7 @@ use OC\Authentication\Login\ClearLostPasswordTokensCommand;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ClearLostPasswordTokensCommandTest extends ALoginCommandTest {
+class ClearLostPasswordTokensCommandTest extends ALoginTestCommand {
 	/** @var IConfig|MockObject */
 	private $config;
 
@@ -27,7 +27,7 @@ class ClearLostPasswordTokensCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->user->expects($this->once())
 			->method('getUID')

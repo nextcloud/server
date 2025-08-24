@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
@@ -6,20 +7,19 @@
  */
 namespace OC\DB;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Types;
 use OC\App\InfoParser;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
+use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
 use OCP\Server;
@@ -39,7 +39,12 @@ class MigrationService {
 	/**
 	 * @throws \Exception
 	 */
-	public function __construct(string $appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null, ?LoggerInterface $logger = null) {
+	public function __construct(
+		string $appName,
+		Connection $connection,
+		?IOutput $output = null,
+		?LoggerInterface $logger = null,
+	) {
 		$this->appName = $appName;
 		$this->connection = $connection;
 		if ($logger === null) {
@@ -58,10 +63,8 @@ class MigrationService {
 			$this->migrationsNamespace = 'OC\\Core\\Migrations';
 			$this->checkOracle = true;
 		} else {
-			if ($appLocator === null) {
-				$appLocator = new AppLocator();
-			}
-			$appPath = $appLocator->getAppPath($appName);
+			$appManager = Server::get(IAppManager::class);
+			$appPath = $appManager->getAppPath($appName);
 			$namespace = App::buildAppNamespace($appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
@@ -159,7 +162,7 @@ class MigrationService {
 	/**
 	 * Returns all versions which have already been applied
 	 *
-	 * @return string[]
+	 * @return list<string>
 	 * @codeCoverageIgnore - no need to test this
 	 */
 	public function getMigratedVersions() {
@@ -175,6 +178,8 @@ class MigrationService {
 		$rows = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 
+		usort($rows, $this->sortMigrations(...));
+
 		return $rows;
 	}
 
@@ -184,7 +189,23 @@ class MigrationService {
 	 */
 	public function getAvailableVersions(): array {
 		$this->ensureMigrationsAreLoaded();
-		return array_map('strval', array_keys($this->migrations));
+		$versions = array_map('strval', array_keys($this->migrations));
+		usort($versions, $this->sortMigrations(...));
+		return $versions;
+	}
+
+	protected function sortMigrations(string $a, string $b): int {
+		preg_match('/(\d+)Date(\d+)/', basename($a), $matchA);
+		preg_match('/(\d+)Date(\d+)/', basename($b), $matchB);
+		if (!empty($matchA) && !empty($matchB)) {
+			$versionA = (int)$matchA[1];
+			$versionB = (int)$matchB[1];
+			if ($versionA !== $versionB) {
+				return ($versionA < $versionB) ? -1 : 1;
+			}
+			return strnatcmp($matchA[2], $matchB[2]);
+		}
+		return strnatcmp(basename($a), basename($b));
 	}
 
 	/**
@@ -205,23 +226,13 @@ class MigrationService {
 			\RegexIterator::GET_MATCH);
 
 		$files = array_keys(iterator_to_array($iterator));
-		uasort($files, function ($a, $b) {
-			preg_match('/^Version(\d+)Date(\d+)\\.php$/', basename($a), $matchA);
-			preg_match('/^Version(\d+)Date(\d+)\\.php$/', basename($b), $matchB);
-			if (!empty($matchA) && !empty($matchB)) {
-				if ($matchA[1] !== $matchB[1]) {
-					return ($matchA[1] < $matchB[1]) ? -1 : 1;
-				}
-				return ($matchA[2] < $matchB[2]) ? -1 : 1;
-			}
-			return (basename($a) < basename($b)) ? -1 : 1;
-		});
+		usort($files, $this->sortMigrations(...));
 
 		$migrations = [];
 
 		foreach ($files as $file) {
 			$className = basename($file, '.php');
-			$version = (string) substr($className, 7);
+			$version = (string)substr($className, 7);
 			if ($version === '0') {
 				throw new \InvalidArgumentException(
 					"Cannot load a migrations with the name '$version' because it is a reserved number"
@@ -243,7 +254,7 @@ class MigrationService {
 
 		$toBeExecuted = [];
 		foreach ($availableMigrations as $v) {
-			if ($to !== 'latest' && $v > $to) {
+			if ($to !== 'latest' && ($this->sortMigrations($v, $to) > 0)) {
 				continue;
 			}
 			if ($this->shallBeExecuted($v, $knownMigrations)) {
@@ -389,7 +400,7 @@ class MigrationService {
 			} catch (\Exception $e) {
 				// The exception itself does not contain the name of the migration,
 				// so we wrap it here, to make debugging easier.
-				throw new \Exception('Database error when running migration ' . $version . ' for app ' . $this->getApp() . PHP_EOL. $e->getMessage(), 0, $e);
+				throw new \Exception('Database error when running migration ' . $version . ' for app ' . $this->getApp() . PHP_EOL . $e->getMessage(), 0, $e);
 			}
 		}
 	}
@@ -459,7 +470,7 @@ class MigrationService {
 	 * @return IMigrationStep
 	 * @throws \InvalidArgumentException
 	 */
-	protected function createInstance($version) {
+	public function createInstance($version) {
 		$class = $this->getClass($version);
 		try {
 			$s = \OCP\Server::get($class);
@@ -599,7 +610,7 @@ class MigrationService {
 				$indexName = strtolower($primaryKey->getName());
 				$isUsingDefaultName = $indexName === 'primary';
 
-				if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
+				if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
 					$defaultName = $table->getName() . '_pkey';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
 
@@ -609,7 +620,7 @@ class MigrationService {
 							return $sequence->getName() !== $sequenceName;
 						});
 					}
-				} elseif ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+				} elseif ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 					$defaultName = $table->getName() . '_seq';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
 				}
@@ -720,7 +731,7 @@ class MigrationService {
 		}
 	}
 
-	private function ensureMigrationsAreLoaded() {
+	private function ensureMigrationsAreLoaded(): void {
 		if (empty($this->migrations)) {
 			$this->migrations = $this->findMigrations();
 		}

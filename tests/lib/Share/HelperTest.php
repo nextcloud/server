@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,12 +8,14 @@
 
 namespace Test\Share;
 
+use OC\Share\Helper;
+
 /**
  * @group DB
  * Class Helper
  */
 class HelperTest extends \Test\TestCase {
-	public function expireDateProvider() {
+	public static function expireDateProvider(): array {
 		return [
 			// no default expire date, we take the users expire date
 			[['defaultExpireDateSet' => false], 2000000000, 2000010000, 2000010000],
@@ -33,28 +36,26 @@ class HelperTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider expireDateProvider
-	 */
-	public function testCalculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate, $expected) {
-		$result = \OC\Share\Helper::calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate);
+	#[\PHPUnit\Framework\Attributes\DataProvider('expireDateProvider')]
+	public function testCalculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate, $expected): void {
+		$result = Helper::calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate);
 		$this->assertSame($expected, $result);
 	}
 
 	/**
-	 * @dataProvider dataTestCompareServerAddresses
 	 *
 	 * @param string $server1
 	 * @param string $server2
 	 * @param bool $expected
 	 */
-	public function testIsSameUserOnSameServer($user1, $server1, $user2, $server2, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestCompareServerAddresses')]
+	public function testIsSameUserOnSameServer($user1, $server1, $user2, $server2, $expected): void {
 		$this->assertSame($expected,
-			\OC\Share\Helper::isSameUserOnSameServer($user1, $server1, $user2, $server2)
+			Helper::isSameUserOnSameServer($user1, $server1, $user2, $server2)
 		);
 	}
 
-	public function dataTestCompareServerAddresses() {
+	public static function dataTestCompareServerAddresses(): array {
 		return [
 			['user1', 'http://server1', 'user1', 'http://server1', true],
 			['user1', 'https://server1', 'user1', 'http://server1', true],

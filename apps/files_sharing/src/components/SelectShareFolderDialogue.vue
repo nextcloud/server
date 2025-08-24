@@ -29,7 +29,7 @@ import path from 'path'
 import { generateUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 const defaultDirectory = loadState('files_sharing', 'default_share_folder', '/')
 const directory = loadState('files_sharing', 'share_folder', defaultDirectory)
@@ -57,7 +57,7 @@ export default {
 		async pickFolder() {
 
 			// Setup file picker
-			const picker = getFilePickerBuilder(t('files', 'Choose a default folder for accepted shares'))
+			const picker = getFilePickerBuilder(t('files_sharing', 'Choose a default folder for accepted shares'))
 				.startAt(this.readableDirectory)
 				.setMultiSelect(false)
 				.setType(1)
@@ -69,7 +69,7 @@ export default {
 				// Init user folder picking
 				const dir = await picker.pick() || '/'
 				if (!dir.startsWith('/')) {
-					throw new Error(t('files', 'Invalid path selected'))
+					throw new Error(t('files_sharing', 'Invalid path selected'))
 				}
 
 				// Fix potential path issues and save results
@@ -78,7 +78,7 @@ export default {
 					shareFolder: this.directory,
 				})
 			} catch (error) {
-				showError(error.message || t('files', 'Unknown error'))
+				showError(error.message || t('files_sharing', 'Unknown error'))
 			}
 		},
 

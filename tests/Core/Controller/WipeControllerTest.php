@@ -33,7 +33,7 @@ class WipeControllerTest extends TestCase {
 			$this->remoteWipe);
 	}
 
-	public function dataTest() {
+	public static function dataTest(): array {
 		return [
 			// valid token, could perform operation, valid result
 			[ true,  true,  true],
@@ -47,10 +47,9 @@ class WipeControllerTest extends TestCase {
 	 * @param bool $valid
 	 * @param bool $couldPerform
 	 * @param bool $result
-	 *
-	 * @dataProvider dataTest
 	 */
-	public function testCheckWipe(bool $valid, bool $couldPerform, bool $result) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTest')]
+	public function testCheckWipe(bool $valid, bool $couldPerform, bool $result): void {
 		if (!$valid) {
 			$this->remoteWipe->method('start')
 				->with('mytoken')
@@ -76,10 +75,9 @@ class WipeControllerTest extends TestCase {
 	 * @param bool $valid
 	 * @param bool $couldPerform
 	 * @param bool $result
-	 *
-	 * @dataProvider dataTest
 	 */
-	public function testWipeDone(bool $valid, bool $couldPerform, bool $result) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTest')]
+	public function testWipeDone(bool $valid, bool $couldPerform, bool $result): void {
 		if (!$valid) {
 			$this->remoteWipe->method('finish')
 				->with('mytoken')

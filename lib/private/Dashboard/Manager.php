@@ -25,16 +25,21 @@ class Manager implements IManager {
 	/** @var array<string, IWidget> */
 	private array $widgets = [];
 
-	private ContainerInterface $serverContainer;
 	private ?IAppManager $appManager = null;
 
-	public function __construct(ContainerInterface $serverContainer) {
-		$this->serverContainer = $serverContainer;
+	public function __construct(
+		private ContainerInterface $serverContainer,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	private function registerWidget(IWidget $widget): void {
 		if (array_key_exists($widget->getId(), $this->widgets)) {
 			throw new InvalidArgumentException('Dashboard widget with this id has already been registered');
+		}
+
+		if (!preg_match('/^[a-z][a-z0-9\-_]*$/', $widget->getId())) {
+			$this->logger->debug('Deprecated dashboard widget ID provided: "' . $widget->getId() . '" [ ' . get_class($widget) . ' ]. Please use a-z, 0-9, - and _ only, starting with a-z');
 		}
 
 		$this->widgets[$widget->getId()] = $widget;

@@ -31,7 +31,7 @@ const laterToday: ReminderOption = {
 	label: t('files_reminders', 'Later today'),
 	ariaLabel: t('files_reminders', 'Set reminder for later today'),
 	dateString: '',
-	verboseDateString: ''
+	verboseDateString: '',
 }
 
 const tomorrow: ReminderOption = {
@@ -39,7 +39,7 @@ const tomorrow: ReminderOption = {
 	label: t('files_reminders', 'Tomorrow'),
 	ariaLabel: t('files_reminders', 'Set reminder for tomorrow'),
 	dateString: '',
-	verboseDateString: ''
+	verboseDateString: '',
 }
 
 const thisWeekend: ReminderOption = {
@@ -47,7 +47,7 @@ const thisWeekend: ReminderOption = {
 	label: t('files_reminders', 'This weekend'),
 	ariaLabel: t('files_reminders', 'Set reminder for this weekend'),
 	dateString: '',
-	verboseDateString: ''
+	verboseDateString: '',
 }
 
 const nextWeek: ReminderOption = {
@@ -55,7 +55,7 @@ const nextWeek: ReminderOption = {
 	label: t('files_reminders', 'Next week'),
 	ariaLabel: t('files_reminders', 'Set reminder for next week'),
 	dateString: '',
-	verboseDateString: ''
+	verboseDateString: '',
 }
 
 /**
@@ -74,11 +74,17 @@ const generateFileAction = (option: ReminderOption): FileAction|null => {
 		// Empty svg to hide the icon
 		iconSvgInline: () => '<svg></svg>',
 
-		enabled: (_nodes: Node[], view: View) => {
+		enabled: (nodes: Node[], view: View) => {
 			if (view.id === 'trashbin') {
 				return false
 			}
-			return Boolean(getDateTime(option.dateTimePreset))
+			// Only allow on a single node
+			if (nodes.length !== 1) {
+				return false
+			}
+			const node = nodes.at(0)!
+			const dueDate = node.attributes['reminder-due-date']
+			return dueDate !== undefined && Boolean(getDateTime(option.dateTimePreset))
 		},
 
 		parent: SET_REMINDER_MENU_ID,

@@ -9,6 +9,7 @@ namespace OCP\TextToImage;
 
 /**
  * @since 29.0.0
+ * @deprecated 30.0.0
  */
 interface IProviderWithUserId extends IProvider {
 	/**

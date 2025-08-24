@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,17 +15,20 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
 	private Admin $admin;
-	private IConfig $config;
-	private ThemingDefaults $themingDefaults;
-	private IInitialState $initialState;
-	private IURLGenerator $urlGenerator;
-	private ImageManager $imageManager;
-	private IL10N $l10n;
+	private IConfig&MockObject $config;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private IInitialState&MockObject $initialState;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ImageManager&MockObject $imageManager;
+	private IL10N&MockObject $l10n;
+	private INavigationManager&MockObject $navigationManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -33,6 +38,7 @@ class AdminTest extends TestCase {
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
+		$this->navigationManager = $this->createMock(INavigationManager::class);
 
 		$this->admin = new Admin(
 			Application::APP_ID,
@@ -41,11 +47,12 @@ class AdminTest extends TestCase {
 			$this->themingDefaults,
 			$this->initialState,
 			$this->urlGenerator,
-			$this->imageManager
+			$this->imageManager,
+			$this->navigationManager,
 		);
 	}
 
-	public function testGetFormNoErrors() {
+	public function testGetFormNoErrors(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -80,7 +87,7 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetFormWithErrors() {
+	public function testGetFormWithErrors(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -120,11 +127,11 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('theming', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(5, $this->admin->getPriority());
 	}
 }

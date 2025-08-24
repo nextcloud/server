@@ -18,6 +18,6 @@ class Parameter implements IParameter {
 	}
 
 	public function __toString(): string {
-		return (string) $this->name;
+		return (string)$this->name;
 	}
 }

@@ -14,20 +14,14 @@ use OCP\Settings\ISettings;
 
 class Password implements ISettings {
 
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var string|null */
-	private $uid;
-
-	public function __construct(IUserManager $userManager,
-		?string $UserId) {
-		$this->userManager = $userManager;
-		$this->uid = $UserId;
+	public function __construct(
+		private IUserManager $userManager,
+		private ?string $userId,
+	) {
 	}
 
 	public function getForm(): TemplateResponse {
-		$user = $this->userManager->get($this->uid);
+		$user = $this->userManager->get($this->userId);
 		$passwordChangeSupported = false;
 		if ($user !== null) {
 			$passwordChangeSupported = $user->canChangePassword();

@@ -2,9 +2,9 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './viewInFolderAction'
-import { expect } from '@jest/globals'
 import { File, Folder, Node, Permission, View, FileAction } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+import { action } from './viewInFolderAction'
 
 const view = {
 	id: 'trashbin',
@@ -21,7 +21,7 @@ describe('View in folder action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('view-in-folder')
 		expect(action.displayName([], view)).toBe('View in folder')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(80)
 		expect(action.enabled).toBeDefined()
@@ -109,11 +109,24 @@ describe('View in folder action enabled tests', () => {
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([folder], view)).toBe(false)
 	})
+
+	test('Disabled for files outside the user root folder', () => {
+		const file = new Folder({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/trashbin/admin/trash/image.jpg.d1731053878',
+			owner: 'admin',
+			permissions: Permission.READ,
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([file], view)).toBe(false)
+	})
 })
 
 describe('View in folder action execute tests', () => {
 	test('View in folder', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -128,11 +141,12 @@ describe('View in folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: '1', view: 'files' }, { dir: '/' })
 	})
 
 	test('View in (sub) folder', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -148,11 +162,12 @@ describe('View in folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/Foo/Bar' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: '1', view: 'files' }, { dir: '/Foo/Bar' })
 	})
 
 	test('View in folder fails without node', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const exec = await action.exec(null as unknown as Node, view, '/')
@@ -161,7 +176,8 @@ describe('View in folder action execute tests', () => {
 	})
 
 	test('View in folder fails without File', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const folder = new Folder({

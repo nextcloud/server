@@ -9,7 +9,11 @@ namespace OCA\Settings\Controller;
 
 use OC\AppFramework\Http;
 use OC\IntegrityCheck\Checker;
+use OCA\Settings\Settings\Admin\Overview;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -23,50 +27,37 @@ use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class CheckSetupController extends Controller {
-	/** @var IConfig */
-	private $config;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
 	/** @var Checker */
 	private $checker;
-	/** @var LoggerInterface */
-	private $logger;
-	private ISetupCheckManager $setupCheckManager;
 
-	public function __construct($AppName,
+	public function __construct(
+		$AppName,
 		IRequest $request,
-		IConfig $config,
-		IURLGenerator $urlGenerator,
-		IL10N $l10n,
+		private IConfig $config,
+		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
 		Checker $checker,
-		LoggerInterface $logger,
-		ISetupCheckManager $setupCheckManager,
+		private LoggerInterface $logger,
+		private ISetupCheckManager $setupCheckManager,
 	) {
 		parent::__construct($AppName, $request);
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
 		$this->checker = $checker;
-		$this->logger = $logger;
-		$this->setupCheckManager = $setupCheckManager;
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @return DataResponse
 	 */
+	#[NoCSRFRequired]
+	#[NoAdminRequired]
 	public function setupCheckManager(): DataResponse {
 		return new DataResponse($this->setupCheckManager->runAll());
 	}
 
 	/**
-	 * @NoCSRFRequired
 	 * @return RedirectResponse
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
+	#[NoCSRFRequired]
+	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function rescanFailedIntegrityCheck(): RedirectResponse {
 		$this->checker->runInstanceVerification();
 		return new RedirectResponse(
@@ -74,16 +65,18 @@ class CheckSetupController extends Controller {
 		);
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
-	 */
+	#[NoCSRFRequired]
+	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function getFailedIntegrityCheckFiles(): DataDisplayResponse {
 		if (!$this->checker->isCodeCheckEnforced()) {
 			return new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
 		}
 
 		$completeResults = $this->checker->getResults();
+
+		if ($completeResults === null) {
+			return new DataDisplayResponse('Integrity checker has not been run. Integrity information not available.');
+		}
 
 		if (!empty($completeResults)) {
 			$formattedTextResponse = 'Technical information
@@ -133,8 +126,8 @@ Raw output
 
 	/**
 	 * @return DataResponse
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
+	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function check() {
 		return new DataResponse(
 			[

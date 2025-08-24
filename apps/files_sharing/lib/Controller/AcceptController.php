@@ -10,6 +10,8 @@ namespace OCA\Files_Sharing\Controller;
 
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -23,27 +25,17 @@ use OCP\Share\IManager as ShareManager;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AcceptController extends Controller {
 
-	/** @var ShareManager */
-	private $shareManager;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(IRequest $request, ShareManager $shareManager, IUserSession $userSession, IURLGenerator $urlGenerator) {
+	public function __construct(
+		IRequest $request,
+		private ShareManager $shareManager,
+		private IUserSession $userSession,
+		private IURLGenerator $urlGenerator,
+	) {
 		parent::__construct(Application::APP_ID, $request);
-
-		$this->shareManager = $shareManager;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function accept(string $shareId): Response {
 		try {
 			$share = $this->shareManager->getShareById($shareId);

@@ -8,7 +8,27 @@
 		:name="t('files', 'Files settings')"
 		@update:open="onClose">
 		<!-- Settings API-->
-		<NcAppSettingsSection id="settings" :name="t('files', 'Files settings')">
+		<NcAppSettingsSection id="settings" :name="t('files', 'General')">
+			<fieldset class="files-settings__default-view"
+				data-cy-files-settings-setting="default_view">
+				<legend>
+					{{ t('files', 'Default view') }}
+				</legend>
+				<NcCheckboxRadioSwitch :model-value="userConfig.default_view"
+					name="default_view"
+					type="radio"
+					value="files"
+					@update:model-value="setConfig('default_view', $event)">
+					{{ t('files', 'All files') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch :model-value="userConfig.default_view"
+					name="default_view"
+					type="radio"
+					value="personal"
+					@update:model-value="setConfig('default_view', $event)">
+					{{ t('files', 'Personal files') }}
+				</NcCheckboxRadioSwitch>
+			</fieldset>
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="sort_favorites_first"
 				:checked="userConfig.sort_favorites_first"
 				@update:checked="setConfig('sort_favorites_first', $event)">
@@ -19,21 +39,34 @@
 				@update:checked="setConfig('sort_folders_first', $event)">
 				{{ t('files', 'Sort folders before files') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="folder_tree"
+				:checked="userConfig.folder_tree"
+				@update:checked="setConfig('folder_tree', $event)">
+				{{ t('files', 'Folder tree') }}
+			</NcCheckboxRadioSwitch>
+		</NcAppSettingsSection>
+
+		<!-- Appearance -->
+		<NcAppSettingsSection id="settings" :name="t('files', 'Appearance')">
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_hidden"
 				:checked="userConfig.show_hidden"
 				@update:checked="setConfig('show_hidden', $event)">
 				{{ t('files', 'Show hidden files') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_mime_column"
+				:checked="userConfig.show_mime_column"
+				@update:checked="setConfig('show_mime_column', $event)">
+				{{ t('files', 'Show file type column') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_files_extensions"
+				:checked="userConfig.show_files_extensions"
+				@update:checked="setConfig('show_files_extensions', $event)">
+				{{ t('files', 'Show file extensions') }}
+			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch data-cy-files-settings-setting="crop_image_previews"
 				:checked="userConfig.crop_image_previews"
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
-			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch v-if="enableGridView"
-				data-cy-files-settings-setting="grid_view"
-				:checked="userConfig.grid_view"
-				@update:checked="setConfig('grid_view', $event)">
-				{{ t('files', 'Enable the grid view') }}
 			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
@@ -52,8 +85,9 @@
 				:label="t('files', 'WebDAV URL')"
 				:show-trailing-button="true"
 				:success="webdavUrlCopied"
-				:trailing-button-label="t('files', 'Copy to clipboard')"
+				:trailing-button-label="t('files', 'Copy')"
 				:value="webdavUrl"
+				class="webdav-url-input"
 				readonly="readonly"
 				type="url"
 				@focus="$event.target.select()"
@@ -67,33 +101,205 @@
 					:href="webdavDocs"
 					target="_blank"
 					rel="noreferrer noopener">
-					{{ t('files', 'Use this address to access your Files via WebDAV') }} ↗
+					{{ t('files', 'How to access files using WebDAV') }} ↗
 				</a>
 			</em>
 			<br>
-			<em>
+			<em v-if="isTwoFactorEnabled">
 				<a class="setting-link" :href="appPasswordUrl">
-					{{ t('files', 'If you have enabled 2FA, you must create and use a new app password by clicking here.') }} ↗
+					{{ t('files', 'Two-Factor Authentication is enabled for your account, and therefore you need to use an app password to connect an external WebDAV client.') }} ↗
 				</a>
 			</em>
+		</NcAppSettingsSection>
+
+		<NcAppSettingsSection id="warning" :name="t('files', 'Warnings')">
+			<NcCheckboxRadioSwitch type="switch"
+				:checked="userConfig.show_dialog_file_extension"
+				@update:checked="setConfig('show_dialog_file_extension', $event)">
+				{{ t('files', 'Warn before changing a file extension') }}
+			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch type="switch"
+				:checked="userConfig.show_dialog_deletion"
+				@update:checked="setConfig('show_dialog_deletion', $event)">
+				{{ t('files', 'Warn before deleting files') }}
+			</NcCheckboxRadioSwitch>
+		</NcAppSettingsSection>
+
+		<NcAppSettingsSection id="shortcuts"
+			:name="t('files', 'Keyboard shortcuts')">
+
+			<h3>{{ t('files', 'Actions') }}</h3>
+			<dl>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>a</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'File actions') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>F2</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Rename') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>Del</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Delete') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>s</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Add or remove favorite') }}
+					</dd>
+				</div>
+				<div v-if="isSystemtagsEnabled">
+					<dt class="shortcut-key">
+						<kbd>t</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Manage tags') }}
+					</dd>
+				</div>
+			</dl>
+
+			<h3>{{ t('files', 'Selection') }}</h3>
+			<dl>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>Ctrl</kbd> + <kbd>A</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Select all files') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>ESC</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Deselect all') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>Ctrl</kbd> + <kbd>Space</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Select or deselect') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>Ctrl</kbd> + <kbd>Shift</kbd> <span>+ <kbd>Space</kbd></span>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Select a range') }}
+					</dd>
+				</div>
+			</dl>
+
+			<h3>{{ t('files', 'Navigation') }}</h3>
+			<dl>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>Alt</kbd> + <kbd>↑</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Go to parent folder') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>↑</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Go to file above') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>↓</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Go to file below') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>←</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Go left in grid') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>→</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Go right in grid') }}
+					</dd>
+				</div>
+			</dl>
+
+			<h3>{{ t('files', 'View') }}</h3>
+			<dl>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>V</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Toggle grid view') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>D</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Open file sidebar') }}
+					</dd>
+				</div>
+				<div>
+					<dt class="shortcut-key">
+						<kbd>?</kbd>
+					</dt>
+					<dd class="shortcut-description">
+						{{ t('files', 'Show those shortcuts') }}
+					</dd>
+				</div>
+			</dl>
 		</NcAppSettingsSection>
 	</NcAppSettingsDialog>
 </template>
 
 <script>
-import NcAppSettingsDialog from '@nextcloud/vue/dist/Components/NcAppSettingsDialog.js'
-import NcAppSettingsSection from '@nextcloud/vue/dist/Components/NcAppSettingsSection.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import Clipboard from 'vue-material-design-icons/Clipboard.vue'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import Setting from '../components/Setting.vue'
-
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { getCapabilities } from '@nextcloud/capabilities'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+
+import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
+import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
+import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+
 import { useUserConfigStore } from '../store/userconfig.ts'
+import Setting from '../components/Setting.vue'
 
 export default {
 	name: 'Settings',
@@ -115,8 +321,11 @@ export default {
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
+		const isSystemtagsEnabled = getCapabilities()?.systemtags?.enabled === true
 		return {
+			isSystemtagsEnabled,
 			userConfigStore,
+			t,
 		}
 	},
 
@@ -131,6 +340,7 @@ export default {
 			appPasswordUrl: generateUrl('/settings/user/security#generate-app-token-section'),
 			webdavUrlCopied: false,
 			enableGridView: (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true),
+			isTwoFactorEnabled: (loadState('files', 'isTwoFactorEnabled', false)),
 		}
 	},
 
@@ -138,6 +348,24 @@ export default {
 		userConfig() {
 			return this.userConfigStore.userConfig
 		},
+
+		sortedSettings() {
+			// Sort settings by name
+			return [...this.settings].sort((a, b) => {
+				if (a.order && b.order) {
+					return a.order - b.order
+				}
+				return a.name.localeCompare(b.name)
+			})
+		},
+	},
+
+	created() {
+		// ? opens the settings dialog on the keyboard shortcuts section
+		useHotKey('?', this.showKeyboardShortcuts, {
+			stop: true,
+			prevent: true,
+		})
 	},
 
 	beforeMount() {
@@ -170,19 +398,47 @@ export default {
 
 			await navigator.clipboard.writeText(this.webdavUrl)
 			this.webdavUrlCopied = true
-			showSuccess(t('files', 'WebDAV URL copied to clipboard'))
+			showSuccess(t('files', 'WebDAV URL copied'))
 			setTimeout(() => {
 				this.webdavUrlCopied = false
 			}, 5000)
 		},
 
-		t: translate,
+		async showKeyboardShortcuts() {
+			this.$emit('update:open', true)
+
+			await this.$nextTick()
+			document.getElementById('settings-section_shortcuts').scrollIntoView({
+				behavior: 'smooth',
+				inline: 'nearest',
+			})
+		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
+.files-settings {
+	&__default-view {
+		margin-bottom: 0.5rem;
+	}
+}
+
 .setting-link:hover {
 	text-decoration: underline;
+}
+
+.shortcut-key {
+	width: 160px;
+	// some shortcuts are too long to fit in one line
+	white-space: normal;
+	span {
+		// force portion of a shortcut on a new line for nicer display
+		white-space: nowrap;
+	}
+}
+
+.webdav-url-input {
+	margin-block-end: 0.5rem;
 }
 </style>

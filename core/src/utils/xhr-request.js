@@ -3,12 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getRootUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
+import logger from '../logger.js'
 
 /**
  *
  * @param {string} url the URL to check
- * @returns {boolean}
+ * @return {boolean}
  */
 const isRelativeUrl = (url) => {
 	return !url.startsWith('https://') && !url.startsWith('http://')
@@ -27,6 +29,60 @@ const isNextcloudUrl = (url) => {
 }
 
 /**
+ * Check if a user was logged in but is now logged-out.
+ * If this is the case then the user will be forwarded to the login page.
+ * @return {Promise<void>}
+ */
+async function checkLoginStatus() {
+	// skip if no logged in user
+	if (getCurrentUser() === null) {
+		return
+	}
+
+	// skip if already running
+	if (checkLoginStatus.running === true) {
+		return
+	}
+
+	// only run one request in parallel
+	checkLoginStatus.running = true
+
+	try {
+		// We need to check this as a 401 in the first place could also come from other reasons
+		const { status } = await window.fetch(generateUrl('/apps/files'))
+		if (status === 401) {
+			console.warn('User session was terminated, forwarding to login page.')
+			await wipeBrowserStorages()
+			window.location = generateUrl('/login?redirect_url={url}', {
+				url: window.location.pathname + window.location.search + window.location.hash,
+			})
+		}
+	} catch (error) {
+		console.warn('Could not check login-state')
+	} finally {
+		delete checkLoginStatus.running
+	}
+}
+
+/**
+ * Clear all Browser storages connected to current origin.
+ * @return {Promise<void>}
+ */
+export async function wipeBrowserStorages() {
+	try {
+		window.localStorage.clear()
+		window.sessionStorage.clear()
+		const indexedDBList = await window.indexedDB.databases()
+		for (const indexedDB of indexedDBList) {
+			await window.indexedDB.deleteDatabase(indexedDB.name)
+		}
+		logger.debug('Browser storages cleared')
+	} catch (error) {
+		logger.error('Could not clear browser storages', { error })
+	}
+}
+
+/**
  * Intercept XMLHttpRequest and fetch API calls to add X-Requested-With header
  *
  * This is also done in @nextcloud/axios but not all requests pass through that
@@ -35,17 +91,24 @@ export const interceptRequests = () => {
 	XMLHttpRequest.prototype.open = (function(open) {
 		return function(method, url, async) {
 			open.apply(this, arguments)
-			if (isNextcloudUrl(url) && !this.getResponseHeader('X-Requested-With')) {
-				this.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+			if (isNextcloudUrl(url)) {
+				if (!this.getResponseHeader('X-Requested-With')) {
+					this.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+				}
+				this.addEventListener('loadend', function() {
+					if (this.status === 401) {
+						checkLoginStatus()
+					}
+				})
 			}
 		}
 	})(XMLHttpRequest.prototype.open)
 
 	window.fetch = (function(fetch) {
-		return (resource, options) => {
+		return async (resource, options) => {
 			// fetch allows the `input` to be either a Request object or any stringifyable value
 			if (!isNextcloudUrl(resource.url ?? resource.toString())) {
-				return fetch(resource, options)
+				return await fetch(resource, options)
 			}
 			if (!options) {
 				options = {}
@@ -60,7 +123,11 @@ export const interceptRequests = () => {
 				options.headers['X-Requested-With'] = 'XMLHttpRequest'
 			}
 
-			return fetch(resource, options)
+			const response = await fetch(resource, options)
+			if (response.status === 401) {
+				checkLoginStatus()
+			}
+			return response
 		}
 	})(window.fetch)
 }

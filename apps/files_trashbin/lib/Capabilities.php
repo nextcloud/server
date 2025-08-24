@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,7 @@
  */
 namespace OCA\Files_Trashbin;
 
+use OCA\Files_Trashbin\Service\ConfigService;
 use OCP\Capabilities\ICapability;
 
 /**
@@ -18,12 +20,18 @@ class Capabilities implements ICapability {
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array{files: array{undelete: bool}}
+	 * @return array{
+	 *     files: array{
+	 *         undelete: bool,
+	 *         delete_from_trash: bool
+	 *     }
+	 * }
 	 */
 	public function getCapabilities() {
 		return [
 			'files' => [
-				'undelete' => true
+				'undelete' => true,
+				'delete_from_trash' => ConfigService::getDeleteFromTrashEnabled(),
 			]
 		];
 	}

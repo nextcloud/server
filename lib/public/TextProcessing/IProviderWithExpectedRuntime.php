@@ -15,6 +15,7 @@ namespace OCP\TextProcessing;
  * @since 28.0.0
  * @template T of ITaskType
  * @template-extends IProvider<T>
+ * @deprecated 30.0.0
  */
 interface IProviderWithExpectedRuntime extends IProvider {
 	/**

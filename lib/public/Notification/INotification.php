@@ -8,11 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Notification;
 
-/**
- * Interface INotification
- *
- * @since 9.0.0
- */
+use OCP\AppFramework\Attribute\Consumable;
+
+#[Consumable(since: '9.0.0')]
 interface INotification {
 	/**
 	 * @param string $app
@@ -137,7 +135,7 @@ interface INotification {
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
 	 * @param string $subject
-	 * @param array $parameters
+	 * @param array<string, array<string, string>> $parameters
 	 * @return $this
 	 * @throws InvalidValueException if the subject or parameters are invalid
 	 * @since 11.0.0
@@ -213,7 +211,7 @@ interface INotification {
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
 	 * @param string $message
-	 * @param array $parameters
+	 * @param array<string, array<string, string>> $parameters
 	 * @return $this
 	 * @throws InvalidValueException if the message or parameters are invalid
 	 * @since 11.0.0
@@ -249,6 +247,10 @@ interface INotification {
 	public function getLink(): string;
 
 	/**
+	 * Set the absolute url for the icon (should be colored black or not have a color)
+	 *
+	 * It's automatically color inverted by clients when needed
+	 *
 	 * @param string $icon
 	 * @return $this
 	 * @throws InvalidValueException if the icon is invalid
@@ -258,10 +260,26 @@ interface INotification {
 	public function setIcon(string $icon): INotification;
 
 	/**
+	 * Get the absolute url for the icon (should be colored black or not have a color)
+	 *
+	 * It's automatically color inverted by clients when needed
+	 *
 	 * @return string
 	 * @since 11.0.0
 	 */
 	public function getIcon(): string;
+
+	/**
+	 * @return $this
+	 * @throws InvalidValueException if the app is not allowed to send priority notifications
+	 * @since 31.0.0
+	 */
+	public function setPriorityNotification(bool $priorityNotification): INotification;
+
+	/**
+	 * @since 31.0.0
+	 */
+	public function isPriorityNotification(): bool;
 
 	/**
 	 * @return IAction

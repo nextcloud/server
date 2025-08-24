@@ -5,6 +5,9 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+use Psr\Log\LoggerInterface;
+
 class OC_Hook {
 	public static $thrownExceptions = [];
 
@@ -43,8 +46,8 @@ class OC_Hook {
 		}
 		// Connect the hook handler to the requested emitter
 		self::$registered[$signalClass][$signalName][] = [
-			"class" => $slotClass,
-			"name" => $slotName
+			'class' => $slotClass,
+			'name' => $slotName
 		];
 
 		// No chance for failure ;-)
@@ -79,10 +82,10 @@ class OC_Hook {
 		// Call all slots
 		foreach (self::$registered[$signalClass][$signalName] as $i) {
 			try {
-				call_user_func([ $i["class"], $i["name"] ], $params);
+				call_user_func([ $i['class'], $i['name'] ], $params);
 			} catch (Exception $e) {
 				self::$thrownExceptions[] = $e;
-				\OC::$server->getLogger()->logException($e);
+				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 				if ($e instanceof \OCP\HintException) {
 					throw $e;
 				}

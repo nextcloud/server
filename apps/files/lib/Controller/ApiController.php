@@ -8,12 +8,19 @@
 namespace OCA\Files\Controller;
 
 use OC\Files\Node\Node;
+use OCA\Files\Helper;
+use OCA\Files\ResponseDefinitions;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\StrictCookiesRequired;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -22,56 +29,53 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StreamResponse;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\ISharedStorage;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserSession;
+use OCP\PreConditionNotMetException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
+ * @psalm-import-type FilesFolderTree from ResponseDefinitions
+ *
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
-	private TagService $tagService;
-	private IManager $shareManager;
-	private IPreview $previewManager;
-	private IUserSession $userSession;
-	private IConfig $config;
-	private ?Folder $userFolder;
-	private UserConfig $userConfig;
-	private ViewConfig $viewConfig;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IUserSession $userSession,
-		TagService $tagService,
-		IPreview $previewManager,
-		IManager $shareManager,
-		IConfig $config,
-		?Folder $userFolder,
-		UserConfig $userConfig,
-		ViewConfig $viewConfig) {
+		private IUserSession $userSession,
+		private TagService $tagService,
+		private IPreview $previewManager,
+		private IManager $shareManager,
+		private IConfig $config,
+		private ?Folder $userFolder,
+		private UserConfig $userConfig,
+		private ViewConfig $viewConfig,
+		private IL10N $l10n,
+		private IRootFolder $rootFolder,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
-		$this->userSession = $userSession;
-		$this->tagService = $tagService;
-		$this->previewManager = $previewManager;
-		$this->shareManager = $shareManager;
-		$this->config = $config;
-		$this->userFolder = $userFolder;
-		$this->userConfig = $userConfig;
-		$this->viewConfig = $viewConfig;
 	}
 
 	/**
 	 * Gets a thumbnail of the specified file
 	 *
 	 * @since API version 1.0
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @StrictCookieRequired
+	 * @deprecated 32.0.0 Use the preview endpoint provided by core instead
 	 *
 	 * @param int $x Width of the thumbnail
 	 * @param int $y Height of the thumbnail
@@ -82,22 +86,39 @@ class ApiController extends Controller {
 	 * 400: Getting thumbnail is not possible
 	 * 404: File not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[StrictCookiesRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getThumbnail($x, $y, $file) {
 		if ($x < 1 || $y < 1) {
 			return new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
-			$file = $this->userFolder->get($file);
-			if ($file instanceof Folder) {
+			$file = $this->userFolder?->get($file);
+			if ($file === null
+				|| !($file instanceof File)
+				|| ($file->getId() <= 0)
+			) {
 				throw new NotFoundException();
 			}
 
-			/** @var File $file */
+			// Validate the user is allowed to download the file (preview is some kind of download)
+			/** @var ISharedStorage $storage */
+			$storage = $file->getStorage();
+			if ($storage->instanceOfStorage(ISharedStorage::class)) {
+				/** @var IShare $share */
+				$share = $storage->getShare();
+				if (!$share->canSeeContent()) {
+					throw new NotFoundException();
+				}
+			}
+
 			$preview = $this->previewManager->getPreview($file, $x, $y, true);
 
 			return new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => $preview->getMimeType()]);
-		} catch (NotFoundException $e) {
+		} catch (NotFoundException|NotPermittedException|InvalidPathException) {
 			return new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
@@ -109,23 +130,22 @@ class ApiController extends Controller {
 	 * The passed tags are absolute, which means they will
 	 * replace the actual tag selection.
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param string $path path
 	 * @param array|string $tags array of tags
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function updateFileTags($path, $tags = null) {
 		$result = [];
 		// if tags specified or empty array, update tags
 		if (!is_null($tags)) {
 			try {
 				$this->tagService->updateFileTags($path, $tags);
-			} catch (\OCP\Files\NotFoundException $e) {
+			} catch (NotFoundException $e) {
 				return new DataResponse([
 					'message' => $e->getMessage()
 				], Http::STATUS_NOT_FOUND);
-			} catch (\OCP\Files\StorageNotAvailableException $e) {
+			} catch (StorageNotAvailableException $e) {
 				return new DataResponse([
 					'message' => $e->getMessage()
 				], Http::STATUS_SERVICE_UNAVAILABLE);
@@ -147,7 +167,7 @@ class ApiController extends Controller {
 		$shareTypesForNodes = $this->getShareTypesForNodes($nodes);
 		return array_values(array_map(function (Node $node) use ($shareTypesForNodes) {
 			$shareTypes = $shareTypesForNodes[$node->getId()] ?? [];
-			$file = \OCA\Files\Helper::formatFileInfo($node->getFileInfo());
+			$file = Helper::formatFileInfo($node->getFileInfo());
 			$file['hasPreview'] = $this->previewManager->isAvailable($node);
 			$parts = explode('/', dirname($node->getPath()), 4);
 			if (isset($parts[3])) {
@@ -217,40 +237,114 @@ class ApiController extends Controller {
 	/**
 	 * Returns a list of recently modified files.
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function getRecentFiles() {
 		$nodes = $this->userFolder->getRecent(100);
 		$files = $this->formatNodes($nodes);
 		return new DataResponse(['files' => $files]);
 	}
 
+	/**
+	 * @param \OCP\Files\Node[] $nodes
+	 * @param int $depth The depth to traverse into the contents of each node
+	 */
+	private function getChildren(array $nodes, int $depth = 1, int $currentDepth = 0): array {
+		if ($currentDepth >= $depth) {
+			return [];
+		}
+
+		$children = [];
+		foreach ($nodes as $node) {
+			if (!($node instanceof Folder)) {
+				continue;
+			}
+
+			$basename = basename($node->getPath());
+			$entry = [
+				'id' => $node->getId(),
+				'basename' => $basename,
+				'children' => $this->getChildren($node->getDirectoryListing(), $depth, $currentDepth + 1),
+			];
+			$displayName = $node->getName();
+			if ($basename !== $displayName) {
+				$entry['displayName'] = $displayName;
+			}
+			$children[] = $entry;
+		}
+		return $children;
+	}
+
+	/**
+	 * Returns the folder tree of the user
+	 *
+	 * @param string $path The path relative to the user folder
+	 * @param int $depth The depth of the tree
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, FilesFolderTree, array{}>|JSONResponse<Http::STATUS_UNAUTHORIZED|Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 * 200: Folder tree returned successfully
+	 * 400: Invalid folder path
+	 * 401: Unauthorized
+	 * 404: Folder not found
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'GET', url: '/api/v1/folder-tree')]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	public function getFolderTree(string $path = '/', int $depth = 1): JSONResponse {
+		$user = $this->userSession->getUser();
+		if (!($user instanceof IUser)) {
+			return new JSONResponse([
+				'message' => $this->l10n->t('Failed to authorize'),
+			], Http::STATUS_UNAUTHORIZED);
+		}
+		try {
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+			$userFolderPath = $userFolder->getPath();
+			$fullPath = implode('/', [$userFolderPath, trim($path, '/')]);
+			$node = $this->rootFolder->get($fullPath);
+			if (!($node instanceof Folder)) {
+				return new JSONResponse([
+					'message' => $this->l10n->t('Invalid folder path'),
+				], Http::STATUS_BAD_REQUEST);
+			}
+			$nodes = $node->getDirectoryListing();
+			$tree = $this->getChildren($nodes, $depth);
+		} catch (NotFoundException $e) {
+			return new JSONResponse([
+				'message' => $this->l10n->t('Folder not found'),
+			], Http::STATUS_NOT_FOUND);
+		} catch (Throwable $th) {
+			$this->logger->error($th->getMessage(), ['exception' => $th]);
+			$tree = [];
+		}
+		return new JSONResponse($tree);
+	}
 
 	/**
 	 * Returns the current logged-in user's storage stats.
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param ?string $dir the directory to get the storage stats from
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function getStorageStats($dir = '/'): JSONResponse {
 		$storageInfo = \OC_Helper::getStorageInfo($dir ?: '/');
-		return new JSONResponse(['message' => 'ok', 'data' => $storageInfo]);
+		$response = new JSONResponse(['message' => 'ok', 'data' => $storageInfo]);
+		$response->cacheFor(5 * 60);
+		return $response;
 	}
 
 	/**
 	 * Set a user view config
-	 *
-	 * @NoAdminRequired
 	 *
 	 * @param string $view
 	 * @param string $key
 	 * @param string|bool $value
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function setViewConfig(string $view, string $key, $value): JSONResponse {
 		try {
 			$this->viewConfig->setConfig($view, $key, (string)$value);
@@ -265,10 +359,9 @@ class ApiController extends Controller {
 	/**
 	 * Get the user view config
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function getViewConfigs(): JSONResponse {
 		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfigs()]);
 	}
@@ -276,12 +369,11 @@ class ApiController extends Controller {
 	/**
 	 * Set a user config
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param string $key
 	 * @param string|bool $value
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function setConfig(string $key, $value): JSONResponse {
 		try {
 			$this->userConfig->setConfig($key, (string)$value);
@@ -296,10 +388,9 @@ class ApiController extends Controller {
 	/**
 	 * Get the user config
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function getConfigs(): JSONResponse {
 		return new JSONResponse(['message' => 'ok', 'data' => $this->userConfig->getConfigs()]);
 	}
@@ -307,12 +398,11 @@ class ApiController extends Controller {
 	/**
 	 * Toggle default for showing/hiding hidden files
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param bool $value
 	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
+	#[NoAdminRequired]
 	public function showHiddenFiles(bool $value): Response {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', $value ? '1' : '0');
 		return new Response();
@@ -321,12 +411,11 @@ class ApiController extends Controller {
 	/**
 	 * Toggle default for cropping preview images
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param bool $value
 	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
+	#[NoAdminRequired]
 	public function cropImagePreviews(bool $value): Response {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', $value ? '1' : '0');
 		return new Response();
@@ -335,12 +424,11 @@ class ApiController extends Controller {
 	/**
 	 * Toggle default for files grid view
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param bool $show
 	 * @return Response
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
+	#[NoAdminRequired]
 	public function showGridView(bool $show): Response {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', $show ? '1' : '0');
 		return new Response();
@@ -348,19 +436,15 @@ class ApiController extends Controller {
 
 	/**
 	 * Get default settings for the grid view
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function getGridView() {
 		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '0') === '1';
 		return new JSONResponse(['gridview' => $status]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function serviceWorker(): StreamResponse {
 		$response = new StreamResponse(__DIR__ . '/../../../../dist/preview-service-worker.js');

@@ -12,7 +12,9 @@ use OC\Files\AppData\Factory;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
@@ -39,14 +41,14 @@ class CssController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
 	 * @param string $fileName css filename with extension
 	 * @param string $appName css folder name
 	 * @return FileDisplayResponse|NotFoundResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/css/{appName}/{fileName}')]
 	public function getCss(string $fileName, string $appName): Response {
 		try {
@@ -63,11 +65,11 @@ class CssController extends Controller {
 		}
 
 		$ttl = 31536000;
-		$response->addHeader('Cache-Control', 'max-age='.$ttl.', immutable');
+		$response->addHeader('Cache-Control', 'max-age=' . $ttl . ', immutable');
 
 		$expires = new \DateTime();
 		$expires->setTimestamp($this->timeFactory->getTime());
-		$expires->add(new \DateInterval('PT'.$ttl.'S'));
+		$expires->add(new \DateInterval('PT' . $ttl . 'S'));
 		$response->addHeader('Expires', $expires->format(\DateTime::RFC1123));
 		return $response;
 	}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -48,7 +49,7 @@ class EventLogger implements IEventLogger {
 			return true;
 		}
 
-		$isDebugLevel = $this->internalLogger->getLogLevel([]) === Log::DEBUG;
+		$isDebugLevel = $this->internalLogger->getLogLevel([], '') === Log::DEBUG;
 		return $systemValue && $isDebugLevel;
 	}
 

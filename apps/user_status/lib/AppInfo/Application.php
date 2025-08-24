@@ -23,7 +23,9 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\IConfig;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
+use OCP\User\Events\OutOfOfficeEndedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
+use OCP\User\Events\OutOfOfficeStartedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLiveStatusEvent;
 use OCP\UserStatus\IManager;
@@ -61,6 +63,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(OutOfOfficeChangedEvent::class, OutOfOfficeStatusListener::class);
 		$context->registerEventListener(OutOfOfficeScheduledEvent::class, OutOfOfficeStatusListener::class);
 		$context->registerEventListener(OutOfOfficeClearedEvent::class, OutOfOfficeStatusListener::class);
+		$context->registerEventListener(OutOfOfficeStartedEvent::class, OutOfOfficeStatusListener::class);
+		$context->registerEventListener(OutOfOfficeEndedEvent::class, OutOfOfficeStatusListener::class);
 
 		$config = $this->getContainer()->query(IConfig::class);
 		$shareeEnumeration = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';

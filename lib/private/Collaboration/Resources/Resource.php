@@ -23,7 +23,7 @@ class Resource implements IResource {
 		protected string $type,
 		protected string $id,
 		protected ?IUser $userForAccess = null,
-		protected ?bool $access = null
+		protected ?bool $access = null,
 	) {
 	}
 
@@ -104,7 +104,7 @@ class Resource implements IResource {
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
-			$collections[] = $this->manager->getCollection((int) $row['collection_id']);
+			$collections[] = $this->manager->getCollection((int)$row['collection_id']);
 		}
 		$result->closeCursor();
 

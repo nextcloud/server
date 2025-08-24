@@ -15,6 +15,7 @@ use OCP\PreConditionNotMetException;
 
 /**
  * @since 26.0.0
+ * @deprecated 30.0.0
  */
 interface ITranslationManager {
 	/**

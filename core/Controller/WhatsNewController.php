@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,6 +12,7 @@ use OC\Updater\ChangesCheck;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -18,6 +20,8 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\PreConditionNotMetException;
+use OCP\ServerVersion;
 
 class WhatsNewController extends OCSController {
 	public function __construct(
@@ -27,29 +31,29 @@ class WhatsNewController extends OCSController {
 		private IUserSession $userSession,
 		IUserManager $userManager,
 		Manager $keyManager,
+		ServerVersion $serverVersion,
 		private IConfig $config,
 		private ChangesCheck $whatsNewService,
 		private IFactory $langFactory,
 		private Defaults $defaults,
 	) {
-		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager);
+		parent::__construct($appName, $request, $capabilitiesManager, $userSession, $userManager, $keyManager, $serverVersion);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get the changes
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: string[], admin: string[]}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: list<string>, admin: list<string>}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, list<empty>, array{}>
 	 *
 	 * 200: Changes returned
 	 * 204: No changes
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/whatsnew', root: '/core')]
 	public function get():DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			throw new \RuntimeException("Acting user cannot be resolved");
+			throw new \RuntimeException('Acting user cannot be resolved');
 		}
 		$lastRead = $this->config->getUserValue($user->getUID(), 'core', 'whatsNewLastRead', 0);
 		$currentVersion = $this->whatsNewService->normalizeVersion($this->config->getSystemValue('version'));
@@ -81,23 +85,22 @@ class WhatsNewController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Dismiss the changes
 	 *
 	 * @param string $version Version to dismiss the changes for
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
-	 * @throws \OCP\PreConditionNotMetException
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
+	 * @throws PreConditionNotMetException
 	 * @throws DoesNotExistException
 	 *
 	 * 200: Changes dismissed
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/whatsnew', root: '/core')]
 	public function dismiss(string $version):DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			throw new \RuntimeException("Acting user cannot be resolved");
+			throw new \RuntimeException('Acting user cannot be resolved');
 		}
 		$version = $this->whatsNewService->normalizeVersion($version);
 		// checks whether it's a valid version, throws an Exception otherwise

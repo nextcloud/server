@@ -71,7 +71,7 @@ class CollaborationContext implements Context {
 		try {
 			$destination = '/users/admin/myaddressbook';
 			$data = '<x0:mkcol xmlns:x0="DAV:"><x0:set><x0:prop><x0:resourcetype><x0:collection/><x4:addressbook xmlns:x4="urn:ietf:params:xml:ns:carddav"/></x0:resourcetype><x0:displayname>myaddressbook</x0:displayname></x0:prop></x0:set></x0:mkcol>';
-			$this->response = $this->makeDavRequest($this->currentUser, "MKCOL", $destination, ['Content-Type' => 'application/xml'], $data, "addressbooks");
+			$this->response = $this->makeDavRequest($this->currentUser, 'MKCOL', $destination, ['Content-Type' => 'application/xml'], $data, 'addressbooks');
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
 			$this->response = $e->getResponse();
@@ -93,7 +93,7 @@ EMAIL;TYPE=HOME:user@example.com
 REV;VALUE=DATE-AND-OR-TIME:20211130T140111Z
 END:VCARD
 EOF;
-			$this->response = $this->makeDavRequest($this->currentUser, "PUT", $destination, [], $data, "addressbooks");
+			$this->response = $this->makeDavRequest($this->currentUser, 'PUT', $destination, [], $data, 'addressbooks');
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 5xx responses cause a server exception
 			$this->response = $e->getResponse();

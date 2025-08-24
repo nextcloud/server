@@ -39,7 +39,7 @@ class Add extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
 		$settingClass = $input->getArgument('settingClass');
-		if (!in_array(IDelegatedSettings::class, (array) class_implements($settingClass), true)) {
+		if (!in_array(IDelegatedSettings::class, (array)class_implements($settingClass), true)) {
 			$io->error('The specified class isn’t a valid delegated setting.');
 			return 2;
 		}
@@ -52,7 +52,7 @@ class Add extends Base {
 
 		$this->authorizedGroupService->create($groupId, $settingClass);
 
-		$io->success('Administration of '.$settingClass.' delegated to '.$groupId.'.');
+		$io->success('Administration of ' . $settingClass . ' delegated to ' . $groupId . '.');
 
 		return 0;
 	}

@@ -81,11 +81,11 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 				$processed++;
 				$list .= "\n " . $this->l10n->t('"%s" in table "%s"', [$missingIndex['indexName'], $missingIndex['tableName']]);
 				if (count($missingIndices) > $processed) {
-					$list .= ", ";
+					$list .= ', ';
 				}
 			}
 			return SetupResult::warning(
-				$this->l10n->t('Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them. ') . $list . '.',
+				$this->l10n->t('Detected some missing optional indices. Occasionally new indices are added (by Nextcloud or installed applications) to improve database performance. Adding indices can sometimes take awhile and temporarily hurt performance so this is not done automatically during upgrades. Once the indices are added, queries to those tables should be faster. Use the command `occ db:add-missing-indices` to add them.') . "\n" . $list,
 				$this->urlGenerator->linkToDocs('admin-long-running-migration-steps')
 			);
 		}

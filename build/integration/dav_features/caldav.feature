@@ -87,3 +87,8 @@ Feature: caldav
     When "user0" requests principal "users/user0" on the endpoint "/remote.php/dav/principals/"
     Then The CalDAV response should be multi status
     And The CalDAV response should contain a property "{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL" with a href value "/remote.php/dav/calendars/user0/MyCalendar2/"
+
+  Scenario: Should create default calendar on first login
+    Given user "first-login" exists
+    When "first-login" requests calendar "first-login/personal" on the endpoint "/remote.php/dav/calendars/"
+    Then The CalDAV HTTP status code should be "207"

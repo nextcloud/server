@@ -52,15 +52,12 @@ OC.L10N.register(
     "Basic encryption module" : "ماژول رمزگذاری اولیه",
     "Your private key password no longer matches your log-in password." : "رمز عبور محافظت شده شما با رمز عبور وارد شده مطابقت ندارد.",
     "Set your old private key password to your current log-in password:" : "رمز عبور قبلی خود را بر روی رمز ورود فعلی تنظیم کنید.",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "اگر رمزعبور قدیمی را فراموش کرده اید میتوانید از مدیر خود برای بازیابی فایل هایتان درخواست نمایید.",
     "Old log-in password" : "رمزعبور قدیمی",
     "Current log-in password" : "رمزعبور فعلی",
     "Update Private Key Password" : "به روز رسانی رمزعبور کلید خصوصی",
     "Enable password recovery:" : "فعال سازی بازیابی رمزعبور:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "فعال کردن این گزینه به شما اجازه خواهد داد در صورت از دست دادن رمزعبور به فایل های رمزگذاری شده خود دسترسی داشته باشید.",
     "Enabled" : "فعال شده",
-    "Disabled" : "غیرفعال شده",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "کلید بازیابی یک کلید رمزگذاری اضافی است که برای رمزگذاری پرونده ها استفاده می شود. اگر کاربر رمزعبور خود را فراموش کند ، امکان بازیابی پرونده های کاربر را فراهم می کند."
+    "Disabled" : "غیرفعال شده"
 },
 "nplurals=2; plural=(n > 1);");

@@ -26,11 +26,11 @@ class UserAvatar extends Avatar {
 	public function __construct(
 		private ISimpleFolder $folder,
 		private IL10N $l,
-		private User $user,
+		protected User $user,
 		LoggerInterface $logger,
-		private IConfig $config,
+		IConfig $config,
 	) {
-		parent::__construct($logger);
+		parent::__construct($config, $logger);
 	}
 
 	/**
@@ -82,8 +82,8 @@ class UserAvatar extends Avatar {
 
 		$img = new \OCP\Image();
 		if (
-			(is_resource($data) && get_resource_type($data) === 'gd') ||
-			(is_object($data) && get_class($data) === \GdImage::class)
+			(is_resource($data) && get_resource_type($data) === 'gd')
+			|| (is_object($data) && get_class($data) === \GdImage::class)
 		) {
 			$img->setResource($data);
 		} elseif (is_resource($data)) {
@@ -169,18 +169,20 @@ class UserAvatar extends Avatar {
 	 * @throws NotFoundException
 	 */
 	private function getExtension(bool $generated, bool $darkTheme): string {
-		if ($darkTheme && !$generated) {
-			if ($this->folder->fileExists('avatar-dark.jpg')) {
-				return 'jpg';
-			} elseif ($this->folder->fileExists('avatar-dark.png')) {
-				return 'png';
-			}
+		if ($darkTheme && $generated) {
+			$name = 'avatar-dark.';
+		} else {
+			$name = 'avatar.';
 		}
-		if ($this->folder->fileExists('avatar.jpg')) {
+
+		if ($this->folder->fileExists($name . 'jpg')) {
 			return 'jpg';
-		} elseif ($this->folder->fileExists('avatar.png')) {
+		}
+
+		if ($this->folder->fileExists($name . 'png')) {
 			return 'png';
 		}
+
 		throw new NotFoundException;
 	}
 
@@ -199,8 +201,9 @@ class UserAvatar extends Avatar {
 		try {
 			$ext = $this->getExtension($generated, $darkTheme);
 		} catch (NotFoundException $e) {
-			if (!$data = $this->generateAvatarFromSvg(1024, $darkTheme)) {
-				$data = $this->generateAvatar($this->getDisplayName(), 1024, $darkTheme);
+			$userDisplayName = $this->getDisplayName();
+			if (!$data = $this->generateAvatarFromSvg($userDisplayName, 1024, $darkTheme)) {
+				$data = $this->generateAvatar($userDisplayName, 1024, $darkTheme);
 			}
 			$avatar = $this->folder->newFile($darkTheme ? 'avatar-dark.png' : 'avatar.png');
 			$avatar->putContent($data);
@@ -215,7 +218,7 @@ class UserAvatar extends Avatar {
 			if ($size === -1) {
 				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.' . $ext;
 			} else {
-				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.'  . $size . '.' . $ext;
+				$path = 'avatar' . ($darkTheme ? '-dark' : '') . '.' . $size . '.' . $ext;
 			}
 		} else {
 			if ($size === -1) {
@@ -232,8 +235,9 @@ class UserAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 			if ($generated) {
-				if (!$data = $this->generateAvatarFromSvg($size, $darkTheme)) {
-					$data = $this->generateAvatar($this->getDisplayName(), $size, $darkTheme);
+				$userDisplayName = $this->getDisplayName();
+				if (!$data = $this->generateAvatarFromSvg($userDisplayName, $size, $darkTheme)) {
+					$data = $this->generateAvatar($userDisplayName, $size, $darkTheme);
 				}
 			} else {
 				$avatar = new \OCP\Image();
@@ -290,5 +294,10 @@ class UserAvatar extends Avatar {
 	 */
 	public function isCustomAvatar(): bool {
 		return $this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', 'false') !== 'true';
+	}
+
+	#[\Override]
+	protected function getAvatarLanguage(): string {
+		return $this->config->getUserValue($this->user->getUID(), 'core', 'lang', parent::getAvatarLanguage());
 	}
 }

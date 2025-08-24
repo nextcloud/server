@@ -21,11 +21,13 @@ use OCP\Calendar\Resource\IBackend as IResourceBackend;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Capabilities\ICapability;
 use OCP\Collaboration\Reference\IReferenceProvider;
+use OCP\Config\Lexicon\ILexicon;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Http\WellKnown\IHandler;
+use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
@@ -140,6 +142,9 @@ class RegistrationContext {
 	/** @var ServiceRegistration<IDeclarativeSettingsForm>[] */
 	private array $declarativeSettings = [];
 
+	/** @var array<array-key, string> */
+	private array $configLexiconClasses = [];
+
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
 
@@ -148,6 +153,12 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
 	private array $taskProcessingTaskTypes = [];
+
+	/** @var ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[] */
+	private array $fileConversionProviders = [];
+
+	/** @var ServiceRegistration<IMailProvider>[] */
+	private $mailProviders = [];
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -411,6 +422,27 @@ class RegistrationContext {
 					$taskProcessingTaskTypeClass
 				);
 			}
+
+			public function registerFileConversionProvider(string $class): void {
+				$this->context->registerFileConversionProvider(
+					$this->appId,
+					$class
+				);
+			}
+
+			public function registerMailProvider(string $class): void {
+				$this->context->registerMailProvider(
+					$this->appId,
+					$class
+				);
+			}
+
+			public function registerConfigLexicon(string $configLexiconClass): void {
+				$this->context->registerConfigLexicon(
+					$this->appId,
+					$configLexiconClass
+				);
+			}
 		};
 	}
 
@@ -527,10 +559,10 @@ class RegistrationContext {
 	public function registerTalkBackend(string $appId, string $backend) {
 		// Some safeguards for invalid registrations
 		if ($appId !== 'spreed') {
-			throw new RuntimeException("Only the Talk app is allowed to register a Talk backend");
+			throw new RuntimeException('Only the Talk app is allowed to register a Talk backend');
 		}
 		if ($this->talkBackendRegistration !== null) {
-			throw new RuntimeException("There can only be one Talk backend");
+			throw new RuntimeException('There can only be one Talk backend');
 		}
 
 		$this->talkBackendRegistration = new ServiceRegistration($appId, $backend);
@@ -602,6 +634,27 @@ class RegistrationContext {
 	 */
 	public function registerTaskProcessingTaskType(string $appId, string $taskProcessingTaskTypeClass) {
 		$this->taskProcessingTaskTypes[] = new ServiceRegistration($appId, $taskProcessingTaskTypeClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\Files\Conversion\IConversionProvider> $class
+	 */
+	public function registerFileConversionProvider(string $appId, string $class): void {
+		$this->fileConversionProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @psalm-param class-string<IMailProvider> $migratorClass
+	 */
+	public function registerMailProvider(string $appId, string $class): void {
+		$this->mailProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	/**
+	 * @psalm-param class-string<ILexicon> $configLexiconClass
+	 */
+	public function registerConfigLexicon(string $appId, string $configLexiconClass): void {
+		$this->configLexiconClasses[$appId] = $configLexiconClass;
 	}
 
 	/**
@@ -947,5 +1000,35 @@ class RegistrationContext {
 	 */
 	public function getTaskProcessingTaskTypes(): array {
 		return $this->taskProcessingTaskTypes;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\Files\Conversion\IConversionProvider>[]
+	 */
+	public function getFileConversionProviders(): array {
+		return $this->fileConversionProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<IMailProvider>[]
+	 */
+	public function getMailProviders(): array {
+		return $this->mailProviders;
+	}
+
+	/**
+	 * returns IConfigLexicon registered by the app.
+	 * null if none registered.
+	 *
+	 * @param string $appId
+	 *
+	 * @return ILexicon|null
+	 */
+	public function getConfigLexicon(string $appId): ?ILexicon {
+		if (!array_key_exists($appId, $this->configLexiconClasses)) {
+			return null;
+		}
+
+		return \OCP\Server::get($this->configLexiconClasses[$appId]);
 	}
 }

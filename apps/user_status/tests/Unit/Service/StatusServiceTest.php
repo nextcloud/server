@@ -27,27 +27,17 @@ use OCP\IEmojiHelper;
 use OCP\IUserManager;
 use OCP\UserStatus\IUserStatus;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class StatusServiceTest extends TestCase {
-
-	/** @var UserStatusMapper|MockObject */
-	private $mapper;
-
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-
-	/** @var PredefinedStatusService|MockObject */
-	private $predefinedStatusService;
-
-	/** @var IEmojiHelper|MockObject */
-	private $emojiHelper;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IUserManager|MockObject  */
-	private $userManager;
+	private UserStatusMapper&MockObject $mapper;
+	private ITimeFactory&MockObject $timeFactory;
+	private PredefinedStatusService&MockObject $predefinedStatusService;
+	private IEmojiHelper&MockObject $emojiHelper;
+	private IConfig&MockObject $config;
+	private IUserManager&MockObject $userManager;
+	private LoggerInterface&MockObject $logger;
 
 	private StatusService $service;
 
@@ -60,6 +50,7 @@ class StatusServiceTest extends TestCase {
 		$this->emojiHelper = $this->createMock(IEmojiHelper::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->config->method('getAppValue')
 			->willReturnMap([
@@ -72,7 +63,8 @@ class StatusServiceTest extends TestCase {
 			$this->predefinedStatusService,
 			$this->emojiHelper,
 			$this->config,
-			$this->userManager
+			$this->userManager,
+			$this->logger,
 		);
 	}
 
@@ -128,7 +120,8 @@ class StatusServiceTest extends TestCase {
 			$this->predefinedStatusService,
 			$this->emojiHelper,
 			$this->config,
-			$this->userManager
+			$this->userManager,
+			$this->logger,
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -147,7 +140,8 @@ class StatusServiceTest extends TestCase {
 			$this->predefinedStatusService,
 			$this->emojiHelper,
 			$this->config,
-			$this->userManager
+			$this->userManager,
+			$this->logger,
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -227,21 +221,9 @@ class StatusServiceTest extends TestCase {
 		$this->assertNull($status->getMessageId());
 	}
 
-	/**
-	 * @param string $userId
-	 * @param string $status
-	 * @param int|null $statusTimestamp
-	 * @param bool $isUserDefined
-	 * @param bool $expectExisting
-	 * @param bool $expectSuccess
-	 * @param bool $expectTimeFactory
-	 * @param bool $expectException
-	 * @param string|null $expectedExceptionClass
-	 * @param string|null $expectedExceptionMessage
-	 *
-	 * @dataProvider setStatusDataProvider
-	 */
-	public function testSetStatus(string $userId,
+	#[\PHPUnit\Framework\Attributes\DataProvider('setStatusDataProvider')]
+	public function testSetStatus(
+		string $userId,
 		string $status,
 		?int $statusTimestamp,
 		bool $isUserDefined,
@@ -250,7 +232,8 @@ class StatusServiceTest extends TestCase {
 		bool $expectTimeFactory,
 		bool $expectException,
 		?string $expectedExceptionClass,
-		?string $expectedExceptionMessage): void {
+		?string $expectedExceptionMessage,
+	): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -301,7 +284,7 @@ class StatusServiceTest extends TestCase {
 		}
 	}
 
-	public function setStatusDataProvider(): array {
+	public static function setStatusDataProvider(): array {
 		return [
 			['john.doe', 'online', 50,   true,  true,  true, false, false, null, null],
 			['john.doe', 'online', 50,   true,  false, true, false, false, null, null],
@@ -359,20 +342,9 @@ class StatusServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param string $userId
-	 * @param string $messageId
-	 * @param bool $isValidMessageId
-	 * @param int|null $clearAt
-	 * @param bool $expectExisting
-	 * @param bool $expectSuccess
-	 * @param bool $expectException
-	 * @param string|null $expectedExceptionClass
-	 * @param string|null $expectedExceptionMessage
-	 *
-	 * @dataProvider setPredefinedMessageDataProvider
-	 */
-	public function testSetPredefinedMessage(string $userId,
+	#[\PHPUnit\Framework\Attributes\DataProvider('setPredefinedMessageDataProvider')]
+	public function testSetPredefinedMessage(
+		string $userId,
 		string $messageId,
 		bool $isValidMessageId,
 		?int $clearAt,
@@ -380,7 +352,8 @@ class StatusServiceTest extends TestCase {
 		bool $expectSuccess,
 		bool $expectException,
 		?string $expectedExceptionClass,
-		?string $expectedExceptionMessage): void {
+		?string $expectedExceptionMessage,
+	): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -443,7 +416,7 @@ class StatusServiceTest extends TestCase {
 		}
 	}
 
-	public function setPredefinedMessageDataProvider(): array {
+	public static function setPredefinedMessageDataProvider(): array {
 		return [
 			['john.doe', 'sick-leave', true, null, true,  true,  false, null, null],
 			['john.doe', 'sick-leave', true, null, false, true,  false, null, null],
@@ -456,21 +429,9 @@ class StatusServiceTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @param string $userId
-	 * @param string|null $statusIcon
-	 * @param bool $supportsEmoji
-	 * @param string $message
-	 * @param int|null $clearAt
-	 * @param bool $expectExisting
-	 * @param bool $expectSuccess
-	 * @param bool $expectException
-	 * @param string|null $expectedExceptionClass
-	 * @param string|null $expectedExceptionMessage
-	 *
-	 * @dataProvider setCustomMessageDataProvider
-	 */
-	public function testSetCustomMessage(string $userId,
+	#[\PHPUnit\Framework\Attributes\DataProvider('setCustomMessageDataProvider')]
+	public function testSetCustomMessage(
+		string $userId,
 		?string $statusIcon,
 		bool $supportsEmoji,
 		string $message,
@@ -479,7 +440,8 @@ class StatusServiceTest extends TestCase {
 		bool $expectSuccess,
 		bool $expectException,
 		?string $expectedExceptionClass,
-		?string $expectedExceptionMessage): void {
+		?string $expectedExceptionMessage,
+	): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -540,7 +502,7 @@ class StatusServiceTest extends TestCase {
 		}
 	}
 
-	public function setCustomMessageDataProvider(): array {
+	public static function setCustomMessageDataProvider(): array {
 		return [
 			['john.doe', '😁', true, 'Custom message', null, true,  true, false, null, null],
 			['john.doe', '😁', true, 'Custom message', null, false, true, false, null, null],
@@ -731,7 +693,6 @@ class StatusServiceTest extends TestCase {
 	}
 
 	public function testBackup(): void {
-		$e = new Exception('', Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
 		$this->mapper->expects($this->once())
 			->method('createBackupStatus')
 			->with('john')
@@ -806,5 +767,62 @@ class StatusServiceTest extends TestCase {
 			->with([2]);
 
 		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly', 'nobackupanddnd'], 'call');
+	}
+
+	public static function dataSetUserStatus(): array {
+		return [
+			[IUserStatus::MESSAGE_CALENDAR_BUSY, '', false],
+
+			// Call > Meeting
+			[IUserStatus::MESSAGE_CALENDAR_BUSY, IUserStatus::MESSAGE_CALL, false],
+			[IUserStatus::MESSAGE_CALL, IUserStatus::MESSAGE_CALENDAR_BUSY, true],
+
+			// Availability > Call&Meeting
+			[IUserStatus::MESSAGE_CALENDAR_BUSY, IUserStatus::MESSAGE_AVAILABILITY, false],
+			[IUserStatus::MESSAGE_CALL, IUserStatus::MESSAGE_AVAILABILITY, false],
+			[IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::MESSAGE_CALENDAR_BUSY, true],
+			[IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::MESSAGE_CALL, true],
+
+			// Out-of-office > Availability&Call&Meeting
+			[IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::MESSAGE_OUT_OF_OFFICE, false],
+			[IUserStatus::MESSAGE_CALENDAR_BUSY, IUserStatus::MESSAGE_OUT_OF_OFFICE, false],
+			[IUserStatus::MESSAGE_CALL, IUserStatus::MESSAGE_OUT_OF_OFFICE, false],
+			[IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::MESSAGE_AVAILABILITY, true],
+			[IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::MESSAGE_CALENDAR_BUSY, true],
+			[IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::MESSAGE_CALL, true],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetUserStatus')]
+	public function testSetUserStatus(string $messageId, string $oldMessageId, bool $expectedUpdateShortcut): void {
+		$previous = new UserStatus();
+		$previous->setId(1);
+		$previous->setStatus(IUserStatus::AWAY);
+		$previous->setStatusTimestamp(1337);
+		$previous->setIsUserDefined(false);
+		$previous->setMessageId($oldMessageId);
+		$previous->setUserId('john');
+		$previous->setIsBackup(false);
+
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with('john')
+			->willReturn($previous);
+
+		$e = DbalException::wrap($this->createMock(UniqueConstraintViolationException::class));
+		$this->mapper->expects($expectedUpdateShortcut ? $this->never() : $this->once())
+			->method('createBackupStatus')
+			->willThrowException($e);
+
+		$this->mapper->expects($this->any())
+			->method('update')
+			->willReturnArgument(0);
+
+		$this->predefinedStatusService->expects($this->once())
+			->method('isValidId')
+			->with($messageId)
+			->willReturn(true);
+
+		$this->service->setUserStatus('john', IUserStatus::DND, $messageId, true);
 	}
 }

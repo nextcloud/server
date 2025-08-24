@@ -211,8 +211,8 @@ class KeyManager {
 	 */
 	public function setRecoveryKey($password, $keyPair) {
 		// Save Public Key
-		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId().
-			'.' . $this->publicKeyId,
+		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId()
+			. '.' . $this->publicKeyId,
 			$keyPair['publicKey'],
 			Encryption::ID);
 
@@ -287,11 +287,9 @@ class KeyManager {
 	/**
 	 * Decrypt private key and store it
 	 *
-	 * @param string $uid user id
-	 * @param string $passPhrase users password
 	 * @return boolean
 	 */
-	public function init($uid, $passPhrase) {
+	public function init(string $uid, ?string $passPhrase) {
 		$this->session->setStatus(Session::INIT_EXECUTED);
 
 		try {
@@ -300,6 +298,10 @@ class KeyManager {
 				$passPhrase = $this->getMasterKeyPassword();
 				$privateKey = $this->getSystemPrivateKey($uid);
 			} else {
+				if ($passPhrase === null) {
+					$this->logger->warning('Master key is disabled but not passphrase provided.');
+					return false;
+				}
 				$privateKey = $this->getPrivateKey($uid);
 			}
 			$privateKey = $this->crypt->decryptPrivateKey($privateKey, $passPhrase, $uid);
@@ -343,12 +345,9 @@ class KeyManager {
 	}
 
 	/**
-	 * @param string $path
-	 * @param $uid
 	 * @param ?bool $useLegacyFileKey null means try both
-	 * @return string
 	 */
-	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey): string {
+	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
 		if ($uid === '') {
 			$uid = null;
 		}
@@ -361,8 +360,10 @@ class KeyManager {
 				return '';
 			}
 		}
-
-		if ($this->util->isMasterKeyEnabled()) {
+		if ($useDecryptAll) {
+			$shareKey = $this->getShareKey($path, $this->session->getDecryptAllUid());
+			$privateKey = $this->session->getDecryptAllKey();
+		} elseif ($this->util->isMasterKeyEnabled()) {
 			$uid = $this->getMasterKeyId();
 			$shareKey = $this->getShareKey($path, $uid);
 			if ($publicAccess) {
@@ -632,8 +633,8 @@ class KeyManager {
 			$publicKeys[$this->getPublicShareKeyId()] = $publicShareKey;
 		}
 
-		if ($this->recoveryKeyExists() &&
-			$this->util->isRecoveryEnabledForUser($uid)) {
+		if ($this->recoveryKeyExists()
+			&& $this->util->isRecoveryEnabledForUser($uid)) {
 			$publicKeys[$this->getRecoveryKeyId()] = $this->getRecoveryKey();
 		}
 

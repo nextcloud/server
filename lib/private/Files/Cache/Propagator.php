@@ -13,6 +13,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Storage\IReliableEtagStorage;
 use OCP\IDBConnection;
+use OCP\Server;
+use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -39,12 +41,14 @@ class Propagator implements IPropagator {
 	 */
 	private $ignore = [];
 
+	private ClockInterface $clock;
+
 	public function __construct(\OC\Files\Storage\Storage $storage, IDBConnection $connection, array $ignore = []) {
 		$this->storage = $storage;
 		$this->connection = $connection;
 		$this->ignore = $ignore;
+		$this->clock = Server::get(ClockInterface::class);
 	}
-
 
 	/**
 	 * @param string $internalPath
@@ -59,7 +63,9 @@ class Propagator implements IPropagator {
 			}
 		}
 
-		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
+		$time = min((int)$time, $this->clock->now()->getTimestamp());
+
+		$storageId = $this->storage->getStorageCache()->getNumericId();
 
 		$parents = $this->getParents($internalPath);
 
@@ -79,7 +85,7 @@ class Propagator implements IPropagator {
 		}, $parentHashes);
 
 		$builder->update('filecache')
-			->set('mtime', $builder->func()->greatest('mtime', $builder->createNamedParameter((int)$time, IQueryBuilder::PARAM_INT)))
+			->set('mtime', $builder->func()->greatest('mtime', $builder->createNamedParameter($time, IQueryBuilder::PARAM_INT)))
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('path_hash', $hashParams));
 		if (!$this->storage->instanceOfStorage(IReliableEtagStorage::class)) {
@@ -186,27 +192,27 @@ class Propagator implements IPropagator {
 		$query->update('filecache')
 			->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))
 			->set('etag', $query->expr()->literal(uniqid()))
-			->where($query->expr()->eq('storage', $query->expr()->literal($storageId, IQueryBuilder::PARAM_INT)))
+			->where($query->expr()->eq('storage', $query->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')));
 
 		$sizeQuery = $this->connection->getQueryBuilder();
 		$sizeQuery->update('filecache')
 			->set('size', $sizeQuery->func()->add('size', $sizeQuery->createParameter('size')))
-			->where($query->expr()->eq('storage', $query->expr()->literal($storageId, IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')))
-			->andWhere($sizeQuery->expr()->gt('size', $sizeQuery->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
+			->where($query->expr()->eq('storage', $sizeQuery->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('path_hash', $sizeQuery->createParameter('hash')))
+			->andWhere($sizeQuery->expr()->gt('size', $sizeQuery->createNamedParameter(-1, IQueryBuilder::PARAM_INT)));
 
 		foreach ($this->batch as $item) {
 			$query->setParameter('time', $item['time'], IQueryBuilder::PARAM_INT);
 			$query->setParameter('hash', $item['hash']);
 
-			$query->execute();
+			$query->executeStatement();
 
 			if ($item['size']) {
 				$sizeQuery->setParameter('size', $item['size'], IQueryBuilder::PARAM_INT);
 				$sizeQuery->setParameter('hash', $item['hash']);
 
-				$sizeQuery->execute();
+				$sizeQuery->executeStatement();
 			}
 		}
 

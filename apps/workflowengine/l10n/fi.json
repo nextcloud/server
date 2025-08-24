@@ -38,12 +38,13 @@
     "Check %s is invalid or does not exist" : "Tarkistus %s on virheellinen tai sitä ei ole olemassa",
     "Flow" : "Kulku",
     "Nextcloud workflow engine" : "Nextcloudin työnkulkumoottori",
-    "Select a file type" : "Valitse tiedostotyyppi",
+    "Remove filter" : "Poista suodatin",
     "Folder" : "Kansio",
     "Images" : "Kuvat",
     "Office documents" : "Toimisto-ohjelmistojen asiakirjat",
     "PDF documents" : "PDF-asiakirjat",
     "Custom mimetype" : "Mukautettu MIME-tyyppi",
+    "Select a file type" : "Valitse tiedostotyyppi",
     "Files WebDAV" : "Tiedostot WebDAV",
     "Android client" : "Android-sovellus",
     "iOS client" : "iOS-sovellus",
@@ -51,11 +52,11 @@
     "Thunderbird & Outlook addons" : "Thunderbird- & Outlook-lisäosat",
     "Select groups" : "Valitse ryhmät",
     "Groups" : "Ryhmät",
+    "Active" : "Aktiivinen",
+    "Save" : "Tallenna",
     "and" : "ja",
     "Cancel" : "Peruuta",
     "Delete" : "Poista",
-    "Active" : "Aktiivinen",
-    "Save" : "Tallenna",
     "Browse the App Store" : "Selaa Sovelluskauppaa",
     "Show less" : "Näytä vähemmän",
     "Show more" : "Näytä enemmän",
@@ -84,7 +85,6 @@
     "not between" : "ei välillä",
     "Request user agent" : "Pyynnön user agent",
     "is member of" : "on jäsen",
-    "is not member of" : "ei ole jäsen",
-    "User group membership" : "Käyttäjäryhmäjäsenyys"
+    "is not member of" : "ei ole jäsen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

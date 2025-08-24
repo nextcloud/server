@@ -20,10 +20,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Move extends Command {
-	private FileUtils $fileUtils;
-
-	public function __construct(FileUtils $fileUtils) {
-		$this->fileUtils = $fileUtils;
+	public function __construct(
+		private FileUtils $fileUtils,
+	) {
 		parent::__construct();
 	}
 
@@ -31,8 +30,8 @@ class Move extends Command {
 		$this
 			->setName('files:move')
 			->setDescription('Move a file or folder')
-			->addArgument('source', InputArgument::REQUIRED, "Source file id or path")
-			->addArgument('target', InputArgument::REQUIRED, "Target path")
+			->addArgument('source', InputArgument::REQUIRED, 'Source file id or path')
+			->addArgument('target', InputArgument::REQUIRED, 'Target path')
 			->addOption('force', 'f', InputOption::VALUE_NONE, "Don't ask for configuration and don't output any warnings");
 	}
 
@@ -88,7 +87,7 @@ class Move extends Command {
 				/** @var QuestionHelper $helper */
 				$helper = $this->getHelper('question');
 
-				$question = new ConfirmationQuestion("<info>" . $targetInput . "</info> already exists, overwrite? [y/N] ", false);
+				$question = new ConfirmationQuestion('<info>' . $targetInput . '</info> already exists, overwrite? [y/N] ', false);
 				if (!$helper->ask($input, $output, $question)) {
 					return 1;
 				}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -36,6 +37,10 @@ class TeamManager implements ITeamManager {
 	}
 
 	public function getProviders(): array {
+		if (!$this->hasTeamSupport()) {
+			return [];
+		}
+
 		if ($this->providers !== null) {
 			return $this->providers;
 		}
@@ -58,10 +63,14 @@ class TeamManager implements ITeamManager {
 			return $providers[$providerId];
 		}
 
-		throw new \RuntimeException('No provider found for id ' .$providerId);
+		throw new \RuntimeException('No provider found for id ' . $providerId);
 	}
 
 	public function getSharedWith(string $teamId, string $userId): array {
+		if (!$this->hasTeamSupport()) {
+			return [];
+		}
+
 		if ($this->getTeam($teamId, $userId) === null) {
 			return [];
 		}
@@ -72,10 +81,14 @@ class TeamManager implements ITeamManager {
 			array_push($resources, ...$provider->getSharedWith($teamId));
 		}
 
-		return $resources;
+		return array_values($resources);
 	}
 
 	public function getTeamsForResource(string $providerId, string $resourceId, string $userId): array {
+		if (!$this->hasTeamSupport()) {
+			return [];
+		}
+
 		$provider = $this->getProvider($providerId);
 		return array_values(array_filter(array_map(function ($teamId) use ($userId) {
 			$team = $this->getTeam($teamId, $userId);
@@ -92,6 +105,10 @@ class TeamManager implements ITeamManager {
 	}
 
 	private function getTeam(string $teamId, string $userId): ?Circle {
+		if (!$this->hasTeamSupport()) {
+			return null;
+		}
+
 		try {
 			$federatedUser = $this->circlesManager->getFederatedUser($userId, Member::TYPE_USER);
 			$this->circlesManager->startSession($federatedUser);

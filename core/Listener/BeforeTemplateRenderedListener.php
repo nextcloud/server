@@ -13,12 +13,14 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\Util;
 
 /** @template-implements IEventListener<BeforeLoginTemplateRenderedEvent|BeforeTemplateRenderedEvent> */
 class BeforeTemplateRenderedListener implements IEventListener {
-	public function __construct(private IConfig $config) {
+	public function __construct(
+		private IAppConfig $appConfig,
+	) {
 	}
 
 	public function handle(Event $event): void {
@@ -31,7 +33,11 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			Util::addScript('core', 'unsupported-browser-redirect');
 		}
 
-		\OC_Util::addStyle('server', null, true);
+		if ($event->getResponse()->getRenderAs() === TemplateResponse::RENDER_AS_PUBLIC) {
+			Util::addScript('core', 'public');
+		}
+
+		Util::addStyle('server', null, true);
 
 		if ($event instanceof BeforeLoginTemplateRenderedEvent) {
 			// todo: make login work without these
@@ -53,8 +59,8 @@ class BeforeTemplateRenderedListener implements IEventListener {
 
 
 				// If installed and background job is set to ajax, add dedicated script
-				if ($this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
-					Util::addScript('core', 'backgroundjobs');
+				if ($this->appConfig->getValueString('core', 'backgroundjobs_mode', 'ajax') === 'ajax') {
+					Util::addScript('core', 'ajax-cron');
 				}
 			}
 		}

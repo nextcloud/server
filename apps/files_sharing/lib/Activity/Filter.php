@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,15 +14,10 @@ class Filter implements IFilter {
 	public const TYPE_REMOTE_SHARE = 'remote_share';
 	public const TYPE_SHARED = 'shared';
 
-	/** @var IL10N */
-	protected $l;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	public function __construct(IL10N $l, IURLGenerator $url) {
-		$this->l = $l;
-		$this->url = $url;
+	public function __construct(
+		protected IL10N $l,
+		protected IURLGenerator $url,
+	) {
 	}
 
 	/**

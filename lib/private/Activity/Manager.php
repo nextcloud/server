@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,31 +11,23 @@ use OCP\Activity\ActivitySettings;
 use OCP\Activity\Exceptions\FilterNotFoundException;
 use OCP\Activity\Exceptions\IncompleteActivityException;
 use OCP\Activity\Exceptions\SettingNotFoundException;
+use OCP\Activity\IBulkConsumer;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IFilter;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\Activity\ISetting;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 
 class Manager implements IManager {
-	/** @var IRequest */
-	protected $request;
-
-	/** @var IUserSession */
-	protected $session;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IValidator */
-	protected $validator;
 
 	/** @var string */
 	protected $formattingObjectType;
@@ -48,20 +41,15 @@ class Manager implements IManager {
 	/** @var string */
 	protected $currentUserId;
 
-	protected $l10n;
-
 	public function __construct(
-		IRequest $request,
-		IUserSession $session,
-		IConfig $config,
-		IValidator $validator,
-		IL10N $l10n
+		protected IRequest $request,
+		protected IUserSession $session,
+		protected IConfig $config,
+		protected IValidator $validator,
+		protected IRichTextFormatter $richTextFormatter,
+		protected IL10N $l10n,
+		protected ITimeFactory $timeFactory,
 	) {
-		$this->request = $request;
-		$this->session = $session;
-		$this->config = $config;
-		$this->validator = $validator;
-		$this->l10n = $l10n;
 	}
 
 	/** @var \Closure[] */
@@ -104,24 +92,22 @@ class Manager implements IManager {
 	 * @return IEvent
 	 */
 	public function generateEvent(): IEvent {
-		return new Event($this->validator);
+		return new Event($this->validator, $this->richTextFormatter);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function publish(IEvent $event): void {
-		if ($event->getAuthor() === '') {
-			if ($this->session->getUser() instanceof IUser) {
-				$event->setAuthor($this->session->getUser()->getUID());
-			}
+		if ($event->getAuthor() === '' && $this->session->getUser() instanceof IUser) {
+			$event->setAuthor($this->session->getUser()->getUID());
 		}
 
 		if (!$event->getTimestamp()) {
-			$event->setTimestamp(time());
+			$event->setTimestamp($this->timeFactory->getTime());
 		}
 
-		if (!$event->isValid()) {
+		if ($event->getAffectedUser() === '' || !$event->isValid()) {
 			throw new IncompleteActivityException('The given event is invalid');
 		}
 
@@ -129,6 +115,40 @@ class Manager implements IManager {
 			$c->receive($event);
 		}
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function bulkPublish(IEvent $event, array $affectedUserIds, ISetting $setting): void {
+		if (empty($affectedUserIds)) {
+			throw new IncompleteActivityException('The given event is invalid');
+		}
+
+		if ($event->getAuthor() === '') {
+			if ($this->session->getUser() instanceof IUser) {
+				$event->setAuthor($this->session->getUser()->getUID());
+			}
+		}
+
+		if (!$event->getTimestamp()) {
+			$event->setTimestamp($this->timeFactory->getTime());
+		}
+
+		if (!$event->isValid()) {
+			throw new IncompleteActivityException('The given event is invalid');
+		}
+
+		foreach ($this->getConsumers() as $c) {
+			if ($c instanceof IBulkConsumer) {
+				$c->bulkReceive($event, $affectedUserIds, $setting);
+			}
+			foreach ($affectedUserIds as $affectedUserId) {
+				$event->setAffectedUser($affectedUserId);
+				$c->receive($event);
+			}
+		}
+	}
+
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case
@@ -291,7 +311,7 @@ class Manager implements IManager {
 	public function isFormattingFilteredObject(): bool {
 		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
 			&& $this->formattingObjectType === $this->request->getParam('object_type')
-			&& $this->formattingObjectId === (int) $this->request->getParam('object_id');
+			&& $this->formattingObjectId === (int)$this->request->getParam('object_id');
 	}
 
 	/**
@@ -344,7 +364,7 @@ class Manager implements IManager {
 	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
 	 */
 	protected function getUserFromToken(): string {
-		$token = (string) $this->request->getParam('token', '');
+		$token = (string)$this->request->getParam('token', '');
 		if (strlen($token) !== 30) {
 			throw new \UnexpectedValueException('The token is invalid');
 		}

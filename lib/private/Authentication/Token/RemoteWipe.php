@@ -98,7 +98,7 @@ class RemoteWipe {
 
 		$dbToken = $e->getToken();
 
-		$this->logger->info("user " . $dbToken->getUID() . " started a remote wipe");
+		$this->logger->info('user ' . $dbToken->getUID() . ' started a remote wipe');
 
 		$this->eventDispatcher->dispatch(RemoteWipeStarted::class, new RemoteWipeStarted($dbToken));
 
@@ -126,7 +126,7 @@ class RemoteWipe {
 
 		$this->tokenProvider->invalidateToken($token);
 
-		$this->logger->info("user " . $dbToken->getUID() . " finished a remote wipe");
+		$this->logger->info('user ' . $dbToken->getUID() . ' finished a remote wipe');
 		$this->eventDispatcher->dispatch(RemoteWipeFinished::class, new RemoteWipeFinished($dbToken));
 
 		return true;

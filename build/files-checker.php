@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,11 +10,12 @@ $expectedFiles = [
 	'.',
 	'..',
 	'.devcontainer',
-	'.drone.yml',
 	'.editorconfig',
+	'.envrc',
 	'.eslintignore',
 	'.eslintrc.js',
 	'.git',
+	'.git-blame-ignore-revs',
 	'.gitattributes',
 	'.github',
 	'.gitignore',
@@ -24,8 +27,6 @@ $expectedFiles = [
 	'.npmignore',
 	'.php-cs-fixer.dist.php',
 	'.pre-commit-config.yaml',
-	'.reuse',
-	'.scrutinizer.yml',
 	'.tag',
 	'.tx',
 	'.user.ini',
@@ -40,6 +41,7 @@ $expectedFiles = [
 	'DESIGN.md',
 	'Makefile',
 	'README.md',
+	'REUSE.toml',
 	'SECURITY.md',
 	'apps',
 	'autotest-checkers.sh',
@@ -60,16 +62,19 @@ $expectedFiles = [
 	'cypress.d.ts',
 	'cypress',
 	'dist',
+	'flake.lock',
+	'flake.nix',
 	'index.html',
 	'index.php',
-	'jest.config.ts',
 	'lib',
 	'LICENSES',
 	'occ',
 	'ocs',
 	'ocs-provider',
+	'openapi.json',
 	'package-lock.json',
 	'package.json',
+	'psalm-ncu.xml',
 	'psalm-ocp.xml',
 	'psalm.xml',
 	'public.php',
@@ -77,14 +82,17 @@ $expectedFiles = [
 	'resources',
 	'robots.txt',
 	'status.php',
+	'stylelint.config.js',
 	'tests',
 	'themes',
 	'tsconfig.json',
 	'vendor-bin',
 	'version.php',
+	'vitest.config.mts',
 	'webpack.common.js',
 	'webpack.config.js',
 	'webpack.modules.js',
+	'window.d.ts',
 ];
 $actualFiles = [];
 

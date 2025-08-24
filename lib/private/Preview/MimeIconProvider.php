@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,7 +23,7 @@ class MimeIconProvider implements IMimeIconProvider {
 	) {
 	}
 
-	public function getMimeIconUrl(string $mime): null|string {
+	public function getMimeIconUrl(string $mime): ?string {
 		if (!$mime) {
 			return null;
 		}
@@ -54,8 +55,8 @@ class MimeIconProvider implements IMimeIconProvider {
 
 		return null;
 	}
-	
-	private function searchfileName(string $fileName): null|string {
+
+	private function searchfileName(string $fileName): ?string {
 		// If the file exists in the current enabled legacy
 		// custom theme, let's return it
 		$theme = $this->config->getSystemValue('theme', '');
@@ -65,7 +66,7 @@ class MimeIconProvider implements IMimeIconProvider {
 				return $this->urlGenerator->getAbsoluteURL($path);
 			}
 		}
-		
+
 		// Previously, we used to pass this through Theming
 		// But it was only used to colour icons containing
 		// 0082c9. Since with vue we moved to inline svg icons,

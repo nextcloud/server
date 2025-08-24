@@ -16,15 +16,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PasswordTest extends TestCase {
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var string */
-	private $uid;
-
-	/** @var Password */
-	private $section;
+	private IUserManager&MockObject $userManager;
+	private string $uid;
+	private Password $section;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -38,7 +32,7 @@ class PasswordTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->once())
 			->method('get')

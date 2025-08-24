@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2018 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
  */
-namespace OCA\DAV\Tests\Unit\Command;
+namespace OCA\DAV\Tests\unit\Command;
 
 use OCA\DAV\Command\RemoveInvalidShares;
 use OCA\DAV\Connector\Sabre\Principal;
-use OCP\Migration\IOutput;
+use OCP\IDBConnection;
+use OCP\Server;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
@@ -23,7 +25,7 @@ use Test\TestCase;
 class RemoveInvalidSharesTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
-		$db = \OC::$server->getDatabaseConnection();
+		$db = Server::get(IDBConnection::class);
 
 		$db->insertIfNotExist('*PREFIX*dav_shares', [
 			'principaluri' => 'principal:unknown',
@@ -34,19 +36,17 @@ class RemoveInvalidSharesTest extends TestCase {
 	}
 
 	public function test(): void {
-		$db = \OC::$server->getDatabaseConnection();
-		/** @var Principal | \PHPUnit\Framework\MockObject\MockObject $principal */
+		$db = Server::get(IDBConnection::class);
 		$principal = $this->createMock(Principal::class);
-
-		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $output */
-		$output = $this->createMock(IOutput::class);
 
 		$repair = new RemoveInvalidShares($db, $principal);
 		$this->invokePrivate($repair, 'run', [$this->createMock(InputInterface::class), $this->createMock(OutputInterface::class)]);
 
 		$query = $db->getQueryBuilder();
-		$result = $query->select('*')->from('dav_shares')
-			->where($query->expr()->eq('principaluri', $query->createNamedParameter('principal:unknown')))->execute();
+		$query->select('*')
+			->from('dav_shares')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter('principal:unknown')));
+		$result = $query->executeQuery();
 		$data = $result->fetchAll();
 		$result->closeCursor();
 		$this->assertEquals(0, count($data));

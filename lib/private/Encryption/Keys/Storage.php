@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -57,8 +58,8 @@ class Storage implements IStorage {
 		$this->util = $util;
 
 		$this->encryption_base_dir = '/files_encryption';
-		$this->keys_base_dir = $this->encryption_base_dir .'/keys';
-		$this->backup_base_dir = $this->encryption_base_dir .'/backup';
+		$this->keys_base_dir = $this->encryption_base_dir . '/keys';
+		$this->backup_base_dir = $this->encryption_base_dir . '/backup';
 		$this->root_dir = $this->util->getKeyStorageRoot();
 		$this->crypto = $crypto;
 		$this->config = $config;

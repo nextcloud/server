@@ -266,7 +266,7 @@ class UpdateUUID extends Command {
 
 	protected function handleMappingBasedUpdates(bool $invalidatedOnly): \Generator {
 		$limit = 1000;
-		/** @var AbstractMapping $mapping*/
+		/** @var AbstractMapping $mapping */
 		foreach ([$this->userMapping, $this->groupMapping] as $mapping) {
 			$offset = 0;
 			do {

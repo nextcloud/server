@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -17,7 +19,7 @@ use Test\TestCase;
  * @package OCA\Files_Trashbin\Tests\Command
  */
 class ExpireTest extends TestCase {
-	public function testExpireNonExistingUser() {
+	public function testExpireNonExistingUser(): void {
 		$command = new Expire('test');
 		$command->handle();
 

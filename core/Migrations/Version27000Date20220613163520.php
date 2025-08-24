@@ -16,7 +16,7 @@ use OCP\Migration\SimpleMigrationStep;
 
 class Version27000Date20220613163520 extends SimpleMigrationStep {
 	public function name(): string {
-		return "Add mountpoint path to mounts table unique index";
+		return 'Add mountpoint path to mounts table unique index';
 	}
 
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {

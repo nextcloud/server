@@ -37,7 +37,7 @@ class AddMissingIndices extends Command {
 		$this
 			->setName('db:add-missing-indices')
 			->setDescription('Add missing indices to the database tables')
-			->addOption('dry-run', null, InputOption::VALUE_NONE, "Output the SQL queries instead of running them.");
+			->addOption('dry-run', null, InputOption::VALUE_NONE, 'Output the SQL queries instead of running them.');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -86,14 +86,7 @@ class AddMissingIndices extends Command {
 				if ($schema->hasTable($toReplaceIndex['tableName'])) {
 					$table = $schema->getTable($toReplaceIndex['tableName']);
 
-					$allOldIndicesExists = true;
-					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
-						if (!$table->hasIndex($oldIndexName)) {
-							$allOldIndicesExists = false;
-						}
-					}
-
-					if (!$allOldIndicesExists) {
+					if ($table->hasIndex($toReplaceIndex['newIndexName'])) {
 						continue;
 					}
 
@@ -110,8 +103,10 @@ class AddMissingIndices extends Command {
 					}
 
 					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
-						$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
-						$table->dropIndex($oldIndexName);
+						if ($table->hasIndex($oldIndexName)) {
+							$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
+							$table->dropIndex($oldIndexName);
+						}
 					}
 
 					if (!$dryRun) {

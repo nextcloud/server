@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,35 +23,35 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UserPluginTest extends TestCase {
-	/** @var  IConfig|MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
 
-	/** @var  IUserManager|MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
 
-	/** @var  IGroupManager|MockObject */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
 
-	/** @var  IUserSession|MockObject */
+	/** @var IUserSession|MockObject */
 	protected $session;
 
-	/** @var  KnownUserService|MockObject */
+	/** @var KnownUserService|MockObject */
 	protected $knownUserService;
 
 	/** @var IUserStatusManager|MockObject */
 	protected $userStatusManager;
 
-	/** @var  UserPlugin */
+	/** @var UserPlugin */
 	protected $plugin;
 
-	/** @var  ISearchResult */
+	/** @var ISearchResult */
 	protected $searchResult;
 
 	protected int $limit = 2;
 
 	protected int $offset = 0;
 
-	/** @var  IUser|MockObject */
+	/** @var IUser|MockObject */
 	protected $user;
 
 	protected function setUp(): void {
@@ -124,7 +125,7 @@ class UserPluginTest extends TestCase {
 		return $group;
 	}
 
-	public function dataGetUsers() {
+	public function dataGetUsers(): array {
 		return [
 			['test', false, true, [], [], [], [], true, false],
 			['test', false, false, [], [], [], [], true, false],
@@ -417,7 +418,6 @@ class UserPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetUsers
 	 *
 	 * @param string $searchTerm
 	 * @param bool $shareWithGroupOnly
@@ -430,6 +430,7 @@ class UserPluginTest extends TestCase {
 	 * @param bool|IUser $singleUser
 	 * @param array $users
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsers')]
 	public function testSearch(
 		$searchTerm,
 		$shareWithGroupOnly,
@@ -441,9 +442,9 @@ class UserPluginTest extends TestCase {
 		$reachedEnd,
 		$singleUser,
 		array $users = [],
-		$shareeEnumerationPhone = false
-	) {
-		$this->mockConfig(["core" => [
+		$shareeEnumerationPhone = false,
+	): void {
+		$this->mockConfig(['core' => [
 			'shareapi_only_share_with_group_members' => $shareWithGroupOnly ? 'yes' : 'no',
 			'shareapi_allow_share_dialog_user_enumeration' => $shareeEnumeration? 'yes' : 'no',
 			'shareapi_restrict_user_enumeration_to_group' => false ? 'yes' : 'no',
@@ -508,7 +509,7 @@ class UserPluginTest extends TestCase {
 		$this->assertSame($reachedEnd, $moreResults);
 	}
 
-	public function takeOutCurrentUserProvider() {
+	public static function takeOutCurrentUserProvider(): array {
 		$inputUsers = [
 			'alice' => 'Alice',
 			'bob' => 'Bob',
@@ -534,12 +535,12 @@ class UserPluginTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider takeOutCurrentUserProvider
 	 * @param array $users
 	 * @param array $expectedUIDs
 	 * @param $currentUserId
 	 */
-	public function testTakeOutCurrentUser(array $users, array $expectedUIDs, $currentUserId) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('takeOutCurrentUserProvider')]
+	public function testTakeOutCurrentUser(array $users, array $expectedUIDs, $currentUserId): void {
 		$this->instantiatePlugin();
 
 		$this->session->expects($this->once())
@@ -555,7 +556,7 @@ class UserPluginTest extends TestCase {
 		$this->assertSame($expectedUIDs, array_keys($users));
 	}
 
-	public function dataSearchEnumeration() {
+	public static function dataSearchEnumeration(): array {
 		return [
 			[
 				'test',
@@ -716,10 +717,8 @@ class UserPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSearchEnumeration
-	 */
-	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result, $mockedSettings) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSearchEnumeration')]
+	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result, $mockedSettings): void {
 		$this->mockConfig($mockedSettings);
 
 		$userResults = [];
@@ -762,16 +761,16 @@ class UserPluginTest extends TestCase {
 				return null;
 			});
 		$this->userManager
-		->method('searchDisplayName')
-		->willReturnCallback(function ($search) use ($matchingUsers) {
-			$users = array_filter(
-				$matchingUsers,
-				fn ($user) => str_contains(strtolower($user['displayName']), strtolower($search))
-			);
-			return array_map(
-				fn ($user) => $this->getUserMock($user['uid'], $user['displayName']),
-				$users);
-		});
+			->method('searchDisplayName')
+			->willReturnCallback(function ($search) use ($matchingUsers) {
+				$users = array_filter(
+					$matchingUsers,
+					fn ($user) => str_contains(strtolower($user['displayName']), strtolower($search))
+				);
+				return array_map(
+					fn ($user) => $this->getUserMock($user['uid'], $user['displayName']),
+					$users);
+			});
 
 		$this->groupManager->method('displayNamesInGroup')
 			->willReturn($userResults);

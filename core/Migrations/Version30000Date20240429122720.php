@@ -11,12 +11,20 @@ namespace OC\Core\Migrations;
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
+use OCP\Migration\Attributes\AddIndex;
+use OCP\Migration\Attributes\CreateTable;
+use OCP\Migration\Attributes\IndexType;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 /**
  *
  */
+#[CreateTable(table: 'taskprocessing_tasks')]
+#[AddIndex(table: 'taskprocessing_tasks', type: IndexType::PRIMARY)]
+#[AddIndex(table: 'taskprocessing_tasks', type: IndexType::INDEX)]
+#[AddIndex(table: 'taskprocessing_tasks', type: IndexType::INDEX)]
+#[AddIndex(table: 'taskprocessing_tasks', type: IndexType::INDEX)]
 class Version30000Date20240429122720 extends SimpleMigrationStep {
 
 	/**

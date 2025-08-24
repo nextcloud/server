@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,6 +9,8 @@ namespace Test\Files\ObjectStore;
 
 use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
+use OCP\IConfig;
+use OCP\Server;
 
 class MultiPartUploadS3 extends S3 {
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
@@ -44,7 +47,7 @@ class NonSeekableStream extends Wrapper {
 /**
  * @group PRIMARY-s3
  */
-class S3Test extends ObjectStoreTest {
+class S3Test extends ObjectStoreTestCase {
 	public function setUp(): void {
 		parent::setUp();
 		$s3 = $this->getInstance();
@@ -52,7 +55,7 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	protected function getInstance() {
-		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
+		$config = Server::get(IConfig::class)->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== S3::class) {
 			$this->markTestSkipped('objectstore not configured for s3');
 		}
@@ -60,7 +63,7 @@ class S3Test extends ObjectStoreTest {
 		return new S3($config['arguments']);
 	}
 
-	public function testUploadNonSeekable() {
+	public function testUploadNonSeekable(): void {
 		$this->cleanupAfter('multiparttest');
 
 		$s3 = $this->getInstance();
@@ -72,7 +75,7 @@ class S3Test extends ObjectStoreTest {
 		$this->assertEquals(file_get_contents(__FILE__), stream_get_contents($result));
 	}
 
-	public function testSeek() {
+	public function testSeek(): void {
 		$this->cleanupAfter('seek');
 
 		$data = file_get_contents(__FILE__);
@@ -101,10 +104,10 @@ class S3Test extends ObjectStoreTest {
 		$this->assertArrayNotHasKey('Uploads', $uploads, 'Assert is not uploaded');
 	}
 
-	public function testEmptyUpload() {
+	public function testEmptyUpload(): void {
 		$s3 = $this->getInstance();
 
-		$emptyStream = fopen("php://memory", "r");
+		$emptyStream = fopen('php://memory', 'r');
 		fwrite($emptyStream, '');
 
 		$s3->writeObject('emptystream', $emptyStream);
@@ -126,14 +129,18 @@ class S3Test extends ObjectStoreTest {
 	}
 
 	/** File size to upload in bytes */
-	public function dataFileSizes() {
+	public static function dataFileSizes(): array {
 		return [
 			[1000000], [2000000], [5242879], [5242880], [5242881], [10000000]
 		];
 	}
 
-	/** @dataProvider dataFileSizes */
-	public function testFileSizes($size) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileSizes')]
+	public function testFileSizes($size): void {
+		if (str_starts_with(PHP_VERSION, '8.3') && getenv('CI')) {
+			$this->markTestSkipped('Test is unreliable and skipped on 8.3');
+		}
+
 		$this->cleanupAfter('testfilesizes');
 		$s3 = $this->getInstance();
 

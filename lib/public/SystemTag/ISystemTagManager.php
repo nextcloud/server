@@ -26,7 +26,7 @@ interface ISystemTagManager {
 	 *
 	 * @throws \InvalidArgumentException if at least one given tag ids is invalid (string instead of integer, etc.)
 	 * @throws TagNotFoundException if at least one given tag ids did no exist
-	 * 			The message contains a json_encoded array of the ids that could not be found
+	 *                              The message contains a json_encoded array of the ids that could not be found
 	 *
 	 * @since 9.0.0, optional parameter $user added in 28.0.0
 	 */
@@ -57,8 +57,10 @@ interface ISystemTagManager {
 	 * @return ISystemTag system tag
 	 *
 	 * @throws TagAlreadyExistsException if tag already exists
+	 * @throws TagCreationForbiddenException if user doesn't have the right to create a new tag
 	 *
 	 * @since 9.0.0
+	 * @since 31.0.0 Can throw TagCreationForbiddenExceptionif user doesn't have the right to create a new tag
 	 */
 	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag;
 
@@ -81,14 +83,16 @@ interface ISystemTagManager {
 	 * @param string $newName the new tag name
 	 * @param bool $userVisible whether the tag is visible by users
 	 * @param bool $userAssignable whether the tag is assignable by users
+	 * @param string $color color
 	 *
 	 * @throws TagNotFoundException if tag with the given id does not exist
 	 * @throws TagAlreadyExistsException if there is already another tag
-	 * with the same attributes
+	 *                                   with the same attributes
 	 *
 	 * @since 9.0.0
+	 * @since 31.0.0 `$color` parameter added
 	 */
-	public function updateTag(string $tagId, string $newName, bool $userVisible, bool $userAssignable);
+	public function updateTag(string $tagId, string $newName, bool $userVisible, bool $userAssignable, ?string $color);
 
 	/**
 	 * Delete the given tags from the database and all their relationships.
@@ -106,25 +110,47 @@ interface ISystemTagManager {
 	 * given id.
 	 *
 	 * @param ISystemTag $tag tag to check permission for
-	 * @param IUser $user user to check permission for
+	 * @param IUser|null $user user to check permission for
 	 *
 	 * @return bool true if the user is allowed to assign/unassign the tag, false otherwise
 	 *
 	 * @since 9.1.0
+	 * @since 31.0.0 `$user` can be null to check anonymous permissions
 	 */
-	public function canUserAssignTag(ISystemTag $tag, IUser $user): bool;
+	public function canUserAssignTag(ISystemTag $tag, ?IUser $user): bool;
+
+	/**
+	 * Checks whether the given user is allowed to create new tags
+	 *
+	 * @param IUser|null $user user to check permission for
+	 * @return bool true if the user is allowed to create a new tag, false otherwise
+	 *
+	 * @since 31.0.0
+	 */
+	public function canUserCreateTag(?IUser $user): bool;
+
+	/**
+	 * Checks whether the given user is allowed to update tags
+	 *
+	 * @param IUser|null $user user to check permission for
+	 * @return bool true if the user is allowed to update a tag, false otherwise
+	 *
+	 * @since 31.0.0
+	 */
+	public function canUserUpdateTag(?IUser $user): bool;
 
 	/**
 	 * Checks whether the given user is allowed to see the tag with the given id.
 	 *
 	 * @param ISystemTag $tag tag to check permission for
-	 * @param IUser $user user to check permission for
+	 * @param IUser|null $user user to check permission for
 	 *
 	 * @return bool true if the user can see the tag, false otherwise
 	 *
 	 * @since 9.1.0
+	 * @since 31.0.0 `$user` can be null to check anonymous permissions
 	 */
-	public function canUserSeeTag(ISystemTag $tag, IUser $user): bool;
+	public function canUserSeeTag(ISystemTag $tag, ?IUser $user): bool;
 
 	/**
 	 * Set groups that can assign a given tag.

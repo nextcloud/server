@@ -1,10 +1,14 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests;
+
+use OCA\Files_External\Lib\Storage\OwnCloud;
 
 /**
  * Class OwnCloudFunctions
@@ -14,7 +18,7 @@ namespace OCA\Files_External\Tests;
  * @package OCA\Files_External\Tests
  */
 class OwnCloudFunctionsTest extends \Test\TestCase {
-	public function configUrlProvider() {
+	public static function configUrlProvider(): array {
 		return [
 			[
 				[
@@ -83,13 +87,11 @@ class OwnCloudFunctionsTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider configUrlProvider
-	 */
-	public function testConfig($config, $expectedUri) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('configUrlProvider')]
+	public function testConfig(array $config, string $expectedUri): void {
 		$config['user'] = 'someuser';
 		$config['password'] = 'somepassword';
-		$instance = new \OCA\Files_External\Lib\Storage\OwnCloud($config);
+		$instance = new OwnCloud($config);
 		$this->assertEquals($expectedUri, $instance->createBaseUri());
 	}
 }

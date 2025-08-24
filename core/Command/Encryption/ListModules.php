@@ -33,8 +33,8 @@ class ListModules extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
 		if ($isMaintenanceModeEnabled) {
-			$output->writeln("Maintenance mode must be disabled when listing modules");
-			$output->writeln("in order to list the relevant encryption modules correctly.");
+			$output->writeln('Maintenance mode must be disabled when listing modules');
+			$output->writeln('in order to list the relevant encryption modules correctly.');
 			return 1;
 		}
 
@@ -57,7 +57,7 @@ class ListModules extends Base {
 	 */
 	protected function writeModuleList(InputInterface $input, OutputInterface $output, $items) {
 		if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
-			array_walk($items, function (&$item) {
+			array_walk($items, function (&$item): void {
 				if (!$item['default']) {
 					$item = $item['displayName'];
 				} else {

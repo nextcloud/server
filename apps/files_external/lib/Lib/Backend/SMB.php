@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,21 +9,22 @@
 namespace OCA\Files_External\Lib\Backend;
 
 use Icewind\SMB\BasicAuth;
-use Icewind\SMB\KerberosApacheAuth;
 use Icewind\SMB\KerberosAuth;
+use Icewind\SMB\KerberosTicket;
+use Icewind\SMB\Native\NativeServer;
+use Icewind\SMB\Wrapped\Server;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\Auth\SMB\KerberosApacheAuth as KerberosApacheAuthMechanism;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
-use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
+use OCA\Files_External\Lib\MissingDependency;
+use OCA\Files_External\Lib\Storage\SystemBridge;
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\IL10N;
 use OCP\IUser;
 
 class SMB extends Backend {
-	use LegacyDependencyCheckPolyfill;
-
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('smb')
@@ -49,18 +51,16 @@ class SMB extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
 					->setTooltip($l->t("Check the ACL's of each file or folder inside a directory to filter out items where the account has no read permissions, comes with a performance penalty")),
 				(new DefinitionParameter('timeout', $l->t('Timeout')))
-					->setType(DefinitionParameter::VALUE_HIDDEN)
-					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+					->setType(DefinitionParameter::VALUE_TEXT)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->addAuthScheme(AuthMechanism::SCHEME_SMB)
 			->setLegacyAuthMechanism($legacyAuth);
 	}
 
-	/**
-	 * @return void
-	 */
-	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null): void {
 		$auth = $storage->getAuthMechanism();
 		if ($auth->getScheme() === AuthMechanism::SCHEME_PASSWORD) {
 			if (!is_string($storage->getBackendOption('user')) || !is_string($storage->getBackendOption('password'))) {
@@ -82,33 +82,33 @@ class SMB extends Backend {
 						throw new \InvalidArgumentException('invalid authentication backend');
 					}
 					$credentialsStore = $auth->getCredentialsStore();
-					$kerbAuth = new KerberosApacheAuth();
+					$kerbAuth = new KerberosAuth();
+					$kerbAuth->setTicket(KerberosTicket::fromEnv());
 					// check if a kerberos ticket is available, else fallback to session credentials
-					if ($kerbAuth->checkTicket()) {
+					if ($kerbAuth->getTicket()?->isValid()) {
 						$smbAuth = $kerbAuth;
 					} else {
 						try {
 							$credentials = $credentialsStore->getLoginCredentials();
-							$user = $credentials->getLoginName();
+							$loginName = $credentials->getLoginName();
 							$pass = $credentials->getPassword();
-							preg_match('/(.*)@(.*)/', $user, $matches);
+							preg_match('/(.*)@(.*)/', $loginName, $matches);
 							$realm = $storage->getBackendOption('default_realm');
 							if (empty($realm)) {
 								$realm = 'WORKGROUP';
 							}
 							if (count($matches) === 0) {
-								$username = $user;
+								$username = $loginName;
 								$workgroup = $realm;
 							} else {
-								$username = $matches[1];
-								$workgroup = $matches[2];
+								[, $username, $workgroup] = $matches;
 							}
 							$smbAuth = new BasicAuth(
 								$username,
 								$workgroup,
 								$pass
 							);
-						} catch (\Exception $e) {
+						} catch (\Exception) {
 							throw new InsufficientDataForMeaningfulAnswerException('No session credentials saved');
 						}
 					}
@@ -120,5 +120,21 @@ class SMB extends Backend {
 		}
 
 		$storage->setBackendOption('auth', $smbAuth);
+	}
+
+	public function checkDependencies(): array {
+		$system = \OCP\Server::get(SystemBridge::class);
+		if (NativeServer::available($system)) {
+			return [];
+		} elseif (Server::available($system)) {
+			$missing = new MissingDependency('php-smbclient');
+			$missing->setOptional(true);
+			$missing->setMessage('The php-smbclient library provides improved compatibility and performance for SMB storages.');
+			return [$missing];
+		} else {
+			$missing = new MissingDependency('php-smbclient');
+			$missing->setMessage('Either the php-smbclient library (preferred) or the smbclient binary is required for SMB storages.');
+			return [$missing, new MissingDependency('smbclient')];
+		}
 	}
 }

@@ -41,8 +41,8 @@ class RefreshWebcalJob extends Job {
 
 		$this->fixSubscriptionRowTyping($subscription);
 
-		// if no refresh rate was configured, just refresh once a week
-		$defaultRefreshRate = $this->config->getAppValue('dav', 'calendarSubscriptionRefreshRate', 'P1W');
+		// if no refresh rate was configured, just refresh once a day
+		$defaultRefreshRate = $this->config->getAppValue('dav', 'calendarSubscriptionRefreshRate', 'P1D');
 		$refreshRate = $subscription[RefreshWebcalService::REFRESH_RATE] ?? $defaultRefreshRate;
 
 		$subscriptionId = $subscription['id'];
@@ -104,7 +104,7 @@ class RefreshWebcalJob extends Job {
 
 		foreach ($forceInt as $column) {
 			if (isset($row[$column])) {
-				$row[$column] = (int) $row[$column];
+				$row[$column] = (int)$row[$column];
 			}
 		}
 	}

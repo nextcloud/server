@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Tests\Core\Command\Config;
 
 use OC\Core\Command\App\Disable;
+use OCP\App\IAppManager;
+use OCP\Server;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -25,22 +27,22 @@ class AppsDisableTest extends TestCase {
 		parent::setUp();
 
 		$command = new Disable(
-			\OC::$server->getAppManager()
+			Server::get(IAppManager::class)
 		);
 
 		$this->commandTester = new CommandTester($command);
 
-		\OC::$server->getAppManager()->enableApp('admin_audit');
-		\OC::$server->getAppManager()->enableApp('comments');
+		Server::get(IAppManager::class)->enableApp('admin_audit');
+		Server::get(IAppManager::class)->enableApp('comments');
 	}
 
 	/**
-	 * @dataProvider dataCommandInput
 	 * @param $appId
 	 * @param $groups
 	 * @param $statusCode
 	 * @param $pattern
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCommandInput')]
 	public function testCommandInput($appId, $statusCode, $pattern): void {
 		$input = ['app-id' => $appId];
 
@@ -50,7 +52,7 @@ class AppsDisableTest extends TestCase {
 		$this->assertSame($statusCode, $this->commandTester->getStatusCode());
 	}
 
-	public function dataCommandInput(): array {
+	public static function dataCommandInput(): array {
 		return [
 			[['admin_audit'], 0, 'admin_audit ([\d\.]*) disabled'],
 			[['comments'], 0, 'comments ([\d\.]*) disabled'],

@@ -23,7 +23,9 @@ describe('Settings: Ensure only administrator can see the administration setting
 		// I open the settings menu
 		getNextcloudUserMenuToggle().click()
 		// I navigate to the settings panel
-		getNextcloudUserMenu().find('#settings a').click()
+		getNextcloudUserMenu()
+			.findByRole('link', { name: /settings/i })
+			.click()
 		cy.url().should('match', /\/settings\/user$/)
 
 		cy.get('#app-navigation').should('be.visible').within(() => {
@@ -45,7 +47,9 @@ describe('Settings: Ensure only administrator can see the administration setting
 		// I open the settings menu
 		getNextcloudUserMenuToggle().click()
 		// I navigate to the settings panel
-		getNextcloudUserMenu().find('#settings a').click()
+		getNextcloudUserMenu()
+			.findByRole('link', { name: /Personal settings/i })
+			.click()
 		cy.url().should('match', /\/settings\/user$/)
 
 		cy.get('#app-navigation').should('be.visible').within(() => {

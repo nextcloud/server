@@ -14,7 +14,7 @@ namespace OCP\Mail;
  *
  * Example usage:
  *
- * 	$mailer = \OC::$server->get(\OCP\Mail\IMailer::class);
+ * 	$mailer = \OCP\Server::get(\OCP\Mail\IMailer::class);
  * 	$message = $mailer->createMessage();
  * 	$message->setSubject('Your Subject');
  * 	$message->setFrom(['cloud@domain.org' => 'Nextcloud Notifier']);
@@ -69,9 +69,9 @@ interface IMailer {
 	 *
 	 * @param IMessage $message Message to send
 	 * @return string[] Array with failed recipients. Be aware that this depends on the used mail backend and
-	 * therefore should be considered
+	 *                  therefore should be considered
 	 * @throws \Exception In case it was not possible to send the message. (for example if an invalid mail address
-	 * has been supplied.)
+	 *                    has been supplied.)
 	 * @since 8.1.0
 	 */
 	public function send(IMessage $message): array;
@@ -80,6 +80,7 @@ interface IMailer {
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
 	 * @since 8.1.0
+	 * @deprecated 26.0.0 use IEmailValidator.isValid instead
 	 */
 	public function validateMailAddress(string $email): bool;
 }

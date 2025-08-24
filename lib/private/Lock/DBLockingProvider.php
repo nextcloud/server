@@ -24,7 +24,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 		private IDBConnection $connection,
 		private ITimeFactory $timeFactory,
 		int $ttl = 3600,
-		private bool $cacheSharedLocks = true
+		private bool $cacheSharedLocks = true,
 	) {
 		parent::__construct($ttl);
 	}

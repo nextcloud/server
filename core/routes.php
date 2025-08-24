@@ -8,8 +8,10 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-/** @var $this OCP\Route\IRouter */
+/** @var OC\Route\Router $this */
 // Core ajax actions
 // Routing
 $this->create('core_ajax_update', '/core/ajax/update.php')
 	->actionInclude('core/ajax/update.php');
+
+$this->create('heartbeat', '/heartbeat')->get();

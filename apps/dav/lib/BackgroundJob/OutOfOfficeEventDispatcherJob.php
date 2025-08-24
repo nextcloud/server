@@ -41,7 +41,7 @@ class OutOfOfficeEventDispatcherJob extends QueuedJob {
 
 		try {
 			$absence = $this->absenceMapper->findById($id);
-		} catch (DoesNotExistException | \OCP\DB\Exception $e) {
+		} catch (DoesNotExistException|\OCP\DB\Exception $e) {
 			$this->logger->error('Failed to dispatch out-of-office event: ' . $e->getMessage(), [
 				'exception' => $e,
 				'argument' => $argument,

@@ -7,9 +7,8 @@
  */
 namespace OC\Migration;
 
-use OC\NeedsUpdateException;
 use OC\Repair;
-use OC_App;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
@@ -26,6 +25,7 @@ class BackgroundRepair extends TimedJob {
 		ITimeFactory $time,
 		private LoggerInterface $logger,
 		private IJobList $jobList,
+		private IAppManager $appManager,
 	) {
 		parent::__construct($time);
 		$this->setInterval(15 * 60);
@@ -34,7 +34,6 @@ class BackgroundRepair extends TimedJob {
 	/**
 	 * @param array $argument
 	 * @throws \Exception
-	 * @throws \OC\NeedsUpdateException
 	 */
 	protected function run($argument): void {
 		if (!isset($argument['app']) || !isset($argument['step'])) {
@@ -44,13 +43,7 @@ class BackgroundRepair extends TimedJob {
 		}
 		$app = $argument['app'];
 
-		try {
-			$this->loadApp($app);
-		} catch (NeedsUpdateException $ex) {
-			// as long as the app is not yet done with it's offline migration
-			// we better not start with the live migration
-			return;
-		}
+		$this->appManager->loadApp($app);
 
 		$step = $argument['step'];
 		$this->repair->setRepairSteps([]);
@@ -72,14 +65,5 @@ class BackgroundRepair extends TimedJob {
 
 		// remove the job once executed successfully
 		$this->jobList->remove($this, $this->argument);
-	}
-
-	/**
-	 * @codeCoverageIgnore
-	 * @param $app
-	 * @throws NeedsUpdateException
-	 */
-	protected function loadApp($app): void {
-		OC_App::loadApp($app);
 	}
 }

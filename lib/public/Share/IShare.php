@@ -368,7 +368,7 @@ interface IShare {
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setExpirationDate(\DateTime|null $expireDate);
+	public function setExpirationDate(?\DateTime $expireDate);
 
 	/**
 	 * Get the expiration date
@@ -379,7 +379,7 @@ interface IShare {
 	public function getExpirationDate();
 
 	/**
-	 * Set overwrite flag for falsy expiry date vavlues
+	 * Set overwrite flag for falsy expiry date values
 	 *
 	 * @param bool $noExpirationDate
 	 * @return \OCP\Share\IShare The modified object
@@ -530,6 +530,20 @@ interface IShare {
 	public function getToken();
 
 	/**
+	 * Set the parent of this share
+	 *
+	 * @since 9.0.0
+	 */
+	public function setParent(int $parent): self;
+
+	/**
+	 * Get the parent of this share.
+	 *
+	 * @since 9.0.0
+	 */
+	public function getParent(): ?int;
+
+	/**
 	 * Set the target path of this share relative to the recipients user folder.
 	 *
 	 * @param string $target
@@ -564,7 +578,7 @@ interface IShare {
 	public function getShareTime();
 
 	/**
-	 * Set if the recipient is informed by mail about the share.
+	 * Set if the recipient should be informed by mail about the share.
 	 *
 	 * @param bool $mailSend
 	 * @return \OCP\Share\IShare The modified object
@@ -573,7 +587,7 @@ interface IShare {
 	public function setMailSend($mailSend);
 
 	/**
-	 * Get if the recipient informed by mail about the share.
+	 * Get if the recipient should be informed by mail about the share.
 	 *
 	 * @return bool
 	 * @since 9.0.0
@@ -617,4 +631,27 @@ interface IShare {
 	 * @since 15.0.0
 	 */
 	public function getHideDownload(): bool;
+
+	/**
+	 * Sets a flag that stores whether a reminder via email has been sent
+	 *
+	 * @return self The modified object
+	 * @since 31.0.0
+	 */
+	public function setReminderSent(bool $reminderSent): IShare;
+
+	/**
+	 * Gets a flag that stores whether a reminder via email has been sent
+	 *
+	 * @return bool
+	 * @since 31.0.0
+	 */
+	public function getReminderSent(): bool;
+
+	/**
+	 * Check if the current user can see this share files contents.
+	 * This will check the download permissions as well as the global
+	 * admin setting to allow viewing files without downloading.
+	 */
+	public function canSeeContent(): bool;
 }

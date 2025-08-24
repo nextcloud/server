@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,6 +13,8 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -43,7 +46,7 @@ class UserStoragesController extends StoragesController {
 		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IConfig $config
+		IConfig $config,
 	) {
 		parent::__construct(
 			$AppName,
@@ -69,10 +72,9 @@ class UserStoragesController extends StoragesController {
 	/**
 	 * Get all storage entries
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function index() {
 		return parent::index();
 	}
@@ -80,12 +82,11 @@ class UserStoragesController extends StoragesController {
 	/**
 	 * Return storage
 	 *
-	 * @NoAdminRequired
-	 *
 	 * {@inheritdoc}
 	 */
-	public function show($id, $testOnly = true) {
-		return parent::show($id, $testOnly);
+	#[NoAdminRequired]
+	public function show(int $id) {
+		return parent::show($id);
 	}
 
 	/**
@@ -98,15 +99,15 @@ class UserStoragesController extends StoragesController {
 	 * @param array $mountOptions backend-specific mount options
 	 *
 	 * @return DataResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function create(
 		$mountPoint,
 		$backend,
 		$authMechanism,
 		$backendOptions,
-		$mountOptions
+		$mountOptions,
 	) {
 		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
 		if (!$canCreateNewLocalStorage && $backend === 'local') {
@@ -151,12 +152,11 @@ class UserStoragesController extends StoragesController {
 	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions backend-specific mount options
-	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
 	public function update(
 		$id,
 		$mountPoint,
@@ -164,7 +164,6 @@ class UserStoragesController extends StoragesController {
 		$authMechanism,
 		$backendOptions,
 		$mountOptions,
-		$testOnly = true
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
@@ -194,7 +193,7 @@ class UserStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage, $testOnly);
+		$this->updateStorageStatus($storage);
 
 		return new DataResponse(
 			$storage->jsonSerialize(true),
@@ -205,11 +204,11 @@ class UserStoragesController extends StoragesController {
 	/**
 	 * Delete storage
 	 *
-	 * @NoAdminRequired
-	 *
 	 * {@inheritdoc}
 	 */
-	public function destroy($id) {
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired(strict: true)]
+	public function destroy(int $id) {
 		return parent::destroy($id);
 	}
 }

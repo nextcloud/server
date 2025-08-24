@@ -56,9 +56,9 @@ class Install extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
-		$forceEnable = (bool) $input->getOption('force');
+		$forceEnable = (bool)$input->getOption('force');
 
-		if ($this->appManager->isInstalled($appId)) {
+		if ($this->appManager->isEnabledForAnyone($appId)) {
 			$output->writeln($appId . ' already installed');
 			return 1;
 		}

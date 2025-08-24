@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OC\Security\Normalizer;
 
+use OCP\IConfig;
+
 /**
  * Class IpAddress is used for normalizing IPv4 and IPv6 addresses in security
  * relevant contexts in Nextcloud.
@@ -24,7 +26,8 @@ class IpAddress {
 	}
 
 	/**
-	 * Return the given subnet for an IPv6 address (64 first bits)
+	 * Return the given subnet for an IPv6 address
+	 * Rely on security.ipv6_normalized_subnet_size, defaults to 56
 	 */
 	private function getIPv6Subnet(string $ip): string {
 		if ($ip[0] === '[' && $ip[-1] === ']') { // If IP is with brackets, for example [::1]
@@ -35,10 +38,25 @@ class IpAddress {
 			$ip = substr($ip, 0, $pos - 1);
 		}
 
-		$binary = \inet_pton($ip);
-		$mask = inet_pton('FFFF:FFFF:FFFF:FFFF::');
+		$config = \OCP\Server::get(IConfig::class);
+		$maskSize = min(64, $config->getSystemValueInt('security.ipv6_normalized_subnet_size', 56));
+		$maskSize = max(32, $maskSize);
+		if (PHP_INT_SIZE === 4) {
+			if ($maskSize === 64) {
+				$value = -1;
+			} elseif ($maskSize === 63) {
+				$value = PHP_INT_MAX;
+			} else {
+				$value = (1 << $maskSize - 32) - 1;
+			}
+			// as long as we support 32bit PHP we cannot use the `P` pack formatter (and not overflow 32bit integer)
+			$mask = pack('VVVV', -1, $value, 0, 0);
+		} else {
+			$mask = pack('VVP', (1 << 32) - 1, (1 << $maskSize - 32) - 1, 0);
+		}
 
-		return inet_ntop($binary & $mask).'/64';
+		$binary = \inet_pton($ip);
+		return inet_ntop($binary & $mask) . '/' . $maskSize;
 	}
 
 	/**
@@ -63,16 +81,16 @@ class IpAddress {
 
 
 	/**
-	 * Gets either the /32 (IPv4) or the /64 (IPv6) subnet of an IP address
+	 * Gets either the /32 (IPv4) or the /56 (default for IPv6) subnet of an IP address
 	 */
 	public function getSubnet(): string {
 		if (filter_var($this->ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-			return $this->ip.'/32';
+			return $this->ip . '/32';
 		}
 
 		$ipv4 = $this->getEmbeddedIpv4($this->ip);
 		if ($ipv4 !== null) {
-			return $ipv4.'/32';
+			return $ipv4 . '/32';
 		}
 
 		return $this->getIPv6Subnet($this->ip);

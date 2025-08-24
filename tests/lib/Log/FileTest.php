@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
@@ -8,8 +9,10 @@
 namespace Test\Log;
 
 use OC\Log\File;
+use OC\SystemConfig;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -24,31 +27,31 @@ class FileTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$config = \OC::$server->getSystemConfig();
-		$this->restore_logfile = $config->getValue("logfile");
+		$config = Server::get(SystemConfig::class);
+		$this->restore_logfile = $config->getValue('logfile');
 		$this->restore_logdateformat = $config->getValue('logdateformat');
 
-		$config->setValue("logfile", $config->getValue('datadirectory') . "/logtest.log");
+		$config->setValue('logfile', $config->getValue('datadirectory') . '/logtest.log');
 		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
 	protected function tearDown(): void {
-		$config = \OC::$server->getSystemConfig();
+		$config = Server::get(SystemConfig::class);
 		if (isset($this->restore_logfile)) {
-			$config->getValue("logfile", $this->restore_logfile);
+			$config->getValue('logfile', $this->restore_logfile);
 		} else {
-			$config->deleteValue("logfile");
+			$config->deleteValue('logfile');
 		}
 		if (isset($this->restore_logdateformat)) {
-			$config->getValue("logdateformat", $this->restore_logdateformat);
+			$config->getValue('logdateformat', $this->restore_logdateformat);
 		} else {
-			$config->deleteValue("logdateformat");
+			$config->deleteValue('logdateformat');
 		}
 		$this->logFile = new File($this->restore_logfile, '', $config);
 		parent::tearDown();
 	}
 
-	public function testLogging() {
-		$config = \OC::$server->get(IConfig::class);
+	public function testLogging(): void {
+		$config = Server::get(IConfig::class);
 		# delete old logfile
 		unlink($config->getSystemValue('logfile'));
 
@@ -62,14 +65,14 @@ class FileTest extends TestCase {
 		fclose($handle);
 
 		# check log has data content
-		$values = (array) json_decode($line, true);
+		$values = (array)json_decode($line, true);
 		$this->assertArrayNotHasKey('message', $values['data']);
 		$this->assertEquals('extra', $values['data']['something']);
 		$this->assertEquals('Testing logging', $values['message']);
 	}
 
-	public function testMicrosecondsLogTimestamp() {
-		$config = \OC::$server->getConfig();
+	public function testMicrosecondsLogTimestamp(): void {
+		$config = Server::get(IConfig::class);
 		# delete old logfile
 		unlink($config->getSystemValue('logfile'));
 
@@ -83,7 +86,7 @@ class FileTest extends TestCase {
 		fclose($handle);
 
 		# check timestamp has microseconds part
-		$values = (array) json_decode($line);
+		$values = (array)json_decode($line);
 		$microseconds = $values['time'];
 		$this->assertNotEquals(0, $microseconds);
 	}

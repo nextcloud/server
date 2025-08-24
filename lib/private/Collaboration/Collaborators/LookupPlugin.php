@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -32,11 +33,13 @@ class LookupPlugin implements ISearchPlugin {
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
 		$isGlobalScaleEnabled = $this->config->getSystemValueBool('gs.enabled', false);
-		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
+		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
 		$hasInternetConnection = $this->config->getSystemValueBool('has_internet_connection', true);
 
-		// if case of Global Scale we always search the lookup server
-		if (!$isGlobalScaleEnabled && (!$isLookupServerEnabled || !$hasInternetConnection)) {
+		// If case of Global Scale we always search the lookup server
+		// TODO: Reconsider using the lookup server for non-global scale
+		// if (!$isGlobalScaleEnabled && (!$isLookupServerEnabled || !$hasInternetConnection || $disableLookupServer)) {
+		if (!$isGlobalScaleEnabled) {
 			return false;
 		}
 
@@ -63,7 +66,7 @@ class LookupPlugin implements ISearchPlugin {
 				try {
 					$remote = $this->cloudIdManager->resolveCloudId($lookup['federationId'])->getRemote();
 				} catch (\Exception $e) {
-					$this->logger->error('Can not parse federated cloud ID "' .  $lookup['federationId'] . '"', [
+					$this->logger->error('Can not parse federated cloud ID "' . $lookup['federationId'] . '"', [
 						'exception' => $e,
 					]);
 					continue;

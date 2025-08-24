@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,6 +8,9 @@ namespace OCA\OAuth2\Tests\Db;
 
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
+use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -18,17 +22,17 @@ class ClientMapperTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->clientMapper = new ClientMapper(\OC::$server->getDatabaseConnection());
+		$this->clientMapper = new ClientMapper(Server::get(IDBConnection::class));
 	}
 
 	protected function tearDown(): void {
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query = Server::get(IDBConnection::class)->getQueryBuilder();
 		$query->delete('oauth2_clients')->execute();
 
 		parent::tearDown();
 	}
 
-	public function testGetByIdentifier() {
+	public function testGetByIdentifier(): void {
 		$client = new Client();
 		$client->setClientIdentifier('MyAwesomeClientIdentifier');
 		$client->setName('Client Name');
@@ -39,13 +43,13 @@ class ClientMapperTest extends TestCase {
 		$this->assertEquals($client, $this->clientMapper->getByIdentifier('MyAwesomeClientIdentifier'));
 	}
 
-	public function testGetByIdentifierNotExisting() {
-		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
+	public function testGetByIdentifierNotExisting(): void {
+		$this->expectException(ClientNotFoundException::class);
 
 		$this->clientMapper->getByIdentifier('MyTotallyNotExistingClient');
 	}
 
-	public function testGetByUid() {
+	public function testGetByUid(): void {
 		$client = new Client();
 		$client->setClientIdentifier('MyNewClient');
 		$client->setName('Client Name');
@@ -56,13 +60,13 @@ class ClientMapperTest extends TestCase {
 		$this->assertEquals($client, $this->clientMapper->getByUid($client->getId()));
 	}
 
-	public function testGetByUidNotExisting() {
-		$this->expectException(\OCA\OAuth2\Exceptions\ClientNotFoundException::class);
+	public function testGetByUidNotExisting(): void {
+		$this->expectException(ClientNotFoundException::class);
 
 		$this->clientMapper->getByUid(1234);
 	}
 
-	public function testGetClients() {
+	public function testGetClients(): void {
 		$this->assertSame('array', gettype($this->clientMapper->getClients()));
 	}
 

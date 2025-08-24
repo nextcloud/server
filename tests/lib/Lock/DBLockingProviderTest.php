@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,8 +8,11 @@
 
 namespace Test\Lock;
 
+use OC\Lock\DBLockingProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
 
 /**
  * Class DBLockingProvider
@@ -24,12 +28,12 @@ class DBLockingProviderTest extends LockingProvider {
 	protected $instance;
 
 	/**
-	 * @var \OCP\IDBConnection
+	 * @var IDBConnection
 	 */
 	protected $connection;
 
 	/**
-	 * @var \OCP\AppFramework\Utility\ITimeFactory
+	 * @var ITimeFactory
 	 */
 	protected $timeFactory;
 
@@ -47,11 +51,11 @@ class DBLockingProviderTest extends LockingProvider {
 	}
 
 	/**
-	 * @return \OCP\Lock\ILockingProvider
+	 * @return ILockingProvider
 	 */
 	protected function getInstance() {
-		$this->connection = \OC::$server->getDatabaseConnection();
-		return new \OC\Lock\DBLockingProvider($this->connection, $this->timeFactory, 3600);
+		$this->connection = Server::get(IDBConnection::class);
+		return new DBLockingProvider($this->connection, $this->timeFactory, 3600);
 	}
 
 	protected function tearDown(): void {
@@ -59,7 +63,7 @@ class DBLockingProviderTest extends LockingProvider {
 		parent::tearDown();
 	}
 
-	public function testCleanEmptyLocks() {
+	public function testCleanEmptyLocks(): void {
 		$this->currentTime = 100;
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 		$this->instance->acquireLock('asd', ILockingProvider::LOCK_EXCLUSIVE);
@@ -96,7 +100,7 @@ class DBLockingProviderTest extends LockingProvider {
 		return $rows;
 	}
 
-	public function testDoubleShared() {
+	public function testDoubleShared(): void {
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 

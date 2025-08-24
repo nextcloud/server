@@ -25,7 +25,7 @@ interface IMigrator {
 	public function export(
 		IUser $user,
 		IExportDestination $exportDestination,
-		OutputInterface $output
+		OutputInterface $output,
 	): void;
 
 	/**
@@ -37,7 +37,7 @@ interface IMigrator {
 	public function import(
 		IUser $user,
 		IImportSource $importSource,
-		OutputInterface $output
+		OutputInterface $output,
 	): void;
 
 	/**
@@ -75,6 +75,6 @@ interface IMigrator {
 	 * @since 24.0.0
 	 */
 	public function canImport(
-		IImportSource $importSource
+		IImportSource $importSource,
 	): bool;
 }

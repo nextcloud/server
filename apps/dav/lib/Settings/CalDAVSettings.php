@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,6 +7,7 @@
 namespace OCA\DAV\Settings;
 
 use OCA\DAV\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
@@ -13,14 +15,6 @@ use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 
 class CalDAVSettings implements IDelegatedSettings {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IInitialState */
-	private $initialState;
-
-	private IURLGenerator $urlGenerator;
 
 	private const defaults = [
 		'sendInvitations' => 'yes',
@@ -36,10 +30,12 @@ class CalDAVSettings implements IDelegatedSettings {
 	 * @param IConfig $config
 	 * @param IInitialState $initialState
 	 */
-	public function __construct(IConfig $config, IInitialState $initialState, IURLGenerator $urlGenerator) {
-		$this->config = $config;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IConfig $config,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+		private IAppManager $appManager,
+	) {
 	}
 
 	public function getForm(): TemplateResponse {
@@ -51,10 +47,11 @@ class CalDAVSettings implements IDelegatedSettings {
 		return new TemplateResponse(Application::APP_ID, 'settings-admin-caldav');
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getSection() {
+	public function getSection(): ?string {
+		if (!$this->appManager->isBackendRequired(IAppManager::BACKEND_CALDAV)) {
+			return null;
+		}
+
 		return 'groupware';
 	}
 

@@ -10,6 +10,9 @@ namespace OC\Security\IdentityProof;
 
 use OC\Files\AppData\Factory;
 use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\Security\ICrypto;
@@ -18,31 +21,37 @@ use Psr\Log\LoggerInterface;
 class Manager {
 	private IAppData $appData;
 
+	protected ICache $cache;
+
 	public function __construct(
 		Factory $appDataFactory,
 		private ICrypto $crypto,
 		private IConfig $config,
 		private LoggerInterface $logger,
+		private ICacheFactory $cacheFactory,
 	) {
 		$this->appData = $appDataFactory->get('identityproof');
+		$this->cache = $this->cacheFactory->createDistributed('identityproof::');
 	}
 
 	/**
 	 * Calls the openssl functions to generate a public and private key.
 	 * In a separate function for unit testing purposes.
 	 *
+	 * @param array $options config options to generate key {@see openssl_csr_new}
+	 *
 	 * @return array [$publicKey, $privateKey]
 	 * @throws \RuntimeException
 	 */
-	protected function generateKeyPair(): array {
+	protected function generateKeyPair(array $options = []): array {
 		$config = [
-			'digest_alg' => 'sha512',
-			'private_key_bits' => 2048,
+			'digest_alg' => $options['algorithm'] ?? 'sha512',
+			'private_key_bits' => $options['bits'] ?? 2048,
+			'private_key_type' => $options['type'] ?? OPENSSL_KEYTYPE_RSA,
 		];
 
 		// Generate new key
 		$res = openssl_pkey_new($config);
-
 		if ($res === false) {
 			$this->logOpensslError();
 			throw new \RuntimeException('OpenSSL reported a problem');
@@ -65,15 +74,17 @@ class Manager {
 	 * Note: If a key already exists it will be overwritten
 	 *
 	 * @param string $id key id
+	 * @param array $options config options to generate key {@see openssl_csr_new}
+	 *
 	 * @throws \RuntimeException
 	 */
-	protected function generateKey(string $id): Key {
-		[$publicKey, $privateKey] = $this->generateKeyPair();
+	protected function generateKey(string $id, array $options = []): Key {
+		[$publicKey, $privateKey] = $this->generateKeyPair($options);
 
 		// Write the private and public key to the disk
 		try {
 			$this->appData->newFolder($id);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 		}
 		$folder = $this->appData->getFolder($id);
 		$folder->newFile('private')
@@ -91,12 +102,24 @@ class Manager {
 	 */
 	protected function retrieveKey(string $id): Key {
 		try {
+			$cachedPublicKey = $this->cache->get($id . '-public');
+			$cachedPrivateKey = $this->cache->get($id . '-private');
+
+			if ($cachedPublicKey !== null && $cachedPrivateKey !== null) {
+				$decryptedPrivateKey = $this->crypto->decrypt($cachedPrivateKey);
+
+				return new Key($cachedPublicKey, $decryptedPrivateKey);
+			}
+
 			$folder = $this->appData->getFolder($id);
-			$privateKey = $this->crypto->decrypt(
-				$folder->getFile('private')->getContent()
-			);
+			$privateKey = $folder->getFile('private')->getContent();
 			$publicKey = $folder->getFile('public')->getContent();
-			return new Key($publicKey, $privateKey);
+
+			$this->cache->set($id . '-public', $publicKey);
+			$this->cache->set($id . '-private', $privateKey);
+
+			$decryptedPrivateKey = $this->crypto->decrypt($privateKey);
+			return new Key($publicKey, $decryptedPrivateKey);
 		} catch (\Exception $e) {
 			return $this->generateKey($id);
 		}
@@ -123,6 +146,38 @@ class Manager {
 			throw new \RuntimeException('no instance id!');
 		}
 		return $this->retrieveKey('system-' . $instanceId);
+	}
+
+	public function hasAppKey(string $app, string $name): bool {
+		$id = $this->generateAppKeyId($app, $name);
+		try {
+			$folder = $this->appData->getFolder($id);
+			return ($folder->fileExists('public') && $folder->fileExists('private'));
+		} catch (NotFoundException) {
+			return false;
+		}
+	}
+
+	public function getAppKey(string $app, string $name): Key {
+		return $this->retrieveKey($this->generateAppKeyId($app, $name));
+	}
+
+	public function generateAppKey(string $app, string $name, array $options = []): Key {
+		return $this->generateKey($this->generateAppKeyId($app, $name), $options);
+	}
+
+	public function deleteAppKey(string $app, string $name): bool {
+		try {
+			$folder = $this->appData->getFolder($this->generateAppKeyId($app, $name));
+			$folder->delete();
+			return true;
+		} catch (NotFoundException) {
+			return false;
+		}
+	}
+
+	private function generateAppKeyId(string $app, string $name): string {
+		return 'app-' . $app . '-' . $name;
 	}
 
 	private function logOpensslError(): void {

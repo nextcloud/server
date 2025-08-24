@@ -12,6 +12,8 @@ use OCP\EventDispatcher\Event;
 use OCP\IUser;
 
 /**
+ * This event is triggered when the account data of a user was updated.
+ *
  * @since 28.0.0
  */
 class UserUpdatedEvent extends Event {

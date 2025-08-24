@@ -8,22 +8,19 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Controller;
 
+use OCA\Settings\Settings\Admin\ArtificialIntelligence;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IRequest;
 
 class AISettingsController extends Controller {
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
-		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -31,18 +28,17 @@ class AISettingsController extends Controller {
 	/**
 	 * Sets the email settings
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\ArtificialIntelligence)
-	 *
 	 * @param array $settings
 	 * @return DataResponse
 	 */
+	#[AuthorizedAdminSetting(settings: ArtificialIntelligence::class)]
 	public function update($settings) {
-		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.translation_provider_preferences', 'ai.text2image_provider'];
+		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.taskprocessing_provider_preferences','ai.taskprocessing_type_preferences', 'ai.translation_provider_preferences', 'ai.text2image_provider', 'ai.taskprocessing_guests'];
 		foreach ($keys as $key) {
 			if (!isset($settings[$key])) {
 				continue;
 			}
-			$this->config->setAppValue('core', $key, json_encode($settings[$key]));
+			$this->appConfig->setValueString('core', $key, json_encode($settings[$key]), lazy: in_array($key, \OC\TaskProcessing\Manager::LAZY_CONFIG_KEYS, true));
 		}
 
 		return new DataResponse();

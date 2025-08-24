@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
+use OC\Core\ResponseDefinitions;
 use OC\Files\AppData\AppData;
-use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -21,6 +21,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\OCSController;
 use OCP\DB\Exception;
 use OCP\Files\NotFoundException;
 use OCP\IL10N;
@@ -34,7 +35,7 @@ use OCP\TextToImage\Task;
 /**
  * @psalm-import-type CoreTextToImageTask from ResponseDefinitions
  */
-class TextToImageApiController extends \OCP\AppFramework\OCSController {
+class TextToImageApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -150,12 +151,12 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
 			try {
 				$folder = $this->appData->getFolder('text2image');
-			} catch(NotFoundException) {
+			} catch (NotFoundException) {
 				$res = new DataResponse(['message' => $this->l->t('Image not found')], Http::STATUS_NOT_FOUND);
 				$res->throttle(['action' => 'text2image']);
 				return $res;
 			}
-			$file = $folder->getFolder((string) $task->getId())->getFile((string) $index);
+			$file = $folder->getFolder((string)$task->getId())->getFile((string)$index);
 			$info = getimagesizefromstring($file->getContent());
 
 			return new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => image_type_to_mime_type($info[2])]);
@@ -212,9 +213,9 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param string $appId ID of the app
 	 * @param string|null $identifier An arbitrary identifier for the task
-	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTextToImageTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{tasks: list<CoreTextToImageTask>}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task list returned
+	 * 200: Task list returned
 	 */
 	#[NoAdminRequired]
 	#[AnonRateLimit(limit: 5, period: 120)]
@@ -222,10 +223,9 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 	public function listTasksByApp(string $appId, ?string $identifier = null): DataResponse {
 		try {
 			$tasks = $this->textToImageManager->getUserTasksByApp($this->userId, $appId, $identifier);
-			/** @var CoreTextToImageTask[] $json */
-			$json = array_map(static function (Task $task) {
+			$json = array_values(array_map(static function (Task $task) {
 				return $task->jsonSerialize();
-			}, $tasks);
+			}, $tasks));
 
 			return new DataResponse([
 				'tasks' => $json,

@@ -22,16 +22,13 @@ use Psr\Log\LoggerInterface;
 
 class Version1130Date20211102154716 extends SimpleMigrationStep {
 
-	/** @var IDBConnection */
-	private $dbc;
-	/** @var LoggerInterface */
-	private $logger;
 	/** @var string[] */
 	private $hashColumnAddedToTables = [];
 
-	public function __construct(IDBConnection $dbc, LoggerInterface $logger) {
-		$this->dbc = $dbc;
-		$this->logger = $logger;
+	public function __construct(
+		private IDBConnection $dbc,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function getName() {

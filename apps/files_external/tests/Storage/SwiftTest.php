@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -53,7 +55,7 @@ class SwiftTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testStat() {
+	public function testStat(): void {
 		$this->markTestSkipped('Swift doesn\'t update the parents folder mtime');
 	}
 }

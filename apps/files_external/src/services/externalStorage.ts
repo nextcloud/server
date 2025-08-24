@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // eslint-disable-next-line n/no-extraneous-import
-import type { AxiosResponse } from 'axios'
+import type { AxiosResponse } from '@nextcloud/axios'
 import type { ContentsWithRoot } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 

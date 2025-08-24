@@ -41,7 +41,7 @@ class ResetPassword extends Base {
 				'password-from-env',
 				null,
 				InputOption::VALUE_NONE,
-				'read password from environment variable OC_PASS'
+				'read password from environment variable NC_PASS/OC_PASS'
 			)
 		;
 	}
@@ -56,9 +56,9 @@ class ResetPassword extends Base {
 		}
 
 		if ($input->getOption('password-from-env')) {
-			$password = getenv('OC_PASS');
+			$password = getenv('NC_PASS') ?: getenv('OC_PASS');
 			if (!$password) {
-				$output->writeln('<error>--password-from-env given, but OC_PASS is empty!</error>');
+				$output->writeln('<error>--password-from-env given, but NC_PASS/OC_PASS is empty!</error>');
 				return 1;
 			}
 		} elseif ($input->isInteractive()) {
@@ -81,7 +81,7 @@ class ResetPassword extends Base {
 			$password = $helper->ask($input, $output, $question);
 
 			if ($password === null) {
-				$output->writeln("<error>Password cannot be empty!</error>");
+				$output->writeln('<error>Password cannot be empty!</error>');
 				return 1;
 			}
 
@@ -90,11 +90,11 @@ class ResetPassword extends Base {
 			$confirm = $helper->ask($input, $output, $question);
 
 			if ($password !== $confirm) {
-				$output->writeln("<error>Passwords did not match!</error>");
+				$output->writeln('<error>Passwords did not match!</error>');
 				return 1;
 			}
 		} else {
-			$output->writeln("<error>Interactive input or --password-from-env is needed for entering a new password!</error>");
+			$output->writeln('<error>Interactive input or --password-from-env is needed for entering a new password!</error>');
 			return 1;
 		}
 
@@ -107,9 +107,9 @@ class ResetPassword extends Base {
 		}
 
 		if ($success) {
-			$output->writeln("<info>Successfully reset password for " . $username . "</info>");
+			$output->writeln('<info>Successfully reset password for ' . $username . '</info>');
 		} else {
-			$output->writeln("<error>Error while resetting password!</error>");
+			$output->writeln('<error>Error while resetting password!</error>');
 			return 1;
 		}
 		return 0;

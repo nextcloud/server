@@ -14,13 +14,14 @@ use OCP\TextToImage\Task;
 
 /**
  * @since 28.0.0
+ * @deprecated 30.0.0
  */
 abstract class AbstractTextToImageEvent extends Event {
 	/**
 	 * @since 28.0.0
 	 */
 	public function __construct(
-		private Task $task
+		private Task $task,
 	) {
 		parent::__construct();
 	}

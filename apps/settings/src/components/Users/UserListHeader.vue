@@ -42,7 +42,7 @@
 			scope="col">
 			<span>{{ t('settings', 'Groups') }}</span>
 		</th>
-		<th v-if="subAdminsGroups.length > 0 && settings.isAdmin"
+		<th v-if="settings.isAdmin || settings.isDelegatedAdmin"
 			class="header__cell header__cell--large"
 			data-cy-user-list-header-subadmins
 			scope="col">
@@ -70,6 +70,12 @@
 				class="header__subtitle">
 				{{ t('settings', 'Storage location') }}
 			</span>
+		</th>
+		<th v-if="showConfig.showFirstLogin"
+			class="header__cell"
+			data-cy-user-list-header-first-login
+			scope="col">
+			<span>{{ t('settings', 'First login') }}</span>
 		</th>
 		<th v-if="showConfig.showLastLogin"
 			class="header__cell"
@@ -119,11 +125,6 @@ export default Vue.extend({
 			return this.$store.getters.getServerData
 		},
 
-		subAdminsGroups() {
-			// @ts-expect-error: allow untyped $store
-			return this.$store.getters.getSubadminGroups
-		},
-
 		passwordLabel(): string {
 			if (this.hasObfuscated) {
 				// TRANSLATORS This string is for a column header labelling either a password or a message that the current user has insufficient permissions
@@ -140,12 +141,12 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-@import './shared/styles.scss';
+@use './shared/styles';
 
 .header {
-	@include row;
-	@include cell;
-
 	border-bottom: 1px solid var(--color-border);
+
+	@include styles.row;
+	@include styles.cell;
 }
 </style>

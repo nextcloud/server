@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,6 +17,7 @@ use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\OCS\IDiscoveryService;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -23,49 +25,31 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class RequestSharedSecretTest extends TestCase {
-	/** @var MockObject|IClientService */
-	private $httpClientService;
-
-	/** @var MockObject|IClient */
-	private $httpClient;
-
-	/** @var MockObject|IJobList */
-	private $jobList;
-
-	/** @var MockObject|IURLGenerator */
-	private $urlGenerator;
-
-	/** @var MockObject|TrustedServers */
-	private $trustedServers;
-
-	/** @var MockObject|IResponse */
-	private $response;
-
-	/** @var MockObject|IDiscoveryService */
-	private $discoveryService;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var MockObject|ITimeFactory */
-	private $timeFactory;
-
-	/** @var  RequestSharedSecret */
-	private $requestSharedSecret;
+	private IClientService&MockObject $httpClientService;
+	private IClient&MockObject $httpClient;
+	private IJobList&MockObject $jobList;
+	private IURLGenerator&MockObject $urlGenerator;
+	private TrustedServers&MockObject $trustedServers;
+	private IResponse&MockObject $response;
+	private IDiscoveryService&MockObject $discoveryService;
+	private LoggerInterface&MockObject $logger;
+	private ITimeFactory&MockObject $timeFactory;
+	private IConfig&MockObject $config;
+	private RequestSharedSecret $requestSharedSecret;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->httpClientService = $this->createMock(IClientService::class);
-		$this->httpClient = $this->getMockBuilder(IClient::class)->getMock();
-		$this->jobList = $this->getMockBuilder(IJobList::class)->getMock();
-		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
-		$this->trustedServers = $this->getMockBuilder(TrustedServers::class)
-			->disableOriginalConstructor()->getMock();
-		$this->response = $this->getMockBuilder(IResponse::class)->getMock();
-		$this->discoveryService = $this->getMockBuilder(IDiscoveryService::class)->getMock();
+		$this->httpClient = $this->createMock(IClient::class);
+		$this->jobList = $this->createMock(IJobList::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->trustedServers = $this->createMock(TrustedServers::class);
+		$this->response = $this->createMock(IResponse::class);
+		$this->discoveryService = $this->createMock(IDiscoveryService::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->discoveryService->expects($this->any())->method('discover')->willReturn([]);
 		$this->httpClientService->expects($this->any())->method('newClient')->willReturn($this->httpClient);
@@ -77,19 +61,15 @@ class RequestSharedSecretTest extends TestCase {
 			$this->trustedServers,
 			$this->discoveryService,
 			$this->logger,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->config,
 		);
 	}
 
-	/**
-	 * @dataProvider dataTestStart
-	 *
-	 * @param bool $isTrustedServer
-	 * @param bool $retainBackgroundJob
-	 */
-	public function testStart($isTrustedServer, $retainBackgroundJob) {
-		/** @var RequestSharedSecret |MockObject $requestSharedSecret */
-		$requestSharedSecret = $this->getMockBuilder('OCA\Federation\BackgroundJob\RequestSharedSecret')
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestStart')]
+	public function testStart(bool $isTrustedServer, bool $retainBackgroundJob): void {
+		/** @var RequestSharedSecret&MockObject $requestSharedSecret */
+		$requestSharedSecret = $this->getMockBuilder(RequestSharedSecret::class)
 			->setConstructorArgs(
 				[
 					$this->httpClientService,
@@ -98,10 +78,13 @@ class RequestSharedSecretTest extends TestCase {
 					$this->trustedServers,
 					$this->discoveryService,
 					$this->logger,
-					$this->timeFactory
+					$this->timeFactory,
+					$this->config,
 				]
-			)->setMethods(['parentStart'])->getMock();
-		$this->invokePrivate($requestSharedSecret, 'argument', [['url' => 'url', 'token' => 'token']]);
+			)
+			->onlyMethods(['parentStart'])
+			->getMock();
+		self::invokePrivate($requestSharedSecret, 'argument', [['url' => 'url', 'token' => 'token']]);
 
 		$this->trustedServers->expects($this->once())->method('isTrustedServer')
 			->with('url')->willReturn($isTrustedServer);
@@ -110,7 +93,7 @@ class RequestSharedSecretTest extends TestCase {
 		} else {
 			$requestSharedSecret->expects($this->never())->method('parentStart');
 		}
-		$this->invokePrivate($requestSharedSecret, 'retainJob', [$retainBackgroundJob]);
+		self::invokePrivate($requestSharedSecret, 'retainJob', [$retainBackgroundJob]);
 		$this->jobList->expects($this->once())->method('remove');
 
 		$this->timeFactory->method('getTime')->willReturn(42);
@@ -134,7 +117,7 @@ class RequestSharedSecretTest extends TestCase {
 		$requestSharedSecret->start($this->jobList);
 	}
 
-	public function dataTestStart() {
+	public static function dataTestStart(): array {
 		return [
 			[true, true],
 			[true, false],
@@ -142,11 +125,7 @@ class RequestSharedSecretTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestRun
-	 *
-	 * @param int $statusCode
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestRun')]
 	public function testRun(int $statusCode, int $attempt = 0): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
@@ -162,32 +141,32 @@ class RequestSharedSecretTest extends TestCase {
 			->with(
 				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
 				[
-					'body' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
+					'body' => [
+						'url' => $source,
+						'token' => $token,
+						'format' => 'json',
+					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => true,
 				]
 			)->willReturn($this->response);
 
 		$this->response->expects($this->once())->method('getStatusCode')
 			->willReturn($statusCode);
 
-		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
+		self::invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 		if (
 			$statusCode !== Http::STATUS_OK
 			&& ($statusCode !== Http::STATUS_FORBIDDEN || $attempt < 5)
 		) {
-			$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
+			$this->assertTrue(self::invokePrivate($this->requestSharedSecret, 'retainJob'));
 		} else {
-			$this->assertFalse($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
+			$this->assertFalse(self::invokePrivate($this->requestSharedSecret, 'retainJob'));
 		}
 	}
 
-	public function dataTestRun() {
+	public static function dataTestRun(): array {
 		return [
 			[Http::STATUS_OK],
 			[Http::STATUS_FORBIDDEN, 5],
@@ -196,7 +175,7 @@ class RequestSharedSecretTest extends TestCase {
 		];
 	}
 
-	public function testRunExpired() {
+	public function testRunExpired(): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
@@ -223,10 +202,10 @@ class RequestSharedSecretTest extends TestCase {
 				TrustedServers::STATUS_FAILURE
 			);
 
-		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
+		self::invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 	}
 
-	public function testRunConnectionError() {
+	public function testRunConnectionError(): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
@@ -247,18 +226,18 @@ class RequestSharedSecretTest extends TestCase {
 			->with(
 				$target . '/ocs/v2.php/apps/federation/api/v1/request-shared-secret',
 				[
-					'body' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
+					'body' => [
+						'url' => $source,
+						'token' => $token,
+						'format' => 'json',
+					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => true,
 				]
 			)->willThrowException($this->createMock(ConnectException::class));
 
-		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
-		$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
+		self::invokePrivate($this->requestSharedSecret, 'run', [$argument]);
+		$this->assertTrue(self::invokePrivate($this->requestSharedSecret, 'retainJob'));
 	}
 }

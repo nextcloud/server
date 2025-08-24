@@ -21,8 +21,8 @@
 
 <script lang="ts">
 import { translate } from '@nextcloud/l10n'
-import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import { defineComponent } from 'vue'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 export default defineComponent({
 	name: 'SelectSharingPermissions',

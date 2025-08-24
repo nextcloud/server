@@ -48,12 +48,13 @@
 </template>
 
 <script>
-import { debounce } from 'debounce'
 import { colord } from 'colord'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
+import debounce from 'debounce'
+
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import Undo from 'vue-material-design-icons/UndoVariant.vue'
 import Palette from 'vue-material-design-icons/Palette.vue'
 
@@ -135,7 +136,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './shared/field.scss';
+@use './shared/field' as *;
+
 .description {
 	color: var(--color-text-maxcontrast);
 }

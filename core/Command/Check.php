@@ -31,7 +31,7 @@ class Check extends Base {
 		$errors = \OC_Util::checkServer($this->config);
 		if (!empty($errors)) {
 			$errors = array_map(function ($item) {
-				return (string) $item['error'];
+				return (string)$item['error'];
 			}, $errors);
 
 			$this->writeArrayInOutputFormat($input, $output, $errors);

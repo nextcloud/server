@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@ namespace OCA\Files_External\Service;
 
 use OC\Files\Filesystem;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\MountConfig;
 use OCA\Files_External\NotFoundException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
@@ -34,7 +36,7 @@ class UserStoragesService extends StoragesService {
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
 		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->userSession = $userSession;
 		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher);
@@ -58,7 +60,7 @@ class UserStoragesService extends StoragesService {
 		$this->triggerApplicableHooks(
 			$signal,
 			$storage->getMountPoint(),
-			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
+			MountConfig::MOUNT_TYPE_USER,
 			[$user]
 		);
 	}

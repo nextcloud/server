@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import { loadState } from '@nextcloud/initial-state'
 
 import {
@@ -46,7 +46,7 @@ import {
 	UNPUBLISHED_READABLE_PROPERTIES,
 } from '../../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountPropertyScope } from '../../../service/PersonalInfo/PersonalInfoService.js'
-import { handleError } from '../../../utils/handlers.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 const {
 	federationEnabled,
@@ -146,7 +146,7 @@ export default {
 			}
 
 			// TODO: provide focus method from NcActions
-			this.$refs.federationActions.$refs.menuButton.$el.focus()
+			this.$refs.federationActions.$refs?.triggerButton?.$el?.focus?.()
 		},
 
 		async updatePrimaryScope(scope) {

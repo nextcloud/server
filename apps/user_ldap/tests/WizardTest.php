@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -35,32 +36,28 @@ class WizardTest extends TestCase {
 		}
 	}
 
-	private function getWizardAndMocks() {
+	private function getWizardAndMocks(): array {
 		static $confMethods;
-		static $connMethods;
-		static $accMethods;
 
 		if (is_null($confMethods)) {
 			$confMethods = get_class_methods('\OCA\User_LDAP\Configuration');
-			$connMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
 		}
-		/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject $lw */
+		/** @var ILDAPWrapper&MockObject $lw */
 		$lw = $this->createMock(ILDAPWrapper::class);
 
-		/** @var Configuration|\PHPUnit\Framework\MockObject\MockObject $conf */
+		/** @var Configuration&MockObject $conf */
 		$conf = $this->getMockBuilder(Configuration::class)
-			->setMethods($confMethods)
+			->onlyMethods($confMethods)
 			->setConstructorArgs(['', true])
 			->getMock();
 
-		/** @var Access|\PHPUnit\Framework\MockObject\MockObject $access */
+		/** @var Access&MockObject $access */
 		$access = $this->createMock(Access::class);
 
 		return [new Wizard($conf, $lw, $access), $conf, $lw, $access];
 	}
 
-	private function prepareLdapWrapperForConnections(MockObject &$ldap) {
+	private function prepareLdapWrapperForConnections(MockObject $ldap) {
 		$ldap->expects($this->once())
 			->method('connect')
 			//dummy value
@@ -75,7 +72,7 @@ class WizardTest extends TestCase {
 			->willReturn(true);
 	}
 
-	public function testCumulativeSearchOnAttributeLimited() {
+	public function testCumulativeSearchOnAttributeLimited(): void {
 		[$wizard, $configuration, $ldap] = $this->getWizardAndMocks();
 
 		$configuration->expects($this->any())
@@ -135,7 +132,7 @@ class WizardTest extends TestCase {
 		unset($uidnumber);
 	}
 
-	public function testCumulativeSearchOnAttributeUnlimited() {
+	public function testCumulativeSearchOnAttributeUnlimited(): void {
 		[$wizard, $configuration, $ldap] = $this->getWizardAndMocks();
 
 		$configuration->expects($this->any())
@@ -211,7 +208,7 @@ class WizardTest extends TestCase {
 		unset($uidnumber);
 	}
 
-	public function testDetectEmailAttributeAlreadySet() {
+	public function testDetectEmailAttributeAlreadySet(): void {
 		[$wizard, $configuration, $ldap, $access]
 			= $this->getWizardAndMocks();
 
@@ -233,7 +230,7 @@ class WizardTest extends TestCase {
 		$wizard->detectEmailAttribute();
 	}
 
-	public function testDetectEmailAttributeOverrideSet() {
+	public function testDetectEmailAttributeOverrideSet(): void {
 		[$wizard, $configuration, $ldap, $access]
 			= $this->getWizardAndMocks();
 
@@ -272,7 +269,7 @@ class WizardTest extends TestCase {
 			$result['changes']['ldap_email_attr']);
 	}
 
-	public function testDetectEmailAttributeFind() {
+	public function testDetectEmailAttributeFind(): void {
 		[$wizard, $configuration, $ldap, $access]
 			= $this->getWizardAndMocks();
 
@@ -311,7 +308,7 @@ class WizardTest extends TestCase {
 			$result['changes']['ldap_email_attr']);
 	}
 
-	public function testDetectEmailAttributeFindNothing() {
+	public function testDetectEmailAttributeFindNothing(): void {
 		[$wizard, $configuration, $ldap, $access]
 			= $this->getWizardAndMocks();
 
@@ -346,10 +343,10 @@ class WizardTest extends TestCase {
 			});
 
 		$result = $wizard->detectEmailAttribute();
-		$this->assertSame(false, $result->hasChanges());
+		$this->assertFalse($result->hasChanges());
 	}
 
-	public function testCumulativeSearchOnAttributeSkipReadDN() {
+	public function testCumulativeSearchOnAttributeSkipReadDN(): void {
 		// tests that there is no infinite loop, when skipping already processed
 		// DNs (they can be returned multiple times for multiple filters )
 		[$wizard, $configuration, $ldap] = $this->getWizardAndMocks();
@@ -423,7 +420,7 @@ class WizardTest extends TestCase {
 		// The following expectations are the real test
 		$filters = ['f1', 'f2', '*'];
 		$resultArray = $wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
-		$this->assertSame(6, count($resultArray));
+		$this->assertCount(6, $resultArray);
 		unset($mark);
 	}
 }

@@ -7,11 +7,16 @@
 		<div class="theming__preview-image" :style="{ backgroundImage: 'url(' + img + ')' }" @click="onToggle" />
 		<div class="theming__preview-description">
 			<h3>{{ theme.title }}</h3>
-			<p class="theming__preview-explanation">{{ theme.description }}</p>
+			<p class="theming__preview-explanation">
+				{{ theme.description }}
+			</p>
 			<span v-if="enforced" class="theming__preview-warning" role="note">
 				{{ t('theming', 'Theme selection is enforced') }}
 			</span>
-			<NcCheckboxRadioSwitch class="theming__preview-toggle"
+
+			<!-- Only show checkbox if we can change themes -->
+			<NcCheckboxRadioSwitch v-show="!enforced"
+				class="theming__preview-toggle"
 				:checked.sync="checked"
 				:disabled="enforced"
 				:name="name"
@@ -24,7 +29,7 @@
 
 <script>
 import { generateFilePath } from '@nextcloud/router'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 export default {
 	name: 'ItemPreview',
@@ -71,6 +76,10 @@ export default {
 				return this.selected
 			},
 			set(checked) {
+				if (this.enforced) {
+					return
+				}
+
 				console.debug('Changed theme', this.theme.id, checked)
 
 				// If this is a radio, we can only enable
@@ -87,6 +96,10 @@ export default {
 
 	methods: {
 		onToggle() {
+			if (this.enforced) {
+				return
+			}
+
 			if (this.switchType === 'radio') {
 				this.checked = true
 				return
@@ -104,11 +117,9 @@ export default {
 .theming__preview {
 	// We make previews on 16/10 screens
 	--ratio: 16;
-
 	position: relative;
 	display: flex;
 	justify-content: flex-start;
-	max-width: 800px;
 
 	&,
 	* {
@@ -119,7 +130,7 @@ export default {
 		flex-basis: calc(16px * var(--ratio));
 		flex-shrink: 0;
 		height: calc(10px * var(--ratio));
-		margin-right: var(--gap);
+		margin-inline-end: var(--gap);
 		cursor: pointer;
 		border-radius: var(--border-radius);
 		background-repeat: no-repeat;
@@ -145,12 +156,9 @@ export default {
 		}
 	}
 
-	&--default {
-		grid-column: span 2;
-	}
-
 	&-warning {
-		color: var(--color-warning);
+		background-color: var(--color-warning);
+		color: var(--color-warning-text);
 	}
 }
 

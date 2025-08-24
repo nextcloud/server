@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -40,40 +42,40 @@ class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	
-	public function testInvalidAddressShouldThrowException() {
+
+	public function testInvalidAddressShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		// I'd use example.com for this, but someone decided to break the spec and make it resolve
 		$this->instance->assertHostAddressValid('notarealaddress...');
 	}
 
-	public function testValidAddressShouldPass() {
+	public function testValidAddressShouldPass(): void {
 		$this->assertTrue($this->instance->assertHostAddressValid('localhost'));
 	}
 
-	
-	public function testNegativePortNumberShouldThrowException() {
+
+	public function testNegativePortNumberShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->instance->assertPortNumberValid('-1');
 	}
 
-	
-	public function testNonNumericalPortNumberShouldThrowException() {
+
+	public function testNonNumericalPortNumberShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->instance->assertPortNumberValid('a');
 	}
 
-	
-	public function testHighPortNumberShouldThrowException() {
+
+	public function testHighPortNumberShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
- 
+
 		$this->instance->assertPortNumberValid('65536');
 	}
 
-	public function testValidPortNumberShouldPass() {
+	public function testValidPortNumberShouldPass(): void {
 		$this->assertTrue($this->instance->assertPortNumberValid('22222'));
 	}
 }

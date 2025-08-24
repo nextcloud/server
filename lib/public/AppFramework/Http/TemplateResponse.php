@@ -1,21 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
+use OCP\Server;
+use OCP\Template\ITemplateManager;
 
 /**
  * Response for a normal template
  * @since 6.0.0
  *
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 class TemplateResponse extends Response {
 	/**
@@ -72,7 +78,7 @@ class TemplateResponse extends Response {
 	 * @param string $appName the name of the app to load the template from
 	 * @param string $templateName the name of the template
 	 * @param array $params an array of parameters which should be passed to the
-	 * template
+	 *                      template
 	 * @param string $renderAs how the page should be rendered, defaults to user
 	 * @param S $status
 	 * @param H $headers
@@ -180,7 +186,7 @@ class TemplateResponse extends Response {
 			$renderAs = $this->renderAs;
 		}
 
-		$template = new \OCP\Template($this->appName, $this->templateName, $renderAs);
+		$template = Server::get(ITemplateManager::class)->getTemplate($this->appName, $this->templateName, $renderAs);
 
 		foreach ($this->params as $key => $value) {
 			$template->assign($key, $value);

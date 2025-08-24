@@ -28,7 +28,6 @@ export interface Version {
 	type: string, // 'file'
 	mtime: number, // Version creation date as a timestamp
 	permissions: string, // Only readable: 'R'
-	hasPreview: boolean, // Whether the version has a preview
 	previewUrl: string, // Preview URL of the version
 	url: string, // Download URL of the version
 	source: string, // The WebDAV endpoint of the ressource
@@ -78,12 +77,12 @@ function formatVersion(version: any, fileInfo: any): Version {
 	let previewUrl = ''
 
 	if (mtime === fileInfo.mtime) { // Version is the current one
-		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0', {
+		previewUrl = generateUrl('/core/preview?fileId={fileId}&c={fileEtag}&x=250&y=250&forceIcon=0&a=0&forceIcon=1&mimeFallback=1', {
 			fileId: fileInfo.id,
 			fileEtag: fileInfo.etag,
 		})
 	} else {
-		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}', {
+		previewUrl = generateUrl('/apps/files_versions/preview?file={file}&version={fileVersion}&mimeFallback=1', {
 			file: joinPaths(fileInfo.path, fileInfo.name),
 			fileVersion: version.basename,
 		})
@@ -91,7 +90,8 @@ function formatVersion(version: any, fileInfo: any): Version {
 
 	return {
 		fileId: fileInfo.id,
-		label: version.props['version-label'],
+		// If version-label is defined make sure it is a string (prevent issue if the label is a number an PHP returns a number then)
+		label: version.props['version-label'] && String(version.props['version-label']),
 		author: version.props['version-author'] ?? null,
 		filename: version.filename,
 		basename: moment(mtime).format('LLL'),
@@ -101,7 +101,6 @@ function formatVersion(version: any, fileInfo: any): Version {
 		type: version.type,
 		mtime,
 		permissions: 'R',
-		hasPreview: version.props['has-preview'] === 1,
 		previewUrl,
 		url: joinPaths('/remote.php/dav', version.filename),
 		source: generateRemoteUrl('dav') + encodePath(version.filename),

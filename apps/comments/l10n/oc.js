@@ -14,16 +14,15 @@ OC.L10N.register(
     "Delete comment" : "Suprimir lo comentari",
     "Cancel edit" : "Anullar la modificacion",
     "Post comment" : "Publicar lo comentari",
+    "Unable to load the comments list" : "Cargament impossible de la lista dels comentaris",
     "No comments yet, start the conversation!" : "Cap de comentari pel moment, començat la conversacion !",
     "No more messages" : "Pas mai de messatge",
     "Retry" : "Tornar ensajar",
-    "Unable to load the comments list" : "Cargament impossible de la lista dels comentaris",
     "_1 new comment_::_{unread} new comments_" : ["1 comentari novèl","{unread} comentaris novèls"],
     "Comment" : "Comentar",
     "An error occurred while trying to edit the comment" : "Error en ensajant de modificar lo comentari",
     "Comment deleted" : "Comentari suprimit",
     "An error occurred while trying to delete the comment" : "Error en ensajant de suprimir lo comentari",
-    "An error occurred while trying to create the comment" : "Error en ensajant de crear lo comentari",
-    "_%n unread comment_::_%n unread comments_" : ["%n comentari pas legit","%n comentaris pas legits"]
+    "An error occurred while trying to create the comment" : "Error en ensajant de crear lo comentari"
 },
 "nplurals=2; plural=(n > 1);");

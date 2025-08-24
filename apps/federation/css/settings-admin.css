@@ -9,12 +9,14 @@
 
 #listOfTrustedServers li {
 	padding-bottom: 10px;
+	display: flex;
+	align-items: center;
 }
 
 .removeTrustedServer {
 	display: none;
-	vertical-align:middle;
-	padding-left: 10px;
+	vertical-align: middle;
+	padding-inline-start: 10px;
 }
 
 #ocFederationAddServerButton {
@@ -22,24 +24,24 @@
 }
 
 #listOfTrustedServers .status {
-	margin-right: 10px;
+	margin-inline-end: 10px;
 }
 
 #listOfTrustedServers .icon {
-	cursor: pointer;
 	display: inline-block;
+	cursor: pointer;
 	vertical-align: middle;
-	margin-left: 10px;
-}
-
-#ocFederationAddServer #serverUrl {
-	width: 270px;
+	margin-inline-start: 10px;
 }
 
 .serverUrl-block {
-	max-width: 310px;
 	display: flex;
-	flex-direction: row;
 	align-items: center;
-	justify-content: space-between;
+	flex-direction: row;
+	justify-content: flex-start;
+	gap: 8px;
+}
+
+.serverUrl-block input {
+	width: 270px;
 }

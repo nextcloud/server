@@ -12,18 +12,14 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	private $factory;
-
-	/** @var IURLGenerator */
-	private $url;
-
-	public function __construct(IFactory $factory, IURLGenerator $url) {
-		$this->factory = $factory;
-		$this->url = $url;
+	public function __construct(
+		private IFactory $factory,
+		private IURLGenerator $url,
+	) {
 	}
 
 	/**
@@ -49,7 +45,7 @@ class Notifier implements INotifier {
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'twofactor_backupcodes') {
 			// Not my app => throw
-			throw new \InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 
 		// Read the language from the notification
@@ -71,7 +67,7 @@ class Notifier implements INotifier {
 
 			default:
 				// Unknown subject => Unknown notification => throw
-				throw new \InvalidArgumentException();
+				throw new UnknownNotificationException();
 		}
 	}
 }

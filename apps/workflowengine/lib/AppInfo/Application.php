@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -51,10 +52,10 @@ class Application extends App implements IBootstrap {
 
 		foreach ($configuredEvents as $operationClass => $events) {
 			foreach ($events as $entityClass => $eventNames) {
-				array_map(function (string $eventName) use ($manager, $container, $dispatcher, $logger, $operationClass, $entityClass) {
+				array_map(function (string $eventName) use ($manager, $container, $dispatcher, $logger, $operationClass, $entityClass): void {
 					$dispatcher->addListener(
 						$eventName,
-						function ($event) use ($manager, $container, $eventName, $logger, $operationClass, $entityClass) {
+						function ($event) use ($manager, $container, $eventName, $logger, $operationClass, $entityClass): void {
 							$ruleMatcher = $manager->getRuleMatcher();
 							try {
 								/** @var IEntity $entity */

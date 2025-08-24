@@ -61,7 +61,7 @@ class ClientService implements IClientService {
 			$stack->push($this->dnsPinMiddleware->addDnsPinning());
 		}
 		$stack->push(Middleware::tap(function (RequestInterface $request) {
-			$this->eventLogger->start('http:request', $request->getMethod() . " request to " . $request->getRequestTarget());
+			$this->eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
 		}, function () {
 			$this->eventLogger->end('http:request');
 		}), 'event logger');

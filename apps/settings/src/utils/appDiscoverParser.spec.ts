@@ -5,7 +5,7 @@
 
 import type { IAppDiscoverElement } from '../constants/AppDiscoverTypes'
 
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import { filterElements, parseApiResponse } from './appDiscoverParser'
 
 describe('App Discover API parser', () => {

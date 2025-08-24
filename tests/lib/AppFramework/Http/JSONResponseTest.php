@@ -23,13 +23,13 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testHeader() {
+	public function testHeader(): void {
 		$headers = $this->json->getHeaders();
 		$this->assertEquals('application/json; charset=utf-8', $headers['Content-Type']);
 	}
 
 
-	public function testSetData() {
+	public function testSetData(): void {
 		$params = ['hi', 'yo'];
 		$this->json->setData($params);
 
@@ -37,7 +37,7 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testSetRender() {
+	public function testSetRender(): void {
 		$params = ['test' => 'hi'];
 		$this->json->setData($params);
 
@@ -46,10 +46,7 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->json->render());
 	}
 
-	/**
-	 * @return array
-	 */
-	public function renderDataProvider() {
+	public static function renderDataProvider(): array {
 		return [
 			[
 				['test' => 'hi'], '{"test":"hi"}',
@@ -61,17 +58,17 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider renderDataProvider
 	 * @param array $input
 	 * @param string $expected
 	 */
-	public function testRender(array $input, $expected) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('renderDataProvider')]
+	public function testRender(array $input, $expected): void {
 		$this->json->setData($input);
 		$this->assertEquals($expected, $this->json->render());
 	}
 
 
-	public function testRenderWithNonUtf8Encoding() {
+	public function testRenderWithNonUtf8Encoding(): void {
 		$this->expectException(\JsonException::class);
 		$this->expectExceptionMessage('Malformed UTF-8 characters, possibly incorrectly encoded');
 
@@ -80,7 +77,7 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->json->render();
 	}
 
-	public function testConstructorAllowsToSetData() {
+	public function testConstructorAllowsToSetData(): void {
 		$data = ['hi'];
 		$code = 300;
 		$response = new JSONResponse($data, $code);
@@ -90,7 +87,7 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->assertEquals($code, $response->getStatus());
 	}
 
-	public function testChainability() {
+	public function testChainability(): void {
 		$params = ['hi', 'yo'];
 		$this->json->setData($params)
 			->setStatus(Http::STATUS_NOT_FOUND);

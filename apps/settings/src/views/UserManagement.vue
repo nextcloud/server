@@ -12,9 +12,10 @@
 
 <script>
 import { translate as t } from '@nextcloud/l10n'
+import { emit } from '@nextcloud/event-bus'
 import { defineComponent } from 'vue'
 
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import UserList from '../components/UserList.vue'
 
 export default defineComponent({
@@ -35,7 +36,7 @@ export default defineComponent({
 	computed: {
 		pageHeading() {
 			if (this.selectedGroupDecoded === null) {
-				return t('settings', 'Active accounts')
+				return t('settings', 'All accounts')
 			}
 			const matchHeading = {
 				admin: t('settings', 'Admins'),
@@ -54,11 +55,6 @@ export default defineComponent({
 	},
 
 	beforeMount() {
-		this.$store.commit('initGroups', {
-			groups: this.$store.getters.getServerData.groups,
-			orderBy: this.$store.getters.getServerData.sortGroups,
-			userCount: this.$store.getters.getServerData.userCount,
-		})
 		this.$store.dispatch('getPasswordPolicyMinLength')
 	},
 
@@ -69,6 +65,7 @@ export default defineComponent({
 		window.OCA.Settings.UserList = window.OCA.Settings.UserList ?? {}
 		// and add the registerAction method
 		window.OCA.Settings.UserList.registerAction = this.registerAction
+		emit('settings:user-management:loaded')
 	},
 
 	methods: {
@@ -80,13 +77,15 @@ export default defineComponent({
 		 * @param {string} icon the icon class
 		 * @param {string} text the text to display
 		 * @param {Function} action the function to run
+		 * @param {(user: Record<string, unknown>) => boolean} enabled return true if the action is enabled for the user
 		 * @return {Array}
 		 */
-		registerAction(icon, text, action) {
+		registerAction(icon, text, action, enabled) {
 			this.externalActions.push({
 				icon,
 				text,
 				action,
+				enabled,
 			})
 			return this.externalActions
 		},

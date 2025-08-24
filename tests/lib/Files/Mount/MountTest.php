@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,24 +8,25 @@
 
 namespace Test\Files\Mount;
 
+use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Wrapper\Wrapper;
 
 class MountTest extends \Test\TestCase {
-	public function testFromStorageObject() {
+	public function testFromStorageObject(): void {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->disableOriginalConstructor()
 			->getMock();
-		$mount = new \OC\Files\Mount\MountPoint($storage, '/foo');
+		$mount = new MountPoint($storage, '/foo');
 		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $mount->getStorage());
 	}
 
-	public function testFromStorageClassname() {
-		$mount = new \OC\Files\Mount\MountPoint('\OC\Files\Storage\Temporary', '/foo');
+	public function testFromStorageClassname(): void {
+		$mount = new MountPoint('\OC\Files\Storage\Temporary', '/foo');
 		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $mount->getStorage());
 	}
 
-	public function testWrapper() {
+	public function testWrapper(): void {
 		$test = $this;
 		$wrapper = function ($mountPoint, $storage) use (&$test) {
 			$test->assertEquals('/foo/', $mountPoint);
@@ -38,7 +40,7 @@ class MountTest extends \Test\TestCase {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->disableOriginalConstructor()
 			->getMock();
-		$mount = new \OC\Files\Mount\MountPoint($storage, '/foo', [], $loader);
+		$mount = new MountPoint($storage, '/foo', [], $loader);
 		$this->assertInstanceOf('\OC\Files\Storage\Wrapper\Wrapper', $mount->getStorage());
 	}
 }

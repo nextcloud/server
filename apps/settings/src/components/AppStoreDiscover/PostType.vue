@@ -65,7 +65,7 @@ import { computed, defineComponent, ref, watchEffect } from 'vue'
 import { commonAppDiscoverProps } from './common'
 import { useLocalizedValue } from '../../composables/useGetLocalizedValue'
 
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import AppLink from './AppLink.vue'
 
 export default defineComponent({
@@ -252,15 +252,15 @@ export default defineComponent({
 	}
 
 	&__play-icon {
+		position: absolute;
+		top: -46px; // half of the icon height
+		inset-inline-end: -46px; // half of the icon width
+
 		&-wrapper {
 			position: relative;
 			top: -50%;
-			left: -50%;
+			inset-inline-start: -50%;
 		}
-
-		position: absolute;
-		top: -46px; // half of the icon height
-		right: -46px; // half of the icon width
 	}
 }
 

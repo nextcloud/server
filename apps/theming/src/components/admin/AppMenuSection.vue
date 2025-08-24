@@ -30,6 +30,8 @@
 </template>
 
 <script lang="ts">
+import type { INavigationEntry } from '../../../../../core/src/types/navigation'
+
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
@@ -38,9 +40,9 @@ import { computed, defineComponent } from 'vue'
 
 import axios from '@nextcloud/axios'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
 import AppOrderSelector from '../AppOrderSelector.vue'
 
 export default defineComponent({
@@ -75,9 +77,8 @@ export default defineComponent({
 		/**
 		 * All enabled apps which can be navigated
 		 */
-		const allApps = Object.values(
-			loadState<Record<string, { id: string, name?: string, icon: string }>>('core', 'apps'),
-		).map(({ id, name, icon }) => ({ label: name, id, icon }))
+		const allApps = loadState<INavigationEntry[]>('core', 'apps')
+			.map(({ id, name, icon }) => ({ label: name, id, icon }))
 
 		/**
 		 * Currently selected app, wrapps the setter
@@ -114,6 +115,7 @@ export default defineComponent({
 h3, h4 {
 	font-weight: bold;
 }
+
 h4, h5 {
 	margin-block-start: 12px;
 }

@@ -11,10 +11,13 @@ namespace OCA\UpdateNotification\Controller;
 use OCA\UpdateNotification\Manager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IRequest;
+use OCP\Util;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ChangelogController extends Controller {
@@ -33,9 +36,9 @@ class ChangelogController extends Controller {
 	 * This page is only used for clients not support showing the app changelog feature in-app and thus need to show it on a dedicated page.
 	 * @param string $app App to show the changelog for
 	 * @param string|null $version Version entry to show (defaults to latest installed)
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function showChangelog(string $app, ?string $version = null): TemplateResponse {
 		$version = $version ?? $this->appManager->getAppVersion($app);
 		$appInfo = $this->appManager->getAppInfo($app) ?? [];
@@ -53,7 +56,7 @@ class ChangelogController extends Controller {
 			'text' => $changes,
 		]);
 
-		\OCP\Util::addScript($this->appName, 'view-changelog-page');
+		Util::addScript($this->appName, 'view-changelog-page');
 		return new TemplateResponse($this->appName, 'empty');
 	}
 }

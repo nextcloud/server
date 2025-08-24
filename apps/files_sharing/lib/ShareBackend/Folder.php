@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,12 +7,16 @@
  */
 namespace OCA\Files_Sharing\ShareBackend;
 
-class Folder extends File implements \OCP\Share_Backend_Collection {
+use OCP\IDBConnection;
+use OCP\Server;
+use OCP\Share_Backend_Collection;
+
+class Folder extends File implements Share_Backend_Collection {
 	public function getChildren($itemSource) {
 		$children = [];
 		$parents = [$itemSource];
 
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 		$qb->select('id')
 			->from('mimetypes')
 			->where(
@@ -22,12 +27,12 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		$result->closeCursor();
 
 		if ($row = $result->fetchRow()) {
-			$mimetype = (int) $row['id'];
+			$mimetype = (int)$row['id'];
 		} else {
 			$mimetype = -1;
 		}
 		while (!empty($parents)) {
-			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 
 			$parents = array_map(function ($parent) use ($qb) {
 				return $qb->createNamedParameter($parent);
@@ -45,7 +50,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 			while ($file = $result->fetch()) {
 				$children[] = ['source' => $file['fileid'], 'file_path' => $file['name']];
 				// If a child folder is found look inside it
-				if ((int) $file['mimetype'] === $mimetype) {
+				if ((int)$file['mimetype'] === $mimetype) {
 					$parents[] = $file['fileid'];
 				}
 			}

@@ -16,7 +16,7 @@
 		class="files-list__row"
 		v-on="rowListeners">
 		<!-- Failed indicator -->
-		<span v-if="source.attributes.failed" class="files-list__row--failed" />
+		<span v-if="isFailedSource" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
 		<FileEntryCheckbox :fileid="fileid"
@@ -30,25 +30,33 @@
 			<FileEntryPreview ref="preview"
 				:source="source"
 				:dragover="dragover"
+				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
-				:display-name="displayName"
+				:basename="basename"
 				:extension="extension"
-				:files-list-width="filesListWidth"
 				:nodes="nodes"
 				:source="source"
-				@click="execDefaultAction" />
+				@auxclick.native="execDefaultAction"
+				@click.native="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->
 		<FileEntryActions v-show="!isRenamingSmallScreen"
 			ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
-			:files-list-width="filesListWidth"
-			:loading.sync="loading"
 			:opened.sync="openedMenu"
 			:source="source" />
+
+		<!-- Mime -->
+		<td v-if="isMimeAvailable"
+			:title="mime"
+			class="files-list__row-mime"
+			data-cy-files-list-row-mime
+			@click="openDetailsIfAvailable">
+			<span>{{ mime }}</span>
+		</td>
 
 		<!-- Size -->
 		<td v-if="!compact && isSizeAvailable"
@@ -65,13 +73,16 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime :timestamp="source.mtime" :ignore-seconds="true" />
+			<NcDateTime v-if="mtime"
+				ignore-seconds
+				:timestamp="mtime" />
+			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
 
 		<!-- View columns -->
 		<td v-for="column in columns"
 			:key="column.id"
-			:class="`files-list__row-${currentView?.id}-${column.id}`"
+			:class="`files-list__row-${currentView.id}-${column.id}`"
 			class="files-list__row-column-custom"
 			:data-cy-files-list-row-column-custom="column.id"
 			@click="openDetailsIfAvailable">
@@ -83,21 +94,25 @@
 </template>
 
 <script lang="ts">
+import { FileType, formatFileSize } from '@nextcloud/files'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { defineComponent } from 'vue'
-import { Permission, formatFileSize } from '@nextcloud/files'
-import moment from '@nextcloud/moment'
+import { t } from '@nextcloud/l10n'
+import NcDateTime from '@nextcloud/vue/components/NcDateTime'
 
+import { useNavigation } from '../composables/useNavigation.ts'
+import { useFileListWidth } from '../composables/useFileListWidth.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useRenamingStore } from '../store/renaming.ts'
 import { useSelectionStore } from '../store/selection.ts'
 
-import FileEntryMixin from './FileEntryMixin.ts'
-import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import CustomElementRender from './CustomElementRender.vue'
 import FileEntryActions from './FileEntry/FileEntryActions.vue'
 import FileEntryCheckbox from './FileEntry/FileEntryCheckbox.vue'
+import FileEntryMixin from './FileEntryMixin.ts'
 import FileEntryName from './FileEntry/FileEntryName.vue'
 import FileEntryPreview from './FileEntry/FileEntryPreview.vue'
 
@@ -118,15 +133,11 @@ export default defineComponent({
 	],
 
 	props: {
-		isMtimeAvailable: {
+		isMimeAvailable: {
 			type: Boolean,
 			default: false,
 		},
 		isSizeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		compact: {
 			type: Boolean,
 			default: false,
 		},
@@ -138,12 +149,25 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
+		const filesListWidth = useFileListWidth()
+		// The file list is guaranteed to be only shown with active view - thus we can set the `loaded` flag
+		const { currentView } = useNavigation(true)
+		const {
+			directory: currentDir,
+			fileId: currentFileId,
+		} = useRouteParameters()
+
 		return {
 			actionsMenuStore,
 			draggingStore,
 			filesStore,
 			renamingStore,
 			selectionStore,
+
+			currentDir,
+			currentFileId,
+			currentView,
+			filesListWidth,
 		}
 	},
 
@@ -173,56 +197,80 @@ export default defineComponent({
 			if (this.filesListWidth < 512 || this.compact) {
 				return []
 			}
-			return this.currentView?.columns || []
+			return this.currentView.columns || []
 		},
 
+		mime() {
+			if (this.source.type === FileType.Folder) {
+				return this.t('files', 'Folder')
+			}
+
+			if (!this.source.mime || this.source.mime === 'application/octet-stream') {
+				return t('files', 'Unknown file type')
+			}
+
+			if (window.OC?.MimeTypeList?.names?.[this.source.mime]) {
+				return window.OC.MimeTypeList.names[this.source.mime]
+			}
+
+			const baseType = this.source.mime.split('/')[0]
+			const ext = this.source?.extension?.toUpperCase().replace(/^\./, '') || ''
+			if (baseType === 'image') {
+				return t('files', '{ext} image', { ext })
+			}
+			if (baseType === 'video') {
+				return t('files', '{ext} video', { ext })
+			}
+			if (baseType === 'audio') {
+				return t('files', '{ext} audio', { ext })
+			}
+			if (baseType === 'text') {
+				return t('files', '{ext} text', { ext })
+			}
+
+			return this.source.mime
+		},
 		size() {
-			const size = parseInt(this.source.size, 10) || 0
-			if (typeof size !== 'number' || size < 0) {
+			const size = this.source.size
+			if (size === undefined || isNaN(size) || size < 0) {
 				return this.t('files', 'Pending')
 			}
 			return formatFileSize(size, true)
 		},
+
 		sizeOpacity() {
 			const maxOpacitySize = 10 * 1024 * 1024
 
-			const size = parseInt(this.source.size, 10) || 0
-			if (!size || size < 0) {
+			const size = this.source.size
+			if (size === undefined || isNaN(size) || size < 0) {
 				return {}
 			}
 
-			const ratio = Math.round(Math.min(100, 100 * Math.pow((this.source.size / maxOpacitySize), 2)))
+			const ratio = Math.round(Math.min(100, 100 * Math.pow((size / maxOpacitySize), 2)))
 			return {
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
 		},
-		mtimeOpacity() {
-			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
+	},
 
-			const mtime = this.source.mtime?.getTime?.()
-			if (!mtime) {
-				return {}
-			}
-
-			// 1 = today, 0 = 31 days ago
-			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
-			if (ratio < 0) {
-				return {}
-			}
-			return {
-				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
-			}
-		},
-		mtimeTitle() {
-			if (this.source.mtime) {
-				return moment(this.source.mtime).format('LLL')
-			}
-			return ''
-		},
+	created() {
+		useHotKey('Enter', this.triggerDefaultAction, {
+			stop: true,
+			prevent: true,
+		})
 	},
 
 	methods: {
 		formatFileSize,
+
+		triggerDefaultAction() {
+			// Don't react to the event if the file row is not active
+			if (!this.isActive) {
+				return
+			}
+
+			this.defaultFileAction?.exec(this.source, this.currentView, this.currentDir)
+		},
 	},
 })
 </script>

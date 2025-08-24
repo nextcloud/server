@@ -45,16 +45,6 @@ interface IShareProvider {
 	public function update(\OCP\Share\IShare $share);
 
 	/**
-	 * Accept a share.
-	 *
-	 * @param IShare $share
-	 * @param string $recipient
-	 * @return IShare The share object
-	 * @since 17.0.0
-	 */
-	//	public function acceptShare(IShare $share, string $recipient): IShare;
-
-	/**
 	 * Delete a share
 	 *
 	 * @param \OCP\Share\IShare $share
@@ -218,4 +208,12 @@ interface IShareProvider {
 	 * @since 18.0.0
 	 */
 	public function getAllShares(): iterable;
+
+	/**
+	 * Get all children of this share
+	 *
+	 * @return IShare[]
+	 * @since 9.0.0
+	 */
+	public function getChildren(IShare $parent);
 }

@@ -17,12 +17,10 @@ use OCP\IL10N;
  * class based one
  */
 class ActivitySettingsAdapter extends ActivitySettings {
-	private $oldSettings;
-	private $l10n;
-
-	public function __construct(ISetting $oldSettings, IL10N $l10n) {
-		$this->oldSettings = $oldSettings;
-		$this->l10n = $l10n;
+	public function __construct(
+		private ISetting $oldSettings,
+		private IL10N $l10n,
+	) {
 	}
 
 	public function getIdentifier() {

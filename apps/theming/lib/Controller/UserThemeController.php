@@ -15,10 +15,14 @@ use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -34,23 +38,16 @@ class UserThemeController extends OCSController {
 
 	protected ?string $userId = null;
 
-	private IConfig $config;
-	private ThemesService $themesService;
-	private ThemingDefaults $themingDefaults;
-	private BackgroundService $backgroundService;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IConfig $config,
+		private IConfig $config,
 		IUserSession $userSession,
-		ThemesService $themesService,
-		ThemingDefaults $themingDefaults,
-		BackgroundService $backgroundService) {
+		private ThemesService $themesService,
+		private ThemingDefaults $themingDefaults,
+		private BackgroundService $backgroundService,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->themesService = $themesService;
-		$this->themingDefaults = $themingDefaults;
-		$this->backgroundService = $backgroundService;
 
 		$user = $userSession->getUser();
 		if ($user !== null) {
@@ -59,17 +56,16 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Enable theme
 	 *
 	 * @param string $themeId the theme ID
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Enabling theme is not possible
 	 * @throws PreConditionNotMetException
 	 *
 	 * 200: Theme enabled successfully
 	 */
+	#[NoAdminRequired]
 	public function enableTheme(string $themeId): DataResponse {
 		$theme = $this->validateTheme($themeId);
 
@@ -79,17 +75,16 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Disable theme
 	 *
 	 * @param string $themeId the theme ID
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
 	 * @throws OCSBadRequestException Disabling theme is not possible
 	 * @throws PreConditionNotMetException
 	 *
 	 * 200: Theme disabled successfully
 	 */
+	#[NoAdminRequired]
 	public function disableTheme(string $themeId): DataResponse {
 		$theme = $this->validateTheme($themeId);
 
@@ -128,16 +123,16 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the background image
 	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 *
 	 * 200: Background image returned
 	 * 404: Background image not found
 	 */
-	public function getBackground(): Http\Response {
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	public function getBackground(): Response {
 		$file = $this->backgroundService->getBackground();
 		if ($file !== null) {
 			$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);
@@ -148,14 +143,13 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Delete the background
 	 *
 	 * @return JSONResponse<Http::STATUS_OK, ThemingBackground, array{}>
 	 *
 	 * 200: Background deleted successfully
 	 */
+	#[NoAdminRequired]
 	public function deleteBackground(): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 		$this->backgroundService->deleteBackgroundImage();
@@ -168,8 +162,6 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Set the background
 	 *
 	 * @param string $type Type of background
@@ -180,6 +172,7 @@ class UserThemeController extends OCSController {
 	 * 200: Background set successfully
 	 * 400: Setting background is not possible
 	 */
+	#[NoAdminRequired]
 	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', ?string $color = null): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 

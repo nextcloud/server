@@ -20,7 +20,7 @@ class ChildOCSController extends OCSController {
 
 
 class OCSControllerTest extends \Test\TestCase {
-	public function testCors() {
+	public function testCors(): void {
 		$request = new Request(
 			[
 				'server' => [
@@ -45,7 +45,7 @@ class OCSControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testXML() {
+	public function testXML(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),
@@ -53,19 +53,19 @@ class OCSControllerTest extends \Test\TestCase {
 		));
 		$controller->setOCSVersion(1);
 
-		$expected = "<?xml version=\"1.0\"?>\n" .
-		"<ocs>\n" .
-		" <meta>\n" .
-		"  <status>ok</status>\n" .
-		"  <statuscode>100</statuscode>\n" .
-		"  <message>OK</message>\n" .
-		"  <totalitems></totalitems>\n" .
-		"  <itemsperpage></itemsperpage>\n" .
-		" </meta>\n" .
-		" <data>\n" .
-		"  <test>hi</test>\n" .
-		" </data>\n" .
-		"</ocs>\n";
+		$expected = "<?xml version=\"1.0\"?>\n"
+		. "<ocs>\n"
+		. " <meta>\n"
+		. "  <status>ok</status>\n"
+		. "  <statuscode>100</statuscode>\n"
+		. "  <message>OK</message>\n"
+		. "  <totalitems></totalitems>\n"
+		. "  <itemsperpage></itemsperpage>\n"
+		. " </meta>\n"
+		. " <data>\n"
+		. "  <test>hi</test>\n"
+		. " </data>\n"
+		. "</ocs>\n";
 
 		$params = new DataResponse(['test' => 'hi']);
 
@@ -74,15 +74,15 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->render());
 	}
 
-	public function testJSON() {
+	public function testJSON(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),
 			$this->createMock(IConfig::class)
 		));
 		$controller->setOCSVersion(1);
-		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK",' .
-					'"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
+		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK",'
+					. '"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
 		$params = new DataResponse(['test' => 'hi']);
 
 		$response = $controller->buildResponse($params, 'json');
@@ -91,7 +91,7 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->render());
 	}
 
-	public function testXMLV2() {
+	public function testXMLV2(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),
@@ -99,17 +99,17 @@ class OCSControllerTest extends \Test\TestCase {
 		));
 		$controller->setOCSVersion(2);
 
-		$expected = "<?xml version=\"1.0\"?>\n" .
-			"<ocs>\n" .
-			" <meta>\n" .
-			"  <status>ok</status>\n" .
-			"  <statuscode>200</statuscode>\n" .
-			"  <message>OK</message>\n" .
-			" </meta>\n" .
-			" <data>\n" .
-			"  <test>hi</test>\n" .
-			" </data>\n" .
-			"</ocs>\n";
+		$expected = "<?xml version=\"1.0\"?>\n"
+			. "<ocs>\n"
+			. " <meta>\n"
+			. "  <status>ok</status>\n"
+			. "  <statuscode>200</statuscode>\n"
+			. "  <message>OK</message>\n"
+			. " </meta>\n"
+			. " <data>\n"
+			. "  <test>hi</test>\n"
+			. " </data>\n"
+			. "</ocs>\n";
 
 		$params = new DataResponse(['test' => 'hi']);
 
@@ -118,7 +118,7 @@ class OCSControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response->render());
 	}
 
-	public function testJSONV2() {
+	public function testJSONV2(): void {
 		$controller = new ChildOCSController('app', new Request(
 			[],
 			$this->createMock(IRequestId::class),

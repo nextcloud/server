@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
 
@@ -11,7 +11,7 @@ import logger from './logger.js'
 import RecommendedApps from './components/setup/RecommendedApps.vue'
 
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 Vue.mixin({
 	methods: {

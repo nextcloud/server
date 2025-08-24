@@ -8,13 +8,14 @@ declare(strict_types=1);
 
 namespace Test\Authentication\Token;
 
-use OC;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -33,7 +34,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->dbConnection = OC::$server->getDatabaseConnection();
+		$this->dbConnection = Server::get(IDBConnection::class);
 		$this->time = time();
 		$this->resetDatabase();
 
@@ -118,10 +119,10 @@ class PublicKeyTokenMapperTest extends TestCase {
 			->from('authtoken')
 			->execute()
 			->fetch();
-		return (int) $result['count'];
+		return (int)$result['count'];
 	}
 
-	public function testInvalidate() {
+	public function testInvalidate(): void {
 		$token = '9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206';
 
 		$this->mapper->invalidate($token);
@@ -129,7 +130,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertSame(4, $this->getNumberOfTokens());
 	}
 
-	public function testInvalidateInvalid() {
+	public function testInvalidateInvalid(): void {
 		$token = 'youwontfindthisoneinthedatabase';
 
 		$this->mapper->invalidate($token);
@@ -137,7 +138,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertSame(5, $this->getNumberOfTokens());
 	}
 
-	public function testInvalidateOld() {
+	public function testInvalidateOld(): void {
 		$olderThan = $this->time - 60 * 60; // One hour
 
 		$this->mapper->invalidateOld($olderThan);
@@ -145,7 +146,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertSame(4, $this->getNumberOfTokens());
 	}
 
-	public function testInvalidateLastUsedBefore() {
+	public function testInvalidateLastUsedBefore(): void {
 		$before = $this->time - 60 * 2; // Two minutes
 
 		$this->mapper->invalidateLastUsedBefore('user3', $before);
@@ -153,7 +154,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertSame(4, $this->getNumberOfTokens());
 	}
 
-	public function testGetToken() {
+	public function testGetToken(): void {
 		$token = new PublicKeyToken();
 		$token->setUid('user2');
 		$token->setLoginName('User2');
@@ -177,15 +178,15 @@ class PublicKeyTokenMapperTest extends TestCase {
 	}
 
 
-	public function testGetInvalidToken() {
-		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+	public function testGetInvalidToken(): void {
+		$this->expectException(DoesNotExistException::class);
 
 		$token = 'thisisaninvalidtokenthatisnotinthedatabase';
 
 		$this->mapper->getToken($token);
 	}
 
-	public function testGetTokenById() {
+	public function testGetTokenById(): void {
 		$token = new PublicKeyToken();
 		$token->setUid('user2');
 		$token->setLoginName('User2');
@@ -209,30 +210,30 @@ class PublicKeyTokenMapperTest extends TestCase {
 	}
 
 
-	public function testGetTokenByIdNotFound() {
-		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+	public function testGetTokenByIdNotFound(): void {
+		$this->expectException(DoesNotExistException::class);
 
 		$this->mapper->getTokenById(-1);
 	}
 
 
-	public function testGetInvalidTokenById() {
-		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+	public function testGetInvalidTokenById(): void {
+		$this->expectException(DoesNotExistException::class);
 
 		$id = '42';
 
 		$this->mapper->getToken($id);
 	}
 
-	public function testGetTokenByUser() {
+	public function testGetTokenByUser(): void {
 		$this->assertCount(2, $this->mapper->getTokenByUser('user1'));
 	}
 
-	public function testGetTokenByUserNotFound() {
+	public function testGetTokenByUserNotFound(): void {
 		$this->assertCount(0, $this->mapper->getTokenByUser('user1000'));
 	}
 
-	public function testGetById() {
+	public function testGetById(): void {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$qb = $this->dbConnection->getQueryBuilder();
@@ -246,7 +247,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals('user1', $token->getUID());
 	}
 
-	public function testDeleteByName() {
+	public function testDeleteByName(): void {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('name')
 			->from('authtoken')
@@ -257,7 +258,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals(4, $this->getNumberOfTokens());
 	}
 
-	public function testHasExpiredTokens() {
+	public function testHasExpiredTokens(): void {
 		$this->assertFalse($this->mapper->hasExpiredTokens('user1'));
 		$this->assertTrue($this->mapper->hasExpiredTokens('user3'));
 	}

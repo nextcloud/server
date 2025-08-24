@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 
@@ -16,10 +18,10 @@ use OCP\AppFramework\Http\DataDisplayResponse;
 class ReasonsController extends Controller {
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function getPdf() {
 		$data = file_get_contents(__DIR__ . '/../../data/Reasons to use Nextcloud.pdf');
 

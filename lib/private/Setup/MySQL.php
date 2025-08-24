@@ -8,6 +8,7 @@
 namespace OC\Setup;
 
 use Doctrine\DBAL\Platforms\MySQL80Platform;
+use Doctrine\DBAL\Platforms\MySQL84Platform;
 use OC\DB\ConnectionAdapter;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
@@ -16,7 +17,7 @@ use OCP\Security\ISecureRandom;
 class MySQL extends AbstractDatabase {
 	public $dbprettyname = 'MySQL/MariaDB';
 
-	public function setupDatabase($username) {
+	public function setupDatabase() {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
 
@@ -28,7 +29,7 @@ class MySQL extends AbstractDatabase {
 		}
 
 		if ($this->tryCreateDbUser) {
-			$this->createSpecificUser($username, new ConnectionAdapter($connection));
+			$this->createSpecificUser('oc_admin', new ConnectionAdapter($connection));
 		}
 
 		$this->config->setValues([
@@ -41,7 +42,7 @@ class MySQL extends AbstractDatabase {
 
 		//fill the database if needed
 		$query = 'select count(*) from information_schema.tables where table_schema=? AND table_name = ?';
-		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix.'users']);
+		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix . 'users']);
 
 		$connection->close();
 		$connection = $this->connect();
@@ -59,7 +60,7 @@ class MySQL extends AbstractDatabase {
 	/**
 	 * @param \OC\DB\Connection $connection
 	 */
-	private function createDatabase($connection) {
+	private function createDatabase($connection): void {
 		try {
 			$name = $this->dbName;
 			$user = $this->dbUser;
@@ -91,23 +92,30 @@ class MySQL extends AbstractDatabase {
 	 * @param IDBConnection $connection
 	 * @throws \OC\DatabaseSetupException
 	 */
-	private function createDBUser($connection) {
+	private function createDBUser($connection): void {
+		$name = $this->dbUser;
+		$password = $this->dbPassword;
+
 		try {
-			$name = $this->dbUser;
-			$password = $this->dbPassword;
 			// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 			// the anonymous user would take precedence when there is one.
 
-			if ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
-				$query = "CREATE USER '$name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
-				$query = "CREATE USER '$name'@'%' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
+			if ($connection->getDatabasePlatform() instanceof MySQL84Platform) {
+				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH caching_sha2_password BY ?";
+				$connection->executeStatement($query, [$name,$password]);
+				$query = "CREATE USER ?@'%' IDENTIFIED WITH caching_sha2_password BY ?";
+				$connection->executeStatement($query, [$name,$password]);
+			} elseif ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
+				// TODO: Remove this elseif section as soon as MySQL 8.0 is out-of-support (after April 2026)
+				$query = "CREATE USER ?@'localhost' IDENTIFIED WITH mysql_native_password BY ?";
+				$connection->executeStatement($query, [$name,$password]);
+				$query = "CREATE USER ?@'%' IDENTIFIED WITH mysql_native_password BY ?";
+				$connection->executeStatement($query, [$name,$password]);
 			} else {
-				$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
-				$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
+				$query = "CREATE USER ?@'localhost' IDENTIFIED BY ?";
+				$connection->executeStatement($query, [$name,$password]);
+				$query = "CREATE USER ?@'%' IDENTIFIED BY ?";
+				$connection->executeStatement($query, [$name,$password]);
 			}
 		} catch (\Exception $ex) {
 			$this->logger->error('Database user creation failed.', [
@@ -119,7 +127,7 @@ class MySQL extends AbstractDatabase {
 	}
 
 	/**
-	 * @param $username
+	 * @param string $username
 	 * @param IDBConnection $connection
 	 */
 	private function createSpecificUser($username, $connection): void {
@@ -158,6 +166,11 @@ class MySQL extends AbstractDatabase {
 						//use the admin login data for the new database user
 						$this->dbUser = $adminUser;
 						$this->createDBUser($connection);
+						// if sharding is used we need to manually call this for every shard as those also need the user setup!
+						/** @var ConnectionAdapter $connection */
+						foreach ($connection->getInner()->getShardConnections() as $shard) {
+							$this->createDBUser($shard);
+						}
 
 						break;
 					} else {

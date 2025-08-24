@@ -21,7 +21,10 @@ use OCP\Notification\IncompleteNotificationException;
 use OCP\Notification\IncompleteParsedNotificationException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\IPreloadableNotifier;
+use OCP\Notification\NotificationPreloadReason;
 use OCP\Notification\UnknownNotificationException;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Container\ContainerExceptionInterface;
@@ -55,6 +58,7 @@ class Manager implements IManager {
 		protected IRegistry $subscription,
 		protected LoggerInterface $logger,
 		private Coordinator $coordinator,
+		private IRichTextFormatter $richTextFormatter,
 	) {
 		$this->cache = $cacheFactory->createDistributed('notifications');
 
@@ -68,18 +72,26 @@ class Manager implements IManager {
 	}
 	/**
 	 * @param string $appClass The service must implement IApp, otherwise a
-	 *                          \InvalidArgumentException is thrown later
+	 *                         \InvalidArgumentException is thrown later
 	 * @since 17.0.0
 	 */
 	public function registerApp(string $appClass): void {
-		$this->appClasses[] = $appClass;
+		// other apps may want to rely on the 'main' notification app so make it deterministic that
+		// the 'main' notification app adds it's notifications first and removes it's notifications last
+		if ($appClass === \OCA\Notifications\App::class) {
+			// add 'main' notifications app to start of internal list of apps
+			array_unshift($this->appClasses, $appClass);
+		} else {
+			// add app to end of internal list of apps
+			$this->appClasses[] = $appClass;
+		}
 	}
 
 	/**
 	 * @param \Closure $service The service must implement INotifier, otherwise a
 	 *                          \InvalidArgumentException is thrown later
-	 * @param \Closure $info    An array with the keys 'id' and 'name' containing
-	 *                          the app id and the app name
+	 * @param \Closure $info An array with the keys 'id' and 'name' containing
+	 *                       the app id and the app name
 	 * @deprecated 17.0.0 use registerNotifierService instead.
 	 * @since 8.2.0 - Parameter $info was added in 9.0.0
 	 */
@@ -93,7 +105,7 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $notifierService The service must implement INotifier, otherwise a
-	 *                          \InvalidArgumentException is thrown later
+	 *                                \InvalidArgumentException is thrown later
 	 * @since 17.0.0
 	 */
 	public function registerNotifierService(string $notifierService): void {
@@ -199,7 +211,7 @@ class Manager implements IManager {
 	 * @since 8.2.0
 	 */
 	public function createNotification(): INotification {
-		return new Notification($this->validator);
+		return new Notification($this->validator, $this->richTextFormatter);
 	}
 
 	/**
@@ -207,7 +219,9 @@ class Manager implements IManager {
 	 * @since 8.2.0
 	 */
 	public function hasNotifiers(): bool {
-		return !empty($this->notifiers) || !empty($this->notifierClasses);
+		return !empty($this->notifiers)
+			|| !empty($this->notifierClasses)
+			|| (!$this->parsedRegistrationContext && !empty($this->coordinator->getRegistrationContext()->getNotifierServices()));
 	}
 
 	/**
@@ -235,7 +249,7 @@ class Manager implements IManager {
 		$alreadyDeferring = $this->deferPushing;
 		$this->deferPushing = true;
 
-		$apps = $this->getApps();
+		$apps = array_reverse($this->getApps());
 
 		foreach ($apps as $app) {
 			if ($app instanceof IDeferrableApp) {
@@ -250,7 +264,7 @@ class Manager implements IManager {
 	 * @since 20.0.0
 	 */
 	public function flush(): void {
-		$apps = $this->getApps();
+		$apps = array_reverse($this->getApps());
 
 		foreach ($apps as $app) {
 			if (!$app instanceof IDeferrableApp) {
@@ -378,11 +392,26 @@ class Manager implements IManager {
 		return $notification;
 	}
 
+	public function preloadDataForParsing(
+		array $notifications,
+		string $languageCode,
+		NotificationPreloadReason $reason,
+	): void {
+		$notifiers = $this->getNotifiers();
+		foreach ($notifiers as $notifier) {
+			if (!($notifier instanceof IPreloadableNotifier)) {
+				continue;
+			}
+
+			$notifier->preloadDataForParsing($notifications, $languageCode, $reason);
+		}
+	}
+
 	/**
 	 * @param INotification $notification
 	 */
 	public function markProcessed(INotification $notification): void {
-		$apps = $this->getApps();
+		$apps = array_reverse($this->getApps());
 
 		foreach ($apps as $app) {
 			$app->markProcessed($notification);
@@ -394,7 +423,7 @@ class Manager implements IManager {
 	 * @return int
 	 */
 	public function getCount(INotification $notification): int {
-		$apps = $this->getApps();
+		$apps = array_reverse($this->getApps());
 
 		$count = 0;
 		foreach ($apps as $app) {

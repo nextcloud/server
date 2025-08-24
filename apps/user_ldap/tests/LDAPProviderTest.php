@@ -1,21 +1,29 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Tests;
 
+use OC\Config;
 use OC\User\Manager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Group_LDAP;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\IGroupLDAP;
+use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\IUserLDAP;
+use OCA\User_LDAP\LDAPProviderFactory;
 use OCA\User_LDAP\User_LDAP;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IServerContainer;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class LDAPProviderTest
@@ -25,35 +33,29 @@ use OCP\IServerContainer;
  * @package OCA\User_LDAP\Tests
  */
 class LDAPProviderTest extends \Test\TestCase {
-	protected function setUp(): void {
-		parent::setUp();
-	}
-
 	private function getServerMock(IUserLDAP $userBackend, IGroupLDAP $groupBackend) {
 		$server = $this->getMockBuilder('OC\Server')
-			 ->setMethods(['getUserManager', 'getBackends', 'getGroupManager'])
-			 ->setConstructorArgs(['', new \OC\Config(\OC::$configDir)])
-			 ->getMock();
+			->onlyMethods(['getUserManager', 'getGroupManager'])
+			->setConstructorArgs(['', new Config(\OC::$configDir)])
+			->getMock();
 		$server->expects($this->any())
 			->method('getUserManager')
 			->willReturn($this->getUserManagerMock($userBackend));
 		$server->expects($this->any())
 			->method('getGroupManager')
 			->willReturn($this->getGroupManagerMock($groupBackend));
-		$server->expects($this->any())
-			->method($this->anything())
-			->willReturnSelf();
 
 		return $server;
 	}
 
 	private function getUserManagerMock(IUserLDAP $userBackend) {
 		$userManager = $this->getMockBuilder(Manager::class)
-			->setMethods(['getBackends'])
+			->onlyMethods(['getBackends'])
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class),
+				$this->createMock(LoggerInterface::class),
 			])
 			->getMock();
 		$userManager->expects($this->any())
@@ -64,7 +66,7 @@ class LDAPProviderTest extends \Test\TestCase {
 
 	private function getGroupManagerMock(IGroupLDAP $groupBackend) {
 		$groupManager = $this->getMockBuilder('OC\Group\Manager')
-			->setMethods(['getBackends'])
+			->onlyMethods(['getBackends'])
 			->disableOriginalConstructor()
 			->getMock();
 		$groupManager->expects($this->any())
@@ -82,19 +84,19 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 	private function getLDAPProvider(IServerContainer $serverContainer) {
-		$factory = new \OCA\User_LDAP\LDAPProviderFactory($serverContainer);
+		$factory = new LDAPProviderFactory($serverContainer);
 		return $factory->getLDAPProvider();
 	}
 
 
-	public function testGetUserDNUserIDNotFound() {
+	public function testGetUserDNUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
@@ -103,20 +105,25 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getUserDN('nonexisting_user');
 	}
 
-	public function testGetUserDN() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists', 'getLDAPAccess', 'username2dn'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+
+	public function testGetUserDN(): void {
+		$userAccess = $this->getMockBuilder(Access::class)
+			->onlyMethods(['username2dn'])
+			->disableOriginalConstructor()
+			->getMock();
+		$userAccess->expects($this->once())
+			->method('username2dn')
+			->willReturn('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists', 'getLDAPAccess'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->once())
-			->method('username2dn')
-			->willReturn('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
 		$userBackend->expects($this->any())
-			->method($this->anything())
-			->willReturnSelf();
+			->method('getLDAPAccess')
+			->willReturn($userAccess);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
@@ -126,16 +133,13 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testGetGroupDNGroupIDNotFound() {
+	public function testGetGroupDNGroupIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Group id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
-			->setMethods(['groupExists'])
+		$userBackend = $this->createMock(User_LDAP::class);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->onlyMethods(['groupExists'])
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -147,26 +151,24 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getGroupDN('nonexisting_group');
 	}
 
-	public function testGetGroupDN() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->setMethods(['userExists', 'getLDAPAccess', 'username2dn'])
+	public function testGetGroupDN(): void {
+		$userBackend = $this->createMock(User_LDAP::class);
+
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->onlyMethods(['groupExists', 'getLDAPAccess'])
 			->disableOriginalConstructor()
 			->getMock();
 
-		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
-			->setMethods(['groupExists', 'getLDAPAccess', 'groupname2dn'])
-			->disableOriginalConstructor()
-			->getMock();
-
+		$groupAccess = $this->createMock(Access::class);
+		$groupAccess->expects($this->once())
+			->method('groupname2dn')
+			->willReturn('cn=existing_group,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
 		$groupBackend->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
-		$groupBackend->expects($this->once())
-			->method('groupname2dn')
-			->willReturn('cn=existing_group,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
 		$groupBackend->expects($this->any())
-			->method($this->anything())
-			->willReturnSelf();
+			->method('getLDAPAccess')
+			->willReturn($groupAccess);
 
 		$server = $this->getServerMock($userBackend, $groupBackend);
 
@@ -175,11 +177,11 @@ class LDAPProviderTest extends \Test\TestCase {
 			$ldapProvider->getGroupDN('existing_group'));
 	}
 
-	public function testGetUserName() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['dn2UserName'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+	public function testGetUserName(): void {
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['dn2UserName'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->any())
 			->method('dn2UserName')
 			->willReturn('existing_user');
@@ -191,15 +193,12 @@ class LDAPProviderTest extends \Test\TestCase {
 			$ldapProvider->getUserName('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
 	}
 
-	public function testDNasBaseParameter() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods([])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+	public function testDNasBaseParameter(): void {
+		$userBackend = $this->createMock(User_LDAP::class);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
-		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$helper = Server::get(Helper::class);
 
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(
@@ -207,15 +206,12 @@ class LDAPProviderTest extends \Test\TestCase {
 			$ldapProvider->DNasBaseParameter('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
 	}
 
-	public function testSanitizeDN() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods([])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+	public function testSanitizeDN(): void {
+		$userBackend = $this->createMock(User_LDAP::class);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
-		$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$helper = Server::get(Helper::class);
 
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals(
@@ -224,14 +220,11 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testGetLDAPConnectionUserIDNotFound() {
+	public function testGetLDAPConnectionUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+		$userBackend = $this->createMock(User_LDAP::class);
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
@@ -240,11 +233,11 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getLDAPConnection('nonexisting_user');
 	}
 
-	public function testGetLDAPConnection() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists', 'getNewLDAPConnection'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+	public function testGetLDAPConnection(): void {
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists', 'getNewLDAPConnection'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->any())
 			->method('userExists')
 			->willReturn(true);
@@ -260,16 +253,13 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testGetGroupLDAPConnectionGroupIDNotFound() {
+	public function testGetGroupLDAPConnectionGroupIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Group id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
-			->setMethods(['groupExists'])
+		$userBackend = $this->createMock(User_LDAP::class);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->onlyMethods(['groupExists'])
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -281,13 +271,10 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getGroupLDAPConnection('nonexisting_group');
 	}
 
-	public function testGetGroupLDAPConnection() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->disableOriginalConstructor()
-			->getMock();
-
-		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
-			->setMethods(['groupExists','getNewLDAPConnection'])
+	public function testGetGroupLDAPConnection(): void {
+		$userBackend = $this->createMock(User_LDAP::class);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->onlyMethods(['groupExists','getNewLDAPConnection'])
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -307,14 +294,14 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testGetLDAPBaseUsersUserIDNotFound() {
+	public function testGetLDAPBaseUsersUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
@@ -323,14 +310,16 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getLDAPBaseUsers('nonexisting_user');
 	}
 
-	public function testGetLDAPBaseUsers() {
+	public function testGetLDAPBaseUsers(): void {
 		$bases = [
 			'ou=users,ou=foobar,dc=example,dc=org',
 			'ou=users,ou=barfoo,dc=example,dc=org',
 		];
 		$dn = 'uid=malik,' . $bases[1];
 
-		$connection = $this->createMock(Connection::class);
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 		$connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($key) use ($bases) {
@@ -352,10 +341,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('username2dn')
 			->willReturn($dn);
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists', 'getLDAPAccess'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->atLeastOnce())
 			->method('userExists')
 			->willReturn(true);
@@ -370,14 +359,14 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testGetLDAPBaseGroupsUserIDNotFound() {
+	public function testGetLDAPBaseGroupsUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
@@ -386,13 +375,15 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getLDAPBaseGroups('nonexisting_user');
 	}
 
-	public function testGetLDAPBaseGroups() {
+	public function testGetLDAPBaseGroups(): void {
 		$bases = [
 			'ou=groupd,ou=foobar,dc=example,dc=org',
 			'ou=groups,ou=barfoo,dc=example,dc=org',
 		];
 
-		$connection = $this->createMock(Connection::class);
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 		$connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($key) use ($bases) {
@@ -408,10 +399,10 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getConnection')
 			->willReturn($connection);
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists', 'getLDAPAccess'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->any())
 			->method('userExists')
 			->willReturn(true);
@@ -426,14 +417,14 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testClearCacheUserIDNotFound() {
+	public function testClearCacheUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
@@ -442,20 +433,26 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->clearCache('nonexisting_user');
 	}
 
-	public function testClearCache() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'clearCache'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+	public function testClearCache(): void {
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
+		$connection->expects($this->once())
+			->method('clearCache')
+			->willReturn(true);
+		$access = $this->createMock(Access::class);
+		$access->method('getConnection')
+			->willReturn($connection);
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists', 'getLDAPAccess'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->once())
-			->method('clearCache')
-			->willReturn(true);
 		$userBackend->expects($this->any())
-			->method($this->anything())
-			->willReturnSelf();
+			->method('getLDAPAccess')
+			->willReturn($access);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
@@ -465,15 +462,15 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testClearGroupCacheGroupIDNotFound() {
+	public function testClearGroupCacheGroupIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Group id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
-			->setMethods(['groupExists'])
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->onlyMethods(['groupExists'])
 			->disableOriginalConstructor()
 			->getMock();
 		$groupBackend->expects($this->any())->method('groupExists')->willReturn(false);
@@ -484,23 +481,27 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->clearGroupCache('nonexisting_group');
 	}
 
-	public function testClearGroupCache() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->disableOriginalConstructor()
+	public function testClearGroupCache(): void {
+		$userBackend = $this->createMock(User_LDAP::class);
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
 			->getMock();
-		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
-			->setMethods(['groupExists', 'getLDAPAccess', 'getConnection', 'clearCache'])
+		$connection->expects($this->once())
+			->method('clearCache')
+			->willReturn(true);
+		$access = $this->createMock(Access::class);
+		$access->method('getConnection')
+			->willReturn($connection);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->onlyMethods(['groupExists', 'getLDAPAccess'])
 			->disableOriginalConstructor()
 			->getMock();
 		$groupBackend->expects($this->once())
 			->method('groupExists')
 			->willReturn(true);
-		$groupBackend->expects($this->once())
-			->method('clearCache')
-			->willReturn(true);
 		$groupBackend->expects($this->any())
-			->method($this->anything())
-			->willReturnSelf();
+			->method('getLDAPAccess')
+			->willReturn($access);
 
 		$server = $this->getServerMock($userBackend, $groupBackend);
 
@@ -509,11 +510,11 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testDnExists() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods(['dn2UserName'])
-			 ->disableOriginalConstructor()
-			 ->getMock();
+	public function testDnExists(): void {
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['dn2UserName'])
+			->disableOriginalConstructor()
+			->getMock();
 		$userBackend->expects($this->any())
 			->method('dn2UserName')
 			->willReturn('existing_user');
@@ -524,12 +525,8 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->assertTrue($ldapProvider->dnExists('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org'));
 	}
 
-	public function testFlagRecord() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods([])
-			 ->disableOriginalConstructor()
-			 ->getMock();
-
+	public function testFlagRecord(): void {
+		$userBackend = $this->createMock(User_LDAP::class);
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
 		$ldapProvider = $this->getLDAPProvider($server);
@@ -537,12 +534,8 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testUnflagRecord() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			 ->setMethods([])
-			 ->disableOriginalConstructor()
-			 ->getMock();
-
+	public function testUnflagRecord(): void {
+		$userBackend = $this->createMock(User_LDAP::class);
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
 		$ldapProvider = $this->getLDAPProvider($server);
@@ -551,12 +544,12 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testGetLDAPDisplayNameFieldUserIDNotFound() {
+	public function testGetLDAPDisplayNameFieldUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->setMethods(['userExists'])
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists'])
 			->disableOriginalConstructor()
 			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
@@ -567,20 +560,26 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getLDAPDisplayNameField('nonexisting_user');
 	}
 
-	public function testGetLDAPDisplayNameField() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
+	public function testGetLDAPDisplayNameField(): void {
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
+		$connection->expects($this->once())
+			->method('getConfiguration')
+			->willReturn(['ldap_display_name' => 'displayName']);
+		$access = $this->createMock(Access::class);
+		$access->method('getConnection')
+			->willReturn($connection);
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists', 'getLDAPAccess'])
 			->disableOriginalConstructor()
 			->getMock();
 		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->once())
-			->method('getConfiguration')
-			->willReturn(['ldap_display_name' => 'displayName']);
 		$userBackend->expects($this->any())
-			->method($this->anything())
-			->willReturnSelf();
+			->method('getLDAPAccess')
+			->willReturn($access);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
@@ -589,12 +588,12 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testGetLDAPEmailFieldUserIDNotFound() {
+	public function testGetLDAPEmailFieldUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->setMethods(['userExists'])
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists'])
 			->disableOriginalConstructor()
 			->getMock();
 		$userBackend->expects($this->any())->method('userExists')->willReturn(false);
@@ -605,20 +604,26 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getLDAPEmailField('nonexisting_user');
 	}
 
-	public function testGetLDAPEmailField() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->setMethods(['userExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
+	public function testGetLDAPEmailField(): void {
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
+		$connection->expects($this->once())
+			->method('getConfiguration')
+			->willReturn(['ldap_email_attr' => 'mail']);
+		$access = $this->createMock(Access::class);
+		$access->method('getConnection')
+			->willReturn($connection);
+		$userBackend = $this->getMockBuilder(User_LDAP::class)
+			->onlyMethods(['userExists', 'getLDAPAccess'])
 			->disableOriginalConstructor()
 			->getMock();
 		$userBackend->expects($this->once())
 			->method('userExists')
 			->willReturn(true);
-		$userBackend->expects($this->once())
-			->method('getConfiguration')
-			->willReturn(['ldap_email_attr' => 'mail']);
 		$userBackend->expects($this->any())
-			->method($this->anything())
-			->willReturnSelf();
+			->method('getLDAPAccess')
+			->willReturn($access);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
@@ -627,20 +632,19 @@ class LDAPProviderTest extends \Test\TestCase {
 	}
 
 
-	public function testGetLDAPGroupMemberAssocUserIDNotFound() {
+	public function testGetLDAPGroupMemberAssocUserIDNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Group id not found in LDAP');
 
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
+		$userBackend = $this->createMock(User_LDAP::class);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->onlyMethods(['groupExists'])
 			->disableOriginalConstructor()
 			->getMock();
 
-		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
-			->setMethods(['groupExists'])
-			->disableOriginalConstructor()
-			->getMock();
-
-		$groupBackend->expects($this->any())->method('groupExists')->willReturn(false);
+		$groupBackend->expects($this->any())
+			->method('groupExists')
+			->willReturn(false);
 
 		$server = $this->getServerMock($userBackend, $groupBackend);
 
@@ -648,13 +652,20 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getLDAPGroupMemberAssoc('nonexisting_group');
 	}
 
-	public function testgetLDAPGroupMemberAssoc() {
-		$userBackend = $this->getMockBuilder('OCA\User_LDAP\User_LDAP')
-			->disableOriginalConstructor()
-			->getMock();
+	public function testgetLDAPGroupMemberAssoc(): void {
+		$userBackend = $this->createMock(User_LDAP::class);
 
-		$groupBackend = $this->getMockBuilder('OCA\User_LDAP\Group_LDAP')
-			->setMethods(['groupExists', 'getLDAPAccess', 'getConnection', 'getConfiguration'])
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
+		$connection->expects($this->once())
+			->method('getConfiguration')
+			->willReturn(['ldap_group_member_assoc_attribute' => 'assoc_type']);
+		$access = $this->createMock(Access::class);
+		$access->method('getConnection')
+			->willReturn($connection);
+		$groupBackend = $this->getMockBuilder(Group_LDAP::class)
+			->onlyMethods(['groupExists', 'getLDAPAccess'])
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -662,11 +673,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('groupExists')
 			->willReturn(true);
 		$groupBackend->expects($this->any())
-			->method('getConfiguration')
-			->willReturn(['ldap_group_member_assoc_attribute' => 'assoc_type']);
-		$groupBackend->expects($this->any())
-			->method($this->anything())
-			->willReturnSelf();
+			->method('getLDAPAccess')
+			->willReturn($access);
 
 		$server = $this->getServerMock($userBackend, $groupBackend);
 
@@ -674,7 +682,7 @@ class LDAPProviderTest extends \Test\TestCase {
 		$this->assertEquals('assoc_type', $ldapProvider->getLDAPGroupMemberAssoc('existing_group'));
 	}
 
-	public function testGetMultiValueUserAttributeUserNotFound() {
+	public function testGetMultiValueUserAttributeUserNotFound(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('User id not found in LDAP');
 
@@ -690,8 +698,10 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
 	}
 
-	public function testGetMultiValueUserAttributeCacheHit() {
-		$connection = $this->createMock(Connection::class);
+	public function testGetMultiValueUserAttributeCacheHit(): void {
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 		$connection->expects(self::once())
 			->method('getFromCache')
 			->with('admin-mailAlias')
@@ -715,8 +725,10 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider->getMultiValueUserAttribute('admin', 'mailAlias');
 	}
 
-	public function testGetMultiValueUserAttributeLdapError() {
-		$connection = $this->createMock(Connection::class);
+	public function testGetMultiValueUserAttributeLdapError(): void {
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 		$connection->expects(self::once())
 			->method('getFromCache')
 			->with('admin-mailAlias')
@@ -752,8 +764,10 @@ class LDAPProviderTest extends \Test\TestCase {
 		self::assertCount(0, $values);
 	}
 
-	public function testGetMultiValueUserAttribute() {
-		$connection = $this->createMock(Connection::class);
+	public function testGetMultiValueUserAttribute(): void {
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 		$connection->expects(self::once())
 			->method('getFromCache')
 			->with('admin-mailAlias')
@@ -789,8 +803,10 @@ class LDAPProviderTest extends \Test\TestCase {
 		self::assertCount(2, $values);
 	}
 
-	public function testGetUserAttributeLdapError() {
-		$connection = $this->createMock(Connection::class);
+	public function testGetUserAttributeLdapError(): void {
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 		$connection->expects(self::once())
 			->method('getFromCache')
 			->with('admin-mailAlias')
@@ -826,8 +842,10 @@ class LDAPProviderTest extends \Test\TestCase {
 		self::assertNull($value);
 	}
 
-	public function testGetUserAttribute() {
-		$connection = $this->createMock(Connection::class);
+	public function testGetUserAttribute(): void {
+		$connection = $this->getMockBuilder(Connection::class)
+			->setConstructorArgs([$this->createMock(ILDAPWrapper::class)])
+			->getMock();
 		$connection->expects(self::once())
 			->method('getFromCache')
 			->with('admin-mailAlias')

@@ -26,30 +26,15 @@ use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\ISpecificOperation;
 
 abstract class ASettings implements ISettings {
-	private IL10N $l10n;
-	private string $appName;
-	private IEventDispatcher $eventDispatcher;
-	protected Manager $manager;
-	private IInitialState $initialStateService;
-	private IConfig $config;
-	private IURLGenerator $urlGenerator;
-
 	public function __construct(
-		string $appName,
-		IL10N $l,
-		IEventDispatcher $eventDispatcher,
-		Manager $manager,
-		IInitialState $initialStateService,
-		IConfig $config,
-		IURLGenerator $urlGenerator
+		private string $appName,
+		private IL10N $l10n,
+		private IEventDispatcher $eventDispatcher,
+		protected Manager $manager,
+		private IInitialState $initialStateService,
+		private IConfig $config,
+		private IURLGenerator $urlGenerator,
 	) {
-		$this->appName = $appName;
-		$this->l10n = $l;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->manager = $manager;
-		$this->initialStateService = $initialStateService;
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	abstract public function getScope(): int;
@@ -110,8 +95,8 @@ abstract class ASettings implements ISettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

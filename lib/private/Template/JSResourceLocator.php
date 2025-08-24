@@ -26,7 +26,7 @@ class JSResourceLocator extends ResourceLocator {
 	 * @param string $script
 	 */
 	public function doFind($script) {
-		$theme_dir = 'themes/'.$this->theme.'/';
+		$theme_dir = 'themes/' . $this->theme . '/';
 
 		// Extracting the appId and the script file name
 		$app = substr($script, 0, strpos($script, '/'));
@@ -52,29 +52,29 @@ class JSResourceLocator extends ResourceLocator {
 			// For language files we try to load them all, so themes can overwrite
 			// single l10n strings without having to translate all of them.
 			$found = 0;
-			$found += $this->appendScriptIfExist($this->serverroot, 'core/'.$script);
-			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'core/'.$script);
+			$found += $this->appendScriptIfExist($this->serverroot, 'core/' . $script);
+			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir . 'core/' . $script);
 			$found += $this->appendScriptIfExist($this->serverroot, $script);
-			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.$script);
+			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir . $script);
 			$found += $this->appendScriptIfExist($appRoot, $script, $appWebRoot);
-			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'apps/'.$script);
+			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir . 'apps/' . $script);
 
 			if ($found) {
 				return;
 			}
-		} elseif ($this->appendScriptIfExist($this->serverroot, $theme_dir.'apps/'.$script)
-			|| $this->appendScriptIfExist($this->serverroot, $theme_dir.$script)
+		} elseif ($this->appendScriptIfExist($this->serverroot, $theme_dir . 'apps/' . $script)
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir . $script)
 			|| $this->appendScriptIfExist($this->serverroot, $script)
-			|| $this->appendScriptIfExist($this->serverroot, $theme_dir."dist/$app-$scriptName")
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir . "dist/$app-$scriptName")
 			|| $this->appendScriptIfExist($this->serverroot, "dist/$app-$scriptName")
 			|| $this->appendScriptIfExist($appRoot, $script, $appWebRoot)
-			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')
-			|| $this->cacheAndAppendCombineJsonIfExist($appRoot, $script.'.json', $appWebRoot)
-			|| $this->appendScriptIfExist($this->serverroot, $theme_dir.'core/'.$script)
-			|| $this->appendScriptIfExist($this->serverroot, 'core/'.$script)
-			|| (strpos($scriptName, '/') === -1 && ($this->appendScriptIfExist($this->serverroot, $theme_dir."dist/core-$scriptName")
+			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script . '.json')
+			|| $this->cacheAndAppendCombineJsonIfExist($appRoot, $script . '.json', $app)
+			|| $this->appendScriptIfExist($this->serverroot, $theme_dir . 'core/' . $script)
+			|| $this->appendScriptIfExist($this->serverroot, 'core/' . $script)
+			|| (strpos($scriptName, '/') === -1 && ($this->appendScriptIfExist($this->serverroot, $theme_dir . "dist/core-$scriptName")
 				|| $this->appendScriptIfExist($this->serverroot, "dist/core-$scriptName")))
-			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/'.$script.'.json')
+			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, 'core/' . $script . '.json')
 		) {
 			return;
 		}
@@ -108,7 +108,7 @@ class JSResourceLocator extends ResourceLocator {
 	}
 
 	protected function cacheAndAppendCombineJsonIfExist($root, $file, $app = 'core') {
-		if (is_file($root.'/'.$file)) {
+		if (is_file($root . '/' . $file)) {
 			if ($this->jsCombiner->process($root, $file, $app)) {
 				$this->append($this->serverroot, $this->jsCombiner->getCachedJS($app, $file), false, false);
 			} else {

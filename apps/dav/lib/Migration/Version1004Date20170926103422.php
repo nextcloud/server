@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,7 +15,7 @@ class Version1004Date20170926103422 extends BigIntMigration {
 
 	/**
 	 * @return array Returns an array with the following structure
-	 * ['table1' => ['column1', 'column2'], ...]
+	 *               ['table1' => ['column1', 'column2'], ...]
 	 * @since 13.0.0
 	 */
 	protected function getColumnsByTable() {

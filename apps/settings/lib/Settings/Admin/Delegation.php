@@ -17,24 +17,13 @@ use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
 
 class Delegation implements ISettings {
-	private IManager $settingManager;
-	private IInitialState $initialStateService;
-	private IGroupManager $groupManager;
-	private AuthorizedGroupService $authorizedGroupService;
-	private IURLGenerator $urlGenerator;
-
 	public function __construct(
-		IManager $settingManager,
-		IInitialState $initialStateService,
-		IGroupManager $groupManager,
-		AuthorizedGroupService $authorizedGroupService,
-		IURLGenerator $urlGenerator
+		private IManager $settingManager,
+		private IInitialState $initialStateService,
+		private IGroupManager $groupManager,
+		private AuthorizedGroupService $authorizedGroupService,
+		private IURLGenerator $urlGenerator,
 	) {
-		$this->settingManager = $settingManager;
-		$this->initialStateService = $initialStateService;
-		$this->groupManager = $groupManager;
-		$this->authorizedGroupService = $authorizedGroupService;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**

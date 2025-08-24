@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<ul class="sharing-sharee-list">
+	<ul class="sharing-sharee-list" :aria-label="t('files_sharing', 'Shares')">
 		<SharingEntry v-for="share in shares"
 			:key="share.id"
 			:file-info="fileInfo"
@@ -15,10 +15,10 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
+import { t } from '@nextcloud/l10n'
 import SharingEntry from '../components/SharingEntry.vue'
-import ShareTypes from '../mixins/ShareTypes.js'
 import ShareDetails from '../mixins/ShareDetails.js'
+import { ShareType } from '@nextcloud/sharing'
 
 export default {
 	name: 'SharingList',
@@ -27,7 +27,7 @@ export default {
 		SharingEntry,
 	},
 
-	mixins: [ShareTypes, ShareDetails],
+	mixins: [ShareDetails],
 
 	props: {
 		fileInfo: {
@@ -41,6 +41,12 @@ export default {
 			required: true,
 		},
 	},
+
+	setup() {
+		return {
+			t,
+		}
+	},
 	computed: {
 		hasShares() {
 			return this.shares.length === 0
@@ -48,7 +54,7 @@ export default {
 		isUnique() {
 			return (share) => {
 				return [...this.shares].filter((item) => {
-					return share.type === this.SHARE_TYPES.SHARE_TYPE_USER && share.shareWithDisplayName === item.shareWithDisplayName
+					return share.type === ShareType.User && share.shareWithDisplayName === item.shareWithDisplayName
 				}).length <= 1
 			}
 		},

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,19 +17,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateConfig extends Command {
 	public const SUPPORTED_KEYS = [
-		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color', 'primary_color', 'disable-user-theming'
+		'name', 'url', 'imprintUrl', 'privacyUrl', 'slogan', 'color', 'primary_color', 'background_color', 'disable-user-theming'
 	];
 
-	private $themingDefaults;
-	private $imageManager;
-	private $config;
-
-	public function __construct(ThemingDefaults $themingDefaults, ImageManager $imageManager, IConfig $config) {
+	public function __construct(
+		private ThemingDefaults $themingDefaults,
+		private ImageManager $imageManager,
+		private IConfig $config,
+	) {
 		parent::__construct();
-
-		$this->themingDefaults = $themingDefaults;
-		$this->imageManager = $imageManager;
-		$this->config = $config;
 	}
 
 	protected function configure() {
@@ -38,8 +35,8 @@ class UpdateConfig extends Command {
 			->addArgument(
 				'key',
 				InputArgument::OPTIONAL,
-				'Key to update the theming app configuration (leave empty to get a list of all configured values)' . PHP_EOL .
-				'One of: ' . implode(', ', self::SUPPORTED_KEYS)
+				'Key to update the theming app configuration (leave empty to get a list of all configured values)' . PHP_EOL
+				. 'One of: ' . implode(', ', self::SUPPORTED_KEYS)
 			)
 			->addArgument(
 				'value',
@@ -111,9 +108,9 @@ class UpdateConfig extends Command {
 			$value = $this->imageManager->updateImage($key, $value);
 			$key = $key . 'Mime';
 		}
-	
+
 		if ($key === 'color') {
-			$output->writeln('<warning>Using "color" is depreacted, use "primary_color" instead');
+			$output->writeln('<comment>Using "color" is deprecated, use "primary_color" instead</comment>');
 			$key = 'primary_color';
 		}
 

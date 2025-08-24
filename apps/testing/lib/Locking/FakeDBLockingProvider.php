@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -21,7 +22,7 @@ class FakeDBLockingProvider extends DBLockingProvider {
 
 	public function __construct(
 		IDBConnection $connection,
-		ITimeFactory $timeFactory
+		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($connection, $timeFactory);
 		$this->db = $connection;

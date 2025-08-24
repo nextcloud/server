@@ -13,11 +13,11 @@ OC.L10N.register(
     "Client Identifier" : "Bezeroaren Identifikadorea",
     "Secret key" : "Gako sekretua",
     "Delete client" : "Ezabatu bezeroa",
+    "Make sure you store the secret key, it cannot be recovered." : "Ziurtatu gako sekretua gordetzen duzula, ezin da berreskuratu.",
     "Add client" : "Gehitu bezeroa",
     "Add" : "Gehitu",
-    "Delete" : "Ezabatu",
     "Show client secret" : "Erakutsi bezeroaren sekretua",
     "Hide client secret" : "Ezkutatu bezeroaren sekretua",
-    "Secret" : "Sekretua"
+    "Delete" : "Ezabatu"
 },
 "nplurals=2; plural=(n != 1);");

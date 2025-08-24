@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,6 +10,8 @@ namespace Test\Lockdown\Filesystem;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Files\Filesystem;
 use OC\Lockdown\Filesystem\NullStorage;
+use OCP\Authentication\Token\IToken;
+use OCP\Server;
 use Test\Traits\UserTrait;
 
 /**
@@ -20,9 +23,9 @@ class NoFSTest extends \Test\TestCase {
 	protected function tearDown(): void {
 		$token = new PublicKeyToken();
 		$token->setScope([
-			'filesystem' => true
+			IToken::SCOPE_FILESYSTEM => true
 		]);
-		\OC::$server->get('LockdownManager')->setToken($token);
+		Server::get('LockdownManager')->setToken($token);
 		parent::tearDown();
 	}
 
@@ -30,14 +33,14 @@ class NoFSTest extends \Test\TestCase {
 		parent::setUp();
 		$token = new PublicKeyToken();
 		$token->setScope([
-			'filesystem' => false
+			IToken::SCOPE_FILESYSTEM => false
 		]);
 
-		\OC::$server->get('LockdownManager')->setToken($token);
+		Server::get('LockdownManager')->setToken($token);
 		$this->createUser('foo', 'var');
 	}
 
-	public function testSetupFS() {
+	public function testSetupFS(): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS('foo');
 

@@ -1,15 +1,20 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\DAV;
+namespace OCA\DAV\Tests\unit\DAV;
 
+use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\DAV\CustomPropertiesBackend;
+use OCA\DAV\Db\PropertyMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
-use Sabre\CalDAV\ICalendar;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -26,20 +31,13 @@ use Test\TestCase;
 class CustomPropertiesBackendTest extends TestCase {
 	private const BASE_URI = '/remote.php/dav/';
 
-	/** @var Server | \PHPUnit\Framework\MockObject\MockObject */
-	private $server;
-
-	/** @var Tree | \PHPUnit\Framework\MockObject\MockObject */
-	private $tree;
-
-	/** @var  IDBConnection */
-	private $dbConnection;
-
-	/** @var IUser | \PHPUnit\Framework\MockObject\MockObject */
-	private $user;
-
-	/** @var CustomPropertiesBackend | \PHPUnit\Framework\MockObject\MockObject */
-	private $backend;
+	private Server&MockObject $server;
+	private Tree&MockObject $tree;
+	private IDBConnection $dbConnection;
+	private IUser&MockObject $user;
+	private DefaultCalendarValidator&MockObject $defaultCalendarValidator;
+	private CustomPropertiesBackend $backend;
+	private PropertyMapper $propertyMapper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -52,13 +50,17 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->user->method('getUID')
 			->with()
 			->willReturn('dummy_user_42');
-		$this->dbConnection = \OC::$server->getDatabaseConnection();
+		$this->dbConnection = \OCP\Server::get(IDBConnection::class);
+		$this->propertyMapper = \OCP\Server::get(PropertyMapper::class);
+		$this->defaultCalendarValidator = $this->createMock(DefaultCalendarValidator::class);
 
 		$this->backend = new CustomPropertiesBackend(
 			$this->server,
 			$this->tree,
 			$this->dbConnection,
 			$this->user,
+			$this->propertyMapper,
+			$this->defaultCalendarValidator,
 		);
 	}
 
@@ -78,13 +80,13 @@ class CustomPropertiesBackendTest extends TestCase {
 		}
 	}
 
-	protected function insertProps(string $user, string $path, array $props) {
+	protected function insertProps(string $user, string $path, array $props): void {
 		foreach ($props as $name => $value) {
 			$this->insertProp($user, $path, $name, $value);
 		}
 	}
 
-	protected function insertProp(string $user, string $path, string $name, mixed $value) {
+	protected function insertProp(string $user, string $path, string $name, mixed $value): void {
 		$type = CustomPropertiesBackend::PROPERTY_TYPE_STRING;
 		if ($value instanceof Href) {
 			$value = $value->getHref();
@@ -103,7 +105,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$query->execute();
 	}
 
-	protected function getProps(string $user, string $path) {
+	protected function getProps(string $user, string $path): array {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->select('propertyname', 'propertyvalue', 'valuetype')
 			->from('properties')
@@ -131,6 +133,8 @@ class CustomPropertiesBackendTest extends TestCase {
 			$this->tree,
 			$db,
 			$this->user,
+			$this->propertyMapper,
+			$this->defaultCalendarValidator,
 		);
 
 		$propFind = $this->createMock(PropFind::class);
@@ -195,7 +199,7 @@ class CustomPropertiesBackendTest extends TestCase {
 	public function testPropFindPrincipalCall(): void {
 		$this->tree->method('getNodeForPath')
 			->willReturnCallback(function ($uri) {
-				$node = $this->createMock(ICalendar::class);
+				$node = $this->createMock(Calendar::class);
 				$node->method('getOwner')
 					->willReturn('principals/users/dummy_user_42');
 				return $node;
@@ -237,26 +241,26 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals($props, $setProps);
 	}
 
-	public function propFindPrincipalScheduleDefaultCalendarProviderUrlProvider(): array {
+	public static function propFindPrincipalScheduleDefaultCalendarProviderUrlProvider(): array {
 		// [ user, nodes, existingProps, requestedProps, returnedProps ]
 		return [
 			[ // Exists
 				'dummy_user_42',
-				['calendars/dummy_user_42/foo/' => ICalendar::class],
+				['calendars/dummy_user_42/foo/' => Calendar::class],
 				['{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL' => new Href('calendars/dummy_user_42/foo/')],
 				['{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL'],
 				['{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL' => new Href('calendars/dummy_user_42/foo/')],
 			],
 			[ // Doesn't exist
 				'dummy_user_42',
-				['calendars/dummy_user_42/foo/' => ICalendar::class],
+				['calendars/dummy_user_42/foo/' => Calendar::class],
 				['{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL' => new Href('calendars/dummy_user_42/bar/')],
 				['{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL'],
 				[],
 			],
 			[ // No privilege
 				'dummy_user_42',
-				['calendars/user2/baz/' => ICalendar::class],
+				['calendars/user2/baz/' => Calendar::class],
 				['{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL' => new Href('calendars/user2/baz/')],
 				['{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL'],
 				[],
@@ -272,9 +276,7 @@ class CustomPropertiesBackendTest extends TestCase {
 
 	}
 
-	/**
-	 * @dataProvider propFindPrincipalScheduleDefaultCalendarProviderUrlProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('propFindPrincipalScheduleDefaultCalendarProviderUrlProvider')]
 	public function testPropFindPrincipalScheduleDefaultCalendarUrl(
 		string $user,
 		array $nodes,
@@ -336,9 +338,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals($returnedProps, $setProps);
 	}
 
-	/**
-	 * @dataProvider propPatchProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('propPatchProvider')]
 	public function testPropPatch(string $path, array $existing, array $props, array $result): void {
 		$this->server->method('calculateUri')
 			->willReturnCallback(function ($uri) {
@@ -349,7 +349,7 @@ class CustomPropertiesBackendTest extends TestCase {
 			});
 		$this->tree->method('getNodeForPath')
 			->willReturnCallback(function ($uri) {
-				$node = $this->createMock(ICalendar::class);
+				$node = $this->createMock(Calendar::class);
 				$node->method('getOwner')
 					->willReturn('principals/users/' . $this->user->getUID());
 				return $node;
@@ -365,7 +365,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals($result, $storedProps);
 	}
 
-	public function propPatchProvider() {
+	public static function propPatchProvider(): array {
 		$longPath = str_repeat('long_path', 100);
 		return [
 			['foo_bar_path_1337', [], ['{DAV:}displayname' => 'anything'], ['{DAV:}displayname' => 'anything']],
@@ -377,25 +377,63 @@ class CustomPropertiesBackendTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider deleteProvider
-	 */
+	public function testPropPatchWithUnsuitableCalendar(): void {
+		$path = 'principals/users/' . $this->user->getUID();
+
+		$node = $this->createMock(Calendar::class);
+		$node->expects(self::once())
+			->method('getOwner')
+			->willReturn($path);
+
+		$this->defaultCalendarValidator->expects(self::once())
+			->method('validateScheduleDefaultCalendar')
+			->with($node)
+			->willThrowException(new \Sabre\DAV\Exception('Invalid calendar'));
+
+		$this->server->method('calculateUri')
+			->willReturnCallback(function ($uri) {
+				if (str_starts_with($uri, self::BASE_URI)) {
+					return trim(substr($uri, strlen(self::BASE_URI)), '/');
+				}
+				return null;
+			});
+		$this->tree->expects(self::once())
+			->method('getNodeForPath')
+			->with('foo/bar/')
+			->willReturn($node);
+
+		$storedProps = $this->getProps($this->user->getUID(), $path);
+		$this->assertEquals([], $storedProps);
+
+		$propPatch = new PropPatch([
+			'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL' => new Href('foo/bar/'),
+		]);
+		$this->backend->propPatch($path, $propPatch);
+		try {
+			$propPatch->commit();
+		} catch (\Throwable $e) {
+			$this->assertInstanceOf(\Sabre\DAV\Exception::class, $e);
+		}
+
+		$storedProps = $this->getProps($this->user->getUID(), $path);
+		$this->assertEquals([], $storedProps);
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('deleteProvider')]
 	public function testDelete(string $path): void {
 		$this->insertProps('dummy_user_42', $path, ['foo' => 'bar']);
 		$this->backend->delete($path);
 		$this->assertEquals([], $this->getProps('dummy_user_42', $path));
 	}
 
-	public function deleteProvider() {
+	public static function deleteProvider(): array {
 		return [
 			['foo_bar_path_1337'],
 			[str_repeat('long_path', 100)]
 		];
 	}
 
-	/**
-	 * @dataProvider moveProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('moveProvider')]
 	public function testMove(string $source, string $target): void {
 		$this->insertProps('dummy_user_42', $source, ['foo' => 'bar']);
 		$this->backend->move($source, $target);
@@ -403,10 +441,26 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->assertEquals(['foo' => 'bar'], $this->getProps('dummy_user_42', $target));
 	}
 
-	public function moveProvider() {
+	public static function moveProvider(): array {
 		return [
 			['foo_bar_path_1337', 'foo_bar_path_7333'],
 			[str_repeat('long_path1', 100), str_repeat('long_path2', 100)]
 		];
+	}
+
+	public function testDecodeValueFromDatabaseObjectCurrent(): void {
+		$propertyValue = 'O:48:"Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp":1:{s:8:"\x00*\x00value";s:6:"opaque";}';
+		$propertyType = 3;
+		$decodeValue = $this->invokePrivate($this->backend, 'decodeValueFromDatabase', [$propertyValue, $propertyType]);
+		$this->assertInstanceOf(\Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp::class, $decodeValue);
+		$this->assertEquals('opaque', $decodeValue->getValue());
+	}
+
+	public function testDecodeValueFromDatabaseObjectLegacy(): void {
+		$propertyValue = 'O:48:"Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp":1:{s:8:"' . chr(0) . '*' . chr(0) . 'value";s:6:"opaque";}';
+		$propertyType = 3;
+		$decodeValue = $this->invokePrivate($this->backend, 'decodeValueFromDatabase', [$propertyValue, $propertyType]);
+		$this->assertInstanceOf(\Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp::class, $decodeValue);
+		$this->assertEquals('opaque', $decodeValue->getValue());
 	}
 }

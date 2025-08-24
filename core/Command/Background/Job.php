@@ -10,6 +10,8 @@ namespace OC\Core\Command\Background;
 
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\QueuedJob;
+use OCP\BackgroundJob\TimedJob;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,7 +44,7 @@ class Job extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$jobId = (int) $input->getArgument('job-id');
+		$jobId = (int)$input->getArgument('job-id');
 
 		$job = $this->jobList->getById($jobId);
 		if ($job === null) {
@@ -75,7 +77,7 @@ class Job extends Command {
 			$output->writeln('<info>Job executed!</info>');
 			$output->writeln('');
 
-			if ($job instanceof \OCP\BackgroundJob\TimedJob) {
+			if ($job instanceof TimedJob) {
 				$this->printJobInfo($jobId, $job, $output);
 			}
 		} else {
@@ -90,19 +92,19 @@ class Job extends Command {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
-		$lastRun->setTimestamp((int) $row['last_run']);
+		$lastRun->setTimestamp((int)$row['last_run']);
 		$lastChecked = new \DateTime();
-		$lastChecked->setTimestamp((int) $row['last_checked']);
+		$lastChecked->setTimestamp((int)$row['last_checked']);
 		$reservedAt = new \DateTime();
-		$reservedAt->setTimestamp((int) $row['reserved_at']);
+		$reservedAt->setTimestamp((int)$row['reserved_at']);
 
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
 
-		$isTimedJob = $job instanceof \OCP\BackgroundJob\TimedJob;
+		$isTimedJob = $job instanceof TimedJob;
 		if ($isTimedJob) {
 			$output->writeln('Type:                 timed');
-		} elseif ($job instanceof \OCP\BackgroundJob\QueuedJob) {
+		} elseif ($job instanceof QueuedJob) {
 			$output->writeln('Type:                 queued');
 		} else {
 			$output->writeln('Type:                 job');
@@ -110,7 +112,7 @@ class Job extends Command {
 
 		$output->writeln('');
 		$output->writeln('Last checked:         ' . $lastChecked->format(\DateTimeInterface::ATOM));
-		if ((int) $row['reserved_at'] === 0) {
+		if ((int)$row['reserved_at'] === 0) {
 			$output->writeln('Reserved at:          -');
 		} else {
 			$output->writeln('Reserved at:          <comment>' . $reservedAt->format(\DateTimeInterface::ATOM) . '</comment>');

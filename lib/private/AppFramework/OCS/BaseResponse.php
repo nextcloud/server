@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,10 +12,10 @@ use OCP\AppFramework\Http\Response;
 
 /**
  * @psalm-import-type DataResponseType from DataResponse
- * @template S of int
+ * @template S of Http::STATUS_*
  * @template-covariant T of DataResponseType
  * @template H of array<string, mixed>
- * @template-extends Response<int, array<string, mixed>>
+ * @template-extends Response<Http::STATUS_*, array<string, mixed>>
  */
 abstract class BaseResponse extends Response {
 	/** @var array */
@@ -83,9 +84,9 @@ abstract class BaseResponse extends Response {
 	 */
 	protected function renderResult(array $meta): string {
 		$status = $this->getStatus();
-		if ($status === Http::STATUS_NO_CONTENT ||
-			$status === Http::STATUS_NOT_MODIFIED ||
-			($status >= 100 && $status <= 199)) {
+		if ($status === Http::STATUS_NO_CONTENT
+			|| $status === Http::STATUS_NOT_MODIFIED
+			|| ($status >= 100 && $status <= 199)) {
 			// Those status codes are not supposed to have a body:
 			// https://stackoverflow.com/q/8628725
 			return '';
@@ -99,7 +100,7 @@ abstract class BaseResponse extends Response {
 		];
 
 		if ($this->format === 'json') {
-			return json_encode($response, JSON_HEX_TAG);
+			return $this->toJson($response);
 		}
 
 		$writer = new \XMLWriter();
@@ -109,6 +110,14 @@ abstract class BaseResponse extends Response {
 		$this->toXML($response, $writer);
 		$writer->endDocument();
 		return $writer->outputMemory(true);
+	}
+
+	/**
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-taint-escape html
+	 */
+	protected function toJson(array $array): string {
+		return \json_encode($array, \JSON_HEX_TAG);
 	}
 
 	protected function toXML(array $array, \XMLWriter $writer): void {
@@ -133,7 +142,9 @@ abstract class BaseResponse extends Response {
 				$v = [];
 			}
 
-			if (\is_array($v)) {
+			if ($k === '$comment') {
+				$writer->writeComment($v);
+			} elseif (\is_array($v)) {
 				$writer->startElement($k);
 				$this->toXML($v, $writer);
 				$writer->endElement();
@@ -141,8 +152,10 @@ abstract class BaseResponse extends Response {
 				$writer->startElement($k);
 				$this->toXML($v->jsonSerialize(), $writer);
 				$writer->endElement();
+			} elseif ($v === null) {
+				$writer->writeElement($k);
 			} else {
-				$writer->writeElement($k, $v);
+				$writer->writeElement($k, (string)$v);
 			}
 		}
 	}

@@ -24,7 +24,7 @@ class SecureRandom implements ISecureRandom {
 	 * Generate a secure random string of specified length.
 	 * @param int $length The length of the generated string
 	 * @param string $characters An optional list of characters to use if no character list is
-	 * 							specified all valid base64 characters are used.
+	 *                           specified all valid base64 characters are used.
 	 * @throws \LengthException if an invalid length is requested
 	 */
 	public function generate(

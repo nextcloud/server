@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -23,470 +24,475 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 		$this->contentSecurityPolicy = new EmptyContentSecurityPolicy();
 	}
 
-	public function testGetPolicyDefault() {
+	public function testGetPolicyDefault(): void {
 		$defaultPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 		$this->assertSame($defaultPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyScriptDomainValid() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyScriptDomainValid(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedScriptDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyScriptDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src www.owncloud.com www.owncloud.org;frame-ancestors 'none'";
+	public function testGetPolicyScriptDomainValidMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedScriptDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->addAllowedScriptDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowScriptDomain() {
+	public function testGetPolicyDisallowScriptDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedScriptDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowScriptDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowScriptDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowScriptDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyDisallowScriptDomainMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedScriptDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowScriptDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowScriptDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowScriptDomainMultipleStacked() {
+	public function testGetPolicyDisallowScriptDomainMultipleStacked(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedScriptDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowScriptDomain('www.owncloud.org')->disallowScriptDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowScriptDomain('www.nextcloud.org')->disallowScriptDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyScriptAllowEval() {
+	public function testGetPolicyScriptAllowEval(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src  'unsafe-eval';frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->allowEvalScript(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyScriptAllowWasmEval() {
+	public function testGetPolicyScriptAllowWasmEval(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src  'wasm-unsafe-eval';frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->allowEvalWasm(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyStyleDomainValid() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyStyleDomainValid(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedStyleDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedStyleDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyStyleDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src www.owncloud.com www.owncloud.org;frame-ancestors 'none'";
+	public function testGetPolicyStyleDomainValidMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedStyleDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->addAllowedStyleDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedStyleDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedStyleDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowStyleDomain() {
+	public function testGetPolicyDisallowStyleDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedStyleDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowStyleDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedStyleDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowStyleDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowStyleDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyDisallowStyleDomainMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedStyleDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowStyleDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedStyleDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowStyleDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowStyleDomainMultipleStacked() {
+	public function testGetPolicyDisallowStyleDomainMultipleStacked(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedStyleDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowStyleDomain('www.owncloud.org')->disallowStyleDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedStyleDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowStyleDomain('www.nextcloud.org')->disallowStyleDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyStyleAllowInline() {
+	public function testGetPolicyStyleAllowInline(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src  'unsafe-inline';frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->allowInlineStyle(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyStyleAllowInlineWithDomain() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src www.owncloud.com 'unsafe-inline';frame-ancestors 'none'";
+	public function testGetPolicyStyleAllowInlineWithDomain(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';style-src www.nextcloud.com 'unsafe-inline';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedStyleDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedStyleDomain('www.nextcloud.com');
 		$this->contentSecurityPolicy->allowInlineStyle(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyStyleDisallowInline() {
+	public function testGetPolicyStyleDisallowInline(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->allowInlineStyle(false);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyImageDomainValid() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';img-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyImageDomainValid(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';img-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedImageDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedImageDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyImageDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';img-src www.owncloud.com www.owncloud.org;frame-ancestors 'none'";
+	public function testGetPolicyImageDomainValidMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';img-src www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedImageDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->addAllowedImageDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedImageDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedImageDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowImageDomain() {
+	public function testGetPolicyDisallowImageDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedImageDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowImageDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedImageDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowImageDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowImageDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';img-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyDisallowImageDomainMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';img-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedImageDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowImageDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedImageDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowImageDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowImageDomainMultipleStakes() {
+	public function testGetPolicyDisallowImageDomainMultipleStakes(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedImageDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowImageDomain('www.owncloud.org')->disallowImageDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedImageDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowImageDomain('www.nextcloud.org')->disallowImageDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyFontDomainValid() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';font-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyFontDomainValid(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';font-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFontDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedFontDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyFontDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';font-src www.owncloud.com www.owncloud.org;frame-ancestors 'none'";
+	public function testGetPolicyFontDomainValidMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';font-src www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFontDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->addAllowedFontDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedFontDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedFontDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowFontDomain() {
+	public function testGetPolicyDisallowFontDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFontDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowFontDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedFontDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowFontDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowFontDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';font-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyDisallowFontDomainMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';font-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFontDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowFontDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedFontDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowFontDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowFontDomainMultipleStakes() {
+	public function testGetPolicyDisallowFontDomainMultipleStakes(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFontDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowFontDomain('www.owncloud.org')->disallowFontDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedFontDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowFontDomain('www.nextcloud.org')->disallowFontDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyConnectDomainValid() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';connect-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyConnectDomainValid(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';connect-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedConnectDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedConnectDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyConnectDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';connect-src www.owncloud.com www.owncloud.org;frame-ancestors 'none'";
+	public function testGetPolicyConnectDomainValidMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';connect-src www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedConnectDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->addAllowedConnectDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedConnectDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedConnectDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowConnectDomain() {
+	public function testGetPolicyDisallowConnectDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedConnectDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowConnectDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedConnectDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowConnectDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowConnectDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';connect-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyDisallowConnectDomainMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';connect-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedConnectDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowConnectDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedConnectDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowConnectDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowConnectDomainMultipleStakes() {
+	public function testGetPolicyDisallowConnectDomainMultipleStakes(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedConnectDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowConnectDomain('www.owncloud.org')->disallowConnectDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedConnectDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowConnectDomain('www.nextcloud.org')->disallowConnectDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyMediaDomainValid() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';media-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyMediaDomainValid(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';media-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedMediaDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedMediaDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyMediaDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';media-src www.owncloud.com www.owncloud.org;frame-ancestors 'none'";
+	public function testGetPolicyMediaDomainValidMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';media-src www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedMediaDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->addAllowedMediaDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedMediaDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedMediaDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowMediaDomain() {
+	public function testGetPolicyDisallowMediaDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedMediaDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowMediaDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedMediaDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowMediaDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowMediaDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';media-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyDisallowMediaDomainMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';media-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedMediaDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowMediaDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedMediaDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowMediaDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowMediaDomainMultipleStakes() {
+	public function testGetPolicyDisallowMediaDomainMultipleStakes(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedMediaDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowMediaDomain('www.owncloud.org')->disallowMediaDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedMediaDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowMediaDomain('www.nextcloud.org')->disallowMediaDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyObjectDomainValid() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';object-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyObjectDomainValid(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';object-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedObjectDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedObjectDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyObjectDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';object-src www.owncloud.com www.owncloud.org;frame-ancestors 'none'";
+	public function testGetPolicyObjectDomainValidMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';object-src www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedObjectDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->addAllowedObjectDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedObjectDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedObjectDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowObjectDomain() {
+	public function testGetPolicyDisallowObjectDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedObjectDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowObjectDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedObjectDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowObjectDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowObjectDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';object-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyDisallowObjectDomainMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';object-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedObjectDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowObjectDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedObjectDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowObjectDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowObjectDomainMultipleStakes() {
+	public function testGetPolicyDisallowObjectDomainMultipleStakes(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedObjectDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowObjectDomain('www.owncloud.org')->disallowObjectDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedObjectDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowObjectDomain('www.nextcloud.org')->disallowObjectDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetAllowedFrameDomain() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetAllowedFrameDomain(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedFrameDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyFrameDomainValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.owncloud.com www.owncloud.org;frame-ancestors 'none'";
+	public function testGetPolicyFrameDomainValidMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedFrameDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedFrameDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowFrameDomain() {
+	public function testGetPolicyDisallowFrameDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowFrameDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedFrameDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowFrameDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowFrameDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyDisallowFrameDomainMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowFrameDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedFrameDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowFrameDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowFrameDomainMultipleStakes() {
+	public function testGetPolicyDisallowFrameDomainMultipleStakes(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedFrameDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowFrameDomain('www.owncloud.org')->disallowFrameDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedFrameDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowFrameDomain('www.nextcloud.org')->disallowFrameDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetAllowedChildSrcDomain() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';child-src child.owncloud.com;frame-ancestors 'none'";
+	public function testGetAllowedChildSrcDomain(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';child-src child.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyChildSrcValidMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';child-src child.owncloud.com child.owncloud.org;frame-ancestors 'none'";
+	public function testGetPolicyChildSrcValidMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';child-src child.nextcloud.com child.nextcloud.org;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.owncloud.com');
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.nextcloud.com');
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('child.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowChildSrcDomain() {
+	public function testGetPolicyDisallowChildSrcDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowChildSrcDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowChildSrcDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowChildSrcDomainMultiple() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';child-src www.owncloud.com;frame-ancestors 'none'";
+	public function testGetPolicyDisallowChildSrcDomainMultiple(): void {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';child-src www.nextcloud.com;frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowChildSrcDomain('www.owncloud.org');
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowChildSrcDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyDisallowChildSrcDomainMultipleStakes() {
+	public function testGetPolicyDisallowChildSrcDomainMultipleStakes(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.owncloud.com');
-		$this->contentSecurityPolicy->disallowChildSrcDomain('www.owncloud.org')->disallowChildSrcDomain('www.owncloud.com');
+		$this->contentSecurityPolicy->addAllowedChildSrcDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->disallowChildSrcDomain('www.nextcloud.org')->disallowChildSrcDomain('www.nextcloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyWithJsNonceAndScriptDomains() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-TXlKc05vbmNl' www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
+	public function testGetPolicyWithJsNonceAndScriptDomains(): void {
+		$nonce = base64_encode('MyJsNonce');
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-$nonce' www.nextcloud.com www.nextcloud.org;frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
-		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->contentSecurityPolicy->useJsNonce($nonce);
 		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.org');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyWithJsNonceAndStrictDynamic() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-TXlKc05vbmNl' www.nextcloud.com;frame-ancestors 'none'";
+	public function testGetPolicyWithJsNonceAndStrictDynamic(): void {
+		$nonce = base64_encode('MyJsNonce');
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-$nonce' www.nextcloud.com;frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
 		$this->contentSecurityPolicy->useStrictDynamic(true);
-		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->contentSecurityPolicy->useJsNonce($nonce);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyWithJsNonceAndStrictDynamicAndStrictDynamicOnScripts() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-TXlKc05vbmNl' www.nextcloud.com;frame-ancestors 'none'";
+	public function testGetPolicyWithJsNonceAndStrictDynamicAndStrictDynamicOnScripts(): void {
+		$nonce = base64_encode('MyJsNonce');
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-$nonce' www.nextcloud.com;frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
 		$this->contentSecurityPolicy->useStrictDynamic(true);
 		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
-		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->contentSecurityPolicy->useJsNonce($nonce);
 		// Should be same as `testGetPolicyWithJsNonceAndStrictDynamic` because of fallback
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyWithJsNonceAndStrictDynamicOnScripts() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-TXlKc05vbmNl' www.nextcloud.com;script-src-elem 'strict-dynamic' 'nonce-TXlKc05vbmNl' www.nextcloud.com;frame-ancestors 'none'";
+	public function testGetPolicyWithJsNonceAndStrictDynamicOnScripts(): void {
+		$nonce = base64_encode('MyJsNonce');
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-$nonce' www.nextcloud.com;script-src-elem 'strict-dynamic' 'nonce-$nonce' www.nextcloud.com;frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
 		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
-		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->contentSecurityPolicy->useJsNonce($nonce);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyWithStrictDynamicOnScripts() {
+	public function testGetPolicyWithStrictDynamicOnScripts(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyWithJsNonceAndSelfScriptDomain() {
-		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-TXlKc05vbmNl';frame-ancestors 'none'";
+	public function testGetPolicyWithJsNonceAndSelfScriptDomain(): void {
+		$nonce = base64_encode('MyJsNonce');
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-$nonce';frame-ancestors 'none'";
 
-		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->contentSecurityPolicy->useJsNonce($nonce);
 		$this->contentSecurityPolicy->addAllowedScriptDomain("'self'");
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyWithoutJsNonceAndSelfScriptDomain() {
+	public function testGetPolicyWithoutJsNonceAndSelfScriptDomain(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';frame-ancestors 'none'";
 
 		$this->contentSecurityPolicy->addAllowedScriptDomain("'self'");
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyWithReportUri() {
+	public function testGetPolicyWithReportUri(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none';report-uri https://my-report-uri.com";
 
-		$this->contentSecurityPolicy->addReportTo("https://my-report-uri.com");
+		$this->contentSecurityPolicy->addReportTo('https://my-report-uri.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 
-	public function testGetPolicyWithMultipleReportUri() {
+	public function testGetPolicyWithMultipleReportUri(): void {
 		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none';report-uri https://my-report-uri.com https://my-other-report-uri.com";
 
-		$this->contentSecurityPolicy->addReportTo("https://my-report-uri.com");
-		$this->contentSecurityPolicy->addReportTo("https://my-other-report-uri.com");
+		$this->contentSecurityPolicy->addReportTo('https://my-report-uri.com');
+		$this->contentSecurityPolicy->addReportTo('https://my-other-report-uri.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 }

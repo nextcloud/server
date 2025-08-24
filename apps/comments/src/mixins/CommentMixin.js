@@ -7,6 +7,8 @@ import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
 import NewComment from '../services/NewComment.js'
 import DeleteComment from '../services/DeleteComment.js'
 import EditComment from '../services/EditComment.js'
+import { mapStores } from 'pinia'
+import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
 import logger from '../logger.js'
 
 export default {
@@ -37,6 +39,10 @@ export default {
 		}
 	},
 
+	computed: {
+		...mapStores(useDeletedCommentLimbo),
+	},
+
 	methods: {
 		// EDITION
 		onEdit() {
@@ -64,11 +70,14 @@ export default {
 
 		// DELETION
 		onDeleteWithUndo() {
+			this.$emit('delete')
 			this.deleted = true
+			this.deletedCommentLimboStore.addId(this.id)
 			const timeOutDelete = setTimeout(this.onDelete, TOAST_UNDO_TIMEOUT)
 			showUndo(t('comments', 'Comment deleted'), () => {
 				clearTimeout(timeOutDelete)
 				this.deleted = false
+				this.deletedCommentLimboStore.removeId(this.id)
 			})
 		},
 		async onDelete() {
@@ -80,6 +89,7 @@ export default {
 				showError(t('comments', 'An error occurred while trying to delete the comment'))
 				console.error(error)
 				this.deleted = false
+				this.deletedCommentLimboStore.removeId(this.id)
 			}
 		},
 

@@ -10,29 +10,24 @@ use OC\Settings\AuthorizedGroup;
 use OCA\Settings\Controller\AuthorizedGroupController;
 use OCA\Settings\Service\AuthorizedGroupService;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class DelegationControllerTest extends TestCase {
-
-	/** @var AuthorizedGroupService */
-	private $service;
-
-	/** @var IRequest */
-	private $request;
-
-	/** @var AuthorizedGroupController */
-	private $controller;
+	private AuthorizedGroupService&MockObject $service;
+	private IRequest&MockObject $request;
+	private AuthorizedGroupController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
-		$this->service = $this->getMockBuilder(AuthorizedGroupService::class)->disableOriginalConstructor()->getMock();
+		$this->request = $this->createMock(IRequest::class);
+		$this->service = $this->createMock(AuthorizedGroupService::class);
 		$this->controller = new AuthorizedGroupController(
 			'settings', $this->request, $this->service
 		);
 	}
 
-	public function testSaveSettings() {
+	public function testSaveSettings(): void {
 		$setting = 'MySecretSetting';
 		$oldGroups = [];
 		$oldGroups[] = AuthorizedGroup::fromParams(['groupId' => 'hello', 'class' => $setting]);
@@ -41,7 +36,7 @@ class DelegationControllerTest extends TestCase {
 		$this->service->expects($this->once())
 			->method('findExistingGroupsForClass')
 			->with('MySecretSetting')
-			->will($this->returnValue($oldGroups));
+			->willReturn($oldGroups);
 
 		$this->service->expects($this->once())
 			->method('delete')
@@ -50,7 +45,7 @@ class DelegationControllerTest extends TestCase {
 		$this->service->expects($this->once())
 			->method('create')
 			->with('world', 'MySecretSetting')
-			->will($this->returnValue(AuthorizedGroup::fromParams(['groupId' => 'world', 'class' => $setting])));
+			->willReturn(AuthorizedGroup::fromParams(['groupId' => 'world', 'class' => $setting]));
 
 		$result = $this->controller->saveSettings([['gid' => 'hello'], ['gid' => 'world']], 'MySecretSetting');
 

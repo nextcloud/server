@@ -31,14 +31,14 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
 import { colord } from 'colord'
-import { debounce } from 'debounce'
 import { defineComponent } from 'vue'
-
 import axios from '@nextcloud/axios'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import IconColorPalette from 'vue-material-design-icons/Palette.vue'
+import debounce from 'debounce'
+
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import IconColorPalette from 'vue-material-design-icons/PaletteOutline.vue'
 import IconUndo from 'vue-material-design-icons/UndoVariant.vue'
 
 const { primaryColor, defaultPrimaryColor } = loadState('theming', 'data', { primaryColor: '#0082c9', defaultPrimaryColor: '#0082c9' })
@@ -69,20 +69,30 @@ export default defineComponent({
 		},
 
 		debouncedOnUpdate() {
-			return debounce(this.onUpdate, 500)
+			return debounce(this.onUpdate, 1000)
 		},
 	},
 
 	methods: {
 		t,
 
+		numberToHex(numeric: string) {
+			const parsed = Number.parseInt(numeric)
+			return parsed.toString(16).padStart(2, '0')
+		},
+
 		/**
 		 * Global styles are reloaded so we might need to update the current value
 		 */
 		reload() {
 			const trigger = this.$refs.trigger as HTMLButtonElement
-			const newColor = window.getComputedStyle(trigger).backgroundColor
-			if (newColor.toLowerCase() !== this.primaryColor) {
+			let newColor = window.getComputedStyle(trigger).backgroundColor
+			// sometimes the browser returns the color in the "rgb(255, 132, 234)" format
+			const rgbMatch = newColor.replaceAll(/\s/g, '').match(/^rgba?\((\d+),(\d+),(\d+)/)
+			if (rgbMatch) {
+				newColor = `#${this.numberToHex(rgbMatch[1])}${this.numberToHex(rgbMatch[2])}${this.numberToHex(rgbMatch[3])}`
+			}
+			if (newColor.toLowerCase() !== this.primaryColor.toLowerCase()) {
 				this.primaryColor = newColor
 			}
 		},

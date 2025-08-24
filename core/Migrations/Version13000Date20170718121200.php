@@ -1,11 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Migrations;
 
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\IDBConnection;
@@ -124,10 +124,12 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['user_id', 'root_id', 'mount_point'], 'mounts_user_root_path_index', [], ['lengths' => [null, null, 128]]);
 		} else {
 			$table = $schema->getTable('mounts');
-			$table->addColumn('mount_id', Types::BIGINT, [
-				'notnull' => false,
-				'length' => 20,
-			]);
+			if (!$table->hasColumn('mount_id')) {
+				$table->addColumn('mount_id', Types::BIGINT, [
+					'notnull' => false,
+					'length' => 20,
+				]);
+			}
 			if (!$table->hasIndex('mounts_mount_id_index')) {
 				$table->addIndex(['mount_id'], 'mounts_mount_id_index');
 			}
@@ -238,7 +240,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['name'], 'fs_name_hash');
 			$table->addIndex(['mtime'], 'fs_mtime');
 			$table->addIndex(['size'], 'fs_size');
-			if (!$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
+			if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_POSTGRES) {
 				$table->addIndex(['storage', 'path'], 'fs_storage_path_prefix', [], ['lengths' => [null, 64]]);
 			}
 		}
@@ -656,6 +658,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['uid'], 'uid_index');
 			$table->addIndex(['type'], 'type_index');
 			$table->addIndex(['category'], 'category_index');
+			$table->addUniqueIndex(['uid', 'type', 'category'], 'unique_category_per_user');
 		}
 
 		if (!$schema->hasTable('vcategory_to_object')) {
@@ -729,6 +732,10 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['objecttype', 'objectid', 'systemtagid'], 'som_pk');
 			//			$table->addUniqueIndex(['objecttype', 'objectid', 'systemtagid'], 'mapping');
 			$table->addIndex(['systemtagid', 'objecttype'], 'systag_by_tagid');
+			// systag_by_objectid was added later and might be missing in older deployments
+			$table->addIndex(['objectid'], 'systag_by_objectid');
+			// systag_objecttype was added later and might be missing in older deployments
+			$table->addIndex(['objecttype'], 'systag_objecttype');
 		}
 
 		if (!$schema->hasTable('systemtag_group')) {
@@ -1012,9 +1019,9 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
 			preg_match('/(calendar)\/([A-z0-9-@_]+)\//', $row['propertypath'], $match);
-			$insert->setParameter('propertypath', (string) $row['propertypath'])
-				->setParameter('propertyname', (string) $row['propertyname'])
-				->setParameter('propertyvalue', (string) $row['propertyvalue'])
+			$insert->setParameter('propertypath', (string)$row['propertypath'])
+				->setParameter('propertyname', (string)$row['propertyname'])
+				->setParameter('propertyvalue', (string)$row['propertyvalue'])
 				->setParameter('userid', ($match[2] ?? ''));
 			$insert->execute();
 		}

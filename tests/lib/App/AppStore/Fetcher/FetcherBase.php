@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -59,7 +60,7 @@ abstract class FetcherBase extends TestCase {
 		$this->registry = $this->createMock(IRegistry::class);
 	}
 
-	public function testGetWithAlreadyExistingFileAndUpToDateTimestampAndVersion() {
+	public function testGetWithAlreadyExistingFileAndUpToDateTimestampAndVersion(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -100,7 +101,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithNotExistingFileAndUpToDateTimestampAndVersion() {
+	public function testGetWithNotExistingFileAndUpToDateTimestampAndVersion(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -175,7 +176,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithAlreadyExistingFileAndOutdatedTimestamp() {
+	public function testGetWithAlreadyExistingFileAndOutdatedTimestamp(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -249,7 +250,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithAlreadyExistingFileAndNoVersion() {
+	public function testGetWithAlreadyExistingFileAndNoVersion(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -322,7 +323,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithAlreadyExistingFileAndOutdatedVersion() {
+	public function testGetWithAlreadyExistingFileAndOutdatedVersion(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -394,7 +395,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetWithExceptionInClient() {
+	public function testGetWithExceptionInClient(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnArgument(1);
 		$this->config->method('getSystemValueBool')
@@ -430,7 +431,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame([], $this->fetcher->get());
 	}
 
-	public function testGetMatchingETag() {
+	public function testGetMatchingETag(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -509,7 +510,7 @@ abstract class FetcherBase extends TestCase {
 		$this->assertSame($expected, $this->fetcher->get());
 	}
 
-	public function testGetNoMatchingETag() {
+	public function testGetNoMatchingETag(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -594,7 +595,7 @@ abstract class FetcherBase extends TestCase {
 	}
 
 
-	public function testFetchAfterUpgradeNoETag() {
+	public function testFetchAfterUpgradeNoETag(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {

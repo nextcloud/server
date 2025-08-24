@@ -34,8 +34,9 @@ class GuestAvatarTest extends TestCase {
 	 */
 	public function setupGuestAvatar() {
 		/* @var MockObject|LoggerInterface $logger */
-		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->guestAvatar = new GuestAvatar('einstein', $logger);
+		$logger = $this->createMock(LoggerInterface::class);
+		$config = $this->createMock(\OCP\IConfig::class);
+		$this->guestAvatar = new GuestAvatar('einstein', $config, $logger);
 	}
 
 	/**
@@ -44,7 +45,7 @@ class GuestAvatarTest extends TestCase {
 	 * For the test a static name "einstein" is used and
 	 * the generated image is compared with an expected one.
 	 */
-	public function testGet() {
+	public function testGet(): void {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 		$avatar = $this->guestAvatar->getFile(32);
 		self::assertInstanceOf(InMemoryFile::class, $avatar);
@@ -59,7 +60,7 @@ class GuestAvatarTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testIsCustomAvatar() {
+	public function testIsCustomAvatar(): void {
 		self::assertFalse($this->guestAvatar->isCustomAvatar());
 	}
 }

@@ -10,9 +10,15 @@ namespace OCA\Provisioning_API\Controller;
 
 use OC\AppConfig;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
+use OC\Config\ConfigManager;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\Config\ValueType;
+use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -32,6 +38,8 @@ class AppConfigController extends OCSController {
 		private IL10N $l10n,
 		private IGroupManager $groupManager,
 		private IManager $settingManager,
+		private IAppManager $appManager,
+		private readonly ConfigManager $configManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -39,7 +47,7 @@ class AppConfigController extends OCSController {
 	/**
 	 * Get a list of apps
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{data: string[]}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{data: list<string>}, array{}>
 	 *
 	 * 200: Apps returned
 	 */
@@ -53,7 +61,7 @@ class AppConfigController extends OCSController {
 	 * Get the config keys of an app
 	 *
 	 * @param string $app ID of the app
-	 * @return DataResponse<Http::STATUS_OK, array{data: string[]}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{data: list<string>}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
 	 *
 	 * 200: Keys returned
 	 * 403: App is not allowed
@@ -93,24 +101,24 @@ class AppConfigController extends OCSController {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
 	 * @NoSubAdminRequired
-	 * @NoAdminRequired
 	 *
 	 * Update the config value of an app
 	 *
 	 * @param string $app ID of the app
 	 * @param string $key Key to update
 	 * @param string $value New value for the key
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
 	 *
 	 * 200: Value updated successfully
 	 * 403: App or key is not allowed
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function setValue(string $app, string $key, string $value): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			throw new \Exception("User is not logged in."); // Should not happen, since method is guarded by middleware
+			throw new \Exception('User is not logged in.'); // Should not happen, since method is guarded by middleware
 		}
 
 		if (!$this->isAllowedToChangedKey($user, $app, $key)) {
@@ -124,23 +132,45 @@ class AppConfigController extends OCSController {
 			return new DataResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_FORBIDDEN);
 		}
 
+		$type = null;
+
+		// checking expected type from lexicon
+		$keyDetails = $this->appConfig->getKeyDetails($app, $key);
+		if (array_key_exists('valueType', $keyDetails)) {
+			$type = $keyDetails['valueType'];
+		} else {
+			// if no details from lexicon, get from eventual current value in database
+			try {
+				$configDetails = $this->appConfig->getDetails($app, $key);
+				$type = $configDetails['type'];
+			} catch (AppConfigUnknownKeyException) {
+			}
+		}
+
 		/** @psalm-suppress InternalMethod */
-		$this->appConfig->setValueMixed($app, $key, $value);
+		match ($type) {
+			IAppConfig::VALUE_BOOL, ValueType::BOOL => $this->appConfig->setValueBool($app, $key, $this->configManager->convertToBool($value)),
+			IAppConfig::VALUE_FLOAT, ValueType::FLOAT => $this->appConfig->setValueFloat($app, $key, $this->configManager->convertToFloat($value)),
+			IAppConfig::VALUE_INT, ValueType::INT => $this->appConfig->setValueInt($app, $key, $this->configManager->convertToInt($value)),
+			IAppConfig::VALUE_STRING, ValueType::STRING => $this->appConfig->setValueString($app, $key, $value),
+			IAppConfig::VALUE_ARRAY, ValueType::ARRAY => $this->appConfig->setValueArray($app, $key, $this->configManager->convertToArray($value)),
+			default => $this->appConfig->setValueMixed($app, $key, $value),
+		};
+
 		return new DataResponse();
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * Delete a config key of an app
 	 *
 	 * @param string $app ID of the app
 	 * @param string $key Key to delete
-	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array{data: array{message: string}}, array{}>
 	 *
 	 * 200: Key deleted successfully
 	 * 403: App or key is not allowed
 	 */
+	#[PasswordConfirmationRequired]
 	public function deleteKey(string $app, string $key): DataResponse {
 		try {
 			$this->verifyAppId($app);
@@ -154,11 +184,10 @@ class AppConfigController extends OCSController {
 	}
 
 	/**
-	 * @param string $app
 	 * @throws \InvalidArgumentException
 	 */
-	protected function verifyAppId(string $app) {
-		if (\OC_App::cleanAppId($app) !== $app) {
+	protected function verifyAppId(string $app): void {
+		if ($this->appManager->cleanAppId($app) !== $app) {
 			throw new \InvalidArgumentException('Invalid app id given');
 		}
 	}

@@ -13,6 +13,7 @@ use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -27,43 +28,29 @@ use OCP\UserStatus\IUserStatus;
  */
 class HeartbeatController extends OCSController {
 
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var StatusService */
-	private $service;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IEventDispatcher $eventDispatcher,
-		IUserSession $userSession,
-		ITimeFactory $timeFactory,
-		StatusService $service) {
+		private IEventDispatcher $eventDispatcher,
+		private IUserSession $userSession,
+		private ITimeFactory $timeFactory,
+		private StatusService $service,
+	) {
 		parent::__construct($appName, $request);
-		$this->eventDispatcher = $eventDispatcher;
-		$this->userSession = $userSession;
-		$this->timeFactory = $timeFactory;
-		$this->service = $service;
 	}
 
 	/**
 	 * Keep the status alive
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param string $status Only online, away
 	 *
-	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NO_CONTENT, list<empty>, array{}>
+	 *
 	 * 200: Status successfully updated
 	 * 204: User has no status to keep alive
 	 * 400: Invalid status to update
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/heartbeat')]
 	public function heartbeat(string $status): DataResponse {
 		if (!\in_array($status, [IUserStatus::ONLINE, IUserStatus::AWAY], true)) {

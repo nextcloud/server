@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,34 +13,20 @@ use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;
-use OCP\IConfig;
-use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class User_ProxyTest extends TestCase {
-	/** @var Helper|MockObject */
-	protected $helper;
-	/** @var ILDAPWrapper|MockObject */
-	private $ldapWrapper;
-	/** @var AccessFactory|MockObject */
-	private $accessFactory;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var INotificationManager|MockObject */
-	private $notificationManager;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var User_Proxy|MockObject */
-	private $proxy;
-	/** @var UserPluginManager|MockObject */
-	private $userPluginManager;
-	/** @var LoggerInterface|MockObject */
-	protected $logger;
-	/** @var DeletedUsersIndex|MockObject */
-	protected $deletedUsersIndex;
+	protected Helper&MockObject $helper;
+	private ILDAPWrapper&MockObject $ldapWrapper;
+	private AccessFactory&MockObject $accessFactory;
+	private INotificationManager&MockObject $notificationManager;
+	private User_Proxy&MockObject $proxy;
+	private UserPluginManager&MockObject $userPluginManager;
+	protected LoggerInterface&MockObject $logger;
+	protected DeletedUsersIndex&MockObject $deletedUsersIndex;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -46,9 +34,7 @@ class User_ProxyTest extends TestCase {
 		$this->helper = $this->createMock(Helper::class);
 		$this->ldapWrapper = $this->createMock(ILDAPWrapper::class);
 		$this->accessFactory = $this->createMock(AccessFactory::class);
-		$this->config = $this->createMock(IConfig::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
-		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userPluginManager = $this->createMock(UserPluginManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->deletedUsersIndex = $this->createMock(DeletedUsersIndex::class);
@@ -57,18 +43,16 @@ class User_ProxyTest extends TestCase {
 				$this->helper,
 				$this->ldapWrapper,
 				$this->accessFactory,
-				$this->config,
 				$this->notificationManager,
-				$this->userSession,
 				$this->userPluginManager,
 				$this->logger,
 				$this->deletedUsersIndex,
 			])
-			->setMethods(['handleRequest'])
+			->onlyMethods(['handleRequest'])
 			->getMock();
 	}
 
-	public function testSetPassword() {
+	public function testSetPassword(): void {
 		$this->proxy
 			->expects($this->once())
 			->method('handleRequest')
@@ -78,7 +62,7 @@ class User_ProxyTest extends TestCase {
 		$this->assertTrue($this->proxy->setPassword('MyUid', 'MyPassword'));
 	}
 
-	public function testSetDisplayName() {
+	public function testSetDisplayName(): void {
 		$this->proxy
 			->expects($this->once())
 			->method('handleRequest')
@@ -88,7 +72,7 @@ class User_ProxyTest extends TestCase {
 		$this->assertTrue($this->proxy->setDisplayName('MyUid', 'MyPassword'));
 	}
 
-	public function testCreateUser() {
+	public function testCreateUser(): void {
 		$this->proxy
 			->expects($this->once())
 			->method('handleRequest')

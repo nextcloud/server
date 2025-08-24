@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -85,11 +86,11 @@ class ListCommand extends Base {
 				$output->writeln('[]');
 			} else {
 				if ($userId === self::ALL) {
-					$output->writeln("<info>No mounts configured</info>");
+					$output->writeln('<info>No mounts configured</info>');
 				} elseif ($userId) {
 					$output->writeln("<info>No mounts configured by $userId</info>");
 				} else {
-					$output->writeln("<info>No admin mounts configured</info>");
+					$output->writeln('<info>No admin mounts configured</info>');
 				}
 			}
 			return;

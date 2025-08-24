@@ -16,6 +16,11 @@ namespace OCP;
  */
 interface ICache {
 	/**
+	 * @since 30.0.0
+	 */
+	public const DEFAULT_TTL = 24 * 60 * 60;
+
+	/**
 	 * Get a value from the user cache
 	 * @param string $key
 	 * @return mixed

@@ -13,7 +13,7 @@ namespace OCP\Files\Template;
  */
 final class TemplateFileCreator implements \JsonSerializable {
 	protected $appId;
-	/** @var string[] $mimetypes */
+	/** @var list<string> $mimetypes */
 	protected $mimetypes = [];
 	protected $actionName;
 	protected $fileExtension;
@@ -34,7 +34,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 	 * @since 21.0.0
 	 */
 	public function __construct(
-		string $appId, string $actionName, string $fileExtension
+		string $appId, string $actionName, string $fileExtension,
 	) {
 		$this->appId = $appId;
 		$this->actionName = $actionName;
@@ -121,7 +121,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 
 	/**
 	 * @since 21.0.0
-	 * @return array{app: string, label: string, extension: string, iconClass: ?string, iconSvgInline: ?string, mimetypes: string[], ratio: ?float, actionLabel: string}
+	 * @return array{app: string, label: string, extension: string, iconClass: ?string, iconSvgInline: ?string, mimetypes: list<string>, ratio: ?float, actionLabel: string}
 	 */
 	public function jsonSerialize(): array {
 		return [

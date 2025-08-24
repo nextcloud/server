@@ -33,10 +33,19 @@ interface ITemplateManager {
 	/**
 	 * Get a list of available file creators and their offered templates
 	 *
-	 * @return array
+	 * @return list<array{app: string, label: string, extension: string, iconClass: ?string, iconSvgInline: ?string, mimetypes: list<string>, ratio: ?float, actionLabel: string, templates: list<Template>}>
 	 * @since 21.0.0
 	 */
 	public function listTemplates(): array;
+
+	/**
+	 * Get the fields for a given template
+	 *
+	 * @param int $fileId
+	 * @return array
+	 * @since 32.0.0
+	 */
+	public function listTemplateFields(int $fileId): array;
 
 	/**
 	 * @return bool
@@ -67,9 +76,11 @@ interface ITemplateManager {
 	/**
 	 * @param string $filePath
 	 * @param string $templateId
+	 * @param string $templateType
+	 * @param array $templateFields Since 30.0.0
 	 * @return array
 	 * @throws GenericFileException
 	 * @since 21.0.0
 	 */
-	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user'): array;
+	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user', array $templateFields = []): array;
 }

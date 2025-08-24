@@ -1,16 +1,18 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\Db;
 
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
 use OCP\DB\Types;
+use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -53,7 +55,7 @@ class ConvertFilecacheBigInt extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$schema = new SchemaWrapper($this->connection);
-		$isSqlite = $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
+		$isSqlite = $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE;
 		$updates = [];
 
 		$tables = static::getColumnsByTable();
@@ -89,6 +91,7 @@ class ConvertFilecacheBigInt extends Command {
 		$output->writeln('<comment>This can take up to hours, depending on the number of files in your instance!</comment>');
 
 		if ($input->isInteractive()) {
+			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
 			$question = new ConfirmationQuestion('Continue with the conversion (y/n)? [n] ', false);
 

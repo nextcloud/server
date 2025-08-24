@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace lib\Authentication\TwoFactorAuth;
 
+use OC\Authentication\Exceptions\InvalidProviderException;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OC\Authentication\TwoFactorAuth\ProviderManager;
 use OCP\Authentication\TwoFactorAuth\IActivatableByAdmin;
@@ -41,15 +42,15 @@ class ProviderManagerTest extends TestCase {
 		);
 	}
 
-	
-	public function testTryEnableInvalidProvider() {
-		$this->expectException(\OC\Authentication\Exceptions\InvalidProviderException::class);
+
+	public function testTryEnableInvalidProvider(): void {
+		$this->expectException(InvalidProviderException::class);
 
 		$user = $this->createMock(IUser::class);
 		$this->providerManager->tryEnableProviderFor('none', $user);
 	}
 
-	public function testTryEnableUnsupportedProvider() {
+	public function testTryEnableUnsupportedProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$this->providerLoader->expects($this->once())
@@ -66,7 +67,7 @@ class ProviderManagerTest extends TestCase {
 		$this->assertFalse($res);
 	}
 
-	public function testTryEnableProvider() {
+	public function testTryEnableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IActivatableByAdmin::class);
 		$this->providerLoader->expects($this->once())
@@ -87,15 +88,15 @@ class ProviderManagerTest extends TestCase {
 		$this->assertTrue($res);
 	}
 
-	
-	public function testTryDisableInvalidProvider() {
-		$this->expectException(\OC\Authentication\Exceptions\InvalidProviderException::class);
+
+	public function testTryDisableInvalidProvider(): void {
+		$this->expectException(InvalidProviderException::class);
 
 		$user = $this->createMock(IUser::class);
 		$this->providerManager->tryDisableProviderFor('none', $user);
 	}
 
-	public function testTryDisableUnsupportedProvider() {
+	public function testTryDisableUnsupportedProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$this->providerLoader->expects($this->once())
@@ -112,7 +113,7 @@ class ProviderManagerTest extends TestCase {
 		$this->assertFalse($res);
 	}
 
-	public function testTryDisableProvider() {
+	public function testTryDisableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IDeactivatableByAdmin::class);
 		$this->providerLoader->expects($this->once())

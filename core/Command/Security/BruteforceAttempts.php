@@ -50,11 +50,11 @@ class BruteforceAttempts extends Base {
 			'bypass-listed' => $this->throttler->isBypassListed($ip),
 			'attempts' => $this->throttler->getAttempts(
 				$ip,
-				(string) $input->getArgument('action'),
+				(string)$input->getArgument('action'),
 			),
 			'delay' => $this->throttler->getDelay(
 				$ip,
-				(string) $input->getArgument('action'),
+				(string)$input->getArgument('action'),
 			),
 		];
 

@@ -4,6 +4,9 @@
  */
 import { Node, registerDavProperty } from '@nextcloud/files'
 
+/**
+ *
+ */
 export function initLivePhotos(): void {
 	registerDavProperty('nc:metadata-files-live-photo', { nc: 'http://nextcloud.org/ns' })
 }

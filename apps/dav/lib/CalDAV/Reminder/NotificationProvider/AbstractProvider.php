@@ -29,31 +29,18 @@ abstract class AbstractProvider implements INotificationProvider {
 	/** @var string */
 	public const NOTIFICATION_TYPE = '';
 
-	protected LoggerInterface $logger;
-
-	/** @var L10NFactory */
-	protected $l10nFactory;
-
 	/** @var IL10N[] */
 	private $l10ns;
 
 	/** @var string */
 	private $fallbackLanguage;
 
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
-	/** @var IConfig */
-	protected $config;
-
-	public function __construct(LoggerInterface $logger,
-		L10NFactory $l10nFactory,
-		IURLGenerator $urlGenerator,
-		IConfig $config) {
-		$this->logger = $logger;
-		$this->l10nFactory = $l10nFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->config = $config;
+	public function __construct(
+		protected LoggerInterface $logger,
+		protected L10NFactory $l10nFactory,
+		protected IURLGenerator $urlGenerator,
+		protected IConfig $config,
+	) {
 	}
 
 	/**
@@ -113,7 +100,7 @@ abstract class AbstractProvider implements INotificationProvider {
 	 */
 	private function getStatusOfEvent(VEvent $vevent):string {
 		if ($vevent->STATUS) {
-			return (string) $vevent->STATUS;
+			return (string)$vevent->STATUS;
 		}
 
 		// Doesn't say so in the standard,

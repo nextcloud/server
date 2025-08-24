@@ -8,13 +8,11 @@
 			:input-id="inputId"
 			:readable="birthdate.readable" />
 
-		<template>
-			<NcDateTimePickerNative :id="inputId"
-				type="date"
-				label=""
-				:value="value"
-				@input="onInput" />
-		</template>
+		<NcDateTimePickerNative :id="inputId"
+			type="date"
+			label=""
+			:value="value"
+			@input="onInput" />
 
 		<p class="property__helper-text-message">
 			{{ t('settings', 'Enter your date of birth') }}
@@ -23,15 +21,15 @@
 </template>
 
 <script>
-import HeaderBar from './shared/HeaderBar.vue'
-import AccountPropertySection from './shared/AccountPropertySection.vue'
+import { loadState } from '@nextcloud/initial-state'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
-import { NcDateTimePickerNative } from '@nextcloud/vue'
-import debounce from 'debounce'
 import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService'
 import { handleError } from '../../utils/handlers'
-import AlertCircle from 'vue-material-design-icons/AlertCircleOutline.vue'
-import { loadState } from '@nextcloud/initial-state'
+
+import debounce from 'debounce'
+
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import HeaderBar from './shared/HeaderBar.vue'
 
 const { birthdate } = loadState('settings', 'personalInfoParameters', {})
 
@@ -39,8 +37,6 @@ export default {
 	name: 'BirthdaySection',
 
 	components: {
-		AlertCircle,
-		AccountPropertySection,
 		NcDateTimePickerNative,
 		HeaderBar,
 	},
@@ -68,13 +64,13 @@ export default {
 			get() {
 				return new Date(this.birthdate.value)
 			},
-			/** @param {Date} value */
+			/** @param {Date} value The date to set */
 			set(value) {
 				const day = value.getDate().toString().padStart(2, '0')
 				const month = (value.getMonth() + 1).toString().padStart(2, '0')
 				const year = value.getFullYear()
 				this.birthdate.value = `${year}-${month}-${day}`
-			}
+			},
 		},
 	},
 
@@ -122,7 +118,7 @@ export default {
 section {
 	padding: 10px 10px;
 
-	&::v-deep button:disabled {
+	:deep(button:disabled) {
 		cursor: default;
 	}
 

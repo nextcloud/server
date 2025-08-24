@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,6 +16,7 @@ use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\EventDispatcher\GenericEvent as APIGenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\Node\AbstractNodeEvent;
 use OCP\Files\Events\Node\AbstractNodesEvent;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
@@ -32,6 +34,7 @@ use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\Node;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Test\TestCase;
@@ -49,7 +52,7 @@ class HookConnectorTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
 
-	/** @var IEventDispatcher  */
+	/** @var IEventDispatcher */
 	protected $eventDispatcher;
 
 	private LoggerInterface $logger;
@@ -79,15 +82,15 @@ class HookConnectorTest extends TestCase {
 		$this->root = new Root(
 			Filesystem::getMountManager(),
 			$this->view,
-			\OC::$server->getUserManager()->get($this->userId),
-			\OC::$server->getUserMountCache(),
+			Server::get(IUserManager::class)->get($this->userId),
+			Server::get(IUserMountCache::class),
 			$this->createMock(LoggerInterface::class),
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),
 			$cacheFactory,
 		);
-		$this->eventDispatcher = \OC::$server->query(IEventDispatcher::class);
-		$this->logger = \OC::$server->query(LoggerInterface::class);
+		$this->eventDispatcher = Server::get(IEventDispatcher::class);
+		$this->logger = Server::get(LoggerInterface::class);
 	}
 
 	protected function tearDown(): void {
@@ -96,51 +99,51 @@ class HookConnectorTest extends TestCase {
 		\OC_Util::tearDownFS();
 	}
 
-	public function viewToNodeProvider() {
+	public static function viewToNodeProvider(): array {
 		return [
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
 			}, 'preWrite', '\OCP\Files::preWrite', BeforeNodeWrittenEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
 			}, 'postWrite', '\OCP\Files::postWrite', NodeWrittenEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
 			}, 'preCreate', '\OCP\Files::preCreate', BeforeNodeCreatedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
 			}, 'postCreate', '\OCP\Files::postCreate', NodeCreatedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::mkdir('test.txt');
 			}, 'preCreate', '\OCP\Files::preCreate', BeforeNodeCreatedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::mkdir('test.txt');
 			}, 'postCreate', '\OCP\Files::postCreate', NodeCreatedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::touch('test.txt');
 			}, 'preTouch', '\OCP\Files::preTouch', BeforeNodeTouchedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::touch('test.txt');
 			}, 'postTouch', '\OCP\Files::postTouch', NodeTouchedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::touch('test.txt');
 			}, 'preCreate', '\OCP\Files::preCreate', BeforeNodeCreatedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::touch('test.txt');
 			}, 'postCreate', '\OCP\Files::postCreate', NodeCreatedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
 				Filesystem::unlink('test.txt');
 			}, 'preDelete', '\OCP\Files::preDelete', BeforeNodeDeletedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('test.txt', 'asd');
 				Filesystem::unlink('test.txt');
 			}, 'postDelete', '\OCP\Files::postDelete', NodeDeletedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::mkdir('test.txt');
 				Filesystem::rmdir('test.txt');
 			}, 'preDelete', '\OCP\Files::preDelete', BeforeNodeDeletedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::mkdir('test.txt');
 				Filesystem::rmdir('test.txt');
 			}, 'postDelete', '\OCP\Files::postDelete', NodeDeletedEvent::class],
@@ -150,16 +153,16 @@ class HookConnectorTest extends TestCase {
 	/**
 	 * @param callable $operation
 	 * @param string $expectedHook
-	 * @dataProvider viewToNodeProvider
 	 */
-	public function testViewToNode(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('viewToNodeProvider')]
+	public function testViewToNode(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
 		/** @var Node $hookNode */
 		$hookNode = null;
 
-		$this->root->listen('\OC\Files', $expectedHook, function ($node) use (&$hookNode, &$hookCalled) {
+		$this->root->listen('\OC\Files', $expectedHook, function ($node) use (&$hookNode, &$hookCalled): void {
 			$hookCalled = true;
 			$hookNode = $node;
 		});
@@ -167,7 +170,7 @@ class HookConnectorTest extends TestCase {
 		$dispatcherCalled = false;
 		/** @var Node $dispatcherNode */
 		$dispatcherNode = null;
-		$this->eventDispatcher->addListener($expectedLegacyEvent, function ($event) use (&$dispatcherCalled, &$dispatcherNode) {
+		$this->eventDispatcher->addListener($expectedLegacyEvent, function ($event) use (&$dispatcherCalled, &$dispatcherNode): void {
 			/** @var GenericEvent|APIGenericEvent $event */
 			$dispatcherCalled = true;
 			$dispatcherNode = $event->getSubject();
@@ -175,7 +178,7 @@ class HookConnectorTest extends TestCase {
 
 		$newDispatcherCalled = false;
 		$newDispatcherNode = null;
-		$this->eventDispatcher->addListener($expectedEvent, function ($event) use ($expectedEvent, &$newDispatcherCalled, &$newDispatcherNode) {
+		$this->eventDispatcher->addListener($expectedEvent, function ($event) use ($expectedEvent, &$newDispatcherCalled, &$newDispatcherNode): void {
 			if ($event instanceof  $expectedEvent) {
 				/** @var AbstractNodeEvent $event */
 				$newDispatcherCalled = true;
@@ -195,21 +198,21 @@ class HookConnectorTest extends TestCase {
 		$this->assertEquals('/' . $this->userId . '/files/test.txt', $newDispatcherNode->getPath());
 	}
 
-	public function viewToNodeProviderCopyRename() {
+	public static function viewToNodeProviderCopyRename(): array {
 		return [
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('source', 'asd');
 				Filesystem::rename('source', 'target');
 			}, 'preRename', '\OCP\Files::preRename', BeforeNodeRenamedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('source', 'asd');
 				Filesystem::rename('source', 'target');
 			}, 'postRename', '\OCP\Files::postRename', NodeRenamedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('source', 'asd');
 				Filesystem::copy('source', 'target');
 			}, 'preCopy', '\OCP\Files::preCopy', BeforeNodeCopiedEvent::class],
-			[function () {
+			[function (): void {
 				Filesystem::file_put_contents('source', 'asd');
 				Filesystem::copy('source', 'target');
 			}, 'postCopy', '\OCP\Files::postCopy', NodeCopiedEvent::class],
@@ -219,9 +222,9 @@ class HookConnectorTest extends TestCase {
 	/**
 	 * @param callable $operation
 	 * @param string $expectedHook
-	 * @dataProvider viewToNodeProviderCopyRename
 	 */
-	public function testViewToNodeCopyRename(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('viewToNodeProviderCopyRename')]
+	public function testViewToNodeCopyRename(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
@@ -230,7 +233,7 @@ class HookConnectorTest extends TestCase {
 		/** @var Node $hookTargetNode */
 		$hookTargetNode = null;
 
-		$this->root->listen('\OC\Files', $expectedHook, function ($sourceNode, $targetNode) use (&$hookCalled, &$hookSourceNode, &$hookTargetNode) {
+		$this->root->listen('\OC\Files', $expectedHook, function ($sourceNode, $targetNode) use (&$hookCalled, &$hookSourceNode, &$hookTargetNode): void {
 			$hookCalled = true;
 			$hookSourceNode = $sourceNode;
 			$hookTargetNode = $targetNode;
@@ -241,7 +244,7 @@ class HookConnectorTest extends TestCase {
 		$dispatcherSourceNode = null;
 		/** @var Node $dispatcherTargetNode */
 		$dispatcherTargetNode = null;
-		$this->eventDispatcher->addListener($expectedLegacyEvent, function ($event) use (&$dispatcherSourceNode, &$dispatcherTargetNode, &$dispatcherCalled) {
+		$this->eventDispatcher->addListener($expectedLegacyEvent, function ($event) use (&$dispatcherSourceNode, &$dispatcherTargetNode, &$dispatcherCalled): void {
 			/** @var GenericEvent|APIGenericEvent $event */
 			$dispatcherCalled = true;
 			[$dispatcherSourceNode, $dispatcherTargetNode] = $event->getSubject();
@@ -252,7 +255,7 @@ class HookConnectorTest extends TestCase {
 		$newDispatcherSourceNode = null;
 		/** @var Node $dispatcherTargetNode */
 		$newDispatcherTargetNode = null;
-		$this->eventDispatcher->addListener($expectedEvent, function ($event) use ($expectedEvent, &$newDispatcherSourceNode, &$newDispatcherTargetNode, &$newDispatcherCalled) {
+		$this->eventDispatcher->addListener($expectedEvent, function ($event) use ($expectedEvent, &$newDispatcherSourceNode, &$newDispatcherTargetNode, &$newDispatcherCalled): void {
 			if ($event instanceof $expectedEvent) {
 				/** @var AbstractNodesEvent$event */
 				$newDispatcherCalled = true;
@@ -276,14 +279,14 @@ class HookConnectorTest extends TestCase {
 		$this->assertEquals('/' . $this->userId . '/files/target', $newDispatcherTargetNode->getPath());
 	}
 
-	public function testPostDeleteMeta() {
+	public function testPostDeleteMeta(): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
 		/** @var Node $hookNode */
 		$hookNode = null;
 
-		$this->root->listen('\OC\Files', 'postDelete', function ($node) use (&$hookNode, &$hookCalled) {
+		$this->root->listen('\OC\Files', 'postDelete', function ($node) use (&$hookNode, &$hookCalled): void {
 			$hookCalled = true;
 			$hookNode = $node;
 		});
@@ -291,7 +294,7 @@ class HookConnectorTest extends TestCase {
 		$dispatcherCalled = false;
 		/** @var Node $dispatcherNode */
 		$dispatcherNode = null;
-		$this->eventDispatcher->addListener('\OCP\Files::postDelete', function ($event) use (&$dispatcherCalled, &$dispatcherNode) {
+		$this->eventDispatcher->addListener('\OCP\Files::postDelete', function ($event) use (&$dispatcherCalled, &$dispatcherNode): void {
 			/** @var GenericEvent|APIGenericEvent $event */
 			$dispatcherCalled = true;
 			$dispatcherNode = $event->getSubject();
@@ -300,7 +303,7 @@ class HookConnectorTest extends TestCase {
 		$newDispatcherCalled = false;
 		/** @var Node $dispatcherNode */
 		$newDispatcherNode = null;
-		$this->eventDispatcher->addListener(NodeDeletedEvent::class, function ($event) use (&$newDispatcherCalled, &$newDispatcherNode) {
+		$this->eventDispatcher->addListener(NodeDeletedEvent::class, function ($event) use (&$newDispatcherCalled, &$newDispatcherNode): void {
 			if ($event instanceof NodeDeletedEvent) {
 				/** @var AbstractNodeEvent $event */
 				$newDispatcherCalled = true;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,6 +15,7 @@ return [
 	],
 	'ocs' => [
 		['name' => 'direct#getUrl', 'url' => '/api/v1/direct', 'verb' => 'POST'],
+		['name' => 'upcoming_events#getEvents', 'url' => '/api/v1/events/upcoming', 'verb' => 'GET'],
 		['name' => 'out_of_office#getCurrentOutOfOfficeData', 'url' => '/api/v1/outOfOffice/{userId}/now', 'verb' => 'GET'],
 		['name' => 'out_of_office#getOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'GET'],
 		['name' => 'out_of_office#setOutOfOffice', 'url' => '/api/v1/outOfOffice/{userId}', 'verb' => 'POST'],

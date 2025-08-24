@@ -15,18 +15,11 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
-	/** @var IFactory */
-	protected $factory;
-	/** @var IManager */
-	protected $contactsManager;
-	/** @var IURLGenerator */
-	protected $url;
 	/** @var array */
 	protected $federatedContacts;
-	/** @var ICloudIdManager */
-	protected $cloudIdManager;
 
 	/**
 	 * @param IFactory $factory
@@ -34,11 +27,12 @@ class Notifier implements INotifier {
 	 * @param IURLGenerator $url
 	 * @param ICloudIdManager $cloudIdManager
 	 */
-	public function __construct(IFactory $factory, IManager $contactsManager, IURLGenerator $url, ICloudIdManager $cloudIdManager) {
-		$this->factory = $factory;
-		$this->contactsManager = $contactsManager;
-		$this->url = $url;
-		$this->cloudIdManager = $cloudIdManager;
+	public function __construct(
+		protected IFactory $factory,
+		protected IManager $contactsManager,
+		protected IURLGenerator $url,
+		protected ICloudIdManager $cloudIdManager,
+	) {
 	}
 
 	/**
@@ -65,12 +59,12 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownNotificationException
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'files_sharing' || $notification->getObjectType() !== 'remote_share') {
 			// Not my app => throw
-			throw new \InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 
 		// Read the language from the notification
@@ -141,7 +135,7 @@ class Notifier implements INotifier {
 
 			default:
 				// Unknown subject => Unknown notification => throw
-				throw new \InvalidArgumentException();
+				throw new UnknownNotificationException();
 		}
 	}
 

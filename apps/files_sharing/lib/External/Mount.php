@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,25 +9,26 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
+use OC\Files\Storage\Storage;
 use OCA\Files_Sharing\ISharedMountPoint;
 
 class Mount extends MountPoint implements MoveableMount, ISharedMountPoint {
 
 	/**
-	 * @var \OCA\Files_Sharing\External\Manager
-	 */
-	protected $manager;
-
-	/**
-	 * @param string|\OC\Files\Storage\Storage $storage
+	 * @param string|Storage $storage
 	 * @param string $mountpoint
 	 * @param array $options
 	 * @param \OCA\Files_Sharing\External\Manager $manager
 	 * @param \OC\Files\Storage\StorageFactory $loader
 	 */
-	public function __construct($storage, $mountpoint, $options, $manager, $loader = null) {
+	public function __construct(
+		$storage,
+		$mountpoint,
+		$options,
+		protected $manager,
+		$loader = null,
+	) {
 		parent::__construct($storage, $mountpoint, $options, $loader, null, null, MountProvider::class);
-		$this->manager = $manager;
 	}
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,14 +12,11 @@ use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
 
 class Admin implements IDelegatedSettings {
-	private SettingsManager $settingsManager;
-	private IL10N $l;
-	private IInitialState $initialState;
-
-	public function __construct(SettingsManager $settingsManager, IL10N $l, IInitialState $initialState) {
-		$this->settingsManager = $settingsManager;
-		$this->l = $l;
-		$this->initialState = $initialState;
+	public function __construct(
+		private SettingsManager $settingsManager,
+		private IL10N $l,
+		private IInitialState $initialState,
+	) {
 	}
 
 	/**
@@ -40,8 +38,8 @@ class Admin implements IDelegatedSettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

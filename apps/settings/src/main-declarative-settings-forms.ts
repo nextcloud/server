@@ -2,10 +2,13 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import Vue from 'vue';
-import { loadState } from '@nextcloud/initial-state';
-import { translate as t, translatePlural as n } from '@nextcloud/l10n';
-import DeclarativeSection from './components/DeclarativeSettings/DeclarativeSection.vue';
+import type { ComponentInstance } from 'vue'
+
+import { loadState } from '@nextcloud/initial-state'
+import { t, n } from '@nextcloud/l10n'
+import Vue from 'vue'
+import DeclarativeSection from './components/DeclarativeSettings/DeclarativeSection.vue'
+import logger from './logger'
 
 interface DeclarativeFormField {
 	id: string,
@@ -14,9 +17,10 @@ interface DeclarativeFormField {
 	type: string,
 	placeholder: string,
 	label: string,
-	options: Array<any>|null,
-	value: any,
-	default: any,
+	options: Array<unknown>|null,
+	value: unknown,
+	default: unknown,
+	sensitive: boolean,
 }
 
 interface DeclarativeForm {
@@ -32,23 +36,27 @@ interface DeclarativeForm {
 	fields: Array<DeclarativeFormField>,
 }
 
-const forms = loadState('settings', 'declarative-settings-forms', []) as Array<DeclarativeForm>;
-console.debug('Loaded declarative forms:', forms);
+const forms = loadState<DeclarativeForm[]>('settings', 'declarative-settings-forms', [])
 
-function renderDeclarativeSettingsSections(forms: Array<DeclarativeForm>): void {
+/**
+ * @param forms The forms to render
+ */
+function renderDeclarativeSettingsSections(forms: Array<DeclarativeForm>): ComponentInstance[] {
 	Vue.mixin({ methods: { t, n } })
-	const DeclarativeSettingsSection = Vue.extend(<any>DeclarativeSection);
-	for (const form of forms) {
+	const DeclarativeSettingsSection = Vue.extend(DeclarativeSection as never)
+
+	return forms.map((form) => {
 		const el = `#${form.app}_${form.id}`
-		new DeclarativeSettingsSection({
-			el: el,
+		return new DeclarativeSettingsSection({
+			el,
 			propsData: {
 				form,
 			},
 		})
-	}
+	})
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-	renderDeclarativeSettingsSections(forms);
-});
+	logger.debug('Loaded declarative forms', { forms })
+	renderDeclarativeSettingsSections(forms)
+})

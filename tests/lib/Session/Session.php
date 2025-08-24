@@ -19,43 +19,43 @@ abstract class Session extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testNotExistsEmpty() {
+	public function testNotExistsEmpty(): void {
 		$this->assertFalse($this->instance->exists('foo'));
 	}
 
-	public function testExistsAfterSet() {
+	public function testExistsAfterSet(): void {
 		$this->instance->set('foo', 1);
 		$this->assertTrue($this->instance->exists('foo'));
 	}
 
-	public function testNotExistsAfterRemove() {
+	public function testNotExistsAfterRemove(): void {
 		$this->instance->set('foo', 1);
 		$this->instance->remove('foo');
 		$this->assertFalse($this->instance->exists('foo'));
 	}
 
-	public function testGetNonExisting() {
+	public function testGetNonExisting(): void {
 		$this->assertNull($this->instance->get('foo'));
 	}
 
-	public function testGetAfterSet() {
+	public function testGetAfterSet(): void {
 		$this->instance->set('foo', 'bar');
 		$this->assertEquals('bar', $this->instance->get(('foo')));
 	}
 
-	public function testRemoveNonExisting() {
+	public function testRemoveNonExisting(): void {
 		$this->assertFalse($this->instance->exists('foo'));
 		$this->instance->remove('foo');
 		$this->assertFalse($this->instance->exists('foo'));
 	}
 
-	public function testNotExistsAfterClear() {
+	public function testNotExistsAfterClear(): void {
 		$this->instance->set('foo', 1);
 		$this->instance->clear();
 		$this->assertFalse($this->instance->exists('foo'));
 	}
 
-	public function testArrayInterface() {
+	public function testArrayInterface(): void {
 		$this->assertFalse(isset($this->instance['foo']));
 		$this->instance['foo'] = 'bar';
 		$this->assertTrue(isset($this->instance['foo']));

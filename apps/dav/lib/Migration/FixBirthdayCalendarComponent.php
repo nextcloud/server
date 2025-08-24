@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -12,16 +13,9 @@ use OCP\Migration\IRepairStep;
 
 class FixBirthdayCalendarComponent implements IRepairStep {
 
-	/** @var IDBConnection */
-	private $connection;
-
-	/**
-	 * FixBirthdayCalendarComponent constructor.
-	 *
-	 * @param IDBConnection $connection
-	 */
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		private IDBConnection $connection,
+	) {
 	}
 
 	/**
@@ -39,7 +33,7 @@ class FixBirthdayCalendarComponent implements IRepairStep {
 		$updated = $query->update('calendars')
 			->set('components', $query->createNamedParameter('VEVENT'))
 			->where($query->expr()->eq('uri', $query->createNamedParameter(BirthdayService::BIRTHDAY_CALENDAR_URI)))
-			->execute();
+			->executeStatement();
 
 		$output->info("$updated birthday calendars updated.");
 	}

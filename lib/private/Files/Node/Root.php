@@ -28,6 +28,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -170,12 +171,6 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager->remove($mount);
 	}
 
-	/**
-	 * @param string $path
-	 * @return Node
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function get($path) {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
@@ -389,13 +384,17 @@ class Root extends Folder implements IRootFolder {
 		// scope the cache by user, so we don't return nodes for different users
 		if ($this->user) {
 			$cachedPath = $this->pathByIdCache->get($this->user->getUID() . '::' . $id);
-			if ($cachedPath && str_starts_with($path, $cachedPath)) {
+			if ($cachedPath && str_starts_with($cachedPath, $path)) {
 				// getting the node by path is significantly cheaper than finding it by id
-				$node = $this->get($cachedPath);
-				// by validating that the cached path still has the requested fileid we can work around the need to invalidate the cached path
-				// if the cached path is invalid or a different file now we fall back to the uncached logic
-				if ($node && $node->getId() === $id) {
-					return $node;
+				try {
+					$node = $this->get($cachedPath);
+					// by validating that the cached path still has the requested fileid we can work around the need to invalidate the cached path
+					// if the cached path is invalid or a different file now we fall back to the uncached logic
+					if ($node && $node->getId() === $id) {
+						return $node;
+					}
+				} catch (NotFoundException|NotPermittedException) {
+					// The file may be moved but the old path still in cache
 				}
 			}
 		}
@@ -416,7 +415,7 @@ class Root extends Folder implements IRootFolder {
 	 */
 	public function getByIdInPath(int $id, string $path): array {
 		$mountCache = $this->getUserMountCache();
-		if (strpos($path, '/', 1) > 0) {
+		if ($path !== '' && strpos($path, '/', 1) > 0) {
 			[, $user] = explode('/', $path);
 		} else {
 			$user = null;
@@ -459,7 +458,7 @@ class Root extends Folder implements IRootFolder {
 				if ($folder instanceof Folder) {
 					return $folder->getByIdInRootMount($id);
 				} else {
-					throw new \Exception("getByIdInPath with non folder");
+					throw new \Exception('getByIdInPath with non folder');
 				}
 			}
 			return [];
@@ -477,9 +476,23 @@ class Root extends Folder implements IRootFolder {
 			$pathRelativeToMount = substr($internalPath, strlen($rootInternalPath));
 			$pathRelativeToMount = ltrim($pathRelativeToMount, '/');
 			$absolutePath = rtrim($mount->getMountPoint() . $pathRelativeToMount, '/');
+			$storage = $mount->getStorage();
+			if ($storage === null) {
+				return null;
+			}
+			$ownerId = $storage->getOwner($pathRelativeToMount);
+			if ($ownerId !== false) {
+				$owner = Server::get(IUserManager::class)->get($ownerId);
+			} else {
+				$owner = null;
+			}
 			return $this->createNode($absolutePath, new FileInfo(
-				$absolutePath, $mount->getStorage(), $cacheEntry->getPath(), $cacheEntry, $mount,
-				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
+				$absolutePath,
+				$storage,
+				$cacheEntry->getPath(),
+				$cacheEntry,
+				$mount,
+				$owner,
 			));
 		}, $mountsContainingFile);
 
@@ -513,9 +526,9 @@ class Root extends Folder implements IRootFolder {
 		$isDir = $info->getType() === FileInfo::TYPE_FOLDER;
 		$view = new View('');
 		if ($isDir) {
-			return new Folder($this, $view, $path, $info, $parent);
+			return new Folder($this, $view, $fullPath, $info, $parent);
 		} else {
-			return new File($this, $view, $path, $info, $parent);
+			return new File($this, $view, $fullPath, $info, $parent);
 		}
 	}
 }

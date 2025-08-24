@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,14 +8,17 @@
 
 namespace Test\BackgroundJob;
 
+use OC\BackgroundJob\JobList;
 use OCP\BackgroundJob\IJob;
+use OCP\BackgroundJob\Job;
+use OCP\Server;
 
 /**
  * Class DummyJobList
  *
  * in memory job list for testing purposes
  */
-class DummyJobList extends \OC\BackgroundJob\JobList {
+class DummyJobList extends JobList {
 	/**
 	 * @var IJob[]
 	 */
@@ -26,6 +30,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	private array $reserved = [];
 
 	private int $last = 0;
+	private int $lastId = 0;
 
 	public function __construct() {
 	}
@@ -37,9 +42,11 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	public function add($job, $argument = null, ?int $firstCheck = null): void {
 		if (is_string($job)) {
 			/** @var IJob $job */
-			$job = \OCP\Server::get($job);
+			$job = Server::get($job);
 		}
 		$job->setArgument($argument);
+		$job->setId($this->lastId);
+		$this->lastId++;
 		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;
 		}
@@ -54,9 +61,20 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null): void {
-		$index = array_search($job, $this->jobs);
-		if ($index !== false) {
-			unset($this->jobs[$index]);
+		foreach ($this->jobs as $index => $listJob) {
+			if (get_class($job) === get_class($listJob) && $job->getArgument() == $listJob->getArgument()) {
+				unset($this->jobs[$index]);
+				return;
+			}
+		}
+	}
+
+	public function removeById(int $id): void {
+		foreach ($this->jobs as $index => $listJob) {
+			if ($listJob->getId() === $id) {
+				unset($this->jobs[$index]);
+				return;
+			}
 		}
 	}
 
@@ -115,7 +133,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param \OCP\BackgroundJob\Job $job
+	 * @param Job $job
 	 */
 	public function setLastJob(IJob $job): void {
 		$i = array_search($job, $this->jobs);
@@ -126,7 +144,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		}
 	}
 
-	public function getById(int $id): IJob {
+	public function getById(int $id): ?IJob {
 		foreach ($this->jobs as $job) {
 			if ($job->getId() === $id) {
 				return $job;

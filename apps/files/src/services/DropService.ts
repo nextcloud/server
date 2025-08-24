@@ -17,7 +17,7 @@ import Vue from 'vue'
 import { Directory, traverseTree, resolveConflict, createDirectoryIfNotExists } from './DropServiceUtils'
 import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 /**
  * This function converts a list of DataTransferItems to a file tree.
@@ -178,8 +178,7 @@ export const onDropInternalFiles = async (nodes: Node[], destination: Folder, co
 
 	for (const node of nodes) {
 		Vue.set(node, 'status', NodeStatus.LOADING)
-		// TODO: resolve potential conflicts prior and force overwrite
-		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE))
+		queue.push(handleCopyMoveNodeTo(node, destination, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE, true))
 	}
 
 	// Wait for all promises to settle

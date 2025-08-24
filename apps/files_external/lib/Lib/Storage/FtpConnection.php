@@ -23,11 +23,11 @@ class FtpConnection {
 		}
 
 		if ($connection === false) {
-			throw new \Exception("Failed to connect to ftp");
+			throw new \Exception('Failed to connect to ftp');
 		}
 
 		if (ftp_login($connection, $username, $password) === false) {
-			throw new \Exception("Failed to connect to login to ftp");
+			throw new \Exception('Failed to connect to login to ftp');
 		}
 
 		ftp_pasv($connection, true);
@@ -39,7 +39,7 @@ class FtpConnection {
 	}
 
 	public function setUtf8Mode(): bool {
-		$response = ftp_raw($this->connection, "OPTS UTF8 ON");
+		$response = ftp_raw($this->connection, 'OPTS UTF8 ON');
 		return substr($response[0], 0, 3) === '200';
 	}
 
@@ -75,8 +75,8 @@ class FtpConnection {
 		$result = @ftp_mdtm($this->connection, $path);
 
 		// filezilla doesn't like empty path with mdtm
-		if ($result === -1 && $path === "") {
-			$result = @ftp_mdtm($this->connection, "/");
+		if ($result === -1 && $path === '') {
+			$result = @ftp_mdtm($this->connection, '/');
 		}
 		return $result;
 	}
@@ -150,13 +150,13 @@ class FtpConnection {
 
 		$parsedDate = (new \DateTime())
 			->setTimestamp(strtotime("$month $day $time"));
-		$tomorrow = (new \DateTime())->add(new \DateInterval("P1D"));
+		$tomorrow = (new \DateTime())->add(new \DateInterval('P1D'));
 
 		// since the provided date doesn't include the year, we either set it to the correct year
 		// or when the date would otherwise be in the future (by more then 1 day to account for timezone errors)
 		// we use last year
 		if ($parsedDate > $tomorrow) {
-			$parsedDate = $parsedDate->sub(new \DateInterval("P1Y"));
+			$parsedDate = $parsedDate->sub(new \DateInterval('P1Y'));
 		}
 
 		$formattedDate = $parsedDate

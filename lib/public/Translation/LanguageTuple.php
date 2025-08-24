@@ -14,6 +14,7 @@ use JsonSerializable;
 
 /**
  * @since 26.0.0
+ * @deprecated 30.0.0
  */
 class LanguageTuple implements JsonSerializable {
 	/**
@@ -23,7 +24,7 @@ class LanguageTuple implements JsonSerializable {
 		private string $from,
 		private string $fromLabel,
 		private string $to,
-		private string $toLabel
+		private string $toLabel,
 	) {
 	}
 

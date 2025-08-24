@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Updater;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
  * Class Changes
@@ -39,7 +40,7 @@ class Changes extends Entity {
 	public function __construct() {
 		$this->addType('version', 'string');
 		$this->addType('etag', 'string');
-		$this->addType('lastCheck', 'int');
+		$this->addType('lastCheck', Types::INTEGER);
 		$this->addType('data', 'string');
 	}
 }

@@ -163,7 +163,7 @@ class ContactsStore implements IContactsStore {
 	private function filterContacts(
 		IUser $self,
 		array $entries,
-		?string $filter
+		?string $filter,
 	): array {
 		$disallowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes';
 		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
@@ -348,7 +348,7 @@ class ContactsStore implements IContactsStore {
 			$entry->setFullName($contact['FN']);
 		}
 
-		$avatarPrefix = "VALUE=uri:";
+		$avatarPrefix = 'VALUE=uri:';
 		if (!empty($contact['PHOTO']) && str_starts_with($contact['PHOTO'], $avatarPrefix)) {
 			$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
 		}
@@ -366,7 +366,7 @@ class ContactsStore implements IContactsStore {
 			if (!empty($targetUser)) {
 				if ($this->profileManager->isProfileEnabled($targetUser)) {
 					$entry->setProfileTitle($this->l10nFactory->get('lib')->t('View profile'));
-					$entry->setProfileUrl($this->urlGenerator->linkToRouteAbsolute('core.ProfilePage.index', ['targetUserId' => $targetUserId]));
+					$entry->setProfileUrl($this->urlGenerator->linkToRouteAbsolute('profile.ProfilePage.index', ['targetUserId' => $targetUserId]));
 				}
 			}
 		}

@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\AppFramework\Http;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -23,20 +24,6 @@ class ChecksumUpdatePlugin extends ServerPlugin {
 
 	public function getPluginName(): string {
 		return 'checksumupdate';
-	}
-
-	/** @return string[] */
-	public function getHTTPMethods($path): array {
-		$tree = $this->server->tree;
-
-		if ($tree->nodeExists($path)) {
-			$node = $tree->getNodeForPath($path);
-			if ($node instanceof File) {
-				return ['PATCH'];
-			}
-		}
-
-		return [];
 	}
 
 	/** @return string[] */
@@ -59,7 +46,7 @@ class ChecksumUpdatePlugin extends ServerPlugin {
 				$node->setChecksum($checksum);
 				$response->addHeader('OC-Checksum', $checksum);
 				$response->setHeader('Content-Length', '0');
-				$response->setStatus(204);
+				$response->setStatus(Http::STATUS_NO_CONTENT);
 
 				return false;
 			}

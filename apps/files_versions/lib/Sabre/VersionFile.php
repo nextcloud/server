@@ -23,7 +23,7 @@ use Sabre\DAV\IFile;
 class VersionFile implements IFile {
 	public function __construct(
 		private IVersion $version,
-		private IVersionManager $versionManager
+		private IVersionManager $versionManager,
 	) {
 	}
 
@@ -75,7 +75,7 @@ class VersionFile implements IFile {
 		$backend = $this->version->getBackend();
 
 		if ($backend instanceof IMetadataVersionBackend) {
-			$backend->setMetadataValue($this->version->getSourceFile(), $this->version->getRevisionId(), $key, $value);
+			$backend->setMetadataValue($this->version->getSourceFile(), $this->version->getTimestamp(), $key, $value);
 			return true;
 		} elseif ($key === 'label' && $backend instanceof INameableVersionBackend) {
 			$backend->setVersionLabel($this->version, $value);

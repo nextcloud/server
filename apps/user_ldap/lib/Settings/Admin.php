@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,25 +10,22 @@ use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
+use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
-use OCP\Template;
+use OCP\Template\ITemplateManager;
 
 class Admin implements IDelegatedSettings {
-	/** @var IL10N */
-	private $l;
-
-	/**
-	 * @param IL10N $l
-	 */
-	public function __construct(IL10N $l) {
-		$this->l = $l;
+	public function __construct(
+		private IL10N $l,
+		private ITemplateManager $templateManager,
+	) {
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
+		$helper = Server::get(Helper::class);
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		if (count($prefixes) === 0) {
 			$newPrefix = $helper->getNextServerConfigurationPrefix();
@@ -39,11 +37,12 @@ class Admin implements IDelegatedSettings {
 
 		$hosts = $helper->getServerConfigurationHosts();
 
-		$wControls = new Template('user_ldap', 'part.wizardcontrols');
+		$wControls = $this->templateManager->getTemplate('user_ldap', 'part.wizardcontrols');
 		$wControls = $wControls->fetchPage();
-		$sControls = new Template('user_ldap', 'part.settingcontrols');
+		$sControls = $this->templateManager->getTemplate('user_ldap', 'part.settingcontrols');
 		$sControls = $sControls->fetchPage();
 
+		$parameters = [];
 		$parameters['serverConfigurationPrefixes'] = $prefixes;
 		$parameters['serverConfigurationHosts'] = $hosts;
 		$parameters['settingControls'] = $sControls;
@@ -55,7 +54,7 @@ class Admin implements IDelegatedSettings {
 		}
 		$defaults = $config->getDefaults();
 		foreach ($defaults as $key => $default) {
-			$parameters[$key.'_default'] = $default;
+			$parameters[$key . '_default'] = $default;
 		}
 
 		return new TemplateResponse('user_ldap', 'settings', $parameters);
@@ -70,8 +69,8 @@ class Admin implements IDelegatedSettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

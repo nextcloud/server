@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCP;
 
+use OCP\Config\ValueType;
 use OCP\Exceptions\AppConfigUnknownKeyException;
 
 /**
@@ -45,12 +46,15 @@ interface IAppConfig {
 	/** @since 29.0.0 */
 	public const VALUE_ARRAY = 64;
 
+	/** @since 31.0.0 */
+	public const FLAG_SENSITIVE = 1;   // value is sensitive
+
 	/**
 	 * Get list of all apps that have at least one config value stored in database
 	 *
 	 * **WARNING:** ignore lazy filtering, all config values are loaded from database
 	 *
-	 * @return string[] list of app ids
+	 * @return list<string> list of app ids
 	 * @since 7.0.0
 	 */
 	public function getApps(): array;
@@ -62,11 +66,25 @@ interface IAppConfig {
 	 * **WARNING:** ignore lazy filtering, all config values are loaded from database
 	 *
 	 * @param string $app id of the app
+	 * @return list<string> list of stored config keys
+	 * @see searchKeys to avoid loading lazy config keys
 	 *
-	 * @return string[] list of stored config keys
 	 * @since 29.0.0
 	 */
 	public function getKeys(string $app): array;
+
+	/**
+	 * Returns list of keys stored in database, related to an app.
+	 * Please note that the values are not returned.
+	 *
+	 * @param string $app id of the app
+	 * @param string $prefix returns only keys starting with this value
+	 * @param bool $lazy TRUE to search in lazy config keys
+	 *
+	 * @return list<string> list of stored config keys
+	 * @since 32.0.0
+	 */
+	public function searchKeys(string $app, string $prefix = '', bool $lazy = false): array;
 
 	/**
 	 * Check if a key exists in the list of stored config values.
@@ -433,6 +451,33 @@ interface IAppConfig {
 	public function getDetails(string $app, string $key): array;
 
 	/**
+	 * returns an array containing details about a config key.
+	 * key/value pair are available only if it exists.
+	 *
+	 * ```
+	 * [
+	 *   "app" => "myapp",
+	 *   "key" => "mykey",
+	 *   "value" => "current_value",
+	 *   "default" => "default_if_available",
+	 *   "definition" => "this is what it does",
+	 *   "note" => "enabling this is not compatible with that",
+	 *   "lazy" => false,
+	 *   "type" => 4,
+	 *   "typeString" => "string",
+	 *   'sensitive' => false
+	 * ]
+	 * ```
+	 *
+	 * @param string $app id of the app
+	 * @param string $key config key
+	 *
+	 * @return array{app: string, key: string, lazy?: bool, valueType?: ValueType, valueTypeName?: string, sensitive?: bool, default?: string, definition?: string, note?: string}
+	 * @since 32.0.0
+	 */
+	public function getKeyDetails(string $app, string $key): array;
+
+	/**
 	 * Convert string like 'string', 'integer', 'float', 'bool' or 'array' to
 	 * to bitflag {@see VALUE_STRING}, {@see VALUE_INT}, {@see VALUE_FLOAT},
 	 * {@see VALUE_BOOL} and {@see VALUE_ARRAY}
@@ -504,4 +549,12 @@ interface IAppConfig {
 	 * @deprecated 29.0.0 Use {@see getAllValues()} or {@see searchValues()}
 	 */
 	public function getFilteredValues($app);
+
+	/**
+	 * Returns the installed version of all apps
+	 *
+	 * @return array<string, string>
+	 * @since 32.0.0
+	 */
+	public function getAppInstalledVersions(bool $onlyEnabled = false): array;
 }

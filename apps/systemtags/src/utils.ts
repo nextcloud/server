@@ -8,6 +8,8 @@ import camelCase from 'camelcase'
 import type { DAVResultResponseProps } from 'webdav'
 
 import type { BaseTag, ServerTag, Tag, TagWithId } from './types.js'
+import type { Node } from '@nextcloud/files'
+import Vue from 'vue'
 
 export const defaultBaseTag: BaseTag = {
 	userVisible: true,
@@ -45,12 +47,38 @@ export const parseIdFromLocation = (url: string): number => {
 }
 
 export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
-	const tag: any = { ...initialTag }
-	if (tag.name && !tag.displayName) {
-		return tag
+	if ('name' in initialTag && !('displayName' in initialTag)) {
+		return { ...initialTag }
 	}
+
+	const tag: Record<string, unknown> = { ...initialTag }
 	tag.name = tag.displayName
 	delete tag.displayName
 
-	return tag
+	return tag as unknown as ServerTag
+}
+
+export const getNodeSystemTags = function(node: Node): string[] {
+	const attribute = node.attributes?.['system-tags']?.['system-tag']
+	if (attribute === undefined) {
+		return []
+	}
+
+	// if there is only one tag it is a single string or prop object
+	// if there are multiple then its an array - so we flatten it to be always an array of string or prop objects
+	return [attribute]
+		.flat()
+		.map((tag: string|{ text: string }) => (
+			typeof tag === 'string'
+				// its a plain text prop (the tag name) without prop attributes
+				? tag
+				// its a prop object with attributes, the tag name is in the 'text' attribute
+				: tag.text
+		))
+}
+
+export const setNodeSystemTags = function(node: Node, tags: string[]): void {
+	Vue.set(node.attributes, 'system-tags', {
+		'system-tag': tags,
+	})
 }

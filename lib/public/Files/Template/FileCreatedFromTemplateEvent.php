@@ -17,15 +17,17 @@ use OCP\Files\File;
 class FileCreatedFromTemplateEvent extends Event {
 	private $template;
 	private $target;
+	private $templateFields;
 
 	/**
 	 * @param File|null $template
 	 * @param File $target
 	 * @since 21.0.0
 	 */
-	public function __construct(?File $template, File $target) {
+	public function __construct(?File $template, File $target, array $templateFields) {
 		$this->template = $template;
 		$this->target = $target;
+		$this->templateFields = $templateFields;
 	}
 
 	/**
@@ -34,6 +36,14 @@ class FileCreatedFromTemplateEvent extends Event {
 	 */
 	public function getTemplate(): ?File {
 		return $this->template;
+	}
+
+	/**
+	 * @return array
+	 * @since 30.0.0
+	 */
+	public function getTemplateFields(): array {
+		return $this->templateFields;
 	}
 
 	/**

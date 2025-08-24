@@ -1,25 +1,37 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OC\Repair\Owncloud;
 
+use OC\Authentication\Token\IProvider as ITokenProvider;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
+use OCA\OAuth2\Db\AccessToken;
+use OCA\OAuth2\Db\AccessTokenMapper;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
 
 class MigrateOauthTables implements IRepairStep {
-	/** @var Connection */
-	protected $db;
 
-	/**
-	 * @param Connection $db
-	 */
-	public function __construct(Connection $db) {
-		$this->db = $db;
+	public function __construct(
+		protected Connection $db,
+		private AccessTokenMapper $accessTokenMapper,
+		private ITokenProvider $tokenProvider,
+		private ISecureRandom $random,
+		private ITimeFactory $timeFactory,
+		private ICrypto $crypto,
+		private IConfig $config,
+	) {
 	}
 
 	/**
@@ -32,19 +44,27 @@ class MigrateOauthTables implements IRepairStep {
 	public function run(IOutput $output) {
 		$schema = new SchemaWrapper($this->db);
 		if (!$schema->hasTable('oauth2_clients')) {
-			$output->info("oauth2_clients table does not exist.");
+			$output->info('oauth2_clients table does not exist.');
 			return;
 		}
 
-		$output->info("Update the oauth2_access_tokens table schema.");
-		$schema = new SchemaWrapper($this->db);
+		// Create column and then migrate before handling unique index.
+		// So that we can distinguish between legacy (from oc) and new rows (from nc).
 		$table = $schema->getTable('oauth2_access_tokens');
 		if (!$table->hasColumn('hashed_code')) {
+			$output->info('Prepare the oauth2_access_tokens table schema.');
 			$table->addColumn('hashed_code', 'string', [
 				'notnull' => true,
 				'length' => 128,
 			]);
+
+			// Regenerate schema after migrating to it
+			$this->db->migrateToSchema($schema->getWrappedSchema());
+			$schema = new SchemaWrapper($this->db);
 		}
+
+		$output->info('Update the oauth2_access_tokens table schema.');
+		$table = $schema->getTable('oauth2_access_tokens');
 		if (!$table->hasColumn('encrypted_token')) {
 			$table->addColumn('encrypted_token', 'string', [
 				'notnull' => true,
@@ -52,14 +72,33 @@ class MigrateOauthTables implements IRepairStep {
 			]);
 		}
 		if (!$table->hasIndex('oauth2_access_hash_idx')) {
+			// Drop legacy access codes first to prevent integrity constraint violations
+			$qb = $this->db->getQueryBuilder();
+			$qb->delete('oauth2_access_tokens')
+				->where($qb->expr()->eq('hashed_code', $qb->createNamedParameter('')));
+			$qb->executeStatement();
+
 			$table->addUniqueIndex(['hashed_code'], 'oauth2_access_hash_idx');
 		}
 		if (!$table->hasIndex('oauth2_access_client_id_idx')) {
 			$table->addIndex(['client_id'], 'oauth2_access_client_id_idx');
 		}
+		if (!$table->hasColumn('token_id')) {
+			$table->addColumn('token_id', 'integer', [
+				'notnull' => true,
+			]);
+		}
+		if ($table->hasColumn('expires')) {
+			$table->dropColumn('expires');
+		}
+		if ($table->hasColumn('user_id')) {
+			$table->dropColumn('user_id');
+		}
+		if ($table->hasColumn('token')) {
+			$table->dropColumn('token');
+		}
 
-		$output->info("Update the oauth2_clients table schema.");
-		$schema = new SchemaWrapper($this->db);
+		$output->info('Update the oauth2_clients table schema.');
 		$table = $schema->getTable('oauth2_clients');
 		if ($table->getColumn('name')->getLength() !== 64) {
 			// shorten existing values before resizing the column
@@ -101,8 +140,9 @@ class MigrateOauthTables implements IRepairStep {
 			$table->addIndex(['client_identifier'], 'oauth2_client_id_idx');
 		}
 
+		// Regenerate schema after migrating to it
 		$this->db->migrateToSchema($schema->getWrappedSchema());
-
+		$schema = new SchemaWrapper($this->db);
 
 		if ($schema->getTable('oauth2_clients')->hasColumn('identifier')) {
 			$output->info("Move identifier column's data to the new client_identifier column.");
@@ -114,7 +154,7 @@ class MigrateOauthTables implements IRepairStep {
 			$result->closeCursor();
 
 			// 2. Insert them into the client_identifier column.
-			foreach ($identifiers as ["id" => $id, "identifier" => $clientIdentifier]) {
+			foreach ($identifiers as ['id' => $id, 'identifier' => $clientIdentifier]) {
 				$insertQuery = $this->db->getQueryBuilder();
 				$insertQuery->update('oauth2_clients')
 					->set('client_identifier', $insertQuery->createNamedParameter($clientIdentifier, IQueryBuilder::PARAM_STR))
@@ -122,14 +162,21 @@ class MigrateOauthTables implements IRepairStep {
 					->executeStatement();
 			}
 
-			$output->info("Drop the identifier column.");
-			$schema = new SchemaWrapper($this->db);
+			$output->info('Drop the identifier column.');
 			$table = $schema->getTable('oauth2_clients');
 			$table->dropColumn('identifier');
+
+			// Regenerate schema after migrating to it
 			$this->db->migrateToSchema($schema->getWrappedSchema());
+			$schema = new SchemaWrapper($this->db);
 		}
 
-		$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc:// or ending with *');
+		$enableOcClients = $this->config->getSystemValueBool('oauth2.enable_oc_clients', false);
+		if ($enableOcClients) {
+			$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc://');
+		} else {
+			$output->info('Delete clients (and their related access tokens) with the redirect_uri starting with oc:// or ending with *');
+		}
 		// delete the access tokens
 		$qbDeleteAccessTokens = $this->db->getQueryBuilder();
 
@@ -138,10 +185,12 @@ class MigrateOauthTables implements IRepairStep {
 			->from('oauth2_clients')
 			->where(
 				$qbSelectClientId->expr()->iLike('redirect_uri', $qbDeleteAccessTokens->createNamedParameter('oc://%', IQueryBuilder::PARAM_STR))
-			)
-			->orWhere(
+			);
+		if (!$enableOcClients) {
+			$qbSelectClientId->orWhere(
 				$qbSelectClientId->expr()->iLike('redirect_uri', $qbDeleteAccessTokens->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
 			);
+		}
 
 		$qbDeleteAccessTokens->delete('oauth2_access_tokens')
 			->where(
@@ -154,10 +203,57 @@ class MigrateOauthTables implements IRepairStep {
 		$qbDeleteClients->delete('oauth2_clients')
 			->where(
 				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('oc://%', IQueryBuilder::PARAM_STR))
-			)
-			->orWhere(
+			);
+		if (!$enableOcClients) {
+			$qbDeleteClients->orWhere(
 				$qbDeleteClients->expr()->iLike('redirect_uri', $qbDeleteClients->createNamedParameter('%*', IQueryBuilder::PARAM_STR))
 			);
+		}
 		$qbDeleteClients->executeStatement();
+
+		// Migrate legacy refresh tokens from oc
+		if ($schema->hasTable('oauth2_refresh_tokens')) {
+			$output->info('Migrate legacy oauth2 refresh tokens.');
+
+			$qbSelect = $this->db->getQueryBuilder();
+			$qbSelect->select('*')
+				->from('oauth2_refresh_tokens');
+			$result = $qbSelect->executeQuery();
+			$now = $this->timeFactory->now()->getTimestamp();
+			$index = 0;
+			while ($row = $result->fetch()) {
+				$clientId = $row['client_id'];
+				$refreshToken = $row['token'];
+
+				// Insert expired token so that it can be rotated on the next refresh
+				$accessToken = $this->random->generate(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
+				$authToken = $this->tokenProvider->generateToken(
+					$accessToken,
+					$row['user_id'],
+					$row['user_id'],
+					null,
+					"oc_migrated_client{$clientId}_t{$now}_i$index",
+					IToken::PERMANENT_TOKEN,
+					IToken::DO_NOT_REMEMBER,
+				);
+				$authToken->setExpires($now - 3600);
+				$this->tokenProvider->updateToken($authToken);
+
+				$accessTokenEntity = new AccessToken();
+				$accessTokenEntity->setTokenId($authToken->getId());
+				$accessTokenEntity->setClientId($clientId);
+				$accessTokenEntity->setHashedCode(hash('sha512', $refreshToken));
+				$accessTokenEntity->setEncryptedToken($this->crypto->encrypt($accessToken, $refreshToken));
+				$accessTokenEntity->setCodeCreatedAt($now);
+				$accessTokenEntity->setTokenCount(1);
+				$this->accessTokenMapper->insert($accessTokenEntity);
+
+				$index++;
+			}
+			$result->closeCursor();
+
+			$schema->dropTable('oauth2_refresh_tokens');
+			$schema->performDropTableCalls();
+		}
 	}
 }

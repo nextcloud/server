@@ -22,31 +22,13 @@ use Sabre\VObject\Reader;
 
 class Backend {
 
-	/** @var IActivityManager */
-	protected $activityManager;
-
-	/** @var IGroupManager */
-	protected $groupManager;
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var IAppManager */
-	protected $appManager;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	public function __construct(IActivityManager $activityManager,
-		IGroupManager $groupManager,
-		IUserSession $userSession,
-		IAppManager $appManager,
-		IUserManager $userManager) {
-		$this->activityManager = $activityManager;
-		$this->groupManager = $groupManager;
-		$this->userSession = $userSession;
-		$this->appManager = $appManager;
-		$this->userManager = $userManager;
+	public function __construct(
+		protected IActivityManager $activityManager,
+		protected IGroupManager $groupManager,
+		protected IUserSession $userSession,
+		protected IAppManager $appManager,
+		protected IUserManager $userManager,
+	) {
 	}
 
 	/**
@@ -111,7 +93,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject('addressbook', (int) $addressbookData['id'])
+			->setObject('addressbook', (int)$addressbookData['id'])
 			->setType('contacts')
 			->setAuthor($currentUser);
 
@@ -139,7 +121,7 @@ class Backend {
 					[
 						'actor' => $currentUser,
 						'addressbook' => [
-							'id' => (int) $addressbookData['id'],
+							'id' => (int)$addressbookData['id'],
 							'uri' => $addressbookData['uri'],
 							'name' => $addressbookData['{DAV:}displayname'],
 						],
@@ -170,7 +152,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject('addressbook', (int) $addressbookData['id'])
+			->setObject('addressbook', (int)$addressbookData['id'])
 			->setType('contacts')
 			->setAuthor($currentUser);
 
@@ -195,7 +177,7 @@ class Backend {
 					$parameters = [
 						'actor' => $event->getAuthor(),
 						'addressbook' => [
-							'id' => (int) $addressbookData['id'],
+							'id' => (int)$addressbookData['id'],
 							'uri' => $addressbookData['uri'],
 							'name' => $addressbookData['{DAV:}displayname'],
 						],
@@ -224,7 +206,7 @@ class Backend {
 				$parameters = [
 					'actor' => $event->getAuthor(),
 					'addressbook' => [
-						'id' => (int) $addressbookData['id'],
+						'id' => (int)$addressbookData['id'],
 						'uri' => $addressbookData['uri'],
 						'name' => $addressbookData['{DAV:}displayname'],
 					],
@@ -266,7 +248,7 @@ class Backend {
 					$parameters = [
 						'actor' => $event->getAuthor(),
 						'addressbook' => [
-							'id' => (int) $addressbookData['id'],
+							'id' => (int)$addressbookData['id'],
 							'uri' => $addressbookData['uri'],
 							'name' => $addressbookData['{DAV:}displayname'],
 						],
@@ -293,7 +275,7 @@ class Backend {
 				$parameters = [
 					'actor' => $event->getAuthor(),
 					'addressbook' => [
-						'id' => (int) $addressbookData['id'],
+						'id' => (int)$addressbookData['id'],
 						'uri' => $addressbookData['uri'],
 						'name' => $addressbookData['{DAV:}displayname'],
 					],
@@ -371,7 +353,7 @@ class Backend {
 				[
 					'actor' => $event->getAuthor(),
 					'addressbook' => [
-						'id' => (int) $properties['id'],
+						'id' => (int)$properties['id'],
 						'uri' => $properties['uri'],
 						'name' => $properties['{DAV:}displayname'],
 					],
@@ -415,7 +397,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject('addressbook', (int) $addressbookData['id'])
+			->setObject('addressbook', (int)$addressbookData['id'])
 			->setType('contacts')
 			->setAuthor($currentUser);
 
@@ -427,7 +409,7 @@ class Backend {
 			$params = [
 				'actor' => $event->getAuthor(),
 				'addressbook' => [
-					'id' => (int) $addressbookData['id'],
+					'id' => (int)$addressbookData['id'],
 					'uri' => $addressbookData['uri'],
 					'name' => $addressbookData['{DAV:}displayname'],
 				],
@@ -454,7 +436,7 @@ class Backend {
 	 */
 	protected function getCardNameAndId(array $cardData): array {
 		$vObject = Reader::read($cardData['carddata']);
-		return ['id' => (string) $vObject->UID, 'name' => (string) ($vObject->FN ?? '')];
+		return ['id' => (string)$vObject->UID, 'name' => (string)($vObject->FN ?? '')];
 	}
 
 	/**

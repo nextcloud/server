@@ -40,7 +40,7 @@ describe('Files: Can handle XML entities in file names', { testIsolation: false 
 		triggerActionForFile('&amp;.txt', 'delete')
 		cy.wait('@deleteFile')
 
-		cy.contains('.toast-success', /Delete .* successfull/)
+		cy.contains('.toast-success', /Delete .* done/)
 			.should('be.visible')
 		getRowForFile('&amp;.txt').should('not.exist')
 

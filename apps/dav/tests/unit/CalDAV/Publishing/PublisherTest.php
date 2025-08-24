@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -43,9 +45,9 @@ class PublisherTest extends TestCase {
 	}
 
 
-	protected $elementMap = [];
-	protected $namespaceMap = ['DAV:' => 'd'];
-	protected $contextUri = '/';
+	protected array $elementMap = [];
+	protected array $namespaceMap = ['DAV:' => 'd'];
+	protected string $contextUri = '/';
 
 	private function write($input) {
 		$writer = new Writer();

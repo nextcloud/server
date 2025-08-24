@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,7 +7,9 @@
  */
 namespace OCA\Files_Sharing\Tests\External;
 
+use OC\Files\Cache\Cache;
 use OCA\Files_Sharing\External\Scanner;
+use OCA\Files_Sharing\External\Storage;
 use Test\TestCase;
 
 /**
@@ -14,9 +17,9 @@ use Test\TestCase;
  */
 class ScannerTest extends TestCase {
 	protected Scanner $scanner;
-	/** @var \OCA\Files_Sharing\External\Storage|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Storage|\PHPUnit\Framework\MockObject\MockObject */
 	protected $storage;
-	/** @var \OC\Files\Cache\Cache|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Cache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cache;
 
 	protected function setUp(): void {
@@ -35,7 +38,7 @@ class ScannerTest extends TestCase {
 		$this->scanner = new Scanner($this->storage);
 	}
 
-	public function testScan() {
+	public function testScan(): void {
 		$this->storage->expects($this->any())
 			->method('getShareInfo')
 			->willReturn(['status' => 'success', 'data' => []]);
@@ -47,7 +50,7 @@ class ScannerTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testScanFile() {
+	public function testScanFile(): void {
 		// FIXME add real tests, we are currently only checking for
 		// Declaration of OCA\Files_Sharing\External\Scanner::*() should be
 		// compatible with OC\Files\Cache\Scanner::*()

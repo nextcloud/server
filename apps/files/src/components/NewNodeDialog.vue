@@ -3,147 +3,166 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcDialog :name="name"
+	<NcDialog data-cy-files-new-node-dialog
+		:name="name"
 		:open="open"
 		close-on-click-outside
 		out-transition
-		@update:open="onClose">
+		@update:open="emit('close', null)">
 		<template #actions>
-			<NcButton type="primary"
-				:disabled="!isUniqueName"
-				@click="onCreate">
+			<NcButton data-cy-files-new-node-dialog-submit
+				type="primary"
+				:disabled="validity !== ''"
+				@click="submit">
 				{{ t('files', 'Create') }}
 			</NcButton>
 		</template>
-		<form @submit.prevent="onCreate">
-			<NcTextField ref="input"
-				:error="!isUniqueName"
-				:helper-text="errorMessage"
+		<form ref="formElement"
+			class="new-node-dialog__form"
+			@submit.prevent="emit('close', localDefaultName)">
+			<NcTextField ref="nameInput"
+				data-cy-files-new-node-dialog-input
+				:error="validity !== ''"
+				:helper-text="validity"
 				:label="label"
 				:value.sync="localDefaultName" />
+
+			<!-- Hidden file warning -->
+			<NcNoteCard v-if="isHiddenFileName"
+				type="warning"
+				:text="t('files', 'Files starting with a dot are hidden by default')" />
 		</form>
 	</NcDialog>
 </template>
 
-<script lang="ts">
-import type { PropType } from 'vue'
+<script setup lang="ts">
+import type { ComponentPublicInstance, PropType } from 'vue'
+import { getUniqueName } from '@nextcloud/files'
+import { t } from '@nextcloud/l10n'
+import { extname } from 'path'
+import { computed, nextTick, onMounted, ref, watch, watchEffect } from 'vue'
+import { getFilenameValidity } from '../utils/filenameValidity.ts'
 
-import { defineComponent } from 'vue'
-import { translate as t } from '@nextcloud/l10n'
-import { getUniqueName } from '../utils/fileUtils'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
-
-interface ICanFocus {
-	focus: () => void
-}
-
-export default defineComponent({
-	name: 'NewNodeDialog',
-	components: {
-		NcButton,
-		NcDialog,
-		NcTextField,
+const props = defineProps({
+	/**
+	 * The name to be used by default
+	 */
+	defaultName: {
+		type: String,
+		default: t('files', 'New folder'),
 	},
-	props: {
-		/**
-		 * The name to be used by default
-		 */
-		defaultName: {
-			type: String,
-			default: t('files', 'New folder'),
-		},
-		/**
-		 * Other files that are in the current directory
-		 */
-		otherNames: {
-			type: Array as PropType<string[]>,
-			default: () => [],
-		},
-		/**
-		 * Open state of the dialog
-		 */
-		open: {
-			type: Boolean,
-			default: true,
-		},
-		/**
-		 * Dialog name
-		 */
-		name: {
-			type: String,
-			default: t('files', 'Create new folder'),
-		},
-		/**
-		 * Input label
-		 */
-		label: {
-			type: String,
-			default: t('files', 'Folder name'),
-		},
+	/**
+	 * Other files that are in the current directory
+	 */
+	otherNames: {
+		type: Array as PropType<string[]>,
+		default: () => [],
 	},
-	emits: {
-		close: (name: string|null) => name === null || name,
+	/**
+	 * Open state of the dialog
+	 */
+	open: {
+		type: Boolean,
+		default: true,
 	},
-	data() {
-		return {
-			localDefaultName: this.defaultName || t('files', 'New folder'),
-		}
+	/**
+	 * Dialog name
+	 */
+	name: {
+		type: String,
+		default: t('files', 'Create new folder'),
 	},
-	computed: {
-		errorMessage() {
-			if (this.isUniqueName) {
-				return ''
-			} else {
-				return t('files', 'A file or folder with that name already exists.')
-			}
-		},
-		uniqueName() {
-			return getUniqueName(this.localDefaultName, this.otherNames)
-		},
-		isUniqueName() {
-			return this.localDefaultName === this.uniqueName
-		},
-	},
-	watch: {
-		defaultName() {
-			this.localDefaultName = this.defaultName || t('files', 'New folder')
-		},
-
-		/**
-		 * Ensure the input is focussed even if the dialog is already mounted but not open
-		 */
-		open() {
-			this.$nextTick(() => this.focusInput())
-		},
-	},
-	mounted() {
-		// on mounted lets use the unique name
-		this.localDefaultName = this.uniqueName
-		this.$nextTick(() => this.focusInput())
-	},
-	methods: {
-		t,
-
-		/**
-		 * Focus the filename input field
-		 */
-		focusInput() {
-			if (this.open) {
-				this.$nextTick(() => (this.$refs.input as unknown as ICanFocus)?.focus?.())
-			}
-		},
-
-		onCreate() {
-			this.$emit('close', this.localDefaultName)
-		},
-		onClose(state: boolean) {
-			if (!state) {
-				this.$emit('close', null)
-			}
-		},
+	/**
+	 * Input label
+	 */
+	label: {
+		type: String,
+		default: t('files', 'Folder name'),
 	},
 })
+
+const emit = defineEmits<{
+	(event: 'close', name: string | null): void
+}>()
+
+const localDefaultName = ref<string>(props.defaultName)
+const nameInput = ref<ComponentPublicInstance>()
+const formElement = ref<HTMLFormElement>()
+const validity = ref('')
+
+const isHiddenFileName = computed(() => {
+	// Check if the name starts with a dot, which indicates a hidden file
+	return localDefaultName.value.trim().startsWith('.')
+})
+
+/**
+ * Focus the filename input field
+ */
+function focusInput() {
+	nextTick(() => {
+		// get the input element
+		const input = nameInput.value?.$el.querySelector('input')
+		if (!props.open || !input) {
+			return
+		}
+
+		// length of the basename
+		const length = localDefaultName.value.length - extname(localDefaultName.value).length
+		// focus the input
+		input.focus()
+		// and set the selection to the basename (name without extension)
+		input.setSelectionRange(0, length)
+	})
+}
+
+/**
+ * Trigger submit on the form
+ */
+function submit() {
+	formElement.value?.requestSubmit()
+}
+
+// Reset local name on props change
+watch(() => [props.defaultName, props.otherNames], () => {
+	localDefaultName.value = getUniqueName(props.defaultName, props.otherNames).trim()
+})
+
+// Validate the local name
+watchEffect(() => {
+	if (props.otherNames.includes(localDefaultName.value.trim())) {
+		validity.value = t('files', 'This name is already in use.')
+	} else {
+		validity.value = getFilenameValidity(localDefaultName.value.trim())
+	}
+	const input = nameInput.value?.$el.querySelector('input')
+	if (input) {
+		input.setCustomValidity(validity.value)
+		input.reportValidity()
+	}
+})
+
+// Ensure the input is focussed even if the dialog is already mounted but not open
+watch(() => props.open, () => {
+	nextTick(() => {
+		focusInput()
+	})
+})
+
+onMounted(() => {
+	// on mounted lets use the unique name
+	localDefaultName.value = getUniqueName(localDefaultName.value, props.otherNames).trim()
+	nextTick(() => focusInput())
+})
 </script>
+
+<style scoped>
+.new-node-dialog__form {
+	/* Ensure the dialog does not jump when there is a validity error */
+	min-height: calc(2 * var(--default-clickable-area));
+}
+</style>

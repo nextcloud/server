@@ -30,14 +30,21 @@ class ResultAdapter implements IResult {
 	}
 
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC) {
-		return $this->inner->fetch($fetchMode);
+		return match ($fetchMode) {
+			PDO::FETCH_ASSOC => $this->inner->fetchAssociative(),
+			PDO::FETCH_NUM => $this->inner->fetchNumeric(),
+			PDO::FETCH_COLUMN => $this->inner->fetchOne(),
+			default => throw new \Exception('Fetch mode needs to be assoc, num or column.'),
+		};
 	}
 
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array {
-		if ($fetchMode !== PDO::FETCH_ASSOC && $fetchMode !== PDO::FETCH_NUM && $fetchMode !== PDO::FETCH_COLUMN) {
-			throw new \Exception('Fetch mode needs to be assoc, num or column.');
-		}
-		return $this->inner->fetchAll($fetchMode);
+		return match ($fetchMode) {
+			PDO::FETCH_ASSOC => $this->inner->fetchAllAssociative(),
+			PDO::FETCH_NUM => $this->inner->fetchAllNumeric(),
+			PDO::FETCH_COLUMN => $this->inner->fetchFirstColumn(),
+			default => throw new \Exception('Fetch mode needs to be assoc, num or column.'),
+		};
 	}
 
 	public function fetchColumn($columnIndex = 0) {

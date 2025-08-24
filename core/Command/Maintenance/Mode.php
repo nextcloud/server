@@ -24,7 +24,8 @@ class Mode extends Command {
 	protected function configure() {
 		$this
 			->setName('maintenance:mode')
-			->setDescription('set maintenance mode')
+			->setDescription('Show or toggle maintenance mode status')
+			->setHelp('Maintenance mode prevents new logins, locks existing sessions, and disables background jobs.')
 			->addOption(
 				'on',
 				null,

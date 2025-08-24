@@ -33,6 +33,10 @@
 					@delete="deleteClient" />
 			</tbody>
 		</table>
+		<NcNoteCard v-if="showSecretWarning"
+			type="warning">
+			{{ t('oauth2', 'Make sure you store the secret key, it cannot be recovered.') }}
+		</NcNoteCard>
 
 		<br>
 		<h3>{{ t('oauth2', 'Add client') }}</h3>
@@ -64,10 +68,11 @@ import axios from '@nextcloud/axios'
 import OAuthItem from './components/OAuthItem.vue'
 import { generateUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import { loadState } from '@nextcloud/initial-state'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 export default {
 	name: 'App',
@@ -76,6 +81,7 @@ export default {
 		NcSettingsSection,
 		NcButton,
 		NcTextField,
+		NcNoteCard,
 	},
 	props: {
 		clients: {
@@ -92,6 +98,7 @@ export default {
 				error: false,
 			},
 			oauthDocLink: loadState('oauth2', 'oauth2-doc-link'),
+			showSecretWarning: false,
 		}
 	},
 	computed: {
@@ -102,7 +109,7 @@ export default {
 	methods: {
 		deleteClient(id) {
 			axios.delete(generateUrl('apps/oauth2/clients/{id}', { id }))
-				.then((response) => {
+				.then(() => {
 					// eslint-disable-next-line vue/no-mutating-props
 					this.clients = this.clients.filter(client => client.id !== id)
 				})
@@ -119,6 +126,7 @@ export default {
 			).then(response => {
 				// eslint-disable-next-line vue/no-mutating-props
 				this.clients.push(response.data)
+				this.showSecretWarning = true
 
 				this.newClient.name = ''
 				this.newClient.redirectUri = ''
@@ -140,12 +148,14 @@ export default {
 		min-height: 34px !important;
 		display: inline-flex !important;
 	}
+
 	.oauth2-form {
 		display: flex;
 		flex-direction: row;
 	}
+
 	.oauth2-form--input {
 		max-width: 200px;
-		margin-right: 10px;
+		margin-inline-end: 10px;
 	}
 </style>

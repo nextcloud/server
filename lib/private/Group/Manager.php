@@ -8,6 +8,7 @@
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OC\Settings\AuthorizedGroupMapper;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICreateNamedGroupBackend;
@@ -19,6 +20,7 @@ use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Log\LoggerInterface;
 use function is_string;
 
@@ -41,11 +43,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/** @var GroupInterface[] */
 	private $backends = [];
 
-	/** @var \OC\User\Manager */
-	private $userManager;
-	private IEventDispatcher $dispatcher;
-	private LoggerInterface $logger;
-
 	/** @var array<string, IGroup> */
 	private $cachedGroups = [];
 
@@ -59,13 +56,13 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	private const MAX_GROUP_LENGTH = 255;
 
-	public function __construct(\OC\User\Manager $userManager,
-		IEventDispatcher $dispatcher,
-		LoggerInterface $logger,
-		ICacheFactory $cacheFactory) {
-		$this->userManager = $userManager;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private \OC\User\Manager $userManager,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+		ICacheFactory $cacheFactory,
+		private IRemoteAddress $remoteAddress,
+	) {
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 
 		$this->listen('\OC\Group', 'postDelete', function (IGroup $group): void {
@@ -241,7 +238,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		} elseif ($group = $this->get($gid)) {
 			return $group;
 		} elseif (mb_strlen($gid) > self::MAX_GROUP_LENGTH) {
-			throw new \Exception('Group name is limited to '. self::MAX_GROUP_LENGTH.' characters');
+			throw new \Exception('Group name is limited to ' . self::MAX_GROUP_LENGTH . ' characters');
 		} else {
 			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
 			$this->emit('\OC\Group', 'preCreate', [$gid]);
@@ -325,12 +322,28 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if admin
 	 */
 	public function isAdmin($userId) {
+		if (!$this->remoteAddress->allowsAdminActions()) {
+			return false;
+		}
+
 		foreach ($this->backends as $backend) {
 			if (is_string($userId) && $backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
 				return true;
 			}
 		}
 		return $this->isInGroup($userId, 'admin');
+	}
+
+	public function isDelegatedAdmin(string $userId): bool {
+		if (!$this->remoteAddress->allowsAdminActions()) {
+			return false;
+		}
+
+		// Check if the user as admin delegation for users listing
+		$authorizedGroupMapper = \OCP\Server::get(AuthorizedGroupMapper::class);
+		$user = $this->userManager->get($userId);
+		$authorizedClasses = $authorizedGroupMapper->findAllClassesForUser($user);
+		return in_array(\OCA\Settings\Settings\Admin\Users::class, $authorizedClasses, true);
 	}
 
 	/**
@@ -348,7 +361,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * get a list of group ids for a user
 	 *
 	 * @param IUser $user
-	 * @return string[] with group ids
+	 * @return list<string> with group ids
 	 */
 	public function getUserGroupIds(IUser $user): array {
 		return $this->getUserIdGroupIds($user->getUID());
@@ -356,7 +369,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param string $uid the user id
-	 * @return string[]
+	 * @return list<string>
 	 */
 	private function getUserIdGroupIds(string $uid): array {
 		if (!isset($this->cachedUserGroups[$uid])) {
@@ -439,7 +452,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 		$matchingUsers = [];
 		foreach ($groupUsers as $groupUser) {
-			$matchingUsers[(string) $groupUser->getUID()] = $groupUser->getDisplayName();
+			$matchingUsers[(string)$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
 	}

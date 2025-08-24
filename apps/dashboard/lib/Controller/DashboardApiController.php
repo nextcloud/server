@@ -13,6 +13,8 @@ use OCA\Dashboard\ResponseDefinitions;
 use OCA\Dashboard\Service\DashboardService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Dashboard\IAPIWidget;
@@ -67,19 +69,18 @@ class DashboardApiController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the items for the widgets
 	 *
 	 * @param array<string, string> $sinceIds Array indexed by widget Ids, contains date/id from which we want the new items
 	 * @param int $limit Limit number of result items per widget
 	 * @psalm-param int<1, 30> $limit
-	 * @param string[] $widgets Limit results to specific widgets
-	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidgetItem[]>, array{}>
+	 * @param list<string> $widgets Limit results to specific widgets
+	 * @return DataResponse<Http::STATUS_OK, array<string, list<DashboardWidgetItem>>, array{}>
 	 *
 	 * 200: Widget items returned
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/widget-items')]
 	public function getWidgetItems(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
 		$items = [];
@@ -96,19 +97,18 @@ class DashboardApiController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the items for the widgets
 	 *
 	 * @param array<string, string> $sinceIds Array indexed by widget Ids, contains date/id from which we want the new items
 	 * @param int $limit Limit number of result items per widget, not more than 30 are allowed
 	 * @psalm-param int<1, 30> $limit
-	 * @param string[] $widgets Limit results to specific widgets
+	 * @param list<string> $widgets Limit results to specific widgets
 	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidgetItems>, array{}>
 	 *
 	 * 200: Widget items returned
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v2/widget-items')]
 	public function getWidgetItemsV2(array $sinceIds = [], int $limit = 7, array $widgets = []): DataResponse {
 		$items = [];
@@ -127,13 +127,12 @@ class DashboardApiController extends OCSController {
 	/**
 	 * Get the widgets
 	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * @return DataResponse<Http::STATUS_OK, array<string, DashboardWidget>, array{}>
 	 *
 	 * 200: Widgets returned
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/widgets')]
 	public function getWidgets(): DataResponse {
 		$widgets = $this->dashboardManager->getWidgets();
@@ -180,11 +179,11 @@ class DashboardApiController extends OCSController {
 	/**
 	 * Get the layout
 	 *
-	 * @NoAdminRequired
 	 * @return DataResponse<Http::STATUS_OK, array{layout: list<string>}, array{}>
 	 *
 	 * 200: Layout returned
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v3/layout')]
 	public function getLayout(): DataResponse {
 		return new DataResponse(['layout' => $this->service->getLayout()]);
@@ -193,12 +192,12 @@ class DashboardApiController extends OCSController {
 	/**
 	 * Update the layout
 	 *
-	 * @NoAdminRequired
 	 * @param list<string> $layout The new layout
 	 * @return DataResponse<Http::STATUS_OK, array{layout: list<string>}, array{}>
 	 *
 	 * 200: Statuses updated successfully
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v3/layout')]
 	public function updateLayout(array $layout): DataResponse {
 		$this->config->setUserValue($this->userId, 'dashboard', 'layout', implode(',', $layout));
@@ -208,11 +207,11 @@ class DashboardApiController extends OCSController {
 	/**
 	 * Get the statuses
 	 *
-	 * @NoAdminRequired
 	 * @return DataResponse<Http::STATUS_OK, array{statuses: list<string>}, array{}>
 	 *
 	 * 200: Statuses returned
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v3/statuses')]
 	public function getStatuses(): DataResponse {
 		return new DataResponse(['statuses' => $this->service->getStatuses()]);
@@ -221,12 +220,12 @@ class DashboardApiController extends OCSController {
 	/**
 	 * Update the statuses
 	 *
-	 * @NoAdminRequired
 	 * @param list<string> $statuses The new statuses
 	 * @return DataResponse<Http::STATUS_OK, array{statuses: list<string>}, array{}>
 	 *
 	 * 200: Statuses updated successfully
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/api/v3/statuses')]
 	public function updateStatuses(array $statuses): DataResponse {
 		$this->config->setUserValue($this->userId, 'dashboard', 'statuses', implode(',', $statuses));

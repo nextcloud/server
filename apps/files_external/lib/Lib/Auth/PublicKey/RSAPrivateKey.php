@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,12 +19,10 @@ use phpseclib\Crypt\RSA as RSACrypt;
  */
 class RSAPrivateKey extends AuthMechanism {
 
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IL10N $l, IConfig $config) {
-		$this->config = $config;
-
+	public function __construct(
+		IL10N $l,
+		private IConfig $config,
+	) {
 		$this
 			->setIdentifier('publickey::rsa_private')
 			->setScheme(self::SCHEME_PUBLICKEY)

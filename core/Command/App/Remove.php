@@ -49,9 +49,9 @@ class Remove extends Command implements CompletionAwareInterface {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appId = $input->getArgument('app-id');
 
-		// Check if the app is installed
-		if (!$this->manager->isInstalled($appId)) {
-			$output->writeln($appId . ' is not installed');
+		// Check if the app is enabled
+		if (!$this->manager->isEnabledForAnyone($appId)) {
+			$output->writeln($appId . ' is not enabled');
 			return 1;
 		}
 
@@ -117,7 +117,7 @@ class Remove extends Command implements CompletionAwareInterface {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
-			return $this->manager->getInstalledApps();
+			return $this->manager->getEnabledApps();
 		}
 		return [];
 	}

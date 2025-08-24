@@ -53,15 +53,13 @@ OC.L10N.register(
     "Basic encryption module" : "기본 암호화 모듈",
     "Your private key password no longer matches your log-in password." : "개인 키 암호와 로그인 암호가 일치하지 않습니다.",
     "Set your old private key password to your current log-in password:" : "기존 개인 키 암호를 로그인 암호와 동일하게 설정하십시오:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : " 이전 암호가 기억나지 않으면 시스템 관리자에게 파일 복구를 요청하십시오.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "기존 암호가 기억나지 않는다면 관리자에게 파일을 복구하도록 요청할 수 있습니다.",
     "Old log-in password" : "이전 로그인 암호",
     "Current log-in password" : "현재 로그인 암호",
     "Update Private Key Password" : "개인 키 암호 업데이트",
     "Enable password recovery:" : "암호 복구 사용:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다",
     "Enabled" : "활성화",
-    "Disabled" : "비활성화",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "웹 인터페이스에 로그인하여 개인 설정의 \"보안\"으로 이동하고, \"이전 로그인 암호\" 필드에 위 암호를 입력한 후, 현재 로그인 암호를 입력하여 암호화 암호를 갱신하십시오. ",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "복구 키는 파일을 암호화하는 추가 키입니다. 사용자가 암호를 잊었을 때 복구할 수 있도록 해 줍니다."
+    "Disabled" : "비활성화"
 },
 "nplurals=1; plural=0;");

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -18,36 +19,14 @@ use OCP\Util;
 
 class ServerDevNotice implements ISettings {
 
-	/** @var IRegistry */
-	private $registry;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IInitialState */
-	private $initialState;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	public function __construct(IRegistry $registry,
-		IEventDispatcher $eventDispatcher,
-		IRootFolder $rootFolder,
-		IUserSession $userSession,
-		IInitialState $initialState,
-		IURLGenerator $urlGenerator) {
-		$this->registry = $registry;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->rootFolder = $rootFolder;
-		$this->userSession = $userSession;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IRegistry $registry,
+		private IEventDispatcher $eventDispatcher,
+		private IRootFolder $rootFolder,
+		private IUserSession $userSession,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	/**
@@ -89,8 +68,8 @@ class ServerDevNotice implements ISettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

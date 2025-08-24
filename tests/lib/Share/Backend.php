@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,8 +11,9 @@ namespace Test\Share;
 use OC\Share20\Manager;
 use OCP\Server;
 use OCP\Share\IShare;
+use OCP\Share_Backend;
 
-class Backend implements \OCP\Share_Backend {
+class Backend implements Share_Backend {
 	public const FORMAT_SOURCE = 0;
 	public const FORMAT_TARGET = 1;
 	public const FORMAT_PERMISSIONS = 2;
@@ -30,7 +32,7 @@ class Backend implements \OCP\Share_Backend {
 		// Always make target be test.txt to cause conflicts
 
 		if (substr($itemSource, 0, strlen('test')) !== 'test') {
-			$target = "test.txt";
+			$target = 'test.txt';
 		} else {
 			$target = $itemSource;
 		}
@@ -54,11 +56,11 @@ class Backend implements \OCP\Share_Backend {
 			$ext = substr($target, $pos);
 			$append = '';
 			$i = 1;
-			while (in_array($name.$append.$ext, $knownTargets)) {
+			while (in_array($name . $append . $ext, $knownTargets)) {
 				$append = $i;
 				$i++;
 			}
-			$target = $name.$append.$ext;
+			$target = $name . $append . $ext;
 		}
 
 		return $target;

@@ -79,8 +79,8 @@
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import NcSettingsSection from '@nextcloud/vue/components/NcSettingsSection'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 const userSyncCalendarsDocUrl = loadState('dav', 'userSyncCalendarsDocUrl', '#')
 
@@ -128,7 +128,7 @@ export default {
 			OCP.AppConfig.setValue(
 				'dav',
 				'sendInvitations',
-				value ? 'yes' : 'no'
+				value ? 'yes' : 'no',
 			)
 		},
 		sendEventReminders(value) {
@@ -138,7 +138,7 @@ export default {
 			OCP.AppConfig.setValue(
 				'dav',
 				'sendEventRemindersToSharedUsers',
-				value ? 'yes' : 'no'
+				value ? 'yes' : 'no',
 			)
 		},
 		sendEventRemindersPush(value) {
@@ -150,12 +150,13 @@ export default {
 
 <style scoped>
 	.indented {
-		padding-left: 28px;
+		padding-inline-start: 28px;
 	}
 	/** Use deep selector to affect v-html */
-	* >>> a {
+	* :deep(a) {
 		text-decoration: underline;
 	}
+
 	.settings-hint {
 		margin-top: -.2em;
 		margin-bottom: 1em;

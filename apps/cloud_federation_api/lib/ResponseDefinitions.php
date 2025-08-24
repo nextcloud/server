@@ -12,6 +12,7 @@ namespace OCA\CloudFederationAPI;
 /**
  * @psalm-type CloudFederationAPIAddShare = array{
  *     recipientDisplayName: string,
+ *     recipientUserId?: string,
  * }
  *
  * @psalm-type CloudFederationAPIError = array{
@@ -19,10 +20,10 @@ namespace OCA\CloudFederationAPI;
  * }
  *
  * @psalm-type CloudFederationAPIValidationError = CloudFederationAPIError&array{
- *     validationErrors: array{
+ *     validationErrors: list<array{
  *          name: string,
  *          message: string|null,
- *     }[],
+ *     }>,
  * }
  */
 class ResponseDefinitions {

@@ -9,8 +9,7 @@ OC.L10N.register(
     "Secret key" : "საიდუმლო გასაღები",
     "Add client" : "კლიენტის დამატება",
     "Add" : "დამატება",
-    "Delete" : "წაშლა",
     "Show client secret" : "გამოაჩინე კლიენტის საიდუმლო",
-    "Secret" : "საიდუმლო"
+    "Delete" : "წაშლა"
 },
 "nplurals=2; plural=(n!=1);");

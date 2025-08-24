@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,7 +7,7 @@
  */
 
 if (!isset($argv[1])) {
-	echo "Clover file is missing" . PHP_EOL;
+	echo 'Clover file is missing' . PHP_EOL;
 	exit;
 }
 
@@ -40,6 +41,6 @@ try {
 	file_put_contents('coverage.svg', $content);
 } catch (Exception $ex) {
 	echo $ex->getMessage() . PHP_EOL;
-	$content = file_get_contents("https://img.shields.io/badge/coverage-ERROR-red.svg");
+	$content = file_get_contents('https://img.shields.io/badge/coverage-ERROR-red.svg');
 	file_put_contents('coverage.svg', $content);
 }

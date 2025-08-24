@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -16,15 +17,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncAccountDataCommand extends Base {
-	protected IUserManager $userManager;
-	protected IAccountManager $accountManager;
-
 	public function __construct(
-		IUserManager $userManager,
-		IAccountManager $accountManager
+		protected IUserManager $userManager,
+		protected IAccountManager $accountManager,
 	) {
-		$this->userManager = $userManager;
-		$this->accountManager = $accountManager;
 		parent::__construct();
 	}
 
@@ -48,7 +44,7 @@ class SyncAccountDataCommand extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$users = $this->userManager->searchDisplayName('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
+		$users = $this->userManager->searchDisplayName('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 
 		foreach ($users as $user) {
 			$this->updateUserAccount($user, $output);

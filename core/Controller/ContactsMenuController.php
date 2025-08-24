@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,6 +11,7 @@ use OC\Contacts\ContactsMenu\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
@@ -24,22 +26,20 @@ class ContactsMenuController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @return \JsonSerializable[]
 	 * @throws Exception
 	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/contactsmenu/contacts')]
 	public function index(?string $filter = null): array {
 		return $this->manager->getEntries($this->userSession->getUser(), $filter);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @return JSONResponse|\JsonSerializable
 	 * @throws Exception
 	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/contactsmenu/findOne')]
 	public function findOne(int $shareType, string $shareWith) {
 		$contact = $this->manager->findOne($this->userSession->getUser(), $shareType, $shareWith);

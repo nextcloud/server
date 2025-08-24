@@ -42,7 +42,7 @@ class LockPlugin extends ServerPlugin {
 	public function getLock(RequestInterface $request) {
 		// we can't listen on 'beforeMethod:PUT' due to order of operations with setting up the tree
 		// so instead we limit ourselves to the PUT method manually
-		if ($request->getMethod() !== 'PUT' || isset($_SERVER['HTTP_OC_CHUNKED'])) {
+		if ($request->getMethod() !== 'PUT') {
 			return;
 		}
 		try {
@@ -65,7 +65,7 @@ class LockPlugin extends ServerPlugin {
 		if ($this->isLocked === false) {
 			return;
 		}
-		if ($request->getMethod() !== 'PUT' || isset($_SERVER['HTTP_OC_CHUNKED'])) {
+		if ($request->getMethod() !== 'PUT') {
 			return;
 		}
 		try {

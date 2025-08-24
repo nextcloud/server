@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -19,6 +20,7 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
@@ -26,6 +28,7 @@ use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -62,53 +65,22 @@ use Psr\Log\LoggerInterface;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-	/** @var Manager $manager */
-	private $manager;
-
-	/** @var ISession $session */
-	private $session;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IProvider */
-	private $tokenProvider;
-
-	/** @var IConfig */
-	private $config;
+	use TTransactional;
 
 	/** @var User $activeUser */
 	protected $activeUser;
 
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var ILockdownManager  */
-	private $lockdownManager;
-
-	private LoggerInterface $logger;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	public function __construct(Manager $manager,
-		ISession $session,
-		ITimeFactory $timeFactory,
-		?IProvider $tokenProvider,
-		IConfig $config,
-		ISecureRandom $random,
-		ILockdownManager $lockdownManager,
-		LoggerInterface $logger,
-		IEventDispatcher $dispatcher
+	public function __construct(
+		private Manager $manager,
+		private ISession $session,
+		private ITimeFactory $timeFactory,
+		private ?IProvider $tokenProvider,
+		private IConfig $config,
+		private ISecureRandom $random,
+		private ILockdownManager $lockdownManager,
+		private LoggerInterface $logger,
+		private IEventDispatcher $dispatcher,
 	) {
-		$this->manager = $manager;
-		$this->session = $session;
-		$this->timeFactory = $timeFactory;
-		$this->tokenProvider = $tokenProvider;
-		$this->config = $config;
-		$this->random = $random;
-		$this->lockdownManager = $lockdownManager;
-		$this->logger = $logger;
-		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -348,7 +320,7 @@ class Session implements IUserSession, Emitter {
 			// disabled users can not log in
 			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
 			$message = \OCP\Util::getL10N('lib')->t('Account disabled');
-			throw new LoginException($message);
+			throw new DisabledUserException($message);
 		}
 
 		if ($regenerateSessionId) {
@@ -363,6 +335,7 @@ class Session implements IUserSession, Emitter {
 		if ($isToken) {
 			$this->setToken($loginDetails['token']->getId());
 			$this->lockdownManager->setToken($loginDetails['token']);
+			$user->updateLastLoginTimestamp();
 			$firstTimeLogin = false;
 		} else {
 			$this->setToken(null);
@@ -674,8 +647,10 @@ class Session implements IUserSession, Emitter {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
 			// Make sure the current sessionId has no leftover tokens
-			$this->tokenProvider->invalidateToken($sessionId);
-			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember) {
+				$this->tokenProvider->invalidateToken($sessionId);
+				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+			}, \OCP\Server::get(IDBConnection::class));
 			return true;
 		} catch (SessionNotAvailableException $ex) {
 			// This can happen with OCC, where a memory session is used
@@ -806,7 +781,7 @@ class Session implements IUserSession, Emitter {
 	 * Check if login names match
 	 */
 	private function validateTokenLoginName(?string $loginName, IToken $token): bool {
-		if ($token->getLoginName() !== $loginName) {
+		if (mb_strtolower($token->getLoginName()) !== mb_strtolower($loginName ?? '')) {
 			// TODO: this makes it impossible to use different login names on browser and client
 			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
 			//      allow to use the client token with the login name 'user'.
@@ -860,9 +835,8 @@ class Session implements IUserSession, Emitter {
 			return true;
 		}
 
-		// Remember me tokens are not app_passwords
-		if ($dbToken->getRemember() === IToken::DO_NOT_REMEMBER) {
-			// Set the session variable so we know this is an app password
+		// Set the session variable so we know this is an app password
+		if ($dbToken instanceof PublicKeyToken && $dbToken->getType() === IToken::PERMANENT_TOKEN) {
 			$this->session->set('app_password', $token);
 		}
 
@@ -994,6 +968,7 @@ class Session implements IUserSession, Emitter {
 		if ($webRoot === '') {
 			$webRoot = '/';
 		}
+		$domain = $this->config->getSystemValueString('cookie_domain');
 
 		$maxAge = $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		\OC\Http\CookieHelper::setCookie(
@@ -1001,7 +976,7 @@ class Session implements IUserSession, Emitter {
 			$username,
 			$maxAge,
 			$webRoot,
-			'',
+			$domain,
 			$secureCookie,
 			true,
 			\OC\Http\CookieHelper::SAMESITE_LAX
@@ -1011,7 +986,7 @@ class Session implements IUserSession, Emitter {
 			$token,
 			$maxAge,
 			$webRoot,
-			'',
+			$domain,
 			$secureCookie,
 			true,
 			\OC\Http\CookieHelper::SAMESITE_LAX
@@ -1022,7 +997,7 @@ class Session implements IUserSession, Emitter {
 				$this->session->getId(),
 				$maxAge,
 				$webRoot,
-				'',
+				$domain,
 				$secureCookie,
 				true,
 				\OC\Http\CookieHelper::SAMESITE_LAX
@@ -1038,18 +1013,19 @@ class Session implements IUserSession, Emitter {
 	public function unsetMagicInCookie() {
 		//TODO: DI for cookies and IRequest
 		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
+		$domain = $this->config->getSystemValueString('cookie_domain');
 
 		unset($_COOKIE['nc_username']); //TODO: DI
 		unset($_COOKIE['nc_token']);
 		unset($_COOKIE['nc_session_id']);
-		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
+		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
+		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT, $domain, $secureCookie, true);
 		// old cookies might be stored under /webroot/ instead of /webroot
 		// and Firefox doesn't like it!
-		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('nc_username', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', $domain, $secureCookie, true);
+		setcookie('nc_token', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', $domain, $secureCookie, true);
+		setcookie('nc_session_id', '', $this->timeFactory->getTime() - 3600, OC::$WEBROOT . '/', $domain, $secureCookie, true);
 	}
 
 	/**

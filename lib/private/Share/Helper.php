@@ -7,6 +7,10 @@
  */
 namespace OC\Share;
 
+use OC\Core\AppInfo\ConfigLexicon;
+use OCP\IAppConfig;
+use OCP\Server;
+
 class Helper extends \OC\Share\Constants {
 	/**
 	 * get default expire settings defined by the admin
@@ -14,16 +18,15 @@ class Helper extends \OC\Share\Constants {
 	 */
 	public static function getDefaultExpireSetting() {
 		$config = \OC::$server->getConfig();
+		$appConfig = Server::get(IAppConfig::class);
 
 		$defaultExpireSettings = ['defaultExpireDateSet' => false];
 
 		// get default expire settings
-		$defaultExpireDate = $config->getAppValue('core', 'shareapi_default_expire_date', 'no');
-		if ($defaultExpireDate === 'yes') {
-			$enforceExpireDate = $config->getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+		if ($appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT)) {
 			$defaultExpireSettings['defaultExpireDateSet'] = true;
 			$defaultExpireSettings['expireAfterDays'] = (int)$config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
-			$defaultExpireSettings['enforceExpireDate'] = $enforceExpireDate === 'yes';
+			$defaultExpireSettings['enforceExpireDate'] = $appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
 		}
 
 		return $defaultExpireSettings;
@@ -125,5 +128,14 @@ class Helper extends \OC\Share\Constants {
 		}
 
 		return false;
+	}
+
+	public static function getTokenLength(): int {
+		$config = Server::get(\OCP\IAppConfig::class);
+		$tokenLength = $config->getValueInt('core', 'shareapi_token_length', self::DEFAULT_TOKEN_LENGTH);
+		$tokenLength = $tokenLength ?: self::DEFAULT_TOKEN_LENGTH;
+
+		// Token length should be within the defined min and max limits
+		return max(self::MIN_TOKEN_LENGTH, min($tokenLength, self::MAX_TOKEN_LENGTH));
 	}
 }

@@ -17,7 +17,7 @@ interface IGetRealUIDBackend {
 	 * For example the database backend accepts different cased UIDs in all the functions
 	 * but the internal UID that is to be used should be correctly cased.
 	 *
-	 * This little function makes sure that the used UID will be correct hen using the user object
+	 * This little function makes sure that the used UID will be correct when using the user object
 	 *
 	 * @since 17.0.0
 	 * @param string $uid

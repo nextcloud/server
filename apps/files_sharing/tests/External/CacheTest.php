@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,10 +8,13 @@
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
+use OC\Files\Storage\Storage;
+use OCA\Files_Sharing\External\Cache;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\ICacheFactory;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -27,12 +31,12 @@ class CacheTest extends TestCase {
 	protected $contactsManager;
 
 	/**
-	 * @var \OC\Files\Storage\Storage
+	 * @var Storage
 	 **/
 	private $storage;
 
 	/**
-	 * @var \OCA\Files_Sharing\External\Cache
+	 * @var Cache
 	 */
 	private $cache;
 
@@ -41,7 +45,7 @@ class CacheTest extends TestCase {
 	 */
 	private $remoteUser;
 
-	/** @var  ICloudIdManager */
+	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
 	protected function setUp(): void {
@@ -50,11 +54,11 @@ class CacheTest extends TestCase {
 		$this->contactsManager = $this->createMock(IManager::class);
 
 		$this->cloudIdManager = new CloudIdManager(
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class),
 			$this->contactsManager,
 			$this->createMock(IURLGenerator::class),
 			$this->createMock(IUserManager::class),
-			$this->createMock(ICacheFactory::class),
-			$this->createMock(IEventDispatcher::class)
 		);
 		$this->remoteUser = $this->getUniqueID('remoteuser');
 
@@ -70,10 +74,11 @@ class CacheTest extends TestCase {
 			->method('search')
 			->willReturn([]);
 
-		$this->cache = new \OCA\Files_Sharing\External\Cache(
+		$this->cache = new Cache(
 			$this->storage,
 			$this->cloudIdManager->getCloudId($this->remoteUser, 'http://example.com/owncloud')
 		);
+		$this->cache->insert('', ['size' => 0, 'mtime' => 0, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$this->cache->put(
 			'test.txt',
 			[
@@ -91,7 +96,7 @@ class CacheTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testGetInjectsOwnerDisplayName() {
+	public function testGetInjectsOwnerDisplayName(): void {
 		$info = $this->cache->get('test.txt');
 		$this->assertEquals(
 			$this->remoteUser . '@example.com/owncloud',
@@ -99,12 +104,12 @@ class CacheTest extends TestCase {
 		);
 	}
 
-	public function testGetReturnsFalseIfNotFound() {
+	public function testGetReturnsFalseIfNotFound(): void {
 		$info = $this->cache->get('unexisting-entry.txt');
 		$this->assertFalse($info);
 	}
 
-	public function testGetFolderPopulatesOwner() {
+	public function testGetFolderPopulatesOwner(): void {
 		$dirId = $this->cache->put(
 			'subdir',
 			[

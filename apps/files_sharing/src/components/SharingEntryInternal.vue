@@ -29,10 +29,10 @@
 <script>
 import { generateUrl } from '@nextcloud/router'
 import { showSuccess } from '@nextcloud/dialogs'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 
-import CheckIcon from 'vue-material-design-icons/CheckBold.vue'
-import ClipboardIcon from 'vue-material-design-icons/ClipboardFlow.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import ClipboardIcon from 'vue-material-design-icons/ContentCopy.vue'
 
 import SharingEntrySimple from './SharingEntrySimple.vue'
 
@@ -83,14 +83,11 @@ export default {
 				}
 				return t('files_sharing', 'Cannot copy, please copy the link manually')
 			}
-			return t('files_sharing', 'Copy internal link to clipboard')
+			return t('files_sharing', 'Copy internal link')
 		},
 
 		internalLinkSubtitle() {
-			if (this.fileInfo.type === 'dir') {
-				return t('files_sharing', 'Only works for people with access to this folder')
-			}
-			return t('files_sharing', 'Only works for people with access to this file')
+			return t('files_sharing', 'For people who already have access')
 		},
 	},
 
@@ -130,7 +127,7 @@ export default {
 	}
 	.icon-checkmark-color {
 		opacity: 1;
-		color: var(--color-success);
+		color: var(--color-border-success);
 	}
 }
 </style>

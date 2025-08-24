@@ -17,33 +17,22 @@ class MetaData {
 	public const SORT_USERCOUNT = 1; // May have performance issues on LDAP backends
 	public const SORT_GROUPNAME = 2;
 
-	/** @var string */
-	protected $user;
-	/** @var bool */
-	protected $isAdmin;
 	/** @var array */
 	protected $metaData = [];
-	/** @var GroupManager */
-	protected $groupManager;
 	/** @var int */
 	protected $sorting = self::SORT_NONE;
-	/** @var IUserSession */
-	protected $userSession;
 
 	/**
 	 * @param string $user the uid of the current user
 	 * @param bool $isAdmin whether the current users is an admin
 	 */
 	public function __construct(
-		string $user,
-		bool $isAdmin,
-		IGroupManager $groupManager,
-		IUserSession $userSession
+		private string $user,
+		private bool $isAdmin,
+		private bool $isDelegatedAdmin,
+		private IGroupManager $groupManager,
+		private IUserSession $userSession,
 	) {
-		$this->user = $user;
-		$this->isAdmin = $isAdmin;
-		$this->groupManager = $groupManager;
-		$this->userSession = $userSession;
 	}
 
 	/**
@@ -52,7 +41,7 @@ class MetaData {
 	 * [0] array containing meta data about admin groups
 	 * [1] array containing meta data about unprivileged groups
 	 * @param string $groupSearch only effective when instance was created with
-	 * isAdmin being true
+	 *                            isAdmin being true
 	 * @param string $userSearch the pattern users are search for
 	 */
 	public function get(string $groupSearch = '', string $userSearch = ''): array {
@@ -162,11 +151,11 @@ class MetaData {
 	 * @return IGroup[]
 	 */
 	public function getGroups(string $search = ''): array {
-		if ($this->isAdmin) {
+		if ($this->isAdmin || $this->isDelegatedAdmin) {
 			return $this->groupManager->search($search);
 		} else {
 			$userObject = $this->userSession->getUser();
-			if ($userObject !== null) {
+			if ($userObject !== null && $this->groupManager instanceof GroupManager) {
 				$groups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($userObject);
 			} else {
 				$groups = [];

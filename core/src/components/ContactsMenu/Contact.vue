@@ -23,7 +23,7 @@
 			:inline="contact.topAction ? 1 : 0">
 			<template v-for="(action, idx) in actions">
 				<NcActionLink v-if="action.hyperlink !== '#'"
-					:key="idx"
+					:key="`${idx}-link`"
 					:href="action.hyperlink"
 					class="other-actions">
 					<template #icon>
@@ -31,30 +31,46 @@
 					</template>
 					{{ action.title }}
 				</NcActionLink>
-				<NcActionText v-else :key="idx" class="other-actions">
+				<NcActionText v-else :key="`${idx}-text`" class="other-actions">
 					<template #icon>
 						<img aria-hidden="true" class="contact__action__icon" :src="action.icon">
 					</template>
 					{{ action.title }}
 				</NcActionText>
 			</template>
+			<NcActionButton v-for="action in jsActions"
+				:key="action.id"
+				:close-after-click="true"
+				class="other-actions"
+				@click="action.callback(contact)">
+				<template #icon>
+					<NcIconSvgWrapper class="contact__action__icon-svg"
+						:svg="action.iconSvg(contact)" />
+				</template>
+				{{ action.displayName(contact) }}
+			</NcActionButton>
 		</NcActions>
 	</li>
 </template>
 
 <script>
-import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcActionLink from '@nextcloud/vue/components/NcActionLink'
+import NcActionText from '@nextcloud/vue/components/NcActionText'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import { getEnabledContactsMenuActions } from '@nextcloud/vue/functions/contactsMenu'
 
 export default {
 	name: 'Contact',
 	components: {
 		NcActionLink,
 		NcActionText,
+		NcActionButton,
 		NcActions,
 		NcAvatar,
+		NcIconSvgWrapper,
 	},
 	props: {
 		contact: {
@@ -69,6 +85,9 @@ export default {
 			}
 			return this.contact.actions
 		},
+		jsActions() {
+			return getEnabledContactsMenuActions(this.contact)
+		},
 		preloadedUserStatus() {
 			if (this.contact.status) {
 				return {
@@ -78,7 +97,7 @@ export default {
 				}
 			}
 			return undefined
-		}
+		},
 	},
 }
 </script>
@@ -88,7 +107,8 @@ export default {
 	display: flex;
 	position: relative;
 	align-items: center;
-	padding: 3px 3px 3px 10px;
+	padding: 3px;
+	padding-inline-start: 10px;
 
 	&__action {
 		&__icon {
@@ -97,9 +117,10 @@ export default {
 			padding: 12px;
 			filter: var(--background-invert-if-dark);
 		}
-	}
 
-	&__avatar-wrapper {
+		&__icon-svg {
+			padding: 5px;
+		}
 	}
 
 	&__avatar {
@@ -108,8 +129,8 @@ export default {
 
 	&__body {
 		flex-grow: 1;
-		padding-left: 10px;
-		margin-left: 10px;
+		padding-inline-start: 10px;
+		margin-inline-start: 10px;
 		min-width: 0;
 
 		div {
@@ -162,11 +183,11 @@ export default {
 	/* actions menu */
 	.menu {
 		top: 47px;
-		margin-right: 13px;
+		margin-inline-end: 13px;
 	}
 
 	.popovermenu::after {
-		right: 2px;
+		inset-inline-end: 2px;
 	}
 }
 </style>

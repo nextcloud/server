@@ -13,6 +13,7 @@ namespace OCP\TextProcessing;
  * This is a task type interface that is implemented by text processing
  * task types
  * @since 27.1.0
+ * @deprecated 30.0.0
  */
 interface ITaskType {
 	/**

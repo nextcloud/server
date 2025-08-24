@@ -19,19 +19,14 @@ use OCP\IUser;
  * @package OCA\LookupServerConnector
  */
 class UpdateLookupServer {
-	/** @var IConfig */
-	private $config;
-	/** @var IJobList */
-	private $jobList;
-
 	/**
 	 * @param IJobList $jobList
 	 * @param IConfig $config
 	 */
-	public function __construct(IJobList $jobList,
-		IConfig $config) {
-		$this->config = $config;
-		$this->jobList = $jobList;
+	public function __construct(
+		private IJobList $jobList,
+		private IConfig $config,
+	) {
 	}
 
 	/**
@@ -61,8 +56,9 @@ class UpdateLookupServer {
 	 * @return bool
 	 */
 	private function shouldUpdateLookupServer(): bool {
-		return $this->config->getSystemValueBool('has_internet_connection', true) === true &&
-			$this->config->getAppValue('files_sharing', 'lookupServerUploadEnabled', 'yes') === 'yes' &&
-			$this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com') !== '';
+		// TODO: Consider reenable for non-global-scale setups by checking "'files_sharing', 'lookupServerUploadEnabled'" instead of "gs.enabled"
+		return $this->config->getSystemValueBool('gs.enabled', false)
+			&& $this->config->getSystemValueBool('has_internet_connection', true)
+			&& $this->config->getSystemValueString('lookup_server', 'https://lookup.nextcloud.com') !== '';
 	}
 }

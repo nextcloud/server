@@ -7,8 +7,10 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework\Db;
 
+use Generator;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
 use OCP\IDBConnection;
 
 /**
@@ -33,7 +35,7 @@ abstract class QBMapper {
 	 * @param IDBConnection $db Instance of the Db abstraction layer
 	 * @param string $tableName the name of the table. set this to allow entity
 	 * @param class-string<T>|null $entityClass the name of the entity that the sql should be
-	 * mapped to queries without using sql
+	 *                                          mapped to queries without using sql
 	 * @since 14.0.0
 	 */
 	public function __construct(IDBConnection $db, string $tableName, ?string $entityClass = null) {
@@ -202,7 +204,7 @@ abstract class QBMapper {
 	 * Returns the type parameter for the QueryBuilder for a specific property
 	 * of the $entity
 	 *
-	 * @param Entity $entity   The entity to get the types from
+	 * @param Entity $entity The entity to get the types from
 	 * @psalm-param T $entity
 	 * @param string $property The property of $entity to get the type for
 	 * @return int|string
@@ -217,18 +219,33 @@ abstract class QBMapper {
 
 		switch ($types[ $property ]) {
 			case 'int':
-			case 'integer':
+			case Types::INTEGER:
+			case Types::SMALLINT:
 				return IQueryBuilder::PARAM_INT;
-			case 'string':
+			case Types::STRING:
 				return IQueryBuilder::PARAM_STR;
 			case 'bool':
-			case 'boolean':
+			case Types::BOOLEAN:
 				return IQueryBuilder::PARAM_BOOL;
-			case 'blob':
+			case Types::BLOB:
 				return IQueryBuilder::PARAM_LOB;
-			case 'datetime':
-				return IQueryBuilder::PARAM_DATE;
-			case 'json':
+			case Types::DATE:
+				return IQueryBuilder::PARAM_DATETIME_MUTABLE;
+			case Types::DATETIME:
+				return IQueryBuilder::PARAM_DATETIME_MUTABLE;
+			case Types::DATETIME_TZ:
+				return IQueryBuilder::PARAM_DATETIME_TZ_MUTABLE;
+			case Types::DATE_IMMUTABLE:
+				return IQueryBuilder::PARAM_DATE_IMMUTABLE;
+			case Types::DATETIME_IMMUTABLE:
+				return IQueryBuilder::PARAM_DATETIME_IMMUTABLE;
+			case Types::DATETIME_TZ_IMMUTABLE:
+				return IQueryBuilder::PARAM_DATETIME_TZ_IMMUTABLE;
+			case Types::TIME:
+				return IQueryBuilder::PARAM_TIME_MUTABLE;
+			case Types::TIME_IMMUTABLE:
+				return IQueryBuilder::PARAM_TIME_IMMUTABLE;
+			case Types::JSON:
 				return IQueryBuilder::PARAM_JSON;
 		}
 
@@ -279,8 +296,8 @@ abstract class QBMapper {
 	 * @since 14.0.0
 	 */
 	private function buildDebugMessage(string $msg, IQueryBuilder $sql): string {
-		return $msg .
-			': query "' . $sql->getSQL() . '"; ';
+		return $msg
+			. ': query "' . $sql->getSQL() . '"; ';
 	}
 
 
@@ -295,7 +312,7 @@ abstract class QBMapper {
 	 */
 	protected function mapRowToEntity(array $row): Entity {
 		unset($row['DOCTRINE_ROWNUM']); // remove doctrine/dbal helper column
-		return \call_user_func($this->entityClass .'::fromRow', $row);
+		return \call_user_func($this->entityClass . '::fromRow', $row);
 	}
 
 
@@ -303,8 +320,8 @@ abstract class QBMapper {
 	 * Runs a sql query and returns an array of entities
 	 *
 	 * @param IQueryBuilder $query
-	 * @return Entity[] all fetched entities
-	 * @psalm-return T[] all fetched entities
+	 * @return list<Entity> all fetched entities
+	 * @psalm-return list<T> all fetched entities
 	 * @throws Exception
 	 * @since 14.0.0
 	 */
@@ -316,6 +333,26 @@ abstract class QBMapper {
 				$entities[] = $this->mapRowToEntity($row);
 			}
 			return $entities;
+		} finally {
+			$result->closeCursor();
+		}
+	}
+
+	/**
+	 * Runs a sql query and yields each resulting entity to obtain database entries in a memory-efficient way
+	 *
+	 * @param IQueryBuilder $query
+	 * @return Generator Generator of fetched entities
+	 * @psalm-return Generator<T> Generator of fetched entities
+	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	protected function yieldEntities(IQueryBuilder $query): Generator {
+		$result = $query->executeQuery();
+		try {
+			while ($row = $result->fetch()) {
+				yield $this->mapRowToEntity($row);
+			}
 		} finally {
 			$result->closeCursor();
 		}

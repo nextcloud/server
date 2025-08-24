@@ -27,39 +27,24 @@ use RuntimeException;
 
 class RuleMatcher implements IRuleMatcher {
 
-	/** @var IUserSession */
-	protected $session;
-	/** @var IManager */
-	protected $manager;
 	/** @var array */
 	protected $contexts;
-	/** @var IServerContainer */
-	protected $container;
 	/** @var array */
 	protected $fileInfo = [];
-	/** @var IL10N */
-	protected $l;
 	/** @var IOperation */
 	protected $operation;
 	/** @var IEntity */
 	protected $entity;
-	/** @var Logger */
-	protected $logger;
 	/** @var string */
 	protected $eventName;
 
 	public function __construct(
-		IUserSession $session,
-		IServerContainer $container,
-		IL10N $l,
-		Manager $manager,
-		Logger $logger
+		protected IUserSession $session,
+		protected IServerContainer $container,
+		protected IL10N $l,
+		protected Manager $manager,
+		protected Logger $logger,
 	) {
-		$this->session = $session;
-		$this->manager = $manager;
-		$this->container = $container;
-		$this->l = $l;
-		$this->logger = $logger;
 	}
 
 	public function setFileInfo(IStorage $storage, string $path, bool $isDir = false): void {

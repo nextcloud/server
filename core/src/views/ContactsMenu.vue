@@ -9,25 +9,38 @@
 		:aria-label="t('core', 'Search contacts')"
 		@open="handleOpen">
 		<template #trigger>
-			<Contacts class="contactsmenu__trigger-icon" :size="20" />
+			<NcIconSvgWrapper class="contactsmenu__trigger-icon" :path="mdiContacts" />
 		</template>
 		<div class="contactsmenu__menu">
-			<div class="contactsmenu__menu__input-wrapper">
-				<NcTextField :value.sync="searchTerm"
-					trailing-button-icon="close"
-					ref="contactsMenuInput"
-					:label="t('core', 'Search contacts')"
-					:trailing-button-label="t('core','Reset search')"
-					:show-trailing-button="searchTerm !== ''"
-					:placeholder="t('core', 'Search contacts …')"
-					id="contactsmenu__menu__search"
-					class="contactsmenu__menu__search"
-					@input="onInputDebounced"
-					@trailing-button-click="onReset" />
+			<div class="contactsmenu__menu__search-container">
+				<div class="contactsmenu__menu__input-wrapper">
+					<NcTextField id="contactsmenu__menu__search"
+						ref="contactsMenuInput"
+						v-model="searchTerm"
+						trailing-button-icon="close"
+						:label="t('core', 'Search contacts')"
+						:trailing-button-label="t('core','Reset search')"
+						:show-trailing-button="searchTerm !== ''"
+						:placeholder="t('core', 'Search contacts …')"
+						class="contactsmenu__menu__search"
+						@input="onInputDebounced"
+						@trailing-button-click="onReset" />
+				</div>
+				<NcButton v-for="action in actions"
+					:key="action.id"
+					:aria-label="action.label"
+					:title="action.label"
+					class="contactsmenu__menu__action"
+					variant="tertiary-no-background"
+					@click="action.onClick">
+					<template #icon>
+						<NcIconSvgWrapper :svg="action.icon" />
+					</template>
+				</NcButton>
 			</div>
 			<NcEmptyContent v-if="error" :name="t('core', 'Could not load your contacts')">
 				<template #icon>
-					<Magnify />
+					<NcIconSvgWrapper :path="mdiMagnify" />
 				</template>
 			</NcEmptyContent>
 			<NcEmptyContent v-else-if="loadingText" :name="loadingText">
@@ -37,7 +50,7 @@
 			</NcEmptyContent>
 			<NcEmptyContent v-else-if="contacts.length === 0" :name="t('core', 'No contacts found')">
 				<template #icon>
-					<Magnify />
+					<NcIconSvgWrapper :path="mdiMagnify" />
 				</template>
 			</NcEmptyContent>
 			<div v-else class="contactsmenu__menu__content">
@@ -62,42 +75,50 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
-import Contacts from 'vue-material-design-icons/Contacts.vue'
-import debounce from 'debounce'
-import { getCurrentUser } from '@nextcloud/auth'
+import { mdiContacts, mdiMagnify } from '@mdi/js'
 import { generateUrl } from '@nextcloud/router'
-import Magnify from 'vue-material-design-icons/Magnify.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import NcHeaderMenu from '@nextcloud/vue/dist/Components/NcHeaderMenu.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import { translate as t } from '@nextcloud/l10n'
+import { getCurrentUser } from '@nextcloud/auth'
+import { t } from '@nextcloud/l10n'
+import axios from '@nextcloud/axios'
+import debounce from 'debounce'
+
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcHeaderMenu from '@nextcloud/vue/components/NcHeaderMenu'
+import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import Contact from '../components/ContactsMenu/Contact.vue'
 import logger from '../logger.js'
 import Nextcloud from '../mixins/Nextcloud.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default {
 	name: 'ContactsMenu',
 
 	components: {
 		Contact,
-		Contacts,
-		Magnify,
 		NcButton,
 		NcEmptyContent,
 		NcHeaderMenu,
+		NcIconSvgWrapper,
 		NcLoadingIcon,
 		NcTextField,
 	},
 
 	mixins: [Nextcloud],
 
+	setup() {
+		return {
+			mdiContacts,
+			mdiMagnify,
+		}
+	},
+
 	data() {
 		const user = getCurrentUser()
 		return {
+			actions: window.OC?.ContactsMenu?.actions || [],
 			contactsAppEnabled: false,
 			contactsAppURL: generateUrl('/apps/contacts'),
 			contactsAppMgmtURL: generateUrl('/settings/apps/social/contacts'),
@@ -185,13 +206,19 @@ export default {
 		label[for="contactsmenu__menu__search"] {
 			font-weight: bold;
 			font-size: 19px;
-			margin-left: 13px;
+			margin-inline-start: 13px;
+		}
+
+		&__search-container {
+			display: flex;
+			flex: row nowrap;
 		}
 
 		&__input-wrapper {
 			padding: 10px;
 			z-index: 2;
 			top: 0;
+			flex-grow: 1;
 		}
 
 		&__search {

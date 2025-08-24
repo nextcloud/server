@@ -9,9 +9,9 @@
 		aria-labelledby="system-tag-form-heading"
 		@submit.prevent="handleSubmit"
 		@reset="reset">
-		<h3 id="system-tag-form-heading">
+		<h4 id="system-tag-form-heading">
 			{{ t('systemtags', 'Create or edit tags') }}
-		</h3>
+		</h4>
 
 		<div class="system-tag-form__group">
 			<label for="system-tags-input">{{ t('systemtags', 'Search for a tag to edit') }}</label>
@@ -79,11 +79,11 @@
 /* eslint-disable */
 import Vue, { type PropType } from 'vue'
 
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
-import NcSelectTags from '@nextcloud/vue/dist/Components/NcSelectTags.js'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcSelectTags from '@nextcloud/vue/components/NcSelectTags'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import { translate as t } from '@nextcloud/l10n'
 import { showSuccess } from '@nextcloud/dialogs'

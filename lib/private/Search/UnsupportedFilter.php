@@ -12,6 +12,6 @@ use Exception;
 
 final class UnsupportedFilter extends Exception {
 	public function __construct(string $filerName, $providerId) {
-		parent::__construct('Provider '.$providerId.' doesn’t support filter '.$filerName.'.');
+		parent::__construct('Provider ' . $providerId . ' doesn’t support filter ' . $filerName . '.');
 	}
 }

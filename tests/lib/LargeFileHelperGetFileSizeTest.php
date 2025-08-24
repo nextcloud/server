@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,9 @@
 namespace Test;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\LargeFileHelper;
+use OCP\Server;
+use OCP\Util;
 
 /**
  * Tests whether LargeFileHelper is able to determine file size at all.
@@ -23,10 +27,10 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->helper = new \OC\LargeFileHelper();
+		$this->helper = new LargeFileHelper();
 	}
 
-	public function dataFileNameProvider() {
+	public static function dataFileNameProvider(): array {
 		$path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
 
 		return [
@@ -35,16 +39,14 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataFileNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileNameProvider')]
 	public function XtestGetFileSizeViaCurl($filename, $fileSize) {
 		if (!extension_loaded('curl')) {
 			$this->markTestSkipped(
 				'The PHP curl extension is required for this test.'
 			);
 		}
-		if (\OC::$server->get(IniGetWrapper::class)->getString('open_basedir') !== '') {
+		if (Server::get(IniGetWrapper::class)->getString('open_basedir') !== '') {
 			$this->markTestSkipped(
 				'The PHP curl extension does not work with the file:// protocol when open_basedir is enabled.'
 			);
@@ -55,14 +57,12 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataFileNameProvider
-	 */
-	public function testGetFileSizeViaExec($filename, $fileSize) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileNameProvider')]
+	public function testGetFileSizeViaExec($filename, $fileSize): void {
 		if (escapeshellarg('strängé') !== '\'strängé\'') {
 			$this->markTestSkipped('Your escapeshell args removes accents');
 		}
-		if (!\OCP\Util::isFunctionEnabled('exec')) {
+		if (!Util::isFunctionEnabled('exec')) {
 			$this->markTestSkipped(
 				'The exec() function needs to be enabled for this test.'
 			);
@@ -73,10 +73,8 @@ class LargeFileHelperGetFileSizeTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataFileNameProvider
-	 */
-	public function testGetFileSizeNative($filename, $fileSize) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFileNameProvider')]
+	public function testGetFileSizeNative($filename, $fileSize): void {
 		$this->assertSame(
 			$fileSize,
 			$this->helper->getFileSizeNative($filename)

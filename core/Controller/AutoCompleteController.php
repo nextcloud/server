@@ -8,9 +8,10 @@ declare(strict_types=1);
  */
 namespace OC\Core\Controller;
 
-use OCA\Core\ResponseDefinitions;
+use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
@@ -36,21 +37,20 @@ class AutoCompleteController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Autocomplete a query
 	 *
 	 * @param string $search Text to search for
 	 * @param string|null $itemType Type of the items to search for
 	 * @param string|null $itemId ID of the items to search for
 	 * @param string|null $sorter can be piped, top prio first, e.g.: "commenters|share-recipients"
-	 * @param int[] $shareTypes Types of shares to search for
+	 * @param list<int> $shareTypes Types of shares to search for
 	 * @param int $limit Maximum number of results to return
 	 *
-	 * @return DataResponse<Http::STATUS_OK, CoreAutocompleteResult[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, list<CoreAutocompleteResult>, array{}>
 	 *
 	 * 200: Autocomplete results returned
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/autocomplete/get', root: '/core')]
 	public function get(string $search, ?string $itemType, ?string $itemId, ?string $sorter = null, array $shareTypes = [IShare::TYPE_USER], int $limit = 10): DataResponse {
 		// if enumeration/user listings are disabled, we'll receive an empty
@@ -100,7 +100,7 @@ class AutoCompleteController extends OCSController {
 	}
 
 	/**
-	 * @return CoreAutocompleteResult[]
+	 * @return list<CoreAutocompleteResult>
 	 */
 	protected function prepareResultArray(array $results): array {
 		$output = [];
@@ -123,7 +123,7 @@ class AutoCompleteController extends OCSController {
 				$shareWithDisplayNameUnique = array_key_exists('shareWithDisplayNameUnique', $result) ? $result['shareWithDisplayNameUnique'] : null;
 
 				$output[] = [
-					'id' => (string) $result['value']['shareWith'],
+					'id' => (string)$result['value']['shareWith'],
 					'label' => $label,
 					'icon' => $icon ?? '',
 					'source' => $type,

@@ -27,8 +27,8 @@ final class FilterFactory {
 			FilterDefinition::TYPE_NC_USER => new Filter\UserFilter($filter, \OC::$server->get(IUserManager::class)),
 			FilterDefinition::TYPE_PERSON => self::getPerson($filter),
 			FilterDefinition::TYPE_STRING => new Filter\StringFilter($filter),
-			FilterDefinition::TYPE_STRINGS => new Filter\StringsFilter(... (array) $filter),
-			default => throw new RuntimeException('Invalid filter type '. $type),
+			FilterDefinition::TYPE_STRINGS => new Filter\StringsFilter(... (array)$filter),
+			default => throw new RuntimeException('Invalid filter type ' . $type),
 		};
 	}
 

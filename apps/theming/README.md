@@ -23,14 +23,16 @@ A reference to why it was very difficult to actually find good background pictur
 - All backgrounds are sized to maximum 3840px width (4K resolution).
 - To ensure quick loading times, the image needs to be compressed, ideally to around 1 MB or less. E.g. via 90–95% quality in GIMP export. We could also explore using newer formats.
 - Previews are sized to 352px width (min height 192px), which is double of the current picker grid size so it looks nice on high-res displays. Quality is also set to around 90% at export.
-
+- Newer background images are compressed using WebP and a quality of 90 (`cwebp -q 90 -o ... ...`)
 
 ## Background picture credits
 
 In `img/background/`:
 
-- Default background: [Clouds (Kamil Porembiński, CC BY-SA)](https://www.flickr.com/photos/paszczak000/8715851521/) – original 4k, color modified and sky color changed to Nextcloud blue.
-- Default dark mode background: [Pedra azul milky way (Eduardo Neves, CC BY-SA)](https://commons.wikimedia.org/wiki/File:Pedra_Azul_Milky_Way.jpg) – original 5k.
+- Default background: [Fluid (Jo Myoung Hee - Nextcloud GmbH, CC-BY-SA-4.0)](https://nextcloud.com/trademarks/) - orginal 4k
+- [Globe (Jenna Kim - Nextcloud GmbH, CC-BY-SA-4.0)](https://nextcloud.com/trademarks/) - orginal 4k
+- [Clouds (Kamil Porembiński, CC BY-SA)](https://www.flickr.com/photos/paszczak000/8715851521/) – original 4k, color modified and sky color changed to Nextcloud blue.
+- [Pedra azul milky way (Eduardo Neves, CC BY-SA)](https://commons.wikimedia.org/wiki/File:Pedra_Azul_Milky_Way.jpg) – original 5k.
 - [Soft floral (Hannah MacLean, CC0)](https://stocksnap.io/photo/soft-floral-XOYWCCW5PA) – original 5.5k.
 - [Morning fog (Ted Moravec, Public Domain)](https://flickr.com/photos/tmoravec/52392410261) – original 3k.
 - [Underwater ocean (Stefanus Martanto Setyo Husodo, CC0)](https://stocksnap.io/photo/underwater-ocean-TJA9LBH4WS) – original 5k.

@@ -13,6 +13,7 @@ import {
 	validateUserThemingDefaultCss,
 	expectBackgroundColor,
 } from './themingUtils'
+import { NavigationHeader } from '../../pages/NavigationHeader'
 
 const admin = new User('admin', 'admin')
 
@@ -225,6 +226,7 @@ describe('Remove the default background with a custom background color', functio
 })
 
 describe('Remove the default background with a bright color', function() {
+	const navigationHeader = new NavigationHeader()
 	let selectedColor = ''
 
 	before(function() {
@@ -271,15 +273,16 @@ describe('Remove the default background with a bright color', function() {
 
 	it('See the header being inverted', function() {
 		cy.waitUntil(() =>
-			cy.window().then((win) => {
-				const firstEntry = win.document.querySelector(
-					'.app-menu-main li img',
-				)
-				if (!firstEntry) {
-					return false
-				}
-				return getComputedStyle(firstEntry).filter === 'invert(1)'
-			}),
+			navigationHeader
+				.getNavigationEntries()
+				.find('img')
+				.then((el) => {
+					let ret = true
+					el.each(function() {
+						ret = ret && window.getComputedStyle(this).filter === 'invert(1)'
+					})
+					return ret
+				})
 		)
 	})
 })

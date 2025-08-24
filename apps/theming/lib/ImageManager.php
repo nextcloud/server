@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -42,6 +43,9 @@ class ImageManager {
 		$cacheBusterCounter = $this->config->getAppValue(Application::APP_ID, 'cachebuster', '0');
 		if ($this->hasImage($key)) {
 			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $key ]) . '?v=' . $cacheBusterCounter;
+		} elseif ($key === 'backgroundDark' && $this->hasImage('background')) {
+			// Fall back to light variant
+			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => 'background' ]) . '?v=' . $cacheBusterCounter;
 		}
 
 		switch ($key) {
@@ -49,11 +53,16 @@ class ImageManager {
 			case 'logoheader':
 			case 'favicon':
 				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
+			case 'backgroundDark':
 			case 'background':
 				// Removing the background defines its mime as 'backgroundColor'
 				$mimeSetting = $this->config->getAppValue('theming', 'backgroundMime', '');
 				if ($mimeSetting !== 'backgroundColor') {
-					return $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
+					$image = BackgroundService::DEFAULT_BACKGROUND_IMAGE;
+					if ($key === 'backgroundDark') {
+						$image = BackgroundService::SHIPPED_BACKGROUNDS[$image]['dark_variant'] ?? $image;
+					}
+					return $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$image");
 				}
 		}
 		return '';
@@ -144,7 +153,7 @@ class ImageManager {
 	 *
 	 * @param string $filename
 	 * @throws NotFoundException
-	 * @return \OCP\Files\SimpleFS\ISimpleFile
+	 * @return ISimpleFile
 	 * @throws NotPermittedException
 	 */
 	public function getCachedImage(string $filename): ISimpleFile {
@@ -157,7 +166,7 @@ class ImageManager {
 	 *
 	 * @param string $filename
 	 * @param string $data
-	 * @return \OCP\Files\SimpleFS\ISimpleFile
+	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
@@ -185,6 +194,10 @@ class ImageManager {
 			$file->delete();
 		} catch (NotFoundException $e) {
 		} catch (NotPermittedException $e) {
+		}
+
+		if ($key === 'logo') {
+			$this->config->deleteAppValue('theming', 'logoDimensions');
 		}
 	}
 
@@ -257,6 +270,25 @@ class ImageManager {
 		}
 
 		$target->putContent(file_get_contents($tmpFile));
+
+		if ($key === 'logo') {
+			$content = file_get_contents($tmpFile);
+			$newImage = @imagecreatefromstring($content);
+			if ($newImage !== false) {
+				$this->config->setAppValue('theming', 'logoDimensions', imagesx($newImage) . 'x' . imagesy($newImage));
+			} elseif (str_starts_with($detectedMimeType, 'image/svg')) {
+				$matched = preg_match('/viewbox=["\']\d* \d* (\d*\.?\d*) (\d*\.?\d*)["\']/i', $content, $matches);
+				if ($matched) {
+					$this->config->setAppValue('theming', 'logoDimensions', $matches[1] . 'x' . $matches[2]);
+				} else {
+					$this->logger->warning('Could not read logo image dimensions to optimize for mail header');
+					$this->config->deleteAppValue('theming', 'logoDimensions');
+				}
+			} else {
+				$this->logger->warning('Could not read logo image dimensions to optimize for mail header');
+				$this->config->deleteAppValue('theming', 'logoDimensions');
+			}
+		}
 
 		return $detectedMimeType;
 	}

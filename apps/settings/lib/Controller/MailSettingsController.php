@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,8 +7,11 @@
  */
 namespace OCA\Settings\Controller;
 
+use OCA\Settings\Settings\Admin\Overview;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -18,17 +22,6 @@ use OCP\Mail\IMailer;
 
 class MailSettingsController extends Controller {
 
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IMailer */
-	private $mailer;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
@@ -38,52 +31,51 @@ class MailSettingsController extends Controller {
 	 * @param IURLGenerator $urlGenerator,
 	 * @param IMailer $mailer
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		IRequest $request,
-		IL10N $l10n,
-		IConfig $config,
-		IUserSession $userSession,
-		IURLGenerator $urlGenerator,
-		IMailer $mailer) {
+		private IL10N $l10n,
+		private IConfig $config,
+		private IUserSession $userSession,
+		private IURLGenerator $urlGenerator,
+		private IMailer $mailer,
+	) {
 		parent::__construct($appName, $request);
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->urlGenerator = $urlGenerator;
-		$this->mailer = $mailer;
 	}
 
 	/**
 	 * Sets the email settings
-	 *
-	 * @PasswordConfirmationRequired
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
-	 *
-	 * @param string $mail_domain
-	 * @param string $mail_from_address
-	 * @param string $mail_smtpmode
-	 * @param string $mail_smtpsecure
-	 * @param string $mail_smtphost
-	 * @param int $mail_smtpauth
-	 * @param string $mail_smtpport
-	 * @return DataResponse
 	 */
-	public function setMailSettings($mail_domain,
-		$mail_from_address,
-		$mail_smtpmode,
-		$mail_smtpsecure,
-		$mail_smtphost,
-		$mail_smtpauth,
-		$mail_smtpport,
-		$mail_sendmailmode) {
-		$params = get_defined_vars();
-		$configs = [];
-		foreach ($params as $key => $value) {
+	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[PasswordConfirmationRequired]
+	public function setMailSettings(
+		string $mail_domain,
+		string $mail_from_address,
+		string $mail_smtpmode,
+		string $mail_smtpsecure,
+		string $mail_smtphost,
+		?string $mail_smtpauth,
+		string $mail_smtpport,
+		string $mail_sendmailmode,
+	): DataResponse {
+		$mail_smtpauth = $mail_smtpauth == '1';
+
+		$configs = [
+			'mail_domain' => $mail_domain,
+			'mail_from_address' => $mail_from_address,
+			'mail_smtpmode' => $mail_smtpmode,
+			'mail_smtpsecure' => $mail_smtpsecure,
+			'mail_smtphost' => $mail_smtphost,
+			'mail_smtpauth' => $mail_smtpauth,
+			'mail_smtpport' => $mail_smtpport,
+			'mail_sendmailmode' => $mail_sendmailmode,
+		];
+		foreach ($configs as $key => $value) {
 			$configs[$key] = empty($value) ? null : $value;
 		}
 
 		// Delete passwords from config in case no auth is specified
-		if ($params['mail_smtpauth'] !== 1) {
+		if (!$mail_smtpauth) {
 			$configs['mail_smtpname'] = null;
 			$configs['mail_smtppassword'] = null;
 		}
@@ -98,13 +90,12 @@ class MailSettingsController extends Controller {
 	/**
 	 * Store the credentials used for SMTP in the config
 	 *
-	 * @PasswordConfirmationRequired
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
-	 *
 	 * @param string $mail_smtpname
 	 * @param string $mail_smtppassword
 	 * @return DataResponse
 	 */
+	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[PasswordConfirmationRequired]
 	public function storeCredentials($mail_smtpname, $mail_smtppassword) {
 		if ($mail_smtppassword === '********') {
 			return new DataResponse($this->l10n->t('Invalid SMTP password.'), Http::STATUS_BAD_REQUEST);
@@ -122,9 +113,9 @@ class MailSettingsController extends Controller {
 
 	/**
 	 * Send a mail to test the settings
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 * @return DataResponse
 	 */
+	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function sendTestMail() {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
 		if (!empty($email)) {

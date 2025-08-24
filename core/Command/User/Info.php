@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,6 +7,7 @@
 namespace OC\Core\Command\User;
 
 use OC\Core\Command\Base;
+use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -56,12 +58,23 @@ class Info extends Base {
 			'groups' => $groups,
 			'quota' => $user->getQuota(),
 			'storage' => $this->getStorageInfo($user),
-			'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
+			'first_seen' => $this->formatLoginDate($user->getFirstLogin()),
+			'last_seen' => $this->formatLoginDate($user->getLastLogin()),
 			'user_directory' => $user->getHome(),
 			'backend' => $user->getBackendClassName()
 		];
 		$this->writeArrayInOutputFormat($input, $output, $data);
 		return 0;
+	}
+
+	private function formatLoginDate(int $timestamp): string {
+		if ($timestamp < 0) {
+			return 'unknown';
+		} elseif ($timestamp === 0) {
+			return 'never';
+		} else {
+			return date(\DateTimeInterface::ATOM, $timestamp); // ISO-8601
+		}
 	}
 
 	/**
@@ -73,7 +86,7 @@ class Info extends Base {
 		\OC_Util::setupFS($user->getUID());
 		try {
 			$storage = \OC_Helper::getStorageInfo('/');
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			return [];
 		}
 		return [

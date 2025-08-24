@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -46,7 +47,7 @@ class Delete extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
-		$id = (int) $input->getArgument('id');
+		$id = (int)$input->getArgument('id');
 		$before = $input->getOption('last-used-before');
 
 		if ($before) {

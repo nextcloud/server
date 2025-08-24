@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,6 +17,8 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Server;
+use OCP\Util;
 use Test\TestCase;
 
 /**
@@ -28,9 +31,9 @@ class L10nTest extends TestCase {
 	 * @return Factory
 	 */
 	protected function getFactory() {
-		/** @var \OCP\IConfig $config */
+		/** @var IConfig $config */
 		$config = $this->createMock(IConfig::class);
-		/** @var \OCP\IRequest $request */
+		/** @var IRequest $request */
 		$request = $this->createMock(IRequest::class);
 		/** @var IUserSession $userSession */
 		$userSession = $this->createMock(IUserSession::class);
@@ -40,22 +43,22 @@ class L10nTest extends TestCase {
 	}
 
 	public function testSimpleTranslationWithTrailingColon(): void {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
 
 		$this->assertEquals('Files:', $l->t('Files:'));
 	}
 
-	public function testGermanPluralTranslations() {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+	public function testGermanPluralTranslations(): void {
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
 
-		$this->assertEquals('1 Datei', (string) $l->n('%n file', '%n files', 1));
-		$this->assertEquals('2 Dateien', (string) $l->n('%n file', '%n files', 2));
+		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
+		$this->assertEquals('2 Dateien', (string)$l->n('%n file', '%n files', 2));
 	}
 
-	public function testRussianPluralTranslations() {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
+	public function testRussianPluralTranslations(): void {
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/ru.json';
 		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA', [$transFile]);
 
 		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
@@ -78,8 +81,8 @@ class L10nTest extends TestCase {
 		*/
 	}
 
-	public function testCzechPluralTranslations() {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/cs.json';
+	public function testCzechPluralTranslations(): void {
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/cs.json';
 		$l = new L10N($this->getFactory(), 'test', 'cs', 'cs_CZ', [$transFile]);
 
 		$this->assertEquals('1 okno', (string)$l->n('%n window', '%n windows', 1));
@@ -87,16 +90,16 @@ class L10nTest extends TestCase {
 		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
 	}
 
-	public function testGermanPluralWithCzechLocaleTranslations() {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+	public function testGermanPluralWithCzechLocaleTranslations(): void {
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'cs_CZ', [$transFile]);
 
-		$this->assertEquals('1 Datei', (string) $l->n('%n file', '%n files', 1));
-		$this->assertEquals('2 Dateien', (string) $l->n('%n file', '%n files', 2));
-		$this->assertEquals('5 Dateien', (string) $l->n('%n file', '%n files', 5));
+		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
+		$this->assertEquals('2 Dateien', (string)$l->n('%n file', '%n files', 2));
+		$this->assertEquals('5 Dateien', (string)$l->n('%n file', '%n files', 5));
 	}
 
-	public function dataPlaceholders(): array {
+	public static function dataPlaceholders(): array {
 		return [
 			['Ordered placeholders one %s two %s', 'Placeholder one 1 two 2'],
 			['Reordered placeholders one %s two %s', 'Placeholder two 2 one 1'],
@@ -105,19 +108,19 @@ class L10nTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataPlaceholders
 	 *
 	 * @param $string
 	 * @param $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPlaceholders')]
 	public function testPlaceholders($string, $expected): void {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
 
 		$this->assertEquals($expected, $l->t($string, ['1', '2']));
 	}
 
-	public function localizationData() {
+	public static function localizationData(): array {
 		return [
 			// timestamp as string
 			["February 13, 2009, 11:31:30\xE2\x80\xAFPM UTC", 'en', 'en_US', 'datetime', '1234567890'],
@@ -153,15 +156,13 @@ class L10nTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider localizationData
-	 */
-	public function testNumericStringLocalization($expectedDate, $lang, $locale, $type, $value) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('localizationData')]
+	public function testNumericStringLocalization($expectedDate, $lang, $locale, $type, $value): void {
 		$l = new L10N($this->getFactory(), 'test', $lang, $locale, []);
 		$this->assertSame($expectedDate, $l->l($type, $value));
 	}
 
-	public function firstDayData() {
+	public static function firstDayData(): array {
 		return [
 			[1, 'de', 'de_DE'],
 			[0, 'en', 'en_US'],
@@ -169,17 +170,17 @@ class L10nTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider firstDayData
 	 * @param $expected
 	 * @param $lang
 	 * @param $locale
 	 */
-	public function testFirstWeekDay($expected, $lang, $locale) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('firstDayData')]
+	public function testFirstWeekDay($expected, $lang, $locale): void {
 		$l = new L10N($this->getFactory(), 'test', $lang, $locale, []);
 		$this->assertSame($expected, $l->l('firstday', 'firstday'));
 	}
 
-	public function jsDateData() {
+	public static function jsDateData(): array {
 		return [
 			['dd.MM.yy', 'de', 'de_DE'],
 			['M/d/yy', 'en', 'en_US'],
@@ -187,47 +188,44 @@ class L10nTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider jsDateData
 	 * @param $expected
 	 * @param $lang
 	 * @param $locale
 	 */
-	public function testJSDate($expected, $lang, $locale) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('jsDateData')]
+	public function testJSDate($expected, $lang, $locale): void {
 		$l = new L10N($this->getFactory(), 'test', $lang, $locale, []);
 		$this->assertSame($expected, $l->l('jsdate', 'jsdate'));
 	}
 
-	public function testFactoryGetLanguageCode() {
+	public function testFactoryGetLanguageCode(): void {
 		$l = $this->getFactory()->get('lib', 'de');
 		$this->assertEquals('de', $l->getLanguageCode());
 	}
 
-	public function testServiceGetLanguageCode() {
-		$l = \OCP\Util::getL10N('lib', 'de');
+	public function testServiceGetLanguageCode(): void {
+		$l = Util::getL10N('lib', 'de');
 		$this->assertEquals('de', $l->getLanguageCode());
 	}
 
-	public function testWeekdayName() {
-		$l = \OCP\Util::getL10N('lib', 'de');
+	public function testWeekdayName(): void {
+		$l = Util::getL10N('lib', 'de');
 		$this->assertEquals('Mo.', $l->l('weekdayName', new \DateTime('2017-11-6'), ['width' => 'abbreviated']));
 	}
 
 	/**
-	 * @dataProvider findLanguageFromLocaleData
 	 * @param $locale
 	 * @param $language
 	 */
-	public function testFindLanguageFromLocale($locale, $language) {
+	#[\PHPUnit\Framework\Attributes\DataProvider('findLanguageFromLocaleData')]
+	public function testFindLanguageFromLocale($locale, $language): void {
 		$this->assertEquals(
 			$language,
-			\OC::$server->get(IFactory::class)->findLanguageFromLocale('lib', $locale)
+			Server::get(IFactory::class)->findLanguageFromLocale('lib', $locale)
 		);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function findLanguageFromLocaleData(): array {
+	public static function findLanguageFromLocaleData(): array {
 		return [
 			'en_US' => ['en_US', 'en'],
 			'en_UK' => ['en_UK', 'en'],
