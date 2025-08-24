@@ -248,7 +248,7 @@ OC.L10N.register(
     "SMTP Password" : "SMTP parole",
     "Save" : "Saglabāt",
     "Security & setup warnings" : "Drošības un iestatījumu brīdinājumi",
-    "All checks passed." : "Visas pārbaudes veiksmīgas.",
+    "All checks passed." : "Visas pārbaudes sekmīgas.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Izstrādātās {communityopen}Nextcloud kopiena {linkclose},  {githubopen} avota kods {linkclose} licencēts saskaņā ar {licenseopen}AGPL{linkclose}.",
     "Use a second factor besides your password to increase security for your account." : "Vēl viena apliecināšanas līdzekļa izmantošana papildus parolei, lai palielinātu sava konta drošību.",
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ja izmanto trešo pušu lietotnes, lai savienotos ar Nextcloud, lūgums ņemt vērā, ka pirms divpakāpju pieteikšanās iespējošanas katrai no tām ir nepieciešams izveidot un izmantot lietotnes paroli.",
