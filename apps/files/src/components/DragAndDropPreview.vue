@@ -102,12 +102,12 @@ $stack-shift: 6px;
 	display: flex;
 	overflow: hidden;
 	align-items: center;
-	height: 44px;
-	padding: 6px 12px;
+	height: $size + $stack-shift;
+	padding: $stack-shift $stack-shift * 2;
 	background: var(--color-main-background);
 
 	&__icon,
-	.files-list__row-icon {
+	.files-list__row-icon-preview-container {
 		display: flex;
 		overflow: hidden;
 		align-items: center;
@@ -138,13 +138,15 @@ $stack-shift: 6px;
 			display: flex;
 
 			// Stack effect if more than one element
-			.files-list__row-icon + .files-list__row-icon {
+			// Max 3 elements
+			> .files-list__row-icon-preview-container + .files-list__row-icon-preview-container {
 				margin-top: $stack-shift;
 				margin-left: $stack-shift - $size;
 				& + .files-list__row-icon {
 					margin-top: $stack-shift * 2;
 				}
 			}
+
 			// If we have manually clone the preview,
 			// let's hide any fallback icons
 			&:not(:empty) + * {
