@@ -416,8 +416,8 @@ class Router implements IRouter {
 		if ($routeName === 'cloud_federation_api.requesthandlercontroller.receivenotification') {
 			return 'cloud_federation_api.requesthandler.receivenotification';
 		}
-		if ($routeName === 'core.ProfilePage.index') {
-			return 'profile.ProfilePage.index';
+		if ($routeName === 'core.profilepage.index') {
+			return 'profile.profilepage.index';
 		}
 		return $routeName;
 	}
