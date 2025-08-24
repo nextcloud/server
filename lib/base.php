@@ -246,6 +246,7 @@ class OC {
 			// render error page
 			$template = new OC_Template('', 'update.user', 'guest');
 			\OCP\Util::addScript('core', 'maintenance');
+			\OCP\Util::addScript('core', 'common');
 			\OCP\Util::addStyle('core', 'guest');
 			$template->printPage();
 			die();
