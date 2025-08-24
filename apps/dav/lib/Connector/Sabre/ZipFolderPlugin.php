@@ -15,6 +15,7 @@ use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\File as NcFile;
 use OCP\Files\Folder as NcFolder;
 use OCP\Files\Node as NcNode;
+use OCP\IDateTimeZone;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -41,6 +42,7 @@ class ZipFolderPlugin extends ServerPlugin {
 		private Tree $tree,
 		private LoggerInterface $logger,
 		private IEventDispatcher $eventDispatcher,
+		private IDateTimeZone $timezoneFactory,
 	) {
 	}
 
@@ -163,7 +165,7 @@ class ZipFolderPlugin extends ServerPlugin {
 			// Full folder is loaded to rename the archive to the folder name
 			$archiveName = $folder->getName();
 		}
-		$streamer = new Streamer($tarRequest, -1, count($content));
+		$streamer = new Streamer($tarRequest, -1, count($content), $this->timezoneFactory);
 		$streamer->sendHeaders($archiveName);
 		// For full folder downloads we also add the folder itself to the archive
 		if (empty($files)) {
