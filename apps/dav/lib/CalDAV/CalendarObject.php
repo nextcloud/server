@@ -76,7 +76,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	 * @param Component\VCalendar $vObject
 	 * @return void
 	 */
-	private function createConfidentialObject(Component\VCalendar $vObject): void {
+	protected function createConfidentialObject(Component\VCalendar $vObject): void {
 		/** @var Component $vElement */
 		$vElements = array_filter($vObject->getComponents(), static function ($vElement) {
 			return $vElement instanceof Component\VEvent || $vElement instanceof Component\VJournal || $vElement instanceof Component\VTodo;
@@ -117,7 +117,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	 * @param Component\VCalendar $vObject
 	 * @return void
 	 */
-	private function removeVAlarms(Component\VCalendar $vObject) {
+	protected function removeVAlarms(Component\VCalendar $vObject) {
 		$subcomponents = $vObject->getComponents();
 
 		foreach ($subcomponents as $subcomponent) {
@@ -128,7 +128,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	/**
 	 * @return bool
 	 */
-	private function canWrite() {
+	protected function canWrite() {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}read-only'])) {
 			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];
 		}

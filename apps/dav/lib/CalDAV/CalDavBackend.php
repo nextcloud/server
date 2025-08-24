@@ -131,6 +131,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public const CLASSIFICATION_PUBLIC = 0;
 	public const CLASSIFICATION_PRIVATE = 1;
 	public const CLASSIFICATION_CONFIDENTIAL = 2;
+	public const CLASSIFICATION_PUBLISHED_PRIVATE = 3;
+	public const CLASSIFICATION_PUBLISHED_CONFIDENTIAL = 4;
 
 	/**
 	 * List of CalDAV properties, and how they map to database field names and their type
@@ -3133,15 +3135,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		if ($component->CLASS) {
-			$classification = CalDavBackend::CLASSIFICATION_PRIVATE;
-			switch ($component->CLASS->getValue()) {
-				case 'PUBLIC':
-					$classification = CalDavBackend::CLASSIFICATION_PUBLIC;
-					break;
-				case 'CONFIDENTIAL':
-					$classification = CalDavBackend::CLASSIFICATION_CONFIDENTIAL;
-					break;
-			}
+			$classification = match ($component->CLASS->getValue()) {
+				'PUBLIC' => CalDavBackend::CLASSIFICATION_PUBLIC,
+				'CONFIDENTIAL' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL,
+				'X-NEXTCLOUD-CLASS-PUBLISHED-PRIVATE' => CalDavBackend::CLASSIFICATION_PUBLISHED_PRIVATE,
+				'X-NEXTCLOUD-CLASS-PUBLISHED-CONFIDENTIAL' => CalDavBackend::CLASSIFICATION_PUBLISHED_CONFIDENTIAL,
+				default => CalDavBackend::CLASSIFICATION_PRIVATE,
+			};
 		}
 		return [
 			'etag' => md5($calendarData),
