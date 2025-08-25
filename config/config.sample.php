@@ -479,21 +479,20 @@ $CONFIG = [
 'auth.webauthn.enabled' => true,
 
 /**
- * Whether encrypted passwords should be stored in the database
+ * By default, the passwords are stored (encrypted) in the database, but this can be
+ * explicitly disabled by admins with special requirements (with various caveats).
  *
- * The passwords are only decrypted using the login token stored uniquely in the
- * clients and allow connecting to external storages, autoconfiguring mail accounts in
- * the mail app, and periodically checking if the password is still valid.
+ * The passwords are only decrypted using the login token stored uniquely in each
+ * client. The passwords allow connecting to external storages, autoconfiguring mail 
+ * accounts in the mail app, and periodically checking if the password is still valid.
  *
- * This might be desirable to disable this functionality when using one-time
- * passwords or when having a password policy enforcing long passwords (> 300
- * characters).
- *
- * By default, the passwords are stored encrypted in the database.
+ * It may be desirable to disable this functionality when using one-time passwords
+ * or when enforcing extremely long passwords (>469 bytes aka: 
+ * `IUserManager::MAX_PASSWORD_LENGTH`).
  *
  * WARNING: If disabled, password changes on the user backend (e.g., on LDAP) no
- * longer log connected clients out automatically. Users can still disconnect
- * the clients by deleting the app token from the security settings.
+ * longer will log clients out automatically. Users can still disconnect a client by 
+ * manually deleting the app token from the security settings.
  */
 'auth.storeCryptedPassword' => true,
 
