@@ -1232,6 +1232,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param bool $reload set to TRUE to refill cache instantly after clearing it
 	 *
+	 * @internal
 	 * @since 29.0.0
 	 */
 	public function clearCache(bool $reload = false): void {

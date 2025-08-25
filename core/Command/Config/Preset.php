@@ -44,10 +44,10 @@ class Preset extends Base {
 			$list = $this->presetManager->retrieveLexiconPreset();
 			if ($input->getOption('output') === 'plain') {
 				$table = new Table($output);
-				$table->setHeaders(['app', 'config key', 'value', ...array_map(static fn (ConfigLexiconPreset $p): string => $p->name, ConfigLexiconPreset::cases())]);
+				$table->setHeaders(['app', 'config', 'config key', 'value', ...array_map(static fn (ConfigLexiconPreset $p): string => $p->name, ConfigLexiconPreset::cases())]);
 				foreach ($list as $appId => $entries) {
 					foreach ($entries as $item) {
-						$table->addRow([$appId, $item['entry']['key'], '<comment>' . ($item['value'] ?? '') . '</comment>', ...($item['defaults'] ?? [])]);
+						$table->addRow([$appId, $item['config'], $item['entry']['key'], '<comment>' . ($item['value'] ?? '') . '</comment>', ...($item['defaults'] ?? [])]);
 					}
 				}
 				$table->render();
