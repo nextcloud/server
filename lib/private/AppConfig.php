@@ -876,8 +876,12 @@ class AppConfig implements IAppConfig {
 				$type |= self::VALUE_SENSITIVE;
 			}
 
-			if ($lazy !== $this->isLazy($app, $key)) {
-				$refreshCache = true;
+			try {
+				if ($lazy !== $this->isLazy($app, $key)) {
+					$refreshCache = true;
+				}
+			} catch (AppConfigUnknownKeyException) {
+				// pass
 			}
 
 			$update = $this->connection->getQueryBuilder();
