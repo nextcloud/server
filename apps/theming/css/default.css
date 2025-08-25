@@ -19,6 +19,7 @@
   --color-text-maxcontrast-default: #6b6b6b;
   --color-text-maxcontrast-background-blur: #595959;
   --color-text-error: #c90000;
+  --color-text-success: #066e03;
   /** @deprecated use ` --color-main-text` instead */
   --color-text-light: var(--color-main-text);
   /** @deprecated use `--color-text-maxcontrast` instead */

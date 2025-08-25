@@ -67,8 +67,7 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 				'--color-text-maxcontrast' => $colorMainText,
 				'--color-text-maxcontrast-background-blur' => $colorMainText,
 				'--color-text-error' => $this->util->lighten($colorError, 65),
-				'--color-text-light' => $colorMainText,
-				'--color-text-lighter' => $colorMainText,
+				'--color-text-success' => $this->util->lighten($colorSuccess, 65),
 
 				'--color-error' => $colorError,
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),

@@ -129,6 +129,7 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
 			'--color-text-error' => $colorErrorElement,
+			'--color-text-success' => $this->util->darken($colorSuccessElement, 10),
 			'--color-text-light' => 'var(--color-main-text)', // deprecated
 			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
