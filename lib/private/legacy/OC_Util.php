@@ -458,22 +458,6 @@ class OC_Util {
 			$webServerRestart = true;
 		}
 
-		/**
-		 * The mbstring.func_overload check can only be performed if the mbstring
-		 * module is installed as it will return null if the checking setting is
-		 * not available and thus a check on the boolean value fails.
-		 *
-		 * TODO: Should probably be implemented in the above generic dependency
-		 *       check somehow in the long-term.
-		 */
-		if ($iniWrapper->getBool('mbstring.func_overload') !== null
-			&& $iniWrapper->getBool('mbstring.func_overload') === true) {
-			$errors[] = [
-				'error' => $l->t('<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>.', [$iniWrapper->getString('mbstring.func_overload')]),
-				'hint' => $l->t('To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini.')
-			];
-		}
-
 		if (!self::isAnnotationsWorking()) {
 			$errors[] = [
 				'error' => $l->t('PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible.'),
