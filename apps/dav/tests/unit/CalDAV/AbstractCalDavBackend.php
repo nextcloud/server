@@ -53,6 +53,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 	private ISecureRandom $random;
 	protected SharingBackend $sharingBackend;
 	protected IDBConnection $db;
+	protected ICacheFactory $cacheFactory;
 	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	public const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
 	public const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
@@ -99,6 +100,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 			$this->createMock(ICacheFactory::class),
 			new Service(new SharingMapper($this->db)),
 			$this->logger);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->backend = new CalDavBackend(
 			$this->db,
 			$this->principal,
@@ -108,6 +110,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 			$this->dispatcher,
 			$this->config,
 			$this->sharingBackend,
+			$this->cacheFactory,
 			false,
 		);
 

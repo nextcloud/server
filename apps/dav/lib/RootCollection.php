@@ -33,6 +33,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -101,6 +102,7 @@ class RootCollection extends SimpleCollection {
 			$dispatcher,
 			$config,
 			$calendarSharingBackend,
+			Server::get(ICacheFactory::class),
 			false,
 		);
 		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users', $logger);

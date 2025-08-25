@@ -71,6 +71,7 @@ $calDavBackend = new CalDavBackend(
 	$dispatcher,
 	$config,
 	Server::get(\OCA\DAV\CalDAV\Sharing\Backend::class),
+	Server::get(\OCP\ICacheFactory::class),
 	true
 );
 
