@@ -392,6 +392,7 @@ class KeyManagerTest extends TestCase {
 		}
 
 		$this->invokePrivate($this->instance, 'masterKeyId', ['masterKeyId']);
+		$this->invokePrivate($this->instance, 'keyUid', [$uid]);
 
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getFileKey')
@@ -445,7 +446,7 @@ class KeyManagerTest extends TestCase {
 		}
 
 		$this->assertSame($expected,
-			$this->instance->getFileKey($path, $uid, null)
+			$this->instance->getFileKey($path, null, null)
 		);
 	}
 
