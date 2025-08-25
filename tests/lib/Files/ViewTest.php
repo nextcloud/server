@@ -1205,6 +1205,9 @@ class ViewTest extends \Test\TestCase {
 		$storage2->method('writeStream')
 			->willThrowException(new GenericFileException('Failed to copy stream'));
 
+		$storage2->method('fopen')
+			->willReturn(false);
+
 		$storage1->mkdir('sub');
 		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
 		$storage1->mkdir('dirtomove');

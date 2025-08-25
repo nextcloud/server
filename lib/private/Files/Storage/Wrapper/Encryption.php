@@ -683,6 +683,8 @@ class Encryption extends Wrapper {
 				}
 			}
 		} else {
+			$source = false;
+			$target = false;
 			try {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
@@ -692,10 +694,10 @@ class Encryption extends Wrapper {
 					[, $result] = Files::streamCopy($source, $target, true);
 				}
 			} finally {
-				if (isset($source) && $source !== false) {
+				if ($source !== false) {
 					fclose($source);
 				}
-				if (isset($target) && $target !== false) {
+				if ($target !== false) {
 					fclose($target);
 				}
 			}
