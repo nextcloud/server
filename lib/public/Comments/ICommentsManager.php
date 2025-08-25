@@ -187,6 +187,17 @@ interface ICommentsManager {
 	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = '');
 
 	/**
+	 * @param $objectType string the object type, e.g. 'files'
+	 * @param $objectIds string[] the ids of the object
+	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
+	 *                                     that may be returned
+	 * @param string $verb Limit the verb of the comment
+	 * @return array<string, int>
+	 * @since 32.0.0
+	 */
+	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = '');
+
+	/**
 	 * @param string $objectType the object type, e.g. 'files'
 	 * @param string[] $objectIds the id of the object
 	 * @param IUser $user
