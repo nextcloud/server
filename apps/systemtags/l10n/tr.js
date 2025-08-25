@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Etiket arama",
     "Change tag color" : "Etiket rengini değiştir",
     "Create new tag" : "Etiket ekle",
+    "Choose tags for the selected files" : "Seçilmiş dosyalar için etiketleri seçin",
     "Cancel" : "İptal",
     "Apply" : "Uygula",
     "Failed to load tags" : "Etiketler yüklenemedi",

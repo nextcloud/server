@@ -42,6 +42,7 @@
     "Folder not found" : "Папка не знойдзена",
     "The file cannot be found" : "Файл не знойдзены",
     "The destination path does not exist: %1$s" : "Шлях прызначэння не існуе: %1$s",
+    "The file could not be converted." : "Не ўдалося сканвертаваць файл.",
     "Favorite files" : "Абраныя файлы",
     "No favorites" : "Няма абраных",
     "More favorites" : "Больш абраных",
