@@ -352,15 +352,8 @@ class KeyManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param $uid
-	 * @param $isMasterKeyEnabled
-	 * @param $privateKey
-	 * @param $expected
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetFileKey')]
-	public function testGetFileKey($uid, $isMasterKeyEnabled, $privateKey, $encryptedFileKey, $expected): void {
+	public function testGetFileKey(?string $uid, bool $isMasterKeyEnabled, string|false $privateKey, string $encryptedFileKey, string $expected): void {
 		$path = '/foo.txt';
 
 		if ($isMasterKeyEnabled) {
@@ -374,6 +367,7 @@ class KeyManagerTest extends TestCase {
 		}
 
 		$this->invokePrivate($this->instance, 'masterKeyId', ['masterKeyId']);
+		$this->invokePrivate($this->instance, 'keyUid', [$uid]);
 
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getFileKey')
@@ -423,7 +417,7 @@ class KeyManagerTest extends TestCase {
 		}
 
 		$this->assertSame($expected,
-			$this->instance->getFileKey($path, $uid, null)
+			$this->instance->getFileKey($path, null, null)
 		);
 	}
 
