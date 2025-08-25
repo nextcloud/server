@@ -1,7 +1,7 @@
 OC.L10N.register(
     "dashboard",
     {
-    "Dashboard" : "ПК",
+    "Dashboard" : "Панэль кіравання",
     "Dashboard app" : "Праграма Панэль кіравання",
     "Weather" : "Надвор'е",
     "Status" : "Стан",

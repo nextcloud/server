@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "İş yeri dışında",
     "Working remotely" : "Uzaktan çalışıyor",
     "In a call" : "Bir çağrıda",
+    "Be right back" : "Hemen döneceğim",
     "User status" : "Kullanıcı durumu",
     "Clear status after" : "Durum şu kadar sonra kaldırılsın",
     "Emoji for your status message" : "Durum iletiniz için emoji",
