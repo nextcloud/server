@@ -193,8 +193,18 @@ class Updater implements IUpdater {
 			if (!$parentInCache) {
 				$parentData = $this->scanner->scan($parent, Scanner::SCAN_SHALLOW, -1, false);
 				$parentInCache = $parentData !== null;
+			} else {
+				$parentData = $this->cache->get($parent);
 			}
 			if ($parentInCache) {
+				if ($sourceInfo instanceof CacheEntry) {
+					$permissionsToSet = $parentData->getPermissions();
+					if ($sourceInfo->getMimeType() !== ICacheEntry::DIRECTORY_MIMETYPE) {
+						$permissionsToSet &= ~\OCP\Constants::PERMISSION_CREATE;
+					}
+					$sourceInfo['copy_from_storage_permissions'] = $permissionsToSet;
+					unset($sourceInfo['scan_permissions']);
+				}
 				$this->cache->copyFromCache($sourceCache, $sourceInfo, $target);
 			}
 		});
