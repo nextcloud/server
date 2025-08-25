@@ -13,6 +13,7 @@ use OC\Core\Controller\TwoFactorChallengeController;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Middleware;
+use OCP\Authentication\TwoFactorAuth\ALoginSetupController;
 use OCP\ISession;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
@@ -41,7 +42,8 @@ class FlowV2EphemeralSessionsMiddleware extends Middleware {
 			return;
 		}
 
-		if ($controller instanceof TwoFactorChallengeController) {
+		if ($controller instanceof TwoFactorChallengeController
+			|| $controller instanceof ALoginSetupController) {
 			return;
 		}
 
