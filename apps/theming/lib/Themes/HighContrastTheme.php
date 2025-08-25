@@ -70,8 +70,7 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 				'--color-text-maxcontrast' => $colorMainText,
 				'--color-text-maxcontrast-background-blur' => $colorMainText,
 				'--color-text-error' => $this->util->darken($colorError, 65),
-				'--color-text-light' => $colorMainText,
-				'--color-text-lighter' => $colorMainText,
+				'--color-text-success' => $this->util->darken($colorSuccess, 70),
 
 				'--color-error' => $colorError,
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),

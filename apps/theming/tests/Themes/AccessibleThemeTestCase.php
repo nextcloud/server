@@ -150,6 +150,7 @@ class AccessibleThemeTestCase extends TestCase {
 			'error-text-on-background' => [
 				[
 					'--color-text-error',
+					'--color-text-success',
 				],
 				[
 					'--color-main-background',
