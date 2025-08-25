@@ -352,7 +352,7 @@ OC.L10N.register(
     "List of files that you shared with others." : "Список файлів, якими ви поділилися з іншими.",
     "Nothing shared yet" : "Поки немає спільних ресурсів",
     "Files and folders you shared will show up here" : "Тут показуватимуться файи та каталоги якими ви поділилися",
-    "Shared by link" : "Поділилися за посиланням",
+    "Shared by link" : "Доступні за посиланням",
     "List of files that are shared by link." : "Список файлів, якими поділилися за допомогою посилання.",
     "No shared links" : "Відсутні спільні посилання",
     "Files and folders you shared by link will show up here" : "Тут показуватимуться файи та каталоги якими ви поділилися за допомогою посилання",
