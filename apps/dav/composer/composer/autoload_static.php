@@ -199,6 +199,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Comments\\RootCollection' => __DIR__ . '/..' . '/../lib/Comments/RootCollection.php',
         'OCA\\DAV\\Connector\\LegacyDAVACL' => __DIR__ . '/..' . '/../lib/Connector/LegacyDAVACL.php',
         'OCA\\DAV\\Connector\\LegacyPublicAuth' => __DIR__ . '/..' . '/../lib/Connector/LegacyPublicAuth.php',
+        'OCA\\DAV\\Connector\\Sabre\\AddExtraHeadersPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AddExtraHeadersPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\AnonymousOptionsPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AnonymousOptionsPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\AppleQuirksPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/AppleQuirksPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\Auth' => __DIR__ . '/..' . '/../lib/Connector/Sabre/Auth.php',

@@ -184,6 +184,7 @@ return array(
     'OCA\\DAV\\Comments\\RootCollection' => $baseDir . '/../lib/Comments/RootCollection.php',
     'OCA\\DAV\\Connector\\LegacyDAVACL' => $baseDir . '/../lib/Connector/LegacyDAVACL.php',
     'OCA\\DAV\\Connector\\LegacyPublicAuth' => $baseDir . '/../lib/Connector/LegacyPublicAuth.php',
+    'OCA\\DAV\\Connector\\Sabre\\AddExtraHeadersPlugin' => $baseDir . '/../lib/Connector/Sabre/AddExtraHeadersPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\AnonymousOptionsPlugin' => $baseDir . '/../lib/Connector/Sabre/AnonymousOptionsPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\AppleQuirksPlugin' => $baseDir . '/../lib/Connector/Sabre/AppleQuirksPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\Auth' => $baseDir . '/../lib/Connector/Sabre/Auth.php',
