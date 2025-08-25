@@ -411,7 +411,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						continue;
 					}
 					if (isset($calendars[$row['id']][$readOnlyPropertyName])
-						&& $calendars[$row['id']][$readOnlyPropertyName] === 0) {
+						&& (
+							$calendars[$row['id']][$readOnlyPropertyName] === 0
+							|| $calendars[$row['id']][$readOnlyPropertyName] === false
+						)) {
 						// Old share is already read-write, no more permissions can be gained
 						continue;
 					}
