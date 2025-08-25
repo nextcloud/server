@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Crypto;
 
 use OCA\Encryption\KeyManager;
@@ -56,13 +59,8 @@ class DecryptAll {
 
 	/**
 	 * prepare encryption module to decrypt all files
-	 *
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @param $user
-	 * @return bool
 	 */
-	public function prepare(InputInterface $input, OutputInterface $output, $user) {
+	public function prepare(InputInterface $input, OutputInterface $output, ?string $user): bool {
 		$question = new Question('Please enter the recovery key password: ');
 
 		if ($this->util->isMasterKeyEnabled()) {
@@ -71,7 +69,7 @@ class DecryptAll {
 			$password = $this->keyManager->getMasterKeyPassword();
 		} else {
 			$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
-			if (!empty($user)) {
+			if ($user !== null && $user !== '') {
 				$output->writeln('You can only decrypt the users files if you know');
 				$output->writeln('the users password or if he activated the recovery key.');
 				$output->writeln('');
@@ -120,7 +118,7 @@ class DecryptAll {
 	 * @return bool|string
 	 * @throws \OCA\Encryption\Exceptions\PrivateKeyMissingException
 	 */
-	protected function getPrivateKey($user, $password) {
+	protected function getPrivateKey(string $user, string $password): string|false {
 		$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
 		$masterKeyId = $this->keyManager->getMasterKeyId();
 		if ($user === $recoveryKeyId) {
@@ -137,7 +135,7 @@ class DecryptAll {
 		return $privateKey;
 	}
 
-	protected function updateSession($user, $privateKey) {
+	protected function updateSession(string $user, string $privateKey): void {
 		$this->session->prepareDecryptAll($user, $privateKey);
 	}
 }
