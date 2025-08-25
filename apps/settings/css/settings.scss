@@ -645,15 +645,15 @@ table.grid td.date {
 		}
 
 		&.icon-checkmark-white {
-			background-color: var(--color-success);
+			background-color: var(--color-border-success);
 		}
 
 		&.icon-error-white {
-			background-color: var(--color-warning);
+			background-color: var(--color-warning-text);
 		}
 
 		&.icon-close-white {
-			background-color: var(--color-error);
+			background-color: var(--color-border-error);
 		}
 	}
 }
@@ -871,9 +871,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 }
 
 .settings-hint {
-	margin-top: -12px;
-	margin-bottom: 12px;
-	opacity: .7;
+	color: var(--color-text-maxcontrast);
+	margin-block: -12px 12px;
 }
 
 .animated {
