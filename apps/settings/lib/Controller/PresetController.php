@@ -13,6 +13,7 @@ use OC\Config\PresetManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Config\Lexicon\Preset;
 use OCP\IRequest;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
@@ -26,8 +27,26 @@ class PresetController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
+	public function getCurrentPreset(): DataResponse {
+		return new DataResponse($this->presetManager->getLexiconPreset()->name);
+	}
+
+	public function setCurrentPreset(string $presetName): DataResponse {
+		foreach (Preset::cases() as $case) {
+			if (strtolower($case->name) === strtolower($presetName)) {
+				$this->presetManager->setLexiconPreset($case);
+			}
+		}
+		return $this->getCurrentPreset();
+	}
+
 	public function getPreset(): DataResponse {
-		return new DataResponse($this->presetManager->retrieveLexiconPreset());
+		return new DataResponse(
+			[
+				'preset' => $this->presetManager->retrieveLexiconPreset(),
+				'apps' => $this->presetManager->retrieveLexiconPresetApps()
+			]
+		);
 	}
 
 }
