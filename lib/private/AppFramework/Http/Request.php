@@ -877,4 +877,23 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		return \is_array($trustedProxies) && $this->isTrustedProxy($trustedProxies, $remoteAddress);
 	}
+
+	public function getFormat(): ?string {
+		$format = $this->getParam('format');
+		if ($format !== null) {
+			return $format;
+		}
+
+		$prefix = 'application/';
+		$headers = explode(',', $this->getHeader('Accept'));
+		foreach ($headers as $header) {
+			$header = strtolower(trim($header));
+
+			if (str_starts_with($header, $prefix)) {
+				return substr($header, strlen($prefix));
+			}
+		}
+
+		return null;
+	}
 }

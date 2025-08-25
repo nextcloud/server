@@ -210,14 +210,7 @@ class Dispatcher {
 
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {
-			// get format from the url format or request format parameter
-			$format = $this->request->getParam('format');
-
-			// if none is given try the first Accept header
-			if ($format === null) {
-				$headers = $this->request->getHeader('Accept');
-				$format = $controller->getResponderByHTTPHeader($headers, null);
-			}
+			$format = $this->request->getFormat();
 
 			if ($format !== null) {
 				$response = $controller->buildResponse($response, $format);

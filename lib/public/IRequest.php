@@ -315,4 +315,14 @@ interface IRequest {
 	 * @since 32.0.0
 	 */
 	public function throwDecodingExceptionIfAny(): void;
+
+	/**
+	 * Returns the format of the response to this request.
+	 *
+	 * The `Accept` header and the `format` query parameter control the format.
+	 *
+	 * @return string|null
+	 * @since 33.0.0
+	 */
+	public function getFormat(): ?string;
 }

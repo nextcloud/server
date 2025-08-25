@@ -25,7 +25,8 @@ class ApiHelper {
 	 */
 	public static function respond(int $statusCode, string $statusMessage, array $headers = [], ?int $overrideHttpStatusCode = null): void {
 		$request = Server::get(IRequest::class);
-		$format = $request->getParam('format', 'xml');
+		$format = $request->getFormat() ?? 'xml';
+
 		if (self::isV2($request)) {
 			$response = new V2Response(new DataResponse([], $statusCode, $headers), $format, $statusMessage);
 		} else {
@@ -58,7 +59,7 @@ class ApiHelper {
 	 * Based on the requested format the response content type is set
 	 */
 	public static function setContentType(?string $format = null): void {
-		$format ??= Server::get(IRequest::class)->getParam('format', 'xml');
+		$format ??= Server::get(IRequest::class)->getFormat() ?? 'xml';
 		if ($format === 'xml') {
 			header('Content-type: text/xml; charset=UTF-8');
 			return;

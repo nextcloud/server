@@ -3330,11 +3330,6 @@
       <code><![CDATA[\OCP\IServerContainer]]></code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/AppFramework/Http/Dispatcher.php">
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
-  </file>
   <file src="lib/private/AppFramework/Http/Output.php">
     <InvalidReturnStatement>
       <code><![CDATA[@readfile($path)]]></code>
