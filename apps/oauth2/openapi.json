@@ -128,6 +128,10 @@
                                 "properties": {
                                     "grant_type": {
                                         "type": "string",
+                                        "enum": [
+                                            "authorization_code",
+                                            "refresh_token"
+                                        ],
                                         "description": "Token type that should be granted"
                                     },
                                     "code": {
