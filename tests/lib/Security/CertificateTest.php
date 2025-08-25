@@ -71,7 +71,7 @@ class CertificateTest extends \Test\TestCase {
 	public function testGetIssueDate(): void {
 		$expected = new \DateTime('2025-08-25 09:53:14 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getIssueDate()->getTimestamp());
-		$expected = new \DateTime('2025-08-25 10:00:15  GMT');
+		$expected = new \DateTime('2025-08-25 10:00:15 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getIssueDate()->getTimestamp());
 	}
 
