@@ -59,26 +59,26 @@ class CertificateTest extends \Test\TestCase {
 	}
 
 	public function testGetCommonName(): void {
-		$this->assertSame('security.owncloud.com', $this->goodCertificate->getCommonName());
+		$this->assertSame('security.nextcloud.com', $this->goodCertificate->getCommonName());
 		$this->assertSame(null, $this->invalidCertificate->getCommonName());
 	}
 
 	public function testGetOrganization(): void {
-		$this->assertSame('ownCloud Security', $this->goodCertificate->getOrganization());
+		$this->assertSame('Nextcloud Security', $this->goodCertificate->getOrganization());
 		$this->assertSame('Internet Widgits Pty Ltd', $this->invalidCertificate->getOrganization());
 	}
 
 	public function testGetIssueDate(): void {
-		$expected = new \DateTime('2015-08-27 20:03:42 GMT');
+		$expected = new \DateTime('2025-08-25 09:53:14 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getIssueDate()->getTimestamp());
-		$expected = new \DateTime('2015-08-27 20:19:13 GMT');
+		$expected = new \DateTime('2025-08-25 10:00:15  GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getIssueDate()->getTimestamp());
 	}
 
 	public function testGetExpireDate(): void {
-		$expected = new \DateTime('2025-08-24 20:03:42 GMT');
+		$expected = new \DateTime('2035-08-23 09:53:14 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getExpireDate()->getTimestamp());
-		$expected = new \DateTime('2025-08-24 20:19:13 GMT');
+		$expected = new \DateTime('2035-08-23 10:00:15 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getExpireDate()->getTimestamp());
 		$expected = new \DateTime('2014-08-28 09:12:43 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->expiredCertificate->getExpireDate()->getTimestamp());
@@ -91,13 +91,13 @@ class CertificateTest extends \Test\TestCase {
 	}
 
 	public function testGetIssuerName(): void {
-		$this->assertSame('security.owncloud.com', $this->goodCertificate->getIssuerName());
+		$this->assertSame('security.nextcloud.com', $this->goodCertificate->getIssuerName());
 		$this->assertSame(null, $this->invalidCertificate->getIssuerName());
 		$this->assertSame(null, $this->expiredCertificate->getIssuerName());
 	}
 
 	public function testGetIssuerOrganization(): void {
-		$this->assertSame('ownCloud Security', $this->goodCertificate->getIssuerOrganization());
+		$this->assertSame('Nextcloud Security', $this->goodCertificate->getIssuerOrganization());
 		$this->assertSame('Internet Widgits Pty Ltd', $this->invalidCertificate->getIssuerOrganization());
 		$this->assertSame('Internet Widgits Pty Ltd', $this->expiredCertificate->getIssuerOrganization());
 	}
