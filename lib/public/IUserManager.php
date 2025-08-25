@@ -238,8 +238,10 @@ interface IUserManager {
 	 * The offset argument allows the caller to continue the iteration at a specific offset.
 	 *
 	 * @param int $offset from which offset to fetch
+	 * @param int|null $limit maximum number of records to fetch
 	 * @return \Iterator<IUser> list of IUser object
-	 * @since 32.0.0
+	 * @since 31.0.3
+	 * @since 31.0.6 Added the $limit argument
 	 */
-	public function getSeenUsers(int $offset = 0): \Iterator;
+	public function getSeenUsers(int $offset = 0, ?int $limit = null): \Iterator;
 }
