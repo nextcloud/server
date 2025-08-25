@@ -204,6 +204,7 @@ return array(
     'OCP\\Calendar\\BackendTemporarilyUnavailableException' => $baseDir . '/lib/public/Calendar/BackendTemporarilyUnavailableException.php',
     'OCP\\Calendar\\CalendarEventStatus' => $baseDir . '/lib/public/Calendar/CalendarEventStatus.php',
     'OCP\\Calendar\\CalendarExportOptions' => $baseDir . '/lib/public/Calendar/CalendarExportOptions.php',
+    'OCP\\Calendar\\CalendarImportOptions' => $baseDir . '/lib/public/Calendar/CalendarImportOptions.php',
     'OCP\\Calendar\\Events\\AbstractCalendarObjectEvent' => $baseDir . '/lib/public/Calendar/Events/AbstractCalendarObjectEvent.php',
     'OCP\\Calendar\\Events\\CalendarObjectCreatedEvent' => $baseDir . '/lib/public/Calendar/Events/CalendarObjectCreatedEvent.php',
     'OCP\\Calendar\\Events\\CalendarObjectDeletedEvent' => $baseDir . '/lib/public/Calendar/Events/CalendarObjectDeletedEvent.php',
