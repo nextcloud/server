@@ -25,7 +25,8 @@ class ApiHelper {
 	 */
 	public static function respond(int $statusCode, string $statusMessage, array $headers = [], ?int $overrideHttpStatusCode = null): void {
 		$request = Server::get(IRequest::class);
-		$format = $request->getParam('format', 'xml');
+		$format = $request->getParam('format') ?? ($request->getHeader('Accept') === 'application/json' ? 'json' : null) ?? 'xml';
+
 		if (self::isV2($request)) {
 			$response = new V2Response(new DataResponse([], $statusCode, $headers), $format, $statusMessage);
 		} else {
