@@ -812,4 +812,16 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	public function setPreserveCacheOnDelete(bool $preserve) {
 		$this->preserveCacheItemsOnDelete = $preserve;
 	}
+
+	public function getDirectDownload(string $path): array|false {
+		$path = $this->normalizePath($path);
+		$cacheEntry = $this->getCache()->get($path);
+
+		if (!$cacheEntry || $cacheEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+			return [];
+		}
+
+		$url = $this->objectStore->preSignedUrl($this->getURN($cacheEntry->getId()), new \DateTime('+60 minutes'));
+		return $url ? ['url' => $url] : [];
+	}
 }
