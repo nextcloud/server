@@ -71,6 +71,13 @@ jobs:
               "has_npm": true,
               "has_composer": true,
               "makefile_target": "build_contacts_app"
+            },
+            {
+              "name": "files_antivirus",
+              "path": "apps-external/files_antivirus",
+              "has_npm": false,
+              "has_composer": true,
+              "makefile_target": "build_files_antivirus_app"
             }
           ]'
 
