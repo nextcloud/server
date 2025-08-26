@@ -213,6 +213,20 @@ class PresetManager {
 	}
 
 	/**
+	 * return list of apps that are enabled/disabled when switching current Preset
+	 *
+	 * @return array<string, array{disabled: list<string>, enabled: list<string>}>
+	 */
+	public function retrieveLexiconPresetApps(): array {
+		$apps = [];
+		foreach (Preset::cases() as $case) {
+			$apps[$case->name] = $this->getPresetApps($case);
+		}
+
+		return $apps;
+	}
+
+	/**
 	 * get listing of enabled/disabled app from Preset
 	 *
 	 * @return array{enabled: list<string>, disabled: list<string>}

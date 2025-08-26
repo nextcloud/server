@@ -13,6 +13,8 @@ use OC\Config\PresetManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCS\OCSBadRequestException;
+use OCP\Config\Lexicon\Preset;
 use OCP\IRequest;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
@@ -26,8 +28,26 @@ class PresetController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	public function getPreset(): DataResponse {
-		return new DataResponse($this->presetManager->retrieveLexiconPreset());
+	public function getCurrentPreset(): DataResponse {
+		return new DataResponse($this->presetManager->getLexiconPreset()->name);
 	}
 
+	public function setCurrentPreset(string $presetName): DataResponse {
+		foreach (Preset::cases() as $case) {
+			if ($case->name === $presetName) {
+				$this->presetManager->setLexiconPreset($case);
+				return $this->getCurrentPreset();
+			}
+		}
+		throw new OCSBadRequestException('Invalid preset name provided');
+	}
+
+	public function getPreset(): DataResponse {
+		return new DataResponse(
+			[
+				'preset' => $this->presetManager->retrieveLexiconPreset(),
+				'apps' => $this->presetManager->retrieveLexiconPresetApps()
+			]
+		);
+	}
 }

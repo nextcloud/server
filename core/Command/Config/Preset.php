@@ -30,6 +30,7 @@ class Preset extends Base {
 			->setDescription('Select a config preset')
 			->addArgument('preset', InputArgument::OPTIONAL, 'Preset to use for all unset config values', '')
 			->addOption('list', '', InputOption::VALUE_NONE, 'display available preset')
+			->addOption('apps', '', InputOption::VALUE_NONE, 'return list of enabled/disabled apps when switching preset')
 			->addOption('compare', '', InputOption::VALUE_NONE, 'compare preset');
 	}
 
@@ -37,6 +38,11 @@ class Preset extends Base {
 		if ($input->getOption('list')) {
 			$this->getEnum('', $list);
 			$this->writeArrayInOutputFormat($input, $output, $list);
+			return self::SUCCESS;
+		}
+
+		if ($input->getOption('apps')) {
+			$this->writeArrayInOutputFormat($input, $output, $this->presetManager->retrieveLexiconPresetApps());
 			return self::SUCCESS;
 		}
 
