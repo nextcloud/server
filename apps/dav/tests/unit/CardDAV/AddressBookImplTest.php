@@ -53,7 +53,8 @@ class AddressBookImplTest extends TestCase {
 	}
 
 	public function testGetKey(): void {
-		$this->assertSame($this->addressBookInfo['id'],
+		$this->assertIsString($this->addressBookImpl->getKey());
+		$this->assertSame((string)$this->addressBookInfo['id'],
 			$this->addressBookImpl->getKey());
 	}
 
