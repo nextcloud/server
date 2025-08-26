@@ -12,7 +12,7 @@
 
 <div id="security-warning" class="section">
 	<div class="security-warning__heading">
-		<h2><?php p($l->t('Security & setup warnings'));?></h2>
+		<h2><?php p($l->t('Security & setup checks'));?></h2>
 		<a 	target="_blank"
 			rel="noreferrer"
 			class="icon-info"
