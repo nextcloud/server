@@ -103,7 +103,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->timeFactory->expects($this->any())->method('now')->willReturn(new \DateTimeImmutable('2023-05-04 00:00 Europe/Berlin'));
 
 		//Empty share table
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->provider = new DefaultShareProvider(
 			$this->dbConn,
@@ -122,9 +122,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->execute();
-		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
 	}
 
 	/**
@@ -180,8 +180,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$qb->setValue('parent', $qb->expr()->literal($parent));
 		}
 
-		$this->assertEquals(1, $qb->execute());
-		return$qb->getLastInsertId();
+		$this->assertEquals(1, $qb->executeStatement());
+		return $qb->getLastInsertId();
 	}
 
 
@@ -207,7 +207,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id = $qb->getLastInsertId();
 
@@ -254,7 +254,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id = $qb->getLastInsertId();
 
@@ -289,7 +289,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id = $qb->getLastInsertId();
 
@@ -333,7 +333,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		// Get the id
 		$id = $qb->getLastInsertId();
@@ -419,7 +419,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'token' => $qb->expr()->literal('token'),
 				'expiration' => $qb->expr()->literal('2000-01-02 00:00:00'),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$id = $qb->getLastInsertId();
 
@@ -461,7 +461,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$id = $qb->getLastInsertId();
 
@@ -493,7 +493,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->select('*')
 			->from('share');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$result = $cursor->fetchAll();
 		$cursor->closeCursor();
 
@@ -513,7 +513,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$id = $qb->getLastInsertId();
 
@@ -526,7 +526,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->select('*')
 			->from('share');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$result = $cursor->fetchAll();
 		$cursor->closeCursor();
 
@@ -545,7 +545,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		$id = $qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -560,7 +560,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(13),
 				'parent' => $qb->expr()->literal($id),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getId')->willReturn($id);
@@ -591,7 +591,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->select('*')
 			->from('share');
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$result = $cursor->fetchAll();
 		$cursor->closeCursor();
 
@@ -611,7 +611,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		// Get the id
 		$id = $qb->getLastInsertId();
@@ -629,7 +629,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(2),
 				'parent' => $qb->expr()->literal($id),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
@@ -644,7 +644,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(4),
 				'parent' => $qb->expr()->literal($id),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$ownerPath = $this->createMock(Folder::class);
 		$ownerFolder = $this->createMock(Folder::class);
@@ -900,7 +900,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'token' => $qb->expr()->literal('secrettoken'),
 				'label' => $qb->expr()->literal('the label'),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 		$id = $qb->getLastInsertId();
 
 		$file = $this->createMock(File::class);
@@ -964,7 +964,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->values([
 				'id' => $qb->expr()->literal($storageStringId),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		return $qb->getLastInsertId();
 	}
 
@@ -977,7 +977,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'path_hash' => $qb->createNamedParameter(md5($path)),
 				'name' => $qb->createNamedParameter(basename($path)),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		return $qb->getLastInsertId();
 	}
 
@@ -1009,7 +1009,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		$id = $qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -1024,7 +1024,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget2'),
 				'permissions' => $qb->expr()->literal(14),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$file = $this->createMock(File::class);
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
@@ -1058,7 +1058,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget2'),
 				'permissions' => $qb->expr()->literal(14),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
@@ -1072,7 +1072,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		$id = $qb->getLastInsertId();
 
 		$groups = [];
@@ -1129,7 +1129,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		$id = $qb->getLastInsertId();
 
 		/*
@@ -1148,7 +1148,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(31),
 				'parent' => $qb->expr()->literal($id),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		/*
 		 * Correct share. should be taken by code path.
@@ -1166,7 +1166,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(0),
 				'parent' => $qb->expr()->literal($id),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$groups = ['sharedWith'];
 
@@ -1315,7 +1315,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$file = $this->createMock(File::class);
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
@@ -1361,7 +1361,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		$id = $qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -1377,7 +1377,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(0),
 				'parent' => $qb->expr()->literal($id),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$file = $this->createMock(File::class);
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
@@ -1410,7 +1410,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		$id = $qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -1426,7 +1426,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(0),
 				'parent' => $qb->expr()->literal($id),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(42);
@@ -1460,7 +1460,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		$id1 = $qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -1475,7 +1475,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('userTarget'),
 				'permissions' => $qb->expr()->literal(0),
 			]);
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		$id2 = $qb->getLastInsertId();
 
 		$file = $this->createMock(File::class);
@@ -1518,7 +1518,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_source' => $qb->expr()->literal(1),
 				'file_target' => $qb->expr()->literal('myTarget1'),
 				'permissions' => $qb->expr()->literal(2)
-			])->execute();
+			])->executeStatement();
 		$this->assertEquals(1, $stmt);
 		$id = $qb->getLastInsertId();
 
@@ -1551,7 +1551,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$stmt = $qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(2)))
-			->execute();
+			->executeQuery();
 
 		$shares = $stmt->fetchAll();
 		$stmt->closeCursor();
@@ -1575,7 +1575,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_source' => $qb->expr()->literal(1),
 				'file_target' => $qb->expr()->literal('myTarget1'),
 				'permissions' => $qb->expr()->literal(2)
-			])->execute();
+			])->executeStatement();
 		$this->assertEquals(1, $stmt);
 		$id = $qb->getLastInsertId();
 
@@ -1591,7 +1591,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget1'),
 				'permissions' => $qb->expr()->literal(2),
 				'parent' => $qb->expr()->literal($id),
-			])->execute();
+			])->executeStatement();
 		$this->assertEquals(1, $stmt);
 
 		$user1 = $this->createMock(IUser::class);
@@ -1623,7 +1623,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$stmt = $qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(2)))
-			->execute();
+			->executeQuery();
 
 		$shares = $stmt->fetchAll();
 		$stmt->closeCursor();
@@ -1648,7 +1648,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_source' => $qb->expr()->literal(1),
 				'file_target' => $qb->expr()->literal('myTarget1'),
 				'permissions' => $qb->expr()->literal(2)
-			])->execute();
+			])->executeStatement();
 		$this->assertEquals(1, $stmt);
 		$id = $qb->getLastInsertId();
 
@@ -1694,7 +1694,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_source' => $qb->expr()->literal(1),
 				'file_target' => $qb->expr()->literal('myTarget1'),
 				'permissions' => $qb->expr()->literal(2)
-			])->execute();
+			])->executeStatement();
 		$this->assertEquals(1, $stmt);
 		$id = $qb->getLastInsertId();
 
@@ -1732,7 +1732,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_source' => $qb->expr()->literal(1),
 				'file_target' => $qb->expr()->literal('myTarget1'),
 				'permissions' => $qb->expr()->literal(2)
-			])->execute();
+			])->executeStatement();
 		$this->assertEquals(1, $stmt);
 		$id = $qb->getLastInsertId();
 
@@ -1761,7 +1761,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$stmt = $qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->execute();
+			->executeQuery();
 
 		$shares = $stmt->fetchAll();
 		$stmt->closeCursor();
@@ -1785,7 +1785,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_source' => $qb->expr()->literal(1),
 				'file_target' => $qb->expr()->literal('myTarget1'),
 				'permissions' => $qb->expr()->literal(2)
-			])->execute();
+			])->executeStatement();
 		$this->assertEquals(1, $stmt);
 		$id = $qb->getLastInsertId();
 
@@ -1828,7 +1828,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget1'),
 				'permissions' => $qb->expr()->literal(2),
 				'token' => $qb->expr()->literal('token'),
-			])->execute();
+			])->executeStatement();
 		$this->assertEquals(1, $stmt);
 		$id = $qb->getLastInsertId();
 
@@ -1975,7 +1975,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->update('share');
 		$qb->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 		$qb->set('password', $qb->createNamedParameter('password'));
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 
 		$users = [];
 		for ($i = 0; $i < 6; $i++) {
@@ -2186,7 +2186,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->from('share')
 			->where($qb->expr()->eq('parent', $qb->createNamedParameter($id)))
 			->orderBy('id')
-			->execute();
+			->executeQuery();
 
 		$shares = $stmt->fetchAll();
 
@@ -2316,7 +2316,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setValue('item_type', $qb->createNamedParameter('file'))
 			->setValue('item_source', $qb->createNamedParameter(42))
 			->setValue('file_source', $qb->createNamedParameter(42))
-			->execute();
+			->executeStatement();
 
 		$id = $qb->getLastInsertId();
 
@@ -2328,7 +2328,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($id))
 			);
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetchAll();
 		$cursor->closeCursor();
 
@@ -2364,7 +2364,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setValue('item_type', $qb->createNamedParameter('file'))
 			->setValue('item_source', $qb->createNamedParameter(42))
 			->setValue('file_source', $qb->createNamedParameter(42))
-			->execute();
+			->executeStatement();
 		$groupId = $qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -2376,7 +2376,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setValue('item_type', $qb->createNamedParameter('file'))
 			->setValue('item_source', $qb->createNamedParameter(42))
 			->setValue('file_source', $qb->createNamedParameter(42))
-			->execute();
+			->executeStatement();
 		$userGroupId = $qb->getLastInsertId();
 
 		$this->provider->userDeleted($deletedUser, IShare::TYPE_GROUP);
@@ -2387,7 +2387,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($userGroupId))
 			);
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetchAll();
 		$cursor->closeCursor();
 		$this->assertCount($userGroupShareDeleted ? 0 : 1, $data);
@@ -2398,7 +2398,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->where(
 				$qb->expr()->eq('id', $qb->createNamedParameter($groupId))
 			);
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetchAll();
 		$cursor->closeCursor();
 		$this->assertCount($groupShareDeleted ? 0 : 1, $data);
@@ -2467,7 +2467,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setValue('item_type', $qb->createNamedParameter('file'))
 			->setValue('item_source', $qb->createNamedParameter(42))
 			->setValue('file_source', $qb->createNamedParameter(42))
-			->execute();
+			->executeStatement();
 		$ids = [$qb->getLastInsertId()];
 
 		foreach ($shares['children'] as $child) {
@@ -2481,7 +2481,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				->setValue('item_source', $qb->createNamedParameter(42))
 				->setValue('file_source', $qb->createNamedParameter(42))
 				->setValue('parent', $qb->createNamedParameter($ids[0]))
-				->execute();
+				->executeStatement();
 			$ids[] = $qb->getLastInsertId();
 		}
 
@@ -2491,7 +2491,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$cursor = $qb->select('*')
 			->from('share')
 			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
-			->execute();
+			->executeQuery();
 		$data = $cursor->fetchAll();
 		$cursor->closeCursor();
 
@@ -2527,7 +2527,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setValue('item_type', $qb->createNamedParameter('file'))
 			->setValue('item_source', $qb->createNamedParameter(42))
 			->setValue('file_source', $qb->createNamedParameter(42));
-		$qb->execute();
+		$qb->executeStatement();
 		$id1 = $qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -2540,7 +2540,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setValue('item_source', $qb->createNamedParameter(42))
 			->setValue('file_source', $qb->createNamedParameter(42))
 			->setValue('parent', $qb->createNamedParameter($id1));
-		$qb->execute();
+		$qb->executeStatement();
 		$id2 = $qb->getLastInsertId();
 
 		$this->provider->userDeletedFromGroup($user, $group);
@@ -2549,7 +2549,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id2)));
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$data = $cursor->fetchAll();
 		$cursor->closeCursor();
 
@@ -2877,7 +2877,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget1'),
 				'permissions' => $qb->expr()->literal(13),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id1 = $qb->getLastInsertId();
 
@@ -2892,7 +2892,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget2'),
 				'permissions' => $qb->expr()->literal(14),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id2 = $qb->getLastInsertId();
 
@@ -2907,7 +2907,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget3'),
 				'permissions' => $qb->expr()->literal(15),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id3 = $qb->getLastInsertId();
 
@@ -2923,7 +2923,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget4'),
 				'permissions' => $qb->expr()->literal(16),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id4 = $qb->getLastInsertId();
 
@@ -2938,7 +2938,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'file_target' => $qb->expr()->literal('myTarget5'),
 				'permissions' => $qb->expr()->literal(17),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id5 = $qb->getLastInsertId();
 
@@ -3041,7 +3041,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'item_type' => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(1),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id1 = $qb->getLastInsertId();
 
@@ -3054,7 +3054,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'item_type' => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(1),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id2 = $qb->getLastInsertId();
 
@@ -3067,7 +3067,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'item_type' => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(1),
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$id3 = $qb->getLastInsertId();
 

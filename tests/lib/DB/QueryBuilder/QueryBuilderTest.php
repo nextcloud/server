@@ -15,6 +15,7 @@ use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
@@ -59,7 +60,7 @@ class QueryBuilderTest extends \Test\TestCase {
 					'configkey' => $qB->expr()->literal('testing' . $i),
 					'configvalue' => $qB->expr()->literal(100 - $i),
 				])
-				->execute();
+				->executeStatement();
 		}
 	}
 
@@ -72,7 +73,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			))
 			->orderBy('configkey', 'ASC');
 
-		$query = $queryBuilder->execute();
+		$query = $queryBuilder->executeQuery();
 		$rows = [];
 		while ($row = $query->fetch()) {
 			$rows[] = $row['configvalue'];
@@ -87,7 +88,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$qB->delete('*PREFIX*appconfig')
 			->where($qB->expr()->eq('appid', $qB->expr()->literal($appId)))
-			->execute();
+			->executeStatement();
 	}
 
 	public static function dataFirstResult(): array {
@@ -212,7 +213,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->orderBy('configkey', 'ASC')
 			->setMaxResults(1);
 
-		$query = $this->queryBuilder->execute();
+		$query = $this->queryBuilder->executeQuery();
 		$row = $query->fetch();
 		$query->closeCursor();
 
@@ -241,14 +242,8 @@ class QueryBuilderTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 *
-	 * @param mixed $select
-	 * @param array $alias
-	 * @param array $expected
-	 */
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSelectAlias')]
-	public function testSelectAlias($select, $alias, $expected): void {
+	public function testSelectAlias(string|ILiteral $select, string $alias, array $expected): void {
 		$this->deleteTestingRows();
 		$this->createTestingRows();
 
@@ -262,7 +257,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->orderBy('configkey', 'ASC')
 			->setMaxResults(1);
 
-		$query = $this->queryBuilder->execute();
+		$query = $this->queryBuilder->executeQuery();
 		$row = $query->fetch();
 		$query->closeCursor();
 
@@ -289,7 +284,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			))
 			->orderBy('appid', 'DESC');
 
-		$query = $this->queryBuilder->execute();
+		$query = $this->queryBuilder->executeQuery();
 		$rows = $query->fetchAll();
 		$query->closeCursor();
 
@@ -317,7 +312,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			))
 			->orderBy('configkey', 'ASC');
 
-		$query = $this->queryBuilder->execute();
+		$query = $this->queryBuilder->executeQuery();
 		$rows = $query->fetchAll();
 		$query->closeCursor();
 
@@ -391,7 +386,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->orderBy('configkey', 'ASC')
 			->setMaxResults(1);
 
-		$query = $this->queryBuilder->execute();
+		$query = $this->queryBuilder->executeQuery();
 		$row = $query->fetch();
 		$query->closeCursor();
 
@@ -1179,7 +1174,7 @@ class QueryBuilderTest extends \Test\TestCase {
 				'propertyname' => $qB->expr()->literal('testing'),
 				'propertyvalue' => $qB->expr()->literal('testing'),
 			])
-			->execute();
+			->executeStatement();
 
 		$actual = $qB->getLastInsertId();
 
@@ -1189,7 +1184,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$qB->delete('properties')
 			->where($qB->expr()->eq('userid', $qB->expr()->literal('testFirstResult')))
-			->execute();
+			->executeStatement();
 
 		try {
 			$qB->getLastInsertId();
@@ -1276,9 +1271,6 @@ class QueryBuilderTest extends \Test\TestCase {
 		$queryBuilder
 			->method('getParameterTypes')
 			->willReturn([]);
-		$queryBuilder
-			->method('getType')
-			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
 		$this->logger
 			->expects($this->never())
 			->method('debug');
@@ -1290,7 +1282,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
-		$this->assertEquals(3, $this->queryBuilder->execute());
+		$this->assertEquals(3, $this->queryBuilder->executeStatement());
 	}
 
 	public function testExecuteWithLoggerAndNamedArray(): void {
@@ -1308,9 +1300,6 @@ class QueryBuilderTest extends \Test\TestCase {
 				'foo' => IQueryBuilder::PARAM_STR,
 				'key' => IQueryBuilder::PARAM_STR,
 			]);
-		$queryBuilder
-			->method('getType')
-			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
 		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
@@ -1334,7 +1323,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
-		$this->assertEquals(3, $this->queryBuilder->execute());
+		$this->assertEquals(3, $this->queryBuilder->executeStatement());
 	}
 
 	public function testExecuteWithLoggerAndUnnamedArray(): void {
@@ -1346,9 +1335,6 @@ class QueryBuilderTest extends \Test\TestCase {
 		$queryBuilder
 			->method('getParameterTypes')
 			->willReturn([IQueryBuilder::PARAM_STR]);
-		$queryBuilder
-			->method('getType')
-			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
 		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
@@ -1372,7 +1358,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
-		$this->assertEquals(3, $this->queryBuilder->execute());
+		$this->assertEquals(3, $this->queryBuilder->executeStatement());
 	}
 
 	public function testExecuteWithLoggerAndNoParams(): void {
@@ -1384,9 +1370,6 @@ class QueryBuilderTest extends \Test\TestCase {
 		$queryBuilder
 			->method('getParameterTypes')
 			->willReturn([]);
-		$queryBuilder
-			->method('getType')
-			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
 		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
@@ -1409,7 +1392,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
-		$this->assertEquals(3, $this->queryBuilder->execute());
+		$this->assertEquals(3, $this->queryBuilder->executeStatement());
 	}
 
 	public function testExecuteWithParameterTooLarge(): void {
@@ -1422,6 +1405,10 @@ class QueryBuilderTest extends \Test\TestCase {
 		$queryBuilder
 			->method('getParameterTypes')
 			->willReturn([IQueryBuilder::PARAM_STR_ARRAY]);
+		$queryBuilder
+			->expects($this->any())
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::SELECT);
 		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
@@ -1444,7 +1431,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
-		$this->queryBuilder->execute();
+		$this->queryBuilder->executeQuery();
 	}
 
 	public function testExecuteWithParametersTooMany(): void {
@@ -1457,6 +1444,10 @@ class QueryBuilderTest extends \Test\TestCase {
 		$queryBuilder
 			->method('getParameterTypes')
 			->willReturn([IQueryBuilder::PARAM_STR_ARRAY]);
+		$queryBuilder
+			->expects($this->any())
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::SELECT);
 		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
@@ -1479,6 +1470,6 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
-		$this->queryBuilder->execute();
+		$this->queryBuilder->executeQuery();
 	}
 }
