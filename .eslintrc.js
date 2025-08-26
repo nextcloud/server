@@ -49,5 +49,12 @@ module.exports = {
 				'@typescript-eslint/no-explicit-any': 'warn',
 			},
 		},
+		{
+			files: ['*.vue'],
+			rules: {
+				'no-irregular-whitespace': 'off',
+				'vue/no-irregular-whitespace': 'error',
+			},
+		},
 	],
 }
