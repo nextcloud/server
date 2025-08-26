@@ -66,7 +66,7 @@ class AddressBookImpl implements IAddressBookEnabled {
 	 * @since 5.0.0
 	 */
 	public function getKey() {
-		return $this->addressBookInfo['id'];
+		return (string) $this->addressBookInfo['id'];
 	}
 
 	/**
