@@ -57,8 +57,6 @@ $color-yellow: #FC0;
 // min. color contrast for normal text on white background according to WCAG AA
 // (Works as well: color: #000; opacity: 0.57;)
 $color-text-maxcontrast: nc-lighten($color-main-text, 33%) !default;
-$color-text-light: $color-main-text !default;
-$color-text-lighter: $color-text-maxcontrast !default;
 
 $image-logo: url('../img/logo/logo.svg?v=1') !default;
 $image-login-background: url('../img/background.png?v=2') !default;

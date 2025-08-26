@@ -72,6 +72,11 @@ class HighContrastTheme extends DefaultTheme implements ITheme {
 				'--color-text-error' => $this->util->darken($colorError, 65),
 				'--color-text-success' => $this->util->darken($colorSuccess, 70),
 
+				'--color-element-error' => $this->util->darken($colorError, 50),
+				'--color-element-info' => $this->util->darken($colorInfo, 50),
+				'--color-element-success' => $this->util->darken($colorSuccess, 55),
+				'--color-element-warning' => $this->util->darken($colorWarning, 50),
+
 				'--color-error' => $colorError,
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
 				'--color-error-hover' => $this->util->darken($colorError, 5),

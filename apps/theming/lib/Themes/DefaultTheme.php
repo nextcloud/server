@@ -77,16 +77,23 @@ class DefaultTheme implements ITheme {
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
 		$colorBoxShadowRGB = join(',', $this->util->hexToRGB($colorBoxShadow));
 
+		/*
+		colorX: The background color for e.g. buttons and note-card
+		colorXText: The text color on that background
+		colorXElement: When that color needs to have element contrast like borders
+		*/
 		$colorError = '#FFE7E7';
 		$colorErrorText = '#8A0000';
 		$colorErrorElement = '#c90000';
 		$colorWarning = '#FFEEC5';
 		$colorWarningText = '#664700';
+		$colorWarningElement = '#BF7900';
 		$colorSuccess = '#D8F3DA';
 		$colorSuccessText = '#005416';
 		$colorSuccessElement = '#099f05';
 		$colorInfo = '#D5F1FA';
 		$colorInfoText = '#0066AC';
+		$colorInfoElement = '#0077C7';
 
 		$user = $this->userSession->getUser();
 		// Chromium based browsers currently (2024) have huge performance issues with blur filters
@@ -128,10 +135,21 @@ class DefaultTheme implements ITheme {
 			'--color-text-maxcontrast' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-default' => $colorTextMaxcontrast,
 			'--color-text-maxcontrast-background-blur' => $this->util->darken($colorTextMaxcontrast, 7),
-			'--color-text-error' => $colorErrorElement,
+			'--color-text-error' => $this->util->darken($colorErrorElement, 2),
 			'--color-text-success' => $this->util->darken($colorSuccessElement, 10),
-			'--color-text-light' => 'var(--color-main-text)', // deprecated
-			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
+
+			// special colors for elements (providing corresponding contrast) e.g. icons
+			'--color-element-error' => $colorErrorElement,
+			'--color-element-info' => $colorInfoElement,
+			'--color-element-success' => $colorSuccessElement,
+			'--color-element-warning' => $colorWarningElement,
+
+			// border colors
+			'--color-border' => $this->util->darken($colorMainBackground, 7),
+			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
+			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
+			'--color-border-error' => 'var(--color-element-error)',
+			'--color-border-success' => 'var(--color-element-success)',
 
 			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
 
@@ -161,12 +179,6 @@ class DefaultTheme implements ITheme {
 
 			'--color-box-shadow-rgb' => $colorBoxShadowRGB,
 			'--color-box-shadow' => 'rgba(var(--color-box-shadow-rgb), 0.5)',
-
-			'--color-border' => $this->util->darken($colorMainBackground, 7),
-			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
-			'--color-border-maxcontrast' => $this->util->darken($colorMainBackground, 51),
-			'--color-border-error' => $colorErrorElement,
-			'--color-border-success' => $colorSuccessElement,
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',

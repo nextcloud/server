@@ -135,10 +135,14 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$textContrast,
 			],
-			'status-border-colors-on-background' => [
+			'status-element-colors-on-background' => [
 				[
 					'--color-border-error',
 					'--color-border-success',
+					'--color-element-error',
+					'--color-element-info',
+					'--color-element-success',
+					'--color-element-warning',
 				],
 				[
 					'--color-main-background',
@@ -147,7 +151,7 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$elementContrast,
 			],
-			'error-text-on-background' => [
+			'status-text-on-background' => [
 				[
 					'--color-text-error',
 					'--color-text-success',
