@@ -207,8 +207,6 @@
     "Please ask your server administrator to install the module." : "서버 관리자에게 모듈 설치를 요청하십시오.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP 설정 \"%s\"이(가) \"%s\"(으)로 설정되어 있지 않습니다.",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "php.ini 파일에서 설정을 변경하면 Nextcloud가 다시 실행됩니다",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "현재 <code>mbstring.func_overload</code>가 <code>%s</code>(으)로 설정되어 있으나, 올바른 값은 <code>0</code>입니다.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "이 문제를 해결하려면 php.ini 에서 <code>mbstring.func_overload</code>를 <code>0</code>으로 설정하십시오.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP에서 인라인 문서 블록을 삭제하도록 설정되어 있습니다. 일부 코어 앱을 사용하지 못할 수도 있습니다.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Zend OPcache, eAccelerator 같은 캐시/가속기 문제일 수도 있습니다.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP 모듈이 설치되었지만 여전히 없는 것으로 나타납니까?",
@@ -260,6 +258,8 @@
     "File is currently busy, please try again later" : "파일이 현재 사용 중, 나중에 다시 시도하십시오",
     "Cannot download file" : "파일을 다운로드할 수 없음",
     "Cannot write into \"apps\" directory." : "\"apps\" 디렉터리에 기록할 수 없습니다",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "apps 디렉토리에 웹 서버의 쓰기 권한을 부여하거나 설정 파일에서 앱 스토어를 비활성화하면 해결됩니다."
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "apps 디렉토리에 웹 서버의 쓰기 권한을 부여하거나 설정 파일에서 앱 스토어를 비활성화하면 해결됩니다.",
+    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "현재 <code>mbstring.func_overload</code>가 <code>%s</code>(으)로 설정되어 있으나, 올바른 값은 <code>0</code>입니다.",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "이 문제를 해결하려면 php.ini 에서 <code>mbstring.func_overload</code>를 <code>0</code>으로 설정하십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

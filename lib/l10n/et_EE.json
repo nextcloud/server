@@ -294,8 +294,6 @@
     "Please ask your server administrator to install the module." : "Palu oma serveri haldajal moodul paigadalda.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP seadistuse „%s“ väärtuseks ei ole „%s“.",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Selle seadistuse kohendamine php.ini failis võimaldab sul Nextcloudi uuesti tööle saada",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> muutuja väärtus on hetkel <code>%s</code>, pigem eeldaks väärtust <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Vea parandamiseks muuda oma veebiserveri php.ini failis <code>mbstring.func_overload</code> väärtuseks <code>0</code>.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP on seadistatud eemaldama „inline“ dokumendi blokke. See muudab mõned tuumikrakendused kasutamatuteks.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "See on tõenäoliselt põhjustatud puhver/kiirendist nagu Zend OPcache või eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moodulid on paigaldatud, kuid neid näitatakse endiselt kui puuduolevad?",
@@ -452,6 +450,8 @@
     "Cannot download file" : "Faili pole võimalik alla laadida",
     "Cannot write into \"apps\" directory." : "Pole õigust kirjutada „apps“ kausta.",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Tavaliselt saad selle lahendada andes veebiserverile õigused rakenduste kausta kirjutamiseks. Alternatiivina võid ka Nextcloudi rakendustepoe kasutamise keelata.",
+    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> muutuja väärtus on hetkel <code>%s</code>, pigem eeldaks väärtust <code>0</code>.",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Vea parandamiseks muuda oma veebiserveri php.ini failis <code>mbstring.func_overload</code> väärtuseks <code>0</code>.",
     "Login is too long" : "Kasutajanimi on liiga pikk"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

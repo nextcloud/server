@@ -298,8 +298,6 @@
     "Please ask your server administrator to install the module." : "Consulte al administrador de su servidor para instalar el módulo.",
     "PHP setting \"%s\" is not set to \"%s\"." : "La opción PHP \"%s\" no es \"%s\".",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Ajustar esta configuración en php.ini hará que Nextcloud funcione de nuevo",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> está establecido como <code>%s</code> en lugar del valor esperado: <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Para arreglar este problema, establezca <code>mbstring.func_overload</code> en<code>0</code> en su php.ini.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP está aparentemente configurado para eliminar bloques de documentos en línea. Esto hará que varias aplicaciones principales estén inaccesibles.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Probablemente esto venga a causa de la caché o un acelerador, tales como Zend OPcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Los módulos PHP se han instalado, pero aparecen listados como si faltaran",
@@ -473,6 +471,8 @@
     "Cannot download file" : "No se puede descargar el archivo",
     "Cannot write into \"apps\" directory." : "No se puede escribir en la carpeta \"apps\".",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Esto usualmente se puede arreglar dándole al servidor web acceso de escritura a la carpeta de apps o deshabilitando el App Store en el archivo de configuración.",
+    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> está establecido como <code>%s</code> en lugar del valor esperado: <code>0</code>.",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Para arreglar este problema, establezca <code>mbstring.func_overload</code> en<code>0</code> en su php.ini.",
     "Login is too long" : "El nombre de inicio de sesión es demasiado largo"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
