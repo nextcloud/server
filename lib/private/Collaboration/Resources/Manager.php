@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OC\Collaboration\Resources;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\Collaboration\Resources\CollectionException;
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
@@ -16,6 +15,7 @@ use OCP\Collaboration\Resources\IProvider;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\Collaboration\Resources\IResource;
 use OCP\Collaboration\Resources\ResourceException;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -351,7 +351,10 @@ class Manager implements IManager {
 			]);
 		try {
 			$query->executeStatement();
-		} catch (UniqueConstraintViolationException $e) {
+		} catch (Exception $e) {
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
 		}
 	}
 
@@ -367,7 +370,10 @@ class Manager implements IManager {
 			]);
 		try {
 			$query->executeStatement();
-		} catch (UniqueConstraintViolationException $e) {
+		} catch (Exception $e) {
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
 		}
 	}
 

@@ -7,7 +7,6 @@
  */
 namespace OC\Files\Cache;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OC\Files\Cache\Wrapper\CacheJail;
@@ -16,6 +15,7 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\SystemConfig;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -249,7 +249,7 @@ class Cache implements ICache {
 	 * @param array $data
 	 *
 	 * @return int file id
-	 * @throws \RuntimeException
+	 * @throws \RuntimeException|Exception
 	 */
 	public function insert($file, array $data) {
 		// normalize file
@@ -309,15 +309,19 @@ class Cache implements ICache {
 				$this->eventDispatcher->dispatchTyped($event);
 				return $fileId;
 			}
-		} catch (UniqueConstraintViolationException $e) {
-			// entry exists already
-			if ($this->connection->inTransaction()) {
-				$this->connection->commit();
-				$this->connection->beginTransaction();
+		} catch (Exception $e) {
+			if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				// entry exists already
+				if ($this->connection->inTransaction()) {
+					$this->connection->commit();
+					$this->connection->beginTransaction();
+				}
+			} else {
+				throw $e;
 			}
 		}
 
-		// The file was created in the mean time
+		// The file was created in the meantime
 		if (($id = $this->getId($file)) > -1) {
 			$this->update($id, $data);
 			return $id;
@@ -377,7 +381,10 @@ class Cache implements ICache {
 				}
 
 				$query->executeStatement();
-			} catch (UniqueConstraintViolationException $e) {
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
 				$query = $this->getQueryBuilder();
 				$query->update('filecache_extended')
 					->whereFileId($id)

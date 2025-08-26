@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OC\SystemTag;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
@@ -177,12 +177,15 @@ class SystemTagManager implements ISystemTagManager {
 
 		try {
 			$query->executeStatement();
-		} catch (UniqueConstraintViolationException $e) {
-			throw new TagAlreadyExistsException(
-				'Tag ("' . $truncatedTagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
-				0,
-				$e
-			);
+		} catch (Exception $e) {
+			if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw new TagAlreadyExistsException(
+					'Tag ("' . $truncatedTagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
+					0,
+					$e
+				);
+			}
+			throw $e;
 		}
 
 		$tagId = $query->getLastInsertId();
@@ -262,12 +265,15 @@ class SystemTagManager implements ISystemTagManager {
 					'Tag does not exist', 0, null, [$tagId]
 				);
 			}
-		} catch (UniqueConstraintViolationException $e) {
-			throw new TagAlreadyExistsException(
-				'Tag ("' . $newName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
-				0,
-				$e
-			);
+		} catch (Exception $e) {
+			if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw new TagAlreadyExistsException(
+					'Tag ("' . $newName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
+					0,
+					$e
+				);
+			}
+			throw $e;
 		}
 
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_UPDATE, new ManagerEvent(
