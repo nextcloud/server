@@ -289,7 +289,7 @@ class Cache implements ICache {
 				$builder->setValue($column, $builder->createNamedParameter($value));
 			}
 
-			if ($builder->execute()) {
+			if ($builder->executeStatement()) {
 				$fileId = $builder->getLastInsertId();
 
 				if (count($extensionValues)) {
@@ -376,7 +376,7 @@ class Cache implements ICache {
 					$query->setValue($column, $query->createNamedParameter($value));
 				}
 
-				$query->execute();
+				$query->executeStatement();
 			} catch (UniqueConstraintViolationException $e) {
 				$query = $this->getQueryBuilder();
 				$query->update('filecache_extended')

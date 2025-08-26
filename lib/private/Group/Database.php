@@ -71,10 +71,10 @@ class Database extends ABackend implements
 		try {
 			// Add group
 			$builder = $this->dbConn->getQueryBuilder();
-			$result = $builder->insert('groups')
+			$builder->insert('groups')
 				->setValue('gid', $builder->createNamedParameter($gid))
 				->setValue('displayname', $builder->createNamedParameter($name))
-				->execute();
+				->executeStatement();
 		} catch (UniqueConstraintViolationException $e) {
 			return null;
 		}
