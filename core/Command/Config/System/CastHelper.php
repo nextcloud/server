@@ -20,8 +20,8 @@ class CastHelper {
 					throw new \InvalidArgumentException('Non-numeric value specified');
 				}
 				return [
-					'value' => (int)$value,
-					'readable-value' => 'integer ' . (int)$value,
+					'value' => (int) $value,
+					'readable-value' => 'integer ' . (int) $value,
 				];
 
 			case 'double':
@@ -30,8 +30,8 @@ class CastHelper {
 					throw new \InvalidArgumentException('Non-numeric value specified');
 				}
 				return [
-					'value' => (float)$value,
-					'readable-value' => 'double ' . (float)$value,
+					'value' => (float) $value,
+					'readable-value' => 'double ' . (float) $value,
 				];
 
 			case 'boolean':
@@ -56,7 +56,7 @@ class CastHelper {
 				];
 
 			case 'string':
-				$value = (string)$value;
+				$value = (string) $value;
 				return [
 					'value' => $value,
 					'readable-value' => ($value === '') ? 'empty string' : 'string ' . $value,
