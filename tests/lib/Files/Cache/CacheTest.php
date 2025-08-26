@@ -10,6 +10,7 @@ namespace Test\Files\Cache;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Temporary;
@@ -519,6 +520,24 @@ class CacheTest extends \Test\TestCase {
 
 		$this->assertTrue($this->cache->inCache('targetfolder'));
 		$this->assertTrue($this->cache->inCache('targetfolder/sub'));
+	}
+
+	public function testMoveFromCacheJail(): void {
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar'];
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE];
+
+		$this->cache2->put('folder', $folderData);
+		$this->cache2->put('folder/sub', $data);
+
+		$jail = new CacheJail($this->cache2, 'folder');
+
+		$this->cache->moveFromCache($jail, 'sub', 'targetsub');
+
+		$this->assertTrue($this->cache2->inCache('folder'));
+		$this->assertFalse($this->cache2->inCache('folder/sub'));
+
+		$this->assertTrue($this->cache->inCache('targetsub'));
+		$this->assertEquals($this->cache->getId(''), $this->cache->get('targetsub')->getParentId());
 	}
 
 	public function testGetIncomplete(): void {
