@@ -129,10 +129,6 @@ Raw output
 	 */
 	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function check() {
-		return new DataResponse(
-			[
-				'generic' => $this->setupCheckManager->runAll(),
-			]
-		);
+		return new DataResponse($this->setupCheckManager->runAll());
 	}
 }

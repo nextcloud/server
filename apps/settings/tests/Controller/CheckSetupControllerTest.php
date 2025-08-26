@@ -66,58 +66,14 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testCheck(): void {
-		$this->config->expects($this->any())
-			->method('getAppValue')
-			->willReturnMap([
-				['files_external', 'user_certificate_scan', '', '["a", "b"]'],
-				['dav', 'needs_system_address_book_sync', 'no', 'no'],
-			]);
-		$this->config->expects($this->any())
-			->method('getSystemValue')
-			->willReturnMap([
-				['connectivity_check_domains', ['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'], ['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org']],
-				['memcache.local', null, 'SomeProvider'],
-				['has_internet_connection', true, true],
-				['appstoreenabled', true, false],
-			]);
-
-		$this->request->expects($this->never())
-			->method('getHeader');
-
-		$this->urlGenerator->method('linkToDocs')
-			->willReturnCallback(function (string $key): string {
-				if ($key === 'admin-performance') {
-					return 'http://docs.example.org/server/go.php?to=admin-performance';
-				}
-				if ($key === 'admin-security') {
-					return 'https://docs.example.org/server/8.1/admin_manual/configuration_server/hardening.html';
-				}
-				if ($key === 'admin-reverse-proxy') {
-					return 'reverse-proxy-doc-link';
-				}
-				if ($key === 'admin-code-integrity') {
-					return 'http://docs.example.org/server/go.php?to=admin-code-integrity';
-				}
-				if ($key === 'admin-db-conversion') {
-					return 'http://docs.example.org/server/go.php?to=admin-db-conversion';
-				}
-				return '';
-			});
-
-		$this->urlGenerator->method('getAbsoluteURL')
-			->willReturnCallback(function (string $url): string {
-				if ($url === 'index.php/settings/admin') {
-					return 'https://server/index.php/settings/admin';
-				}
-				if ($url === 'index.php') {
-					return 'https://server/index.php';
-				}
-				return '';
-			});
+		$this->setupCheckManager->expects(self::once())
+			->method('runAll')
+			->willReturn(['category' => [], 'other' => []]);
 
 		$expected = new DataResponse(
 			[
-				'generic' => [],
+				'category' => [],
+				'other' => [],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
