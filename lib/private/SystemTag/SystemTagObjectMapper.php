@@ -149,7 +149,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		foreach ($tagIds as $tagId) {
 			try {
 				$query->setParameter('tagid', $tagId);
-				$query->execute();
+				$query->executeStatement();
 				$tagsAssigned[] = $tagId;
 			} catch (UniqueConstraintViolationException $e) {
 				// ignore existing relations
@@ -213,7 +213,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$query->update('systemtag')
 			->set('etag', $query->createNamedParameter($md5))
 			->where($query->expr()->in('id', $query->createNamedParameter($tagIds, IQueryBuilder::PARAM_INT_ARRAY)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**
