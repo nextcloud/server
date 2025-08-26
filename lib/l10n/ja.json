@@ -296,8 +296,6 @@
     "Please ask your server administrator to install the module." : "サーバー管理者にモジュールのインストールを依頼してください。",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP設定の\"%s\"が \"%s\"に設定されていません",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "php.ini のこの設定を調整して、再度 Nextcloudを起動してください。",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code>の値は <code>0</code>であるべきですが、<code>%s</code> に設定されています。",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "この問題を修正するには、php.ini ファイルの <code>mbstring.func_overload</code> を <code>0</code> に設定してください。",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHPでインラインドキュメントブロックを取り除く設定になっています。これによりコアアプリで利用できないものがいくつかあります。",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "これは、Zend OPcacheやeAccelerator 等のキャッシュ/アクセラレーターが原因かもしれません。",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP モジュールはインストールされていますが、まだ一覧に表示されていますか？",
@@ -471,6 +469,8 @@
     "Cannot download file" : "ファイルをダウンロードできません",
     "Cannot write into \"apps\" directory." : "\"apps\" ディレクトリに書き込みができません",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "これは通常、Webサーバーにappsディレクトリへの書き込み権限を許可するか、構成ファイルでAppStoreを無効にすることで解決できます。",
+    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code>の値は <code>0</code>であるべきですが、<code>%s</code> に設定されています。",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "この問題を修正するには、php.ini ファイルの <code>mbstring.func_overload</code> を <code>0</code> に設定してください。",
     "Login is too long" : "ログインが長すぎます"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

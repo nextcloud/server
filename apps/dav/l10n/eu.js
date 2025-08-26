@@ -194,6 +194,7 @@ OC.L10N.register(
     "Second Last" : "Azken aurrekoa",
     "Third Last" : "Hirugarren azkena",
     "Fourth Last" : "Laugarren azkena",
+    "Fifth Last" : "Bosgarren azkena",
     "Contacts" : "Kontaktuak",
     "{actor} created address book {addressbook}" : "{actor}-(e)k {addressbook} helbide-liburua sortu du ",
     "You created address book {addressbook}" : "{addressbook} helbide-liburua sortu duzu",

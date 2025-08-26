@@ -745,6 +745,7 @@ OC.L10N.register(
     "Pronouns" : "Izenordainak",
     "Role" : "Zeregina",
     "X (formerly Twitter)" : "X (lehen Twitter)",
+    "Bluesky" : "Bluesky",
     "Website" : "Webgunea",
     "Profile visibility" : "Profilaren ikusgarritasuna",
     "Locale" : "Eskualdeko ezarpenak",

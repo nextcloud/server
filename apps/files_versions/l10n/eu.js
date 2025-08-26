@@ -23,6 +23,7 @@ OC.L10N.register(
     "Version restored" : "Bertsioa leheneratu da",
     "Could not restore version" : "Ezin izan da bertsioa leheneratu",
     "Could not set version label" : "Ezin izan da bertsio etiketa ezarri",
-    "Could not delete version" : "Ezin izan da bertsioa ezabatu"
+    "Could not delete version" : "Ezin izan da bertsioa ezabatu",
+    "File versions" : "Fitxategien bertsioak"
 },
 "nplurals=2; plural=(n != 1);");

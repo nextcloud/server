@@ -204,8 +204,6 @@
     "Please ask your server administrator to install the module." : "Vraag je beheerder om de module te installeren.",
     "PHP setting \"%s\" is not set to \"%s\"." : "PHP instelling \"%s\" staat niet op \"%s\".",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Het aanpassen van deze instelling in php.ini zorgt ervoor dat Nextcloud weer start",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> is ingesteld op <code>%s</code> in plaats van de verwachte waarde <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Om dit op te lossen stel je <code>mbstring.func_overload</code> in op <code>0</code> in je php.ini.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP is nu zo ingesteld dat 'inline doc blocks' worden gestript. Hierdoor worden verschillende hoofd modules onbruikbaar.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dit wordt vermoedelijk veroorzaakt door een cache/accelerator, zoals Zend OPcache of eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP modules zijn geïnstalleerd, maar ze worden nog steeds als ontbrekend aangegeven?",
@@ -234,6 +232,8 @@
     "Organisation" : "Organisatie",
     "File is currently busy, please try again later" : "Bestandsverwerking bezig, probeer het later opnieuw",
     "Cannot write into \"apps\" directory." : "Kan niet schrijven naar de \"apps\" directory",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Dit kan hersteld worden door de webserver schrijfrechten te geven op de appsdirectory of door de App Store te deactiveren in het configuratie bestand."
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Dit kan hersteld worden door de webserver schrijfrechten te geven op de appsdirectory of door de App Store te deactiveren in het configuratie bestand.",
+    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> is ingesteld op <code>%s</code> in plaats van de verwachte waarde <code>0</code>.",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Om dit op te lossen stel je <code>mbstring.func_overload</code> in op <code>0</code> in je php.ini."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
