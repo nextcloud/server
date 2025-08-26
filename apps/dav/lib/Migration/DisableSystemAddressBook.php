@@ -4,44 +4,59 @@ declare(strict_types=1);
 
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
+ * SPDX-License-Identifier: AGPL-3.0-later
  */
-
 namespace OCA\DAV\Migration;
 
-use Closure;
 use OCA\DAV\AppInfo\Application;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
-use OCP\Migration\SimpleMigrationStep;
+use OCP\Migration\IRepairStep;
 use OCP\Notification\IManager;
-use Psr\Log\LoggerInterface;
+use OCP\ServerVersion;
 
-class Version1032Date20250701000000 extends SimpleMigrationStep {
+class DisableSystemAddressBook implements IRepairStep {
 
 	public function __construct(
+		private readonly ServerVersion $serverVersion,
 		private readonly IAppConfig $appConfig,
 		private readonly IUserManager $userManager,
 		private readonly IGroupManager $groupManager,
 		private readonly IManager $notificationManager,
-		private readonly LoggerInterface $logger,
 	) {
 	}
 
-	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	/**
+	 * @inheritdoc
+	 */
+	public function getName() {
+		return 'Disable system address book';
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function run(IOutput $output) {
+		$output->info("Running repair step to disable system address book");
+		if ($this->serverVersion->getMajorVersion() !== 32) {
+			$output->info("Skipping repair step system address book this only applies to Nextcloud 32");
+			return;
+		}
 		// If the system address book is not exposed there is nothing to do
 		if ($this->appConfig->getAppValueBool('system_addressbook_exposed', true) === false) {
+			$output->info("Skipping repair step system address book is already disabled");
 			return;
 		}
 		// We use count seen because getting a user count from the backend can be very slow
 		$limit = $this->appConfig->getAppValueInt('system_addressbook_limit', 5000);
 		if ($this->userManager->countSeenUsers() <= $limit) {
+			$output->info("Skipping repair step system address book has less then the threshold $limit of contacts no need to disable");
 			return;
 		}
 		$this->appConfig->setAppValueBool('system_addressbook_exposed', false);
-		$this->logger->warning('System address book disabled because user limit reached');
+		$output->warning("System address book disabled because it has more then the threshold of $limit contacts this can be re-enabled later");
 		// Notify all admin users about the system address book being disabled
 		foreach ($this->groupManager->get('admin')->getUsers() as $user) {
 			$notification = $this->notificationManager->createNotification();
@@ -52,5 +67,4 @@ class Version1032Date20250701000000 extends SimpleMigrationStep {
 			$this->notificationManager->notify($notification);
 		}
 	}
-
 }
