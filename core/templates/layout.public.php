@@ -77,6 +77,7 @@ p($theme->getTitle());
 
 		<div class="header-end">
 			<div id="public-page-menu"></div>
+			<div id="public-page-user-menu"></div>
 		</div>
 	</header>
 

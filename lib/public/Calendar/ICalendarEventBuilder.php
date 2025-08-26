@@ -66,6 +66,13 @@ interface ICalendarEventBuilder {
 	public function setLocation(string $location): self;
 
 	/**
+	 * Set the event status.
+	 *
+	 * @since 32.0.0
+	 */
+	public function setStatus(CalendarEventStatus $status): static;
+
+	/**
 	 * Set the event organizer.
 	 * This property is required if attendees are added!
 	 *

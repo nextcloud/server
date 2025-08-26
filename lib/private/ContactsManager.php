@@ -10,6 +10,7 @@ namespace OC;
 use OCP\Constants;
 use OCP\Contacts\IManager;
 use OCP\IAddressBook;
+use OCP\IAddressBookEnabled;
 
 class ContactsManager implements IManager {
 	/**
@@ -34,6 +35,9 @@ class ContactsManager implements IManager {
 		$this->loadAddressBooks();
 		$result = [];
 		foreach ($this->addressBooks as $addressBook) {
+			if ($addressBook instanceof IAddressBookEnabled && !$addressBook->isEnabled()) {
+				continue;
+			}
 			$searchOptions = $options;
 			$strictSearch = array_key_exists('strict_search', $options) && $options['strict_search'] === true;
 

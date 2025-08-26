@@ -21,19 +21,6 @@
     "Could not find share" : "No at fatu a agatare sa cumpartzidura",
     "Share provider which allows you to share files by mail" : "Frunidore de cumpartzidura chi ti permitit de cumpartzire archìvios tràmite posta eletrònica",
     "Send password by mail" : "Imbia crae tràmite posta eletrònica",
-    "Reply to initiator" : "Risponde a chie cumintzat",
-    "%1$s shared »%2$s« with you" : "%1$s at cumpartzidu »%2$s cun tegus",
-    "%1$s shared »%2$s« with you." : "%1$s at cumpartzidu »%2$s cun tegus.",
-    "Click the button below to open it." : "Incarca su butone a suta pro dd'abèrrere.",
-    "Open »%s«" : "Aberi »%s«",
-    "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s at cumpartzidu »%2$s« cun tegus.\nDias dèpere àere giai retzidu unu messàgiu de posta seberadu cun unu ligòngiu pro intrare.\n",
-    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s at cumpartzidu »%2$s« cun tegus. Dias dèpere àere giai retzidu unu messàgiu de posta seberadu cun unu ligòngiu pro intrare.",
-    "Password to access »%1$s« shared to you by %2$s" : "Crae pro s'atzessu »%1$s« cumpartzida cun te dae %2$s",
-    "Password to access »%s«" : "Crae pro s'atzessu »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s at cumpartzidu »%2$s« cun tegus e bolet agiùnghere:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s at cumpartzidu »%2$s« cun tegus e bolet agiùnghere",
-    "»%s« added a note to a file shared with you" : "»%s« at agiuntu una nota a un'archìviu cumpartzidu cun tegus",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "As apenas cumpartzidu »%1$s« cun %2$s. Sa cumpartzidura est giai istada imbiada a sa persone destinatària. Pro more de is polìticas de seguresa istabilidas dae s'amministratzione de %3$s ogni cumpartzidura depet èssere amparada dae una crae e no est permìtidu a imbiare sa crae deretu a sa persone destinatària. Duncas, ddi as a dèpere imbiare sa crae a manu.",
-    "Password to access »%1$s« shared by you with %2$s" : "Crae pro s'atzessu a »%1$s« cumpartzida dae tue cun %2$s"
+    "Reply to initiator" : "Risponde a chie cumintzat"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

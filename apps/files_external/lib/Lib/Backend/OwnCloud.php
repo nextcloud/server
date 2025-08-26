@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -25,9 +26,6 @@ class OwnCloud extends Backend {
 				(new DefinitionParameter('secure', $l->t('Secure https://')))
 					->setType(DefinitionParameter::VALUE_BOOLEAN)
 					->setDefaultValue(true),
-				(new DefinitionParameter('password', $l->t('Password')))
-					->setFlag(DefinitionParameter::FLAG_OPTIONAL)
-					->setType(DefinitionParameter::VALUE_PASSWORD),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_PASSWORD)
 			->setLegacyAuthMechanism($legacyAuth)

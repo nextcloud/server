@@ -22,8 +22,9 @@ export default function(node: Node) {
 		permissions: node.permissions,
 		mountType: node.attributes['mount-type'],
 		sharePermissions: node.attributes['share-permissions'],
-		shareAttributes: JSON.parse(node.attributes['share-attributes']),
+		shareAttributes: JSON.parse(node.attributes['share-attributes'] || '[]'),
 		type: node.type === 'file' ? 'file' : 'dir',
+		attributes: node.attributes,
 	})
 
 	// TODO remove when no more legacy backbone is used

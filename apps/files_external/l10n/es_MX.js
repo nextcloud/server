@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Conceder acceso",
-    "Error configuring OAuth1" : "Se presentó un error al configurar OAuth1",
-    "Please provide a valid app key and secret." : "Por favor proporciona una llave de aplicación y secreto válidos.",
     "Error configuring OAuth2" : "Se presentó un error al configurar OAuth2",
     "Generate keys" : "Generar llaves",
     "Error generating key pair" : "Se presentó un error al generar el juego de llaves",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "Llave secreta",
     "Builtin" : "Integrado",
     "None" : "Ninguno",
-    "OAuth1" : "OAuth1",
-    "App key" : "Llave de la aplicación",
-    "App secret" : "Secreto de la aplicación",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID del cliente",
     "Client secret" : "Secreto del cliente",
@@ -95,11 +90,11 @@ OC.L10N.register(
     "External storage support" : "Soporte de almacenamiento externo",
     "Adds basic external storage support" : "Agrega soporte básico para almacenamiento externo",
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "Esta aplicación le permite a los adminsitradores configurar las conexiónes a  proveedores de almacenamiento externo, tales como servidores FTP, S3 o almacenamiento de objetos SWIFT, otros servidores de Nextcloud, servidores WebDAV y más.  Los administradores pueden elegir qué tipos de almacenamiento habilitar y pueden montar estas ubicaciones de almacenamiento para un usuario, un grupo o para todo el sistema. Los usuarios verán aparecer una nueva carpeta en su directorio raíz de Nextcloud, la cual podrán acceder y usar como cualquier otra carpeta de Nextcloud. El almacenamiento externo también le permite a los usuarios compartir archivos almacenados en estas ubicaciones externas. En estos casos, las credenciales del dueño del archivo son usadas cuando el destinatario solicita el archivo de un almacenamiento externo, asegurando así que el destinatario pueda acceder el archivo compartido.\n\nEl almacenamiento externo se puede configurar usando el GUI o la línea de comandos. Esta segunda opción le brinda a los administradores más flexibilidad para configurar masivamente el montaje del almacenamiento externo y establecer la prioridad de montaje. Más información disponible en la documentación de almacenamiento externo GUI y la documentación del archivo de configuración del almacenamiento externo. ",
+    "Confirm" : "Confirmar",
     "Storage credentials" : "Credenciales de almacenamiento",
     "To access the storage, you need to provide the authentication credentials." : "Para acceder al almacenamiento, debe proporcionar las credenciales de autenticación.",
     "Enter the storage login" : "Ingrese el inicio de sesión de almacenamiento",
     "Enter the storage password" : "Ingrese la contraseña de almacenamiento",
-    "Confirm" : "Confirmar",
     "Unable to update this external storage config. {statusMessage}" : "No se pudo actualizar la configuración de este almacenamiento externo. {statusMessage}",
     "New configuration successfully saved" : "La nueva configuración se guardó exitosamente",
     "Enter missing credentials" : "Ingrese las credenciales faltantes",
@@ -150,6 +145,10 @@ OC.L10N.register(
     "Advanced settings" : "Configuraciones avanzadas",
     "Allow people to mount external storage" : "Permitir a los usuarios montar almacenamientos externos",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Las credenciales globales se pueden usar para autentificarse con múltiples almacenamientos externos que tienen las mismas credenciales.",
-    "Submit" : "Enviar"
+    "Error configuring OAuth1" : "Se presentó un error al configurar OAuth1",
+    "Please provide a valid app key and secret." : "Por favor proporciona una llave de aplicación y secreto válidos.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Llave de la aplicación",
+    "App secret" : "Secreto de la aplicación"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

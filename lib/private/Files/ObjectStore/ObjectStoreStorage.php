@@ -22,6 +22,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
@@ -66,7 +67,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 	}
 
-	public function mkdir(string $path, bool $force = false): bool {
+	public function mkdir(string $path, bool $force = false, array $metadata = []): bool {
 		$path = $this->normalizePath($path);
 		if (!$force && $this->file_exists($path)) {
 			$this->logger->warning("Tried to create an object store folder that already exists: $path");
@@ -76,7 +77,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$mTime = time();
 		$data = [
 			'mimetype' => 'httpd/unix-directory',
-			'size' => 0,
+			'size' => $metadata['size'] ?? 0,
 			'mtime' => $mTime,
 			'storage_mtime' => $mTime,
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
@@ -412,16 +413,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				//create a empty file, need to have at least on char to make it
 				// work with all object storage implementations
 				$this->file_put_contents($path, ' ');
-				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
-				$stat = [
-					'etag' => $this->getETag($path),
-					'mimetype' => $mimeType,
-					'size' => 0,
-					'mtime' => $mtime,
-					'storage_mtime' => $mtime,
-					'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
-				];
-				$this->getCache()->put($path, $stat);
 			} catch (\Exception $ex) {
 				$this->logger->error(
 					'Could not create object for ' . $path,
@@ -479,6 +470,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 		$mimetypeDetector = \OC::$server->getMimeTypeDetector();
 		$mimetype = $mimetypeDetector->detectPath($path);
+		$metadata = [
+			'mimetype' => $mimetype,
+			'original-storage' => $this->getId(),
+			'original-path' => $path,
+		];
+		if ($size) {
+			$metadata['size'] = $size;
+		}
 
 		$stat['mimetype'] = $mimetype;
 		$stat['etag'] = $this->getETag($path);
@@ -500,24 +499,27 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$urn = $this->getURN($fileId);
 		try {
 			//upload to object storage
-			if ($size === null) {
-				$countStream = CountWrapper::wrap($stream, function ($writtenSize) use ($fileId, &$size) {
+
+			$totalWritten = 0;
+			$countStream = CountWrapper::wrap($stream, function ($writtenSize) use ($fileId, $size, $exists, &$totalWritten) {
+				if (is_null($size) && !$exists) {
 					$this->getCache()->update($fileId, [
 						'size' => $writtenSize,
 					]);
-					$size = $writtenSize;
-				});
-				$this->objectStore->writeObject($urn, $countStream, $mimetype);
-				if (is_resource($countStream)) {
-					fclose($countStream);
 				}
-				$stat['size'] = $size;
+				$totalWritten = $writtenSize;
+			});
+
+			if ($this->objectStore instanceof IObjectStoreMetaData) {
+				$this->objectStore->writeObjectWithMetaData($urn, $countStream, $metadata);
 			} else {
-				$this->objectStore->writeObject($urn, $stream, $mimetype);
-				if (is_resource($stream)) {
-					fclose($stream);
-				}
+				$this->objectStore->writeObject($urn, $countStream, $metadata['mimetype']);
 			}
+			if (is_resource($countStream)) {
+				fclose($countStream);
+			}
+
+			$stat['size'] = $totalWritten;
 		} catch (\Exception $ex) {
 			if (!$exists) {
 				/*
@@ -541,7 +543,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 					]
 				);
 			}
-			throw $ex; // make this bubble up
+			throw new GenericFileException('Error while writing stream to object store', 0, $ex);
 		}
 
 		if ($exists) {
@@ -557,7 +559,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 		}
 
-		return $size;
+		return $totalWritten;
 	}
 
 	public function getObjectStore(): IObjectStore {
@@ -592,7 +594,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function moveFromStorage(IStorage $sourceStorage, string $sourceInternalPath, string $targetInternalPath, ?ICacheEntry $sourceCacheEntry = null): bool {
 		$sourceCache = $sourceStorage->getCache();
-		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class) && $sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()) {
+		if (
+			$sourceStorage->instanceOfStorage(ObjectStoreStorage::class)
+			&& $sourceStorage->getObjectStore()->getStorageId() === $this->getObjectStore()->getStorageId()
+		) {
+			if ($this->getCache()->get($targetInternalPath)) {
+				$this->unlink($targetInternalPath);
+				$this->getCache()->remove($targetInternalPath);
+			}
 			$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
 			// Do not import any data when source and target bucket are identical.
 			return true;
@@ -614,6 +623,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
 			/** @var ObjectStoreStorage $sourceStorage */
 			$sourceStorage->setPreserveCacheOnDelete(false);
+		}
+		if ($this->getCache()->get($targetInternalPath)) {
+			$this->unlink($targetInternalPath);
+			$this->getCache()->remove($targetInternalPath);
 		}
 		$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
 
@@ -684,7 +697,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			if ($cache->inCache($to)) {
 				$cache->remove($to);
 			}
-			$this->mkdir($to);
+			$this->mkdir($to, false, ['size' => $sourceEntry->getSize()]);
 
 			foreach ($sourceCache->getFolderContentsById($sourceEntry->getId()) as $child) {
 				$this->copyInner($sourceCache, $child, $to . '/' . $child->getName());

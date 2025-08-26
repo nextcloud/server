@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Παροχή πρόσβασης",
-    "Error configuring OAuth1" : "Σφάλμα ρύθμισης του OAuth1",
-    "Please provide a valid app key and secret." : "Παρακαλούμε δώστε έγκυρο κλειδί εφαρμογής και μυστικό.",
     "Error configuring OAuth2" : "Σφάλμα ρύθμισης του OAuth2",
     "Generate keys" : "Δημιουργία κλειδιών",
     "Error generating key pair" : "Σφάλμα κατά τη δημιουργία ζεύγους κλειδιών",
@@ -22,9 +20,6 @@ OC.L10N.register(
     "Secret key" : "Μυστικό κλειδί",
     "Builtin" : "Builtin",
     "None" : "Τίποτα",
-    "OAuth1" : "OAuth1",
-    "App key" : "Κλειδί εφαρμογής",
-    "App secret" : "Μυστικό εφαρμογής",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID πελάτη",
     "Client secret" : "Μυστικό πελάτη",
@@ -112,6 +107,10 @@ OC.L10N.register(
     "Add storage" : "Προσθήκη αποθηκευτικού χώρου",
     "Advanced settings" : "Ρυθμίσεις για προχωρημένους",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Τα δημόσια διαπιστευτήρια μπορούν να χρησιμοποιηθούν για τον έλεγχο ταυτότητας με διάφορους εξωτερικούς χώρους αποθήκευσης με ίδια διαπιστευτήρια.",
-    "Submit" : "Υποβολή"
+    "Error configuring OAuth1" : "Σφάλμα ρύθμισης του OAuth1",
+    "Please provide a valid app key and secret." : "Παρακαλούμε δώστε έγκυρο κλειδί εφαρμογής και μυστικό.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Κλειδί εφαρμογής",
+    "App secret" : "Μυστικό εφαρμογής"
 },
 "nplurals=2; plural=(n != 1);");

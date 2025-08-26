@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -83,9 +84,9 @@ abstract class BaseResponse extends Response {
 	 */
 	protected function renderResult(array $meta): string {
 		$status = $this->getStatus();
-		if ($status === Http::STATUS_NO_CONTENT ||
-			$status === Http::STATUS_NOT_MODIFIED ||
-			($status >= 100 && $status <= 199)) {
+		if ($status === Http::STATUS_NO_CONTENT
+			|| $status === Http::STATUS_NOT_MODIFIED
+			|| ($status >= 100 && $status <= 199)) {
 			// Those status codes are not supposed to have a body:
 			// https://stackoverflow.com/q/8628725
 			return '';

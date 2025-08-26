@@ -14,11 +14,12 @@ module.exports = {
 		'ajax-cron': path.join(__dirname, 'core/src', 'ajax-cron.ts'),
 		files_client: path.join(__dirname, 'core/src', 'files/client.js'),
 		files_fileinfo: path.join(__dirname, 'core/src', 'files/fileinfo.js'),
-		install: path.join(__dirname, 'core/src', 'install.js'),
+		install: path.join(__dirname, 'core/src', 'install.ts'),
 		login: path.join(__dirname, 'core/src', 'login.js'),
 		main: path.join(__dirname, 'core/src', 'main.js'),
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
 		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
+		'public-page-user-menu': path.resolve(__dirname, 'core/src', 'public-page-user-menu.ts'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.ts'),
@@ -26,6 +27,7 @@ module.exports = {
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),
 		'unsupported-browser-redirect': path.join(__dirname, 'core/src', 'unsupported-browser-redirect.js'),
 		public: path.join(__dirname, 'core/src', 'public.ts'),
+		'twofactor-request-token': path.join(__dirname, 'core/src', 'twofactor-request-token.ts'),
 	},
 	dashboard: {
 		main: path.join(__dirname, 'apps/dashboard/src', 'main.js'),
@@ -33,6 +35,7 @@ module.exports = {
 	dav: {
 		'settings-admin-caldav': path.join(__dirname, 'apps/dav/src', 'settings.js'),
 		'settings-personal-availability': path.join(__dirname, 'apps/dav/src', 'settings-personal-availability.js'),
+		'settings-example-content': path.join(__dirname, 'apps/dav/src', 'settings-example-content.js'),
 	},
 	files: {
 		sidebar: path.join(__dirname, 'apps/files/src', 'sidebar.ts'),
@@ -57,7 +60,7 @@ module.exports = {
 		'init-public': path.join(__dirname, 'apps/files_sharing/src', 'init-public.ts'),
 		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
-		'public-file-request': path.join(__dirname, 'apps/files_sharing/src', 'public-file-request.ts'),
+		'public-nickname-handler': path.join(__dirname, 'apps/files_sharing/src', 'public-nickname-handler.ts'),
 	},
 	files_trashbin: {
 		init: path.join(__dirname, 'apps/files_trashbin/src', 'files-init.ts'),
@@ -79,6 +82,7 @@ module.exports = {
 	settings: {
 		apps: path.join(__dirname, 'apps/settings/src', 'apps.js'),
 		'legacy-admin': path.join(__dirname, 'apps/settings/src', 'admin.js'),
+		'vue-settings-admin-overview': path.join(__dirname, 'apps/settings/src', 'main-admin-overview.ts'),
 		'vue-settings-admin-basic-settings': path.join(__dirname, 'apps/settings/src', 'main-admin-basic-settings.js'),
 		'vue-settings-admin-ai': path.join(__dirname, 'apps/settings/src', 'main-admin-ai.js'),
 		'vue-settings-admin-delegation': path.join(__dirname, 'apps/settings/src', 'main-admin-delegation.js'),

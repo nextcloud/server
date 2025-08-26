@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\dav\tests\unit\Service;
+namespace OCA\DAV\Tests\unit\Service;
 
 use DateTimeImmutable;
 use DateTimeZone;
@@ -24,25 +24,16 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AbsenceServiceTest extends TestCase {
 	private AbsenceService $absenceService;
-
-	/** @var MockObject|AbsenceMapper */
-	private $absenceMapper;
-
-	/** @var MockObject|IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var MockObject|IJobList */
-	private $jobList;
-
-	/** @var MockObject|TimezoneService */
-	private $timezoneService;
-
-	/** @var MockObject|ITimeFactory */
-	private $timeFactory;
+	private AbsenceMapper&MockObject $absenceMapper;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private IJobList&MockObject $jobList;
+	private TimezoneService&MockObject $timezoneService;
+	private ITimeFactory&MockObject $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();

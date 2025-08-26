@@ -22,15 +22,19 @@
 			type="tertiary"
 			:force-menu="enabledInlineActions.length === 0 /* forceMenu only if no inline actions */"
 			:inline="enabledInlineActions.length"
-			:open.sync="openedMenu"
-			@close="openedSubmenu = null">
-			<!-- Default actions list-->
-			<NcActionButton v-for="action in enabledMenuActions"
+			:open="openedMenu"
+			@close="onMenuClose"
+			@closed="onMenuClosed">
+			<!-- Non-destructive actions list -->
+			<!-- Please keep this block in sync with the destructive actions block below -->
+			<NcActionButton v-for="action, index in renderedNonDestructiveActions"
 				:key="action.id"
 				:ref="`action-${action.id}`"
+				class="files-list__row-action"
 				:class="{
 					[`files-list__row-action-${action.id}`]: true,
-					[`files-list__row-action--menu`]: isValidMenu(action)
+					'files-list__row-action--inline': index < enabledInlineActions.length,
+					'files-list__row-action--menu': isValidMenu(action),
 				}"
 				:close-after-click="!isValidMenu(action)"
 				:data-cy-files-list-row-action="action.id"
@@ -39,11 +43,42 @@
 				:title="action.title?.([source], currentView)"
 				@click="onActionClick(action)">
 				<template #icon>
-					<NcLoadingIcon v-if="isLoadingAction(action)" :size="18" />
-					<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
+					<NcLoadingIcon v-if="isLoadingAction(action)" />
+					<NcIconSvgWrapper v-else
+						class="files-list__row-action-icon"
+						:svg="action.iconSvgInline([source], currentView)" />
 				</template>
-				{{ mountType === 'shared' && action.id === 'sharing-status' ? '' : actionDisplayName(action) }}
+				{{ actionDisplayName(action) }}
 			</NcActionButton>
+
+			<!-- Destructive actions list -->
+			<template v-if="renderedDestructiveActions.length > 0">
+				<NcActionSeparator />
+				<NcActionButton v-for="action, index in renderedDestructiveActions"
+					:key="action.id"
+					:ref="`action-${action.id}`"
+					class="files-list__row-action"
+					:class="{
+						[`files-list__row-action-${action.id}`]: true,
+						'files-list__row-action--inline': index < enabledInlineActions.length,
+						'files-list__row-action--menu': isValidMenu(action),
+						'files-list__row-action--destructive': true,
+					}"
+					:close-after-click="!isValidMenu(action)"
+					:data-cy-files-list-row-action="action.id"
+					:is-menu="isValidMenu(action)"
+					:aria-label="action.title?.([source], currentView)"
+					:title="action.title?.([source], currentView)"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="isLoadingAction(action)" />
+						<NcIconSvgWrapper v-else
+							class="files-list__row-action-icon"
+							:svg="action.iconSvgInline([source], currentView)" />
+					</template>
+					{{ actionDisplayName(action) }}
+				</NcActionButton>
+			</template>
 
 			<!-- Submenu actions list-->
 			<template v-if="openedSubmenu && enabledSubmenuActions[openedSubmenu?.id]">
@@ -63,10 +98,11 @@
 					class="files-list__row-action--submenu"
 					close-after-click
 					:data-cy-files-list-row-action="action.id"
+					:aria-label="action.title?.([source], currentView)"
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
 					<template #icon>
-						<NcLoadingIcon v-if="isLoadingAction(action)" :size="18" />
+						<NcLoadingIcon v-if="isLoadingAction(action)" />
 						<NcIconSvgWrapper v-else :svg="action.iconSvgInline([source], currentView)" />
 					</template>
 					{{ actionDisplayName(action) }}
@@ -206,6 +242,14 @@ export default defineComponent({
 			return actions.filter(action => !(action.parent && topActionsIds.includes(action.parent)))
 		},
 
+		renderedNonDestructiveActions() {
+			return this.enabledMenuActions.filter(action => !action.destructive)
+		},
+
+		renderedDestructiveActions() {
+			return this.enabledMenuActions.filter(action => action.destructive)
+		},
+
 		openedMenu: {
 			get() {
 				return this.opened
@@ -223,14 +267,10 @@ export default defineComponent({
 		getBoundariesElement() {
 			return document.querySelector('.app-content > .files-list')
 		},
-
-		mountType() {
-			return this.source.attributes['mount-type']
-		},
 	},
 
 	watch: {
-		// Close any submenu when the menu is closed
+		// Close any submenu when the menu state changes
 		openedMenu() {
 			this.openedSubmenu = null
 		},
@@ -280,7 +320,7 @@ export default defineComponent({
 			}
 
 			// Make sure we set the node as active
-			this.activeStore.setActiveNode(this.source)
+			this.activeStore.activeNode = this.source
 
 			// Execute the action
 			await executeAction(action)
@@ -301,6 +341,16 @@ export default defineComponent({
 			if (event.key === 'a' && !this.openedMenu) {
 				this.openedMenu = true
 			}
+		},
+
+		onMenuClose() {
+			// We reset the submenu state when the menu is closing
+			this.openedSubmenu = null
+		},
+
+		onMenuClosed() {
+			// We reset the actions menu state when the menu is finally closed
+			this.openedMenu = false
 		},
 	},
 })
@@ -324,13 +374,26 @@ main.app-content[style*="mouse-pos-x"] .v-popper__popper {
 }
 </style>
 
-<style lang="scss" scoped>
-:deep(.button-vue--icon-and-text, .files-list__row-action-sharing-status) {
-	.button-vue__text {
-		color: var(--color-primary-element);
+<style scoped lang="scss">
+.files-list__row-action {
+	--max-icon-size: calc(var(--default-clickable-area) - 2 * var(--default-grid-baseline));
+
+	// inline icons can have clickable area size so they still fit into the row
+	&.files-list__row-action--inline {
+		--max-icon-size: var(--default-clickable-area);
 	}
-	.button-vue__icon {
-		color: var(--color-primary-element);
+
+	// Some icons exceed the default size so we need to enforce a max width and height
+	.files-list__row-action-icon :deep(svg) {
+		max-height: var(--max-icon-size) !important;
+		max-width: var(--max-icon-size) !important;
+	}
+
+	&.files-list__row-action--destructive {
+		::deep(button) {
+			color: var(--color-text-error) !important;
+		}
 	}
 }
+
 </style>

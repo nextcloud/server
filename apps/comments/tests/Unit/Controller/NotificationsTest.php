@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -22,26 +24,16 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotificationsTest extends TestCase {
-	/** @var NotificationsController */
-	protected $notificationsController;
-
-	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $commentsManager;
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	protected $rootFolder;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $notificationManager;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $urlGenerator;
+	protected ICommentsManager&MockObject $commentsManager;
+	protected IRootFolder&MockObject $rootFolder;
+	protected IUserSession&MockObject $session;
+	protected IManager&MockObject $notificationManager;
+	protected IURLGenerator&MockObject $urlGenerator;
+	protected NotificationsController $notificationsController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -81,10 +73,6 @@ class NotificationsTest extends TestCase {
 
 		$this->urlGenerator->expects($this->exactly(2))
 			->method('linkToRoute')
-			->withConsecutive(
-				['comments.Notifications.view', ['id' => '42']],
-				['core.login.showLoginForm', ['redirect_url' => 'link-to-comment']]
-			)
 			->willReturnMap([
 				['comments.Notifications.view', ['id' => '42'], 'link-to-comment'],
 				['core.login.showLoginForm', ['redirect_url' => 'link-to-comment'], 'link-to-login'],
@@ -150,7 +138,7 @@ class NotificationsTest extends TestCase {
 		$this->commentsManager->expects($this->any())
 			->method('get')
 			->with('42')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$this->rootFolder->expects($this->never())
 			->method('getUserFolder');

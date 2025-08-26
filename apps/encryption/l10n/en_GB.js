@@ -53,7 +53,7 @@ OC.L10N.register(
     "Basic encryption module" : "Basic encryption module",
     "Your private key password no longer matches your log-in password." : "Your private key password no longer matches your log-in password.",
     "Set your old private key password to your current log-in password:" : "Set your old private key password to your current log-in password:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : " If you don't remember your old password you can ask your administrator to recover your files.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "If you do not remember your old password you can ask your administrator to recover your files.",
     "Old log-in password" : "Old login password",
     "Current log-in password" : "Current login password",
     "Update Private Key Password" : "Update Private Key Password",

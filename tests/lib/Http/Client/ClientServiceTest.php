@@ -40,7 +40,7 @@ class ClientServiceTest extends \Test\TestCase {
 		$dnsPinMiddleware
 			->expects($this->atLeastOnce())
 			->method('addDnsPinning')
-			->willReturn(function () {
+			->willReturn(function (): void {
 			});
 		$remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
 		$eventLogger = $this->createMock(IEventLogger::class);
@@ -58,9 +58,9 @@ class ClientServiceTest extends \Test\TestCase {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		$stack->push($dnsPinMiddleware->addDnsPinning());
-		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
+		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
 			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
-		}, function () use ($eventLogger) {
+		}, function () use ($eventLogger): void {
 			$eventLogger->end('http:request');
 		}), 'event logger');
 		$guzzleClient = new GuzzleClient(['handler' => $stack]);
@@ -89,7 +89,7 @@ class ClientServiceTest extends \Test\TestCase {
 		$dnsPinMiddleware
 			->expects($this->never())
 			->method('addDnsPinning')
-			->willReturn(function () {
+			->willReturn(function (): void {
 			});
 		$remoteHostValidator = $this->createMock(IRemoteHostValidator::class);
 		$eventLogger = $this->createMock(IEventLogger::class);
@@ -106,9 +106,9 @@ class ClientServiceTest extends \Test\TestCase {
 
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
-		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
+		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger): void {
 			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
-		}, function () use ($eventLogger) {
+		}, function () use ($eventLogger): void {
 			$eventLogger->end('http:request');
 		}), 'event logger');
 		$guzzleClient = new GuzzleClient(['handler' => $stack]);

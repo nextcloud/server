@@ -94,6 +94,7 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 			attributes: {
 				...ocsEntry,
 				'has-preview': hasPreview,
+				'hide-download': ocsEntry?.hide_download === 1,
 				// Also check the sharingStatusAction.ts code
 				'owner-id': ocsEntry?.uid_owner,
 				'owner-display-name': ocsEntry?.displayname_owner,

@@ -72,7 +72,8 @@ Feature: provisioning
       | phone |
       | address |
       | website |
-      | twitter |
+	  | twitter |
+	  | bluesky |
       | fediverse |
       | organisation |
       | role |
@@ -89,6 +90,7 @@ Feature: provisioning
       | address |
       | website |
       | twitter |
+	  | bluesky |
       | fediverse |
       | organisation |
       | role |
@@ -104,6 +106,7 @@ Feature: provisioning
       | address |
       | website |
       | twitter |
+	  | bluesky |
       | fediverse |
       | organisation |
       | role |
@@ -158,6 +161,9 @@ Feature: provisioning
     And sending "PUT" to "/cloud/users/brand-new-user" with
       | key | twitter |
       | value | Nextcloud |
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+	  | key | bluesky |
+	  | value | nextcloud.bsky.social |
     And the OCS status code should be "100"
     And the HTTP status code should be "200"
     Then user "brand-new-user" has
@@ -168,7 +174,37 @@ Feature: provisioning
       | phone | +4971125242890 |
       | address | Foo Bar Town |
       | website | https://nextcloud.com |
-      | twitter | Nextcloud |
+	  | twitter | Nextcloud |
+	  | bluesky | nextcloud.bsky.social |
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | organisation |
+      | value | Nextcloud GmbH |
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | role |
+      | value | Engineer |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has the following profile data
+      | userId | brand-new-user |
+      | displayname | Brand New User |
+      | organisation | Nextcloud GmbH |
+      | role | Engineer |
+      | address | Foo Bar Town |
+      | timezone | UTC |
+      | timezoneOffset | 0 |
+      | pronouns | NULL |
+
+  Scenario: Edit a user with mixed case emails
+    Given As an "admin"
+    And user "brand-new-user" exists
+    And sending "PUT" to "/cloud/users/brand-new-user" with
+      | key | email |
+      | value | mixed-CASE@Nextcloud.com |
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    Then user "brand-new-user" has
+      | id | brand-new-user |
+      | email | mixed-case@nextcloud.com |
 
   Scenario: Edit a user account properties scopes
     Given user "brand-new-user" exists
@@ -183,6 +219,11 @@ Feature: provisioning
       | value | v2-local |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
+	When sending "PUT" to "/cloud/users/brand-new-user" with
+	  | key | blueskyScope |
+	  | value | v2-local |
+	Then the OCS status code should be "100"
+	And the HTTP status code should be "200"
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | addressScope |
       | value | v2-federated |
@@ -191,21 +232,6 @@ Feature: provisioning
     When sending "PUT" to "/cloud/users/brand-new-user" with
       | key | emailScope |
       | value | v2-published |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | websiteScope |
-      | value | public |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | displaynameScope |
-      | value | contacts |
-    Then the OCS status code should be "100"
-    And the HTTP status code should be "200"
-    When sending "PUT" to "/cloud/users/brand-new-user" with
-      | key | avatarScope |
-      | value | private |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
     And sending "PUT" to "/cloud/users/brand-new-user" with
@@ -233,12 +259,10 @@ Feature: provisioning
     Then user "brand-new-user" has
       | id | brand-new-user |
       | phoneScope | v2-private |
-      | twitterScope | v2-local |
+	  | twitterScope | v2-local |
+	  | blueskyScope | v2-local |
       | addressScope | v2-federated |
       | emailScope | v2-published |
-      | websiteScope | v2-published |
-      | displaynameScope | v2-federated |
-      | avatarScope | v2-local |
 
   Scenario: Edit a user account multivalue property scopes
     Given user "brand-new-user" exists
@@ -453,6 +477,7 @@ Feature: provisioning
     Then groups returned are
       | España |
       | admin |
+      | hidden_group |
       | new-group |
 
   Scenario: create a subadmin

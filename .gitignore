@@ -137,7 +137,6 @@ nbproject
 # nodejs
 /build/bin
 /build/lib/
-/build/jsdocs/
 /build/integration/output/
 /build/integration/phpserver.log
 /npm-debug.log
@@ -153,6 +152,7 @@ Vagrantfile
 # Tests - auto-generated files
 /data-autotest
 /results.sarif
+/tests/.phpunit.cache
 /tests/.phpunit.result.cache
 /tests/coverage*
 /tests/css
@@ -184,3 +184,5 @@ core/js/mimetypelist.js
 cypress/downloads
 cypress/snapshots
 cypress/videos
+
+/.direnv

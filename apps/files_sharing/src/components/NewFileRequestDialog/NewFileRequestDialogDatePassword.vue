@@ -14,9 +14,9 @@
 		<fieldset class="file-request-dialog__expiration" data-cy-file-request-dialog-fieldset="expiration">
 			<!-- Enable expiration -->
 			<legend>{{ t('files_sharing', 'When should the request expire?') }}</legend>
-			<NcCheckboxRadioSwitch v-show="!defaultExpireDateEnforced"
-				:checked="defaultExpireDateEnforced || expirationDate !== null"
-				:disabled="disabled || defaultExpireDateEnforced"
+			<NcCheckboxRadioSwitch v-show="!isExpirationDateEnforced"
+				:checked="isExpirationDateEnforced || expirationDate !== null"
+				:disabled="disabled || isExpirationDateEnforced"
 				@update:checked="onToggleDeadline">
 				{{ t('files_sharing', 'Set a submission expiration date') }}
 			</NcCheckboxRadioSwitch>
@@ -46,9 +46,9 @@
 		<fieldset class="file-request-dialog__password" data-cy-file-request-dialog-fieldset="password">
 			<!-- Enable password -->
 			<legend>{{ t('files_sharing', 'What password should be used for the request?') }}</legend>
-			<NcCheckboxRadioSwitch v-show="!enforcePasswordForPublicLink"
-				:checked="enforcePasswordForPublicLink || password !== null"
-				:disabled="disabled || enforcePasswordForPublicLink"
+			<NcCheckboxRadioSwitch v-show="!isPasswordEnforced"
+				:checked="isPasswordEnforced || password !== null"
+				:disabled="disabled || isPasswordEnforced"
 				@update:checked="onTogglePassword">
 				{{ t('files_sharing', 'Set a password') }}
 			</NcCheckboxRadioSwitch>
@@ -59,7 +59,7 @@
 					:disabled="disabled"
 					:label="t('files_sharing', 'Password')"
 					:placeholder="t('files_sharing', 'Enter a valid password')"
-					:required="false"
+					:required="enforcePasswordForPublicLink"
 					:value="password"
 					name="password"
 					@update:value="$emit('update:password', $event)" />
@@ -180,6 +180,18 @@ export default defineComponent({
 
 			return ''
 		},
+
+		isExpirationDateEnforced(): boolean {
+			// Both fields needs to be enabled in the settings
+			return this.defaultExpireDateEnabled
+				&& this.defaultExpireDateEnforced
+		},
+
+		isPasswordEnforced(): boolean {
+			// Both fields needs to be enabled in the settings
+			return this.enableLinkPasswordByDefault
+				&& this.enforcePasswordForPublicLink
+		},
 	},
 
 	mounted() {
@@ -189,12 +201,12 @@ export default defineComponent({
 		}
 
 		// If enforced, we cannot set a date before the default expiration days (see admin settings)
-		if (this.defaultExpireDateEnforced) {
+		if (this.isExpirationDateEnforced) {
 			this.maxDate = sharingConfig.defaultExpirationDate
 		}
 
 		// If enabled by default, we generate a valid password
-		if (this.enableLinkPasswordByDefault) {
+		if (this.isPasswordEnforced) {
 			this.generatePassword()
 		}
 	},

@@ -19,7 +19,7 @@ import { ref } from 'vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.ts'
 import AccountPropertySection from './shared/AccountPropertySection.vue'
 
-const { twitter } = loadState<AccountProperties>('settings', 'personalInfoParameters', {})
+const { twitter } = loadState<AccountProperties>('settings', 'personalInfoParameters')
 
 const value = ref({ ...twitter })
 const readable = NAME_READABLE_ENUM[twitter.name]
@@ -29,6 +29,6 @@ const readable = NAME_READABLE_ENUM[twitter.name]
  * @param text The potential twitter handle
  */
 function onValidate(text: string): boolean {
-	return text.match(/^@?([a-zA-Z0-9_]{2,15})$/) !== null
+	return text === '' || text.match(/^@?([a-zA-Z0-9_]{2,15})$/) !== null
 }
 </script>

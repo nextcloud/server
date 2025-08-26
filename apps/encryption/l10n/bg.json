@@ -49,7 +49,6 @@
     "Basic encryption module" : "Основен модул за криптиране",
     "Your private key password no longer matches your log-in password." : "Личният ви ключ не съвпада с паролата за вписване.",
     "Set your old private key password to your current log-in password:" : "Промени паролата за тайния ти включ на паролата за вписване:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Ако не помниш старата парола помоли администратора да възстанови файловете ти.",
     "Old log-in password" : "Стара парола за вписване",
     "Current log-in password" : "Текуща парола за вписване",
     "Update Private Key Password" : "Промени Тайната Парола за Ключа",

@@ -29,6 +29,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -61,7 +62,7 @@ class AccountManagerTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->connection = Server::get(IDBConnection::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -461,10 +462,7 @@ class AccountManagerTest extends TestCase {
 			->getMock();
 	}
 
-	/**
-	 * @dataProvider dataTrueFalse
-	 *
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTrueFalse')]
 	public function testUpdateUser(array $newData, array $oldData, bool $insertNew, bool $updateExisting): void {
 		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser']);
 		/** @var IUser $user */
@@ -488,7 +486,7 @@ class AccountManagerTest extends TestCase {
 		} else {
 			$this->eventDispatcher->expects($this->once())->method('dispatchTyped')
 				->willReturnCallback(
-					function ($event) use ($user, $newData) {
+					function ($event) use ($user, $newData): void {
 						$this->assertInstanceOf(UserUpdatedEvent::class, $event);
 						$this->assertSame($user, $event->getUser());
 						$this->assertSame($newData, $event->getData());
@@ -499,7 +497,7 @@ class AccountManagerTest extends TestCase {
 		$this->invokePrivate($accountManager, 'updateUser', [$user, $newData, $oldData]);
 	}
 
-	public function dataTrueFalse(): array {
+	public static function dataTrueFalse(): array {
 		return [
 			#$newData | $oldData | $insertNew | $updateExisting
 			[['myProperty' => ['value' => 'newData']], ['myProperty' => ['value' => 'oldData']], false, true],
@@ -571,6 +569,13 @@ class AccountManagerTest extends TestCase {
 
 			[
 				'name' => IAccountManager::PROPERTY_TWITTER,
+				'value' => '',
+				'scope' => IAccountManager::SCOPE_LOCAL,
+				'verified' => IAccountManager::NOT_VERIFIED,
+			],
+
+			[
+				'name' => IAccountManager::PROPERTY_BLUESKY,
 				'value' => '',
 				'scope' => IAccountManager::SCOPE_LOCAL,
 				'verified' => IAccountManager::NOT_VERIFIED,
@@ -683,9 +688,7 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataParsePhoneNumber
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataParsePhoneNumber')]
 	public function testSanitizePhoneNumberOnUpdateAccount(string $phoneInput, string $defaultRegion, ?string $phoneNumber): void {
 		$this->config->method('getSystemValueString')
 			->willReturn($defaultRegion);
@@ -737,9 +740,7 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSanitizeOnUpdate
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSanitizeOnUpdate')]
 	public function testSanitizingOnUpdateAccount(string $property, string $input, ?string $output): void {
 
 		if ($property === IAccountManager::PROPERTY_FEDIVERSE) {
@@ -792,20 +793,41 @@ class AccountManagerTest extends TestCase {
 				'@foo@example.com',
 				'foo@example.com',
 				true,
-				json_encode(['username' => 'foo']),
+				json_encode([
+					'subject' => 'acct:foo@example.com',
+					'links' => [
+						[
+							'rel' => 'self',
+							'type' => 'application/activity+json',
+							'href' => 'https://example.com/users/foo',
+						],
+					],
+				]),
 			],
 			'valid response - no at' => [
 				'foo@example.com',
 				'foo@example.com',
 				true,
-				json_encode(['username' => 'foo']),
+				json_encode([
+					'subject' => 'acct:foo@example.com',
+					'links' => [
+						[
+							'rel' => 'self',
+							'type' => 'application/activity+json',
+							'href' => 'https://example.com/users/foo',
+						],
+					],
+				]),
 			],
 			// failures
 			'invalid response' => [
 				'@foo@example.com',
 				null,
 				true,
-				json_encode(['not found']),
+				json_encode([
+					'subject' => 'acct:foo@example.com',
+					'links' => [],
+				]),
 			],
 			'no response' => [
 				'@foo@example.com',
@@ -817,14 +839,14 @@ class AccountManagerTest extends TestCase {
 				'@foo@example.com',
 				null,
 				true,
-				json_encode(['username' => 'foo@other.example.com']),
+				json_encode([
+					'links' => [],
+				]),
 			],
 		];
 	}
 
-	/**
-	 * @dataProvider dataSanitizeFediverseServer
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSanitizeFediverseServer')]
 	public function testSanitizingFediverseServer(string $input, ?string $output, bool $hasInternet, ?string $serverResponse): void {
 		$this->config->expects(self::once())
 			->method('getSystemValueBool')
@@ -839,12 +861,12 @@ class AccountManagerTest extends TestCase {
 					->willReturn($serverResponse);
 				$client->expects(self::once())
 					->method('get')
-					->with('https://example.com/api/v1/accounts/lookup?acct=foo@example.com')
+					->with('https://example.com/.well-known/webfinger?resource=acct:foo@example.com')
 					->willReturn($response);
 			} else {
 				$client->expects(self::once())
 					->method('get')
-					->with('https://example.com/api/v1/accounts/lookup?acct=foo@example.com')
+					->with('https://example.com/.well-known/webfinger?resource=acct:foo@example.com')
 					->willThrowException(new \Exception('404'));
 			}
 
@@ -881,9 +903,7 @@ class AccountManagerTest extends TestCase {
 		}
 	}
 
-	/**
-	 * @dataProvider searchDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchDataProvider')]
 	public function testSearchUsers(string $property, array $values, array $expected): void {
 		$this->populateOrUpdate();
 
@@ -896,7 +916,7 @@ class AccountManagerTest extends TestCase {
 		}
 	}
 
-	public function searchDataProvider(): array {
+	public static function searchDataProvider(): array {
 		return [
 			[ #0 Search for an existing name
 				IAccountManager::PROPERTY_DISPLAYNAME,
@@ -948,21 +968,20 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
-	public function dataCheckEmailVerification(): array {
+	public static function dataCheckEmailVerification(): array {
 		return [
-			[$this->makeUser('steve', 'Steve Smith', 'steve@steve.steve'), null],
-			[$this->makeUser('emma', 'Emma Morales', 'emma@emma.com'), 'emma@morales.com'],
-			[$this->makeUser('sarah@web.org', 'Sarah Foster', 'sarah@web.org'), null],
-			[$this->makeUser('cole@web.org', 'Cole Harrison', 'cole@web.org'), 'cole@example.com'],
-			[$this->makeUser('8d29e358-cf69-4849-bbf9-28076c0b908b', 'Alice McPherson', 'alice@example.com'), 'alice@mcpherson.com'],
-			[$this->makeUser('11da2744-3f4d-4c17-8c13-4c057a379237', 'James Loranger', 'james@example.com'), ''],
+			[['steve', 'Steve Smith', 'steve@steve.steve'], null],
+			[['emma', 'Emma Morales', 'emma@emma.com'], 'emma@morales.com'],
+			[['sarah@web.org', 'Sarah Foster', 'sarah@web.org'], null],
+			[['cole@web.org', 'Cole Harrison', 'cole@web.org'], 'cole@example.com'],
+			[['8d29e358-cf69-4849-bbf9-28076c0b908b', 'Alice McPherson', 'alice@example.com'], 'alice@mcpherson.com'],
+			[['11da2744-3f4d-4c17-8c13-4c057a379237', 'James Loranger', 'james@example.com'], ''],
 		];
 	}
 
-	/**
-	 * @dataProvider dataCheckEmailVerification
-	 */
-	public function testCheckEmailVerification(IUser $user, ?string $newEmail): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckEmailVerification')]
+	public function testCheckEmailVerification(array $userData, ?string $newEmail): void {
+		$user = $this->makeUser(...$userData);
 		// Once because of getAccount, once because of getUser
 		$this->config->expects($this->exactly(2))->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn([]);
 		$account = $this->accountManager->getAccount($user);
@@ -988,7 +1007,7 @@ class AccountManagerTest extends TestCase {
 		$this->invokePrivate($this->accountManager, 'checkEmailVerification', [$account, $oldData]);
 	}
 
-	public function dataSetDefaultPropertyScopes(): array {
+	public static function dataSetDefaultPropertyScopes(): array {
 		return [
 			[
 				[],
@@ -1025,9 +1044,7 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSetDefaultPropertyScopes
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetDefaultPropertyScopes')]
 	public function testSetDefaultPropertyScopes(array $propertyScopes, array $expectedResultScopes): void {
 		$user = $this->makeUser('steve', 'Steve Smith', 'steve@steve.steve');
 		$this->config->expects($this->once())->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn($propertyScopes);

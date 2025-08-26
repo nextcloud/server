@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,6 +20,7 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\PreConditionNotMetException;
 use OCP\ServerVersion;
 
 class WhatsNewController extends OCSController {
@@ -88,7 +90,7 @@ class WhatsNewController extends OCSController {
 	 * @param string $version Version to dismiss the changes for
 	 *
 	 * @return DataResponse<Http::STATUS_OK, list<empty>, array{}>
-	 * @throws \OCP\PreConditionNotMetException
+	 * @throws PreConditionNotMetException
 	 * @throws DoesNotExistException
 	 *
 	 * 200: Changes dismissed

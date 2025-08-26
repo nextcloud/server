@@ -41,8 +41,8 @@ abstract class Base implements IProvider {
 	 * @return array
 	 */
 	protected function generateAddressbookParameter(array $data, IL10N $l): array {
-		if ($data['uri'] === CardDavBackend::PERSONAL_ADDRESSBOOK_URI &&
-			$data['name'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME) {
+		if ($data['uri'] === CardDavBackend::PERSONAL_ADDRESSBOOK_URI
+			&& $data['name'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME) {
 			return [
 				'type' => 'addressbook',
 				'id' => (string)$data['id'],

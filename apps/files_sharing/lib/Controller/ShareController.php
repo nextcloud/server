@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,7 +10,6 @@ namespace OCA\Files_Sharing\Controller;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
@@ -28,7 +28,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
@@ -253,9 +252,9 @@ class ShareController extends AuthPublicShareController {
 	 * Emit a ShareLinkAccessedEvent event when a share is accessed, downloaded, auth...
 	 */
 	protected function emitShareAccessEvent(IShare $share, string $step = '', int $errorCode = 200, string $errorMessage = ''): void {
-		if ($step !== self::SHARE_ACCESS &&
-			$step !== self::SHARE_AUTH &&
-			$step !== self::SHARE_DOWNLOAD) {
+		if ($step !== self::SHARE_ACCESS
+			&& $step !== self::SHARE_AUTH
+			&& $step !== self::SHARE_DOWNLOAD) {
 			return;
 		}
 		$this->eventDispatcher->dispatchTyped(new ShareLinkAccessedEvent($share, $step, $errorCode, $errorMessage));
@@ -368,15 +367,9 @@ class ShareController extends AuthPublicShareController {
 			throw new NotFoundException();
 		}
 
-		// Single file share
-		if ($share->getNode() instanceof File) {
-			// Single file download
-			$this->singleFileDownloaded($share, $share->getNode());
-		}
-		// Directory share
-		else {
-			/** @var Folder $node */
-			$node = $share->getNode();
+		$node = $share->getNode();
+		if ($node instanceof Folder) {
+			// Directory share
 
 			// Try to get the path
 			if ($path !== '') {
@@ -391,22 +384,10 @@ class ShareController extends AuthPublicShareController {
 
 			if ($node instanceof Folder) {
 				if ($files === null || $files === '') {
-					// The folder is downloaded
-					$this->singleFileDownloaded($share, $share->getNode());
-				} else {
-					$fileList = json_decode($files);
-					// in case we get only a single file
-					if (!is_array($fileList)) {
-						$fileList = [$fileList];
-					}
-					foreach ($fileList as $file) {
-						$subNode = $node->get($file);
-						$this->singleFileDownloaded($share, $subNode);
+					if ($share->getHideDownload()) {
+						throw new NotFoundException('Downloading a folder');
 					}
 				}
-			} else {
-				// Single file download
-				$this->singleFileDownloaded($share, $share->getNode());
 			}
 		}
 
@@ -418,78 +399,5 @@ class ShareController extends AuthPublicShareController {
 			$davUrl .= '&files=' . $files;
 		}
 		return new RedirectResponse($this->urlGenerator->getAbsoluteURL($davUrl));
-	}
-
-	/**
-	 * create activity if a single file was downloaded from a link share
-	 *
-	 * @param Share\IShare $share
-	 * @throws NotFoundException when trying to download a folder of a "hide download" share
-	 */
-	protected function singleFileDownloaded(IShare $share, Node $node) {
-		if ($share->getHideDownload() && $node instanceof Folder) {
-			throw new NotFoundException('Downloading a folder');
-		}
-
-		$fileId = $node->getId();
-
-		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		$userNode = $userFolder->getFirstNodeById($fileId);
-		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
-		$userPath = $userFolder->getRelativePath($userNode->getPath());
-		$ownerPath = $ownerFolder->getRelativePath($node->getPath());
-		$remoteAddress = $this->request->getRemoteAddress();
-		$dateTime = new \DateTime();
-		$dateTime = $dateTime->format('Y-m-d H');
-		$remoteAddressHash = md5($dateTime . '-' . $remoteAddress);
-
-		$parameters = [$userPath];
-
-		if ($share->getShareType() === IShare::TYPE_EMAIL) {
-			if ($node instanceof File) {
-				$subject = Downloads::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED;
-			} else {
-				$subject = Downloads::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED;
-			}
-			$parameters[] = $share->getSharedWith();
-		} else {
-			if ($node instanceof File) {
-				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
-				$parameters[] = $remoteAddressHash;
-			} else {
-				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED;
-				$parameters[] = $remoteAddressHash;
-			}
-		}
-
-		$this->publishActivity($subject, $parameters, $share->getSharedBy(), $fileId, $userPath);
-
-		if ($share->getShareOwner() !== $share->getSharedBy()) {
-			$parameters[0] = $ownerPath;
-			$this->publishActivity($subject, $parameters, $share->getShareOwner(), $fileId, $ownerPath);
-		}
-	}
-
-	/**
-	 * publish activity
-	 *
-	 * @param string $subject
-	 * @param array $parameters
-	 * @param string $affectedUser
-	 * @param int $fileId
-	 * @param string $filePath
-	 */
-	protected function publishActivity($subject,
-		array $parameters,
-		$affectedUser,
-		$fileId,
-		$filePath) {
-		$event = $this->activityManager->generateEvent();
-		$event->setApp('files_sharing')
-			->setType('public_links')
-			->setSubject($subject, $parameters)
-			->setAffectedUser($affectedUser)
-			->setObject('files', $fileId, $filePath);
-		$this->activityManager->publish($event);
 	}
 }

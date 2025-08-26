@@ -7,9 +7,6 @@ OC.L10N.register(
     "Error" : "Грешка",
     "Weather status" : "Временска прогноза",
     "Weather status in your dashboard" : "Временска прогноза на вашата табла",
-    "Detect location" : "Детектирај локација",
-    "Set custom address" : "Поставете адреса",
-    "Favorites" : "Омилени",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} Ведро небо подоцна денеска",
     "{temperature} {unit} clear sky" : "{temperature} {unit} Ведро небо",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} Облачно подоцна денеска",
@@ -44,6 +41,9 @@ OC.L10N.register(
     "There was an error setting the location address." : "Настана грешка при поставување на адреса на локација.",
     "There was an error setting the location." : "Настана грешка при поставување на локација.",
     "There was an error saving the mode." : "Грешка при зачувување.",
-    "There was an error using personal address." : "Настана грешка при користење на сопствена адреса."
+    "There was an error using personal address." : "Настана грешка при користење на сопствена адреса.",
+    "Detect location" : "Детектирај локација",
+    "Set custom address" : "Поставете адреса",
+    "Favorites" : "Омилени"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

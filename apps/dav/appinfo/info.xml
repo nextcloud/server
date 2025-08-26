@@ -10,7 +10,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.34.0</version>
+	<version>1.34.1</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -41,6 +41,7 @@
 			<step>OCA\DAV\Migration\BuildSocialSearchIndex</step>
 			<step>OCA\DAV\Migration\RefreshWebcalJobRegistrar</step>
 			<step>OCA\DAV\Migration\RegisterBuildReminderIndexBackgroundJob</step>
+			<step>OCA\DAV\Migration\RegisterUpdateCalendarResourcesRoomBackgroundJob</step>
 			<step>OCA\DAV\Migration\RemoveOrphanEventsAndContacts</step>
 			<step>OCA\DAV\Migration\RemoveClassifiedEventActivity</step>
 			<step>OCA\DAV\Migration\RemoveDeletedUsersCalendarSubscriptions</step>
@@ -49,26 +50,38 @@
 		<live-migration>
 			<step>OCA\DAV\Migration\ChunkCleanup</step>
 		</live-migration>
+		<install>
+			<step>OCA\DAV\Migration\CreateSystemAddressBookStep</step>
+		</install>
 	</repair-steps>
 
 	<commands>
+		<command>OCA\DAV\Command\ClearCalendarUnshares</command>
+		<command>OCA\DAV\Command\ClearContactsPhotoCache</command>
 		<command>OCA\DAV\Command\CreateAddressBook</command>
-		<command>OCA\DAV\Command\ListAddressbooks</command>
 		<command>OCA\DAV\Command\CreateCalendar</command>
 		<command>OCA\DAV\Command\CreateSubscription</command>
 		<command>OCA\DAV\Command\DeleteCalendar</command>
+		<command>OCA\DAV\Command\DeleteSubscription</command>
+		<command>OCA\DAV\Command\ExportCalendar</command>
 		<command>OCA\DAV\Command\FixCalendarSyncCommand</command>
-		<command>OCA\DAV\Command\MoveCalendar</command>
+		<command>OCA\DAV\Command\GetAbsenceCommand</command>
+		<command>OCA\DAV\Command\ListAddressbooks</command>
+		<command>OCA\DAV\Command\ListCalendarShares</command>
 		<command>OCA\DAV\Command\ListCalendars</command>
+		<command>OCA\DAV\Command\ListSubscriptions</command>
+		<command>OCA\DAV\Command\MoveCalendar</command>
+		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 		<command>OCA\DAV\Command\RetentionCleanupCommand</command>
 		<command>OCA\DAV\Command\SendEventReminders</command>
+		<command>OCA\DAV\Command\SetAbsenceCommand</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
-		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 	</commands>
 
 	<settings>
 		<admin>OCA\DAV\Settings\CalDAVSettings</admin>
+		<admin>OCA\DAV\Settings\ExampleContentSettings</admin>
 		<personal>OCA\DAV\Settings\AvailabilitySettings</personal>
 	</settings>
 

@@ -290,8 +290,8 @@ class Util {
 		if (count($root) > 1) {
 			// detect alternative key storage root
 			$rootDir = $this->getKeyStorageRoot();
-			if ($rootDir !== '' &&
-				str_starts_with(Filesystem::normalizePath($path), Filesystem::normalizePath($rootDir))
+			if ($rootDir !== ''
+				&& str_starts_with(Filesystem::normalizePath($path), Filesystem::normalizePath($rootDir))
 			) {
 				return true;
 			}
@@ -304,7 +304,7 @@ class Util {
 
 			// detect user specific folders
 			if ($this->userManager->userExists($root[1])
-				&& in_array($root[2], $this->excludedPaths)) {
+				&& in_array($root[2] ?? '', $this->excludedPaths)) {
 				return true;
 			}
 		}

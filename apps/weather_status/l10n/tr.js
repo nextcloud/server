@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Hava durumu",
     "Weather status in your dashboard" : "Panonuz için hava durumu",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Pano uygulaması ile bütünleşik hava durumu.\n    Coğrafi konum el ile de ayarlanabileceği gibi otomatik olarak da algılanabilir. 6 saatlik tahmin görüntülenir.\n    Hava durumu Takvim gibi diğer uygulamalarla da kullanılabilir.",
-    "Detect location" : "Konum algılansın",
-    "Set custom address" : "Özel adres belirtin",
-    "Favorites" : "Sık kullanılanlar",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} bugün açık",
     "{temperature} {unit} clear sky" : "{temperature} {unit} açık",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} bugün bulutlu",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "Konum ayarlanırken bir sorun çıktı.",
     "There was an error saving the mode." : "Kip kaydedilirken bir sorun çıktı.",
     "There was an error using personal address." : "Kişisel adres kullanılırken bir sorun çıktı.",
-    "Unknown weather code" : "Hava kodu bilinmiyor"
+    "Unknown weather code" : "Hava kodu bilinmiyor",
+    "Detect location" : "Konum algılansın",
+    "Set custom address" : "Özel adres belirtin",
+    "Favorites" : "Sık kullanılanlar"
 },
 "nplurals=2; plural=(n > 1);");

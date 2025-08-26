@@ -17,7 +17,7 @@ use OCP\DataCollector\IDataCollector;
  *
  * ```php
  * <?php
- * $profiler = \OC::$server->get(IProfiler::class);
+ * $profiler = \OCP\Server::get(IProfiler::class);
  * $profiles = $profiler->find('/settings/users', 10);
  * ```
  *

@@ -76,7 +76,7 @@ class RouteParser {
 		$url = $root . '/' . ltrim($route['url'], '/');
 		$verb = strtoupper($route['verb'] ?? 'GET');
 
-		$split = explode('#', $name, 2);
+		$split = explode('#', $name, 3);
 		if (count($split) !== 2) {
 			throw new \UnexpectedValueException('Invalid route name: use the format foo#bar to reference FooController::bar');
 		}
@@ -87,7 +87,7 @@ class RouteParser {
 
 		/*
 		 * The route name has to be lowercase, for symfony to match it correctly.
-		 * This is required because smyfony allows mixed casing for controller names in the routes.
+		 * This is required because symfony allows mixed casing for controller names in the routes.
 		 * To avoid breaking all the existing route names, registering and matching will only use the lowercase names.
 		 * This is also safe on the PHP side because class and method names collide regardless of the casing.
 		 */

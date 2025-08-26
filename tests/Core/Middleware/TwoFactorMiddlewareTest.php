@@ -234,23 +234,27 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($twoFactorChallengeController, 'index');
 	}
 
-	public function dataRequires2FASetupDone() {
-		$provider = $this->createMock(IProvider::class);
-		$provider->method('getId')
-			->willReturn('2FAftw');
-
+	public static function dataRequires2FASetupDone(): array {
 		return [
-			[[], false, false],
-			[[],  true,  true],
-			[[$provider], false, true],
-			[[$provider], true,  true],
+			[false, false, false],
+			[false,  true,  true],
+			[true, false, true],
+			[true, true,  true],
 		];
 	}
 
-	/**
-	 * @dataProvider dataRequires2FASetupDone
-	 */
-	public function testRequires2FASetupDone(array $providers, bool $missingProviders, bool $expectEception): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataRequires2FASetupDone')]
+	public function testRequires2FASetupDone(bool $hasProvider, bool $missingProviders, bool $expectEception): void {
+		if ($hasProvider) {
+			$provider = $this->createMock(IProvider::class);
+			$provider->method('getId')
+				->willReturn('2FAftw');
+			$providers = [$provider];
+		} else {
+			$providers = [];
+		}
+
+
 		$user = $this->createMock(IUser::class);
 
 		$this->reflector

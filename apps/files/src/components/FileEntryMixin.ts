@@ -178,25 +178,52 @@ export default defineComponent({
 				return this.actionsMenuStore.opened === this.uniqueId.toString()
 			},
 			set(opened) {
-				this.actionsMenuStore.opened = opened ? this.uniqueId.toString() : null
+				// If the menu is opened on another file entry, we ignore closed events
+				if (opened === false && this.actionsMenuStore.opened !== this.uniqueId.toString()) {
+					return
+				}
+
+				// If opened, we specify the current file id
+				// else we set it to null to close the menu
+				this.actionsMenuStore.opened = opened
+					? this.uniqueId.toString()
+					: null
 			},
 		},
 
+		mtime() {
+			// If the mtime is not a valid date, return it as is
+			if (this.source.mtime && !isNaN(this.source.mtime.getDate())) {
+				return this.source.mtime
+			}
+
+			if (this.source.crtime && !isNaN(this.source.crtime.getDate())) {
+				return this.source.crtime
+			}
+
+			return null
+		},
+
 		mtimeOpacity() {
+			if (!this.mtime) {
+				return {}
+			}
+
+			// The time when we start reducing the opacity
 			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
-
-			const mtime = this.source.mtime?.getTime?.()
-			if (!mtime) {
+			// everything older than the maxOpacityTime will have the same value
+			const timeDiff = Date.now() - this.mtime.getTime()
+			if (timeDiff < 0) {
+				// this means we have an invalid mtime which is in the future!
 				return {}
 			}
 
-			// 1 = today, 0 = 31 days ago
-			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
-			if (ratio < 0) {
-				return {}
-			}
+			// inversed time difference from 0 to maxOpacityTime (which would mean today)
+			const opacityTime = Math.max(0, maxOpacityTime - timeDiff)
+			// 100 = today, 0 = 31 days ago or older
+			const percentage = Math.round(opacityTime * 100 / maxOpacityTime)
 			return {
-				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
+				color: `color-mix(in srgb, var(--color-main-text) ${percentage}%, var(--color-text-maxcontrast))`,
 			}
 		},
 
@@ -245,21 +272,16 @@ export default defineComponent({
 		},
 
 		openedMenu() {
-			if (this.openedMenu === false) {
-				// TODO: This timeout can be removed once `close` event only triggers after the transition
-				// ref: https://github.com/nextcloud-libraries/nextcloud-vue/pull/6065
-				window.setTimeout(() => {
-					if (this.openedMenu) {
-						// was reopened while the animation run
-						return
-					}
-					// Reset any right menu position potentially set
-					const root = document.getElementById('app-content-vue')
-					if (root !== null) {
-						root.style.removeProperty('--mouse-pos-x')
-						root.style.removeProperty('--mouse-pos-y')
-					}
-				}, 300)
+			// Checking if the menu is really closed and not
+			// just a change in the open state to another file entry.
+			if (this.actionsMenuStore.opened === null) {
+				// Reset any right menu position potentially set
+				logger.debug('All actions menu closed, resetting right menu position...')
+				const root = this.$el?.closest('main.app-content') as HTMLElement
+				if (root !== null) {
+					root.style.removeProperty('--mouse-pos-x')
+					root.style.removeProperty('--mouse-pos-y')
+				}
 			}
 		},
 	},
@@ -297,6 +319,7 @@ export default defineComponent({
 				const contentRect = root.getBoundingClientRect()
 				// Using Math.min/max to prevent the menu from going out of the AppContent
 				// 200 = max width of the menu
+				logger.debug('Setting actions menu position...')
 				root.style.setProperty('--mouse-pos-x', Math.max(0, event.clientX - contentRect.left - 200) + 'px')
 				root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
 			} else {
@@ -333,7 +356,7 @@ export default defineComponent({
 
 			// if ctrl+click / cmd+click (MacOS uses the meta key) or middle mouse button (button & 4), open in new tab
 			// also if there is no default action use this as a fallback
-			const metaKeyPressed = event.ctrlKey || event.metaKey || Boolean(event.button & 4)
+			const metaKeyPressed = event.ctrlKey || event.metaKey || event.button === 1
 			if (metaKeyPressed || !this.defaultFileAction) {
 				// If no download permission, then we can not allow to download (direct link) the files
 				if (isPublicShare() && !isDownloadable(this.source)) {
@@ -345,7 +368,9 @@ export default defineComponent({
 					: generateUrl('/f/{fileId}', { fileId: this.fileid })
 				event.preventDefault()
 				event.stopPropagation()
-				window.open(url, metaKeyPressed ? '_self' : undefined)
+
+				// Open the file in a new tab if the meta key or the middle mouse button is clicked
+				window.open(url, metaKeyPressed ? '_blank' : '_self')
 				return
 			}
 
@@ -462,7 +487,7 @@ export default defineComponent({
 			logger.debug('Dropped', { event, folder, selection, fileTree })
 
 			// Check whether we're uploading files
-			if (fileTree.contents.length > 0) {
+			if (selection.length === 0 && fileTree.contents.length > 0) {
 				await onDropExternalFiles(fileTree, folder, contents.contents)
 				return
 			}

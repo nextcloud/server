@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -49,7 +51,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		// doesn't support leading/trailing spaces
 		return [['folder']];
 	}

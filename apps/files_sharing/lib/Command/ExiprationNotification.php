@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Sharing\Command;
 
+use OCA\Files_Sharing\OrphanHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 use OCP\Notification\IManager as NotificationManager;
@@ -23,6 +24,7 @@ class ExiprationNotification extends Command {
 		private NotificationManager $notificationManager,
 		private IDBConnection $connection,
 		private ShareManager $shareManager,
+		private OrphanHelper $orphanHelper,
 	) {
 		parent::__construct();
 	}
@@ -50,7 +52,8 @@ class ExiprationNotification extends Command {
 		foreach ($shares as $share) {
 			if ($share->getExpirationDate() === null
 				|| $share->getExpirationDate()->getTimestamp() < $minTime->getTimestamp()
-				|| $share->getExpirationDate()->getTimestamp() > $maxTime->getTimestamp()) {
+				|| $share->getExpirationDate()->getTimestamp() > $maxTime->getTimestamp()
+				|| !$this->orphanHelper->isShareValid($share->getSharedBy(), $share->getNodeId())) {
 				continue;
 			}
 

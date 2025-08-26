@@ -14,18 +14,22 @@ use OCA\DAV\Files\Sharing\FilesDropPlugin;
 use OCA\DAV\Files\Sharing\PublicLinkCheckPlugin;
 use OCA\DAV\Storage\PublicOwnerWrapper;
 use OCA\DAV\Storage\PublicShareWrapper;
+use OCA\DAV\Upload\ChunkingPlugin;
+use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\ITagManager;
+use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\Bruteforce\IThrottler;
@@ -53,7 +57,8 @@ $authBackend = new PublicAuth(
 	Server::get(IManager::class),
 	$session,
 	Server::get(IThrottler::class),
-	Server::get(LoggerInterface::class)
+	Server::get(LoggerInterface::class),
+	Server::get(IURLGenerator::class),
 );
 $authPlugin = new \Sabre\DAV\Auth\Plugin($authBackend);
 
@@ -75,12 +80,8 @@ $serverFactory = new ServerFactory(
 $linkCheckPlugin = new PublicLinkCheckPlugin();
 $filesDropPlugin = new FilesDropPlugin();
 
-// Define root url with /public.php/dav/files/TOKEN
 /** @var string $baseuri defined in public.php */
-preg_match('/(^files\/\w+)/i', substr($requestUri, strlen($baseuri)), $match);
-$baseuri = $baseuri . $match[0];
-
-$server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
+$server = $serverFactory->createServer(true, $baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
 	// GET must be allowed for e.g. showing images and allowing Zip downloads
 	if ($server->httpRequest->getMethod() !== 'GET') {
 		// If this is *not* a GET request we only allow access to public DAV from AJAX or when Server2Server is allowed
@@ -132,16 +133,16 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	if (!$isReadable) {
 		$filesDropPlugin->enable();
 	}
-
-	$view = new View($node->getPath());
-	$filesDropPlugin->setView($view);
 	$filesDropPlugin->setShare($share);
 
+	$view = new View($node->getPath());
 	return $view;
 });
 
 $server->addPlugin($linkCheckPlugin);
 $server->addPlugin($filesDropPlugin);
+$server->addPlugin(new ChunkingV2Plugin(Server::get(ICacheFactory::class)));
+$server->addPlugin(new ChunkingPlugin());
 
 // allow setup of additional plugins
 $event = new BeforeSabrePubliclyLoadedEvent($server);

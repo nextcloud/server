@@ -51,7 +51,7 @@
     "Basic encryption module" : "基本暗号化モジュール",
     "Your private key password no longer matches your log-in password." : "もはや秘密鍵はログインパスワードと一致しません。",
     "Set your old private key password to your current log-in password:" : "古い秘密鍵のパスワードを現在のログインパスワードに設定:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "古いパスワードを覚えていない場合、管理者に尋ねてファイルを回復することができます。",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "古いパスワードを覚えていない場合は、管理者にファイルの復元を依頼することができます。",
     "Old log-in password" : "古いログインパスワード",
     "Current log-in password" : "現在のログインパスワード",
     "Update Private Key Password" : "秘密鍵のパスワードを更新",

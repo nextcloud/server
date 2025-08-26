@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,19 +8,22 @@
 
 namespace Test\Files\Storage\Wrapper;
 
+use OC\Files\Storage\Temporary;
+use OC\Files\Storage\Wrapper\Encoding;
+
 class EncodingTest extends \Test\Files\Storage\Storage {
 	public const NFD_NAME = 'ümlaut';
 	public const NFC_NAME = 'ümlaut';
 
 	/**
-	 * @var \OC\Files\Storage\Temporary
+	 * @var Temporary
 	 */
 	private $sourceStorage;
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->sourceStorage = new \OC\Files\Storage\Temporary([]);
-		$this->instance = new \OC\Files\Storage\Wrapper\Encoding([
+		$this->sourceStorage = new Temporary([]);
+		$this->instance = new Encoding([
 			'storage' => $this->sourceStorage
 		]);
 	}
@@ -29,42 +33,38 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		$a = parent::directoryProvider();
 		$a[] = [self::NFC_NAME];
 		return $a;
 	}
 
-	public function fileNameProvider() {
+	public static function fileNameProvider(): array {
 		$a = parent::fileNameProvider();
 		$a[] = [self::NFD_NAME . '.txt'];
 		return $a;
 	}
 
-	public function copyAndMoveProvider() {
+	public static function copyAndMoveProvider(): array {
 		$a = parent::copyAndMoveProvider();
 		$a[] = [self::NFD_NAME . '.txt', self::NFC_NAME . '-renamed.txt'];
 		return $a;
 	}
 
-	public function accessNameProvider() {
+	public static function accessNameProvider(): array {
 		return [
 			[self::NFD_NAME],
 			[self::NFC_NAME],
 		];
 	}
 
-	/**
-	 * @dataProvider accessNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('accessNameProvider')]
 	public function testFputEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$this->assertEquals('bar', $this->instance->file_get_contents($accessName));
 	}
 
-	/**
-	 * @dataProvider accessNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('accessNameProvider')]
 	public function testFopenReadEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$fh = $this->instance->fopen($accessName, 'r');
@@ -73,9 +73,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals('bar', $data);
 	}
 
-	/**
-	 * @dataProvider accessNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('accessNameProvider')]
 	public function testFopenOverwriteEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$fh = $this->instance->fopen($accessName, 'w');
@@ -86,17 +84,13 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertFalse($this->sourceStorage->file_exists(self::NFC_NAME));
 	}
 
-	/**
-	 * @dataProvider accessNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('accessNameProvider')]
 	public function testFileExistsEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$this->assertTrue($this->instance->file_exists($accessName));
 	}
 
-	/**
-	 * @dataProvider accessNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('accessNameProvider')]
 	public function testUnlinkEncoding($accessName): void {
 		$this->sourceStorage->file_put_contents(self::NFD_NAME, 'bar');
 		$this->assertTrue($this->instance->unlink($accessName));
@@ -110,7 +104,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals('nfc', $this->instance->file_get_contents(self::NFC_NAME));
 	}
 
-	public function encodedDirectoriesProvider() {
+	public static function encodedDirectoriesProvider(): array {
 		return [
 			[self::NFD_NAME, self::NFC_NAME],
 			[self::NFD_NAME . '/' . self::NFD_NAME, self::NFC_NAME . '/' . self::NFC_NAME],
@@ -118,9 +112,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		];
 	}
 
-	/**
-	 * @dataProvider encodedDirectoriesProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('encodedDirectoriesProvider')]
 	public function testOperationInsideDirectory($sourceDir, $accessDir): void {
 		$this->sourceStorage->mkdir($sourceDir);
 		$this->instance->file_put_contents($accessDir . '/test.txt', 'bar');
@@ -150,7 +142,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals('barbaric', $this->instance->file_get_contents('//' . self::NFC_NAME));
 	}
 
-	public function sourceAndTargetDirectoryProvider() {
+	public static function sourceAndTargetDirectoryProvider(): array {
 		return [
 			[self::NFC_NAME . '1', self::NFC_NAME . '2'],
 			[self::NFD_NAME . '1', self::NFC_NAME . '2'],
@@ -159,9 +151,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		];
 	}
 
-	/**
-	 * @dataProvider sourceAndTargetDirectoryProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sourceAndTargetDirectoryProvider')]
 	public function testCopyAndMoveEncodedFolder($sourceDir, $targetDir): void {
 		$this->sourceStorage->mkdir($sourceDir);
 		$this->sourceStorage->mkdir($targetDir);
@@ -179,9 +169,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		$this->assertEquals('bar', $this->instance->file_get_contents(self::NFC_NAME . '2/test2.txt'));
 	}
 
-	/**
-	 * @dataProvider sourceAndTargetDirectoryProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('sourceAndTargetDirectoryProvider')]
 	public function testCopyAndMoveFromStorageEncodedFolder($sourceDir, $targetDir): void {
 		$this->sourceStorage->mkdir($sourceDir);
 		$this->sourceStorage->mkdir($targetDir);

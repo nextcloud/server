@@ -220,7 +220,6 @@ export default {
 					status: this.status,
 					message: this.message,
 					replacementUserId: this.replacementUser?.user ?? null,
-					replacementUserDisplayName: this.replacementUser?.displayName ?? null,
 				})
 				showSuccess(this.$t('dav', 'Absence saved'))
 			} catch (error) {

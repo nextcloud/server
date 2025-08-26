@@ -10,7 +10,6 @@ namespace OCA\AdminAudit\Actions;
 use OC\Files\Node\NonExistingFile;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
-use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
@@ -26,9 +25,6 @@ use Psr\Log\LoggerInterface;
  * @package OCA\AdminAudit\Actions
  */
 class Files extends Action {
-
-	private array $renamedNodes = [];
-
 	/**
 	 * Logs file read actions
 	 */
@@ -37,7 +33,7 @@ class Files extends Action {
 			$node = $event->getNode();
 			$params = [
 				'id' => $node instanceof NonExistingFile ? null : $node->getId(),
-				'path' => mb_substr($node->getInternalPath(), 5),
+				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -55,29 +51,14 @@ class Files extends Action {
 	/**
 	 * Logs rename actions of files
 	 */
-	public function beforeRename(BeforeNodeRenamedEvent $event): void {
-		try {
-			$source = $event->getSource();
-			$this->renamedNodes[$source->getId()] = $source;
-		} catch (InvalidPathException|NotFoundException $e) {
-			Server::get(LoggerInterface::class)->error(
-				'Exception thrown in file rename: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
-			);
-			return;
-		}
-	}
-
-	/**
-	 * Logs rename actions of files
-	 */
 	public function afterRename(NodeRenamedEvent $event): void {
 		try {
 			$target = $event->getTarget();
-			$originalSource = $this->renamedNodes[$target->getId()];
+			$source = $event->getSource();
 			$params = [
 				'newid' => $target->getId(),
-				'oldpath' => mb_substr($originalSource->getInternalPath(), 5),
-				'newpath' => mb_substr($target->getInternalPath(), 5),
+				'oldpath' => $source->getPath(),
+				'newpath' => $target->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -101,7 +82,7 @@ class Files extends Action {
 		try {
 			$params = [
 				'id' => $event->getNode()->getId(),
-				'path' => mb_substr($event->getNode()->getInternalPath(), 5),
+				'path' => $event->getNode()->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -127,8 +108,8 @@ class Files extends Action {
 			$params = [
 				'oldid' => $event->getSource()->getId(),
 				'newid' => $event->getTarget()->getId(),
-				'oldpath' => mb_substr($event->getSource()->getInternalPath(), 5),
-				'newpath' => mb_substr($event->getTarget()->getInternalPath(), 5),
+				'oldpath' => $event->getSource()->getPath(),
+				'newpath' => $event->getTarget()->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -151,7 +132,7 @@ class Files extends Action {
 		try {
 			$params = [
 				'id' => $node->getId(),
-				'path' => mb_substr($node->getInternalPath(), 5),
+				'path' => $node->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(
@@ -177,7 +158,7 @@ class Files extends Action {
 		try {
 			$params = [
 				'id' => $event->getNode()->getId(),
-				'path' => mb_substr($event->getNode()->getInternalPath(), 5),
+				'path' => $event->getNode()->getPath(),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			Server::get(LoggerInterface::class)->error(

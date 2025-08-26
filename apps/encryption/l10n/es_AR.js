@@ -43,7 +43,6 @@ OC.L10N.register(
     "Basic encryption module" : "Módulo de encripción básica",
     "Your private key password no longer matches your log-in password." : "Su contraseña de llave privada ya no corresónde con su contraseña de inicio de sesión. ",
     "Set your old private key password to your current log-in password:" : "Establezca su contraseña de llave privada a su contraseña actual de inicio de seisón:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Si no recuerda su contraseña anterior le puede pedir a su administrador que recupere sus archivos.",
     "Old log-in password" : "Contraseña anterior",
     "Current log-in password" : "Contraseña actual",
     "Update Private Key Password" : "Actualizar Contraseña de Llave Privada",

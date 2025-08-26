@@ -64,7 +64,6 @@
     "Additional settings" : "დამატებითი პარამეტრები",
     "You need to enter details of an existing account." : "საჭიროა შეიყვანოთ არსებული ანგარიშის დეტალები.",
     "Oracle connection could not be established" : "Oracle კავშირი ვერ დამყარდა",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X არაა მხარდაჭერილი და %s ამ პლატფორმაზე სწორად არ იმუშავებს. გამოიყენეთ საკუთარი რისკით!",
     "For the best results, please consider using a GNU/Linux server instead." : "საუკეთესო შედეგებისთვის სანაცვლოდ გამოიყენეთ GNU/Linux სერვერი.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "როგორც ჩანს ეს %s ინსტანცია მოქმედებს 32-ბიტიან PHP გარემოზე და open_basedir php.ini-ში კონფიგურირებულია. ეს 4 გბ-ზე დიდ ფაილებთან გამოიწვევს პრობლემს და რეკომედირებული არაა.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "გთხოვთ ამოშალოთ open_basedir პარამეტრი php.ini-დან ან გადახვიდეთ 64-ბიტიან PHP-ზე.",
@@ -144,18 +143,11 @@
     "Storage connection error. %s" : "საცავის კავშირის შეცდომა. %s",
     "Storage is temporarily not available" : "საცავი დროებით ხელმიუწვდომელია",
     "Storage connection timeout. %s" : "საცავის კავშირის დროის ამოწურვა. %s",
+    "Images" : "სურათები",
     "Text" : "ტექსტი",
     "Summary" : "შეჯამება",
     "Translate" : "გადათარგმნეთ",
     "Result" : "შედეგი",
-    "Education Edition" : "საგანმანათლებლო გამოცემა",
-    "File name is a reserved word" : "ფაილის სახელი რეზერვირებული სიტყვაა",
-    "File name contains at least one invalid character" : "ფაილის სახელი მოიცავს დაუშვებელ სიმბოლოს",
-    "File name is too long" : "ფაილის სახელი ზედმეტად გრძელია",
-    "Users" : "მომხმარებლები",
-    "Open »%s«" : "გახნსნა »%s«",
-    "Click the button below to open it." : "გასახსნელად დააჭირეთ ქვემოთ მყოფ ღილაკს.",
-    "File is currently busy, please try again later" : "ფაილი ამჟამად დაკავებულია, გთხოვთ მოგვიანებით სცადოთ ახლიდან",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "დარწმუნდით რომ ფაილი სახელად \".ocdata\" მონაცემების დირექტორიის საწყისშია."
+    "File is currently busy, please try again later" : "ფაილი ამჟამად დაკავებულია, გთხოვთ მოგვიანებით სცადოთ ახლიდან"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

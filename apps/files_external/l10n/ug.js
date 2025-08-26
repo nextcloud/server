@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "زىيارەت قىلىش ھوقۇقى",
-    "Error configuring OAuth1" : "OAuth1 نى تەڭشەشتە خاتالىق",
-    "Please provide a valid app key and secret." : "ئۈنۈملۈك ئەپ ئاچقۇچى ۋە مەخپىي تەمىنلەڭ.",
     "Error configuring OAuth2" : "OAuth2 نى تەڭشەشتە خاتالىق",
     "Generate keys" : "ئاچقۇچ ھاسىل قىلىڭ",
     "Error generating key pair" : "ئاچقۇچ جۈپ ھاسىل قىلىشتا خاتالىق",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "مەخپىي ئاچقۇچ",
     "Builtin" : "Builtin",
     "None" : "يوق",
-    "OAuth1" : "OAuth1",
-    "App key" : "ئەپ ئاچقۇچى",
-    "App secret" : "ئەپ مەخپىيىتى",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Client secret",
@@ -95,11 +90,11 @@ OC.L10N.register(
     "External storage support" : "سىرتقى ساقلاش ياردىمى",
     "Adds basic external storage support" : "ئاساسىي تاشقى ساقلاش قوللايدۇ",
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "بۇ پروگرامما باشقۇرغۇچىنىڭ FTP مۇلازىمېتىرى ، S3 ياكى SWIFT ئوبيېكت دۇكىنى ، باشقا Nextcloud مۇلازىمېتىرلىرى ، WebDAV مۇلازىمېتىرلىرى قاتارلىق سىرتقى ساقلاش تەمىنلىگۈچىلەرگە ئۇلىنىشىنى تەڭشىيەلەيدۇ. باشقۇرۇش قايسى خىل ساقلاش بوشلۇقىنى قوزغىتالايدىغانلىقىنى تاللايدۇ ۋە بۇ ساقلاش ئورۇنلىرىنى ھېسابات ، گۇرۇپپا ياكى پۈتكۈل سىستېمىغا ئورنىتالايدۇ. ئىشلەتكۈچىلەر يىلتىزى Nextcloud مۇندەرىجىسىدە يېڭى ھۆججەت قىسقۇچنىڭ كۆرۈنگەنلىكىنى كۆرىدۇ ، ئۇلار باشقا Nextcloud ھۆججەت قىسقۇچلىرىغا ئوخشاش زىيارەت قىلالايدۇ ۋە ئىشلىتەلەيدۇ. تاشقى ساقلاش يەنە كىشىلەرنىڭ بۇ سىرتقى ئورۇنلاردا ساقلانغان ھۆججەتلەرنى ھەمبەھىرلىشىگە يول قويىدۇ. بۇ خىل ئەھۋال ئاستىدا ، ھۆججەت ئىگىسىنىڭ كىنىشكىسى تاپشۇرۇۋالغۇچى ھۆججەتنى سىرتقى ساقلاشتىن تەلەپ قىلغاندا ئىشلىتىلىدۇ ، بۇ ئارقىلىق تاپشۇرۇۋالغۇچىنىڭ ئورتاق ھۆججەتنى زىيارەت قىلىشىغا كاپالەتلىك قىلىدۇ.\n\nسىرتقى ساقلاشنى GUI ياكى بۇيرۇق قۇرىدا تەڭشەشكە بولىدۇ. بۇ ئىككىنچى تاللاش كۆپ مىقداردىكى تاشقى ساقلاش ئامبىرىنى تەڭشەش ۋە قاچىلاشنىڭ مۇھىم نۇقتىلىرىنى تەڭشەش ئۈچۈن باشقۇرۇشنى تېخىمۇ جانلىق تەمىنلەيدۇ. تېخىمۇ كۆپ ئۇچۇرلار سىرتقى ساقلاش GUI ھۆججىتى ۋە سىرتقى ساقلاش سەپلىمە ھۆججەت ھۆججىتىدە بار.",
+    "Confirm" : "جەزملەشتۈرۈڭ",
     "Storage credentials" : "ساقلاش كىنىشكىسى",
     "To access the storage, you need to provide the authentication credentials." : "ساقلاشقا ئېرىشىش ئۈچۈن ، دەلىللەش كىنىشكىسى بىلەن تەمىنلىشىڭىز كېرەك.",
     "Enter the storage login" : "ساقلاش تىزىملىكىنى كىرگۈزۈڭ",
     "Enter the storage password" : "ساقلاش پارولىنى كىرگۈزۈڭ",
-    "Confirm" : "جەزملەشتۈرۈڭ",
     "Unable to update this external storage config. {statusMessage}" : "بۇ سىرتقى ساقلاش سەپلىمىسىنى يېڭىلاشقا ئامالسىز. {statusMessage}",
     "New configuration successfully saved" : "يېڭى سەپلىمە مۇۋەپپەقىيەتلىك ساقلاندى",
     "Enter missing credentials" : "يوقاپ كەتكەن كىنىشكىنى كىرگۈزۈڭ",
@@ -150,6 +145,10 @@ OC.L10N.register(
     "Advanced settings" : "ئىلغار تەڭشەكلەر",
     "Allow people to mount external storage" : "كىشىلەرنىڭ سىرتقى ساقلىغۇچ ئورنىتىشىغا يول قويۇڭ",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "يەرشارى كىنىشكىسى ئوخشاش سالاھىيەتكە ئىگە كۆپ خىل تاشقى دۇكانلار بىلەن دەلىللەشكە ئىشلىتىلىدۇ.",
-    "Submit" : "يوللاڭ"
+    "Error configuring OAuth1" : "OAuth1 نى تەڭشەشتە خاتالىق",
+    "Please provide a valid app key and secret." : "ئۈنۈملۈك ئەپ ئاچقۇچى ۋە مەخپىي تەمىنلەڭ.",
+    "OAuth1" : "OAuth1",
+    "App key" : "ئەپ ئاچقۇچى",
+    "App secret" : "ئەپ مەخپىيىتى"
 },
 "nplurals=2; plural=(n != 1);");

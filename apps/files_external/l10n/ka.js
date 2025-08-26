@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Grant access",
-    "Error configuring OAuth1" : "Error configuring OAuth1",
-    "Please provide a valid app key and secret." : "Please provide a valid app key and secret.",
     "Error configuring OAuth2" : "Error configuring OAuth2",
     "Generate keys" : "Generate keys",
     "Error generating key pair" : "Error generating key pair",
@@ -23,9 +21,6 @@ OC.L10N.register(
     "Secret key" : "Secret key",
     "Builtin" : "Builtin",
     "None" : "None",
-    "OAuth1" : "OAuth1",
-    "App key" : "App key",
-    "App secret" : "App secret",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Client secret",
@@ -133,6 +128,10 @@ OC.L10N.register(
     "Add storage" : "Add storage",
     "Advanced settings" : "Advanced settings",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Global credentials can be used to authenticate with multiple external storages that have the same credentials.",
-    "Submit" : "Submit"
+    "Error configuring OAuth1" : "Error configuring OAuth1",
+    "Please provide a valid app key and secret." : "Please provide a valid app key and secret.",
+    "OAuth1" : "OAuth1",
+    "App key" : "App key",
+    "App secret" : "App secret"
 },
 "nplurals=2; plural=(n!=1);");

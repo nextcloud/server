@@ -1,15 +1,6 @@
 { "translations": {
     "Dashboard" : "Табла",
     "Dashboard app" : "Табла",
-    "\"{title} icon\"" : "\"{title} икона\"",
-    "Customize" : "Прилагоди",
-    "Edit widgets" : "Уреди графички контроли",
-    "Get more widgets from the App Store" : "Преземи повеќе графички контроли од продавницата со апликации",
-    "Weather service" : "Сервис за временска прогноза",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За ваша приватност, податоците за времето ги бара вашиот сервер во ваше име, така што метеоролошката служба не добива лични информации.",
-    "Weather data from Met.no" : "Податоци за временето од Met.no",
-    "geocoding with Nominatim" : "Геокодирање со Nominatim",
-    "elevation data from OpenTopoData" : "Податоци за височина од OpenTopoData",
     "Weather" : "Временска прогноза",
     "Status" : "Статус",
     "Good morning" : "Добро утро",
@@ -19,6 +10,14 @@
     "Good evening" : "Добровечер",
     "Good evening, {name}" : "Добровечер, {name}",
     "Hello" : "Здраво",
-    "Hello, {name}" : "Здраво, {name}"
+    "Hello, {name}" : "Здраво, {name}",
+    "Customize" : "Прилагоди",
+    "Edit widgets" : "Уреди графички контроли",
+    "Get more widgets from the App Store" : "Преземи повеќе графички контроли од продавницата со апликации",
+    "Weather service" : "Сервис за временска прогноза",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За ваша приватност, податоците за времето ги бара вашиот сервер во ваше име, така што метеоролошката служба не добива лични информации.",
+    "Weather data from Met.no" : "Податоци за временето од Met.no",
+    "geocoding with Nominatim" : "Геокодирање со Nominatim",
+    "elevation data from OpenTopoData" : "Податоци за височина од OpenTopoData"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

@@ -7,17 +7,17 @@ OC.L10N.register(
     "This application enables people to restore files that were deleted from the system." : "بۇ پروگرامما كىشىلەرنى سىستېمىدىن ئۆچۈرۈلگەن ھۆججەتلەرنى ئەسلىگە كەلتۈرەلەيدۇ.",
     "This application enables people to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the people file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent an account from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "بۇ پروگرامما كىشىلەرنى سىستېمىدىن ئۆچۈرۈلگەن ھۆججەتلەرنى ئەسلىگە كەلتۈرەلەيدۇ. ئۇ تور يۈزىدە ئۆچۈرۈلگەن ھۆججەتلەرنىڭ تىزىملىكىنى كۆرسىتىدۇ ، ھەمدە ئۆچۈرۈلگەن ھۆججەتلەرنى كىشىلەرنىڭ ھۆججەت مۇندەرىجىسىگە ئەسلىگە كەلتۈرۈش ياكى سىستېمىدىن مەڭگۈلۈك ئۆچۈرۈش تاللانمىلىرى بار. ھۆججەتنى ئەسلىگە كەلتۈرۈش مۇناسىۋەتلىك ھۆججەت نەشرىنى ئەسلىگە كەلتۈرىدۇ ، ئەگەر نەشرى قوللىنىشچان بولسا. ھۆججەت ئورتاقلىشىشتىن ئۆچۈرۈلسە ، ئورتاقلاشمىسىمۇ ، ئوخشاش ئۇسۇلدا ئەسلىگە كەلتۈرگىلى بولىدۇ. سۈكۈت بويىچە ، بۇ ھۆججەتلەر ئەخلەت ساندۇقىدا 30 كۈن تۇرىدۇ.\nھېساباتنىڭ دىسكا بوشلۇقىنىڭ تۈگەپ كېتىشىنىڭ ئالدىنى ئېلىش ئۈچۈن ، ئۆچۈرۈلگەن ھۆججەتلەر ئۆچۈرۈلگەن ھۆججەتلەر ئۈچۈن ھازىر بار بولغان ھەقسىز نورمىنىڭ%50 تىن كۆپرەكىنى ئىشلەتمەيدۇ. ئەگەر ئۆچۈرۈلگەن ھۆججەتلەر بۇ چەكتىن ئېشىپ كەتسە ، ئەپ بۇ چەكتىن تۆۋەن بولغۇچە ئەڭ كونا ھۆججەتلەرنى ئۆچۈرۈۋېتىدۇ. ئۆچۈرۈلگەن ھۆججەتلەر ھۆججىتىدە تېخىمۇ كۆپ ئۇچۇرلار بار.",
     "Restore" : "ئەسلىگە كەلتۈرۈش",
-    "Unknown" : "نامەلۇم",
-    "All files" : "بارلىق ھۆججەتلەر",
-    "You" : "سەن",
+    "Cancel" : "بىكار قىلىش",
     "Original location" : "ئەسلى ئورنى",
     "Deleted by" : "ئۆچۈرۈلدى",
     "Deleted" : "ئۆچۈرۈلدى",
     "A long time ago" : "خېلى بۇرۇن",
-    "Cancel" : "بىكار قىلىش",
-    "Deletion cancelled" : "ئۆچۈرۈش ئەمەلدىن قالدۇرۇلدى",
+    "Unknown" : "نامەلۇم",
+    "All files" : "بارلىق ھۆججەتلەر",
+    "You" : "سەن",
     "List of files that have been deleted." : "ئۆچۈرۈلگەن ھۆججەتلەرنىڭ تىزىملىكى.",
     "No deleted files" : "ئۆچۈرۈلگەن ھۆججەت يوق",
-    "Files and folders you have deleted will show up here" : "سىز ئۆچۈرگەن ھۆججەت ۋە ھۆججەت قىسقۇچلار بۇ يەردە كۆرۈنىدۇ"
+    "Files and folders you have deleted will show up here" : "سىز ئۆچۈرگەن ھۆججەت ۋە ھۆججەت قىسقۇچلار بۇ يەردە كۆرۈنىدۇ",
+    "Deletion cancelled" : "ئۆچۈرۈش ئەمەلدىن قالدۇرۇلدى"
 },
 "nplurals=2; plural=(n != 1);");

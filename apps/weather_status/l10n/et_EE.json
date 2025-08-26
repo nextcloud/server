@@ -6,9 +6,6 @@
     "Weather status" : "Hetke ilm",
     "Weather status in your dashboard" : "Hetke ilm sinu avalehel",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Hetke ilm integreeritud Kodulehe äppi.\nGeograafilist asukohta saab määrata automaatselt või käsitsi. Näidatakse 6 tunni ennustust.\nSeda staatust saab integreerida ka teistesse kohtadesse nagu Kalendri rakendusse.",
-    "Detect location" : "Tuvasta asukoht",
-    "Set custom address" : "Määra aadress",
-    "Favorites" : "Lemmikud",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} hiljem taevas selge",
     "{temperature} {unit} clear sky" : "{temperature} {unit} taevas selge",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} hiljem taevas pilvine",
@@ -56,6 +53,9 @@
     "There was an error setting the location." : "Asukoha määramisel esines viga.",
     "There was an error saving the mode." : "Režiimi salvestamisel esines viga.",
     "There was an error using personal address." : "Personaalse aadressi kasutamisel esines viga.",
-    "Unknown weather code" : "Tundmatu ilma kood"
+    "Unknown weather code" : "Tundmatu ilma kood",
+    "Detect location" : "Tuvasta asukoht",
+    "Set custom address" : "Määra aadress",
+    "Favorites" : "Lemmikud"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

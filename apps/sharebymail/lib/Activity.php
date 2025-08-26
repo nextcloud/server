@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -233,12 +234,12 @@ class Activity implements IProvider {
 	/**
 	 * @param int $id
 	 * @param string $path
-	 * @return array
+	 * @return array<string,string>
 	 */
-	protected function generateFileParameter($id, $path) {
+	protected function generateFileParameter($id, $path): array {
 		return [
 			'type' => 'file',
-			'id' => $id,
+			'id' => (string)$id,
 			'name' => basename($path),
 			'path' => trim($path, '/'),
 			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $id]),

@@ -50,7 +50,9 @@ class Store implements IStore {
 	 * @param array $params
 	 */
 	public function authenticate(array $params) {
-		$params['password'] = $this->crypto->encrypt((string)$params['password']);
+		if ($params['password'] !== null) {
+			$params['password'] = $this->crypto->encrypt((string)$params['password']);
+		}
 		$this->session->set('login_credentials', json_encode($params));
 	}
 
@@ -97,10 +99,12 @@ class Store implements IStore {
 		if ($trySession && $this->session->exists('login_credentials')) {
 			/** @var array $creds */
 			$creds = json_decode($this->session->get('login_credentials'), true);
-			try {
-				$creds['password'] = $this->crypto->decrypt($creds['password']);
-			} catch (Exception $e) {
-				//decryption failed, continue with old password as it is
+			if ($creds['password'] !== null) {
+				try {
+					$creds['password'] = $this->crypto->decrypt($creds['password']);
+				} catch (Exception $e) {
+					//decryption failed, continue with old password as it is
+				}
 			}
 			return new Credentials(
 				$creds['uid'],

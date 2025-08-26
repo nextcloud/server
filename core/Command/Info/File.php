@@ -8,6 +8,8 @@ declare(strict_types=1);
 namespace OC\Core\Command\Info;
 
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Wrapper\Encryption;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\GroupFolders\Mount\GroupMountPoint;
@@ -71,6 +73,15 @@ class File extends Command {
 			} else {
 				$output->writeln('    <error>encryption key not found</error> should be located at: ' . $keyPath);
 			}
+			$storage = $node->getStorage();
+			if ($storage->instanceOfStorage(Encryption::class)) {
+				/** @var Encryption $storage */
+				if (!$storage->hasValidHeader($node->getInternalPath())) {
+					$output->writeln('    <error>file doesn\'t have a valid encryption header</error>');
+				}
+			} else {
+				$output->writeln('    <error>file is marked as encrypted, but encryption doesn\'t seem to be setup</error>');
+			}
 		}
 
 		if ($node instanceof Folder && $node->isEncrypted() || $node instanceof OCPFile && $node->getParent()->isEncrypted()) {
@@ -79,6 +90,7 @@ class File extends Command {
 
 		$output->writeln('  size: ' . Util::humanFileSize($node->getSize()));
 		$output->writeln('  etag: ' . $node->getEtag());
+		$output->writeln('  permissions: ' . $this->fileUtils->formatPermissions($node->getType(), $node->getPermissions()));
 		if ($node instanceof Folder) {
 			$children = $node->getDirectoryListing();
 			$childSize = array_sum(array_map(function (Node $node) {
@@ -165,7 +177,7 @@ class File extends Command {
 		if ($input->getOption('storage-tree')) {
 			$storageTmp = $storage;
 			$storageClass = get_class($storageTmp) . ' (cache:' . get_class($storageTmp->getCache()) . ')';
-			while ($storageTmp instanceof \OC\Files\Storage\Wrapper\Wrapper) {
+			while ($storageTmp instanceof Wrapper) {
 				$storageTmp = $storageTmp->getWrapperStorage();
 				$storageClass .= "\n\t" . '> ' . get_class($storageTmp) . ' (cache:' . get_class($storageTmp->getCache()) . ')';
 			}

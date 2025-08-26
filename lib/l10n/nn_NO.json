@@ -17,6 +17,7 @@
     "Apps" : "Appar",
     "Settings" : "Instillingar",
     "Log out" : "Logg ut",
+    "Accounts" : "Accounts",
     "Email" : "Epost",
     "Phone" : "Telefonnummer",
     "Address" : "Adresse",
@@ -72,9 +73,7 @@
     "A valid password must be provided" : "Du må oppgje eit gyldig passord",
     "Login canceled by app" : "Innlogging avbroten av app",
     "Authentication error" : "Feil i autentisering",
-    "Summary" : "Oppsumering",
-    "File name is too long" : "Filnamnet er for langt",
-    "Users" : "Brukarar",
-    "Open »%s«" : "Opna »%s«"
+    "Images" : "Bilete",
+    "Summary" : "Oppsumering"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

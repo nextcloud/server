@@ -80,7 +80,7 @@
 import type { PropType } from 'vue'
 import type { IToken } from '../store/authtoken'
 
-import { mdiCheck, mdiCellphone, mdiTablet, mdiMonitor, mdiWeb, mdiKey, mdiMicrosoftEdge, mdiFirefox, mdiGoogleChrome, mdiAppleSafari, mdiAndroid, mdiAppleIos } from '@mdi/js'
+import { mdiCheck, mdiCellphone, mdiTablet, mdiMonitor, mdiWeb, mdiKeyOutline, mdiMicrosoftEdge, mdiFirefox, mdiGoogleChrome, mdiAppleSafari, mdiAndroid, mdiAppleIos } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 import { TokenType, useAuthTokenStore } from '../store/authtoken.ts'
@@ -215,7 +215,7 @@ export default defineComponent({
 		tokenIcon() {
 			// For custom created app tokens / app passwords
 			if (this.token.type === TokenType.PERMANENT_TOKEN) {
-				return mdiKey
+				return mdiKeyOutline
 			}
 
 			switch (this.client?.id) {

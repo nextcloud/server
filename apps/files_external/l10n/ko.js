@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "접근 권한 부여",
-    "Error configuring OAuth1" : "OAuth1 설정 오류",
-    "Please provide a valid app key and secret." : "올바른 앱 키와 비밀 값을 입력하십시오.",
     "Error configuring OAuth2" : "OAuth2 설정 오류",
     "Generate keys" : "키 생성",
     "Error generating key pair" : "키 쌍을 생성하는 중 오류 발생",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "비밀 키",
     "Builtin" : "내장",
     "None" : "없음",
-    "OAuth1" : "OAuth1",
-    "App key" : "앱 키",
-    "App secret" : "앱 비밀 값",
     "OAuth2" : "OAuth2",
     "Client ID" : "클라이언트 ID",
     "Client secret" : "클라이언트 비밀 값",
@@ -96,11 +91,11 @@ OC.L10N.register(
     "External storage support" : "외부 저장소 지원",
     "Adds basic external storage support" : "기본적인 외부 저장소 지원 추가",
     "This application enables administrators to configure connections to external storage providers, such as FTP servers, S3 or SWIFT object stores, other Nextcloud servers, WebDAV servers, and more. Administration can choose which types of storage to enable and can mount these storage locations for an account, a group, or the entire system. Users will see a new folder appear in their root Nextcloud directory, which they can access and use like any other Nextcloud folder. External storage also allows people to share files stored in these external locations. In these cases, the credentials for the owner of the file are used when the recipient requests the file from external storage, thereby ensuring that the recipient can access the shared file.\n\nExternal storage can be configured using the GUI or at the command line. This second option provides the administration with more flexibility for configuring bulk external storage mounts and setting mount priorities. More information is available in the external storage GUI documentation and the external storage Configuration File documentation." : "이 앱을 사용하면 관리자가 FTP 서버, S3 또는 SWIFT 객체 저장소, 다른 Nextcloud 서버, WebDAV 서버 등 외부 저장소 공급자에 연결할 수 있습니다. 관리자는 활성화할 저장소 종류와 저장소 마운트 위치를 계정, 그룹, 전체 시스템 단위로 설정할 수 있습니다. 사용자의 개별 Nextcloud 루트 디렉터리에 새 폴더가 나타나며, 다른 Nextcloud 폴더처럼 사용할 수 있습니다. 외부 저장소 앱을 사용하여 해당 외부 저장소에 저장된 파일에 접근할 수 있습니다. 이 때 받는 사람이 외부 저장소의 파일을 요청하면 파일 소유자의 인증 정보를 사용하여 해당 파일에 접근할 수 있도록 합니다.\n\n외부 저장소는 GUI나 명령행으로 설정할 수 있습니다. 명령행 옵션을 사용하면 관리자가 대량으로 외부 저장소를 마운트하거나 마운트 우선 순위를 설정하는 등 전문가 설정을 변경할 수 있습니다. 더 많은 정보를 보려면 외부 저장소 GUI 문서와 외부 저장소 설정 파일 문서를 참조하십시오.",
+    "Confirm" : "확인",
     "Storage credentials" : "저장소 자격 증명",
     "To access the storage, you need to provide the authentication credentials." : "저장소에 접근하려면 인증 자격 증명을 제공해야 합니다.",
     "Enter the storage login" : "저장소 로그인 입력",
     "Enter the storage password" : "저장소 암호 입력",
-    "Confirm" : "확인",
     "Unable to update this external storage config. {statusMessage}" : "이 외부 저장소의 설정을 갱신할 수 없음. {statusMessage}",
     "New configuration successfully saved" : "새로운 설정이 성공적으로 저장됨",
     "Enter missing credentials" : "유실된 인증 정보 입력",
@@ -151,6 +146,10 @@ OC.L10N.register(
     "Advanced settings" : "고급 설정",
     "Allow people to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
-    "Submit" : "제출"
+    "Error configuring OAuth1" : "OAuth1 설정 오류",
+    "Please provide a valid app key and secret." : "올바른 앱 키와 비밀 값을 입력하십시오.",
+    "OAuth1" : "OAuth1",
+    "App key" : "앱 키",
+    "App secret" : "앱 비밀 값"
 },
 "nplurals=1; plural=0;");

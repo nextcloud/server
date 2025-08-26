@@ -52,6 +52,14 @@ interface IAppManager {
 	public function getAppVersion(string $appId, bool $useCache = true): string;
 
 	/**
+	 * Returns the installed version of all apps
+	 *
+	 * @return array<string, string>
+	 * @since 32.0.0
+	 */
+	public function getAppInstalledVersions(bool $onlyEnabled = false): array;
+
+	/**
 	 * Returns the app icon or null if none is found
 	 *
 	 * @param string $appId
@@ -158,9 +166,10 @@ interface IAppManager {
 	 * Get the directory for the given app.
 	 *
 	 * @since 11.0.0
+	 * @since 32.0.0 Added param $ignoreCache to ignore cache
 	 * @throws AppPathNotFoundException
 	 */
-	public function getAppPath(string $appId): string;
+	public function getAppPath(string $appId, bool $ignoreCache = false): string;
 
 	/**
 	 * Get the web path for the given app.
@@ -176,7 +185,7 @@ interface IAppManager {
 	 * List all apps enabled for a user
 	 *
 	 * @param \OCP\IUser $user
-	 * @return string[]
+	 * @return list<string>
 	 * @since 8.1.0
 	 */
 	public function getEnabledAppsForUser(IUser $user);
@@ -332,4 +341,36 @@ interface IAppManager {
 	 * @since 31.0.0
 	 */
 	public function getAllAppsInAppsFolders(): array;
+
+	/**
+	 * Run upgrade tasks for an app after the code has already been updated
+	 *
+	 * @throws AppPathNotFoundException if app folder can't be found
+	 * @since 32.0.0
+	 */
+	public function upgradeApp(string $appId): bool;
+
+	/**
+	 * Check whether the installed version is the same as the version from info.xml
+	 *
+	 * @since 32.0.0
+	 */
+	public function isUpgradeRequired(string $appId): bool;
+
+	/**
+	 * Check whether the current Nextcloud version matches the given
+	 * application's version requirements.
+	 *
+	 * The comparison is made based on the number of parts that the
+	 * app info version has. For example for Nextcloud 26.0.3 if the
+	 * app info version is expecting version 26.0, the comparison is
+	 * made on the first two parts of the Nextcloud version.
+	 * This means that it's possible to specify "requiremin" => 26
+	 * and "requiremax" => 26 and it will still match Nextcloud 26.0.3.
+	 *
+	 * @param string $serverVersion Nextcloud version to check against
+	 * @param array $appInfo app info (from xml)
+	 * @since 32.0.0
+	 */
+	public function isAppCompatible(string $serverVersion, array $appInfo, bool $ignoreMax = false): bool;
 }

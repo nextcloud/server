@@ -51,7 +51,7 @@
     "Basic encryption module" : "وحدة التشفير الأساسية",
     "Your private key password no longer matches your log-in password." : "لم تعد كلمة مرور المفتاح الخاص تطابق كلمة مرور تسجيل الدخول الخاصة بك.",
     "Set your old private key password to your current log-in password:" : "قم بتعيين كلمة مرور المفتاح الخاص القديم على كلمة مرور تسجيل الدخول الحالية:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "اذا كنت لاتتذكر كلمة المرور، تستطيع ان تطلب من المدير أستعادة ملفاتك.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "إذا كنت لا تتذكر كلمة مرورك القديمة، فيمكنك أن تطلب من المشرف استرداد ملفاتك.",
     "Old log-in password" : "كلمة المرور القديمة الخاصة بالدخول",
     "Current log-in password" : "كلمة المرور الحالية الخاصة بالدخول",
     "Update Private Key Password" : "تحديث كلمة المرور لـ المفتاح الخاص",

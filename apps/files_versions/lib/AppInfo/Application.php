@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,7 +13,9 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files_Versions\Capabilities;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCA\Files_Versions\Listener\FileEventsListener;
+use OCA\Files_Versions\Listener\LegacyRollbackListener;
 use OCA\Files_Versions\Listener\LoadAdditionalListener;
 use OCA\Files_Versions\Listener\LoadSidebarListener;
 use OCA\Files_Versions\Listener\VersionAuthorListener;
@@ -80,9 +83,7 @@ class Application extends App implements IBootstrap {
 			);
 		});
 
-		$context->registerService(IVersionManager::class, function () {
-			return new VersionManager();
-		});
+		$context->registerServiceAlias(IVersionManager::class, VersionManager::class);
 
 		/**
 		 * Register Events
@@ -107,7 +108,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, FileEventsListener::class);
 
-		$context->registerEventListener(NodeWrittenEvent::class, VersionAuthorListener::class);
+		// we add the version author listener with lower priority to make sure new versions already are created by FileEventsListener
+		$context->registerEventListener(NodeWrittenEvent::class, VersionAuthorListener::class, -1);
+
+		$context->registerEventListener(VersionRestoredEvent::class, LegacyRollbackListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

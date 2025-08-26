@@ -45,7 +45,6 @@
     "Basic encryption module" : "Osnovni modul za šifriranje",
     "Your private key password no longer matches your log-in password." : "Zaporka vašeg privatnog ključa više se ne podudara s vašom zaporkom za prijavu.",
     "Set your old private key password to your current log-in password:" : "Promijenite svoju staru zaporku privatnog ključa u postojeću zaporku za prijavu:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Ako se ne sjećate svoje stare zaporke, zatražite od administratora da oporavi vaše datoteke.",
     "Old log-in password" : "Stara zaporka za prijavu",
     "Current log-in password" : "Aktualna zaporka za prijavu",
     "Update Private Key Password" : "Ažuriraj zaporku privatnog ključa",

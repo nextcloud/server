@@ -63,8 +63,8 @@ class Application extends App implements IBootstrap {
 				return;
 			}
 
-			if (!$appManager->isEnabledForUser('notifications') &&
-				$groupManager->isAdmin($user->getUID())) {
+			if (!$appManager->isEnabledForUser('notifications')
+				&& $groupManager->isAdmin($user->getUID())) {
 				try {
 					$updateChecker = $container->get(UpdateChecker::class);
 				} catch (ContainerExceptionInterface $e) {
@@ -73,7 +73,7 @@ class Application extends App implements IBootstrap {
 				}
 
 				if ($updateChecker->getUpdateState() !== []) {
-					Util::addScript('updatenotification', 'update-notification-legacy');
+					Util::addScript(self::APP_NAME, 'update-notification-legacy');
 					$updateChecker->setInitialState();
 				}
 			}

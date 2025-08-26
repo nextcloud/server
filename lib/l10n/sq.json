@@ -52,10 +52,10 @@
     "Address" : "Adresa",
     "Profile picture" : "Foto profili",
     "About" : "Rreth ",
+    "Organization" : "Organizate",
     "Additional settings" : "Konfigurime shtesë",
     "You need to enter details of an existing account." : "Duhet të futni detajet e një llogarie ekzistuese.",
     "Oracle connection could not be established" : "S’u vendos dot lidhje me Oracle",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nuk mbulohet dhe %s s’do të funksionojë si duhet në këtë platformë. Përdoreni nën përgjegjësinë tuaj! ",
     "For the best results, please consider using a GNU/Linux server instead." : "Për përfundimet më të mira, ju lutemi, më mirë konsideroni përdorimin e një shërbyesi GNU/Linux.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Duket se kjo instancë %s xhiron një mjedis PHP 32-bitësh dhe open_basedir është e formësuar, te php.ini. Kjo do të shpjerë në probleme me kartela më të mëdha se 4 GB dhe këshillohet me forcë të mos ndodhë.",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Ju lutemi, hiqeni rregullimin open_basedir nga php.ini juaj ose hidhuni te PHP për 64-bit.",
@@ -135,18 +135,11 @@
     "Storage connection error. %s" : "Gabim lidhje te depozita. %s",
     "Storage is temporarily not available" : "Hapsira ruajtëse nuk është në dispozicion përkohësisht",
     "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
+    "Images" : "Imazhe ",
     "Text" : "Tekst",
     "Summary" : "Përmbledhje",
     "Translate" : "Përkthe",
     "Result" : "Rezultatet",
-    "Education Edition" : "Variant Edukativ",
-    "File name is a reserved word" : "Emri i kartelës është një emër i rezervuar",
-    "File name contains at least one invalid character" : "Emri i kartelës përmban të paktën një shenjë të pavlefshme",
-    "File name is too long" : "Emri i kartelës është shumë i gjatë",
-    "Users" : "Përdorues",
-    "Open »%s«" : "Hap»1 %s«",
-    "Click the button below to open it." : "Kliko butonin më poshtë për të hapur atë.",
-    "File is currently busy, please try again later" : "Kartela tani është e zënë, ju lutemi, riprovoni më vonë.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Sigurohu që ekziston një skedar i quajtur \".ocdata\" në rrënjën e direktorisë së të dhënave."
+    "File is currently busy, please try again later" : "Kartela tani është e zënë, ju lutemi, riprovoni më vonë."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

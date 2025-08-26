@@ -9,6 +9,7 @@ namespace OCP\AppFramework\Http;
 
 use OC\Streamer;
 use OCP\AppFramework\Http;
+use OCP\IDateTimeZone;
 use OCP\IRequest;
 
 /**
@@ -65,7 +66,7 @@ class ZipResponse extends Response implements ICallbackResponse {
 			$size += $resource['size'];
 		}
 
-		$zip = new Streamer($this->request, $size, $files);
+		$zip = new Streamer($this->request, $size, $files, \OCP\Server::get(IDateTimeZone::class));
 		$zip->sendHeaders($this->name);
 
 		foreach ($this->resources as $resource) {

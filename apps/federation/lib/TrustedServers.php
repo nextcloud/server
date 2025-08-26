@@ -116,12 +116,13 @@ class TrustedServers {
 			$this->trustedServersCache = $this->dbHandler->getAllServer();
 		}
 
-		$server = array_filter($this->trustedServersCache, fn ($server) => $server['id'] === $id);
-		if (empty($server)) {
-			throw new \Exception('No server found with ID: ' . $id);
+		foreach ($this->trustedServersCache as $server) {
+			if ($server['id'] === $id) {
+				return $server;
+			}
 		}
 
-		return $server[0];
+		throw new \Exception('No server found with ID: ' . $id);
 	}
 
 	/**
@@ -169,7 +170,6 @@ class TrustedServers {
 			}
 		} catch (\Exception $e) {
 			$this->logger->error('No Nextcloud server.', [
-				'app' => 'federation',
 				'exception' => $e,
 			]);
 			return false;

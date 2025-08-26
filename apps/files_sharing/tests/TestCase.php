@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -71,7 +72,7 @@ abstract class TestCase extends \Test\TestCase {
 		);
 
 		// reset backend
-		\OC_User::clearBackends();
+		Server::get(IUserManager::class)->clearBackends();
 		Server::get(IGroupManager::class)->clearBackends();
 
 		// clear share hooks
@@ -80,7 +81,7 @@ abstract class TestCase extends \Test\TestCase {
 
 		// create users
 		$backend = new \Test\Util\User\Dummy();
-		\OC_User::useBackend($backend);
+		Server::get(IUserManager::class)->registerBackend($backend);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER1);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER2);
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER3);
@@ -108,7 +109,7 @@ abstract class TestCase extends \Test\TestCase {
 		Server::get(DisplayNameCache::class)->clear();
 
 		//login as user1
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->data = 'foobar';
 		$this->view = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
@@ -160,8 +161,8 @@ abstract class TestCase extends \Test\TestCase {
 		Filesystem::tearDown();
 
 		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
+		Server::get(IUserManager::class)->clearBackends();
+		Server::get(IUserManager::class)->registerBackend(new \OC\User\Database());
 		Server::get(IGroupManager::class)->clearBackends();
 		Server::get(IGroupManager::class)->addBackend(new Database());
 
@@ -173,7 +174,7 @@ abstract class TestCase extends \Test\TestCase {
 	 * @param bool $create
 	 * @param bool $password
 	 */
-	protected static function loginHelper($user, $create = false, $password = false) {
+	protected function loginHelper($user, $create = false, $password = false) {
 		if ($password === false) {
 			$password = $user;
 		}

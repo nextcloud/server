@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -86,9 +87,7 @@ class ApplicationTest extends TestCase {
 		return $result;
 	}
 
-	/**
-	 * @dataProvider providesDataForCanGet
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesDataForCanGet')]
 	public function testCheckDirectCanBeDownloaded(string $path, Folder $userFolder, bool $run): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
@@ -167,9 +166,7 @@ class ApplicationTest extends TestCase {
 		return $return;
 	}
 
-	/**
-	 * @dataProvider providesDataForCanZip
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesDataForCanZip')]
 	public function testCheckZipCanBeDownloaded(string $dir, array $files, Folder $userFolder, bool $run): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');

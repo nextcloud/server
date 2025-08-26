@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Временска прогноза",
     "Weather status in your dashboard" : "Временска прогноза на Вашој контролној табли",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Временска прогноза интегрисана на Контролној табли.\n    Географска локација се може аутоматски одредити или ручно подесити. Затим се приказује прогноза за наредних 6 сати.\n    Овај статус се такође може интегрисати на друга места, као што је Календар.",
-    "Detect location" : "Откриј локацију",
-    "Set custom address" : "Постави произвољну адресу",
-    "Favorites" : "Омиљене",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} ведро касније данас",
     "{temperature} {unit} clear sky" : "{temperature} {unit} ведро",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} облачно касније данас",
@@ -58,6 +55,9 @@ OC.L10N.register(
     "There was an error setting the location." : "Грешка приликом постављања локације.",
     "There was an error saving the mode." : "Грешка приликом чувања режима.",
     "There was an error using personal address." : "Грешка приликом коришћења личне адресе.",
-    "Unknown weather code" : "Непознати код временских прилика"
+    "Unknown weather code" : "Непознати код временских прилика",
+    "Detect location" : "Откриј локацију",
+    "Set custom address" : "Постави произвољну адресу",
+    "Favorites" : "Омиљене"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

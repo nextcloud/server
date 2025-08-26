@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Added to the list of trusted servers" : "S'ha afegit a la llista de servidors de confiança",
     "No server found with ID: %s" : "No s'ha trobat cap servidor amb ID: %s",
-    "Could not remove server" : "No s'ha pogut eliminar el servidor",
+    "Could not remove server" : "No s'ha pogut suprimir el servidor",
     "Server is already in the list of trusted servers." : "El servidor ja es troba en la llista de servidors de confiança.",
     "No server to federate with found" : "No s'ha trobat cap servidor amb què federar-se",
     "Could not add server" : "No s'ha pogut afegir el servidor",

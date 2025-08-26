@@ -24,19 +24,6 @@
     "Could not find share" : "Mape v souporabi ni mogoče najti",
     "Share provider which allows you to share files by mail" : "Ponudnik souporabe, ki omogoča souporabo datotek prek elektronske pošte",
     "Send password by mail" : "Pošlji geslo po elektronski pošti",
-    "Reply to initiator" : "Odgovori pošiljatelju",
-    "%1$s shared »%2$s« with you" : "%1$s vam omogoča souporabo »%2$s«",
-    "%1$s shared »%2$s« with you." : "%1$s vam omogoča souporabo »%2$s«.",
-    "Click the button below to open it." : "Kliknite na gumb za odpiranje.",
-    "Open »%s«" : "Odpri »%s«",
-    "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s vam omogoča souporabo »%2$s«.\nPo elektronski pošti bi morali prejeti tudi ločeno sporočilo s povezavo.\n",
-    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s vam omogoča souporabo »%2$s«. Po elektronski pošti bi morali prejeti tudi sporočilo s povezavo.",
-    "Password to access »%1$s« shared to you by %2$s" : "%2$s vam pošilja geslo za dostop do datoteke »%1$s«.",
-    "Password to access »%s«" : "Geslo za dostop do »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s vam omogoča souporabo »%2$s« in želi dodati:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s vam omogoča souporabo »%2$s« in želi dodati",
-    "»%s« added a note to a file shared with you" : "»%s« doda opombo k datoteki v souporabi",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Omogočili ste skupno rabo datoteke »%1$s« (%2$s). Souporaba je že dodeljena, vendar je treba zaradi varnostnih pravil, ki jih je določil skrbnik %3$s, vsako mesto v souporabi zaščititi z geslom. Gesla tudi ni dovoljeno poslati neposredno prejemniku. Pošljite ga prek drugega kanala.",
-    "Password to access »%1$s« shared by you with %2$s" : "%2$s vam pošilja geslo za dostop do datoteke »%1$s«."
+    "Reply to initiator" : "Odgovori pošiljatelju"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

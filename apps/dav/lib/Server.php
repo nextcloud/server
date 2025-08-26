@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -44,6 +45,8 @@ use OCA\DAV\Connector\Sabre\FilesReportPlugin;
 use OCA\DAV\Connector\Sabre\LockPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
+use OCA\DAV\Connector\Sabre\PropFindMonitorPlugin;
+use OCA\DAV\Connector\Sabre\PropFindPreloadNotifyPlugin;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\RequestIdHeaderPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
@@ -52,6 +55,7 @@ use OCA\DAV\Connector\Sabre\ZipFolderPlugin;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
@@ -63,7 +67,9 @@ use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
+use OCA\DAV\Upload\UploadAutoMkcolPlugin;
 use OCA\Theming\ThemingDefaults;
+use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -71,13 +77,13 @@ use OCP\Comments\ICommentsManager;
 use OCP\Defaults;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\IRootFolder;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IPreview;
@@ -106,6 +112,7 @@ class Server {
 		private IRequest $request,
 		private string $baseUri,
 	) {
+		$debugEnabled = \OCP\Server::get(IConfig::class)->getSystemValue('debug', false);
 		$this->profiler = \OCP\Server::get(IProfiler::class);
 		if ($this->profiler->isEnabled()) {
 			/** @var IEventLogger $eventLogger */
@@ -118,6 +125,7 @@ class Server {
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
+		$this->server->setLogger($logger);
 
 		// Add maintenance plugin
 		$this->server->addPlugin(new MaintenancePlugin(\OCP\Server::get(IConfig::class), \OC::$server->getL10N('dav')));
@@ -157,14 +165,17 @@ class Server {
 		$bearerAuthBackend = new BearerAuth(
 			\OCP\Server::get(IUserSession::class),
 			\OCP\Server::get(ISession::class),
-			\OCP\Server::get(IRequest::class)
+			\OCP\Server::get(IRequest::class),
+			\OCP\Server::get(IConfig::class),
 		);
 		$authPlugin->addBackend($bearerAuthBackend);
 		// because we are throwing exceptions this plugin has to be the last one
 		$authPlugin->addBackend($authBackend);
 
 		// debugging
-		if (\OCP\Server::get(IConfig::class)->getSystemValue('debug', false)) {
+		if ($debugEnabled) {
+			$this->server->debugEnabled = true;
+			$this->server->addPlugin(new PropFindMonitorPlugin());
 			$this->server->addPlugin(new \Sabre\DAV\Browser\Plugin());
 		} else {
 			$this->server->addPlugin(new DummyGetResponsePlugin());
@@ -214,10 +225,7 @@ class Server {
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new MultiGetExportPlugin());
 			$this->server->addPlugin(new HasPhotoPlugin());
-			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(
-				\OCP\Server::get(IAppDataFactory::class)->get('dav-photocache'),
-				$logger)
-			));
+			$this->server->addPlugin(new ImageExportPlugin(\OCP\Server::get(PhotoCache::class)));
 
 			$this->server->addPlugin(\OCP\Server::get(CardDavRateLimitingPlugin::class));
 			$this->server->addPlugin(\OCP\Server::get(CardDavValidatePlugin::class));
@@ -232,16 +240,20 @@ class Server {
 			\OCP\Server::get(IUserSession::class)
 		));
 
+		// performance improvement plugins
 		$this->server->addPlugin(new CopyEtagHeaderPlugin());
 		$this->server->addPlugin(new RequestIdHeaderPlugin(\OCP\Server::get(IRequest::class)));
+		$this->server->addPlugin(new UploadAutoMkcolPlugin());
 		$this->server->addPlugin(new ChunkingV2Plugin(\OCP\Server::get(ICacheFactory::class)));
 		$this->server->addPlugin(new ChunkingPlugin());
 		$this->server->addPlugin(new ZipFolderPlugin(
 			$this->server->tree,
 			$logger,
 			$eventDispatcher,
+			\OCP\Server::get(IDateTimeZone::class),
 		));
 		$this->server->addPlugin(\OCP\Server::get(PaginatePlugin::class));
+		$this->server->addPlugin(new PropFindPreloadNotifyPlugin());
 
 		// allow setup of additional plugins
 		$eventDispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
@@ -286,6 +298,7 @@ class Server {
 						\OCP\Server::get(IPreview::class),
 						\OCP\Server::get(IUserSession::class),
 						\OCP\Server::get(IFilenameValidator::class),
+						\OCP\Server::get(IAccountManager::class),
 						false,
 						$config->getSystemValueBool('debug', false) === false,
 					)
@@ -299,6 +312,7 @@ class Server {
 							$this->server->tree,
 							\OCP\Server::get(IDBConnection::class),
 							\OCP\Server::get(IUserSession::class)->getUser(),
+							\OCP\Server::get(PropertyMapper::class),
 							\OCP\Server::get(DefaultCalendarValidator::class),
 						)
 					)
@@ -353,6 +367,7 @@ class Server {
 						\OCP\Server::get(IAppManager::class)
 					));
 					$lazySearchBackend->setBackend(new FileSearchBackend(
+						$this->server,
 						$this->server->tree,
 						$user,
 						\OCP\Server::get(IRootFolder::class),

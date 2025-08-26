@@ -53,7 +53,6 @@ OC.L10N.register(
     "Basic encryption module" : "Podstawowy moduł szyfrowania",
     "Your private key password no longer matches your log-in password." : "Hasło Twojego klucza prywatnego nie pasuje już do Twojego hasła logowania.",
     "Set your old private key password to your current log-in password:" : "Ustaw stare hasło klucza prywatnego na aktualne hasło logowania:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Jeśli nie pamiętasz swojego starego hasła, poproś swojego administratora, aby odzyskać pliki.",
     "Old log-in password" : "Stare hasło logowania",
     "Current log-in password" : "Bieżące hasło logowania",
     "Update Private Key Password" : "Aktualizacja hasła klucza prywatnego",

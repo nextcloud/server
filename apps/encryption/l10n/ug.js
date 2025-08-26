@@ -53,7 +53,6 @@ OC.L10N.register(
     "Basic encryption module" : "ئاساسىي مەخپىيلەشتۈرۈش مودۇلى",
     "Your private key password no longer matches your log-in password." : "شەخسىي ئاچقۇچ پارولىڭىز كىرىش پارولىڭىزغا ماس كەلمەيدۇ.",
     "Set your old private key password to your current log-in password:" : "كونا شەخسىي پارولىڭىزنى نۆۋەتتىكى كىرىش پارولىڭىزغا تەڭشەڭ:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : " كونا پارولىڭىزنى ئېسىڭىزدە تۇتمىسىڭىز باشقۇرغۇچىڭىزدىن ھۆججەتلىرىڭىزنى ئەسلىگە كەلتۈرۈشنى تەلەپ قىلسىڭىز بولىدۇ.",
     "Old log-in password" : "كونا كىرىش پارولى",
     "Current log-in password" : "نۆۋەتتىكى كىرىش پارولى",
     "Update Private Key Password" : "شەخسىي ئاچقۇچ پارولىنى يېڭىلاڭ",

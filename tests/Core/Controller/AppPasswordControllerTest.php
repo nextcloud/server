@@ -123,7 +123,7 @@ class AppPasswordControllerTest extends TestCase {
 		$credentials->method('getLoginName')
 			->willReturn('myLoginName');
 		$this->request->method('getHeader')
-			->with('USER_AGENT')
+			->with('user-agent')
 			->willReturn('myUA');
 		$this->random->method('generate')
 			->with(
@@ -164,7 +164,7 @@ class AppPasswordControllerTest extends TestCase {
 		$credentials->method('getLoginName')
 			->willReturn('myLoginName');
 		$this->request->method('getHeader')
-			->with('USER_AGENT')
+			->with('user-agent')
 			->willReturn('myUA');
 		$this->random->method('generate')
 			->with(

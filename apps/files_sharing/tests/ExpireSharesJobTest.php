@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -89,7 +90,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		return $shares;
 	}
 
-	public function dataExpireLinkShare() {
+	public static function dataExpireLinkShare() {
 		return [
 			[false,   '', false, false],
 			[false,   '',  true, false],
@@ -105,13 +106,13 @@ class ExpireSharesJobTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataExpireLinkShare
 	 *
 	 * @param bool addExpiration Should we add an expire date
 	 * @param string $interval The dateInterval
 	 * @param bool $addInterval If true add to the current time if false subtract
 	 * @param bool $shouldExpire Should this share be expired
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExpireLinkShare')]
 	public function testExpireLinkShare($addExpiration, $interval, $addInterval, $shouldExpire): void {
 		$this->loginAsUser($this->user1);
 

@@ -178,7 +178,7 @@ import IconChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import IconCloudCheckVariant from 'vue-material-design-icons/CloudCheckVariant.vue'
 import IconLink from 'vue-material-design-icons/Link.vue'
 import IconNewBox from 'vue-material-design-icons/NewBox.vue'
-import IconPencil from 'vue-material-design-icons/Pencil.vue'
+import IconPencil from 'vue-material-design-icons/PencilOutline.vue'
 import IconSourceBranch from 'vue-material-design-icons/SourceBranch.vue'
 import IconStar from 'vue-material-design-icons/Star.vue'
 import IconWeatherNight from 'vue-material-design-icons/WeatherNight.vue'
@@ -357,10 +357,10 @@ export default {
 				this.missingAppUpdates = data.ocs.data.missing
 				this.isListFetched = true
 				this.appStoreFailed = false
-			}).catch(({ data }) => {
+			}).catch(({ response }) => {
 				this.availableAppUpdates = []
 				this.missingAppUpdates = []
-				this.appStoreDisabled = data.ocs.data.appstore_disabled
+				this.appStoreDisabled = response.data.ocs.data.appstore_disabled
 				this.isListFetched = true
 				this.appStoreFailed = true
 			})

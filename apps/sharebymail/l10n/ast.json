@@ -23,22 +23,9 @@
     "You can choose a different password at any time in the share dialog." : "Pues escoyer otra contraseña en cualesquier momentu nel diálogu de compartición.",
     "Could not find share" : "Nun se pudo atopar la compartición",
     "Share provider which allows you to share files by mail" : "El fornidor de compartición que te permite compartir ficheros per corréu electrónicu",
+    "Unable to update share by mail config" : "Nun ye posible anovar l'elementu compartíu pela configuración de corréu electrónicu",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Permite a les persones compartir un enllaz personalizáu a un ficheru o carpeta poniendo una direición de corréu.",
     "Send password by mail" : "Unviar la contraseña per corréu electrónicu",
-    "Reply to initiator" : "Responder al usuariu que comparte l'elementu",
-    "Unable to update share by mail config" : "Nun ye posible anovar l'elementu compartíu pela configuración de corréu electrónicu",
-    "%1$s shared »%2$s« with you" : "%1$s compartió «%2$s» contigo",
-    "%1$s shared »%2$s« with you." : "%1$s compartió «%2$s» contigo.",
-    "Click the button below to open it." : "Calca nel botón p'abrilo.",
-    "Open »%s«" : "Abrir «%s»",
-    "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s compartió «%2$s» contigo.\nHubiesti recibir otru mensaxe con un enllaz p'acceder al elementu.\n",
-    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s compartió «%2$s» contigo. Yá hubiesti recibir otru mensaxe con un enllaz p'acceder al elementu.",
-    "Password to access »%1$s« shared to you by %2$s" : "%2$s compartió contigo la contraseña p'acceder a «%1$s»",
-    "Password to access »%s«" : "La contraseña p'acceder a «%s»",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s compartío «%2$s» contigo y quier amestar:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s compartío «%2$s» contigo y quier amestar",
-    "»%s« added a note to a file shared with you" : "«%s» amestó una nota a un ficheru compartíu contigo",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Tas acabante de compartir «%1$s» con %2$s. L'elementu compartíu yá s'unvió al destinatariu. Pola mor de les polítiques de seguranza definíes pola alministración de %3$s cada elementu tien de tar protexíu con una contraseña y nun se permite unviar la contraseña direutamente al destinatariu. Poro, tienes de reunviar la contraseña manualmente al destinatariu.",
-    "Password to access »%1$s« shared by you with %2$s" : "Compartiesti la contraseña p'acceder a «%1$s» con %2$s"
+    "Reply to initiator" : "Responder al usuariu que comparte l'elementu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

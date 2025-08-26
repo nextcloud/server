@@ -46,9 +46,16 @@
 		<command>OCA\Files\Command\Delete</command>
 		<command>OCA\Files\Command\Copy</command>
 		<command>OCA\Files\Command\Move</command>
+		<command>OCA\Files\Command\SanitizeFilenames</command>
 		<command>OCA\Files\Command\Object\Delete</command>
 		<command>OCA\Files\Command\Object\Get</command>
 		<command>OCA\Files\Command\Object\Put</command>
+		<command>OCA\Files\Command\Object\Info</command>
+		<command>OCA\Files\Command\Object\ListObject</command>
+		<command>OCA\Files\Command\Object\Orphans</command>
+		<command>OCA\Files\Command\Object\Multi\Users</command>
+		<command>OCA\Files\Command\Object\Multi\Rename</command>
+		<command>OCA\Files\Command\WindowsCompatibleFilenames</command>
 	</commands>
 
 	<settings>

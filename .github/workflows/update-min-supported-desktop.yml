@@ -1,0 +1,128 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Update min supported desktop version
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  update-minimum-supported-desktop-version:
+    runs-on: ubuntu-latest-low
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+          submodules: true
+
+      - name: Download desktop client version file from 5 years ago
+        id: download
+        run: |
+          # Create a temporary directory for the downloaded file
+          mkdir -p tmp
+
+          # Download the version file from the provided URL
+          VERSION_FILE_URL="https://github.com/nextcloud/desktop/raw/@%7B5.years.ago%7D/VERSION.cmake"
+
+          # Download the file using curl
+          curl -s -L "$VERSION_FILE_URL" -o tmp/VERSION.cmake
+
+          if [ ! -f "tmp/VERSION.cmake" ]; then
+            echo "Failed to download VERSION.cmake file"
+            exit 1
+          fi
+
+          echo "VERSION_FILE=tmp/VERSION.cmake" >> $GITHUB_OUTPUT
+          echo "Downloaded version file to tmp/VERSION.cmake"
+
+      - name: Extract version info
+        id: extract-version
+        run: |
+          # Path to the downloaded version file
+          VERSION_FILE="${{ steps.download.outputs.VERSION_FILE }}"
+
+          # Extract major, minor, patch versions
+          MAJOR=$(grep "VERSION_MAJOR" $VERSION_FILE | grep -o '[0-9]\+')
+          MINOR=$(grep "VERSION_MINOR" $VERSION_FILE | grep -o '[0-9]\+')
+          PATCH=$(grep "VERSION_PATCH" $VERSION_FILE | grep -o '[0-9]\+')
+
+          # Construct the version string
+          VERSION="$MAJOR.$MINOR.$PATCH"
+
+          # Validate format: xx.xx.xx where each x is a digit
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Extracted version '$VERSION' does not match required format (xx.xx.xx)"
+            exit 1
+          fi
+
+          rm -rf tmp
+
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted Version: $VERSION"
+
+      - name: Update files with new version ${{ steps.extract-version.outputs.VERSION }}
+        id: update-files
+        run: |
+          VERSION="${{ steps.extract-version.outputs.VERSION }}"
+
+          # Define the files to update
+          DAV_FILE="apps/dav/lib/Connector/Sabre/BlockLegacyClientPlugin.php"
+          CONFIG_FILE="config/config.sample.php"
+
+          # Check if files exist
+          if [ ! -f "$DAV_FILE" ]; then
+            echo "Error: DAV file not found at $DAV_FILE"
+            exit 1
+          fi
+
+          if [ ! -f "$CONFIG_FILE" ]; then
+            echo "Error: Config file not found at $CONFIG_FILE"
+            exit 1
+          fi
+
+          # Update the DAV file - replace the version in the specific line
+          sed -i "s/\('minimum\.supported\.desktop\.version', '\)[0-9]\+\.[0-9]\+\.[0-9]\+'/\1$VERSION'/g" "$DAV_FILE"
+          echo "Updated $DAV_FILE"
+
+          # Update the config sample file
+          PREV_VERSION=$(grep "'minimum.supported.desktop.version'" "$CONFIG_FILE" | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')
+          sed -i "s/Defaults to \`\`$PREV_VERSION\`\`/Defaults to \`\`$VERSION\`\`/" "$CONFIG_FILE"
+          sed -i "s/'minimum\.supported\.desktop\.version' => '[0-9]\+\.[0-9]\+\.[0-9]\+'/'minimum.supported.desktop.version' => '$VERSION'/g" "$CONFIG_FILE"
+          echo "Updated $CONFIG_FILE"
+
+          # Check if any changes were made
+          if [ -n "$(git diff "$DAV_FILE" "$CONFIG_FILE")" ]; then
+            echo "CHANGES_MADE=true" >> $GITHUB_OUTPUT
+            echo "Changes were made to the files"
+            git diff "$DAV_FILE" "$CONFIG_FILE"
+          else
+            echo "CHANGES_MADE=false" >> $GITHUB_OUTPUT
+            echo "No changes were needed (versions might already be up to date)"
+          fi
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e
+        if: steps.update-files.outputs.CHANGES_MADE == 'true'
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          commit-message: "chore: Update minimum supported desktop version"
+          committer: GitHub <noreply@github.com>
+          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
+          signoff: true
+          branch: "automated/noid/${{ matrix.branches }}-update-min-supported-desktop-version"
+          title: "chore: Update minimum supported desktop version to ${{ steps.extract-version.outputs.VERSION }}"
+          base: "master"
+          body: |
+            Auto-generated update of the minimum supported desktop version using last supported version.
+            https://github.com/nextcloud/desktop/blob/@%7B5.years.ago%7D/VERSION.cmake
+          labels: |
+            client: 💻 desktop
+            automated
+            3. to review
+          reviewers: '@nextcloud/desktop'

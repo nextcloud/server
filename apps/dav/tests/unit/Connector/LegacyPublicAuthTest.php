@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,6 +15,7 @@ use OCP\Security\Bruteforce\IThrottler;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class LegacyPublicAuthTest
@@ -23,36 +25,20 @@ use OCP\Share\IShare;
  * @package OCA\DAV\Tests\unit\Connector
  */
 class LegacyPublicAuthTest extends \Test\TestCase {
-
-	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
-	private $session;
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-	/** @var LegacyPublicAuth */
-	private $auth;
-	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
-	private $throttler;
-
-	/** @var string */
-	private $oldUser;
+	private ISession&MockObject $session;
+	private IRequest&MockObject $request;
+	private IManager&MockObject $shareManager;
+	private IThrottler&MockObject $throttler;
+	private LegacyPublicAuth $auth;
+	private string|false $oldUser;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->session = $this->getMockBuilder(ISession::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->request = $this->getMockBuilder(IRequest::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->shareManager = $this->getMockBuilder(IManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->throttler = $this->getMockBuilder(IThrottler::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->session = $this->createMock(ISession::class);
+		$this->request = $this->createMock(IRequest::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 
 		$this->auth = new LegacyPublicAuth(
 			$this->request,
@@ -70,7 +56,9 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 
 		// Set old user
 		\OC_User::setUserId($this->oldUser);
-		\OC_Util::setupFS($this->oldUser);
+		if ($this->oldUser !== false) {
+			\OC_Util::setupFS($this->oldUser);
+		}
 
 		parent::tearDown();
 	}
@@ -86,9 +74,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testShareNoPassword(): void {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn(null);
 
 		$this->shareManager->expects($this->once())
@@ -101,9 +87,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordFancyShareType(): void {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(42);
 
@@ -118,9 +102,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 
 
 	public function testSharePasswordRemote(): void {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_REMOTE);
 
@@ -134,9 +116,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkValidPassword(): void {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 
@@ -156,9 +136,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordMailValidPassword(): void {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 
@@ -178,9 +156,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testInvalidSharePasswordLinkValidSession(): void {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
@@ -204,9 +180,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 	}
 
 	public function testSharePasswordLinkInvalidSession(): void {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
@@ -231,9 +205,7 @@ class LegacyPublicAuthTest extends \Test\TestCase {
 
 
 	public function testSharePasswordMailInvalidSession(): void {
-		$share = $this->getMockBuilder(IShare::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$share = $this->createMock(IShare::class);
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 		$share->method('getId')->willReturn('42');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,6 +13,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
+use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Log\LoggerInterface;
@@ -45,7 +47,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->willReturn(false);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->updater = $this->getMockBuilder(VersionCheck::class)
-			->setMethods(['getUrlContent'])
+			->onlyMethods(['getUrlContent'])
 			->setConstructorArgs([
 				$this->serverVersion,
 				$clientService,
@@ -63,7 +65,7 @@ class VersionCheckTest extends \Test\TestCase {
 	 * @return string
 	 */
 	private function buildUpdateUrl($baseUrl) {
-		$serverVersion = \OCP\Server::get(ServerVersion::class);
+		$serverVersion = Server::get(ServerVersion::class);
 		return $baseUrl . '?version=' . implode('x', $serverVersion->getVersion()) . 'xinstalledatx' . time() . 'x' . $serverVersion->getChannel() . 'xxx' . PHP_MAJOR_VERSION . 'x' . PHP_MINOR_VERSION . 'x' . PHP_RELEASE_VERSION . 'x0x0';
 	}
 

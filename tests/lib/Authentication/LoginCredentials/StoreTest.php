@@ -111,7 +111,7 @@ class StoreTest extends TestCase {
 	public function testGetLoginCredentialsSessionNotAvailable(): void {
 		$this->session->expects($this->once())
 			->method('getId')
-			->will($this->throwException(new SessionNotAvailableException()));
+			->willThrowException(new SessionNotAvailableException());
 		$this->expectException(CredentialsUnavailableException::class);
 
 		$this->store->getLoginCredentials();
@@ -124,7 +124,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->expectException(CredentialsUnavailableException::class);
 
 		$this->store->getLoginCredentials();
@@ -141,7 +141,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->session->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
@@ -181,7 +181,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->session->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
@@ -222,7 +222,7 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new InvalidTokenException()));
+			->willThrowException(new InvalidTokenException());
 		$this->session->expects($this->once())
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
@@ -248,9 +248,49 @@ class StoreTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('sess2233')
-			->will($this->throwException(new PasswordlessTokenException()));
+			->willThrowException(new PasswordlessTokenException());
 		$this->expectException(CredentialsUnavailableException::class);
 
 		$this->store->getLoginCredentials();
+	}
+
+	public function testAuthenticatePasswordlessToken(): void {
+		$user = 'user987';
+		$password = null;
+
+		$params = [
+			'run' => true,
+			'loginName' => $user,
+			'uid' => $user,
+			'password' => $password,
+		];
+
+		$this->session->expects($this->once())
+			->method('set')
+			->with($this->equalTo('login_credentials'), $this->equalTo(json_encode($params)));
+
+
+		$this->session->expects($this->once())
+			->method('getId')
+			->willReturn('sess2233');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sess2233')
+			->willThrowException(new PasswordlessTokenException());
+
+		$this->session->expects($this->once())
+			->method('exists')
+			->with($this->equalTo('login_credentials'))
+			->willReturn(true);
+		$this->session->expects($this->once())
+			->method('get')
+			->with($this->equalTo('login_credentials'))
+			->willReturn(json_encode($params));
+
+		$this->store->authenticate($params);
+		$actual = $this->store->getLoginCredentials();
+
+		$expected = new Credentials($user, $user, $password);
+		$this->assertEquals($expected, $actual);
 	}
 }

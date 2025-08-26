@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Værstatus",
     "Weather status in your dashboard" : "Værstatus i dashbordet ditt",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Værstatus integrert i Dashboard-appen.\n    Den geografiske plasseringen kan bestemmes automatisk eller defineres manuelt. En 6 timers prognose vises deretter.\n    Denne statusen kan også integreres andre steder som Kalender-appen.",
-    "Detect location" : "Oppdag plassering",
-    "Set custom address" : "Angi egendefinert adresse",
-    "Favorites" : "Favoritter",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} klar himmel senere i dag",
     "{temperature} {unit} clear sky" : "{temperature} {unit} klar himmel",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} overksyet senere i dag",
@@ -45,6 +42,9 @@ OC.L10N.register(
     "There was an error setting the location address." : "Det oppsto en feil ved å angi posisjonsadressen.",
     "There was an error setting the location." : "Det oppsto en feil ved å angi posisjonen.",
     "There was an error saving the mode." : "Det oppsto en feil da modusen skulle lagres.",
-    "There was an error using personal address." : "Det oppsto en feil ved bruk av personlig adresse."
+    "There was an error using personal address." : "Det oppsto en feil ved bruk av personlig adresse.",
+    "Detect location" : "Oppdag plassering",
+    "Set custom address" : "Angi egendefinert adresse",
+    "Favorites" : "Favoritter"
 },
 "nplurals=2; plural=(n != 1);");

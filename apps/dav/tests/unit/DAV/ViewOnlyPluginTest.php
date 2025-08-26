@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2019 ownCloud GmbH
@@ -20,30 +21,29 @@ use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Test\TestCase;
 
 class ViewOnlyPluginTest extends TestCase {
-
+	private Tree&MockObject $tree;
+	private RequestInterface&MockObject $request;
+	private Folder&MockObject $userFolder;
 	private ViewOnlyPlugin $plugin;
-	/** @var Tree | \PHPUnit\Framework\MockObject\MockObject */
-	private $tree;
-	/** @var RequestInterface | \PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var Folder | \PHPUnit\Framework\MockObject\MockObject */
-	private $userFolder;
 
 	public function setUp(): void {
+		parent::setUp();
+
 		$this->userFolder = $this->createMock(Folder::class);
+		$this->request = $this->createMock(RequestInterface::class);
+		$this->tree = $this->createMock(Tree::class);
+		$server = $this->createMock(Server::class);
+
 		$this->plugin = new ViewOnlyPlugin(
 			$this->userFolder,
 		);
-		$this->request = $this->createMock(RequestInterface::class);
-		$this->tree = $this->createMock(Tree::class);
-
-		$server = $this->createMock(Server::class);
 		$server->tree = $this->tree;
 
 		$this->plugin->initialize($server);
@@ -71,27 +71,31 @@ class ViewOnlyPluginTest extends TestCase {
 		$this->assertTrue($this->plugin->checkViewOnly($this->request));
 	}
 
-	public function providesDataForCanGet(): array {
+	public static function providesDataForCanGet(): array {
 		return [
 			// has attribute permissions-download enabled - can get file
-			[false, true, true],
+			[false, true, true, true],
 			// has no attribute permissions-download - can get file
-			[false, null, true],
-			// has attribute permissions-download disabled- cannot get the file
-			[false, false, false],
+			[false, null, true, true],
 			// has attribute permissions-download enabled - can get file version
-			[true, true, true],
+			[true, true, true, true],
 			// has no attribute permissions-download - can get file version
-			[true, null, true],
-			// has attribute permissions-download disabled- cannot get the file version
-			[true, false, false],
+			[true, null, true, true],
+			// has attribute permissions-download disabled - cannot get the file
+			[false, false, false, false],
+			// has attribute permissions-download disabled - cannot get the file version
+			[true, false, false, false],
+
+			// Has global allowViewWithoutDownload option enabled
+			// has attribute permissions-download disabled - can get file
+			[false, false, false, true],
+			// has attribute permissions-download disabled - can get file version
+			[true, false, false, true],
 		];
 	}
 
-	/**
-	 * @dataProvider providesDataForCanGet
-	 */
-	public function testCanGet(bool $isVersion, ?bool $attrEnabled, bool $expectCanDownloadFile): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesDataForCanGet')]
+	public function testCanGet(bool $isVersion, ?bool $attrEnabled, bool $expectCanDownloadFile, bool $allowViewWithoutDownload): void {
 		$nodeInfo = $this->createMock(File::class);
 		if ($isVersion) {
 			$davPath = 'versions/alice/versions/117/123456';
@@ -150,6 +154,10 @@ class ViewOnlyPluginTest extends TestCase {
 			->method('getAttribute')
 			->with('permissions', 'download')
 			->willReturn($attrEnabled);
+
+		$share->expects($this->once())
+			->method('canSeeContent')
+			->willReturn($allowViewWithoutDownload);
 
 		if (!$expectCanDownloadFile) {
 			$this->expectException(Forbidden::class);

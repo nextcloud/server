@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,19 +9,15 @@ namespace OCA\User_LDAP\Settings;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
-use OCP\Template;
+use OCP\Template\ITemplateManager;
 
 class Admin implements IDelegatedSettings {
-	/**
-	 * @param IL10N $l
-	 */
 	public function __construct(
 		private IL10N $l,
+		private ITemplateManager $templateManager,
 	) {
 	}
 
@@ -28,7 +25,7 @@ class Admin implements IDelegatedSettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+		$helper = Server::get(Helper::class);
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		if (count($prefixes) === 0) {
 			$newPrefix = $helper->getNextServerConfigurationPrefix();
@@ -40,11 +37,12 @@ class Admin implements IDelegatedSettings {
 
 		$hosts = $helper->getServerConfigurationHosts();
 
-		$wControls = new Template('user_ldap', 'part.wizardcontrols');
+		$wControls = $this->templateManager->getTemplate('user_ldap', 'part.wizardcontrols');
 		$wControls = $wControls->fetchPage();
-		$sControls = new Template('user_ldap', 'part.settingcontrols');
+		$sControls = $this->templateManager->getTemplate('user_ldap', 'part.settingcontrols');
 		$sControls = $sControls->fetchPage();
 
+		$parameters = [];
 		$parameters['serverConfigurationPrefixes'] = $prefixes;
 		$parameters['serverConfigurationHosts'] = $hosts;
 		$parameters['settingControls'] = $sControls;

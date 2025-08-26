@@ -25,7 +25,7 @@
 			<br />
 			<?php p($l->t('Set your old private key password to your current log-in password:')); ?>
 			<?php if ($_['recoveryEnabledForUser']):
-				p($l->t(" If you don't remember your old password you can ask your administrator to recover your files."));
+				p(' ' . $l->t('If you do not remember your old password you can ask your administrator to recover your files.'));
 			endif; ?>
 			<br />
 			<input

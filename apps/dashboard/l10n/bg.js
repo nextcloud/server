@@ -3,15 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Табло",
     "Dashboard app" : "Приложение за Табло",
-    "\"{title} icon\"" : "„икона {title}“",
-    "Customize" : "Персонизиране",
-    "Edit widgets" : "Редактиране на изпълнимите модули",
-    "Get more widgets from the App Store" : "Вземете повече приспособления от  App Store",
-    "Weather service" : "Метеорологична услуга",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За вашата поверителност данните за времето се изискват от Nextcloud  сървъра ви от ваше име, така че метеорологичната служба не получава лична информация.",
-    "Weather data from Met.no" : "Данни за времето от Met.no",
-    "geocoding with Nominatim" : "геокодиране с Nominatim",
-    "elevation data from OpenTopoData" : " кота данни от OpenTopoData",
     "Weather" : "Време",
     "Status" : "Състояние",
     "Good morning" : "Добро утро",
@@ -21,6 +12,14 @@ OC.L10N.register(
     "Good evening" : "Добър вечер",
     "Good evening, {name}" : "Добър вечер, {name}",
     "Hello" : "Здравейте",
-    "Hello, {name}" : "Здравейте, {name}"
+    "Hello, {name}" : "Здравейте, {name}",
+    "Customize" : "Персонизиране",
+    "Edit widgets" : "Редактиране на изпълнимите модули",
+    "Get more widgets from the App Store" : "Вземете повече приспособления от  App Store",
+    "Weather service" : "Метеорологична услуга",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "За вашата поверителност данните за времето се изискват от Nextcloud  сървъра ви от ваше име, така че метеорологичната служба не получава лична информация.",
+    "Weather data from Met.no" : "Данни за времето от Met.no",
+    "geocoding with Nominatim" : "геокодиране с Nominatim",
+    "elevation data from OpenTopoData" : " кота данни от OpenTopoData"
 },
 "nplurals=2; plural=(n != 1);");

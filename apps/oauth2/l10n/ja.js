@@ -16,8 +16,8 @@ OC.L10N.register(
     "Make sure you store the secret key, it cannot be recovered." : "秘密鍵は復元できないので、必ず保管してください。",
     "Add client" : "クライアントの追加",
     "Add" : "追加",
-    "Delete" : "削除",
     "Show client secret" : "クライアントシークレットキーを表示",
-    "Hide client secret" : "クライアントのシークレットキーを隠す"
+    "Hide client secret" : "クライアントのシークレットキーを隠す",
+    "Delete" : "削除"
 },
 "nplurals=1; plural=0;");

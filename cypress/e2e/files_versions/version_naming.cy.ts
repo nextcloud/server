@@ -69,10 +69,17 @@ describe('Versions naming', () => {
 		})
 
 		context('without edit permission', () => {
-			it('Does not show action', () => {
-				setupTestSharedFileFromUser(user, randomFileName, { update: false })
-				openVersionsPanel(randomFileName)
+			let recipient: User
 
+			beforeEach(() => {
+				setupTestSharedFileFromUser(user, randomFileName, { update: false })
+					.then(($recipient) => {
+						recipient = $recipient
+						openVersionsPanel(randomFileName)
+					})
+			})
+
+			it('Does not show action', () => {
 				cy.get('[data-files-versions-version]').eq(0).find('.action-item__menutoggle').should('not.exist')
 				cy.get('[data-files-versions-version]').eq(0).get('[data-cy-version-action="label"]').should('not.exist')
 
@@ -81,45 +88,45 @@ describe('Versions naming', () => {
 			})
 
 			it('Does not work without update permission through direct API access', () => {
-				let hostname: string
 				let fileId: string|undefined
 				let versionId: string|undefined
 
-				setupTestSharedFileFromUser(user, randomFileName, { update: false })
-					.then(recipient => {
-						openVersionsPanel(randomFileName)
+				getRowForFile(randomFileName)
+					.should('be.visible')
+					.invoke('attr', 'data-cy-files-list-row-fileid')
+					.then(($fileId) => { fileId = $fileId })
 
-						cy.url().then(url => { hostname = new URL(url).hostname })
-						getRowForFile(randomFileName).invoke('attr', 'data-cy-files-list-row-fileid').then(_fileId => { fileId = _fileId })
-						cy.get('[data-files-versions-version]').eq(1).invoke('attr', 'data-files-versions-version').then(_versionId => { versionId = _versionId })
+				cy.get('[data-files-versions-version]')
+					.eq(1)
+					.invoke('attr', 'data-files-versions-version')
+					.then(($versionId) => { versionId = $versionId })
 
-						cy.then(() => {
-							cy.logout()
-							cy.request({
-								method: 'PROPPATCH',
-								auth: { user: recipient.userId, pass: recipient.password },
-								headers: {
-									cookie: '',
-								},
-								body: `<?xml version="1.0"?>
-									<d:propertyupdate xmlns:d="DAV:"
-										xmlns:oc="http://owncloud.org/ns"
-										xmlns:nc="http://nextcloud.org/ns"
-										xmlns:ocs="http://open-collaboration-services.org/ns">
-									<d:set>
-										<d:prop>
-											<nc:version-label>not authorized labeling</nc:version-label>
-										</d:prop>
-									</d:set>
-									</d:propertyupdate>`,
-								url: `http://${hostname}/remote.php/dav/versions/${recipient.userId}/versions/${fileId}/${versionId}`,
-								failOnStatusCode: false,
-							})
-								.then(({ status }) => {
-									expect(status).to.equal(403)
-								})
-						})
+				cy.logout()
+				cy.then(() => {
+					const base = Cypress.config('baseUrl')!.replace(/index\.php\/?/, '')
+					return cy.request({
+						method: 'PROPPATCH',
+						url: `${base}/remote.php/dav/versions/${recipient.userId}/versions/${fileId}/${versionId}`,
+						auth: { user: recipient.userId, pass: recipient.password },
+						headers: {
+							cookie: '',
+						},
+						body: `<?xml version="1.0"?>
+							<d:propertyupdate xmlns:d="DAV:"
+								xmlns:oc="http://owncloud.org/ns"
+								xmlns:nc="http://nextcloud.org/ns"
+								xmlns:ocs="http://open-collaboration-services.org/ns">
+							<d:set>
+								<d:prop>
+									<nc:version-label>not authorized labeling</nc:version-label>
+								</d:prop>
+							</d:set>
+							</d:propertyupdate>`,
+						failOnStatusCode: false,
 					})
+				}).then(({ status }) => {
+					expect(status).to.equal(403)
+				})
 			})
 		})
 	})

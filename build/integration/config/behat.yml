@@ -80,6 +80,8 @@ default:
         - CommandLineContext:
             baseUrl: http://localhost:8080
             ocPath: ../../
+        - PrincipalPropertySearchContext:
+            baseUrl: http://localhost:8080
     federation:
       paths:
         - "%paths.base%/../federation_features"
@@ -113,6 +115,12 @@ default:
         - CommandLineContext:
             baseUrl: http://localhost:8080
             ocPath: ../../
+        - MetadataContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
     files_conversion:
       paths:
         - "%paths.base%/../file_conversions"
@@ -237,3 +245,34 @@ default:
             regular_user_password: 123456
         - RemoteContext:
             remote: http://localhost:8080
+
+    ratelimiting:
+      paths:
+        - "%paths.base%/../ratelimiting_features"
+      contexts:
+        - RateLimitingContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    routing:
+      paths:
+        - "%paths.base%/../routing_features"
+      contexts:
+        - RoutingContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
+    theming:
+      paths:
+        - "%paths.base%/../theming_features"
+      contexts:
+        - FeatureContext:
+            baseUrl: http://localhost:8080
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456

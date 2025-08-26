@@ -52,6 +52,7 @@
     "Apps" : "Aplicaciones",
     "Settings" : "Configuraciones",
     "Log out" : "Salir",
+    "Accounts" : "Accounts",
     "Email" : "Correo electrónico",
     "Phone" : "Teléfono fijo",
     "Twitter" : "Twitter",
@@ -62,7 +63,6 @@
     "Additional settings" : "Configuraciones adicionales",
     "You need to enter details of an existing account." : "Necesitas ingresar los detalles de una cuenta existente.",
     "Oracle connection could not be established" : "No fue posible establecer la conexión a Oracle",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "OS X de Mac no está soportado y %s no funcionará correctamente en esta plataforma ¡Úsalo bajo tu propio riesgo!",
     "For the best results, please consider using a GNU/Linux server instead." : "Para mejores resultados, por favor cosidera usar en su lugar un servidor GNU/Linux.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "Al parecer esta instancia %s está corriendo en un ambiente PHP de 32-bits y el open_basedir ha sido configurado en el archivo php.ini. Esto generará problemas con archivos de más de 4GB de tamaño y es altamente desalentado. ",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "Por favor elimina el ajuste open_basedir de tu archivo php.ini o cambia a PHP de 64 bits. ",
@@ -142,18 +142,11 @@
     "Storage connection error. %s" : "Se presentó un error con la conexión al almacenamiento. %s",
     "Storage is temporarily not available" : "El almacenamieto se encuentra temporalmente no disponible",
     "Storage connection timeout. %s" : "El tiempo de la conexión del almacenamiento se agotó. %s",
+    "Images" : "Imágenes",
     "Text" : "Texto",
     "Summary" : "Resumen",
     "Translate" : "Traducir",
     "Result" : "Resultado",
-    "Education Edition" : "Edición Educativa",
-    "File name is a reserved word" : "Nombre de archivo es una palabra reservada",
-    "File name contains at least one invalid character" : "El nombre del archivo contiene al menos un caracter inválido",
-    "File name is too long" : "El nombre del archivo es demasiado largo",
-    "Users" : "Usuarios",
-    "Open »%s«" : "Abrir »%s«",
-    "Click the button below to open it." : "Haz click en el botón inferior para abrirlo. ",
-    "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. ",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegurate de que exista una archivo llamado \".ocdata\" en la raíz del directorio de datos. "
+    "File is currently busy, please try again later" : "El archivo se encuentra actualmente en uso, por favor intentalo más tarde. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

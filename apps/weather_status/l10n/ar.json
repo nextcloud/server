@@ -6,9 +6,6 @@
     "Weather status" : "حالة الطقس",
     "Weather status in your dashboard" : "حالة الطقس على لوحتك",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "حالة الطقس مدمجة في تطبيق لوحة المعلومات Dashboard في نكست كلاود. يمكن تحديد الموقع الجغرافي تلقائياً أو تحديده يدوياً. يتم بعد ذلك عرض توقعات الطقس لـ 6 ساعات قادمة. يمكن أيضًا دمج هذه الحالة في أماكن أخرى مثل تطبيق التقويم.",
-    "Detect location" : "تحديد الموقع الجغرافي",
-    "Set custom address" : "تعيين عنوان مخصص",
-    "Favorites" : "المُفضّلة",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} سماءٌ صَحْوٌ في وقتٍ لاحقٍ من اليوم",
     "{temperature} {unit} clear sky" : "{temperature} {unit} سماءٌ صَحْوُ",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} طقسٌ مُغيّمٌ في وقت لاحقٍ من اليوم",
@@ -56,6 +53,9 @@
     "There was an error setting the location." : "حدث خطأ أثناء تعيين الموقع الجغرافي.",
     "There was an error saving the mode." : "حدث خطأ أثناء حفظ الوضعية mode.",
     "There was an error using personal address." : "حدث خطأ أثناء استعمال العنوان الشخصي.",
-    "Unknown weather code" : "أحوال جوية غير محددة"
+    "Unknown weather code" : "أحوال جوية غير محددة",
+    "Detect location" : "تحديد الموقع الجغرافي",
+    "Set custom address" : "تعيين عنوان مخصص",
+    "Favorites" : "المُفضّلة"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

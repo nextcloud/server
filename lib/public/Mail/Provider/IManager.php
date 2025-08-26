@@ -17,7 +17,7 @@ namespace OCP\Mail\Provider;
  *
  */
 interface IManager {
-	
+
 	/**
 	 * determine if any mail providers are registered
 	 *

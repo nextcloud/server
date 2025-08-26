@@ -12,6 +12,9 @@ use PhpParser\Node;
 use Rector\CodingStyle\Contract\ClassNameImport\ClassNameImportSkipVoterInterface;
 use Rector\Config\RectorConfig;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
+use Rector\PHPUnit\AnnotationsToAttributes\Rector\ClassMethod\DataProviderAnnotationToAttributeRector;
+use Rector\PHPUnit\CodeQuality\Rector\MethodCall\UseSpecificWillMethodRector;
+use Rector\PHPUnit\PHPUnit100\Rector\Class_\StaticDataProviderClassMethodRector;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Rector\ValueObject\Application\File;
 
@@ -52,12 +55,21 @@ class NextcloudNamespaceSkipVoter implements ClassNameImportSkipVoterInterface {
 $config = RectorConfig::configure()
 	->withPaths([
 		$nextcloudDir . '/apps',
+		$nextcloudDir . '/core',
+		$nextcloudDir . '/ocs',
+		$nextcloudDir . '/ocs-provider',
+		$nextcloudDir . '/console.php',
+		$nextcloudDir . '/cron.php',
+		$nextcloudDir . '/index.php',
+		$nextcloudDir . '/occ',
+		$nextcloudDir . '/public.php',
+		$nextcloudDir . '/remote.php',
+		$nextcloudDir . '/status.php',
+		$nextcloudDir . '/version.php',
+		$nextcloudDir . '/lib/private/Share20/ProviderFactory.php',
+		$nextcloudDir . '/tests',
 		// $nextcloudDir . '/config',
-		// $nextcloudDir . '/core',
 		// $nextcloudDir . '/lib',
-		// $nextcloudDir . '/ocs',
-		// $nextcloudDir . '/ocs-provider',
-		// $nextcloudDir . '/tests',
 		// $nextcloudDir . '/themes',
 	])
 	->withSkip([
@@ -70,6 +82,11 @@ $config = RectorConfig::configure()
 	// ->withPhpSets()
 	->withImportNames(importShortClasses:false)
 	->withTypeCoverageLevel(0)
+	->withRules([
+		UseSpecificWillMethodRector::class,
+		StaticDataProviderClassMethodRector::class,
+		DataProviderAnnotationToAttributeRector::class,
+	])
 	->withConfiguredRule(ClassPropertyAssignToConstructorPromotionRector::class, [
 		'inline_public' => true,
 		'rename_property' => true,

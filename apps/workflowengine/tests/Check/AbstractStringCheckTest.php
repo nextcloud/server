@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,9 +10,10 @@ namespace OCA\WorkflowEngine\Tests\Check;
 
 use OCA\WorkflowEngine\Check\AbstractStringCheck;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AbstractStringCheckTest extends \Test\TestCase {
-	protected function getCheckMock() {
+	protected function getCheckMock(): AbstractStringCheck|MockObject {
 		$l = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -19,7 +23,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 				return sprintf($string, $args);
 			});
 
-		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
+		$check = $this->getMockBuilder(AbstractStringCheck::class)
 			->setConstructorArgs([
 				$l,
 			])
@@ -32,7 +36,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		return $check;
 	}
 
-	public function dataExecuteStringCheck() {
+	public static function dataExecuteStringCheck(): array {
 		return [
 			['is', 'same', 'same', true],
 			['is', 'different', 'not the same', false],
@@ -46,21 +50,15 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecuteStringCheck
-	 * @param string $operation
-	 * @param string $checkValue
-	 * @param string $actualValue
-	 * @param bool $expected
-	 */
-	public function testExecuteStringCheck($operation, $checkValue, $actualValue, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteStringCheck')]
+	public function testExecuteStringCheck(string $operation, string $checkValue, string $actualValue, bool $expected): void {
 		$check = $this->getCheckMock();
 
 		/** @var AbstractStringCheck $check */
 		$this->assertEquals($expected, $this->invokePrivate($check, 'executeStringCheck', [$operation, $checkValue, $actualValue]));
 	}
 
-	public function dataValidateCheck() {
+	public static function dataValidateCheck(): array {
 		return [
 			['is', '/Invalid(Regex/'],
 			['!is', '/Invalid(Regex/'],
@@ -69,12 +67,8 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheck
-	 * @param string $operator
-	 * @param string $value
-	 */
-	public function testValidateCheck($operator, $value): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheck')]
+	public function testValidateCheck(string $operator, string $value): void {
 		$check = $this->getCheckMock();
 
 		/** @var AbstractStringCheck $check */
@@ -83,7 +77,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function dataValidateCheckInvalid() {
+	public static function dataValidateCheckInvalid(): array {
 		return [
 			['!!is', '', 1, 'The given operator is invalid'],
 			['less', '', 1, 'The given operator is invalid'],
@@ -92,14 +86,8 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateCheckInvalid
-	 * @param $operator
-	 * @param $value
-	 * @param $exceptionCode
-	 * @param $exceptionMessage
-	 */
-	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateCheckInvalid')]
+	public function testValidateCheckInvalid(string $operator, string $value, int $exceptionCode, string $exceptionMessage): void {
 		$check = $this->getCheckMock();
 
 		try {
@@ -111,21 +99,15 @@ class AbstractStringCheckTest extends \Test\TestCase {
 		}
 	}
 
-	public function dataMatch() {
+	public static function dataMatch(): array {
 		return [
 			['/valid/', 'valid', [], true],
 			['/valid/', 'valid', [md5('/valid/') => [md5('valid') => false]], false], // Cache hit
 		];
 	}
 
-	/**
-	 * @dataProvider dataMatch
-	 * @param string $pattern
-	 * @param string $subject
-	 * @param array[] $matches
-	 * @param bool $expected
-	 */
-	public function testMatch($pattern, $subject, $matches, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataMatch')]
+	public function testMatch(string $pattern, string $subject, array $matches, bool $expected): void {
 		$check = $this->getCheckMock();
 
 		$this->invokePrivate($check, 'matches', [$matches]);

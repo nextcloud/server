@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Doni alirpermeson",
-    "Error configuring OAuth1" : "Eraro dum agordo de OAuth1",
-    "Please provide a valid app key and secret." : "Bv. doni validan aplikaĵan ŝlosilon kaj sekreton.",
     "Error configuring OAuth2" : "Eraro dum agordo de OAuth2",
     "Generate keys" : "Generi ŝlosilojn",
     "Error generating key pair" : "Eraro dum generado de ŝlosila paro",
@@ -22,9 +20,6 @@ OC.L10N.register(
     "Secret key" : "Sekreta ŝlosilo",
     "Builtin" : "Interne instalita",
     "None" : "Nenio",
-    "OAuth1" : "OAuth1",
-    "App key" : "Aplikaĵa ŝlosilo",
-    "App secret" : "Aplikaĵosekreto",
     "OAuth2" : "OAuth2",
     "Client ID" : "Klientidentigilo",
     "Client secret" : "Klientosekreto",
@@ -110,6 +105,10 @@ OC.L10N.register(
     "Add storage" : "Aldoni konservejon",
     "Advanced settings" : "Altanivela agordo",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Ĝeneralaj akreditiloj utilas, kiam pluraj eksteraj konservejoj kunuzas la samajn akreditilojn.",
-    "Submit" : "Sendi"
+    "Error configuring OAuth1" : "Eraro dum agordo de OAuth1",
+    "Please provide a valid app key and secret." : "Bv. doni validan aplikaĵan ŝlosilon kaj sekreton.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Aplikaĵa ŝlosilo",
+    "App secret" : "Aplikaĵosekreto"
 },
 "nplurals=2; plural=(n != 1);");

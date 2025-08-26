@@ -1,10 +1,13 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV;
 
+use Generator;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
@@ -20,24 +23,18 @@ use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
 
 class CalendarImplTest extends \Test\TestCase {
-	/** @var CalendarImpl */
-	private $calendarImpl;
-
-	/** @var Calendar | \PHPUnit\Framework\MockObject\MockObject */
-	private $calendar;
-
-	/** @var array */
-	private $calendarInfo;
-
-	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
-	private $backend;
+	private Calendar&MockObject $calendar;
+	private array $calendarInfo;
+	private CalDavBackend&MockObject $backend;
+	private CalendarImpl $calendarImpl;
+	private array $mockExportCollection;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->calendar = $this->createMock(Calendar::class);
 		$this->calendarInfo = [
-			'id' => 'fancy_id_123',
+			'id' => 1,
 			'{DAV:}displayname' => 'user readable name 123',
 			'{http://apple.com/ns/ical/}calendar-color' => '#AABBCC',
 			'uri' => '/this/is/a/uri',
@@ -45,13 +42,16 @@ class CalendarImplTest extends \Test\TestCase {
 		];
 		$this->backend = $this->createMock(CalDavBackend::class);
 
-		$this->calendarImpl = new CalendarImpl($this->calendar,
-			$this->calendarInfo, $this->backend);
+		$this->calendarImpl = new CalendarImpl(
+			$this->calendar,
+			$this->calendarInfo,
+			$this->backend
+		);
 	}
 
 
 	public function testGetKey(): void {
-		$this->assertEquals($this->calendarImpl->getKey(), 'fancy_id_123');
+		$this->assertEquals($this->calendarImpl->getKey(), 1);
 	}
 
 	public function testGetDisplayname(): void {
@@ -198,8 +198,8 @@ EOF;
 		/** @var \Sabre\DAVACL\Plugin|MockObject $schedulingPlugin */
 		$aclPlugin = $this->createMock(\Sabre\DAVACL\Plugin::class);
 
-		$server =
-			$this->createMock(Server::class);
+		$server
+			= $this->createMock(Server::class);
 		$server->expects($this->any())
 			->method('getPlugin')
 			->willReturnMap([
@@ -261,4 +261,48 @@ EOF;
 		$iTipMessage->message = $vObject;
 		return $iTipMessage;
 	}
+
+	protected function mockExportGenerator(): Generator {
+		foreach ($this->mockExportCollection as $entry) {
+			yield $entry;
+		}
+	}
+
+	public function testExport(): void {
+		// Arrange
+		// construct calendar with a 1 hour event and same start/end time zones
+		$vCalendar = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurrence Event');
+		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
+		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
+			'CN' => 'Attendee One',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		// construct data store return
+		$this->mockExportCollection[] = [
+			'id' => 1,
+			'calendardata' => $vCalendar->serialize()
+		];
+		$this->backend->expects($this->once())
+			->method('exportCalendar')
+			->with(1, $this->backend::CALENDAR_TYPE_CALENDAR, null)
+			->willReturn($this->mockExportGenerator());
+
+		// Act
+		foreach ($this->calendarImpl->export(null) as $entry) {
+			$exported[] = $entry;
+		}
+
+		// Assert
+		$this->assertCount(1, $exported, 'Invalid exported items count');
+	}
+
 }

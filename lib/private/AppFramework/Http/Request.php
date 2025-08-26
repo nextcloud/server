@@ -14,6 +14,7 @@ use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IRequestId;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 /**
@@ -45,7 +46,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost|\[::1\])$/';
 
 	protected string $inputStream;
-	protected $content;
+	private bool $isPutStreamContentAlreadySent = false;
 	protected array $items = [];
 	protected array $allowedKeys = [
 		'get',
@@ -64,6 +65,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected ?CsrfTokenManager $csrfTokenManager;
 
 	protected bool $contentDecoded = false;
+	private ?\JsonException $decodingException = null;
 
 	/**
 	 * @param array $vars An associative array with the following optional values:
@@ -356,13 +358,13 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
 		if ($this->isPutStreamContent()) {
-			if ($this->content === false) {
+			if ($this->isPutStreamContentAlreadySent) {
 				throw new \LogicException(
 					'"put" can only be accessed once if not '
 					. 'application/x-www-form-urlencoded or application/json.'
 				);
 			}
-			$this->content = false;
+			$this->isPutStreamContentAlreadySent = true;
 			return fopen($this->inputStream, 'rb');
 		} else {
 			$this->decodeContent();
@@ -389,7 +391,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		// 'application/json' and other JSON-related content types must be decoded manually.
 		if (preg_match(self::JSON_CONTENT_TYPE_REGEX, $this->getHeader('Content-Type')) === 1) {
-			$params = json_decode(file_get_contents($this->inputStream), true);
+			$content = file_get_contents($this->inputStream);
+			if ($content !== '') {
+				try {
+					$params = json_decode($content, true, flags:JSON_THROW_ON_ERROR);
+				} catch (\JsonException $e) {
+					$this->decodingException = $e;
+				}
+			}
 			if (\is_array($params) && \count($params) > 0) {
 				$this->items['params'] = $params;
 				if ($this->method === 'POST') {
@@ -411,6 +420,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->items['parameters'] = array_merge($this->items['parameters'], $params);
 		}
 		$this->contentDecoded = true;
+	}
+
+	public function throwDecodingExceptionIfAny(): void {
+		if ($this->decodingException !== null) {
+			throw $this->decodingException;
+		}
 	}
 
 
@@ -613,36 +628,46 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * Returns the server protocol. It respects one or more reverse proxies servers
-	 * and load balancers
+	 * and load balancers. Precedence:
+	 *   1. `overwriteprotocol` config value
+	 *   2. `X-Forwarded-Proto` header value
+	 *   3. $_SERVER['HTTPS'] value
+	 * If an invalid protocol is provided, defaults to http, continues, but logs as an error.
+	 *
 	 * @return string Server protocol (http or https)
 	 */
 	public function getServerProtocol(): string {
-		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
-			&& $this->isOverwriteCondition()) {
-			return $this->config->getSystemValueString('overwriteprotocol');
-		}
+		$proto = 'http';
 
-		if ($this->fromTrustedProxy() && isset($this->server['HTTP_X_FORWARDED_PROTO'])) {
+		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
+			&& $this->isOverwriteCondition()
+		) {
+			$proto = strtolower($this->config->getSystemValueString('overwriteprotocol'));
+		} elseif ($this->fromTrustedProxy()
+			&& isset($this->server['HTTP_X_FORWARDED_PROTO'])
+		) {
 			if (str_contains($this->server['HTTP_X_FORWARDED_PROTO'], ',')) {
 				$parts = explode(',', $this->server['HTTP_X_FORWARDED_PROTO']);
 				$proto = strtolower(trim($parts[0]));
 			} else {
 				$proto = strtolower($this->server['HTTP_X_FORWARDED_PROTO']);
 			}
-
-			// Verify that the protocol is always HTTP or HTTPS
-			// default to http if an invalid value is provided
-			return $proto === 'https' ? 'https' : 'http';
-		}
-
-		if (isset($this->server['HTTPS'])
-			&& $this->server['HTTPS'] !== null
+		} elseif (!empty($this->server['HTTPS'])
 			&& $this->server['HTTPS'] !== 'off'
-			&& $this->server['HTTPS'] !== '') {
-			return 'https';
+		) {
+			$proto = 'https';
 		}
 
-		return 'http';
+		if ($proto !== 'https' && $proto !== 'http') {
+			// log unrecognized value so admin has a chance to fix it
+			\OCP\Server::get(LoggerInterface::class)->critical(
+				'Server protocol is malformed [falling back to http] (check overwriteprotocol and/or X-Forwarded-Proto to remedy): ' . $proto,
+				['app' => 'core']
+			);
+		}
+
+		// default to http if provided an invalid value
+		return $proto === 'https' ? 'https' : 'http';
 	}
 
 	/**
@@ -729,11 +754,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 	/**
-	 * Get PathInfo from request
+	 * Get PathInfo from request (rawurldecoded)
 	 * @throws \Exception
 	 * @return string|false Path info or false when not found
 	 */
-	public function getPathInfo() {
+	public function getPathInfo(): string|false {
 		$pathInfo = $this->getRawPathInfo();
 		return \Sabre\HTTP\decodePath($pathInfo);
 	}

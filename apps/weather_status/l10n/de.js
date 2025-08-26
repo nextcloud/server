@@ -8,9 +8,6 @@ OC.L10N.register(
     "Weather status" : "Wetterstatus",
     "Weather status in your dashboard" : "Wetterstatus für dein Dashboard",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "In die Dashboard-App integrierter Wetterstatus.\n    Der geografische Standort kann automatisch ermittelt oder manuell angegeben werden. Es wird dann eine 6-Stunden-Vorhersage angezeigt.\n    Dieser Status kann auch an anderen Stellen, z. B. in der Kalender-App, integriert werden.",
-    "Detect location" : "Standort ermitteln",
-    "Set custom address" : "Benutzerdefinierte Adresse festlegen",
-    "Favorites" : "Favoriten",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} klarer Himmel später am Tag",
     "{temperature} {unit} clear sky" : "{temperature} {unit} klarer Himmel",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} bewölkt später am Tag",
@@ -54,10 +51,13 @@ OC.L10N.register(
     "There was an error getting the weather status information." : "Beim Abrufen der Wetterstatusinformationen ist ein Fehler aufgetreten.",
     "No weather information found" : "Keine Wetterinformationen gefunden",
     "Location not found" : "Standort nicht gefunden",
-    "There was an error setting the location address." : "Es ist ein Fehler beim Festlegen der Standortadresse aufgetreten.",
+    "There was an error setting the location address." : "Fehler beim Festlegen der Standortadresse aufgetreten.",
     "There was an error setting the location." : "Es ist ein Fehler beim Festlegen des Standortes aufgetreten.",
     "There was an error saving the mode." : "Es ist ein Fehler beim Festlegen des Modus aufgetreten.",
     "There was an error using personal address." : "Es ist ein Fehler beim Verwenden der persönlichen Adresse aufgetreten.",
-    "Unknown weather code" : "Unbekannter Wettercode"
+    "Unknown weather code" : "Unbekannter Wettercode",
+    "Detect location" : "Standort ermitteln",
+    "Set custom address" : "Benutzerdefinierte Adresse festlegen",
+    "Favorites" : "Favoriten"
 },
 "nplurals=2; plural=(n != 1);");

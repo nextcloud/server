@@ -4,17 +4,15 @@
     "View file" : "Zobacz plik",
     "View folder" : "Wyświetl katalog",
     "Set file reminders" : "Ustaw przypomnienia o plikach",
-    "We will remind you of this file" : "Przypomnimy Tobie o tym pliku",
-    "Please choose a valid date & time" : "Wybierz prawidłową datę i godzinę",
-    "Cancel" : "Anuluj",
-    "Clear reminder" : "Wyczyść przypomnienie",
-    "Set reminder" : "Ustaw przypomnienie",
     "Set reminder for \"{fileName}\"" : "Ustaw przypomnienie dla \"{fileName}\"",
-    "Set reminder at custom date & time" : "Ustaw przypomnienie o własnej dacie i godzinie",
+    "Clear reminder" : "Wyczyść przypomnienie",
+    "Please choose a valid date & time" : "Wybierz prawidłową datę i godzinę",
     "Reminder set for \"{fileName}\"" : "Przypomnienie ustawione dla \"{fileName}\"",
     "Failed to set reminder" : "Nie udało się ustawić przypomnienia",
     "Failed to clear reminder" : "Nie udało się wyczyścić przypomnienia",
-    "Set custom reminder" : "Ustaw niestandardowe przypomnienie",
+    "We will remind you of this file" : "Przypomnimy Tobie o tym pliku",
+    "Cancel" : "Anuluj",
+    "Set reminder" : "Ustaw przypomnienie",
     "Later today" : "Później dzisiaj",
     "Set reminder for later today" : "Ustaw przypomnienie na dzisiaj na późniejszy czas",
     "Tomorrow" : "Jutro",
@@ -22,6 +20,8 @@
     "This weekend" : "W ten weekend",
     "Set reminder for this weekend" : "Ustaw przypomnienie na ten weekend",
     "Next week" : "Następny tydzień",
-    "Set reminder for next week" : "Ustaw przypomnienie na przyszły tydzień"
+    "Set reminder for next week" : "Ustaw przypomnienie na przyszły tydzień",
+    "Set reminder at custom date & time" : "Ustaw przypomnienie o własnej dacie i godzinie",
+    "Set custom reminder" : "Ustaw niestandardowe przypomnienie"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

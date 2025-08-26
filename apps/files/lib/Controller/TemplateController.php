@@ -53,6 +53,24 @@ class TemplateController extends OCSController {
 	}
 
 	/**
+	 * List the fields for the template specified by the given file ID
+	 *
+	 * @param int $fileId File ID of the template
+	 * @return DataResponse<Http::STATUS_OK, array<string, FilesTemplateField>, array{}>
+	 *
+	 * 200: Fields returned
+	 */
+	#[NoAdminRequired]
+	public function listTemplateFields(int $fileId): DataResponse {
+		$fields = $this->templateManager->listTemplateFields($fileId);
+
+		return new DataResponse(
+			array_merge([], ...$fields),
+			Http::STATUS_OK
+		);
+	}
+
+	/**
 	 * Create a template
 	 *
 	 * @param string $filePath Path of the file

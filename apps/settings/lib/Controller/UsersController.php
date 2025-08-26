@@ -40,7 +40,9 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\BackgroundJob\IJobList;
 use OCP\Encryption\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\ISubAdmin;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -49,12 +51,13 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
-use OCP\Server;
 use OCP\Util;
 use function in_array;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class UsersController extends Controller {
+	/** Limit for counting users for subadmins, to avoid spending too much time */
+	private const COUNT_LIMIT_FOR_SUBADMINS = 999;
 
 	public function __construct(
 		string $appName,
@@ -86,8 +89,8 @@ class UsersController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function usersListByGroup(): TemplateResponse {
-		return $this->usersList();
+	public function usersListByGroup(INavigationManager $navigationManager, ISubAdmin $subAdmin): TemplateResponse {
+		return $this->usersList($navigationManager, $subAdmin);
 	}
 
 	/**
@@ -97,13 +100,13 @@ class UsersController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function usersList(): TemplateResponse {
+	public function usersList(INavigationManager $navigationManager, ISubAdmin $subAdmin): TemplateResponse {
 		$user = $this->userSession->getUser();
 		$uid = $user->getUID();
 		$isAdmin = $this->groupManager->isAdmin($uid);
 		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
 
-		Server::get(INavigationManager::class)->setActiveEntry('core_users');
+		$navigationManager->setActiveEntry('core_users');
 
 		/* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
 		$sortGroupsBy = MetaData::SORT_USERCOUNT;
@@ -112,8 +115,8 @@ class UsersController extends Controller {
 			$sortGroupsBy = MetaData::SORT_GROUPNAME;
 		} else {
 			if ($this->appManager->isEnabledForUser('user_ldap')) {
-				$isLDAPUsed =
-					$this->groupManager->isBackendUsed('\OCA\User_LDAP\Group_Proxy');
+				$isLDAPUsed
+					= $this->groupManager->isBackendUsed('\OCA\User_LDAP\Group_Proxy');
 				if ($isLDAPUsed) {
 					// LDAP user count can be slow, so we sort by group name here
 					$sortGroupsBy = MetaData::SORT_GROUPNAME;
@@ -132,8 +135,15 @@ class UsersController extends Controller {
 			$this->userSession
 		);
 
-		$groupsInfo->setSorting($sortGroupsBy);
-		[$adminGroup, $groups] = $groupsInfo->get();
+		$adminGroup = $this->groupManager->get('admin');
+		$adminGroupData = [
+			'id' => $adminGroup->getGID(),
+			'name' => $adminGroup->getDisplayName(),
+			'usercount' => $sortGroupsBy === MetaData::SORT_USERCOUNT ? $adminGroup->count() : 0,
+			'disabled' => $adminGroup->countDisabled(),
+			'canAdd' => $adminGroup->canAddUser(),
+			'canRemove' => $adminGroup->canRemoveUser(),
+		];
 
 		if (!$isLDAPUsed && $this->appManager->isEnabledForUser('user_ldap')) {
 			$isLDAPUsed = (bool)array_reduce($this->userManager->getBackends(), function ($ldapFound, $backend) {
@@ -152,20 +162,12 @@ class UsersController extends Controller {
 				}, 0);
 			} else {
 				// User is subadmin !
-				// Map group list to ids to retrieve the countDisabledUsersOfGroups
-				$userGroups = $this->groupManager->getUserGroups($user);
-				$groupsIds = [];
-
-				foreach ($groups as $key => $group) {
-					// $userCount += (int)$group['usercount'];
-					$groupsIds[] = $group['id'];
-				}
-
-				$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
-				$disabledUsers = $this->userManager->countDisabledUsersOfGroups($groupsIds);
+				[$userCount,$disabledUsers] = $this->userManager->countUsersAndDisabledUsersOfGroups($groupsInfo->getGroups(), self::COUNT_LIMIT_FOR_SUBADMINS);
 			}
 
-			$userCount -= $disabledUsers;
+			if ($disabledUsers > 0) {
+				$userCount -= $disabledUsers;
+			}
 		}
 
 		$recentUsersGroup = [
@@ -179,6 +181,14 @@ class UsersController extends Controller {
 			'name' => $this->l10n->t('Disabled accounts'),
 			'usercount' => $disabledUsers
 		];
+
+		if (!$isAdmin && !$isDelegatedAdmin) {
+			$subAdminGroups = array_map(
+				fn (IGroup $group) => ['id' => $group->getGID(), 'name' => $group->getDisplayName()],
+				$subAdmin->getSubAdminsGroups($user),
+			);
+			$subAdminGroups = array_values($subAdminGroups);
+		}
 
 		/* QUOTAS PRESETS */
 		$quotaPreset = $this->parseQuotaPreset($this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB'));
@@ -202,7 +212,8 @@ class UsersController extends Controller {
 		/* FINAL DATA */
 		$serverData = [];
 		// groups
-		$serverData['groups'] = array_merge_recursive($adminGroup, [$recentUsersGroup, $disabledUsersGroup], $groups);
+		$serverData['systemGroups'] = [$adminGroupData, $recentUsersGroup, $disabledUsersGroup];
+		$serverData['subAdminGroups'] = $subAdminGroups ?? [];
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;
@@ -308,6 +319,8 @@ class UsersController extends Controller {
 	 * @param string|null $addressScope
 	 * @param string|null $twitter
 	 * @param string|null $twitterScope
+	 * @param string|null $bluesky
+	 * @param string|null $blueskyScope
 	 * @param string|null $fediverse
 	 * @param string|null $fediverseScope
 	 * @param string|null $birthdate
@@ -331,6 +344,8 @@ class UsersController extends Controller {
 		?string $addressScope = null,
 		?string $twitter = null,
 		?string $twitterScope = null,
+		?string $bluesky = null,
+		?string $blueskyScope = null,
 		?string $fediverse = null,
 		?string $fediverseScope = null,
 		?string $birthdate = null,
@@ -375,6 +390,7 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_ADDRESS => ['value' => $address, 'scope' => $addressScope],
 			IAccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
 			IAccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope],
+			IAccountManager::PROPERTY_BLUESKY => ['value' => $bluesky, 'scope' => $blueskyScope],
 			IAccountManager::PROPERTY_FEDIVERSE => ['value' => $fediverse, 'scope' => $fediverseScope],
 			IAccountManager::PROPERTY_BIRTHDATE => ['value' => $birthdate, 'scope' => $birthdateScope],
 			IAccountManager::PROPERTY_PRONOUNS => ['value' => $pronouns, 'scope' => $pronounsScope],
@@ -417,6 +433,8 @@ class UsersController extends Controller {
 						'addressScope' => $userAccount->getProperty(IAccountManager::PROPERTY_ADDRESS)->getScope(),
 						'twitter' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getValue(),
 						'twitterScope' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
+						'bluesky' => $userAccount->getProperty(IAccountManager::PROPERTY_BLUESKY)->getValue(),
+						'blueskyScope' => $userAccount->getProperty(IAccountManager::PROPERTY_BLUESKY)->getScope(),
 						'fediverse' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue(),
 						'fediverseScope' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getScope(),
 						'birthdate' => $userAccount->getProperty(IAccountManager::PROPERTY_BIRTHDATE)->getValue(),

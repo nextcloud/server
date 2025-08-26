@@ -17,7 +17,7 @@
 			:name="t('systemtags', 'Applying tags changes…')">
 			<template #icon>
 				<NcLoadingIcon v-if="status === Status.LOADING" />
-				<CheckIcon v-else fill-color="var(--color-success)" />
+				<CheckIcon v-else fill-color="var(--color-border-success)" />
 			</template>
 		</NcEmptyContent>
 
@@ -25,7 +25,7 @@
 			<!-- Search or create input -->
 			<div class="systemtags-picker__input">
 				<NcTextField :value.sync="input"
-					:label="t('systemtags', 'Search or create tag')"
+					:label="canEditOrCreateTag ? t('systemtags', 'Search or create tag') : t('systemtags', 'Search tag')"
 					data-cy-systemtags-picker-input>
 					<TagIcon :size="20" />
 				</NcTextField>
@@ -49,8 +49,9 @@
 					</NcCheckboxRadioSwitch>
 
 					<!-- Color picker -->
-					<NcColorPicker :data-cy-systemtags-picker-tag-color="tag.id"
-						:value="`#${tag.color}`"
+					<NcColorPicker v-if="canEditOrCreateTag"
+						:data-cy-systemtags-picker-tag-color="tag.id"
+						:value="`#${tag.color || '000000'}`"
 						:shown="openedPicker === tag.id"
 						class="systemtags-picker__tag-color"
 						@update:value="onColorChange(tag, $event)"
@@ -58,9 +59,15 @@
 						@submit="openedPicker = false">
 						<NcButton :aria-label="t('systemtags', 'Change tag color')" type="tertiary">
 							<template #icon>
-								<CircleIcon v-if="tag.color" :size="24" fill-color="var(--color-circle-icon)" />
-								<CircleOutlineIcon v-else :size="24" fill-color="var(--color-circle-icon)" />
-								<PencilIcon />
+								<CircleIcon v-if="tag.color"
+									:size="24"
+									fill-color="var(--color-circle-icon)"
+									class="button-color-circle" />
+								<CircleOutlineIcon v-else
+									:size="24"
+									fill-color="var(--color-circle-icon)"
+									class="button-color-empty" />
+								<PencilIcon class="button-color-pencil" />
 							</template>
 						</NcButton>
 					</NcColorPicker>
@@ -68,7 +75,7 @@
 
 				<!-- Create new tag -->
 				<li>
-					<NcButton v-if="canCreateTag"
+					<NcButton v-if="canEditOrCreateTag && canCreateTag"
 						:disabled="status === Status.CREATING_TAG"
 						alignment="start"
 						class="systemtags-picker__tag-create"
@@ -88,7 +95,7 @@
 			<!-- Note -->
 			<div class="systemtags-picker__note">
 				<NcNoteCard v-if="!hasChanges" type="info">
-					{{ t('systemtags', 'Select or create tags to apply to all selected files') }}
+					{{ t('systemtags', 'Choose tags for the selected files') }}
 				</NcNoteCard>
 				<NcNoteCard v-else type="info">
 					<span v-html="statusMessage" />
@@ -106,7 +113,7 @@
 			<NcButton :disabled="!hasChanges || status !== Status.BASE"
 				data-cy-systemtags-picker-button-submit
 				@click="onSubmit">
-				{{ t('systemtags', 'Apply changes') }}
+				{{ t('systemtags', 'Apply') }}
 			</NcButton>
 		</template>
 
@@ -127,8 +134,10 @@ import type { Tag, TagWithId } from '../types'
 
 import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
 import { getLanguage, n, t } from '@nextcloud/l10n'
-import { showError, showInfo } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { showError } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 import domPurify from 'dompurify'
 import escapeHTML from 'escape-html'
@@ -145,13 +154,13 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import CheckIcon from 'vue-material-design-icons/CheckCircle.vue'
 import CircleIcon from 'vue-material-design-icons/Circle.vue'
 import CircleOutlineIcon from 'vue-material-design-icons/CircleOutline.vue'
-import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import TagIcon from 'vue-material-design-icons/Tag.vue'
+import TagIcon from 'vue-material-design-icons/TagOutline.vue'
 
-import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag } from '../services/api'
-import { getNodeSystemTags, setNodeSystemTags } from '../utils'
-import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils'
+import { createTag, fetchTag, fetchTags, getTagObjects, setTagObjects, updateTag } from '../services/api.ts'
+import { elementColor, invertTextColor, isDarkModeEnabled } from '../utils/colorUtils.ts'
+import { getNodeSystemTags, setNodeSystemTags } from '../utils.ts'
 import logger from '../logger.ts'
 
 const debounceUpdateTag = debounce(updateTag, 500)
@@ -169,6 +178,8 @@ enum Status {
 	CREATING_TAG = 'creating-tag',
 	DONE = 'done',
 }
+
+const restrictSystemTagsCreationToAdmin = loadState('systemtags', 'restrictSystemTagsCreationToAdmin', false)
 
 export default defineComponent({
 	name: 'SystemTagPicker',
@@ -204,6 +215,8 @@ export default defineComponent({
 			emit,
 			Status,
 			t,
+			// Either tag creation is not restricted to admins or the current user is an admin
+			canEditOrCreateTag: !restrictSystemTagsCreationToAdmin || getCurrentUser()?.isAdmin,
 		}
 	},
 
@@ -234,7 +247,7 @@ export default defineComponent({
 			}
 
 			return this.sortedTags
-				.filter(tag => tag.displayName.normalize().includes(this.input.normalize()))
+				.filter(tag => tag.displayName.normalize().toLowerCase().includes(this.input.normalize().toLowerCase()))
 		},
 
 		hasChanges(): boolean {
@@ -364,6 +377,10 @@ export default defineComponent({
 			})
 			return acc
 		}, {} as TagListCount) as TagListCount
+
+		if (!this.canEditOrCreateTag) {
+			logger.debug('System tag creation is restricted to admins and the current user is not an admin')
+		}
 	},
 
 	methods: {
@@ -422,6 +439,12 @@ export default defineComponent({
 		},
 
 		async onNewTag() {
+			if (!this.canEditOrCreateTag) {
+				// Should not happen ™
+				showError(t('systemtags', 'Only admins can create new tags'))
+				return
+			}
+
 			this.status = Status.CREATING_TAG
 			try {
 				const payload: Tag = {
@@ -530,7 +553,6 @@ export default defineComponent({
 
 		onCancel() {
 			this.opened = false
-			showInfo(t('systemtags', 'File tags modification canceled'))
 			this.$emit('close', null)
 		},
 
@@ -597,7 +619,6 @@ export default defineComponent({
 				max-width: none;
 				// recalculate padding
 				box-sizing: border-box;
-				min-height: calc(var(--default-grid-baseline) * 2 + var(--default-clickable-area));
 			}
 		}
 	}
@@ -605,7 +626,7 @@ export default defineComponent({
 	.systemtags-picker__tag-color button {
 		margin-inline-start: calc(var(--default-grid-baseline) * 2);
 
-		span.pencil-icon {
+		.button-color-pencil {
 			display: none;
 			color: var(--color-main-text);
 		}
@@ -613,11 +634,11 @@ export default defineComponent({
 		&:focus,
 		&:hover,
 		&[aria-expanded='true'] {
-			.pencil-icon {
+			.button-color-pencil {
 				display: block;
 			}
-			.circle-icon,
-			.circle-outline-icon {
+			.button-color-circle,
+			.button-color-empty {
 				display: none;
 			}
 		}

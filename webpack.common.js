@@ -15,9 +15,11 @@ const WorkboxPlugin = require('workbox-webpack-plugin')
 const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.js')
 
 const modules = require('./webpack.modules.js')
+const { codecovWebpackPlugin } = require('@codecov/webpack-plugin')
 
 const appVersion = readFileSync('./version.php').toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
 const isDev = process.env.NODE_ENV === 'development'
+const isTesting = process.env.TESTING === "true"
 
 const formatOutputFromModules = (modules) => {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -224,6 +226,11 @@ const config = {
 		new webpack.IgnorePlugin({
 			resourceRegExp: /^\.\/locale$/,
 			contextRegExp: /moment\/min$/,
+		}),
+		codecovWebpackPlugin({
+			enableBundleAnalysis: !isDev && !isTesting,
+			bundleName: 'nextcloud',
+			telemetry: false,
 		}),
 	],
 	externals: {

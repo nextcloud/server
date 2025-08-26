@@ -1,11 +1,11 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
-use OC_App;
 use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
@@ -67,7 +67,7 @@ class Event extends Base {
 		if (isset($eventData['link']) && is_array($eventData['link']) && $this->appManager->isEnabledForUser('calendar')) {
 			try {
 				// The calendar app needs to be manually loaded for the routes to be loaded
-				OC_App::loadApp('calendar');
+				$this->appManager->loadApp('calendar');
 				$linkData = $eventData['link'];
 				$calendarUri = $this->urlencodeLowerHex($linkData['calendar_uri']);
 				if ($affectedUser === $linkData['owner']) {
@@ -79,14 +79,9 @@ class Event extends Base {
 					//       as seen from the affected user.
 					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $affectedUser . '/' . $calendarUri . '_shared_by_' . $linkData['owner'] . '/' . $linkData['object_uri']);
 				}
-				$link = [
-					'view' => 'dayGridMonth',
-					'timeRange' => 'now',
-					'mode' => 'sidebar',
+				$params['link'] = $this->url->linkToRouteAbsolute('calendar.view.indexdirect.edit', [
 					'objectId' => $objectId,
-					'recurrenceId' => 'next'
-				];
-				$params['link'] = $this->url->linkToRouteAbsolute('calendar.view.indexview.timerange.edit', $link);
+				]);
 			} catch (\Exception $error) {
 				// Do nothing
 			}

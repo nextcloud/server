@@ -16,6 +16,9 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class BackgroundModeTest extends TestCase {
 	private IAppConfig $appConfig;
 
@@ -32,9 +35,7 @@ class BackgroundModeTest extends TestCase {
 		$this->command->setDefinition($inputDefinition);
 	}
 
-	/**
-	 * @dataProvider dataModeCommand
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataModeCommand')]
 	public function testModeCommand(string $mode): void {
 		$this->appConfig->expects($this->once())
 			->method('setValueString')
@@ -49,7 +50,7 @@ class BackgroundModeTest extends TestCase {
 		$this->assertStringContainsString($mode, $output);
 	}
 
-	public function dataModeCommand(): array {
+	public static function dataModeCommand(): array {
 		return [
 			'ajax' => ['ajax'],
 			'cron' => ['cron'],

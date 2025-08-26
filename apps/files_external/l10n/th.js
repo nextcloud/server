@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "อนุญาตให้เข้าถึง",
-    "Error configuring OAuth1" : "ข้อผิดพลาดในการกำหนดค่า OAuth1",
-    "Please provide a valid app key and secret." : "โปรดระบุคีย์และรหัสลับของแอปให้ถูกต้อง",
     "Error configuring OAuth2" : "ข้อผิดพลาดในการกำหนดค่า OAuth2",
     "Generate keys" : "สร้างคีย์",
     "Error generating key pair" : "ข้อผิดพลาดในการสร้างคู่ของคีย์",
@@ -21,9 +19,6 @@ OC.L10N.register(
     "Secret key" : "คีย์ลับ",
     "Builtin" : "ในตัว",
     "None" : "ไม่มี",
-    "OAuth1" : "OAuth1",
-    "App key" : "คีย์แอป",
-    "App secret" : "ข้อมูลลับแอป",
     "OAuth2" : "OAuth2",
     "Client ID" : "รหัสไคลเอ็นต์",
     "Client secret" : "ข้อมูลลับไคลเอ็นต์",
@@ -87,6 +82,10 @@ OC.L10N.register(
     "Available for" : "ใช้ได้สำหรับ",
     "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "การตั้งค่าขั้นสูง",
-    "Submit" : "ส่ง"
+    "Error configuring OAuth1" : "ข้อผิดพลาดในการกำหนดค่า OAuth1",
+    "Please provide a valid app key and secret." : "โปรดระบุคีย์และรหัสลับของแอปให้ถูกต้อง",
+    "OAuth1" : "OAuth1",
+    "App key" : "คีย์แอป",
+    "App secret" : "ข้อมูลลับแอป"
 },
 "nplurals=1; plural=0;");

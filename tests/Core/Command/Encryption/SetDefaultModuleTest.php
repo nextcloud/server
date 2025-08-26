@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -43,7 +44,7 @@ class SetDefaultModuleTest extends TestCase {
 	}
 
 
-	public function dataSetDefaultModule() {
+	public static function dataSetDefaultModule(): array {
 		return [
 			['ID0', 'ID0', null, null, 'already'],
 			['ID0', 'ID1', 'ID1', true, 'info'],
@@ -52,7 +53,6 @@ class SetDefaultModuleTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetDefaultModule
 	 *
 	 * @param string $oldModule
 	 * @param string $newModule
@@ -60,6 +60,7 @@ class SetDefaultModuleTest extends TestCase {
 	 * @param bool $updateSuccess
 	 * @param string $expectedString
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetDefaultModule')]
 	public function testSetDefaultModule($oldModule, $newModule, $updateModule, $updateSuccess, $expectedString): void {
 		$this->consoleInput->expects($this->once())
 			->method('getArgument')
@@ -90,7 +91,6 @@ class SetDefaultModuleTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataSetDefaultModule
 	 *
 	 * @param string $oldModule
 	 * @param string $newModule
@@ -98,6 +98,7 @@ class SetDefaultModuleTest extends TestCase {
 	 * @param bool $updateSuccess
 	 * @param string $expectedString
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetDefaultModule')]
 	public function testMaintenanceMode($oldModule, $newModule, $updateModule, $updateSuccess, $expectedString): void {
 		$this->consoleInput->expects($this->never())
 			->method('getArgument')
@@ -113,12 +114,16 @@ class SetDefaultModuleTest extends TestCase {
 			->with('maintenance', false)
 			->willReturn(true);
 
+		$calls = [
+			'Maintenance mode must be disabled when setting default module,',
+			'in order to load the relevant encryption modules correctly.',
+		];
 		$this->consoleOutput->expects($this->exactly(2))
 			->method('writeln')
-			->withConsecutive(
-				[$this->stringContains('Maintenance mode must be disabled when setting default module,')],
-				[$this->stringContains('in order to load the relevant encryption modules correctly.')],
-			);
+			->willReturnCallback(function ($message) use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertStringContainsString($expected, $message);
+			});
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

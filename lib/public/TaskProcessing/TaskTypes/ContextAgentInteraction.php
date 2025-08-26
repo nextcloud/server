@@ -31,7 +31,7 @@ class ContextAgentInteraction implements ITaskType {
 	public function __construct(
 		IFactory $l10nFactory,
 	) {
-		$this->l = $l10nFactory->get('core');
+		$this->l = $l10nFactory->get('lib');
 	}
 
 	/**
@@ -39,7 +39,7 @@ class ContextAgentInteraction implements ITaskType {
 	 * @since 31.0.0
 	 */
 	public function getName(): string {
-		return $this->l->t('ContextAgent');
+		return 'ContextAgent'; // We do not translate this
 	}
 
 	/**

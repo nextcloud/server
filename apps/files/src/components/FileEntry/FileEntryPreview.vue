@@ -21,6 +21,7 @@
 				class="files-list__row-icon-blurhash"
 				aria-hidden="true" />
 			<img v-if="backgroundFailed !== true"
+				:key="source.fileid"
 				ref="previewImg"
 				alt=""
 				class="files-list__row-icon-preview"
@@ -63,7 +64,7 @@ import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import FolderOpenIcon from 'vue-material-design-icons/FolderOpen.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
-import NetworkIcon from 'vue-material-design-icons/Network.vue'
+import NetworkIcon from 'vue-material-design-icons/NetworkOutline.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
@@ -145,6 +146,17 @@ export default defineComponent({
 
 			if (this.backgroundFailed === true) {
 				return null
+			}
+
+			if (this.source.attributes['has-preview'] !== true
+				&& this.source.mime !== undefined
+				&& this.source.mime !== 'application/octet-stream'
+			) {
+				const previewUrl = generateUrl('/core/mimeicon?mime={mime}', {
+					mime: this.source.mime,
+				})
+				const url = new URL(window.location.origin + previewUrl)
+				return url.href
 			}
 
 			try {

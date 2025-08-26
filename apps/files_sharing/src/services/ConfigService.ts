@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getCapabilities } from '@nextcloud/capabilities'
+import { loadState } from '@nextcloud/initial-state'
 
 type PasswordPolicyCapabilities = {
 	enforceNonCommonPassword: boolean
@@ -212,6 +213,13 @@ export default class Config {
 	}
 
 	/**
+	 * Is federation enabled ?
+	 */
+	get isFederationEnabled(): boolean {
+		return this._capabilities?.files_sharing?.federation?.outgoing === true
+	}
+
+	/**
 	 * Is public sharing enabled ?
 	 */
 	get isPublicShareAllowed(): boolean {
@@ -304,6 +312,22 @@ export default class Config {
 	 */
 	get allowCustomTokens(): boolean {
 		return this._capabilities?.files_sharing?.public?.custom_tokens
+	}
+
+	/**
+	 * Show federated shares as internal shares
+	 * @return {boolean}
+	 */
+	get showFederatedSharesAsInternal(): boolean {
+		return loadState('files_sharing', 'showFederatedSharesAsInternal', false)
+	}
+
+	/**
+	 * Show federated shares to trusted servers as internal shares
+	 * @return {boolean}
+	 */
+	get showFederatedSharesToTrustedServersAsInternal(): boolean {
+		return loadState('files_sharing', 'showFederatedSharesToTrustedServersAsInternal', false)
 	}
 
 }

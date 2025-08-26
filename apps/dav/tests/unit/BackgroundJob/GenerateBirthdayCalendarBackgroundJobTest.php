@@ -16,18 +16,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
-
-	/** @var ITimeFactory|MockObject */
-	private $time;
-
-	/** @var BirthdayService | MockObject */
-	private $birthdayService;
-
-	/** @var IConfig | MockObject */
-	private $config;
-
-	/** @var GenerateBirthdayCalendarBackgroundJob */
-	private $backgroundJob;
+	private ITimeFactory&MockObject $time;
+	private BirthdayService&MockObject $birthdayService;
+	private IConfig&MockObject $config;
+	private GenerateBirthdayCalendarBackgroundJob $backgroundJob;
 
 	protected function setUp(): void {
 		parent::setUp();

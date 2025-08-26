@@ -33,6 +33,7 @@ use Sabre\HTTP\Response;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Component\VFreeBusy;
+use Sabre\VObject\ParseException;
 use Sabre\VObject\Property\VCard\DateTime;
 use Sabre\VObject\Reader;
 use Throwable;
@@ -236,8 +237,13 @@ class Manager implements IManager {
 			return false;
 		}
 
-		/** @var VCalendar $vObject|null */
-		$calendarObject = Reader::read($calendarData);
+		try {
+			/** @var VCalendar $vObject|null */
+			$calendarObject = Reader::read($calendarData);
+		} catch (ParseException $e) {
+			$this->logger->error('iMip message could not be processed because an error occurred while parsing the iMip message', ['exception' => $e]);
+			return false;
+		}
 
 		if (!isset($calendarObject->METHOD) || $calendarObject->METHOD->getValue() !== 'REQUEST') {
 			$this->logger->warning('iMip message contains an incorrect or invalid method');
@@ -249,10 +255,16 @@ class Manager implements IManager {
 			return false;
 		}
 
+		/** @var VEvent|null $vEvent */
 		$eventObject = $calendarObject->VEVENT;
 
 		if (!isset($eventObject->UID)) {
 			$this->logger->warning('iMip message event dose not contains a UID');
+			return false;
+		}
+
+		if (!isset($eventObject->ORGANIZER)) {
+			$this->logger->warning('iMip message event dose not contains an organizer');
 			return false;
 		}
 
@@ -296,7 +308,7 @@ class Manager implements IManager {
 			}
 		}
 
-		$this->logger->warning('iMip message event could not be processed because the no corresponding event was found in any calendar');
+		$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar');
 		return false;
 	}
 
@@ -309,23 +321,51 @@ class Manager implements IManager {
 		string $recipient,
 		string $calendarData,
 	): bool {
-		/** @var VCalendar $vObject|null */
-		$vObject = Reader::read($calendarData);
+
+		$calendars = $this->getCalendarsForPrincipal($principalUri);
+		if (empty($calendars)) {
+			$this->logger->warning('iMip message could not be processed because user has no calendars');
+			return false;
+		}
+
+		try {
+			/** @var VCalendar $vObject|null */
+			$vObject = Reader::read($calendarData);
+		} catch (ParseException $e) {
+			$this->logger->error('iMip message could not be processed because an error occurred while parsing the iMip message', ['exception' => $e]);
+			return false;
+		}
 
 		if ($vObject === null) {
+			$this->logger->warning('iMip message contains an invalid calendar object');
+			return false;
+		}
+
+		if (!isset($vObject->METHOD) || $vObject->METHOD->getValue() !== 'REPLY') {
+			$this->logger->warning('iMip message contains an incorrect or invalid method');
+			return false;
+		}
+
+		if (!isset($vObject->VEVENT)) {
+			$this->logger->warning('iMip message contains no event');
 			return false;
 		}
 
 		/** @var VEvent|null $vEvent */
-		$vEvent = $vObject->{'VEVENT'};
+		$vEvent = $vObject->VEVENT;
 
-		if ($vEvent === null) {
+		if (!isset($vEvent->UID)) {
+			$this->logger->warning('iMip message event dose not contains a UID');
 			return false;
 		}
 
-		// First, we check if the correct method is passed to us
-		if (strcasecmp('REPLY', $vObject->{'METHOD'}->getValue()) !== 0) {
-			$this->logger->warning('Wrong method provided for processing');
+		if (!isset($vEvent->ORGANIZER)) {
+			$this->logger->warning('iMip message event dose not contains an organizer');
+			return false;
+		}
+
+		if (!isset($vEvent->ATTENDEE)) {
+			$this->logger->warning('iMip message event dose not contains any attendees');
 			return false;
 		}
 
@@ -333,7 +373,7 @@ class Manager implements IManager {
 		$organizer = substr($vEvent->{'ORGANIZER'}->getValue(), 7);
 
 		if (strcasecmp($recipient, $organizer) !== 0) {
-			$this->logger->warning('Recipient and ORGANIZER must be identical');
+			$this->logger->warning('iMip message event could not be processed because recipient and ORGANIZER must be identical');
 			return false;
 		}
 
@@ -341,13 +381,7 @@ class Manager implements IManager {
 		/** @var DateTime $eventTime */
 		$eventTime = $vEvent->{'DTSTART'};
 		if ($eventTime->getDateTime()->getTimeStamp() < $this->timeFactory->getTime()) { // this might cause issues with recurrences
-			$this->logger->warning('Only events in the future are processed');
-			return false;
-		}
-
-		$calendars = $this->getCalendarsForPrincipal($principalUri);
-		if (empty($calendars)) {
-			$this->logger->warning('Could not find any calendars for principal ' . $principalUri);
+			$this->logger->warning('iMip message event could not be processed because the event is in the past');
 			return false;
 		}
 
@@ -369,14 +403,17 @@ class Manager implements IManager {
 		}
 
 		if (empty($found)) {
-			$this->logger->info('Event not found in any calendar for principal ' . $principalUri . 'and UID' . $vEvent->{'UID'}->getValue());
+			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar', [
+				'principalUri' => $principalUri,
+				'eventUid' => $vEvent->{'UID'}->getValue(),
+			]);
 			return false;
 		}
 
 		try {
 			$found->handleIMipMessage($name, $calendarData); // sabre will handle the scheduling behind the scenes
 		} catch (CalendarException $e) {
-			$this->logger->error('Could not update calendar for iMIP processing', ['exception' => $e]);
+			$this->logger->error('An error occurred while processing the iMip message event', ['exception' => $e]);
 			return false;
 		}
 		return true;
@@ -393,29 +430,57 @@ class Manager implements IManager {
 		string $recipient,
 		string $calendarData,
 	): bool {
-		/** @var VCalendar $vObject|null */
-		$vObject = Reader::read($calendarData);
+
+		$calendars = $this->getCalendarsForPrincipal($principalUri);
+		if (empty($calendars)) {
+			$this->logger->warning('iMip message could not be processed because user has no calendars');
+			return false;
+		}
+
+		try {
+			/** @var VCalendar $vObject|null */
+			$vObject = Reader::read($calendarData);
+		} catch (ParseException $e) {
+			$this->logger->error('iMip message could not be processed because an error occurred while parsing the iMip message', ['exception' => $e]);
+			return false;
+		}
 
 		if ($vObject === null) {
+			$this->logger->warning('iMip message contains an invalid calendar object');
+			return false;
+		}
+
+		if (!isset($vObject->METHOD) || $vObject->METHOD->getValue() !== 'CANCEL') {
+			$this->logger->warning('iMip message contains an incorrect or invalid method');
+			return false;
+		}
+
+		if (!isset($vObject->VEVENT)) {
+			$this->logger->warning('iMip message contains no event');
 			return false;
 		}
 
 		/** @var VEvent|null $vEvent */
 		$vEvent = $vObject->{'VEVENT'};
 
-		if ($vEvent === null) {
+		if (!isset($vEvent->UID)) {
+			$this->logger->warning('iMip message event dose not contains a UID');
 			return false;
 		}
 
-		// First, we check if the correct method is passed to us
-		if (strcasecmp('CANCEL', $vObject->{'METHOD'}->getValue()) !== 0) {
-			$this->logger->warning('Wrong method provided for processing');
+		if (!isset($vEvent->ORGANIZER)) {
+			$this->logger->warning('iMip message event dose not contains an organizer');
+			return false;
+		}
+
+		if (!isset($vEvent->ATTENDEE)) {
+			$this->logger->warning('iMip message event dose not contains any attendees');
 			return false;
 		}
 
 		$attendee = substr($vEvent->{'ATTENDEE'}->getValue(), 7);
 		if (strcasecmp($recipient, $attendee) !== 0) {
-			$this->logger->warning('Recipient must be an ATTENDEE of this event');
+			$this->logger->warning('iMip message event could not be processed because recipient must be an ATTENDEE of this event');
 			return false;
 		}
 
@@ -426,7 +491,7 @@ class Manager implements IManager {
 		$organizer = substr($vEvent->{'ORGANIZER'}->getValue(), 7);
 		$isNotOrganizer = ($replyTo !== null) ? (strcasecmp($sender, $organizer) !== 0 && strcasecmp($replyTo, $organizer) !== 0) : (strcasecmp($sender, $organizer) !== 0);
 		if ($isNotOrganizer) {
-			$this->logger->warning('Sender must be the ORGANIZER of this event');
+			$this->logger->warning('iMip message event could not be processed because sender must be the ORGANIZER of this event');
 			return false;
 		}
 
@@ -434,14 +499,7 @@ class Manager implements IManager {
 		/** @var DateTime $eventTime */
 		$eventTime = $vEvent->{'DTSTART'};
 		if ($eventTime->getDateTime()->getTimeStamp() < $this->timeFactory->getTime()) { // this might cause issues with recurrences
-			$this->logger->warning('Only events in the future are processed');
-			return false;
-		}
-
-		// Check if we have a calendar to work with
-		$calendars = $this->getCalendarsForPrincipal($principalUri);
-		if (empty($calendars)) {
-			$this->logger->warning('Could not find any calendars for principal ' . $principalUri);
+			$this->logger->warning('iMip message event could not be processed because the event is in the past');
 			return false;
 		}
 
@@ -463,17 +521,18 @@ class Manager implements IManager {
 		}
 
 		if (empty($found)) {
-			$this->logger->info('Event not found in any calendar for principal ' . $principalUri . 'and UID' . $vEvent->{'UID'}->getValue());
-			// this is a safe operation
-			// we can ignore events that have been cancelled but were not in the calendar anyway
-			return true;
+			$this->logger->warning('iMip message event could not be processed because no corresponding event was found in any calendar', [
+				'principalUri' => $principalUri,
+				'eventUid' => $vEvent->{'UID'}->getValue(),
+			]);
+			return false;
 		}
 
 		try {
 			$found->handleIMipMessage($name, $calendarData); // sabre will handle the scheduling behind the scenes
 			return true;
 		} catch (CalendarException $e) {
-			$this->logger->error('Could not update calendar for iMIP processing', ['exception' => $e]);
+			$this->logger->error('An error occurred while processing the iMip message event', ['exception' => $e]);
 			return false;
 		}
 	}

@@ -7,9 +7,6 @@ OC.L10N.register(
     "Error" : "خطا",
     "Weather status" : "Weather status",
     "Weather status in your dashboard" : "Weather status in your dashboard",
-    "Detect location" : "Detect location",
-    "Set custom address" : "Set custom address",
-    "Favorites" : "مورد علاقه ها",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} clear sky later today",
     "{temperature} {unit} clear sky" : "{temperature} {unit} clear sky",
     "{temperature} {unit} cloudy later today" : "{temperature} {unit} cloudy later today",
@@ -44,6 +41,9 @@ OC.L10N.register(
     "There was an error setting the location address." : "There was an error setting the location address.",
     "There was an error setting the location." : "There was an error setting the location.",
     "There was an error saving the mode." : "There was an error saving the mode.",
-    "There was an error using personal address." : "There was an error using personal address."
+    "There was an error using personal address." : "There was an error using personal address.",
+    "Detect location" : "Detect location",
+    "Set custom address" : "Set custom address",
+    "Favorites" : "مورد علاقه ها"
 },
 "nplurals=2; plural=(n > 1);");

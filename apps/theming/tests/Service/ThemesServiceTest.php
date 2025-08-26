@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -28,21 +30,15 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ThemesServiceTest extends TestCase {
-	/** @var ThemesService */
-	private $themesService;
+	private IUserSession&MockObject $userSession;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
 
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
-	/** @var ThemingDefaults|MockObject */
-	private $themingDefaults;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private ThemesService $themesService;
 
 	/** @var ITheme[] */
-	private $themes;
+	private array $themes;
 
 	protected function setUp(): void {
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -119,7 +115,7 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
 
-	public function dataTestEnableTheme() {
+	public static function dataTestEnableTheme(): array {
 		return [
 			['default', ['default'], ['default']],
 			['dark', ['default'], ['dark']],
@@ -130,12 +126,11 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestEnableTheme
 	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestEnableTheme')]
 	public function testEnableTheme(string $toEnable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -154,7 +149,7 @@ class ThemesServiceTest extends TestCase {
 	}
 
 
-	public function dataTestDisableTheme() {
+	public static function dataTestDisableTheme(): array {
 		return [
 			['dark', ['default'], ['default']],
 			['dark', ['dark'], []],
@@ -164,12 +159,11 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestDisableTheme
 	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 * @param string[] $expectedEnabled
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestDisableTheme')]
 	public function testDisableTheme(string $toDisable, array $enabledThemes, array $expectedEnabled): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
@@ -189,7 +183,7 @@ class ThemesServiceTest extends TestCase {
 	}
 
 
-	public function dataTestIsEnabled() {
+	public static function dataTestIsEnabled(): array {
 		return [
 			['dark', [], false],
 			['dark', ['dark'], true],
@@ -199,12 +193,10 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestIsEnabled
-	 *
-	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 */
-	public function testIsEnabled(string $themeId, array $enabledThemes, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestIsEnabled')]
+	public function testIsEnabled(string $themeId, array $enabledThemes, bool $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -267,7 +259,7 @@ class ThemesServiceTest extends TestCase {
 	}
 
 
-	public function dataTestSetEnabledThemes() {
+	public static function dataTestSetEnabledThemes(): array {
 		return [
 			[[], []],
 			[['light'], ['light']],
@@ -277,11 +269,11 @@ class ThemesServiceTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSetEnabledThemes
 	 *
 	 * @param string[] $enabledThemes
 	 * @param string[] $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestSetEnabledThemes')]
 	public function testSetEnabledThemes(array $enabledThemes, array $expected): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())

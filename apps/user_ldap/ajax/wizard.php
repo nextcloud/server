@@ -105,8 +105,7 @@ switch ($action) {
 		$setParameters = [];
 		$configuration->setConfiguration($cfg, $setParameters);
 		if (!in_array($key, $setParameters)) {
-			\OC_JSON::error(['message' => $l->t($key .
-				' Could not set configuration %s', $setParameters[0])]);
+			\OC_JSON::error(['message' => $l->t('Could not set configuration %1$s to %2$s', [$key, $setParameters[0]])]);
 			exit;
 		}
 		$configuration->saveConfiguration();

@@ -20,6 +20,7 @@ use OCP\Dashboard\IManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 use function class_exists;
@@ -30,8 +31,8 @@ class Coordinator {
 	/** @var RegistrationContext|null */
 	private $registrationContext;
 
-	/** @var string[] */
-	private $bootedApps = [];
+	/** @var array<string,true> */
+	private array $bootedApps = [];
 
 	public function __construct(
 		private IServerContainer $serverContainer,
@@ -45,7 +46,13 @@ class Coordinator {
 	}
 
 	public function runInitialRegistration(): void {
-		$this->registerApps(OC_App::getEnabledApps());
+		$apps = OC_App::getEnabledApps();
+		if (!empty($apps)) {
+			// make sure to also register the core app
+			$apps = ['core', ...$apps];
+		}
+
+		$this->registerApps($apps);
 	}
 
 	public function runLazyRegistration(string $appId): void {
@@ -69,26 +76,32 @@ class Coordinator {
 			 */
 			try {
 				$path = $this->appManager->getAppPath($appId);
+				OC_App::registerAutoloading($appId, $path);
 			} catch (AppPathNotFoundException) {
 				// Ignore
 				continue;
 			}
-			OC_App::registerAutoloading($appId, $path);
 			$this->eventLogger->end("bootstrap:register_app:$appId:autoloader");
 
 			/*
 			 * Next we check if there is an application class, and it implements
 			 * the \OCP\AppFramework\Bootstrap\IBootstrap interface
 			 */
-			$appNameSpace = App::buildAppNamespace($appId);
+			if ($appId === 'core') {
+				$appNameSpace = 'OC\\Core';
+			} else {
+				$appNameSpace = App::buildAppNamespace($appId);
+			}
 			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
+
 			try {
-				if (class_exists($applicationClassName) && in_array(IBootstrap::class, class_implements($applicationClassName), true)) {
+				if (class_exists($applicationClassName) && is_a($applicationClassName, IBootstrap::class, true)) {
 					$this->eventLogger->start("bootstrap:register_app:$appId:application", "Load `Application` instance for $appId");
 					try {
-						/** @var IBootstrap|App $application */
-						$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
-					} catch (QueryException $e) {
+						/** @var IBootstrap&App $application */
+						$application = $this->serverContainer->query($applicationClassName);
+						$apps[$appId] = $application;
+					} catch (ContainerExceptionInterface $e) {
 						// Weird, but ok
 						$this->eventLogger->end("bootstrap:register_app:$appId");
 						continue;
@@ -171,7 +184,7 @@ class Coordinator {
 	public function isBootable(string $appId) {
 		$appNameSpace = App::buildAppNamespace($appId);
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
-		return class_exists($applicationClassName) &&
-			in_array(IBootstrap::class, class_implements($applicationClassName), true);
+		return class_exists($applicationClassName)
+			&& in_array(IBootstrap::class, class_implements($applicationClassName), true);
 	}
 }

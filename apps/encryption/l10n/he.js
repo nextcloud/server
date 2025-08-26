@@ -45,7 +45,6 @@ OC.L10N.register(
     "Basic encryption module" : "מודול הצפנה בסיסי",
     "Your private key password no longer matches your log-in password." : "סיסמת המפתח האישי שלך כבר אינה מתאימה לסיסמת ההתחברות שלך.",
     "Set your old private key password to your current log-in password:" : "יש להחליף את סיסמת המפתח האישי הישנה בסיסמת ההתחברות הנוכחית:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "אם הסיסמא הישנה נשכחה ניתן לפנות למנהל על מנת שישחזר את הקבצים שלך.",
     "Old log-in password" : "סיסמת התחברות ישנה",
     "Current log-in password" : "סיסמת התחברות נוכחית",
     "Update Private Key Password" : "עדכון סיסמת המפתח האישי",

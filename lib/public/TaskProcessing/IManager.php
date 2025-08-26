@@ -26,6 +26,7 @@ use OCP\TaskProcessing\Exception\ValidationException;
  * @since 30.0.0
  */
 interface IManager {
+
 	/**
 	 * @since 30.0.0
 	 */
@@ -47,11 +48,13 @@ interface IManager {
 
 	/**
 	 * @param bool $showDisabled if false, disabled task types will be filtered
+	 * @param ?string $userId to check if the user is a guest. Will be obtained from session if left to default
 	 * @return array<string, array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 * @since 30.0.0
 	 * @since 31.0.0 Added the `showDisabled` argument.
+	 * @since 31.0.7 Added the `userId` argument
 	 */
-	public function getAvailableTaskTypes(bool $showDisabled = false): array;
+	public function getAvailableTaskTypes(bool $showDisabled = false, ?string $userId = null): array;
 
 	/**
 	 * @param Task $task The task to run
@@ -231,4 +234,14 @@ interface IManager {
 	 * @since 30.0.0
 	 */
 	public function setTaskStatus(Task $task, int $status): void;
+
+	/**
+	 * Extract all input and output file IDs from a task
+	 *
+	 * @param Task $task
+	 * @return list<int>
+	 * @throws NotFoundException
+	 * @since 32.0.0
+	 */
+	public function extractFileIdsFromTask(Task $task): array;
 }

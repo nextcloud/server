@@ -35,7 +35,8 @@ window.OCA.Sharing.showAddExternalDialog = function(share, passwordProtected, ca
 		.replace(/\/$/, '') // remove trailing slash
 
 	showRemoteShareDialog(name, owner, remote, passwordProtected)
-		.then((result, password) => callback(result, { ...share, password }))
+		// eslint-disable-next-line n/no-callback-literal
+		.then((password) => callback(true, { ...share, password }))
 		// eslint-disable-next-line n/no-callback-literal
 		.catch(() => callback(false, share))
 }
@@ -138,13 +139,13 @@ async function processSharesToConfirm() {
 			shares[index],
 			false,
 			function(result, share) {
-				if (result) {
+				if (result === false) {
+					// Delete
+					axios.delete(generateUrl('/apps/files_sharing/api/externalShares/' + share.id))
+				} else {
 					// Accept
 					axios.post(generateUrl('/apps/files_sharing/api/externalShares'), { id: share.id })
 						.then(() => reloadFilesList())
-				} else {
-					// Delete
-					axios.delete(generateUrl('/apps/files_sharing/api/externalShares/' + share.id))
 				}
 			},
 		)

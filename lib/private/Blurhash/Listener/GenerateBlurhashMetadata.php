@@ -19,6 +19,7 @@ use OCP\Files\NotPermittedException;
 use OCP\FilesMetadata\AMetadataEvent;
 use OCP\FilesMetadata\Event\MetadataBackgroundEvent;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
+use OCP\IPreview;
 use OCP\Lock\LockedException;
 
 /**
@@ -27,10 +28,13 @@ use OCP\Lock\LockedException;
  * @template-implements IEventListener<AMetadataEvent>
  */
 class GenerateBlurhashMetadata implements IEventListener {
-	private const RESIZE_BOXSIZE = 30;
-
 	private const COMPONENTS_X = 4;
 	private const COMPONENTS_Y = 3;
+
+	public function __construct(
+		private IPreview $preview,
+	) {
+	}
 
 	/**
 	 * @throws NotPermittedException
@@ -64,42 +68,20 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
-		$image = $this->resizedImageFromFile($file);
+		// Preview are disabled, so we skip generating the blurhash.
+		if (!$this->preview->isAvailable($file)) {
+			return;
+		}
+
+		$preview = $this->preview->getPreview($file, 64, 64, cacheResult: false);
+		$image = @imagecreatefromstring($preview->getContent());
+
 		if (!$image) {
 			return;
 		}
 
 		$metadata->setString('blurhash', $this->generateBlurHash($image))
 			->setEtag('blurhash', $currentEtag);
-	}
-
-	/**
-	 * @param File $file
-	 *
-	 * @return GdImage|false
-	 * @throws GenericFileException
-	 * @throws NotPermittedException
-	 * @throws LockedException
-	 */
-	private function resizedImageFromFile(File $file): GdImage|false {
-		$image = @imagecreatefromstring($file->getContent());
-		if ($image === false) {
-			return false;
-		}
-
-		$currX = imagesx($image);
-		$currY = imagesy($image);
-
-		if ($currX > $currY) {
-			$newX = self::RESIZE_BOXSIZE;
-			$newY = intval($currY * $newX / $currX);
-		} else {
-			$newY = self::RESIZE_BOXSIZE;
-			$newX = intval($currX * $newY / $currY);
-		}
-
-		$newImage = imagescale($image, $newX, $newY);
-		return ($newImage !== false) ? $newImage : $image;
 	}
 
 	/**

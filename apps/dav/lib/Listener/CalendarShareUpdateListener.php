@@ -39,5 +39,7 @@ class CalendarShareUpdateListener implements IEventListener {
 			$event->getAdded(),
 			$event->getRemoved()
 		);
+
+		// Here we should recalculate if reminders should be sent to new or old sharees
 	}
 }

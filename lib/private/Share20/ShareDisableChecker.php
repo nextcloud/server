@@ -25,12 +25,7 @@ class ShareDisableChecker {
 		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 	}
 
-
-	/**
-	 * @param ?string $userId
-	 * @return bool
-	 */
-	public function sharingDisabledForUser(?string $userId) {
+	public function sharingDisabledForUser(?string $userId): bool {
 		if ($userId === null) {
 			return false;
 		}
@@ -43,7 +38,7 @@ class ShareDisableChecker {
 
 		if ($excludeGroups && $excludeGroups !== 'no') {
 			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
-			$excludedGroups = json_decode($groupsList);
+			$excludedGroups = json_decode($groupsList, true);
 			if (is_null($excludedGroups)) {
 				$excludedGroups = explode(',', $groupsList);
 				$newValue = json_encode($excludedGroups);

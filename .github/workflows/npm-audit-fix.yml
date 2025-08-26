@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ['main', 'master', 'stable31', 'stable30', 'stable29']
+        branches: ['main', 'master', 'stable31', 'stable30']
 
     name: npm-audit-fix-${{ matrix.branches }}
 
@@ -45,7 +45,7 @@ jobs:
           fallbackNpm: '^10'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -54,7 +54,7 @@ jobs:
 
       - name: Fix npm audit
         id: npm-audit
-        uses: nextcloud-libraries/npm-audit-action@2a60bd2e79cc77f2cc4d9a3fe40f1a69896f3a87 # v0.1.0
+        uses: nextcloud-libraries/npm-audit-action@1b1728b2b4a7a78d69de65608efcf4db0e3e42d0 # v0.2.0
 
       - name: Run npm ci and npm run build
         if: steps.checkout.outcome == 'success'
@@ -66,7 +66,7 @@ jobs:
 
       - name: Create Pull Request
         if: steps.checkout.outcome == 'success'
-        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f # v7.0.6
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: 'fix(deps): Fix npm audit'

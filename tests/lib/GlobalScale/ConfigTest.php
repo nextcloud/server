@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -28,7 +29,7 @@ class ConfigTest extends TestCase {
 		if (!empty($mockMethods)) {
 			return $this->getMockBuilder(Config::class)
 				->setConstructorArgs([$this->config])
-				->setMethods($mockMethods)
+				->onlyMethods($mockMethods)
 				->getMock();
 		}
 
@@ -47,12 +48,12 @@ class ConfigTest extends TestCase {
 
 
 	/**
-	 * @dataProvider dataTestOnlyInternalFederation
 	 *
 	 * @param bool $gsEnabled
 	 * @param string $gsFederation
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestOnlyInternalFederation')]
 	public function testOnlyInternalFederation($gsEnabled, $gsFederation, $expected): void {
 		$gsConfig = $this->getInstance(['isGlobalScaleEnabled']);
 
@@ -64,7 +65,7 @@ class ConfigTest extends TestCase {
 		$this->assertSame($expected, $gsConfig->onlyInternalFederation());
 	}
 
-	public function dataTestOnlyInternalFederation() {
+	public static function dataTestOnlyInternalFederation(): array {
 		return [
 			[true, 'global', false],
 			[true, 'internal', true],

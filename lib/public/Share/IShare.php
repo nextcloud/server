@@ -379,7 +379,7 @@ interface IShare {
 	public function getExpirationDate();
 
 	/**
-	 * Set overwrite flag for falsy expiry date vavlues
+	 * Set overwrite flag for falsy expiry date values
 	 *
 	 * @param bool $noExpirationDate
 	 * @return \OCP\Share\IShare The modified object
@@ -530,6 +530,20 @@ interface IShare {
 	public function getToken();
 
 	/**
+	 * Set the parent of this share
+	 *
+	 * @since 9.0.0
+	 */
+	public function setParent(int $parent): self;
+
+	/**
+	 * Get the parent of this share.
+	 *
+	 * @since 9.0.0
+	 */
+	public function getParent(): ?int;
+
+	/**
 	 * Set the target path of this share relative to the recipients user folder.
 	 *
 	 * @param string $target
@@ -633,4 +647,11 @@ interface IShare {
 	 * @since 31.0.0
 	 */
 	public function getReminderSent(): bool;
+
+	/**
+	 * Check if the current user can see this share files contents.
+	 * This will check the download permissions as well as the global
+	 * admin setting to allow viewing files without downloading.
+	 */
+	public function canSeeContent(): bool;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,11 +9,14 @@
 namespace Test\OCS;
 
 use OC\OCS\Provider;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\IRequest;
 
 class ProviderTest extends \Test\TestCase {
-	/** @var \OCP\IRequest */
+	/** @var IRequest */
 	private $request;
-	/** @var \OCP\App\IAppManager */
+	/** @var IAppManager */
 	private $appManager;
 	/** @var Provider */
 	private $ocsProvider;
@@ -29,15 +33,14 @@ class ProviderTest extends \Test\TestCase {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isEnabledForUser')
-			->withConsecutive(
-				['files_sharing'],
-				['federation'],
-				['activity'],
-				['provisioning_api']
-			)
-			->willReturn(false);
+			->willReturnMap([
+				['files_sharing', null, false],
+				['federation', null, false],
+				['activity', null, false],
+				['provisioning_api', null, false],
+			]);
 
-		$expected = new \OCP\AppFramework\Http\JSONResponse(
+		$expected = new JSONResponse(
 			[
 				'version' => 2,
 				'services' => [
@@ -60,20 +63,14 @@ class ProviderTest extends \Test\TestCase {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isEnabledForUser')
-			->withConsecutive(
-				['files_sharing'],
-				['federation'],
-				['activity'],
-				['provisioning_api']
-			)
-			->willReturnOnConsecutiveCalls(
-				true,
-				false,
-				false,
-				false
-			);
+			->willReturnMap([
+				['files_sharing', null, true],
+				['federation', null, false],
+				['activity', null, false],
+				['provisioning_api', null, false],
+			]);
 
-		$expected = new \OCP\AppFramework\Http\JSONResponse(
+		$expected = new JSONResponse(
 			[
 				'version' => 2,
 				'services' => [
@@ -109,20 +106,14 @@ class ProviderTest extends \Test\TestCase {
 		$this->appManager
 			->expects($this->exactly(4))
 			->method('isEnabledForUser')
-			->withConsecutive(
-				['files_sharing'],
-				['federation'],
-				['activity'],
-				['provisioning_api']
-			)
-			->willReturnOnConsecutiveCalls(
-				false,
-				true,
-				false,
-				false
-			);
+			->willReturnMap([
+				['files_sharing', null, false],
+				['federation', null, true],
+				['activity', null, false],
+				['provisioning_api', null, false],
+			]);
 
-		$expected = new \OCP\AppFramework\Http\JSONResponse(
+		$expected = new JSONResponse(
 			[
 				'version' => 2,
 				'services' => [
@@ -155,7 +146,7 @@ class ProviderTest extends \Test\TestCase {
 			->method('isEnabledForUser')
 			->willReturn(true);
 
-		$expected = new \OCP\AppFramework\Http\JSONResponse(
+		$expected = new JSONResponse(
 			[
 				'version' => 2,
 				'services' => [

@@ -30,6 +30,11 @@ class AddMissingIndicesListener implements IEventListener {
 			'dav_shares_resourceid_access',
 			['resourceid', 'access']
 		);
+		$event->addMissingIndex(
+			'calendarobjects',
+			'calobjects_by_uid_index',
+			['calendarid', 'calendartype', 'uid']
+		);
 	}
 
 }

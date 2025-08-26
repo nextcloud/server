@@ -36,7 +36,6 @@ use PHPUnit\Framework\Constraint\IsType;
  * @method void setDatetime(\DateTimeImmutable $datetime)
  */
 class TestEntity extends Entity {
-	protected $name;
 	protected $email;
 	protected $testId;
 	protected $smallInt;
@@ -49,7 +48,9 @@ class TestEntity extends Entity {
 	protected $time;
 	protected $datetime;
 
-	public function __construct($name = null) {
+	public function __construct(
+		protected $name = null,
+	) {
 		$this->addType('testId', Types::INTEGER);
 		$this->addType('smallInt', Types::SMALLINT);
 		$this->addType('bigInt', Types::BIGINT);
@@ -63,8 +64,6 @@ class TestEntity extends Entity {
 		$this->addType('trueOrFalse', 'bool');
 		$this->addType('legacyInt', 'int');
 		$this->addType('doubleNowFloat', 'double');
-
-		$this->name = $name;
 	}
 
 	public function setAnotherBool(bool $anotherBool): void {
@@ -211,7 +210,7 @@ class EntityTest extends \Test\TestCase {
 	}
 
 
-	public function dataSetterCasts(): array {
+	public static function dataSetterCasts(): array {
 		return [
 			['Id', '3', 3],
 			['smallInt', '3', 3],
@@ -226,9 +225,7 @@ class EntityTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @dataProvider dataSetterCasts
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetterCasts')]
 	public function testSetterCasts(string $field, mixed $in, mixed $out): void {
 		$entity = new TestEntity();
 		$entity->{'set' . $field}($in);

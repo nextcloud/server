@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Veita aðgengi",
-    "Error configuring OAuth1" : "Villa við uppsetningu OAuth1",
-    "Please provide a valid app key and secret." : "Settu inn gildan forritslykil og leynilykil (secret).",
     "Error configuring OAuth2" : "Villa við uppsetningu OAuth2",
     "Generate keys" : "Útbúa lykla",
     "Error generating key pair" : "Villa við að útbúa nýtt lyklapar",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "Leynilykill",
     "Builtin" : "Innbyggt",
     "None" : "Ekkert",
-    "OAuth1" : "OAuth1",
-    "App key" : "Lykill forrits",
-    "App secret" : "Leynilykill forrits",
     "OAuth2" : "OAuth2",
     "Client ID" : "Biðlaraauðkenni",
     "Client secret" : "Leynilykill biðlara",
@@ -90,10 +85,10 @@ OC.L10N.register(
     "External storage" : "Ytri gagnageymsla",
     "External storage support" : "Stuðningur við utanaðkomandi gagnageymslur",
     "Adds basic external storage support" : "Bætir við grunnstuðningi fyrir utanaðkomandi gagnageymslur",
+    "Confirm" : "Staðfesta",
     "Storage credentials" : "Innskráningarauðkenni á gagnageymslu",
     "Enter the storage login" : "Settu inn notandanafn fyrir gagnageymsluna",
     "Enter the storage password" : "Settu inn lykilorð fyrir gagnageymsluna",
-    "Confirm" : "Staðfesta",
     "Unable to update this external storage config. {statusMessage}" : "Tókst ekki að uppfæra uppsetningu þessarar ytri-gagnageymslu. {statusMessage}",
     "New configuration successfully saved" : "Það tókst að vista nýju uppsetninguna",
     "Enter missing credentials" : "Settu inn auðkenni sem vantar",
@@ -140,6 +135,10 @@ OC.L10N.register(
     "All people" : "Allt fólk",
     "Advanced settings" : "Ítarlegri valkostir",
     "Allow people to mount external storage" : "Leyfa notendum að tengja ytri gagnageymslur í skráakerfi",
-    "Submit" : "Senda inn"
+    "Error configuring OAuth1" : "Villa við uppsetningu OAuth1",
+    "Please provide a valid app key and secret." : "Settu inn gildan forritslykil og leynilykil (secret).",
+    "OAuth1" : "OAuth1",
+    "App key" : "Lykill forrits",
+    "App secret" : "Leynilykill forrits"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

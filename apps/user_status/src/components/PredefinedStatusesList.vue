@@ -78,6 +78,7 @@ export default {
 .predefined-statuses-list {
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 10px;
+	gap: var(--default-grid-baseline);
+	margin-block: 0 calc(2 * var(--default-grid-baseline));
 }
 </style>

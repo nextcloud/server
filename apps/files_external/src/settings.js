@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import axios from '@nextcloud/axios'
-import { t } from '@nextcloud/l10n'
 import { addPasswordConfirmationInterceptors, PwdConfirmationMode } from '@nextcloud/password-confirmation'
+import { generateUrl } from '@nextcloud/router'
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import axios, { isAxiosError } from '@nextcloud/axios'
 
 import jQuery from 'jquery'
 
@@ -645,13 +647,13 @@ const MountConfigListView = function($el, options) {
 MountConfigListView.ParameterFlags = {
 	OPTIONAL: 1,
 	USER_PROVIDED: 2,
+	HIDDEN: 4,
 }
 
 MountConfigListView.ParameterTypes = {
 	TEXT: 0,
 	BOOLEAN: 1,
 	PASSWORD: 2,
-	HIDDEN: 3,
 }
 
 /**
@@ -1140,13 +1142,13 @@ MountConfigListView.prototype = _.extend({
 		let newElement
 
 		const trimmedPlaceholder = placeholder.value
-		if (placeholder.type === MountConfigListView.ParameterTypes.PASSWORD) {
+		if (hasFlag(MountConfigListView.ParameterFlags.HIDDEN)) {
+			newElement = $('<input type="hidden" class="' + classes.join(' ') + '" data-parameter="' + parameter + '" />')
+		} else if (placeholder.type === MountConfigListView.ParameterTypes.PASSWORD) {
 			newElement = $('<input type="password" class="' + classes.join(' ') + '" data-parameter="' + parameter + '" placeholder="' + trimmedPlaceholder + '" />')
 		} else if (placeholder.type === MountConfigListView.ParameterTypes.BOOLEAN) {
 			const checkboxId = _.uniqueId('checkbox_')
 			newElement = $('<div><label><input type="checkbox" id="' + checkboxId + '" class="' + classes.join(' ') + '" data-parameter="' + parameter + '" />' + trimmedPlaceholder + '</label></div>')
-		} else if (placeholder.type === MountConfigListView.ParameterTypes.HIDDEN) {
-			newElement = $('<input type="hidden" class="' + classes.join(' ') + '" data-parameter="' + parameter + '" />')
 		} else {
 			newElement = $('<input type="text" class="' + classes.join(' ') + '" data-parameter="' + parameter + '" placeholder="' + trimmedPlaceholder + '" />')
 		}
@@ -1522,21 +1524,30 @@ window.addEventListener('DOMContentLoaded', function() {
 		const uid = $form.find('[name=uid]').val()
 		const user = $form.find('[name=username]').val()
 		const password = $form.find('[name=password]').val()
-		await axios.request({
-			method: 'POST',
-			data: JSON.stringify({
-				uid,
-				user,
-				password,
-			}),
-			url: OC.generateUrl('apps/files_external/globalcredentials'),
-			confirmPassword: PwdConfirmationMode.Strict,
-		})
 
-		$submit.val(t('files_external', 'Saved'))
-		setTimeout(function() {
+		try {
+			await axios.request({
+				method: 'POST',
+				data: {
+					uid,
+					user,
+					password,
+				},
+				url: generateUrl('apps/files_external/globalcredentials'),
+				confirmPassword: PwdConfirmationMode.Strict,
+			})
+
+			$submit.val(t('files_external', 'Saved'))
+			setTimeout(function() {
+				$submit.val(t('files_external', 'Save'))
+			}, 2500)
+		} catch (error) {
 			$submit.val(t('files_external', 'Save'))
-		}, 2500)
+			if (isAxiosError(error)) {
+				const message = error.response?.data?.message || t('files_external', 'Failed to save global credentials')
+				showError(t('files_external', 'Failed to save global credentials: {message}', { message }))
+			}
+		}
 
 		return false
 	})

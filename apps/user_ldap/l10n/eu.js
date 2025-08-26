@@ -6,12 +6,10 @@ OC.L10N.register(
     "Invalid configuration: Anonymous binding is not allowed." : "Baliogabeko konfigurazioa. Lotura anonimoak ez dira onartzen.",
     "Valid configuration, connection established!" : "Baleko konfigurazioa, konexioa ezarri da!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Baleko konfigurazioa, baina lotura ez da ezarri. Egiaztatu zerbitzariaren ezarpenak eta kredentzialak.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Baliogabeko konfigurazioa. Eman begirada bat egunkari-fitxategiei zehaztasun gehiagorako.",
     "No action specified" : "Ez da ekintzarik zehaztu",
     "No configuration specified" : "Ez da konfiguraziorik zehaztu",
     "No data specified" : "Ez da daturik zehaztu",
     "Invalid data specified" : "Zehaztutako datu baliogabeak",
-    " Could not set configuration %s" : "Ezin izan da %s konfigurazioa ezarri",
     "Action does not exist" : "Ekintza ez da existitzen",
     "Renewing …" : "Berritzen ...",
     "Very weak password" : "Pasahitz oso ahula",
@@ -54,7 +52,6 @@ OC.L10N.register(
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "\"%u id\" leku-marka falta da. LDAP/AD kontsultatzerakoan saioa hasteko izenarekin ordezkatuko da.",
     "Please provide a login name to test against" : "Mesedez saioa hasteko izen bat eman probatu ahal izateko",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Taldeen sarrera desgaitu da, LDAP/AD zerbitzariak ez duelako memberOf onartzen.",
-    "Password change rejected. Hint: " : "Pasahitz aldaketa ukatu da. Aholkua:",
     "Please login with the new password" : "Mesedez hasi saioa pasahitz berriarekin",
     "LDAP User backend" : "LDAP erabiltzaileen atzealdea",
     "Your password will expire tomorrow." : "Zure pasahitza bihar iraungiko da.",
@@ -226,6 +223,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "LDAP-erabiltzaile-izena erabiltzailearen mapeatzea",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Erabiltzaile izenak metadatuak gordetzeko eta esleitzeko erabiltzen dira. Erabiltzaileak zehazki identifikatu eta ezagutzeko, LDAP erabiltzaile bakoitzak barne erabiltzaile izena izango du. Horretarako, erabiltzaile izenetik LDAP erabiltzailearen mapaketa egin behar da. Sortutako erabiltzaile izena LDAP erabiltzailearen UUIDarekin mapatuta dago. Gainera, DNa cache-an gordetzen da LDAP elkarreragina murrizteko, baina ez da identifikaziorako erabiltzen. DNa aldatzen bada, aldaketak topatuko dira. Barne erabiltzaile izena toki guztietan erabiltzen da. Kartografiak garbitzeak hondarrak izango ditu nonahi. Kartografiak garbitzea ez da konfigurazioarekiko sentikorra, LDAP konfigurazio guztiei eragiten die! Ez garbitu inoiz mapak ekoizpen-ingurune batean, soilik proba edo fase esperimental batean.",
     "Clear Username-LDAP User Mapping" : "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa",
-    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa"
+    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa",
+    "Invalid configuration. Please have a look at the logs for further details." : "Baliogabeko konfigurazioa. Eman begirada bat egunkari-fitxategiei zehaztasun gehiagorako."
 },
 "nplurals=2; plural=(n != 1);");

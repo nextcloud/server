@@ -22,6 +22,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
 use Sabre\VObject\Reader;
+use Sabre\Xml\ParseException;
 use function is_null;
 
 class SyncService {
@@ -43,9 +44,10 @@ class SyncService {
 	}
 
 	/**
+	 * @psalm-return list{0: ?string, 1: boolean}
 	 * @throws \Exception
 	 */
-	public function syncRemoteAddressBook(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken, string $targetBookHash, string $targetPrincipal, array $targetProperties): string {
+	public function syncRemoteAddressBook(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken, string $targetBookHash, string $targetPrincipal, array $targetProperties): array {
 		// 1. create addressbook
 		$book = $this->ensureSystemAddressBookExists($targetPrincipal, $targetBookHash, $targetProperties);
 		$addressBookId = $book['id'];
@@ -83,7 +85,10 @@ class SyncService {
 			}
 		}
 
-		return $response['token'];
+		return [
+			$response['token'],
+			$response['truncated'],
+		];
 	}
 
 	/**
@@ -119,9 +124,15 @@ class SyncService {
 		}
 	}
 
+	public function ensureLocalSystemAddressBookExists(): ?array {
+		return $this->ensureSystemAddressBookExists('principals/system/system', 'system', [
+			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => 'System addressbook which holds all users of this instance'
+		]);
+	}
+
 	private function prepareUri(string $host, string $path): string {
 		/*
-		 * The trailing slash is important for merging the uris together.
+		 * The trailing slash is important for merging the uris.
 		 *
 		 * $host is stored in oc_trusted_servers.url and usually without a trailing slash.
 		 *
@@ -152,7 +163,9 @@ class SyncService {
 	}
 
 	/**
+	 * @return array{response: array<string, array<array-key, mixed>>, token: ?string, truncated: bool}
 	 * @throws ClientExceptionInterface
+	 * @throws ParseException
 	 */
 	protected function requestSyncReport(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken): array {
 		$client = $this->clientService->newClient();
@@ -162,7 +175,8 @@ class SyncService {
 			'auth' => [$userName, $sharedSecret],
 			'body' => $this->buildSyncCollectionRequestBody($syncToken),
 			'headers' => ['Content-Type' => 'application/xml'],
-			'timeout' => $this->config->getSystemValueInt('carddav_sync_request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT)
+			'timeout' => $this->config->getSystemValueInt('carddav_sync_request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT),
+			'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 		];
 
 		$response = $client->request(
@@ -174,7 +188,7 @@ class SyncService {
 		$body = $response->getBody();
 		assert(is_string($body));
 
-		return $this->parseMultiStatus($body);
+		return $this->parseMultiStatus($body, $addressBookUrl);
 	}
 
 	protected function download(string $url, string $userName, string $sharedSecret, string $resourcePath): string {
@@ -183,6 +197,7 @@ class SyncService {
 
 		$options = [
 			'auth' => [$userName, $sharedSecret],
+			'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 		];
 
 		$response = $client->get(
@@ -211,22 +226,50 @@ class SyncService {
 	}
 
 	/**
-	 * @param string $body
-	 * @return array
-	 * @throws \Sabre\Xml\ParseException
+	 * @return array{response: array<string, array<array-key, mixed>>, token: ?string, truncated: bool}
+	 * @throws ParseException
 	 */
-	private function parseMultiStatus($body) {
-		$xml = new Service();
-
+	private function parseMultiStatus(string $body, string $addressBookUrl): array {
 		/** @var MultiStatus $multiStatus */
-		$multiStatus = $xml->expect('{DAV:}multistatus', $body);
+		$multiStatus = (new Service())->expect('{DAV:}multistatus', $body);
 
 		$result = [];
+		$truncated = false;
+
 		foreach ($multiStatus->getResponses() as $response) {
-			$result[$response->getHref()] = $response->getResponseProperties();
+			$href = $response->getHref();
+			if ($response->getHttpStatus() === '507' && $this->isResponseForRequestUri($href, $addressBookUrl)) {
+				$truncated = true;
+			} else {
+				$result[$response->getHref()] = $response->getResponseProperties();
+			}
 		}
 
-		return ['response' => $result, 'token' => $multiStatus->getSyncToken()];
+		return ['response' => $result, 'token' => $multiStatus->getSyncToken(), 'truncated' => $truncated];
+	}
+
+	/**
+	 * Determines whether the provided response URI corresponds to the given request URI.
+	 */
+	private function isResponseForRequestUri(string $responseUri, string $requestUri): bool {
+		/*
+		 * Example response uri:
+		 *
+		 * /remote.php/dav/addressbooks/system/system/system/
+		 * /cloud/remote.php/dav/addressbooks/system/system/system/ (when installed in a subdirectory)
+		 *
+		 * Example request uri:
+		 *
+		 * remote.php/dav/addressbooks/system/system/system
+		 *
+		 * References:
+		 * https://github.com/nextcloud/3rdparty/blob/e0a509739b13820f0a62ff9cad5d0fede00e76ee/sabre/dav/lib/DAV/Sync/Plugin.php#L172-L174
+		 * https://github.com/nextcloud/server/blob/b40acb34a39592070d8455eb91c5364c07928c50/apps/federation/lib/SyncFederationAddressBooks.php#L41
+		 */
+		return str_ends_with(
+			rtrim($responseUri, '/'),
+			rtrim($requestUri, '/')
+		);
 	}
 
 	/**
@@ -275,10 +318,7 @@ class SyncService {
 	 */
 	public function getLocalSystemAddressBook() {
 		if (is_null($this->localSystemAddressBook)) {
-			$systemPrincipal = 'principals/system/system';
-			$this->localSystemAddressBook = $this->ensureSystemAddressBookExists($systemPrincipal, 'system', [
-				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => 'System addressbook which holds all users of this instance'
-			]);
+			$this->localSystemAddressBook = $this->ensureLocalSystemAddressBookExists();
 		}
 
 		return $this->localSystemAddressBook;

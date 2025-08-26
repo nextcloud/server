@@ -9,16 +9,15 @@ OC.L10N.register(
     "Use backup code" : "Použiť záložný kód",
     "Two factor backup codes" : "Záložné kódy pre dvojfaktorové overovanie",
     "A two-factor auth backup codes provider" : "Poskytovateľ záložných kódov pre dvojfaktorové overovanie",
+    "An error occurred while generating your backup codes" : "Pri vytváraní záložných kódov nastala chyba.",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Boli vygenerované záložné kódy. Boli použité {used} z {total} kódov.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Toto sú vaše záložné kódy. Uložte si ich a/alebo si ich vytlačte, pretože kódy neskôr nebudete môcť znova prečítať.",
     "Save backup codes" : "Uložiť záložné kódy",
     "Print backup codes" : "Vytlačiť záložné kódy",
     "Regenerate backup codes" : "Vytvoriť nové záložné kódy",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Ak vytvoríte nové záložné kódy, staré sa automaticky zneplatnia.",
-    "An error occurred while generating your backup codes" : "Pri vytváraní záložných kódov nastala chyba.",
     "{name} backup codes" : "{name} záložné kódy",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Pri nastavovaní dvojfaktorového overovania totožnosti použite jeden zo záložných kódov, ktoré ste uložili.",
-    "Submit" : "Odoslať",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Tu sú vaše záložné kódy. Uložte si ich prosím alebo vytlačte, pretože ich nebude možné neskôr znovu zobraziť."
+    "Submit" : "Odoslať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

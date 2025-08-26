@@ -22,7 +22,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Template;
+use OCP\Template\ITemplate;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -68,7 +68,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 				$this->urlGenerator,
 				$this->logger,
 			])
-			->setMethods(['getLogoutUrl'])
+			->onlyMethods(['getLogoutUrl'])
 			->getMock();
 		$this->controller->expects($this->any())
 			->method('getLogoutUrl')
@@ -115,7 +115,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$provider->method('getId')->willReturn('myprovider');
 		$backupProvider = $this->createMock(IProvider::class);
 		$backupProvider->method('getId')->willReturn('backup_codes');
-		$tmpl = $this->createMock(Template::class);
+		$tmpl = $this->createMock(ITemplate::class);
 		$providerSet = new ProviderSet([$provider, $backupProvider], true);
 
 		$this->userSession->expects($this->once())
@@ -301,13 +301,17 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->twoFactorManager->expects($this->once())
 			->method('verifyChallenge')
 			->with('myprovider', $user, 'token')
-			->will($this->throwException($exception));
+			->willThrowException($exception);
+		$calls = [
+			['two_factor_auth_error_message', '2FA failed'],
+			['two_factor_auth_error', true],
+		];
 		$this->session->expects($this->exactly(2))
 			->method('set')
-			->withConsecutive(
-				['two_factor_auth_error_message', '2FA failed'],
-				['two_factor_auth_error', true]
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.showChallenge', [
@@ -399,7 +403,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('getLoginSetup')
 			->with($user)
 			->willReturn($loginSetup);
-		$tmpl = $this->createMock(Template::class);
+		$tmpl = $this->createMock(ITemplate::class);
 		$loginSetup->expects($this->once())
 			->method('getBody')
 			->willReturn($tmpl);

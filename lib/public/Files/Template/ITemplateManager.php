@@ -39,6 +39,15 @@ interface ITemplateManager {
 	public function listTemplates(): array;
 
 	/**
+	 * Get the fields for a given template
+	 *
+	 * @param int $fileId
+	 * @return array
+	 * @since 32.0.0
+	 */
+	public function listTemplateFields(int $fileId): array;
+
+	/**
 	 * @return bool
 	 * @since 21.0.0
 	 */

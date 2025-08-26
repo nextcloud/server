@@ -16,6 +16,11 @@ use InvalidArgumentException;
  */
 interface IUser {
 	/**
+	 * @since 32.0.0
+	 */
+	public const MAX_USERID_LENGTH = 64;
+
+	/**
 	 * get the user id
 	 *
 	 * @return string
@@ -150,6 +155,13 @@ interface IUser {
 	public function canChangeDisplayName();
 
 	/**
+	 * Check if the backend supports changing email
+	 *
+	 * @since 32.0.0
+	 */
+	public function canChangeEmail(): bool;
+
+	/**
 	 * check if the user is enabled
 	 *
 	 * @return bool
@@ -267,6 +279,15 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function getQuota();
+
+	/**
+	 * Get the users' quota in machine readable form. If a specific quota is set
+	 * for the user, then the quota is returned in bytes. Otherwise the default value is returned.
+	 * If a default setting was not set, it is return as `\OCP\Files\FileInfo::SPACE_UNLIMITED`, i.e. quota is not limited.
+	 *
+	 * @since 32.0.0
+	 */
+	public function getQuotaBytes(): int|float;
 
 	/**
 	 * set the users' quota

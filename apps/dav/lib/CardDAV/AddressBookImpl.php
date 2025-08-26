@@ -7,15 +7,16 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OCA\DAV\Db\PropertyMapper;
 use OCP\Constants;
-use OCP\IAddressBook;
+use OCP\IAddressBookEnabled;
 use OCP\IURLGenerator;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\UUIDUtil;
 
-class AddressBookImpl implements IAddressBook {
+class AddressBookImpl implements IAddressBookEnabled {
 
 	/**
 	 * AddressBookImpl constructor.
@@ -30,6 +31,8 @@ class AddressBookImpl implements IAddressBook {
 		private array $addressBookInfo,
 		private CardDavBackend $backend,
 		private IURLGenerator $urlGenerator,
+		private PropertyMapper $propertyMapper,
+		private ?string $userId,
 	) {
 	}
 
@@ -38,7 +41,7 @@ class AddressBookImpl implements IAddressBook {
 	 * @since 5.0.0
 	 */
 	public function getKey() {
-		return $this->addressBookInfo['id'];
+		return (string)$this->addressBookInfo['id'];
 	}
 
 	/**
@@ -149,6 +152,10 @@ class AddressBookImpl implements IAddressBook {
 		$permissions = $this->addressBook->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
+			if ($this->addressBookInfo['principaluri'] !== $permission['principal']) {
+				continue;
+			}
+
 			switch ($permission['privilege']) {
 				case '{DAV:}read':
 					$result |= Constants::PERMISSION_READ;
@@ -304,8 +311,29 @@ class AddressBookImpl implements IAddressBook {
 	 */
 	public function isSystemAddressBook(): bool {
 		return $this->addressBookInfo['principaluri'] === 'principals/system/system' && (
-			$this->addressBookInfo['uri'] === 'system' ||
-			$this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
+			$this->addressBookInfo['uri'] === 'system'
+			|| $this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
 		);
+	}
+
+	public function isEnabled(): bool {
+		if (!$this->userId) {
+			return true;
+		}
+
+		if ($this->isSystemAddressBook()) {
+			$user = $this->userId ;
+			$uri = 'z-server-generated--system';
+		} else {
+			$user = str_replace('principals/users/', '', $this->addressBookInfo['principaluri']);
+			$uri = $this->addressBookInfo['uri'];
+		}
+
+		$path = 'addressbooks/users/' . $user . '/' . $uri;
+		$properties = $this->propertyMapper->findPropertyByPathAndName($user, $path, '{http://owncloud.org/ns}enabled');
+		if (count($properties) > 0) {
+			return (bool)$properties[0]->getPropertyvalue();
+		}
+		return true;
 	}
 }

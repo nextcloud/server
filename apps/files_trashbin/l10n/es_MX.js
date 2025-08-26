@@ -7,17 +7,17 @@ OC.L10N.register(
     "This application enables people to restore files that were deleted from the system." : "Esta aplicación permite a los usuarios restaurar archivos que fueron eliminados del sistema.",
     "This application enables people to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the people file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent an account from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Esta aplicación permite a los usuarios restaurar archivos que fueron borrados del sistema. Despliega una lista de los archivos borrados en la interface web, y tiene la opción de restaurarlos a los directorios de usuario o eliminarlos permanentemente del sistema. Restaurar un archivo también restaura las versiones relacionadas, si la aplicación de versiones está habilitada. Cuando se borra un archivo de un elemento compartido, puede ser restaurado de la misma manera, aunque ya no estará compartido. Por defecto, estos archivos permanecen en la papelera por 30 días.\nPara prevenir que un usuario se quede sin espacio, la aplicación de Archivos borrados no usará más del 50% del espacio disponible en ese momento para los archivos eliminados. Si los archivos eliminados exceden este límite, la aplicación elimina los archivos más antiguos hasta que queda dentro de este límite. Más información disponible en la documentación de Archivos borrados. ",
     "Restore" : "Restaurar",
-    "Unknown" : "Desconocido",
-    "All files" : "Todos los archivos",
-    "You" : "Usted",
+    "Cancel" : "Cancelar",
     "Original location" : "Ubicación original",
     "Deleted by" : "Eliminado por",
     "Deleted" : "Borrado",
     "A long time ago" : "Hace mucho tiempo",
-    "Cancel" : "Cancelar",
-    "Deletion cancelled" : "Eliminación cancelada",
+    "Unknown" : "Desconocido",
+    "All files" : "Todos los archivos",
+    "You" : "Usted",
     "List of files that have been deleted." : "Lista de archivos que han sido eliminados.",
     "No deleted files" : "No hay archivos borrados",
-    "Files and folders you have deleted will show up here" : "Los archivos y carpetas que ha eliminado aparecerán aquí"
+    "Files and folders you have deleted will show up here" : "Los archivos y carpetas que ha eliminado aparecerán aquí",
+    "Deletion cancelled" : "Eliminación cancelada"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

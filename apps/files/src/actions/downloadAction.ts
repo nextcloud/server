@@ -2,15 +2,22 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { FileAction, Node, FileType, DefaultType } from '@nextcloud/files'
+import type { Node, View } from '@nextcloud/files'
+import { FileAction, FileType, DefaultType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { isDownloadable } from '../utils/permissions'
 
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
-const triggerDownload = function(url: string) {
+/**
+ * Trigger downloading a file.
+ *
+ * @param url The url of the asset to download
+ * @param name Optionally the recommended name of the download (browsers might ignore it)
+ */
+function triggerDownload(url: string, name?: string) {
 	const hiddenElement = document.createElement('a')
-	hiddenElement.download = ''
+	hiddenElement.download = name ?? ''
 	hiddenElement.href = url
 	hiddenElement.click()
 }
@@ -42,21 +49,21 @@ const downloadNodes = function(nodes: Node[]) {
 
 	if (nodes.length === 1) {
 		if (nodes[0].type === FileType.File) {
-			return triggerDownload(nodes[0].encodedSource)
+			return triggerDownload(nodes[0].encodedSource, nodes[0].displayname)
 		} else {
 			url = new URL(nodes[0].encodedSource)
 			url.searchParams.append('accept', 'zip')
 		}
 	} else {
-		url = new URL(nodes[0].source)
+		url = new URL(nodes[0].encodedSource)
 		let base = url.pathname
 		for (const node of nodes.slice(1)) {
-			base = longestCommonPath(base, (new URL(node.source).pathname))
+			base = longestCommonPath(base, (new URL(node.encodedSource).pathname))
 		}
 		url.pathname = base
 
 		// The URL contains the path encoded so we need to decode as the query.append will re-encode it
-		const filenames = nodes.map((node) => decodeURI(node.encodedSource.slice(url.href.length + 1)))
+		const filenames = nodes.map((node) => decodeURIComponent(node.encodedSource.slice(url.href.length + 1)))
 		url.searchParams.append('accept', 'zip')
 		url.searchParams.append('files', JSON.stringify(filenames))
 	}
@@ -75,13 +82,18 @@ export const action = new FileAction({
 	displayName: () => t('files', 'Download'),
 	iconSvgInline: () => ArrowDownSvg,
 
-	enabled(nodes: Node[]) {
+	enabled(nodes: Node[], view: View) {
 		if (nodes.length === 0) {
 			return false
 		}
 
 		// We can only download dav files and folders.
-		if (nodes.some(node => !node.isDavRessource)) {
+		if (nodes.some(node => !node.isDavResource)) {
+			return false
+		}
+
+		// Trashbin does not allow batch download
+		if (nodes.length > 1 && view.id === 'trashbin') {
 			return false
 		}
 

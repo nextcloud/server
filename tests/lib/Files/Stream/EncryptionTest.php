@@ -9,8 +9,12 @@ declare(strict_types=1);
  */
 namespace Test\Files\Stream;
 
+use OC\Encryption\File;
+use OC\Encryption\Util;
 use OC\Files\Cache\CacheEntry;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OC\Files\Stream\Encryption;
 use OC\Files\View;
 use OC\Memcache\ArrayCache;
 use OCP\Encryption\IEncryptionModule;
@@ -53,11 +57,11 @@ class EncryptionTest extends \Test\TestCase {
 			->getMock();
 		$file = $this->getMockBuilder('\OC\Encryption\File')
 			->disableOriginalConstructor()
-			->setMethods(['getAccessList'])
+			->onlyMethods(['getAccessList'])
 			->getMock();
 		$file->expects($this->any())->method('getAccessList')->willReturn([]);
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
-			->setMethods(['getUidAndFilename'])
+			->onlyMethods(['getUidAndFilename'])
 			->setConstructorArgs([new View(), new \OC\User\Manager(
 				$config,
 				$this->createMock(ICacheFactory::class),
@@ -97,9 +101,7 @@ class EncryptionTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataProviderStreamOpen()
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataProviderStreamOpen')]
 	public function testStreamOpen(
 		$isMasterKeyUsed,
 		$mode,
@@ -111,20 +113,17 @@ class EncryptionTest extends \Test\TestCase {
 		$expectedReadOnly,
 	): void {
 		// build mocks
-		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
-			->disableOriginalConstructor()->getMock();
+		$encryptionModuleMock = $this->createMock(IEncryptionModule::class);
 		$encryptionModuleMock->expects($this->any())->method('needDetailedAccessList')->willReturn(!$isMasterKeyUsed);
 		$encryptionModuleMock->expects($this->once())
 			->method('getUnencryptedBlockSize')->willReturn(99);
 		$encryptionModuleMock->expects($this->once())
 			->method('begin')->willReturn([]);
 
-		$storageMock = $this->getMockBuilder('\OC\Files\Storage\Storage')
-			->disableOriginalConstructor()->getMock();
+		$storageMock = $this->createMock(Storage::class);
 		$storageMock->expects($this->once())->method('file_exists')->willReturn($fileExists);
 
-		$fileMock = $this->getMockBuilder('\OC\Encryption\File')
-			->disableOriginalConstructor()->getMock();
+		$fileMock = $this->createMock(File::class);
 		if ($isMasterKeyUsed) {
 			$fileMock->expects($this->never())->method('getAccessList');
 		} else {
@@ -134,18 +133,20 @@ class EncryptionTest extends \Test\TestCase {
 					return [];
 				});
 		}
-		$utilMock = $this->getMockBuilder('\OC\Encryption\Util')
+		$utilMock = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()->getMock();
 		$utilMock->expects($this->any())
 			->method('getHeaderSize')
 			->willReturn(8192);
 
 		// get a instance of the stream wrapper
-		$streamWrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
-			->setMethods(['loadContext', 'writeHeader', 'skipHeader'])->disableOriginalConstructor()->getMock();
+		$streamWrapper = $this->getMockBuilder(Encryption::class)
+			->onlyMethods(['loadContext', 'writeHeader', 'skipHeader'])
+			->disableOriginalConstructor()
+			->getMock();
 
 		// set internal properties of the stream wrapper
-		$stream = new \ReflectionClass('\OC\Files\Stream\Encryption');
+		$stream = new \ReflectionClass(Encryption::class);
 		$encryptionModule = $stream->getProperty('encryptionModule');
 		$encryptionModule->setAccessible(true);
 		$encryptionModule->setValue($streamWrapper, $encryptionModuleMock);
@@ -195,7 +196,7 @@ class EncryptionTest extends \Test\TestCase {
 		$readOnly->setAccessible(false);
 	}
 
-	public function dataProviderStreamOpen() {
+	public static function dataProviderStreamOpen(): array {
 		return [
 			[false, 'r', '/foo/bar/test.txt', true, '/foo/bar/test.txt', null, null, true],
 			[false, 'r', '/foo/bar/test.txt', false, '/foo/bar', null, null, true],
@@ -266,7 +267,7 @@ class EncryptionTest extends \Test\TestCase {
 		unlink($fileName);
 	}
 
-	public function dataFilesProvider() {
+	public static function dataFilesProvider(): array {
 		return [
 			['lorem-big.txt'],
 			['block-aligned.txt'],
@@ -274,9 +275,7 @@ class EncryptionTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataFilesProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilesProvider')]
 	public function testWriteReadBigFile($testFile): void {
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
@@ -311,13 +310,15 @@ class EncryptionTest extends \Test\TestCase {
 
 	/**
 	 * simulate a non-seekable storage
-	 *
-	 * @dataProvider dataFilesProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilesProvider')]
 	public function testWriteToNonSeekableStorage($testFile): void {
-		$wrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
-			->setMethods(['parentSeekStream'])->getMock();
-		$wrapper->expects($this->any())->method('parentSeekStream')->willReturn(false);
+		$wrapper = $this->getMockBuilder(Encryption::class)
+			->onlyMethods(['parentStreamSeek'])
+			->getMock();
+		$wrapper->expects($this->any())
+			->method('parentStreamSeek')
+			->willReturn(false);
 
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
@@ -351,9 +352,9 @@ class EncryptionTest extends \Test\TestCase {
 	}
 
 	protected function buildMockModule(): IEncryptionModule&MockObject {
-		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
+		$encryptionModule = $this->getMockBuilder(IEncryptionModule::class)
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll', 'isReadyForUser', 'needDetailedAccessList'])
+			->onlyMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll', 'isReadyForUser', 'needDetailedAccessList'])
 			->getMock();
 
 		$encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');

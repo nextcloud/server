@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Files;
 
 use OC\Share20\ShareDisableChecker;
+use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProviderCollection;
@@ -36,6 +37,7 @@ class SetupManagerFactory {
 		private LoggerInterface $logger,
 		private IConfig $config,
 		private ShareDisableChecker $shareDisableChecker,
+		private IAppManager $appManager,
 	) {
 		$this->setupManager = null;
 	}
@@ -55,6 +57,7 @@ class SetupManagerFactory {
 				$this->logger,
 				$this->config,
 				$this->shareDisableChecker,
+				$this->appManager,
 			);
 		}
 		return $this->setupManager;

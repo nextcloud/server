@@ -11,31 +11,24 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Provider;
 use OC\App\AppManager;
 use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 use OCP\IUser;
-use OCP\Template;
+use OCP\Server;
+use OCP\Template\ITemplateManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BackupCodesProviderTest extends TestCase {
+	private string $appName;
 
-	/** @var string */
-	private $appName;
+	private BackupCodeStorage&MockObject $storage;
+	private IL10N&MockObject $l10n;
+	private AppManager&MockObject $appManager;
+	private IInitialState&MockObject $initialState;
 
-	/** @var BackupCodeStorage|\PHPUnit\Framework\MockObject\MockObject */
-	private $storage;
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-
-	/** @var AppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-
-	/** @var IInitialStateService|\PHPUnit\Framework\MockObject\MockObject */
-	private $initialState;
-
-	/** @var BackupCodesProvider */
-	private $provider;
+	private ITemplateManager $templateManager;
+	private BackupCodesProvider $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -44,9 +37,17 @@ class BackupCodesProviderTest extends TestCase {
 		$this->storage = $this->createMock(BackupCodeStorage::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->appManager = $this->createMock(AppManager::class);
-		$this->initialState = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->templateManager = Server::get(ITemplateManager::class);
 
-		$this->provider = new BackupCodesProvider($this->appName, $this->storage, $this->l10n, $this->appManager, $this->initialState);
+		$this->provider = new BackupCodesProvider(
+			$this->appName,
+			$this->storage,
+			$this->l10n,
+			$this->appManager,
+			$this->initialState,
+			$this->templateManager,
+		);
 	}
 
 	public function testGetId(): void {
@@ -71,7 +72,7 @@ class BackupCodesProviderTest extends TestCase {
 
 	public function testGetTempalte(): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
-		$expected = new Template('twofactor_backupcodes', 'challenge');
+		$expected = $this->templateManager->getTemplate('twofactor_backupcodes', 'challenge');
 
 		$this->assertEquals($expected, $this->provider->getTemplate($user));
 	}

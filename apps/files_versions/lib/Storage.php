@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@
 namespace OCA\Files_Versions;
 
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
@@ -23,6 +25,7 @@ use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Command\IBus;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
@@ -32,6 +35,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IURLGenerator;
@@ -416,12 +420,31 @@ class Storage {
 
 		try {
 			// TODO add a proper way of overwriting a file while maintaining file ids
-			if ($storage1->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage') || $storage2->instanceOfStorage('\OC\Files\ObjectStore\ObjectStoreStorage')) {
+			if ($storage1->instanceOfStorage(ObjectStoreStorage::class)
+				|| $storage2->instanceOfStorage(ObjectStoreStorage::class)
+			) {
 				$source = $storage1->fopen($internalPath1, 'r');
-				$target = $storage2->fopen($internalPath2, 'w');
-				[, $result] = \OC_Helper::streamCopy($source, $target);
-				fclose($source);
-				fclose($target);
+				$result = $source !== false;
+				if ($result) {
+					if ($storage2->instanceOfStorage(IWriteStreamStorage::class)) {
+						/** @var IWriteStreamStorage $storage2 */
+						$storage2->writeStream($internalPath2, $source);
+					} else {
+						$target = $storage2->fopen($internalPath2, 'w');
+						$result = $target !== false;
+						if ($result) {
+							[, $result] = Files::streamCopy($source, $target, true);
+						}
+						// explicit check as S3 library closes streams already
+						if (is_resource($target)) {
+							fclose($target);
+						}
+					}
+				}
+				// explicit check as S3 library closes streams already
+				if (is_resource($source)) {
+					fclose($source);
+				}
 
 				if ($result !== false) {
 					$storage1->unlink($internalPath1);
@@ -696,7 +719,15 @@ class Storage {
 		$expiration = self::getExpiration();
 
 		if ($expiration->shouldAutoExpire()) {
-			[$toDelete, $size] = self::getAutoExpireList($time, $versions);
+			// Exclude versions that are newer than the minimum age from the auto expiration logic.
+			$minAge = $expiration->getMinAgeAsTimestamp();
+			if ($minAge !== false) {
+				$versionsToAutoExpire = array_filter($versions, fn ($version) => $version['version'] < $minAge);
+			} else {
+				$versionsToAutoExpire = $versions;
+			}
+
+			[$toDelete, $size] = self::getAutoExpireList($time, $versionsToAutoExpire);
 		} else {
 			$size = 0;
 			$toDelete = [];  // versions we want to delete

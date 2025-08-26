@@ -56,14 +56,14 @@ class MessageTest extends TestCase {
 	}
 
 	public function testId(): void {
-		
+
 		// test set by constructor
 		$this->assertEquals('cd02ea42-feac-4863-b9d8-484d16a587ea', $this->message->id());
 
 	}
 
 	public function testFrom(): void {
-		
+
 		// test not set
 		$this->assertNull($this->message->getFrom());
 		// test set by setter
@@ -73,7 +73,7 @@ class MessageTest extends TestCase {
 	}
 
 	public function testReplyTo(): void {
-		
+
 		// test not set
 		$this->assertNull($this->message->getReplyTo());
 		// test set by setter
@@ -83,7 +83,7 @@ class MessageTest extends TestCase {
 	}
 
 	public function testTo(): void {
-		
+
 		// test not set
 		$this->assertEquals([], $this->message->getTo());
 		// test set by setter single
@@ -96,7 +96,7 @@ class MessageTest extends TestCase {
 	}
 
 	public function testCc(): void {
-		
+
 		// test not set
 		$this->assertEquals([], $this->message->getCc());
 		// test set by setter single
@@ -109,7 +109,7 @@ class MessageTest extends TestCase {
 	}
 
 	public function testBcc(): void {
-		
+
 		// test not set
 		$this->assertEquals([], $this->message->getBcc());
 		// test set by setter single
@@ -122,7 +122,7 @@ class MessageTest extends TestCase {
 	}
 
 	public function testSubject(): void {
-		
+
 		// test not set
 		$this->assertNull($this->message->getSubject());
 		// test set by setter
@@ -132,7 +132,7 @@ class MessageTest extends TestCase {
 	}
 
 	public function testBody(): void {
-		
+
 		// test not set
 		$this->assertNull($this->message->getBody());
 		// test set by setter - text body
@@ -149,7 +149,7 @@ class MessageTest extends TestCase {
 	}
 
 	public function testAttachments(): void {
-		
+
 		// test not set
 		$this->assertEquals([], $this->message->getAttachments());
 		// test set by setter single

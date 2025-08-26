@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,9 +18,11 @@ use OC\User\NoUserException;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCA\Files_Versions\Storage;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Constants;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IConfig;
 use OCP\IUser;
@@ -81,7 +85,10 @@ class VersioningTest extends \Test\TestCase {
 		parent::setUp();
 
 		$config = Server::get(IConfig::class);
-		$mockConfig = $this->createMock(IConfig::class);
+		$mockConfig = $this->getMockBuilder(AllConfig::class)
+			->onlyMethods(['getSystemValue'])
+			->setConstructorArgs([Server::get(SystemConfig::class)])
+			->getMock();
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
 			->willReturnCallback(function ($key, $default) use ($config) {
@@ -133,8 +140,8 @@ class VersioningTest extends \Test\TestCase {
 	/**
 	 * @medium
 	 * test expire logic
-	 * @dataProvider versionsProvider
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('versionsProvider')]
 	public function testGetExpireList($versions, $sizeOfAllDeletedFiles): void {
 
 		// last interval end at 2592000
@@ -158,7 +165,7 @@ class VersioningTest extends \Test\TestCase {
 		}
 	}
 
-	public function versionsProvider() {
+	public static function versionsProvider(): array {
 		return [
 			// first set of versions uniformly distributed versions
 			[
@@ -425,8 +432,9 @@ class VersioningTest extends \Test\TestCase {
 		$this->rootView->file_put_contents($v2, 'version2');
 
 		// move file into the shared folder as recipient
-		Filesystem::rename('/test.txt', '/folder1/test.txt');
+		$success = Filesystem::rename('/test.txt', '/folder1/test.txt');
 
+		$this->assertTrue($success);
 		$this->assertFalse($this->rootView->file_exists($v1));
 		$this->assertFalse($this->rootView->file_exists($v2));
 
@@ -677,7 +685,7 @@ class VersioningTest extends \Test\TestCase {
 
 		$firstVersion = current($versions);
 
-		$this->assertFalse(Storage::rollback('folder/test.txt', $firstVersion['version'], $this->user2), 'Revert did not happen');
+		$this->assertFalse(Storage::rollback('folder/test.txt', (int)$firstVersion['version'], $this->user2), 'Revert did not happen');
 
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
@@ -737,8 +745,8 @@ class VersioningTest extends \Test\TestCase {
 			return;
 		}
 
-		$eventHandler = $this->getMockBuilder(\stdclass::class)
-			->setMethods(['callback'])
+		$eventHandler = $this->getMockBuilder(DummyHookListener::class)
+			->onlyMethods(['callback'])
 			->getMock();
 
 		$eventHandler->expects($this->any())
@@ -757,7 +765,7 @@ class VersioningTest extends \Test\TestCase {
 		);
 	}
 
-	private function doTestRestore() {
+	private function doTestRestore(): void {
 		$filePath = self::TEST_VERSIONS_USER . '/files/sub/test.txt';
 		$this->rootView->file_put_contents($filePath, 'test file');
 
@@ -804,8 +812,13 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertEquals('test file', $this->rootView->file_get_contents($filePath));
 		$info1 = $this->rootView->getFileInfo($filePath);
 
-		$params = [];
-		$this->connectMockHooks('rollback', $params);
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$eventFired = false;
+		$eventDispatcher->addListener(VersionRestoredEvent::class, function ($event) use (&$eventFired, $t2): void {
+			$eventFired = true;
+			$this->assertEquals('/sub/test.txt', $event->getVersion()->getVersionPath());
+			$this->assertTrue($event->getVersion()->getRevisionId() > 0);
+		});
 
 		$versionManager = Server::get(IVersionManager::class);
 		$versions = $versionManager->getVersionsForFile($this->user1, $info1);
@@ -813,13 +826,8 @@ class VersioningTest extends \Test\TestCase {
 			return $version->getRevisionId() === $t2;
 		});
 		$this->assertTrue($versionManager->rollback(current($version)));
-		$expectedParams = [
-			'path' => '/sub/test.txt',
-		];
 
-		$this->assertEquals($expectedParams['path'], $params['path']);
-		$this->assertTrue(array_key_exists('revision', $params));
-		$this->assertTrue($params['revision'] > 0);
+		$this->assertTrue($eventFired, 'VersionRestoredEvent was not fired');
 
 		$this->assertEquals('version2', $this->rootView->file_get_contents($filePath));
 		$info2 = $this->rootView->getFileInfo($filePath);
@@ -935,11 +943,7 @@ class VersioningTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @param View $view
-	 * @param string $path
-	 */
-	private function createAndCheckVersions(View $view, $path) {
+	private function createAndCheckVersions(View $view, string $path): array {
 		$view->file_put_contents($path, 'test file');
 		$view->file_put_contents($path, 'version 1');
 		$view->file_put_contents($path, 'version 2');
@@ -961,11 +965,7 @@ class VersioningTest extends \Test\TestCase {
 		return $versions;
 	}
 
-	/**
-	 * @param string $user
-	 * @param bool $create
-	 */
-	public static function loginHelper($user, $create = false) {
+	public static function loginHelper(string $user, bool $create = false) {
 		if ($create) {
 			$backend = new \Test\Util\User\Dummy();
 			$backend->createUser($user, $user);
@@ -978,6 +978,11 @@ class VersioningTest extends \Test\TestCase {
 		\OC_User::setUserId($user);
 		\OC_Util::setupFS($user);
 		\OC::$server->getUserFolder($user);
+	}
+}
+
+class DummyHookListener {
+	public function callback() {
 	}
 }
 

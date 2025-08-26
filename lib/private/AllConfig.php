@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,11 +7,11 @@
  */
 namespace OC;
 
-use NCU\Config\Exceptions\TypeConflictException;
-use NCU\Config\IUserConfig;
-use NCU\Config\ValueType;
 use OC\Config\UserConfig;
 use OCP\Cache\CappedMemoryCache;
+use OCP\Config\Exceptions\TypeConflictException;
+use OCP\Config\IUserConfig;
+use OCP\Config\ValueType;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
@@ -194,7 +195,7 @@ class AllConfig implements IConfig {
 	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
 	 */
 	public function getAppValue($appName, $key, $default = '') {
-		return \OC::$server->get(AppConfig::class)->getValue($appName, $key, $default);
+		return \OC::$server->get(AppConfig::class)->getValue($appName, $key, $default) ?? $default;
 	}
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -554,5 +555,10 @@ class SharedStorage extends Jail implements LegacyISharedStorage, ISharedStorage
 	public function getUnjailedPath(string $path): string {
 		$this->init();
 		return parent::getUnjailedPath($path);
+	}
+
+	public function getDirectDownload(string $path): array|false {
+		// disable direct download for shares
+		return [];
 	}
 }

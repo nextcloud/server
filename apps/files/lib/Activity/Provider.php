@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -25,8 +26,6 @@ use OCP\L10N\IFactory;
 class Provider implements IProvider {
 	/** @var IL10N */
 	protected $l;
-	/** @var IL10N */
-	protected $activityLang;
 
 	/** @var string[] cached displayNames - key is the cloud id and value the displayname */
 	protected $displayNames = [];
@@ -59,7 +58,6 @@ class Provider implements IProvider {
 		}
 
 		$this->l = $this->languageFactory->get('files', $language);
-		$this->activityLang = $this->languageFactory->get('activity', $language);
 
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {
@@ -114,7 +112,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
+			$subject = str_replace('{user}', $this->l->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -232,7 +230,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
+			$subject = str_replace('{user}', $this->l->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -322,7 +320,7 @@ class Provider implements IProvider {
 	protected function getFile($parameter, ?IEvent $event = null): array {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
-			$id = (string)key($parameter);
+			$id = (int)key($parameter);
 		} elseif ($event !== null) {
 			// Legacy from before ownCloud 8.2
 			$path = $parameter;
@@ -344,7 +342,7 @@ class Provider implements IProvider {
 
 				return [
 					'type' => 'file',
-					'id' => $encryptionContainer->getId(),
+					'id' => (string)$encryptionContainer->getId(),
 					'name' => $encryptionContainer->getName(),
 					'path' => $path,
 					'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $encryptionContainer->getId()]),
@@ -357,7 +355,7 @@ class Provider implements IProvider {
 
 		return [
 			'type' => 'file',
-			'id' => $id,
+			'id' => (string)$id,
 			'name' => basename($path),
 			'path' => trim($path, '/'),
 			'link' => $this->url->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $id]),

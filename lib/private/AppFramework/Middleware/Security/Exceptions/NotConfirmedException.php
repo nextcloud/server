@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -14,7 +15,7 @@ use OCP\AppFramework\Http;
  * @package OC\AppFramework\Middleware\Security\Exceptions
  */
 class NotConfirmedException extends SecurityException {
-	public function __construct() {
-		parent::__construct('Password confirmation is required', Http::STATUS_FORBIDDEN);
+	public function __construct(string $message = 'Password confirmation is required') {
+		parent::__construct($message, Http::STATUS_FORBIDDEN);
 	}
 }

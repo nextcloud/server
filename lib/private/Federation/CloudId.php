@@ -9,29 +9,15 @@ declare(strict_types=1);
 namespace OC\Federation;
 
 use OCP\Federation\ICloudId;
+use OCP\Federation\ICloudIdManager;
 
 class CloudId implements ICloudId {
-	/** @var string */
-	private $id;
-	/** @var string */
-	private $user;
-	/** @var string */
-	private $remote;
-	/** @var string|null */
-	private $displayName;
-
-	/**
-	 * CloudId constructor.
-	 *
-	 * @param string $id
-	 * @param string $user
-	 * @param string $remote
-	 */
-	public function __construct(string $id, string $user, string $remote, ?string $displayName = null) {
-		$this->id = $id;
-		$this->user = $user;
-		$this->remote = $remote;
-		$this->displayName = $displayName;
+	public function __construct(
+		protected string $id,
+		protected string $user,
+		protected string $remote,
+		protected ?string $displayName = null,
+	) {
 	}
 
 	/**
@@ -44,12 +30,18 @@ class CloudId implements ICloudId {
 	}
 
 	public function getDisplayId(): string {
-		if ($this->displayName) {
-			$atPos = strrpos($this->getId(), '@');
-			$atHost = substr($this->getId(), $atPos);
-			return $this->displayName . $atHost;
+		if ($this->displayName === null) {
+			/** @var CloudIdManager $cloudIdManager */
+			$cloudIdManager = \OCP\Server::get(ICloudIdManager::class);
+			$this->displayName = $cloudIdManager->getDisplayNameFromContact($this->getId());
 		}
-		return str_replace('https://', '', str_replace('http://', '', $this->getId()));
+
+		$atHost = str_replace(['http://', 'https://'], '', $this->getRemote());
+
+		if ($this->displayName) {
+			return $this->displayName . '@' . $atHost;
+		}
+		return $this->getUser() . '@' . $atHost;
 	}
 
 	/**

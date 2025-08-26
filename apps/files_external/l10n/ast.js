@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Conceder l'accesu",
-    "Error configuring OAuth1" : "Hebo un error al configurar l'OAuth1",
-    "Please provide a valid app key and secret." : "Forni una clave y un secretu d'aplicación válidos.",
     "Error configuring OAuth2" : "Hebo un error al configurar l'OAuth2",
     "Generate keys" : "Xenerar les claves",
     "Error generating key pair" : "Hebo un error al xenerar el par de claves",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "Clave del secretu",
     "Builtin" : "Integrada",
     "None" : "Nada",
-    "OAuth1" : "OAuth1",
-    "App key" : "Clave d'aplicación",
-    "App secret" : "Secretu d'aplicación",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID de veceru",
     "Client secret" : "Secretu de veceru",
@@ -145,6 +140,10 @@ OC.L10N.register(
     "Advanced settings" : "Configuración avanzada",
     "Allow people to mount external storage" : "Permitir a otros montar l'almacenamientu esternu",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Pues usar les credenciales globales p'autenticate en múltiples almacenamientos esternos que tengan les meses credenciales.",
-    "Submit" : "Unviar"
+    "Error configuring OAuth1" : "Hebo un error al configurar l'OAuth1",
+    "Please provide a valid app key and secret." : "Forni una clave y un secretu d'aplicación válidos.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Clave d'aplicación",
+    "App secret" : "Secretu d'aplicación"
 },
 "nplurals=2; plural=(n != 1);");

@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { ACTION_COPY_MOVE } from "../../../apps/files/src/actions/moveOrCopyAction"
+import { ACTION_COPY_MOVE } from '../../../apps/files/src/actions/moveOrCopyAction.ts'
 
 export const getRowForFileId = (fileid: number) => cy.get(`[data-cy-files-list-row-fileid="${fileid}"]`)
 export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-row-name="${CSS.escape(filename)}"]`)
@@ -15,49 +15,63 @@ export const getActionsForFile = (filename: string) => getRowForFile(filename).f
 export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
 export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
-const searchForActionInRow = (row: JQuery<HTMLElement>, actionId: string): Cypress.Chainable<JQuery<HTMLElement>>  => {
-	const action = row.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
-	if (action.length > 0) {
-		cy.log('Found action in row')
-		return cy.wrap(action)
-	}
-
-	// Else look in the action menu
-	const menuButtonId = row.find('button[aria-controls]').attr('aria-controls')
-	return cy.get(`#${menuButtonId} [data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+export const getActionEntryForFileId = (fileid: number, actionId: string) => {
+	return getActionButtonForFileId(fileid)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => cy.get(`#${menuId}`).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
 
-export const getActionEntryForFileId = (fileid: number, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
-	// If we cannot find the action in the row, it might be in the action menu
-	return getRowForFileId(fileid).should('be.visible')
-		.then(row => searchForActionInRow(row, actionId))
+export const getActionEntryForFile = (file: string, actionId: string) => {
+	return getActionButtonForFile(file)
+		.should('have.attr', 'aria-controls')
+		.then((menuId) => cy.get(`#${menuId}`).find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`))
 }
-export const getActionEntryForFile = (filename: string, actionId: string): Cypress.Chainable<JQuery<HTMLElement>> => {
-	// If we cannot find the action in the row, it might be in the action menu
-	return getRowForFile(filename).should('be.visible')
-		.then(row => searchForActionInRow(row, actionId))
+
+export const getInlineActionEntryForFileId = (fileid: number, actionId: string) => {
+	return getActionsForFileId(fileid)
+		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+}
+
+export const getInlineActionEntryForFile = (file: string, actionId: string) => {
+	return getActionsForFile(file)
+		.find(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
 }
 
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
-	// Even if it's inline, we open the action menu to get all actions visible
-	getActionButtonForFileId(fileid).click({ force: true })
+	getActionButtonForFileId(fileid)
+		.as('actionButton')
+		.scrollIntoView()
+	cy.get('@actionButton')
+		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionEntryForFileId(fileid, actionId)
-		.find('button').last()
-		.should('exist').click({ force: true })
+		.find('button')
+		.should('be.visible')
+		.click()
 }
+
 export const triggerActionForFile = (filename: string, actionId: string) => {
-	// Even if it's inline, we open the action menu to get all actions visible
-	getActionButtonForFile(filename).click({ force: true })
+	getActionButtonForFile(filename)
+		.as('actionButton')
+		.scrollIntoView()
+	cy.get('@actionButton')
+		.click({ force: true }) // force to avoid issues with overlaying file list header
 	getActionEntryForFile(filename, actionId)
-		.find('button').last()
-		.should('exist').click({ force: true })
+		.find('button')
+		.should('be.visible')
+		.click()
 }
 
 export const triggerInlineActionForFileId = (fileid: number, actionId: string) => {
-	getActionsForFileId(fileid).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
+	getActionsForFileId(fileid)
+		.find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+		.should('exist')
+		.click()
 }
 export const triggerInlineActionForFile = (filename: string, actionId: string) => {
-	getActionsForFile(filename).find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
+	getActionsForFile(filename)
+		.find(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`)
+		.should('exist')
+		.click()
 }
 
 export const selectAllFiles = () => {
@@ -160,22 +174,30 @@ export const copyFile = (fileName: string, dirPath: string) => {
 
 export const renameFile = (fileName: string, newFileName: string) => {
 	getRowForFile(fileName)
+		.should('exist')
+		.scrollIntoView()
+
 	triggerActionForFile(fileName, 'rename')
 
 	// intercept the move so we can wait for it
 	cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
-	getRowForFile(fileName).find('[data-cy-files-list-row-name] input').clear()
-	getRowForFile(fileName).find('[data-cy-files-list-row-name] input').type(`${newFileName}{enter}`)
+	getRowForFile(fileName)
+		.find('[data-cy-files-list-row-name] input')
+		.type(`{selectAll}${newFileName}{enter}`)
 
 	cy.wait('@moveFile')
 }
 
 export const navigateToFolder = (dirPath: string) => {
 	const directories = dirPath.split('/')
-	directories.forEach((directory) => {
+	for (const directory of directories) {
+		if (directory === '') {
+			continue
+		}
+
 		getRowForFile(directory).should('be.visible').find('[data-cy-files-list-row-name-link]').click()
-	})
+	}
 
 }
 
@@ -229,7 +251,11 @@ export const deleteFileWithRequest = (user: User, path: string) => {
 		const requestToken = body.token
 		cy.request({
 			method: 'DELETE',
-			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}` + path,
+			url: `${Cypress.env('baseUrl')}/remote.php/dav/files/${user.userId}${path}`,
+			auth: {
+				user: user.userId,
+				password: user.password,
+			},
 			headers: {
 				requestToken,
 			},
@@ -269,6 +295,12 @@ export function enableGridMode() {
  */
 export function calculateViewportHeight(rows: number): Cypress.Chainable<number> {
 	cy.visit('/apps/files')
+
+	cy.get('[data-cy-files-list]')
+		.should('be.visible')
+
+	cy.get('[data-cy-files-list-tbody] tr', { timeout: 5000 })
+		.and('be.visible')
 
 	return cy.get('[data-cy-files-list]')
 		.should('be.visible')

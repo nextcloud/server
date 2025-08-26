@@ -8,11 +8,11 @@ import { basename } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Permission, Folder } from '@nextcloud/files'
-import { showError, showInfo, showSuccess } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
-import FolderPlusSvg from '@mdi/svg/svg/folder-plus.svg?raw'
+import FolderPlusSvg from '@mdi/svg/svg/folder-plus-outline.svg?raw'
 
 import { newNodeName } from '../utils/newNodeDialog'
 import logger from '../logger'
@@ -43,12 +43,14 @@ export const entry = {
 	id: 'newFolder',
 	displayName: t('files', 'New folder'),
 	enabled: (context: Folder) => Boolean(context.permissions & Permission.CREATE) && Boolean(context.permissions & Permission.READ),
-	iconSvgInline: FolderPlusSvg,
+
+	// Make the svg icon color match the primary element color
+	iconSvgInline: FolderPlusSvg.replace(/viewBox/gi, 'style="color: var(--color-primary-element)" viewBox'),
 	order: 0,
+
 	async handler(context: Folder, content: Node[]) {
 		const name = await newNodeName(t('files', 'New folder'), content)
 		if (name === null) {
-			showInfo(t('files', 'New folder creation cancelled'))
 			return
 		}
 		try {

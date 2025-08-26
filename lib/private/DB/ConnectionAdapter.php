@@ -50,7 +50,7 @@ class ConnectionAdapter implements IDBConnection {
 				$this->inner->executeQuery($sql, $params, $types)
 			);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -58,7 +58,7 @@ class ConnectionAdapter implements IDBConnection {
 		try {
 			return $this->inner->executeUpdate($sql, $params, $types);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -66,7 +66,7 @@ class ConnectionAdapter implements IDBConnection {
 		try {
 			return $this->inner->executeStatement($sql, $params, $types);
 		} catch (Exception $e) {
-			throw DbalException::wrap($e);
+			throw DbalException::wrap($e, '', $sql);
 		}
 	}
 
@@ -189,6 +189,14 @@ class ConnectionAdapter implements IDBConnection {
 		}
 	}
 
+	public function truncateTable(string $table, bool $cascade): void {
+		try {
+			$this->inner->truncateTable($table, $cascade);
+		} catch (Exception $e) {
+			throw DbalException::wrap($e);
+		}
+	}
+
 	public function tableExists(string $table): bool {
 		try {
 			return $this->inner->tableExists($table);
@@ -229,10 +237,10 @@ class ConnectionAdapter implements IDBConnection {
 	}
 
 	/**
-	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
+	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE|self::PLATFORM_MARIADB
 	 */
-	public function getDatabaseProvider(): string {
-		return $this->inner->getDatabaseProvider();
+	public function getDatabaseProvider(bool $strict = false): string {
+		return $this->inner->getDatabaseProvider($strict);
 	}
 
 	/**

@@ -13,13 +13,13 @@ use OC\Files\Filesystem;
 use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
 use OCA\DAV\AppInfo\Application;
-use OCA\DAV\Connector\Sabre\Exception\BadGateway;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden as DAVForbiddenException;
 use OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType;
 use OCP\App\IAppManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\Files;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
@@ -130,8 +130,9 @@ class File extends Node implements IFile {
 		$view = Filesystem::getView();
 
 		if ($needsPartFile) {
+			$transferId = \rand();
 			// mark file as partial while uploading (ignored by the scanner)
-			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
+			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . $transferId . '.part';
 
 			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
 				$needsPartFile = false;
@@ -203,27 +204,28 @@ class File extends Node implements IFile {
 				}
 			}
 
+			$lengthHeader = $this->request->getHeader('content-length');
+			$expected = $lengthHeader !== '' ? (int)$lengthHeader : null;
+
 			if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
 				$isEOF = false;
 				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF): void {
 					$isEOF = feof($stream);
 				});
 
-				$result = true;
-				$count = -1;
-				try {
-					$count = $partStorage->writeStream($internalPartPath, $wrappedData);
-				} catch (GenericFileException $e) {
-					$result = false;
-				} catch (BadGateway $e) {
-					throw $e;
-				}
-
-
-				if ($result === false) {
-					$result = $isEOF;
-					if (is_resource($wrappedData)) {
-						$result = feof($wrappedData);
+				$result = is_resource($wrappedData);
+				if ($result) {
+					$count = -1;
+					try {
+						/** @var IWriteStreamStorage $partStorage */
+						$count = $partStorage->writeStream($internalPartPath, $wrappedData, $expected);
+					} catch (GenericFileException $e) {
+						$logger = Server::get(LoggerInterface::class);
+						$logger->error('Error while writing stream to storage: ' . $e->getMessage(), ['exception' => $e, 'app' => 'webdav']);
+						$result = $isEOF;
+						if (is_resource($wrappedData)) {
+							$result = feof($wrappedData);
+						}
 					}
 				}
 			} else {
@@ -233,46 +235,37 @@ class File extends Node implements IFile {
 					// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 					throw new Exception($this->l10n->t('Could not write file contents'));
 				}
-				[$count, $result] = \OC_Helper::streamCopy($data, $target);
+				[$count, $result] = Files::streamCopy($data, $target, true);
 				fclose($target);
 			}
-
-			if ($result === false) {
-				$expected = -1;
-				$lengthHeader = $this->request->getHeader('content-length');
-				if ($lengthHeader) {
-					$expected = (int)$lengthHeader;
-				}
-				if ($expected !== 0) {
-					throw new Exception(
-						$this->l10n->t(
-							'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
-							[
-								$this->l10n->n('%n byte', '%n bytes', $count),
-								$this->l10n->n('%n byte', '%n bytes', $expected),
-							],
-						)
-					);
-				}
+			if ($result === false && $expected !== null) {
+				throw new Exception(
+					$this->l10n->t(
+						'Error while copying file to target location (copied: %1$s, expected filesize: %2$s)',
+						[
+							$this->l10n->n('%n byte', '%n bytes', $count),
+							$this->l10n->n('%n byte', '%n bytes', $expected),
+						],
+					)
+				);
 			}
 
 			// if content length is sent by client:
 			// double check if the file was fully received
 			// compare expected and actual size
-			$lengthHeader = $this->request->getHeader('content-length');
-			if ($lengthHeader && $this->request->getMethod() === 'PUT') {
-				$expected = (int)$lengthHeader;
-				if ($count !== $expected) {
-					throw new BadRequest(
-						$this->l10n->t(
-							'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
-							[
-								$this->l10n->n('%n byte', '%n bytes', $expected),
-								$this->l10n->n('%n byte', '%n bytes', $count),
-							],
-						)
-					);
-				}
+			if ($expected !== null
+				&& $expected !== $count
+				&& $this->request->getMethod() === 'PUT'
+			) {
+				throw new BadRequest(
+					$this->l10n->t(
+						'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
+						[
+							$this->l10n->n('%n byte', '%n bytes', $expected),
+							$this->l10n->n('%n byte', '%n bytes', $count),
+						],
+					)
+				);
 			}
 		} catch (\Exception $e) {
 			if ($e instanceof LockedException) {
@@ -388,9 +381,14 @@ class File extends Node implements IFile {
 	private function getPartFileBasePath($path) {
 		$partFileInStorage = Server::get(IConfig::class)->getSystemValue('part_file_in_storage', true);
 		if ($partFileInStorage) {
-			return $path;
+			$filename = basename($path);
+			// hash does not need to be secure but fast and semi unique
+			$hashedFilename = hash('xxh128', $filename);
+			return substr($path, 0, strlen($path) - strlen($filename)) . $hashedFilename;
 		} else {
-			return md5($path); // will place it in the root of the view with a unique name
+			// will place the .part file in the users root directory
+			// therefor we need to make the name (semi) unique - hash does not need to be secure but fast.
+			return hash('xxh128', $path);
 		}
 	}
 

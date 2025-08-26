@@ -16,14 +16,6 @@ export default {
 			type: Object,
 			default: () => ({}),
 		},
-		groups: {
-			type: Array,
-			default: () => [],
-		},
-		subAdminsGroups: {
-			type: Array,
-			default: () => [],
-		},
 		quotaOptions: {
 			type: Array,
 			default: () => [],
@@ -49,36 +41,17 @@ export default {
 			formattedFullTime,
 		}
 	},
+	data() {
+		return {
+			selectedGroups: this.user.groups.map(id => ({ id, name: id })),
+			selectedSubAdminGroups: this.user.subadmin.map(id => ({ id, name: id })),
+			userGroups: this.user.groups.map(id => ({ id, name: id })),
+			userSubAdminGroups: this.user.subadmin.map(id => ({ id, name: id })),
+		}
+	},
 	computed: {
 		showConfig() {
 			return this.$store.getters.getShowConfig
-		},
-
-		/* GROUPS MANAGEMENT */
-		userGroups() {
-			const userGroups = this.groups.filter(group => this.user.groups.includes(group.id))
-			return userGroups
-		},
-		userSubAdminsGroups() {
-			const userSubAdminsGroups = this.subAdminsGroups.filter(group => this.user.subadmin.includes(group.id))
-			return userSubAdminsGroups
-		},
-		availableGroups() {
-			return this.groups.map((group) => {
-				// clone object because we don't want
-				// to edit the original groups
-				const groupClone = Object.assign({}, group)
-
-				// two settings here:
-				// 1. user NOT in group but no permission to add
-				// 2. user is in group but no permission to remove
-				groupClone.$isDisabled
-					= (group.canAdd === false
-						&& !this.user.groups.includes(group.id))
-					|| (group.canRemove === false
-						&& this.user.groups.includes(group.id))
-				return groupClone
-			})
 		},
 
 		/* QUOTA MANAGEMENT */

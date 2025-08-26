@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -28,6 +30,7 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'public_shares_chunking' => true,
 			],
 		];
 		$this->assertSame($expected, $capabilities->getCapabilities());
@@ -47,6 +50,7 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'public_shares_chunking' => true,
 				'bulkupload' => '1.0',
 			],
 		];
@@ -67,6 +71,7 @@ class CapabilitiesTest extends TestCase {
 		$expected = [
 			'dav' => [
 				'chunking' => '1.0',
+				'public_shares_chunking' => true,
 				'absence-supported' => true,
 				'absence-replacement' => true,
 			],

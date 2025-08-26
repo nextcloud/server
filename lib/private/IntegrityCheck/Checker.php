@@ -10,7 +10,6 @@ namespace OC\IntegrityCheck;
 
 use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
 use OC\IntegrityCheck\Exceptions\InvalidSignatureException;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
@@ -44,7 +43,6 @@ class Checker {
 		private ServerVersion $serverVersion,
 		private EnvironmentHelper $environmentHelper,
 		private FileAccessHelper $fileAccessHelper,
-		private AppLocator $appLocator,
 		private ?IConfig $config,
 		private ?IAppConfig $appConfig,
 		ICacheFactory $cacheFactory,
@@ -148,10 +146,10 @@ class Checker {
 			}
 			if ($filename === $this->environmentHelper->getServerRoot() . '/core/js/mimetypelist.js') {
 				$oldMimetypeList = new GenerateMimetypeFileBuilder();
-				$newFile = $oldMimetypeList->generateFile($this->mimeTypeDetector->getAllAliases());
+				$newFile = $oldMimetypeList->generateFile($this->mimeTypeDetector->getAllAliases(), $this->mimeTypeDetector->getAllNamings());
 				$oldFile = $this->fileAccessHelper->file_get_contents($filename);
 				if ($newFile === $oldFile) {
-					$hashes[$relativeFileName] = hash('sha512', $oldMimetypeList->generateFile($this->mimeTypeDetector->getOnlyDefaultAliases()));
+					$hashes[$relativeFileName] = hash('sha512', $oldMimetypeList->generateFile($this->mimeTypeDetector->getOnlyDefaultAliases(), $this->mimeTypeDetector->getAllNamings()));
 					continue;
 				}
 			}
@@ -335,8 +333,8 @@ class Checker {
 
 		// Compare the list of files which are not identical
 		$currentInstanceHashes = $this->generateHashes($this->getFolderIterator($basePath), $basePath);
-		$differencesA = array_diff($expectedHashes, $currentInstanceHashes);
-		$differencesB = array_diff($currentInstanceHashes, $expectedHashes);
+		$differencesA = array_diff_assoc($expectedHashes, $currentInstanceHashes);
+		$differencesB = array_diff_assoc($currentInstanceHashes, $expectedHashes);
 		$differences = array_unique(array_merge($differencesA, $differencesB));
 		$differenceArray = [];
 		foreach ($differences as $filename => $hash) {
@@ -460,7 +458,7 @@ class Checker {
 	public function verifyAppSignature(string $appId, string $path = '', bool $forceVerify = false): array {
 		try {
 			if ($path === '') {
-				$path = $this->appLocator->getAppPath($appId);
+				$path = $this->appManager->getAppPath($appId);
 			}
 			$result = $this->verify(
 				$path . '/appinfo/signature.json',
@@ -545,7 +543,7 @@ class Checker {
 			$appNeedsToBeChecked = false;
 			if ($isShipped) {
 				$appNeedsToBeChecked = true;
-			} elseif ($this->fileAccessHelper->file_exists($this->appLocator->getAppPath($appId) . '/appinfo/signature.json')) {
+			} elseif ($this->fileAccessHelper->file_exists($this->appManager->getAppPath($appId) . '/appinfo/signature.json')) {
 				// Otherwise only if the application explicitly ships a signature.json file
 				$appNeedsToBeChecked = true;
 			}

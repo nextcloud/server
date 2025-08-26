@@ -36,6 +36,7 @@ jobs:
               - 'composer.json'
               - 'composer.lock'
               - '**.php'
+              - build/autoloaderchecker.sh
 
   autoloader:
     runs-on: ubuntu-latest
@@ -57,7 +58,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@ccf2c627fe61b1b4d924adfcbd19d661a18133a0 #v2.35.2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
@@ -65,9 +66,6 @@ jobs:
           ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up dependencies
-        run: composer i
 
       - name: Check auto loaders
         run: bash ./build/autoloaderchecker.sh
@@ -89,7 +87,7 @@ jobs:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@ccf2c627fe61b1b4d924adfcbd19d661a18133a0 #v2.35.2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
@@ -109,6 +107,9 @@ jobs:
 
       - name: Check that all and only expected files are included
         run: php ./build/files-checker.php
+
+      - name: Check that all shipped apps are linted by psalm
+        run: sh ./build/psalm-checker.sh
 
   summary:
     permissions:

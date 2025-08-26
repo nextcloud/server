@@ -22,7 +22,6 @@
     "Expiration:" : "إنتهاء الصلاحية:",
     "Open %s" : "إفتَح %s",
     "%1$s via %2$s" : "%1$s عبر %2$s",
-    "%1$s shared %2$s with you.\nYou should have already received a separate mail with a link to access it.\n" : "قام%1$s بمشاركة %2$s معك.\nيُفترض أنك قد استلمت إيميلاً خاصاً يحتوي رابطاً للوصول إلى هذه المشاركة.\n",
     "%1$s shared %2$s with you. You should have already received a separate mail with a link to access it." : "قام %1$s بمشاركة %2$s معك. يُفترض أنك قد استلمت سلفاً إيميلاً خاصاً يحتوي رابطاً للوصول إلى هذه المشاركة.",
     "Password to access %1$s shared to you by %2$s" : "كلمة المرور للوصول إلى %1$s تمّت مشاركتها معك من قِبَل %2$s",
     "Password to access %s" : "كلمة المرور للوصول إلى %s",
@@ -37,22 +36,9 @@
     "You can choose a different password at any time in the share dialog." : "يمكنك اختيار كلمة مرور مختلفة في أي وقت في نافذة حوار المشاركة.",
     "Could not find share" : "تعذّر العثور على المُشاركة",
     "Share provider which allows you to share files by mail" : "مُزوّد المشاركة share provider الذي مكّنك من المشاركة عبر البريد",
+    "Unable to update share by mail config" : "تعذّر تحديث إعدادات المشاركة بالبريد الإلكتروني",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "تمكين الأشخاص من المشاركة المخصصة لملف أو مجلد عن طريق تحديد حساب البريد الإلكتروني",
     "Send password by mail" : "إرسال كلمة مرور بالبريد الإلكتروني",
-    "Reply to initiator" : "رد على المنشيء",
-    "Unable to update share by mail config" : "تعذّر تحديث إعدادات المشاركة بالبريد الإلكتروني",
-    "%1$s shared »%2$s« with you" : "%1$s شارك »%2$s« معك",
-    "%1$s shared »%2$s« with you." : "%1$s شَارَكَ »%2$s« معك.",
-    "Click the button below to open it." : "أنقر على الزر أدناه لفتحه.",
-    "Open »%s«" : "فتح »%s«",
-    "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s شارك »%2$s« معك.\nيفترض أن يصلك أو يكون وصلك بريد الكتروني يحوي رابطاً للوصول إليه.\n",
-    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s شارك »%2$s« معك. \nيفترض أن يصلك أو يكون وصلك بريد الكتروني يحوي رابطاً للوصول إليه.",
-    "Password to access »%1$s« shared to you by %2$s" : "كلمة مرور للوصول إلى »%1$s« تمّت مُشاركتها معك من قِبَل %2$s",
-    "Password to access »%s«" : "كلمة مرور للوصول إلى »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s شارك »%2$s« معك و يرغب في إضافة:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s شارك »%2$s« معك و يرغب في إضافة",
-    "»%s« added a note to a file shared with you" : "»%s« أضافة ملاحظة لملفٍ سلفت مشاركته معك",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "أنت شاركت للتّوِّ »%1$s« مع %2$s. تمّ إرسال المشاركة إلى وجهتها. بسبب السياسة الأمنية الموضوعة من قبل مسؤول النظام %3$s كل مشاركة يجب أن تكون محمية بكلمة مرور و التي يجب إلّا يتم إرسالها مباشرة إلى المستخدم المقصود.  لذا بجب أن تقوم بتحويلها إليه يدويّاً.",
-    "Password to access »%1$s« shared by you with %2$s" : "كلمة مرور للوصول إلى »%1$s« تمّت مشاركتها مع %2$s"
+    "Reply to initiator" : "رد على المنشيء"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

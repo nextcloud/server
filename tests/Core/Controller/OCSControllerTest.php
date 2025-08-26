@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,6 +16,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Server;
 use OCP\ServerVersion;
 use Test\TestCase;
 
@@ -42,7 +44,7 @@ class OCSControllerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->keyManager = $this->createMock(Manager::class);
-		$serverVersion = \OCP\Server::get(ServerVersion::class);
+		$serverVersion = Server::get(ServerVersion::class);
 
 		$this->controller = new OCSController(
 			'core',
@@ -78,7 +80,7 @@ class OCSControllerTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(true);
 
-		$serverVersion = \OCP\Server::get(ServerVersion::class);
+		$serverVersion = Server::get(ServerVersion::class);
 
 		$result = [];
 		$result['version'] = [
@@ -111,7 +113,7 @@ class OCSControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		$serverVersion = \OCP\Server::get(ServerVersion::class);
+		$serverVersion = Server::get(ServerVersion::class);
 
 		$result = [];
 		$result['version'] = [

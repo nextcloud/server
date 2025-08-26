@@ -26,10 +26,11 @@ use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 
 /**
- * @template-implements IEventListener<UserCreatedEvent|UserDeletedEvent|UserLoggedInEvent|UserLoggedOutEvent|BeforePasswordUpdatedEvent|PasswordUpdatedEvent|BeforePasswordResetEvent|PasswordResetEvent>
+ * @template-implements IEventListener<UserCreatedEvent|UserDeletedEvent|UserLoggedInEvent|UserLoggedInWithCookieEvent|UserLoggedOutEvent|BeforePasswordUpdatedEvent|PasswordUpdatedEvent|BeforePasswordResetEvent|PasswordResetEvent>
  */
 class UserEventsListener implements IEventListener {
 
@@ -50,7 +51,7 @@ class UserEventsListener implements IEventListener {
 			$this->onUserCreated($event->getUid(), $event->getPassword());
 		} elseif ($event instanceof UserDeletedEvent) {
 			$this->onUserDeleted($event->getUid());
-		} elseif ($event instanceof UserLoggedInEvent) {
+		} elseif ($event instanceof UserLoggedInEvent || $event instanceof UserLoggedInWithCookieEvent) {
 			$this->onUserLogin($event->getUser(), $event->getPassword());
 		} elseif ($event instanceof UserLoggedOutEvent) {
 			$this->onUserLogout();

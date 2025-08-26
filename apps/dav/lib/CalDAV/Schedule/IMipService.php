@@ -159,7 +159,35 @@ class IMipService {
 		if ($eventReaderCurrent->recurs()) {
 			$data['meeting_occurring'] = $this->generateOccurringString($eventReaderCurrent);
 		}
-		
+		return $data;
+	}
+
+	/**
+	 * @param VEvent $vEvent
+	 * @return array
+	 */
+	public function buildReplyBodyData(VEvent $vEvent): array {
+		// construct event reader
+		$eventReader = new EventReader($vEvent);
+		$defaultVal = '';
+		$data = [];
+		$data['meeting_when'] = $this->generateWhenString($eventReader);
+
+		foreach (self::STRING_DIFF as $key => $property) {
+			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
+		}
+
+		if (($locationHtml = $this->linkify($data['meeting_location'])) !== null) {
+			$data['meeting_location_html'] = $locationHtml;
+		}
+
+		$data['meeting_url_html'] = $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $data['meeting_url']) : '';
+
+		// generate occurring next string
+		if ($eventReader->recurs()) {
+			$data['meeting_occurring'] = $this->generateOccurringString($eventReader);
+		}
+
 		return $data;
 	}
 
@@ -324,7 +352,7 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateWhenStringRecurringDaily(EventReader $er): string {
-		
+
 		// initialize
 		$interval = (int)$er->recurringInterval();
 		$startTime = null;
@@ -375,7 +403,7 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateWhenStringRecurringWeekly(EventReader $er): string {
-		
+
 		// initialize
 		$interval = (int)$er->recurringInterval();
 		$startTime = null;
@@ -428,15 +456,15 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateWhenStringRecurringMonthly(EventReader $er): string {
-		
+
 		// initialize
 		$interval = (int)$er->recurringInterval();
 		$startTime = null;
 		$conclusion = null;
 		// days of month
 		if ($er->recurringPattern() === 'R') {
-			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' ' .
-					implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
+			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' '
+					. implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
 		} else {
 			$days = implode(', ', $er->recurringDaysOfMonth());
 		}
@@ -493,7 +521,7 @@ class IMipService {
 	 * @return string
 	 */
 	public function generateWhenStringRecurringYearly(EventReader $er): string {
-		
+
 		// initialize
 		$interval = (int)$er->recurringInterval();
 		$startTime = null;
@@ -502,8 +530,8 @@ class IMipService {
 		$months = implode(', ', array_map(function ($value) { return $this->localizeMonthName($value); }, $er->recurringMonthsOfYearNamed()));
 		// days of month
 		if ($er->recurringPattern() === 'R') {
-			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' ' .
-					implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
+			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' '
+					. implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
 		} else {
 			$days = $er->startDateTime()->format('jS');
 		}
@@ -582,7 +610,7 @@ class IMipService {
 			true => $this->l10n->t('On specific dates between %1$s - %2$s until %3$s', [$startTime, $endTime, $conclusion]),
 		};
 	}
-	
+
 	/**
 	 * generates a occurring next string for a recurring event
 	 *
@@ -1080,9 +1108,9 @@ class IMipService {
 		$attendee = $iTipMessage->recipient;
 		$organizer = $iTipMessage->sender;
 		$sequence = $iTipMessage->sequence;
-		$recurrenceId = isset($vevent->{'RECURRENCE-ID'}) ?
-			$vevent->{'RECURRENCE-ID'}->serialize() : null;
-		$uid = $vevent->{'UID'};
+		$recurrenceId = isset($vevent->{'RECURRENCE-ID'})
+			? $vevent->{'RECURRENCE-ID'}->serialize() : null;
+		$uid = $vevent->{'UID'}?->getValue();
 
 		$query = $this->db->getQueryBuilder();
 		$query->insert('calendar_invitations')
@@ -1153,6 +1181,21 @@ class IMipService {
 			return true;
 		}
 		return false;
+	}
+
+	public function isCircle(Property $attendee): bool {
+		$cuType = $attendee->offsetGet('CUTYPE');
+		if (!$cuType instanceof Parameter) {
+			return false;
+		}
+
+		$uri = $attendee->getValue();
+		if (!$uri) {
+			return false;
+		}
+
+		$cuTypeValue = $cuType->getValue();
+		return $cuTypeValue === 'GROUP' && str_starts_with($uri, 'mailto:circle+');
 	}
 
 	public function minimizeInterval(\DateInterval $dateInterval): array {

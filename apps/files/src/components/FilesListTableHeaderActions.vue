@@ -6,6 +6,7 @@
 	<div class="files-list__column files-list__row-actions-batch" data-cy-files-list-selection-actions>
 		<NcActions ref="actionsMenu"
 			container="#app-content-vue"
+			:boundaries-element="boundariesElement"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
 			:inline="enabledInlineActions.length"
@@ -123,6 +124,8 @@ export default defineComponent({
 		const fileListWidth = useFileListWidth()
 		const { directory } = useRouteParameters()
 
+		const boundariesElement = document.getElementById('app-content-vue')
+
 		return {
 			directory,
 			fileListWidth,
@@ -130,6 +133,8 @@ export default defineComponent({
 			actionsMenuStore,
 			filesStore,
 			selectionStore,
+
+			boundariesElement,
 		}
 	},
 
@@ -146,6 +151,10 @@ export default defineComponent({
 				.filter(action => !action.renderInline)
 				// We don't handle actions that are not visible
 				.filter(action => action.default !== DefaultType.HIDDEN)
+				// We allow top-level actions that have no execBatch method
+				// but children actions always need to have it
+				.filter(action => action.execBatch || !action.parent)
+				// We filter out actions that are not enabled for the current selection
 				.filter(action => !action.enabled || action.enabled(this.nodes, this.currentView))
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
@@ -185,7 +194,11 @@ export default defineComponent({
 			})
 
 			// Generate list of all top-level actions ids
-			const childrenActionsIds = actions.filter(action => action.parent).map(action => action.parent) as string[]
+			const childrenActionsIds = actions
+				.filter(action => action.parent)
+				// Filter out all actions that are not batch actions
+				.filter(action => action.execBatch)
+				.map(action => action.parent) as string[]
 
 			const menuActions = actions
 				.filter(action => {
@@ -300,16 +313,16 @@ export default defineComponent({
 						return
 					}
 
-					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))
+					showError(this.t('files', '{displayName}: failed on some elements', { displayName }))
 					return
 				}
 
 				// Show success message and clear selection
-				showSuccess(this.t('files', '"{displayName}" batch action executed successfully', { displayName }))
+				showSuccess(this.t('files', '{displayName}: done', { displayName }))
 				this.selectionStore.reset()
 			} catch (e) {
 				logger.error('Error while executing action', { action, e })
-				showError(this.t('files', '"{displayName}" action failed', { displayName }))
+				showError(this.t('files', '{displayName}: failed', { displayName }))
 			} finally {
 				// Remove loading markers
 				this.loading = null

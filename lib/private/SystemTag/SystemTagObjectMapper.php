@@ -284,6 +284,10 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	 * {@inheritdoc}
 	 */
 	public function setObjectIdsForTag(string $tagId, string $objectType, array $objectIds): void {
+		$currentObjectIds = $this->getObjectIdsForTags($tagId, $objectType);
+		$removedObjectIds = array_diff($currentObjectIds, $objectIds);
+		$addedObjectIds = array_diff($objectIds, $currentObjectIds);
+
 		$this->connection->beginTransaction();
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::RELATION_TABLE)
@@ -291,6 +295,15 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)))
 			->executeStatement();
 		$this->connection->commit();
+
+		foreach ($removedObjectIds as $objectId) {
+			$this->dispatcher->dispatch(MapperEvent::EVENT_UNASSIGN, new MapperEvent(
+				MapperEvent::EVENT_UNASSIGN,
+				$objectType,
+				(string)$objectId,
+				[(int)$tagId]
+			));
+		}
 
 		if (empty($objectIds)) {
 			return;
@@ -312,6 +325,26 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 
 		$this->updateEtagForTags([$tagId]);
 		$this->connection->commit();
+
+		// Dispatch assign events for new object ids
+		foreach ($addedObjectIds as $objectId) {
+			$this->dispatcher->dispatch(MapperEvent::EVENT_ASSIGN, new MapperEvent(
+				MapperEvent::EVENT_ASSIGN,
+				$objectType,
+				(string)$objectId,
+				[(int)$tagId]
+			));
+		}
+
+		// Dispatch unassign events for removed object ids
+		foreach ($removedObjectIds as $objectId) {
+			$this->dispatcher->dispatch(MapperEvent::EVENT_UNASSIGN, new MapperEvent(
+				MapperEvent::EVENT_UNASSIGN,
+				$objectType,
+				(string)$objectId,
+				[(int)$tagId]
+			));
+		}
 	}
 
 	/**

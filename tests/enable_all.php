@@ -1,27 +1,31 @@
 <?php
+
 /**
- * SPDX-FileCopyrightText: 2016-2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016-2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+use OC\Installer;
+use OCP\App\IAppManager;
+use OCP\Server;
+
 require_once __DIR__ . '/../lib/base.php';
 
 function enableApp($app) {
-	try {
-		(new \OC_App())->enable($app);
-	} catch (Exception $e) {
-		echo $e;
-	}
+	$installer = Server::get(Installer::class);
+	$appManager = Server::get(IAppManager::class);
+
+	$installer->installApp($app);
+	$appManager->enableApp($app);
+	echo "Enabled application {$app}\n";
 }
 
-enableApp('files_sharing');
-enableApp('files_trashbin');
-enableApp('encryption');
-enableApp('user_ldap');
-enableApp('files_versions');
-enableApp('provisioning_api');
-enableApp('federation');
-enableApp('federatedfilesharing');
-enableApp('admin_audit');
-enableApp('webhook_listeners');
+foreach (new \DirectoryIterator(__DIR__ . '/../apps/') as $file) {
+	if ($file->isDot()) {
+		continue;
+	}
+	if (!file_exists($file->getPathname() . '/.git')) {
+		enableApp($file->getFilename());
+	}
+}

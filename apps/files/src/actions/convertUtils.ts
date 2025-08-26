@@ -8,7 +8,7 @@ import type { OCSResponse } from '@nextcloud/typings/ocs'
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
 import { showError, showLoading, showSuccess } from '@nextcloud/dialogs'
-import { t } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
 import axios, { isAxiosError } from '@nextcloud/axios'
 import PQueue from 'p-queue'
 
@@ -21,8 +21,8 @@ type ConversionResponse = {
 }
 
 interface PromiseRejectedResult<T> {
-    status: 'rejected'
-    reason: T
+	status: 'rejected'
+	reason: T
 }
 
 type PromiseSettledResult<T, E> = PromiseFulfilledResult<T> | PromiseRejectedResult<E>;
@@ -41,7 +41,7 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 	const conversions = fileIds.map(fileId => queue.add(() => requestConversion(fileId, targetMimeType)))
 
 	// Start conversion
-	const toast = showLoading(t('files', 'Converting files…'))
+	const toast = showLoading(t('files', 'Converting files …'))
 
 	// Handle results
 	try {
@@ -62,23 +62,16 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 				return
 			}
 
-			// A single file failed
-			if (failed.length === 1) {
-				// If we have a message for the failed file, show it
-				if (messages[0]) {
-					showError(t('files', 'One file could not be converted: {message}', { message: messages[0] }))
-					return
-				}
-
-				// Otherwise, show a generic error
-				showError(t('files', 'One file could not be converted'))
+			// A single file failed and if we have a message for the failed file, show it
+			if (failed.length === 1 && messages[0]) {
+				showError(t('files', 'One file could not be converted: {message}', { message: messages[0] }))
 				return
 			}
 
 			// We already check above when all files failed
 			// if we're here, we have a mix of failed and successful files
-			showError(t('files', '{count} files could not be converted', { count: failed.length }))
-			showSuccess(t('files', '{count} files successfully converted', { count: fileIds.length - failed.length }))
+			showError(n('files', 'One file could not be converted', '%n files could not be converted', failed.length))
+			showSuccess(n('files', 'One file successfully converted', '%n files successfully converted', fileIds.length - failed.length))
 			return
 		}
 
@@ -117,7 +110,7 @@ export const convertFiles = async function(fileIds: number[], targetMimeType: st
 }
 
 export const convertFile = async function(fileId: number, targetMimeType: string) {
-	const toast = showLoading(t('files', 'Converting file…'))
+	const toast = showLoading(t('files', 'Converting file …'))
 
 	try {
 		const result = await queue.add(() => requestConversion(fileId, targetMimeType)) as AxiosResponse<OCSResponse<ConversionResponse>>

@@ -8,6 +8,10 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Versions;
 
+use OCA\Files_Versions\Db\VersionEntity;
+use OCA\Files_Versions\Events\VersionCreatedEvent;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
@@ -21,8 +25,14 @@ use OCP\Lock\ManuallyLockedException;
 use OCP\Server;
 
 class VersionManager implements IVersionManager, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
+
 	/** @var (IVersionBackend[])[] */
 	private $backends = [];
+
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+	) {
+	}
 
 	public function registerBackend(string $storageType, IVersionBackend $backend) {
 		if (!isset($this->backends[$storageType])) {
@@ -52,8 +62,8 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 
 		foreach ($backends as $type => $backendsForType) {
 			if (
-				$storage->instanceOfStorage($type) &&
-				($foundType === '' || is_subclass_of($type, $foundType))
+				$storage->instanceOfStorage($type)
+				&& ($foundType === '' || is_subclass_of($type, $foundType))
 			) {
 				foreach ($backendsForType as $backend) {
 					/** @var IVersionBackend $backend */
@@ -87,11 +97,7 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		$result = self::handleAppLocks(fn (): ?bool => $backend->rollback($version));
 		// rollback doesn't have a return type yet and some implementations don't return anything
 		if ($result === null || $result === true) {
-			\OC_Hook::emit('\OCP\Versions', 'rollback', [
-				'path' => $version->getVersionPath(),
-				'revision' => $version->getRevisionId(),
-				'node' => $version->getSourceFile(),
-			]);
+			$this->dispatcher->dispatchTyped(new VersionRestoredEvent($version));
 		}
 		return $result;
 	}
@@ -104,6 +110,11 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$backend = $this->getBackendForStorage($sourceFile->getStorage());
 		return $backend->getVersionFile($user, $sourceFile, $revision);
+	}
+
+	public function getRevision(Node $node): int {
+		$backend = $this->getBackendForStorage($node->getStorage());
+		return $backend->getRevision($node);
 	}
 
 	public function useBackendForStorage(IStorage $storage): bool {
@@ -120,7 +131,16 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 	public function createVersionEntity(File $file): void {
 		$backend = $this->getBackendForStorage($file->getStorage());
 		if ($backend instanceof INeedSyncVersionBackend) {
-			$backend->createVersionEntity($file);
+			$versionEntity = $backend->createVersionEntity($file);
+
+			if ($versionEntity instanceof VersionEntity) {
+				foreach ($backend->getVersionsForFile($file->getOwner(), $file) as $version) {
+					if ($version->getRevisionId() === $versionEntity->getTimestamp()) {
+						$this->dispatcher->dispatchTyped(new VersionCreatedEvent($file, $version));
+						break;
+					}
+				}
+			}
 		}
 	}
 

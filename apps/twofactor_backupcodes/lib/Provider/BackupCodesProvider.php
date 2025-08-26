@@ -11,33 +11,24 @@ namespace OCA\TwoFactorBackupCodes\Provider;
 use OC\App\AppManager;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
 use OCA\TwoFactorBackupCodes\Settings\Personal;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Authentication\TwoFactorAuth\IDeactivatableByAdmin;
 use OCP\Authentication\TwoFactorAuth\IPersonalProviderSettings;
 use OCP\Authentication\TwoFactorAuth\IProvidesPersonalSettings;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUser;
-use OCP\Template;
+use OCP\Template\ITemplate;
+use OCP\Template\ITemplateManager;
 
 class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSettings {
-
-	/** @var AppManager */
-	private $appManager;
-
-	/**
-	 * @param string $appName
-	 * @param BackupCodeStorage $storage
-	 * @param IL10N $l10n
-	 * @param AppManager $appManager
-	 */
 	public function __construct(
 		private string $appName,
 		private BackupCodeStorage $storage,
 		private IL10N $l10n,
-		AppManager $appManager,
-		private IInitialStateService $initialStateService,
+		private AppManager $appManager,
+		private IInitialState $initialState,
+		private ITemplateManager $templateManager,
 	) {
-		$this->appManager = $appManager;
 	}
 
 	/**
@@ -71,10 +62,10 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 * Get the template for rending the 2FA provider view
 	 *
 	 * @param IUser $user
-	 * @return Template
+	 * @return ITemplate
 	 */
-	public function getTemplate(IUser $user): Template {
-		return new Template('twofactor_backupcodes', 'challenge');
+	public function getTemplate(IUser $user): ITemplate {
+		return $this->templateManager->getTemplate('twofactor_backupcodes', 'challenge');
 	}
 
 	/**
@@ -129,11 +120,11 @@ class BackupCodesProvider implements IDeactivatableByAdmin, IProvidesPersonalSet
 	 */
 	public function getPersonalSettings(IUser $user): IPersonalProviderSettings {
 		$state = $this->storage->getBackupCodesState($user);
-		$this->initialStateService->provideInitialState($this->appName, 'state', $state);
+		$this->initialState->provideInitialState('state', $state);
 		return new Personal();
 	}
 
-	public function disableFor(IUser $user) {
+	public function disableFor(IUser $user): void {
 		$this->storage->deleteCodes($user);
 	}
 }

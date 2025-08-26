@@ -64,7 +64,8 @@ class Dispatcher {
 	 * @param LoggerInterface $logger
 	 * @param IEventLogger $eventLogger
 	 */
-	public function __construct(Http $protocol,
+	public function __construct(
+		Http $protocol,
 		MiddlewareDispatcher $middlewareDispatcher,
 		ControllerMethodReflector $reflector,
 		IRequest $request,
@@ -72,7 +73,8 @@ class Dispatcher {
 		ConnectionAdapter $connection,
 		LoggerInterface $logger,
 		IEventLogger $eventLogger,
-		ContainerInterface $appContainer) {
+		ContainerInterface $appContainer,
+	) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
 		$this->reflector = $reflector;
@@ -90,9 +92,11 @@ class Dispatcher {
 	 * @param Controller $controller the controller which will be called
 	 * @param string $methodName the method name which will be called on
 	 *                           the controller
-	 * @return array $array[0] contains a string with the http main header,
-	 *               $array[1] contains headers in the form: $key => value, $array[2] contains
-	 *               the response output
+	 * @return array $array[0] contains the http status header as a string,
+	 *               $array[1] contains response headers as an array,
+	 *               $array[2] contains response cookies as an array,
+	 *               $array[3] contains the response output as a string,
+	 *               $array[4] contains the response object
 	 * @throws \Exception
 	 */
 	public function dispatch(Controller $controller, string $methodName): array {

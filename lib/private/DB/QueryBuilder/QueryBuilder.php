@@ -96,6 +96,7 @@ class QueryBuilder implements IQueryBuilder {
 		return match($this->connection->getDatabaseProvider()) {
 			IDBConnection::PLATFORM_ORACLE => new OCIExpressionBuilder($this->connection, $this, $this->logger),
 			IDBConnection::PLATFORM_POSTGRES => new PgSqlExpressionBuilder($this->connection, $this, $this->logger),
+			IDBConnection::PLATFORM_MARIADB,
 			IDBConnection::PLATFORM_MYSQL => new MySqlExpressionBuilder($this->connection, $this, $this->logger),
 			IDBConnection::PLATFORM_SQLITE => new SqliteExpressionBuilder($this->connection, $this, $this->logger),
 		};
@@ -121,6 +122,7 @@ class QueryBuilder implements IQueryBuilder {
 		return match($this->connection->getDatabaseProvider()) {
 			IDBConnection::PLATFORM_ORACLE => new OCIFunctionBuilder($this->connection, $this, $this->helper),
 			IDBConnection::PLATFORM_POSTGRES => new PgSqlFunctionBuilder($this->connection, $this, $this->helper),
+			IDBConnection::PLATFORM_MARIADB,
 			IDBConnection::PLATFORM_MYSQL => new FunctionBuilder($this->connection, $this, $this->helper),
 			IDBConnection::PLATFORM_SQLITE => new SqliteFunctionBuilder($this->connection, $this, $this->helper),
 		};
@@ -161,7 +163,7 @@ class QueryBuilder implements IQueryBuilder {
 			try {
 				$params = [];
 				foreach ($this->getParameters() as $placeholder => $value) {
-					if ($value instanceof \DateTime) {
+					if ($value instanceof \DateTimeInterface) {
 						$params[] = $placeholder . ' => DateTime:\'' . $value->format('c') . '\'';
 					} elseif (is_array($value)) {
 						$params[] = $placeholder . ' => (\'' . implode('\', \'', $value) . '\')';
@@ -1338,6 +1340,8 @@ class QueryBuilder implements IQueryBuilder {
 
 	/**
 	 * Returns the table name with database prefix as needed by the implementation
+	 *
+	 * Was protected until version 30.
 	 *
 	 * @param string $table
 	 * @return string

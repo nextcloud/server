@@ -1,10 +1,12 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\Tests\Files;
+namespace OCA\DAV\Tests\unit\Files;
 
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
@@ -13,6 +15,7 @@ use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\ObjectTree;
+use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Files\FileSearchBackend;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -23,42 +26,27 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IUser;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Query\Limit;
+use SearchDAV\Query\Literal;
 use SearchDAV\Query\Operator;
 use SearchDAV\Query\Query;
+use SearchDAV\Query\Scope;
 use Test\TestCase;
 
 class FileSearchBackendTest extends TestCase {
-	/** @var ObjectTree|\PHPUnit\Framework\MockObject\MockObject */
-	private $tree;
-
-	/** @var IUser */
-	private $user;
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-
-	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
-	private $view;
-
-	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
-	private $searchFolder;
-
-	/** @var FileSearchBackend */
-	private $search;
-
-	/** @var Directory|\PHPUnit\Framework\MockObject\MockObject */
-	private $davFolder;
+	private ObjectTree&MockObject $tree;
+	private Server&MockObject $server;
+	private IUser&MockObject $user;
+	private IRootFolder&MockObject $rootFolder;
+	private IManager&MockObject $shareManager;
+	private View&MockObject $view;
+	private Folder&MockObject $searchFolder;
+	private Directory&MockObject $davFolder;
+	private FileSearchBackend $search;
 
 	protected function setUp(): void {
-		if (PHP_VERSION_ID >= 80400) {
-			$this->markTestSkipped('SearchDAV is not yet PHP 8.4 compatible');
-		}
-
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);
@@ -66,11 +54,14 @@ class FileSearchBackendTest extends TestCase {
 			->method('getUID')
 			->willReturn('test');
 
-		$this->tree = $this->getMockBuilder(ObjectTree::class)
-			->disableOriginalConstructor()
-			->getMock();
-
+		$this->tree = $this->createMock(ObjectTree::class);
+		$this->server = $this->createMock(Server::class);
 		$this->view = $this->createMock(View::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->shareManager = $this->createMock(IManager::class);
+		$this->searchFolder = $this->createMock(Folder::class);
+		$fileInfo = $this->createMock(FileInfo::class);
+		$this->davFolder = $this->createMock(Directory::class);
 
 		$this->view->expects($this->any())
 			->method('getRoot')
@@ -79,16 +70,6 @@ class FileSearchBackendTest extends TestCase {
 		$this->view->expects($this->any())
 			->method('getRelativePath')
 			->willReturnArgument(0);
-
-		$this->rootFolder = $this->createMock(IRootFolder::class);
-
-		$this->shareManager = $this->createMock(IManager::class);
-
-		$this->searchFolder = $this->createMock(Folder::class);
-
-		$fileInfo = $this->createMock(FileInfo::class);
-
-		$this->davFolder = $this->createMock(Directory::class);
 
 		$this->davFolder->expects($this->any())
 			->method('getFileInfo')
@@ -100,7 +81,7 @@ class FileSearchBackendTest extends TestCase {
 
 		$filesMetadataManager = $this->createMock(IFilesMetadataManager::class);
 
-		$this->search = new FileSearchBackend($this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view, $filesMetadataManager);
+		$this->search = new FileSearchBackend($this->server, $this->tree, $this->user, $this->rootFolder, $this->shareManager, $this->view, $filesMetadataManager);
 	}
 
 	public function testSearchFilename(): void {
@@ -263,8 +244,8 @@ class FileSearchBackendTest extends TestCase {
 		$this->search->search($query);
 	}
 
-	private function getBasicQuery($type, $property, $value = null) {
-		$scope = new \SearchDAV\Query\Scope('/', 'infinite');
+	private function getBasicQuery(string $type, string $property, int|string|null $value = null) {
+		$scope = new Scope('/', 'infinite');
 		$scope->path = '/';
 		$from = [$scope];
 		$orderBy = [];
@@ -272,12 +253,12 @@ class FileSearchBackendTest extends TestCase {
 		if (is_null($value)) {
 			$where = new Operator(
 				$type,
-				[new \SearchDAV\Query\Literal($property)]
+				[new Literal($property)]
 			);
 		} else {
 			$where = new Operator(
 				$type,
-				[new SearchPropertyDefinition($property, true, true, true), new \SearchDAV\Query\Literal($value)]
+				[new SearchPropertyDefinition($property, true, true, true), new Literal($value)]
 			);
 		}
 		$limit = new Limit();
@@ -350,11 +331,11 @@ class FileSearchBackendTest extends TestCase {
 			[
 				new Operator(
 					Operator::OPERATION_EQUAL,
-					[new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true), new \SearchDAV\Query\Literal('image/png')]
+					[new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true), new Literal('image/png')]
 				),
 				new Operator(
 					Operator::OPERATION_EQUAL,
-					[new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, true, true, true), new \SearchDAV\Query\Literal($this->user->getUID())]
+					[new SearchPropertyDefinition(FilesPlugin::OWNER_ID_PROPERTYNAME, true, true, true), new Literal($this->user->getUID())]
 				),
 			]
 		);
@@ -383,7 +364,7 @@ class FileSearchBackendTest extends TestCase {
 
 		$innerOperator = new Operator(
 			Operator::OPERATION_EQUAL,
-			[new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true), new \SearchDAV\Query\Literal('image/png')]
+			[new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true), new Literal('image/png')]
 		);
 		// 5 child operators
 		$level1Operator = new Operator(
@@ -423,5 +404,18 @@ class FileSearchBackendTest extends TestCase {
 		$query->where = $level3Operator;
 		$this->expectException(\InvalidArgumentException::class);
 		$this->search->search($query);
+	}
+
+	public function testPreloadPropertyFor(): void {
+		$node1 = $this->createMock(File::class);
+		$node2 = $this->createMock(Directory::class);
+		$nodes = [$node1, $node2];
+		$requestProperties = ['{DAV:}getcontenttype', '{DAV:}getlastmodified'];
+
+		$this->server->expects($this->once())
+			->method('emit')
+			->with('preloadProperties', [$nodes, $requestProperties]);
+
+		$this->search->preloadPropertyFor($nodes, $requestProperties);
 	}
 }

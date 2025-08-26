@@ -543,6 +543,29 @@ Feature: sharing
     And the HTTP status code should be "200"
     And last share_id is included in the answer
 
+  Scenario: Group shares are deleted when the group is deleted
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group0" exists
+    And user "user0" belongs to group "group0"
+    And file "textfile0.txt" of user "user1" is shared with group "group0"
+    And As an "user0"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is included in the answer
+    When group "group0" does not exist
+    Then sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is not included in the answer
+    When group "group0" exists
+    Then sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    And the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is not included in the answer
+
   Scenario: User is not allowed to reshare file
   As an "admin"
     Given user "user0" exists
@@ -1242,7 +1265,9 @@ Feature: sharing
       |{http://open-collaboration-services.org/ns}share-permissions |
     Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "19"
 
-  Scenario: Cannot download a file when it's shared view-only
+  Scenario: Cannot download a file when it's shared view-only without shareapi_allow_view_without_download
+    Given As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"
     Given user "user0" exists
     And user "user1" exists
     And User "user0" moves file "/textfile0.txt" to "/document.odt"
@@ -1251,8 +1276,15 @@ Feature: sharing
     When As an "user1"
     And Downloading file "/document.odt"
     Then the HTTP status code should be "403"
+    Then As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "yes"
+    Then As an "user1"
+    And Downloading file "/document.odt"
+    Then the HTTP status code should be "200"
 
-  Scenario: Cannot download a file when its parent is shared view-only
+  Scenario: Cannot download a file when its parent is shared view-only without shareapi_allow_view_without_download
+    Given As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"
     Given user "user0" exists
     And user "user1" exists
     And User "user0" created a folder "/sharedviewonly"
@@ -1262,8 +1294,15 @@ Feature: sharing
     When As an "user1"
     And Downloading file "/sharedviewonly/document.odt"
     Then the HTTP status code should be "403"
+    Then As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "yes"
+    Then As an "user1"
+    And Downloading file "/sharedviewonly/document.odt"
+    Then the HTTP status code should be "200"
 
-  Scenario: Cannot copy a file when it's shared view-only
+  Scenario: Cannot copy a file when it's shared view-only even with shareapi_allow_view_without_download enabled
+    Given As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"
     Given user "user0" exists
     And user "user1" exists
     And User "user0" moves file "/textfile0.txt" to "/document.odt"
@@ -1271,8 +1310,15 @@ Feature: sharing
     And user "user1" accepts last share
     When User "user1" copies file "/document.odt" to "/copyforbidden.odt"
     Then the HTTP status code should be "403"
+    Then As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "yes"
+    Then As an "user1"
+    And User "user1" copies file "/document.odt" to "/copyforbidden.odt"
+    Then the HTTP status code should be "403"
 
   Scenario: Cannot copy a file when its parent is shared view-only
+    Given As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "no"
     Given user "user0" exists
     And user "user1" exists
     And User "user0" created a folder "/sharedviewonly"
@@ -1280,6 +1326,11 @@ Feature: sharing
     And folder "sharedviewonly" of user "user0" is shared with user "user1" view-only
     And user "user1" accepts last share
     When User "user1" copies file "/sharedviewonly/document.odt" to "/copyforbidden.odt"
+    Then the HTTP status code should be "403"
+    Then As an "admin"
+    And parameter "shareapi_allow_view_without_download" of app "core" is set to "yes"
+    Then As an "user1"
+    And User "user1" copies file "/sharedviewonly/document.odt" to "/copyforbidden.odt"
     Then the HTTP status code should be "403"
 
 # See sharing-v1-part3.feature

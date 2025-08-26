@@ -53,7 +53,7 @@ OC.L10N.register(
     "Basic encryption module" : "基本加密模組",
     "Your private key password no longer matches your log-in password." : "您的私人密鑰密碼不符合您的登入密碼",
     "Set your old private key password to your current log-in password:" : "設定您的舊私人密鑰密碼到您現在的登入密碼：",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "如果您忘記舊密碼，可以請求管理員協助取回檔案。",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "如果您忘記舊密碼，可以請求管理員協助取回檔案。",
     "Old log-in password" : "舊登入密碼",
     "Current log-in password" : "目前的登入密碼",
     "Update Private Key Password" : "更新私人密鑰密碼",

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -657,6 +658,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['uid'], 'uid_index');
 			$table->addIndex(['type'], 'type_index');
 			$table->addIndex(['category'], 'category_index');
+			$table->addUniqueIndex(['uid', 'type', 'category'], 'unique_category_per_user');
 		}
 
 		if (!$schema->hasTable('vcategory_to_object')) {

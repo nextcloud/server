@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -76,7 +77,7 @@ class GuestAvatarController extends Controller {
 			$this->logger->error('error while creating guest avatar', [
 				'err' => $e,
 			]);
-			$resp = new Http\Response();
+			$resp = new Response();
 			$resp->setStatus(Http::STATUS_INTERNAL_SERVER_ERROR);
 			return $resp;
 		}

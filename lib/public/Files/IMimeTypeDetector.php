@@ -14,11 +14,11 @@ namespace OCP\Files;
  * Interface IMimeTypeDetector
  * @since 8.2.0
  *
- * Interface to handle mimetypes (detection and icon retrieval)
+ * Interface to handle MIME type (detection and icon retrieval)
  **/
 interface IMimeTypeDetector {
 	/**
-	 * detect mimetype only based on filename, content of file is not used
+	 * Detect MIME type only based on filename, content of file is not used
 	 * @param string $path
 	 * @return string
 	 * @since 8.2.0
@@ -26,7 +26,7 @@ interface IMimeTypeDetector {
 	public function detectPath($path);
 
 	/**
-	 * detect mimetype only based on the content of file
+	 * Detect MIME type only based on the content of file
 	 * @param string $path
 	 * @return string
 	 * @since 18.0.0
@@ -34,7 +34,7 @@ interface IMimeTypeDetector {
 	public function detectContent(string $path): string;
 
 	/**
-	 * detect mimetype based on both filename and content
+	 * Detect MIME type based on both filename and content
 	 *
 	 * @param string $path
 	 * @return string
@@ -43,7 +43,7 @@ interface IMimeTypeDetector {
 	public function detect($path);
 
 	/**
-	 * Get a secure mimetype that won't expose potential XSS.
+	 * Get a secure MIME type that won't expose potential XSS.
 	 *
 	 * @param string $mimeType
 	 * @return string
@@ -52,7 +52,7 @@ interface IMimeTypeDetector {
 	public function getSecureMimeType($mimeType);
 
 	/**
-	 * detect mimetype based on the content of a string
+	 * Detect MIME type based on the content of a string
 	 *
 	 * @param string $data
 	 * @return string
@@ -75,8 +75,24 @@ interface IMimeTypeDetector {
 	public function getAllAliases(): array;
 
 	/**
-	 * @return array<string, list{string, string|null}>
+	 * Get all extension to MIME type mappings.
+	 *
+	 * The return format is an array of the file extension, as the key,
+	 * mapped to a list where the first entry is the MIME type
+	 * and the second entry is the secure MIME type (or null if none).
+	 * Due to PHP idiosyncrasies if a numeric string is set as the extension,
+	 * then also the array key (file extension) is a number instead of a string.
+	 *
+	 * @return array<list{string, string|null}>
 	 * @since 32.0.0
 	 */
 	public function getAllMappings(): array;
+
+	/**
+	 * Get all human readable mime names
+	 *
+	 * @return array<string,string>
+	 * @since 32.0.0
+	 */
+	public function getAllNamings(): array;
 }

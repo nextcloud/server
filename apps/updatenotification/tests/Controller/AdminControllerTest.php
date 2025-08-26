@@ -22,13 +22,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AdminControllerTest extends TestCase {
-	private IRequest|MockObject $request;
-	private IJobList|MockObject $jobList;
-	private ISecureRandom|MockObject $secureRandom;
-	private IConfig|MockObject $config;
-	private ITimeFactory|MockObject $timeFactory;
-	private IL10N|MockObject $l10n;
-	private IAppConfig|MockObject $appConfig;
+	private IRequest&MockObject $request;
+	private IJobList&MockObject $jobList;
+	private ISecureRandom&MockObject $secureRandom;
+	private IConfig&MockObject $config;
+	private ITimeFactory&MockObject $timeFactory;
+	private IL10N&MockObject $l10n;
+	private IAppConfig&MockObject $appConfig;
 
 	private AdminController $adminController;
 

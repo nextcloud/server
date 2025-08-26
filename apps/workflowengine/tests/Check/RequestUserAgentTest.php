@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,24 +12,19 @@ use OCA\WorkflowEngine\Check\AbstractStringCheck;
 use OCA\WorkflowEngine\Check\RequestUserAgent;
 use OCP\IL10N;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RequestUserAgentTest extends TestCase {
-
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	protected $request;
-
-	/** @var RequestUserAgent */
-	protected $check;
+	protected IRequest&MockObject $request;
+	protected RequestUserAgent $check;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
-		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l */
-		$l = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()
-			->getMock();
+		/** @var IL10N&MockObject $l */
+		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())
 			->method('t')
 			->willReturnCallback(function ($string, $args) {
@@ -36,7 +34,7 @@ class RequestUserAgentTest extends TestCase {
 		$this->check = new RequestUserAgent($l, $this->request);
 	}
 
-	public function dataExecuteCheck() {
+	public static function dataExecuteCheck(): array {
 		return [
 			['is', 'android', 'Mozilla/5.0 (Android) Nextcloud-android/2.2.0', true],
 			['is', 'android', 'Mozilla/5.0 (iOS) Nextcloud-iOS/2.2.0', false],
@@ -84,14 +82,8 @@ class RequestUserAgentTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataExecuteCheck
-	 * @param string $operation
-	 * @param string $checkValue
-	 * @param string $actualValue
-	 * @param bool $expected
-	 */
-	public function testExecuteCheck($operation, $checkValue, $actualValue, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteCheck')]
+	public function testExecuteCheck(string $operation, string $checkValue, string $actualValue, bool $expected): void {
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->willReturn($actualValue);

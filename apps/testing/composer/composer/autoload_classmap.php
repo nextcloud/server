@@ -13,6 +13,7 @@ return array(
     'OCA\\Testing\\Controller\\LockingController' => $baseDir . '/../lib/Controller/LockingController.php',
     'OCA\\Testing\\Controller\\RateLimitTestController' => $baseDir . '/../lib/Controller/RateLimitTestController.php',
     'OCA\\Testing\\Conversion\\ConversionProvider' => $baseDir . '/../lib/Conversion/ConversionProvider.php',
+    'OCA\\Testing\\HiddenGroupBackend' => $baseDir . '/../lib/HiddenGroupBackend.php',
     'OCA\\Testing\\Listener\\GetDeclarativeSettingsValueListener' => $baseDir . '/../lib/Listener/GetDeclarativeSettingsValueListener.php',
     'OCA\\Testing\\Listener\\RegisterDeclarativeSettingsListener' => $baseDir . '/../lib/Listener/RegisterDeclarativeSettingsListener.php',
     'OCA\\Testing\\Listener\\SetDeclarativeSettingsValueListener' => $baseDir . '/../lib/Listener/SetDeclarativeSettingsValueListener.php',

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -11,6 +12,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Calendar\AvailabilityResult;
 use OC\Calendar\Manager;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
+use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\ServerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendar;
@@ -27,8 +29,6 @@ use Psr\Log\LoggerInterface;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Sabre\VObject\Component\VCalendar;
-use Sabre\VObject\Document;
-use Sabre\VObject\Reader;
 use Test\TestCase;
 
 /*
@@ -60,6 +60,8 @@ class ManagerTest extends TestCase {
 	private ServerFactory&MockObject $serverFactory;
 
 	private VCalendar $vCalendar1a;
+	private VCalendar $vCalendar2a;
+	private VCalendar $vCalendar3a;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -90,6 +92,9 @@ class ManagerTest extends TestCase {
 		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
 		$vEvent->add('SUMMARY', 'Test Event');
+		$vEvent->add('SEQUENCE', 3);
+		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('TRANSP', 'OPAQUE');
 		$vEvent->add('ORGANIZER', 'mailto:organizer@testing.com', ['CN' => 'Organizer']);
 		$vEvent->add('ATTENDEE', 'mailto:attendee1@testing.com', [
 			'CN' => 'Attendee One',
@@ -98,11 +103,48 @@ class ManagerTest extends TestCase {
 			'ROLE' => 'REQ-PARTICIPANT',
 			'RSVP' => 'TRUE'
 		]);
+
+		// construct calendar with a event for reply
+		$this->vCalendar2a = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $this->vCalendar2a->add('VEVENT', []);
+		$vEvent->UID->setValue('dcc733bf-b2b2-41f2-a8cf-550ae4b67aff');
+		$vEvent->add('DTSTART', '20210820');
+		$vEvent->add('DTEND', '20220821');
+		$vEvent->add('SUMMARY', 'berry basket');
+		$vEvent->add('SEQUENCE', 3);
+		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('TRANSP', 'OPAQUE');
+		$vEvent->add('ORGANIZER', 'mailto:linus@stardew-tent-living.com', ['CN' => 'admin']);
+		$vEvent->add('ATTENDEE', 'mailto:pierre@general-store.com', [
+			'CN' => 'pierre@general-store.com',
+			'CUTYPE' => 'INDIVIDUAL',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'PARTSTAT' => 'ACCEPTED',
+		]);
+
+		// construct calendar with a event for reply
+		$this->vCalendar3a = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $this->vCalendar3a->add('VEVENT', []);
+		$vEvent->UID->setValue('dcc733bf-b2b2-41f2-a8cf-550ae4b67aff');
+		$vEvent->add('DTSTART', '20210820');
+		$vEvent->add('DTEND', '20220821');
+		$vEvent->add('SUMMARY', 'berry basket');
+		$vEvent->add('SEQUENCE', 3);
+		$vEvent->add('STATUS', 'CANCELLED');
+		$vEvent->add('TRANSP', 'OPAQUE');
+		$vEvent->add('ORGANIZER', 'mailto:linus@stardew-tent-living.com', ['CN' => 'admin']);
+		$vEvent->add('ATTENDEE', 'mailto:pierre@general-store.com', [
+			'CN' => 'pierre@general-store.com',
+			'CUTYPE' => 'INDIVIDUAL',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'PARTSTAT' => 'ACCEPTED',
+		]);
+
 	}
 
-	/**
-	 * @dataProvider searchProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchProvider')]
 	public function testSearch($search1, $search2, $expected): void {
 		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
@@ -127,9 +169,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * @dataProvider searchProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('searchProvider')]
 	public function testSearchOptions($search1, $search2, $expected): void {
 		/** @var ICalendar | MockObject $calendar1 */
 		$calendar1 = $this->createMock(ICalendar::class);
@@ -157,7 +197,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function searchProvider() {
+	public static function searchProvider(): array {
 		$search1 = [
 			[
 				'id' => 1,
@@ -300,8 +340,42 @@ class ManagerTest extends TestCase {
 		$recipient = 'attendee1@testing.com';
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
-		// test method
+		// Act
 		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipRequestWithInvalidData(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('error')
+			->with('iMip message could not be processed because an error occurred while parsing the iMip message');
+		// construct parameters
+		$principalUri = 'principals/user/attendee1';
+		$sender = 'organizer@testing.com';
+		$recipient = 'attendee1@testing.com';
+		// Act
+		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, 'Invalid data');
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -333,8 +407,9 @@ class ManagerTest extends TestCase {
 		$sender = 'organizer@testing.com';
 		$recipient = 'attendee1@testing.com';
 		$calendar = $this->vCalendar1a;
-		// test method
+		// Act
 		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -367,8 +442,9 @@ class ManagerTest extends TestCase {
 		$recipient = 'attendee1@testing.com';
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'CANCEL');
-		// test method
+		// Act
 		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -402,8 +478,9 @@ class ManagerTest extends TestCase {
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
 		$calendar->remove('VEVENT');
-		// test method
+		// Act
 		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -437,8 +514,45 @@ class ManagerTest extends TestCase {
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
 		$calendar->VEVENT->remove('UID');
-		// test method
+		// Act
 		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipRequestWithNoOrganizer(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event dose not contains an organizer');
+		// construct parameters
+		$principalUri = 'principals/user/attendee1';
+		$sender = 'organizer@testing.com';
+		$recipient = 'attendee1@testing.com';
+		$calendar = $this->vCalendar1a;
+		$calendar->add('METHOD', 'REQUEST');
+		$calendar->VEVENT->remove('ORGANIZER');
+		// Act
+		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -472,8 +586,9 @@ class ManagerTest extends TestCase {
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
 		$calendar->VEVENT->remove('ATTENDEE');
-		// test method
+		// Act
 		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -506,8 +621,9 @@ class ManagerTest extends TestCase {
 		$recipient = 'attendee2@testing.com';
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
-		// test method
+		// Act
 		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -545,15 +661,16 @@ class ManagerTest extends TestCase {
 			->willReturn([$userCalendar]);
 		// construct logger returns
 		$this->logger->expects(self::once())->method('warning')
-			->with('iMip message event could not be processed because the no corresponding event was found in any calendar');
+			->with('iMip message event could not be processed because no corresponding event was found in any calendar');
 		// construct parameters
 		$principalUri = 'principals/user/attendee1';
 		$sender = 'organizer@testing.com';
 		$recipient = 'attendee1@testing.com';
 		$calendar = $this->vCalendar1a;
 		$calendar->add('METHOD', 'REQUEST');
-		// test method
+		// Act
 		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -599,62 +716,296 @@ class ManagerTest extends TestCase {
 		$userCalendar->expects(self::once())
 			->method('handleIMipMessage')
 			->with('', $calendar->serialize());
-		// test method
+		// Act
 		$result = $manager->handleIMipRequest($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertTrue($result);
 	}
 
-	public function testHandleImipReplyWrongMethod(): void {
+	public function testHandleImipReplyWithNoCalendars(): void {
+		// construct calendar manager returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message could not be processed because user has no calendars');
+		// construct parameters
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
 		$recipient = 'linus@stardew-tent-living.com';
-		$calendarData = $this->getVCalendarReply();
-		$calendarData->METHOD = 'REQUEST';
-
-		$this->logger->expects(self::once())
-			->method('warning');
-		$this->time->expects(self::never())
-			->method('getTime');
-
-		$result = $this->manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
+		$calendar = $this->vCalendar2a;
+		$calendar->add('METHOD', 'REPLY');
+		// Act
+		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
-	public function testHandleImipReplyOrganizerNotRecipient(): void {
+	public function testHandleImipReplyWithInvalidData(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('error')
+			->with('iMip message could not be processed because an error occurred while parsing the iMip message');
+		// construct parameters
+		$principalUri = 'principals/user/attendee1';
+		$sender = 'organizer@testing.com';
+		$recipient = 'attendee1@testing.com';
+		// Act
+		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, 'Invalid data');
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipReplyWithNoMethod(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message contains an incorrect or invalid method');
+		// construct parameters
 		$principalUri = 'principals/user/linus';
-		$recipient = 'pierre@general-store.com';
-		$sender = 'linus@stardew-tent-living.com';
-		$calendarData = $this->getVCalendarReply();
+		$sender = 'pierre@general-store.com';
+		$recipient = 'linus@stardew-tent-living.com';
+		$calendar = $this->vCalendar2a;
+		// Act
+		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
 
-		$this->logger->expects(self::once())
-			->method('warning');
-		$this->time->expects(self::never())
-			->method('getTime');
+	public function testHandleImipReplyWithInvalidMethod(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message contains an incorrect or invalid method');
+		// construct parameters
+		$principalUri = 'principals/user/linus';
+		$sender = 'pierre@general-store.com';
+		$recipient = 'linus@stardew-tent-living.com';
+		$calendar = $this->vCalendar2a;
+		$calendar->add('METHOD', 'UNKNOWN');
+		// Act
+		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
 
-		$result = $this->manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
+	public function testHandleImipReplyWithNoEvent(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message contains no event');
+		// construct parameters
+		$principalUri = 'principals/user/linus';
+		$sender = 'pierre@general-store.com';
+		$recipient = 'linus@stardew-tent-living.com';
+		$calendar = $this->vCalendar2a;
+		$calendar->add('METHOD', 'REPLY');
+		$calendar->remove('VEVENT');
+		// Act
+		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipReplyWithNoUid(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event dose not contains a UID');
+		// construct parameters
+		$principalUri = 'principals/user/linus';
+		$sender = 'pierre@general-store.com';
+		$recipient = 'linus@stardew-tent-living.com';
+		$calendar = $this->vCalendar2a;
+		$calendar->add('METHOD', 'REPLY');
+		$calendar->VEVENT->remove('UID');
+		// Act
+		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipReplyWithNoOrganizer(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event dose not contains an organizer');
+		// construct parameters
+		$principalUri = 'principals/user/linus';
+		$sender = 'pierre@general-store.com';
+		$recipient = 'linus@stardew-tent-living.com';
+		$calendar = $this->vCalendar2a;
+		$calendar->add('METHOD', 'REPLY');
+		$calendar->VEVENT->remove('ORGANIZER');
+		// Act
+		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipReplyWithNoAttendee(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event dose not contains any attendees');
+		// construct parameters
+		$principalUri = 'principals/user/linus';
+		$sender = 'pierre@general-store.com';
+		$recipient = 'linus@stardew-tent-living.com';
+		$calendar = $this->vCalendar2a;
+		$calendar->add('METHOD', 'REPLY');
+		$calendar->VEVENT->remove('ATTENDEE');
+		// Act
+		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendar->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
 	public function testHandleImipReplyDateInThePast(): void {
-		$principalUri = 'principals/user/linus';
-		$sender = 'pierre@general-store.com';
-		$recipient = 'linus@stardew-tent-living.com';
-		$calendarData = $this->getVCalendarReply();
-		$calendarData->VEVENT->DTSTART = new \DateTime('2013-04-07'); // set to in the past
-
-		$this->time->expects(self::once())
-			->method('getTime')
-			->willReturn(time());
-
-		$this->logger->expects(self::once())
-			->method('warning');
-
-		$result = $this->manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
-		$this->assertFalse($result);
-	}
-
-	public function testHandleImipReplyNoCalendars(): void {
-		/** @var Manager | \PHPUnit\Framework\MockObject\MockObject $manager */
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->coordinator,
@@ -665,30 +1016,38 @@ class ManagerTest extends TestCase {
 				$this->userManager,
 				$this->serverFactory,
 			])
-			->setMethods([
-				'getCalendarsForPrincipal'
-			])
+			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger and time returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event could not be processed because the event is in the past');
+		$this->time->expects(self::once())
+			->method('getTime')
+			->willReturn(time());
+		// construct parameters
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
 		$recipient = 'linus@stardew-tent-living.com';
-		$calendarData = $this->getVCalendarReply();
-
-		$this->time->expects(self::once())
-			->method('getTime')
-			->willReturn(1628374233);
-		$manager->expects(self::once())
-			->method('getCalendarsForPrincipal')
-			->willReturn([]);
-		$this->logger->expects(self::once())
-			->method('warning');
-
+		$calendarData = clone $this->vCalendar2a;
+		$calendarData->add('METHOD', 'REPLY');
+		$calendarData->VEVENT->DTSTART = new \DateTime('2013-04-07'); // set to in the past
+		// Act
 		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
 	public function testHandleImipReplyEventNotFound(): void {
-		/** @var Manager | \PHPUnit\Framework\MockObject\MockObject $manager */
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::once())
+			->method('search')
+			->willReturn([]);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->coordinator,
@@ -699,31 +1058,27 @@ class ManagerTest extends TestCase {
 				$this->userManager,
 				$this->serverFactory,
 			])
-			->setMethods([
-				'getCalendarsForPrincipal'
-			])
+			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
-		$calendar = $this->createMock(ITestCalendar::class);
-		$principalUri = 'principals/user/linus';
-		$sender = 'pierre@general-store.com';
-		$recipient = 'linus@stardew-tent-living.com';
-		$calendarData = $this->getVCalendarReply();
-
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct time returns
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn(1628374233);
-		$manager->expects(self::once())
-			->method('getCalendarsForPrincipal')
-			->willReturn([$calendar]);
-		$calendar->expects(self::once())
-			->method('search')
-			->willReturn([]);
-		$this->logger->expects(self::once())
-			->method('info');
-		$calendar->expects(self::never())
-			->method('handleIMipMessage');
-
+		// construct parameters
+		$principalUri = 'principals/user/linus';
+		$sender = 'pierre@general-store.com';
+		$recipient = 'linus@stardew-tent-living.com';
+		$calendarData = clone $this->vCalendar2a;
+		$calendarData->add('METHOD', 'REPLY');
+		// construct logger return
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event could not be processed because no corresponding event was found in any calendar', ['principalUri' => $principalUri, 'eventUid' => $calendarData->VEVENT->UID->getValue()]);
+		// Act
 		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -739,7 +1094,7 @@ class ManagerTest extends TestCase {
 				$this->userManager,
 				$this->serverFactory,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getCalendarsForPrincipal'
 			])
 			->getMock();
@@ -747,7 +1102,8 @@ class ManagerTest extends TestCase {
 		$principalUri = 'principals/user/linus';
 		$sender = 'pierre@general-store.com';
 		$recipient = 'linus@stardew-tent-living.com';
-		$calendarData = $this->getVCalendarReply();
+		$calendarData = clone $this->vCalendar2a;
+		$calendarData->add('METHOD', 'REPLY');
 
 		$this->time->expects(self::once())
 			->method('getTime')
@@ -761,64 +1117,15 @@ class ManagerTest extends TestCase {
 		$calendar->expects(self::once())
 			->method('handleIMipMessage')
 			->with('testname.ics', $calendarData->serialize());
-
+		// Act
 		$result = $manager->handleIMipReply($principalUri, $sender, $recipient, $calendarData->serialize());
+		// Assert
 		$this->assertTrue($result);
 	}
 
-	public function testHandleImipCancelWrongMethod(): void {
-		$principalUri = 'principals/user/pierre';
-		$sender = 'linus@stardew-tent-living.com';
-		$recipient = 'pierre@general-store.com';
-		$replyTo = null;
-		$calendarData = $this->getVCalendarCancel();
-		$calendarData->METHOD = 'REQUEST';
-
-		$this->logger->expects(self::once())
-			->method('warning');
-		$this->time->expects(self::never())
-			->method('getTime');
-
-		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
-		$this->assertFalse($result);
-	}
-
-	public function testHandleImipCancelAttendeeNotRecipient(): void {
-		$principalUri = '/user/admin';
-		$sender = 'linus@stardew-tent-living.com';
-		$recipient = 'leah@general-store.com';
-		$replyTo = null;
-		$calendarData = $this->getVCalendarCancel();
-
-		$this->logger->expects(self::once())
-			->method('warning');
-		$this->time->expects(self::never())
-			->method('getTime');
-
-		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
-		$this->assertFalse($result);
-	}
-
-	public function testHandleImipCancelDateInThePast(): void {
-		$principalUri = 'principals/user/pierre';
-		$sender = 'linus@stardew-tent-living.com';
-		$recipient = 'pierre@general-store.com';
-		$replyTo = null;
-		$calendarData = $this->getVCalendarCancel();
-		$calendarData->VEVENT->DTSTART = new \DateTime('2013-04-07'); // set to in the past
-
-		$this->time->expects(self::once())
-			->method('getTime')
-			->willReturn(time());
-		$this->logger->expects(self::once())
-			->method('warning');
-
-		$result = $this->manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
-		$this->assertFalse($result);
-	}
-
-	public function testHandleImipCancelNoCalendars(): void {
-		/** @var Manager | \PHPUnit\Framework\MockObject\MockObject $manager */
+	public function testHandleImipCancelWithNoCalendars(): void {
+		// construct calendar manager returns
+		/** @var Manager&MockObject $manager */
 		$manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->coordinator,
@@ -829,27 +1136,397 @@ class ManagerTest extends TestCase {
 				$this->userManager,
 				$this->serverFactory,
 			])
-			->setMethods([
-				'getCalendarsForPrincipal'
-			])
+			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message could not be processed because user has no calendars');
+		// construct parameters
 		$principalUri = 'principals/user/pierre';
 		$sender = 'linus@stardew-tent-living.com';
 		$recipient = 'pierre@general-store.com';
 		$replyTo = null;
-		$calendarData = $this->getVCalendarCancel();
+		$calendar = $this->vCalendar3a;
+		$calendar->add('METHOD', 'CANCEL');
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
 
+	public function testHandleImipCancelWithInvalidData(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('error')
+			->with('iMip message could not be processed because an error occurred while parsing the iMip message');
+		// construct parameters
+		$principalUri = 'principals/user/attendee1';
+		$sender = 'organizer@testing.com';
+		$recipient = 'attendee1@testing.com';
+		$replyTo = null;
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, 'Invalid data');
+		// Assert
+		$this->assertFalse($result);
+	}
+
+
+	public function testHandleImipCancelWithNoMethod(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message contains an incorrect or invalid method');
+		// construct parameters
+		$principalUri = 'principals/user/pierre';
+		$sender = 'linus@stardew-tent-living.com';
+		$recipient = 'pierre@general-store.com';
+		$replyTo = null;
+		$calendar = $this->vCalendar3a;
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipCancelWithInvalidMethod(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message contains an incorrect or invalid method');
+		// construct parameters
+		$principalUri = 'principals/user/pierre';
+		$sender = 'linus@stardew-tent-living.com';
+		$recipient = 'pierre@general-store.com';
+		$replyTo = null;
+		$calendar = $this->vCalendar3a;
+		$calendar->add('METHOD', 'UNKNOWN');
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipCancelWithNoEvent(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message contains no event');
+		// construct parameters
+		$principalUri = 'principals/user/pierre';
+		$sender = 'linus@stardew-tent-living.com';
+		$recipient = 'pierre@general-store.com';
+		$replyTo = null;
+		$calendar = $this->vCalendar3a;
+		$calendar->add('METHOD', 'CANCEL');
+		$calendar->remove('VEVENT');
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipCancelWithNoUid(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event dose not contains a UID');
+		// construct parameters
+		$principalUri = 'principals/user/pierre';
+		$sender = 'linus@stardew-tent-living.com';
+		$recipient = 'pierre@general-store.com';
+		$replyTo = null;
+		$calendar = $this->vCalendar3a;
+		$calendar->add('METHOD', 'CANCEL');
+		$calendar->VEVENT->remove('UID');
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipCancelWithNoOrganizer(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event dose not contains an organizer');
+		// construct parameters
+		$principalUri = 'principals/user/pierre';
+		$sender = 'linus@stardew-tent-living.com';
+		$recipient = 'pierre@general-store.com';
+		$replyTo = null;
+		$calendar = $this->vCalendar3a;
+		$calendar->add('METHOD', 'CANCEL');
+		$calendar->VEVENT->remove('ORGANIZER');
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipCancelWithNoAttendee(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event dose not contains any attendees');
+		// construct parameters
+		$principalUri = 'principals/user/pierre';
+		$sender = 'pierre@general-store.com';
+		$recipient = 'linus@stardew-tent-living.com';
+		$replyTo = null;
+		$calendar = $this->vCalendar3a;
+		$calendar->add('METHOD', 'CANCEL');
+		$calendar->VEVENT->remove('ATTENDEE');
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendar->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipCancelAttendeeNotRecipient(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event could not be processed because recipient must be an ATTENDEE of this event');
+		// construct parameters
+		$principalUri = 'principals/user/pierre';
+		$sender = 'linus@stardew-tent-living.com';
+		$recipient = 'leah@general-store.com';
+		$replyTo = null;
+		$calendarData = clone $this->vCalendar3a;
+		$calendarData->add('METHOD', 'CANCEL');
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipCancelDateInThePast(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct logger and time returns
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event could not be processed because the event is in the past');
+		$this->time->expects(self::once())
+			->method('getTime')
+			->willReturn(time());
+		// construct parameters
+		$principalUri = 'principals/user/pierre';
+		$sender = 'linus@stardew-tent-living.com';
+		$recipient = 'pierre@general-store.com';
+		$replyTo = null;
+		$calendarData = clone $this->vCalendar3a;
+		$calendarData->add('METHOD', 'CANCEL');
+		$calendarData->VEVENT->DTSTART = new \DateTime('2013-04-07'); // set to in the past
+		// Act
+		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		// Assert
+		$this->assertFalse($result);
+	}
+
+	public function testHandleImipCancelEventNotFound(): void {
+		// construct mock user calendar
+		$userCalendar = $this->createMock(ITestCalendar::class);
+		$userCalendar->expects(self::once())
+			->method('search')
+			->willReturn([]);
+		// construct mock calendar manager and returns
+		/** @var Manager&MockObject $manager */
+		$manager = $this->getMockBuilder(Manager::class)
+			->setConstructorArgs([
+				$this->coordinator,
+				$this->container,
+				$this->logger,
+				$this->time,
+				$this->secureRandom,
+				$this->userManager,
+				$this->serverFactory,
+			])
+			->onlyMethods(['getCalendarsForPrincipal'])
+			->getMock();
+		$manager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->willReturn([$userCalendar]);
+		// construct time returns
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn(1628374233);
-		$manager->expects(self::once())
-			->method('getCalendarsForPrincipal')
-			->with($principalUri)
-			->willReturn([]);
-		$this->logger->expects(self::once())
-			->method('warning');
-
+		// construct parameters
+		$principalUri = 'principals/user/pierre';
+		$sender = 'linus@stardew-tent-living.com';
+		$recipient = 'pierre@general-store.com';
+		$replyTo = null;
+		$calendarData = clone $this->vCalendar3a;
+		$calendarData->add('METHOD', 'CANCEL');
+		// construct logger return
+		$this->logger->expects(self::once())->method('warning')
+			->with('iMip message event could not be processed because no corresponding event was found in any calendar', ['principalUri' => $principalUri, 'eventUid' => $calendarData->VEVENT->UID->getValue()]);
+		// Act
 		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		// Assert
 		$this->assertFalse($result);
 	}
 
@@ -865,16 +1542,18 @@ class ManagerTest extends TestCase {
 				$this->userManager,
 				$this->serverFactory,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getCalendarsForPrincipal'
 			])
 			->getMock();
+
 		$principalUri = 'principals/user/pierre';
-		$sender = 'clint@stardew-blacksmiths.com';
+		$sender = 'clint@stardew-tent-living.com';
 		$recipient = 'pierre@general-store.com';
 		$replyTo = 'linus@stardew-tent-living.com';
 		$calendar = $this->createMock(ITestCalendar::class);
-		$calendarData = $this->getVCalendarCancel();
+		$calendarData = clone $this->vCalendar3a;
+		$calendarData->add('METHOD', 'CANCEL');
 
 		$this->time->expects(self::once())
 			->method('getTime')
@@ -889,7 +1568,9 @@ class ManagerTest extends TestCase {
 		$calendar->expects(self::once())
 			->method('handleIMipMessage')
 			->with('testname.ics', $calendarData->serialize());
+		// Act
 		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		// Assert
 		$this->assertTrue($result);
 	}
 
@@ -905,7 +1586,7 @@ class ManagerTest extends TestCase {
 				$this->userManager,
 				$this->serverFactory,
 			])
-			->setMethods([
+			->onlyMethods([
 				'getCalendarsForPrincipal'
 			])
 			->getMock();
@@ -914,7 +1595,8 @@ class ManagerTest extends TestCase {
 		$recipient = 'pierre@general-store.com';
 		$replyTo = null;
 		$calendar = $this->createMock(ITestCalendar::class);
-		$calendarData = $this->getVCalendarCancel();
+		$calendarData = clone $this->vCalendar3a;
+		$calendarData->add('METHOD', 'CANCEL');
 
 		$this->time->expects(self::once())
 			->method('getTime')
@@ -929,66 +1611,10 @@ class ManagerTest extends TestCase {
 		$calendar->expects(self::once())
 			->method('handleIMipMessage')
 			->with('testname.ics', $calendarData->serialize());
+		// Act
 		$result = $manager->handleIMipCancel($principalUri, $sender, $replyTo, $recipient, $calendarData->serialize());
+		// Assert
 		$this->assertTrue($result);
-	}
-
-	private function getVCalendarReply(): Document {
-		$data = <<<EOF
-BEGIN:VCALENDAR
-PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
-VERSION:2.0
-CALSCALE:GREGORIAN
-METHOD:REPLY
-BEGIN:VEVENT
-DTSTART;VALUE=DATE:20210820
-DTEND;VALUE=DATE:20220821
-DTSTAMP:20210812T100040Z
-ORGANIZER;CN=admin:mailto:linus@stardew-tent-living.com
-UID:dcc733bf-b2b2-41f2-a8cf-550ae4b67aff
-ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=pierr
- e@general-store.com;X-NUM-GUESTS=0:mailto:pierre@general-store.com
-CREATED:20220812T100021Z
-DESCRIPTION:
-LAST-MODIFIED:20220812T100040Z
-LOCATION:
-SEQUENCE:3
-STATUS:CONFIRMED
-SUMMARY:berry basket
-TRANSP:OPAQUE
-END:VEVENT
-END:VCALENDAR
-EOF;
-		return Reader::read($data);
-	}
-
-	private function getVCalendarCancel(): Document {
-		$data = <<<EOF
-BEGIN:VCALENDAR
-PRODID:-//Nextcloud/Nextcloud CalDAV Server//EN
-VERSION:2.0
-CALSCALE:GREGORIAN
-METHOD:CANCEL
-BEGIN:VEVENT
-DTSTART;VALUE=DATE:20210820
-DTEND;VALUE=DATE:20220821
-DTSTAMP:20210812T100040Z
-ORGANIZER;CN=admin:mailto:linus@stardew-tent-living.com
-UID:dcc733bf-b2b2-41f2-a8cf-550ae4b67aff
-ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=pierr
- e@general-store.com;X-NUM-GUESTS=0:mailto:pierre@general-store.com
-CREATED:20220812T100021Z
-DESCRIPTION:
-LAST-MODIFIED:20220812T100040Z
-LOCATION:
-SEQUENCE:3
-STATUS:CANCELLED
-SUMMARY:berry basket
-TRANSP:OPAQUE
-END:VEVENT
-END:VCALENDAR
-EOF;
-		return Reader::read($data);
 	}
 
 	private function getFreeBusyResponse(): string {
@@ -1097,7 +1723,7 @@ EOF;
 			->method('setCurrentPrincipal')
 			->with('principals/users/admin');
 
-		$server = $this->createMock(\OCA\DAV\Connector\Sabre\Server::class);
+		$server = $this->createMock(Server::class);
 		$server->expects(self::once())
 			->method('getPlugin')
 			->with('auth')
@@ -1108,7 +1734,7 @@ EOF;
 				RequestInterface $request,
 				ResponseInterface $response,
 				bool $sendResponse,
-			) {
+			): void {
 				$requestBody = file_get_contents(__DIR__ . '/../../data/ics/free-busy-request.ics');
 				$this->assertEquals('POST', $request->getMethod());
 				$this->assertEquals('calendars/admin/outbox', $request->getPath());
@@ -1164,7 +1790,7 @@ EOF;
 			->method('setCurrentPrincipal')
 			->with('principals/users/admin');
 
-		$server = $this->createMock(\OCA\DAV\Connector\Sabre\Server::class);
+		$server = $this->createMock(Server::class);
 		$server->expects(self::once())
 			->method('getPlugin')
 			->with('auth')
@@ -1175,7 +1801,7 @@ EOF;
 				RequestInterface $request,
 				ResponseInterface $response,
 				bool $sendResponse,
-			) {
+			): void {
 				$requestBody = file_get_contents(__DIR__ . '/../../data/ics/free-busy-request.ics');
 				$this->assertEquals('POST', $request->getMethod());
 				$this->assertEquals('calendars/admin/outbox', $request->getPath());

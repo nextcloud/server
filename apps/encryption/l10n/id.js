@@ -48,7 +48,6 @@ OC.L10N.register(
     "Basic encryption module" : "Modul enkripsi dasar",
     "Your private key password no longer matches your log-in password." : "Kata sandi kunci private Anda tidak lagi cocok dengan kata sandi masuk Anda.",
     "Set your old private key password to your current log-in password:" : "Setel kata sandi kunci private Anda untuk kata sandi masuk Anda saat ini:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Jika Anda tidak ingat kata sandi lama, Anda dapat meminta administrator Anda untuk memulihkan berkas.",
     "Old log-in password" : "Kata sandi masuk yang lama",
     "Current log-in password" : "Kata sandi masuk saat ini",
     "Update Private Key Password" : "Perbarui Kata Sandi Kunci Private",

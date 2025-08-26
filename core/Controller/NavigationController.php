@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -47,12 +48,8 @@ class NavigationController extends OCSController {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
 		$navigation = array_values($navigation);
-		$etag = $this->generateETag($navigation);
-		if ($this->request->getHeader('If-None-Match') === $etag) {
-			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
-		}
 		$response = new DataResponse($navigation);
-		$response->setETag($etag);
+		$response->setETag($this->generateETag($navigation));
 		return $response;
 	}
 
@@ -74,12 +71,8 @@ class NavigationController extends OCSController {
 			$navigation = $this->rewriteToAbsoluteUrls($navigation);
 		}
 		$navigation = array_values($navigation);
-		$etag = $this->generateETag($navigation);
-		if ($this->request->getHeader('If-None-Match') === $etag) {
-			return new DataResponse([], Http::STATUS_NOT_MODIFIED);
-		}
 		$response = new DataResponse($navigation);
-		$response->setETag($etag);
+		$response->setETag($this->generateETag($navigation));
 		return $response;
 	}
 

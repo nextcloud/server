@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { haveValidity, zipFileContains } from '../../../support/utils/assertions.ts'
-import { getShareUrl, setupPublicShare } from './setup-public-share.ts'
+import { getShareUrl, setupPublicShare } from './PublicShareUtils.ts'
 
 /**
  * This tests ensures that on public shares the header actions menu correctly works
@@ -53,7 +53,7 @@ describe('files_sharing: Public share - header actions menu', { testIsolation: t
 		cy.findByRole('menuitem', { name: 'Direct link' })
 			.should('be.visible')
 			.and('have.attr', 'href')
-			.then((attribute) => expect(attribute).to.match(/^http:\/\/.+\/download$/))
+			.then((attribute) => expect(attribute).to.match(new RegExp(`^${Cypress.env('baseUrl')}/public.php/dav/files/.+/?accept=zip$`)))
 		// see menu closes on click
 		cy.findByRole('menuitem', { name: 'Direct link' })
 			.click()
@@ -188,7 +188,7 @@ describe('files_sharing: Public share - header actions menu', { testIsolation: t
 				cy.findByRole('menuitem', { name: 'Direct link' })
 					.should('be.visible')
 					.and('have.attr', 'href')
-					.then((attribute) => expect(attribute).to.match(/^http:\/\/.+\/download$/))
+					.then((attribute) => expect(attribute).to.match(new RegExp(`^${Cypress.env('baseUrl')}/public.php/dav/files/.+/?accept=zip$`)))
 				// See remote share works
 				cy.findByRole('menuitem', { name: /Add to your/i })
 					.should('be.visible')

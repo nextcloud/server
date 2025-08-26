@@ -7,15 +7,14 @@
     "Use backup code" : "Uporabi varnostno kodo",
     "Two factor backup codes" : "Dvostopenjske varnostne kode",
     "A two-factor auth backup codes provider" : "Ponudnik varnostnih kod za dvostopenjsko overitev",
+    "An error occurred while generating your backup codes" : "Prišlo je do namako med ustvarjanjem varnostnih kok",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Varnostne kode so bile uspešno ustvarjene. Uporabljeno {used} od skupno {total}.",
     "Save backup codes" : "Shrani varnostne kode",
     "Print backup codes" : "Natisni varnostne kode",
     "Regenerate backup codes" : "Osveži varnostne kode",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Z osvežitvijo varnostnih kod bo preklicana veljavnost starih.",
-    "An error occurred while generating your backup codes" : "Prišlo je do namako med ustvarjanjem varnostnih kok",
     "{name} backup codes" : "Varnostne kode {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Uporabite eno izmed varnostnih kod, ki ste jo shranili pri nastavljanju dvostopenjske overitve",
-    "Submit" : "Pošlji",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Varnostne kode je priporočljivo shraniti oziroma natisniti, saj jih v tej obliki prebrati ne bo več mogoče."
+    "Submit" : "Pošlji"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

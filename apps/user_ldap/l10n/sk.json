@@ -4,12 +4,10 @@
     "Invalid configuration: Anonymous binding is not allowed." : "Neplatné nastavenie: anonymné pripojenie nie je povolené.",
     "Valid configuration, connection established!" : "Platná konfigurácia, spojenie nadviazané!",
     "Valid configuration, but binding failed. Please check the server settings and credentials." : "Nastavenie je v poriadku, ale pripojenie zlyhalo. Skontrolujte nastavenia servera a prihlasovacie údaje.",
-    "Invalid configuration. Please have a look at the logs for further details." : "Konfigurácia je chybná. Prosím, pozrite sa do logov pre ďalšie podrobnosti.",
     "No action specified" : "Nie je vybraná akcia",
     "No configuration specified" : "Nie je určená konfigurácia",
     "No data specified" : "Nie sú vybraté dáta",
     "Invalid data specified" : "Boli zadané neplatné dáta",
-    " Could not set configuration %s" : "Nemôžem nastaviť konfiguráciu %s",
     "Action does not exist" : "Takáto akcia neexistuje",
     "Renewing …" : "Obnovujem...",
     "Very weak password" : "Veľmi slabé heslo",
@@ -52,7 +50,6 @@
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP/AD." : "Chýba zástupný znak %uid. Bude nahradený prihlasovacím menom pri požiadavke do LDAP/AD.",
     "Please provide a login name to test against" : "Zadajte prihlasovacie meno na otestovanie",
     "The group box was disabled, because the LDAP/AD server does not support memberOf." : "Pole skupín bolo vypnuté, pretože LDAP/AD server nepodporuje memberOf.",
-    "Password change rejected. Hint: " : "Zmena hesla zamietnutá. Vodítko:",
     "Please login with the new password" : "Prihláste sa prosím novým heslom",
     "LDAP User backend" : "Podporná vrstva pre LDAP používateľa",
     "Your password will expire tomorrow." : "Vaše heslo expiruje zajtra.",
@@ -224,6 +221,7 @@
     "Username-LDAP User Mapping" : "Mapovanie názvov LDAP používateľských mien",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Používateľské mená sa používajú na ukladanie a prideľovanie meta údajov. Pre presnú identifikáciu a rozpoznávanie má každý používateľ LDAP interné používateľské meno. To si vyžaduje mapovanie používateľského mena na užívateľa LDAP. Vytvorené meno používateľa je mapované na UUID používateľa LDAP. Okrem toho sa DN ukladá aj do vyrovnávacej pamäte, aby sa znížila interakcia LDAP, ale nepoužíva sa na identifikáciu. Ak sa DN zmení, zmeny sa nájdu. Interné používateľské meno sa používa všade. Vymazanie mápovania bude mať pozostatky všade. Vymazanie mapovania nie je citlivé na nastavenie, ovplyvňuje všetky nastavenia LDAP! Nikdy nemažte mapovanie vo produkčnom prostredí, ale iba v testovacej alebo experimentálnej fáze.",
     "Clear Username-LDAP User Mapping" : "Zrušiť mapovanie LDAP používateľských mien",
-    "Clear Groupname-LDAP Group Mapping" : "Zrušiť mapovanie názvov LDAP skupín"
+    "Clear Groupname-LDAP Group Mapping" : "Zrušiť mapovanie názvov LDAP skupín",
+    "Invalid configuration. Please have a look at the logs for further details." : "Konfigurácia je chybná. Prosím, pozrite sa do logov pre ďalšie podrobnosti."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

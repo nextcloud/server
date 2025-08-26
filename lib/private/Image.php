@@ -56,7 +56,7 @@ class Image implements IImage {
 		$this->appConfig = $appConfig ?? Server::get(IAppConfig::class);
 		$this->config = $config ?? Server::get(IConfig::class);
 
-		if (\OC_Util::fileInfoLoaded()) {
+		if (class_exists(finfo::class)) {
 			$this->fileInfo = new finfo(FILEINFO_MIME_TYPE);
 		}
 	}
@@ -699,11 +699,11 @@ class Image implements IImage {
 					fclose($fp);
 					unset($fp);
 
-					$headerFormat = 'A4Riff/' . // get n string
-						'I1Filesize/' . // get integer (file size but not actual size)
-						'A4Webp/' . // get n string
-						'A4Vp/' . // get n string
-						'A74Chunk';
+					$headerFormat = 'A4Riff/' // get n string
+						. 'I1Filesize/' // get integer (file size but not actual size)
+						. 'A4Webp/' // get n string
+						. 'A4Vp/' // get n string
+						. 'A74Chunk';
 
 					$header = unpack($headerFormat, $data);
 					unset($data, $headerFormat);

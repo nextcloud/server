@@ -16,6 +16,7 @@ use OCP\OCM\Exceptions\OCMProviderException;
  * Model based on the Open Cloud Mesh Discovery API
  * @link https://github.com/cs3org/OCM-API/
  * @since 28.0.0
+ * @deprecated 32.0.0 Please use {@see \OCP\OCM\ICapabilityAwareOCMProvider}
  */
 interface IOCMProvider extends JsonSerializable {
 	/**
@@ -151,7 +152,7 @@ interface IOCMProvider extends JsonSerializable {
 	 *     enabled: bool,
 	 *     apiVersion: '1.0-proposal1',
 	 *     endPoint: string,
-	 *     publicKey: array{
+	 *     publicKey?: array{
 	 *         keyId: string,
 	 *         publicKeyPem: string
 	 *	   },

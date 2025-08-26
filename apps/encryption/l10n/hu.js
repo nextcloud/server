@@ -53,7 +53,7 @@ OC.L10N.register(
     "Basic encryption module" : "Alapvető titkosítási modul",
     "Your private key password no longer matches your log-in password." : "A titkos kulcsa jelszava már nem egyezik meg a bejelentkezési jelszavával. ",
     "Set your old private key password to your current log-in password:" : "A régi privát kulcsának jelszavának beállítása a jelenlegi bejelentkezési jelszavára:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Ha nem emlékszik a régi jelszavára, akkor megkérheti a rendszergazdát, hogy állítsa helyre a fájljait.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Ha nem emlékszik a régi jelszavára, akkor megkérheti a rendszergazdát, hogy állítsa helyre a fájljait.",
     "Old log-in password" : "Régi bejelentkezési jelszó",
     "Current log-in password" : "Jelenlegi bejelentkezési jelszó",
     "Update Private Key Password" : "Titkos kulcs jelszavának frissítése",

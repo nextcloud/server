@@ -4,7 +4,7 @@
 -->
 <template>
 	<div>
-		<NcSelect :value="currentValue"
+		<NcSelect :model-value="currentValue"
 			:placeholder="t('workflowengine', 'Select a file type')"
 			label="label"
 			:options="options"
@@ -30,8 +30,8 @@
 			</template>
 		</NcSelect>
 		<input v-if="!isPredefined"
-			type="text"
 			:value="currentValue.id"
+			type="text"
 			:placeholder="t('workflowengine', 'e.g. httpd/unix-directory')"
 			@input="updateCustom">
 	</div>
@@ -40,7 +40,6 @@
 <script>
 import NcEllipsisedOption from '@nextcloud/vue/components/NcEllipsisedOption'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import valueMixin from './../../mixins/valueMixin.js'
 import { imagePath } from '@nextcloud/router'
 
 export default {
@@ -49,9 +48,15 @@ export default {
 		NcEllipsisedOption,
 		NcSelect,
 	},
-	mixins: [
-		valueMixin,
-	],
+	props: {
+		modelValue: {
+			type: String,
+			default: '',
+		},
+	},
+
+	emits: ['update:model-value'],
+
 	data() {
 		return {
 			predefinedTypes: [
@@ -76,6 +81,7 @@ export default {
 					id: 'application/pdf',
 				},
 			],
+			newValue: '',
 		}
 	},
 	computed: {
@@ -108,21 +114,30 @@ export default {
 			}
 		},
 	},
+	watch: {
+		modelValue() {
+			this.updateInternalValue()
+		},
+	},
+
 	methods: {
 		validateRegex(string) {
 			const regexRegex = /^\/(.*)\/([gui]{0,3})$/
 			const result = regexRegex.exec(string)
 			return result !== null
 		},
+		updateInternalValue() {
+			this.newValue = this.modelValue
+		},
 		setValue(value) {
 			if (value !== null) {
 				this.newValue = value.id
-				this.$emit('input', this.newValue)
+				this.$emit('update:model-value', this.newValue)
 			}
 		},
 		updateCustom(event) {
-			this.newValue = event.target.value
-			this.$emit('input', this.newValue)
+			this.newValue = event.target.value || event.detail[0]
+			this.$emit('update:model-value', this.newValue)
 		},
 	},
 }

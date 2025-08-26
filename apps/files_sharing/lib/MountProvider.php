@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,6 +12,7 @@ use OCA\Files_Sharing\Event\ShareMountedEvent;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
@@ -32,6 +34,7 @@ class MountProvider implements IMountProvider {
 		protected LoggerInterface $logger,
 		protected IEventDispatcher $eventDispatcher,
 		protected ICacheFactory $cacheFactory,
+		protected IMountManager $mountManager,
 	) {
 	}
 
@@ -43,36 +46,43 @@ class MountProvider implements IMountProvider {
 	 * @return IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
-		$shares = $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_USER, null, -1);
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_CIRCLE, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_ROOM, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_DECK, null, -1));
-		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_SCIENCEMESH, null, -1));
-
+		$shares = array_merge(
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_USER, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_GROUP, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_CIRCLE, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_ROOM, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_DECK, null, -1),
+			$this->shareManager->getSharedWith($user->getUID(), IShare::TYPE_SCIENCEMESH, null, -1),
+		);
 
 		// filter out excluded shares and group shares that includes self
 		$shares = array_filter($shares, function (IShare $share) use ($user) {
-			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID();
+			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID() && $share->getSharedBy() !== $user->getUID();
 		});
 
 		$superShares = $this->buildSuperShares($shares, $user);
 
+		$otherMounts = $this->mountManager->getAll();
 		$mounts = [];
 		$view = new View('/' . $user->getUID() . '/files');
 		$ownerViews = [];
 		$sharingDisabledForUser = $this->shareManager->sharingDisabledForUser($user->getUID());
 		/** @var CappedMemoryCache<bool> $folderExistCache */
 		$foldersExistCache = new CappedMemoryCache();
+
+		$validShareCache = $this->cacheFactory->createLocal('share-valid-mountpoint-max');
+		$maxValidatedShare = $validShareCache->get($user->getUID()) ?? 0;
+		$newMaxValidatedShare = $maxValidatedShare;
+
 		foreach ($superShares as $share) {
 			try {
 				/** @var IShare $parentShare */
 				$parentShare = $share[0];
 
-				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED &&
-					($parentShare->getShareType() === IShare::TYPE_GROUP ||
-						$parentShare->getShareType() === IShare::TYPE_USERGROUP ||
-						$parentShare->getShareType() === IShare::TYPE_USER)) {
+				if ($parentShare->getStatus() !== IShare::STATUS_ACCEPTED
+					&& ($parentShare->getShareType() === IShare::TYPE_GROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USERGROUP
+						|| $parentShare->getShareType() === IShare::TYPE_USER)) {
 					continue;
 				}
 
@@ -80,9 +90,10 @@ class MountProvider implements IMountProvider {
 				if (!isset($ownerViews[$owner])) {
 					$ownerViews[$owner] = new View('/' . $parentShare->getShareOwner() . '/files');
 				}
+				$shareId = (int)$parentShare->getId();
 				$mount = new SharedMount(
 					'\OCA\Files_Sharing\SharedStorage',
-					$mounts,
+					array_merge($mounts, $otherMounts),
 					[
 						'user' => $user->getUID(),
 						// parent share
@@ -97,8 +108,10 @@ class MountProvider implements IMountProvider {
 					$foldersExistCache,
 					$this->eventDispatcher,
 					$user,
-					$this->cacheFactory->createLocal('share-valid-mountpoint')
+					($shareId <= $maxValidatedShare),
 				);
+
+				$newMaxValidatedShare = max($shareId, $newMaxValidatedShare);
 
 				$event = new ShareMountedEvent($mount);
 				$this->eventDispatcher->dispatchTyped($event);
@@ -117,6 +130,8 @@ class MountProvider implements IMountProvider {
 				);
 			}
 		}
+
+		$validShareCache->set($user->getUID(), $newMaxValidatedShare, 24 * 60 * 60);
 
 		// array_filter removes the null values from the array
 		return array_values(array_filter($mounts));

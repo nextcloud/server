@@ -45,7 +45,6 @@ OC.L10N.register(
     "Basic encryption module" : "Grunn-dulritunareining",
     "Your private key password no longer matches your log-in password." : "Lykilorð einkalykilsins þíns samsvarar ekki lengur innskráningarlykilorðinu þínu.",
     "Set your old private key password to your current log-in password:" : "Settu eldra lykilorð einkalykilsins þíns á að vera það sama og núgildandi innskráningarlykilorðið þitt:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : " Ef þú manst ekki gamla lykilorðið þitt geturðu beðið kerfisstjórann þinn um að endurheimta skrárnar þínar.",
     "Old log-in password" : "Gamla innskráningarlykilorðið",
     "Current log-in password" : "Núgildandi innskráningarlykilorð",
     "Update Private Key Password" : "Uppfæra lykilorð einkalykils:",

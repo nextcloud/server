@@ -70,7 +70,6 @@
     "Display name" : "ชื่อที่แสดง",
     "Additional settings" : "การตั้งค่าเพิ่มเติม",
     "Oracle connection could not be established" : "ไม่สามารถสร้างการเชื่อมต่อกับ Oracle ",
-    "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "ระบบ Mac OS X ไม่ได้รับการสนับสนุน และ %s จะไม่ทำงานอย่างถูกต้องบนแพลตฟอร์มนี้ ใช้บนความเสี่ยงของคุณเอง!",
     "For the best results, please consider using a GNU/Linux server instead." : "เพื่อให้ได้ผลลัพธ์ที่ดีที่สุด โปรดพิจารณาใช้เซิร์ฟเวอร์ GNU/Linux แทน",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4 GB and is highly discouraged." : "ดูเหมือนว่าเซิร์ฟเวอร์ %s นี้ทำงานบน PHP 32 บิต และ open_basedir ได้ถูกกำหนดค่าใน php.ini ซึ่งจะมีปัญหากับไฟล์ที่มีขนาดใหญ่กว่า 4 GB และไม่แนะนำให้ใช้",
     "Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP." : "กรุณาลบการตั้งค่า open_basedir ใน php.ini ของคุณ หรือเปลี่ยนไปใช้ PHP รุ่น 64 บิตแทน",
@@ -149,13 +148,9 @@
     "Storage connection error. %s" : "ข้อผิดพลาดการเชื่อมต่อพื้นที่จัดเก็บข้อมูล %s",
     "Storage is temporarily not available" : "พื้นที่จัดเก็บข้อมูลไม่สามารถใช้งานได้ชั่วคราว",
     "Storage connection timeout. %s" : "หมดเวลาการเชื่อมต่อพื้นที่จัดเก็บข้อมูล %s",
+    "Images" : "รูปภาพ",
     "Text" : "ข้อความ",
     "Translate" : "แปลภาษา",
-    "File name is a reserved word" : "ชื่อแฟ้มเป็นคำสงวน",
-    "File name contains at least one invalid character" : "ชื่อไฟล์มีตัวอักษรที่ไม่ถูกต้องอย่างน้อย 1 ตัว",
-    "File name is too long" : "ชื่อไฟล์ยาวเกินไป",
-    "Users" : "ผู้ใช้งาน",
-    "Open »%s«" : "เปิด »%s«",
     "File is currently busy, please try again later" : "ไฟล์กำลังใช้งานอยู่ โปรดลองอีกครั้งในภายหลัง"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

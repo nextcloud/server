@@ -81,7 +81,6 @@
 	"application/x-7z-compressed": "package/x-generic",
 	"application/x-bzip2": "package/x-generic",
 	"application/x-cbr": "text",
-	"application/x-compressed": "package/x-generic",
 	"application/x-dcraw": "image",
 	"application/x-deb": "package/x-generic",
 	"application/x-fictionbook+xml": "text",

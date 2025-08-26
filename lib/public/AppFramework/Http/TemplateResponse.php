@@ -1,13 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
+use OCP\Server;
+use OCP\Template\ITemplateManager;
 
 /**
  * Response for a normal template
@@ -180,7 +186,7 @@ class TemplateResponse extends Response {
 			$renderAs = $this->renderAs;
 		}
 
-		$template = new \OCP\Template($this->appName, $this->templateName, $renderAs);
+		$template = Server::get(ITemplateManager::class)->getTemplate($this->appName, $this->templateName, $renderAs);
 
 		foreach ($this->params as $key => $value) {
 			$template->assign($key, $value);

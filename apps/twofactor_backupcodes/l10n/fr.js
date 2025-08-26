@@ -9,16 +9,15 @@ OC.L10N.register(
     "Use backup code" : "Utiliser un code de récupération",
     "Two factor backup codes" : "Code de secours pour l'authentification double facteur.",
     "A two-factor auth backup codes provider" : "Un fournisseur de codes de récupération d'authentification à deux facteurs",
+    "An error occurred while generating your backup codes" : "Une erreur est survenue lors de la génération de vos codes de récupération",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Les codes de récupération ont été générés. {used} codes sur {total} ont été utilisés.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Ce sont vos codes de secours. Veuillez les enregistrer et/ou les imprimer car vous ne pourrez plus les redemander ultérieurement.",
     "Save backup codes" : "Sauvegarder les codes de récupération",
     "Print backup codes" : "Imprimer les codes de récupération",
     "Regenerate backup codes" : "Régénérer les codes de récupération",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si vous régénérez les codes de récupération, vous invalidez automatiquement les anciens codes.",
-    "An error occurred while generating your backup codes" : "Une erreur est survenue lors de la génération de vos codes de récupération",
     "{name} backup codes" : "{name} codes de récupération",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Utilisez l'un des codes de récupération que vous avez enregistrés lors de la configuration de l'authentification à deux facteurs.",
-    "Submit" : "Soumettre",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Voici vos codes de récupération. Veuillez les sauvegarder et/ou les imprimer car vous ne pourrez plus y avoir accès ultérieurement"
+    "Submit" : "Soumettre"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

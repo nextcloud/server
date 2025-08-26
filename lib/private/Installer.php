@@ -10,20 +10,25 @@ declare(strict_types=1);
 namespace OC;
 
 use Doctrine\DBAL\Exception\TableExistsException;
+use OC\App\AppStore\AppNotFoundException;
 use OC\App\AppStore\Bundles\Bundle;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Archive\TAR;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
-use OC_App;
-use OC_Helper;
+use OC\Files\FilenameValidator;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\BackgroundJob\IJobList;
+use OCP\Files;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ITempManager;
+use OCP\L10N\IFactory;
 use OCP\Migration\IOutput;
+use OCP\Server;
 use phpseclib\File\X509;
 use Psr\Log\LoggerInterface;
 
@@ -40,6 +45,8 @@ class Installer {
 		private ITempManager $tempManager,
 		private LoggerInterface $logger,
 		private IConfig $config,
+		private IAppManager $appManager,
+		private IFactory $l10nFactory,
 		private bool $isCLI,
 	) {
 	}
@@ -53,21 +60,12 @@ class Installer {
 	 * @return string app ID
 	 */
 	public function installApp(string $appId, bool $forceEnable = false): string {
-		$app = \OC_App::findAppInDirectories($appId);
-		if ($app === false) {
-			throw new \Exception('App not found in any app directory');
-		}
+		$appPath = $this->appManager->getAppPath($appId, true);
 
-		$basedir = $app['path'] . '/' . $appId;
+		$l = $this->l10nFactory->get('core');
+		$info = $this->appManager->getAppInfoByPath($appPath . '/appinfo/info.xml', $l->getLanguageCode());
 
-		if (is_file($basedir . '/appinfo/database.xml')) {
-			throw new \Exception('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
-		}
-
-		$l = \OCP\Util::getL10N('core');
-		$info = \OCP\Server::get(IAppManager::class)->getAppInfoByPath($basedir . '/appinfo/info.xml', $l->getLanguageCode());
-
-		if (!is_array($info)) {
+		if (!is_array($info) || $info['id'] !== $appId) {
 			throw new \Exception(
 				$l->t('App "%s" cannot be installed because appinfo file cannot be read.',
 					[$appId]
@@ -79,9 +77,8 @@ class Installer {
 		$ignoreMax = $forceEnable || in_array($appId, $ignoreMaxApps, true);
 
 		$version = implode('.', \OCP\Util::getVersion());
-		if (!\OC_App::isAppCompatible($version, $info, $ignoreMax)) {
+		if (!$this->appManager->isAppCompatible($version, $info, $ignoreMax)) {
 			throw new \Exception(
-				// TODO $l
 				$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',
 					[$info['name']]
 				)
@@ -90,47 +87,10 @@ class Installer {
 
 		// check for required dependencies
 		\OC_App::checkAppDependencies($this->config, $l, $info, $ignoreMax);
-		/** @var Coordinator $coordinator */
-		$coordinator = \OC::$server->get(Coordinator::class);
+		$coordinator = Server::get(Coordinator::class);
 		$coordinator->runLazyRegistration($appId);
-		\OC_App::registerAutoloading($appId, $basedir);
 
-		$previousVersion = $this->config->getAppValue($info['id'], 'installed_version', false);
-		if ($previousVersion) {
-			OC_App::executeRepairSteps($appId, $info['repair-steps']['pre-migration']);
-		}
-
-		//install the database
-		$ms = new MigrationService($info['id'], \OCP\Server::get(Connection::class));
-		$ms->migrate('latest', !$previousVersion);
-
-		if ($previousVersion) {
-			OC_App::executeRepairSteps($appId, $info['repair-steps']['post-migration']);
-		}
-
-		\OC_App::setupBackgroundJobs($info['background-jobs']);
-
-		//run appinfo/install.php
-		self::includeAppScript($basedir . '/appinfo/install.php');
-
-		OC_App::executeRepairSteps($appId, $info['repair-steps']['install']);
-
-		$config = \OCP\Server::get(IConfig::class);
-		//set the installed version
-		$config->setAppValue($info['id'], 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($info['id'], false));
-		$config->setAppValue($info['id'], 'enabled', 'no');
-
-		//set remote/public handlers
-		foreach ($info['remote'] as $name => $path) {
-			$config->setAppValue('core', 'remote_' . $name, $info['id'] . '/' . $path);
-		}
-		foreach ($info['public'] as $name => $path) {
-			$config->setAppValue('core', 'public_' . $name, $info['id'] . '/' . $path);
-		}
-
-		OC_App::setAppTypes($info['id']);
-
-		return $info['id'];
+		return $this->installAppLastSteps($appPath, $info, null, 'no');
 	}
 
 	/**
@@ -139,7 +99,7 @@ class Installer {
 	 * @param bool $allowUnstable Allow unstable releases
 	 */
 	public function updateAppstoreApp(string $appId, bool $allowUnstable = false): bool {
-		if ($this->isUpdateAvailable($appId, $allowUnstable)) {
+		if ($this->isUpdateAvailable($appId, $allowUnstable) !== false) {
 			try {
 				$this->downloadApp($appId, $allowUnstable);
 			} catch (\Exception $e) {
@@ -148,7 +108,7 @@ class Installer {
 				]);
 				return false;
 			}
-			return OC_App::updateApp($appId);
+			return $this->appManager->upgradeApp($appId);
 		}
 
 		return false;
@@ -167,15 +127,43 @@ class Installer {
 	}
 
 	/**
+	 * Get the path where to install apps
+	 *
+	 * @throws \RuntimeException if an app folder is marked as writable but is missing permissions
+	 */
+	public function getInstallPath(): ?string {
+		foreach (\OC::$APPSROOTS as $dir) {
+			if (isset($dir['writable']) && $dir['writable'] === true) {
+				// Check if there is a writable install folder.
+				if (!is_writable($dir['path'])
+					|| !is_readable($dir['path'])
+				) {
+					throw new \RuntimeException(
+						'Cannot write into "apps" directory. This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file.'
+					);
+				}
+				return $dir['path'];
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Downloads an app and puts it into the app directory
 	 *
 	 * @param string $appId
 	 * @param bool [$allowUnstable]
 	 *
+	 * @throws AppNotFoundException If the app is not found on the appstore
 	 * @throws \Exception If the installation was not successful
 	 */
 	public function downloadApp(string $appId, bool $allowUnstable = false): void {
 		$appId = strtolower($appId);
+
+		$installPath = $this->getInstallPath();
+		if ($installPath === null) {
+			throw new \Exception('No application directories are marked as writable.');
+		}
 
 		$apps = $this->appFetcher->get($allowUnstable);
 		foreach ($apps as $app) {
@@ -241,6 +229,10 @@ class Installer {
 
 				// Download the release
 				$tempFile = $this->tempManager->getTemporaryFile('.tar.gz');
+				if ($tempFile === false) {
+					throw new \RuntimeException('Could not create temporary file for downloading app archive.');
+				}
+
 				$timeout = $this->isCLI ? 0 : 120;
 				$client = $this->clientService->newClient();
 				$client->get($app['releases'][0]['download'], ['sink' => $tempFile, 'timeout' => $timeout]);
@@ -252,8 +244,11 @@ class Installer {
 				if ($verified === true) {
 					// Seems to match, let's proceed
 					$extractDir = $this->tempManager->getTemporaryFolder();
-					$archive = new TAR($tempFile);
+					if ($extractDir === false) {
+						throw new \RuntimeException('Could not create temporary directory for unpacking app.');
+					}
 
+					$archive = new TAR($tempFile);
 					if (!$archive->extract($extractDir)) {
 						$errorMessage = 'Could not extract app ' . $appId;
 
@@ -309,7 +304,7 @@ class Installer {
 					}
 
 					// Check if the version is lower than before
-					$currentVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId, true);
+					$currentVersion = $this->appManager->getAppVersion($appId, true);
 					$newVersion = (string)$xml->version;
 					if (version_compare($currentVersion, $newVersion) === 1) {
 						throw new \Exception(
@@ -322,16 +317,19 @@ class Installer {
 						);
 					}
 
-					$baseDir = OC_App::getInstallPath() . '/' . $appId;
+					$baseDir = $installPath . '/' . $appId;
 					// Remove old app with the ID if existent
-					OC_Helper::rmdirr($baseDir);
+					Files::rmdirr($baseDir);
 					// Move to app folder
 					if (@mkdir($baseDir)) {
 						$extractDir .= '/' . $folders[0];
-						OC_Helper::copyr($extractDir, $baseDir);
 					}
-					OC_Helper::copyr($extractDir, $baseDir);
-					OC_Helper::rmdirr($extractDir);
+					// otherwise we just copy the outer directory
+					$this->copyRecursive($extractDir, $baseDir);
+					Files::rmdirr($extractDir);
+					if (function_exists('opcache_reset')) {
+						opcache_reset();
+					}
 					return;
 				}
 				// Signature does not match
@@ -344,9 +342,9 @@ class Installer {
 			}
 		}
 
-		throw new \Exception(
+		throw new AppNotFoundException(
 			sprintf(
-				'Could not download app %s',
+				'Could not download app %s, it was not found on the appstore',
 				$appId
 			)
 		);
@@ -361,7 +359,7 @@ class Installer {
 	 */
 	public function isUpdateAvailable($appId, $allowUnstable = false): string|false {
 		if ($this->isInstanceReadyForUpdates === null) {
-			$installPath = OC_App::getInstallPath();
+			$installPath = $this->getInstallPath();
 			if ($installPath === null) {
 				$this->isInstanceReadyForUpdates = false;
 			} else {
@@ -383,7 +381,7 @@ class Installer {
 
 		foreach ($this->apps as $app) {
 			if ($app['id'] === $appId) {
-				$currentVersion = \OCP\Server::get(IAppManager::class)->getAppVersion($appId, true);
+				$currentVersion = $this->appManager->getAppVersion($appId, true);
 
 				if (!isset($app['releases'][0]['version'])) {
 					return false;
@@ -406,12 +404,12 @@ class Installer {
 	 * The function will check if the path contains a .git folder
 	 */
 	private function isInstalledFromGit(string $appId): bool {
-		$app = \OC_App::findAppInDirectories($appId);
-		if ($app === false) {
+		try {
+			$appPath = $this->appManager->getAppPath($appId);
+			return file_exists($appPath . '/.git/');
+		} catch (AppPathNotFoundException) {
 			return false;
 		}
-		$basedir = $app['path'] . '/' . $appId;
-		return file_exists($basedir . '/.git/');
 	}
 
 	/**
@@ -446,11 +444,17 @@ class Installer {
 	 */
 	public function removeApp(string $appId): bool {
 		if ($this->isDownloaded($appId)) {
-			if (\OCP\Server::get(IAppManager::class)->isShipped($appId)) {
+			if ($this->appManager->isShipped($appId)) {
 				return false;
 			}
-			$appDir = OC_App::getInstallPath() . '/' . $appId;
-			OC_Helper::rmdirr($appDir);
+
+			$installPath = $this->getInstallPath();
+			if ($installPath === null) {
+				$this->logger->error('No application directories are marked as writable.', ['app' => 'core']);
+				return false;
+			}
+			$appDir = $installPath . '/' . $appId;
+			Files::rmdirr($appDir);
 			return true;
 		} else {
 			$this->logger->error('can\'t remove app ' . $appId . '. It is not installed.');
@@ -471,8 +475,7 @@ class Installer {
 				$this->downloadApp($appId);
 			}
 			$this->installApp($appId);
-			$app = new OC_App();
-			$app->enable($appId);
+			$this->appManager->enableApp($appId);
 		}
 		$bundles = json_decode($this->config->getAppValue('core', 'installed.bundles', json_encode([])), true);
 		$bundles[] = $bundle->getIdentifier();
@@ -487,25 +490,23 @@ class Installer {
 	 *                         working ownCloud at the end instead of an aborted update.
 	 * @return array Array of error messages (appid => Exception)
 	 */
-	public static function installShippedApps(bool $softErrors = false, ?IOutput $output = null): array {
+	public function installShippedApps(bool $softErrors = false, ?IOutput $output = null): array {
 		if ($output instanceof IOutput) {
 			$output->debug('Installing shipped apps');
 		}
-		$appManager = \OCP\Server::get(IAppManager::class);
-		$config = \OCP\Server::get(IConfig::class);
 		$errors = [];
 		foreach (\OC::$APPSROOTS as $app_dir) {
 			if ($dir = opendir($app_dir['path'])) {
 				while (false !== ($filename = readdir($dir))) {
 					if ($filename[0] !== '.' and is_dir($app_dir['path'] . "/$filename")) {
 						if (file_exists($app_dir['path'] . "/$filename/appinfo/info.xml")) {
-							if ($config->getAppValue($filename, 'installed_version', null) === null) {
-								$enabled = $appManager->isDefaultEnabled($filename);
-								if (($enabled || in_array($filename, $appManager->getAlwaysEnabledApps()))
-									  && $config->getAppValue($filename, 'enabled') !== 'no') {
+							if ($this->config->getAppValue($filename, 'installed_version') === '') {
+								$enabled = $this->appManager->isDefaultEnabled($filename);
+								if (($enabled || in_array($filename, $this->appManager->getAlwaysEnabledApps()))
+									  && $this->config->getAppValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {
 										try {
-											Installer::installShippedApp($filename, $output);
+											$this->installShippedApp($filename, $output);
 										} catch (HintException $e) {
 											if ($e->getPrevious() instanceof TableExistsException) {
 												$errors[$filename] = $e;
@@ -514,9 +515,9 @@ class Installer {
 											throw $e;
 										}
 									} else {
-										Installer::installShippedApp($filename, $output);
+										$this->installShippedApp($filename, $output);
 									}
-									$config->setAppValue($filename, 'enabled', 'yes');
+									$this->config->setAppValue($filename, 'enabled', 'yes');
 								}
 							}
 						}
@@ -529,62 +530,111 @@ class Installer {
 		return $errors;
 	}
 
-	/**
-	 * install an app already placed in the app folder
-	 */
-	public static function installShippedApp(string $app, ?IOutput $output = null): string|false {
-		if ($output instanceof IOutput) {
-			$output->debug('Installing ' . $app);
-		}
+	private function installAppLastSteps(string $appPath, array $info, ?IOutput $output = null, string $enabled = 'no'): string {
+		\OC_App::registerAutoloading($info['id'], $appPath);
 
-		$appManager = \OCP\Server::get(IAppManager::class);
-		$config = \OCP\Server::get(IConfig::class);
-
-		$appPath = $appManager->getAppPath($app);
-		\OC_App::registerAutoloading($app, $appPath);
-
-		$ms = new MigrationService($app, \OCP\Server::get(Connection::class));
+		$previousVersion = $this->config->getAppValue($info['id'], 'installed_version', '');
+		$ms = new MigrationService($info['id'], Server::get(Connection::class));
 		if ($output instanceof IOutput) {
 			$ms->setOutput($output);
 		}
-		$previousVersion = $config->getAppValue($app, 'installed_version', false);
-		$ms->migrate('latest', !$previousVersion);
-
-		//run appinfo/install.php
-		self::includeAppScript("$appPath/appinfo/install.php");
-
-		$info = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
-		if (is_null($info)) {
-			return false;
+		if ($previousVersion !== '') {
+			\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['pre-migration']);
 		}
+
+		$ms->migrate('latest', $previousVersion === '');
+
+		if ($previousVersion !== '') {
+			\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['post-migration']);
+		}
+
 		if ($output instanceof IOutput) {
-			$output->debug('Registering tasks of ' . $app);
-		}
-		\OC_App::setupBackgroundJobs($info['background-jobs']);
-
-		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
-
-		$config->setAppValue($app, 'installed_version', \OCP\Server::get(IAppManager::class)->getAppVersion($app));
-		if (array_key_exists('ocsid', $info)) {
-			$config->setAppValue($app, 'ocsid', $info['ocsid']);
+			$output->debug('Registering tasks of ' . $info['id']);
 		}
 
-		//set remote/public handlers
+		// Setup background jobs
+		$queue = Server::get(IJobList::class);
+		foreach ($info['background-jobs'] as $job) {
+			$queue->add($job);
+		}
+
+		// Run deprecated appinfo/install.php if any
+		$appInstallScriptPath = $appPath . '/appinfo/install.php';
+		if (file_exists($appInstallScriptPath)) {
+			$this->logger->warning('Using an appinfo/install.php file is deprecated. Application "{app}" still uses one.', [
+				'app' => $info['id'],
+			]);
+			self::includeAppScript($appInstallScriptPath);
+		}
+
+		\OC_App::executeRepairSteps($info['id'], $info['repair-steps']['install']);
+
+		// Set the installed version
+		$this->config->setAppValue($info['id'], 'installed_version', $this->appManager->getAppVersion($info['id'], false));
+		$this->config->setAppValue($info['id'], 'enabled', $enabled);
+
+		// Set remote/public handlers
 		foreach ($info['remote'] as $name => $path) {
-			$config->setAppValue('core', 'remote_' . $name, $app . '/' . $path);
+			$this->config->setAppValue('core', 'remote_' . $name, $info['id'] . '/' . $path);
 		}
 		foreach ($info['public'] as $name => $path) {
-			$config->setAppValue('core', 'public_' . $name, $app . '/' . $path);
+			$this->config->setAppValue('core', 'public_' . $name, $info['id'] . '/' . $path);
 		}
 
-		OC_App::setAppTypes($info['id']);
+		\OC_App::setAppTypes($info['id']);
 
 		return $info['id'];
+	}
+
+	/**
+	 * install an app already placed in the app folder
+	 */
+	public function installShippedApp(string $app, ?IOutput $output = null): string|false {
+		if ($output instanceof IOutput) {
+			$output->debug('Installing ' . $app);
+		}
+		$info = $this->appManager->getAppInfo($app);
+		if (is_null($info) || $info['id'] !== $app) {
+			return false;
+		}
+
+		$appPath = $this->appManager->getAppPath($app);
+
+		return $this->installAppLastSteps($appPath, $info, $output, 'yes');
 	}
 
 	private static function includeAppScript(string $script): void {
 		if (file_exists($script)) {
 			include $script;
+		}
+	}
+
+	/**
+	 * Recursive copying of local folders.
+	 *
+	 * @param string $src source folder
+	 * @param string $dest target folder
+	 */
+	private function copyRecursive(string $src, string $dest): void {
+		if (!file_exists($src)) {
+			return;
+		}
+
+		if (is_dir($src)) {
+			if (!is_dir($dest)) {
+				mkdir($dest);
+			}
+			$files = scandir($src);
+			foreach ($files as $file) {
+				if ($file != '.' && $file != '..') {
+					$this->copyRecursive("$src/$file", "$dest/$file");
+				}
+			}
+		} else {
+			$validator = Server::get(FilenameValidator::class);
+			if (!$validator->isForbidden($src)) {
+				copy($src, $dest);
+			}
 		}
 	}
 }
