@@ -147,16 +147,16 @@ class MetadataRequestService {
 
 	/**
 	 * @param int[] $fileIds
-	 * @return void
 	 * @throws Exception
 	 */
-	public function dropMetadataForFiles(array $fileIds): void {
+	public function dropMetadataForFiles(int $storage, array $fileIds): void {
 		$chunks = array_chunk($fileIds, 1000);
 
 		foreach ($chunks as $chunk) {
 			$qb = $this->dbConnection->getQueryBuilder();
 			$qb->delete(self::TABLE_METADATA)
-				->where($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
+				->where($qb->expr()->in('file_id', $qb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)))
+				->hintShardKey('storage', $storage);
 			$qb->executeStatement();
 		}
 	}

@@ -8,26 +8,28 @@ declare(strict_types=1);
  */
 namespace OCP\Files\Cache;
 
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
 /**
  * Meta-event wrapping multiple CacheEntryRemovedEvent for when an existing
  * entry in the cache gets removed.
  *
- * @since 32.0.0
+ * @since 34.0.0
  */
-#[\OCP\AppFramework\Attribute\Listenable(since: '32.0.0')]
+#[Listenable(since: '34.0.0')]
 class CacheEntriesRemovedEvent extends Event {
 	/**
-	 * @param CacheEntryRemovedEvent[] $cacheEntryRemovedEvents
+	 * @param ICacheEvent[] $cacheEntryRemovedEvents
 	 */
 	public function __construct(
 		private readonly array $cacheEntryRemovedEvents,
 	) {
+		Event::__construct();
 	}
 
 	/**
-	 * @return CacheEntryRemovedEvent[]
+	 * @return ICacheEvent[]
 	 */
 	public function getCacheEntryRemovedEvents(): array {
 		return $this->cacheEntryRemovedEvents;

@@ -11,7 +11,7 @@ namespace OCP\Files\Cache;
 /**
  * Event for when an existing entry in the cache gets removed
  *
- * Prefer using \c CacheEntriesRemovedEvent as it is more efficient when deleting
+ * Prefer using CacheEntriesRemovedEvent as it is more efficient when deleting
  * multiple files at the same time.
  *
  * @since 21.0.0

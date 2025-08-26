@@ -635,18 +635,32 @@ class Cache implements ICache {
 		}
 
 		$cacheEntryRemovedEvents = [];
-		foreach (array_combine($deletedIds, $deletedPaths) as $fileId => $filePath) {
-			$cacheEntryRemovedEvent = new CacheEntryRemovedEvent(
-				$this->storage,
-				$filePath,
-				$fileId,
-				$this->getNumericStorageId()
-			);
-			$cacheEntryRemovedEvents[] = $cacheEntryRemovedEvent;
-			$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
-		}
-		$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent($cacheEntryRemovedEvents));
+		foreach (array_chunk(array_combine($deletedIds, $deletedPaths), 1000) as $chunk) {
+			/** @var array<int, string> $chunk */
+			foreach ($chunk as $fileId => $filePath) {
+				$cacheEntryRemovedEvents[] = new CacheEntryRemovedEvent(
+					$this->storage,
+					$filePath,
+					$fileId,
+					$this->getNumericStorageId()
+				);
+			}
 
+			$exception = null;
+			try {
+				$this->eventDispatcher->dispatchTyped(new CacheEntriesRemovedEvent($cacheEntryRemovedEvents));
+			} catch (\Exception $e) {
+				// still send the other event
+				$exception = $e;
+			}
+			foreach ($cacheEntryRemovedEvents as $cacheEntryRemovedEvent) {
+				$this->eventDispatcher->dispatchTyped($cacheEntryRemovedEvent);
+			}
+
+			if ($exception !== null) {
+				throw $exception;
+			}
+		}
 	}
 
 	/**

@@ -214,9 +214,9 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 	}
 
-	public function deleteMetadataForFiles(array $fileIds): void {
+	public function deleteMetadataForFiles(int $storage, array $fileIds): void {
 		try {
-			$this->metadataRequestService->dropMetadataForFiles($fileIds);
+			$this->metadataRequestService->dropMetadataForFiles($storage, $fileIds);
 		} catch (Exception $e) {
 			$this->logger->warning('issue while deleteMetadata', ['exception' => $e, 'fileIds' => $fileIds]);
 		}

@@ -33,18 +33,21 @@ class MetadataDelete implements IEventListener {
 		}
 
 		$entries = $event->getCacheEntryRemovedEvents();
-		$fileIds = [];
+		$storageToFileIds = [];
 
 		foreach ($entries as $entry) {
 			try {
-				$fileIds[] = $entry->getFileId();
+				$storageToFileIds[$entry->getStorageId()] ??= [];
+				$storageToFileIds[$entry->getStorageId()][] = $entry->getFileId();
 			} catch (Exception $e) {
 				$this->logger->warning('issue while running MetadataDelete', ['exception' => $e]);
 			}
 		}
 
 		try {
-			$this->filesMetadataManager->deleteMetadataForFiles($fileIds);
+			foreach ($storageToFileIds as $storageId => $fileIds) {
+				$this->filesMetadataManager->deleteMetadataForFiles($storageId, $fileIds);
+			}
 		} catch (Exception $e) {
 			$this->logger->warning('issue while running MetadataDelete', ['exception' => $e]);
 		}
