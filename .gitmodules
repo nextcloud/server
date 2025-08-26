@@ -16,3 +16,6 @@
 [submodule "apps-external/contacts"]
 	path = apps-external/contacts
 	url = git@github.com:nextcloud/contacts.git
+[submodule "apps-external/files_antivirus"]
+	path = apps-external/files_antivirus
+	url = git@github.com:nextcloud/files_antivirus.git
