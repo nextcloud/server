@@ -103,11 +103,12 @@ interface IFilesMetadataManager {
 	/**
 	 * Delete metadata and its indexes of multiple file ids
 	 *
+	 * @param int $storage The storage id coresponding to the $fileIds
 	 * @param array<int> $fileIds file ids
 	 * @return void
 	 * @since 32.0.0
 	 */
-	public function deleteMetadataForFiles(array $fileIds): void;
+	public function deleteMetadataForFiles(int $storage, array $fileIds): void;
 
 	/**
 	 * generate and return a MetadataQuery to help building sql queries
