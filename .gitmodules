@@ -13,3 +13,6 @@
 [submodule "apps-external/viewer"]
 	path = apps-external/viewer
 	url = git@github.com:nextcloud/viewer.git
+[submodule "apps-external/contacts"]
+	path = apps-external/contacts
+	url = git@github.com:nextcloud/contacts.git
