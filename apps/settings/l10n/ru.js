@@ -816,6 +816,7 @@ OC.L10N.register(
     "Pronouns" : "Местоимения",
     "Role" : "Роль",
     "X (formerly Twitter)" : "X (ранее Твиттер)",
+    "Bluesky" : "Bluesky",
     "Website" : "Адрес сайта",
     "Profile visibility" : "Видимость профиля",
     "Locale" : "Региональные стандарты",

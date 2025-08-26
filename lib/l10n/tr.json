@@ -298,8 +298,6 @@
     "Please ask your server administrator to install the module." : "Lütfen modülü kurması için BT yöneticiniz ile görüşün.",
     "PHP setting \"%s\" is not set to \"%s\"." : "\"%s\" PHP ayarı \"%s\" olarak ayarlanmamış.",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "php.ini dosyasında bu ayar yapıldığında Nextcloud yeniden çalışır",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code>, beklenen <code>0</code> değeri yerine <code>%s</code> olarak ayarlanmış.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Bu sorunu çözmek için php.ini dosyasındaki <code>mbstring.func_overload</code> seçeneğini <code>0</code> olarak ayarlayın.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "PHP girintili doc bloklarını ayıklamak üzere yapılandırılmış gibi görünüyor. Bu durum bazı çekirdek uygulamalarına erişilmesini engelleyecek.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Bu sorun genellikle Zend OPcache ya da eAccelerator gibi bir ön bellek/hızlandırıcı nedeniyle ortaya çıkar.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP modülleri kurulmuş, ancak hala eksik olarak mı görünüyor?",
@@ -473,6 +471,8 @@
     "Cannot download file" : "Dosya indirilemedi",
     "Cannot write into \"apps\" directory." : "\"apps\" klasörüne yazılamadı.",
     "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Bu sorun genellikle, site sunucusuna apps klasörüne yazma izni verilerek ya da yapılandırma dosyasından uygulama mağazası kullanımdan kaldırılarak çözülebilir.",
+    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code>, beklenen <code>0</code> değeri yerine <code>%s</code> olarak ayarlanmış.",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Bu sorunu çözmek için php.ini dosyasındaki <code>mbstring.func_overload</code> seçeneğini <code>0</code> olarak ayarlayın.",
     "Login is too long" : "Kullanıcı adı çok uzun"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

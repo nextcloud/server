@@ -221,8 +221,6 @@
     "Please ask your server administrator to install the module." : "Chiedi all'amministratore del tuo server di installare il modulo.",
     "PHP setting \"%s\" is not set to \"%s\"." : "L'impostazione \"%s\" di PHP non è configurata a \"%s\".",
     "Adjusting this setting in php.ini will make Nextcloud run again" : "Per eseguire nuovamente Nextcloud, modificare questa impostazione nel file php.ini",
-    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> è impostato a <code>%s</code> invece del valore previsto <code>0</code>.",
-    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Per correggere questo problema, imposta <code>mbstring.func_overload</code> a <code>0</code> nel tuo php.ini.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Sembra che PHP sia configurato per rimuovere i blocchi di documentazione in linea. Ciò renderà inaccessibili diverse applicazioni principali.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Ciò è causato probabilmente da una cache/acceleratore come Zend OPcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Sono stati installati moduli PHP, ma sono elencati ancora come mancanti?",
@@ -279,6 +277,8 @@
     "File is currently busy, please try again later" : "Il file è attualmente occupato, riprova più tardi",
     "Cannot download file" : "Impossibile scaricare il file",
     "Cannot write into \"apps\" directory." : "Impossibile scrivere nella cartella \"apps\".",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Ciò può essere corretto di solito fornendo al server web accesso in scrittura alla cartella delle applicazioni o disattivando il negozio delle applicazioni nel file di configurazione."
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Ciò può essere corretto di solito fornendo al server web accesso in scrittura alla cartella delle applicazioni o disattivando il negozio delle applicazioni nel file di configurazione.",
+    "<code>mbstring.func_overload</code> is set to <code>%s</code> instead of the expected value <code>0</code>." : "<code>mbstring.func_overload</code> è impostato a <code>%s</code> invece del valore previsto <code>0</code>.",
+    "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini." : "Per correggere questo problema, imposta <code>mbstring.func_overload</code> a <code>0</code> nel tuo php.ini."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
