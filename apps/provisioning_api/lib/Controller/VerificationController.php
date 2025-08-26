@@ -66,11 +66,18 @@ class VerificationController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function showVerifyMail(string $token, string $userId, string $key): TemplateResponse {
-		if ($this->userSession->getUser()->getUID() !== $userId) {
-			// not a public page, hence getUser() must return an IUser
-			throw new InvalidArgumentException('Logged in account is not mail address owner');
+		try {
+			if ($this->userSession->getUser()?->getUID() !== $userId) {
+				// not a public page, hence getUser() must return an IUser
+				throw new InvalidArgumentException($this->l10n->t('Logged in account is not mail address owner'));
+			}
+			$email = $this->crypto->decrypt($key);
+		} catch (\Exception $e) {
+			return new TemplateResponse(
+				'core', 'error', [
+					'errors' => [['error' => $e->getMessage()]]
+				], TemplateResponse::RENDER_AS_GUEST);
 		}
-		$email = $this->crypto->decrypt($key);
 
 		return new TemplateResponse(
 			'core', 'confirmation', [
@@ -88,8 +95,8 @@ class VerificationController extends Controller {
 	public function verifyMail(string $token, string $userId, string $key): TemplateResponse {
 		$throttle = false;
 		try {
-			if ($this->userSession->getUser()->getUID() !== $userId) {
-				throw new InvalidArgumentException('Logged in account is not mail address owner');
+			if ($this->userSession->getUser()?->getUID() !== $userId) {
+				throw new InvalidArgumentException($this->l10n->t('Logged in account is not mail address owner'));
 			}
 			$email = $this->crypto->decrypt($key);
 			$ref = \substr(hash('sha256', $email), 0, 8);
