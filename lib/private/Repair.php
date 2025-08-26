@@ -46,6 +46,7 @@ use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\MigrateOauthTables;
+use OC\Repair\Owncloud\MigratePropertiesTable;
 use OC\Repair\Owncloud\MoveAvatars;
 use OC\Repair\Owncloud\SaveAccountsTableData;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
@@ -167,6 +168,7 @@ class Repair implements IOutput {
 				\OC::$server->getUserManager(),
 				\OC::$server->getConfig()
 			),
+			\OCP\Server::get(MigratePropertiesTable::class),
 			\OC::$server->get(MigrateOauthTables::class),
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
