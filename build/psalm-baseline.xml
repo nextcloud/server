@@ -792,15 +792,6 @@
       <code><![CDATA[$vEvent->DTSTAMP]]></code>
     </UndefinedPropertyAssignment>
   </file>
-  <file src="apps/dav/lib/DAV/CustomPropertiesBackend.php">
-    <DeprecatedMethod>
-      <code><![CDATA[closeCursor]]></code>
-      <code><![CDATA[closeCursor]]></code>
-    </DeprecatedMethod>
-    <InvalidArgument>
-      <code><![CDATA[$whereValues]]></code>
-    </InvalidArgument>
-  </file>
   <file src="apps/dav/lib/DAV/GroupPrincipalBackend.php">
     <InvalidNullableReturnType>
       <code><![CDATA[array]]></code>
