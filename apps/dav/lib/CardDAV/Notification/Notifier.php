@@ -18,8 +18,6 @@ use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 
-	private string $name = 'CardDAV';
-
 	public function __construct(
 		protected IFactory $l10nFactory,
 	) {
@@ -36,7 +34,7 @@ class Notifier implements INotifier {
 	 * @inheritDoc
 	 */
 	public function getName(): string {
-		return $this->name;
+		return $this->l10nFactory->get(Application::APP_ID)->t('Contacts');
 	}
 
 	/**
@@ -48,8 +46,6 @@ class Notifier implements INotifier {
 		}
 
 		$l = $this->l10nFactory->get(Application::APP_ID, $languageCode);
-
-		$this->name = $l->t('Contacts');
 
 		return match ($notification->getSubject()) {
 			'SystemAddressBookDisabled' => $this->parseSystemAddressBookDisabled($notification, $l),
