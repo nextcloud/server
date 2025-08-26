@@ -64,6 +64,13 @@ jobs:
               "has_npm": true,
               "has_composer": true,
               "makefile_target": "build_dep_viewer_app"
+            },
+            {
+              "name": "contacts",
+              "path": "apps-external/contacts",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_contacts_app"
             }
           ]'
 
@@ -162,6 +169,12 @@ jobs:
         with:
           name: external-app-build-viewer
           path: apps-external/viewer
+
+      - name: Download contacts app
+        uses: actions/download-artifact@v5
+        with:
+          name: external-app-build-contacts
+          path: apps-external/contacts
 
       - name: Verify downloaded artifacts structure
         run: |
