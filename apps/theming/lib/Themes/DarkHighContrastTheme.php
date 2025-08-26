@@ -68,6 +68,16 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 				'--color-text-maxcontrast-background-blur' => $colorMainText,
 				'--color-text-error' => $this->util->lighten($colorError, 65),
 				'--color-text-success' => $this->util->lighten($colorSuccess, 65),
+				'--color-text-warning' => $this->util->lighten($colorWarning, 65),
+
+				'--color-element-error' => $this->util->lighten($colorError, 30),
+				'--color-element-info' => $this->util->lighten($colorInfo, 30),
+				'--color-element-success' => $this->util->lighten($colorSuccess, 30),
+				'--color-element-warning' => $this->util->lighten($colorWarning, 30),
+
+				'--color-border' => $this->util->lighten($colorMainBackground, 50),
+				'--color-border-dark' => $this->util->lighten($colorMainBackground, 50),
+				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 55),
 
 				'--color-error' => $colorError,
 				'--color-error-rgb' => join(',', $this->util->hexToRGB($colorError)),
@@ -97,12 +107,6 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 
 				'--color-box-shadow-rgb' => $colorMainText,
 				'--color-box-shadow' => $colorMainText,
-
-				'--color-border' => $this->util->lighten($colorMainBackground, 50),
-				'--color-border-dark' => $this->util->lighten($colorMainBackground, 50),
-				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 55),
-				'--color-border-error' => $this->util->lighten($colorError, 30),
-				'--color-border-success' => $this->util->lighten($colorSuccess, 30),
 			]
 		);
 	}
