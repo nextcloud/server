@@ -82,6 +82,80 @@ class SetConfig extends Base {
 	}
 
 	/**
+	 * @param string $value
+	 * @param string $type
+	 * @return mixed
+	 * @throws \InvalidArgumentException
+	 */
+	protected function castValue($value, $type) {
+		switch ($type) {
+			case 'integer':
+			case 'int':
+				if (!is_numeric($value)) {
+					throw new \InvalidArgumentException('Non-numeric value specified');
+				}
+				return [
+					'value' => (int)$value,
+					'readable-value' => 'integer ' . (int)$value,
+				];
+
+			case 'double':
+			case 'float':
+				if (!is_numeric($value)) {
+					throw new \InvalidArgumentException('Non-numeric value specified');
+				}
+				return [
+					'value' => (float)$value,
+					'readable-value' => 'double ' . (float)$value,
+				];
+
+			case 'boolean':
+			case 'bool':
+				$value = strtolower($value);
+				switch ($value) {
+					case 'true':
+						return [
+							'value' => true,
+							'readable-value' => 'boolean ' . $value,
+						];
+
+					case 'false':
+						return [
+							'value' => false,
+							'readable-value' => 'boolean ' . $value,
+						];
+
+					default:
+						throw new \InvalidArgumentException('Unable to parse value as boolean');
+				}
+
+				// no break
+			case 'null':
+				return [
+					'value' => null,
+					'readable-value' => 'null',
+				];
+
+			case 'string':
+				$value = (string)$value;
+				return [
+					'value' => $value,
+					'readable-value' => ($value === '') ? 'empty string' : 'string ' . $value,
+				];
+
+			case 'json':
+				$value = json_decode($value, true);
+				return [
+					'value' => $value,
+					'readable-value' => 'json ' . json_encode($value),
+				];
+
+			default:
+				throw new \InvalidArgumentException('Invalid type');
+		}
+	}
+
+	/**
 	 * @param array $configNames
 	 * @param mixed $existingValues
 	 * @param mixed $value
