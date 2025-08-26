@@ -12,13 +12,15 @@ use OC\Core\Command\Base;
 use OC\TaskProcessing\Db\TaskMapper;
 use OC\TaskProcessing\Manager;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Cleanup extends Base {
-	private \OCP\Files\IAppData $appData;
+	private IAppData $appData;
 
 	public function __construct(
 		protected Manager $taskProcessingManager,
@@ -76,7 +78,7 @@ class Cleanup extends Base {
 			foreach ($textToImageDeletedFileNames as $entry) {
 				$output->writeln("<info>\t - " . 'Deleted appData/core/text2image/' . $entry . '</info>');
 			}
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// noop
 		}
 		try {
@@ -84,7 +86,7 @@ class Cleanup extends Base {
 			foreach ($audioToTextDeletedFileNames as $entry) {
 				$output->writeln("<info>\t - " . 'Deleted appData/core/audio2text/' . $entry . '</info>');
 			}
-		} catch (\OCP\Files\NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// noop
 		}
 

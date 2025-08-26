@@ -13,6 +13,7 @@ use OCP\Config\IUserConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
 use OCP\IUserSession;
+use OCP\Server;
 
 class Capabilities implements ICapability {
 
@@ -33,7 +34,7 @@ class Capabilities implements ICapability {
 
 		$user = $this->session->getUser();
 		if ($user !== null) {
-			$timezone = \OCP\Server::get(IDateTimeZone::class)->getTimeZone();
+			$timezone = Server::get(IDateTimeZone::class)->getTimeZone();
 
 			$capabilities['user'] = [
 				'language' => $this->userConfig->getValueString($user->getUID(), Application::APP_ID, ConfigLexicon::USER_LANGUAGE),

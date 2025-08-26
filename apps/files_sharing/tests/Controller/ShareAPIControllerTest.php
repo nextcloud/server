@@ -16,6 +16,7 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\Constants;
+use OCP\Files\Cache\ICache;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -5244,7 +5245,7 @@ class ShareAPIControllerTest extends TestCase {
 		], $result);
 	}
 
-	public function trustedServerProvider(): array {
+	public static function trustedServerProvider(): array {
 		return [
 			'Trusted server' => [true, true],
 			'Untrusted server' => [false, false],
@@ -5272,21 +5273,21 @@ class ShareAPIControllerTest extends TestCase {
 			$nodeId
 		);
 
-		$node = $this->createMock(\OCP\Files\File::class);
+		$node = $this->createMock(File::class);
 		$node->method('getId')->willReturn($nodeId);
 		$node->method('getPath')->willReturn($nodePath);
 		$node->method('getInternalPath')->willReturn(ltrim($nodePath, '/'));
-		$mountPoint = $this->createMock(\OCP\Files\Mount\IMountPoint::class);
+		$mountPoint = $this->createMock(IMountPoint::class);
 		$mountPoint->method('getMountType')->willReturn('local');
 		$node->method('getMountPoint')->willReturn($mountPoint);
 		$node->method('getMimetype')->willReturn('text/plain');
-		$storage = $this->createMock(\OCP\Files\Storage\IStorage::class);
-		$storageCache = $this->createMock(\OCP\Files\Cache\ICache::class);
+		$storage = $this->createMock(IStorage::class);
+		$storageCache = $this->createMock(ICache::class);
 		$storageCache->method('getNumericStorageId')->willReturn(1);
 		$storage->method('getCache')->willReturn($storageCache);
 		$storage->method('getId')->willReturn('home::shareOwner');
 		$node->method('getStorage')->willReturn($storage);
-		$parent = $this->createMock(\OCP\Files\Folder::class);
+		$parent = $this->createMock(Folder::class);
 		$parent->method('getId')->willReturn(2);
 		$node->method('getParent')->willReturn($parent);
 		$node->method('getSize')->willReturn(1234);
@@ -5334,21 +5335,21 @@ class ShareAPIControllerTest extends TestCase {
 			$nodeId
 		);
 
-		$node = $this->createMock(\OCP\Files\File::class);
+		$node = $this->createMock(File::class);
 		$node->method('getId')->willReturn($nodeId);
 		$node->method('getPath')->willReturn($nodePath);
 		$node->method('getInternalPath')->willReturn(ltrim($nodePath, '/'));
-		$mountPoint = $this->createMock(\OCP\Files\Mount\IMountPoint::class);
+		$mountPoint = $this->createMock(IMountPoint::class);
 		$mountPoint->method('getMountType')->willReturn('local');
 		$node->method('getMountPoint')->willReturn($mountPoint);
 		$node->method('getMimetype')->willReturn('text/plain');
-		$storage = $this->createMock(\OCP\Files\Storage\IStorage::class);
-		$storageCache = $this->createMock(\OCP\Files\Cache\ICache::class);
+		$storage = $this->createMock(IStorage::class);
+		$storageCache = $this->createMock(ICache::class);
 		$storageCache->method('getNumericStorageId')->willReturn(1);
 		$storage->method('getCache')->willReturn($storageCache);
 		$storage->method('getId')->willReturn('home::shareOwner');
 		$node->method('getStorage')->willReturn($storage);
-		$parent = $this->createMock(\OCP\Files\Folder::class);
+		$parent = $this->createMock(Folder::class);
 		$parent->method('getId')->willReturn(2);
 		$node->method('getParent')->willReturn($parent);
 		$node->method('getSize')->willReturn(1234);

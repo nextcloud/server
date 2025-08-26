@@ -110,7 +110,7 @@ class ExpireTrashTest extends TestCase {
 		$this->assertEquals($shouldExpire ? 0 : 1, count($trashFiles));
 	}
 
-	public function retentionObligationProvider(): array {
+	public static function retentionObligationProvider(): array {
 		$hour = 3600; // 60 * 60
 
 		$oneDay = 24 * $hour;
