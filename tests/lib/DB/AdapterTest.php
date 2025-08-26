@@ -26,7 +26,7 @@ class AdapterTest extends TestCase {
 		$qb->delete('appconfig')
 			->from('appconfig')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
-			->execute();
+			->executeStatement();
 	}
 
 	public function testInsertIgnoreOnConflictDuplicate(): void {
@@ -63,7 +63,7 @@ class AdapterTest extends TestCase {
 			->from('appconfig')
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter($this->appId)))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($configKey)))
-			->execute()
+			->executeQuery()
 			->fetchAll();
 	}
 }
