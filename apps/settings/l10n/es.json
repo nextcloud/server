@@ -790,6 +790,11 @@
     "No devices configured." : "No hay dispositivos configurados.",
     "The following devices are configured for your account:" : "Los siguientes dispositivos están configurados en su cuenta:",
     "Your browser does not support WebAuthn." : "Su navegador no soporta WebAuthn.",
+    "Security & setup warnings" : "Avisos de seguridad y configuración",
+    "Try again" : "Vuelva a intentarlo",
+    "All checks passed." : "Ha pasado todos los controles",
+    "There are some errors regarding your setup." : "Hay varios errores relativos a su configuración.",
+    "There are some warnings regarding your setup." : "Hay varios avisos relativos a su configuración.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador puede ajustar el comportamiento de compartir. Por favor, lea la documentación para más información.",
     "You need to enable the File sharing App." : "Tiene que activar la app File sharing",
     "App Store" : "Tienda de aplicaciones",
@@ -890,14 +895,6 @@
     "SMTP Password" : "Contraseña SMTP",
     "Save" : "Guardar",
     "Test and verify email settings" : "Comprobar y verificar configuración de correo",
-    "Security & setup warnings" : "Avisos de seguridad y configuración",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Es importante para la seguridad y rendimiento de su instancia que todo esté correctamente configurado. Para ayudarle en ello estamos haciendo algunas comprobaciones automáticas. Para más información, por favor compruebe la documentación enlazada.",
-    "All checks passed." : "Ha pasado todos los controles",
-    "There are some errors regarding your setup." : "Hay varios errores relativos a su configuración.",
-    "There are some warnings regarding your setup." : "Hay varios avisos relativos a su configuración.",
-    "Checking for system and security issues." : "Comprobando problemas en el sistema y de seguridad.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Por favor, vuelva a consultar las <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">guías de instalación ↗</a>, y compruebe posibles errores y advertencias en el <a href=\"%2$s\">registro</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Compruebe la seguridad de su Nextcloud mediante <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nuestro escaneo de seguridad ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Razones para usar Nextcloud en su organización",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desarrollado por la {communityopen}comunidad Nextcloud{linkclose}, el {githubopen}código fuente{linkclose} está bajo la licencia  {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Da a Me gusta en nuestra página de Facebook",
@@ -921,6 +918,10 @@
     "Your biography" : "Tu biografía",
     "You are using <strong>{usage}</strong>" : "Estás usando <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Estás usando <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
-    "Failed to load subadmin groups with details" : "Fallo al cargar grupos de subadministradores con detalles"
+    "Failed to load subadmin groups with details" : "Fallo al cargar grupos de subadministradores con detalles",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Es importante para la seguridad y rendimiento de su instancia que todo esté correctamente configurado. Para ayudarle en ello estamos haciendo algunas comprobaciones automáticas. Para más información, por favor compruebe la documentación enlazada.",
+    "Checking for system and security issues." : "Comprobando problemas en el sistema y de seguridad.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Por favor, vuelva a consultar las <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">guías de instalación ↗</a>, y compruebe posibles errores y advertencias en el <a href=\"%2$s\">registro</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Compruebe la seguridad de su Nextcloud mediante <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nuestro escaneo de seguridad ↗</a>."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

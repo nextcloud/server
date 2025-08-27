@@ -790,6 +790,11 @@
     "No devices configured." : "No devices configured.",
     "The following devices are configured for your account:" : "The following devices are configured for your account:",
     "Your browser does not support WebAuthn." : "Your browser does not support WebAuthn.",
+    "Security & setup warnings" : "Security & setup warnings",
+    "Try again" : "Try again",
+    "All checks passed." : "All checks passed.",
+    "There are some errors regarding your setup." : "There are some errors regarding your setup.",
+    "There are some warnings regarding your setup." : "There are some warnings regarding your setup.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "As admin you can fine-tune the sharing behavior. Please see the documentation for more information.",
     "You need to enable the File sharing App." : "You need to enable the File sharing App.",
     "App Store" : "App Store",
@@ -890,14 +895,6 @@
     "SMTP Password" : "SMTP Password",
     "Save" : "Save",
     "Test and verify email settings" : "Test and verify email settings",
-    "Security & setup warnings" : "Security & setup warnings",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information.",
-    "All checks passed." : "All checks passed.",
-    "There are some errors regarding your setup." : "There are some errors regarding your setup.",
-    "There are some warnings regarding your setup." : "There are some warnings regarding your setup.",
-    "Checking for system and security issues." : "Checking for system and security issues.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Reasons to use Nextcloud in your organization",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Like our Facebook page",
@@ -921,6 +918,10 @@
     "Your biography" : "Your biography",
     "You are using <strong>{usage}</strong>" : "You are using <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
-    "Failed to load subadmin groups with details" : "Failed to load subadmin groups with details"
+    "Failed to load subadmin groups with details" : "Failed to load subadmin groups with details",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information.",
+    "Checking for system and security issues." : "Checking for system and security issues.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -224,6 +224,8 @@ OC.L10N.register(
     "Adding your device …" : "Adăugarea dispozitivului dvs ...",
     "Unnamed device" : "Dispozitiv fără nume",
     "Your browser does not support WebAuthn." : "Browserul dvs. nu acceptă WebAuthn.",
+    "Security & setup warnings" : "Alerte de securitate & configurare",
+    "All checks passed." : "Toate verificările s-au terminat fără erori.",
     "Admins" : "Administratori",
     "Sending…" : "Se trimite...",
     "Email sent" : "Mesajul a fost expediat",
@@ -265,8 +267,6 @@ OC.L10N.register(
     "Credentials" : "Detalii de autentificare",
     "SMTP Password" : "Parolă SMTP",
     "Save" : "Salvează",
-    "Security & setup warnings" : "Alerte de securitate & configurare",
-    "All checks passed." : "Toate verificările s-au terminat fără erori.",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Această versiune comunitară a Nextcloud nu este suportată, iar notificările instantanee nu sunt disponibile."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -307,6 +307,10 @@
     "No devices configured." : "Nema konfiguriranih uređaja.",
     "The following devices are configured for your account:" : "Sljedeći su uređaji konfigurirani za vaš račun:",
     "Your browser does not support WebAuthn." : "Vaš preglednik ne podržava WebAuthn.",
+    "Security & setup warnings" : "Upozorenja o sigurnosti i postavljanju",
+    "All checks passed." : "Sve su provjere uspješno dovršene.",
+    "There are some errors regarding your setup." : "Postoje neke pogreške u vezi s vašim postavom.",
+    "There are some warnings regarding your setup." : "Postoje neka upozorenja u vezi s vašim postavom.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Administrator možete detaljnije podešavati dijeljenja. Pogledajte odgovarajuću dokumentaciju za više informacija.",
     "You need to enable the File sharing App." : "Morate omogućiti aplikaciju za dijeljenje datoteka.",
     "Admins" : "Administratori",
@@ -365,14 +369,6 @@
     "Credentials" : "Vjerodajnice",
     "SMTP Password" : "SMTP zaporka",
     "Save" : "Spremi",
-    "Security & setup warnings" : "Upozorenja o sigurnosti i postavljanju",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Pravilna konfiguracija iznimno je važna za sigurnost i performanse vaše instance. Kako bismo vam pomogli pravilno konfigurirati sustav, provest ćemo neke automatske provjere. Za više informacija pogledajte navedenu dokumentaciju.",
-    "All checks passed." : "Sve su provjere uspješno dovršene.",
-    "There are some errors regarding your setup." : "Postoje neke pogreške u vezi s vašim postavom.",
-    "There are some warnings regarding your setup." : "Postoje neka upozorenja u vezi s vašim postavom.",
-    "Checking for system and security issues." : "Provjera sustava i sigurnosnih postavki.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Pažljivo pročitajte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">upute za instalaciju ↗</a> i potražite postoje li ikakve pogreške ili upozorenja u <a href=\"%2$s\">zapisima</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Provjerite sigurnost svojeg Nextclouda s pomoću <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">sigurnosnog skeniranja ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Razlozi za uporabu Nextclouda u vašoj organizaciji",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{githubopen}Izvorni kôd{linkclose} je razvila {communityopen}Nextcloudova zajednica korisnika{linkclose} i licenciran je sukladno {licenseopen}AGPL-u{linkclose}.",
     "Like our Facebook page" : "Pratite našu Facebook stranicu",
@@ -384,6 +380,10 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ako se za povezivanje s Nextcloudom koristite aplikacijama treće strane, stvorite i konfigurirajte lozinku za svaku aplikaciju prije omogućavanja drugog faktora za provođenje autentifikacije.",
     "Set default expiration date for shares" : "Postavi zadani datum isteka dijeljenja",
     "Your biography" : "Vaša biografija",
-    "You are using <strong>{usage}</strong>" : "Koristite <strong>{usage}</strong>"
+    "You are using <strong>{usage}</strong>" : "Koristite <strong>{usage}</strong>",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Pravilna konfiguracija iznimno je važna za sigurnost i performanse vaše instance. Kako bismo vam pomogli pravilno konfigurirati sustav, provest ćemo neke automatske provjere. Za više informacija pogledajte navedenu dokumentaciju.",
+    "Checking for system and security issues." : "Provjera sustava i sigurnosnih postavki.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Pažljivo pročitajte <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">upute za instalaciju ↗</a> i potražite postoje li ikakve pogreške ili upozorenja u <a href=\"%2$s\">zapisima</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Provjerite sigurnost svojeg Nextclouda s pomoću <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">sigurnosnog skeniranja ↗</a>."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

@@ -582,6 +582,10 @@
     "No devices configured." : "Ni nastavljenih naprav.",
     "The following devices are configured for your account:" : "Z vašim računom so povezane navedene naprave:",
     "Your browser does not support WebAuthn." : "Brskalnik ne podpira overitve WebAuthn.",
+    "Security & setup warnings" : "Varnost in namestitvena opozorila",
+    "All checks passed." : "Vsa preverjanja so uspešno zaključena.",
+    "There are some errors regarding your setup." : "Med preverjanjem je bilo zaznanih nekaj napak namestitve.",
+    "There are some warnings regarding your setup." : "Med preverjanjem je bilo zbranih nekaj opozoril.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Skrbnik lahko prilagodi možnosti souporabe. Več podrobnosti je zapisanih v dokumentaciji.",
     "You need to enable the File sharing App." : "Omogočiti je treba program Souporabe datotek.",
     "App Store" : "Programska trgovina",
@@ -667,14 +671,6 @@
     "SMTP Password" : "Geslo SMTP",
     "Save" : "Shrani",
     "Test and verify email settings" : "Preizkusi in overi nastavitve elektronske pošte",
-    "Security & setup warnings" : "Varnost in namestitvena opozorila",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Zaradi varnosti in optimizacije delovanja je nujno, da je sistem posodobljen in pravilno nastavljen. Preverjanje poteka tako, da se nekateri preizkusi izvajajo sproti in samodejno. Več podrobnosti je zabeleženih v dokumentaciji. ",
-    "All checks passed." : "Vsa preverjanja so uspešno zaključena.",
-    "There are some errors regarding your setup." : "Med preverjanjem je bilo zaznanih nekaj napak namestitve.",
-    "There are some warnings regarding your setup." : "Med preverjanjem je bilo zbranih nekaj opozoril.",
-    "Checking for system and security issues." : "Preverjanje sistemskih in varnostnih nastavitev.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Preverite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">namestitveno dokumentacijo ↗</a> in morebitne napake oziroma opozorila v <a href=\"%2$s\">sistemskem dnevniku</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Preverite lahko tudi varnost storitev Nextcloud s <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">preverjalnikom ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Razlogi za uporabo oblaka Nextcloud v vaši organizaciji",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Okolje razvija {communityopen}skupnost Nextcloud{linkclose}, {githubopen}izvorna koda{linkclose} pa je objavljena pod pogoji dovoljenja {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Spremljajte naš Facebook",
@@ -694,6 +690,10 @@
     "Set default expiration date for shares" : "Nastavi privzeti datuma poteka za mesta souporabe",
     "Your biography" : "Biografija",
     "You are using <strong>{usage}</strong>" : "Uporabljate <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Uporabljate <strong>{usage}</strong> od <strong>{totalSpace}</strong> (<strong>{usageRelative} %</strong>)"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Uporabljate <strong>{usage}</strong> od <strong>{totalSpace}</strong> (<strong>{usageRelative} %</strong>)",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Zaradi varnosti in optimizacije delovanja je nujno, da je sistem posodobljen in pravilno nastavljen. Preverjanje poteka tako, da se nekateri preizkusi izvajajo sproti in samodejno. Več podrobnosti je zabeleženih v dokumentaciji. ",
+    "Checking for system and security issues." : "Preverjanje sistemskih in varnostnih nastavitev.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Preverite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">namestitveno dokumentacijo ↗</a> in morebitne napake oziroma opozorila v <a href=\"%2$s\">sistemskem dnevniku</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Preverite lahko tudi varnost storitev Nextcloud s <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">preverjalnikom ↗</a>."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

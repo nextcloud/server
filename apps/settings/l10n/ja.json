@@ -786,6 +786,11 @@
     "No devices configured." : "設定されたデバイスはありません。",
     "The following devices are configured for your account:" : "アカウントには以下のデバイスが設定されています。",
     "Your browser does not support WebAuthn." : "WebAuthnをサポートしていないブラウザです。",
+    "Security & setup warnings" : "セキュリティ＆セットアップ警告",
+    "Try again" : "もう一度試してください",
+    "All checks passed." : "すべてのチェックに合格しました。",
+    "There are some errors regarding your setup." : "セットアップに関するいくつかのエラーがあります。",
+    "There are some warnings regarding your setup." : "セットアップに関して警告がいくつかあります。",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "管理者であれば共有時の挙動を微調整できます。詳細な情報はドキュメントを参照してください。",
     "You need to enable the File sharing App." : "ファイル共有アプリを有効にする必要があります。",
     "App Store" : "アプリストア",
@@ -884,14 +889,6 @@
     "SMTP Password" : "SMTPパスワード",
     "Save" : "保存",
     "Test and verify email settings" : "メールのテストと検証設定",
-    "Security & setup warnings" : "セキュリティ＆セットアップ警告",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "サーバーのセキュリティとパフォーマンスにとって重要なことは、すべてが正確に設定されていることです。あなたの助けとなるよう、Nextcloudでは一部の自動チェックを行っています。詳細な情報は、リンク先のドキュメントを参照してください。",
-    "All checks passed." : "すべてのチェックに合格しました。",
-    "There are some errors regarding your setup." : "セットアップに関するいくつかのエラーがあります。",
-    "There are some warnings regarding your setup." : "セットアップに関して警告がいくつかあります。",
-    "Checking for system and security issues." : "システムおよびセキュリティの問題をチェックしています。",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">インストールガイド ↗</a>を再確認して、 <a href=\"%2$s\">ログ</a> にあるすべてのエラーや警告を確認してください。",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Nextcloudのセキュリティは、<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">セキュリティスキャン ↗</a>でチェックしてください。",
     "Reasons to use Nextcloud in your organization" : "あなたの組織でNextcloudを使うべきこれだけの理由",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{communityopen} Nextcloudコミュニティ{linkclose}によって開発された{githubopen}ソースコード{linkclose}は、{licenseopen} AGPL {linkclose}で許諾されています。",
     "Like our Facebook page" : "私たちのFacebookのページをイイネ！",
@@ -915,6 +912,10 @@
     "Your biography" : "あなたのプロファイル",
     "You are using <strong>{usage}</strong>" : "<strong>{usage}</strong>使用中です",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "<strong>{totalSpace}</strong> (<strong>{usageRelative}</strong>) のうち<strong>{usage}</strong>を使用しています",
-    "Failed to load subadmin groups with details" : "サブ管理者グループの詳細の読み込みに失敗しました"
+    "Failed to load subadmin groups with details" : "サブ管理者グループの詳細の読み込みに失敗しました",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "サーバーのセキュリティとパフォーマンスにとって重要なことは、すべてが正確に設定されていることです。あなたの助けとなるよう、Nextcloudでは一部の自動チェックを行っています。詳細な情報は、リンク先のドキュメントを参照してください。",
+    "Checking for system and security issues." : "システムおよびセキュリティの問題をチェックしています。",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">インストールガイド ↗</a>を再確認して、 <a href=\"%2$s\">ログ</a> にあるすべてのエラーや警告を確認してください。",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Nextcloudのセキュリティは、<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">セキュリティスキャン ↗</a>でチェックしてください。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
