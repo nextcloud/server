@@ -8,6 +8,7 @@
 
 namespace Tests\Core\Command\Config\System;
 
+use OC\Core\Command\Config\System\CastHelper;
 use OC\Core\Command\Config\System\SetConfig;
 use OC\SystemConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,7 +37,7 @@ class SetConfigTest extends TestCase {
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OC\SystemConfig $systemConfig */
-		$this->command = new SetConfig($systemConfig);
+		$this->command = new SetConfig($systemConfig, new CastHelper());
 	}
 
 
