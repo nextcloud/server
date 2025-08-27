@@ -199,11 +199,11 @@ import getFileList from '../services/FileList.ts'
 import Mime from '../mixins/Mime.js'
 import logger from '../services/logger.js'
 
-import Delete from 'vue-material-design-icons/Delete.vue'
-import Download from 'vue-material-design-icons/Download.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
-import Pencil from 'vue-material-design-icons/Pencil.vue'
+import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import { toggleEditor } from '../files_actions/viewerAction.ts'
 
 // Dynamic loading
