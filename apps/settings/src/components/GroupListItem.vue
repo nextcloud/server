@@ -81,7 +81,7 @@ import NcModal from '@nextcloud/vue/components/NcModal'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import AccountGroup from 'vue-material-design-icons/AccountGroupOutline.vue'
-import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 
 import { showError } from '@nextcloud/dialogs'

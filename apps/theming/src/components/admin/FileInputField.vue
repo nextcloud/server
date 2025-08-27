@@ -68,7 +68,7 @@ import { loadState } from '@nextcloud/initial-state'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
-import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Undo from 'vue-material-design-icons/UndoVariant.vue'
 import Upload from 'vue-material-design-icons/Upload.vue'
 
