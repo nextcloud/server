@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,6 +8,7 @@
 
 namespace Tests\Core\Command\Config\System;
 
+use OC\Core\Command\Config\System\CastHelper;
 use OC\Core\Command\Config\System\SetConfig;
 use OC\SystemConfig;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,7 +37,7 @@ class SetConfigTest extends TestCase {
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
 		/** @var \OC\SystemConfig $systemConfig */
-		$this->command = new SetConfig($systemConfig);
+		$this->command = new SetConfig($systemConfig, new CastHelper());
 	}
 
 
@@ -55,7 +57,7 @@ class SetConfigTest extends TestCase {
 	 * @param mixed $existingData
 	 * @param mixed $expectedValue
 	 */
-	public function testSet($configNames, $newValue, $existingData, $expectedValue): void {
+	public function testSet($configNames, $newValue, $existingData, $expectedValue) {
 		$this->systemConfig->expects($this->once())
 			->method('setValue')
 			->with($configNames[0], $expectedValue);
@@ -88,7 +90,7 @@ class SetConfigTest extends TestCase {
 	/**
 	 * @dataProvider setUpdateOnlyProvider
 	 */
-	public function testSetUpdateOnly($configNames, $existingData): void {
+	public function testSetUpdateOnly($configNames, $existingData) {
 		$this->expectException(\UnexpectedValueException::class);
 
 		$this->systemConfig->expects($this->never())
@@ -135,7 +137,7 @@ class SetConfigTest extends TestCase {
 	/**
 	 * @dataProvider castValueProvider
 	 */
-	public function testCastValue($value, $type, $expectedValue): void {
+	public function testCastValue($value, $type, $expectedValue) {
 		$this->assertSame($expectedValue,
 			$this->invokePrivate($this->command, 'castValue', [$value, $type])
 		);
@@ -156,7 +158,7 @@ class SetConfigTest extends TestCase {
 	/**
 	 * @dataProvider castValueInvalidProvider
 	 */
-	public function testCastValueInvalid($value, $type): void {
+	public function testCastValueInvalid($value, $type) {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->invokePrivate($this->command, 'castValue', [$value, $type]);

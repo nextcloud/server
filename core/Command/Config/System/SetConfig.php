@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SetConfig extends Base {
 	public function __construct(
 		SystemConfig $systemConfig,
+		private CastHelper $castHelper,
 	) {
 		parent::__construct($systemConfig);
 	}
@@ -57,7 +58,7 @@ class SetConfig extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = $configNames[0];
-		$configValue = $this->castValue($input->getOption('value'), $input->getOption('type'));
+		$configValue = $this->castHelper->castValue($input->getOption('value'), $input->getOption('type'));
 		$updateOnly = $input->getOption('update-only');
 
 		if (count($configNames) > 1) {
