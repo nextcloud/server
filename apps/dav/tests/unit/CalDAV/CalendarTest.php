@@ -311,9 +311,9 @@ class CalendarTest extends TestCase {
 		}
 		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 		$children = $c->getChildren();
-		$this->assertEquals($expectedChildren, count($children));
+		$this->assertCount($expectedChildren, $children);
 		$children = $c->getMultipleChildren(['event-0', 'event-1', 'event-2']);
-		$this->assertEquals($expectedChildren, count($children));
+		$this->assertCount($expectedChildren, $children);
 
 		$this->assertEquals(!$isShared, $c->childExists('event-2'));
 	}
@@ -393,9 +393,13 @@ EOD;
 			'id' => 666,
 			'uri' => 'cal',
 		];
+
+		if ($isShared) {
+			$calendarInfo['{http://owncloud.org/ns}read-only'] = true;
+		}
 		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 
-		$this->assertEquals(count($c->getChildren()), $expectedChildren);
+		$this->assertCount($expectedChildren, $c->getChildren());
 
 		// test private event
 		$privateEvent = $c->getChild('event-1');
@@ -600,24 +604,24 @@ EOD;
 		$this->assertCount(2, $roCalendar->getChildren());
 
 		// calendar data shall not be altered for the owner
-		$this->assertEquals($ownerCalendar->getChild('event-0')->get(), $publicObjectData);
-		$this->assertEquals($ownerCalendar->getChild('event-1')->get(), $confidentialObjectData);
+		$this->assertEquals($publicObjectData, $ownerCalendar->getChild('event-0')->get());
+		$this->assertEquals($confidentialObjectData, $ownerCalendar->getChild('event-1')->get());
 
 		// valarms shall not be removed for read-write shares
 		$this->assertEquals(
-			$this->fixLinebreak($rwCalendar->getChild('event-0')->get()),
-			$this->fixLinebreak($publicObjectData));
+			$this->fixLinebreak($publicObjectData),
+			$this->fixLinebreak($rwCalendar->getChild('event-0')->get()));
 		$this->assertEquals(
-			$this->fixLinebreak($rwCalendar->getChild('event-1')->get()),
-			$this->fixLinebreak($confidentialObjectCleaned));
+			$this->fixLinebreak($confidentialObjectData),
+			$this->fixLinebreak($rwCalendar->getChild('event-1')->get()));
 
 		// valarms shall be removed for read-only shares
 		$this->assertEquals(
-			$this->fixLinebreak($roCalendar->getChild('event-0')->get()),
-			$this->fixLinebreak($publicObjectDataWithoutVAlarm));
+			$this->fixLinebreak($publicObjectDataWithoutVAlarm),
+			$this->fixLinebreak($roCalendar->getChild('event-0')->get()));
 		$this->assertEquals(
-			$this->fixLinebreak($roCalendar->getChild('event-1')->get()),
-			$this->fixLinebreak($confidentialObjectCleaned));
+			$this->fixLinebreak($confidentialObjectCleaned),
+			$this->fixLinebreak($roCalendar->getChild('event-1')->get()));
 	}
 
 	private function fixLinebreak($str) {
