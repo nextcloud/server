@@ -18,8 +18,8 @@ use Override;
 
 /**
  * Make sure vcategory entries are unique per user and type
- * This migration will clean up existing duplicates
- * and add a unique constraint to prevent future duplicates.
+ * This migration will clean up existing duplicates.
+ * The new unique constraint is added in @see \OC\Core\Listener\AddMissingIndicesListener
  */
 class Version32000Date20250731062008 extends SimpleMigrationStep {
 	public function __construct(
