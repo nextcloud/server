@@ -20,7 +20,7 @@
 
 <script>
 import { NcButton } from '@nextcloud/vue'
-import IconDownload from 'vue-material-design-icons/Download.vue'
+import IconDownload from 'vue-material-design-icons/TrayArrowDown.vue'
 
 export default {
 	name: 'ExampleContentDownloadButton',
