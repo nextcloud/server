@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\CalDAV\Federation\FederatedCalendarImpl;
 use OCA\DAV\Db\Property;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendarProvider;
@@ -27,17 +28,24 @@ class CalendarProvider implements ICalendarProvider {
 	}
 
 	public function getCalendars(string $principalUri, array $calendarUris = []): array {
-
+		/** @var array{uri: string, principaluri: string}[] $calendarInfos */
 		$calendarInfos = $this->calDavBackend->getCalendarsForUser($principalUri) ?? [];
+		/** @var array{uri: string, principaluri: string}[] $federatedCalendarInfos */
+		$federatedCalendarInfos = $this->calDavBackend->getFederatedCalendarsForUser($principalUri);
 
 		if (!empty($calendarUris)) {
 			$calendarInfos = array_filter($calendarInfos, function ($calendar) use ($calendarUris) {
 				return in_array($calendar['uri'], $calendarUris);
 			});
+
+			$federatedCalendarInfos = array_filter($federatedCalendarInfos, function ($federatedCalendar) use ($calendarUris) {
+				return in_array($federatedCalendar['uri'], $calendarUris);
+			});
 		}
 
 		$additionalProperties = $this->getAdditionalPropertiesForCalendars($calendarInfos);
 		$iCalendars = [];
+
 		foreach ($calendarInfos as $calendarInfo) {
 			$user = str_replace('principals/users/', '', $calendarInfo['principaluri']);
 			$path = 'calendars/' . $user . '/' . $calendarInfo['uri'];
@@ -51,6 +59,20 @@ class CalendarProvider implements ICalendarProvider {
 				$this->calDavBackend,
 			);
 		}
+
+		$additionalFederatedProps = $this->getAdditionalPropertiesForCalendars(
+			$federatedCalendarInfos,
+		);
+		foreach ($federatedCalendarInfos as $calendarInfo) {
+			$user = str_replace('principals/users/', '', $calendarInfo['principaluri']);
+			$path = 'calendars/' . $user . '/' . $calendarInfo['uri'];
+			if (isset($additionalFederatedProps[$path])) {
+				$calendarInfo = array_merge($calendarInfo, $additionalProperties[$path]);
+			}
+
+			$iCalendars[] = new FederatedCalendarImpl($calendarInfo, $this->calDavBackend);
+		}
+
 		return $iCalendars;
 	}
 

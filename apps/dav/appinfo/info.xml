@@ -10,7 +10,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.34.1</version>
+	<version>1.34.2</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -30,6 +30,7 @@
 		<job>OCA\DAV\BackgroundJob\EventReminderJob</job>
 		<job>OCA\DAV\BackgroundJob\CalendarRetentionJob</job>
 		<job>OCA\DAV\BackgroundJob\PruneOutdatedSyncTokensJob</job>
+		<job>OCA\DAV\BackgroundJob\FederatedCalendarPeriodicSyncJob</job>
 	</background-jobs>
 
 	<repair-steps>

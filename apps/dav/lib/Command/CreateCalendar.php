@@ -9,6 +9,7 @@ namespace OCA\DAV\Command;
 
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Sharing\Backend;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -80,6 +81,7 @@ class CreateCalendar extends Command {
 			$dispatcher,
 			$config,
 			Server::get(Backend::class),
+			Server::get(FederatedCalendarMapper::class),
 		);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 		return self::SUCCESS;
