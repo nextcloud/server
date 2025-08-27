@@ -134,7 +134,7 @@ import logger from '../utils/logger'
 
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
-import Download from 'vue-material-design-icons/Download.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import FileCompare from 'vue-material-design-icons/FileCompare.vue'
 import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
