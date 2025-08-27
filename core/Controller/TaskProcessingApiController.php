@@ -39,6 +39,7 @@ use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use stdClass;
 
@@ -409,12 +410,16 @@ class TaskProcessingApiController extends OCSController {
 
 		$contentType = $node->getMimeType();
 		if (function_exists('mime_content_type')) {
-			$mimeType = mime_content_type($node->fopen('rb'));
-			if ($mimeType !== false) {
-				$mimeType = $this->mimeTypeDetector->getSecureMimeType($mimeType);
-				if ($mimeType !== 'application/octet-stream') {
-					$contentType = $mimeType;
+			try {
+				$mimeType = mime_content_type($node->fopen('rb'));
+				if ($mimeType !== false) {
+					$mimeType = $this->mimeTypeDetector->getSecureMimeType($mimeType);
+					if ($mimeType !== 'application/octet-stream') {
+						$contentType = $mimeType;
+					}
 				}
+			} catch (\Throwable $e) {
+				\OCP\Server::get(LoggerInterface::class)->info('mime_content_type() failed to open node, falling back to getMimeType()', ['exception' => $e]);
 			}
 		}
 
