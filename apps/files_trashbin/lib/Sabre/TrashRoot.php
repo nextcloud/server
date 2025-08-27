@@ -19,7 +19,6 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 class TrashRoot implements ICollection {
-
 	public function __construct(
 		private IUser $user,
 		private ITrashManager $trashManager,
@@ -31,7 +30,7 @@ class TrashRoot implements ICollection {
 			throw new Forbidden('Not allowed to delete items from the trash bin');
 		}
 
-		Trashbin::deleteAll();
+		Trashbin::deleteAll($this->user);
 		foreach ($this->trashManager->listTrashRoot($this->user) as $trashItem) {
 			$this->trashManager->removeItem($trashItem);
 		}
