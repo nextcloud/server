@@ -757,6 +757,11 @@
     "No devices configured." : "Καμιά συσκευή δεν ρυθμίστηκε.",
     "The following devices are configured for your account:" : "Οι ακόλουθες συσκευές ρυθμίστηκαν για τον λογαριασμό σας:",
     "Your browser does not support WebAuthn." : "Ο περιηγητής σας δεν υποστηρίζει το WebAuthn.",
+    "Security & setup warnings" : "Προειδοποιήσεις ασφάλειας & ρυθμίσεων",
+    "Try again" : "Δοκιμάστε ξανά",
+    "All checks passed." : "Όλοι οι έλεγχοι επιτυχείς.",
+    "There are some errors regarding your setup." : "Υπάρχουν μερικά σφάλματα σχετικά με τις ρυθμίσεις σας.",
+    "There are some warnings regarding your setup." : "Υπάρχουν μερικές προειδοποιήσεις σχετικά με την εγκατάστασή σας.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Ως διαχειριστής μπορείτε να ρυθμίσετε λεπτομερώς την συμπεριφορά διαμοιρασμού.\nΠαρακαλούμε ανατρέξτε στην τεκμηρίωση για περισσότερες πληροφορίες.",
     "You need to enable the File sharing App." : "Πρέπει να ενεργοποιήσετε την εφαρμογή Διαμοιρασμός Αρχείων.",
     "App Store" : "Κατάστημα εφαρμογών",
@@ -855,14 +860,6 @@
     "SMTP Password" : "Συνθηματικό SMTP",
     "Save" : "Αποθήκευση",
     "Test and verify email settings" : "Δοκιμή και επαλήθευση τις ρυθμίσεων email",
-    "Security & setup warnings" : "Προειδοποιήσεις ασφάλειας & ρυθμίσεων",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Είναι σημαντικό για την ασφάλεια και την απόδοση του συστήματός σας ότι όλα έχουν ρυθμιστεί σωστά. Για να σας βοηθήσουμε, κάνουμε μερικούς αυτόματους ελέγχους. Για περισσότερες πληροφορίες, ανατρέξτε στη σχετική τεκμηρίωση.",
-    "All checks passed." : "Όλοι οι έλεγχοι επιτυχείς.",
-    "There are some errors regarding your setup." : "Υπάρχουν μερικά σφάλματα σχετικά με τις ρυθμίσεις σας.",
-    "There are some warnings regarding your setup." : "Υπάρχουν μερικές προειδοποιήσεις σχετικά με την εγκατάστασή σας.",
-    "Checking for system and security issues." : "Έλεγχος για θέματα συστήματος και ασφάλειας.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Παρακαλώ ελέγξτε τις <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">οδηγίες εγκατάστασης ↗</a>, και ελέγξτε για σφάλματα ή προειδοποιήσεις στα <a href=\"%2$s\">αρχεία καταγραφής</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Ελέγξτε την ασφάλεια του Nextcloud σας μέσω <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">της σάρωσης ασφαλείας μας ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Λόγοι για να χρησιμοποιήσετε το Nextcloud στον οργανισμό σας",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Αναπτύχθηκε από τη {communityopen}Κοινότητα του Nextcloud {linkclose}, ο πηγαίος κώδικας {githubopen} {linkclose}  είναι αδειοδοτημένος υπό την άδεια {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Ακολουθήστε μας στην σελίδα μας στο Facebook",
@@ -885,6 +882,10 @@
     "Set default expiration date for shares" : "Ορισμός προεπιλεγμένης ημερομηνίας λήξης για τα κοινόχρηστα",
     "Your biography" : "Το βιογραφικό σας",
     "You are using <strong>{usage}</strong>" : "Χρησιμοποιείτε <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Χρησιμοποιείτε <strong>{usage}</strong> από <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Χρησιμοποιείτε <strong>{usage}</strong> από <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Είναι σημαντικό για την ασφάλεια και την απόδοση του συστήματός σας ότι όλα έχουν ρυθμιστεί σωστά. Για να σας βοηθήσουμε, κάνουμε μερικούς αυτόματους ελέγχους. Για περισσότερες πληροφορίες, ανατρέξτε στη σχετική τεκμηρίωση.",
+    "Checking for system and security issues." : "Έλεγχος για θέματα συστήματος και ασφάλειας.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Παρακαλώ ελέγξτε τις <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">οδηγίες εγκατάστασης ↗</a>, και ελέγξτε για σφάλματα ή προειδοποιήσεις στα <a href=\"%2$s\">αρχεία καταγραφής</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Ελέγξτε την ασφάλεια του Nextcloud σας μέσω <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">της σάρωσης ασφαλείας μας ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

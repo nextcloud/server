@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Претражи ознаку",
     "Change tag color" : "Промени боју ознаке",
     "Create new tag" : "Креирај нову ознаку",
+    "Choose tags for the selected files" : "Изаберите ознаке за изабране фајлове",
     "Cancel" : "Откажи",
     "Apply" : "Примени",
     "Failed to load tags" : "Грешка при учитавању ознака",

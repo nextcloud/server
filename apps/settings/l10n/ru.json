@@ -786,6 +786,11 @@
     "No devices configured." : "Устройства не настроены.",
     "The following devices are configured for your account:" : "Следующие устройства настроены для вашей учетной записи:",
     "Your browser does not support WebAuthn." : "Ваш браузер не поддерживает WebAuthn.",
+    "Security & setup warnings" : "Проверка безопасности и параметров",
+    "Try again" : "Попытаться снова",
+    "All checks passed." : "Все проверки пройдены.",
+    "There are some errors regarding your setup." : "Были обнаружены ошибки конфигурации.",
+    "There are some warnings regarding your setup." : "Предупреждения о текущей конфигурации.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "В этом разделе администраторы могут тонко настроить поведение механизма предоставления общего доступа. Обратитесь к документации для получения дополнительной информации.",
     "You need to enable the File sharing App." : "Необходимо включить приложение публикации файлов.",
     "App Store" : "Магазин приложений",
@@ -885,14 +890,6 @@
     "SMTP Password" : "Пароль SMTP",
     "Save" : "Сохранить",
     "Test and verify email settings" : "Проверить параметры эл. почты",
-    "Security & setup warnings" : "Проверка безопасности и параметров",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Для обеспечения безопасности и производительности важно, чтобы всё было настроено правильно. Чтобы убедиться в этом, мы выполняем некоторые автоматические проверки. Для получения дополнительной информации обратитесь к соответствующему разделу документации.",
-    "All checks passed." : "Все проверки пройдены.",
-    "There are some errors regarding your setup." : "Были обнаружены ошибки конфигурации.",
-    "There are some warnings regarding your setup." : "Предупреждения о текущей конфигурации.",
-    "Checking for system and security issues." : "Проверка системы и возможных уязвимостей.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Ещё раз внимательно прочитайте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">руководство по установке ↗</a> и проверьте <a href=\"%2$s\">журнал</a> на наличие ошибок и предупреждений.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Проверить безопасность Nextcloud <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">нашим сканером ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Причины использовать Nextcloud в организации",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Разработано {communityopen}сообществом Nextcloud{linkclose}, {githubopen}исходный код{linkclose} лицензируется в соответствии с {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Посмотрите нашу страницу на Facebook",
@@ -916,6 +913,10 @@
     "Your biography" : "Ваша биография",
     "You are using <strong>{usage}</strong>" : "Вы используете <strong>{usage}</strong>",
     "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Вы используете <strong>{usage}</strong> из <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
-    "Failed to load subadmin groups with details" : "Не удалось загрузить группы субадминистраторов с подробностями"
+    "Failed to load subadmin groups with details" : "Не удалось загрузить группы субадминистраторов с подробностями",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Для обеспечения безопасности и производительности важно, чтобы всё было настроено правильно. Чтобы убедиться в этом, мы выполняем некоторые автоматические проверки. Для получения дополнительной информации обратитесь к соответствующему разделу документации.",
+    "Checking for system and security issues." : "Проверка системы и возможных уязвимостей.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Ещё раз внимательно прочитайте <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">руководство по установке ↗</a> и проверьте <a href=\"%2$s\">журнал</a> на наличие ошибок и предупреждений.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Проверить безопасность Nextcloud <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">нашим сканером ↗</a>."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

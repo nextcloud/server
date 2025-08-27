@@ -553,6 +553,11 @@
     "No devices configured." : "Geen apparaten geconfigureerd.",
     "The following devices are configured for your account:" : "De volgende apparaten zijn ingesteld voor je account:",
     "Your browser does not support WebAuthn." : "De browser ondersteunt geen WebAuthn.",
+    "Security & setup warnings" : "Beveiligings- en instellingswaarschuwingen",
+    "Try again" : "Probeer opnieuw",
+    "All checks passed." : "Alle controles geslaagd",
+    "There are some errors regarding your setup." : "Er zitten foutjes in je configuratie.",
+    "There are some warnings regarding your setup." : "Er zijn waarschuwingen over je configuratie.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Als beheerder kun je gedetailleerde regels voor delen instellen. Bekijk de documentatie voor meer informatie.",
     "You need to enable the File sharing App." : "Je dient de File sharing App in te schakelen",
     "App Store" : "App winkel",
@@ -642,14 +647,6 @@
     "SMTP Password" : "SMTP wachtwoord",
     "Save" : "Bewaar",
     "Test and verify email settings" : "Test en controleer de e-mailinstellingen",
-    "Security & setup warnings" : "Beveiligings- en instellingswaarschuwingen",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Voor beveiliging en prestaties van je server is het belangrijk dat alles goed is geconfigureerd. Om je hierbij te helpen doen we paar automatische controles. Bekijk de gerelateerde documentatie voor meer informatie.",
-    "All checks passed." : "Alle controles geslaagd",
-    "There are some errors regarding your setup." : "Er zitten foutjes in je configuratie.",
-    "There are some warnings regarding your setup." : "Er zijn waarschuwingen over je configuratie.",
-    "Checking for system and security issues." : "Controleren op systeem- en beveiligingsproblemen.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Lees de <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installatie-handleiding ↗</a> goed door en controleer <a href=\"%2$s\">de logs</a> op fouten en waarschuwingen.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Controleer de beveiliging van je Nextcloud via <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">onze securityscan ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Redenen om Nextcloud te gebruiken in jouw organisatie",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Ontwikkeld door de {communityopen}Nextcloud community{linkclose}, de {githubopen}broncode{linkclose} is gelicenseerd onder de {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Vind onze Facebook pagina leuk",
@@ -664,6 +661,10 @@
     "Set default expiration date for shares" : "Instellen standaard vervaldatum voor deellinks",
     "Your biography" : "Jouw biografie",
     "You are using <strong>{usage}</strong>" : "Je gebruikt <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Je gebruikt <strong>{usage}</strong> van <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Je gebruikt <strong>{usage}</strong> van <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Voor beveiliging en prestaties van je server is het belangrijk dat alles goed is geconfigureerd. Om je hierbij te helpen doen we paar automatische controles. Bekijk de gerelateerde documentatie voor meer informatie.",
+    "Checking for system and security issues." : "Controleren op systeem- en beveiligingsproblemen.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Lees de <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installatie-handleiding ↗</a> goed door en controleer <a href=\"%2$s\">de logs</a> op fouten en waarschuwingen.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Controleer de beveiliging van je Nextcloud via <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">onze securityscan ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
