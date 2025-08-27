@@ -2424,7 +2424,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $uid
 	 * @return string|null
 	 */
-	public function getCalendarObjectByUID($principalUri, $uid) {
+	public function getCalendarObjectByUID($principalUri, $uid, $calendarUri = null) {
 		$query = $this->db->getQueryBuilder();
 		$query->selectAlias('c.uri', 'calendaruri')->selectAlias('co.uri', 'objecturi')
 			->from('calendarobjects', 'co')
@@ -2432,6 +2432,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->where($query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)))
 			->andWhere($query->expr()->eq('co.uid', $query->createNamedParameter($uid)))
 			->andWhere($query->expr()->isNull('co.deleted_at'));
+
+		if ($calendarUri !== null) {
+			$query->andWhere($query->expr()->eq('c.uri', $query->createNamedParameter($calendarUri)));
+		}
+
 		$stmt = $query->executeQuery();
 		$row = $stmt->fetch();
 		$stmt->closeCursor();
