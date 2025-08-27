@@ -762,6 +762,11 @@
     "No devices configured." : "No hi han dispositius configurats.",
     "The following devices are configured for your account:" : "Els següents dispositius estan configurats per al vostre compte:",
     "Your browser does not support WebAuthn." : "El vostre navegador no suporta WebAuthn.",
+    "Security & setup warnings" : "Avisos de seguretat i configuració",
+    "Try again" : "Torneu-ho a provar",
+    "All checks passed." : "Totes les comprovacions correctes.",
+    "There are some errors regarding your setup." : "Hi ha alguns errors pel que fa a la vostra configuració.",
+    "There are some warnings regarding your setup." : "Hi ha algunes advertències pel que fa a la vostra configuració.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Com a administrador, podeu afinar els ajustaments per compartir fitxers. Si us plau, per més informació llegiu la documentació.",
     "You need to enable the File sharing App." : "Heu d'habilitar l'aplicació per compartir Fitxers.",
     "App Store" : "Magatzem d’aplicacions",
@@ -860,14 +865,6 @@
     "SMTP Password" : "Contrasenya SMTP",
     "Save" : "Desa",
     "Test and verify email settings" : "Prova i verifica els paràmetres del correu electrònic",
-    "Security & setup warnings" : "Avisos de seguretat i configuració",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "És important per a la seguretat i el rendiment de la vostra instància que tot estigui configurat correctament. Per ajudar-vos, fem algunes comprovacions automàtiques. Si us plau, consulteu la documentació enllaçada per obtenir més informació.",
-    "All checks passed." : "Totes les comprovacions correctes.",
-    "There are some errors regarding your setup." : "Hi ha alguns errors pel que fa a la vostra configuració.",
-    "There are some warnings regarding your setup." : "Hi ha algunes advertències pel que fa a la vostra configuració.",
-    "Checking for system and security issues." : "S'estan comprovant incidències del sistema i de seguretat.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Si us plau reviseu les <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">guies d’instal·lació ↗</a>, i comproveu si hi ha errors o advertències en el <a href=\"%2$s\">registre</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Reviseu la seguretat del vostre Nextcloud mitjançant el <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nostre escaneig de seguretat ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Motius per a utilitzar Nextcloud en la vostra organització",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desenvolupat per la {communityopen}comunitat Nextcloud{linkclose}, el {githubopen}codi font{linkclose} es troba sota la llicència {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Poseu un m’agrada a la nostra pàgina de Facebook",
@@ -890,6 +887,10 @@
     "Set default expiration date for shares" : "Estableix la data de caducitat per defecte per comparticions",
     "Your biography" : "La vostra biografia",
     "You are using <strong>{usage}</strong>" : "Esteu utilitzant <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Esteu utilitzant <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Esteu utilitzant <strong>{usage}</strong> de <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "És important per a la seguretat i el rendiment de la vostra instància que tot estigui configurat correctament. Per ajudar-vos, fem algunes comprovacions automàtiques. Si us plau, consulteu la documentació enllaçada per obtenir més informació.",
+    "Checking for system and security issues." : "S'estan comprovant incidències del sistema i de seguretat.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Si us plau reviseu les <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">guies d’instal·lació ↗</a>, i comproveu si hi ha errors o advertències en el <a href=\"%2$s\">registre</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Reviseu la seguretat del vostre Nextcloud mitjançant el <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">nostre escaneig de seguretat ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

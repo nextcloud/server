@@ -179,6 +179,10 @@ OC.L10N.register(
     "Send email" : "Enviar correo electrónico",
     "Default quota" : "Cuota predeterminada",
     "Unnamed device" : "Dispositivo sin nombre",
+    "Security & setup warnings" : "Advertencias de seguridad y configuración",
+    "Try again" : "Reintentar",
+    "All checks passed." : "Pasaron todas las verificaciones. ",
+    "There are some warnings regarding your setup." : "Hay advertencias respecto de la configuración.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador, puedes hacer ajustes finos al comportamiento de compartir. Por favor consulta la documentación para más información. ",
     "Admins" : "Administradores",
     "Sending…" : "Enviando...",
@@ -213,14 +217,11 @@ OC.L10N.register(
     "Credentials" : "Credenciales",
     "SMTP Password" : "Contraseña SMTP",
     "Save" : "Guardar",
-    "Security & setup warnings" : "Advertencias de seguridad y configuración",
-    "All checks passed." : "Pasaron todas las verificaciones. ",
-    "There are some warnings regarding your setup." : "Hay advertencias respecto de la configuración.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Revise la seguridad de su Nextcloud usando <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">el escáner de seguridad ↗</a>.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desarrollado por la  {communityopen}comunidad Nextcloud {linkclose}, el {githubopen}código fuente {linkclose} está licenciado bajo  {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Da un Like a nuestra página de Facebook",
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
-    "You are using <strong>{usage}</strong>" : "Estas usando <strong>{usage}</strong>"
+    "You are using <strong>{usage}</strong>" : "Estas usando <strong>{usage}</strong>",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Revise la seguridad de su Nextcloud usando <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">el escáner de seguridad ↗</a>."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

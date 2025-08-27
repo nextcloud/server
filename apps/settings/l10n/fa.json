@@ -385,6 +385,11 @@
     "No devices configured." : "No devices configured.",
     "The following devices are configured for your account:" : "The following devices are configured for your account:",
     "Your browser does not support WebAuthn." : "Your browser does not support WebAuthn.",
+    "Security & setup warnings" : "اخطارهای نصب و امنیتی",
+    "Try again" : "تلاش دوباره",
+    "All checks passed." : "تمامی موارد با موفقیت چک شدند.",
+    "There are some errors regarding your setup." : "برخی از خطاها در مورد راه اندازی شما وجود دارد",
+    "There are some warnings regarding your setup." : "هشدارهایی درباره تنظیم شما وجود دارد.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "به عنوان مدیر ، می توانید رفتار اشتراک گذاری را تنظیم کنید. لطفا برای اطلاعات بیشتر به اسناد مراجعه کنید.",
     "You need to enable the File sharing App." : "You need to enable the File sharing App.",
     "All accounts" : "همهٔ حساب‌ها",
@@ -453,14 +458,6 @@
     "SMTP Password" : "رمز عبور SMTP",
     "Save" : "ذخیره",
     "Test and verify email settings" : "Test and verify email settings",
-    "Security & setup warnings" : "اخطارهای نصب و امنیتی",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "برای امنیت و عملکرد نمونه شما، مهم است که همه چیز به درستی پیکربندی شده باشد. برای کمک به شما در این مورد ، ما برخی از بررسی های خودکار را انجام می دهیم. لطفا برای اطلاعات بیشتر به مستندات مرتبط مراجعه کنید.",
-    "All checks passed." : "تمامی موارد با موفقیت چک شدند.",
-    "There are some errors regarding your setup." : "برخی از خطاها در مورد راه اندازی شما وجود دارد",
-    "There are some warnings regarding your setup." : "هشدارهایی درباره تنظیم شما وجود دارد.",
-    "Checking for system and security issues." : "بررسی مشکلات سیستم و امنیت.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "لطفاً <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">راهنماهای نصب</a> را مجددا مرور کرده و هرگونه خطا یا هشدار را در <a href=\"%2$s\">گزارشات log </a> بررسی کنید.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "امنیت نکست کلود خود را در مورد <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">اسکن امنیتی ما ↗ </a>بررسی کنید",
     "Reasons to use Nextcloud in your organization" : "دلایلی برای استفاده از نکست‌کلود در سازمان شما",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "توسعه یافته توسط {communityopen} انجمن نکست کلود {linkclose}، {githubopen} کد منبع {linkclose} تحت مجوز {licenseopen}AGPL{linkclose}است. ",
     "Like our Facebook page" : "پسندیدن صفحه فیس بوک ما",
@@ -474,6 +471,10 @@
     "Set default expiration date for shares" : "تاریخ انقضا پیش فرض را برای اشتراک گذاری تعیین کنید",
     "Your biography" : "بیوگرافی شما",
     "You are using <strong>{usage}</strong>" : "فضای مورد استفاده: <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "شما در حال استفادهٔ <strong>{usage}</strong> از <strong>{totalSpace}</strong> (<strong>{usageRelative}٪</strong>) فضا هستید"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "شما در حال استفادهٔ <strong>{usage}</strong> از <strong>{totalSpace}</strong> (<strong>{usageRelative}٪</strong>) فضا هستید",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "برای امنیت و عملکرد نمونه شما، مهم است که همه چیز به درستی پیکربندی شده باشد. برای کمک به شما در این مورد ، ما برخی از بررسی های خودکار را انجام می دهیم. لطفا برای اطلاعات بیشتر به مستندات مرتبط مراجعه کنید.",
+    "Checking for system and security issues." : "بررسی مشکلات سیستم و امنیت.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "لطفاً <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">راهنماهای نصب</a> را مجددا مرور کرده و هرگونه خطا یا هشدار را در <a href=\"%2$s\">گزارشات log </a> بررسی کنید.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "امنیت نکست کلود خود را در مورد <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">اسکن امنیتی ما ↗ </a>بررسی کنید"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

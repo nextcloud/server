@@ -600,6 +600,11 @@
     "No devices configured." : "Inga enheter konfigurerade.",
     "The following devices are configured for your account:" : "Följande enheter är konfigurerade för ditt konto:",
     "Your browser does not support WebAuthn." : "Din webbläsare stödjer inte WebAuthn.",
+    "Security & setup warnings" : "Säkerhet & systemvarningar",
+    "Try again" : "Försök igen",
+    "All checks passed." : "Alla kontroller lyckades!",
+    "There are some errors regarding your setup." : "Det finns några fel angående din inställning.",
+    "There are some warnings regarding your setup." : "Det finns några varningar angående din inställning.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Som administratör kan du fininställa delningsbeteendet. Vänligen se dokumentationen för mer information.",
     "You need to enable the File sharing App." : "Du måste aktivera fildelnings-appen.",
     "App Store" : "App Store",
@@ -689,14 +694,6 @@
     "SMTP Password" : "SMTP-lösenord",
     "Save" : "Spara",
     "Test and verify email settings" : "Testa och verifiera e-postinställningar",
-    "Security & setup warnings" : "Säkerhet & systemvarningar",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Det är viktigt för säkerhet och prestanda av din instans att allt är korrekt konfigurerat. För att hjälpa dig med det gör vi några automatiska kontroller. Se den länkade dokumentationen för mer information.",
-    "All checks passed." : "Alla kontroller lyckades!",
-    "There are some errors regarding your setup." : "Det finns några fel angående din inställning.",
-    "There are some warnings regarding your setup." : "Det finns några varningar angående din inställning.",
-    "Checking for system and security issues." : "Kontrollerar system och säkerhetsproblem.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Vänligen dubbelkolla <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installationsguiderna ↗</a>, och leta efter eventuella fel eller varningar i <a href=\"%2$s\">loggen</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Kontrollera säkerheten av din Nextcloud-instans med <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">vår säkerhetsgenomsökning ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Anledningar att använda Nextcloud i din organisation",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Utvecklat av {communityopen}Nextcloud-gemenskapen{linkclose}, {githubopen}källkoden{linkclose}  är licensierad enligt {licenseopen}AGPL-standard{linkclose}.",
     "Like our Facebook page" : "Gilla vår Facebook-sida",
@@ -715,6 +712,10 @@
     "Set default expiration date for shares" : "Ställ in standardutgångsdatum för delningar",
     "Your biography" : "Din biografi",
     "You are using <strong>{usage}</strong>" : "Du använder <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Du använder <strong>{usage}</strong> av <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Du använder <strong>{usage}</strong> av <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Det är viktigt för säkerhet och prestanda av din instans att allt är korrekt konfigurerat. För att hjälpa dig med det gör vi några automatiska kontroller. Se den länkade dokumentationen för mer information.",
+    "Checking for system and security issues." : "Kontrollerar system och säkerhetsproblem.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Vänligen dubbelkolla <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installationsguiderna ↗</a>, och leta efter eventuella fel eller varningar i <a href=\"%2$s\">loggen</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Kontrollera säkerheten av din Nextcloud-instans med <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">vår säkerhetsgenomsökning ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

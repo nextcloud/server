@@ -716,6 +716,11 @@
     "No devices configured." : "Ez da gailurik konfiguratu.",
     "The following devices are configured for your account:" : "Hurrengo gailuak zure konturako konfiguratuta daude:",
     "Your browser does not support WebAuthn." : "Nabigatzaile honek ez du WebAuthn onartzen.",
+    "Security & setup warnings" : "Segurtasun eta konfigurazio abisuak",
+    "Try again" : "Saiatu berriz",
+    "All checks passed." : "Egiaztapen guztiak gaindituta.",
+    "There are some errors regarding your setup." : "Zure ezarpenen artean errore batzuk daude.",
+    "There are some warnings regarding your setup." : "Zure konfigurazioari dagokienez abisu batzuk daude.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Admin bezala partekatze portaerak zehaztasunez konfigura daitezke. Ikusi dokumentazioa informazio gehiagorako. ",
     "You need to enable the File sharing App." : "Fitxategi partekatze aplikazioa gaitu behar duzu.",
     "App Store" : "Aplikazioen denda",
@@ -813,14 +818,6 @@
     "SMTP Password" : "SMTP pasahitza",
     "Save" : "Gorde",
     "Test and verify email settings" : "Probatu eta egiaztatu posta elektronikoaren ezarpenak",
-    "Security & setup warnings" : "Segurtasun eta konfigurazio abisuak",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Zure instantziaren segurtasuna eta funtzionamenduarentzat oso garrantzitsua da dena ondo konfiguratuta egotea. Horretan laguntzeko egiaztapen automatiko batzuk egiten ditu tresnak bera. Irakurri estekatutako dokumentazioa informazio gehiago lortzeko.",
-    "All checks passed." : "Egiaztapen guztiak gaindituta.",
-    "There are some errors regarding your setup." : "Zure ezarpenen artean errore batzuk daude.",
-    "There are some warnings regarding your setup." : "Zure konfigurazioari dagokienez abisu batzuk daude.",
-    "Checking for system and security issues." : "Sistema eta segurtasun arazoak bilatzen.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Mesedez egiaztatu <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">instalazio gidak↗</a> eta begiratu errore eta abisuak <a href=\"%2$s\">log fitxategian</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Egiaztatu zure Nextcloud instantziaren segurtasuna <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">gure segurtasun eskaneoa eginez ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Nextcloud zure erakundean erabiltzeko arrazoiak",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{communityopen}Nextcloud komunitateak{linkclose} garatuta, {githubopen}iturburu kodea{linkclose}  {licenseopen}AGPL{linkclose} lizentziapean banatzen da.",
     "Like our Facebook page" : "Gure Facebook orrian Like egin",
@@ -843,6 +840,10 @@
     "Set default expiration date for shares" : "Partekatzeei iraungitze data lehenetsia ezarri",
     "Your biography" : "Zure biografia",
     "You are using <strong>{usage}</strong>" : "<strong>{usage}</strong> erabiltzen ari zara",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "<strong>{usage}</strong>/<strong>{totalSpace}</strong> erabiltzen ari zara (<strong>{usageRelative}%</strong>)"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "<strong>{usage}</strong>/<strong>{totalSpace}</strong> erabiltzen ari zara (<strong>{usageRelative}%</strong>)",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Zure instantziaren segurtasuna eta funtzionamenduarentzat oso garrantzitsua da dena ondo konfiguratuta egotea. Horretan laguntzeko egiaztapen automatiko batzuk egiten ditu tresnak bera. Irakurri estekatutako dokumentazioa informazio gehiago lortzeko.",
+    "Checking for system and security issues." : "Sistema eta segurtasun arazoak bilatzen.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Mesedez egiaztatu <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">instalazio gidak↗</a> eta begiratu errore eta abisuak <a href=\"%2$s\">log fitxategian</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Egiaztatu zure Nextcloud instantziaren segurtasuna <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">gure segurtasun eskaneoa eginez ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

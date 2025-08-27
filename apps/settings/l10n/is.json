@@ -589,6 +589,10 @@
     "No devices configured." : "Engin tæki skilgreind.",
     "The following devices are configured for your account:" : "Eftirfarandi tæki eru uppsett fyrir notandaaðganginn þinn:",
     "Your browser does not support WebAuthn." : "Vafrinn þinn styður ekki WebAuthn.",
+    "Security & setup warnings" : "Öryggi og aðvaranir vegna uppsetningar",
+    "All checks passed." : "Stóðst allar prófanir.",
+    "There are some errors regarding your setup." : "Það komu upp villur varðandi uppsetninguna þína.",
+    "There are some warnings regarding your setup." : "Það komu upp viðvaranir varðandi uppsetninguna þína.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Sem stjórnandi geturðu fínstillt hegðun við deilingu. Endilega kíktu á hjálparskjölin til að sjá ítarlegri upplýsingar.",
     "You need to enable the File sharing App." : "Þú verður að virkja skráardeilingarforritið.",
     "App Store" : "Forritasafn",
@@ -676,14 +680,6 @@
     "SMTP Password" : "SMTP-lykilorð",
     "Save" : "Vista",
     "Test and verify email settings" : "Prófa og staðfesta tölvupóststillingar",
-    "Security & setup warnings" : "Öryggi og aðvaranir vegna uppsetningar",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Það er mikilvægt fyrir öryggi og afköst uppsetningarinnar þinnar að allt sé rétt stillt. Til að hjálpa við að svo sé, eru gerðar ýmsar sjálfvirkar prófanir. Skoðaðu hjálparskjölin til að sjá ítarlegar upplýsingar.",
-    "All checks passed." : "Stóðst allar prófanir.",
-    "There are some errors regarding your setup." : "Það komu upp villur varðandi uppsetninguna þína.",
-    "There are some warnings regarding your setup." : "Það komu upp viðvaranir varðandi uppsetninguna þína.",
-    "Checking for system and security issues." : "Athuga með kerfis- og öryggisvandamál.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Yfirfarðu vandlega <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">uppsetningarleiðbeiningarnar ↗</a>, og athugaðu hvort nokkrar villumeldingar eða aðvaranir séu í <a href=\"%2$s\">annálnum</a>.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Athugaðu öryggi Nextcloud-skýsins með <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">öryggisskönnun okkar ↗</a>.",
     "Reasons to use Nextcloud in your organization" : "Ástæður til að nota Nextcloud á vinnustaðnum þínum",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Þróað af {communityopen}Nextcloud samfélaginu{linkclose}, {githubopen}grunnkóðinn{linkclose} er gefinn út með {licenseopen}AGPL{linkclose} notkunarleyfinu.",
     "Like our Facebook page" : "Líkaðu við Facebook-síðuna okkar",
@@ -701,6 +697,10 @@
     "Set default expiration date for shares" : "Setja sjálfgefinn gildistíma fyrir sameignir",
     "Your biography" : "Æviágrip þitt",
     "You are using <strong>{usage}</strong>" : "Þú ert að nota <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Þú ert að nota <strong>{usage}</strong> af <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Þú ert að nota <strong>{usage}</strong> af <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Það er mikilvægt fyrir öryggi og afköst uppsetningarinnar þinnar að allt sé rétt stillt. Til að hjálpa við að svo sé, eru gerðar ýmsar sjálfvirkar prófanir. Skoðaðu hjálparskjölin til að sjá ítarlegar upplýsingar.",
+    "Checking for system and security issues." : "Athuga með kerfis- og öryggisvandamál.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Yfirfarðu vandlega <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">uppsetningarleiðbeiningarnar ↗</a>, og athugaðu hvort nokkrar villumeldingar eða aðvaranir séu í <a href=\"%2$s\">annálnum</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Athugaðu öryggi Nextcloud-skýsins með <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">öryggisskönnun okkar ↗</a>."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }
