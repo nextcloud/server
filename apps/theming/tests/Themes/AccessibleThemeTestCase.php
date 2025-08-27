@@ -188,6 +188,16 @@ class AccessibleThemeTestCase extends TestCase {
 				],
 				$textContrast,
 			],
+			'text-on-assistant-background' => [
+				[
+					'--color-main-text',
+					'--color-text-maxcontrast',
+				],
+				[
+					'--color-background-assistant',
+				],
+				$textContrast,
+			],
 		];
 	}
 

@@ -138,12 +138,6 @@ class DefaultTheme implements ITheme {
 			'--color-text-error' => $this->util->darken($colorErrorElement, 2),
 			'--color-text-success' => $this->util->darken($colorSuccessElement, 10),
 
-			// special colors for elements (providing corresponding contrast) e.g. icons
-			'--color-element-error' => $colorErrorElement,
-			'--color-element-info' => $colorInfoElement,
-			'--color-element-success' => $colorSuccessElement,
-			'--color-element-warning' => $colorWarningElement,
-
 			// border colors
 			'--color-border' => $this->util->darken($colorMainBackground, 7),
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),
@@ -151,7 +145,11 @@ class DefaultTheme implements ITheme {
 			'--color-border-error' => 'var(--color-element-error)',
 			'--color-border-success' => 'var(--color-element-success)',
 
-			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
+			// special colors for elements (providing corresponding contrast) e.g. icons
+			'--color-element-error' => $colorErrorElement,
+			'--color-element-info' => $colorInfoElement,
+			'--color-element-success' => $colorSuccessElement,
+			'--color-element-warning' => $colorWarningElement,
 
 			// error/warning/success/info feedback colors
 			'--color-error' => $colorError,
@@ -177,8 +175,18 @@ class DefaultTheme implements ITheme {
 			'--color-loading-light' => '#cccccc',
 			'--color-loading-dark' => '#444444',
 
+			// Scrollbar
+			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
+
+			// Box shadow of elements
 			'--color-box-shadow-rgb' => $colorBoxShadowRGB,
 			'--color-box-shadow' => 'rgba(var(--color-box-shadow-rgb), 0.5)',
+
+			// Assistant colors (marking AI generated content)
+			'--color-background-assistant' => '#F6F5FF', // Background for AI generated content
+			'--color-border-assistant' => 'linear-gradient(125deg, #7398FE 50%, #6104A4 125%)', // Border for AI generated content
+			'--color-element-assistant' => 'linear-gradient(238deg, #A569D3 12%, #00679E 39%, #422083 86%)', // Background of primary buttons to interact with the Assistant (e.g. generate content)
+			'--color-element-assistant-icon' => 'linear-gradient(285deg, #9669D3 15%, #00679E 40%, #492083 80%)', // The color used for the Assistant icon
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',

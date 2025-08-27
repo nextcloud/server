@@ -87,14 +87,20 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-text-error' => $this->util->lighten($colorErrorElement, 6),
 				'--color-text-success' => $this->util->lighten($colorSuccessElement, 6),
 
+				'--color-border' => $this->util->lighten($colorMainBackground, 7),
+				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
+				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 40),
+
+				// Assistant colors (see default theme)
+				'--color-background-assistant' => '#221D2B',
+				'--color-border-assistant' => 'linear-gradient(125deg, #0C3A65 50%, #6204A5 125%)',
+
 				'--color-element-error' => $colorErrorElement,
 				'--color-element-info' => $colorInfoElement,
 				'--color-element-success' => $colorSuccessElement,
 				'--color-element-warning' => $colorWarningElement,
 
-				'--color-border' => $this->util->lighten($colorMainBackground, 7),
-				'--color-border-dark' => $this->util->lighten($colorMainBackground, 14),
-				'--color-border-maxcontrast' => $this->util->lighten($colorMainBackground, 40),
+
 
 				'--color-error' => $colorError,
 				'--color-error-hover' => $this->util->lighten($colorError, 10),
