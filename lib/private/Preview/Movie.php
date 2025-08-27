@@ -135,12 +135,7 @@ class Movie extends ProviderV2 {
 
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
 
-		if ($binaryType === 'avconv') {
-			$cmd = [$this->binary, '-y', '-ss', (string)$second,
-				'-i', $absPath,
-				'-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
-				$tmpPath];
-		} elseif ($binaryType === 'ffmpeg') {
+		if ($binaryType === 'ffmpeg') {
 			if ($this->useHdr($absPath)) {
 				// Force colorspace to '2020_ncl' because some videos are
 				// tagged incorrectly as 'reserved' resulting in fail if not forced.
