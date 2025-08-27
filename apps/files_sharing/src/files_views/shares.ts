@@ -9,7 +9,7 @@ import AccountClockSvg from '@mdi/svg/svg/account-clock-outline.svg?raw'
 import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import AccountSvg from '@mdi/svg/svg/account-outline.svg?raw'
-import DeleteSvg from '@mdi/svg/svg/delete-outline.svg?raw'
+import DeleteSvg from '@mdi/svg/svg/trash-can-outline.svg?raw'
 import FileUploadSvg from '@mdi/svg/svg/file-upload-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 
