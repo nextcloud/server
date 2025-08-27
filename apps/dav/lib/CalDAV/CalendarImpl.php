@@ -11,6 +11,7 @@ namespace OCA\DAV\CalDAV;
 use Generator;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
+use OCA\DAV\Connector\Sabre\Server;
 use OCP\Calendar\CalendarExportOptions;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendarExport;
@@ -170,7 +171,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 	private function createFromStringInServer(
 		string $name,
 		string $calendarData,
-		\OCA\DAV\Connector\Sabre\Server $server,
+		Server $server,
 	): void {
 		/** @var CustomPrincipalPlugin $plugin */
 		$plugin = $server->getPlugin('auth');

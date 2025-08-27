@@ -301,7 +301,7 @@ class ViewControllerTest extends TestCase {
 		$invokedCountProvideInitialState = $this->exactly(9);
 		$this->initialState->expects($invokedCountProvideInitialState)
 			->method('provideInitialState')
-			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState) {
+			->willReturnCallback(function ($key, $data) use ($invokedCountProvideInitialState): void {
 				if ($invokedCountProvideInitialState->numberOfInvocations() === 9) {
 					$this->assertEquals('isTwoFactorEnabled', $key);
 					$this->assertTrue($data);

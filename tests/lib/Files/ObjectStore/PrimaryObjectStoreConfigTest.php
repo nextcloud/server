@@ -46,7 +46,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 				}
 			});
 		$this->config->method('setUserValue')
-			->willReturnCallback(function ($userId, $appName, $key, $value) {
+			->willReturnCallback(function ($userId, $appName, $key, $value): void {
 				$this->userConfig[$userId][$appName][$key] = $value;
 			});
 
