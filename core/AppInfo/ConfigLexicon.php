@@ -53,7 +53,7 @@ class ConfigLexicon implements ILexicon {
 					Preset::FAMILY, Preset::PRIVATE => true,
 					default => false,
 				},
-				definition: 'Allow users to set custom share link tokens',
+				definition: 'Allow users to customize share URL',
 				lazy: true,
 				note: 'Shares with guessable tokens may be accessed easily. Shares with custom tokens will continue to be accessible after this setting has been disabled.',
 			),
@@ -65,7 +65,7 @@ class ConfigLexicon implements ILexicon {
 					Preset::SCHOOL, Preset::UNIVERSITY, Preset::SHARED, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => true,
 					default => false,
 				},
-				definition: 'Enforce password protection when sharing document'
+				definition: 'Enforce password protection for shared documents'
 			),
 			new Entry(
 				key: self::SHARE_LINK_EXPIRE_DATE_DEFAULT,
@@ -74,7 +74,7 @@ class ConfigLexicon implements ILexicon {
 					Preset::SHARED, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => true,
 					default => false,
 				},
-				definition: 'Set default expiration date for shares via link or mail'
+				definition: 'Default expiration date for shares via link or mail'
 			),
 			new Entry(
 				key: self::SHARE_LINK_EXPIRE_DATE_ENFORCED,
