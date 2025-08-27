@@ -157,7 +157,7 @@ describe('files_sharing: Public share - header avatar menu', { testIsolation: tr
 		// See the note with the current name
 		cy.get('@headerMenu')
 			.findByRole('note')
-			.should('contain', 'You will be identified as Jane Doe')
+			.should('contain', 'Your guest name: Jane Doe')
 
 		cy.get('@headerMenu')
 			.findByRole('link', { name: /Change public name/i })

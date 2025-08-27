@@ -81,7 +81,7 @@ export default defineComponent({
 
 		privacyNotice(): string {
 			return this.displayName
-				? t('core', 'You will be identified as {user} by the account owner.', { user: this.displayName })
+				? t('core', 'Your guest name: {user}', { user: this.displayName })
 				: t('core', 'You are currently not identified.')
 		},
 	},
