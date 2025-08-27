@@ -67,7 +67,7 @@
 import { NcButton, NcCheckboxRadioSwitch, NcDialog } from '@nextcloud/vue'
 import { loadState } from '@nextcloud/initial-state'
 import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
-import IconUpload from 'vue-material-design-icons/Upload.vue'
+import IconUpload from 'vue-material-design-icons/TrayArrowUp.vue'
 import IconRestore from 'vue-material-design-icons/Restore.vue'
 import * as ExampleEventService from '../service/ExampleEventService.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'

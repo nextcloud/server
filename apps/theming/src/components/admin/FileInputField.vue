@@ -70,7 +70,7 @@ import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Undo from 'vue-material-design-icons/UndoVariant.vue'
-import Upload from 'vue-material-design-icons/Upload.vue'
+import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
 
 import FieldMixin from '../../mixins/admin/FieldMixin.js'
 
