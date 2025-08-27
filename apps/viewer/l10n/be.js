@@ -18,6 +18,7 @@ OC.L10N.register(
     "Undo" : "Адрабіць",
     "Redo" : "Узнавіць",
     "Filters" : "Фільтры",
+    "Value" : "Значэнне",
     "Text" : "Тэкст",
     "Size" : "Памер",
     "Quality" : "Якасць"
