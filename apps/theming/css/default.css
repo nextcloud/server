@@ -20,16 +20,15 @@
   --color-text-maxcontrast-background-blur: #595959;
   --color-text-error: #bf0000;
   --color-text-success: #066e03;
-  --color-element-error: #c90000;
-  --color-element-info: #0077C7;
-  --color-element-success: #099f05;
-  --color-element-warning: #BF7900;
   --color-border: #ededed;
   --color-border-dark: #dbdbdb;
   --color-border-maxcontrast: #7d7d7d;
   --color-border-error: var(--color-element-error);
   --color-border-success: var(--color-element-success);
-  --color-scrollbar: var(--color-border-maxcontrast) transparent;
+  --color-element-error: #c90000;
+  --color-element-info: #0077C7;
+  --color-element-success: #099f05;
+  --color-element-warning: #BF7900;
   --color-error: #FFE7E7;
   --color-error-hover: #ffc3c3;
   --color-error-text: #8A0000;
@@ -53,8 +52,18 @@
   --color-info-rgb: 213,241,250;
   --color-loading-light: #cccccc;
   --color-loading-dark: #444444;
+  --color-scrollbar: var(--color-border-maxcontrast) transparent;
   --color-box-shadow-rgb: 77,77,77;
   --color-box-shadow: rgba(var(--color-box-shadow-rgb), 0.5);
+  /* Assistant colors */
+  /* Background for AI generated content */
+  --color-background-assistant: #F6F5FF;
+  /* Border for AI generated content */
+  --color-border-assistant: linear-gradient(125deg, #7398FE 50%, #6104A4 125%);
+  /* Background for primary buttons to interact with the Assistant (e.g. generate content) */
+  --color-element-assistant: linear-gradient(238deg, #A569D3 12%, #00679E 39%, #422083 86%);
+  /* Icon color only to be used for the Assistant icon */
+  --color-element-assistant-icon: linear-gradient(285deg, #9669D3 15%, #00679E 40%, #492083 80%);
   --font-face: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --default-font-size: 15px;
   --font-size-small: 13px;
