@@ -197,7 +197,7 @@ class MovePreviewJob extends TimedJob {
 					try {
 						$this->storageFactory->migratePreview($preview, $previewFile['file']);
 						$previewFile['file']->delete();
-					} catch (Exception $e) {
+					} catch (\Exception $e) {
 						$this->previewMapper->delete($preview);
 						throw $e;
 					}

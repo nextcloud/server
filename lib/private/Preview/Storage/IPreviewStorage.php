@@ -25,6 +25,7 @@ interface IPreviewStorage {
 	 * Migration helper
 	 *
 	 * To remove at some point
+	 * @throw \Exception
 	 */
 	public function migratePreview(Preview $preview, SimpleFile $file): void;
 }
