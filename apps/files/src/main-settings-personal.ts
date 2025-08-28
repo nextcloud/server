@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
 import { getCSPNonce } from '@nextcloud/auth'
-
+import { t } from '@nextcloud/l10n'
+import Vue from 'vue'
 import PersonalSettings from './components/PersonalSettings.vue'
 
 // eslint-disable-next-line camelcase
