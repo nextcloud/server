@@ -5,9 +5,11 @@
 import type { Node, View } from '@nextcloud/files'
 
 import { DefaultType, FileAction, Permission, registerFileAction } from '@nextcloud/files'
+import { emit } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
 import svgEye from '@mdi/svg/svg/eye.svg?raw'
-import { emit } from '@nextcloud/event-bus'
+
+import logger from '../services/logger.js'
 
 /**
  * @param node The file to open
@@ -15,6 +17,12 @@ import { emit } from '@nextcloud/event-bus'
  * @param dir the directory path
  */
 function pushToHistory(node: Node, view: View, dir: string) {
+	if (!window.OCP?.Files?.Router) {
+		// No router, we're in standalone mode
+		logger.debug('No router found, skipping history push')
+		return
+	}
+
 	const editing = window.OCP.Files.Router.query.editing === 'true' ? 'true' : 'false'
 	window.OCP.Files.Router.goToRoute(
 		null,
@@ -27,13 +35,20 @@ function pushToHistory(node: Node, view: View, dir: string) {
  * @param editing True if the file is being edited
  */
 export function toggleEditor(editing = false) {
+	if (!window.OCP?.Files?.Router) {
+		// No router, we're in standalone mode
+		logger.debug('No router found, skipping toggle editor')
+		return
+	}
+
+	// Update the URL query param
 	const newQuery = { ...window.OCP.Files.Router.query, editing: editing ? 'true' : 'false' }
 	window.OCP.Files.Router.goToRoute(null, window.OCP.Files.Router.params, newQuery)
 }
 
 const onPopState = () => {
-	emit('editor:toggle', window.OCP.Files.Router.query?.editing === 'true')
-	if (window.OCP.Files.Router.query.openfile !== 'true') {
+	emit('editor:toggle', window.OCP?.Files?.Router?.query?.editing === 'true')
+	if (window.OCP?.Files?.Router?.query?.openfile !== 'true') {
 		window.OCA.Viewer.close()
 		window.removeEventListener('popstate', onPopState)
 	}
@@ -47,14 +62,21 @@ const onPopState = () => {
  */
 async function execAction(node: Node, view: View, dir: string): Promise<boolean|null> {
 	const onClose = () => {
+		// If there is no router, we're in standalone mode
+		if (!window.OCP?.Files?.Router) {
+			return
+		}
+
 		// This can sometime be called with the openfile set to true already. But we don't want to keep openfile when closing the viewer.
-		const newQuery = { ...window.OCP.Files.Router.query }
+		const newQuery = { ...window.OCP?.Files?.Router?.query }
 		delete newQuery.openfile
 		delete newQuery.editing
-		window.OCP.Files.Router.goToRoute(null, window.OCP.Files.Router.params, newQuery)
+		window.OCP?.Files?.Router?.goToRoute(null, window.OCP?.Files?.Router?.params, newQuery)
 	}
 
-	window.addEventListener('popstate', onPopState)
+	if (window.OCP?.Files?.Router) {
+		window.addEventListener('popstate', onPopState)
+	}
 
 	pushToHistory(node, view, dir)
 	window.OCA.Viewer.open({
