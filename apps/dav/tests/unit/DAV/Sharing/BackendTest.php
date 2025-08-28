@@ -304,8 +304,8 @@ class BackendTest extends TestCase {
 			->with($resourceId)
 			->willReturn($rows);
 		$this->principalBackend->expects(self::once())
-			->method('getPrincipalByPath')
-			->with($principal)
+			->method('getPrincipalPropertiesByPath')
+			->with($principal, ['uri', '{DAV:}displayname'])
 			->willReturn(['uri' => $principal, '{DAV:}displayname' => 'bob']);
 		$this->shareCache->expects(self::once())
 			->method('set')
@@ -354,8 +354,8 @@ class BackendTest extends TestCase {
 			->with($resourceId)
 			->willReturn($rows);
 		$this->principalBackend->expects(self::once())
-			->method('getPrincipalByPath')
-			->with($principal)
+			->method('getPrincipalPropertiesByPath')
+			->with($principal, ['uri', '{DAV:}displayname'])
 			->willReturn(['uri' => $principal, '{DAV:}displayname' => 'bob']);
 		$this->shareCache->expects(self::once())
 			->method('set')
@@ -392,7 +392,7 @@ class BackendTest extends TestCase {
 			->with($resourceIds)
 			->willReturn($rows);
 		$this->principalBackend->expects(self::exactly(2))
-			->method('getPrincipalByPath')
+			->method('getPrincipalPropertiesByPath')
 			->willReturnCallback(function (string $principal) use ($principalResults) {
 				switch ($principal) {
 					case 'principals/groups/bob':

@@ -85,9 +85,9 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(IConfig::class),
 				$this->createMock(IFactory::class)
 			])
-			->onlyMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
+			->onlyMethods(['getPrincipalPropertiesByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
-		$this->principal->expects($this->any())->method('getPrincipalByPath')
+		$this->principal->expects($this->any())->method('getPrincipalPropertiesByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend',
 				'{DAV:}displayname' => 'User\'s displayname',
