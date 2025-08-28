@@ -132,7 +132,9 @@ class AccountManager implements IAccountManager {
 				$property->setScope(self::SCOPE_LOCAL);
 			}
 		} else {
-			$property->setScope($property->getScope());
+			// migrate scope values to the new format
+			// invalid scopes are mapped to a default value
+			$property->setScope(AccountProperty::mapScopeToV2($property->getScope()));
 		}
 	}
 
