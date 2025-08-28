@@ -81,14 +81,14 @@ class UserMountCacheTest extends TestCase {
 	protected function tearDown(): void {
 		$builder = $this->connection->getQueryBuilder();
 
-		$builder->delete('mounts')->execute();
+		$builder->delete('mounts')->executeStatement();
 
 		$builder = $this->connection->getQueryBuilder();
 
 		foreach ($this->fileIds as $fileId) {
 			$builder->delete('filecache')
 				->where($builder->expr()->eq('fileid', new Literal($fileId)))
-				->execute();
+				->executeStatement();
 		}
 	}
 
@@ -415,7 +415,7 @@ class UserMountCacheTest extends TestCase {
 					->from('filecache')
 					->where($query->expr()->eq('storage', $query->createNamedParameter($storageId)))
 					->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5($internalPath))));
-				$id = (int)$query->execute()->fetchColumn();
+				$id = (int)$query->executeQuery()->fetchColumn();
 			} else {
 				throw $e;
 			}

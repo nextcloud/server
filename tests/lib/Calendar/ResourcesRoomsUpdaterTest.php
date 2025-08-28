@@ -62,10 +62,10 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 
 	protected function tearDown(): void {
 		$query = self::$realDatabase->getQueryBuilder();
-		$query->delete('calendar_resources')->execute();
-		$query->delete('calendar_resources_md')->execute();
-		$query->delete('calendar_rooms')->execute();
-		$query->delete('calendar_rooms_md')->execute();
+		$query->delete('calendar_resources')->executeStatement();
+		$query->delete('calendar_resources_md')->executeStatement();
+		$query->delete('calendar_rooms')->executeStatement();
+		$query->delete('calendar_rooms_md')->executeStatement();
 	}
 
 	/**
@@ -215,7 +215,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 
 		$rows = [];
 		$ids = [];
-		$stmt = $query->execute();
+		$stmt = $query->executeQuery();
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$ids[$row['backend_id'] . '::' . $row['resource_id']] = $row['id'];
 			unset($row['id']);
@@ -285,7 +285,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 		$query2->select('*')->from('calendar_resources_md');
 
 		$rows2 = [];
-		$stmt = $query2->execute();
+		$stmt = $query2->executeQuery();
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			unset($row['id']);
 			$rows2[] = $row;
@@ -345,7 +345,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('Beamer1'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query->insert('calendar_resources')
 			->values([
@@ -355,7 +355,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('TV1'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query->insert('calendar_resources')
 			->values([
@@ -365,7 +365,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('Beamer2'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 		$id3 = $query->getLastInsertId();
 
 		$query->insert('calendar_resources')
@@ -376,7 +376,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('TV2'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 		$id4 = $query->getLastInsertId();
 
 		$query->insert('calendar_resources')
@@ -387,7 +387,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('Beamer3'),
 				'group_restrictions' => $query->createNamedParameter('[]'),
 			])
-			->execute();
+			->executeStatement();
 
 		$query->insert('calendar_resources')
 			->values([
@@ -397,7 +397,7 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'displayname' => $query->createNamedParameter('Pointer'),
 				'group_restrictions' => $query->createNamedParameter('["foo", "bar"]'),
 			])
-			->execute();
+			->executeStatement();
 		$id6 = $query->getLastInsertId();
 
 		$query->insert('calendar_resources_md')
@@ -406,34 +406,34 @@ class ResourcesRoomsUpdaterTest extends TestCase {
 				'key' => $query->createNamedParameter('meta1'),
 				'value' => $query->createNamedParameter('value1')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id3),
 				'key' => $query->createNamedParameter('meta2'),
 				'value' => $query->createNamedParameter('value2')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id4),
 				'key' => $query->createNamedParameter('meta1'),
 				'value' => $query->createNamedParameter('value1')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id4),
 				'key' => $query->createNamedParameter('meta3'),
 				'value' => $query->createNamedParameter('value3-old')
 			])
-			->execute();
+			->executeStatement();
 		$query->insert('calendar_resources_md')
 			->values([
 				'resource_id' => $query->createNamedParameter($id6),
 				'key' => $query->createNamedParameter('meta99'),
 				'value' => $query->createNamedParameter('value99')
 			])
-			->execute();
+			->executeStatement();
 	}
 }

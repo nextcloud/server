@@ -28,7 +28,7 @@ class LoaderTest extends TestCase {
 			->where($deleteMimetypes->expr()->like(
 				'mimetype', $deleteMimetypes->createPositionalParameter('testing/%')
 			));
-		$deleteMimetypes->execute();
+		$deleteMimetypes->executeStatement();
 	}
 
 
@@ -38,7 +38,7 @@ class LoaderTest extends TestCase {
 			->values([
 				'mimetype' => $qb->createPositionalParameter('testing/mymimetype')
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$this->assertTrue($this->loader->exists('testing/mymimetype'));
 		$mimetypeId = $this->loader->getId('testing/mymimetype');
@@ -63,7 +63,7 @@ class LoaderTest extends TestCase {
 			->from('mimetypes')
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($mimetypeId)));
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$mimetype = $result->fetch();
 		$result->closeCursor();
 		$this->assertEquals('testing/mymimetype', $mimetype['mimetype']);
