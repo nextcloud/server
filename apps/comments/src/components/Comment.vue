@@ -95,6 +95,7 @@
 				:class="{'comment__message--expanded': expanded}"
 				:text="richContent.message"
 				:arguments="richContent.mentions"
+				use-markdown
 				@click="onExpand" />
 		</div>
 	</component>
@@ -365,12 +366,18 @@ $comment-padding: 10px;
 	&__message {
 		white-space: pre-wrap;
 		word-break: normal;
-		max-height: 70px;
-		overflow: hidden;
+		max-height: 200px;
+		overflow: auto;
+		scrollbar-gutter: stable;
+		scrollbar-width: thin;
 		margin-top: -6px;
 		&--expanded {
 			max-height: none;
 			overflow: visible;
+		}
+		:deep(img) {
+			max-width: 100%;
+			height: auto;
 		}
 	}
 }
