@@ -53,23 +53,39 @@ class Movie extends ProviderV2 {
 		}
 
 		$result = null;
+
+		// Timestamps to make attempts to generate a still
+		$timeAttempts = [5, 1, 0];
+
+		// By default, download $sizeAttempts from the file along with
+		// the 'moov' atom.
+		// Example bitrates in the higher range:
+		// 4K HDR H265 60 FPS = 75 Mbps = 9 MB per second needed for a still
+		// 1080p H265 30 FPS = 10 Mbps = 1.25 MB per second needed for a still
+		// 1080p H264 30 FPS = 16 Mbps = 2 MB per second needed for a still
+		$sizeAttempts = [1024 * 1024 * 10];
+
 		if ($this->useTempFile($file)) {
-			// Try downloading 5 MB first, as it's likely that the first frames are present there.
-			// In some cases this doesn't work, for example when the moov atom is at the
-			// end of the file, so if it fails we fall back to getting the full file.
-			// Unless the file is not local (e.g. S3) as we do not want to download the whole (e.g. 37Gb) file
 			if ($file->getStorage()->isLocal()) {
-				$sizeAttempts = [5242880, null];
-			} else {
-				$sizeAttempts = [5242880];
+				// Temp file required but file is local, so retrieve $sizeAttempt bytes first,
+				// and if it doesn't work, retrieve the entire file.
+				$sizeAttempts[] = null;
 			}
 		} else {
-			// size is irrelevant, only attempt once
+			// Temp file is not required and file is local so retrieve entire file.
 			$sizeAttempts = [null];
 		}
 
 		foreach ($sizeAttempts as $size) {
-			$absPath = $this->getLocalFile($file, $size);
+			$absPath = false;
+			// File is remote, generate a sparse file
+			if (!$file->getStorage()->isLocal()) {
+				$absPath = $this->getSparseFile($file, $size);
+			}
+			// Defaults to existing routine if generating sparse file fails
+			if ($absPath === false) {
+				$absPath = $this->getLocalFile($file, $size);
+			}
 			if ($absPath === false) {
 				Server::get(LoggerInterface::class)->error(
 					'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
@@ -78,11 +94,11 @@ class Movie extends ProviderV2 {
 				return null;
 			}
 
-			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
-			if ($result === null) {
-				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
-				if ($result === null) {
-					$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
+			// Attempt still image grabs from selected timestamps
+			foreach ($timeAttempts as $timeStamp) {
+				$result = $this->generateThumbNail($maxX, $maxY, $absPath, $timeStamp);
+				if ($result !== null) {
+					break;
 				}
 			}
 
@@ -92,8 +108,109 @@ class Movie extends ProviderV2 {
 				break;
 			}
 		}
-
 		return $result;
+	}
+
+	private function getSparseFile(File $file, int $size): string|false {
+		// File is smaller than $size or file is larger than max int size
+		// of the host so return false so getLocalFile method is used
+		if (($size >= $file->getSize()) || ($file->getSize() > PHP_INT_MAX)) {
+			return false;
+		}
+		$content = $file->fopen('r');
+
+		// Stream does not support seeking so generating a sparse file is not possible.
+		if (stream_get_meta_data($content)['seekable'] !== true) {
+			fclose($content);
+			return false;
+		}
+
+		$absPath = Server::get(ITempManager::class)->getTemporaryFile();
+		if ($absPath === false) {
+			Server::get(LoggerInterface::class)->error(
+				'Failed to get sparse file to generate thumbnail: ' . $file->getPath(),
+				['app' => 'core']
+			);
+			fclose($content);
+			return false;
+		}
+		$sparseFile = fopen($absPath, 'w');
+
+		// Firsts 4 bytes indicate length of 1st atom.
+		$ftypSize = (int)hexdec(bin2hex(stream_get_contents($content, 4, 0)));
+		// Download next 4 bytes to find name of 1st atom.
+		$ftypLabel = stream_get_contents($content, 4, 4);
+
+		// MP4/MOVs all begin with the 'ftyp' atom. Anything else is not MP4/MOV
+		// and therefore should be processed differently.
+		if ($ftypLabel === 'ftyp') {
+			// Set offset for 2nd atom. Atoms begin where the previous one ends.
+			$offset = $ftypSize;
+			$moovSize = 0;
+			$moovOffset = 0;
+			// Iterate and seek from atom to until the 'moov' atom is found or
+			// EOF is reached
+			while (($offset + 8 < $file->getSize()) && ($moovSize === 0)) {
+				// First 4 bytes of atom header indicates size of the atom.
+				$atomSize = (int)hexdec(bin2hex(stream_get_contents($content, 4, (int)$offset)));
+				// Next 4 bytes of atom header is the name/label of the atom
+				$atomLabel = stream_get_contents($content, 4, (int)($offset + 4));
+				// Size value has two special values that don't directly indicate size
+				// 0 = atom size equals the rest of the file
+				if ($atomSize === 0) {
+					$atomSize = $file->getsize() - $offset;
+				} else {
+					// 1 = read an additional 8 bytes after the label to get the 64 bit
+					// size of the atom. Needed for large atoms like 'mdat' (the video data)
+					if ($atomSize === 1) {
+						$atomSize = (int)hexdec(bin2hex(stream_get_contents($content, 8, (int)($offset + 8))));
+					}
+				}
+				// Found the 'moov' atom, store its location and size
+				if ($atomLabel === 'moov') {
+					$moovSize = $atomSize;
+					$moovOffset = $offset;
+					break;
+				}
+				$offset += $atomSize;
+			}
+			// 'moov' atom wasn't found or larger than $size
+			// 'moov' atoms are generally small relative to video length.
+			// Examples:
+			// 4K HDR H265 60 FPS, 10 second video = 12.5 KB 'moov' atom, 54 MB total file size
+			// 4K HDR H265 60 FPS, 5 minute video = 330 KB 'moov' atom, 1.95 GB total file size
+			// Capping it at $size is a precaution against a corrupt/malicious 'moov' atom.
+			// This effectively caps the total download size to 2x $size.
+			// Also, if the 'moov' atom size+offset extends past EOF, it is invalid.
+			if (($moovSize === 0) || ($moovSize > $size) || ($moovOffset + $moovSize > $file->getSize())) {
+				fclose($content);
+				fclose($sparseFile);
+				return false;
+			}
+			// Generate new file of same size
+			ftruncate($sparseFile, (int)($file->getSize()));
+			fseek($sparseFile, 0);
+			fseek($content, 0);
+			// Copy first $size bytes of video into new file
+			stream_copy_to_stream($content, $sparseFile, $size, 0);
+
+			// If 'moov' is located before $size in the video, it was already streamed,
+			// so no need to download it again.
+			if ($moovOffset >= $size) {
+				// Seek to where 'moov' atom needs to be placed
+				fseek($content, (int)$moovOffset);
+				fseek($sparseFile, (int)$moovOffset);
+				stream_copy_to_stream($content, $sparseFile, (int)$moovSize, 0);
+			}
+		} else {
+			// 'ftyp' atom not found, not a valid MP4/MOV
+			fclose($content);
+			fclose($sparseFile);
+			return false;
+		}
+		fclose($content);
+		fclose($sparseFile);
+		return $absPath;
 	}
 
 	private function useHdr(string $absPath): bool {
@@ -124,7 +241,6 @@ class Movie extends ProviderV2 {
 
 	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
 		$tmpPath = Server::get(ITempManager::class)->getTemporaryFile();
-
 		if ($tmpPath === false) {
 			Server::get(LoggerInterface::class)->error(
 				'Failed to get local file to generate thumbnail for: ' . $absPath,
