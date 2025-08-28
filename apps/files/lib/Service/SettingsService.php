@@ -8,7 +8,13 @@ declare(strict_types=1);
 namespace OCA\Files\Service;
 
 use OC\Files\FilenameValidator;
+use OCA\Files\AppInfo\Application;
+use OCA\Files\BackgroundJob\SanitizeFilenames;
+use OCP\AppFramework\Services\IAppConfig;
+use OCP\BackgroundJob\IJobList;
+use OCP\Config\IUserConfig;
 use OCP\IConfig;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class SettingsService {
@@ -30,10 +36,20 @@ class SettingsService {
 		'*',
 	];
 
+	public const STATUS_WCF_UNKNOWN = 0;
+	public const STATUS_WCF_SCHEDULED = 1;
+	public const STATUS_WCF_RUNNING = 2;
+	public const STATUS_WCF_DONE = 3;
+	public const STATUS_WCF_ERROR = 4;
+
 	public function __construct(
 		private IConfig $config,
+		private IAppConfig $appConfig,
+		private IUserConfig $userConfig,
 		private FilenameValidator $filenameValidator,
 		private LoggerInterface $logger,
+		private IUserManager $userManager,
+		private IJobList $jobList,
 	) {
 	}
 
@@ -59,5 +75,38 @@ class SettingsService {
 			'forbidden_filename_extensions' => empty($extensions) ? null : $extensions,
 		];
 		$this->config->setSystemValues($values);
+
+		// reset any sanitization status
+		$this->appConfig->deleteAppValue('sanitize_filenames_status');
+		$this->appConfig->deleteAppValue('sanitize_filenames_index');
+		$this->userConfig->deleteKey(Application::APP_ID, 'sanitize_filenames_errors');
+	}
+
+	public function isFilenameSanitizationRunning(): bool {
+		$jobs = $this->jobList->getJobsIterator(SanitizeFilenames::class, 1, 0);
+		foreach ($jobs as $job) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Get the current status of the filename sanitization.
+	 *
+	 * @psalm-return array{total: int, processed: int, status: self::STATUS_WCF_*, errors: array<string, string>}
+	 */
+	public function getSanitizationStatus(): array {
+		/** @var self::STATUS_WCF_* */
+		$status = $this->appConfig->getAppValueInt('sanitize_filenames_status');
+		$index = $this->appConfig->getAppValueInt('sanitize_filenames_index', -1);
+		$total = $this->userManager->countSeenUsers();
+		/** @var array<string, string> */
+		$errors = $this->userConfig->getValuesByUsers(Application::APP_ID, 'sanitize_filenames_errors');
+
+		if ($status === 0 && $this->isFilenameSanitizationRunning()) {
+			$status = 1; // we know its scheduled
+		}
+
+		return ['status' => $status, 'processed' => $index, 'total' => $total, 'errors' => $errors];
 	}
 }

@@ -42,7 +42,8 @@ module.exports = {
 		main: path.join(__dirname, 'apps/files/src', 'main.ts'),
 		init: path.join(__dirname, 'apps/files/src', 'init.ts'),
 		search: path.join(__dirname, 'apps/files/src/plugins/search', 'folderSearch.ts'),
-		'settings-personal': path.join(__dirname, 'apps/files/src', 'main-personal-settings.js'),
+		'settings-admin': path.join(__dirname, 'apps/files/src', 'main-settings-admin.ts'),
+		'settings-personal': path.join(__dirname, 'apps/files/src', 'main-settings-personal.ts'),
 		'reference-files': path.join(__dirname, 'apps/files/src', 'reference-files.ts'),
 	},
 	files_external: {
