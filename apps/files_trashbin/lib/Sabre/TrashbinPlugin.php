@@ -20,6 +20,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\Uri;
 
 class TrashbinPlugin extends ServerPlugin {
 	public const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';
@@ -145,7 +146,8 @@ class TrashbinPlugin extends ServerPlugin {
 	public function beforeMove(string $sourcePath, string $destinationPath): bool {
 		try {
 			$node = $this->server->tree->getNodeForPath($sourcePath);
-			$destinationNodeParent = $this->server->tree->getNodeForPath(dirname($destinationPath));
+			[$destinationDir, ] = Uri\split($destinationPath);
+			$destinationNodeParent = $this->server->tree->getNodeForPath($destinationDir);
 		} catch (\Sabre\DAV\Exception $e) {
 			\OCP\Server::get(LoggerInterface::class)
 				->error($e->getMessage(), ['app' => 'files_trashbin', 'exception' => $e]);
