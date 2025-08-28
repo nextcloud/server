@@ -39,14 +39,14 @@ class DisableSystemAddressBook implements IRepairStep {
 	 * @inheritdoc
 	 */
 	public function run(IOutput $output) {
-		$output->info("Running repair step to disable system address book");
+		$output->info('Running repair step to disable system address book');
 		if ($this->serverVersion->getMajorVersion() !== 32) {
-			$output->info("Skipping repair step system address book this only applies to Nextcloud 32");
+			$output->info('Skipping repair step system address book this only applies to Nextcloud 32');
 			return;
 		}
 		// If the system address book is not exposed there is nothing to do
 		if ($this->appConfig->getAppValueBool('system_addressbook_exposed', true) === false) {
-			$output->info("Skipping repair step system address book is already disabled");
+			$output->info('Skipping repair step system address book is already disabled');
 			return;
 		}
 		// We use count seen because getting a user count from the backend can be very slow
