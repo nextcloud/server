@@ -26,10 +26,7 @@ class MovieTest extends Provider {
 
 	protected function setUp(): void {
 		$binaryFinder = Server::get(IBinaryFinder::class);
-		$movieBinary = $binaryFinder->findBinaryPath('avconv');
-		if (!is_string($movieBinary)) {
-			$movieBinary = $binaryFinder->findBinaryPath('ffmpeg');
-		}
+		$movieBinary = $binaryFinder->findBinaryPath('ffmpeg');
 
 		if (is_string($movieBinary)) {
 			parent::setUp();
