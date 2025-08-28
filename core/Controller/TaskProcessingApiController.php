@@ -13,7 +13,6 @@ namespace OC\Core\Controller;
 use OC\Core\ResponseDefinitions;
 use OC\Files\SimpleFS\SimpleFile;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\ExAppRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -64,7 +63,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: Task types returned
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasktypes', root: '/taskprocessing')]
 	public function taskTypes(): DataResponse {
 		$taskTypes = array_map(function (array $tt) {
@@ -115,9 +114,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 412: Scheduling task is not possible
 	 * 401: Cannot schedule task because it references files in its input that the user doesn't have access to
 	 */
-	#[PublicPage]
 	#[UserRateLimit(limit: 20, period: 120)]
-	#[AnonRateLimit(limit: 5, period: 120)]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/taskprocessing')]
 	public function schedule(
 		array $input, string $type, string $appId, string $customId = '',
@@ -158,7 +156,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}', root: '/taskprocessing')]
 	public function getTask(int $id): DataResponse {
 		try {
