@@ -56,10 +56,10 @@ class FakeManager implements ICommentsManager {
 		return [];
 	}
 
-	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = '') {
+	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = ''): int {
 	}
 
-	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = '') :array {
+	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = ''): array {
 		return array_fill_keys($objectIds, 0);
 	}
 
