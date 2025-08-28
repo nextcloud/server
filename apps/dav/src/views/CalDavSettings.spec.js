@@ -17,7 +17,15 @@ jest.mock('@nextcloud/router', () => {
 })
 jest.mock('@nextcloud/initial-state', () => {
 	return {
-		loadState: jest.fn(() => 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars'),
+		loadState: jest.fn((app, key, fallback) => {
+			if (app === 'core' && key === 'config') {
+				return globalThis.OC.config
+			} else if (app === 'dav' && key === 'userSyncCalendarsDocUrl') {
+				return 'https://docs.nextcloud.com/server/30/go.php?to=user-sync-calendars'
+			} else {
+				return fallback
+			}
+		}),
 	}
 })
 
