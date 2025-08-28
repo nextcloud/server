@@ -196,7 +196,7 @@ class PrimaryObjectStoreConfig {
 			if (!isset($config['arguments']['bucket'])) {
 				$config['arguments']['bucket'] = '';
 			}
-			$mapper = new Mapper($user, $this->config);
+			$mapper = new Mapper($user, $config);
 			$numBuckets = $config['arguments']['num_buckets'] ?? 64;
 			$bucket = $config['arguments']['bucket'] . $mapper->getBucket($numBuckets);
 
