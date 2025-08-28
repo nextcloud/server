@@ -181,7 +181,7 @@ interface ICommentsManager {
 	 * @param \DateTime|null $notOlderThan optional, timestamp of the oldest comments
 	 *                                     that may be returned
 	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
-	 * @return Int
+	 * @return int
 	 * @since 9.0.0
 	 */
 	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = '');
@@ -195,7 +195,7 @@ interface ICommentsManager {
 	 * @return array<string, int>
 	 * @since 32.0.0
 	 */
-	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = '');
+	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = ''): array;
 
 	/**
 	 * @param string $objectType the object type, e.g. 'files'
