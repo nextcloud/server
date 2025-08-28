@@ -226,6 +226,7 @@ OC.L10N.register(
     "Your browser does not support WebAuthn." : "Browserul dvs. nu acceptă WebAuthn.",
     "Security & setup warnings" : "Alerte de securitate & configurare",
     "All checks passed." : "Toate verificările s-au terminat fără erori.",
+    "Apply" : "Aplică",
     "Admins" : "Administratori",
     "Sending…" : "Se trimite...",
     "Email sent" : "Mesajul a fost expediat",

@@ -326,7 +326,6 @@
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Форму авторизації у хмарі Nextcloud вимкнено. Скористайтеся іншим способом входу, якщо є така можливість, або сконтактуйте з адміністратором.",
     "More actions" : "Більше дій",
     "User menu" : "Меню користувача",
-    "You will be identified as {user} by the account owner." : "Вас буде визначено як {user} власником облікового запису.",
     "You are currently not identified." : "Вас не визначено.",
     "Set public name" : "Встановити загальне ім'я",
     "Change public name" : "Змінити загальне ім'я",

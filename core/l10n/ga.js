@@ -328,7 +328,6 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Tá foirm logáil isteach Nextcloud díchumasaithe. Úsáid rogha logáil isteach eile má tá sé ar fáil nó déan teagmháil le do lucht riaracháin.",
     "More actions" : "Tuilleadh gníomhartha",
     "User menu" : "Roghchlár úsáideora",
-    "You will be identified as {user} by the account owner." : "Aithneoidh úinéir an chuntais thú mar {user}.",
     "You are currently not identified." : "Níl aitheantas tugtha duit faoi láthair.",
     "Set public name" : "Socraigh ainm poiblí",
     "Change public name" : "Athraigh ainm poiblí",

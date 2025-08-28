@@ -215,6 +215,8 @@
     "Error, please enter proper password and/or expiration date" : "Viga, palun sisesta korrektne salasõna ja/või aegumise kuupäev",
     "Link share created" : "Lingi jagamine on loodud",
     "Error while creating the share" : "Viga jaosmeedia loomisel",
+    "Your browser does not support copying, please copy the link manually:" : "Sinu veebibrauser ei toeta kopeerimist, palun kopeeri link käsitsi:",
+    "Successfully copied public link" : "Avaliku lingi kopeerimine õnnestus",
     "Please enter the following required information before creating the share" : "Enne jaosmeedia loomist palun sisesta järgmine vajalik teave",
     "Password protection (enforced)" : "Paroolikaitse (jõustatud)",
     "Password protection" : "Password protection",

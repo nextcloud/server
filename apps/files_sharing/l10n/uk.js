@@ -217,6 +217,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Помилка. Будь ласка, зазначте правильний пароль та/або термін дії",
     "Link share created" : "Створено посилання на спільний ресурс",
     "Error while creating the share" : "Помилка під час створення спільного ресурсу",
+    "Your browser does not support copying, please copy the link manually:" : "Ваш бравзер не підтримує копіювання, скопіюйте посилання вручну:",
+    "Successfully copied public link" : "Успішно скопійовано публічне посилання",
     "Please enter the following required information before creating the share" : "Зазначте такі дані перед наданням у публічний доступ",
     "Password protection (enforced)" : "Захист паролем (обов'язково)",
     "Password protection" : "Захист паролем",

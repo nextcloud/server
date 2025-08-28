@@ -326,7 +326,6 @@
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Das Nextcloud-Anmeldeformular ist deaktiviert. Nutzen Sie ggf. eine andere Anmeldemöglichkeit oder wenden Sie sich an Ihre Administration.",
     "More actions" : "Weitere Aktionen",
     "User menu" : "Benutzermenü",
-    "You will be identified as {user} by the account owner." : "Sie werden vom Kontoinhaber als {user} identifiziert.",
     "You are currently not identified." : "Sie sind derzeit nicht identifiziert.",
     "Set public name" : "Öffentlichen Namen festlegen",
     "Change public name" : "Öffentlichen Namen ändern",

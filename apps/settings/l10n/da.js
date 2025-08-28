@@ -787,6 +787,7 @@ OC.L10N.register(
     "Developer documentation ↗" : "Udviklerdokumentation ↗",
     "Version {version}, {license}-licensed" : "Version {version}, {license}-licenseret",
     "Version {version}" : "Version {version}",
+    "Apply" : "Anvend",
     "All accounts" : "Alle konti",
     "Admins" : "Administratorer",
     "Account group: {group}" : "Konto gruppe: {group}",

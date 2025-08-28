@@ -326,7 +326,6 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Диалог входа отключен. Используйте другой способ входа или свяжитесь с администратором.",
     "More actions" : "Больше действий",
     "User menu" : "Меню пользователя",
-    "You will be identified as {user} by the account owner." : "Владелец учётной записи будет видеть вас как {user}.",
     "You are currently not identified." : "В данный момент вы не идентифицированы.",
     "Set public name" : "Задать публичное имя",
     "Change public name" : "Изменить публичное имя",

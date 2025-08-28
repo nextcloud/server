@@ -326,7 +326,6 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Fomu ya kuingia ya Nextcloud imezimwa. Tumia chaguo jingine la kuingia ikiwa linapatikana au wasiliana na utawala wako.",
     "More actions" : "Vitendo zaidi",
     "User menu" : "Mwongozo wa mtumiaji",
-    "You will be identified as {user} by the account owner." : "Utatambulika kama {user} na mmiliki wa akaunti",
     "You are currently not identified." : "Kwa sasa hutambuliki",
     "Set public name" : "Pangilia jina la umma",
     "Change public name" : "Badili jina la umma",

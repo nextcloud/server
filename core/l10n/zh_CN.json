@@ -326,7 +326,6 @@
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud 登录表单已禁用。如果可以，请使用其他登录选项或联系你的管理人员。",
     "More actions" : "更多操作 ",
     "User menu" : "用户菜单",
-    "You will be identified as {user} by the account owner." : "账号所有者会将您标识为 {user}。",
     "You are currently not identified." : "您当前未被标识。",
     "Set public name" : "设置公开名称",
     "Change public name" : "更改公开名称",

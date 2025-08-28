@@ -326,7 +326,6 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Het aanmeldingsformulier van Nextcloud is uitgeschakeld. Gebruik een andere inlogmogelijkheid indien beschikbaar of neem contact op met uw beheerder.",
     "More actions" : "Meer acties",
     "User menu" : "Gebruikersmenu",
-    "You will be identified as {user} by the account owner." : "Je zal door de account eigenaar worden geïdentificeerd als {user}.",
     "You are currently not identified." : "Je bent momenteel niet geïdentificeerd.",
     "Set public name" : "Publieke naam instellen",
     "Change public name" : "Publieke naam veranderen",

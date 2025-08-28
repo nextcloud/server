@@ -187,6 +187,7 @@ OC.L10N.register(
     "Try again" : "სცადეთ ახლიდან",
     "All checks passed." : "ყველა შემოწმებამ ჩაიარა დადებითად.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "როგორც ადმინისტრატორს შეგიძლიათ გაზიარების ქცევის კორექტირება. დამატებითი ინფორმაციისთვის იხილეთ დოკუმენტაცია.",
+    "Apply" : "გამოყენება",
     "Admins" : "ადმინისტრატორები",
     "Sending…" : "იგზავნება…",
     "Email sent" : "ელ-წერილი გაიგზავნა",

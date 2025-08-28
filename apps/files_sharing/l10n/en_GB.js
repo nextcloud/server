@@ -217,6 +217,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Error, please enter proper password and/or expiration date",
     "Link share created" : "Link share created",
     "Error while creating the share" : "Error while creating the share",
+    "Your browser does not support copying, please copy the link manually:" : "Your browser does not support copying, please copy the link manually:",
+    "Successfully copied public link" : "Successfully copied public link",
     "Please enter the following required information before creating the share" : "Please enter the following required information before creating the share",
     "Password protection (enforced)" : "Password protection (enforced)",
     "Password protection" : "Password protection",

@@ -217,6 +217,7 @@ OC.L10N.register(
     "All checks passed." : "ผ่านการตรวจสอบทั้งหมด",
     "There are some errors regarding your setup." : "มีข้อผิดพลาดบางอย่างเกี่ยวกับการติดตั้งของคุณ",
     "There are some warnings regarding your setup." : "มีคำเตือนบางอย่างเกี่ยวกับการติดตั้งของคุณ",
+    "Apply" : "นำไปใช้",
     "Admins" : "ผู้ดูแลระบบ",
     "Sending…" : "กำลังส่ง....",
     "Email sent" : "ส่งอีเมลแล้ว",
