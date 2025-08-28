@@ -182,7 +182,8 @@ export default {
 				if (data.status === 'success') {
 					this.handleAvatarUpdate(false)
 				} else if (data.data === 'notsquare') {
-					this.$refs.cropper.replace(data.image)
+					const tempAvatar = generateUrl('/avatar/tmp') + '?requesttoken=' + encodeURIComponent(OC.requestToken) + '#' + Math.floor(Math.random() * 1000)
+					this.$refs.cropper.replace(tempAvatar)
 					this.showCropper = true
 				} else {
 					showError(data.data.message)

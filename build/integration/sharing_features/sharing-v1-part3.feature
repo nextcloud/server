@@ -46,7 +46,7 @@ Feature: sharing
   Scenario: Correct webdav share-permissions for owned folder
     Given user "user0" exists
     And user "user0" created a folder "/tmp"
-    When as "user0" gets properties of folder "/tmp" with
+    When as "user0" gets properties of folder "/" with
       |{http://open-collaboration-services.org/ns}share-permissions |
     Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "31"
 
