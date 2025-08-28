@@ -430,9 +430,10 @@ class FileEventsListener implements IEventListener {
 			$owner = null;
 		}
 
-		// If no owner, extract it from the path.
-		// e.g. /user/files/foobar.txt
-		if (!$owner) {
+		// If no owner, extract it from the path, e.g. /user/files/foobar.txt
+		// Also try this if they are the same, because it might be a group folder that the user does not have access to
+		// E.g. where filling in a form with a spreadsheet attached
+		if (!$owner || $owner == $user) {
 			$parts = explode('/', $node->getPath(), 4);
 			if (count($parts) === 4) {
 				$owner = $parts[1];
