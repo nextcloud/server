@@ -72,7 +72,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		}
 		$this->createParentFiles($previewPath);
 		echo 'Copying ' . $sourcePath . ' to ' . $destinationPath . PHP_EOL;
-		$ok = copy($sourcePath, $destinationPath);
+		$ok = rename($sourcePath, $destinationPath);
 		if (!$ok) {
 			throw new LogicException('Failed to copy ' . $sourcePath . ' to ' . $destinationPath);
 		}

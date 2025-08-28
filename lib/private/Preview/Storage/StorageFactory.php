@@ -33,11 +33,8 @@ class StorageFactory implements IPreviewStorage {
 			return $this->backend;
 		}
 
-		$objectStoreConfig = $this->objectStoreConfig->getObjectStoreConfigForRoot();
-
-		if ($objectStoreConfig) {
-			$objectStore = $this->objectStoreConfig->buildObjectStore($objectStoreConfig);
-			$this->backend = new ObjectStorePreviewStorage($objectStore, $objectStoreConfig['arguments']);
+		if ($this->objectStoreConfig->hasObjectStore()) {
+			$this->backend = new ObjectStorePreviewStorage($this->objectStoreConfig, $this->config);
 		} else {
 			$this->backend = new LocalPreviewStorage($this->config);
 		}

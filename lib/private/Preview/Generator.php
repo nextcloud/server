@@ -174,6 +174,7 @@ class Generator {
 					if ($maxPreviewImage === null) {
 						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
 					}
+					assert($maxPreviewImage);
 
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
 					$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
@@ -324,6 +325,7 @@ class Generator {
 			}
 
 			foreach ($providers as $providerClosure) {
+
 				$provider = $this->helper->getProvider($providerClosure);
 				if (!($provider instanceof IProviderV2)) {
 					continue;
@@ -351,7 +353,7 @@ class Generator {
 				}
 
 				try {
-					return $this->savePreview($file, $width, $height, $crop, $max, $preview, $version);
+					return $this->savePreview($file, $preview->width(), $preview->height(), $crop, $max, $preview, $version);
 				} catch (NotPermittedException $e) {
 					throw new NotFoundException();
 				}
@@ -545,7 +547,7 @@ class Generator {
 	public function savePreview(File $file, int $width, int $height, bool $crop, bool $max, IImage $preview, int $version): Preview {
 		$previewEntry = new Preview();
 		$previewEntry->setFileId($file->getId());
-		$previewEntry->setStorageId((int)$file->getStorage()->getId());
+		$previewEntry->setStorageId((int)$file->getMountPoint()->getNumericStorageId());
 		$previewEntry->setWidth($width);
 		$previewEntry->setHeight($height);
 		$previewEntry->setVersion($version);
