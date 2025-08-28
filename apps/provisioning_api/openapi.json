@@ -407,10 +407,7 @@
                     "v2-private",
                     "v2-local",
                     "v2-federated",
-                    "v2-published",
-                    "private",
-                    "contacts",
-                    "public"
+                    "v2-published"
                 ]
             }
         }
