@@ -55,11 +55,16 @@ class AccountProperty implements IAccountProperty {
 	 * @since 15.0.0
 	 */
 	public function setScope(string $scope): IAccountProperty {
-		if (!in_array($scope, IAccountManager::ALLOWED_SCOPES, )) {
+		$newScope = $this->mapScopeToV2($scope);
+		if (!in_array($newScope, [
+			IAccountManager::SCOPE_LOCAL,
+			IAccountManager::SCOPE_FEDERATED,
+			IAccountManager::SCOPE_PRIVATE,
+			IAccountManager::SCOPE_PUBLISHED
+		])) {
 			throw new InvalidArgumentException('Invalid scope');
 		}
-		/** @var IAccountManager::SCOPE_* $scope */
-		$this->scope = $scope;
+		$this->scope = $newScope;
 		return $this;
 	}
 
@@ -98,6 +103,19 @@ class AccountProperty implements IAccountProperty {
 	 */
 	public function getScope(): string {
 		return $this->scope;
+	}
+
+	public static function mapScopeToV2(string $scope): string {
+		if (str_starts_with($scope, 'v2-')) {
+			return $scope;
+		}
+
+		return match ($scope) {
+			'private', '' => IAccountManager::SCOPE_LOCAL,
+			'contacts' => IAccountManager::SCOPE_FEDERATED,
+			'public' => IAccountManager::SCOPE_PUBLISHED,
+			default => $scope,
+		};
 	}
 
 	/**

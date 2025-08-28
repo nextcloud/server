@@ -18,7 +18,7 @@ namespace OCA\Provisioning_API;
  *     used?: float|int,
  * }
  *
- * @psalm-type Provisioning_APIUserDetailsScope = 'v2-private'|'v2-local'|'v2-federated'|'v2-published'|'private'|'contacts'|'public'
+ * @psalm-type Provisioning_APIUserDetailsScope = 'v2-private'|'v2-local'|'v2-federated'|'v2-published'
  *
  * @psalm-type Provisioning_APIUserDetails = array{
  *     additional_mail: list<string>,
