@@ -387,16 +387,16 @@ class OC {
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', 'true');
 
+		// set the cookie path to the Nextcloud directory
+		$cookie_path = OC::$WEBROOT ? : '/';
+		ini_set('session.cookie_path', $cookie_path);
+
 		// Do not initialize sessions for 'status.php' requests
 		// Monitoring endpoints can quickly flood session handlers
 		// and 'status.php' doesn't require sessions anyway
 		if (str_ends_with($request->getScriptName(), '/status.php')) {
 			return;
 		}
-
-		// set the cookie path to the Nextcloud directory
-		$cookie_path = OC::$WEBROOT ? : '/';
-		ini_set('session.cookie_path', $cookie_path);
 
 		// Let the session name be changed in the initSession Hook
 		$sessionName = OC_Util::getInstanceId();
