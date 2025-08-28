@@ -243,6 +243,7 @@ OC.L10N.register(
     "There are some errors regarding your setup." : "Estas kelkaj eraroj pri via instalaĵo.",
     "There are some warnings regarding your setup." : "Estas kelkaj avertoj pri via instalaĵo.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Kiel administranto, vi povas agordi plidetale la kunhavigon. Bv. vidi la dokumentaron pri tio.",
+    "Apply" : "Validigi",
     "Admins" : "Administrantoj",
     "Sending…" : "Sendado...",
     "Email sent" : "La retpoŝtaĵo sendiĝis",

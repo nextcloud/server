@@ -268,6 +268,7 @@ OC.L10N.register(
     "All checks passed." : "Semua pemeriksaan lulus.",
     "There are some errors regarding your setup." : "Terdapat beberapa galat terkait dengan setup Anda.",
     "There are some warnings regarding your setup." : "Terdapat beberapa peringatan terkait dengan setup Anda.",
+    "Apply" : "Terapkan",
     "Admins" : "Admin",
     "Sending…" : "Mengirim…",
     "Email sent" : "Email terkirim",

@@ -217,6 +217,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Fehler. Bitte gebe das richtige Passwort und/oder Ablaufdatum ein",
     "Link share created" : "Link-Freigabe erstellt",
     "Error while creating the share" : "Fehler beim Erstellen der Freigabe",
+    "Your browser does not support copying, please copy the link manually:" : "Dieser Browser unterstützt das Kopieren nicht. Bitte den Link manuell kopieren:",
+    "Successfully copied public link" : "Der öffentliche Link wurde kopiert",
     "Please enter the following required information before creating the share" : "Vor Erstellen der Freigabe bitte die erforderlichen Informationen eingeben",
     "Password protection (enforced)" : "Passwortschutz (erzwungen)",
     "Password protection" : "Passwortschutz",

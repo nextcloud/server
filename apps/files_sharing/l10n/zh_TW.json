@@ -215,6 +215,8 @@
     "Error, please enter proper password and/or expiration date" : "錯誤，請輸入適當的密碼及/或到期日",
     "Link share created" : "建立了連結分享",
     "Error while creating the share" : "建立分享時發生錯誤",
+    "Your browser does not support copying, please copy the link manually:" : "您的瀏覽器不支援複製功能，請手動複製連結：",
+    "Successfully copied public link" : "複製公開連結成功",
     "Please enter the following required information before creating the share" : "在建立分享前，請輸入以下的必要資訊",
     "Password protection (enforced)" : "密碼保護（強制）",
     "Password protection" : "密碼保護",

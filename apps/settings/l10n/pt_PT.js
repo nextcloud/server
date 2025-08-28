@@ -244,6 +244,7 @@ OC.L10N.register(
     "Security & setup warnings" : "Avisos de configuração e segurança",
     "All checks passed." : "Todas as verificações passaram.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador pode afinar o comportamento de partilha. Por favor veja a documentação para mais informação.",
+    "Apply" : "Aplicar",
     "Admins" : "Administrador",
     "Sending…" : "A enviar...",
     "Email sent" : "Mensagem de correio eletrónico enviada",

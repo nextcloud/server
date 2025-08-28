@@ -186,6 +186,7 @@ OC.L10N.register(
     "Try again" : "Reintentar",
     "All checks passed." : "Pasaron todas las verificaciones. ",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador, puedes hacer ajustes finos al comportamiento de compartir. Por favor consulta la documentación para más información. ",
+    "Apply" : "Aplicar",
     "Admins" : "Administradores",
     "Sending…" : "Enviando...",
     "Email sent" : "Correo electrónico enviado",

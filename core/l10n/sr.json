@@ -326,7 +326,6 @@
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud формулар за пријаву је искључен. Ако је доступна, користите неку другу могућност пријаве, или се обратите администрацији.",
     "More actions" : "Још акција",
     "User menu" : "Кориснички мени",
-    "You will be identified as {user} by the account owner." : "Власник налога ће вас идентификовати као {user}.",
     "You are currently not identified." : "Тренутно нисте идентификовани.",
     "Set public name" : "Постави јавно име",
     "Change public name" : "Измени јавно име",

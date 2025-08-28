@@ -326,7 +326,6 @@
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "A Nextcloud bejelentkezési űrlap le van tiltva. Használjon más bejelentkezési lehetőséget, ha van ilyen, vagy lépjen kapcsolatba az adminisztrációval.",
     "More actions" : "További műveletek",
     "User menu" : "Felhasználói menü",
-    "You will be identified as {user} by the account owner." : "A fióktulajdonos által {user} felhasználóként lesz azonosítva.",
     "You are currently not identified." : "Jelenleg nincs azonosítva.",
     "Set public name" : "Nyilvános név beállítása",
     "Change public name" : "Nyilvános név módosítása",

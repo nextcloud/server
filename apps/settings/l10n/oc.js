@@ -177,6 +177,7 @@ OC.L10N.register(
     "Passwordless Authentication" : "Autentificacion sens senhal",
     "No devices configured." : "Cap de periferic pas configurat.",
     "Your browser does not support WebAuthn." : "Vòstre navigador es pas compatible amb WebAuthn.",
+    "Apply" : "Aplicar",
     "Admins" : "Admins",
     "Sending…" : "Mandadís…",
     "Email sent" : "Corrièl mandat",

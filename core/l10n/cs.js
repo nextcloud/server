@@ -328,7 +328,6 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Přihlašovací formulář je v Nextcloud vypnutý. Použijte jinou možnost přihlášení nebo se obraťte na svého správce.",
     "More actions" : "Další akce",
     "User menu" : "Nabídka uživatele",
-    "You will be identified as {user} by the account owner." : "Vlastníkem účtu budete identifikováni jako {user}.",
     "You are currently not identified." : "V tuto chvíli nejste identifikováni.",
     "Set public name" : "Nastavit veřejné jméno",
     "Change public name" : "Změnit veřejné jméno",
