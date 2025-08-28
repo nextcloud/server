@@ -117,7 +117,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.29.1
+	- version: 8.29.2
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.3.0
