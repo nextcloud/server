@@ -18,8 +18,6 @@
  * preprocessor, which is needed to be able to debug tests properly in a browser.
  */
 
-const { existsSync } = require('node:fs');
-
 if (!process.env.CHROMIUM_BIN) {
 	const chrome = require('puppeteer').executablePath()
 	process.env.CHROMIUM_BIN = chrome
