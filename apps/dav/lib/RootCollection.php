@@ -10,6 +10,7 @@ namespace OCA\DAV;
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\CalendarFactory;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
@@ -63,6 +64,7 @@ class RootCollection extends SimpleCollection {
 		$proxyMapper = Server::get(ProxyMapper::class);
 		$rootFolder = Server::get(IRootFolder::class);
 		$federatedCalendarFactory = Server::get(FederatedCalendarFactory::class);
+		$calendarFactory = Server::get(CalendarFactory::class);
 
 		$userPrincipalBackend = new Principal(
 			$userManager,
@@ -110,18 +112,18 @@ class RootCollection extends SimpleCollection {
 			Server::get(FederatedCalendarMapper::class),
 			false,
 		);
-		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users', $logger, $l10n, $config, $federatedCalendarFactory);
+		$userCalendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users', $federatedCalendarFactory, $calendarFactory);
 		$userCalendarRoot->disableListing = $disableListing;
 
-		$remoteUserCalendarRoot = new CalendarRoot($remoteUserPrincipalBackend, $caldavBackend, RemoteUserPrincipalBackend::PRINCIPAL_PREFIX, $logger, $l10n, $config, $federatedCalendarFactory);
+		$remoteUserCalendarRoot = new CalendarRoot($remoteUserPrincipalBackend, $caldavBackend, RemoteUserPrincipalBackend::PRINCIPAL_PREFIX, $federatedCalendarFactory, $calendarFactory);
 		$remoteUserCalendarRoot->disableListing = $disableListing;
 
-		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources', $logger, $l10n, $config, $federatedCalendarFactory);
+		$resourceCalendarRoot = new CalendarRoot($calendarResourcePrincipalBackend, $caldavBackend, 'principals/calendar-resources', $federatedCalendarFactory, $calendarFactory);
 		$resourceCalendarRoot->disableListing = $disableListing;
-		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms', $logger, $l10n, $config, $federatedCalendarFactory);
+		$roomCalendarRoot = new CalendarRoot($calendarRoomPrincipalBackend, $caldavBackend, 'principals/calendar-rooms', $federatedCalendarFactory, $calendarFactory);
 		$roomCalendarRoot->disableListing = $disableListing;
 
-		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $l10n, $config, $logger);
+		$publicCalendarRoot = new PublicCalendarRoot($caldavBackend, $calendarFactory);
 
 		$systemTagCollection = Server::get(SystemTagsByIdCollection::class);
 		$systemTagRelationsCollection = new SystemTagsRelationsCollection(

@@ -10,11 +10,8 @@ namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\Calendar;
-use OCP\IConfig;
-use OCP\IL10N;
+use OCA\DAV\CalDAV\CalendarFactory;
 use OCP\IUserManager;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,10 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DeleteCalendar extends Command {
 	public function __construct(
 		private CalDavBackend $calDav,
-		private IConfig $config,
-		private IL10N $l10n,
 		private IUserManager $userManager,
-		private LoggerInterface $logger,
+		private readonly CalendarFactory $calendarFactory,
 	) {
 		parent::__construct();
 	}
@@ -83,13 +78,7 @@ class DeleteCalendar extends Command {
 				'User <' . $user . '> has no calendar named <' . $name . '>. You can run occ dav:list-calendars to list calendars URIs for this user.');
 		}
 
-		$calendar = new Calendar(
-			$this->calDav,
-			$calendarInfo,
-			$this->l10n,
-			$this->config,
-			$this->logger
-		);
+		$calendar = $this->calendarFactory->createCalendar($calendarInfo);
 
 		$force = $input->getOption('force');
 		if ($force) {

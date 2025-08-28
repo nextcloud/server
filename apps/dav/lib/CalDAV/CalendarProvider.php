@@ -12,18 +12,13 @@ use OCA\DAV\CalDAV\Federation\FederatedCalendarImpl;
 use OCA\DAV\Db\Property;
 use OCA\DAV\Db\PropertyMapper;
 use OCP\Calendar\ICalendarProvider;
-use OCP\IConfig;
-use OCP\IL10N;
-use Psr\Log\LoggerInterface;
 
 class CalendarProvider implements ICalendarProvider {
 
 	public function __construct(
 		private CalDavBackend $calDavBackend,
-		private IL10N $l10n,
-		private IConfig $config,
-		private LoggerInterface $logger,
 		private PropertyMapper $propertyMapper,
+		private readonly CalendarFactory $calendarFactory,
 	) {
 	}
 
@@ -52,7 +47,7 @@ class CalendarProvider implements ICalendarProvider {
 
 			$calendarInfo = array_merge($calendarInfo, $additionalProperties[$path] ?? []);
 
-			$calendar = new Calendar($this->calDavBackend, $calendarInfo, $this->l10n, $this->config, $this->logger);
+			$calendar = $this->calendarFactory->createCalendar($calendarInfo);
 			$iCalendars[] = new CalendarImpl(
 				$calendar,
 				$calendarInfo,

@@ -55,6 +55,7 @@ return array(
     'OCA\\DAV\\CalDAV\\CachedSubscriptionProvider' => $baseDir . '/../lib/CalDAV/CachedSubscriptionProvider.php',
     'OCA\\DAV\\CalDAV\\CalDavBackend' => $baseDir . '/../lib/CalDAV/CalDavBackend.php',
     'OCA\\DAV\\CalDAV\\Calendar' => $baseDir . '/../lib/CalDAV/Calendar.php',
+    'OCA\\DAV\\CalDAV\\CalendarFactory' => $baseDir . '/../lib/CalDAV/CalendarFactory.php',
     'OCA\\DAV\\CalDAV\\CalendarHome' => $baseDir . '/../lib/CalDAV/CalendarHome.php',
     'OCA\\DAV\\CalDAV\\CalendarImpl' => $baseDir . '/../lib/CalDAV/CalendarImpl.php',
     'OCA\\DAV\\CalDAV\\CalendarManager' => $baseDir . '/../lib/CalDAV/CalendarManager.php',
