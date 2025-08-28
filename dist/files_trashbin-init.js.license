@@ -19,7 +19,6 @@ SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
-SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
 SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
 SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
@@ -88,7 +87,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.28.0
+	- version: 8.29.2
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.3.0
