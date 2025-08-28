@@ -43,6 +43,8 @@ use OCP\Calendar\Exceptions\CalendarException;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
@@ -202,6 +204,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	private string $dbObjectInvitationsTable = 'calendar_invitations';
 	private array $cachedObjects = [];
 
+	private readonly ICache $publishStatusCache;
+
 	public function __construct(
 		private IDBConnection $db,
 		private Principal $principalBackend,
@@ -212,8 +216,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		private IConfig $config,
 		private Sharing\Backend $calendarSharingBackend,
 		private FederatedCalendarMapper $federatedCalendarMapper,
+		ICacheFactory $cacheFactory,
 		private bool $legacyEndpoint = false,
 	) {
+		$this->publishStatusCache = $cacheFactory->createInMemory();
 	}
 
 	/**
@@ -923,6 +929,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return void
 	 */
 	public function deleteCalendar($calendarId, bool $forceDeletePermanently = false) {
+		$this->publishStatusCache->remove((string)$calendarId);
+
 		$this->atomic(function () use ($calendarId, $forceDeletePermanently): void {
 			// The calendar is deleted right away if this is either enforced by the caller
 			// or the special contacts birthday calendar or when the preference of an empty
@@ -3221,7 +3229,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return string|null
 	 */
 	public function setPublishStatus($value, $calendar) {
-		return $this->atomic(function () use ($value, $calendar) {
+		$publishStatus = $this->atomic(function () use ($value, $calendar) {
 			$calendarId = $calendar->getResourceId();
 			$calendarData = $this->getCalendarById($calendarId);
 
@@ -3249,13 +3257,21 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$this->dispatcher->dispatchTyped(new CalendarUnpublishedEvent($calendarId, $calendarData));
 			return null;
 		}, $this->db);
+
+		$this->publishStatusCache->set((string)$calendar->getResourceId(), $publishStatus ?? false);
+		return $publishStatus;
 	}
 
 	/**
 	 * @param Calendar $calendar
-	 * @return mixed
+	 * @return string|false
 	 */
 	public function getPublishStatus($calendar) {
+		$cached = $this->publishStatusCache->get((string)$calendar->getResourceId());
+		if ($cached !== null) {
+			return $cached;
+		}
+
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select('publicuri')
 			->from('dav_shares')
@@ -3263,9 +3279,46 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)))
 			->executeQuery();
 
-		$row = $result->fetch();
+		$publishStatus = $result->fetchOne();
 		$result->closeCursor();
-		return $row ? reset($row) : false;
+
+		$this->publishStatusCache->set((string)$calendar->getResourceId(), $publishStatus);
+		return $publishStatus;
+	}
+
+	/**
+	 * @param int[] $resourceIds
+	 */
+	public function preloadPublishStatuses(array $resourceIds): void {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select('resourceid', 'publicuri')
+			->from('dav_shares')
+			->where($query->expr()->in(
+				'resourceid',
+				$query->createNamedParameter($resourceIds, IQueryBuilder::PARAM_INT_ARRAY),
+				IQueryBuilder::PARAM_INT_ARRAY,
+			))
+			->andWhere($query->expr()->eq(
+				'access',
+				$query->createNamedParameter(self::ACCESS_PUBLIC, IQueryBuilder::PARAM_INT),
+				IQueryBuilder::PARAM_INT,
+			))
+			->executeQuery();
+
+		$hasPublishStatuses = [];
+		while ($row = $result->fetch()) {
+			$this->publishStatusCache->set((string)$row['resourceid'], $row['publicuri']);
+			$hasPublishStatuses[(int)$row['resourceid']] = true;
+		}
+
+		// Also remember resources with no publish status
+		foreach ($resourceIds as $resourceId) {
+			if (!isset($hasPublishStatuses[$resourceId])) {
+				$this->publishStatusCache->set((string)$resourceId, false);
+			}
+		}
+
+		$result->closeCursor();
 	}
 
 	/**
