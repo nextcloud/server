@@ -67,7 +67,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.29.1
+	- version: 8.29.2
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.3.0
