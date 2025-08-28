@@ -11,6 +11,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\CachedSubscription;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\CalendarFactory;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Federation\FederatedCalendar;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
@@ -19,7 +20,6 @@ use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Outbox;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Schedule\Inbox;
 use Sabre\CalDAV\Subscriptions\Subscription;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
@@ -30,8 +30,8 @@ class CalendarHomeTest extends TestCase {
 	private CalDavBackend&MockObject $backend;
 	private array $principalInfo = [];
 	private PluginManager&MockObject $pluginManager;
-	private LoggerInterface&MockObject $logger;
 	private FederatedCalendarFactory&MockObject $federatedCalendarFactory;
+	private CalendarFactory&MockObject $calendarFactory;
 	private CalendarHome $calendarHome;
 
 	protected function setUp(): void {
@@ -42,14 +42,14 @@ class CalendarHomeTest extends TestCase {
 			'uri' => 'user-principal-123',
 		];
 		$this->pluginManager = $this->createMock(PluginManager::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->federatedCalendarFactory = $this->createMock(FederatedCalendarFactory::class);
+		$this->calendarFactory = $this->createMock(CalendarFactory::class);
 
 		$this->calendarHome = new CalendarHome(
 			$this->backend,
 			$this->principalInfo,
-			$this->logger,
 			$this->federatedCalendarFactory,
+			$this->calendarFactory,
 			false
 		);
 
@@ -293,8 +293,8 @@ class CalendarHomeTest extends TestCase {
 		$calendarHome = new CalendarHome(
 			$this->backend,
 			$this->principalInfo,
-			$this->logger,
 			$this->federatedCalendarFactory,
+			$this->calendarFactory,
 			false
 		);
 
@@ -360,8 +360,8 @@ class CalendarHomeTest extends TestCase {
 		$calendarHome = new CalendarHome(
 			$this->backend,
 			$this->principalInfo,
-			$this->logger,
 			$this->federatedCalendarFactory,
+			$this->calendarFactory,
 			true
 		);
 

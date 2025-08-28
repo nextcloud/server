@@ -7,9 +7,6 @@
  */
 namespace OCA\DAV\CalDAV;
 
-use OCP\IConfig;
-use OCP\IL10N;
-use Psr\Log\LoggerInterface;
 use Sabre\DAV\Collection;
 
 class PublicCalendarRoot extends Collection {
@@ -18,14 +15,10 @@ class PublicCalendarRoot extends Collection {
 	 * PublicCalendarRoot constructor.
 	 *
 	 * @param CalDavBackend $caldavBackend
-	 * @param IL10N $l10n
-	 * @param IConfig $config
 	 */
 	public function __construct(
 		protected CalDavBackend $caldavBackend,
-		protected IL10N $l10n,
-		protected IConfig $config,
-		private LoggerInterface $logger,
+		private readonly CalendarFactory $calendarFactory,
 	) {
 	}
 
@@ -41,7 +34,7 @@ class PublicCalendarRoot extends Collection {
 	 */
 	public function getChild($name) {
 		$calendar = $this->caldavBackend->getPublicCalendar($name);
-		return new PublicCalendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
+		return $this->calendarFactory->createPublicCalendar($calendar);
 	}
 
 	/**

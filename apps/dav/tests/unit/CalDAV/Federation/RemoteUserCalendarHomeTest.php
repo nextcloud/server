@@ -10,11 +10,9 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\CalDAV\Federation;
 
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\CalendarFactory;
 use OCA\DAV\CalDAV\Federation\RemoteUserCalendarHome;
-use OCP\IConfig;
-use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\DAV\Exception\NotFound;
 use Test\TestCase;
@@ -23,26 +21,20 @@ class RemoteUserCalendarHomeTest extends TestCase {
 	private RemoteUserCalendarHome $remoteUserCalendarHome;
 
 	private BackendInterface&MockObject $calDavBackend;
-	private IL10N&MockObject $l10n;
-	private IConfig&MockObject $config;
-	private LoggerInterface&MockObject $logger;
+	private CalendarFactory&MockObject $calendarFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->calDavBackend = $this->createMock(BackendInterface::class);
-		$this->l10n = $this->createMock(IL10N::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->calendarFactory = $this->createMock(CalendarFactory::class);
 
 		$this->remoteUserCalendarHome = new RemoteUserCalendarHome(
 			$this->calDavBackend,
 			[
 				'uri' => 'principals/remote-users/abcdef123',
 			],
-			$this->l10n,
-			$this->config,
-			$this->logger,
+			$this->calendarFactory,
 		);
 	}
 

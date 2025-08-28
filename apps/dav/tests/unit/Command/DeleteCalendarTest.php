@@ -10,12 +10,11 @@ namespace OCA\DAV\Tests\unit\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\CalendarFactory;
 use OCA\DAV\Command\DeleteCalendar;
-use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -29,27 +28,21 @@ class DeleteCalendarTest extends TestCase {
 	public const NAME = 'calendar';
 
 	private CalDavBackend&MockObject $calDav;
-	private IConfig&MockObject $config;
-	private IL10N&MockObject $l10n;
 	private IUserManager&MockObject $userManager;
-	private LoggerInterface&MockObject $logger;
+	private CalendarFactory&MockObject $calendarFactory;
 	private DeleteCalendar $command;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->calDav = $this->createMock(CalDavBackend::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->l10n = $this->createMock(IL10N::class);
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->calendarFactory = $this->createMock(CalendarFactory::class);
 
 		$this->command = new DeleteCalendar(
 			$this->calDav,
-			$this->config,
-			$this->l10n,
 			$this->userManager,
-			$this->logger
+			$this->calendarFactory,
 		);
 	}
 
@@ -129,9 +122,15 @@ class DeleteCalendarTest extends TestCase {
 				self::NAME
 			)
 			->willReturn($calendar);
-		$this->calDav->expects($this->once())
-			->method('deleteCalendar')
-			->with($id, false);
+		$calendarObj = $this->createMock(Calendar::class);
+		$this->calendarFactory->expects(self::once())
+			->method('createCalendar')
+			->with($calendar)
+			->willReturn($calendarObj);
+		$calendarObj->expects(self::never())
+			->method('disableTrashbin');
+		$calendarObj->expects(self::once())
+			->method('delete');
 
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
@@ -159,9 +158,15 @@ class DeleteCalendarTest extends TestCase {
 				self::NAME
 			)
 			->willReturn($calendar);
-		$this->calDav->expects($this->once())
-			->method('deleteCalendar')
-			->with($id, true);
+		$calendarObj = $this->createMock(Calendar::class);
+		$this->calendarFactory->expects(self::once())
+			->method('createCalendar')
+			->with($calendar)
+			->willReturn($calendarObj);
+		$calendarObj->expects(self::once())
+			->method('disableTrashbin');
+		$calendarObj->expects(self::once())
+			->method('delete');
 
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([
@@ -191,9 +196,15 @@ class DeleteCalendarTest extends TestCase {
 				BirthdayService::BIRTHDAY_CALENDAR_URI
 			)
 			->willReturn($calendar);
-		$this->calDav->expects($this->once())
-			->method('deleteCalendar')
-			->with($id);
+		$calendarObj = $this->createMock(Calendar::class);
+		$this->calendarFactory->expects(self::once())
+			->method('createCalendar')
+			->with($calendar)
+			->willReturn($calendarObj);
+		$calendarObj->expects(self::never())
+			->method('disableTrashbin');
+		$calendarObj->expects(self::once())
+			->method('delete');
 
 		$commandTester = new CommandTester($this->command);
 		$commandTester->execute([

@@ -14,9 +14,7 @@ use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Trashbin\TrashbinHome;
 use OCP\App\IAppManager;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\Server;
-use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\CalDAV\Backend\NotificationSupport;
 use Sabre\CalDAV\Backend\SchedulingSupport;
@@ -30,9 +28,6 @@ use Sabre\DAV\MkCol;
 
 class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
-	/** @var IL10N */
-	private $l10n;
-
 	/** @var IConfig */
 	private $config;
 
@@ -44,12 +39,11 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 	public function __construct(
 		BackendInterface $caldavBackend,
 		array $principalInfo,
-		private LoggerInterface $logger,
 		private FederatedCalendarFactory $federatedCalendarFactory,
+		private readonly CalendarFactory $calendarFactory,
 		private bool $returnCachedSubscriptions,
 	) {
 		parent::__construct($caldavBackend, $principalInfo);
-		$this->l10n = \OC::$server->getL10N('dav');
 		$this->config = Server::get(IConfig::class);
 		$this->pluginManager = new PluginManager(
 			\OC::$server,
@@ -90,7 +84,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		$calendars = $this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']);
 		$objects = [];
 		foreach ($calendars as $calendar) {
-			$objects[] = new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
+			$objects[] = $this->calendarFactory->createCalendar($calendar);
 		}
 
 		if ($this->caldavBackend instanceof SchedulingSupport) {
@@ -164,7 +158,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 			// Calendar - this covers all "regular" calendars, but not shared
 			$calendar = $this->caldavBackend->getCalendarByUri($this->principalInfo['uri'], $name);
 			if (!empty($calendar)) {
-				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
+				return $this->calendarFactory->createCalendar($calendar);
 			}
 
 			// Federated calendar
@@ -180,7 +174,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		// Fallback to cover shared calendars
 		foreach ($this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']) as $calendar) {
 			if ($calendar['uri'] === $name) {
-				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
+				return $this->calendarFactory->createCalendar($calendar);
 			}
 		}
 

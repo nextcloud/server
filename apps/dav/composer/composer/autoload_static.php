@@ -70,6 +70,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\CachedSubscriptionProvider' => __DIR__ . '/..' . '/../lib/CalDAV/CachedSubscriptionProvider.php',
         'OCA\\DAV\\CalDAV\\CalDavBackend' => __DIR__ . '/..' . '/../lib/CalDAV/CalDavBackend.php',
         'OCA\\DAV\\CalDAV\\Calendar' => __DIR__ . '/..' . '/../lib/CalDAV/Calendar.php',
+        'OCA\\DAV\\CalDAV\\CalendarFactory' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarFactory.php',
         'OCA\\DAV\\CalDAV\\CalendarHome' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarHome.php',
         'OCA\\DAV\\CalDAV\\CalendarImpl' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarImpl.php',
         'OCA\\DAV\\CalDAV\\CalendarManager' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarManager.php',

@@ -10,9 +10,6 @@ namespace OCA\DAV\CalDAV;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
 use OCA\DAV\CalDAV\Federation\RemoteUserCalendarHome;
 use OCA\DAV\DAV\RemoteUserPrincipalBackend;
-use OCP\IConfig;
-use OCP\IL10N;
-use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Backend;
 use Sabre\DAVACL\PrincipalBackend;
 
@@ -23,10 +20,8 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 		PrincipalBackend\BackendInterface $principalBackend,
 		Backend\BackendInterface $caldavBackend,
 		$principalPrefix,
-		private LoggerInterface $logger,
-		private IL10N $l10n,
-		private IConfig $config,
 		private FederatedCalendarFactory $federatedCalendarFactory,
+		private readonly CalendarFactory $calendarFactory,
 	) {
 		parent::__construct($principalBackend, $caldavBackend, $principalPrefix);
 	}
@@ -37,17 +32,15 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 			return new RemoteUserCalendarHome(
 				$this->caldavBackend,
 				$principal,
-				$this->l10n,
-				$this->config,
-				$this->logger,
+				$this->calendarFactory,
 			);
 		}
 
 		return new CalendarHome(
 			$this->caldavBackend,
 			$principal,
-			$this->logger,
 			$this->federatedCalendarFactory,
+			$this->calendarFactory,
 			array_key_exists($principal['uri'], $this->returnCachedSubscriptions)
 		);
 	}

@@ -9,32 +9,24 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OC\Calendar\Manager;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\CalendarFactory;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCA\DAV\CalDAV\CalendarManager;
 use OCP\Calendar\IManager;
-use OCP\IConfig;
-use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 
 class CalendarManagerTest extends \Test\TestCase {
 	private CalDavBackend&MockObject $backend;
-	private IL10N&MockObject $l10n;
-	private IConfig&MockObject $config;
-	private LoggerInterface&MockObject $logger;
+	private CalendarFactory&MockObject $calendarFactory;
 	private CalendarManager $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->backend = $this->createMock(CalDavBackend::class);
-		$this->l10n = $this->createMock(IL10N::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->calendarFactory = $this->createMock(CalendarFactory::class);
 		$this->manager = new CalendarManager(
 			$this->backend,
-			$this->l10n,
-			$this->config,
-			$this->logger
+			$this->calendarFactory,
 		);
 	}
 

@@ -9,6 +9,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\CalendarFactory;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
@@ -43,6 +44,7 @@ class PublicCalendarRootTest extends TestCase {
 	protected IConfig&MockObject $config;
 	private ISecureRandom $random;
 	private LoggerInterface&MockObject $logger;
+	private CalendarFactory&MockObject $calendarFactory;
 
 	protected FederatedCalendarMapper&MockObject $federatedCalendarMapper;
 
@@ -59,6 +61,7 @@ class PublicCalendarRootTest extends TestCase {
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$config = $this->createMock(IConfig::class);
 		$sharingBackend = $this->createMock(\OCA\DAV\CalDAV\Sharing\Backend::class);
+		$this->calendarFactory = $this->createMock(CalendarFactory::class);
 
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
@@ -83,8 +86,10 @@ class PublicCalendarRootTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->config = $this->createMock(IConfig::class);
 
-		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend,
-			$this->l10n, $this->config, $this->logger);
+		$this->publicCalendarRoot = new PublicCalendarRoot(
+			$this->backend,
+			$this->calendarFactory,
+		);
 	}
 
 	protected function tearDown(): void {
@@ -113,11 +118,16 @@ class PublicCalendarRootTest extends TestCase {
 	}
 
 	public function testGetChild(): void {
-		$calendar = $this->createPublicCalendar();
+		[$calendar, $calendarInfo] = $this->createPublicCalendar();
+
+		$this->calendarFactory->expects(self::once())
+			->method('createPublicCalendar')
+			->with($calendarInfo)
+			->willReturn($calendar);
 
 		$publicCalendars = $this->backend->getPublicCalendars();
-		$this->assertEquals(1, count($publicCalendars));
-		$this->assertEquals(true, $publicCalendars[0]['{http://owncloud.org/ns}public']);
+		$this->assertCount(1, $publicCalendars);
+		$this->assertTrue($publicCalendars[0]['{http://owncloud.org/ns}public']);
 
 		$publicCalendarURI = $publicCalendars[0]['uri'];
 
@@ -127,11 +137,15 @@ class PublicCalendarRootTest extends TestCase {
 
 	public function testGetChildren(): void {
 		$this->createPublicCalendar();
+
+		$this->calendarFactory->expects(self::never())
+			->method('createPublicCalendar');
+
 		$calendarResults = $this->publicCalendarRoot->getChildren();
 		$this->assertSame([], $calendarResults);
 	}
 
-	protected function createPublicCalendar(): Calendar {
+	protected function createPublicCalendar(): array {
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
 		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
@@ -141,6 +155,6 @@ class PublicCalendarRootTest extends TestCase {
 		$calendarInfo = $this->backend->getPublicCalendar($publicUri);
 		$calendar = new PublicCalendar($this->backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
 
-		return $calendar;
+		return [$calendar, $calendarInfo];
 	}
 }

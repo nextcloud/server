@@ -9,14 +9,12 @@ namespace OCA\DAV\Tests\unit\Command;
 
 use InvalidArgumentException;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\CalendarFactory;
 use OCA\DAV\Command\MoveCalendar;
-use OCP\IConfig;
 use OCP\IGroupManager;
-use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Tester\CommandTester;
 use Test\TestCase;
 
@@ -29,10 +27,8 @@ class MoveCalendarTest extends TestCase {
 	private IUserManager&MockObject $userManager;
 	private IGroupManager&MockObject $groupManager;
 	private \OCP\Share\IManager&MockObject $shareManager;
-	private IConfig&MockObject $config;
-	private IL10N&MockObject $l10n;
 	private CalDavBackend&MockObject $calDav;
-	private LoggerInterface&MockObject $logger;
+	private CalendarFactory&MockObject $calendarFactory;
 	private MoveCalendar $command;
 
 	protected function setUp(): void {
@@ -41,19 +37,15 @@ class MoveCalendarTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
-		$this->config = $this->createMock(IConfig::class);
-		$this->l10n = $this->createMock(IL10N::class);
 		$this->calDav = $this->createMock(CalDavBackend::class);
-		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->calendarFactory = $this->createMock(CalendarFactory::class);
 
 		$this->command = new MoveCalendar(
 			$this->userManager,
 			$this->groupManager,
 			$this->shareManager,
-			$this->config,
-			$this->l10n,
 			$this->calDav,
-			$this->logger
+			$this->calendarFactory,
 		);
 	}
 

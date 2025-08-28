@@ -8,6 +8,7 @@
 // Backends
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\CalendarFactory;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Federation\FederatedCalendarFactory;
@@ -67,6 +68,7 @@ $config = Server::get(IConfig::class);
 $l10nFactory = Server::get(IL10NFactory::class);
 $davL10n = $l10nFactory->get('dav');
 $federatedCalendarFactory = Server::get(FederatedCalendarFactory::class);
+$calendarFactory = Server::get(CalendarFactory::class);
 
 $calDavBackend = new CalDavBackend(
 	$db,
@@ -88,7 +90,7 @@ $sendInvitations = Server::get(IConfig::class)->getAppValue('dav', 'sendInvitati
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $logger, $davL10n, $config, $federatedCalendarFactory);
+$addressBookRoot = new CalendarRoot($principalBackend, $calDavBackend, 'principals', $federatedCalendarFactory, $calendarFactory);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = [
