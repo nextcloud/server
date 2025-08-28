@@ -215,6 +215,8 @@
     "Error, please enter proper password and/or expiration date" : "Earráid, cuir isteach pasfhocal ceart agus/nó dáta éaga le do thoil",
     "Link share created" : "Cruthaíodh comhroinnt naisc",
     "Error while creating the share" : "Earráid agus an sciar á cruthú",
+    "Your browser does not support copying, please copy the link manually:" : "Ní thacaíonn do bhrabhsálaí le cóipeáil, cóipeáil an nasc de láimh le do thoil:",
+    "Successfully copied public link" : "Cóipeáladh an nasc poiblí go rathúil",
     "Please enter the following required information before creating the share" : "Cuir isteach an t-eolas riachtanach seo a leanas sula gcruthaítear an sciar le do thoil",
     "Password protection (enforced)" : "Cosaint pasfhocail (forfheidhmithe)",
     "Password protection" : "Cosaint pasfhocal",

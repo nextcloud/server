@@ -217,6 +217,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "錯誤，請輸入正確的密碼和/或有效期",
     "Link share created" : "創建了連結分享",
     "Error while creating the share" : "創建分享出錯",
+    "Your browser does not support copying, please copy the link manually:" : "您的瀏覽器不支援複製功能，請手動複製連結：",
+    "Successfully copied public link" : "複製公開連結成功",
     "Please enter the following required information before creating the share" : "創建分享之前，請輸入以下必填信息",
     "Password protection (enforced)" : "密碼保護（強制）",
     "Password protection" : "密碼保護",

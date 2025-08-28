@@ -658,6 +658,7 @@ OC.L10N.register(
     "Developer documentation ↗" : "Documentación del desarrollador ↗",
     "Version {version}, {license}-licensed" : "Versión {version}, licencia {license}",
     "Version {version}" : "Versión {version}",
+    "Apply" : "Aplicar",
     "All accounts" : "Todas las cuentas",
     "Admins" : "Administradores",
     "Account group: {group}" : "Grupo de cuentas: {group}",

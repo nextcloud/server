@@ -398,6 +398,7 @@ OC.L10N.register(
     "There are some warnings regarding your setup." : "Có một số cảnh báo liên quan đến thiết lập của bạn.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Với tư cách là quản trị viên, bạn có thể tinh chỉnh hành vi chia sẻ. Vui lòng xem tài liệu để biết thêm thông tin.",
     "You need to enable the File sharing App." : "Bạn cần kích hoạt Ứng dụng chia sẻ tệp.",
+    "Apply" : "Áp dụng",
     "Admins" : "Quản trị viên",
     "Sending…" : "Đang gửi...",
     "Email sent" : "Email đã được gửi",

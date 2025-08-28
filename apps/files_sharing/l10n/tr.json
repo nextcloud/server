@@ -215,6 +215,8 @@
     "Error, please enter proper password and/or expiration date" : "Hata. Lütfen uygun bir parola ya da geçerlilik sonu tarihi yazın",
     "Link share created" : "Paylaşım bağlantısı oluşturuldu",
     "Error while creating the share" : "Paylaşım oluşturulurken sorun çıktı",
+    "Your browser does not support copying, please copy the link manually:" : "Tarayıcınız ses kopyalamayı desteklemiyor. Lütfen bağlantıyı el ile kopyalayın:",
+    "Successfully copied public link" : "Herkese açık bağlantı kopyalandı",
     "Please enter the following required information before creating the share" : "Lütfen paylaşımı oluşturmadan önce aşağıdaki zorunlu bilgileri yazın",
     "Password protection (enforced)" : "Parola koruması (zorunlu kılınmış)",
     "Password protection" : "Parola koruması",

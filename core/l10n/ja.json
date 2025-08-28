@@ -326,7 +326,6 @@
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud ログインフォームは無効になっています。 利用可能な場合は別のログインオプションを使用するか、管理者に問い合わせてください。",
     "More actions" : "その他のアクション",
     "User menu" : "ユーザーメニュー",
-    "You will be identified as {user} by the account owner." : "アカウント所有者によって{user}として識別されます。",
     "You are currently not identified." : "現在識別されていません。",
     "Set public name" : "公開名の設定",
     "Change public name" : "公開名を変更",

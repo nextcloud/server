@@ -416,6 +416,7 @@ OC.L10N.register(
     "Change" : "Change",
     "Delete" : "წაშლა",
     "Reshare" : "Reshare",
+    "School" : "School",
     "Default language" : "Default language",
     "Common languages" : "Common languages",
     "Other languages" : "Other languages",
