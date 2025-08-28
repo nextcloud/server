@@ -23,6 +23,7 @@ return array(
     'OCA\\Files\\BackgroundJob\\CleanupFileLocks' => $baseDir . '/../lib/BackgroundJob/CleanupFileLocks.php',
     'OCA\\Files\\BackgroundJob\\DeleteExpiredOpenLocalEditor' => $baseDir . '/../lib/BackgroundJob/DeleteExpiredOpenLocalEditor.php',
     'OCA\\Files\\BackgroundJob\\DeleteOrphanedItems' => $baseDir . '/../lib/BackgroundJob/DeleteOrphanedItems.php',
+    'OCA\\Files\\BackgroundJob\\SanitizeFilenames' => $baseDir . '/../lib/BackgroundJob/SanitizeFilenames.php',
     'OCA\\Files\\BackgroundJob\\ScanFiles' => $baseDir . '/../lib/BackgroundJob/ScanFiles.php',
     'OCA\\Files\\BackgroundJob\\TransferOwnership' => $baseDir . '/../lib/BackgroundJob/TransferOwnership.php',
     'OCA\\Files\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
@@ -53,6 +54,7 @@ return array(
     'OCA\\Files\\Controller\\ConversionApiController' => $baseDir . '/../lib/Controller/ConversionApiController.php',
     'OCA\\Files\\Controller\\DirectEditingController' => $baseDir . '/../lib/Controller/DirectEditingController.php',
     'OCA\\Files\\Controller\\DirectEditingViewController' => $baseDir . '/../lib/Controller/DirectEditingViewController.php',
+    'OCA\\Files\\Controller\\FilenamesController' => $baseDir . '/../lib/Controller/FilenamesController.php',
     'OCA\\Files\\Controller\\OpenLocalEditorController' => $baseDir . '/../lib/Controller/OpenLocalEditorController.php',
     'OCA\\Files\\Controller\\TemplateController' => $baseDir . '/../lib/Controller/TemplateController.php',
     'OCA\\Files\\Controller\\TransferOwnershipController' => $baseDir . '/../lib/Controller/TransferOwnershipController.php',
@@ -88,6 +90,6 @@ return array(
     'OCA\\Files\\Service\\TagService' => $baseDir . '/../lib/Service/TagService.php',
     'OCA\\Files\\Service\\UserConfig' => $baseDir . '/../lib/Service/UserConfig.php',
     'OCA\\Files\\Service\\ViewConfig' => $baseDir . '/../lib/Service/ViewConfig.php',
-    'OCA\\Files\\Settings\\DeclarativeAdminSettings' => $baseDir . '/../lib/Settings/DeclarativeAdminSettings.php',
+    'OCA\\Files\\Settings\\AdminSettings' => $baseDir . '/../lib/Settings/AdminSettings.php',
     'OCA\\Files\\Settings\\PersonalSettings' => $baseDir . '/../lib/Settings/PersonalSettings.php',
 );
