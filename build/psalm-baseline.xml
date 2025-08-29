@@ -4090,11 +4090,6 @@
       <code><![CDATA[\OCA\Notifications\App]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/private/Preview/BackgroundCleanupJob.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[[]]]></code>
-    </InvalidReturnStatement>
-  </file>
   <file src="lib/private/Preview/Generator.php">
     <LessSpecificReturnType>
       <code><![CDATA[null|string]]></code>
