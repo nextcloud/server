@@ -16,5 +16,6 @@ return array(
     'OCA\\ContactsInteraction\\Db\\RecentContact' => $baseDir . '/../lib/Db/RecentContact.php',
     'OCA\\ContactsInteraction\\Db\\RecentContactMapper' => $baseDir . '/../lib/Db/RecentContactMapper.php',
     'OCA\\ContactsInteraction\\Listeners\\ContactInteractionListener' => $baseDir . '/../lib/Listeners/ContactInteractionListener.php',
+    'OCA\\ContactsInteraction\\Migration\\FixVcardCategory' => $baseDir . '/../lib/Migration/FixVcardCategory.php',
     'OCA\\ContactsInteraction\\Migration\\Version010000Date20200304152605' => $baseDir . '/../lib/Migration/Version010000Date20200304152605.php',
 );

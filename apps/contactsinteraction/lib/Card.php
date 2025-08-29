@@ -56,7 +56,10 @@ class Card implements ICard, IACL {
 	 * @inheritDoc
 	 */
 	public function get(): string {
-		return $this->contact->getCard();
+		$card = $this->contact->getCard();
+		// write a comment ...
+		//		$card = preg_replace('/^CATEGORIES:(.+)$/m', 'CATEGORIES:Recently contacted', $card, 1);
+		return $card;
 	}
 
 	/**
