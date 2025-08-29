@@ -606,6 +606,7 @@ return array(
     'OCP\\ICertificateManager' => $baseDir . '/lib/public/ICertificateManager.php',
     'OCP\\IConfig' => $baseDir . '/lib/public/IConfig.php',
     'OCP\\IContainer' => $baseDir . '/lib/public/IContainer.php',
+    'OCP\\ICreateContactFromString' => $baseDir . '/lib/public/ICreateContactFromString.php',
     'OCP\\IDBConnection' => $baseDir . '/lib/public/IDBConnection.php',
     'OCP\\IDateTimeFormatter' => $baseDir . '/lib/public/IDateTimeFormatter.php',
     'OCP\\IDateTimeZone' => $baseDir . '/lib/public/IDateTimeZone.php',
