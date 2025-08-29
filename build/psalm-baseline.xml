@@ -885,22 +885,12 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/dav/lib/Migration/BuildCalendarSearchIndexBackgroundJob.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$arguments]]></code>
-    </ParamNameMismatch>
-  </file>
   <file src="apps/dav/lib/Migration/BuildSocialSearchIndex.php">
     <DeprecatedMethod>
       <code><![CDATA[execute]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
-  </file>
-  <file src="apps/dav/lib/Migration/BuildSocialSearchIndexBackgroundJob.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$arguments]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="apps/dav/lib/Migration/ChunkCleanup.php">
     <DeprecatedMethod>
@@ -2884,9 +2874,6 @@
       <code><![CDATA[deleteAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
-    <ParamNameMismatch>
-      <code><![CDATA[$arguments]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="core/Command/App/ListApps.php">
     <LessSpecificImplementedReturnType>
@@ -4137,30 +4124,10 @@
       <code><![CDATA[false]]></code>
     </InvalidArgument>
   </file>
-  <file src="lib/private/Repair/Owncloud/CleanPreviewsBackgroundJob.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$arguments]]></code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Repair/Owncloud/MoveAvatarsBackgroundJob.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$arguments]]></code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/Repair/RemoveLinkShares.php">
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$this->userToNotify]]></code>
     </InvalidPropertyAssignmentValue>
-  </file>
-  <file src="lib/private/Repair/RepairInvalidShares.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$out]]></code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Repair/RepairMimeTypes.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$out]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Route/Router.php">
     <InvalidNullableReturnType>
