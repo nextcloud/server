@@ -27,9 +27,9 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
-	public function run($arguments) {
-		$offset = $arguments['offset'];
-		$stopAt = $arguments['stopAt'];
+	public function run($argument) {
+		$offset = $argument['offset'];
+		$stopAt = $argument['stopAt'];
 
 		$this->logger->info('Indexing social profile data (' . $offset . '/' . $stopAt . ')');
 

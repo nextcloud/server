@@ -30,7 +30,7 @@ class CheckForUserCertificates extends QueuedJob {
 	/**
 	 * Checks all user directories for old user uploaded certificates
 	 */
-	public function run($arguments): void {
+	public function run($argument): void {
 		$uploadList = [];
 		$this->userManager->callForSeenUsers(function (IUser $user) use (&$uploadList): void {
 			$userId = $user->getUID();
