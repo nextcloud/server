@@ -174,7 +174,6 @@ class Generator {
 					if ($maxPreviewImage === null) {
 						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
 					}
-					assert($maxPreviewImage);
 
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
 					$previewFile = $this->generatePreview($file, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $cacheResult);
@@ -508,7 +507,6 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
-
 		$path = $this->generatePath($width, $height, $crop, false, $preview->dataMimeType(), $version);
 		if ($cacheResult) {
 			$previewEntry = $this->savePreview($file, $width, $height, $crop, false, $preview, $version);
@@ -519,11 +517,9 @@ class Generator {
 	}
 
 	/**
-	 * @param string $mimeType
-	 * @return null|string
 	 * @throws \InvalidArgumentException
 	 */
-	private function getExtension($mimeType) {
+	private function getExtension(string $mimeType): string {
 		switch ($mimeType) {
 			case 'image/png':
 				return 'png';
