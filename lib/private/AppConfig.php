@@ -69,6 +69,8 @@ class AppConfig implements IAppConfig {
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
+	private array $strictnessApplied = [];
+	
 	/** @var ?array<string, string> */
 	private ?array $appVersionsCache = null;
 	private ?ICache $localCache = null;
@@ -1755,10 +1757,16 @@ class AppConfig implements IAppConfig {
 			case Strictness::IGNORE:
 				return true;
 			case Strictness::NOTICE:
-				$this->logger->notice($line);
+				if (!in_array($line, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $line;
+					$this->logger->notice($line);
+				}
 				return true;
 			case Strictness::WARNING:
-				$this->logger->warning($line);
+				if (!in_array($line, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $line;
+					$this->logger->warning($line);
+				}
 				return false;
 		}
 
