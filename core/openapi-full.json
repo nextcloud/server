@@ -3837,7 +3837,6 @@
                     "task_processing_api"
                 ],
                 "security": [
-                    {},
                     {
                         "bearer_auth": []
                     },
@@ -3910,7 +3909,6 @@
                     "task_processing_api"
                 ],
                 "security": [
-                    {},
                     {
                         "bearer_auth": []
                     },
@@ -4180,7 +4178,6 @@
                     "task_processing_api"
                 ],
                 "security": [
-                    {},
                     {
                         "bearer_auth": []
                     },
