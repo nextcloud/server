@@ -66,6 +66,7 @@ class UserConfig implements IUserConfig {
 	/** @var array<string, array{entries: array<string, Entry>, aliases: array<string, string>, strictness: Strictness}> ['app_id' => ['strictness' => ConfigLexiconStrictness, 'entries' => ['config_key' => ConfigLexiconEntry[]]] */
 	private array $configLexiconDetails = [];
 	private bool $ignoreLexiconAliases = false;
+	private array $strictnessApplied = [];
 
 	public function __construct(
 		protected IDBConnection $connection,
@@ -1903,7 +1904,7 @@ class UserConfig implements IUserConfig {
 		}
 
 		if (!array_key_exists($key, $configDetails['entries'])) {
-			return $this->applyLexiconStrictness($configDetails['strictness'], 'The user config key ' . $app . '/' . $key . ' is not defined in the config lexicon');
+			return $this->applyLexiconStrictness($configDetails['strictness'], $app . '/' . $key);
 		}
 
 		// if lazy is NULL, we ignore all check on the type/lazyness/default from Lexicon
@@ -1970,21 +1971,28 @@ class UserConfig implements IUserConfig {
 	 *
 	 * @return bool TRUE if conflict can be fully ignored
 	 * @throws UnknownKeyException
-	 *@see ILexicon::getStrictness()
+	 * @see ILexicon::getStrictness()
 	 */
-	private function applyLexiconStrictness(?Strictness $strictness, string $line = ''): bool {
+	private function applyLexiconStrictness(?Strictness $strictness, string $configAppKey): bool {
 		if ($strictness === null) {
 			return true;
 		}
 
+		$line = 'The user config key ' . $configAppKey . ' is not defined in the config lexicon';
 		switch ($strictness) {
 			case Strictness::IGNORE:
 				return true;
 			case Strictness::NOTICE:
-				$this->logger->notice($line);
+				if (!in_array($configAppKey, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $configAppKey;
+					$this->logger->notice($line);
+				}
 				return true;
 			case Strictness::WARNING:
-				$this->logger->warning($line);
+				if (!in_array($configAppKey, $this->strictnessApplied, true)) {
+					$this->strictnessApplied[] = $configAppKey;
+					$this->logger->warning($line);
+				}
 				return false;
 			case Strictness::EXCEPTION:
 				throw new UnknownKeyException($line);
