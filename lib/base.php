@@ -548,10 +548,11 @@ class OC {
 			return;
 		}
 
+		$requestUri = $request->getScriptName();
+		$processingScript = explode('/', $requestUri);
+		$processingScript = $processingScript[count($processingScript) - 1];
+
 		if (count($_COOKIE) > 0) {
-			$requestUri = $request->getScriptName();
-			$processingScript = explode('/', $requestUri);
-			$processingScript = $processingScript[count($processingScript) - 1];
 
 			if ($processingScript === 'index.php' // index.php routes are handled in the middleware
 				|| $processingScript === 'cron.php' // and cron.php does not need any authentication at all
@@ -573,7 +574,12 @@ class OC {
 					exit();
 				}
 			}
-		} elseif (!isset($_COOKIE['nc_sameSiteCookielax']) || !isset($_COOKIE['nc_sameSiteCookiestrict'])) {
+		} else {
+			// Session not started for status.php, skip setting SS cookies
+			if ($processingScript === 'status.php') {
+				return;
+			}
+			// set nc_sameSiteCookielax and nc_sameSiteCookiestrict
 			self::sendSameSiteCookies();
 		}
 	}
