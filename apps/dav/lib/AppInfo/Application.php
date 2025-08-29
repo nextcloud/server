@@ -18,9 +18,10 @@ use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
-use OCA\DAV\CalDAV\Reminder\Notifier;
+use OCA\DAV\CalDAV\Reminder\Notifier as NotifierCalDAV;
 use OCA\DAV\Capabilities;
 use OCA\DAV\CardDAV\ContactsManager;
+use OCA\DAV\CardDAV\Notification\Notifier as NotifierCardDAV;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Events\AddressBookCreatedEvent;
 use OCA\DAV\Events\AddressBookDeletedEvent;
@@ -64,6 +65,7 @@ use OCA\DAV\Search\EventsSearchProvider;
 use OCA\DAV\Search\TasksSearchProvider;
 use OCA\DAV\Settings\Admin\SystemAddressBookSettings;
 use OCA\DAV\SetupChecks\NeedsSystemAddressBookSync;
+use OCA\DAV\SetupChecks\SystemAddressBookSize;
 use OCA\DAV\SetupChecks\WebdavEndpoint;
 use OCA\DAV\UserMigration\CalendarMigrator;
 use OCA\DAV\UserMigration\ContactsMigrator;
@@ -218,6 +220,7 @@ class Application extends App implements IBootstrap {
 		$context->registerUserMigrator(ContactsMigrator::class);
 
 		$context->registerSetupCheck(NeedsSystemAddressBookSync::class);
+		$context->registerSetupCheck(SystemAddressBookSize::class);
 		$context->registerSetupCheck(WebdavEndpoint::class);
 
 		// register admin settings form and listener(s)
