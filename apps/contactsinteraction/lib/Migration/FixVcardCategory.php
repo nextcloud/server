@@ -12,6 +12,7 @@ namespace OCA\ContactsInteraction\Migration;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use Sabre\VObject\ParseException;
 use Sabre\VObject\Reader;
 
 class FixVcardCategory implements IRepairStep {
@@ -46,21 +47,27 @@ class FixVcardCategory implements IRepairStep {
 			->where($query->expr()->eq('id', $query->createParameter('id')));
 
 		while ($card = $cardsWithTranslatedCategory->fetch()) {
-			$vcard = Reader::read($card['card']);
+			$output->advance(1);
+
+			try {
+				$vcard = Reader::read($card['card']);
+			} catch (ParseException $e) {
+				$output->warning('Could not parse vcard with id ' . $card['id']);
+				continue;
+			}
+
 			$vcard->remove('CATEGORIES');
 			$vcard->add('CATEGORIES', 'Recently contacted');
 
 			$updateQuery->setParameter('id', $card['id']);
 			$updateQuery->setParameter('card', $vcard->serialize());
 			$updateQuery->executeStatement();
-
-			$output->advance(1);
 		}
 
 		$this->connection->commit();
 
-		$output->finishProgress();
-
 		$cardsWithTranslatedCategory->closeCursor();
+
+		$output->finishProgress();
 	}
 }
