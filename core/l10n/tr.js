@@ -328,6 +328,7 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud oturum açma formu kullanımdan kaldırılmış. Varsa başka bir oturum açma seçeneğini kullanın ya da yöneticiniz ile görüşün.",
     "More actions" : "Diğer işlemler",
     "User menu" : "Kullanıcı menüsü",
+    "Your guest name: {user}" : "Konuk adınız: {user}",
     "You are currently not identified." : "Şu anda tanımlanmamışsınız.",
     "Set public name" : "Herkese açık adı ayarla",
     "Change public name" : "Herkese açık adı değiştir",

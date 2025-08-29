@@ -30,7 +30,7 @@ OC.L10N.register(
     "Android client" : "Android klients",
     "iOS client" : "iOS klients",
     "Desktop client" : "Darbvirsmas klients",
-    "Select groups" : "Izvēlieties grupas",
+    "Select groups" : "Atlasīt grupas",
     "Groups" : "Grupas",
     "Add new flow" : "Pievienot jaunu plūsmu",
     "Save" : "Saglabāt",
