@@ -1,10 +1,12 @@
 OC.L10N.register(
     "viewer",
     {
+    "Error loading {name}" : "Памылка пры загрузцы {name}",
     "Cancel" : "Скасаваць",
     "Edit" : "Рэдагаваць",
     "Download" : "Спампаваць",
     "Delete" : "Выдаліць",
+    "View" : "Праглядзець",
     "Name" : "Назва",
     "Save" : "Захаваць",
     "Save as" : "Захаваць як",
@@ -18,6 +20,7 @@ OC.L10N.register(
     "Undo" : "Адрабіць",
     "Redo" : "Узнавіць",
     "Filters" : "Фільтры",
+    "Image name" : "Назва відарыса",
     "Crop" : "Абрэзаць",
     "Landscape" : "Альбомная",
     "Portrait" : "Кніжная",
