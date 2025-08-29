@@ -500,18 +500,14 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testSet(): void {
-		$expectedCalls = [
-			['theming', 'MySetting', 'MyValue'],
-			['theming', 'cachebuster', 16],
-		];
-		$i = 0;
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('setAppValue')
-			->willReturnCallback(function () use ($expectedCalls, &$i): void {
-				$this->assertEquals($expectedCalls[$i], func_get_args());
-				$i++;
-			});
+			->with('theming', 'cachebuster', 16);
+		$this->appConfig
+			->expects($this->once())
+			->method('setValueString')
+			->with('theming', 'MySetting', 'MyValue');
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')
