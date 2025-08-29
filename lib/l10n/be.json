@@ -2,6 +2,7 @@
     "Cannot write into \"config\" directory!" : "Немагчыма запісаць у каталог \"config\"!",
     "This can usually be fixed by giving the web server write access to the config directory." : "Звычайна гэта можна выправіць, даўшы вэб-серверу доступ на запіс у каталог config.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Але, калі вы [хочаце пакінуць файл config.php толькі для чытання, задайце ў ім для параметра \"config_is_read_only\" значэнне true.",
+    "Email verification" : "Спраўджанне электроннай пошты",
     "Other activities" : "Іншая актыўнасць",
     "%1$s and %2$s" : "%1$s і %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s і %3$s",

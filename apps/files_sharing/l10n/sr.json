@@ -215,6 +215,8 @@
     "Error, please enter proper password and/or expiration date" : "Грешка, унесите исправну лозинку и/или датум истицања",
     "Link share created" : "Креиран је линк за дељење",
     "Error while creating the share" : "Грешка приликом креирања дељења",
+    "Your browser does not support copying, please copy the link manually:" : "Ваш прегледач не подржава копирање, молимо вас да линк копирате ручно:",
+    "Successfully copied public link" : "Успешно је копиран јавни линк",
     "Please enter the following required information before creating the share" : "Молимо унесите ове неопходне информације пре креирања дељења",
     "Password protection (enforced)" : "Захтевана заштита лозинком",
     "Password protection" : "Заштита лозинком",

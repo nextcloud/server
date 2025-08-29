@@ -328,6 +328,7 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud saioa hasteko inprimakia desgaituta dago. Erabili saioa hasteko beste aukera eskuragarri badago edo jarri harremanetan zure administrazioarekin.",
     "More actions" : "Ekintza gehiago",
     "User menu" : "Erabiltzailearen menua",
+    "Your guest name: {user}" : "Zure gonbidatu izena: {user}",
     "You are currently not identified." : "Une honetan identifikatu gabe zaude.",
     "Set public name" : "Ezarri izen publikoa",
     "Change public name" : "Aldatu izen publikoa",
