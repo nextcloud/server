@@ -16,6 +16,7 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\SystemConfig;
+use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryInsertedEvent;
@@ -1164,6 +1165,12 @@ class Cache implements ICache {
 			throw new \RuntimeException('Invalid source cache entry on copyFromCache');
 		}
 		$data = $this->cacheEntryToArray($sourceEntry);
+		// since we are essentially creating a new file, we don't have to obey the source permissions
+		if ($sourceEntry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE) {
+			$data['permissions'] = Constants::PERMISSION_ALL;
+		} else {
+			$data['permissions'] = Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE;
+		}
 
 		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
 		if ($sourceCache instanceof Cache && $sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
