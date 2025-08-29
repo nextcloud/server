@@ -9,7 +9,10 @@ namespace Test\Preview;
 
 use OC\Files\Storage\Temporary;
 use OC\Preview\BackgroundCleanupJob;
+use OC\Preview\Db\Preview;
+use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\Root;
+use OC\Preview\Storage\StorageFactory;
 use OC\PreviewManager;
 use OC\SystemConfig;
 use OCP\App\IAppManager;
@@ -42,6 +45,8 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	private IRootFolder $rootFolder;
 	private IMimeTypeLoader $mimeTypeLoader;
 	private ITimeFactory $timeFactory;
+	private PreviewMapper $previewMapper;
+	private StorageFactory $previewStorageFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -65,6 +70,8 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->rootFolder = Server::get(IRootFolder::class);
 		$this->mimeTypeLoader = Server::get(IMimeTypeLoader::class);
 		$this->timeFactory = Server::get(ITimeFactory::class);
+		$this->previewMapper = Server::get(PreviewMapper::class);
+		$this->previewStorageFactory = Server::get(StorageFactory::class);
 	}
 
 	protected function tearDown(): void {
@@ -76,13 +83,6 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->logout();
 
 		parent::tearDown();
-	}
-
-	private function getRoot(): Root {
-		return new Root(
-			Server::get(IRootFolder::class),
-			Server::get(SystemConfig::class)
-		);
 	}
 
 	private function setup11Previews(): array {
@@ -99,130 +99,50 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		return $files;
 	}
 
-	private function countPreviews(Root $previewRoot, array $fileIds): int {
-		$i = 0;
-
-		foreach ($fileIds as $fileId) {
-			try {
-				$previewRoot->getFolder((string)$fileId);
-			} catch (NotFoundException $e) {
-				continue;
-			}
-
-			$i++;
-		}
-
-		return $i;
+	private function countPreviews(PreviewMapper $previewMapper, array $fileIds): int {
+		$previews = $previewMapper->getAvailablePreviews($fileIds);
+		return array_reduce($previews, fn (int $result, array $previews) => $result + count($previews), 0);
 	}
 
 	public function testCleanupSystemCron(): void {
 		$files = $this->setup11Previews();
-		$fileIds = array_map(function (File $f) {
-			return $f->getId();
-		}, $files);
+		$fileIds = array_map(fn (File $f): int => $f->getId(), $files);
 
-		$root = $this->getRoot();
-
-		$this->assertSame(11, $this->countPreviews($root, $fileIds));
-		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $root, $this->mimeTypeLoader, true);
+		$this->assertSame(11, $this->countPreviews($this->previewMapper, $fileIds));
+		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->previewMapper, $this->previewStorageFactory, true);
 		$job->run([]);
 
 		foreach ($files as $file) {
 			$file->delete();
 		}
 
-		$root = $this->getRoot();
-		$this->assertSame(11, $this->countPreviews($root, $fileIds));
+		$this->assertSame(11, $this->countPreviews($this->previewMapper, $fileIds));
 		$job->run([]);
 
-		$root = $this->getRoot();
-		$this->assertSame(0, $this->countPreviews($root, $fileIds));
+		$this->assertSame(0, $this->countPreviews($this->previewMapper, $fileIds));
 	}
 
 	public function testCleanupAjax(): void {
 		if ($this->connection->getShardDefinition('filecache')) {
 			$this->markTestSkipped('ajax cron is not supported for sharded setups');
-			return;
 		}
 		$files = $this->setup11Previews();
-		$fileIds = array_map(function (File $f) {
-			return $f->getId();
-		}, $files);
+		$fileIds = array_map(fn (File $f): int => $f->getId(), $files);
 
-		$root = $this->getRoot();
-
-		$this->assertSame(11, $this->countPreviews($root, $fileIds));
-		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $root, $this->mimeTypeLoader, false);
+		$this->assertSame(11, $this->countPreviews($this->previewMapper, $fileIds));
+		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->previewMapper, $this->previewStorageFactory, false);
 		$job->run([]);
 
 		foreach ($files as $file) {
 			$file->delete();
 		}
 
-		$root = $this->getRoot();
-		$this->assertSame(11, $this->countPreviews($root, $fileIds));
+		$this->assertSame(11, $this->countPreviews($this->previewMapper, $fileIds));
 		$job->run([]);
 
-		$root = $this->getRoot();
-		$this->assertSame(1, $this->countPreviews($root, $fileIds));
+		$this->assertSame(1, $this->countPreviews($this->previewMapper, $fileIds));
 		$job->run([]);
 
-		$root = $this->getRoot();
-		$this->assertSame(0, $this->countPreviews($root, $fileIds));
-	}
-
-	public function testOldPreviews(): void {
-		if ($this->connection->getShardDefinition('filecache')) {
-			$this->markTestSkipped('old previews are not supported for sharded setups');
-			return;
-		}
-		$appdata = Server::get(IAppDataFactory::class)->get('preview');
-
-		$f1 = $appdata->newFolder('123456781');
-		$f1->newFile('foo.jpg', 'foo');
-		$f2 = $appdata->newFolder('123456782');
-		$f2->newFile('foo.jpg', 'foo');
-		$f2 = $appdata->newFolder((string)PHP_INT_MAX - 1);
-		$f2->newFile('foo.jpg', 'foo');
-
-		/*
-		 * Cleanup of OldPreviewLocations should only remove numeric folders on AppData level,
-		 * therefore these files should stay untouched.
-		 */
-		$appdata->getFolder('/')->newFile('not-a-directory', 'foo');
-		$appdata->getFolder('/')->newFile('133742', 'bar');
-
-		$appdata = Server::get(IAppDataFactory::class)->get('preview');
-		// AppData::getDirectoryListing filters all non-folders
-		$this->assertSame(3, count($appdata->getDirectoryListing()));
-		try {
-			$appdata->getFolder('/')->getFile('not-a-directory');
-		} catch (NotFoundException) {
-			$this->fail('Could not find file \'not-a-directory\'');
-		}
-		try {
-			$appdata->getFolder('/')->getFile('133742');
-		} catch (NotFoundException) {
-			$this->fail('Could not find file \'133742\'');
-		}
-
-		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
-		$job->run([]);
-
-		$appdata = Server::get(IAppDataFactory::class)->get('preview');
-
-		// Check if the files created above are still present
-		// Remember: AppData::getDirectoryListing filters all non-folders
-		$this->assertSame(0, count($appdata->getDirectoryListing()));
-		try {
-			$appdata->getFolder('/')->getFile('not-a-directory');
-		} catch (NotFoundException) {
-			$this->fail('Could not find file \'not-a-directory\'');
-		}
-		try {
-			$appdata->getFolder('/')->getFile('133742');
-		} catch (NotFoundException) {
-			$this->fail('Could not find file \'133742\'');
-		}
+		$this->assertSame(0, $this->countPreviews($this->previewMapper, $fileIds));
 	}
 }

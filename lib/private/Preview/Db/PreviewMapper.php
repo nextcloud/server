@@ -63,4 +63,34 @@ class PreviewMapper extends QBMapper {
 			return null;
 		}
 	}
+
+	/**
+	 * @param int[] $fileIds
+	 * @return array<int, Preview[]>
+	 */
+	public function getByFileIds(int $storageId, array $fileIds): array {
+		$selectQb = $this->db->getQueryBuilder();
+		$selectQb->select('*')
+			->from(self::TABLE_NAME)
+			->where($selectQb->expr()->andX(
+				$selectQb->expr()->in('file_id', $selectQb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)),
+			));
+		$previews = array_fill_keys($fileIds, []);
+		foreach ($this->yieldEntities($selectQb) as $preview) {
+			$previews[$preview->getFileId()][] = $preview;
+		}
+		return $previews;
+	}
+
+	/**
+	 * @param int[] $previewIds
+	 */
+	public function deleteByIds(int $storageId, array $previewIds): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete(self::TABLE_NAME)
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('storage_id', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)),
+				$qb->expr()->in('id', $qb->createNamedParameter($previewIds, IQueryBuilder::PARAM_INT_ARRAY))
+			))->executeStatement();
+	}
 }
