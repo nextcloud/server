@@ -8,23 +8,25 @@ declare(strict_types=1);
  */
 namespace OC\Preview;
 
-use OC\Preview\Storage\Root;
+use OC\Preview\Db\PreviewMapper;
+use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\Files\IMimeTypeLoader;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
 
+/**
+ * @psalm-type FileId int
+ * @psalm-type StorageId int
+ */
 class BackgroundCleanupJob extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $timeFactory,
-		private IDBConnection $connection,
-		private Root $previewFolder,
-		private IMimeTypeLoader $mimeTypeLoader,
-		private bool $isCLI,
+		readonly private IDBConnection $connection,
+		readonly private PreviewMapper $previewMapper,
+		readonly private StorageFactory $storageFactory,
+		readonly private bool $isCLI,
 	) {
 		parent::__construct($timeFactory);
 		// Run at most once an hour
@@ -32,87 +34,36 @@ class BackgroundCleanupJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
-	public function run($argument) {
-		foreach ($this->getDeletedFiles() as $fileId) {
-			try {
-				$preview = $this->previewFolder->getFolder((string)$fileId);
-				$preview->delete();
-			} catch (NotFoundException $e) {
-				// continue
-			} catch (NotPermittedException $e) {
-				// continue
+	public function run($argument): void {
+		foreach ($this->getDeletedFiles() as $chunk) {
+			foreach ($chunk as $storage => $fileIds) {
+				foreach ($this->previewMapper->getByFileIds($storage, $fileIds) as $previews) {
+					$previewIds = [];
+					foreach ($previews as $preview) {
+						$previewIds[] = $preview->getId();
+						$this->storageFactory->deletePreview($preview);
+					}
+
+					$this->previewMapper->deleteByIds($storage, $previewIds);
+				};
 			}
 		}
 	}
 
+	/**
+	 * @return \Iterator<array<StorageId, FileId[]>>
+	 */
 	private function getDeletedFiles(): \Iterator {
-		yield from $this->getOldPreviewLocations();
-		yield from $this->getNewPreviewLocations();
-	}
-
-	private function getOldPreviewLocations(): \Iterator {
 		if ($this->connection->getShardDefinition('filecache')) {
-			// sharding is new enough that we don't need to support this
-			return;
-		}
-
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('a.name')
-			->from('filecache', 'a')
-			->leftJoin('a', 'filecache', 'b', $qb->expr()->eq(
-				$qb->expr()->castColumn('a.name', IQueryBuilder::PARAM_INT), 'b.fileid'
-			))
-			->where(
-				$qb->expr()->andX(
-					$qb->expr()->isNull('b.fileid'),
-					$qb->expr()->eq('a.storage', $qb->createNamedParameter($this->previewFolder->getStorageId())),
-					$qb->expr()->eq('a.parent', $qb->createNamedParameter($this->previewFolder->getId())),
-					$qb->expr()->like('a.name', $qb->createNamedParameter('__%')),
-					$qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory')))
-				)
-			);
-
-		if (!$this->isCLI) {
-			$qb->setMaxResults(10);
-		}
-
-		$cursor = $qb->executeQuery();
-
-		while ($row = $cursor->fetch()) {
-			yield $row['name'];
-		}
-
-		$cursor->closeCursor();
-	}
-
-	private function getNewPreviewLocations(): \Iterator {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('path', 'mimetype')
-			->from('filecache')
-			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($this->previewFolder->getId())));
-		$cursor = $qb->executeQuery();
-		$data = $cursor->fetch();
-		$cursor->closeCursor();
-
-		if ($data === null) {
-			return [];
-		}
-
-		if ($this->connection->getShardDefinition('filecache')) {
-			$chunks = $this->getAllPreviewIds($data['path'], 1000);
+			$chunks = $this->getAllPreviewIds(1000);
 			foreach ($chunks as $chunk) {
-				yield from $this->findMissingSources($chunk);
+				foreach ($chunk as $storage => $preview) {
+					yield [$storage => $this->findMissingSources($storage, $preview)];
+				}
 			}
 
 			return;
 		}
-
-		/*
-		 * This lovely like is the result of the way the new previews are stored
-		 * We take the md5 of the name (fileid) and split the first 7 chars. That way
-		 * there are not a gazillion files in the root of the preview appdata.
-		 */
-		$like = $this->connection->escapeLikeParameter($data['path']) . '/_/_/_/_/_/_/_/%';
 
 		/*
 		 * Deleting a file will not delete related previews right away.
@@ -130,19 +81,12 @@ class BackgroundCleanupJob extends TimedJob {
 		 * If the related file is deleted, b.fileid will be null and the preview folder can be deleted.
 		 */
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('a.name')
-			->from('filecache', 'a')
-			->leftJoin('a', 'filecache', 'b', $qb->expr()->eq(
-				$qb->expr()->castColumn('a.name', IQueryBuilder::PARAM_INT), 'b.fileid'
+		$qb->select('p.storage_id', 'p.file_id')
+			->from('previews', 'p')
+			->leftJoin('p', 'filecache', 'f', $qb->expr()->eq(
+				'p.file_id', 'f.fileid'
 			))
-			->where(
-				$qb->expr()->andX(
-					$qb->expr()->eq('a.storage', $qb->createNamedParameter($this->previewFolder->getStorageId())),
-					$qb->expr()->isNull('b.fileid'),
-					$qb->expr()->like('a.path', $qb->createNamedParameter($like)),
-					$qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory')))
-				)
-			);
+			->where($qb->expr()->isNull('f.fileid'));
 
 		if (!$this->isCLI) {
 			$qb->setMaxResults(10);
@@ -150,29 +94,38 @@ class BackgroundCleanupJob extends TimedJob {
 
 		$cursor = $qb->executeQuery();
 
+		$lastStorageId = null;
+		/** @var FileId[] $tmpResult */
+		$tmpResult = [];
 		while ($row = $cursor->fetch()) {
-			yield $row['name'];
+			if ($lastStorageId === null) {
+				$lastStorageId = $row['storage_id'];
+			} else if ($lastStorageId !== $row['storage_id']) {
+				yield [$lastStorageId => $tmpResult];
+				$tmpResult = [];
+				$lastStorageId = $row['storage_id'];
+			}
+			$tmpResult[] = $row['file_id'];
+		}
+
+		if (!empty($tmpResult)) {
+			yield [$lastStorageId => $tmpResult];
 		}
 
 		$cursor->closeCursor();
 	}
 
-	private function getAllPreviewIds(string $previewRoot, int $chunkSize): \Iterator {
-		// See `getNewPreviewLocations` for some more info about the logic here
-		$like = $this->connection->escapeLikeParameter($previewRoot) . '/_/_/_/_/_/_/_/%';
-
+	/**
+	 * @return \Iterator<array<StorageId, FileId[]>>
+	 */
+	private function getAllPreviewIds(int $chunkSize): \Iterator {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('name', 'fileid')
-			->from('filecache')
+		$qb->select('id', 'file_id', 'storage_id')
+			->from('previews')
 			->where(
-				$qb->expr()->andX(
-					$qb->expr()->eq('storage', $qb->createNamedParameter($this->previewFolder->getStorageId())),
-					$qb->expr()->like('path', $qb->createNamedParameter($like)),
-					$qb->expr()->eq('mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory'))),
-					$qb->expr()->gt('fileid', $qb->createParameter('min_id')),
-				)
+				$qb->expr()->gt('id', $qb->createParameter('min_id')),
 			)
-			->orderBy('fileid', 'ASC')
+			->orderBy('id', 'ASC')
 			->setMaxResults($chunkSize);
 
 		$minId = 0;
@@ -180,21 +133,33 @@ class BackgroundCleanupJob extends TimedJob {
 			$qb->setParameter('min_id', $minId);
 			$rows = $qb->executeQuery()->fetchAll();
 			if (count($rows) > 0) {
-				$minId = $rows[count($rows) - 1]['fileid'];
-				yield array_map(function ($row) {
-					return (int)$row['name'];
-				}, $rows);
+				$minId = $rows[count($rows) - 1]['id'];
+				$result = [];
+				foreach ($rows as $row) {
+					if (!isset($result[$row['storage_id']])) {
+						$result[$row['storage_id']] = [];
+					}
+					$result[$row['storage_id']][] = $row['file_id'];
+				}
+				yield $result;
 			} else {
 				break;
 			}
 		}
 	}
 
-	private function findMissingSources(array $ids): array {
+	/**
+	 * @param FileId[] $ids
+	 * @return FileId[]
+	 */
+	private function findMissingSources(int $storage, array $ids): array {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('fileid')
 			->from('filecache')
-			->where($qb->expr()->in('fileid', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)));
+			->where($qb->expr()->andX(
+				$qb->expr()->in('fileid', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)),
+				$qb->expr()->eq('storage', $qb->createNamedParameter($storage, IQueryBuilder::PARAM_INT)),
+			));
 		$found = $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
 		return array_diff($ids, $found);
 	}
