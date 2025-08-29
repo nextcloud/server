@@ -992,6 +992,17 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		];
 	}
 
+	public static function storageAndFileNameProviderThreeFiles(): array {
+		return [
+			// regular file on regular storage
+			['home::shareOwner', 'files/test.txt', 'files/test2.txt', 'files/test3.txt'],
+			// regular file on external storage
+			['smb::whatever', 'files/test.txt', 'files/test2.txt', 'files/test3.txt'],
+			// regular file on external storage in trashbin-like folder,
+			['smb::whatever', 'files_trashbin/files/test.txt', 'files_trashbin/files/test2.txt', 'files_trashbin/files/test3.txt'],
+		];
+	}
+	
 	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
 	public function testGetSharedWithUser($storageStringId, $fileName1, $fileName2): void {
 		$storageId = $this->createTestStorageEntry($storageStringId);
@@ -1041,11 +1052,30 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProvider')]
-	public function testGetSharedWithGroup($storageStringId, $fileName1, $fileName2): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('storageAndFileNameProviderThreeFiles')]
+	public function testGetSharedWithGroup($storageStringId, $fileName1, $fileName2, $fileName3): void {
 		$storageId = $this->createTestStorageEntry($storageStringId);
+		
 		$fileId = $this->createTestFileEntry($fileName1, $storageId);
 		$fileId2 = $this->createTestFileEntry($fileName2, $storageId);
+		$fileId3 = $this->createTestFileEntry($fileName3, $storageId);
+		
+		// $fileName3 shared with group `group3`
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
+				'share_with' => $qb->expr()->literal('group3'),
+				'uid_owner' => $qb->expr()->literal('shareOwner3'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy3'),
+				'item_type' => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal($fileId3),
+				'file_target' => $qb->expr()->literal('myTarget3'),
+				'permissions' => $qb->expr()->literal(14),
+			]);
+		$this->assertEquals(1, $qb->execute());
+
+		// $fileName2 shared with group `sharedWith`
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
@@ -1059,7 +1089,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(14),
 			]);
 		$this->assertEquals(1, $qb->execute());
-
+		
+		// $fileName1 shared with group `sharedWith`
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
@@ -1073,6 +1104,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'permissions' => $qb->expr()->literal(13),
 			]);
 		$this->assertEquals(1, $qb->execute());
+
+		// getSharedWith() returns a result ordered by id
 		$id = $qb->getLastInsertId();
 
 		$groups = [];
@@ -1103,7 +1136,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getFirstNodeById')->with($fileId)->willReturn($file);
 
 		$share = $this->provider->getSharedWith('sharedWith', IShare::TYPE_GROUP, null, 20, 1);
-		$this->assertCount(1, $share);
+		$this->assertCount(2, $share);
+
+		$share = $this->provider->getSharedWith('sharedWith', IShare::TYPE_GROUP, null, 20, 0);
+		$this->assertCount(2, $share);
 
 		$share = $share[0];
 		$this->assertEquals($id, $share->getId());
