@@ -50,11 +50,11 @@ export async function fetchVersions(fileInfo: any): Promise<Version[]> {
 			.filter(({ mime }) => mime !== '')
 			.map(version => formatVersion(version, fileInfo))
 
-		const authorIds = new Set(versions.map(version => version.author))
+		const authorIds = new Set(versions.map(version => String(version.author)))
 		const authors = await axios.post(generateUrl('/displaynames'), { users: [...authorIds] })
 
 		for (const version of versions) {
-			const author = authors.data.users[version.author]
+			const author = authors.data.users[version.author ?? '']
 			if (author) {
 				version.authorName = author
 			}
@@ -106,7 +106,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 		fileId: fileInfo.id,
 		// If version-label is defined make sure it is a string (prevent issue if the label is a number an PHP returns a number then)
 		label: version.props['version-label'] && String(version.props['version-label']),
-		author: version.props['version-author'] ?? null,
+		author: String(version.props['version-author']) ?? null,
 		authorName: null,
 		filename: version.filename,
 		basename: moment(mtime).format('LLL'),
