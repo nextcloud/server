@@ -276,6 +276,8 @@
     "Confirm deletion" : "Confirmar exclusão",
     "Cancel" : "Cancelar",
     "Download" : "Baixar",
+    "The requested file is not available." : "O arquivo solicitado não está disponível.",
+    "The requested files are not available." : "Os arquivos solicitados não estão disponíveis.",
     "Moving \"{source}\" to \"{destination}\" …" : "Movendo \"{source}\" para \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Copiando \"{source}\" para \"{destination}\" …",
     "Destination is not a folder" : "O destino não é uma pasta",

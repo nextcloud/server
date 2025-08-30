@@ -698,7 +698,7 @@ OC.L10N.register(
     "Enabled applications" : "Aktivierte Anwendungen",
     "Disabled applications" : "Deaktivierte Anwendungen",
     "Large organization" : "Große Organisation",
-    "Big organization" : "Große Organisation",
+    "Big organization" : "Mittlere Organisation",
     "Small organization" : "Kleine Organisation",
     "Hosting company" : "Hosting-Unternehmen",
     "University" : "Universität",

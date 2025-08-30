@@ -278,6 +278,8 @@ OC.L10N.register(
     "Confirm deletion" : "Підтвердіть вилучення",
     "Cancel" : "Скасувати",
     "Download" : "Звантажити",
+    "The requested file is not available." : "Запитаний файл відсутній.",
+    "The requested files are not available." : "Запитані файли відсутні.",
     "Moving \"{source}\" to \"{destination}\" …" : "Переміщення \"{source}\" до \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Копіювання \"{source}\" до \"{destination}\" …",
     "Destination is not a folder" : "Місце призначення не є каталогом",

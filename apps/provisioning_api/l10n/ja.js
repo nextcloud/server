@@ -20,6 +20,7 @@ OC.L10N.register(
     "Setting the password is not supported by the users backend" : "パスワードの設定は、ユーザ・バックエンドではサポートされていません",
     "Invalid language" : "無効な言語",
     "Invalid locale" : "無効なロケール",
+    "Invalid timezone" : "無効なタイムゾーン",
     "Invalid first day of week" : "無効な週の最初の曜日",
     "Cannot remove yourself from the admin group" : "管理者グループから自分自身を削除することはできません",
     "Cannot remove yourself from this group as you are a sub-admin" : "あなたはサブ管理者であるため、このグループから自分を削除することはできません",
