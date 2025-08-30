@@ -353,6 +353,7 @@ class UserMountCache implements IUserMountCache {
 	 * @since 9.0.0
 	 */
 	public function getMountsForFileId($fileId, $user = null) {
+		$fileId = (int)$fileId;
 		try {
 			[$storageId, $internalPath] = $this->getCacheInfoFromFileId($fileId);
 		} catch (NotFoundException $e) {
