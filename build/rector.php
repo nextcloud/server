@@ -68,6 +68,7 @@ $config = RectorConfig::configure()
 		$nextcloudDir . '/version.php',
 		$nextcloudDir . '/lib/private/Share20/ProviderFactory.php',
 		$nextcloudDir . '/tests',
+		$nextcloudDir . '/apps/dav/lib/DAV/CustomPropertiesBackend.php',
 		// $nextcloudDir . '/config',
 		// $nextcloudDir . '/lib',
 		// $nextcloudDir . '/themes',
