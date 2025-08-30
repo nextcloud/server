@@ -34,9 +34,11 @@ abstract class PublicShareController extends Controller {
 	/**
 	 * @since 14.0.0
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		ISession $session) {
+		ISession $session,
+	) {
 		parent::__construct($appName, $request);
 
 		$this->session = $session;
