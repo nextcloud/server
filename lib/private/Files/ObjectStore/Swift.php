@@ -130,8 +130,16 @@ class Swift implements IObjectStore {
 	}
 
 	public function copyObject($from, $to) {
-		$this->getContainer()->getObject($from)->copy([
-			'destination' => $this->getContainer()->name . '/' . $to
-		]);
+		try {
+			$this->getContainer()->getObject($from)->copy([
+				'destination' => $this->getContainer()->name . '/' . $to
+			]);
+		} catch (BadResponseException $e) {
+			if ($e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
+				throw new NotFoundException("Unable to copy. Object $from not found in object store.");
+			} else {
+				throw $e;
+			}
+		}
 	}
 }
