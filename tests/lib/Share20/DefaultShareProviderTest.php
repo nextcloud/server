@@ -1065,7 +1065,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->insert('share')
 			->values([
 				'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
-				'share_with' => $qb->expr()->literal('group3'),
+				'share_with' => $qb->expr()->literal('group103'),
 				'uid_owner' => $qb->expr()->literal('shareOwner3'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy3'),
 				'item_type' => $qb->expr()->literal('file'),
@@ -1105,7 +1105,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			]);
 		$this->assertEquals(1, $qb->execute());
 
-		// getSharedWith() returns a result ordered by id
+		// getSharedWith() returns a result ordered by id (we'll want this when checking the first share (aka $share[0]) later 
 		$id = $qb->getLastInsertId();
 
 		$groups = [];
