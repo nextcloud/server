@@ -24,9 +24,10 @@ class Base extends Command implements CompletionAwareInterface {
 	protected string $defaultOutputFormat = self::OUTPUT_FORMAT_PLAIN;
 	private bool $php_pcntl_signal = false;
 	private bool $interrupted = false;
-	public string $defaultHelp = 'More extensive and thorough documentation may be found at https://docs.nextcloud.com' . PHP_EOL; // TODO: link to appropriately versioned/themed Admin Manual
 
 	protected function configure() {
+		// Some of our commands do not extend this class; and some of those that do do not call parent::configure()
+		$defaultHelp = 'More extensive and thorough documentation may be found at ' . \OCP\Server::get(\OCP\Defaults::class)->getDocBaseUrl() . PHP_EOL;
 		$this
 			->setHelp($this->defaultHelp)
 			->addOption(
