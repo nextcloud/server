@@ -11,7 +11,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - webpack
-	- version: 5.99.9
+	- version: 5.101.3
 	- license: MIT
 - nextcloud
 	- version: 1.0.0
