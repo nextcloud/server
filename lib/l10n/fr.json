@@ -329,6 +329,7 @@
     "Question" : "Question",
     "Generated response" : "Réponse générée",
     "The answer to the question" : "La réponse à la question",
+    "Voice chat with the assistant" : "Discussion vocale avec l'assistant",
     "System prompt" : "Invite du système",
     "Define rules and assumptions that the assistant should follow during the conversation." : "Définir les règles et les hypothèses que l'assistant doit suivre pendant la conversation.",
     "Chat history" : "Historique de la discussion",

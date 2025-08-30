@@ -278,6 +278,8 @@ OC.L10N.register(
     "Confirm deletion" : "Потврди брисање",
     "Cancel" : "Поништи",
     "Download" : "Преузми",
+    "The requested file is not available." : "Тражени фајл није доступан.",
+    "The requested files are not available." : "Тражени фајлови нису доступни.",
     "Moving \"{source}\" to \"{destination}\" …" : "„{source}” се премешта у „{destination}”…",
     "Copying \"{source}\" to \"{destination}\" …" : "„{source}” се копира у „{destination}”…",
     "Destination is not a folder" : "Одредиште није фолдер",

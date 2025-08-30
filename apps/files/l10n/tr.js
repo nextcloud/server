@@ -278,6 +278,8 @@ OC.L10N.register(
     "Confirm deletion" : "Silmeyi onaylayın",
     "Cancel" : "İptal",
     "Download" : "İndir",
+    "The requested file is not available." : "İstenilen dosya kullanılamıyor.",
+    "The requested files are not available." : "İstenilen dosyalar kullanılamıyor.",
     "Moving \"{source}\" to \"{destination}\" …" : "\"{source}\", \"{destination}\" hedefine taşınıyor…",
     "Copying \"{source}\" to \"{destination}\" …" : "\"{source}\", \"{destination}\" hedefine kopyalanıyor…",
     "Destination is not a folder" : "Hedef bir klasör değil",

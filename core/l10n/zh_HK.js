@@ -328,6 +328,7 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud 登入表單已停用。使用其他登入選項（若可用）或聯絡您的管理人員。",
     "More actions" : "更多操作",
     "User menu" : "用戶選項單",
+    "Your guest name: {user}" : "您的訪客名稱：{user}",
     "You are currently not identified." : "目前無法辨識您的身分。",
     "Set public name" : "設定公開名稱",
     "Change public name" : "變更公開名稱",
