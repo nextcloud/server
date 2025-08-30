@@ -81,10 +81,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - uuid
-	- version: 11.0.5
+	- version: 11.1.0
 	- license: MIT
 - @nextcloud/calendar-availability-vue
-	- version: 2.2.6
+	- version: 2.2.10
 	- license: MIT
 - @nextcloud/capabilities
 	- version: 1.2.0
