@@ -328,6 +328,7 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloud ログインフォームは無効になっています。 利用可能な場合は別のログインオプションを使用するか、管理者に問い合わせてください。",
     "More actions" : "その他のアクション",
     "User menu" : "ユーザーメニュー",
+    "Your guest name: {user}" : "ゲスト名: {user}",
     "You are currently not identified." : "現在識別されていません。",
     "Set public name" : "公開名の設定",
     "Change public name" : "公開名を変更",

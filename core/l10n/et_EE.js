@@ -328,6 +328,7 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "Nextcloudi sisselogimisvorm on kasutusel eemaldatud. Kui mõni muu sisselogimisviis on saadaval, siis kasuta seda või küsi lisateavet oma süsteemihaldajalt.",
     "More actions" : "Täiendavad tegevused",
     "User menu" : "Kasutajamenüü",
+    "Your guest name: {user}" : "Sinu külalisnimi: {user}",
     "You are currently not identified." : "Sa pole hetkel tuvastatud",
     "Set public name" : "Lisa avalik nimi",
     "Change public name" : "Muuda avalikku nime",

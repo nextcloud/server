@@ -276,6 +276,8 @@
     "Confirm deletion" : "Deimhnigh scriosadh",
     "Cancel" : "Cealaigh",
     "Download" : "Íoslódáil",
+    "The requested file is not available." : "Níl an comhad iarrtha ar fáil.",
+    "The requested files are not available." : "Níl na comhaid iarrtha ar fáil.",
     "Moving \"{source}\" to \"{destination}\" …" : "Ag bogadh \"{source}\" go \"{destination}\" ...",
     "Copying \"{source}\" to \"{destination}\" …" : "“{source}” á chóipeáil go “{destination}”…",
     "Destination is not a folder" : "Ní fillteán é ceann scríbe",

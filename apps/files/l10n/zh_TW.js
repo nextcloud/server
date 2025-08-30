@@ -278,6 +278,8 @@ OC.L10N.register(
     "Confirm deletion" : "確認刪除",
     "Cancel" : "取消",
     "Download" : "下載",
+    "The requested file is not available." : "無法取得所請求的檔案。",
+    "The requested files are not available." : "無法取得所請求的檔案。",
     "Moving \"{source}\" to \"{destination}\" …" : "正在移動「{source}」至「{destination}」……",
     "Copying \"{source}\" to \"{destination}\" …" : "正在複製「{source}」至「{destination}」……",
     "Destination is not a folder" : "目的地不是資料夾",
