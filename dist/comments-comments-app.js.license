@@ -381,7 +381,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.8.0
 	- license: MIT
 - webpack
-	- version: 5.99.9
+	- version: 5.101.3
 	- license: MIT
 - which-typed-array
 	- version: 1.1.19
