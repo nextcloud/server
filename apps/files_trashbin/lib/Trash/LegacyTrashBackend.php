@@ -4,9 +4,11 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Trashbin\Trash;
 
 use OC\Files\Filesystem;
+use OC\Files\Node\LazyFolder;
 use OC\Files\View;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Storage;
@@ -16,8 +18,10 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 
 class LegacyTrashBackend implements ITrashBackend {
 	/** @var array */
@@ -117,5 +121,31 @@ class LegacyTrashBackend implements ITrashBackend {
 		} catch (NotFoundException $e) {
 			return null;
 		}
+	}
+
+	public function getCacheableRootsForUser(IUser $user): array {
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$connection = Server::get(IDBConnection::class);
+		$qb = $connection->getQueryBuilder();
+		$qb->select('fileid', 'storage')
+			->from('filecache')
+			->hintShardKey('storage', $userFolder->getMountPoint()->getNumericStorageId())
+			->where($qb->expr()->eq('path_hash', $qb->createNamedParameter(md5('files_trashbin/files'))));
+		$result = $qb->executeQuery()->fetchAll();
+
+		if (count($result) === 0) {
+			return [];
+		}
+
+		return [
+			new LazyFolder(
+				$this->rootFolder,
+				fn () => $userFolder->getParent()->get('files_trashbin/files'),
+				[
+					'fileid' => $result[0]['fileid'],
+					'mountpoint_numericStorageId' => $result[0]['storage'],
+				]
+			)
+		];
 	}
 }
