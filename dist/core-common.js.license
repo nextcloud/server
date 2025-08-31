@@ -55,7 +55,6 @@ SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
-SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
 SPDX-FileCopyrightText: James Halliday
@@ -177,7 +176,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.1.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.28.0
+	- version: 8.29.2
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
