@@ -40,7 +40,7 @@
     "cypress:update-snapshots": "cypress run --env visualRegressionType=base --spec cypress/e2e/visual-regression.cy.ts --config screenshotsFolder=cypress/snapshots/base"
   },
   "dependencies": {
-    "@fontsource/roboto": "^5.1.0",
+    "@fontsource/roboto": "^5.2.6",
     "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.5.2",
     "@nextcloud/axios": "^2.5.1",
