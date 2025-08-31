@@ -328,6 +328,7 @@ OC.L10N.register(
     "The Nextcloud login form is disabled. Use another login option if available or contact your administration." : "The Nextcloud login form is disabled. Use another login option if available or contact your administration.",
     "More actions" : "More actions",
     "User menu" : "User menu",
+    "Your guest name: {user}" : "Your guest name: {user}",
     "You are currently not identified." : "You are currently not identified.",
     "Set public name" : "Set public name",
     "Change public name" : "Change public name",
