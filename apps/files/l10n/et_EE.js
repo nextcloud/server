@@ -278,6 +278,8 @@ OC.L10N.register(
     "Confirm deletion" : "Kinnita kustutamine",
     "Cancel" : "Loobu",
     "Download" : "Laadi alla",
+    "The requested file is not available." : "Soovitud fail pole saadaval.",
+    "The requested files are not available." : "Soovitud failid pole saadaval.",
     "Moving \"{source}\" to \"{destination}\" …" : "Teisaldan „{source}“ → „{destination}“…",
     "Copying \"{source}\" to \"{destination}\" …" : "Kopeerin „{source}“ → „{destination}“…",
     "Destination is not a folder" : "Sihtasukoht pole kaust",
