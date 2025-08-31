@@ -278,6 +278,8 @@ OC.L10N.register(
     "Confirm deletion" : "Confirm deletion",
     "Cancel" : "Cancel",
     "Download" : "Download",
+    "The requested file is not available." : "The requested file is not available.",
+    "The requested files are not available." : "The requested files are not available.",
     "Moving \"{source}\" to \"{destination}\" …" : "Moving \"{source}\" to \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Copying \"{source}\" to \"{destination}\" …",
     "Destination is not a folder" : "Destination is not a folder",
