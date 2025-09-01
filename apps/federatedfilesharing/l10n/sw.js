@@ -47,6 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Shiriki nami kupitia Kitambulisho changu cha #Nextcloud Federated Cloud, ona, {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Shiriki nami kupitia Kitambulisho changu cha #Nextcloud Federated Cloud",
     "Share with me via Nextcloud" : "Shiriki nami kupitia Nextcloud",
+    "Cloud ID copied" : "Kitambulisho cha Cloud kimenakiliwa",
     "Copy" : "Nakili",
     "Clipboard not available. Please copy the cloud ID manually." : "Ubao wa kunakili haupatikani. Tafadhali nakili kitambulisho cha cloud wewe mwenyewe.",
     "Copied!" : "Imenakiliwa!",
