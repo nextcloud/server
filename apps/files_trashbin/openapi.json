@@ -97,12 +97,8 @@
                         "in": "query",
                         "description": "Whether to not crop the preview",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],

@@ -81,16 +81,16 @@
         },
         {
             "name": "nextcloud/openapi-extractor",
-            "version": "v1.8.2",
+            "version": "v1.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-releases/openapi-extractor.git",
-                "reference": "aa4b6750b255460bec8d45406d33606863010d2e"
+                "reference": "26d8a91dd0ccbfe7b212fc164df1c7285368ee9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-releases/openapi-extractor/zipball/aa4b6750b255460bec8d45406d33606863010d2e",
-                "reference": "aa4b6750b255460bec8d45406d33606863010d2e",
+                "url": "https://api.github.com/repos/nextcloud-releases/openapi-extractor/zipball/26d8a91dd0ccbfe7b212fc164df1c7285368ee9c",
+                "reference": "26d8a91dd0ccbfe7b212fc164df1c7285368ee9c",
                 "shasum": ""
             },
             "require": {
@@ -122,9 +122,9 @@
             "description": "A tool for extracting OpenAPI specifications from Nextcloud source code",
             "support": {
                 "issues": "https://github.com/nextcloud-releases/openapi-extractor/issues",
-                "source": "https://github.com/nextcloud-releases/openapi-extractor/tree/v1.8.2"
+                "source": "https://github.com/nextcloud-releases/openapi-extractor/tree/v1.8.3"
             },
-            "time": "2025-08-26T06:28:24+00:00"
+            "time": "2025-09-01T14:01:02+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -186,16 +186,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "b9e61a61e39e02dd90944e9115241c7f7e76bfd8"
+                "reference": "1e0cd5370df5dd2e556a36b9c62f62e555870495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/b9e61a61e39e02dd90944e9115241c7f7e76bfd8",
-                "reference": "b9e61a61e39e02dd90944e9115241c7f7e76bfd8",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/1e0cd5370df5dd2e556a36b9c62f62e555870495",
+                "reference": "1e0cd5370df5dd2e556a36b9c62f62e555870495",
                 "shasum": ""
             },
             "require": {
@@ -227,9 +227,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.2.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.0"
             },
-            "time": "2025-07-13T07:04:09+00:00"
+            "time": "2025-08-30T15:50:23+00:00"
         }
     ],
     "packages-dev": [],
