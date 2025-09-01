@@ -419,3 +419,58 @@ jobs:
           echo "Git diff:"
           git diff
           exit 1 # make it red to grab attention
+
+  trigger-remote-dev-worflow:
+    runs-on: self-hosted
+
+    name: Trigger remote workflow
+    needs: [ build-artifact, upload-to-artifactory ]
+    # Trigger remote build on "ionos-dev|ionos-stable" branch *push* defined in the on:push:branches
+    if: github.event_name == 'push' && ( github.ref_name == 'ionos-dev' || github.ref_name == 'ionos-stable' )
+    steps:
+      - name: Trigger remote workflow
+        run: |
+          # Enable command echo
+          set -x
+
+          # The 'ionos-dev' branch will trigger remote "dev" branch workflow
+          GITLAB_BRANCH="dev"
+
+          # set ARTIFACTORY_STAGE_PREFIX=stable on ionos-stable branch
+          if [ ${{ github.ref_name }} == "ionos-stable" ]; then
+              GITLAB_BRANCH="stable"
+          fi
+
+          # Call webhook
+          curl \
+          --silent \
+          --insecure \
+          --request POST \
+          --fail-with-body \
+          -o response.json \
+          --form token=${{ secrets.GITLAB_TOKEN }} \
+          --form ref="${GITLAB_BRANCH}" \
+          --form "variables[GITHUB_SHA]=${{ github.sha }}" \
+          --form "variables[ARTIFACTORY_LAST_BUILD_PATH]=${{ needs.upload-to-artifactory.outputs.ARTIFACTORY_LAST_BUILD_PATH }}" \
+          --form "variables[NC_VERSION]=${{ needs.build-artifact.outputs.NC_VERSION }}" \
+          --form "variables[BUILD_ID]=${{ github.run_id }}" \
+          "${{ secrets.GITLAB_TRIGGER_URL }}" || ( RETCODE="$?"; jq . response.json; exit "$RETCODE" )
+
+          # Disable command echo
+          set +x
+
+          # Print and parse json
+          # jq . response.json
+          echo "json<<END" >> $GITHUB_OUTPUT
+          cat response.json >> $GITHUB_OUTPUT
+          echo "END" >> $GITHUB_OUTPUT
+          echo "web_url<<END" >> $GITHUB_OUTPUT
+          cat response.json | jq --raw-output '.web_url' >> $GITHUB_OUTPUT
+          echo "END" >> $GITHUB_OUTPUT
+
+      - name: Show changes on failure
+        if: failure()
+        run: |
+          git status
+          git --no-pager diff
+          exit 1 # make it red to grab attention
