@@ -6636,12 +6636,8 @@
                         "in": "query",
                         "description": "Rewrite URLs to absolute ones",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -6744,12 +6740,8 @@
                         "in": "query",
                         "description": "Rewrite URLs to absolute ones",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -12454,12 +12446,8 @@
                         "in": "query",
                         "description": "Fallback to guest avatar if not found",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -12561,12 +12549,8 @@
                         "in": "query",
                         "description": "Fallback to guest avatar if not found",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -12810,13 +12794,9 @@
                         "in": "query",
                         "description": "Return dark avatar",
                         "schema": {
-                            "type": "integer",
+                            "type": "boolean",
                             "nullable": true,
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "default": false
                         }
                     }
                 ],
@@ -13192,12 +13172,8 @@
                         "in": "query",
                         "description": "Preserve the aspect ratio",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -13205,12 +13181,8 @@
                         "in": "query",
                         "description": "Force returning an icon",
                         "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": true
                         }
                     },
                     {
@@ -13231,12 +13203,8 @@
                         "in": "query",
                         "description": "Whether to fallback to the mime icon if no preview is available",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -13358,12 +13326,8 @@
                         "in": "query",
                         "description": "Preserve the aspect ratio",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -13371,12 +13335,8 @@
                         "in": "query",
                         "description": "Force returning an icon",
                         "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": true
                         }
                     },
                     {
@@ -13397,12 +13357,8 @@
                         "in": "query",
                         "description": "Whether to fallback to the mime icon if no preview is available",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -22678,12 +22634,8 @@
                         "in": "query",
                         "description": "Whether to not crop the preview",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -22691,12 +22643,8 @@
                         "in": "query",
                         "description": "Whether to fallback to the mime icon if no preview is available",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -23526,12 +23474,8 @@
                         "in": "query",
                         "description": "Include tags in the share",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -24694,12 +24638,8 @@
                         "in": "query",
                         "description": "If a global lookup should be performed too",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -25788,12 +25728,8 @@
                         "in": "query",
                         "description": "Whether to not crop the preview",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -25905,12 +25841,8 @@
                         "in": "query",
                         "description": "Whether to fallback to the mime icon if no preview is available",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -32966,12 +32898,8 @@
                         "in": "query",
                         "description": "Let the browser decide the CSS priority",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
@@ -32979,12 +32907,8 @@
                         "in": "query",
                         "description": "Include custom CSS",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -33044,12 +32968,8 @@
                         "in": "query",
                         "description": "Return image as SVG",
                         "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -34539,12 +34459,8 @@
                         "in": "query",
                         "description": "Whether to show the password",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
