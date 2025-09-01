@@ -131,7 +131,7 @@ import { defineComponent } from 'vue'
 import moment from '@nextcloud/moment'
 
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import FileCompare from 'vue-material-design-icons/FileCompare.vue'
 import ImageOffOutline from 'vue-material-design-icons/ImageOffOutline.vue'
