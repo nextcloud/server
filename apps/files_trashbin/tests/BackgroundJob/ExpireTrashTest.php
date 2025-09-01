@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Tests\BackgroundJob;
 
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
 use OCA\Files_Trashbin\Expiration;
+use OCA\Files_Trashbin\Service\ExpireService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IAppConfig;
@@ -23,6 +25,8 @@ class ExpireTrashTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private IUserManager&MockObject $userManager;
 	private Expiration&MockObject $expiration;
+	private ExpireService&MockObject $expireService;
+	private SetupManager&MockObject $setupManager;
 	private IJobList&MockObject $jobList;
 	private LoggerInterface&MockObject $logger;
 	private ITimeFactory&MockObject $time;
@@ -35,6 +39,8 @@ class ExpireTrashTest extends TestCase {
 		$this->expiration = $this->createMock(Expiration::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->expireService = $this->createMock(ExpireService::class);
+		$this->setupManager = $this->createMock(SetupManager::class);
 
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->time->method('getTime')
@@ -54,7 +60,7 @@ class ExpireTrashTest extends TestCase {
 			->with('files_trashbin', 'background_job_expire_trash_offset', 0)
 			->willReturn(0);
 
-		$job = new ExpireTrash($this->appConfig, $this->userManager, $this->expiration, $this->logger, $this->time);
+		$job = new ExpireTrash($this->appConfig, $this->userManager, $this->expiration, $this->expireService, $this->setupManager, $this->logger, $this->time);
 		$job->start($this->jobList);
 	}
 
@@ -65,7 +71,7 @@ class ExpireTrashTest extends TestCase {
 		$this->expiration->expects($this->never())
 			->method('getMaxAgeAsTimestamp');
 
-		$job = new ExpireTrash($this->appConfig, $this->userManager, $this->expiration, $this->logger, $this->time);
+		$job = new ExpireTrash($this->appConfig, $this->userManager, $this->expiration, $this->expireService, $this->setupManager, $this->logger, $this->time);
 		$job->start($this->jobList);
 	}
 }

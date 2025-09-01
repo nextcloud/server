@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitFiles_Trashbin
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\Files_Trashbin\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\Files_Trashbin\\' => 
+        'OCA\\Files_Trashbin\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -57,6 +57,8 @@ class ComposerStaticInitFiles_Trashbin
         'OCA\\Files_Trashbin\\Sabre\\TrashRoot' => __DIR__ . '/..' . '/../lib/Sabre/TrashRoot.php',
         'OCA\\Files_Trashbin\\Sabre\\TrashbinPlugin' => __DIR__ . '/..' . '/../lib/Sabre/TrashbinPlugin.php',
         'OCA\\Files_Trashbin\\Service\\ConfigService' => __DIR__ . '/..' . '/../lib/Service/ConfigService.php',
+        'OCA\\Files_Trashbin\\Service\\ExpireService' => __DIR__ . '/..' . '/../lib/Service/ExpireService.php',
+        'OCA\\Files_Trashbin\\Service\\TrashFolderService' => __DIR__ . '/..' . '/../lib/Service/TrashFolderService.php',
         'OCA\\Files_Trashbin\\Storage' => __DIR__ . '/..' . '/../lib/Storage.php',
         'OCA\\Files_Trashbin\\Trash\\BackendNotFoundException' => __DIR__ . '/..' . '/../lib/Trash/BackendNotFoundException.php',
         'OCA\\Files_Trashbin\\Trash\\ITrashBackend' => __DIR__ . '/..' . '/../lib/Trash/ITrashBackend.php',

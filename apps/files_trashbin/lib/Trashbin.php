@@ -10,6 +10,7 @@ namespace OCA\Files_Trashbin;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\CacheQueryBuilder;
+use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\Node\NonExistingFile;
 use OC\Files\Node\NonExistingFolder;
@@ -17,14 +18,13 @@ use OC\Files\View;
 use OC\User\NoUserException;
 use OC_User;
 use OCA\Files_Trashbin\AppInfo\Application;
-use OCA\Files_Trashbin\Command\Expire;
 use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCA\Files_Trashbin\Events\NodeRestoredEvent;
 use OCA\Files_Trashbin\Exceptions\CopyRecursiveException;
+use OCA\Files_Trashbin\Service\ExpireService;
 use OCA\Files_Versions\Storage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Command\IBus;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
@@ -42,6 +42,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -350,17 +351,23 @@ class Trashbin implements IEventListener {
 
 		$trashStorage->releaseLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
 
-		self::scheduleExpire($user);
+		$userManager = Server::get(IUserManager::class);
+		$expireServie = Server::get(ExpireService::class);
+		if ($userObject = $userManager->get($user)) {
+			$expireServie->scheduleExpirationJob($userObject);
+		}
 
 		// if owner !== user we also need to update the owners trash size
 		if ($owner !== $user) {
-			self::scheduleExpire($owner);
+			if ($ownerObject = $userManager->get($owner)) {
+				$expireServie->scheduleExpirationJob($ownerObject);
+			}
 		}
 
 		return $moveSuccessful;
 	}
 
-	private static function getConfiguredTrashbinSize(string $user): int|float {
+	public static function getConfiguredTrashbinSize(string $user): int|float {
 		$config = Server::get(IConfig::class);
 		$userTrashbinSize = $config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1');
 		if (is_numeric($userTrashbinSize) && ($userTrashbinSize > -1)) {
@@ -643,7 +650,7 @@ class Trashbin implements IEventListener {
 	 *
 	 * @param string $path
 	 */
-	protected static function emitTrashbinPreDelete($path) {
+	public static function emitTrashbinPreDelete($path) {
 		\OC_Hook::emit('\OCP\Trashbin', 'preDelete', ['path' => $path]);
 	}
 
@@ -652,7 +659,7 @@ class Trashbin implements IEventListener {
 	 *
 	 * @param string $path
 	 */
-	protected static function emitTrashbinPostDelete($path) {
+	public static function emitTrashbinPostDelete($path) {
 		\OC_Hook::emit('\OCP\Trashbin', 'delete', ['path' => $path]);
 	}
 
@@ -664,6 +671,7 @@ class Trashbin implements IEventListener {
 	 * @param int $timestamp of deletion time
 	 *
 	 * @return int|float size of deleted files
+	 * @throws NotPermittedException
 	 */
 	public static function delete($filename, $user, $timestamp = null) {
 		$userRoot = \OC::$server->getUserFolder($user)->getParent();
@@ -705,32 +713,6 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * @param string $file
-	 * @param string $filename
-	 * @param ?int $timestamp
-	 */
-	private static function deleteVersions(View $view, $file, $filename, $timestamp, string $user): int|float {
-		$size = 0;
-		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
-			if ($view->is_dir('files_trashbin/versions/' . $file)) {
-				$size += self::calculateSize(new View('/' . $user . '/files_trashbin/versions/' . $file));
-				$view->unlink('files_trashbin/versions/' . $file);
-			} elseif ($versions = self::getVersionsFromTrash($filename, $timestamp, $user)) {
-				foreach ($versions as $v) {
-					if ($timestamp) {
-						$size += $view->filesize('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
-						$view->unlink('/files_trashbin/versions/' . static::getTrashFilename($filename . '.v' . $v, $timestamp));
-					} else {
-						$size += $view->filesize('/files_trashbin/versions/' . $filename . '.v' . $v);
-						$view->unlink('/files_trashbin/versions/' . $filename . '.v' . $v);
-					}
-				}
-			}
-		}
-		return $size;
-	}
-
-	/**
 	 * check to see whether a file exists in trashbin
 	 *
 	 * @param string $filename path to the file
@@ -763,112 +745,10 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * calculate remaining free space for trash bin
-	 *
-	 * @param int|float $trashbinSize current size of the trash bin
-	 * @param string $user
-	 * @return int|float available free space for trash bin
-	 */
-	private static function calculateFreeSpace(int|float $trashbinSize, string $user): int|float {
-		$configuredTrashbinSize = static::getConfiguredTrashbinSize($user);
-		if ($configuredTrashbinSize > -1) {
-			return $configuredTrashbinSize - $trashbinSize;
-		}
-
-		$userObject = Server::get(IUserManager::class)->get($user);
-		if (is_null($userObject)) {
-			return 0;
-		}
-		$softQuota = true;
-		$quota = $userObject->getQuota();
-		if ($quota === null || $quota === 'none') {
-			$quota = Filesystem::free_space('/');
-			$softQuota = false;
-			// inf or unknown free space
-			if ($quota < 0) {
-				$quota = PHP_INT_MAX;
-			}
-		} else {
-			$quota = Util::computerFileSize($quota);
-			// invalid quota
-			if ($quota === false) {
-				$quota = PHP_INT_MAX;
-			}
-		}
-
-		// calculate available space for trash bin
-		// subtract size of files and current trash bin size from quota
-		if ($softQuota) {
-			$userFolder = \OC::$server->getUserFolder($user);
-			if (is_null($userFolder)) {
-				return 0;
-			}
-			$free = $quota - $userFolder->getSize(false); // remaining free space for user
-			if ($free > 0) {
-				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
-			} else {
-				$availableSpace = $free - $trashbinSize;
-			}
-		} else {
-			$availableSpace = $quota;
-		}
-
-		return Util::numericToNumber($availableSpace);
-	}
-
-	/**
-	 * resize trash bin if necessary after a new file was added to Nextcloud
-	 *
-	 * @param string $user user id
-	 */
-	public static function resizeTrash($user) {
-		$size = self::getTrashbinSize($user);
-
-		$freeSpace = self::calculateFreeSpace($size, $user);
-
-		if ($freeSpace < 0) {
-			self::scheduleExpire($user);
-		}
-	}
-
-	/**
-	 * clean up the trash bin
-	 *
-	 * @param string $user
-	 */
-	public static function expire($user) {
-		$trashBinSize = self::getTrashbinSize($user);
-		$availableSpace = self::calculateFreeSpace($trashBinSize, $user);
-
-		$dirContent = Helper::getTrashFiles('/', $user, 'mtime');
-
-		// delete all files older then $retention_obligation
-		[$delSize, $count] = self::deleteExpiredFiles($dirContent, $user);
-
-		$availableSpace += $delSize;
-
-		// delete files from trash until we meet the trash bin size limit again
-		self::deleteFiles(array_slice($dirContent, $count), $user, $availableSpace);
-	}
-
-	/**
-	 * @param string $user
-	 */
-	private static function scheduleExpire($user) {
-		// let the admin disable auto expire
-		/** @var Application $application */
-		$application = Server::get(Application::class);
-		$expiration = $application->getContainer()->query('Expiration');
-		if ($expiration->isEnabled()) {
-			Server::get(IBus::class)->push(new Expire($user));
-		}
-	}
-
-	/**
 	 * if the size limit for the trash bin is reached, we delete the oldest
 	 * files in the trash bin until we meet the limit again
 	 *
-	 * @param array $files
+	 * @param FileInfo[] $files
 	 * @param string $user
 	 * @param int|float $availableSpace available disc space
 	 * @return int|float size of deleted files
@@ -885,6 +765,40 @@ class Trashbin implements IEventListener {
 					$tmp = self::delete($file['name'], $user, $file['mtime']);
 					Server::get(LoggerInterface::class)->info(
 						'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota) for user "{user}"',
+						[
+							'app' => 'files_trashbin',
+							'user' => $user,
+						]
+					);
+					$availableSpace += $tmp;
+					$size += $tmp;
+				} else {
+					break;
+				}
+			}
+		}
+		return $size;
+	}
+
+	/**
+	 * if the size limit for the trash bin is reached, we delete the oldest
+	 * files in the trash bin until we meet the limit again
+	 *
+	 * @param Node[] $nodes
+	 * @return int|float size of deleted files
+	 */
+	public static function deleteNodes(array $nodes, IUser $user, int|float $availableSpace): int|float {
+		/** @var Application $application */
+		$application = Server::get(Application::class);
+		$expiration = $application->getContainer()->get('Expiration');
+		$size = 0;
+
+		if ($availableSpace < 0) {
+			foreach ($nodes as $node) {
+				if ($availableSpace < 0 && $expiration->isExpired($node->getMTime(), true)) {
+					$tmp = self::delete($node->getName(), $user->getUID(), $node->getMTime());
+					Server::get(LoggerInterface::class)->info(
+						'remove "' . $node->getName() . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota) for user "{user}"',
 						[
 							'app' => 'files_trashbin',
 							'user' => $user,
@@ -1106,18 +1020,6 @@ class Trashbin implements IEventListener {
 			$iterator->next();
 		}
 		return $size;
-	}
-
-	/**
-	 * get current size of trash bin from a given user
-	 *
-	 * @param string $user user who owns the trash bin
-	 * @return int|float trash bin size
-	 */
-	private static function getTrashbinSize(string $user): int|float {
-		$view = new View('/' . $user);
-		$fileInfo = $view->getFileInfo('/files_trashbin');
-		return isset($fileInfo['size']) ? $fileInfo['size'] : 0;
 	}
 
 	/**

@@ -9,11 +9,14 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
+use OC\Files\SetupManager;
+use OCA\Files_Trashbin\Service\ExpireService;
 use OCP\Command\IBus;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Util;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,9 +24,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Size extends Base {
 	public function __construct(
-		private IConfig $config,
-		private IUserManager $userManager,
-		private IBus $commandBus,
+		readonly private IConfig $config,
+		readonly private IUserManager $userManager,
+		readonly private ExpireService $expireService,
 	) {
 		parent::__construct();
 	}
@@ -53,7 +56,10 @@ class Size extends Base {
 			}
 			if ($user) {
 				$this->config->setUserValue($user, 'files_trashbin', 'trashbin_size', (string)$parsedSize);
-				$this->commandBus->push(new Expire($user));
+				$userObject = $this->userManager->get($user);
+				if ($userObject) {
+					$this->expireService->scheduleExpirationJob($userObject);
+				}
 			} else {
 				$this->config->setAppValue('files_trashbin', 'trashbin_size', (string)$parsedSize);
 				$output->writeln('<info>Warning: changing the default trashbin size will automatically trigger cleanup of existing trashbins,</info>');

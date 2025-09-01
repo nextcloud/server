@@ -6,10 +6,13 @@
  */
 namespace OCA\Files_Trashbin\Tests\Command;
 
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Command\ExpireTrash;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
+use OCA\Files_Trashbin\Service\ExpireService;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IConfig;
@@ -30,11 +33,14 @@ use Test\TestCase;
  */
 class ExpireTrashTest extends TestCase {
 	private Expiration $expiration;
-	private Node $userFolder;
+	private Folder $userFolder;
+	private IRootFolder $rootFolder;
 	private IConfig $config;
 	private IUserManager $userManager;
 	private IUser $user;
 	private ITimeFactory $timeFactory;
+	private ExpireService $expireService;
+	private SetupManager $setupManager;
 
 
 	protected function setUp(): void {
@@ -47,10 +53,13 @@ class ExpireTrashTest extends TestCase {
 
 		$userId = self::getUniqueID('user');
 		$this->userManager = Server::get(IUserManager::class);
+		$this->rootFolder = Server::get(IRootFolder::class);
 		$this->user = $this->userManager->createUser($userId, $userId);
+		$this->expireService = Server::get(ExpireService::class);
+		$this->setupManager = Server::get(SetupManager::class);
 
 		$this->loginAsUser($userId);
-		$this->userFolder = Server::get(IRootFolder::class)->getUserFolder($userId);
+		$this->userFolder = $this->rootFolder->getUserFolder($userId);
 	}
 
 	protected function tearDown(): void {
@@ -99,9 +108,11 @@ class ExpireTrashTest extends TestCase {
 			->willReturn([$userId]);
 
 		$command = new ExpireTrash(
-			Server::get(LoggerInterface::class),
+			$this->setupManager,
+			$this->rootFolder,
 			Server::get(IUserManager::class),
-			$this->expiration
+			$this->expiration,
+			$this->expireService,
 		);
 
 		$this->invokePrivate($command, 'execute', [$inputInterface, $outputInterface]);

@@ -9,18 +9,23 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Listener;
 
+use OCA\Files_Trashbin\Service\ExpireService;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 
 /** @template-implements IEventListener<NodeWrittenEvent|BeforeUserDeletedEvent|BeforeFileSystemSetupEvent> */
 class EventListener implements IEventListener {
 	public function __construct(
-		private ?string $userId = null,
+		readonly private ExpireService $expireService,
+		readonly private IUserManager $userManager,
+		readonly private ?string $userId = null,
 	) {
 	}
 
@@ -28,7 +33,10 @@ class EventListener implements IEventListener {
 		if ($event instanceof NodeWrittenEvent) {
 			// Resize trash
 			if (!empty($this->userId)) {
-				Trashbin::resizeTrash($this->userId);
+				$user = $this->userManager->get($this->userId);
+				if ($user) {
+					$this->expireService->scheduleExpirationJobIfNeeded($user);
+				}
 			}
 		}
 

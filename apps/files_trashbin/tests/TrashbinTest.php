@@ -19,6 +19,7 @@ use OCA\Files_Sharing\AppInfo\Application;
 use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
+use OCA\Files_Trashbin\Service\ExpireService;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -177,6 +178,8 @@ class TrashbinTest extends \Test\TestCase {
 		// every second file will get a date in the past so that it will get expired
 		$manipulatedList = $this->manipulateDeleteTime($filesInTrash, $this->trashRoot1, $expiredDate);
 
+		$expireService = Server::get(ExpireService::class);
+		$expireService->
 		$testClass = new TrashbinForTesting();
 		[$sizeOfDeletedFiles, $count] = $testClass->dummyDeleteExpiredFiles($manipulatedList, $expireAt);
 
@@ -680,15 +683,6 @@ class TrashbinTest extends \Test\TestCase {
 
 // just a dummy class to make protected methods available for testing
 class TrashbinForTesting extends Trashbin {
-
-	/**
-	 * @param FileInfo[] $files
-	 * @param integer $limit
-	 */
-	public function dummyDeleteExpiredFiles($files) {
-		// dummy value for $retention_obligation because it is not needed here
-		return parent::deleteExpiredFiles($files, TrashbinTest::TEST_TRASHBIN_USER1);
-	}
 
 	/**
 	 * @param FileInfo[] $files

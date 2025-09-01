@@ -351,12 +351,17 @@ class LDAP implements ILDAPWrapper {
 	 * @throws \Exception
 	 */
 	private function processLDAPError($resource, string $functionName, int $errorCode, string $errorMsg): void {
-		$this->logger->debug('LDAP error {message} ({code}) after calling {func}', [
+		$args = [
 			'app' => 'user_ldap',
 			'message' => $errorMsg,
 			'code' => $errorCode,
 			'func' => $functionName,
-		]);
+		];
+		if ($errorCode === 1) {
+			$this->logger->warning('LDAP error {message} ({code}) after calling {func}', $args);
+		} else {
+			$this->logger->debug('LDAP error {message} ({code}) after calling {func}', $args);
+		}
 		if ($functionName === 'ldap_get_entries'
 			&& $errorCode === -4) {
 		} elseif ($errorCode === 32) {

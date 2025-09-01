@@ -7,10 +7,9 @@
  */
 namespace OCA\Files_Trashbin\BackgroundJob;
 
-use OC\Files\View;
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Expiration;
-use OCA\Files_Trashbin\Helper;
-use OCA\Files_Trashbin\Trashbin;
+use OCA\Files_Trashbin\Service\ExpireService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IAppConfig;
@@ -19,10 +18,12 @@ use Psr\Log\LoggerInterface;
 
 class ExpireTrash extends TimedJob {
 	public function __construct(
-		private IAppConfig $appConfig,
-		private IUserManager $userManager,
-		private Expiration $expiration,
-		private LoggerInterface $logger,
+		readonly private IAppConfig $appConfig,
+		readonly private IUserManager $userManager,
+		readonly private Expiration $expiration,
+		readonly private ExpireService $expireService,
+		readonly private SetupManager $setupManager,
+		readonly private LoggerInterface $logger,
 		ITimeFactory $time,
 	) {
 		parent::__construct($time);
@@ -47,12 +48,7 @@ class ExpireTrash extends TimedJob {
 
 		foreach ($users as $user) {
 			try {
-				$uid = $user->getUID();
-				if (!$this->setupFS($uid)) {
-					continue;
-				}
-				$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
-				Trashbin::deleteExpiredFiles($dirContent, $uid);
+				$this->expireService->expireTrashForUser($user);
 			} catch (\Throwable $e) {
 				$this->logger->error('Error while expiring trashbin for user ' . $user->getUID(), ['exception' => $e]);
 			}
@@ -61,28 +57,12 @@ class ExpireTrash extends TimedJob {
 
 			if ($stopTime < time()) {
 				$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', $offset);
-				\OC_Util::tearDownFS();
+				$this->setupManager->tearDown();
 				return;
 			}
 		}
 
 		$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', 0);
-		\OC_Util::tearDownFS();
-	}
-
-	/**
-	 * Act on behalf on trash item owner
-	 */
-	protected function setupFS(string $user): bool {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($user);
-
-		// Check if this user has a trashbin directory
-		$view = new View('/' . $user);
-		if (!$view->is_dir('/files_trashbin/files')) {
-			return false;
-		}
-
-		return true;
+		$this->setupManager->tearDown();
 	}
 }

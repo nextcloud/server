@@ -8,32 +8,33 @@
 namespace OCA\Files_Trashbin\Command;
 
 use OC\Command\FileAccess;
-use OCA\Files_Trashbin\Trashbin;
+use OC\Files\SetupManager;
+use OCA\Encryption\Users\Setup;
+use OCA\Files_Trashbin\Service\ExpireService;
 use OCP\Command\ICommand;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class Expire implements ICommand {
 	use FileAccess;
 
-	/**
-	 * @param string $user
-	 */
 	public function __construct(
-		private $user,
+		readonly private string $user,
 	) {
 	}
 
-	public function handle() {
-		$userManager = Server::get(IUserManager::class);
-		if (!$userManager->userExists($this->user)) {
-			// User has been deleted already
-			return;
+	public function handle(): void {
+		try {
+			$user = Server::get(IUserManager::class)->get($this->user);
+			if (!$user) {
+				return;
+			}
+			Server::get(ExpireService::class)->expireTrashForUser($user);
+			Server::get(SetupManager::class)->execute();
+		} catch (\Throwable $e) {
+			Server::get(LoggerInterface::class)->error('Error while expiring trashbin for user ' . $this->user, ['exception' => $e]);
 		}
-
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($this->user);
-		Trashbin::expire($this->user);
-		\OC_Util::tearDownFS();
 	}
 }
