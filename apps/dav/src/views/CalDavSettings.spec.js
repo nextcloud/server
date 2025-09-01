@@ -17,7 +17,15 @@ vi.mock('@nextcloud/router', () => {
 })
 vi.mock('@nextcloud/initial-state', () => {
 	return {
-		loadState: vi.fn(() => 'https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars'),
+		loadState: vi.fn((app, key, fallback) => {
+			if (app === 'core' && key === 'config') {
+				return globalThis.OC.config
+			} else if (app === 'dav' && key === 'userSyncCalendarsDocUrl') {
+				return 'https://docs.nextcloud.com/server/31/go.php?to=user-sync-calendars'
+			} else {
+				return fallback
+			}
+		}),
 	}
 })
 
