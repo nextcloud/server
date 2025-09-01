@@ -1,2 +1,1953 @@
-(()=>{"use strict";var e,t,r,i={4114:(e,t,r)=>{r.d(t,{u:()=>n});var i=r(65899);const n=()=>(window._nc_files_pinia||(window._nc_files_pinia=(0,i.Ey)()),window._nc_files_pinia)},9558:(e,t,r)=>{r.d(t,{A:()=>i});const i=(0,r(35947).YK)().setApp("files").detectUser().build()},16954:(e,t,r)=>{r.d(t,{hE:()=>h});var i=r(77815),n=r(36117),o=r(43627),a=r(56908),s=r(21976),c=r(4114),l=r(89761),u=r(82736),d=r(9558);const p=e=>(0,i.pO)(e);function h(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"/";const t=new AbortController,r=(0,u.j)((0,c.u)());return r.query.length>=3?new n.CancelablePromise((n,u,d)=>{d(()=>t.abort()),async function(e,t,r){let n=(0,l._)((0,c.u)()).getDirectoryByPath("files",e);if(!n){const t=(0,o.join)(i.VA,e),r=await a.S.stat(t,{details:!0});n=p(r.data)}return{folder:n,contents:await(0,s.E)(t,{dir:e,signal:r})}}(e,r.query,t.signal).then(n).catch(u)}):function(e){e=(0,o.join)(i.VA,e);const t=new AbortController,r=(0,i.aN)();return new n.CancelablePromise(async(i,n,o)=>{o(()=>t.abort());try{const n=await a.S.getDirectoryContents(e,{details:!0,data:r,includeSelf:!0,signal:t.signal}),o=n.data[0],s=n.data.slice(1);if(o.filename!==e&&`${o.filename}/`!==e)throw d.A.debug(`Exepected "${e}" but got filename "${o.filename}" instead.`),new Error("Root node does not match requested path");i({folder:p(o),contents:s.map(e=>{try{return p(e)}catch(t){return d.A.error(`Invalid node detected '${e.basename}'`,{error:t}),null}}).filter(Boolean)})}catch(e){n(e)}})}(e)}},21976:(e,t,r)=>{r.d(t,{E:()=>c});var i=r(21777),n=r(77815),o=r(63814),a=r(56908),s=r(9558);async function c(e,t){let{dir:r,signal:c}=t;const l=(0,i.HW)();if(!l)return[];if((e=e.trim()).length<3)return[];r&&!r.startsWith("/")&&(r=`/${r}`),s.A.debug("Searching for nodes",{query:e,dir:r});const{data:u}=await a.S.search("/",{details:!0,signal:c,data:`\n<d:searchrequest ${(0,n.CP)()}>\n\t <d:basicsearch>\n\t\t <d:select>\n\t\t\t <d:prop>\n\t\t\t ${(0,n.VX)()}\n\t\t\t </d:prop>\n\t\t </d:select>\n\t\t <d:from>\n\t\t\t <d:scope>\n\t\t\t\t <d:href>/files/${l.uid}${r||""}</d:href>\n\t\t\t\t <d:depth>infinity</d:depth>\n\t\t\t </d:scope>\n\t\t </d:from>\n\t\t <d:where>\n\t\t\t <d:like>\n\t\t\t\t <d:prop>\n\t\t\t\t\t <d:displayname/>\n\t\t\t\t </d:prop>\n\t\t\t\t <d:literal>%${e.replace("%","")}%</d:literal>\n\t\t\t </d:like>\n\t\t </d:where>\n\t\t <d:orderby/>\n\t</d:basicsearch>\n</d:searchrequest>`});return c?.aborted?[]:u.results.map(e=>(0,n.pO)(e,n.VA,(0,o.$_)()))}},25682:(e,t,r)=>{r(61338),r(35810),r(53334),r(16954),r(49542),r(43690)},35810:(e,t,r)=>{r.d(t,{Al:()=>s.r,E6:()=>z,H4:()=>s.c,KT:()=>Q,PY:()=>s.b,Q$:()=>s.e,R3:()=>s.n,Ss:()=>j,VL:()=>s.l,ZH:()=>s.q,a7:()=>k,aX:()=>s.P,bh:()=>F,di:()=>K,lJ:()=>s.d,m1:()=>Y,nF:()=>W,pt:()=>s.F,ur:()=>re,v7:()=>ee,vd:()=>s.s});var i,n,o,a,s=r(68896),c=r(380),l=r(83141),u=r(87485),d=r(43627),p=r(53334),h=r(65606),f=r(62045).hp;function E(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}function m(){if(n)return i;n=1;const e="object"==typeof h&&h.env&&h.env.NODE_DEBUG&&/\bsemver\b/i.test(h.env.NODE_DEBUG)?(...e)=>console.error("SEMVER",...e):()=>{};return i=e}function g(){if(a)return o;a=1;const e=Number.MAX_SAFE_INTEGER||9007199254740991;return o={MAX_LENGTH:256,MAX_SAFE_COMPONENT_LENGTH:16,MAX_SAFE_BUILD_LENGTH:250,MAX_SAFE_INTEGER:e,RELEASE_TYPES:["major","premajor","minor","preminor","patch","prepatch","prerelease"],SEMVER_SPEC_VERSION:"2.0.0",FLAG_INCLUDE_PRERELEASE:1,FLAG_LOOSE:2}}var T,v,N,w,I,A,_,b,y,O,R,C,L,D={exports:{}};function S(){if(_)return A;_=1;const e=m(),{MAX_LENGTH:t,MAX_SAFE_INTEGER:r}=g(),{safeRe:i,t:n}=(T||(T=1,function(e,t){const{MAX_SAFE_COMPONENT_LENGTH:r,MAX_SAFE_BUILD_LENGTH:i,MAX_LENGTH:n}=g(),o=m(),a=(t=e.exports={}).re=[],s=t.safeRe=[],c=t.src=[],l=t.t={};let u=0;const d="[a-zA-Z0-9-]",p=[["\\s",1],["\\d",n],[d,i]],h=(e,t,r)=>{const i=(e=>{for(const[t,r]of p)e=e.split(`${t}*`).join(`${t}{0,${r}}`).split(`${t}+`).join(`${t}{1,${r}}`);return e})(t),n=u++;o(e,n,t),l[e]=n,c[n]=t,a[n]=new RegExp(t,r?"g":void 0),s[n]=new RegExp(i,r?"g":void 0)};h("NUMERICIDENTIFIER","0|[1-9]\\d*"),h("NUMERICIDENTIFIERLOOSE","\\d+"),h("NONNUMERICIDENTIFIER",`\\d*[a-zA-Z-]${d}*`),h("MAINVERSION",`(${c[l.NUMERICIDENTIFIER]})\\.(${c[l.NUMERICIDENTIFIER]})\\.(${c[l.NUMERICIDENTIFIER]})`),h("MAINVERSIONLOOSE",`(${c[l.NUMERICIDENTIFIERLOOSE]})\\.(${c[l.NUMERICIDENTIFIERLOOSE]})\\.(${c[l.NUMERICIDENTIFIERLOOSE]})`),h("PRERELEASEIDENTIFIER",`(?:${c[l.NUMERICIDENTIFIER]}|${c[l.NONNUMERICIDENTIFIER]})`),h("PRERELEASEIDENTIFIERLOOSE",`(?:${c[l.NUMERICIDENTIFIERLOOSE]}|${c[l.NONNUMERICIDENTIFIER]})`),h("PRERELEASE",`(?:-(${c[l.PRERELEASEIDENTIFIER]}(?:\\.${c[l.PRERELEASEIDENTIFIER]})*))`),h("PRERELEASELOOSE",`(?:-?(${c[l.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${c[l.PRERELEASEIDENTIFIERLOOSE]})*))`),h("BUILDIDENTIFIER",`${d}+`),h("BUILD",`(?:\\+(${c[l.BUILDIDENTIFIER]}(?:\\.${c[l.BUILDIDENTIFIER]})*))`),h("FULLPLAIN",`v?${c[l.MAINVERSION]}${c[l.PRERELEASE]}?${c[l.BUILD]}?`),h("FULL",`^${c[l.FULLPLAIN]}$`),h("LOOSEPLAIN",`[v=\\s]*${c[l.MAINVERSIONLOOSE]}${c[l.PRERELEASELOOSE]}?${c[l.BUILD]}?`),h("LOOSE",`^${c[l.LOOSEPLAIN]}$`),h("GTLT","((?:<|>)?=?)"),h("XRANGEIDENTIFIERLOOSE",`${c[l.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`),h("XRANGEIDENTIFIER",`${c[l.NUMERICIDENTIFIER]}|x|X|\\*`),h("XRANGEPLAIN",`[v=\\s]*(${c[l.XRANGEIDENTIFIER]})(?:\\.(${c[l.XRANGEIDENTIFIER]})(?:\\.(${c[l.XRANGEIDENTIFIER]})(?:${c[l.PRERELEASE]})?${c[l.BUILD]}?)?)?`),h("XRANGEPLAINLOOSE",`[v=\\s]*(${c[l.XRANGEIDENTIFIERLOOSE]})(?:\\.(${c[l.XRANGEIDENTIFIERLOOSE]})(?:\\.(${c[l.XRANGEIDENTIFIERLOOSE]})(?:${c[l.PRERELEASELOOSE]})?${c[l.BUILD]}?)?)?`),h("XRANGE",`^${c[l.GTLT]}\\s*${c[l.XRANGEPLAIN]}$`),h("XRANGELOOSE",`^${c[l.GTLT]}\\s*${c[l.XRANGEPLAINLOOSE]}$`),h("COERCEPLAIN",`(^|[^\\d])(\\d{1,${r}})(?:\\.(\\d{1,${r}}))?(?:\\.(\\d{1,${r}}))?`),h("COERCE",`${c[l.COERCEPLAIN]}(?:$|[^\\d])`),h("COERCEFULL",c[l.COERCEPLAIN]+`(?:${c[l.PRERELEASE]})?(?:${c[l.BUILD]})?(?:$|[^\\d])`),h("COERCERTL",c[l.COERCE],!0),h("COERCERTLFULL",c[l.COERCEFULL],!0),h("LONETILDE","(?:~>?)"),h("TILDETRIM",`(\\s*)${c[l.LONETILDE]}\\s+`,!0),t.tildeTrimReplace="$1~",h("TILDE",`^${c[l.LONETILDE]}${c[l.XRANGEPLAIN]}$`),h("TILDELOOSE",`^${c[l.LONETILDE]}${c[l.XRANGEPLAINLOOSE]}$`),h("LONECARET","(?:\\^)"),h("CARETTRIM",`(\\s*)${c[l.LONECARET]}\\s+`,!0),t.caretTrimReplace="$1^",h("CARET",`^${c[l.LONECARET]}${c[l.XRANGEPLAIN]}$`),h("CARETLOOSE",`^${c[l.LONECARET]}${c[l.XRANGEPLAINLOOSE]}$`),h("COMPARATORLOOSE",`^${c[l.GTLT]}\\s*(${c[l.LOOSEPLAIN]})$|^$`),h("COMPARATOR",`^${c[l.GTLT]}\\s*(${c[l.FULLPLAIN]})$|^$`),h("COMPARATORTRIM",`(\\s*)${c[l.GTLT]}\\s*(${c[l.LOOSEPLAIN]}|${c[l.XRANGEPLAIN]})`,!0),t.comparatorTrimReplace="$1$2$3",h("HYPHENRANGE",`^\\s*(${c[l.XRANGEPLAIN]})\\s+-\\s+(${c[l.XRANGEPLAIN]})\\s*$`),h("HYPHENRANGELOOSE",`^\\s*(${c[l.XRANGEPLAINLOOSE]})\\s+-\\s+(${c[l.XRANGEPLAINLOOSE]})\\s*$`),h("STAR","(<|>)?=?\\s*\\*"),h("GTE0","^\\s*>=\\s*0\\.0\\.0\\s*$"),h("GTE0PRE","^\\s*>=\\s*0\\.0\\.0-0\\s*$")}(D,D.exports)),D.exports),o=function(){if(N)return v;N=1;const e=Object.freeze({loose:!0}),t=Object.freeze({});return v=r=>r?"object"!=typeof r?e:r:t}(),{compareIdentifiers:a}=function(){if(I)return w;I=1;const e=/^[0-9]+$/,t=(t,r)=>{const i=e.test(t),n=e.test(r);return i&&n&&(t=+t,r=+r),t===r?0:i&&!n?-1:n&&!i?1:t<r?-1:1};return w={compareIdentifiers:t,rcompareIdentifiers:(e,r)=>t(r,e)}}();class s{constructor(a,c){if(c=o(c),a instanceof s){if(a.loose===!!c.loose&&a.includePrerelease===!!c.includePrerelease)return a;a=a.version}else if("string"!=typeof a)throw new TypeError(`Invalid version. Must be a string. Got type "${typeof a}".`);if(a.length>t)throw new TypeError(`version is longer than ${t} characters`);e("SemVer",a,c),this.options=c,this.loose=!!c.loose,this.includePrerelease=!!c.includePrerelease;const l=a.trim().match(c.loose?i[n.LOOSE]:i[n.FULL]);if(!l)throw new TypeError(`Invalid Version: ${a}`);if(this.raw=a,this.major=+l[1],this.minor=+l[2],this.patch=+l[3],this.major>r||this.major<0)throw new TypeError("Invalid major version");if(this.minor>r||this.minor<0)throw new TypeError("Invalid minor version");if(this.patch>r||this.patch<0)throw new TypeError("Invalid patch version");l[4]?this.prerelease=l[4].split(".").map(e=>{if(/^[0-9]+$/.test(e)){const t=+e;if(t>=0&&t<r)return t}return e}):this.prerelease=[],this.build=l[5]?l[5].split("."):[],this.format()}format(){return this.version=`${this.major}.${this.minor}.${this.patch}`,this.prerelease.length&&(this.version+=`-${this.prerelease.join(".")}`),this.version}toString(){return this.version}compare(t){if(e("SemVer.compare",this.version,this.options,t),!(t instanceof s)){if("string"==typeof t&&t===this.version)return 0;t=new s(t,this.options)}return t.version===this.version?0:this.compareMain(t)||this.comparePre(t)}compareMain(e){return e instanceof s||(e=new s(e,this.options)),a(this.major,e.major)||a(this.minor,e.minor)||a(this.patch,e.patch)}comparePre(t){if(t instanceof s||(t=new s(t,this.options)),this.prerelease.length&&!t.prerelease.length)return-1;if(!this.prerelease.length&&t.prerelease.length)return 1;if(!this.prerelease.length&&!t.prerelease.length)return 0;let r=0;do{const i=this.prerelease[r],n=t.prerelease[r];if(e("prerelease compare",r,i,n),void 0===i&&void 0===n)return 0;if(void 0===n)return 1;if(void 0===i)return-1;if(i!==n)return a(i,n)}while(++r)}compareBuild(t){t instanceof s||(t=new s(t,this.options));let r=0;do{const i=this.build[r],n=t.build[r];if(e("build compare",r,i,n),void 0===i&&void 0===n)return 0;if(void 0===n)return 1;if(void 0===i)return-1;if(i!==n)return a(i,n)}while(++r)}inc(e,t,r){switch(e){case"premajor":this.prerelease.length=0,this.patch=0,this.minor=0,this.major++,this.inc("pre",t,r);break;case"preminor":this.prerelease.length=0,this.patch=0,this.minor++,this.inc("pre",t,r);break;case"prepatch":this.prerelease.length=0,this.inc("patch",t,r),this.inc("pre",t,r);break;case"prerelease":0===this.prerelease.length&&this.inc("patch",t,r),this.inc("pre",t,r);break;case"major":0===this.minor&&0===this.patch&&0!==this.prerelease.length||this.major++,this.minor=0,this.patch=0,this.prerelease=[];break;case"minor":0===this.patch&&0!==this.prerelease.length||this.minor++,this.patch=0,this.prerelease=[];break;case"patch":0===this.prerelease.length&&this.patch++,this.prerelease=[];break;case"pre":{const e=Number(r)?1:0;if(!t&&!1===r)throw new Error("invalid increment argument: identifier is empty");if(0===this.prerelease.length)this.prerelease=[e];else{let i=this.prerelease.length;for(;--i>=0;)"number"==typeof this.prerelease[i]&&(this.prerelease[i]++,i=-2);if(-1===i){if(t===this.prerelease.join(".")&&!1===r)throw new Error("invalid increment argument: identifier already exists");this.prerelease.push(e)}}if(t){let i=[t,e];!1===r&&(i=[t]),0===a(this.prerelease[0],t)?isNaN(this.prerelease[1])&&(this.prerelease=i):this.prerelease=i}break}default:throw new Error(`invalid increment argument: ${e}`)}return this.raw=this.format(),this.build.length&&(this.raw+=`+${this.build.join(".")}`),this}}return A=s}!function(){if(R)return O;R=1;const e=function(){if(y)return b;y=1;const e=S();return b=(t,r,i=!1)=>{if(t instanceof e)return t;try{return new e(t,r)}catch(e){if(!i)return null;throw e}}}();O=(t,r)=>{const i=e(t,r);return i?i.version:null}}(),function(){if(L)return C;L=1;const e=S();C=(t,r)=>new e(t,r).major}(),c.m;class P extends c.m{_views=[];_currentView=null;register(e){if(this._views.find(t=>t.id===e.id))throw new Error(`View id ${e.id} is already registered`);this._views.push(e),this.dispatchTypedEvent("update",new CustomEvent("update"))}remove(e){const t=this._views.findIndex(t=>t.id===e);-1!==t&&(this._views.splice(t,1),this.dispatchTypedEvent("update",new CustomEvent("update")))}setActive(e){this._currentView=e;const t=new CustomEvent("updateActive",{detail:e});this.dispatchTypedEvent("updateActive",t)}get active(){return this._currentView}get views(){return this._views}}const F=function(){return void 0===window._nc_navigation&&(window._nc_navigation=new P,s.o.debug("Navigation service initialized")),window._nc_navigation};class ${_column;constructor(e){x(e),this._column=e}get id(){return this._column.id}get title(){return this._column.title}get render(){return this._column.render}get sort(){return this._column.sort}get summary(){return this._column.summary}}const x=function(e){if(!e.id||"string"!=typeof e.id)throw new Error("A column id is required");if(!e.title||"string"!=typeof e.title)throw new Error("A column title is required");if(!e.render||"function"!=typeof e.render)throw new Error("A render function is required");if(e.sort&&"function"!=typeof e.sort)throw new Error("Column sortFunction must be a function");if(e.summary&&"function"!=typeof e.summary)throw new Error("Column summary must be a function");return!0};var M,B={};const U=E((M||(M=1,function(e){e.parser=function(e,t){return new i(e,t)},e.SAXParser=i,e.SAXStream=o,e.createStream=function(e,t){return new o(e,t)},e.MAX_BUFFER_LENGTH=65536;var t,r=["comment","sgmlDecl","textNode","tagName","doctype","procInstName","procInstBody","entity","attribName","attribValue","cdata","script"];function i(t,n){if(!(this instanceof i))return new i(t,n);var o=this;!function(e){for(var t=0,i=r.length;t<i;t++)e[r[t]]=""}(o),o.q=o.c="",o.bufferCheckPosition=e.MAX_BUFFER_LENGTH,o.opt=n||{},o.opt.lowercase=o.opt.lowercase||o.opt.lowercasetags,o.looseCase=o.opt.lowercase?"toLowerCase":"toUpperCase",o.tags=[],o.closed=o.closedRoot=o.sawRoot=!1,o.tag=o.error=null,o.strict=!!t,o.noscript=!(!t&&!o.opt.noscript),o.state=b.BEGIN,o.strictEntities=o.opt.strictEntities,o.ENTITIES=o.strictEntities?Object.create(e.XML_ENTITIES):Object.create(e.ENTITIES),o.attribList=[],o.opt.xmlns&&(o.ns=Object.create(d)),void 0===o.opt.unquotedAttributeValues&&(o.opt.unquotedAttributeValues=!t),o.trackPosition=!1!==o.opt.position,o.trackPosition&&(o.position=o.line=o.column=0),O(o,"onready")}e.EVENTS=["text","processinginstruction","sgmldeclaration","doctype","comment","opentagstart","attribute","opentag","closetag","opencdata","cdata","closecdata","error","end","ready","script","opennamespace","closenamespace"],Object.create||(Object.create=function(e){function t(){}return t.prototype=e,new t}),Object.keys||(Object.keys=function(e){var t=[];for(var r in e)e.hasOwnProperty(r)&&t.push(r);return t}),i.prototype={end:function(){S(this)},write:function(t){var i=this;if(this.error)throw this.error;if(i.closed)return D(i,"Cannot write after close. Assign an onready handler.");if(null===t)return S(i);"object"==typeof t&&(t=t.toString());for(var n=0,o="";o=G(t,n++),i.c=o,o;)switch(i.trackPosition&&(i.position++,"\n"===o?(i.line++,i.column=0):i.column++),i.state){case b.BEGIN:if(i.state=b.BEGIN_WHITESPACE,"\ufeff"===o)continue;V(i,o);continue;case b.BEGIN_WHITESPACE:V(i,o);continue;case b.TEXT:if(i.sawRoot&&!i.closedRoot){for(var c=n-1;o&&"<"!==o&&"&"!==o;)(o=G(t,n++))&&i.trackPosition&&(i.position++,"\n"===o?(i.line++,i.column=0):i.column++);i.textNode+=t.substring(c,n-1)}"<"!==o||i.sawRoot&&i.closedRoot&&!i.strict?(g(o)||i.sawRoot&&!i.closedRoot||P(i,"Text data outside of root node."),"&"===o?i.state=b.TEXT_ENTITY:i.textNode+=o):(i.state=b.OPEN_WAKA,i.startTagPosition=i.position);continue;case b.SCRIPT:"<"===o?i.state=b.SCRIPT_ENDING:i.script+=o;continue;case b.SCRIPT_ENDING:"/"===o?i.state=b.CLOSE_TAG:(i.script+="<"+o,i.state=b.SCRIPT);continue;case b.OPEN_WAKA:if("!"===o)i.state=b.SGML_DECL,i.sgmlDecl="";else if(g(o));else if(N(p,o))i.state=b.OPEN_TAG,i.tagName=o;else if("/"===o)i.state=b.CLOSE_TAG,i.tagName="";else if("?"===o)i.state=b.PROC_INST,i.procInstName=i.procInstBody="";else{if(P(i,"Unencoded <"),i.startTagPosition+1<i.position){var l=i.position-i.startTagPosition;o=new Array(l).join(" ")+o}i.textNode+="<"+o,i.state=b.TEXT}continue;case b.SGML_DECL:if(i.sgmlDecl+o==="--"){i.state=b.COMMENT,i.comment="",i.sgmlDecl="";continue}i.doctype&&!0!==i.doctype&&i.sgmlDecl?(i.state=b.DOCTYPE_DTD,i.doctype+="<!"+i.sgmlDecl+o,i.sgmlDecl=""):(i.sgmlDecl+o).toUpperCase()===a?(R(i,"onopencdata"),i.state=b.CDATA,i.sgmlDecl="",i.cdata=""):(i.sgmlDecl+o).toUpperCase()===s?(i.state=b.DOCTYPE,(i.doctype||i.sawRoot)&&P(i,"Inappropriately located doctype declaration"),i.doctype="",i.sgmlDecl=""):">"===o?(R(i,"onsgmldeclaration",i.sgmlDecl),i.sgmlDecl="",i.state=b.TEXT):T(o)?(i.state=b.SGML_DECL_QUOTED,i.sgmlDecl+=o):i.sgmlDecl+=o;continue;case b.SGML_DECL_QUOTED:o===i.q&&(i.state=b.SGML_DECL,i.q=""),i.sgmlDecl+=o;continue;case b.DOCTYPE:">"===o?(i.state=b.TEXT,R(i,"ondoctype",i.doctype),i.doctype=!0):(i.doctype+=o,"["===o?i.state=b.DOCTYPE_DTD:T(o)&&(i.state=b.DOCTYPE_QUOTED,i.q=o));continue;case b.DOCTYPE_QUOTED:i.doctype+=o,o===i.q&&(i.q="",i.state=b.DOCTYPE);continue;case b.DOCTYPE_DTD:"]"===o?(i.doctype+=o,i.state=b.DOCTYPE):"<"===o?(i.state=b.OPEN_WAKA,i.startTagPosition=i.position):T(o)?(i.doctype+=o,i.state=b.DOCTYPE_DTD_QUOTED,i.q=o):i.doctype+=o;continue;case b.DOCTYPE_DTD_QUOTED:i.doctype+=o,o===i.q&&(i.state=b.DOCTYPE_DTD,i.q="");continue;case b.COMMENT:"-"===o?i.state=b.COMMENT_ENDING:i.comment+=o;continue;case b.COMMENT_ENDING:"-"===o?(i.state=b.COMMENT_ENDED,i.comment=L(i.opt,i.comment),i.comment&&R(i,"oncomment",i.comment),i.comment=""):(i.comment+="-"+o,i.state=b.COMMENT);continue;case b.COMMENT_ENDED:">"!==o?(P(i,"Malformed comment"),i.comment+="--"+o,i.state=b.COMMENT):i.doctype&&!0!==i.doctype?i.state=b.DOCTYPE_DTD:i.state=b.TEXT;continue;case b.CDATA:"]"===o?i.state=b.CDATA_ENDING:i.cdata+=o;continue;case b.CDATA_ENDING:"]"===o?i.state=b.CDATA_ENDING_2:(i.cdata+="]"+o,i.state=b.CDATA);continue;case b.CDATA_ENDING_2:">"===o?(i.cdata&&R(i,"oncdata",i.cdata),R(i,"onclosecdata"),i.cdata="",i.state=b.TEXT):"]"===o?i.cdata+="]":(i.cdata+="]]"+o,i.state=b.CDATA);continue;case b.PROC_INST:"?"===o?i.state=b.PROC_INST_ENDING:g(o)?i.state=b.PROC_INST_BODY:i.procInstName+=o;continue;case b.PROC_INST_BODY:if(!i.procInstBody&&g(o))continue;"?"===o?i.state=b.PROC_INST_ENDING:i.procInstBody+=o;continue;case b.PROC_INST_ENDING:">"===o?(R(i,"onprocessinginstruction",{name:i.procInstName,body:i.procInstBody}),i.procInstName=i.procInstBody="",i.state=b.TEXT):(i.procInstBody+="?"+o,i.state=b.PROC_INST_BODY);continue;case b.OPEN_TAG:N(h,o)?i.tagName+=o:(F(i),">"===o?M(i):"/"===o?i.state=b.OPEN_TAG_SLASH:(g(o)||P(i,"Invalid character in tag name"),i.state=b.ATTRIB));continue;case b.OPEN_TAG_SLASH:">"===o?(M(i,!0),B(i)):(P(i,"Forward-slash in opening tag not followed by >"),i.state=b.ATTRIB);continue;case b.ATTRIB:if(g(o))continue;">"===o?M(i):"/"===o?i.state=b.OPEN_TAG_SLASH:N(p,o)?(i.attribName=o,i.attribValue="",i.state=b.ATTRIB_NAME):P(i,"Invalid attribute name");continue;case b.ATTRIB_NAME:"="===o?i.state=b.ATTRIB_VALUE:">"===o?(P(i,"Attribute without value"),i.attribValue=i.attribName,x(i),M(i)):g(o)?i.state=b.ATTRIB_NAME_SAW_WHITE:N(h,o)?i.attribName+=o:P(i,"Invalid attribute name");continue;case b.ATTRIB_NAME_SAW_WHITE:if("="===o)i.state=b.ATTRIB_VALUE;else{if(g(o))continue;P(i,"Attribute without value"),i.tag.attributes[i.attribName]="",i.attribValue="",R(i,"onattribute",{name:i.attribName,value:""}),i.attribName="",">"===o?M(i):N(p,o)?(i.attribName=o,i.state=b.ATTRIB_NAME):(P(i,"Invalid attribute name"),i.state=b.ATTRIB)}continue;case b.ATTRIB_VALUE:if(g(o))continue;T(o)?(i.q=o,i.state=b.ATTRIB_VALUE_QUOTED):(i.opt.unquotedAttributeValues||D(i,"Unquoted attribute value"),i.state=b.ATTRIB_VALUE_UNQUOTED,i.attribValue=o);continue;case b.ATTRIB_VALUE_QUOTED:if(o!==i.q){"&"===o?i.state=b.ATTRIB_VALUE_ENTITY_Q:i.attribValue+=o;continue}x(i),i.q="",i.state=b.ATTRIB_VALUE_CLOSED;continue;case b.ATTRIB_VALUE_CLOSED:g(o)?i.state=b.ATTRIB:">"===o?M(i):"/"===o?i.state=b.OPEN_TAG_SLASH:N(p,o)?(P(i,"No whitespace between attributes"),i.attribName=o,i.attribValue="",i.state=b.ATTRIB_NAME):P(i,"Invalid attribute name");continue;case b.ATTRIB_VALUE_UNQUOTED:if(!v(o)){"&"===o?i.state=b.ATTRIB_VALUE_ENTITY_U:i.attribValue+=o;continue}x(i),">"===o?M(i):i.state=b.ATTRIB;continue;case b.CLOSE_TAG:if(i.tagName)">"===o?B(i):N(h,o)?i.tagName+=o:i.script?(i.script+="</"+i.tagName,i.tagName="",i.state=b.SCRIPT):(g(o)||P(i,"Invalid tagname in closing tag"),i.state=b.CLOSE_TAG_SAW_WHITE);else{if(g(o))continue;w(p,o)?i.script?(i.script+="</"+o,i.state=b.SCRIPT):P(i,"Invalid tagname in closing tag."):i.tagName=o}continue;case b.CLOSE_TAG_SAW_WHITE:if(g(o))continue;">"===o?B(i):P(i,"Invalid characters in closing tag");continue;case b.TEXT_ENTITY:case b.ATTRIB_VALUE_ENTITY_Q:case b.ATTRIB_VALUE_ENTITY_U:var u,d;switch(i.state){case b.TEXT_ENTITY:u=b.TEXT,d="textNode";break;case b.ATTRIB_VALUE_ENTITY_Q:u=b.ATTRIB_VALUE_QUOTED,d="attribValue";break;case b.ATTRIB_VALUE_ENTITY_U:u=b.ATTRIB_VALUE_UNQUOTED,d="attribValue"}if(";"===o){var f=U(i);i.opt.unparsedEntities&&!Object.values(e.XML_ENTITIES).includes(f)?(i.entity="",i.state=u,i.write(f)):(i[d]+=f,i.entity="",i.state=u)}else N(i.entity.length?m:E,o)?i.entity+=o:(P(i,"Invalid character in entity name"),i[d]+="&"+i.entity+o,i.entity="",i.state=u);continue;default:throw new Error(i,"Unknown state: "+i.state)}return i.position>=i.bufferCheckPosition&&function(t){for(var i=Math.max(e.MAX_BUFFER_LENGTH,10),n=0,o=0,a=r.length;o<a;o++){var s=t[r[o]].length;if(s>i)switch(r[o]){case"textNode":C(t);break;case"cdata":R(t,"oncdata",t.cdata),t.cdata="";break;case"script":R(t,"onscript",t.script),t.script="";break;default:D(t,"Max buffer length exceeded: "+r[o])}n=Math.max(n,s)}var c=e.MAX_BUFFER_LENGTH-n;t.bufferCheckPosition=c+t.position}(i),i},resume:function(){return this.error=null,this},close:function(){return this.write(null)},flush:function(){var e;C(e=this),""!==e.cdata&&(R(e,"oncdata",e.cdata),e.cdata=""),""!==e.script&&(R(e,"onscript",e.script),e.script="")}};try{t=require("stream").Stream}catch(e){t=function(){}}t||(t=function(){});var n=e.EVENTS.filter(function(e){return"error"!==e&&"end"!==e});function o(e,r){if(!(this instanceof o))return new o(e,r);t.apply(this),this._parser=new i(e,r),this.writable=!0,this.readable=!0;var a=this;this._parser.onend=function(){a.emit("end")},this._parser.onerror=function(e){a.emit("error",e),a._parser.error=null},this._decoder=null,n.forEach(function(e){Object.defineProperty(a,"on"+e,{get:function(){return a._parser["on"+e]},set:function(t){if(!t)return a.removeAllListeners(e),a._parser["on"+e]=t,t;a.on(e,t)},enumerable:!0,configurable:!1})})}o.prototype=Object.create(t.prototype,{constructor:{value:o}}),o.prototype.write=function(e){if("function"==typeof f&&"function"==typeof f.isBuffer&&f.isBuffer(e)){if(!this._decoder){var t=l.I;this._decoder=new t("utf8")}e=this._decoder.write(e)}return this._parser.write(e.toString()),this.emit("data",e),!0},o.prototype.end=function(e){return e&&e.length&&this.write(e),this._parser.end(),!0},o.prototype.on=function(e,r){var i=this;return i._parser["on"+e]||-1===n.indexOf(e)||(i._parser["on"+e]=function(){var t=1===arguments.length?[arguments[0]]:Array.apply(null,arguments);t.splice(0,0,e),i.emit.apply(i,t)}),t.prototype.on.call(i,e,r)};var a="[CDATA[",s="DOCTYPE",c="http://www.w3.org/XML/1998/namespace",u="http://www.w3.org/2000/xmlns/",d={xml:c,xmlns:u},p=/[:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/,h=/[:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u00B7\u0300-\u036F\u203F-\u2040.\d-]/,E=/[#:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/,m=/[#:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u00B7\u0300-\u036F\u203F-\u2040.\d-]/;function g(e){return" "===e||"\n"===e||"\r"===e||"\t"===e}function T(e){return'"'===e||"'"===e}function v(e){return">"===e||g(e)}function N(e,t){return e.test(t)}function w(e,t){return!N(e,t)}var I,A,_,b=0;for(var y in e.STATE={BEGIN:b++,BEGIN_WHITESPACE:b++,TEXT:b++,TEXT_ENTITY:b++,OPEN_WAKA:b++,SGML_DECL:b++,SGML_DECL_QUOTED:b++,DOCTYPE:b++,DOCTYPE_QUOTED:b++,DOCTYPE_DTD:b++,DOCTYPE_DTD_QUOTED:b++,COMMENT_STARTING:b++,COMMENT:b++,COMMENT_ENDING:b++,COMMENT_ENDED:b++,CDATA:b++,CDATA_ENDING:b++,CDATA_ENDING_2:b++,PROC_INST:b++,PROC_INST_BODY:b++,PROC_INST_ENDING:b++,OPEN_TAG:b++,OPEN_TAG_SLASH:b++,ATTRIB:b++,ATTRIB_NAME:b++,ATTRIB_NAME_SAW_WHITE:b++,ATTRIB_VALUE:b++,ATTRIB_VALUE_QUOTED:b++,ATTRIB_VALUE_CLOSED:b++,ATTRIB_VALUE_UNQUOTED:b++,ATTRIB_VALUE_ENTITY_Q:b++,ATTRIB_VALUE_ENTITY_U:b++,CLOSE_TAG:b++,CLOSE_TAG_SAW_WHITE:b++,SCRIPT:b++,SCRIPT_ENDING:b++},e.XML_ENTITIES={amp:"&",gt:">",lt:"<",quot:'"',apos:"'"},e.ENTITIES={amp:"&",gt:">",lt:"<",quot:'"',apos:"'",AElig:198,Aacute:193,Acirc:194,Agrave:192,Aring:197,Atilde:195,Auml:196,Ccedil:199,ETH:208,Eacute:201,Ecirc:202,Egrave:200,Euml:203,Iacute:205,Icirc:206,Igrave:204,Iuml:207,Ntilde:209,Oacute:211,Ocirc:212,Ograve:210,Oslash:216,Otilde:213,Ouml:214,THORN:222,Uacute:218,Ucirc:219,Ugrave:217,Uuml:220,Yacute:221,aacute:225,acirc:226,aelig:230,agrave:224,aring:229,atilde:227,auml:228,ccedil:231,eacute:233,ecirc:234,egrave:232,eth:240,euml:235,iacute:237,icirc:238,igrave:236,iuml:239,ntilde:241,oacute:243,ocirc:244,ograve:242,oslash:248,otilde:245,ouml:246,szlig:223,thorn:254,uacute:250,ucirc:251,ugrave:249,uuml:252,yacute:253,yuml:255,copy:169,reg:174,nbsp:160,iexcl:161,cent:162,pound:163,curren:164,yen:165,brvbar:166,sect:167,uml:168,ordf:170,laquo:171,not:172,shy:173,macr:175,deg:176,plusmn:177,sup1:185,sup2:178,sup3:179,acute:180,micro:181,para:182,middot:183,cedil:184,ordm:186,raquo:187,frac14:188,frac12:189,frac34:190,iquest:191,times:215,divide:247,OElig:338,oelig:339,Scaron:352,scaron:353,Yuml:376,fnof:402,circ:710,tilde:732,Alpha:913,Beta:914,Gamma:915,Delta:916,Epsilon:917,Zeta:918,Eta:919,Theta:920,Iota:921,Kappa:922,Lambda:923,Mu:924,Nu:925,Xi:926,Omicron:927,Pi:928,Rho:929,Sigma:931,Tau:932,Upsilon:933,Phi:934,Chi:935,Psi:936,Omega:937,alpha:945,beta:946,gamma:947,delta:948,epsilon:949,zeta:950,eta:951,theta:952,iota:953,kappa:954,lambda:955,mu:956,nu:957,xi:958,omicron:959,pi:960,rho:961,sigmaf:962,sigma:963,tau:964,upsilon:965,phi:966,chi:967,psi:968,omega:969,thetasym:977,upsih:978,piv:982,ensp:8194,emsp:8195,thinsp:8201,zwnj:8204,zwj:8205,lrm:8206,rlm:8207,ndash:8211,mdash:8212,lsquo:8216,rsquo:8217,sbquo:8218,ldquo:8220,rdquo:8221,bdquo:8222,dagger:8224,Dagger:8225,bull:8226,hellip:8230,permil:8240,prime:8242,Prime:8243,lsaquo:8249,rsaquo:8250,oline:8254,frasl:8260,euro:8364,image:8465,weierp:8472,real:8476,trade:8482,alefsym:8501,larr:8592,uarr:8593,rarr:8594,darr:8595,harr:8596,crarr:8629,lArr:8656,uArr:8657,rArr:8658,dArr:8659,hArr:8660,forall:8704,part:8706,exist:8707,empty:8709,nabla:8711,isin:8712,notin:8713,ni:8715,prod:8719,sum:8721,minus:8722,lowast:8727,radic:8730,prop:8733,infin:8734,ang:8736,and:8743,or:8744,cap:8745,cup:8746,int:8747,there4:8756,sim:8764,cong:8773,asymp:8776,ne:8800,equiv:8801,le:8804,ge:8805,sub:8834,sup:8835,nsub:8836,sube:8838,supe:8839,oplus:8853,otimes:8855,perp:8869,sdot:8901,lceil:8968,rceil:8969,lfloor:8970,rfloor:8971,lang:9001,rang:9002,loz:9674,spades:9824,clubs:9827,hearts:9829,diams:9830},Object.keys(e.ENTITIES).forEach(function(t){var r=e.ENTITIES[t],i="number"==typeof r?String.fromCharCode(r):r;e.ENTITIES[t]=i}),e.STATE)e.STATE[e.STATE[y]]=y;function O(e,t,r){e[t]&&e[t](r)}function R(e,t,r){e.textNode&&C(e),O(e,t,r)}function C(e){e.textNode=L(e.opt,e.textNode),e.textNode&&O(e,"ontext",e.textNode),e.textNode=""}function L(e,t){return e.trim&&(t=t.trim()),e.normalize&&(t=t.replace(/\s+/g," ")),t}function D(e,t){return C(e),e.trackPosition&&(t+="\nLine: "+e.line+"\nColumn: "+e.column+"\nChar: "+e.c),t=new Error(t),e.error=t,O(e,"onerror",t),e}function S(e){return e.sawRoot&&!e.closedRoot&&P(e,"Unclosed root tag"),e.state!==b.BEGIN&&e.state!==b.BEGIN_WHITESPACE&&e.state!==b.TEXT&&D(e,"Unexpected end"),C(e),e.c="",e.closed=!0,O(e,"onend"),i.call(e,e.strict,e.opt),e}function P(e,t){if("object"!=typeof e||!(e instanceof i))throw new Error("bad call to strictFail");e.strict&&D(e,t)}function F(e){e.strict||(e.tagName=e.tagName[e.looseCase]());var t=e.tags[e.tags.length-1]||e,r=e.tag={name:e.tagName,attributes:{}};e.opt.xmlns&&(r.ns=t.ns),e.attribList.length=0,R(e,"onopentagstart",r)}function $(e,t){var r=e.indexOf(":")<0?["",e]:e.split(":"),i=r[0],n=r[1];return t&&"xmlns"===e&&(i="xmlns",n=""),{prefix:i,local:n}}function x(e){if(e.strict||(e.attribName=e.attribName[e.looseCase]()),-1!==e.attribList.indexOf(e.attribName)||e.tag.attributes.hasOwnProperty(e.attribName))e.attribName=e.attribValue="";else{if(e.opt.xmlns){var t=$(e.attribName,!0),r=t.prefix,i=t.local;if("xmlns"===r)if("xml"===i&&e.attribValue!==c)P(e,"xml: prefix must be bound to "+c+"\nActual: "+e.attribValue);else if("xmlns"===i&&e.attribValue!==u)P(e,"xmlns: prefix must be bound to "+u+"\nActual: "+e.attribValue);else{var n=e.tag,o=e.tags[e.tags.length-1]||e;n.ns===o.ns&&(n.ns=Object.create(o.ns)),n.ns[i]=e.attribValue}e.attribList.push([e.attribName,e.attribValue])}else e.tag.attributes[e.attribName]=e.attribValue,R(e,"onattribute",{name:e.attribName,value:e.attribValue});e.attribName=e.attribValue=""}}function M(e,t){if(e.opt.xmlns){var r=e.tag,i=$(e.tagName);r.prefix=i.prefix,r.local=i.local,r.uri=r.ns[i.prefix]||"",r.prefix&&!r.uri&&(P(e,"Unbound namespace prefix: "+JSON.stringify(e.tagName)),r.uri=i.prefix);var n=e.tags[e.tags.length-1]||e;r.ns&&n.ns!==r.ns&&Object.keys(r.ns).forEach(function(t){R(e,"onopennamespace",{prefix:t,uri:r.ns[t]})});for(var o=0,a=e.attribList.length;o<a;o++){var s=e.attribList[o],c=s[0],l=s[1],u=$(c,!0),d=u.prefix,p=u.local,h=""===d?"":r.ns[d]||"",f={name:c,value:l,prefix:d,local:p,uri:h};d&&"xmlns"!==d&&!h&&(P(e,"Unbound namespace prefix: "+JSON.stringify(d)),f.uri=d),e.tag.attributes[c]=f,R(e,"onattribute",f)}e.attribList.length=0}e.tag.isSelfClosing=!!t,e.sawRoot=!0,e.tags.push(e.tag),R(e,"onopentag",e.tag),t||(e.noscript||"script"!==e.tagName.toLowerCase()?e.state=b.TEXT:e.state=b.SCRIPT,e.tag=null,e.tagName=""),e.attribName=e.attribValue="",e.attribList.length=0}function B(e){if(!e.tagName)return P(e,"Weird empty close tag."),e.textNode+="</>",void(e.state=b.TEXT);if(e.script){if("script"!==e.tagName)return e.script+="</"+e.tagName+">",e.tagName="",void(e.state=b.SCRIPT);R(e,"onscript",e.script),e.script=""}var t=e.tags.length,r=e.tagName;e.strict||(r=r[e.looseCase]());for(var i=r;t--&&e.tags[t].name!==i;)P(e,"Unexpected close tag");if(t<0)return P(e,"Unmatched closing tag: "+e.tagName),e.textNode+="</"+e.tagName+">",void(e.state=b.TEXT);e.tagName=r;for(var n=e.tags.length;n-- >t;){var o=e.tag=e.tags.pop();e.tagName=e.tag.name,R(e,"onclosetag",e.tagName);var a={};for(var s in o.ns)a[s]=o.ns[s];var c=e.tags[e.tags.length-1]||e;e.opt.xmlns&&o.ns!==c.ns&&Object.keys(o.ns).forEach(function(t){var r=o.ns[t];R(e,"onclosenamespace",{prefix:t,uri:r})})}0===t&&(e.closedRoot=!0),e.tagName=e.attribValue=e.attribName="",e.attribList.length=0,e.state=b.TEXT}function U(e){var t,r=e.entity,i=r.toLowerCase(),n="";return e.ENTITIES[r]?e.ENTITIES[r]:e.ENTITIES[i]?e.ENTITIES[i]:("#"===(r=i).charAt(0)&&("x"===r.charAt(1)?(r=r.slice(2),n=(t=parseInt(r,16)).toString(16)):(r=r.slice(1),n=(t=parseInt(r,10)).toString(10))),r=r.replace(/^0+/,""),isNaN(t)||n.toLowerCase()!==r?(P(e,"Invalid character entity"),"&"+e.entity+";"):String.fromCodePoint(t))}function V(e,t){"<"===t?(e.state=b.OPEN_WAKA,e.startTagPosition=e.position):g(t)||(P(e,"Non-whitespace before first tag."),e.textNode=t,e.state=b.TEXT)}function G(e,t){var r="";return t<e.length&&(r=e.charAt(t)),r}b=e.STATE,String.fromCodePoint||(I=String.fromCharCode,A=Math.floor,_=function(){var e,t,r=[],i=-1,n=arguments.length;if(!n)return"";for(var o="";++i<n;){var a=Number(arguments[i]);if(!isFinite(a)||a<0||a>1114111||A(a)!==a)throw RangeError("Invalid code point: "+a);a<=65535?r.push(a):(e=55296+((a-=65536)>>10),t=a%1024+56320,r.push(e,t)),(i+1===n||r.length>16384)&&(o+=I.apply(null,r),r.length=0)}return o},Object.defineProperty?Object.defineProperty(String,"fromCodePoint",{value:_,configurable:!0,writable:!0}):String.fromCodePoint=_)}(B)),B)),V={"http://www.w3.org/2000/svg":{ext:"svg",mime:"image/svg+xml"},"http://www.w3.org/1999/xhtml":{ext:"xhtml",mime:"application/xhtml+xml"},"http://www.opengis.net/kml/2.2":{ext:"kml",mime:"application/vnd.google-earth.kml+xml"},"http://www.opengis.net/gml":{ext:"gml",mime:"application/gml+xml"}},G={rss:{ext:"rss",mime:"application/rss+xml"},"score-partwise":{ext:"musicxml",mime:"application/vnd.recordare.musicxml+xml"},svg:{ext:"svg",mime:"image/svg+xml"}};class X{constructor(e){this.options=e??{},this.firstTag=!0,this.onEnd=!1,this.parser=U.parser(!0,{xmlns:!0}),this.nesting=0,this.parser.onerror=e=>{e.message.startsWith("Invalid character entity")||(this.fileType=void 0,this.onEnd=!0)},this.parser.onopentag=e=>{++this.nesting,this.firstTag&&!this.onEnd&&(this.firstTag=!1,e.uri?this.fileType=V[e.uri]:e.name&&(this.fileType=G[e.name.toLowerCase()]),this.fileType&&!this.options.fullScan&&(this.onEnd=!0))},this.parser.onclosetag=()=>{--this.nesting}}write(e){this.parser.write(e)}close(){this.parser.close(),this.onEnd=!0}isValid(){return 0===this.nesting}}class j{_view;constructor(e){q(e),this._view=e}get id(){return this._view.id}get name(){return this._view.name}get caption(){return this._view.caption}get emptyTitle(){return this._view.emptyTitle}get emptyCaption(){return this._view.emptyCaption}get getContents(){return this._view.getContents}get hidden(){return this._view.hidden}get icon(){return this._view.icon}set icon(e){this._view.icon=e}get order(){return this._view.order}set order(e){this._view.order=e}get params(){return this._view.params}set params(e){this._view.params=e}get columns(){return this._view.columns}get emptyView(){return this._view.emptyView}get parent(){return this._view.parent}get sticky(){return this._view.sticky}get expanded(){return this._view.expanded}set expanded(e){this._view.expanded=e}get defaultSortKey(){return this._view.defaultSortKey}get loadChildViews(){return this._view.loadChildViews}}const q=function(e){if(!e.id||"string"!=typeof e.id)throw new Error("View id is required and must be a string");if(!e.name||"string"!=typeof e.name)throw new Error("View name is required and must be a string");if("caption"in e&&"string"!=typeof e.caption)throw new Error("View caption must be a string");if(!e.getContents||"function"!=typeof e.getContents)throw new Error("View getContents is required and must be a function");if("hidden"in e&&"boolean"!=typeof e.hidden)throw new Error("View hidden must be a boolean");if(!e.icon||"string"!=typeof e.icon||!function(e){if("string"!=typeof e)throw new TypeError(`Expected a \`string\`, got \`${typeof e}\``);if(0===(e=e.trim()).length)return!1;const t=new X;return t.write(e),t.isValid()&&"svg"===t.fileType?.ext}(e.icon))throw new Error("View icon is required and must be a valid svg string");if("order"in e&&"number"!=typeof e.order)throw new Error("View order must be a number");if(e.columns&&e.columns.forEach(e=>{if(!(e instanceof $))throw new Error("View columns must be an array of Column. Invalid column found")}),e.emptyView&&"function"!=typeof e.emptyView)throw new Error("View emptyView must be a function");if(e.parent&&"string"!=typeof e.parent)throw new Error("View parent must be a string");if("sticky"in e&&"boolean"!=typeof e.sticky)throw new Error("View sticky must be a boolean");if("expanded"in e&&"boolean"!=typeof e.expanded)throw new Error("View expanded must be a boolean");if(e.defaultSortKey&&"string"!=typeof e.defaultSortKey)throw new Error("View defaultSortKey must be a string");if(e.loadChildViews&&"function"!=typeof e.loadChildViews)throw new Error("View loadChildViews must be a function");return!0};var k=(e=>(e[e.UploadFromDevice=0]="UploadFromDevice",e[e.CreateNew=1]="CreateNew",e[e.Other=2]="Other",e))(k||{});class H{_entries=[];registerEntry(e){this.validateEntry(e),e.category=e.category??1,this._entries.push(e)}unregisterEntry(e){const t="string"==typeof e?this.getEntryIndex(e):this.getEntryIndex(e.id);-1!==t?this._entries.splice(t,1):s.o.warn("Entry not found, nothing removed",{entry:e,entries:this.getEntries()})}getEntries(e){return e?this._entries.filter(t=>"function"!=typeof t.enabled||t.enabled(e)):this._entries}getEntryIndex(e){return this._entries.findIndex(t=>t.id===e)}validateEntry(e){if(!e.id||!e.displayName||!e.iconSvgInline&&!e.iconClass||!e.handler)throw new Error("Invalid entry");if("string"!=typeof e.id||"string"!=typeof e.displayName)throw new Error("Invalid id or displayName property");if(e.iconClass&&"string"!=typeof e.iconClass||e.iconSvgInline&&"string"!=typeof e.iconSvgInline)throw new Error("Invalid icon provided");if(void 0!==e.enabled&&"function"!=typeof e.enabled)throw new Error("Invalid enabled property");if("function"!=typeof e.handler)throw new Error("Invalid handler property");if("order"in e&&"number"!=typeof e.order)throw new Error("Invalid order property");if(-1!==this.getEntryIndex(e.id))throw new Error("Duplicate entry")}}function Y(e){return(void 0===window._nc_newfilemenu&&(window._nc_newfilemenu=new H,s.o.debug("NewFileMenu initialized")),window._nc_newfilemenu).getEntries(e).sort((e,t)=>void 0!==e.order&&void 0!==t.order&&e.order!==t.order?e.order-t.order:e.displayName.localeCompare(t.displayName,void 0,{numeric:!0,sensitivity:"base"}))}var W=(e=>(e.ReservedName="reserved name",e.Character="character",e.Extension="extension",e))(W||{});class K extends Error{constructor(e){super(`Invalid ${e.reason} '${e.segment}' in filename '${e.filename}'`,{cause:e})}get filename(){return this.cause.filename}get reason(){return this.cause.reason}get segment(){return this.cause.segment}}function Q(e){const t=(0,u.F)().files,r=t.forbidden_filename_characters??window._oc_config?.forbidden_filenames_characters??["/","\\"];for(const t of r)if(e.includes(t))throw new K({segment:t,reason:"character",filename:e});if(e=e.toLocaleLowerCase(),(t.forbidden_filenames??[".htaccess"]).includes(e))throw new K({filename:e,segment:e,reason:"reserved name"});const i=e.indexOf(".",1),n=e.substring(0,-1===i?void 0:i);if((t.forbidden_filename_basenames??[]).includes(n))throw new K({filename:e,segment:n,reason:"reserved name"});const o=t.forbidden_filename_extensions??[".part",".filepart"];for(const t of o)if(e.length>t.length&&e.endsWith(t))throw new K({segment:t,reason:"extension",filename:e})}function z(e,t,r){const i={suffix:e=>`(${e})`,ignoreFileExtension:!1,...r};let n=e,o=1;for(;t.includes(n);){const t=i.ignoreFileExtension?"":(0,d.extname)(e);n=`${(0,d.basename)(e,t)} ${i.suffix(o++)}${t}`}return n}const Z=["B","KB","MB","GB","TB","PB"],J=["B","KiB","MiB","GiB","TiB","PiB"];function ee(e,t=!1,r=!1,i=!1){r=r&&!i,"string"==typeof e&&(e=Number(e));let n=e>0?Math.floor(Math.log(e)/Math.log(i?1e3:1024)):0;n=Math.min((r?J.length:Z.length)-1,n);const o=r?J[n]:Z[n];let a=(e/Math.pow(i?1e3:1024,n)).toFixed(1);return!0===t&&0===n?("0.0"!==a?"< 1 ":"0 ")+(r?J[1]:Z[1]):(a=n<2?parseFloat(a).toFixed(0):parseFloat(a).toLocaleString((0,p.lO)()),a+" "+o)}function te(e){return e instanceof Date?e.toISOString():String(e)}function re(e,t={}){const r={sortingMode:"basename",sortingOrder:"asc",...t};return function(e,t,r){r=r??[];const i=(t=t??[e=>e]).map((e,t)=>"asc"===(r[t]??"asc")?1:-1),n=Intl.Collator([(0,p.Z0)(),(0,p.lO)()],{numeric:!0,usage:"sort"});return[...e].sort((e,r)=>{for(const[o,a]of t.entries()){const t=n.compare(te(a(e)),te(a(r)));if(0!==t)return t*i[o]}return 0})}(e,[...r.sortFavoritesFirst?[e=>1!==e.attributes?.favorite]:[],...r.sortFoldersFirst?[e=>"folder"!==e.type]:[],..."basename"!==r.sortingMode?[e=>e[r.sortingMode]??e.attributes[r.sortingMode]]:[],e=>{return(t=e.displayname||e.attributes?.displayname||e.basename||"").lastIndexOf(".")>0?t.slice(0,t.lastIndexOf(".")):t;var t},e=>e.basename],[...r.sortFavoritesFirst?["asc"]:[],...r.sortFoldersFirst?["asc"]:[],..."mtime"===r.sortingMode?["asc"===r.sortingOrder?"desc":"asc"]:[],..."mtime"!==r.sortingMode&&"basename"!==r.sortingMode?[r.sortingOrder]:[],r.sortingOrder,r.sortingOrder])}},43325:(e,t,r)=>{var i=r(61338),n=r(35810),o=r(81222),a=r(77815),s=r(53334),c=r(85471);const l='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-link" viewBox="0 0 24 24"><path d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" /></svg>';var u=r(16954),d=r(36117),p=r(56908);const h=(0,r(35947).YK)().setApp("files_sharing").detectUser().build();var f=r(63814),E=r(82490),m=r(40173);const g=(0,o.C)("files_sharing","view"),T=(0,o.C)("files_sharing","sharingToken");c.Ay.use(m.Ay);const v=m.Ay.prototype.push;m.Ay.prototype.push=function(){for(var e=arguments.length,t=new Array(e),r=0;r<e;r++)t[r]=arguments[r];return t.length>1?v.call(this,...t):v.call(this,t[0]).catch(w)};const N=m.Ay.prototype.replace;function w(e){if(!(0,m.Pq)(e,m.$c.duplicated))throw e;h.debug("Ignoring duplicated navigation from vue-router",{error:e})}m.Ay.prototype.replace=function(){for(var e=arguments.length,t=new Array(e),r=0;r<e;r++)t[r]=arguments[r];return t.length>1?N.call(this,...t):N.call(this,t[0]).catch(w)};const I=new m.Ay({mode:"history",base:(0,f.Jv)("/s"),linkActiveClass:"active",routes:[{path:"/",redirect:{name:"filelist",params:{view:g,token:T}}},{path:"/:token",name:"filelist",props:!0}],stringifyQuery(e){const t=E.A.stringify(e).replace(/%2F/gim,"/");return t?"?"+t:""}});(()=>{const e=(0,o.C)("files_sharing","filename");let t,i;const l=new n.Ss({id:"public-file-drop",name:(0,s.Tl)("files_sharing","File drop"),caption:(0,s.Tl)("files_sharing","Upload files to {foldername}",{foldername:e}),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-cloud-upload" viewBox="0 0 24 24"><path d="M11 20H6.5Q4.22 20 2.61 18.43 1 16.85 1 14.58 1 12.63 2.17 11.1 3.35 9.57 5.25 9.15 5.88 6.85 7.75 5.43 9.63 4 12 4 14.93 4 16.96 6.04 19 8.07 19 11 20.73 11.2 21.86 12.5 23 13.78 23 15.5 23 17.38 21.69 18.69 20.38 20 18.5 20H13V12.85L14.6 14.4L16 13L12 9L8 13L9.4 14.4L11 12.85Z" /></svg>',order:1,emptyView:async n=>{if(void 0===t){const{default:e}=await Promise.all([r.e(4208),r.e(7383)]).then(r.bind(r,87383));t=c.Ay.extend(e)}i&&i.$destroy(),i=new t({propsData:{foldername:e}}),i.$mount(n)},getContents:async()=>({contents:[],folder:new n.vd({id:0,source:`${a.Xn}${a.VA}`,root:a.VA,owner:null,permissions:n.aX.CREATE})})});(0,n.bh)().register(l)})(),(()=>{const e=new n.Ss({id:"public-share",name:(0,s.Tl)("files_sharing","Public share"),caption:(0,s.Tl)("files_sharing","Publicly shared files."),emptyTitle:(0,s.Tl)("files_sharing","No files"),emptyCaption:(0,s.Tl)("files_sharing","Files and folders shared with you will show up here"),icon:l,order:1,getContents:u.hE});(0,n.bh)().register(e)})(),(()=>{const e=new n.Ss({id:"public-file-share",name:(0,s.Tl)("files_sharing","Public file share"),caption:(0,s.Tl)("files_sharing","Publicly shared file."),emptyTitle:(0,s.Tl)("files_sharing","No file"),emptyCaption:(0,s.Tl)("files_sharing","The file shared with you will show up here"),icon:l,order:1,getContents:()=>new d.CancelablePromise(async(e,t,r)=>{const i=new AbortController;r(()=>i.abort());try{const t=await p.S.stat(n.lJ,{data:(0,n.VL)(),details:!0,signal:i.signal});e({contents:[(0,n.Al)(t.data)],folder:new n.vd({id:0,source:`${n.PY}${n.lJ}`,root:n.lJ,owner:null,permissions:n.aX.READ,attributes:{note:t.data.props?.note}})})}catch(e){h.error(e),t(e)}})});(0,n.bh)().register(e)})();const A=(0,o.C)("files_sharing","view"),_=(0,n.bh)();_.setActive(_.views.find(e=>{let{id:t}=e;return t===A})??null),window.OCP.Files=window.OCP.Files??{},window.OCP.Files.Router=new class{constructor(e){var t,r,i;t=this,i=void 0,(r=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var r=t.call(e,"string");if("object"!=typeof r)return r;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(r="router"))in t?Object.defineProperty(t,r,{value:i,enumerable:!0,configurable:!0,writable:!0}):t[r]=i,this.router=e}get name(){return this.router.currentRoute.name}get query(){return this.router.currentRoute.query||{}}get params(){return this.router.currentRoute.params||{}}get _router(){return this.router}goTo(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];return this.router.push({path:e,replace:t})}goToRoute(e,t,r,i){return this.router.push({name:e,query:r,params:t,replace:i})}}(I);const b=(0,o.C)("files_sharing","fileId",null),y=(0,o.C)("files_sharing","sharingToken");null!==b&&window.OCP.Files.Router.goToRoute("filelist",{...window.OCP.Files.Router.params,token:y,fileid:String(b)},{...window.OCP.Files.Router.query,openfile:"true"}),(0,i.B1)("files:list:updated",function e(t){let{folder:r}=t;if((0,i.al)("files:list:updated",e),r.attributes["share-attributes"]){const e=JSON.parse(r.attributes["share-attributes"]||"[]").find(e=>{let{scope:t,key:r}=e;return"config"===t&&"grid_view"===r});void 0!==e&&(h.debug("Loading share attributes",{gridViewAttribute:e}),(0,i.Ic)("files:config:updated",{key:"grid_view",value:!0===e.value}))}})},43690:e=>{e.exports='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-folder-outline" viewBox="0 0 24 24"><path d="M20,18H4V8H20M20,6H12L10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6Z" /></svg>'},45238:(e,t,r)=>{r.d(t,{B:()=>u});var i=r(65899),n=r(71225),o=r(35810),a=r(61338),s=r(85471),c=r(9558),l=r(89761);const u=function(){const e=(0,l._)(...arguments),t=(0,i.nY)("paths",{state:()=>({paths:{}}),getters:{getPath:e=>(t,r)=>{if(e.paths[t])return e.paths[t][r]}},actions:{addPath(e){this.paths[e.service]||s.Ay.set(this.paths,e.service,{}),s.Ay.set(this.paths[e.service],e.path,e.source)},deletePath(e,t){this.paths[e]&&s.Ay.delete(this.paths[e],t)},onCreatedNode(e){const t=(0,o.bh)()?.active?.id||"files";e.fileid?(e.type===o.pt.Folder&&this.addPath({service:t,path:e.path,source:e.source}),this.addNodeToParentChildren(e)):c.A.error("Node has no fileid",{node:e})},onDeletedNode(e){const t=(0,o.bh)()?.active?.id||"files";e.type===o.pt.Folder&&this.deletePath(t,e.path),this.deleteNodeFromParentChildren(e)},onMovedNode(e){let{node:t,oldSource:r}=e;const i=(0,o.bh)()?.active?.id||"files";if(t.type===o.pt.Folder){const e=Object.entries(this.paths[i]).find(e=>{let[,t]=e;return t===r});e?.[0]&&this.deletePath(i,e[0]),this.addPath({service:i,path:t.path,source:t.source})}const n=new o.ZH({source:r,owner:t.owner,mime:t.mime});this.deleteNodeFromParentChildren(n),this.addNodeToParentChildren(t)},deleteNodeFromParentChildren(t){const r=(0,o.bh)()?.active?.id||"files",i=(0,n.pD)(t.source),a="/"===t.dirname?e.getRoot(r):e.getNode(i);if(a){const e=new Set(a._children??[]);return e.delete(t.source),s.Ay.set(a,"_children",[...e.values()]),void c.A.debug("Children updated",{parent:a,node:t,children:a._children})}c.A.debug("Parent path does not exists, skipping children update",{node:t})},addNodeToParentChildren(t){const r=(0,o.bh)()?.active?.id||"files",i=(0,n.pD)(t.source),a="/"===t.dirname?e.getRoot(r):e.getNode(i);if(a){const e=new Set(a._children??[]);return e.add(t.source),s.Ay.set(a,"_children",[...e.values()]),void c.A.debug("Children updated",{parent:a,node:t,children:a._children})}c.A.debug("Parent path does not exists, skipping children update",{node:t})}}})(...arguments);return t._initialized||((0,a.B1)("files:node:created",t.onCreatedNode),(0,a.B1)("files:node:deleted",t.onDeletedNode),(0,a.B1)("files:node:moved",t.onMovedNode),t._initialized=!0),t}},49542:(e,t,r)=>{var i=r(61338),n=r(35810),o=r(65899),a=r(85471),s=r(9558);(0,o.nY)("active",()=>{const e=(0,a.KR)(),t=(0,a.KR)(),r=(0,a.KR)(),o=(0,a.KR)();function c(e){r.value&&r.value.source===e.source&&(r.value=void 0)}function l(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;s.A.debug("Setting active view",{view:e}),o.value=e??void 0,r.value=void 0}return function(){const e=(0,n.bh)();(0,i.B1)("files:node:deleted",c),l(e.active),e.addEventListener("updateActive",e=>{l(e.detail)})}(),{activeAction:e,activeFolder:t,activeNode:r,activeView:o}})},53775:(e,t,r)=>{r.d(t,{w:()=>i}),r(35810),r(53334),r(21777),r(77815),r(36117),r(21976),r(9558),r(82736),r(25682);const i="search"},56908:(e,t,r)=>{r.d(t,{S:()=>n,t:()=>o});var i=r(77815);const n=(0,i.KU)(),o=async e=>{const t=(0,i.aN)(),r=await n.stat(`${(0,i.ei)()}${e}`,{details:!0,data:t});return(0,i.pO)(r.data)}},77815:(e,t,r)=>{r.d(t,{CP:()=>i.k,KU:()=>i.c,VA:()=>i.d,VX:()=>i.j,Xn:()=>i.b,aN:()=>i.l,ei:()=>i.g,pO:()=>i.r});var i=r(68896)},82736:(e,t,r)=>{r.d(t,{j:()=>u});var i=r(61338),n=r(17334),o=r.n(n),a=r(65899),s=r(85471),c=r(53775),l=r(9558);const u=(0,a.nY)("search",()=>{const e=(0,s.KR)(""),t=(0,s.KR)("filter");(0,s.wB)(t,n),(0,s.wB)(e,(e,t)=>{e.trim()!==t.trim()&&n()}),function(){(0,i.B1)("files:navigation:changed",a);const r=window.OCP.Files.Router;r.params.view===c.w&&(e.value=[r.query.query].flat()[0]??"",e.value?(t.value="globally",l.A.debug("Directly navigated to search view",{query:e.value})):(l.A.info("Directly navigated to search view without any query, redirect to files view."),r.goToRoute(void 0,{...r.params,view:"files"},{...r.query,query:void 0},!0)))}();const r=o()(t=>{window.OCP.Files.Router.goToRoute(void 0,{view:c.w},{query:e.value},t)});function n(){(0,i.Ic)("files:search:updated",{query:e.value,scope:t.value});const n=window.OCP.Files.Router;if(n.params.view===c.w&&(""===e.value||"filter"===t.value))return t.value="filter",n.goToRoute(void 0,{view:"files"},{...n.query,query:void 0});if("filter"===t.value||!e.value)return;const o=n.params.view===c.w;l.A.debug("Update route for updated search query",{query:e.value,isSearch:o}),r(o)}function a(r){r.id!==c.w&&(e.value="",t.value="filter")}return{query:e,scope:t}})},89761:(e,t,r)=>{r.d(t,{_:()=>l});var i=r(65899),n=r(61338),o=r(9558),a=r(85471),s=r(56908),c=r(45238);const l=function(){const e=(0,i.nY)("files",{state:()=>({files:{},roots:{}}),getters:{getNode:e=>t=>e.files[t],getNodes:e=>t=>t.map(t=>e.files[t]).filter(Boolean),getNodesById:e=>t=>Object.values(e.files).filter(e=>e.fileid===t),getRoot:e=>t=>e.roots[t]},actions:{getDirectoryByPath(e,t){const r=(0,c.B)();let i;if(t&&"/"!==t){const n=r.getPath(e,t);n&&(i=this.getNode(n))}else i=this.getRoot(e);return i},getNodesByPath(e,t){const r=this.getDirectoryByPath(e,t);return(r?._children??[]).map(e=>this.getNode(e)).filter(Boolean)},updateNodes(e){const t=e.reduce((e,t)=>t.fileid?(e[t.source]=t,e):(o.A.error("Trying to update/set a node without fileid",{node:t}),e),{});a.Ay.set(this,"files",{...this.files,...t})},deleteNodes(e){e.forEach(e=>{e.source&&a.Ay.delete(this.files,e.source)})},setRoot(e){let{service:t,root:r}=e;a.Ay.set(this.roots,t,r)},onDeletedNode(e){this.deleteNodes([e])},onCreatedNode(e){this.updateNodes([e])},onMovedNode(e){let{node:t,oldSource:r}=e;t.fileid?(a.Ay.delete(this.files,r),this.updateNodes([t])):o.A.error("Trying to update/set a node without fileid",{node:t})},async onUpdatedNode(e){if(!e.fileid)return void o.A.error("Trying to update/set a node without fileid",{node:e});const t=this.getNodesById(e.fileid);if(t.length>1)return await Promise.all(t.map(e=>(0,s.t)(e.path))).then(this.updateNodes),void o.A.debug(t.length+" nodes updated in store",{fileid:e.fileid});1!==t.length||e.source!==t[0].source?(0,s.t)(e.path).then(e=>this.updateNodes([e])):this.updateNodes([e])},onAddFavorite(e){const t=this.getNode(e.source);t&&a.Ay.set(t.attributes,"favorite",1)},onRemoveFavorite(e){const t=this.getNode(e.source);t&&a.Ay.set(t.attributes,"favorite",0)}}})(...arguments);return e._initialized||((0,n.B1)("files:node:created",e.onCreatedNode),(0,n.B1)("files:node:deleted",e.onDeletedNode),(0,n.B1)("files:node:updated",e.onUpdatedNode),(0,n.B1)("files:node:moved",e.onMovedNode),(0,n.B1)("files:favorites:added",e.onAddFavorite),(0,n.B1)("files:favorites:removed",e.onRemoveFavorite),e._initialized=!0),e}}},n={};function o(e){var t=n[e];if(void 0!==t)return t.exports;var r=n[e]={id:e,loaded:!1,exports:{}};return i[e].call(r.exports,r,r.exports,o),r.loaded=!0,r.exports}o.m=i,e=[],o.O=(t,r,i,n)=>{if(!r){var a=1/0;for(u=0;u<e.length;u++){r=e[u][0],i=e[u][1],n=e[u][2];for(var s=!0,c=0;c<r.length;c++)(!1&n||a>=n)&&Object.keys(o.O).every(e=>o.O[e](r[c]))?r.splice(c--,1):(s=!1,n<a&&(a=n));if(s){e.splice(u--,1);var l=i();void 0!==l&&(t=l)}}return t}n=n||0;for(var u=e.length;u>0&&e[u-1][2]>n;u--)e[u]=e[u-1];e[u]=[r,i,n]},o.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return o.d(t,{a:t}),t},o.d=(e,t)=>{for(var r in t)o.o(t,r)&&!o.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:t[r]})},o.f={},o.e=e=>Promise.all(Object.keys(o.f).reduce((t,r)=>(o.f[r](e,t),t),[])),o.u=e=>e+"-"+e+".js?v="+{640:"d3d98600d88fd55c7b27",1656:"add223a88c3ff25f5e22",3485:"43f0d40397a6153c2940",5771:"d141d1ad8187d99738b9",5810:"fc51f8aa95a9854d22fd",7383:"23cd149ab7e5d2fd42ce",7457:"0b93057e62a64bfabdb8",7471:"6423b9b898ffefeb7d1d",8474:"d060bb2e97b1499bd6b0"}[e],o.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),o.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),t={},r="nextcloud:",o.l=(e,i,n,a)=>{if(t[e])t[e].push(i);else{var s,c;if(void 0!==n)for(var l=document.getElementsByTagName("script"),u=0;u<l.length;u++){var d=l[u];if(d.getAttribute("src")==e||d.getAttribute("data-webpack")==r+n){s=d;break}}s||(c=!0,(s=document.createElement("script")).charset="utf-8",s.timeout=120,o.nc&&s.setAttribute("nonce",o.nc),s.setAttribute("data-webpack",r+n),s.src=e),t[e]=[i];var p=(r,i)=>{s.onerror=s.onload=null,clearTimeout(h);var n=t[e];if(delete t[e],s.parentNode&&s.parentNode.removeChild(s),n&&n.forEach(e=>e(i)),r)return r(i)},h=setTimeout(p.bind(null,void 0,{type:"timeout",target:s}),12e4);s.onerror=p.bind(null,s.onerror),s.onload=p.bind(null,s.onload),c&&document.head.appendChild(s)}},o.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},o.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),o.j=5102,(()=>{var e;o.g.importScripts&&(e=o.g.location+"");var t=o.g.document;if(!e&&t&&(t.currentScript&&"SCRIPT"===t.currentScript.tagName.toUpperCase()&&(e=t.currentScript.src),!e)){var r=t.getElementsByTagName("script");if(r.length)for(var i=r.length-1;i>-1&&(!e||!/^http(s?):/.test(e));)e=r[i--].src}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),o.p=e})(),(()=>{o.b=document.baseURI||self.location.href;var e={5102:0,5810:0};o.f.j=(t,r)=>{var i=o.o(e,t)?e[t]:void 0;if(0!==i)if(i)r.push(i[2]);else{var n=new Promise((r,n)=>i=e[t]=[r,n]);r.push(i[2]=n);var a=o.p+o.u(t),s=new Error;o.l(a,r=>{if(o.o(e,t)&&(0!==(i=e[t])&&(e[t]=void 0),i)){var n=r&&("load"===r.type?"missing":r.type),a=r&&r.target&&r.target.src;s.message="Loading chunk "+t+" failed.\n("+n+": "+a+")",s.name="ChunkLoadError",s.type=n,s.request=a,i[1](s)}},"chunk-"+t,t)}},o.O.j=t=>0===e[t];var t=(t,r)=>{var i,n,a=r[0],s=r[1],c=r[2],l=0;if(a.some(t=>0!==e[t])){for(i in s)o.o(s,i)&&(o.m[i]=s[i]);if(c)var u=c(o)}for(t&&t(r);l<a.length;l++)n=a[l],o.o(e,n)&&e[n]&&e[n][0](),e[n]=0;return o.O(u)},r=self.webpackChunknextcloud=self.webpackChunknextcloud||[];r.forEach(t.bind(null,0)),r.push=t.bind(null,r.push.bind(r))})(),o.nc=void 0;var a=o.O(void 0,[4208],()=>o(43325));a=o.O(a)})();
-//# sourceMappingURL=files_sharing-init-public.js.map?v=efc335b8fd8d6d9883ec
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/files/src/logger.ts":
+/*!**********************************!*\
+  !*** ./apps/files/src/logger.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('files').detectUser().build());
+
+/***/ }),
+
+/***/ "./apps/files/src/services/Files.ts":
+/*!******************************************!*\
+  !*** ./apps/files/src/services/Files.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   defaultGetContents: () => (/* binding */ defaultGetContents),
+/* harmony export */   getContents: () => (/* binding */ getContents),
+/* harmony export */   resultToNode: () => (/* binding */ resultToNode)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cancelable-promise */ "./node_modules/cancelable-promise/umd/CancelablePromise.js");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(cancelable_promise__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! path */ "./node_modules/path/path.js");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _WebDavSearch_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./WebDavSearch.ts */ "./apps/files/src/services/WebDavSearch.ts");
+/* harmony import */ var _store_index_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/index.ts */ "./apps/files/src/store/index.ts");
+/* harmony import */ var _store_files_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../store/files.ts */ "./apps/files/src/store/files.ts");
+/* harmony import */ var _store_search_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../store/search.ts */ "./apps/files/src/store/search.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+
+
+
+
+
+
+
+
+
+/**
+ * Slim wrapper over `@nextcloud/files` `davResultToNode` to allow using the function with `Array.map`
+ * @param stat The result returned by the webdav library
+ */
+const resultToNode = stat => (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.resultToNode)(stat);
+/**
+ * Get contents implementation for the files view.
+ * This also allows to fetch local search results when the user is currently filtering.
+ *
+ * @param path - The path to query
+ */
+function getContents() {
+  let path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/';
+  const controller = new AbortController();
+  const searchStore = (0,_store_search_ts__WEBPACK_IMPORTED_MODULE_7__.useSearchStore)((0,_store_index_ts__WEBPACK_IMPORTED_MODULE_5__.getPinia)());
+  if (searchStore.query.length >= 3) {
+    return new cancelable_promise__WEBPACK_IMPORTED_MODULE_1__.CancelablePromise((resolve, reject, cancel) => {
+      cancel(() => controller.abort());
+      getLocalSearch(path, searchStore.query, controller.signal).then(resolve).catch(reject);
+    });
+  } else {
+    return defaultGetContents(path);
+  }
+}
+/**
+ * Generic `getContents` implementation for the users files.
+ *
+ * @param path - The path to get the contents
+ */
+function defaultGetContents(path) {
+  path = (0,path__WEBPACK_IMPORTED_MODULE_2__.join)(_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.defaultRootPath, path);
+  const controller = new AbortController();
+  const propfindPayload = (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.getDefaultPropfind)();
+  return new cancelable_promise__WEBPACK_IMPORTED_MODULE_1__.CancelablePromise(async (resolve, reject, onCancel) => {
+    onCancel(() => controller.abort());
+    try {
+      const contentsResponse = await _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__.client.getDirectoryContents(path, {
+        details: true,
+        data: propfindPayload,
+        includeSelf: true,
+        signal: controller.signal
+      });
+      const root = contentsResponse.data[0];
+      const contents = contentsResponse.data.slice(1);
+      if (root.filename !== path && `${root.filename}/` !== path) {
+        _logger_ts__WEBPACK_IMPORTED_MODULE_8__["default"].debug(`Exepected "${path}" but got filename "${root.filename}" instead.`);
+        throw new Error('Root node does not match requested path');
+      }
+      resolve({
+        folder: resultToNode(root),
+        contents: contents.map(result => {
+          try {
+            return resultToNode(result);
+          } catch (error) {
+            _logger_ts__WEBPACK_IMPORTED_MODULE_8__["default"].error(`Invalid node detected '${result.basename}'`, {
+              error
+            });
+            return null;
+          }
+        }).filter(Boolean)
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+/**
+ * Get the local search results for the current folder.
+ *
+ * @param path - The path
+ * @param query - The current search query
+ * @param signal - The aboort signal
+ */
+async function getLocalSearch(path, query, signal) {
+  const filesStore = (0,_store_files_ts__WEBPACK_IMPORTED_MODULE_6__.useFilesStore)((0,_store_index_ts__WEBPACK_IMPORTED_MODULE_5__.getPinia)());
+  let folder = filesStore.getDirectoryByPath('files', path);
+  if (!folder) {
+    const rootPath = (0,path__WEBPACK_IMPORTED_MODULE_2__.join)(_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.defaultRootPath, path);
+    const stat = await _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__.client.stat(rootPath, {
+      details: true
+    });
+    folder = resultToNode(stat.data);
+  }
+  const contents = await (0,_WebDavSearch_ts__WEBPACK_IMPORTED_MODULE_4__.searchNodes)(query, {
+    dir: path,
+    signal
+  });
+  return {
+    folder,
+    contents
+  };
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/services/RouterService.ts":
+/*!**************************************************!*\
+  !*** ./apps/files/src/services/RouterService.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RouterService)
+/* harmony export */ });
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+class RouterService {
+  constructor(router) {
+    // typescript compiles this to `#router` to make it private even in JS,
+    // but in TS it needs to be called without the visibility specifier
+    _defineProperty(this, "router", void 0);
+    this.router = router;
+  }
+  get name() {
+    return this.router.currentRoute.name;
+  }
+  get query() {
+    return this.router.currentRoute.query || {};
+  }
+  get params() {
+    return this.router.currentRoute.params || {};
+  }
+  /**
+   * This is a protected getter only for internal use
+   * @private
+   */
+  get _router() {
+    return this.router;
+  }
+  /**
+   * Trigger a route change on the files app
+   *
+   * @param path the url path, eg: '/trashbin?dir=/Deleted'
+   * @param replace replace the current history
+   * @see https://router.vuejs.org/guide/essentials/navigation.html#navigate-to-a-different-location
+   */
+  goTo(path) {
+    let replace = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    return this.router.push({
+      path,
+      replace
+    });
+  }
+  /**
+   * Trigger a route change on the files App
+   *
+   * @param name the route name
+   * @param params the route parameters
+   * @param query the url query parameters
+   * @param replace replace the current history
+   * @see https://router.vuejs.org/guide/essentials/navigation.html#navigate-to-a-different-location
+   */
+  goToRoute(name, params, query, replace) {
+    return this.router.push({
+      name,
+      query,
+      params,
+      replace
+    });
+  }
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/services/Search.ts":
+/*!*******************************************!*\
+  !*** ./apps/files/src/services/Search.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContents: () => (/* binding */ getContents)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cancelable-promise */ "./node_modules/cancelable-promise/umd/CancelablePromise.js");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(cancelable_promise__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _WebDavSearch_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./WebDavSearch.ts */ "./apps/files/src/services/WebDavSearch.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/* harmony import */ var _store_search_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../store/search.ts */ "./apps/files/src/store/search.ts");
+/* harmony import */ var _store_index_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../store/index.ts */ "./apps/files/src/store/index.ts");
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+/**
+ * Get the contents for a search view
+ */
+function getContents() {
+  const controller = new AbortController();
+  const searchStore = (0,_store_search_ts__WEBPACK_IMPORTED_MODULE_6__.useSearchStore)((0,_store_index_ts__WEBPACK_IMPORTED_MODULE_7__.getPinia)());
+  return new cancelable_promise__WEBPACK_IMPORTED_MODULE_3__.CancelablePromise(async (resolve, reject, cancel) => {
+    cancel(() => controller.abort());
+    try {
+      const contents = await (0,_WebDavSearch_ts__WEBPACK_IMPORTED_MODULE_4__.searchNodes)(searchStore.query, {
+        signal: controller.signal
+      });
+      resolve({
+        contents,
+        folder: new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Folder({
+          id: 0,
+          source: `${_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_2__.defaultRemoteURL}#search`,
+          owner: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)().uid,
+          permissions: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.READ
+        })
+      });
+    } catch (error) {
+      _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error('Failed to fetch search results', {
+        error
+      });
+      reject(error);
+    }
+  });
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/services/WebDavSearch.ts":
+/*!*************************************************!*\
+  !*** ./apps/files/src/services/WebDavSearch.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   searchNodes: () => (/* binding */ searchNodes)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+/**
+ * Search for nodes matching the given query.
+ *
+ * @param query - Search query
+ * @param options - Options
+ * @param options.dir - The base directory to scope the search to
+ * @param options.signal - Abort signal for the request
+ */
+async function searchNodes(query, _ref) {
+  let {
+    dir,
+    signal
+  } = _ref;
+  const user = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)();
+  if (!user) {
+    // the search plugin only works for user roots
+    return [];
+  }
+  query = query.trim();
+  if (query.length < 3) {
+    // the search plugin only works with queries of at least 3 characters
+    return [];
+  }
+  if (dir && !dir.startsWith('/')) {
+    dir = `/${dir}`;
+  }
+  _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].debug('Searching for nodes', {
+    query,
+    dir
+  });
+  const {
+    data
+  } = await _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__.client.search('/', {
+    details: true,
+    signal,
+    data: `
+<d:searchrequest ${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.getDavNameSpaces)()}>
+	 <d:basicsearch>
+		 <d:select>
+			 <d:prop>
+			 ${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.getDavProperties)()}
+			 </d:prop>
+		 </d:select>
+		 <d:from>
+			 <d:scope>
+				 <d:href>/files/${user.uid}${dir || ''}</d:href>
+				 <d:depth>infinity</d:depth>
+			 </d:scope>
+		 </d:from>
+		 <d:where>
+			 <d:like>
+				 <d:prop>
+					 <d:displayname/>
+				 </d:prop>
+				 <d:literal>%${query.replace('%', '')}%</d:literal>
+			 </d:like>
+		 </d:where>
+		 <d:orderby/>
+	</d:basicsearch>
+</d:searchrequest>`
+  });
+  // check if the request was aborted
+  if (signal?.aborted) {
+    return [];
+  }
+  // otherwise return the result mapped to Nextcloud nodes
+  return data.results.map(result => (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.resultToNode)(result, _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.defaultRootPath, (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.getBaseUrl)()));
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/services/WebdavClient.ts":
+/*!*************************************************!*\
+  !*** ./apps/files/src/services/WebdavClient.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   client: () => (/* binding */ client),
+/* harmony export */   fetchNode: () => (/* binding */ fetchNode)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+
+const client = (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.getClient)();
+const fetchNode = async path => {
+  const propfindPayload = (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.getDefaultPropfind)();
+  const result = await client.stat(`${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.getRootPath)()}${path}`, {
+    details: true,
+    data: propfindPayload
+  });
+  return (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.resultToNode)(result.data);
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/store/active.ts":
+/*!****************************************!*\
+  !*** ./apps/files/src/store/active.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useActiveStore: () => (/* binding */ useActiveStore)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+const useActiveStore = (0,pinia__WEBPACK_IMPORTED_MODULE_2__.defineStore)('active', () => {
+  /**
+   * The currently active action
+   */
+  const activeAction = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  /**
+   * The currently active folder
+   */
+  const activeFolder = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  /**
+   * The current active node within the folder
+   */
+  const activeNode = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  /**
+   * The current active view
+   */
+  const activeView = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  initialize();
+  /**
+   * Unset the active node if deleted
+   *
+   * @param node - The node thats deleted
+   * @private
+   */
+  function onDeletedNode(node) {
+    if (activeNode.value && activeNode.value.source === node.source) {
+      activeNode.value = undefined;
+    }
+  }
+  /**
+   * Callback to update the current active view
+   *
+   * @param view - The new active view
+   * @private
+   */
+  function onChangedView() {
+    let view = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].debug('Setting active view', {
+      view
+    });
+    activeView.value = view ?? undefined;
+    activeNode.value = undefined;
+  }
+  /**
+   * Initalize the store - connect all event listeners.
+   * @private
+   */
+  function initialize() {
+    const navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+    // Make sure we only register the listeners once
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:node:deleted', onDeletedNode);
+    onChangedView(navigation.active);
+    // Or you can react to changes of the current active view
+    navigation.addEventListener('updateActive', event => {
+      onChangedView(event.detail);
+    });
+  }
+  return {
+    activeAction,
+    activeFolder,
+    activeNode,
+    activeView
+  };
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/store/files.ts":
+/*!***************************************!*\
+  !*** ./apps/files/src/store/files.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useFilesStore: () => (/* binding */ useFilesStore)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../logger */ "./apps/files/src/logger.ts");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _paths_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./paths.ts */ "./apps/files/src/store/paths.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const useFilesStore = function () {
+  const store = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)('files', {
+    state: () => ({
+      files: {},
+      roots: {}
+    }),
+    getters: {
+      /**
+       * Get a file or folder by its source
+       * @param state
+       */
+      getNode: state => source => state.files[source],
+      /**
+       * Get a list of files or folders by their IDs
+       * Note: does not return undefined values
+       * @param state
+       */
+      getNodes: state => sources => sources.map(source => state.files[source]).filter(Boolean),
+      /**
+       * Get files or folders by their file ID
+       * Multiple nodes can have the same file ID but different sources
+       * (e.g. in a shared context)
+       * @param state
+       */
+      getNodesById: state => fileId => Object.values(state.files).filter(node => node.fileid === fileId),
+      /**
+       * Get the root folder of a service
+       * @param state
+       */
+      getRoot: state => service => state.roots[service]
+    },
+    actions: {
+      /**
+       * Get cached directory matching a given path
+       *
+       * @param service - The service (files view)
+       * @param path - The path relative within the service
+       * @return The folder if found
+       */
+      getDirectoryByPath(service, path) {
+        const pathsStore = (0,_paths_ts__WEBPACK_IMPORTED_MODULE_5__.usePathsStore)();
+        let folder;
+        // Get the containing folder from path store
+        if (!path || path === '/') {
+          folder = this.getRoot(service);
+        } else {
+          const source = pathsStore.getPath(service, path);
+          if (source) {
+            folder = this.getNode(source);
+          }
+        }
+        return folder;
+      },
+      /**
+       * Get cached child nodes within a given path
+       *
+       * @param service - The service (files view)
+       * @param path - The path relative within the service
+       * @return Array of cached nodes within the path
+       */
+      getNodesByPath(service, path) {
+        const folder = this.getDirectoryByPath(service, path);
+        // If we found a cache entry and the cache entry was already loaded (has children) then use it
+        return (folder?._children ?? []).map(source => this.getNode(source)).filter(Boolean);
+      },
+      updateNodes(nodes) {
+        // Update the store all at once
+        const files = nodes.reduce((acc, node) => {
+          if (!node.fileid) {
+            _logger__WEBPACK_IMPORTED_MODULE_2__["default"].error('Trying to update/set a node without fileid', {
+              node
+            });
+            return acc;
+          }
+          acc[node.source] = node;
+          return acc;
+        }, {});
+        vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(this, 'files', {
+          ...this.files,
+          ...files
+        });
+      },
+      deleteNodes(nodes) {
+        nodes.forEach(node => {
+          if (node.source) {
+            vue__WEBPACK_IMPORTED_MODULE_3__["default"].delete(this.files, node.source);
+          }
+        });
+      },
+      setRoot(_ref) {
+        let {
+          service,
+          root
+        } = _ref;
+        vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(this.roots, service, root);
+      },
+      onDeletedNode(node) {
+        this.deleteNodes([node]);
+      },
+      onCreatedNode(node) {
+        this.updateNodes([node]);
+      },
+      onMovedNode(_ref2) {
+        let {
+          node,
+          oldSource
+        } = _ref2;
+        if (!node.fileid) {
+          _logger__WEBPACK_IMPORTED_MODULE_2__["default"].error('Trying to update/set a node without fileid', {
+            node
+          });
+          return;
+        }
+        // Update the path of the node
+        vue__WEBPACK_IMPORTED_MODULE_3__["default"].delete(this.files, oldSource);
+        this.updateNodes([node]);
+      },
+      async onUpdatedNode(node) {
+        if (!node.fileid) {
+          _logger__WEBPACK_IMPORTED_MODULE_2__["default"].error('Trying to update/set a node without fileid', {
+            node
+          });
+          return;
+        }
+        // If we have multiple nodes with the same file ID, we need to update all of them
+        const nodes = this.getNodesById(node.fileid);
+        if (nodes.length > 1) {
+          await Promise.all(nodes.map(node => (0,_services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_4__.fetchNode)(node.path))).then(this.updateNodes);
+          _logger__WEBPACK_IMPORTED_MODULE_2__["default"].debug(nodes.length + ' nodes updated in store', {
+            fileid: node.fileid
+          });
+          return;
+        }
+        // If we have only one node with the file ID, we can update it directly
+        if (nodes.length === 1 && node.source === nodes[0].source) {
+          this.updateNodes([node]);
+          return;
+        }
+        // Otherwise, it means we receive an event for a node that is not in the store
+        (0,_services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_4__.fetchNode)(node.path).then(n => this.updateNodes([n]));
+      },
+      // Handlers for legacy sidebar (no real nodes support)
+      onAddFavorite(node) {
+        const ourNode = this.getNode(node.source);
+        if (ourNode) {
+          vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(ourNode.attributes, 'favorite', 1);
+        }
+      },
+      onRemoveFavorite(node) {
+        const ourNode = this.getNode(node.source);
+        if (ourNode) {
+          vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(ourNode.attributes, 'favorite', 0);
+        }
+      }
+    }
+  });
+  const fileStore = store(...arguments);
+  // Make sure we only register the listeners once
+  if (!fileStore._initialized) {
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:node:created', fileStore.onCreatedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:node:deleted', fileStore.onDeletedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:node:updated', fileStore.onUpdatedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:node:moved', fileStore.onMovedNode);
+    // legacy sidebar
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:favorites:added', fileStore.onAddFavorite);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:favorites:removed', fileStore.onRemoveFavorite);
+    fileStore._initialized = true;
+  }
+  return fileStore;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/store/index.ts":
+/*!***************************************!*\
+  !*** ./apps/files/src/store/index.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getPinia: () => (/* binding */ getPinia)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const getPinia = () => {
+  if (window._nc_files_pinia) {
+    return window._nc_files_pinia;
+  }
+  window._nc_files_pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.createPinia)();
+  return window._nc_files_pinia;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/store/paths.ts":
+/*!***************************************!*\
+  !*** ./apps/files/src/store/paths.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   usePathsStore: () => (/* binding */ usePathsStore)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var _nextcloud_paths__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/paths */ "./node_modules/@nextcloud/paths/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logger */ "./apps/files/src/logger.ts");
+/* harmony import */ var _files__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./files */ "./apps/files/src/store/files.ts");
+
+
+
+
+
+
+
+const usePathsStore = function () {
+  const files = (0,_files__WEBPACK_IMPORTED_MODULE_6__.useFilesStore)(...arguments);
+  const store = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)('paths', {
+    state: () => ({
+      paths: {}
+    }),
+    getters: {
+      getPath: state => {
+        return (service, path) => {
+          if (!state.paths[service]) {
+            return undefined;
+          }
+          return state.paths[service][path];
+        };
+      }
+    },
+    actions: {
+      addPath(payload) {
+        // If it doesn't exists, init the service state
+        if (!this.paths[payload.service]) {
+          vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(this.paths, payload.service, {});
+        }
+        // Now we can set the provided path
+        vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(this.paths[payload.service], payload.path, payload.source);
+      },
+      deletePath(service, path) {
+        // skip if service does not exist
+        if (!this.paths[service]) {
+          return;
+        }
+        vue__WEBPACK_IMPORTED_MODULE_4__["default"].delete(this.paths[service], path);
+      },
+      onCreatedNode(node) {
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        if (!node.fileid) {
+          _logger__WEBPACK_IMPORTED_MODULE_5__["default"].error('Node has no fileid', {
+            node
+          });
+          return;
+        }
+        // Only add path if it's a folder
+        if (node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.FileType.Folder) {
+          this.addPath({
+            service,
+            path: node.path,
+            source: node.source
+          });
+        }
+        // Update parent folder children if exists
+        // If the folder is the root, get it and update it
+        this.addNodeToParentChildren(node);
+      },
+      onDeletedNode(node) {
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        if (node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.FileType.Folder) {
+          // Delete the path
+          this.deletePath(service, node.path);
+        }
+        this.deleteNodeFromParentChildren(node);
+      },
+      onMovedNode(_ref) {
+        let {
+          node,
+          oldSource
+        } = _ref;
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        // Update the path of the node
+        if (node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.FileType.Folder) {
+          // Delete the old path if it exists
+          const oldPath = Object.entries(this.paths[service]).find(_ref2 => {
+            let [, source] = _ref2;
+            return source === oldSource;
+          });
+          if (oldPath?.[0]) {
+            this.deletePath(service, oldPath[0]);
+          }
+          // Add the new path
+          this.addPath({
+            service,
+            path: node.path,
+            source: node.source
+          });
+        }
+        // Dummy simple clone of the renamed node from a previous state
+        const oldNode = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.File({
+          source: oldSource,
+          owner: node.owner,
+          mime: node.mime
+        });
+        this.deleteNodeFromParentChildren(oldNode);
+        this.addNodeToParentChildren(node);
+      },
+      deleteNodeFromParentChildren(node) {
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        // Update children of a root folder
+        const parentSource = (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_1__.dirname)(node.source);
+        const folder = node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource);
+        if (folder) {
+          // ensure sources are unique
+          const children = new Set(folder._children ?? []);
+          children.delete(node.source);
+          vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(folder, '_children', [...children.values()]);
+          _logger__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Children updated', {
+            parent: folder,
+            node,
+            children: folder._children
+          });
+          return;
+        }
+        _logger__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Parent path does not exists, skipping children update', {
+          node
+        });
+      },
+      addNodeToParentChildren(node) {
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        // Update children of a root folder
+        const parentSource = (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_1__.dirname)(node.source);
+        const folder = node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource);
+        if (folder) {
+          // ensure sources are unique
+          const children = new Set(folder._children ?? []);
+          children.add(node.source);
+          vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(folder, '_children', [...children.values()]);
+          _logger__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Children updated', {
+            parent: folder,
+            node,
+            children: folder._children
+          });
+          return;
+        }
+        _logger__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Parent path does not exists, skipping children update', {
+          node
+        });
+      }
+    }
+  });
+  const pathsStore = store(...arguments);
+  // Make sure we only register the listeners once
+  if (!pathsStore._initialized) {
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:created', pathsStore.onCreatedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:deleted', pathsStore.onDeletedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:moved', pathsStore.onMovedNode);
+    pathsStore._initialized = true;
+  }
+  return pathsStore;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/store/search.ts":
+/*!****************************************!*\
+  !*** ./apps/files/src/store/search.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useSearchStore: () => (/* binding */ useSearchStore)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var debounce__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! debounce */ "./node_modules/debounce/index.js");
+/* harmony import */ var debounce__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(debounce__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _views_search_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/search.ts */ "./apps/files/src/views/search.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const useSearchStore = (0,pinia__WEBPACK_IMPORTED_MODULE_2__.defineStore)('search', () => {
+  /**
+   * The current search query
+   */
+  const query = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)('');
+  /**
+   * Scope of the search.
+   * Scopes:
+   * - filter: only filter current file list
+   * - globally: search everywhere
+   */
+  const scope = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)('filter');
+  // reset the base if query is cleared
+  (0,vue__WEBPACK_IMPORTED_MODULE_3__.watch)(scope, updateSearch);
+  (0,vue__WEBPACK_IMPORTED_MODULE_3__.watch)(query, (old, current) => {
+    // skip if only whitespaces changed
+    if (old.trim() === current.trim()) {
+      return;
+    }
+    updateSearch();
+  });
+  // initialize the search store
+  initialize();
+  /**
+   * Debounced update of the current route
+   * @private
+   */
+  const updateRouter = debounce__WEBPACK_IMPORTED_MODULE_1___default()(isSearch => {
+    const router = window.OCP.Files.Router;
+    router.goToRoute(undefined, {
+      view: _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID
+    }, {
+      query: query.value
+    }, isSearch);
+  });
+  /**
+   * Handle updating the filter if needed.
+   * Also update the search view by updating the current route if needed.
+   *
+   * @private
+   */
+  function updateSearch() {
+    // emit the search event to update the filter
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:search:updated', {
+      query: query.value,
+      scope: scope.value
+    });
+    const router = window.OCP.Files.Router;
+    // if we are on the search view and the query was unset or scope was set to 'filter' we need to move back to the files view
+    if (router.params.view === _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID && (query.value === '' || scope.value === 'filter')) {
+      scope.value = 'filter';
+      return router.goToRoute(undefined, {
+        view: 'files'
+      }, {
+        ...router.query,
+        query: undefined
+      });
+    }
+    // for the filter scope we do not need to adjust the current route anymore
+    // also if the query is empty we do not need to do anything
+    if (scope.value === 'filter' || !query.value) {
+      return;
+    }
+    const isSearch = router.params.view === _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID;
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Update route for updated search query', {
+      query: query.value,
+      isSearch
+    });
+    updateRouter(isSearch);
+  }
+  /**
+   * Event handler that resets the store if the file list view was changed.
+   *
+   * @param view - The new view that is active
+   * @private
+   */
+  function onViewChanged(view) {
+    if (view.id !== _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID) {
+      query.value = '';
+      scope.value = 'filter';
+    }
+  }
+  /**
+   * Initialize the store from the router if needed
+   */
+  function initialize() {
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:navigation:changed', onViewChanged);
+    const router = window.OCP.Files.Router;
+    // if we initially load the search view (e.g. hard page refresh)
+    // then we need to initialize the store from the router
+    if (router.params.view === _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID) {
+      query.value = [router.query.query].flat()[0] ?? '';
+      if (query.value) {
+        scope.value = 'globally';
+        _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Directly navigated to search view', {
+          query: query.value
+        });
+      } else {
+        // we do not have any query so we need to move to the files list
+        _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].info('Directly navigated to search view without any query, redirect to files view.');
+        router.goToRoute(undefined, {
+          ...router.params,
+          view: 'files'
+        }, {
+          ...router.query,
+          query: undefined
+        }, true);
+      }
+    }
+  }
+  return {
+    query,
+    scope
+  };
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/utils/filesViews.ts":
+/*!********************************************!*\
+  !*** ./apps/files/src/utils/filesViews.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   defaultView: () => (/* binding */ defaultView),
+/* harmony export */   hasPersonalFilesView: () => (/* binding */ hasPersonalFilesView)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/**
+ * Check whether the personal files view can be shown
+ */
+function hasPersonalFilesView() {
+  const storageStats = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('files', 'storageStats', {
+    quota: -1
+  });
+  // Don't show this view if the user has no storage quota
+  return storageStats.quota !== 0;
+}
+/**
+ * Get the default files view
+ */
+function defaultView() {
+  const {
+    default_view: defaultView
+  } = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('files', 'config', {
+    default_view: 'files'
+  });
+  // the default view - only use the personal one if it is enabled
+  if (defaultView !== 'personal' || hasPersonalFilesView()) {
+    return defaultView;
+  }
+  return 'files';
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/views/files.ts":
+/*!***************************************!*\
+  !*** ./apps/files/src/views/files.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   VIEW_ID: () => (/* binding */ VIEW_ID),
+/* harmony export */   registerFilesView: () => (/* binding */ registerFilesView)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _services_Files_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/Files.ts */ "./apps/files/src/services/Files.ts");
+/* harmony import */ var _store_active_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/active.ts */ "./apps/files/src/store/active.ts");
+/* harmony import */ var _utils_filesViews_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/filesViews.ts */ "./apps/files/src/utils/filesViews.ts");
+/* harmony import */ var _mdi_svg_svg_folder_outline_svg_raw__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mdi/svg/svg/folder-outline.svg?raw */ "./node_modules/@mdi/svg/svg/folder-outline.svg?raw");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+const VIEW_ID = 'files';
+/**
+ * Register the files view to the navigation
+ */
+function registerFilesView() {
+  // we cache the query to allow more performant search (see below in event listener)
+  let oldQuery = '';
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: VIEW_ID,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'All files'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'List of your files and folders.'),
+    icon: _mdi_svg_svg_folder_outline_svg_raw__WEBPACK_IMPORTED_MODULE_6__,
+    // if this is the default view we set it at the top of the list - otherwise below it
+    order: (0,_utils_filesViews_ts__WEBPACK_IMPORTED_MODULE_5__.defaultView)() === VIEW_ID ? 0 : 5,
+    getContents: _services_Files_ts__WEBPACK_IMPORTED_MODULE_3__.getContents
+  }));
+  // when the search is updated
+  // and we are in the files view
+  // and there is already a folder fetched
+  // then we "update" it to trigger a new `getContents` call to search for the query while the filelist is filtered
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:search:updated', _ref => {
+    let {
+      scope,
+      query
+    } = _ref;
+    if (scope === 'globally') {
+      return;
+    }
+    if (Navigation.active?.id !== VIEW_ID) {
+      return;
+    }
+    // If neither the old query nor the new query is longer than the search minimum
+    // then we do not need to trigger a new PROPFIND / SEARCH
+    // so we skip unneccessary requests here
+    if (oldQuery.length < 3 && query.length < 3) {
+      return;
+    }
+    const store = (0,_store_active_ts__WEBPACK_IMPORTED_MODULE_4__.useActiveStore)();
+    if (!store.activeFolder) {
+      return;
+    }
+    oldQuery = query;
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:updated', store.activeFolder);
+  });
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/views/search.ts":
+/*!****************************************!*\
+  !*** ./apps/files/src/views/search.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   VIEW_ID: () => (/* binding */ VIEW_ID),
+/* harmony export */   registerSearchView: () => (/* binding */ registerSearchView)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _services_Search_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/Search.ts */ "./apps/files/src/services/Search.ts");
+/* harmony import */ var _files_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./files.ts */ "./apps/files/src/views/files.ts");
+/* harmony import */ var _mdi_svg_svg_magnify_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/magnify.svg?raw */ "./node_modules/@mdi/svg/svg/magnify.svg?raw");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const VIEW_ID = 'search';
+/**
+ * Register the search-in-files view
+ */
+function registerSearchView() {
+  let instance;
+  let view;
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.View({
+    id: VIEW_ID,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Search'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Search results within your files.'),
+    async emptyView(el) {
+      if (!view) {
+        view = (await Promise.all(/*! import() */[__webpack_require__.e("core-common"), __webpack_require__.e("apps_files_src_views_SearchEmptyView_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./SearchEmptyView.vue */ "./apps/files/src/views/SearchEmptyView.vue"))).default;
+      } else {
+        instance.$destroy();
+      }
+      instance = new vue__WEBPACK_IMPORTED_MODULE_5__["default"](view);
+      instance.$mount(el);
+    },
+    icon: _mdi_svg_svg_magnify_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+    order: 10,
+    parent: _files_ts__WEBPACK_IMPORTED_MODULE_3__.VIEW_ID,
+    // it should be shown expanded
+    expanded: true,
+    // this view is hidden by default and only shown when active
+    hidden: true,
+    getContents: _services_Search_ts__WEBPACK_IMPORTED_MODULE_2__.getContents
+  }));
+}
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_views/publicFileDrop.ts":
+/*!**************************************************************!*\
+  !*** ./apps/files_sharing/src/files_views/publicFileDrop.ts ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_cloud_upload_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/cloud-upload.svg?raw */ "./node_modules/@mdi/svg/svg/cloud-upload.svg?raw");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {
+  const foldername = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('files_sharing', 'filename');
+  let FilesViewFileDropEmptyContent;
+  let fileDropEmptyContentInstance;
+  const view = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.View({
+    id: 'public-file-drop',
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.translate)('files_sharing', 'File drop'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.translate)('files_sharing', 'Upload files to {foldername}', {
+      foldername
+    }),
+    icon: _mdi_svg_svg_cloud_upload_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+    order: 1,
+    emptyView: async div => {
+      if (FilesViewFileDropEmptyContent === undefined) {
+        const {
+          default: component
+        } = await Promise.all(/*! import() */[__webpack_require__.e("core-common"), __webpack_require__.e("apps_files_sharing_src_views_FilesViewFileDropEmptyContent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ../views/FilesViewFileDropEmptyContent.vue */ "./apps/files_sharing/src/views/FilesViewFileDropEmptyContent.vue"));
+        FilesViewFileDropEmptyContent = vue__WEBPACK_IMPORTED_MODULE_5__["default"].extend(component);
+      }
+      if (fileDropEmptyContentInstance) {
+        fileDropEmptyContentInstance.$destroy();
+      }
+      fileDropEmptyContentInstance = new FilesViewFileDropEmptyContent({
+        propsData: {
+          foldername
+        }
+      });
+      fileDropEmptyContentInstance.$mount(div);
+    },
+    getContents: async () => {
+      return {
+        contents: [],
+        // Fake a writeonly folder as root
+        folder: new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Folder({
+          id: 0,
+          source: `${_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.defaultRemoteURL}${_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.defaultRootPath}`,
+          root: _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.defaultRootPath,
+          owner: null,
+          permissions: _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.CREATE
+        })
+      };
+    }
+  });
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.getNavigation)();
+  Navigation.register(view);
+});
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_views/publicFileShare.ts":
+/*!***************************************************************!*\
+  !*** ./apps/files_sharing/src/files_views/publicFileShare.ts ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cancelable-promise */ "./node_modules/cancelable-promise/umd/CancelablePromise.js");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cancelable_promise__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/link.svg?raw */ "./node_modules/@mdi/svg/svg/link.svg?raw");
+/* harmony import */ var _files_src_services_WebdavClient__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../files/src/services/WebdavClient */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _services_logger__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/logger */ "./apps/files_sharing/src/services/logger.ts");
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {
+  const view = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.View({
+    id: 'public-file-share',
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files_sharing', 'Public file share'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files_sharing', 'Publicly shared file.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files_sharing', 'No file'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files_sharing', 'The file shared with you will show up here'),
+    icon: _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_3__,
+    order: 1,
+    getContents: () => {
+      return new cancelable_promise__WEBPACK_IMPORTED_MODULE_2__.CancelablePromise(async (resolve, reject, onCancel) => {
+        const abort = new AbortController();
+        onCancel(() => abort.abort());
+        try {
+          const node = await _files_src_services_WebdavClient__WEBPACK_IMPORTED_MODULE_4__.client.stat(_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.davRootPath, {
+            data: (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.davGetDefaultPropfind)(),
+            details: true,
+            signal: abort.signal
+          });
+          resolve({
+            // We only have one file as the content
+            contents: [(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.davResultToNode)(node.data)],
+            // Fake a readonly folder as root
+            folder: new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Folder({
+              id: 0,
+              source: `${_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.davRemoteURL}${_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.davRootPath}`,
+              root: _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.davRootPath,
+              owner: null,
+              permissions: _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.READ,
+              attributes: {
+                // Ensure the share note is set on the root
+                note: node.data.props?.note
+              }
+            })
+          });
+        } catch (e) {
+          _services_logger__WEBPACK_IMPORTED_MODULE_5__["default"].error(e);
+          reject(e);
+        }
+      });
+    }
+  });
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.getNavigation)();
+  Navigation.register(view);
+});
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/files_views/publicShare.ts":
+/*!***********************************************************!*\
+  !*** ./apps/files_sharing/src/files_views/publicShare.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mdi/svg/svg/link.svg?raw */ "./node_modules/@mdi/svg/svg/link.svg?raw");
+/* harmony import */ var _files_src_services_Files__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../files/src/services/Files */ "./apps/files/src/services/Files.ts");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {
+  const view = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: 'public-share',
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Public share'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Publicly shared files.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'No files'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('files_sharing', 'Files and folders shared with you will show up here'),
+    icon: _mdi_svg_svg_link_svg_raw__WEBPACK_IMPORTED_MODULE_2__,
+    order: 1,
+    getContents: _files_src_services_Files__WEBPACK_IMPORTED_MODULE_3__.getContents
+  });
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+  Navigation.register(view);
+});
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/init-public.ts":
+/*!***********************************************!*\
+  !*** ./apps/files_sharing/src/init-public.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _files_views_publicFileDrop_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./files_views/publicFileDrop.ts */ "./apps/files_sharing/src/files_views/publicFileDrop.ts");
+/* harmony import */ var _files_views_publicShare_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./files_views/publicShare.ts */ "./apps/files_sharing/src/files_views/publicShare.ts");
+/* harmony import */ var _files_views_publicFileShare_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./files_views/publicFileShare.ts */ "./apps/files_sharing/src/files_views/publicFileShare.ts");
+/* harmony import */ var _files_src_services_RouterService_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../files/src/services/RouterService.ts */ "./apps/files/src/services/RouterService.ts");
+/* harmony import */ var _router_index_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./router/index.ts */ "./apps/files_sharing/src/router/index.ts");
+/* harmony import */ var _services_logger_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/logger.ts */ "./apps/files_sharing/src/services/logger.ts");
+
+
+
+
+
+
+
+
+
+(0,_files_views_publicFileDrop_ts__WEBPACK_IMPORTED_MODULE_3__["default"])();
+(0,_files_views_publicShare_ts__WEBPACK_IMPORTED_MODULE_4__["default"])();
+(0,_files_views_publicFileShare_ts__WEBPACK_IMPORTED_MODULE_5__["default"])();
+// Get the current view from state and set it active
+const view = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('files_sharing', 'view');
+const navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+navigation.setActive(navigation.views.find(_ref => {
+  let {
+    id
+  } = _ref;
+  return id === view;
+}) ?? null);
+// Force our own router
+window.OCP.Files = window.OCP.Files ?? {};
+window.OCP.Files.Router = new _files_src_services_RouterService_ts__WEBPACK_IMPORTED_MODULE_6__["default"](_router_index_ts__WEBPACK_IMPORTED_MODULE_7__["default"]);
+// If this is a single file share, so set the fileid as active in the URL
+const fileId = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('files_sharing', 'fileId', null);
+const token = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('files_sharing', 'sharingToken');
+if (fileId !== null) {
+  window.OCP.Files.Router.goToRoute('filelist', {
+    ...window.OCP.Files.Router.params,
+    token,
+    fileid: String(fileId)
+  }, {
+    ...window.OCP.Files.Router.query,
+    openfile: 'true'
+  });
+}
+// When the file list is loaded we need to apply the "userconfig" setup on the share
+(0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:list:updated', loadShareConfig);
+/**
+ * Event handler to load the view config for the current share.
+ * This is done on the `files:list:updated` event to ensure the list and especially the config store was correctly initialized.
+ *
+ * @param context The event context
+ * @param context.folder The current folder
+ */
+function loadShareConfig(_ref2) {
+  let {
+    folder
+  } = _ref2;
+  // Only setup config once
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.unsubscribe)('files:list:updated', loadShareConfig);
+  // Share attributes (the same) are set on all folders of a share
+  if (folder.attributes['share-attributes']) {
+    const shareAttributes = JSON.parse(folder.attributes['share-attributes'] || '[]');
+    const gridViewAttribute = shareAttributes.find(_ref3 => {
+      let {
+        scope,
+        key
+      } = _ref3;
+      return scope === 'config' && key === 'grid_view';
+    });
+    if (gridViewAttribute !== undefined) {
+      _services_logger_ts__WEBPACK_IMPORTED_MODULE_8__["default"].debug('Loading share attributes', {
+        gridViewAttribute
+      });
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:config:updated', {
+        key: 'grid_view',
+        value: gridViewAttribute.value === true
+      });
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/router/index.ts":
+/*!************************************************!*\
+  !*** ./apps/files_sharing/src/router/index.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _services_logger__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/logger */ "./apps/files_sharing/src/services/logger.ts");
+
+
+
+
+
+
+const view = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('files_sharing', 'view');
+const sharingToken = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('files_sharing', 'sharingToken');
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]);
+// Prevent router from throwing errors when we're already on the page we're trying to go to
+const originalPush = vue_router__WEBPACK_IMPORTED_MODULE_3__["default"].prototype.push;
+vue_router__WEBPACK_IMPORTED_MODULE_3__["default"].prototype.push = function () {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+  if (args.length > 1) {
+    return originalPush.call(this, ...args);
+  }
+  return originalPush.call(this, args[0]).catch(ignoreDuplicateNavigation);
+};
+const originalReplace = vue_router__WEBPACK_IMPORTED_MODULE_3__["default"].prototype.replace;
+vue_router__WEBPACK_IMPORTED_MODULE_3__["default"].prototype.replace = function () {
+  for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+    args[_key2] = arguments[_key2];
+  }
+  if (args.length > 1) {
+    return originalReplace.call(this, ...args);
+  }
+  return originalReplace.call(this, args[0]).catch(ignoreDuplicateNavigation);
+};
+/**
+ * Ignore duplicated-navigation error but forward real exceptions
+ * @param error The thrown error
+ */
+function ignoreDuplicateNavigation(error) {
+  if ((0,vue_router__WEBPACK_IMPORTED_MODULE_3__.isNavigationFailure)(error, vue_router__WEBPACK_IMPORTED_MODULE_3__.NavigationFailureType.duplicated)) {
+    _services_logger__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Ignoring duplicated navigation from vue-router', {
+      error
+    });
+  } else {
+    throw error;
+  }
+}
+const router = new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
+  mode: 'history',
+  // if index.php is in the url AND we got this far, then it's working:
+  // let's keep using index.php in the url
+  base: (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('/s'),
+  linkActiveClass: 'active',
+  routes: [{
+    path: '/',
+    // Pretending we're using the default view
+    redirect: {
+      name: 'filelist',
+      params: {
+        view,
+        token: sharingToken
+      }
+    }
+  }, {
+    path: '/:token',
+    name: 'filelist',
+    props: true
+  }],
+  // Custom stringifyQuery to prevent encoding of slashes in the url
+  stringifyQuery(query) {
+    const result = query_string__WEBPACK_IMPORTED_MODULE_2__["default"].stringify(query).replace(/%2F/gmi, '/');
+    return result ? '?' + result : '';
+  }
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
+
+/***/ }),
+
+/***/ "./apps/files_sharing/src/services/logger.ts":
+/*!***************************************************!*\
+  !*** ./apps/files_sharing/src/services/logger.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('files_sharing').detectUser().build());
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/cloud-upload.svg?raw":
+/*!********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/cloud-upload.svg?raw ***!
+  \********************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-cloud-upload\" viewBox=\"0 0 24 24\"><path d=\"M11 20H6.5Q4.22 20 2.61 18.43 1 16.85 1 14.58 1 12.63 2.17 11.1 3.35 9.57 5.25 9.15 5.88 6.85 7.75 5.43 9.63 4 12 4 14.93 4 16.96 6.04 19 8.07 19 11 20.73 11.2 21.86 12.5 23 13.78 23 15.5 23 17.38 21.69 18.69 20.38 20 18.5 20H13V12.85L14.6 14.4L16 13L12 9L8 13L9.4 14.4L11 12.85Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/link.svg?raw":
+/*!************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/link.svg?raw ***!
+  \************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-link\" viewBox=\"0 0 24 24\"><path d=\"M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z\" /></svg>";
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"apps_files_src_views_SearchEmptyView_vue":"f4a1d1b5018f4999b20a","apps_files_sharing_src_views_FilesViewFileDropEmptyContent_vue":"d12ea874036daf41221e","node_modules_nextcloud_dialogs_dist_chunks_index-BC-7VPxC_mjs":"2fcef36253529e5f48bc","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-BSFsDqYB_mjs":"f3a3966faa81f9b81fa8","node_modules_nextcloud_upload_dist_chunks_InvalidFilenameDialog-BYpqWa7P_mjs":"b5048b7dd1c81ffc8fe6","node_modules_nextcloud_upload_dist_chunks_ConflictPicker-BvM7ZujP_mjs":"f457ef4faf127a8a345a","node_modules_nextcloud_dialogs_dist_chunks_FilePicker-CsU6FfAP_mjs":"8bce3ebf3ef868f175e5","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-cc29b1":"9fa10a9863e5b78deec8"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"files_sharing-init-public": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/files_sharing/src/init-public.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=files_sharing-init-public.js.map?v=20c88c955bfe0b7c5278

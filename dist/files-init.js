@@ -1,2 +1,7079 @@
-(()=>{"use strict";var e,t,s,n={4114:(e,t,s)=>{s.d(t,{u:()=>i});var n=s(65899);const i=()=>(window._nc_files_pinia||(window._nc_files_pinia=(0,n.Ey)()),window._nc_files_pinia)},4735:(e,t,s)=>{s.d(t,{L:()=>i,P:()=>a});var n=s(81222);function i(){return 0!==(0,n.C)("files","storageStats",{quota:-1}).quota}function a(){const{default_view:e}=(0,n.C)("files","config",{default_view:"files"});return"personal"!==e||i()?e:"files"}},9165:(e,t,s)=>{s.d(t,{Brj:()=>d,HzW:()=>f,IyB:()=>n,NZC:()=>a,WBH:()=>c,ZL5:()=>u,bFE:()=>o,fEr:()=>r,jUz:()=>g,kHm:()=>m,kOJ:()=>l,u4v:()=>i});var n="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z",i="M7 11H9V13H7V11M21 5V19C21 20.11 20.11 21 19 21H5C3.89 21 3 20.1 3 19V5C3 3.9 3.9 3 5 3H6V1H8V3H16V1H18V3H19C20.11 3 21 3.9 21 5M5 7H19V5H5V7M19 19V9H5V19H19M15 13H17V11H15V13M11 13H13V11H11V13Z",a="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z",o="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z",r="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z",l="M1,1V5H2V19H1V23H5V22H19V23H23V19H22V5H23V1H19V2H5V1M5,4H19V5H20V19H19V20H5V19H4V5H5M6,6V14H9V18H18V9H14V6M8,8H12V12H8M14,11H16V16H11V14H14",d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z",m="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z",c="M9,2A7,7 0 0,1 16,9C16,10.5 15.5,12 14.61,13.19L15.41,14H16L22,20L20,22L14,16V15.41L13.19,14.61C12,15.5 10.5,16 9,16A7,7 0 0,1 2,9A7,7 0 0,1 9,2M11.12,5.46L9,7.59L6.88,5.46L5.46,6.88L7.59,9L5.46,11.12L6.88,12.54L9,10.41L11.12,12.54L12.54,11.12L10.41,9L12.54,6.88L11.12,5.46Z",g="M17,3A2,2 0 0,1 19,5V15A2,2 0 0,1 17,17H13V19H14A1,1 0 0,1 15,20H22V22H15A1,1 0 0,1 14,23H10A1,1 0 0,1 9,22H2V20H9A1,1 0 0,1 10,19H11V17H7C5.89,17 5,16.1 5,15V5A2,2 0 0,1 7,3H17Z",u="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z",f="M5.5,7A1.5,1.5 0 0,1 4,5.5A1.5,1.5 0 0,1 5.5,4A1.5,1.5 0 0,1 7,5.5A1.5,1.5 0 0,1 5.5,7M21.41,11.58L12.41,2.58C12.05,2.22 11.55,2 11,2H4C2.89,2 2,2.89 2,4V11C2,11.55 2.22,12.05 2.59,12.41L11.58,21.41C11.95,21.77 12.45,22 13,22C13.55,22 14.05,21.77 14.41,21.41L21.41,14.41C21.78,14.05 22,13.55 22,13C22,12.44 21.77,11.94 21.41,11.58Z"},9558:(e,t,s)=>{s.d(t,{A:()=>n});const n=(0,s(35947).YK)().setApp("files").detectUser().build()},16954:(e,t,s)=>{s.d(t,{hE:()=>u});var n=s(77815),i=s(36117),a=s(43627),o=s(56908),r=s(21976),l=s(4114),d=s(89761),m=s(82736),c=s(9558);const g=e=>(0,n.pO)(e);function u(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"/";const t=new AbortController,s=(0,m.j)((0,l.u)());return s.query.length>=3?new i.CancelablePromise((i,m,c)=>{c(()=>t.abort()),async function(e,t,s){let i=(0,d._)((0,l.u)()).getDirectoryByPath("files",e);if(!i){const t=(0,a.join)(n.VA,e),s=await o.S.stat(t,{details:!0});i=g(s.data)}return{folder:i,contents:await(0,r.E)(t,{dir:e,signal:s})}}(e,s.query,t.signal).then(i).catch(m)}):function(e){e=(0,a.join)(n.VA,e);const t=new AbortController,s=(0,n.aN)();return new i.CancelablePromise(async(n,i,a)=>{a(()=>t.abort());try{const i=await o.S.getDirectoryContents(e,{details:!0,data:s,includeSelf:!0,signal:t.signal}),a=i.data[0],r=i.data.slice(1);if(a.filename!==e&&`${a.filename}/`!==e)throw c.A.debug(`Exepected "${e}" but got filename "${a.filename}" instead.`),new Error("Root node does not match requested path");n({folder:g(a),contents:r.map(e=>{try{return g(e)}catch(t){return c.A.error(`Invalid node detected '${e.basename}'`,{error:t}),null}}).filter(Boolean)})}catch(e){i(e)}})}(e)}},21976:(e,t,s)=>{s.d(t,{E:()=>l});var n=s(21777),i=s(77815),a=s(63814),o=s(56908),r=s(9558);async function l(e,t){let{dir:s,signal:l}=t;const d=(0,n.HW)();if(!d)return[];if((e=e.trim()).length<3)return[];s&&!s.startsWith("/")&&(s=`/${s}`),r.A.debug("Searching for nodes",{query:e,dir:s});const{data:m}=await o.S.search("/",{details:!0,signal:l,data:`\n<d:searchrequest ${(0,i.CP)()}>\n\t <d:basicsearch>\n\t\t <d:select>\n\t\t\t <d:prop>\n\t\t\t ${(0,i.VX)()}\n\t\t\t </d:prop>\n\t\t </d:select>\n\t\t <d:from>\n\t\t\t <d:scope>\n\t\t\t\t <d:href>/files/${d.uid}${s||""}</d:href>\n\t\t\t\t <d:depth>infinity</d:depth>\n\t\t\t </d:scope>\n\t\t </d:from>\n\t\t <d:where>\n\t\t\t <d:like>\n\t\t\t\t <d:prop>\n\t\t\t\t\t <d:displayname/>\n\t\t\t\t </d:prop>\n\t\t\t\t <d:literal>%${e.replace("%","")}%</d:literal>\n\t\t\t </d:like>\n\t\t </d:where>\n\t\t <d:orderby/>\n\t</d:basicsearch>\n</d:searchrequest>`});return l?.aborted?[]:m.results.map(e=>(0,i.pO)(e,i.VA,(0,a.$_)()))}},23197:(e,t,s)=>{s.d(t,{A:()=>r});var n=s(71354),i=s.n(n),a=s(76314),o=s.n(a)()(i());o.push([e.id,"\n.files-list-filter__clear-button[data-v-00a77ab8] .action-button__text {\n\tcolor: var(--color-error-text);\n}\n[data-v-00a77ab8] .button-vue {\n\tfont-weight: normal !important;\n*[data-v-00a77ab8] {\n\t\tfont-weight: normal !important;\n}\n}\n","",{version:3,sources:["webpack://./apps/files/src/components/FileListFilter/FileListFilter.vue"],names:[],mappings:";AAyCA;CACA,8BAAA;AACA;AAEA;CACA,8BAAA;AAEA;EACA,8BAAA;AACA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n<template>\n\t<NcActions force-menu\n\t\t:type=\"isActive ? 'secondary' : 'tertiary'\"\n\t\t:menu-name=\"filterName\">\n\t\t<template #icon>\n\t\t\t<slot name=\"icon\" />\n\t\t</template>\n\t\t<slot />\n\n\t\t<template v-if=\"isActive\">\n\t\t\t<NcActionSeparator />\n\t\t\t<NcActionButton class=\"files-list-filter__clear-button\"\n\t\t\t\tclose-after-click\n\t\t\t\t@click=\"$emit('reset-filter')\">\n\t\t\t\t{{ t('files', 'Clear filter') }}\n\t\t\t</NcActionButton>\n\t\t</template>\n\t</NcActions>\n</template>\n\n<script setup lang=\"ts\">\nimport { t } from '@nextcloud/l10n'\nimport NcActions from '@nextcloud/vue/components/NcActions'\nimport NcActionButton from '@nextcloud/vue/components/NcActionButton'\nimport NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'\n\ndefineProps<{\n\tisActive: boolean\n\tfilterName: string\n}>()\n\ndefineEmits<{\n\t(event: 'reset-filter'): void\n}>()\n<\/script>\n\n<style scoped>\n.files-list-filter__clear-button :deep(.action-button__text) {\n\tcolor: var(--color-error-text);\n}\n\n:deep(.button-vue) {\n\tfont-weight: normal !important;\n\n\t* {\n\t\tfont-weight: normal !important;\n\t}\n}\n</style>\n"],sourceRoot:""}]);const r=o},25682:(e,t,s)=>{s.d(t,{g:()=>c,w:()=>m});var n=s(61338),i=s(35810),a=s(53334),o=s(16954),r=s(49542),l=s(4735),d=s(43690);const m="files";function c(){let e="";const t=(0,i.bh)();t.register(new i.Ss({id:m,name:(0,a.t)("files","All files"),caption:(0,a.t)("files","List of your files and folders."),icon:d,order:(0,l.P)()===m?0:5,getContents:o.hE})),(0,n.B1)("files:search:updated",s=>{let{scope:i,query:a}=s;if("globally"===i)return;if(t.active?.id!==m)return;if(e.length<3&&a.length<3)return;const o=(0,r.F)();o.activeFolder&&(e=a,(0,n.Ic)("files:node:updated",o.activeFolder))})}},31891:(e,t,s)=>{s.d(t,{A:()=>r});var n=s(71354),i=s.n(n),a=s(76314),o=s.n(a)()(i());o.push([e.id,".files-list-filter-time__clear-button[data-v-35fd0c81] .action-button__text{color:var(--color-error-text)}","",{version:3,sources:["webpack://./apps/files/src/components/FileListFilter/FileListFilterModified.vue"],names:[],mappings:"AAEC,4EACC,6BAAA",sourcesContent:["\n.files-list-filter-time {\n\t&__clear-button :deep(.action-button__text) {\n\t\tcolor: var(--color-error-text);\n\t}\n}\n"],sourceRoot:""}]);const r=o},35810:(e,t,s)=>{s.d(t,{Al:()=>n.r,CP:()=>n.k,E6:()=>me,Gg:()=>u,H4:()=>n.c,KT:()=>de,L3:()=>V,PY:()=>n.b,Q$:()=>n.e,R3:()=>n.n,Ss:()=>Q,VL:()=>n.l,VP:()=>Y,VX:()=>n.j,Yc:()=>n.i,ZH:()=>n.q,a7:()=>te,aX:()=>n.P,bh:()=>W,cZ:()=>M,di:()=>le,gj:()=>ae,hY:()=>g,lJ:()=>n.d,m1:()=>oe,m9:()=>c,nF:()=>re,pt:()=>n.F,ur:()=>pe,v7:()=>ue,vd:()=>n.s,zI:()=>n.t,zj:()=>ie});var n=s(68896),i=s(380),a=s(83141),o=s(87485),r=s(43627),l=s(53334),d=s(65606),m=s(62045).hp,c=(e=>(e.DEFAULT="default",e.HIDDEN="hidden",e))(c||{});class g{_action;constructor(e){this.validateAction(e),this._action=e}get id(){return this._action.id}get displayName(){return this._action.displayName}get title(){return this._action.title}get iconSvgInline(){return this._action.iconSvgInline}get enabled(){return this._action.enabled}get exec(){return this._action.exec}get execBatch(){return this._action.execBatch}get hotkey(){return this._action.hotkey}get order(){return this._action.order}get parent(){return this._action.parent}get default(){return this._action.default}get destructive(){return this._action.destructive}get inline(){return this._action.inline}get renderInline(){return this._action.renderInline}validateAction(e){if(!e.id||"string"!=typeof e.id)throw new Error("Invalid id");if(!e.displayName||"function"!=typeof e.displayName)throw new Error("Invalid displayName function");if("title"in e&&"function"!=typeof e.title)throw new Error("Invalid title function");if(!e.iconSvgInline||"function"!=typeof e.iconSvgInline)throw new Error("Invalid iconSvgInline function");if(!e.exec||"function"!=typeof e.exec)throw new Error("Invalid exec function");if("enabled"in e&&"function"!=typeof e.enabled)throw new Error("Invalid enabled function");if("execBatch"in e&&"function"!=typeof e.execBatch)throw new Error("Invalid execBatch function");if("order"in e&&"number"!=typeof e.order)throw new Error("Invalid order");if(void 0!==e.destructive&&"boolean"!=typeof e.destructive)throw new Error("Invalid destructive flag");if("parent"in e&&"string"!=typeof e.parent)throw new Error("Invalid parent");if(e.default&&!Object.values(c).includes(e.default))throw new Error("Invalid default");if("inline"in e&&"function"!=typeof e.inline)throw new Error("Invalid inline function");if("renderInline"in e&&"function"!=typeof e.renderInline)throw new Error("Invalid renderInline function");if("hotkey"in e&&void 0!==e.hotkey){if("object"!=typeof e.hotkey)throw new Error("Invalid hotkey configuration");if("string"!=typeof e.hotkey.key||!e.hotkey.key)throw new Error("Missing or invalid hotkey key");if("string"!=typeof e.hotkey.description||!e.hotkey.description)throw new Error("Missing or invalid hotkey description")}}}const u=function(e){void 0===window._nc_fileactions&&(window._nc_fileactions=[],n.o.debug("FileActions initialized")),window._nc_fileactions.find(t=>t.id===e.id)?n.o.error(`FileAction ${e.id} already registered`,{action:e}):window._nc_fileactions.push(e)};function f(e){return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e}var p,h,w,v;function b(){if(h)return p;h=1;const e="object"==typeof d&&d.env&&d.env.NODE_DEBUG&&/\bsemver\b/i.test(d.env.NODE_DEBUG)?(...e)=>console.error("SEMVER",...e):()=>{};return p=e}function y(){if(v)return w;v=1;const e=Number.MAX_SAFE_INTEGER||9007199254740991;return w={MAX_LENGTH:256,MAX_SAFE_COMPONENT_LENGTH:16,MAX_SAFE_BUILD_LENGTH:250,MAX_SAFE_INTEGER:e,RELEASE_TYPES:["major","premajor","minor","preminor","patch","prepatch","prerelease"],SEMVER_SPEC_VERSION:"2.0.0",FLAG_INCLUDE_PRERELEASE:1,FLAG_LOOSE:2}}var k,T,x,C,L,S,U,_,A,N,F,E={exports:{}};function P(){if(U)return S;U=1;const e=b(),{MAX_LENGTH:t,MAX_SAFE_INTEGER:s}=y(),{safeRe:n,t:i}=(k||(k=1,function(e,t){const{MAX_SAFE_COMPONENT_LENGTH:s,MAX_SAFE_BUILD_LENGTH:n,MAX_LENGTH:i}=y(),a=b(),o=(t=e.exports={}).re=[],r=t.safeRe=[],l=t.src=[],d=t.t={};let m=0;const c="[a-zA-Z0-9-]",g=[["\\s",1],["\\d",i],[c,n]],u=(e,t,s)=>{const n=(e=>{for(const[t,s]of g)e=e.split(`${t}*`).join(`${t}{0,${s}}`).split(`${t}+`).join(`${t}{1,${s}}`);return e})(t),i=m++;a(e,i,t),d[e]=i,l[i]=t,o[i]=new RegExp(t,s?"g":void 0),r[i]=new RegExp(n,s?"g":void 0)};u("NUMERICIDENTIFIER","0|[1-9]\\d*"),u("NUMERICIDENTIFIERLOOSE","\\d+"),u("NONNUMERICIDENTIFIER",`\\d*[a-zA-Z-]${c}*`),u("MAINVERSION",`(${l[d.NUMERICIDENTIFIER]})\\.(${l[d.NUMERICIDENTIFIER]})\\.(${l[d.NUMERICIDENTIFIER]})`),u("MAINVERSIONLOOSE",`(${l[d.NUMERICIDENTIFIERLOOSE]})\\.(${l[d.NUMERICIDENTIFIERLOOSE]})\\.(${l[d.NUMERICIDENTIFIERLOOSE]})`),u("PRERELEASEIDENTIFIER",`(?:${l[d.NUMERICIDENTIFIER]}|${l[d.NONNUMERICIDENTIFIER]})`),u("PRERELEASEIDENTIFIERLOOSE",`(?:${l[d.NUMERICIDENTIFIERLOOSE]}|${l[d.NONNUMERICIDENTIFIER]})`),u("PRERELEASE",`(?:-(${l[d.PRERELEASEIDENTIFIER]}(?:\\.${l[d.PRERELEASEIDENTIFIER]})*))`),u("PRERELEASELOOSE",`(?:-?(${l[d.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${l[d.PRERELEASEIDENTIFIERLOOSE]})*))`),u("BUILDIDENTIFIER",`${c}+`),u("BUILD",`(?:\\+(${l[d.BUILDIDENTIFIER]}(?:\\.${l[d.BUILDIDENTIFIER]})*))`),u("FULLPLAIN",`v?${l[d.MAINVERSION]}${l[d.PRERELEASE]}?${l[d.BUILD]}?`),u("FULL",`^${l[d.FULLPLAIN]}$`),u("LOOSEPLAIN",`[v=\\s]*${l[d.MAINVERSIONLOOSE]}${l[d.PRERELEASELOOSE]}?${l[d.BUILD]}?`),u("LOOSE",`^${l[d.LOOSEPLAIN]}$`),u("GTLT","((?:<|>)?=?)"),u("XRANGEIDENTIFIERLOOSE",`${l[d.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`),u("XRANGEIDENTIFIER",`${l[d.NUMERICIDENTIFIER]}|x|X|\\*`),u("XRANGEPLAIN",`[v=\\s]*(${l[d.XRANGEIDENTIFIER]})(?:\\.(${l[d.XRANGEIDENTIFIER]})(?:\\.(${l[d.XRANGEIDENTIFIER]})(?:${l[d.PRERELEASE]})?${l[d.BUILD]}?)?)?`),u("XRANGEPLAINLOOSE",`[v=\\s]*(${l[d.XRANGEIDENTIFIERLOOSE]})(?:\\.(${l[d.XRANGEIDENTIFIERLOOSE]})(?:\\.(${l[d.XRANGEIDENTIFIERLOOSE]})(?:${l[d.PRERELEASELOOSE]})?${l[d.BUILD]}?)?)?`),u("XRANGE",`^${l[d.GTLT]}\\s*${l[d.XRANGEPLAIN]}$`),u("XRANGELOOSE",`^${l[d.GTLT]}\\s*${l[d.XRANGEPLAINLOOSE]}$`),u("COERCEPLAIN",`(^|[^\\d])(\\d{1,${s}})(?:\\.(\\d{1,${s}}))?(?:\\.(\\d{1,${s}}))?`),u("COERCE",`${l[d.COERCEPLAIN]}(?:$|[^\\d])`),u("COERCEFULL",l[d.COERCEPLAIN]+`(?:${l[d.PRERELEASE]})?(?:${l[d.BUILD]})?(?:$|[^\\d])`),u("COERCERTL",l[d.COERCE],!0),u("COERCERTLFULL",l[d.COERCEFULL],!0),u("LONETILDE","(?:~>?)"),u("TILDETRIM",`(\\s*)${l[d.LONETILDE]}\\s+`,!0),t.tildeTrimReplace="$1~",u("TILDE",`^${l[d.LONETILDE]}${l[d.XRANGEPLAIN]}$`),u("TILDELOOSE",`^${l[d.LONETILDE]}${l[d.XRANGEPLAINLOOSE]}$`),u("LONECARET","(?:\\^)"),u("CARETTRIM",`(\\s*)${l[d.LONECARET]}\\s+`,!0),t.caretTrimReplace="$1^",u("CARET",`^${l[d.LONECARET]}${l[d.XRANGEPLAIN]}$`),u("CARETLOOSE",`^${l[d.LONECARET]}${l[d.XRANGEPLAINLOOSE]}$`),u("COMPARATORLOOSE",`^${l[d.GTLT]}\\s*(${l[d.LOOSEPLAIN]})$|^$`),u("COMPARATOR",`^${l[d.GTLT]}\\s*(${l[d.FULLPLAIN]})$|^$`),u("COMPARATORTRIM",`(\\s*)${l[d.GTLT]}\\s*(${l[d.LOOSEPLAIN]}|${l[d.XRANGEPLAIN]})`,!0),t.comparatorTrimReplace="$1$2$3",u("HYPHENRANGE",`^\\s*(${l[d.XRANGEPLAIN]})\\s+-\\s+(${l[d.XRANGEPLAIN]})\\s*$`),u("HYPHENRANGELOOSE",`^\\s*(${l[d.XRANGEPLAINLOOSE]})\\s+-\\s+(${l[d.XRANGEPLAINLOOSE]})\\s*$`),u("STAR","(<|>)?=?\\s*\\*"),u("GTE0","^\\s*>=\\s*0\\.0\\.0\\s*$"),u("GTE0PRE","^\\s*>=\\s*0\\.0\\.0-0\\s*$")}(E,E.exports)),E.exports),a=function(){if(x)return T;x=1;const e=Object.freeze({loose:!0}),t=Object.freeze({});return T=s=>s?"object"!=typeof s?e:s:t}(),{compareIdentifiers:o}=function(){if(L)return C;L=1;const e=/^[0-9]+$/,t=(t,s)=>{const n=e.test(t),i=e.test(s);return n&&i&&(t=+t,s=+s),t===s?0:n&&!i?-1:i&&!n?1:t<s?-1:1};return C={compareIdentifiers:t,rcompareIdentifiers:(e,s)=>t(s,e)}}();class r{constructor(o,l){if(l=a(l),o instanceof r){if(o.loose===!!l.loose&&o.includePrerelease===!!l.includePrerelease)return o;o=o.version}else if("string"!=typeof o)throw new TypeError(`Invalid version. Must be a string. Got type "${typeof o}".`);if(o.length>t)throw new TypeError(`version is longer than ${t} characters`);e("SemVer",o,l),this.options=l,this.loose=!!l.loose,this.includePrerelease=!!l.includePrerelease;const d=o.trim().match(l.loose?n[i.LOOSE]:n[i.FULL]);if(!d)throw new TypeError(`Invalid Version: ${o}`);if(this.raw=o,this.major=+d[1],this.minor=+d[2],this.patch=+d[3],this.major>s||this.major<0)throw new TypeError("Invalid major version");if(this.minor>s||this.minor<0)throw new TypeError("Invalid minor version");if(this.patch>s||this.patch<0)throw new TypeError("Invalid patch version");d[4]?this.prerelease=d[4].split(".").map(e=>{if(/^[0-9]+$/.test(e)){const t=+e;if(t>=0&&t<s)return t}return e}):this.prerelease=[],this.build=d[5]?d[5].split("."):[],this.format()}format(){return this.version=`${this.major}.${this.minor}.${this.patch}`,this.prerelease.length&&(this.version+=`-${this.prerelease.join(".")}`),this.version}toString(){return this.version}compare(t){if(e("SemVer.compare",this.version,this.options,t),!(t instanceof r)){if("string"==typeof t&&t===this.version)return 0;t=new r(t,this.options)}return t.version===this.version?0:this.compareMain(t)||this.comparePre(t)}compareMain(e){return e instanceof r||(e=new r(e,this.options)),o(this.major,e.major)||o(this.minor,e.minor)||o(this.patch,e.patch)}comparePre(t){if(t instanceof r||(t=new r(t,this.options)),this.prerelease.length&&!t.prerelease.length)return-1;if(!this.prerelease.length&&t.prerelease.length)return 1;if(!this.prerelease.length&&!t.prerelease.length)return 0;let s=0;do{const n=this.prerelease[s],i=t.prerelease[s];if(e("prerelease compare",s,n,i),void 0===n&&void 0===i)return 0;if(void 0===i)return 1;if(void 0===n)return-1;if(n!==i)return o(n,i)}while(++s)}compareBuild(t){t instanceof r||(t=new r(t,this.options));let s=0;do{const n=this.build[s],i=t.build[s];if(e("build compare",s,n,i),void 0===n&&void 0===i)return 0;if(void 0===i)return 1;if(void 0===n)return-1;if(n!==i)return o(n,i)}while(++s)}inc(e,t,s){switch(e){case"premajor":this.prerelease.length=0,this.patch=0,this.minor=0,this.major++,this.inc("pre",t,s);break;case"preminor":this.prerelease.length=0,this.patch=0,this.minor++,this.inc("pre",t,s);break;case"prepatch":this.prerelease.length=0,this.inc("patch",t,s),this.inc("pre",t,s);break;case"prerelease":0===this.prerelease.length&&this.inc("patch",t,s),this.inc("pre",t,s);break;case"major":0===this.minor&&0===this.patch&&0!==this.prerelease.length||this.major++,this.minor=0,this.patch=0,this.prerelease=[];break;case"minor":0===this.patch&&0!==this.prerelease.length||this.minor++,this.patch=0,this.prerelease=[];break;case"patch":0===this.prerelease.length&&this.patch++,this.prerelease=[];break;case"pre":{const e=Number(s)?1:0;if(!t&&!1===s)throw new Error("invalid increment argument: identifier is empty");if(0===this.prerelease.length)this.prerelease=[e];else{let n=this.prerelease.length;for(;--n>=0;)"number"==typeof this.prerelease[n]&&(this.prerelease[n]++,n=-2);if(-1===n){if(t===this.prerelease.join(".")&&!1===s)throw new Error("invalid increment argument: identifier already exists");this.prerelease.push(e)}}if(t){let n=[t,e];!1===s&&(n=[t]),0===o(this.prerelease[0],t)?isNaN(this.prerelease[1])&&(this.prerelease=n):this.prerelease=n}break}default:throw new Error(`invalid increment argument: ${e}`)}return this.raw=this.format(),this.build.length&&(this.raw+=`+${this.build.join(".")}`),this}}return S=r}const I=f(function(){if(F)return N;F=1;const e=function(){if(A)return _;A=1;const e=P();return _=(t,s,n=!1)=>{if(t instanceof e)return t;try{return new e(t,s)}catch(e){if(!n)return null;throw e}}}();return N=(t,s)=>{const n=e(t,s);return n?n.version:null}}());var R,O;const z=f(function(){if(O)return R;O=1;const e=P();return R=(t,s)=>new e(t,s).major}());class B{bus;constructor(e){"function"==typeof e.getVersion&&I(e.getVersion())?z(e.getVersion())!==z(this.getVersion())&&console.warn("Proxying an event bus of version "+e.getVersion()+" with "+this.getVersion()):console.warn("Proxying an event bus with an unknown or invalid version"),this.bus=e}getVersion(){return"3.3.2"}subscribe(e,t){this.bus.subscribe(e,t)}unsubscribe(e,t){this.bus.unsubscribe(e,t)}emit(e,...t){this.bus.emit(e,...t)}}class D{handlers=new Map;getVersion(){return"3.3.2"}subscribe(e,t){this.handlers.set(e,(this.handlers.get(e)||[]).concat(t))}unsubscribe(e,t){this.handlers.set(e,(this.handlers.get(e)||[]).filter(e=>e!==t))}emit(e,...t){(this.handlers.get(e)||[]).forEach(e=>{try{e(t[0])}catch(e){console.error("could not invoke event listener",e)}})}}let j=null;class V extends i.m{id;order;constructor(e,t=100){super(),this.id=e,this.order=t}filter(e){throw new Error("Not implemented")}updateChips(e){this.dispatchTypedEvent("update:chips",new CustomEvent("update:chips",{detail:e}))}filterUpdated(){this.dispatchTypedEvent("update:filter",new CustomEvent("update:filter"))}}function M(e){if(window._nc_filelist_filters||(window._nc_filelist_filters=new Map),window._nc_filelist_filters.has(e.id))throw new Error(`File list filter "${e.id}" already registered`);window._nc_filelist_filters.set(e.id,e),function(e,...t){(null!==j?j:"undefined"==typeof window?new Proxy({},{get:()=>()=>console.error("Window not available, EventBus can not be established!")}):(window.OC?._eventBus&&void 0===window._nc_event_bus&&(console.warn("found old event bus instance at OC._eventBus. Update your version!"),window._nc_event_bus=window.OC._eventBus),j=void 0!==window?._nc_event_bus?new B(window._nc_event_bus):window._nc_event_bus=new D,j)).emit(e,...t)}("files:filter:added",e)}class H extends i.m{_views=[];_currentView=null;register(e){if(this._views.find(t=>t.id===e.id))throw new Error(`View id ${e.id} is already registered`);this._views.push(e),this.dispatchTypedEvent("update",new CustomEvent("update"))}remove(e){const t=this._views.findIndex(t=>t.id===e);-1!==t&&(this._views.splice(t,1),this.dispatchTypedEvent("update",new CustomEvent("update")))}setActive(e){this._currentView=e;const t=new CustomEvent("updateActive",{detail:e});this.dispatchTypedEvent("updateActive",t)}get active(){return this._currentView}get views(){return this._views}}const W=function(){return void 0===window._nc_navigation&&(window._nc_navigation=new H,n.o.debug("Navigation service initialized")),window._nc_navigation};class Y{_column;constructor(e){$(e),this._column=e}get id(){return this._column.id}get title(){return this._column.title}get render(){return this._column.render}get sort(){return this._column.sort}get summary(){return this._column.summary}}const $=function(e){if(!e.id||"string"!=typeof e.id)throw new Error("A column id is required");if(!e.title||"string"!=typeof e.title)throw new Error("A column title is required");if(!e.render||"function"!=typeof e.render)throw new Error("A render function is required");if(e.sort&&"function"!=typeof e.sort)throw new Error("Column sortFunction must be a function");if(e.summary&&"function"!=typeof e.summary)throw new Error("Column summary must be a function");return!0};var G,q={};const K=f((G||(G=1,function(e){e.parser=function(e,t){return new n(e,t)},e.SAXParser=n,e.SAXStream=o,e.createStream=function(e,t){return new o(e,t)},e.MAX_BUFFER_LENGTH=65536;var t,s=["comment","sgmlDecl","textNode","tagName","doctype","procInstName","procInstBody","entity","attribName","attribValue","cdata","script"];function n(t,i){if(!(this instanceof n))return new n(t,i);var a=this;!function(e){for(var t=0,n=s.length;t<n;t++)e[s[t]]=""}(a),a.q=a.c="",a.bufferCheckPosition=e.MAX_BUFFER_LENGTH,a.opt=i||{},a.opt.lowercase=a.opt.lowercase||a.opt.lowercasetags,a.looseCase=a.opt.lowercase?"toLowerCase":"toUpperCase",a.tags=[],a.closed=a.closedRoot=a.sawRoot=!1,a.tag=a.error=null,a.strict=!!t,a.noscript=!(!t&&!a.opt.noscript),a.state=L.BEGIN,a.strictEntities=a.opt.strictEntities,a.ENTITIES=a.strictEntities?Object.create(e.XML_ENTITIES):Object.create(e.ENTITIES),a.attribList=[],a.opt.xmlns&&(a.ns=Object.create(g)),void 0===a.opt.unquotedAttributeValues&&(a.opt.unquotedAttributeValues=!t),a.trackPosition=!1!==a.opt.position,a.trackPosition&&(a.position=a.line=a.column=0),U(a,"onready")}e.EVENTS=["text","processinginstruction","sgmldeclaration","doctype","comment","opentagstart","attribute","opentag","closetag","opencdata","cdata","closecdata","error","end","ready","script","opennamespace","closenamespace"],Object.create||(Object.create=function(e){function t(){}return t.prototype=e,new t}),Object.keys||(Object.keys=function(e){var t=[];for(var s in e)e.hasOwnProperty(s)&&t.push(s);return t}),n.prototype={end:function(){E(this)},write:function(t){var n=this;if(this.error)throw this.error;if(n.closed)return F(n,"Cannot write after close. Assign an onready handler.");if(null===t)return E(n);"object"==typeof t&&(t=t.toString());for(var i=0,a="";a=V(t,i++),n.c=a,a;)switch(n.trackPosition&&(n.position++,"\n"===a?(n.line++,n.column=0):n.column++),n.state){case L.BEGIN:if(n.state=L.BEGIN_WHITESPACE,"\ufeff"===a)continue;j(n,a);continue;case L.BEGIN_WHITESPACE:j(n,a);continue;case L.TEXT:if(n.sawRoot&&!n.closedRoot){for(var o=i-1;a&&"<"!==a&&"&"!==a;)(a=V(t,i++))&&n.trackPosition&&(n.position++,"\n"===a?(n.line++,n.column=0):n.column++);n.textNode+=t.substring(o,i-1)}"<"!==a||n.sawRoot&&n.closedRoot&&!n.strict?(w(a)||n.sawRoot&&!n.closedRoot||P(n,"Text data outside of root node."),"&"===a?n.state=L.TEXT_ENTITY:n.textNode+=a):(n.state=L.OPEN_WAKA,n.startTagPosition=n.position);continue;case L.SCRIPT:"<"===a?n.state=L.SCRIPT_ENDING:n.script+=a;continue;case L.SCRIPT_ENDING:"/"===a?n.state=L.CLOSE_TAG:(n.script+="<"+a,n.state=L.SCRIPT);continue;case L.OPEN_WAKA:if("!"===a)n.state=L.SGML_DECL,n.sgmlDecl="";else if(w(a));else if(y(u,a))n.state=L.OPEN_TAG,n.tagName=a;else if("/"===a)n.state=L.CLOSE_TAG,n.tagName="";else if("?"===a)n.state=L.PROC_INST,n.procInstName=n.procInstBody="";else{if(P(n,"Unencoded <"),n.startTagPosition+1<n.position){var d=n.position-n.startTagPosition;a=new Array(d).join(" ")+a}n.textNode+="<"+a,n.state=L.TEXT}continue;case L.SGML_DECL:if(n.sgmlDecl+a==="--"){n.state=L.COMMENT,n.comment="",n.sgmlDecl="";continue}n.doctype&&!0!==n.doctype&&n.sgmlDecl?(n.state=L.DOCTYPE_DTD,n.doctype+="<!"+n.sgmlDecl+a,n.sgmlDecl=""):(n.sgmlDecl+a).toUpperCase()===r?(_(n,"onopencdata"),n.state=L.CDATA,n.sgmlDecl="",n.cdata=""):(n.sgmlDecl+a).toUpperCase()===l?(n.state=L.DOCTYPE,(n.doctype||n.sawRoot)&&P(n,"Inappropriately located doctype declaration"),n.doctype="",n.sgmlDecl=""):">"===a?(_(n,"onsgmldeclaration",n.sgmlDecl),n.sgmlDecl="",n.state=L.TEXT):v(a)?(n.state=L.SGML_DECL_QUOTED,n.sgmlDecl+=a):n.sgmlDecl+=a;continue;case L.SGML_DECL_QUOTED:a===n.q&&(n.state=L.SGML_DECL,n.q=""),n.sgmlDecl+=a;continue;case L.DOCTYPE:">"===a?(n.state=L.TEXT,_(n,"ondoctype",n.doctype),n.doctype=!0):(n.doctype+=a,"["===a?n.state=L.DOCTYPE_DTD:v(a)&&(n.state=L.DOCTYPE_QUOTED,n.q=a));continue;case L.DOCTYPE_QUOTED:n.doctype+=a,a===n.q&&(n.q="",n.state=L.DOCTYPE);continue;case L.DOCTYPE_DTD:"]"===a?(n.doctype+=a,n.state=L.DOCTYPE):"<"===a?(n.state=L.OPEN_WAKA,n.startTagPosition=n.position):v(a)?(n.doctype+=a,n.state=L.DOCTYPE_DTD_QUOTED,n.q=a):n.doctype+=a;continue;case L.DOCTYPE_DTD_QUOTED:n.doctype+=a,a===n.q&&(n.state=L.DOCTYPE_DTD,n.q="");continue;case L.COMMENT:"-"===a?n.state=L.COMMENT_ENDING:n.comment+=a;continue;case L.COMMENT_ENDING:"-"===a?(n.state=L.COMMENT_ENDED,n.comment=N(n.opt,n.comment),n.comment&&_(n,"oncomment",n.comment),n.comment=""):(n.comment+="-"+a,n.state=L.COMMENT);continue;case L.COMMENT_ENDED:">"!==a?(P(n,"Malformed comment"),n.comment+="--"+a,n.state=L.COMMENT):n.doctype&&!0!==n.doctype?n.state=L.DOCTYPE_DTD:n.state=L.TEXT;continue;case L.CDATA:"]"===a?n.state=L.CDATA_ENDING:n.cdata+=a;continue;case L.CDATA_ENDING:"]"===a?n.state=L.CDATA_ENDING_2:(n.cdata+="]"+a,n.state=L.CDATA);continue;case L.CDATA_ENDING_2:">"===a?(n.cdata&&_(n,"oncdata",n.cdata),_(n,"onclosecdata"),n.cdata="",n.state=L.TEXT):"]"===a?n.cdata+="]":(n.cdata+="]]"+a,n.state=L.CDATA);continue;case L.PROC_INST:"?"===a?n.state=L.PROC_INST_ENDING:w(a)?n.state=L.PROC_INST_BODY:n.procInstName+=a;continue;case L.PROC_INST_BODY:if(!n.procInstBody&&w(a))continue;"?"===a?n.state=L.PROC_INST_ENDING:n.procInstBody+=a;continue;case L.PROC_INST_ENDING:">"===a?(_(n,"onprocessinginstruction",{name:n.procInstName,body:n.procInstBody}),n.procInstName=n.procInstBody="",n.state=L.TEXT):(n.procInstBody+="?"+a,n.state=L.PROC_INST_BODY);continue;case L.OPEN_TAG:y(f,a)?n.tagName+=a:(I(n),">"===a?z(n):"/"===a?n.state=L.OPEN_TAG_SLASH:(w(a)||P(n,"Invalid character in tag name"),n.state=L.ATTRIB));continue;case L.OPEN_TAG_SLASH:">"===a?(z(n,!0),B(n)):(P(n,"Forward-slash in opening tag not followed by >"),n.state=L.ATTRIB);continue;case L.ATTRIB:if(w(a))continue;">"===a?z(n):"/"===a?n.state=L.OPEN_TAG_SLASH:y(u,a)?(n.attribName=a,n.attribValue="",n.state=L.ATTRIB_NAME):P(n,"Invalid attribute name");continue;case L.ATTRIB_NAME:"="===a?n.state=L.ATTRIB_VALUE:">"===a?(P(n,"Attribute without value"),n.attribValue=n.attribName,O(n),z(n)):w(a)?n.state=L.ATTRIB_NAME_SAW_WHITE:y(f,a)?n.attribName+=a:P(n,"Invalid attribute name");continue;case L.ATTRIB_NAME_SAW_WHITE:if("="===a)n.state=L.ATTRIB_VALUE;else{if(w(a))continue;P(n,"Attribute without value"),n.tag.attributes[n.attribName]="",n.attribValue="",_(n,"onattribute",{name:n.attribName,value:""}),n.attribName="",">"===a?z(n):y(u,a)?(n.attribName=a,n.state=L.ATTRIB_NAME):(P(n,"Invalid attribute name"),n.state=L.ATTRIB)}continue;case L.ATTRIB_VALUE:if(w(a))continue;v(a)?(n.q=a,n.state=L.ATTRIB_VALUE_QUOTED):(n.opt.unquotedAttributeValues||F(n,"Unquoted attribute value"),n.state=L.ATTRIB_VALUE_UNQUOTED,n.attribValue=a);continue;case L.ATTRIB_VALUE_QUOTED:if(a!==n.q){"&"===a?n.state=L.ATTRIB_VALUE_ENTITY_Q:n.attribValue+=a;continue}O(n),n.q="",n.state=L.ATTRIB_VALUE_CLOSED;continue;case L.ATTRIB_VALUE_CLOSED:w(a)?n.state=L.ATTRIB:">"===a?z(n):"/"===a?n.state=L.OPEN_TAG_SLASH:y(u,a)?(P(n,"No whitespace between attributes"),n.attribName=a,n.attribValue="",n.state=L.ATTRIB_NAME):P(n,"Invalid attribute name");continue;case L.ATTRIB_VALUE_UNQUOTED:if(!b(a)){"&"===a?n.state=L.ATTRIB_VALUE_ENTITY_U:n.attribValue+=a;continue}O(n),">"===a?z(n):n.state=L.ATTRIB;continue;case L.CLOSE_TAG:if(n.tagName)">"===a?B(n):y(f,a)?n.tagName+=a:n.script?(n.script+="</"+n.tagName,n.tagName="",n.state=L.SCRIPT):(w(a)||P(n,"Invalid tagname in closing tag"),n.state=L.CLOSE_TAG_SAW_WHITE);else{if(w(a))continue;k(u,a)?n.script?(n.script+="</"+a,n.state=L.SCRIPT):P(n,"Invalid tagname in closing tag."):n.tagName=a}continue;case L.CLOSE_TAG_SAW_WHITE:if(w(a))continue;">"===a?B(n):P(n,"Invalid characters in closing tag");continue;case L.TEXT_ENTITY:case L.ATTRIB_VALUE_ENTITY_Q:case L.ATTRIB_VALUE_ENTITY_U:var m,c;switch(n.state){case L.TEXT_ENTITY:m=L.TEXT,c="textNode";break;case L.ATTRIB_VALUE_ENTITY_Q:m=L.ATTRIB_VALUE_QUOTED,c="attribValue";break;case L.ATTRIB_VALUE_ENTITY_U:m=L.ATTRIB_VALUE_UNQUOTED,c="attribValue"}if(";"===a){var g=D(n);n.opt.unparsedEntities&&!Object.values(e.XML_ENTITIES).includes(g)?(n.entity="",n.state=m,n.write(g)):(n[c]+=g,n.entity="",n.state=m)}else y(n.entity.length?h:p,a)?n.entity+=a:(P(n,"Invalid character in entity name"),n[c]+="&"+n.entity+a,n.entity="",n.state=m);continue;default:throw new Error(n,"Unknown state: "+n.state)}return n.position>=n.bufferCheckPosition&&function(t){for(var n=Math.max(e.MAX_BUFFER_LENGTH,10),i=0,a=0,o=s.length;a<o;a++){var r=t[s[a]].length;if(r>n)switch(s[a]){case"textNode":A(t);break;case"cdata":_(t,"oncdata",t.cdata),t.cdata="";break;case"script":_(t,"onscript",t.script),t.script="";break;default:F(t,"Max buffer length exceeded: "+s[a])}i=Math.max(i,r)}var l=e.MAX_BUFFER_LENGTH-i;t.bufferCheckPosition=l+t.position}(n),n},resume:function(){return this.error=null,this},close:function(){return this.write(null)},flush:function(){var e;A(e=this),""!==e.cdata&&(_(e,"oncdata",e.cdata),e.cdata=""),""!==e.script&&(_(e,"onscript",e.script),e.script="")}};try{t=require("stream").Stream}catch(e){t=function(){}}t||(t=function(){});var i=e.EVENTS.filter(function(e){return"error"!==e&&"end"!==e});function o(e,s){if(!(this instanceof o))return new o(e,s);t.apply(this),this._parser=new n(e,s),this.writable=!0,this.readable=!0;var a=this;this._parser.onend=function(){a.emit("end")},this._parser.onerror=function(e){a.emit("error",e),a._parser.error=null},this._decoder=null,i.forEach(function(e){Object.defineProperty(a,"on"+e,{get:function(){return a._parser["on"+e]},set:function(t){if(!t)return a.removeAllListeners(e),a._parser["on"+e]=t,t;a.on(e,t)},enumerable:!0,configurable:!1})})}o.prototype=Object.create(t.prototype,{constructor:{value:o}}),o.prototype.write=function(e){if("function"==typeof m&&"function"==typeof m.isBuffer&&m.isBuffer(e)){if(!this._decoder){var t=a.I;this._decoder=new t("utf8")}e=this._decoder.write(e)}return this._parser.write(e.toString()),this.emit("data",e),!0},o.prototype.end=function(e){return e&&e.length&&this.write(e),this._parser.end(),!0},o.prototype.on=function(e,s){var n=this;return n._parser["on"+e]||-1===i.indexOf(e)||(n._parser["on"+e]=function(){var t=1===arguments.length?[arguments[0]]:Array.apply(null,arguments);t.splice(0,0,e),n.emit.apply(n,t)}),t.prototype.on.call(n,e,s)};var r="[CDATA[",l="DOCTYPE",d="http://www.w3.org/XML/1998/namespace",c="http://www.w3.org/2000/xmlns/",g={xml:d,xmlns:c},u=/[:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/,f=/[:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u00B7\u0300-\u036F\u203F-\u2040.\d-]/,p=/[#:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/,h=/[#:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u00B7\u0300-\u036F\u203F-\u2040.\d-]/;function w(e){return" "===e||"\n"===e||"\r"===e||"\t"===e}function v(e){return'"'===e||"'"===e}function b(e){return">"===e||w(e)}function y(e,t){return e.test(t)}function k(e,t){return!y(e,t)}var T,x,C,L=0;for(var S in e.STATE={BEGIN:L++,BEGIN_WHITESPACE:L++,TEXT:L++,TEXT_ENTITY:L++,OPEN_WAKA:L++,SGML_DECL:L++,SGML_DECL_QUOTED:L++,DOCTYPE:L++,DOCTYPE_QUOTED:L++,DOCTYPE_DTD:L++,DOCTYPE_DTD_QUOTED:L++,COMMENT_STARTING:L++,COMMENT:L++,COMMENT_ENDING:L++,COMMENT_ENDED:L++,CDATA:L++,CDATA_ENDING:L++,CDATA_ENDING_2:L++,PROC_INST:L++,PROC_INST_BODY:L++,PROC_INST_ENDING:L++,OPEN_TAG:L++,OPEN_TAG_SLASH:L++,ATTRIB:L++,ATTRIB_NAME:L++,ATTRIB_NAME_SAW_WHITE:L++,ATTRIB_VALUE:L++,ATTRIB_VALUE_QUOTED:L++,ATTRIB_VALUE_CLOSED:L++,ATTRIB_VALUE_UNQUOTED:L++,ATTRIB_VALUE_ENTITY_Q:L++,ATTRIB_VALUE_ENTITY_U:L++,CLOSE_TAG:L++,CLOSE_TAG_SAW_WHITE:L++,SCRIPT:L++,SCRIPT_ENDING:L++},e.XML_ENTITIES={amp:"&",gt:">",lt:"<",quot:'"',apos:"'"},e.ENTITIES={amp:"&",gt:">",lt:"<",quot:'"',apos:"'",AElig:198,Aacute:193,Acirc:194,Agrave:192,Aring:197,Atilde:195,Auml:196,Ccedil:199,ETH:208,Eacute:201,Ecirc:202,Egrave:200,Euml:203,Iacute:205,Icirc:206,Igrave:204,Iuml:207,Ntilde:209,Oacute:211,Ocirc:212,Ograve:210,Oslash:216,Otilde:213,Ouml:214,THORN:222,Uacute:218,Ucirc:219,Ugrave:217,Uuml:220,Yacute:221,aacute:225,acirc:226,aelig:230,agrave:224,aring:229,atilde:227,auml:228,ccedil:231,eacute:233,ecirc:234,egrave:232,eth:240,euml:235,iacute:237,icirc:238,igrave:236,iuml:239,ntilde:241,oacute:243,ocirc:244,ograve:242,oslash:248,otilde:245,ouml:246,szlig:223,thorn:254,uacute:250,ucirc:251,ugrave:249,uuml:252,yacute:253,yuml:255,copy:169,reg:174,nbsp:160,iexcl:161,cent:162,pound:163,curren:164,yen:165,brvbar:166,sect:167,uml:168,ordf:170,laquo:171,not:172,shy:173,macr:175,deg:176,plusmn:177,sup1:185,sup2:178,sup3:179,acute:180,micro:181,para:182,middot:183,cedil:184,ordm:186,raquo:187,frac14:188,frac12:189,frac34:190,iquest:191,times:215,divide:247,OElig:338,oelig:339,Scaron:352,scaron:353,Yuml:376,fnof:402,circ:710,tilde:732,Alpha:913,Beta:914,Gamma:915,Delta:916,Epsilon:917,Zeta:918,Eta:919,Theta:920,Iota:921,Kappa:922,Lambda:923,Mu:924,Nu:925,Xi:926,Omicron:927,Pi:928,Rho:929,Sigma:931,Tau:932,Upsilon:933,Phi:934,Chi:935,Psi:936,Omega:937,alpha:945,beta:946,gamma:947,delta:948,epsilon:949,zeta:950,eta:951,theta:952,iota:953,kappa:954,lambda:955,mu:956,nu:957,xi:958,omicron:959,pi:960,rho:961,sigmaf:962,sigma:963,tau:964,upsilon:965,phi:966,chi:967,psi:968,omega:969,thetasym:977,upsih:978,piv:982,ensp:8194,emsp:8195,thinsp:8201,zwnj:8204,zwj:8205,lrm:8206,rlm:8207,ndash:8211,mdash:8212,lsquo:8216,rsquo:8217,sbquo:8218,ldquo:8220,rdquo:8221,bdquo:8222,dagger:8224,Dagger:8225,bull:8226,hellip:8230,permil:8240,prime:8242,Prime:8243,lsaquo:8249,rsaquo:8250,oline:8254,frasl:8260,euro:8364,image:8465,weierp:8472,real:8476,trade:8482,alefsym:8501,larr:8592,uarr:8593,rarr:8594,darr:8595,harr:8596,crarr:8629,lArr:8656,uArr:8657,rArr:8658,dArr:8659,hArr:8660,forall:8704,part:8706,exist:8707,empty:8709,nabla:8711,isin:8712,notin:8713,ni:8715,prod:8719,sum:8721,minus:8722,lowast:8727,radic:8730,prop:8733,infin:8734,ang:8736,and:8743,or:8744,cap:8745,cup:8746,int:8747,there4:8756,sim:8764,cong:8773,asymp:8776,ne:8800,equiv:8801,le:8804,ge:8805,sub:8834,sup:8835,nsub:8836,sube:8838,supe:8839,oplus:8853,otimes:8855,perp:8869,sdot:8901,lceil:8968,rceil:8969,lfloor:8970,rfloor:8971,lang:9001,rang:9002,loz:9674,spades:9824,clubs:9827,hearts:9829,diams:9830},Object.keys(e.ENTITIES).forEach(function(t){var s=e.ENTITIES[t],n="number"==typeof s?String.fromCharCode(s):s;e.ENTITIES[t]=n}),e.STATE)e.STATE[e.STATE[S]]=S;function U(e,t,s){e[t]&&e[t](s)}function _(e,t,s){e.textNode&&A(e),U(e,t,s)}function A(e){e.textNode=N(e.opt,e.textNode),e.textNode&&U(e,"ontext",e.textNode),e.textNode=""}function N(e,t){return e.trim&&(t=t.trim()),e.normalize&&(t=t.replace(/\s+/g," ")),t}function F(e,t){return A(e),e.trackPosition&&(t+="\nLine: "+e.line+"\nColumn: "+e.column+"\nChar: "+e.c),t=new Error(t),e.error=t,U(e,"onerror",t),e}function E(e){return e.sawRoot&&!e.closedRoot&&P(e,"Unclosed root tag"),e.state!==L.BEGIN&&e.state!==L.BEGIN_WHITESPACE&&e.state!==L.TEXT&&F(e,"Unexpected end"),A(e),e.c="",e.closed=!0,U(e,"onend"),n.call(e,e.strict,e.opt),e}function P(e,t){if("object"!=typeof e||!(e instanceof n))throw new Error("bad call to strictFail");e.strict&&F(e,t)}function I(e){e.strict||(e.tagName=e.tagName[e.looseCase]());var t=e.tags[e.tags.length-1]||e,s=e.tag={name:e.tagName,attributes:{}};e.opt.xmlns&&(s.ns=t.ns),e.attribList.length=0,_(e,"onopentagstart",s)}function R(e,t){var s=e.indexOf(":")<0?["",e]:e.split(":"),n=s[0],i=s[1];return t&&"xmlns"===e&&(n="xmlns",i=""),{prefix:n,local:i}}function O(e){if(e.strict||(e.attribName=e.attribName[e.looseCase]()),-1!==e.attribList.indexOf(e.attribName)||e.tag.attributes.hasOwnProperty(e.attribName))e.attribName=e.attribValue="";else{if(e.opt.xmlns){var t=R(e.attribName,!0),s=t.prefix,n=t.local;if("xmlns"===s)if("xml"===n&&e.attribValue!==d)P(e,"xml: prefix must be bound to "+d+"\nActual: "+e.attribValue);else if("xmlns"===n&&e.attribValue!==c)P(e,"xmlns: prefix must be bound to "+c+"\nActual: "+e.attribValue);else{var i=e.tag,a=e.tags[e.tags.length-1]||e;i.ns===a.ns&&(i.ns=Object.create(a.ns)),i.ns[n]=e.attribValue}e.attribList.push([e.attribName,e.attribValue])}else e.tag.attributes[e.attribName]=e.attribValue,_(e,"onattribute",{name:e.attribName,value:e.attribValue});e.attribName=e.attribValue=""}}function z(e,t){if(e.opt.xmlns){var s=e.tag,n=R(e.tagName);s.prefix=n.prefix,s.local=n.local,s.uri=s.ns[n.prefix]||"",s.prefix&&!s.uri&&(P(e,"Unbound namespace prefix: "+JSON.stringify(e.tagName)),s.uri=n.prefix);var i=e.tags[e.tags.length-1]||e;s.ns&&i.ns!==s.ns&&Object.keys(s.ns).forEach(function(t){_(e,"onopennamespace",{prefix:t,uri:s.ns[t]})});for(var a=0,o=e.attribList.length;a<o;a++){var r=e.attribList[a],l=r[0],d=r[1],m=R(l,!0),c=m.prefix,g=m.local,u=""===c?"":s.ns[c]||"",f={name:l,value:d,prefix:c,local:g,uri:u};c&&"xmlns"!==c&&!u&&(P(e,"Unbound namespace prefix: "+JSON.stringify(c)),f.uri=c),e.tag.attributes[l]=f,_(e,"onattribute",f)}e.attribList.length=0}e.tag.isSelfClosing=!!t,e.sawRoot=!0,e.tags.push(e.tag),_(e,"onopentag",e.tag),t||(e.noscript||"script"!==e.tagName.toLowerCase()?e.state=L.TEXT:e.state=L.SCRIPT,e.tag=null,e.tagName=""),e.attribName=e.attribValue="",e.attribList.length=0}function B(e){if(!e.tagName)return P(e,"Weird empty close tag."),e.textNode+="</>",void(e.state=L.TEXT);if(e.script){if("script"!==e.tagName)return e.script+="</"+e.tagName+">",e.tagName="",void(e.state=L.SCRIPT);_(e,"onscript",e.script),e.script=""}var t=e.tags.length,s=e.tagName;e.strict||(s=s[e.looseCase]());for(var n=s;t--&&e.tags[t].name!==n;)P(e,"Unexpected close tag");if(t<0)return P(e,"Unmatched closing tag: "+e.tagName),e.textNode+="</"+e.tagName+">",void(e.state=L.TEXT);e.tagName=s;for(var i=e.tags.length;i-- >t;){var a=e.tag=e.tags.pop();e.tagName=e.tag.name,_(e,"onclosetag",e.tagName);var o={};for(var r in a.ns)o[r]=a.ns[r];var l=e.tags[e.tags.length-1]||e;e.opt.xmlns&&a.ns!==l.ns&&Object.keys(a.ns).forEach(function(t){var s=a.ns[t];_(e,"onclosenamespace",{prefix:t,uri:s})})}0===t&&(e.closedRoot=!0),e.tagName=e.attribValue=e.attribName="",e.attribList.length=0,e.state=L.TEXT}function D(e){var t,s=e.entity,n=s.toLowerCase(),i="";return e.ENTITIES[s]?e.ENTITIES[s]:e.ENTITIES[n]?e.ENTITIES[n]:("#"===(s=n).charAt(0)&&("x"===s.charAt(1)?(s=s.slice(2),i=(t=parseInt(s,16)).toString(16)):(s=s.slice(1),i=(t=parseInt(s,10)).toString(10))),s=s.replace(/^0+/,""),isNaN(t)||i.toLowerCase()!==s?(P(e,"Invalid character entity"),"&"+e.entity+";"):String.fromCodePoint(t))}function j(e,t){"<"===t?(e.state=L.OPEN_WAKA,e.startTagPosition=e.position):w(t)||(P(e,"Non-whitespace before first tag."),e.textNode=t,e.state=L.TEXT)}function V(e,t){var s="";return t<e.length&&(s=e.charAt(t)),s}L=e.STATE,String.fromCodePoint||(T=String.fromCharCode,x=Math.floor,C=function(){var e,t,s=[],n=-1,i=arguments.length;if(!i)return"";for(var a="";++n<i;){var o=Number(arguments[n]);if(!isFinite(o)||o<0||o>1114111||x(o)!==o)throw RangeError("Invalid code point: "+o);o<=65535?s.push(o):(e=55296+((o-=65536)>>10),t=o%1024+56320,s.push(e,t)),(n+1===i||s.length>16384)&&(a+=T.apply(null,s),s.length=0)}return a},Object.defineProperty?Object.defineProperty(String,"fromCodePoint",{value:C,configurable:!0,writable:!0}):String.fromCodePoint=C)}(q)),q)),X={"http://www.w3.org/2000/svg":{ext:"svg",mime:"image/svg+xml"},"http://www.w3.org/1999/xhtml":{ext:"xhtml",mime:"application/xhtml+xml"},"http://www.opengis.net/kml/2.2":{ext:"kml",mime:"application/vnd.google-earth.kml+xml"},"http://www.opengis.net/gml":{ext:"gml",mime:"application/gml+xml"}},J={rss:{ext:"rss",mime:"application/rss+xml"},"score-partwise":{ext:"musicxml",mime:"application/vnd.recordare.musicxml+xml"},svg:{ext:"svg",mime:"image/svg+xml"}};class Z{constructor(e){this.options=e??{},this.firstTag=!0,this.onEnd=!1,this.parser=K.parser(!0,{xmlns:!0}),this.nesting=0,this.parser.onerror=e=>{e.message.startsWith("Invalid character entity")||(this.fileType=void 0,this.onEnd=!0)},this.parser.onopentag=e=>{++this.nesting,this.firstTag&&!this.onEnd&&(this.firstTag=!1,e.uri?this.fileType=X[e.uri]:e.name&&(this.fileType=J[e.name.toLowerCase()]),this.fileType&&!this.options.fullScan&&(this.onEnd=!0))},this.parser.onclosetag=()=>{--this.nesting}}write(e){this.parser.write(e)}close(){this.parser.close(),this.onEnd=!0}isValid(){return 0===this.nesting}}class Q{_view;constructor(e){ee(e),this._view=e}get id(){return this._view.id}get name(){return this._view.name}get caption(){return this._view.caption}get emptyTitle(){return this._view.emptyTitle}get emptyCaption(){return this._view.emptyCaption}get getContents(){return this._view.getContents}get hidden(){return this._view.hidden}get icon(){return this._view.icon}set icon(e){this._view.icon=e}get order(){return this._view.order}set order(e){this._view.order=e}get params(){return this._view.params}set params(e){this._view.params=e}get columns(){return this._view.columns}get emptyView(){return this._view.emptyView}get parent(){return this._view.parent}get sticky(){return this._view.sticky}get expanded(){return this._view.expanded}set expanded(e){this._view.expanded=e}get defaultSortKey(){return this._view.defaultSortKey}get loadChildViews(){return this._view.loadChildViews}}const ee=function(e){if(!e.id||"string"!=typeof e.id)throw new Error("View id is required and must be a string");if(!e.name||"string"!=typeof e.name)throw new Error("View name is required and must be a string");if("caption"in e&&"string"!=typeof e.caption)throw new Error("View caption must be a string");if(!e.getContents||"function"!=typeof e.getContents)throw new Error("View getContents is required and must be a function");if("hidden"in e&&"boolean"!=typeof e.hidden)throw new Error("View hidden must be a boolean");if(!e.icon||"string"!=typeof e.icon||!function(e){if("string"!=typeof e)throw new TypeError(`Expected a \`string\`, got \`${typeof e}\``);if(0===(e=e.trim()).length)return!1;const t=new Z;return t.write(e),t.isValid()&&"svg"===t.fileType?.ext}(e.icon))throw new Error("View icon is required and must be a valid svg string");if("order"in e&&"number"!=typeof e.order)throw new Error("View order must be a number");if(e.columns&&e.columns.forEach(e=>{if(!(e instanceof Y))throw new Error("View columns must be an array of Column. Invalid column found")}),e.emptyView&&"function"!=typeof e.emptyView)throw new Error("View emptyView must be a function");if(e.parent&&"string"!=typeof e.parent)throw new Error("View parent must be a string");if("sticky"in e&&"boolean"!=typeof e.sticky)throw new Error("View sticky must be a boolean");if("expanded"in e&&"boolean"!=typeof e.expanded)throw new Error("View expanded must be a boolean");if(e.defaultSortKey&&"string"!=typeof e.defaultSortKey)throw new Error("View defaultSortKey must be a string");if(e.loadChildViews&&"function"!=typeof e.loadChildViews)throw new Error("View loadChildViews must be a function");return!0};var te=(e=>(e[e.UploadFromDevice=0]="UploadFromDevice",e[e.CreateNew=1]="CreateNew",e[e.Other=2]="Other",e))(te||{});class se{_entries=[];registerEntry(e){this.validateEntry(e),e.category=e.category??1,this._entries.push(e)}unregisterEntry(e){const t="string"==typeof e?this.getEntryIndex(e):this.getEntryIndex(e.id);-1!==t?this._entries.splice(t,1):n.o.warn("Entry not found, nothing removed",{entry:e,entries:this.getEntries()})}getEntries(e){return e?this._entries.filter(t=>"function"!=typeof t.enabled||t.enabled(e)):this._entries}getEntryIndex(e){return this._entries.findIndex(t=>t.id===e)}validateEntry(e){if(!e.id||!e.displayName||!e.iconSvgInline&&!e.iconClass||!e.handler)throw new Error("Invalid entry");if("string"!=typeof e.id||"string"!=typeof e.displayName)throw new Error("Invalid id or displayName property");if(e.iconClass&&"string"!=typeof e.iconClass||e.iconSvgInline&&"string"!=typeof e.iconSvgInline)throw new Error("Invalid icon provided");if(void 0!==e.enabled&&"function"!=typeof e.enabled)throw new Error("Invalid enabled property");if("function"!=typeof e.handler)throw new Error("Invalid handler property");if("order"in e&&"number"!=typeof e.order)throw new Error("Invalid order property");if(-1!==this.getEntryIndex(e.id))throw new Error("Duplicate entry")}}function ne(){return void 0===window._nc_newfilemenu&&(window._nc_newfilemenu=new se,n.o.debug("NewFileMenu initialized")),window._nc_newfilemenu}function ie(e){return ne().registerEntry(e)}function ae(e){return ne().unregisterEntry(e)}function oe(e){return ne().getEntries(e).sort((e,t)=>void 0!==e.order&&void 0!==t.order&&e.order!==t.order?e.order-t.order:e.displayName.localeCompare(t.displayName,void 0,{numeric:!0,sensitivity:"base"}))}var re=(e=>(e.ReservedName="reserved name",e.Character="character",e.Extension="extension",e))(re||{});class le extends Error{constructor(e){super(`Invalid ${e.reason} '${e.segment}' in filename '${e.filename}'`,{cause:e})}get filename(){return this.cause.filename}get reason(){return this.cause.reason}get segment(){return this.cause.segment}}function de(e){const t=(0,o.F)().files,s=t.forbidden_filename_characters??window._oc_config?.forbidden_filenames_characters??["/","\\"];for(const t of s)if(e.includes(t))throw new le({segment:t,reason:"character",filename:e});if(e=e.toLocaleLowerCase(),(t.forbidden_filenames??[".htaccess"]).includes(e))throw new le({filename:e,segment:e,reason:"reserved name"});const n=e.indexOf(".",1),i=e.substring(0,-1===n?void 0:n);if((t.forbidden_filename_basenames??[]).includes(i))throw new le({filename:e,segment:i,reason:"reserved name"});const a=t.forbidden_filename_extensions??[".part",".filepart"];for(const t of a)if(e.length>t.length&&e.endsWith(t))throw new le({segment:t,reason:"extension",filename:e})}function me(e,t,s){const n={suffix:e=>`(${e})`,ignoreFileExtension:!1,...s};let i=e,a=1;for(;t.includes(i);){const t=n.ignoreFileExtension?"":(0,r.extname)(e);i=`${(0,r.basename)(e,t)} ${n.suffix(a++)}${t}`}return i}const ce=["B","KB","MB","GB","TB","PB"],ge=["B","KiB","MiB","GiB","TiB","PiB"];function ue(e,t=!1,s=!1,n=!1){s=s&&!n,"string"==typeof e&&(e=Number(e));let i=e>0?Math.floor(Math.log(e)/Math.log(n?1e3:1024)):0;i=Math.min((s?ge.length:ce.length)-1,i);const a=s?ge[i]:ce[i];let o=(e/Math.pow(n?1e3:1024,i)).toFixed(1);return!0===t&&0===i?("0.0"!==o?"< 1 ":"0 ")+(s?ge[1]:ce[1]):(o=i<2?parseFloat(o).toFixed(0):parseFloat(o).toLocaleString((0,l.lO)()),o+" "+a)}function fe(e){return e instanceof Date?e.toISOString():String(e)}function pe(e,t={}){const s={sortingMode:"basename",sortingOrder:"asc",...t};return function(e,t,s){s=s??[];const n=(t=t??[e=>e]).map((e,t)=>"asc"===(s[t]??"asc")?1:-1),i=Intl.Collator([(0,l.Z0)(),(0,l.lO)()],{numeric:!0,usage:"sort"});return[...e].sort((e,s)=>{for(const[a,o]of t.entries()){const t=i.compare(fe(o(e)),fe(o(s)));if(0!==t)return t*n[a]}return 0})}(e,[...s.sortFavoritesFirst?[e=>1!==e.attributes?.favorite]:[],...s.sortFoldersFirst?[e=>"folder"!==e.type]:[],..."basename"!==s.sortingMode?[e=>e[s.sortingMode]??e.attributes[s.sortingMode]]:[],e=>{return(t=e.displayname||e.attributes?.displayname||e.basename||"").lastIndexOf(".")>0?t.slice(0,t.lastIndexOf(".")):t;var t},e=>e.basename],[...s.sortFavoritesFirst?["asc"]:[],...s.sortFoldersFirst?["asc"]:[],..."mtime"===s.sortingMode?["asc"===s.sortingOrder?"desc":"asc"]:[],..."mtime"!==s.sortingMode&&"basename"!==s.sortingMode?[s.sortingOrder]:[],s.sortingOrder,s.sortingOrder])}},43690:e=>{e.exports='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-folder-outline" viewBox="0 0 24 24"><path d="M20,18H4V8H20M20,6H12L10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6Z" /></svg>'},45238:(e,t,s)=>{s.d(t,{B:()=>m});var n=s(65899),i=s(71225),a=s(35810),o=s(61338),r=s(85471),l=s(9558),d=s(89761);const m=function(){const e=(0,d._)(...arguments),t=(0,n.nY)("paths",{state:()=>({paths:{}}),getters:{getPath:e=>(t,s)=>{if(e.paths[t])return e.paths[t][s]}},actions:{addPath(e){this.paths[e.service]||r.Ay.set(this.paths,e.service,{}),r.Ay.set(this.paths[e.service],e.path,e.source)},deletePath(e,t){this.paths[e]&&r.Ay.delete(this.paths[e],t)},onCreatedNode(e){const t=(0,a.bh)()?.active?.id||"files";e.fileid?(e.type===a.pt.Folder&&this.addPath({service:t,path:e.path,source:e.source}),this.addNodeToParentChildren(e)):l.A.error("Node has no fileid",{node:e})},onDeletedNode(e){const t=(0,a.bh)()?.active?.id||"files";e.type===a.pt.Folder&&this.deletePath(t,e.path),this.deleteNodeFromParentChildren(e)},onMovedNode(e){let{node:t,oldSource:s}=e;const n=(0,a.bh)()?.active?.id||"files";if(t.type===a.pt.Folder){const e=Object.entries(this.paths[n]).find(e=>{let[,t]=e;return t===s});e?.[0]&&this.deletePath(n,e[0]),this.addPath({service:n,path:t.path,source:t.source})}const i=new a.ZH({source:s,owner:t.owner,mime:t.mime});this.deleteNodeFromParentChildren(i),this.addNodeToParentChildren(t)},deleteNodeFromParentChildren(t){const s=(0,a.bh)()?.active?.id||"files",n=(0,i.pD)(t.source),o="/"===t.dirname?e.getRoot(s):e.getNode(n);if(o){const e=new Set(o._children??[]);return e.delete(t.source),r.Ay.set(o,"_children",[...e.values()]),void l.A.debug("Children updated",{parent:o,node:t,children:o._children})}l.A.debug("Parent path does not exists, skipping children update",{node:t})},addNodeToParentChildren(t){const s=(0,a.bh)()?.active?.id||"files",n=(0,i.pD)(t.source),o="/"===t.dirname?e.getRoot(s):e.getNode(n);if(o){const e=new Set(o._children??[]);return e.add(t.source),r.Ay.set(o,"_children",[...e.values()]),void l.A.debug("Children updated",{parent:o,node:t,children:o._children})}l.A.debug("Parent path does not exists, skipping children update",{node:t})}}})(...arguments);return t._initialized||((0,o.B1)("files:node:created",t.onCreatedNode),(0,o.B1)("files:node:deleted",t.onDeletedNode),(0,o.B1)("files:node:moved",t.onMovedNode),t._initialized=!0),t}},49542:(e,t,s)=>{s.d(t,{F:()=>l});var n=s(61338),i=s(35810),a=s(65899),o=s(85471),r=s(9558);const l=(0,a.nY)("active",()=>{const e=(0,o.KR)(),t=(0,o.KR)(),s=(0,o.KR)(),a=(0,o.KR)();function l(e){s.value&&s.value.source===e.source&&(s.value=void 0)}function d(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;r.A.debug("Setting active view",{view:e}),a.value=e??void 0,s.value=void 0}return function(){const e=(0,i.bh)();(0,n.B1)("files:node:deleted",l),d(e.active),e.addEventListener("updateActive",e=>{d(e.detail)})}(),{activeAction:e,activeFolder:t,activeNode:s,activeView:a}})},53775:(e,t,s)=>{s.d(t,{w:()=>h,d:()=>w});var n=s(35810),i=s(53334),a=s(21777),o=s(77815),r=s(36117),l=s(21976),d=s(9558),m=s(82736),c=s(4114);function g(){const e=new AbortController,t=(0,m.j)((0,c.u)());return new r.CancelablePromise(async(s,i,r)=>{r(()=>e.abort());try{s({contents:await(0,l.E)(t.query,{signal:e.signal}),folder:new n.vd({id:0,source:`${o.Xn}#search`,owner:(0,a.HW)().uid,permissions:n.aX.READ})})}catch(e){d.A.error("Failed to fetch search results",{error:e}),i(e)}})}var u=s(25682);const f='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-magnify" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>';var p=s(85471);const h="search";function w(){let e,t;(0,n.bh)().register(new n.Ss({id:h,name:(0,i.t)("files","Search"),caption:(0,i.t)("files","Search results within your files."),async emptyView(n){t?e.$destroy():t=(await Promise.all([s.e(4208),s.e(7457)]).then(s.bind(s,37457))).default,e=new p.Ay(t),e.$mount(n)},icon:f,order:10,parent:u.w,expanded:!0,hidden:!0,getContents:g}))}},56908:(e,t,s)=>{s.d(t,{S:()=>i,t:()=>a});var n=s(77815);const i=(0,n.KU)(),a=async e=>{const t=(0,n.aN)(),s=await i.stat(`${(0,n.ei)()}${e}`,{details:!0,data:t});return(0,n.pO)(s.data)}},63444:(e,t,s)=>{var n=s(35810),i=s(81222),a=s(49264),o=s(5655),r=s(3153),l=s(53334),d=s(21777),m=s(71225),c=s(85471),g=s(77764);const u=new n.VP({id:"files_trashbin--original-location",title:(0,l.t)("files_trashbin","Original location"),render(e){const t=h(e),s=document.createElement("span");return s.title=t,s.textContent=t,s},sort(e,t){const s=h(e),n=h(t);return s.localeCompare(n,[(0,l.Z0)(),(0,l.lO)()],{numeric:!0,usage:"sort"})}}),f=new n.VP({id:"files_trashbin--deleted-by",title:(0,l.t)("files_trashbin","Deleted by"),render(e){const{userId:t,displayName:s,label:n}=w(e);if(n){const e=document.createElement("span");return e.textContent=n,e}return new(c.Ay.extend(g.A))({propsData:{size:32,user:t??void 0,displayName:s??t}}).$mount().$el},sort(e,t){const s=w(e),n=s.label??s.displayName??s.userId,i=w(t),a=i.label??i.displayName??i.userId;return n.localeCompare(a,[(0,l.Z0)(),(0,l.lO)()],{numeric:!0,usage:"sort"})}}),p=new n.VP({id:"files_trashbin--deleted",title:(0,l.t)("files_trashbin","Deleted"),render(e){const t=e.attributes?.["trashbin-deletion-time"]||(e?.mtime?.getTime()??0)/1e3,s=document.createElement("span");if(t){const e=Intl.DateTimeFormat([(0,l.lO)()],{dateStyle:"long",timeStyle:"short"}),n=new Date(1e3*t);return s.title=e.format(n),s.textContent=(0,l.fw)(n,{ignoreSeconds:(0,l.t)("files","few seconds ago")}),s}return s.textContent=(0,l.t)("files_trashbin","A long time ago"),s},sort(e,t){const s=e.attributes?.["trashbin-deletion-time"]||(e?.mtime?.getTime()??0)/1e3;return(t.attributes?.["trashbin-deletion-time"]||(t?.mtime?.getTime()??0)/1e3)-s}});function h(e){const t=v(e.attributes?.["trashbin-original-location"]);if(!t)return(0,l.t)("files_trashbin","Unknown");const s=(0,m.pD)(t);return s===t?(0,l.t)("files_trashbin","All files"):s.replace(/^\//,"")}function w(e){const t=v(e.attributes?.["trashbin-deleted-by-id"]),s=v(e.attributes?.["trashbin-deleted-by-display-name"]);let n;const i=(0,d.HW)()?.uid;return t===i&&(n=(0,l.t)("files_trashbin","You")),t||s||(n=(0,l.t)("files_trashbin","Unknown")),{userId:t,displayName:s,label:n}}function v(e){return e?String(e):null}const b=`/trashbin/${(0,d.HW)()?.uid}/trash`,y=(0,n.H4)();var k=s(63814);const T=`<?xml version="1.0"?>\n<d:propfind ${(0,n.CP)()}>\n\t<d:prop>\n\t\t<nc:trashbin-deletion-time />\n\t\t<nc:trashbin-original-location />\n\t\t<nc:trashbin-title />\n\t\t<nc:trashbin-deleted-by-id />\n\t\t<nc:trashbin-deleted-by-display-name />\n\t\t${(0,n.VX)()}\n\t</d:prop>\n</d:propfind>`,x=e=>{const t=(0,n.Al)(e,b);return t.attributes.previewUrl=(0,k.Jv)("/apps/files_trashbin/preview?fileId={fileid}&x=32&y=32",{fileid:t.fileid}),t},C="trashbin";new n.Ss({id:C,name:(0,l.t)("files_trashbin","Deleted files"),caption:(0,l.t)("files_trashbin","List of files that have been deleted."),emptyTitle:(0,l.t)("files_trashbin","No deleted files"),emptyCaption:(0,l.t)("files_trashbin","Files and folders you have deleted will show up here"),icon:r,order:50,sticky:!0,defaultSortKey:"deleted",columns:[u,f,p],getContents:async function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"/";const t=(await y.getDirectoryContents(`${b}${e}`,{details:!0,data:T,includeSelf:!0})).data.map(x),[s]=t.splice(t.findIndex(t=>t.path===e),1);return{folder:s,contents:t}}});var L=s(61338),S=s(87485),U=s(65043),_=s(65899);const A=(0,i.C)("files","config",{crop_image_previews:!0,default_view:"files",grid_view:!1,show_files_extensions:!0,show_hidden:!1,show_mime_column:!0,sort_favorites_first:!0,sort_folders_first:!0,show_dialog_deletion:!1,show_dialog_file_extension:!0}),N=(0,_.nY)("userconfig",()=>{const e=(0,c.KR)({...A});return(0,L.B1)("files:config:updated",t=>{let{key:s,value:n}=t;return function(t,s){(0,c.hZ)(e.value,t,s)}(s,n)}),{userConfig:e,update:async function(e,t){null!==(0,d.HW)()&&await U.Ay.put((0,k.Jv)("/apps/files/api/v1/config/{key}",{key:e}),{value:t}),(0,L.Ic)("files:config:updated",{key:e,value:t})}}});var F=s(4114);const E=()=>!0===(0,S.F)()?.files?.undelete,P=e=>e.every(e=>!0===e.attributes["is-mount-root"]&&"shared"===e.attributes["mount-type"]),I=e=>e.every(e=>!0===e.attributes["is-mount-root"]&&"external"===e.attributes["mount-type"]),R=(e,t)=>P(e)?1===e.length?(0,l.t)("files","Leave this share"):(0,l.t)("files","Leave these shares"):I(e)?1===e.length?(0,l.t)("files","Disconnect storage"):(0,l.t)("files","Disconnect storages"):"trashbin"!==t.id&&E()?(e=>{if(1===e.length)return!1;const t=e.some(e=>P([e])),s=e.some(e=>!P([e]));return t&&s})(e)?(0,l.t)("files","Delete and unshare"):(e=>!e.some(e=>e.type!==n.pt.File))(e)?1===e.length?(0,l.t)("files","Delete file"):(0,l.t)("files","Delete files"):(e=>!e.some(e=>e.type!==n.pt.Folder))(e)?1===e.length?(0,l.t)("files","Delete folder"):(0,l.t)("files","Delete folders"):(0,l.t)("files","Delete"):(0,l.t)("files","Delete permanently"),O=()=>!1!==N((0,F.u)()).userConfig.show_dialog_deletion,z=async(e,t)=>{const s="trashbin"!==t.id&&E()?(0,l.n)("files","You are about to delete {count} item","You are about to delete {count} items",e.length,{count:e.length}):(0,l.n)("files","You are about to permanently delete {count} item","You are about to permanently delete {count} items",e.length,{count:e.length});return new Promise(n=>{window.OC.dialogs.confirmDestructive(s,(0,l.t)("files","Confirm deletion"),{type:window.OC.dialogs.YES_NO_BUTTONS,confirm:R(e,t),confirmClasses:"error",cancel:(0,l.t)("files","Cancel")},e=>{n(e)})})},B=async e=>{await U.Ay.delete(e.encodedSource),(0,L.Ic)("files:node:deleted",e)};var D=s(9558);const j=new a.A({concurrency:5}),V=new n.hY({id:"delete",displayName:R,iconSvgInline:e=>P(e)?o:I(e)?'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-network-off" viewBox="0 0 24 24"><path d="M1,5.27L5,9.27V15A2,2 0 0,0 7,17H11V19H10A1,1 0 0,0 9,20H2V22H9A1,1 0 0,0 10,23H14A1,1 0 0,0 15,22H17.73L19.73,24L21,22.72L2.28,4L1,5.27M15,20A1,1 0 0,0 14,19H13V17.27L15.73,20H15M17.69,16.87L5.13,4.31C5.41,3.55 6.14,3 7,3H17A2,2 0 0,1 19,5V15C19,15.86 18.45,16.59 17.69,16.87M22,20V21.18L20.82,20H22Z" /></svg>':r,enabled:(e,t)=>(t.id!==C||!1!==(0,i.C)("files_trashbin","config",{allow_delete:!0}).allow_delete)&&(e.length>0&&e.map(e=>e.permissions).every(e=>0!==(e&n.aX.DELETE))),async exec(e,t){try{let s=!0;const n=((new Error).stack||"").toLocaleLowerCase().includes("keydown");return(O()||n)&&(s=await z([e],t)),!1===s?null:(await B(e),!0)}catch(t){return D.A.error("Error while deleting a file",{error:t,source:e.source,node:e}),!1}},async execBatch(e,t){let s=!0;if((O()||e.length>=5&&!P(e)&&!I(e))&&(s=await z(e,t)),!1===s)return Promise.all(e.map(()=>null));const n=e.map(e=>new Promise(t=>{j.add(async()=>{try{await B(e),t(!0)}catch(s){D.A.error("Error while deleting a file",{error:s,source:e.source,node:e}),t(!1)}})}));return Promise.all(n)},destructive:!0,order:100});var M=s(85168);function H(e){if(0===(e.permissions&n.aX.READ))return!1;if(!0===e.attributes["hide-download"]||"true"===e.attributes["hide-download"])return!1;if(e.attributes["share-attributes"]){const t=JSON.parse(e.attributes["share-attributes"]||"[]").find(e=>{let{scope:t,key:s}=e;return"permissions"===t&&"download"===s});if(void 0!==t)return!0===t.value}return!0}var W=s(45238),Y=s(89761);async function $(e,t){await U.Ay.head(e);const s=document.createElement("a");s.download=t??"",s.href=e,s.click()}function G(e,t){const s=e.split("/").filter(Boolean),n=t.split("/").filter(Boolean);let i="";for(const[e,a]of s.entries()){if(e>=t.length)break;if(a!==n[e])break;i=`${i}${""===i?"":"/"}${a}`}return i}async function q(e){let t;if(1===e.length){if(e[0].type===n.pt.File)return void await $(e[0].encodedSource,e[0].displayname);t=new URL(e[0].encodedSource),t.searchParams.append("accept","zip")}else{t=new URL(e[0].encodedSource);let s=t.pathname;for(const t of e.slice(1))s=G(s,new URL(t.encodedSource).pathname);t.pathname=s;const n=e.map(e=>decodeURIComponent(e.encodedSource.slice(t.href.length+1)));t.searchParams.append("accept","zip"),t.searchParams.append("files",JSON.stringify(n))}"/"!==t.pathname.at(-1)&&(t.pathname=`${t.pathname}/`),await $(t.href)}const K=new n.hY({id:"download",default:n.m9.DEFAULT,displayName:()=>(0,l.t)("files","Download"),iconSvgInline:()=>'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-arrow-down" viewBox="0 0 24 24"><path d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" /></svg>',enabled:(e,t)=>0!==e.length&&!e.some(e=>!e.isDavResource)&&!(e.length>1&&"trashbin"===t.id)&&e.every(H),async exec(e){try{await q([e])}catch(t){(0,M.Qg)((0,l.t)("files","The requested file is not available.")),(0,L.Ic)("files:node:deleted",e)}return null},async execBatch(e,t,s){try{await q(e)}catch(e){(0,M.Qg)((0,l.t)("files","The requested files are not available."));const n=function(e,t){const s=(0,Y._)((0,F.u)()),n=(0,W.B)((0,F.u)());if(!e?.id)return null;if("/"===t)return s.getRoot(e.id)||null;const i=n.getPath(e.id,t);return s.getNode(i)||null}(t,s);(0,L.Ic)("files:node:updated",n)}return new Array(e.length).fill(null)},order:30});var X=s(82680);const J=new n.hY({id:"edit-locally",displayName:()=>(0,l.Tl)("files","Open locally"),iconSvgInline:()=>'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-laptop" viewBox="0 0 24 24"><path d="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z" /></svg>',enabled:e=>1===e.length&&!(0,X.f)()&&0!==(e[0].permissions&n.aX.UPDATE),exec:async e=>(await async function(e){await Z(e);const t=await async function(){let e=!1;const t=(new M.ik).setName((0,l.Tl)("files","Open file locally")).setText((0,l.Tl)("files","The file should now open on your device. If it doesn't, please check that you have the desktop app installed.")).setButtons([{label:(0,l.Tl)("files","Retry and close"),type:"secondary",callback:()=>{e="local"}},{label:(0,l.Tl)("files","Open online"),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-web" viewBox="0 0 24 24"><path d="M16.36,14C16.44,13.34 16.5,12.68 16.5,12C16.5,11.32 16.44,10.66 16.36,10H19.74C19.9,10.64 20,11.31 20,12C20,12.69 19.9,13.36 19.74,14M14.59,19.56C15.19,18.45 15.65,17.25 15.97,16H18.92C17.96,17.65 16.43,18.93 14.59,19.56M14.34,14H9.66C9.56,13.34 9.5,12.68 9.5,12C9.5,11.32 9.56,10.65 9.66,10H14.34C14.43,10.65 14.5,11.32 14.5,12C14.5,12.68 14.43,13.34 14.34,14M12,19.96C11.17,18.76 10.5,17.43 10.09,16H13.91C13.5,17.43 12.83,18.76 12,19.96M8,8H5.08C6.03,6.34 7.57,5.06 9.4,4.44C8.8,5.55 8.35,6.75 8,8M5.08,16H8C8.35,17.25 8.8,18.45 9.4,19.56C7.57,18.93 6.03,17.65 5.08,16M4.26,14C4.1,13.36 4,12.69 4,12C4,11.31 4.1,10.64 4.26,10H7.64C7.56,10.66 7.5,11.32 7.5,12C7.5,12.68 7.56,13.34 7.64,14M12,4.03C12.83,5.23 13.5,6.57 13.91,8H10.09C10.5,6.57 11.17,5.23 12,4.03M18.92,8H15.97C15.65,6.75 15.19,5.55 14.59,4.44C16.43,5.07 17.96,6.34 18.92,8M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>',type:"primary",callback:()=>{e="online"}}]).build();return await t.show(),e}();"local"===t?await Z(e):"online"===t&&window.OCA.Viewer.open({path:e})}(e.path),null),order:25});async function Z(e){const t=(0,k.KT)("apps/files/api/v1")+"/openlocaleditor?format=json";try{const s=await U.Ay.post(t,{path:e}),n=(0,d.HW)()?.uid;let i=`nc://open/${n}@`+window.location.host+(0,m.O0)(e);i+="?token="+s.data.ocs.data.token,window.open(i,"_self")}catch(e){(0,M.Qg)((0,l.Tl)("files","Failed to redirect to client"))}}var Q=s(63006),ee=s(11459);const te=new a.A({concurrency:5}),se=e=>e.some(e=>1!==e.attributes.favorite),ne=async(e,t,s)=>{try{const n=(0,k.Jv)("/apps/files/api/v1/files")+(0,m.O0)(e.path);return await U.Ay.post(n,{tags:s?[window.OC.TAG_FAVORITE]:[]}),"favorites"!==t.id||s||"/"!==e.dirname||(0,L.Ic)("files:node:deleted",e),c.Ay.set(e.attributes,"favorite",s?1:0),s?(0,L.Ic)("files:favorites:added",e):(0,L.Ic)("files:favorites:removed",e),!0}catch(t){const n=s?"adding a file to favourites":"removing a file from favourites";return D.A.error("Error while "+n,{error:t,source:e.source,node:e}),!1}},ie=new n.hY({id:"favorite",displayName:e=>se(e)?(0,l.Tl)("files","Add to favorites"):(0,l.Tl)("files","Remove from favorites"),iconSvgInline:e=>se(e)?Q:ee,enabled:e=>!(0,X.f)()&&e.every(e=>e.root?.startsWith?.("/files"))&&e.every(e=>e.permissions!==n.aX.NONE),async exec(e,t){const s=se([e]);return await ne(e,t,s)},async execBatch(e,t){const s=se(e),n=e.map(e=>new Promise(n=>{te.add(async()=>{try{await ne(e,t,s),n(!0)}catch(t){D.A.error("Error while adding file to favorite",{error:t,source:e.source,node:e}),n(!1)}})}));return Promise.all(n)},order:-50});var ae=s(85748),oe=s(43627),re=s(21363);const le='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-folder-move-outline" viewBox="0 0 24 24"><path d="M20 18H4V8H20V18M12 6L10 4H4C2.9 4 2 4.89 2 6V18C2 19.11 2.9 20 4 20H20C21.11 20 22 19.11 22 18V8C22 6.9 21.11 6 20 6H12M11 14V12H15V9L19 13L15 17V14H11Z" /></svg>',de=(0,i.C)("files_sharing","sharePermissions",n.aX.NONE);let me;var ce;!function(e){e.MOVE="Move",e.COPY="Copy",e.MOVE_OR_COPY="move-or-copy"}(ce||(ce={}));const ge=e=>{const t=e.reduce((e,t)=>Math.min(e,t.permissions),n.aX.ALL);return Boolean(t&n.aX.DELETE)},ue=e=>!!(e=>e.every(e=>!JSON.parse(e.attributes?.["share-attributes"]??"[]").some(e=>"permissions"===e.scope&&!1===e.value&&"download"===e.key)))(e)&&!e.some(e=>e.permissions===n.aX.NONE)&&(!(0,X.f)()||Boolean(de&n.aX.CREATE));var fe=s(16954);const pe=e=>ge(e)?ue(e)?ce.MOVE_OR_COPY:ce.MOVE:ce.COPY,he=async function(e,t,s){let i=arguments.length>3&&void 0!==arguments[3]&&arguments[3];if(!t)return;if(t.type!==n.pt.Folder)throw new Error((0,l.Tl)("files","Destination is not a folder"));if(s===ce.MOVE&&e.dirname===t.path)throw new Error((0,l.Tl)("files","This file/folder is already in that directory"));if(`${t.path}/`.startsWith(`${e.path}/`))throw new Error((0,l.Tl)("files","You cannot move a file/folder onto itself or into a subfolder of itself"));c.Ay.set(e,"status",n.zI.LOADING);const o=function(e,t,s){const n=e===ce.MOVE?(0,l.Tl)("files",'Moving "{source}" to "{destination}" …',{source:t,destination:s}):(0,l.Tl)("files",'Copying "{source}" to "{destination}" …',{source:t,destination:s});let i;return i=(0,M.cf)(`<span class="icon icon-loading-small toast-loading-icon"></span> ${n}`,{isHTML:!0,timeout:M.DH,onRemove:()=>{i?.hideToast(),i=void 0}}),()=>i&&i.hideToast()}(s,e.basename,t.path),r=(me||(me=new a.A({concurrency:5})),me);return await r.add(async()=>{const a=e=>1===e?(0,l.Tl)("files","(copy)"):(0,l.Tl)("files","(copy %n)",void 0,e);try{const o=(0,n.H4)(),r=(0,oe.join)(n.lJ,e.path),l=(0,oe.join)(n.lJ,t.path);if(s===ce.COPY){let s=e.basename;if(!i){const t=await o.getDirectoryContents(l);s=(0,n.E6)(e.basename,t.map(e=>e.basename),{suffix:a,ignoreFileExtension:e.type===n.pt.Folder})}if(await o.copyFile(r,(0,oe.join)(l,s)),e.dirname===t.path){const{data:e}=await o.stat((0,oe.join)(l,s),{details:!0,data:(0,n.VL)()});(0,L.Ic)("files:node:created",(0,n.Al)(e))}}else{if(!i){const s=await(0,fe.hE)(t.path);if((0,ae.h)([e],s.contents))try{const{selected:n,renamed:i}=await(0,ae.o)(t.path,[e],s.contents);if(!n.length&&!i.length)return}catch(e){return}}try{await o.moveFile(r,(0,oe.join)(l,e.basename))}catch(e){const t=new DOMParser,s=await(e.response?.text()),n=t.parseFromString(s??"","text/xml").querySelector("message")?.textContent;throw n&&(0,M.Qg)(n),e}(0,L.Ic)("files:node:deleted",e)}}catch(e){if((0,U.F0)(e)){if(412===e.response?.status)throw new Error((0,l.Tl)("files","A file or folder with that name already exists in this folder"));if(423===e.response?.status)throw new Error((0,l.Tl)("files","The files are locked"));if(404===e.response?.status)throw new Error((0,l.Tl)("files","The file does not exist anymore"));if(e.message)throw new Error(e.message)}throw D.A.debug(e),new Error}finally{c.Ay.set(e,"status",""),o()}})};async function we(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"/",s=arguments.length>2?arguments[2]:void 0;const{resolve:i,reject:a,promise:o}=Promise.withResolvers(),r=s.map(e=>e.fileid).filter(Boolean),d=(0,M.a1)((0,l.Tl)("files","Choose destination")).allowDirectories(!0).setFilter(e=>!r.includes(e.fileid)).setMimeTypeFilter([]).setMultiSelect(!1).startAt(t).setButtonFactory((t,a)=>{const o=[],r=(0,oe.basename)(a),d=s.map(e=>e.dirname),m=s.map(e=>e.path);return e!==ce.COPY&&e!==ce.MOVE_OR_COPY||o.push({label:r?(0,l.Tl)("files","Copy to {target}",{target:r},void 0,{escape:!1,sanitize:!1}):(0,l.Tl)("files","Copy"),type:"primary",icon:re,disabled:t.some(e=>0===(e.permissions&n.aX.CREATE)),async callback(e){i({destination:e[0],action:ce.COPY})}}),d.includes(a)||m.includes(a)||t.some(e=>0===(e.permissions&n.aX.CREATE))||e!==ce.MOVE&&e!==ce.MOVE_OR_COPY||o.push({label:r?(0,l.Tl)("files","Move to {target}",{target:r},void 0,{escape:!1,sanitize:!1}):(0,l.Tl)("files","Move"),type:e===ce.MOVE?"primary":"secondary",icon:le,async callback(e){i({destination:e[0],action:ce.MOVE})}}),o}).build();return d.pick().catch(e=>{D.A.debug(e),e instanceof M.vT?i(!1):a(new Error((0,l.Tl)("files","Move or copy operation failed")))}),o}const ve=new n.hY({id:"move-copy",displayName(e){switch(pe(e)){case ce.MOVE:return(0,l.Tl)("files","Move");case ce.COPY:return(0,l.Tl)("files","Copy");case ce.MOVE_OR_COPY:return(0,l.Tl)("files","Move or copy")}},iconSvgInline:()=>le,enabled:(e,t)=>"public-file-share"!==t.id&&!!e.every(e=>e.root?.startsWith("/files/"))&&e.length>0&&(ge(e)||ue(e)),async exec(e,t,s){const n=pe([e]);let i;try{i=await we(n,s,[e])}catch(e){return D.A.error(e),!1}if(!1===i)return null;try{return await he(e,i.destination,i.action),!0}catch(e){return!!(e instanceof Error&&e.message)&&((0,M.Qg)(e.message),null)}},async execBatch(e,t,s){const n=pe(e),i=await we(n,s,e);if(!1===i)return e.map(()=>null);const a=e.map(async e=>{try{return await he(e,i.destination,i.action),!0}catch(t){return D.A.error(`Failed to ${i.action} node`,{node:e,error:t}),!1}});return await Promise.all(a)},order:15}),be='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-folder" viewBox="0 0 24 24"><path d="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z" /></svg>',ye=new n.hY({id:"open-folder",displayName(e){const t=e[0].displayname;return(0,l.Tl)("files","Open folder {displayName}",{displayName:t})},iconSvgInline:()=>be,enabled(e){if(1!==e.length)return!1;const t=e[0];return!!t.isDavRessource&&t.type===n.pt.Folder&&0!==(t.permissions&n.aX.READ)},exec:async(e,t)=>!(!e||e.type!==n.pt.Folder)&&(window.OCP.Files.Router.goToRoute(null,{view:t.id,fileid:String(e.fileid)},{dir:e.path}),null),default:n.m9.HIDDEN,order:-100});var ke=s(53775);const Te=new n.hY({id:"open-in-files",displayName:()=>(0,l.t)("files","Open in Files"),iconSvgInline:()=>"",enabled:(e,t)=>"recent"===t.id||t.id===ke.w,async exec(e){let t=e.dirname;return e.type===n.pt.Folder&&(t=t+"/"+e.basename),window.OCP.Files.Router.goToRoute(null,{view:"files",fileid:String(e.fileid)},{dir:t,openfile:"true"}),null},order:-1e3,default:n.m9.HIDDEN});var xe=s(38225);const Ce=new n.hY({id:"rename",displayName:()=>(0,l.Tl)("files","Rename"),iconSvgInline:()=>xe,enabled:(e,t)=>{if(0===e.length)return!1;if("public-file-share"===t.id)return!1;const s=e[0],i=(0,Y._)((0,F.u)()),a="/"===s.dirname?i.getRoot(t.id):i.getNode((0,oe.dirname)(s.source)),o=a?.permissions||n.aX.NONE;return Boolean(s.permissions&n.aX.DELETE)&&Boolean(o&n.aX.CREATE)},exec:async e=>((0,L.Ic)("files:node:rename",e),null),order:10});var Le=s(61780);const Se=new n.hY({id:"details",displayName:()=>(0,l.Tl)("files","Details"),iconSvgInline:()=>Le,enabled:e=>!(0,X.f)()&&1===e.length&&!!e[0]&&!!window?.OCA?.Files?.Sidebar&&((e[0].root?.startsWith("/files/")&&e[0].permissions!==n.aX.NONE)??!1),async exec(e,t,s){try{return window.OCA.Files.Sidebar.file===e.path?(D.A.debug("Sidebar already open for this file",{node:e}),null):(window.OCA.Files.Sidebar.setActiveTab("sharing"),await window.OCA.Files.Sidebar.open(e.path),window.OCP?.Files?.Router?.goToRoute(null,{view:t.id,fileid:String(e.fileid)},{...window.OCP.Files.Router.query,dir:s,opendetails:"true"},!0),null)}catch(e){return D.A.error("Error while opening sidebar",{error:e}),!1}},order:-50}),Ue=new n.hY({id:"view-in-folder",displayName:()=>(0,l.t)("files","View in folder"),iconSvgInline:()=>le,enabled(e,t){if((0,X.f)())return!1;if("files"===t.id)return!1;if(1!==e.length)return!1;const s=e[0];return!!s.isDavRessource&&!!s.root?.startsWith("/files")&&s.permissions!==n.aX.NONE&&s.type===n.pt.File},exec:async e=>!(!e||e.type!==n.pt.File)&&(window.OCP.Files.Router.goToRoute(null,{view:"files",fileid:String(e.fileid)},{dir:e.dirname}),null),order:80});class _e extends n.L3{constructor(){var e,t,s;super("files:hidden",0),e=this,s=void 0,(t=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var s=t.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(t="showHidden"))in e?Object.defineProperty(e,t,{value:s,enumerable:!0,configurable:!0,writable:!0}):e[t]=s,this.showHidden=(0,i.C)("files","config",{show_hidden:!1}).show_hidden,(0,L.B1)("files:config:updated",e=>{let{key:t,value:s}=e;"show_hidden"===t&&(this.showHidden=Boolean(s),this.filterUpdated())})}filter(e){return this.showHidden?e:e.filter(e=>!0!==e.attributes.hidden&&!e.basename.startsWith("."))}}var Ae=s(9165),Ne=s(57505),Fe=s(6695),Ee=s(24764),Pe=s(15502);const Ie=(0,c.pM)({__name:"FileListFilter",props:{isActive:{type:Boolean},filterName:null},emits:["reset-filter"],setup:e=>({__sfc:!0,t:l.t,NcActions:Ee.A,NcActionButton:Ne.A,NcActionSeparator:Pe.A})});var Re=s(85072),Oe=s.n(Re),ze=s(97825),Be=s.n(ze),De=s(77659),je=s.n(De),Ve=s(55056),Me=s.n(Ve),He=s(10540),We=s.n(He),Ye=s(41113),$e=s.n(Ye),Ge=s(23197),qe={};qe.styleTagTransform=$e(),qe.setAttributes=Me(),qe.insert=je().bind(null,"head"),qe.domAPI=Be(),qe.insertStyleElement=We(),Oe()(Ge.A,qe),Ge.A&&Ge.A.locals&&Ge.A.locals;var Ke=s(14486);const Xe=(0,Ke.A)(Ie,function(){var e=this,t=e._self._c,s=e._self._setupProxy;return t(s.NcActions,{attrs:{"force-menu":"",type:e.isActive?"secondary":"tertiary","menu-name":e.filterName},scopedSlots:e._u([{key:"icon",fn:function(){return[e._t("icon")]},proxy:!0}],null,!0)},[e._v(" "),e._t("default"),e._v(" "),e.isActive?[t(s.NcActionSeparator),e._v(" "),t(s.NcActionButton,{staticClass:"files-list-filter__clear-button",attrs:{"close-after-click":""},on:{click:function(t){return e.$emit("reset-filter")}}},[e._v("\n\t\t\t"+e._s(s.t("files","Clear filter"))+"\n\t\t")])]:e._e()],2)},[],!1,null,"00a77ab8",null).exports,Je=(0,c.pM)({name:"FileListFilterType",components:{FileListFilter:Xe,NcActionButton:Ne.A,NcIconSvgWrapper:Fe.A},props:{presets:{type:Array,default:()=>[]},typePresets:{type:Array,required:!0}},setup:()=>({mdiFileOutline:Ae.bFE,t:l.Tl}),data:()=>({selectedOptions:[]}),computed:{isActive(){return this.selectedOptions.length>0}},watch:{presets(){this.selectedOptions=this.presets??[]},selectedOptions(e,t){0===this.selectedOptions.length?0!==t.length&&this.$emit("update:presets"):this.$emit("update:presets",this.selectedOptions)}},mounted(){this.selectedOptions=this.presets??[]},methods:{resetFilter(){this.selectedOptions=[]},toggleOption(e){const t=this.selectedOptions.indexOf(e);-1!==t?this.selectedOptions.splice(t,1):this.selectedOptions.push(e)}}});var Ze=s(73470),Qe={};Qe.styleTagTransform=$e(),Qe.setAttributes=Me(),Qe.insert=je().bind(null,"head"),Qe.domAPI=Be(),Qe.insertStyleElement=We(),Oe()(Ze.A,Qe),Ze.A&&Ze.A.locals&&Ze.A.locals;const et=(0,Ke.A)(Je,function(){var e=this,t=e._self._c;return e._self._setupProxy,t("FileListFilter",{staticClass:"file-list-filter-type",attrs:{"is-active":e.isActive,"filter-name":e.t("files","Type")},on:{"reset-filter":e.resetFilter},scopedSlots:e._u([{key:"icon",fn:function(){return[t("NcIconSvgWrapper",{attrs:{path:e.mdiFileOutline}})]},proxy:!0}])},[e._v(" "),e._l(e.typePresets,function(s){return t("NcActionButton",{key:s.id,attrs:{type:"checkbox","model-value":e.selectedOptions.includes(s)},on:{click:function(t){return e.toggleOption(s)}},scopedSlots:e._u([{key:"icon",fn:function(){return[t("NcIconSvgWrapper",{attrs:{svg:s.icon}})]},proxy:!0}],null,!0)},[e._v("\n\t\t"+e._s(s.label)+"\n\t")])})],2)},[],!1,null,null,null).exports;function tt(e,t,s){return(t=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var s=t.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(t))in e?Object.defineProperty(e,t,{value:s,enumerable:!0,configurable:!0,writable:!0}):e[t]=s,e}const st=(e,t)=>e.replace("<path ",`<path fill="${t}" `);class nt extends n.L3{constructor(){super("files:type",10),tt(this,"currentInstance",void 0),tt(this,"currentPresets",void 0),tt(this,"allPresets",void 0),this.currentPresets=[]}async mount(e){void 0===this.allPresets&&(this.allPresets=await(async()=>[{id:"document",label:(0,l.t)("files","Documents"),icon:st('<svg xmlns="http://www.w3.org/2000/svg" id="mdi-file-document" viewBox="0 0 24 24"><path d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z" /></svg>',"#49abea"),mime:["x-office/document"]},{id:"spreadsheet",label:(0,l.t)("files","Spreadsheets"),icon:st('<svg xmlns="http://www.w3.org/2000/svg" id="mdi-file-table-box" viewBox="0 0 24 24"><path d="M19 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.89 20.1 3 19 3M9 18H6V16H9V18M9 15H6V13H9V15M9 12H6V10H9V12M13 18H10V16H13V18M13 15H10V13H13V15M13 12H10V10H13V12Z" /></svg>',"#9abd4e"),mime:["x-office/spreadsheet"]},{id:"presentation",label:(0,l.t)("files","Presentations"),icon:st('<svg xmlns="http://www.w3.org/2000/svg" id="mdi-file-presentation-box" viewBox="0 0 24 24"><path d="M19,16H5V8H19M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z" /></svg>',"#f0965f"),mime:["x-office/presentation"]},{id:"pdf",label:(0,l.t)("files","PDFs"),icon:st('<svg xmlns="http://www.w3.org/2000/svg" id="mdi-file-pdf-box" viewBox="0 0 24 24"><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M9.5 11.5C9.5 12.3 8.8 13 8 13H7V15H5.5V9H8C8.8 9 9.5 9.7 9.5 10.5V11.5M14.5 13.5C14.5 14.3 13.8 15 13 15H10.5V9H13C13.8 9 14.5 9.7 14.5 10.5V13.5M18.5 10.5H17V11.5H18.5V13H17V15H15.5V9H18.5V10.5M12 10.5H13V13.5H12V10.5M7 10.5H8V11.5H7V10.5Z" /></svg>',"#dc5047"),mime:["application/pdf"]},{id:"folder",label:(0,l.t)("files","Folders"),icon:st(be,window.getComputedStyle(document.body).getPropertyValue("--color-primary-element")),mime:["httpd/unix-directory"]},{id:"audio",label:(0,l.t)("files","Audio"),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-music" viewBox="0 0 24 24"><path d="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V6L21,3Z" /></svg>',mime:["audio"]},{id:"image",label:(0,l.t)("files","Images"),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-image" viewBox="0 0 24 24"><path d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z" /></svg>',mime:["image"]},{id:"video",label:(0,l.t)("files","Videos"),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-movie" viewBox="0 0 24 24"><path d="M18,4L20,8H17L15,4H13L15,8H12L10,4H8L10,8H7L5,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V4H18Z" /></svg>',mime:["video"]}])()),this.currentInstance&&(this.currentInstance.$destroy(),delete this.currentInstance);const t=c.Ay.extend(et);this.currentInstance=new t({propsData:{presets:this.currentPresets,typePresets:this.allPresets},el:e}).$on("update:presets",this.setPresets.bind(this)).$mount()}filter(e){if(!this.currentPresets||0===this.currentPresets.length)return e;const t=this.currentPresets.reduce((e,t)=>[...e,...t.mime],[]);return e.filter(e=>{if(!e.mime)return!1;const s=e.mime.toLowerCase();return!!t.includes(s)||!!t.includes(window.OC.MimeTypeList.aliases[s])||!!t.includes(s.split("/")[0])})}reset(){this.setPresets()}setPresets(e){this.currentPresets=e??[],void 0!==this.currentInstance&&(this.currentInstance.$props.presets=e),this.filterUpdated();const t=[];if(e&&e.length>0)for(const s of e)t.push({icon:s.icon,text:s.label,onclick:()=>this.removeFilterPreset(s.id)});else this.currentInstance?.resetFilter();this.updateChips(t)}removeFilterPreset(e){const t=this.currentPresets.filter(t=>{let{id:s}=t;return s!==e});this.setPresets(t)}}const it=(0,c.pM)({components:{FileListFilter:Xe,NcActionButton:Ne.A,NcIconSvgWrapper:Fe.A},props:{timePresets:{type:Array,required:!0}},setup:()=>({mdiCalendarRangeOutline:Ae.u4v}),data:()=>({selectedOption:null,timeRangeEnd:null,timeRangeStart:null}),computed:{isActive(){return null!==this.selectedOption},currentPreset(){return this.timePresets.find(e=>{let{id:t}=e;return t===this.selectedOption})??null}},watch:{selectedOption(){if(null===this.selectedOption)this.$emit("update:preset");else{const e=this.currentPreset;this.$emit("update:preset",e)}}},methods:{t:l.Tl,resetFilter(){this.selectedOption=null,this.timeRangeEnd=null,this.timeRangeStart=null}}});var at=s(31891),ot={};ot.styleTagTransform=$e(),ot.setAttributes=Me(),ot.insert=je().bind(null,"head"),ot.domAPI=Be(),ot.insertStyleElement=We(),Oe()(at.A,ot),at.A&&at.A.locals&&at.A.locals;const rt=(0,Ke.A)(it,function(){var e=this,t=e._self._c;return e._self._setupProxy,t("FileListFilter",{attrs:{"is-active":e.isActive,"filter-name":e.t("files","Modified")},on:{"reset-filter":e.resetFilter},scopedSlots:e._u([{key:"icon",fn:function(){return[t("NcIconSvgWrapper",{attrs:{path:e.mdiCalendarRangeOutline}})]},proxy:!0}])},[e._v(" "),e._l(e.timePresets,function(s){return t("NcActionButton",{key:s.id,attrs:{type:"radio","close-after-click":"","model-value":e.selectedOption,value:s.id},on:{"update:modelValue":function(t){e.selectedOption=t},"update:model-value":function(t){e.selectedOption=t}}},[e._v("\n\t\t"+e._s(s.label)+"\n\t")])})],2)},[],!1,null,"35fd0c81",null).exports;function lt(e,t,s){return(t=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var s=t.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(t))in e?Object.defineProperty(e,t,{value:s,enumerable:!0,configurable:!0,writable:!0}):e[t]=s,e}const dt=()=>(new Date).setHours(0,0,0,0),mt=[{id:"today",label:(0,l.t)("files","Today"),filter:e=>e>dt()},{id:"last-7",label:(0,l.t)("files","Last 7 days"),filter:e=>e>dt()-6048e5},{id:"last-30",label:(0,l.t)("files","Last 30 days"),filter:e=>e>dt()-2592e6},{id:"this-year",label:(0,l.t)("files","This year ({year})",{year:(new Date).getFullYear()}),filter:e=>e>new Date(dt()).setMonth(0,1)},{id:"last-year",label:(0,l.t)("files","Last year ({year})",{year:(new Date).getFullYear()-1}),filter:e=>e>new Date(dt()).setFullYear((new Date).getFullYear()-1,0,1)&&e<new Date(dt()).setMonth(0,1)}];class ct extends n.L3{constructor(){super("files:modified",50),lt(this,"currentInstance",void 0),lt(this,"currentPreset",void 0)}mount(e){this.currentInstance&&this.currentInstance.$destroy();const t=c.Ay.extend(rt);this.currentInstance=new t({propsData:{timePresets:mt},el:e}).$on("update:preset",this.setPreset.bind(this)).$mount()}filter(e){return this.currentPreset?e.filter(e=>void 0===e.mtime||this.currentPreset.filter(e.mtime.getTime())):e}reset(){this.setPreset()}setPreset(e){this.currentPreset=e,this.filterUpdated();const t=[];e?t.push({icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-calendar" viewBox="0 0 24 24"><path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z" /></svg>',text:e.label,onclick:()=>this.setPreset()}):this.currentInstance?.resetFilter(),this.updateChips(t)}}var gt=s(21376),ut=s(94219),ft=s(82182),pt=s(3226);const ht=(0,c.pM)({__name:"NewNodeDialog",props:{defaultName:{type:String,default:(0,l.t)("files","New folder")},otherNames:{type:Array,default:()=>[]},open:{type:Boolean,default:!0},name:{type:String,default:(0,l.t)("files","Create new folder")},label:{type:String,default:(0,l.t)("files","Folder name")}},emits:["close"],setup(e,t){let{emit:s}=t;const i=e,a=(0,c.KR)(i.defaultName),o=(0,c.KR)(),r=(0,c.KR)(),d=(0,c.KR)(""),m=(0,c.EW)(()=>a.value.trim().startsWith("."));function g(){(0,c.dY)(()=>{const e=o.value?.$el.querySelector("input");if(!i.open||!e)return;const t=a.value.length-(0,oe.extname)(a.value).length;e.focus(),e.setSelectionRange(0,t)})}return(0,c.wB)(()=>[i.defaultName,i.otherNames],()=>{a.value=(0,n.E6)(i.defaultName,i.otherNames).trim()}),(0,c.nT)(()=>{i.otherNames.includes(a.value.trim())?d.value=(0,l.t)("files","This name is already in use."):d.value=function(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1];if(""===e.trim())return(0,l.t)("files","Filename must not be empty.");try{return(0,n.KT)(e),""}catch(e){if(!(e instanceof n.di))throw e;switch(e.reason){case n.nF.Character:return(0,l.t)("files",'"{char}" is not allowed inside a filename.',{char:e.segment},void 0,{escape:t});case n.nF.ReservedName:return(0,l.t)("files",'"{segment}" is a reserved name and not allowed for filenames.',{segment:e.segment},void 0,{escape:!1});case n.nF.Extension:return e.segment.match(/\.[a-z]/i)?(0,l.t)("files",'"{extension}" is not an allowed filetype.',{extension:e.segment},void 0,{escape:!1}):(0,l.t)("files",'Filenames must not end with "{extension}".',{extension:e.segment},void 0,{escape:!1});default:return(0,l.t)("files","Invalid filename.")}}}(a.value.trim());const e=o.value?.$el.querySelector("input");e&&(e.setCustomValidity(d.value),e.reportValidity())}),(0,c.wB)(()=>i.open,()=>{(0,c.dY)(()=>{g()})}),(0,c.sV)(()=>{a.value=(0,n.E6)(a.value,i.otherNames).trim(),(0,c.dY)(()=>g())}),{__sfc:!0,props:i,emit:s,localDefaultName:a,nameInput:o,formElement:r,validity:d,isHiddenFileName:m,focusInput:g,submit:function(){r.value?.requestSubmit()},t:l.t,NcButton:gt.A,NcDialog:ut.A,NcTextField:ft.A,NcNoteCard:pt.A}}});var wt=s(96102),vt={};vt.styleTagTransform=$e(),vt.setAttributes=Me(),vt.insert=je().bind(null,"head"),vt.domAPI=Be(),vt.insertStyleElement=We(),Oe()(wt.A,vt),wt.A&&wt.A.locals&&wt.A.locals;const bt=(0,Ke.A)(ht,function(){var e=this,t=e._self._c,s=e._self._setupProxy;return t(s.NcDialog,{attrs:{"data-cy-files-new-node-dialog":"",name:e.name,open:e.open,"close-on-click-outside":"","out-transition":""},on:{"update:open":function(e){return s.emit("close",null)}},scopedSlots:e._u([{key:"actions",fn:function(){return[t(s.NcButton,{attrs:{"data-cy-files-new-node-dialog-submit":"",type:"primary",disabled:""!==s.validity},on:{click:s.submit}},[e._v("\n\t\t\t"+e._s(s.t("files","Create"))+"\n\t\t")])]},proxy:!0}])},[e._v(" "),t("form",{ref:"formElement",staticClass:"new-node-dialog__form",on:{submit:function(e){return e.preventDefault(),s.emit("close",s.localDefaultName)}}},[t(s.NcTextField,{ref:"nameInput",attrs:{"data-cy-files-new-node-dialog-input":"",error:""!==s.validity,"helper-text":s.validity,label:e.label,value:s.localDefaultName},on:{"update:value":function(e){s.localDefaultName=e}}}),e._v(" "),s.isHiddenFileName?t(s.NcNoteCard,{attrs:{type:"warning",text:s.t("files","Files starting with a dot are hidden by default")}}):e._e()],1)])},[],!1,null,"04462327",null).exports;function yt(e,t){let s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};const n=t.map(e=>e.basename);return new Promise(t=>{(0,M.Ss)(bt,{...s,defaultName:e,otherNames:n},e=>{t(e)})})}const kt={id:"newFolder",displayName:(0,l.Tl)("files","New folder"),enabled:e=>Boolean(e.permissions&n.aX.CREATE)&&Boolean(e.permissions&n.aX.READ),iconSvgInline:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-folder-plus-outline" viewBox="0 0 24 24"><path d="M13 19C13 19.34 13.04 19.67 13.09 20H4C2.9 20 2 19.11 2 18V6C2 4.89 2.89 4 4 4H10L12 6H20C21.1 6 22 6.89 22 8V13.81C21.39 13.46 20.72 13.22 20 13.09V8H4V18H13.09C13.04 18.33 13 18.66 13 19M20 18V15H18V18H15V20H18V23H20V20H23V18H20Z" /></svg>'.replace(/viewBox/gi,'style="color: var(--color-primary-element)" viewBox'),order:0,async handler(e,t){const s=await yt((0,l.Tl)("files","New folder"),t);if(null!==s)try{const{fileid:t,source:i}=await(async(e,t)=>{const s=e.source+"/"+t,n=e.encodedSource+"/"+encodeURIComponent(t),i=await(0,U.Ay)({method:"MKCOL",url:n,headers:{Overwrite:"F"}});return{fileid:parseInt(i.headers["oc-fileid"]),source:s}})(e,s.trim()),a=new n.vd({source:i,id:t,mtime:new Date,owner:e.owner,permissions:n.aX.ALL,root:e?.root||"/files/"+(0,d.HW)()?.uid,attributes:{"mount-type":e.attributes?.["mount-type"],"owner-id":e.attributes?.["owner-id"],"owner-display-name":e.attributes?.["owner-display-name"]}});(0,L.Ic)("files:node:created",a),(0,M.Te)((0,l.Tl)("files",'Created new folder "{name}"',{name:(0,oe.basename)(i)})),D.A.debug("Created new folder",{folder:a,source:i}),window.OCP.Files.Router.goToRoute(null,{view:"files",fileid:String(t)},{dir:e.path})}catch(e){D.A.error("Creating new folder failed",{error:e}),(0,M.Qg)("Creating new folder failed")}}},Tt=(0,i.C)("files","templates_enabled",!0);let xt=(0,i.C)("files","templates_path",!1);D.A.debug("Templates folder enabled",{templatesEnabled:Tt}),D.A.debug("Initial templates folder",{templatesPath:xt});const Ct={id:"template-picker",displayName:(0,l.Tl)("files","Create templates folder"),iconSvgInline:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-plus" viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>',order:30,enabled:e=>!(!Tt||xt)&&e.owner===(0,d.HW)()?.uid&&0!==(e.permissions&n.aX.CREATE),async handler(e,t){const s=await yt((0,l.Tl)("files","Templates"),t,{name:(0,l.Tl)("files","New template folder")});null!==s&&(async function(e,t){const s=(0,oe.join)(e.path,t);try{D.A.debug("Initializing the templates directory",{templatePath:s});const{data:e}=await U.Ay.post((0,k.KT)("apps/files/api/v1/templates/path"),{templatePath:s,copySystemTemplates:!0});window.OCP.Files.Router.goToRoute(null,{view:"files",fileid:void 0},{dir:s}),D.A.info("Created new templates folder",{...e.ocs.data}),xt=e.ocs.data.templates_path}catch(e){D.A.error("Unable to initialize the templates directory"),(0,M.Qg)((0,l.Tl)("files","Unable to initialize the templates directory"))}}(e,s),(0,n.gj)("template-picker"))}},Lt=(0,c.$V)(()=>Promise.all([s.e(4208),s.e(7729)]).then(s.bind(s,47729)));let St=null;const Ut=async e=>{if(null===St){const t=document.createElement("div");t.id="template-picker",document.body.appendChild(t),St=new c.Ay({render:t=>t(Lt,{ref:"picker",props:{parent:e}}),methods:{open(){this.$refs.picker.open(...arguments)}},el:t})}return St};var _t=s(77815),At=s(43690),Nt=s(56908),Ft=s(36117);const Et=function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"/";return"/"!==e?(0,fe.hE)(e):new Ft.CancelablePromise((e,t,s)=>{const i=(0,n.Q$)(Nt.S).catch(t).then(s=>{s?e({contents:s,folder:new n.vd({id:0,source:`${n.PY}${n.lJ}`,root:n.lJ,owner:(0,d.HW)()?.uid||null,permissions:n.aX.READ})}):t()});s(()=>i.cancel())})},Pt=function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return new n.Ss({id:It(e.path),name:e.displayname,icon:At,order:t,params:{dir:e.path,fileid:String(e.fileid),view:"favorites"},parent:"favorites",columns:[],getContents:Et})},It=function(e){return`favorite-${function(e){let t=0;for(let s=0;s<e.length;s++)t=(t<<5)-t+e.charCodeAt(s)|0;return t>>>0}(e)}`},Rt=Math.round(Date.now()/1e3-1209600),Ot=e=>(0,n.Al)(e,n.lJ,(0,k.$_)()),zt=(0,d.HW)()?.uid,Bt=function(e){const t=e.attributes["mount-type"];return zt===e.owner&&!["group","shared"].includes(t)},Dt=function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"/";return(0,fe.hE)(e).then(e=>(e.contents=e.contents.filter(Bt),e))};var jt=s(4735);const Vt="personal";var Mt=s(25682);const Ht="folders",Wt=`${n.PY}/files/${(0,d.HW)()?.uid}`,Yt=Intl.Collator([(0,l.Z0)(),(0,l.lO)()],{numeric:!0,usage:"sort"}),$t=(e,t)=>Yt.compare(e.displayName??e.basename,t.displayName??t.basename),Gt=function(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"/",s=arguments.length>2&&void 0!==arguments[2]?arguments[2]:[];const n=e.toSorted($t);for(const{id:e,basename:i,displayName:a,children:o}of n){const n=(0,m.HS)(t,i),r=`${Wt}${n}`,l={source:r,encodedSource:Kt(r),path:n,fileid:e,basename:i};a&&(l.displayName=a),s.push(l),o.length>0&&Gt(o,n,s)}return s},qt=e=>(0,fe.hE)(e),Kt=e=>{const{origin:t}=new URL(e);return t+(0,m.O0)(e.slice(t.length))},Xt=e=>{const t=(0,m.pD)(e);return t===Wt?Ht:Kt(t)},Jt=(0,i.C)("files","config",{folder_tree:!0}).folder_tree;let Zt=(0,i.C)("files","config",{show_hidden:!1}).show_hidden;const Qt=(0,n.bh)(),es=new a.A({concurrency:5,intervalCap:5,interval:200}),ts=new a.A({concurrency:5,intervalCap:5,interval:200}),ss=async function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"/";await es.add(async()=>{const t=await async function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"/",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:1;const{data:s}=await U.Ay.get((0,k.KT)("/apps/files/api/v1/folder-tree"),{params:new URLSearchParams({path:e,depth:String(t)})});return Gt(s,e)}(e),s=t.map(e=>ts.add(()=>is(e)));await Promise.allSettled(s)})},ns=e=>async t=>{t.loading||t.loaded||(t.loading=!0,await ss(e.path),t.loading=!1,t.loaded=!0,(0,L.Ic)("files:navigation:updated"),(0,L.Ic)("files:folder-tree:expanded"))},is=e=>{const t=Qt.views.find(t=>t.id===e.encodedSource);t&&Qt.remove(t.id),!Zt&&e.basename.startsWith(".")||Qt.register(new n.Ss({id:e.encodedSource,parent:Xt(e.source),name:e.displayName??e.displayname??e.basename,icon:At,getContents:qt,loadChildViews:ns(e),params:{view:Ht,fileid:String(e.fileid),dir:e.path}}))},as=e=>{e.type===n.pt.Folder&&is(e)},os=e=>{e.type===n.pt.Folder&&(e=>{const t=e.encodedSource;Qt.remove(t)})(e)},rs=e=>{let{node:t,oldSource:s}=e;if(t.type!==n.pt.Folder)return;var i;i=s,Qt.remove(i),is(t);const a=t.source.replace(Wt,""),o=s.replace(Wt,""),r=Qt.views.filter(e=>!!e.params?.dir&&!(0,m.ys)(e.params.dir,o)&&e.params.dir.startsWith(o));for(const e of r)e.parent=Xt(t.source),e.params.dir=e.params.dir.replace(o,a)},ls=async e=>{let{key:t,value:s}=e;"show_hidden"===t&&(Zt=s,await ss(),(0,L.Ic)("files:folder-tree:initialized"))},ds=new a.A({concurrency:5}),ms=function(e,t){return U.Ay.post((0,k.KT)("/apps/files/api/v1/convert"),{fileId:e,targetMimeType:t})},cs="convert";var gs=s(82736);class us extends n.L3{constructor(){var e,t,s;super("files:filename",5),e=this,s="",(t=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var s=t.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(t="searchQuery"))in e?Object.defineProperty(e,t,{value:s,enumerable:!0,configurable:!0,writable:!0}):e[t]=s,(0,L.B1)("files:search:updated",e=>{let{query:t,scope:s}=e;"filter"===s&&this.updateQuery(t)})}filter(e){const t=this.searchQuery.toLocaleLowerCase().split(" ").filter(Boolean);return e.filter(e=>{const s=e.displayname.toLocaleLowerCase();return t.every(e=>s.includes(e))})}reset(){this.updateQuery("")}updateQuery(e){if((e=(e||"").trim())!==this.searchQuery){this.searchQuery=e,this.filterUpdated();const t=[];if(""!==e)t.push({text:e,onclick:()=>{this.updateQuery("")}});else{const e=(0,gs.j)((0,F.u)());"filter"===e.scope&&(e.query="")}this.updateChips(t)}}}const fs=(0,c.pM)({__name:"FileListFilterToSearch",setup(e,t){let{expose:s}=t;const n=(0,c.KR)(!1);function i(){n.value=!1}function a(){n.value=!0}return s({hideButton:i,showButton:a}),{__sfc:!0,isVisible:n,hideButton:i,showButton:a,onClick:function(){(0,gs.j)((0,F.u)()).scope="globally"},t:l.t,NcButton:gt.A}}}),ps=(0,Ke.A)(fs,function(){var e=this,t=e._self._c,s=e._self._setupProxy;return t(s.NcButton,{directives:[{name:"show",rawName:"v-show",value:s.isVisible,expression:"isVisible"}],on:{click:s.onClick}},[e._v("\n\t"+e._s(s.t("files","Search everywhere"))+"\n")])},[],!1,null,null,null).exports;class hs extends n.L3{constructor(){var e,t,s;super("files:filter-to-search",999),e=this,s=void 0,(t=function(e){var t=function(e){if("object"!=typeof e||!e)return e;var t=e[Symbol.toPrimitive];if(void 0!==t){var s=t.call(e,"string");if("object"!=typeof s)return s;throw new TypeError("@@toPrimitive must return a primitive value.")}return String(e)}(e);return"symbol"==typeof t?t:t+""}(t="currentInstance"))in e?Object.defineProperty(e,t,{value:s,enumerable:!0,configurable:!0,writable:!0}):e[t]=s,(0,L.B1)("files:search:updated",e=>{let{query:t,scope:s}=e;t&&"filter"===s?this.currentInstance?.showButton():this.currentInstance?.hideButton()})}mount(e){this.currentInstance&&this.currentInstance.$destroy();const t=c.Ay.extend(ps);this.currentInstance=(new t).$mount(e)}filter(e){return e}}(()=>{const e=((0,S.F)()?.files?.file_conversions??[]).map(e=>{let{to:t,from:s,displayName:i}=e;return new n.hY({id:`convert-${s}-${t}`,displayName:()=>(0,l.t)("files","Save as {displayName}",{displayName:i}),iconSvgInline:()=>{return e=t,`<svg width="32" height="32" viewBox="0 0 32 32"\n\t\txmlns="http://www.w3.org/2000/svg">\n\t\t<image href="${(0,k.Jv)("/core/mimeicon?mime="+encodeURIComponent(e))}" height="32" width="32" />\n\t</svg>`;var e},enabled:e=>e.every(e=>s===e.mime),exec:async e=>(async function(e,t){const s=(0,M.Cs)((0,l.t)("files","Converting file …"));try{const s=await ds.add(()=>ms(e,t));(0,M.Te)((0,l.t)("files","File successfully converted"));const n=await(0,Nt.t)(s.data.ocs.data.path);(0,L.Ic)("files:node:created",n);const i=s.data.ocs.data.fileId;window.OCP.Files.Router.goToRoute(null,{...window.OCP.Files.Router.params,fileid:i.toString()},window.OCP.Files.Router.query)}catch(s){if((0,U.F0)(s)&&s.response?.data?.ocs?.meta?.message)return void(0,M.Qg)((0,l.t)("files","Failed to convert file: {message}",{message:s.response.data.ocs.meta.message}));D.A.error("Failed to convert file",{fileId:e,targetMimeType:t,error:s}),(0,M.Qg)((0,l.t)("files","Failed to convert file"))}finally{s.hideToast()}}(e.fileid,t),null),execBatch:async e=>(async function(e,t){const s=e.map(e=>ds.add(()=>ms(e,t))),n=(0,M.Cs)((0,l.t)("files","Converting files …"));try{const n=await Promise.allSettled(s),i=n.filter(e=>"rejected"===e.status);if(i.length>0){const s=i.map(e=>e.reason?.response?.data?.ocs?.meta?.message);return D.A.error("Failed to convert files",{fileIds:e,targetMimeType:t,messages:s}),1===new Set(s).size&&"string"==typeof s[0]?void(0,M.Qg)((0,l.t)("files","Failed to convert files: {message}",{message:s[0]})):i.length===e.length?void(0,M.Qg)((0,l.t)("files","All files failed to be converted")):1===i.length&&s[0]?void(0,M.Qg)((0,l.t)("files","One file could not be converted: {message}",{message:s[0]})):((0,M.Qg)((0,l.n)("files","One file could not be converted","%n files could not be converted",i.length)),void(0,M.Te)((0,l.n)("files","One file successfully converted","%n files successfully converted",e.length-i.length)))}(0,M.Te)((0,l.t)("files","Files successfully converted"));const a=window.OCP.Files.Router.query.dir,o=n.filter(e=>"fulfilled"===e.status).map(e=>e.value.data.ocs.data.path).filter(e=>e.startsWith(a));D.A.debug("Files to fetch",{newPaths:o}),(await Promise.all(o.map(e=>(0,Nt.t)(e)))).forEach(e=>(0,L.Ic)("files:node:created",e));const r=n[0].value.data.ocs.data.fileId;window.OCP.Files.Router.goToRoute(null,{...window.OCP.Files.Router.params,fileid:r.toString()},window.OCP.Files.Router.query)}catch(s){(0,M.Qg)((0,l.t)("files","Failed to convert files")),D.A.error("Failed to convert files",{fileIds:e,targetMimeType:t,error:s})}finally{n.hideToast()}}(e.map(e=>e.fileid).filter(Boolean),t),Array(e.length).fill(null)),parent:cs})});(0,n.Gg)(new n.hY({id:cs,displayName:()=>(0,l.t)("files","Save as …"),iconSvgInline:()=>'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-autorenew" viewBox="0 0 24 24"><path d="M12,6V9L16,5L12,1V4A8,8 0 0,0 4,12C4,13.57 4.46,15.03 5.24,16.26L6.7,14.8C6.25,13.97 6,13 6,12A6,6 0 0,1 12,6M18.76,7.74L17.3,9.2C17.74,10.04 18,11 18,12A6,6 0 0,1 12,18V15L8,19L12,23V20A8,8 0 0,0 20,12C20,10.43 19.54,8.97 18.76,7.74Z" /></svg>',enabled:(t,s)=>e.some(e=>e.enabled(t,s)),exec:async()=>null,order:25})),e.forEach(n.Gg)})(),(0,n.Gg)(V),(0,n.Gg)(K),(0,n.Gg)(J),(0,n.Gg)(ie),(0,n.Gg)(ve),(0,n.Gg)(ye),(0,n.Gg)(Te),(0,n.Gg)(Ce),(0,n.Gg)(Se),(0,n.Gg)(Ue),(0,n.zj)(kt),(0,n.zj)(Ct),(0,i.C)("files","templates",[]).forEach((e,t)=>{(0,n.zj)({id:`template-new-${e.app}-${t}`,displayName:e.label,iconClass:e.iconClass||"icon-file",iconSvgInline:e.iconSvgInline,enabled:e=>0!==(e.permissions&n.aX.CREATE),order:11,async handler(t,s){const n=Ut(t),i=await yt(`${e.label}${e.extension}`,s,{label:(0,l.Tl)("files","Filename"),name:e.label});null!==i&&(await n).open(i.trim(),e)}})}),!1===(0,X.f)()&&((async()=>{const e=(0,n.bh)();e.register(new n.Ss({id:"favorites",name:(0,l.t)("files","Favorites"),caption:(0,l.t)("files","List of favorite files and folders."),emptyTitle:(0,l.t)("files","No favorites yet"),emptyCaption:(0,l.t)("files","Files and folders you mark as favorite will show up here"),icon:Q,order:15,columns:[],getContents:Et}));const t=(await(0,_t.Q$)(Nt.S)).filter(e=>e.type===n.pt.Folder),s=t.map((e,t)=>Pt(e,t));D.A.debug("Generating favorites view",{favoriteFolders:t}),s.forEach(t=>e.register(t)),(0,L.B1)("files:favorites:added",e=>{e.type===n.pt.Folder&&(null!==e.path&&e.root?.startsWith("/files")?a(e):D.A.error("Favorite folder is not within user files root",{node:e}))}),(0,L.B1)("files:favorites:removed",e=>{e.type===n.pt.Folder&&(null!==e.path&&e.root?.startsWith("/files")?o(e.path):D.A.error("Favorite folder is not within user files root",{node:e}))}),(0,L.B1)("files:node:renamed",e=>{e.type===n.pt.Folder&&1===e.attributes.favorite&&r(e)});const i=function(){t.sort((e,t)=>e.basename.localeCompare(t.basename,[(0,l.Z0)(),(0,l.lO)()],{ignorePunctuation:!0,numeric:!0,usage:"sort"})),t.forEach((e,t)=>{const n=s.find(t=>t.id===It(e.path));n&&(n.order=t)})},a=function(n){const a=Pt(n);t.find(e=>e.path===n.path)||(t.push(n),s.push(a),i(),e.register(a))},o=function(n){const a=It(n),o=t.findIndex(e=>e.path===n);-1!==o&&(t.splice(o,1),s.splice(o,1),e.remove(a),i())},r=function(e){const s=t.find(t=>t.fileid===e.fileid);void 0!==s&&(o(s.path),a(e))};i()})(),(0,Mt.g)(),(0,jt.L)()&&(0,n.bh)().register(new n.Ss({id:Vt,name:(0,l.t)("files","Personal files"),caption:(0,l.t)("files","List of your files and folders that are not shared."),emptyTitle:(0,l.t)("files","No personal files found"),emptyCaption:(0,l.t)("files","Files that are not shared will show up here."),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-account-outline" viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M12,13C14.67,13 20,14.33 20,17V20H4V17C4,14.33 9.33,13 12,13M12,14.9C9.03,14.9 5.9,16.36 5.9,17V18.1H18.1V17C18.1,16.36 14.97,14.9 12,14.9Z" /></svg>',order:(0,jt.P)()===Vt?0:5,getContents:Dt})),(0,n.bh)().register(new n.Ss({id:"recent",name:(0,l.Tl)("files","Recent"),caption:(0,l.Tl)("files","List of recently modified files and folders."),emptyTitle:(0,l.Tl)("files","No recently modified files"),emptyCaption:(0,l.Tl)("files","Files and folders you recently modified will show up here."),icon:'<svg xmlns="http://www.w3.org/2000/svg" id="mdi-history" viewBox="0 0 24 24"><path d="M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3" /></svg>',order:10,defaultSortKey:"mtime",getContents:function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"/";const t=N((0,F.u)()),s=s=>"/"!==e||t.userConfig.show_hidden||!s.dirname.split("/").some(e=>e.startsWith(".")),i=new AbortController;return new Ft.CancelablePromise(async(e,t,a)=>{a(()=>i.abort()),e((async()=>{const e=(await Nt.S.search("/",{signal:i.signal,details:!0,data:(0,n.R3)(Rt)})).data.results.map(Ot).filter(s);return{folder:new n.vd({id:0,source:`${n.PY}${n.lJ}`,root:n.lJ,owner:(0,d.HW)()?.uid||null,permissions:n.aX.READ}),contents:e}})())})}})),(0,ke.d)(),(async()=>{Jt&&(Qt.register(new n.Ss({id:Ht,name:(0,l.Tl)("files","Folder tree"),caption:(0,l.Tl)("files","List of your files and folders."),icon:re,order:50,getContents:qt})),await ss(),(0,L.B1)("files:node:created",as),(0,L.B1)("files:node:deleted",os),(0,L.B1)("files:node:moved",rs),(0,L.B1)("files:config:updated",ls),(0,L.Ic)("files:folder-tree:initialized"))})()),(0,n.cZ)(new _e),(0,n.cZ)(new nt),(0,n.cZ)(new ct),(0,n.cZ)(new us),(0,n.cZ)(new hs),"serviceWorker"in navigator?window.addEventListener("load",async()=>{try{const e=(0,k.Jv)("/apps/files/preview-service-worker.js",{},{noRewrite:!0});let t=(0,k.aU)();""===t&&(t="/");const s=await navigator.serviceWorker.register(e,{scope:t});D.A.debug("SW registered: ",{registration:s})}catch(e){D.A.error("SW registration failed: ",{error:e})}}):D.A.debug("Service Worker is not enabled on this browser."),(0,n.Yc)("nc:hidden",{nc:"http://nextcloud.org/ns"}),(0,n.Yc)("nc:is-mount-root",{nc:"http://nextcloud.org/ns"}),(0,n.Yc)("nc:metadata-blurhash",{nc:"http://nextcloud.org/ns"}),(0,n.Yc)("nc:metadata-files-live-photo",{nc:"http://nextcloud.org/ns"})},73470:(e,t,s)=>{s.d(t,{A:()=>r});var n=s(71354),i=s.n(n),a=s(76314),o=s.n(a)()(i());o.push([e.id,"\n.file-list-filter-type {\n\tmax-width: 220px;\n}\n","",{version:3,sources:["webpack://./apps/files/src/components/FileListFilter/FileListFilterType.vue"],names:[],mappings:";AAsHA;CACA,gBAAA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n<template>\n\t<FileListFilter class=\"file-list-filter-type\"\n\t\t:is-active=\"isActive\"\n\t\t:filter-name=\"t('files', 'Type')\"\n\t\t@reset-filter=\"resetFilter\">\n\t\t<template #icon>\n\t\t\t<NcIconSvgWrapper :path=\"mdiFileOutline\" />\n\t\t</template>\n\t\t<NcActionButton v-for=\"fileType of typePresets\"\n\t\t\t:key=\"fileType.id\"\n\t\t\ttype=\"checkbox\"\n\t\t\t:model-value=\"selectedOptions.includes(fileType)\"\n\t\t\t@click=\"toggleOption(fileType)\">\n\t\t\t<template #icon>\n\t\t\t\t<NcIconSvgWrapper :svg=\"fileType.icon\" />\n\t\t\t</template>\n\t\t\t{{ fileType.label }}\n\t\t</NcActionButton>\n\t</FileListFilter>\n</template>\n\n<script lang=\"ts\">\nimport type { PropType } from 'vue'\nimport type { ITypePreset } from '../../filters/TypeFilter.ts'\n\nimport { mdiFileOutline } from '@mdi/js'\nimport { translate as t } from '@nextcloud/l10n'\nimport { defineComponent } from 'vue'\n\nimport NcActionButton from '@nextcloud/vue/components/NcActionButton'\nimport NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'\nimport FileListFilter from './FileListFilter.vue'\n\nexport default defineComponent({\n\tname: 'FileListFilterType',\n\n\tcomponents: {\n\t\tFileListFilter,\n\t\tNcActionButton,\n\t\tNcIconSvgWrapper,\n\t},\n\n\tprops: {\n\t\tpresets: {\n\t\t\ttype: Array as PropType<ITypePreset[]>,\n\t\t\tdefault: () => [],\n\t\t},\n\t\ttypePresets: {\n\t\t\ttype: Array as PropType<ITypePreset[]>,\n\t\t\trequired: true,\n\t\t},\n\t},\n\n\tsetup() {\n\t\treturn {\n\t\t\tmdiFileOutline,\n\t\t\tt,\n\t\t}\n\t},\n\n\tdata() {\n\t\treturn {\n\t\t\tselectedOptions: [] as ITypePreset[],\n\t\t}\n\t},\n\n\tcomputed: {\n\t\tisActive() {\n\t\t\treturn this.selectedOptions.length > 0\n\t\t},\n\t},\n\n\twatch: {\n\t\t/** Reset selected options if property is changed */\n\t\tpresets() {\n\t\t\tthis.selectedOptions = this.presets ?? []\n\t\t},\n\t\tselectedOptions(newValue, oldValue) {\n\t\t\tif (this.selectedOptions.length === 0) {\n\t\t\t\tif (oldValue.length !== 0) {\n\t\t\t\t\tthis.$emit('update:presets')\n\t\t\t\t}\n\t\t\t} else {\n\t\t\t\tthis.$emit('update:presets', this.selectedOptions)\n\t\t\t}\n\t\t},\n\t},\n\n\tmounted() {\n\t\tthis.selectedOptions = this.presets ?? []\n\t},\n\n\tmethods: {\n\t\tresetFilter() {\n\t\t\tthis.selectedOptions = []\n\t\t},\n\n\t\t/**\n\t\t * Toggle option from selected option\n\t\t * @param option The option to toggle\n\t\t */\n\t\ttoggleOption(option: ITypePreset) {\n\t\t\tconst idx = this.selectedOptions.indexOf(option)\n\t\t\tif (idx !== -1) {\n\t\t\t\tthis.selectedOptions.splice(idx, 1)\n\t\t\t} else {\n\t\t\t\tthis.selectedOptions.push(option)\n\t\t\t}\n\t\t},\n\t},\n})\n<\/script>\n\n<style>\n.file-list-filter-type {\n\tmax-width: 220px;\n}\n</style>\n"],sourceRoot:""}]);const r=o},77815:(e,t,s)=>{s.d(t,{CP:()=>n.k,KU:()=>n.c,Q$:()=>n.e,VA:()=>n.d,VX:()=>n.j,Xn:()=>n.b,aN:()=>n.l,ei:()=>n.g,pO:()=>n.r});var n=s(68896)},82736:(e,t,s)=>{s.d(t,{j:()=>m});var n=s(61338),i=s(17334),a=s.n(i),o=s(65899),r=s(85471),l=s(53775),d=s(9558);const m=(0,o.nY)("search",()=>{const e=(0,r.KR)(""),t=(0,r.KR)("filter");(0,r.wB)(t,i),(0,r.wB)(e,(e,t)=>{e.trim()!==t.trim()&&i()}),function(){(0,n.B1)("files:navigation:changed",o);const s=window.OCP.Files.Router;s.params.view===l.w&&(e.value=[s.query.query].flat()[0]??"",e.value?(t.value="globally",d.A.debug("Directly navigated to search view",{query:e.value})):(d.A.info("Directly navigated to search view without any query, redirect to files view."),s.goToRoute(void 0,{...s.params,view:"files"},{...s.query,query:void 0},!0)))}();const s=a()(t=>{window.OCP.Files.Router.goToRoute(void 0,{view:l.w},{query:e.value},t)});function i(){(0,n.Ic)("files:search:updated",{query:e.value,scope:t.value});const i=window.OCP.Files.Router;if(i.params.view===l.w&&(""===e.value||"filter"===t.value))return t.value="filter",i.goToRoute(void 0,{view:"files"},{...i.query,query:void 0});if("filter"===t.value||!e.value)return;const a=i.params.view===l.w;d.A.debug("Update route for updated search query",{query:e.value,isSearch:a}),s(a)}function o(s){s.id!==l.w&&(e.value="",t.value="filter")}return{query:e,scope:t}})},85748:(e,t,s)=>{s.d(t,{a:()=>B,b:()=>A,h:()=>X,i:()=>D,l:()=>E,n:()=>W,o:()=>Q,t:()=>N}),s(91543);var n=s(82680),i=s(85471),a=s(21777),o=s(35810),r=s(71225),l=s(43627),d=s(87485),m=s(65043),c=s(53553),g=s(49264),u=s(11195),f=s(63814),p=s(11950),h=s(35947),w=s(380),v=s(94205),b=s(57505),y=s(61744),k=s(15502),T=s(24764),x=s(21376),C=s(6695),L=s(95101),S=s(85168);const U=(0,u.$)().detectLocale();[{locale:"af",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Afrikaans (https://www.transifex.com/nextcloud/teams/64236/af/)","Content-Type":"text/plain; charset=UTF-8",Language:"af","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Afrikaans (https://www.transifex.com/nextcloud/teams/64236/af/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: af\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"ar",json:{charset:"utf-8",headers:{"Last-Translator":"Ali <alimahwer@yahoo.com>, 2025","Language-Team":"Arabic (https://app.transifex.com/nextcloud/teams/64236/ar/)","Content-Type":"text/plain; charset=UTF-8",Language:"ar","Plural-Forms":"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nabu.s3ud, 2024\nAli <alimahwer@yahoo.com>, 2025\n"},msgstr:["Last-Translator: Ali <alimahwer@yahoo.com>, 2025\nLanguage-Team: Arabic (https://app.transifex.com/nextcloud/teams/64236/ar/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ar\nPlural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" هو اسم ممنوع لملف أو مجلد.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" هو نوع ممنوع أن يكون لملف.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" هو غير مسموح به في اسم ملف أو مجلد.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} ملف متعارض","{count} ملف متعارض","{count} ملفان متعارضان","{count} ملف متعارض","{count} ملفات متعارضة","{count} ملفات متعارضة"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} ملف متعارض في {dirname}","{count} ملف متعارض في {dirname}","{count} ملفان متعارضان في {dirname}","{count} ملف متعارض في {dirname}","{count} ملفات متعارضة في {dirname}","{count} ملفات متعارضة في {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["مازال {seconds} ثوانٍ","مازال {seconds} ثوانٍ","مازال {seconds} ثوانٍ","مازال {seconds} ثوانٍ","مازال {seconds} ثوانٍ","مازال {seconds} ثوانٍ"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} متبقية"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["بضع ثوانٍ متبقية"]},assembling:{msgid:"assembling",msgstr:["تجميع"]},Cancel:{msgid:"Cancel",msgstr:["إلغاء"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["إلغِ العملية بالكامل"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["إلغاء عمليات رفع الملفات"]},Continue:{msgid:"Continue",msgstr:["إستمر"]},"Create new":{msgid:"Create new",msgstr:["إنشاء جديد"]},"estimating time left":{msgid:"estimating time left",msgstr:["تقدير الوقت المتبقي"]},"Existing version":{msgid:"Existing version",msgstr:["الإصدار الحالي"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["تعذّرت إعادة تجميع الكتل معاً "]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["تعذّر رفع الملف"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['غير مسموح ان ينتهي اسم الملف بـ "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["إذا اخترت الاحتفاظ بالنسختين فسيتم إلحاق رقم عداد آخر اسم الملف الوارد."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["اسم ملف غير صحيح"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["تاريخ آخر تعديل غير معروف"]},New:{msgid:"New",msgstr:["جديد"]},"New filename":{msgid:"New filename",msgstr:["اسم ملف جديد"]},"New version":{msgid:"New version",msgstr:["نسخة جديدة"]},paused:{msgid:"paused",msgstr:["مُجمَّد"]},"Preview image":{msgid:"Preview image",msgstr:["معاينة الصورة"]},Rename:{msgid:"Rename",msgstr:["تغيير التسمية"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["حدِّد كل صناديق الخيارات"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["حدِّد كل الملفات الموجودة"]},"Select all new files":{msgid:"Select all new files",msgstr:["حدِّد كل الملفات الجديدة"]},Skip:{msgid:"Skip",msgstr:["تخطِّي"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["تخطَّ {count} ملف","تخطَّ {count} ملف","تخطَّ {count} ملف","تخطَّ {count} ملف","تخطَّ {count} ملف","تخطَّ {count} ملف"]},"Unknown size":{msgid:"Unknown size",msgstr:["حجم غير معلوم"]},Upload:{msgid:"Upload",msgstr:["رفع الملفات"]},"Upload files":{msgid:"Upload files",msgstr:["رفع ملفات"]},"Upload folders":{msgid:"Upload folders",msgstr:["رفع مجلدات"]},"Upload from device":{msgid:"Upload from device",msgstr:["الرفع من جهاز "]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["تمّ إلغاء عملية رفع الملفات"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["تمّ تجاوز الرفع"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['رفع "{folder}" تمّ تجاوزه']},"Upload progress":{msgid:"Upload progress",msgstr:["تقدُّم الرفع "]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["عند تحديد مجلد وارد، أي ملفات متعارضة بداخله ستتم الكتابة فوقها."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["عند تحديد مجلد وارد، ستتم كتابة المحتوى في المجلد الموجود و سيتم تنفيذ حل التعارض بشكل تعاوُدي."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["أيُّ الملفات ترغب في الإبقاء عليها؟"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["يمكنك إمّا تغيير اسم الملف، أو تجاوزه، أو إلغاء العملية برُمَّتها."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["يجب أن تختار نسخة واحدة على الأقل من كل ملف للاستمرار."]}}}}},{locale:"ast",json:{charset:"utf-8",headers:{"Last-Translator":"enolp <enolp@softastur.org>, 2023","Language-Team":"Asturian (https://app.transifex.com/nextcloud/teams/64236/ast/)","Content-Type":"text/plain; charset=UTF-8",Language:"ast","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nenolp <enolp@softastur.org>, 2023\n"},msgstr:["Last-Translator: enolp <enolp@softastur.org>, 2023\nLanguage-Team: Asturian (https://app.transifex.com/nextcloud/teams/64236/ast/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ast\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} ficheru en coflictu","{count} ficheros en coflictu"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} ficheru en coflictu en {dirname}","{count} ficheros en coflictu en {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["Queden {seconds} segundos"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["Tiempu que queda: {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["queden unos segundos"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Encaboxar les xubes"]},Continue:{msgid:"Continue",msgstr:["Siguir"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimando'l tiempu que falta"]},"Existing version":{msgid:"Existing version",msgstr:["Versión esistente"]},"If you select both versions, the copied file will have a number added to its name.":{msgid:"If you select both versions, the copied file will have a number added to its name.",msgstr:["Si seleiciones dambes versiones, el ficheru copiáu va tener un númberu amestáu al so nome."]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["La data de la última modificación ye desconocida"]},New:{msgid:"New",msgstr:["Nuevu"]},"New version":{msgid:"New version",msgstr:["Versión nueva"]},paused:{msgid:"paused",msgstr:["en posa"]},"Preview image":{msgid:"Preview image",msgstr:["Previsualizar la imaxe"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Marcar toles caxelles"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Seleicionar tolos ficheros esistentes"]},"Select all new files":{msgid:"Select all new files",msgstr:["Seleicionar tolos ficheros nuevos"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Saltar esti ficheru","Saltar {count} ficheros"]},"Unknown size":{msgid:"Unknown size",msgstr:["Tamañu desconocíu"]},"Upload cancelled":{msgid:"Upload cancelled",msgstr:["Encaboxóse la xuba"]},"Upload files":{msgid:"Upload files",msgstr:["Xubir ficheros"]},"Upload progress":{msgid:"Upload progress",msgstr:["Xuba en cursu"]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["¿Qué ficheros quies caltener?"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Tienes de seleicionar polo menos una versión de cada ficheru pa siguir."]}}}}},{locale:"az",json:{charset:"utf-8",headers:{"Last-Translator":"Rashad Aliyev <microphprashad@gmail.com>, 2023","Language-Team":"Azerbaijani (https://app.transifex.com/nextcloud/teams/64236/az/)","Content-Type":"text/plain; charset=UTF-8",Language:"az","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nRashad Aliyev <microphprashad@gmail.com>, 2023\n"},msgstr:["Last-Translator: Rashad Aliyev <microphprashad@gmail.com>, 2023\nLanguage-Team: Azerbaijani (https://app.transifex.com/nextcloud/teams/64236/az/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: az\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} saniyə qalıb"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["{time} qalıb"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["bir neçə saniyə qalıb"]},Add:{msgid:"Add",msgstr:["Əlavə et"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Yükləməni imtina et"]},"estimating time left":{msgid:"estimating time left",msgstr:["Təxmini qalan vaxt"]},paused:{msgid:"paused",msgstr:["pauzadadır"]},"Upload files":{msgid:"Upload files",msgstr:["Faylları yüklə"]}}}}},{locale:"be",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Belarusian (https://www.transifex.com/nextcloud/teams/64236/be/)","Content-Type":"text/plain; charset=UTF-8",Language:"be","Plural-Forms":"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Belarusian (https://www.transifex.com/nextcloud/teams/64236/be/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: be\nPlural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"bg",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Bulgarian (Bulgaria) (https://www.transifex.com/nextcloud/teams/64236/bg_BG/)","Content-Type":"text/plain; charset=UTF-8",Language:"bg_BG","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Bulgarian (Bulgaria) (https://www.transifex.com/nextcloud/teams/64236/bg_BG/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: bg_BG\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"bn_BD",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Bengali (Bangladesh) (https://www.transifex.com/nextcloud/teams/64236/bn_BD/)","Content-Type":"text/plain; charset=UTF-8",Language:"bn_BD","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Bengali (Bangladesh) (https://www.transifex.com/nextcloud/teams/64236/bn_BD/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: bn_BD\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"br",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Breton (https://www.transifex.com/nextcloud/teams/64236/br/)","Content-Type":"text/plain; charset=UTF-8",Language:"br","Plural-Forms":"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Breton (https://www.transifex.com/nextcloud/teams/64236/br/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: br\nPlural-Forms: nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"bs",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Bosnian (https://www.transifex.com/nextcloud/teams/64236/bs/)","Content-Type":"text/plain; charset=UTF-8",Language:"bs","Plural-Forms":"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Bosnian (https://www.transifex.com/nextcloud/teams/64236/bs/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: bs\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"ca",json:{charset:"utf-8",headers:{"Last-Translator":"Toni Hermoso Pulido <toniher@softcatala.cat>, 2022","Language-Team":"Catalan (https://www.transifex.com/nextcloud/teams/64236/ca/)","Content-Type":"text/plain; charset=UTF-8",Language:"ca","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nMarc Riera <marcriera@softcatala.org>, 2022\nToni Hermoso Pulido <toniher@softcatala.cat>, 2022\n"},msgstr:["Last-Translator: Toni Hermoso Pulido <toniher@softcatala.cat>, 2022\nLanguage-Team: Catalan (https://www.transifex.com/nextcloud/teams/64236/ca/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ca\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["Queden {seconds} segons"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["Queden {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["Queden uns segons"]},Add:{msgid:"Add",msgstr:["Afegeix"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cancel·la les pujades"]},"estimating time left":{msgid:"estimating time left",msgstr:["S'està estimant el temps restant"]},paused:{msgid:"paused",msgstr:["En pausa"]},"Upload files":{msgid:"Upload files",msgstr:["Puja els fitxers"]}}}}},{locale:"cs",json:{charset:"utf-8",headers:{"Last-Translator":"Pavel Borecki <pavel.borecki@gmail.com>, 2025","Language-Team":"Czech (Czech Republic) (https://app.transifex.com/nextcloud/teams/64236/cs_CZ/)","Content-Type":"text/plain; charset=UTF-8",Language:"cs_CZ","Plural-Forms":"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nMichal Šmahel <ceskyDJ@seznam.cz>, 2024\nMartin Hankovec, 2024\nAppukonrad <appukonrad@gmail.com>, 2024\nPavel Borecki <pavel.borecki@gmail.com>, 2025\n"},msgstr:["Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>, 2025\nLanguage-Team: Czech (Czech Republic) (https://app.transifex.com/nextcloud/teams/64236/cs_CZ/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: cs_CZ\nPlural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:["„{segment}“ není povoleno použít jako název souboru či složky."]},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:["„{segment}“ není povoleného typu souboru."]},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:["„{segment}“ není povoleno použít v rámci názvu souboru či složky."]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} kolize souborů","{count} kolize souborů","{count} kolizí souborů","{count} kolize souborů"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} kolize souboru v {dirname}","{count} kolize souboru v {dirname}","{count} kolizí souborů v {dirname}","{count} kolize souboru v {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["zbývá {seconds}","zbývají {seconds}","zbývá {seconds}","zbývají {seconds}"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["zbývá {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["zbývá několik sekund"]},assembling:{msgid:"assembling",msgstr:["sestavování"]},Cancel:{msgid:"Cancel",msgstr:["Zrušit"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Zrušit celou operaci"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Zrušit nahrávání"]},Continue:{msgid:"Continue",msgstr:["Pokračovat"]},"Create new":{msgid:"Create new",msgstr:["Vytvořit nový"]},"estimating time left":{msgid:"estimating time left",msgstr:["odhaduje se zbývající čas"]},"Existing version":{msgid:"Existing version",msgstr:["Existující verze"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Shluky se nepodařilo dát dohromady"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Soubor se nepodařilo nahrát"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:["Názvy souborů nemohou končit na „{segment}“."]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Pokud vyberete obě verze, příchozí soubor bude mít ke jménu přidánu číslici."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Neplatný název souboru"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Neznámé datum poslední úpravy"]},New:{msgid:"New",msgstr:["Nové"]},"New filename":{msgid:"New filename",msgstr:["Nový název souboru"]},"New version":{msgid:"New version",msgstr:["Nová verze"]},paused:{msgid:"paused",msgstr:["pozastaveno"]},"Preview image":{msgid:"Preview image",msgstr:["Náhled obrázku"]},Rename:{msgid:"Rename",msgstr:["Přejmenovat"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Označit všechny zaškrtávací kolonky"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Vybrat veškeré stávající soubory"]},"Select all new files":{msgid:"Select all new files",msgstr:["Vybrat veškeré nové soubory"]},Skip:{msgid:"Skip",msgstr:["Přeskočit"]},"Skip {count} file":{msgid:"Skip {count} file",msgid_plural:"Skip {count} files",msgstr:["Přeskočit {count} soubor","Přeskočit {count} soubory","Přeskočit {count} souborů","Přeskočit {count} soubory"]},"Skip this file":{msgid:"Skip this file",msgstr:["Přeskočit tento soubor"]},"Unknown size":{msgid:"Unknown size",msgstr:["Neznámá velikost"]},Upload:{msgid:"Upload",msgstr:["Nahrát"]},"Upload files":{msgid:"Upload files",msgstr:["Nahrát soubory"]},"Upload folders":{msgid:"Upload folders",msgstr:["Nahrát složky"]},"Upload from device":{msgid:"Upload from device",msgstr:["Nahrát ze zařízení"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Nahrávání bylo zrušeno"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Nahrání bylo přeskočeno"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:["Nahrání „{folder}“ bylo přeskočeno"]},"Upload progress":{msgid:"Upload progress",msgstr:["Postup v nahrávání"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Po výběru příchozí složky budou rovněž přepsány všechny v ní obsažené konfliktní soubory"]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Když je vybrána příchozí složka, obsah je zapsán do existující složky a je provedeno rekurzivní řešení kolizí."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Které soubory si přejete ponechat?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Soubor je možné buď přejmenovat, přeskočit nebo celou operaci zrušit."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Aby bylo možné pokračovat, je třeba vybrat alespoň jednu verzi od každého souboru."]}}}}},{locale:"cy_GB",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Welsh (United Kingdom) (https://www.transifex.com/nextcloud/teams/64236/cy_GB/)","Content-Type":"text/plain; charset=UTF-8",Language:"cy_GB","Plural-Forms":"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Welsh (United Kingdom) (https://www.transifex.com/nextcloud/teams/64236/cy_GB/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: cy_GB\nPlural-Forms: nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"da",json:{charset:"utf-8",headers:{"Last-Translator":"Martin Bonde <Martin@maboni.dk>, 2025","Language-Team":"Danish (https://app.transifex.com/nextcloud/teams/64236/da/)","Content-Type":"text/plain; charset=UTF-8",Language:"da","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nRasmus Rosendahl-Kaa, 2024\nMartin Bonde <Martin@maboni.dk>, 2025\n"},msgstr:["Last-Translator: Martin Bonde <Martin@maboni.dk>, 2025\nLanguage-Team: Danish (https://app.transifex.com/nextcloud/teams/64236/da/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: da\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" er et forbudt fil- eller mappenavn.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" er en forbudt filtype.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" er ikke tilladt i et fil- eller mappenavn.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} fil konflikt","{count} filer i konflikt"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} fil konflikt i {dirname}","{count} filer i konflikt i {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{sekunder} sekunder tilbage","{sekunder} sekunder tilbage"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} tilbage"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["et par sekunder tilbage"]},assembling:{msgid:"assembling",msgstr:["samling"]},Cancel:{msgid:"Cancel",msgstr:["Annuller"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Annuller hele handlingen"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Annuller uploads"]},Continue:{msgid:"Continue",msgstr:["Fortsæt"]},"Create new":{msgid:"Create new",msgstr:["Opret ny"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimering af resterende tid"]},"Existing version":{msgid:"Existing version",msgstr:["Eksisterende version"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Mislykkedes at samle stumperne sammen"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Kunne ikke uploade filen"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Filnavne må ikke slutte med "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Hvis du vælger begge versioner, vil den indkommende fil have et nummer tilføjet til sit navn."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Ugyldigt filnavn"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Sidste modifikationsdato ukendt"]},New:{msgid:"New",msgstr:["Ny"]},"New filename":{msgid:"New filename",msgstr:["Nyt filnavn"]},"New version":{msgid:"New version",msgstr:["Ny version"]},paused:{msgid:"paused",msgstr:["pauset"]},"Preview image":{msgid:"Preview image",msgstr:["Forhåndsvisning af billede"]},Rename:{msgid:"Rename",msgstr:["Omdøb"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Vælg alle felter"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Vælg alle eksisterende filer"]},"Select all new files":{msgid:"Select all new files",msgstr:["Vælg alle nye filer"]},Skip:{msgid:"Skip",msgstr:["Spring over"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Spring denne fil over","Spring {count} filer over"]},"Unknown size":{msgid:"Unknown size",msgstr:["Ukendt størrelse"]},Upload:{msgid:"Upload",msgstr:["Upload"]},"Upload files":{msgid:"Upload files",msgstr:["Upload filer"]},"Upload folders":{msgid:"Upload folders",msgstr:["Upload mapper"]},"Upload from device":{msgid:"Upload from device",msgstr:["Upload fra enhed"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Upload er blevet annulleret"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Upload er blevet sprunget over"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Upload af "{folder}" er blevet sprunget over']},"Upload progress":{msgid:"Upload progress",msgstr:["Upload fremskridt"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Når en indgående mappe er valgt, vil alle modstridende filer i den også blive overskrevet."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Når en indkommende mappe er valgt, vil dens indhold blive skrevet ind i den eksisterende mappe og en rekursiv konfliktløsning udføres."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Hvilke filer ønsker du at beholde?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Du kan enten omdøbe filen, springe denne fil over eller annullere hele handlingen."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Du skal vælge mindst én version af hver fil for at fortsætte."]}}}}},{locale:"de",json:{charset:"utf-8",headers:{"Last-Translator":"Mario Siegmann <mario_siegmann@web.de>, 2025","Language-Team":"German (https://app.transifex.com/nextcloud/teams/64236/de/)","Content-Type":"text/plain; charset=UTF-8",Language:"de","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nAndy Scherzinger <info@andy-scherzinger.de>, 2024\nMartin Wilichowski, 2025\nMark Ziegler <mark.ziegler@rakekniven.de>, 2025\nMario Siegmann <mario_siegmann@web.de>, 2025\n"},msgstr:["Last-Translator: Mario Siegmann <mario_siegmann@web.de>, 2025\nLanguage-Team: German (https://app.transifex.com/nextcloud/teams/64236/de/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: de\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" ist ein verbotener Datei- oder Ordnername.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" ist ein verbotener Dateityp.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" ist in einem Datei- oder Ordnernamen nicht zulässig.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} Datei-Konflikt","{count} Datei-Konflikte"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} Datei-Konflikt in {dirname}","{count} Datei-Konflikte in {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} Sekunde verbleibt","{seconds} Sekunden verbleiben"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} verbleibend"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["ein paar Sekunden verbleiben"]},assembling:{msgid:"assembling",msgstr:["zusammenfügen"]},Cancel:{msgid:"Cancel",msgstr:["Abbrechen"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Den gesamten Vorgang abbrechen"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Hochladen abbrechen"]},Continue:{msgid:"Continue",msgstr:["Fortsetzen"]},"Create new":{msgid:"Create new",msgstr:["Neu erstellen"]},"estimating time left":{msgid:"estimating time left",msgstr:["Berechne verbleibende Zeit"]},"Existing version":{msgid:"Existing version",msgstr:["Vorhandene Version"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Das Zusammenfügen der Teile ist fehlgeschlagen"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Das Hochladen der Datei ist fehlgeschlagen"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Dateinamen dürfen nicht mit "{segment}" enden.']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Wenn du beide Versionen auswählst, wird der eingehenden Datei eine Nummer zum Namen hinzugefügt."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Ungültiger Dateiname"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Datum der letzten Änderung unbekannt"]},New:{msgid:"New",msgstr:["Neu"]},"New filename":{msgid:"New filename",msgstr:["Neuer Dateiname"]},"New version":{msgid:"New version",msgstr:["Neue Version"]},paused:{msgid:"paused",msgstr:["Pausiert"]},"Preview image":{msgid:"Preview image",msgstr:["Vorschaubild"]},Rename:{msgid:"Rename",msgstr:["Umbenennen"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Alle Kontrollkästchen aktivieren"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Alle vorhandenen Dateien auswählen"]},"Select all new files":{msgid:"Select all new files",msgstr:["Alle neuen Dateien auswählen"]},Skip:{msgid:"Skip",msgstr:["Überspringen"]},"Skip {count} file":{msgid:"Skip {count} file",msgid_plural:"Skip {count} files",msgstr:["{count} Datei überspringen","{count} Dateien überspringen"]},"Skip this file":{msgid:"Skip this file",msgstr:["Diese Datei überspringen"]},"Unknown size":{msgid:"Unknown size",msgstr:["Unbekannte Größe"]},Upload:{msgid:"Upload",msgstr:["Hochladen"]},"Upload files":{msgid:"Upload files",msgstr:["Dateien hochladen"]},"Upload folders":{msgid:"Upload folders",msgstr:["Ordner hochladen"]},"Upload from device":{msgid:"Upload from device",msgstr:["Vom Gerät hochladen"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Das Hochladen wurde abgebrochen"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Das Hochladen wurde übersprungen"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Das Hochladen von "{folder}" wurde übersprungen']},"Upload progress":{msgid:"Upload progress",msgstr:["Fortschritt beim Hochladen"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Wenn ein eingehender Ordner ausgewählt wird, werden alle darin enthaltenen Konfliktdateien ebenfalls überschrieben."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Bei Auswahl eines eingehenden Ordners wird der Inhalt in den vorhandenen Ordner geschrieben und eine rekursive Konfliktlösung durchgeführt."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Welche Dateien möchtest du behalten?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Du kannst die Datei entweder umbenennen, diese Datei überspringen oder den gesamten Vorgang abbrechen."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Du musst mindestens eine Version jeder Datei auswählen, um fortzufahren."]}}}}},{locale:"de_DE",json:{charset:"utf-8",headers:{"Last-Translator":"Mario Siegmann <mario_siegmann@web.de>, 2025","Language-Team":"German (Germany) (https://app.transifex.com/nextcloud/teams/64236/de_DE/)","Content-Type":"text/plain; charset=UTF-8",Language:"de_DE","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nMartin Wilichowski, 2025\nMark Ziegler <mark.ziegler@rakekniven.de>, 2025\nMario Siegmann <mario_siegmann@web.de>, 2025\n"},msgstr:["Last-Translator: Mario Siegmann <mario_siegmann@web.de>, 2025\nLanguage-Team: German (Germany) (https://app.transifex.com/nextcloud/teams/64236/de_DE/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: de_DE\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" ist ein verbotener Datei- oder Ordnername.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" ist ein verbotener Dateityp.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" ist in einem Datei- oder Ordnernamen nicht zulässig.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} Datei-Konflikt","{count} Datei-Konflikte"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} Datei-Konflikt in {dirname}","{count} Datei-Konflikte in {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} Sekunde verbleibt","{seconds} Sekunden verbleiben"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} verbleibend"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["ein paar Sekunden verbleiben"]},assembling:{msgid:"assembling",msgstr:["zusammenfügen"]},Cancel:{msgid:"Cancel",msgstr:["Abbrechen"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Den gesamten Vorgang abbrechen"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Hochladen abbrechen"]},Continue:{msgid:"Continue",msgstr:["Fortsetzen"]},"Create new":{msgid:"Create new",msgstr:["Neu erstellen"]},"estimating time left":{msgid:"estimating time left",msgstr:["Berechne verbleibende Zeit"]},"Existing version":{msgid:"Existing version",msgstr:["Vorhandene Version"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Das Zusammenfügen der Teile ist fehlgeschlagen"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Beim Hochladen der Datei ist ein Fehler aufgetreten"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Dateinamen dürfen nicht mit "{segment}" enden.']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Wenn Sie beide Versionen auswählen, wird der eingehenden Datei eine Nummer zum Namen hinzugefügt."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Ungültiger Dateiname"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Datum der letzten Änderung unbekannt"]},New:{msgid:"New",msgstr:["Neu"]},"New filename":{msgid:"New filename",msgstr:["Neuer Dateiname"]},"New version":{msgid:"New version",msgstr:["Neue Version"]},paused:{msgid:"paused",msgstr:["Pausiert"]},"Preview image":{msgid:"Preview image",msgstr:["Vorschaubild"]},Rename:{msgid:"Rename",msgstr:["Umbenennen"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Alle Kontrollkästchen aktivieren"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Alle vorhandenen Dateien auswählen"]},"Select all new files":{msgid:"Select all new files",msgstr:["Alle neuen Dateien auswählen"]},Skip:{msgid:"Skip",msgstr:["Überspringen"]},"Skip {count} file":{msgid:"Skip {count} file",msgid_plural:"Skip {count} files",msgstr:["{count} Datei überspringen","{count} Dateien überspringen"]},"Skip this file":{msgid:"Skip this file",msgstr:["Diese Datei überspringen"]},"Unknown size":{msgid:"Unknown size",msgstr:["Unbekannte Größe"]},Upload:{msgid:"Upload",msgstr:["Hochladen"]},"Upload files":{msgid:"Upload files",msgstr:["Dateien hochladen"]},"Upload folders":{msgid:"Upload folders",msgstr:["Ordner hochladen"]},"Upload from device":{msgid:"Upload from device",msgstr:["Vom Gerät hochladen"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Das Hochladen wurde abgebrochen"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Das Hochladen wurde übersprungen"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Das Hochladen von "{folder}" wurde übersprungen']},"Upload progress":{msgid:"Upload progress",msgstr:["Fortschritt beim Hochladen"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Wenn ein eingehender Ordner ausgewählt wird, werden alle darin enthaltenen Konfliktdateien ebenfalls überschrieben."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Bei Auswahl eines eingehenden Ordners wird der Inhalt in den vorhandenen Ordner geschrieben und eine rekursive Konfliktlösung durchgeführt."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Welche Dateien möchten Sie behalten?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Sie können die Datei entweder umbenennen, diese Datei überspringen oder den gesamten Vorgang abbrechen."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Sie müssen mindestens eine Version jeder Datei auswählen, um fortzufahren."]}}}}},{locale:"el",json:{charset:"utf-8",headers:{"Last-Translator":"Efstathios Iosifidis <iefstathios@gmail.com>, 2025","Language-Team":"Greek (https://app.transifex.com/nextcloud/teams/64236/el/)","Content-Type":"text/plain; charset=UTF-8",Language:"el","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nEfstathios Iosifidis <iefstathios@gmail.com>, 2025\n"},msgstr:["Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>, 2025\nLanguage-Team: Greek (https://app.transifex.com/nextcloud/teams/64236/el/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: el\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['Το "{segment}" είναι απαγορευμένο όνομα αρχείου ή φακέλου.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['Το "{segment}" είναι απαγορευμένος τύπος αρχείου.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['Το "{segment}" δεν επιτρέπεται μέσα στο όνομα ενός αρχείου ή φακέλου.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} αρχείο σε διένεξη","{count} αρχεία σε διένεξη"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} αρχείο σε διένεξη στον φάκελο {dirname}","{count} αρχεία σε διένεξη στον φάκελο {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["Απομένει {seconds} δευτερόλεπτο","Απομένουν {seconds} δευτερόλεπτα"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["απομένουν {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["απομένουν λίγα δευτερόλεπτα"]},assembling:{msgid:"assembling",msgstr:["συναρμολόγηση"]},Cancel:{msgid:"Cancel",msgstr:["Ακύρωση"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Ακύρωση όλης της λειτουργίας"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Ακύρωση μεταφορτώσεων"]},Continue:{msgid:"Continue",msgstr:["Συνέχεια"]},"Create new":{msgid:"Create new",msgstr:["Δημιουργία νέου"]},"estimating time left":{msgid:"estimating time left",msgstr:["εκτίμηση του χρόνου που απομένει"]},"Existing version":{msgid:"Existing version",msgstr:["Υπάρχουσα έκδοση"]},"Failed assembling the chunks together":{msgid:"Failed assembling the chunks together",msgstr:["Αποτυχία συναρμολόγησης των τμημάτων"]},"Failed uploading the file":{msgid:"Failed uploading the file",msgstr:["Αποτυχία μεταφόρτωσης του αρχείου"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Τα ονόματα αρχείων δεν πρέπει να τελειώνουν με "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Αν επιλέξετε και τις δύο εκδόσεις, το εισερχόμενο αρχείο θα έχει έναν αριθμό προσαρτημένο στο όνομά του."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Μη έγκυρο όνομα αρχείου"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Άγνωστη ημερομηνία τελευταίας τροποποίησης"]},New:{msgid:"New",msgstr:["Νέο"]},"New filename":{msgid:"New filename",msgstr:["Νέο όνομα αρχείου"]},"New version":{msgid:"New version",msgstr:["Νέα έκδοση"]},paused:{msgid:"paused",msgstr:["σε παύση"]},"Preview image":{msgid:"Preview image",msgstr:["Προεπισκόπηση εικόνας"]},Rename:{msgid:"Rename",msgstr:["Μετονομασία"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Επιλογή όλων των πλαισίων ελέγχου"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Επιλογή όλων των υπαρχόντων αρχείων"]},"Select all new files":{msgid:"Select all new files",msgstr:["Επιλογή όλων των νέων αρχείων"]},Skip:{msgid:"Skip",msgstr:["Παράλειψη"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Παράλειψη αυτού του αρχείου","Παράλειψη {count} αρχείων"]},"Unknown size":{msgid:"Unknown size",msgstr:["Άγνωστο μέγεθος"]},Upload:{msgid:"Upload",msgstr:["Μεταφόρτωση"]},"Upload files":{msgid:"Upload files",msgstr:["Μεταφόρτωση αρχείων"]},"Upload folders":{msgid:"Upload folders",msgstr:["Μεταφόρτωση φακέλων"]},"Upload from device":{msgid:"Upload from device",msgstr:["Μεταφόρτωση από συσκευή"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Η μεταφόρτωση ακυρώθηκε"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Η μεταφόρτωση παραλείφθηκε"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Η μεταφόρτωση του "{folder}" παραλείφθηκε']},"Upload progress":{msgid:"Upload progress",msgstr:["Πρόοδος μεταφόρτωσης"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Όταν επιλέγεται ένας εισερχόμενος φάκελος, όλα τα αρχεία σε διένεξη μέσα σε αυτόν θα αντικατασταθούν."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Όταν επιλέγεται ένας εισερχόμενος φάκελος, το περιεχόμενό του γράφεται στον υπάρχοντα φάκελο και εκτελείται αναδρομική επίλυση διενέξεων."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Ποια αρχεία θέλετε να διατηρήσετε;"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Μπορείτε είτε να μετονομάσετε το αρχείο, να παραλείψετε αυτό το αρχείο ή να ακυρώσετε όλη τη λειτουργία."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Πρέπει να επιλέξετε τουλάχιστον μία έκδοση κάθε αρχείου για να συνεχίσετε."]}}}}},{locale:"en_GB",json:{charset:"utf-8",headers:{"Last-Translator":"Andi Chandler <andi@gowling.com>, 2025","Language-Team":"English (United Kingdom) (https://app.transifex.com/nextcloud/teams/64236/en_GB/)","Content-Type":"text/plain; charset=UTF-8",Language:"en_GB","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nAndi Chandler <andi@gowling.com>, 2025\n"},msgstr:["Last-Translator: Andi Chandler <andi@gowling.com>, 2025\nLanguage-Team: English (United Kingdom) (https://app.transifex.com/nextcloud/teams/64236/en_GB/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: en_GB\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" is a forbidden file or folder name.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" is a forbidden file type.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" is not allowed inside a file or folder name.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} file conflict","{count} files conflict"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} file conflict in {dirname}","{count} file conflicts in {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} seconds left","{seconds} seconds left"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} left"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["a few seconds left"]},assembling:{msgid:"assembling",msgstr:["assembling"]},Cancel:{msgid:"Cancel",msgstr:["Cancel"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Cancel the entire operation"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cancel uploads"]},Continue:{msgid:"Continue",msgstr:["Continue"]},"Create new":{msgid:"Create new",msgstr:["Create new"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimating time left"]},"Existing version":{msgid:"Existing version",msgstr:["Existing version"]},"Failed assembling the chunks together":{msgid:"Failed assembling the chunks together",msgstr:["Failed assembling the chunks together"]},"Failed uploading the file":{msgid:"Failed uploading the file",msgstr:["Failed uploading the file"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Filenames must not end with "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["If you select both versions, the incoming file will have a number added to its name."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Invalid filename"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Last modified date unknown"]},New:{msgid:"New",msgstr:["New"]},"New filename":{msgid:"New filename",msgstr:["New filename"]},"New version":{msgid:"New version",msgstr:["New version"]},paused:{msgid:"paused",msgstr:["paused"]},"Preview image":{msgid:"Preview image",msgstr:["Preview image"]},Rename:{msgid:"Rename",msgstr:["Rename"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Select all checkboxes"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Select all existing files"]},"Select all new files":{msgid:"Select all new files",msgstr:["Select all new files"]},Skip:{msgid:"Skip",msgstr:["Skip"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Skip this file","Skip {count} files"]},"Unknown size":{msgid:"Unknown size",msgstr:["Unknown size"]},Upload:{msgid:"Upload",msgstr:["Upload"]},"Upload files":{msgid:"Upload files",msgstr:["Upload files"]},"Upload folders":{msgid:"Upload folders",msgstr:["Upload folders"]},"Upload from device":{msgid:"Upload from device",msgstr:["Upload from device"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Upload has been cancelled"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Upload has been skipped"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Upload of "{folder}" has been skipped']},"Upload progress":{msgid:"Upload progress",msgstr:["Upload progress"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["When an incoming folder is selected, any conflicting files within it will also be overwritten."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Which files do you want to keep?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["You can either rename the file, skip this file or cancel the whole operation."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["You need to select at least one version of each file to continue."]}}}}},{locale:"eo",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Esperanto (https://www.transifex.com/nextcloud/teams/64236/eo/)","Content-Type":"text/plain; charset=UTF-8",Language:"eo","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Esperanto (https://www.transifex.com/nextcloud/teams/64236/eo/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: eo\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es",json:{charset:"utf-8",headers:{"Last-Translator":"Julio C. Ortega, 2024","Language-Team":"Spanish (https://app.transifex.com/nextcloud/teams/64236/es/)","Content-Type":"text/plain; charset=UTF-8",Language:"es","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nFranciscoFJ <dev-ooo@satel-sa.com>, 2024\nJulio C. Ortega, 2024\n"},msgstr:["Last-Translator: Julio C. Ortega, 2024\nLanguage-Team: Spanish (https://app.transifex.com/nextcloud/teams/64236/es/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},'"{filename}" contains invalid characters, how do you want to continue?':{msgid:'"{filename}" contains invalid characters, how do you want to continue?',msgstr:['"{filename}" contiene caracteres inválidos, ¿cómo desea continuar?']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} conflicto de archivo","{count} conflictos de archivo","{count} conflictos de archivo"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} conflicto de archivo en {dirname}","{count} conflictos de archivo en {dirname}","{count} conflictos de archivo en {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} segundos restantes"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} restante"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["quedan unos segundos"]},Cancel:{msgid:"Cancel",msgstr:["Cancelar"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Cancelar toda la operación"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cancelar subidas"]},Continue:{msgid:"Continue",msgstr:["Continuar"]},"Create new":{msgid:"Create new",msgstr:["Crear nuevo"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimando tiempo restante"]},"Existing version":{msgid:"Existing version",msgstr:["Versión existente"]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Si selecciona ambas versionas, el archivo entrante le será agregado un número a su nombre."]},"Invalid file name":{msgid:"Invalid file name",msgstr:["Nombre de archivo inválido"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Última fecha de modificación desconocida"]},New:{msgid:"New",msgstr:["Nuevo"]},"New version":{msgid:"New version",msgstr:["Nueva versión"]},paused:{msgid:"paused",msgstr:["pausado"]},"Preview image":{msgid:"Preview image",msgstr:["Previsualizar imagen"]},Rename:{msgid:"Rename",msgstr:["Renombrar"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Seleccionar todas las casillas de verificación"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Seleccionar todos los archivos existentes"]},"Select all new files":{msgid:"Select all new files",msgstr:["Seleccionar todos los archivos nuevos"]},Skip:{msgid:"Skip",msgstr:["Saltar"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Saltar este archivo","Saltar {count} archivos","Saltar {count} archivos"]},"Unknown size":{msgid:"Unknown size",msgstr:["Tamaño desconocido"]},"Upload files":{msgid:"Upload files",msgstr:["Subir archivos"]},"Upload folders":{msgid:"Upload folders",msgstr:["Subir carpetas"]},"Upload from device":{msgid:"Upload from device",msgstr:["Subir desde dispositivo"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["La subida ha sido cancelada"]},"Upload progress":{msgid:"Upload progress",msgstr:["Progreso de la subida"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Cuando una carpeta entrante es seleccionada, cualquier de los archivos en conflictos también serán sobre-escritos."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Cuando una carpeta entrante es seleccionada, el contenido es escrito en la carpeta existente y se realizará una resolución de conflictos recursiva."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["¿Qué archivos desea conservar?"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Debe seleccionar al menos una versión de cada archivo para continuar."]}}}}},{locale:"es_419",json:{charset:"utf-8",headers:{"Last-Translator":"ALEJANDRO CASTRO, 2022","Language-Team":"Spanish (Latin America) (https://www.transifex.com/nextcloud/teams/64236/es_419/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_419","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nALEJANDRO CASTRO, 2022\n"},msgstr:["Last-Translator: ALEJANDRO CASTRO, 2022\nLanguage-Team: Spanish (Latin America) (https://www.transifex.com/nextcloud/teams/64236/es_419/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_419\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} segundos restantes"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["{tiempo} restante"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["quedan pocos segundos"]},Add:{msgid:"Add",msgstr:["agregar"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cancelar subidas"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimando tiempo restante"]},paused:{msgid:"paused",msgstr:["pausado"]},"Upload files":{msgid:"Upload files",msgstr:["Subir archivos"]}}}}},{locale:"es_AR",json:{charset:"utf-8",headers:{"Last-Translator":"Matías Campo Hoet <matiascampo@gmail.com>, 2024","Language-Team":"Spanish (Argentina) (https://app.transifex.com/nextcloud/teams/64236/es_AR/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_AR","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nMatías Campo Hoet <matiascampo@gmail.com>, 2024\n"},msgstr:["Last-Translator: Matías Campo Hoet <matiascampo@gmail.com>, 2024\nLanguage-Team: Spanish (Argentina) (https://app.transifex.com/nextcloud/teams/64236/es_AR/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_AR\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},'"{filename}" contains invalid characters, how do you want to continue?':{msgid:'"{filename}" contains invalid characters, how do you want to continue?',msgstr:['"{filename}" contiene caracteres inválidos, ¿cómo desea continuar?']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} conflicto de archivo","{count} conflictos de archivo","{count} conflictos de archivo"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} conflicto de archivo en {dirname}","{count} conflictos de archivo en {dirname}","{count} conflictos de archivo en {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} segundos restantes"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} restante"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["quedan unos segundos"]},Cancel:{msgid:"Cancel",msgstr:["Cancelar"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Cancelar toda la operación"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cancelar subidas"]},Continue:{msgid:"Continue",msgstr:["Continuar"]},"Create new":{msgid:"Create new",msgstr:["Crear nuevo"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimando tiempo restante"]},"Existing version":{msgid:"Existing version",msgstr:["Versión existente"]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Si selecciona ambas versionas, se agregará un número al nombre del archivo entrante."]},"Invalid file name":{msgid:"Invalid file name",msgstr:["Nombre de archivo inválido"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Fecha de última modificación desconocida"]},New:{msgid:"New",msgstr:["Nuevo"]},"New version":{msgid:"New version",msgstr:["Nueva versión"]},paused:{msgid:"paused",msgstr:["pausado"]},"Preview image":{msgid:"Preview image",msgstr:["Vista previa de imagen"]},Rename:{msgid:"Rename",msgstr:["Renombrar"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Seleccionar todas las casillas de verificación"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Seleccionar todos los archivos existentes"]},"Select all new files":{msgid:"Select all new files",msgstr:["Seleccionar todos los archivos nuevos"]},Skip:{msgid:"Skip",msgstr:["Omitir"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Omitir este archivo","Omitir {count} archivos","Omitir {count} archivos"]},"Unknown size":{msgid:"Unknown size",msgstr:["Tamaño desconocido"]},"Upload files":{msgid:"Upload files",msgstr:["Cargar archivos"]},"Upload folders":{msgid:"Upload folders",msgstr:["Cargar carpetas"]},"Upload from device":{msgid:"Upload from device",msgstr:["Cargar desde dispositivo"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Carga cancelada"]},"Upload progress":{msgid:"Upload progress",msgstr:["Progreso de la carga"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Cuando una carpeta entrante es seleccionada, cualquier archivo en conflicto dentro de la misma también serán sobreescritos."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Cuando una carpeta entrante es seleccionada, el contenido se escribe en la carpeta existente y se realiza una resolución de conflictos recursiva."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["¿Qué archivos desea conservar?"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Debe seleccionar al menos una versión de cada archivo para continuar."]}}}}},{locale:"es_CL",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Chile) (https://www.transifex.com/nextcloud/teams/64236/es_CL/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_CL","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Chile) (https://www.transifex.com/nextcloud/teams/64236/es_CL/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_CL\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_CO",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Colombia) (https://www.transifex.com/nextcloud/teams/64236/es_CO/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_CO","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Colombia) (https://www.transifex.com/nextcloud/teams/64236/es_CO/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_CO\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_CR",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Costa Rica) (https://www.transifex.com/nextcloud/teams/64236/es_CR/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_CR","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Costa Rica) (https://www.transifex.com/nextcloud/teams/64236/es_CR/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_CR\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_DO",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Dominican Republic) (https://www.transifex.com/nextcloud/teams/64236/es_DO/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_DO","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Dominican Republic) (https://www.transifex.com/nextcloud/teams/64236/es_DO/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_DO\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_EC",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Ecuador) (https://www.transifex.com/nextcloud/teams/64236/es_EC/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_EC","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Ecuador) (https://www.transifex.com/nextcloud/teams/64236/es_EC/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_EC\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_GT",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Guatemala) (https://www.transifex.com/nextcloud/teams/64236/es_GT/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_GT","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Guatemala) (https://www.transifex.com/nextcloud/teams/64236/es_GT/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_GT\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_HN",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Honduras) (https://www.transifex.com/nextcloud/teams/64236/es_HN/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_HN","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Honduras) (https://www.transifex.com/nextcloud/teams/64236/es_HN/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_HN\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_MX",json:{charset:"utf-8",headers:{"Last-Translator":"Jehu Marcos Herrera Puentes, 2024","Language-Team":"Spanish (Mexico) (https://app.transifex.com/nextcloud/teams/64236/es_MX/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_MX","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nJehu Marcos Herrera Puentes, 2024\n"},msgstr:["Last-Translator: Jehu Marcos Herrera Puentes, 2024\nLanguage-Team: Spanish (Mexico) (https://app.transifex.com/nextcloud/teams/64236/es_MX/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_MX\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},'"{filename}" contains invalid characters, how do you want to continue?':{msgid:'"{filename}" contains invalid characters, how do you want to continue?',msgstr:['"{filename}" contiene caracteres inválidos, ¿Cómo desea continuar?']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} conflicto de archivo","{count} conflictos de archivo","{count} archivos en conflicto"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} archivo en conflicto en {dirname}","{count} archivos en conflicto en {dirname}","{count} archivo en conflicto en {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} segundos restantes"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{tiempo} restante"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["quedan pocos segundos"]},Cancel:{msgid:"Cancel",msgstr:["Cancelar"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Cancelar toda la operación"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cancelar subidas"]},Continue:{msgid:"Continue",msgstr:["Continuar"]},"Create new":{msgid:"Create new",msgstr:["Crear nuevo"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimando tiempo restante"]},"Existing version":{msgid:"Existing version",msgstr:["Versión existente"]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Si selecciona ambas versionas, se agregará un número al nombre del archivo entrante."]},"Invalid file name":{msgid:"Invalid file name",msgstr:["Nombre de archivo inválido"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Fecha de última modificación desconocida"]},New:{msgid:"New",msgstr:["Nuevo"]},"New version":{msgid:"New version",msgstr:["Nueva versión"]},paused:{msgid:"paused",msgstr:["en pausa"]},"Preview image":{msgid:"Preview image",msgstr:["Previsualizar imagen"]},Rename:{msgid:"Rename",msgstr:["Renombrar"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Seleccionar todas las casillas de verificación"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Seleccionar todos los archivos existentes"]},"Select all new files":{msgid:"Select all new files",msgstr:["Seleccionar todos los archivos nuevos"]},Skip:{msgid:"Skip",msgstr:["Omitir"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Omitir este archivo","Omitir {count} archivos","Omitir {count} archivos"]},"Unknown size":{msgid:"Unknown size",msgstr:["Tamaño desconocido"]},"Upload files":{msgid:"Upload files",msgstr:["Subir archivos"]},"Upload folders":{msgid:"Upload folders",msgstr:["Subir carpetas"]},"Upload from device":{msgid:"Upload from device",msgstr:["Subir desde dispositivo"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["La subida ha sido cancelada"]},"Upload progress":{msgid:"Upload progress",msgstr:["Progreso de la subida"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Cuando una carpeta entrante es seleccionada, cualquier archivo en conflicto dentro de la misma también será sobrescrito."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Cuando una carpeta entrante es seleccionada, el contenido se escribe en la carpeta existente y se realiza una resolución de conflictos recursiva."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["¿Cuáles archivos desea conservar?"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Debe seleccionar al menos una versión de cada archivo para continuar."]}}}}},{locale:"es_NI",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Nicaragua) (https://www.transifex.com/nextcloud/teams/64236/es_NI/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_NI","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Nicaragua) (https://www.transifex.com/nextcloud/teams/64236/es_NI/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_NI\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_PA",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Panama) (https://www.transifex.com/nextcloud/teams/64236/es_PA/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_PA","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Panama) (https://www.transifex.com/nextcloud/teams/64236/es_PA/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_PA\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_PE",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Peru) (https://www.transifex.com/nextcloud/teams/64236/es_PE/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_PE","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Peru) (https://www.transifex.com/nextcloud/teams/64236/es_PE/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_PE\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_PR",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Puerto Rico) (https://www.transifex.com/nextcloud/teams/64236/es_PR/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_PR","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Puerto Rico) (https://www.transifex.com/nextcloud/teams/64236/es_PR/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_PR\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_PY",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Paraguay) (https://www.transifex.com/nextcloud/teams/64236/es_PY/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_PY","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Paraguay) (https://www.transifex.com/nextcloud/teams/64236/es_PY/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_PY\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_SV",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (El Salvador) (https://www.transifex.com/nextcloud/teams/64236/es_SV/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_SV","Plural-Forms":"nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (El Salvador) (https://www.transifex.com/nextcloud/teams/64236/es_SV/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_SV\nPlural-Forms: nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"es_UY",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Spanish (Uruguay) (https://www.transifex.com/nextcloud/teams/64236/es_UY/)","Content-Type":"text/plain; charset=UTF-8",Language:"es_UY","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Spanish (Uruguay) (https://www.transifex.com/nextcloud/teams/64236/es_UY/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: es_UY\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"et_EE",json:{charset:"utf-8",headers:{"Last-Translator":"Priit Jõerüüt <transifex@joeruut.com>, 2025","Language-Team":"Estonian (Estonia) (https://app.transifex.com/nextcloud/teams/64236/et_EE/)","Content-Type":"text/plain; charset=UTF-8",Language:"et_EE","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nPriit Jõerüüt <transifex@joeruut.com>, 2025\n"},msgstr:["Last-Translator: Priit Jõerüüt <transifex@joeruut.com>, 2025\nLanguage-Team: Estonian (Estonia) (https://app.transifex.com/nextcloud/teams/64236/et_EE/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: et_EE\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:["„{segment}“ on keelatud faili- või kausta nimi."]},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:["„{segment}“ on keelatud failitüüp."]},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:["„{segment}“ pole faili- või kausta nimes lubatud."]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} fail on vastuolus","{count} faili on vastuolus"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} fail on vastuolus „{dirname}“ kaustas","{count} faili on vastuolus „{dirname}“ kaustas"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["jäänud {seconds} sekund","jäänud {seconds} sekundit"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["aega jäänud {time} "]},"a few seconds left":{msgid:"a few seconds left",msgstr:["jäänud mõni sekund"]},assembling:{msgid:"assembling",msgstr:["koostamisel"]},Cancel:{msgid:"Cancel",msgstr:["Katkesta"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Katkesta kogu tegevus"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Katkesta üleslaadimine"]},Continue:{msgid:"Continue",msgstr:["Jätka"]},"Create new":{msgid:"Create new",msgstr:["Loo uus"]},"estimating time left":{msgid:"estimating time left",msgstr:["hinnanguline järelejäänud aeg"]},"Existing version":{msgid:"Existing version",msgstr:["Olemasolev versioon"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Tükkide koostamine üheks tervikuks ei õnnestunud"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Faili üleslaadimine ei õnnestunud"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:["Failinime lõpus ei tohi olla „{segment}“."]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Kui sa valid mõlemad versioonid, lisatakse kopeeritud faili nimele number."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Vigane failinimi"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Viimase muutmise kuupäev pole teada"]},New:{msgid:"New",msgstr:["Uus"]},"New filename":{msgid:"New filename",msgstr:["Uus failinimi"]},"New version":{msgid:"New version",msgstr:["Uus versioon"]},paused:{msgid:"paused",msgstr:["pausil"]},"Preview image":{msgid:"Preview image",msgstr:["Vaata pildi eelvaadet"]},Rename:{msgid:"Rename",msgstr:["Muuda nime"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Vali kõik märkeruudud"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Vali kõik olemasolevad failid"]},"Select all new files":{msgid:"Select all new files",msgstr:["Vali kõik uued failid"]},Skip:{msgid:"Skip",msgstr:["Jäta vahele"]},"Skip {count} file":{msgid:"Skip {count} file",msgid_plural:"Skip {count} files",msgstr:["Jäta vahele {count} fail","Jäta vahele {count} faili"]},"Skip this file":{msgid:"Skip this file",msgstr:["Jäta vahele see fail"]},"Unknown size":{msgid:"Unknown size",msgstr:["Tundmatu suurus"]},Upload:{msgid:"Upload",msgstr:["Laadi üles"]},"Upload files":{msgid:"Upload files",msgstr:["Laadi failid üles"]},"Upload folders":{msgid:"Upload folders",msgstr:["Laadi kaustad üles"]},"Upload from device":{msgid:"Upload from device",msgstr:["Laadi üles seadmest"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Üleslaadimine on katkestatud"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Üleslaadimine on vahele jäetud"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:["„{folder}“ kausta üleslaadimine on vahele jäetud"]},"Upload progress":{msgid:"Upload progress",msgstr:["Üleslaadimise edenemine"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Kui saabuvate failide kaust on valitud, siis seal asuvad vastuoluliste nimedega failid kirjutatakse samuti üle."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Kui saabuvate failide kaust on valitud, siis sisu kirjutatakse olemasolevasse kausta ja käivitatakse rekursiivne vastuolude haldus."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Milliseid faile soovid säilitada?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Sa võid kas faili nime muuta, ta vahele jätta või kogu tegevuse katkestada."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Jätkamiseks pead valima vähemalt ühe versiooni igast failist."]}}}}},{locale:"eu",json:{charset:"utf-8",headers:{"Last-Translator":"Unai Tolosa Pontesta <utolosa002@gmail.com>, 2022","Language-Team":"Basque (https://www.transifex.com/nextcloud/teams/64236/eu/)","Content-Type":"text/plain; charset=UTF-8",Language:"eu","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nUnai Tolosa Pontesta <utolosa002@gmail.com>, 2022\n"},msgstr:["Last-Translator: Unai Tolosa Pontesta <utolosa002@gmail.com>, 2022\nLanguage-Team: Basque (https://www.transifex.com/nextcloud/teams/64236/eu/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: eu\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} segundo geratzen dira"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["{time} geratzen da"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["segundo batzuk geratzen dira"]},Add:{msgid:"Add",msgstr:["Gehitu"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Ezeztatu igoerak"]},"estimating time left":{msgid:"estimating time left",msgstr:["kalkulatutako geratzen den denbora"]},paused:{msgid:"paused",msgstr:["geldituta"]},"Upload files":{msgid:"Upload files",msgstr:["Igo fitxategiak"]}}}}},{locale:"fa",json:{charset:"utf-8",headers:{"Last-Translator":"Alireza Rashidi, 2025","Language-Team":"Persian (https://app.transifex.com/nextcloud/teams/64236/fa/)","Content-Type":"text/plain; charset=UTF-8",Language:"fa","Plural-Forms":"nplurals=2; plural=(n > 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nreza reza <forghan89@yahoo.com>, 2024\nAlireza Rashidi, 2025\n"},msgstr:["Last-Translator: Alireza Rashidi, 2025\nLanguage-Team: Persian (https://app.transifex.com/nextcloud/teams/64236/fa/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: fa\nPlural-Forms: nplurals=2; plural=(n > 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:["{segment} یک نام فایل یا پوشه ممنوعه است."]},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:["{segment} یک نوع فایل ممنوعه است."]},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:["{segment} داخل نام فایل یا پوشه مجاز نیست."]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} تداخل فایل","{count} تداخل فایل‌ها"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} پرونده با {dirname} ناسازگاری داشت","{count} پرونده با {dirname} ناسازگاری داشت"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} ثانیه مانده","{seconds} ثانیه مانده"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} باقی مانده"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["چند ثانیه مانده"]},assembling:{msgid:"assembling",msgstr:["سرهم کردن"]},Cancel:{msgid:"Cancel",msgstr:["رد کردن"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["رد کردن کل عملیات"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["رد کردن بارگذاری"]},Continue:{msgid:"Continue",msgstr:["ادامه"]},"Create new":{msgid:"Create new",msgstr:["ساخت جدید"]},"estimating time left":{msgid:"estimating time left",msgstr:["تخمین زمان باقی مانده"]},"Existing version":{msgid:"Existing version",msgstr:["نگارش موجود"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["نتوانست تکه‌های را به سرهم کند"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["نتوانست پرونده را بارگذاری کند"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:["نام پرونده نباید با {segment} پایان یابد."]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["اگر هر دو نسخه را انتخاب کنید، یک عدد به نام پرونده ورودی اضافه خواهد شد."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["نام پرونده نامعتبر"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["آخرین تاریخ تغییر نامشخص"]},New:{msgid:"New",msgstr:["جدید"]},"New filename":{msgid:"New filename",msgstr:["نام فایل جدید"]},"New version":{msgid:"New version",msgstr:["نسخه جدید"]},paused:{msgid:"paused",msgstr:["مکث کردن"]},"Preview image":{msgid:"Preview image",msgstr:["پیش نمایش تصویر"]},Rename:{msgid:"Rename",msgstr:["تغییر نام"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["انتخاب همه چک‌باکس‌ها"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["انتخاب همه فایل‌های موجود"]},"Select all new files":{msgid:"Select all new files",msgstr:["انتخاب همه فایل‌های جدید"]},Skip:{msgid:"Skip",msgstr:["رد شدن"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["رد شدن از ","رد شدن از {count} فایل"]},"Unknown size":{msgid:"Unknown size",msgstr:["اندازه نامشخص"]},Upload:{msgid:"Upload",msgstr:["بارگذاری"]},"Upload files":{msgid:"Upload files",msgstr:["بارگذاری پرونده‌ها"]},"Upload folders":{msgid:"Upload folders",msgstr:["بارگذاری پوشه‌ها"]},"Upload from device":{msgid:"Upload from device",msgstr:["بارگذاری از دستگاه"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["بارگذاری رد شده است"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["بارگذاری نادیده گرفته شده است"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:["بارگذاری {folder} نادیده گرفته شده است"]},"Upload progress":{msgid:"Upload progress",msgstr:["روند بارگذاری"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["هنگامی که یک پوشه ورودی انتخاب می‌شود، هر فایل متناقضی در آن نیز بازنویسی می‌شود."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["هنگامی که یک پوشه دریافتی انتخاب می شود ، محتوا در پوشه موجود نوشته می شود و حل ناسازگاری بازگشتی انجام می شود."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["کدام پرونده‌ها را می‌خواهید نگه دارید؟"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["می‌توانید نام پرونده را تغییر دهید، از این پرونده رد شوید یا کل عملیات را رد کنید."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["برای ادامه باید دست‌کم یک نگارش از هر پرونده را انتخاب کنید."]}}}}},{locale:"fi",json:{charset:"utf-8",headers:{"Last-Translator":"Jiri Grönroos <jiri.gronroos@iki.fi>, 2025","Language-Team":"Finnish (Finland) (https://app.transifex.com/nextcloud/teams/64236/fi_FI/)","Content-Type":"text/plain; charset=UTF-8",Language:"fi_FI","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nthingumy, 2024\nteemue, 2024\nJiri Grönroos <jiri.gronroos@iki.fi>, 2025\n"},msgstr:["Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>, 2025\nLanguage-Team: Finnish (Finland) (https://app.transifex.com/nextcloud/teams/64236/fi_FI/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: fi_FI\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" on kielletty tiedoston tai hakemiston nimi.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" on kielletty tiedostotyyppi.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" ei ole sallittu tiedoston tai hakemiston nimessä.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} tiedoston ristiriita","{count} tiedoston ristiriita"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} tiedoston ristiriita kansiossa {dirname}","{count} tiedoston ristiriita kansiossa {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} sekunti jäljellä","{seconds} sekuntia jäljellä"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} jäljellä"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["muutama sekunti jäljellä"]},assembling:{msgid:"assembling",msgstr:["kootaan"]},Cancel:{msgid:"Cancel",msgstr:["Peruuta"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Peruuta koko toimenpide"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Peruuta lähetykset"]},Continue:{msgid:"Continue",msgstr:["Jatka"]},"Create new":{msgid:"Create new",msgstr:["Luo uusi"]},"estimating time left":{msgid:"estimating time left",msgstr:["arvioidaan jäljellä olevaa aikaa"]},"Existing version":{msgid:"Existing version",msgstr:["Olemassa oleva versio"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Palojen kokoaminen yhteen epäonnistui"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Tiedoston lähetys epäonnistui"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Tiedoston nimi ei saa päättyä "{segment}"']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Jos valitset molemmat versiot, saapuvan tiedoston nimeen lisätään numero."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Kielletty/väärä tiedoston nimi"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Viimeisin muokkauspäivä on tuntematon"]},New:{msgid:"New",msgstr:["Uusi"]},"New filename":{msgid:"New filename",msgstr:["Uusi tiedostonimi"]},"New version":{msgid:"New version",msgstr:["Uusi versio"]},paused:{msgid:"paused",msgstr:["keskeytetty"]},"Preview image":{msgid:"Preview image",msgstr:["Esikatsele kuva"]},Rename:{msgid:"Rename",msgstr:["Nimeä uudelleen"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Valitse kaikki valintaruudut"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Valitse kaikki olemassa olevat tiedostot"]},"Select all new files":{msgid:"Select all new files",msgstr:["Valitse kaikki uudet tiedostot"]},Skip:{msgid:"Skip",msgstr:["Ohita"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Ohita tämä tiedosto","Ohita {count} tiedostoa"]},"Unknown size":{msgid:"Unknown size",msgstr:["Tuntematon koko"]},Upload:{msgid:"Upload",msgstr:["Lähetä"]},"Upload files":{msgid:"Upload files",msgstr:["Lähetä tiedostoja"]},"Upload folders":{msgid:"Upload folders",msgstr:["Lähetä kansioita"]},"Upload from device":{msgid:"Upload from device",msgstr:["Lähetä laitteelta"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Lähetys on peruttu"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Lähetys on ohitettu"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Hakemiston "{folder}" lähetys on ohitettu']},"Upload progress":{msgid:"Upload progress",msgstr:["Lähetyksen edistyminen"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Valittuasi saapuvien kansion, kaikki ristiriitaiset tiedostot kansiossa ylikirjoitetaan."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Valittuasi saapuvien kansion, sisältö kirjoitetaan olemassaolevaan kansioon ja suoritetaan rekursiivinen ristiriitojen poisto."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Mitkä tiedostot haluat säilyttää?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Voit joko nimetä tiedoston uudelleen, ohittaa tämän tiedoston tai peruuttaa koko toiminnon."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Sinun täytyy valita vähintään yksi versio jokaisesta tiedostosta jatkaaksesi."]}}}}},{locale:"fo",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Faroese (https://www.transifex.com/nextcloud/teams/64236/fo/)","Content-Type":"text/plain; charset=UTF-8",Language:"fo","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Faroese (https://www.transifex.com/nextcloud/teams/64236/fo/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: fo\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"fr",json:{charset:"utf-8",headers:{"Last-Translator":"Lisa Cintosh, 2025","Language-Team":"French (https://app.transifex.com/nextcloud/teams/64236/fr/)","Content-Type":"text/plain; charset=UTF-8",Language:"fr","Plural-Forms":"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nBenoit Pruneau, 2024\nJEEEEEEEEEEEEEEEEEEEEEED, 2024\nJérôme HERBINET, 2024\nacazenave, 2024\nLisa Cintosh, 2025\n"},msgstr:["Last-Translator: Lisa Cintosh, 2025\nLanguage-Team: French (https://app.transifex.com/nextcloud/teams/64236/fr/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: fr\nPlural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" est un nom de fichier ou de dossier interdit.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" est un type de fichier interdit.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:["\"{segment}\" n'est pas autorisé dans le nom d'un fichier ou d'un dossier."]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} fichier en conflit","{count} fichiers en conflit","{count} fichiers en conflit"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} fichier en conflit dans {dirname}","{count} fichiers en conflit dans {dirname}","{count} fichiers en conflit dans {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} seconde restante","{seconds} secondes restantes","{seconds} secondes restantes"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} restant"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["quelques secondes restantes"]},assembling:{msgid:"assembling",msgstr:["assemblage"]},Cancel:{msgid:"Cancel",msgstr:["Annuler"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Annuler l'opération entière"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Annuler les téléversements"]},Continue:{msgid:"Continue",msgstr:["Continuer"]},"Create new":{msgid:"Create new",msgstr:["Créer un nouveau"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimation du temps restant"]},"Existing version":{msgid:"Existing version",msgstr:["Version existante"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Échec de l'assemblage des morceaux"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Échec du téléversement du fichier"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Le nom des fichiers ne doit pas finir par "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Si vous sélectionnez les deux versions, le nouveau fichier aura un nombre ajouté à son nom."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Nom de fichier invalide"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Date de la dernière modification est inconnue"]},New:{msgid:"New",msgstr:["Nouveau"]},"New filename":{msgid:"New filename",msgstr:["Nouveau nom de fichier"]},"New version":{msgid:"New version",msgstr:["Nouvelle version"]},paused:{msgid:"paused",msgstr:["en pause"]},"Preview image":{msgid:"Preview image",msgstr:["Aperçu de l'image"]},Rename:{msgid:"Rename",msgstr:["Renommer"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Sélectionner toutes les cases à cocher"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Sélectionner tous les fichiers existants"]},"Select all new files":{msgid:"Select all new files",msgstr:["Sélectionner tous les nouveaux fichiers"]},Skip:{msgid:"Skip",msgstr:["Ignorer"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Ignorer ce fichier","Ignorer {count} fichiers","Ignorer {count} fichiers"]},"Unknown size":{msgid:"Unknown size",msgstr:["Taille inconnue"]},Upload:{msgid:"Upload",msgstr:["Téléverser"]},"Upload files":{msgid:"Upload files",msgstr:["Téléverser des fichiers"]},"Upload folders":{msgid:"Upload folders",msgstr:["Téléverser des dossiers"]},"Upload from device":{msgid:"Upload from device",msgstr:["Téléverser depuis l'appareil"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Le téléversement a été annulé"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Le téléversement a été ignoré"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Le téléversement de "{folder}" a été ignoré']},"Upload progress":{msgid:"Upload progress",msgstr:["Progression du téléversement"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Lorsqu'un dossier entrant est sélectionné, tous les fichiers en conflit qu'il contient seront également écrasés."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Lorsqu'un dossier entrant est sélectionné, le contenu est ajouté dans le dossier existant et une résolution récursive des conflits est effectuée."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Quels fichiers souhaitez-vous conserver ?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Vous pouvez soit renommer le fichier, soit ignorer le fichier soit annuler toute l'opération."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Vous devez sélectionner au moins une version de chaque fichier pour continuer."]}}}}},{locale:"ga",json:{charset:"utf-8",headers:{"Last-Translator":"Aindriú Mac Giolla Eoin, 2025","Language-Team":"Irish (https://app.transifex.com/nextcloud/teams/64236/ga/)","Content-Type":"text/plain; charset=UTF-8",Language:"ga","Plural-Forms":"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nAindriú Mac Giolla Eoin, 2025\n"},msgstr:["Last-Translator: Aindriú Mac Giolla Eoin, 2025\nLanguage-Team: Irish (https://app.transifex.com/nextcloud/teams/64236/ga/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ga\nPlural-Forms: nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['Is ainm toirmiscthe comhaid nó fillteáin é "{segment}".']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['Is cineál comhaid toirmiscthe é "{segment}".']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['Ní cheadaítear "{segment}" taobh istigh d\'ainm comhaid nó fillteáin.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} coimhlint comhaid","{count} coimhlintí comhaid","{count} coimhlintí comhaid","{count} coimhlintí comhaid","{count} coimhlintí comhaid"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} coimhlint comhaid i {dirname}","{count} coimhlintí comhaid i {dirname}","{count} coimhlintí comhaid i {dirname}","{count} coimhlintí comhaid i {dirname}","{count} coimhlintí comhaid i {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} soicind fágtha","{seconds} soicind fágtha","{seconds} soicind fágtha","{seconds} soicind fágtha","{seconds} soicind fágtha"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} fágtha"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["cúpla soicind fágtha"]},assembling:{msgid:"assembling",msgstr:["ag cur le chéile"]},Cancel:{msgid:"Cancel",msgstr:["Cealaigh"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Cealaigh an oibríocht iomlán"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cealaigh uaslódálacha"]},Continue:{msgid:"Continue",msgstr:["Leanúint ar aghaidh"]},"Create new":{msgid:"Create new",msgstr:["Cruthaigh nua"]},"estimating time left":{msgid:"estimating time left",msgstr:["ag déanamh meastachán ar an am atá fágtha"]},"Existing version":{msgid:"Existing version",msgstr:["Leagan láithreach "]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Theip ar na smután a chur le chéile le chéile"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Theip ar uaslódáil an chomhaid"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Níor cheart go gcríochnaíonn comhaid chomhad le "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Má roghnaíonn tú an dá leagan, cuirfear uimhir leis an ainm a thagann isteach."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Ainm comhaid neamhbhailí"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Dáta modhnaithe is déanaí anaithnid"]},New:{msgid:"New",msgstr:["Nua"]},"New filename":{msgid:"New filename",msgstr:["Ainm comhaid nua"]},"New version":{msgid:"New version",msgstr:["Leagan nua"]},paused:{msgid:"paused",msgstr:["sos"]},"Preview image":{msgid:"Preview image",msgstr:["Íomhá réamhamharc"]},Rename:{msgid:"Rename",msgstr:["Athainmnigh"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Roghnaigh gach ticbhosca"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Roghnaigh gach comhad atá ann cheana féin"]},"Select all new files":{msgid:"Select all new files",msgstr:["Roghnaigh gach comhad nua"]},Skip:{msgid:"Skip",msgstr:["Scipeáil"]},"Skip {count} file":{msgid:"Skip {count} file",msgid_plural:"Skip {count} files",msgstr:["Léim an comhad {count}","Léim thar {count} comhad","Léim thar {count} comhad","Léim thar {count} comhad","Léim thar {count} comhad"]},"Skip this file":{msgid:"Skip this file",msgstr:["Seachain an comhad seo"]},"Unknown size":{msgid:"Unknown size",msgstr:["Méid anaithnid"]},Upload:{msgid:"Upload",msgstr:["Uaslódáil"]},"Upload files":{msgid:"Upload files",msgstr:["Uaslódáil comhaid"]},"Upload folders":{msgid:"Upload folders",msgstr:["Uaslódáil fillteáin"]},"Upload from device":{msgid:"Upload from device",msgstr:["Íosluchtaigh ó ghléas"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Cuireadh an t-uaslódáil ar ceal"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Léiríodh an uaslódáil"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Léiríodh an uaslódáil "{folder}".']},"Upload progress":{msgid:"Upload progress",msgstr:["Uaslódáil dul chun cinn"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Nuair a roghnaítear fillteán isteach, déanfar aon chomhad contrártha laistigh de a fhorscríobh freisin."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Nuair a roghnaítear fillteán isteach, scríobhtar an t-ábhar isteach san fhillteán atá ann cheana agus déantar réiteach coinbhleachta athchúrsach."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Cé na comhaid ar mhaith leat a choinneáil?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Is féidir leat an comhad a athainmniú, scipeáil an comhad seo nó an oibríocht iomlán a chealú."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Ní mór duit leagan amháin ar a laghad de gach comhad a roghnú chun leanúint ar aghaidh."]}}}}},{locale:"gd",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Gaelic, Scottish (https://www.transifex.com/nextcloud/teams/64236/gd/)","Content-Type":"text/plain; charset=UTF-8",Language:"gd","Plural-Forms":"nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Gaelic, Scottish (https://www.transifex.com/nextcloud/teams/64236/gd/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: gd\nPlural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"gl",json:{charset:"utf-8",headers:{"Last-Translator":"Miguel Anxo Bouzada <mbouzada@gmail.com>, 2025","Language-Team":"Galician (https://app.transifex.com/nextcloud/teams/64236/gl/)","Content-Type":"text/plain; charset=UTF-8",Language:"gl","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nMiguel Anxo Bouzada <mbouzada@gmail.com>, 2025\n"},msgstr:["Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>, 2025\nLanguage-Team: Galician (https://app.transifex.com/nextcloud/teams/64236/gl/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: gl\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:["«{segment}» é un nome vedado para un ficheiro ou cartafol."]},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:["«{segment}» é un tipo de ficheiro vedado."]},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:["«{segment}» non está permitido dentro dun nome de ficheiro ou cartafol."]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} conflito de ficheiros","{count} conflitos de ficheiros"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} conflito de ficheiros en {dirname}","{count} conflitos de ficheiros en {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["falta {seconds} segundo","faltan {seconds} segundos"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["falta {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["faltan uns segundos"]},assembling:{msgid:"assembling",msgstr:["ensamblando"]},Cancel:{msgid:"Cancel",msgstr:["Cancelar"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Cancela toda a operación"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cancelar envíos"]},Continue:{msgid:"Continue",msgstr:["Continuar"]},"Create new":{msgid:"Create new",msgstr:["Crear un novo"]},"estimating time left":{msgid:"estimating time left",msgstr:["calculando canto tempo falta"]},"Existing version":{msgid:"Existing version",msgstr:["Versión existente"]},"Failed assembling the chunks together":{msgid:"Failed assembling the chunks together",msgstr:["Produciuse un fallo ao ensamblar os anacos"]},"Failed uploading the file":{msgid:"Failed uploading the file",msgstr:["Produciuse un fallo ao enviar o ficheiro"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:["Os nomes de ficheiros non deben rematar con «{segment}»."]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Se selecciona ambas as versións, o ficheiro entrante terá un número engadido ao seu nome."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["O nome de ficheiro non é válido"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Data da última modificación descoñecida"]},New:{msgid:"New",msgstr:["Nova"]},"New filename":{msgid:"New filename",msgstr:["Novo nome de ficheiro"]},"New version":{msgid:"New version",msgstr:["Nova versión"]},paused:{msgid:"paused",msgstr:["detido"]},"Preview image":{msgid:"Preview image",msgstr:["Vista previa da imaxe"]},Rename:{msgid:"Rename",msgstr:["Renomear"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Marcar todas as caixas de selección"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Seleccionar todos os ficheiros existentes"]},"Select all new files":{msgid:"Select all new files",msgstr:["Seleccionar todos os ficheiros novos"]},Skip:{msgid:"Skip",msgstr:["Omitir"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Omita este ficheiro","Omitir {count} ficheiros"]},"Unknown size":{msgid:"Unknown size",msgstr:["Tamaño descoñecido"]},Upload:{msgid:"Upload",msgstr:["Enviar"]},"Upload files":{msgid:"Upload files",msgstr:["Enviar ficheiros"]},"Upload folders":{msgid:"Upload folders",msgstr:["Enviar cartafoles"]},"Upload from device":{msgid:"Upload from device",msgstr:["Enviar dende o dispositivo"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["O envío foi cancelado"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["O envío foi omitido"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:["O envío de «{folder}» foi omitido"]},"Upload progress":{msgid:"Upload progress",msgstr:["Progreso do envío"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Cando se selecciona un cartafol entrante, tamén se sobrescribirán os ficheiros en conflito dentro del."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Cando se selecciona un cartafol entrante, o contido escríbese no cartafol existente e lévase a cabo unha resolución recursiva de conflitos."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Que ficheiros quere conservar?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Pode cambiar o nome do ficheiro, omitir este ficheiro ou cancelar toda a operación."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Debe seleccionar polo menos unha versión de cada ficheiro para continuar."]}}}}},{locale:"he",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Hebrew (https://www.transifex.com/nextcloud/teams/64236/he/)","Content-Type":"text/plain; charset=UTF-8",Language:"he","Plural-Forms":"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Hebrew (https://www.transifex.com/nextcloud/teams/64236/he/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: he\nPlural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"hi_IN",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Hindi (India) (https://www.transifex.com/nextcloud/teams/64236/hi_IN/)","Content-Type":"text/plain; charset=UTF-8",Language:"hi_IN","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Hindi (India) (https://www.transifex.com/nextcloud/teams/64236/hi_IN/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: hi_IN\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"hr",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Croatian (https://www.transifex.com/nextcloud/teams/64236/hr/)","Content-Type":"text/plain; charset=UTF-8",Language:"hr","Plural-Forms":"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Croatian (https://www.transifex.com/nextcloud/teams/64236/hr/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: hr\nPlural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"hsb",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Upper Sorbian (https://www.transifex.com/nextcloud/teams/64236/hsb/)","Content-Type":"text/plain; charset=UTF-8",Language:"hsb","Plural-Forms":"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Upper Sorbian (https://www.transifex.com/nextcloud/teams/64236/hsb/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: hsb\nPlural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"hu",json:{charset:"utf-8",headers:{"Last-Translator":"Gyuris Gellért <jobel@ujevangelizacio.hu>, 2024","Language-Team":"Hungarian (Hungary) (https://app.transifex.com/nextcloud/teams/64236/hu_HU/)","Content-Type":"text/plain; charset=UTF-8",Language:"hu_HU","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nGyuris Gellért <jobel@ujevangelizacio.hu>, 2024\n"},msgstr:["Last-Translator: Gyuris Gellért <jobel@ujevangelizacio.hu>, 2024\nLanguage-Team: Hungarian (Hungary) (https://app.transifex.com/nextcloud/teams/64236/hu_HU/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: hu_HU\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['Tiltott fájl- vagy mappanév: „{segment}".']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['Tiltott fájltípus: „{segment}".']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['Nem megengedett egy fájl- vagy mappanévben: „{segment}".']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count}fájlt érintő konfliktus","{count} fájlt érintő konfliktus"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} fájlt érintő konfliktus a mappában: {dirname}","{count}fájlt érintő konfliktus a mappában: {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{} másodperc van hátra"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} van hátra"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["pár másodperc van hátra"]},Cancel:{msgid:"Cancel",msgstr:["Mégse"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Teljes művelet megszakítása"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Feltöltések megszakítása"]},Continue:{msgid:"Continue",msgstr:["Tovább"]},"Create new":{msgid:"Create new",msgstr:["Új létrehozása"]},"estimating time left":{msgid:"estimating time left",msgstr:["hátralévő idő becslése"]},"Existing version":{msgid:"Existing version",msgstr:["Jelenlegi változat"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:["Fájlnevek nem végződhetnek erre: „{segment}”."]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Ha mindkét verziót kiválasztja, a bejövő fájl neve egy számmal egészül ki."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Érvénytelen fájlnév"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Utolsó módosítás dátuma ismeretlen"]},New:{msgid:"New",msgstr:["Új"]},"New filename":{msgid:"New filename",msgstr:["Új fájlnév"]},"New version":{msgid:"New version",msgstr:["Új verzió"]},paused:{msgid:"paused",msgstr:["szüneteltetve"]},"Preview image":{msgid:"Preview image",msgstr:["Kép előnézete"]},Rename:{msgid:"Rename",msgstr:["Átnevezés"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Minden jelölőnégyzet kijelölése"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Minden jelenlegi fájl kijelölése"]},"Select all new files":{msgid:"Select all new files",msgstr:["Minden új fájl kijelölése"]},Skip:{msgid:"Skip",msgstr:["Kihagyás"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Ezen fájl kihagyása","{count}fájl kihagyása"]},"Unknown size":{msgid:"Unknown size",msgstr:["Ismeretlen méret"]},Upload:{msgid:"Upload",msgstr:["Feltöltés"]},"Upload files":{msgid:"Upload files",msgstr:["Fájlok feltöltése"]},"Upload folders":{msgid:"Upload folders",msgstr:["Mappák feltöltése"]},"Upload from device":{msgid:"Upload from device",msgstr:["Feltöltés eszközről"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Feltöltés meg lett szakítva"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Feltöltés át lett ugorva"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:["„{folder}” feltöltése át lett ugorva"]},"Upload progress":{msgid:"Upload progress",msgstr:["Feltöltési folyamat"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Ha egy bejövő mappa van kiválasztva, a mappában lévő ütköző fájlok is felülírásra kerülnek."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Ha egy bejövő mappa van kiválasztva, a tartalom a meglévő mappába íródik és rekurzív konfliktusfeloldás történik."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Mely fájlokat kívánja megtartani?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Átnevezheti a fájlt, kihagyhatja ezt a fájlt, vagy törölheti az egész műveletet."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["A folytatáshoz minden fájlból legalább egy verziót ki kell választani."]}}}}},{locale:"hy",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Armenian (https://www.transifex.com/nextcloud/teams/64236/hy/)","Content-Type":"text/plain; charset=UTF-8",Language:"hy","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Armenian (https://www.transifex.com/nextcloud/teams/64236/hy/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: hy\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"ia",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Interlingua (https://www.transifex.com/nextcloud/teams/64236/ia/)","Content-Type":"text/plain; charset=UTF-8",Language:"ia","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Interlingua (https://www.transifex.com/nextcloud/teams/64236/ia/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ia\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"id",json:{charset:"utf-8",headers:{"Last-Translator":"Linerly <linerly@proton.me>, 2023","Language-Team":"Indonesian (https://app.transifex.com/nextcloud/teams/64236/id/)","Content-Type":"text/plain; charset=UTF-8",Language:"id","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJohn Molakvoæ <skjnldsv@protonmail.com>, 2023\nEmpty Slot Filler, 2023\nLinerly <linerly@proton.me>, 2023\n"},msgstr:["Last-Translator: Linerly <linerly@proton.me>, 2023\nLanguage-Team: Indonesian (https://app.transifex.com/nextcloud/teams/64236/id/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: id\nPlural-Forms: nplurals=1; plural=0;\n"]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} berkas berkonflik"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} berkas berkonflik dalam {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} detik tersisa"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} tersisa"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["tinggal sebentar lagi"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Batalkan unggahan"]},Continue:{msgid:"Continue",msgstr:["Lanjutkan"]},"estimating time left":{msgid:"estimating time left",msgstr:["memperkirakan waktu yang tersisa"]},"Existing version":{msgid:"Existing version",msgstr:["Versi yang ada"]},"If you select both versions, the copied file will have a number added to its name.":{msgid:"If you select both versions, the copied file will have a number added to its name.",msgstr:["Jika Anda memilih kedua versi, nama berkas yang disalin akan ditambahi angka."]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Tanggal perubahan terakhir tidak diketahui"]},New:{msgid:"New",msgstr:["Baru"]},"New version":{msgid:"New version",msgstr:["Versi baru"]},paused:{msgid:"paused",msgstr:["dijeda"]},"Preview image":{msgid:"Preview image",msgstr:["Gambar pratinjau"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Pilih semua kotak centang"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Pilih semua berkas yang ada"]},"Select all new files":{msgid:"Select all new files",msgstr:["Pilih semua berkas baru"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Lewati {count} berkas"]},"Unknown size":{msgid:"Unknown size",msgstr:["Ukuran tidak diketahui"]},"Upload cancelled":{msgid:"Upload cancelled",msgstr:["Unggahan dibatalkan"]},"Upload files":{msgid:"Upload files",msgstr:["Unggah berkas"]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Berkas mana yang Anda ingin tetap simpan?"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Anda harus memilih setidaknya satu versi dari masing-masing berkas untuk melanjutkan."]}}}}},{locale:"ig",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Igbo (https://www.transifex.com/nextcloud/teams/64236/ig/)","Content-Type":"text/plain; charset=UTF-8",Language:"ig","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Igbo (https://www.transifex.com/nextcloud/teams/64236/ig/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ig\nPlural-Forms: nplurals=1; plural=0;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"is",json:{charset:"utf-8",headers:{"Last-Translator":"Sveinn í Felli <sv1@fellsnet.is>, 2025","Language-Team":"Icelandic (https://app.transifex.com/nextcloud/teams/64236/is/)","Content-Type":"text/plain; charset=UTF-8",Language:"is","Plural-Forms":"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nSveinn í Felli <sv1@fellsnet.is>, 2025\n"},msgstr:["Last-Translator: Sveinn í Felli <sv1@fellsnet.is>, 2025\nLanguage-Team: Icelandic (https://app.transifex.com/nextcloud/teams/64236/is/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: is\nPlural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" er bannað sem heiti á skrá eða möppu.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" er bönnuð skráartegund.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" er ekki leyfilegt innan í heiti á skrá eða möppu.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} árekstur skráa","{count} árekstrar skráa"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} árekstur skráa í {dirname}","{count} árekstrar skráa í {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} sekúnda eftir","{seconds} sekúndur eftir"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} eftir"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["nokkrar sekúndur eftir"]},assembling:{msgid:"assembling",msgstr:["set saman"]},Cancel:{msgid:"Cancel",msgstr:["Hætta við"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Hætta við alla aðgerðina"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Hætta við innsendingar"]},Continue:{msgid:"Continue",msgstr:["Halda áfram"]},"Create new":{msgid:"Create new",msgstr:["Búa til nýtt"]},"estimating time left":{msgid:"estimating time left",msgstr:["áætla tíma sem eftir er"]},"Existing version":{msgid:"Existing version",msgstr:["Fyrirliggjandi útgáfa"]},"Failed assembling the chunks together":{msgid:"Failed assembling the chunks together",msgstr:["Mistókst að setja saman bútana"]},"Failed uploading the file":{msgid:"Failed uploading the file",msgstr:["Mistókst að senda inn skrána"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Skráaheiti mega ekki enda á "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Ef þú velur báðar útgáfur, þá mun verða bætt tölustaf aftan við heiti innkomandi skrárinnar."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Ógilt skráarheiti"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Síðasta breytingadagsetning er óþekkt"]},New:{msgid:"New",msgstr:["Nýtt"]},"New filename":{msgid:"New filename",msgstr:["Nýtt skráarheiti"]},"New version":{msgid:"New version",msgstr:["Ný útgáfa"]},paused:{msgid:"paused",msgstr:["í bið"]},"Preview image":{msgid:"Preview image",msgstr:["Forskoðun myndar"]},Rename:{msgid:"Rename",msgstr:["Endurnefna"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Velja gátreiti"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Velja allar fyrirliggjandi skrár"]},"Select all new files":{msgid:"Select all new files",msgstr:["Velja allar nýjar skrár"]},Skip:{msgid:"Skip",msgstr:["Sleppa"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Sleppa þessari skrá","Sleppa {count} skrám"]},"Unknown size":{msgid:"Unknown size",msgstr:["Óþekkt stærð"]},Upload:{msgid:"Upload",msgstr:["Senda inn"]},"Upload files":{msgid:"Upload files",msgstr:["Senda inn skrár"]},"Upload folders":{msgid:"Upload folders",msgstr:["Senda inn möppur"]},"Upload from device":{msgid:"Upload from device",msgstr:["Senda inn frá tæki"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Hætt hefur verið við innsendingu"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Innsendingu hefur verið sleppt"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Innsendingu á "{folder}" hefur verið sleppt']},"Upload progress":{msgid:"Upload progress",msgstr:["Framvinda innsendingar"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Þegar valin er mappa fyrir skrár sem berast, verður einnig skrifað yfir allar skrár í henni sem valda árekstrum."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Þegar valin er mappa fyrir skrár sem berast, verður efnið skrifað inn í fyrirliggjandi möppu og farið í að leysa úr árekstrum."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Hvaða skrám vilt þú vilt halda eftir?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Þú getur annaðhvort endurnefnt skrána, sleppt þessari skrá eða hætt við alla þessa aðgerð."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Þú verður að velja að minnsta kosti eina útgáfu af hverri skrá til að halda áfram."]}}}}},{locale:"it",json:{charset:"utf-8",headers:{"Last-Translator":"albanobattistella <albanobattistella@gmail.com>, 2024","Language-Team":"Italian (https://app.transifex.com/nextcloud/teams/64236/it/)","Content-Type":"text/plain; charset=UTF-8",Language:"it","Plural-Forms":"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nFrancesco Sercia, 2024\nalbanobattistella <albanobattistella@gmail.com>, 2024\n"},msgstr:["Last-Translator: albanobattistella <albanobattistella@gmail.com>, 2024\nLanguage-Team: Italian (https://app.transifex.com/nextcloud/teams/64236/it/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: it\nPlural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" è un nome di file o cartella proibito.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}"è un tipo di file proibito.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" non è consentito all\'interno di un nome di file o cartella.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} file in conflitto","{count} file in conflitto","{count} file in conflitto"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} file in conflitto in {dirname}","{count} file in conflitto in {dirname}","{count} file in conflitto in {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} secondi rimanenti "]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} rimanente"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["alcuni secondi rimanenti"]},Cancel:{msgid:"Cancel",msgstr:["Annulla"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Annulla l'intera operazione"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Annulla i caricamenti"]},Continue:{msgid:"Continue",msgstr:["Continua"]},"Create new":{msgid:"Create new",msgstr:["Crea nuovo"]},"estimating time left":{msgid:"estimating time left",msgstr:["calcolo il tempo rimanente"]},"Existing version":{msgid:"Existing version",msgstr:["Versione esistente"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['I nomi dei file non devono terminare con "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Se selezioni entrambe le versioni, nel nome del file copiato verrà aggiunto un numero "]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Nome file non valido"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Ultima modifica sconosciuta"]},New:{msgid:"New",msgstr:["Nuovo"]},"New filename":{msgid:"New filename",msgstr:["Nuovo nome file"]},"New version":{msgid:"New version",msgstr:["Nuova versione"]},paused:{msgid:"paused",msgstr:["pausa"]},"Preview image":{msgid:"Preview image",msgstr:["Anteprima immagine"]},Rename:{msgid:"Rename",msgstr:["Rinomina"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Seleziona tutte le caselle"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Seleziona tutti i file esistenti"]},"Select all new files":{msgid:"Select all new files",msgstr:["Seleziona tutti i nuovi file"]},Skip:{msgid:"Skip",msgstr:["Salta"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Salta questo file","Salta {count} file","Salta {count} file"]},"Unknown size":{msgid:"Unknown size",msgstr:["Dimensione sconosciuta"]},Upload:{msgid:"Upload",msgstr:["Caricamento"]},"Upload files":{msgid:"Upload files",msgstr:["Carica i file"]},"Upload folders":{msgid:"Upload folders",msgstr:["Carica cartelle"]},"Upload from device":{msgid:"Upload from device",msgstr:["Carica dal dispositivo"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Caricamento annullato"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Il caricamento è stato saltato"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Il caricamento di "{folder}" è stato saltato']},"Upload progress":{msgid:"Upload progress",msgstr:["Progresso del caricamento"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Quando si seleziona una cartella in arrivo, anche tutti i file in conflitto al suo interno verranno sovrascritti."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Quando si seleziona una cartella in arrivo, il contenuto viene scritto nella cartella esistente e viene eseguita una risoluzione ricorsiva dei conflitti."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Quali file vuoi mantenere?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["È possibile rinominare il file, ignorarlo o annullare l'intera operazione."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Devi selezionare almeno una versione di ogni file per continuare"]}}}}},{locale:"ja",json:{charset:"utf-8",headers:{"Last-Translator":"test test, 2025","Language-Team":"Japanese (Japan) (https://app.transifex.com/nextcloud/teams/64236/ja_JP/)","Content-Type":"text/plain; charset=UTF-8",Language:"ja_JP","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nkojima.imamura, 2024\nTakafumi AKAMATSU, 2024\ndevi, 2024\nkshimohata, 2024\ntest test, 2025\n"},msgstr:["Last-Translator: test test, 2025\nLanguage-Team: Japanese (Japan) (https://app.transifex.com/nextcloud/teams/64236/ja_JP/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ja_JP\nPlural-Forms: nplurals=1; plural=0;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" は禁止されているファイルまたはフォルダ名です。']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" は禁止されているファイルタイプです。']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['ファイルまたはフォルダ名に "{segment}" を含めることはできません。']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} ファイル数の競合"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{dirname} で {count} 個のファイルが競合しています"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["残り{seconds}"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["残り {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["残り数秒"]},assembling:{msgid:"assembling",msgstr:["組み立て中"]},Cancel:{msgid:"Cancel",msgstr:["キャンセル"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["すべての操作をキャンセルする"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["アップロードをキャンセル"]},Continue:{msgid:"Continue",msgstr:["続ける"]},"Create new":{msgid:"Create new",msgstr:["新規作成"]},"estimating time left":{msgid:"estimating time left",msgstr:["概算残り時間"]},"Existing version":{msgid:"Existing version",msgstr:["既存バージョン"]},"Failed assembling the chunks together":{msgid:"Failed assembling the chunks together",msgstr:["チャンクを一緒に組み立てるのに失敗しました。"]},"Failed uploading the file":{msgid:"Failed uploading the file",msgstr:["ファイルのアップロードに失敗しました。"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['ファイル名の末尾に "{segment}" を付けることはできません。']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["両方のバージョンを選択した場合、受信ファイルの名前に数字が追加されます。"]},"Invalid filename":{msgid:"Invalid filename",msgstr:["無効なファイル名"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["最終更新日不明"]},New:{msgid:"New",msgstr:["新規作成"]},"New filename":{msgid:"New filename",msgstr:["新しいファイル名"]},"New version":{msgid:"New version",msgstr:["新しいバージョン"]},paused:{msgid:"paused",msgstr:["一時停止中"]},"Preview image":{msgid:"Preview image",msgstr:["プレビュー画像"]},Rename:{msgid:"Rename",msgstr:["名前を変更"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["すべて選択"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["すべての既存ファイルを選択"]},"Select all new files":{msgid:"Select all new files",msgstr:["すべての新規ファイルを選択"]},Skip:{msgid:"Skip",msgstr:["スキップ"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["{count} 個のファイルをスキップする"]},"Unknown size":{msgid:"Unknown size",msgstr:["サイズ不明"]},Upload:{msgid:"Upload",msgstr:["アップロード"]},"Upload files":{msgid:"Upload files",msgstr:["ファイルをアップロード"]},"Upload folders":{msgid:"Upload folders",msgstr:["フォルダのアップロード"]},"Upload from device":{msgid:"Upload from device",msgstr:["デバイスからのアップロード"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["アップロードはキャンセルされました"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["アップロードがスキップされました"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['"{folder}" のアップロードがスキップされました']},"Upload progress":{msgid:"Upload progress",msgstr:["アップロード進行状況"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["受信フォルダが選択されると、その中の競合するファイルもすべて上書きされます。"]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["受信フォルダが選択されると、その内容は既存のフォルダに書き込まれ、再帰的な競合解決が行われます。"]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["どのファイルを保持しますか？"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["ファイル名を変更するか、このファイルをスキップするか、操作全体をキャンセルすることができます。"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["続行するには、各ファイルの少なくとも1つのバージョンを選択する必要があります。"]}}}}},{locale:"ka",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Georgian (https://www.transifex.com/nextcloud/teams/64236/ka/)","Content-Type":"text/plain; charset=UTF-8",Language:"ka","Plural-Forms":"nplurals=2; plural=(n!=1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Georgian (https://www.transifex.com/nextcloud/teams/64236/ka/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ka\nPlural-Forms: nplurals=2; plural=(n!=1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"ka_GE",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Georgian (Georgia) (https://www.transifex.com/nextcloud/teams/64236/ka_GE/)","Content-Type":"text/plain; charset=UTF-8",Language:"ka_GE","Plural-Forms":"nplurals=2; plural=(n!=1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Georgian (Georgia) (https://www.transifex.com/nextcloud/teams/64236/ka_GE/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ka_GE\nPlural-Forms: nplurals=2; plural=(n!=1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"kab",json:{charset:"utf-8",headers:{"Last-Translator":"ZiriSut, 2023","Language-Team":"Kabyle (https://app.transifex.com/nextcloud/teams/64236/kab/)","Content-Type":"text/plain; charset=UTF-8",Language:"kab","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nZiriSut, 2023\n"},msgstr:["Last-Translator: ZiriSut, 2023\nLanguage-Team: Kabyle (https://app.transifex.com/nextcloud/teams/64236/kab/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: kab\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} tesdatin i d-yeqqimen"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["{time} i d-yeqqimen"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["qqiment-d kra n tesdatin kan"]},Add:{msgid:"Add",msgstr:["Rnu"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Sefsex asali"]},"estimating time left":{msgid:"estimating time left",msgstr:["asizel n wakud i d-yeqqimen"]},paused:{msgid:"paused",msgstr:["yeḥbes"]},"Upload files":{msgid:"Upload files",msgstr:["Sali-d ifuyla"]}}}}},{locale:"kk",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Kazakh (https://www.transifex.com/nextcloud/teams/64236/kk/)","Content-Type":"text/plain; charset=UTF-8",Language:"kk","Plural-Forms":"nplurals=2; plural=(n!=1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Kazakh (https://www.transifex.com/nextcloud/teams/64236/kk/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: kk\nPlural-Forms: nplurals=2; plural=(n!=1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"km",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Khmer (https://www.transifex.com/nextcloud/teams/64236/km/)","Content-Type":"text/plain; charset=UTF-8",Language:"km","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Khmer (https://www.transifex.com/nextcloud/teams/64236/km/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: km\nPlural-Forms: nplurals=1; plural=0;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"kn",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Kannada (https://www.transifex.com/nextcloud/teams/64236/kn/)","Content-Type":"text/plain; charset=UTF-8",Language:"kn","Plural-Forms":"nplurals=2; plural=(n > 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Kannada (https://www.transifex.com/nextcloud/teams/64236/kn/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: kn\nPlural-Forms: nplurals=2; plural=(n > 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"ko",json:{charset:"utf-8",headers:{"Last-Translator":"이상오, 2024","Language-Team":"Korean (https://app.transifex.com/nextcloud/teams/64236/ko/)","Content-Type":"text/plain; charset=UTF-8",Language:"ko","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\n이상오, 2024\n"},msgstr:["Last-Translator: 이상오, 2024\nLanguage-Team: Korean (https://app.transifex.com/nextcloud/teams/64236/ko/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ko\nPlural-Forms: nplurals=1; plural=0;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}"(은)는 금지된 파일 및 폴더 이름입니다.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}"(은)는 금지된 파일 형식입니다.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['파일이나 폴더 이름에 "{segment}"(을)를 사용할 수 없습니다.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count}개의 파일이 충돌함"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{dirname}에서 {count}개의 파일이 충돌함"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds}초 남음"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} 남음"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["곧 완료"]},Cancel:{msgid:"Cancel",msgstr:["취소"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["전체 작업을 취소"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["업로드 취소"]},Continue:{msgid:"Continue",msgstr:["확인"]},"Create new":{msgid:"Create new",msgstr:["새로 만들기"]},"estimating time left":{msgid:"estimating time left",msgstr:["남은 시간 계산"]},"Existing version":{msgid:"Existing version",msgstr:["현재 버전"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['파일 이름은 "{segment}"(으)로 끝나야 합니다.']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["두 파일을 모두 선택하면, 들어오는 파일의 이름에 번호가 추가됩니다."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["잘못된 파일 이름"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["최근 수정일 알 수 없음"]},New:{msgid:"New",msgstr:["새로 만들기"]},"New filename":{msgid:"New filename",msgstr:["새 파일 이름"]},"New version":{msgid:"New version",msgstr:["새 버전"]},paused:{msgid:"paused",msgstr:["일시정지됨"]},"Preview image":{msgid:"Preview image",msgstr:["미리보기 이미지"]},Rename:{msgid:"Rename",msgstr:["이름 바꾸기"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["모든 체크박스 선택"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["기존 파일을 모두 선택"]},"Select all new files":{msgid:"Select all new files",msgstr:["새로운 파일을 모두 선택"]},Skip:{msgid:"Skip",msgstr:["건너뛰기"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["{count}개의 파일 넘기기"]},"Unknown size":{msgid:"Unknown size",msgstr:["크기를 알 수 없음"]},Upload:{msgid:"Upload",msgstr:["업로드"]},"Upload files":{msgid:"Upload files",msgstr:["파일 업로드"]},"Upload folders":{msgid:"Upload folders",msgstr:["폴더 업로드"]},"Upload from device":{msgid:"Upload from device",msgstr:["장치에서 업로드"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["업로드가 취소되었습니다."]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["업로드를 건너뛰었습니다."]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['"{folder}" 업로드를 건너뛰었습니다.']},"Upload progress":{msgid:"Upload progress",msgstr:["업로드 진행도"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["들어오는 폴더를 선택했다면, 충돌하는 내부 파일들은 덮어쓰기 됩니다."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["들어오는 폴더를 선택했다면 내용물이 그 기존 폴더 안에 작성되고, 전체적으로 충돌 해결을 수행합니다."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["어떤 파일을 보존하시겠습니까?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["파일 이름을 바꾸거나, 이 파일을 건너뛰거나 모든 작업을 취소할 수 있습니다."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["계속하기 위해서는 한 파일에 최소 하나의 버전을 선택해야 합니다."]}}}}},{locale:"la",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Latin (https://www.transifex.com/nextcloud/teams/64236/la/)","Content-Type":"text/plain; charset=UTF-8",Language:"la","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Latin (https://www.transifex.com/nextcloud/teams/64236/la/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: la\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"lb",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Luxembourgish (https://www.transifex.com/nextcloud/teams/64236/lb/)","Content-Type":"text/plain; charset=UTF-8",Language:"lb","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Luxembourgish (https://www.transifex.com/nextcloud/teams/64236/lb/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: lb\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"lo",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Lao (https://www.transifex.com/nextcloud/teams/64236/lo/)","Content-Type":"text/plain; charset=UTF-8",Language:"lo","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Lao (https://www.transifex.com/nextcloud/teams/64236/lo/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: lo\nPlural-Forms: nplurals=1; plural=0;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"lt_LT",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Lithuanian (Lithuania) (https://www.transifex.com/nextcloud/teams/64236/lt_LT/)","Content-Type":"text/plain; charset=UTF-8",Language:"lt_LT","Plural-Forms":"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Lithuanian (Lithuania) (https://www.transifex.com/nextcloud/teams/64236/lt_LT/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: lt_LT\nPlural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"lv",json:{charset:"utf-8",headers:{"Last-Translator":"Edgars Andersons, 2025","Language-Team":"Latvian (https://app.transifex.com/nextcloud/teams/64236/lv/)","Content-Type":"text/plain; charset=UTF-8",Language:"lv","Plural-Forms":"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nPapuass <martinsb@gmail.com>, 2024\nArmīns Jeltajevs <armins.jeltajevs@gmail.com>, 2024\nEdgars Andersons, 2025\n"},msgstr:["Last-Translator: Edgars Andersons, 2025\nLanguage-Team: Latvian (https://app.transifex.com/nextcloud/teams/64236/lv/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: lv\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" ir aizliegts datnes vai mapes nosaukums.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" ir aizliegts datnes veids.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" ir nav ļauts datnes vai mapes nosaukumā.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} nesaderīgu datņu","{count} nesaderīga datne","{count} nesaderīgas datnes"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} nesaderīgu datņu {dirname}","{count} nesaderīga datne {dirname}","{count} nesaderīgas datnes {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["Atlikušas {seconds} sekundes","Aatlikusi {seconds} sekunde","Atlikušas {seconds} sekundes"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["atlicis {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["atlikušas dažas sekundes"]},assembling:{msgid:"assembling",msgstr:["sakopo"]},Cancel:{msgid:"Cancel",msgstr:["Atcelt"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Atcelt visu darbību"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Atcelt augšupielādes"]},Continue:{msgid:"Continue",msgstr:["Turpināt"]},"Create new":{msgid:"Create new",msgstr:["Izveidot jaunu"]},"estimating time left":{msgid:"estimating time left",msgstr:["paredzamais atlikušais laiks"]},"Existing version":{msgid:"Existing version",msgstr:["Esošā versija"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Neizdevās apvienot gabalus"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Neizdevās augšupielādēt datni"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Datnes nosaukumi nedrīkst beigties ar "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Ja atlasa abas versijas, ienākošās datnes nosaukumam tiks pievienots skaitlis."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Nederīgs datnes nosaukums"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Pēdējais izmainīšanas datums nav zināms"]},New:{msgid:"New",msgstr:["Jauns"]},"New filename":{msgid:"New filename",msgstr:["Jauns datnes nosaukums"]},"New version":{msgid:"New version",msgstr:["Jauna versija"]},paused:{msgid:"paused",msgstr:["apturēta"]},"Preview image":{msgid:"Preview image",msgstr:["Priekšskatīt attēlu"]},Rename:{msgid:"Rename",msgstr:["Pārdēvēt"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Atlasīt visas izvēles rūtiņas"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Atlasīt visas esošās datnes"]},"Select all new files":{msgid:"Select all new files",msgstr:["Atlasīt visas jaunās datnes"]},Skip:{msgid:"Skip",msgstr:["Izlaist"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Izlaist {count} datņu","Izlaist šo datni","Izlaist {count} datnes"]},"Unknown size":{msgid:"Unknown size",msgstr:["Nezināms izmērs"]},Upload:{msgid:"Upload",msgstr:["Augšupielādēt"]},"Upload files":{msgid:"Upload files",msgstr:["Augšupielādēt datnes"]},"Upload folders":{msgid:"Upload folders",msgstr:["Augšupielādēt mapes"]},"Upload from device":{msgid:"Upload from device",msgstr:["Augšupielādēt no ierīces"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Augšupielāde tika atcelta"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Augšupielāde tika izlaista"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['"{folder}" augšupielāde tika izlaista']},"Upload progress":{msgid:"Upload progress",msgstr:["Augšupielādes virzība"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Kad ir atlasīta ienākošā mape, tiks pārrakstītas arī jebkuras tajā esošās nesaderīgās datnes."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Kad ir atlasīta ienākošā mape, saturs tiks rakstīts esošajā mapē, un tiks veikta rekursīva nesaderību novēršana."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Kuras datnes paturēt?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Datni var vai nu pārdēvēt, vai izlaist vai atcelt visu darbību."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Ir nepieciešams atlasīt vismaz vienu katras datnes versiju, lai turpinātu."]}}}}},{locale:"mk",json:{charset:"utf-8",headers:{"Last-Translator":"Сашко Тодоров <sasetodorov@gmail.com>, 2022","Language-Team":"Macedonian (https://www.transifex.com/nextcloud/teams/64236/mk/)","Content-Type":"text/plain; charset=UTF-8",Language:"mk","Plural-Forms":"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nСашко Тодоров <sasetodorov@gmail.com>, 2022\n"},msgstr:["Last-Translator: Сашко Тодоров <sasetodorov@gmail.com>, 2022\nLanguage-Team: Macedonian (https://www.transifex.com/nextcloud/teams/64236/mk/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: mk\nPlural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["преостануваат {seconds} секунди"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["преостанува {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["уште неколку секунди"]},Add:{msgid:"Add",msgstr:["Додади"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Прекини прикачување"]},"estimating time left":{msgid:"estimating time left",msgstr:["приближно преостанато време"]},paused:{msgid:"paused",msgstr:["паузирано"]},"Upload files":{msgid:"Upload files",msgstr:["Прикачување датотеки"]}}}}},{locale:"mn",json:{charset:"utf-8",headers:{"Last-Translator":"BATKHUYAG Ganbold, 2023","Language-Team":"Mongolian (https://app.transifex.com/nextcloud/teams/64236/mn/)","Content-Type":"text/plain; charset=UTF-8",Language:"mn","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nBATKHUYAG Ganbold, 2023\n"},msgstr:["Last-Translator: BATKHUYAG Ganbold, 2023\nLanguage-Team: Mongolian (https://app.transifex.com/nextcloud/teams/64236/mn/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: mn\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} секунд үлдсэн"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["{time} үлдсэн"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["хэдхэн секунд үлдсэн"]},Add:{msgid:"Add",msgstr:["Нэмэх"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Илгээлтийг цуцлах"]},"estimating time left":{msgid:"estimating time left",msgstr:["Үлдсэн хугацааг тооцоолж байна"]},paused:{msgid:"paused",msgstr:["түр зогсоосон"]},"Upload files":{msgid:"Upload files",msgstr:["Файл илгээх"]}}}}},{locale:"mr",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Marathi (https://www.transifex.com/nextcloud/teams/64236/mr/)","Content-Type":"text/plain; charset=UTF-8",Language:"mr","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Marathi (https://www.transifex.com/nextcloud/teams/64236/mr/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: mr\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"ms_MY",json:{charset:"utf-8",headers:{"Last-Translator":"DT Navy, 2024","Language-Team":"Malay (Malaysia) (https://app.transifex.com/nextcloud/teams/64236/ms_MY/)","Content-Type":"text/plain; charset=UTF-8",Language:"ms_MY","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nDT Navy, 2024\n"},msgstr:["Last-Translator: DT Navy, 2024\nLanguage-Team: Malay (Malaysia) (https://app.transifex.com/nextcloud/teams/64236/ms_MY/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ms_MY\nPlural-Forms: nplurals=1; plural=0;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" adalah fail dan nama folder yang dilarang']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" adalah jenis fail yang dilarang']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" adalah tidak dibenarkan dalam nama fail atau folder']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} files bertindih"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} fail bertindih dalam {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} saat tinggal"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} tinggal"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["beberapa saat lagi"]},Cancel:{msgid:"Cancel",msgstr:["batal"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Batal keseluruhan operasi"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["batal muat naik"]},Continue:{msgid:"Continue",msgstr:["teruskan"]},"Create new":{msgid:"Create new",msgstr:["Buat baharu"]},"estimating time left":{msgid:"estimating time left",msgstr:["jangkaan masa tinggal"]},"Existing version":{msgid:"Existing version",msgstr:["versi sedia ada"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Nama fail tidak boleh berakhir dengan "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Jika dua versi dipilih, fail yang masuk akan ditambah bilangan pada namanya."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Nama fail tidak sah"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Tarikh terakhir diubah suai tidak diketahui"]},New:{msgid:"New",msgstr:["Baru"]},"New filename":{msgid:"New filename",msgstr:["Nama fail baharu"]},"New version":{msgid:"New version",msgstr:["Versi baharu"]},paused:{msgid:"paused",msgstr:["Jeda"]},"Preview image":{msgid:"Preview image",msgstr:["Pratonton gambar"]},Rename:{msgid:"Rename",msgstr:["Menamakan semula"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Pilih semua kotak pilihan"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Pilih semua fail yang wujud"]},"Select all new files":{msgid:"Select all new files",msgstr:["pilih semua fail baharu"]},Skip:{msgid:"Skip",msgstr:["Langkau"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Langkau fail {count}"]},"Unknown size":{msgid:"Unknown size",msgstr:["Saiz tidak diketahui"]},Upload:{msgid:"Upload",msgstr:["Muat naik"]},"Upload files":{msgid:"Upload files",msgstr:["Muat naik fail"]},"Upload folders":{msgid:"Upload folders",msgstr:["Muat naik folder"]},"Upload from device":{msgid:"Upload from device",msgstr:["Muat naik dari peranti"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Muat naik telah dibatalkan"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Muat naik telah dilangkau"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Muat naik "{folder}" telah dilangkau']},"Upload progress":{msgid:"Upload progress",msgstr:["Kemajuan muat naik"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Apabila folder masuk dipilih, sebarang fail bertindih akan ditulis semula"]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Apabila folder masuk dipilih, kandungan ditulis ke dalam folder sedia ada dan penyelesaian konflik rekursif dilakukan."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Fail yang mana ingin disimpan?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["And boleh menamakan semula fail, langkau fail tersebut atau membatalkan keseluruhan operasi"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Anda perlu memilih sekurangnya satu versi setiap fail untuk teruskan"]}}}}},{locale:"my",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Burmese (https://www.transifex.com/nextcloud/teams/64236/my/)","Content-Type":"text/plain; charset=UTF-8",Language:"my","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Burmese (https://www.transifex.com/nextcloud/teams/64236/my/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: my\nPlural-Forms: nplurals=1; plural=0;\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"nb",json:{charset:"utf-8",headers:{"Last-Translator":"Roger Knutsen, 2024","Language-Team":"Norwegian Bokmål (Norway) (https://app.transifex.com/nextcloud/teams/64236/nb_NO/)","Content-Type":"text/plain; charset=UTF-8",Language:"nb_NO","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nRoger Knutsen, 2024\n"},msgstr:["Last-Translator: Roger Knutsen, 2024\nLanguage-Team: Norwegian Bokmål (Norway) (https://app.transifex.com/nextcloud/teams/64236/nb_NO/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: nb_NO\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" er et forbudt fil- eller mappenavn.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" er en forbudt filtype.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" er ikke tillatt i et fil- eller mappenavn.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} file conflict","{count} filkonflikter"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} file conflict in {dirname}","{count} filkonflikter i {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} sekunder igjen"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} igjen"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["noen få sekunder igjen"]},Cancel:{msgid:"Cancel",msgstr:["Avbryt"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Avbryt hele operasjonen"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Avbryt opplastninger"]},Continue:{msgid:"Continue",msgstr:["Fortsett"]},"Create new":{msgid:"Create new",msgstr:["Opprett ny"]},"estimating time left":{msgid:"estimating time left",msgstr:["Estimerer tid igjen"]},"Existing version":{msgid:"Existing version",msgstr:["Gjeldende versjon"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Filnavn må ikke slutte med "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Hvis du velger begge versjonene, vil den innkommende filen ha et nummer lagt til navnet."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Ugyldig filnavn"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Siste gang redigert ukjent"]},New:{msgid:"New",msgstr:["Ny"]},"New filename":{msgid:"New filename",msgstr:["Nytt filnavn"]},"New version":{msgid:"New version",msgstr:["Ny versjon"]},paused:{msgid:"paused",msgstr:["pauset"]},"Preview image":{msgid:"Preview image",msgstr:["Forhåndsvis bilde"]},Rename:{msgid:"Rename",msgstr:["Omdøp"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Velg alle"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Velg alle eksisterende filer"]},"Select all new files":{msgid:"Select all new files",msgstr:["Velg alle nye filer"]},Skip:{msgid:"Skip",msgstr:["Hopp over"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Skip this file","Hopp over {count} filer"]},"Unknown size":{msgid:"Unknown size",msgstr:["Ukjent størrelse"]},"Upload files":{msgid:"Upload files",msgstr:["Last opp filer"]},"Upload folders":{msgid:"Upload folders",msgstr:["Last opp mapper"]},"Upload from device":{msgid:"Upload from device",msgstr:["Last opp fra enhet"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Opplastingen er kansellert"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Opplastingen er hoppet over"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Opplasting av "{folder}" er hoppet over']},"Upload progress":{msgid:"Upload progress",msgstr:["Fremdrift, opplasting"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Når en innkommende mappe velges, blir eventuelle motstridende filer i den også overskrevet."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Når en innkommende mappe velges, skrives innholdet inn i den eksisterende mappen, og en rekursiv konfliktløsning utføres."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Hvilke filer vil du beholde?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Du kan enten gi nytt navn til filen, hoppe over denne filen eller avbryte hele operasjonen."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Du må velge minst en versjon av hver fil for å fortsette."]}}}}},{locale:"ne",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Nepali (https://www.transifex.com/nextcloud/teams/64236/ne/)","Content-Type":"text/plain; charset=UTF-8",Language:"ne","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Nepali (https://www.transifex.com/nextcloud/teams/64236/ne/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ne\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"nl",json:{charset:"utf-8",headers:{"Last-Translator":"Rico <rico-schwab@hotmail.com>, 2023","Language-Team":"Dutch (https://app.transifex.com/nextcloud/teams/64236/nl/)","Content-Type":"text/plain; charset=UTF-8",Language:"nl","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nRico <rico-schwab@hotmail.com>, 2023\n"},msgstr:["Last-Translator: Rico <rico-schwab@hotmail.com>, 2023\nLanguage-Team: Dutch (https://app.transifex.com/nextcloud/teams/64236/nl/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: nl\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["Nog {seconds} seconden"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["{seconds} over"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["Nog een paar seconden"]},Add:{msgid:"Add",msgstr:["Voeg toe"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Uploads annuleren"]},"estimating time left":{msgid:"estimating time left",msgstr:["Schatting van de resterende tijd"]},paused:{msgid:"paused",msgstr:["Gepauzeerd"]},"Upload files":{msgid:"Upload files",msgstr:["Upload bestanden"]}}}}},{locale:"nn_NO",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Norwegian Nynorsk (Norway) (https://www.transifex.com/nextcloud/teams/64236/nn_NO/)","Content-Type":"text/plain; charset=UTF-8",Language:"nn_NO","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Norwegian Nynorsk (Norway) (https://www.transifex.com/nextcloud/teams/64236/nn_NO/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: nn_NO\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"oc",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Occitan (post 1500) (https://www.transifex.com/nextcloud/teams/64236/oc/)","Content-Type":"text/plain; charset=UTF-8",Language:"oc","Plural-Forms":"nplurals=2; plural=(n > 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Occitan (post 1500) (https://www.transifex.com/nextcloud/teams/64236/oc/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: oc\nPlural-Forms: nplurals=2; plural=(n > 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"pl",json:{charset:"utf-8",headers:{"Last-Translator":"Valdnet, 2025","Language-Team":"Polish (https://app.transifex.com/nextcloud/teams/64236/pl/)","Content-Type":"text/plain; charset=UTF-8",Language:"pl","Plural-Forms":"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nPiotr Strebski <strebski@gmail.com>, 2024\nValdnet, 2025\n"},msgstr:["Last-Translator: Valdnet, 2025\nLanguage-Team: Polish (https://app.transifex.com/nextcloud/teams/64236/pl/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: pl\nPlural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" to zabroniona nazwa pliku lub katalogu.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" jest zabronionym typem pliku.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['Znak "{segment}" nie jest dozwolony w nazwie pliku lub katalogu.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["konflikt 1 pliku","{count} konfliktów plików","{count} konfliktów plików","{count} konfliktów plików"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} konfliktowy plik w {dirname}","{count} konfliktowych plików w {dirname}","{count} konfliktowych plików w {dirname}","{count} konfliktowych plików w {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["Pozostało {seconds} sekund"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["Pozostało {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["Pozostało kilka sekund"]},Cancel:{msgid:"Cancel",msgstr:["Anuluj"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Anuluj całą operację"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Anuluj wysyłanie"]},Continue:{msgid:"Continue",msgstr:["Kontynuuj"]},"Create new":{msgid:"Create new",msgstr:["Utwórz nowe"]},"estimating time left":{msgid:"estimating time left",msgstr:["Szacowanie pozostałego czasu"]},"Existing version":{msgid:"Existing version",msgstr:["Istniejąca wersja"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Nazwy plików nie mogą kończyć się na "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Jeśli wybierzesz obie wersje, do nazwy pliku przychodzącego zostanie dodany numer."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Nieprawidłowa nazwa pliku"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Nieznana data ostatniej modyfikacji"]},New:{msgid:"New",msgstr:["Nowy"]},"New filename":{msgid:"New filename",msgstr:["Nowa nazwa pliku"]},"New version":{msgid:"New version",msgstr:["Nowa wersja"]},paused:{msgid:"paused",msgstr:["Wstrzymane"]},"Preview image":{msgid:"Preview image",msgstr:["Podgląd obrazu"]},Rename:{msgid:"Rename",msgstr:["Zmiana nazwy"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Zaznacz wszystkie pola wyboru"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Zaznacz wszystkie istniejące pliki"]},"Select all new files":{msgid:"Select all new files",msgstr:["Zaznacz wszystkie nowe pliki"]},Skip:{msgid:"Skip",msgstr:["Pomiń"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Pomiń 1 plik","Pomiń {count} plików","Pomiń {count} plików","Pomiń {count} plików"]},"Unknown size":{msgid:"Unknown size",msgstr:["Nieznany rozmiar"]},Upload:{msgid:"Upload",msgstr:["Wyślij"]},"Upload files":{msgid:"Upload files",msgstr:["Wyślij pliki"]},"Upload folders":{msgid:"Upload folders",msgstr:["Wyślij katalogi"]},"Upload from device":{msgid:"Upload from device",msgstr:["Wyślij z urządzenia"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Wysyłanie zostało anulowane"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Wysyłanie zostało pominięte"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Wysyłanie "{folder}" zostało pominięte']},"Upload progress":{msgid:"Upload progress",msgstr:["Postęp wysyłania"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Po wybraniu katalogu przychodzącego wszelkie znajdujące się w nim pliki powodujące konflikt również zostaną nadpisane."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Po wybraniu katalogu przychodzącego zawartość jest zapisywana w istniejącym katalogu i przeprowadzane jest rekursywne rozwiązywanie konfliktów."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Które pliki chcesz zachować?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Możesz zmienić nazwę pliku, pominąć ten plik lub anulować całą operację."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Aby kontynuować, musisz wybrać co najmniej jedną wersję każdego pliku."]}}}}},{locale:"ps",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Pashto (https://www.transifex.com/nextcloud/teams/64236/ps/)","Content-Type":"text/plain; charset=UTF-8",Language:"ps","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Pashto (https://www.transifex.com/nextcloud/teams/64236/ps/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ps\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"pt_BR",json:{charset:"utf-8",headers:{"Last-Translator":"F Bausch, 2025","Language-Team":"Portuguese (Brazil) (https://app.transifex.com/nextcloud/teams/64236/pt_BR/)","Content-Type":"text/plain; charset=UTF-8",Language:"pt_BR","Plural-Forms":"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nLeonardo Colman Lopes <leonardo.dev@colman.com.br>, 2024\nRodrigo Sottomaior Macedo <sottomaiormacedotec@sottomaiormacedo.tech>, 2024\nF Bausch, 2025\n"},msgstr:["Last-Translator: F Bausch, 2025\nLanguage-Team: Portuguese (Brazil) (https://app.transifex.com/nextcloud/teams/64236/pt_BR/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: pt_BR\nPlural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" é um nome de arquivo ou pasta proibido.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" é um tipo de arquivo proibido.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" não é permitido dentro de um nome de arquivo ou pasta.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} arquivos em conflito","{count} arquivos em conflito","{count} arquivos em conflito"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} conflitos de arquivo em {dirname}","{count} conflitos de arquivo em {dirname}","{count} conflitos de arquivo em {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} segundo restante","{seconds} segundos restantes","{seconds} segundos restantes"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} restante"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["alguns segundos restantes"]},assembling:{msgid:"assembling",msgstr:["montando"]},Cancel:{msgid:"Cancel",msgstr:["Cancelar"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Cancelar a operação inteira"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cancelar uploads"]},Continue:{msgid:"Continue",msgstr:["Continuar"]},"Create new":{msgid:"Create new",msgstr:["Criar novo"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimando tempo restante"]},"Existing version":{msgid:"Existing version",msgstr:["Versão existente"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Falha ao montar os pedaços juntos"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Falha ao fazer o upload do arquivo"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Os nomes dos arquivos não devem terminar com "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Se você selecionar ambas as versões, o arquivo recebido terá um número adicionado ao seu nome."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Nome de arquivo inválido"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Data da última modificação desconhecida"]},New:{msgid:"New",msgstr:["Novo"]},"New filename":{msgid:"New filename",msgstr:["Novo nome de arquivo"]},"New version":{msgid:"New version",msgstr:["Nova versão"]},paused:{msgid:"paused",msgstr:["pausado"]},"Preview image":{msgid:"Preview image",msgstr:["Visualizar imagem"]},Rename:{msgid:"Rename",msgstr:["Renomear"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Marcar todas as caixas de seleção"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Selecionar todos os arquivos existentes"]},"Select all new files":{msgid:"Select all new files",msgstr:["Selecionar todos os novos arquivos"]},Skip:{msgid:"Skip",msgstr:["Pular"]},"Skip {count} file":{msgid:"Skip {count} file",msgid_plural:"Skip {count} files",msgstr:["Pular {count} arquivo","Pular {count} arquivos","Pular {count} arquivos"]},"Skip this file":{msgid:"Skip this file",msgstr:["Pular este arquivo"]},"Unknown size":{msgid:"Unknown size",msgstr:["Tamanho desconhecido"]},Upload:{msgid:"Upload",msgstr:["Fazer upload"]},"Upload files":{msgid:"Upload files",msgstr:["Fazer upload de arquivos"]},"Upload folders":{msgid:"Upload folders",msgstr:["Fazer upload de pastas"]},"Upload from device":{msgid:"Upload from device",msgstr:["Fazer upload do dispositivo"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["O upload foi cancelado"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["O upload foi pulado"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['O upload de "{folder}" foi pulado']},"Upload progress":{msgid:"Upload progress",msgstr:["Progresso de upload"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Quando uma pasta recebida é selecionada, todos os arquivos conflitantes dentro dela também serão sobrescritos."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Quando uma pasta recebida é selecionada, o conteúdo é gravado na pasta existente e uma resolução de conflito recursiva é executada."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Quais arquivos você deseja manter?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Você pode renomear o arquivo, pular este arquivo ou cancelar toda a operação."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Você precisa selecionar pelo menos uma versão de cada arquivo para continuar."]}}}}},{locale:"pt_PT",json:{charset:"utf-8",headers:{"Last-Translator":"Manuela Silva <mmsrs@sky.com>, 2022","Language-Team":"Portuguese (Portugal) (https://www.transifex.com/nextcloud/teams/64236/pt_PT/)","Content-Type":"text/plain; charset=UTF-8",Language:"pt_PT","Plural-Forms":"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nManuela Silva <mmsrs@sky.com>, 2022\n"},msgstr:["Last-Translator: Manuela Silva <mmsrs@sky.com>, 2022\nLanguage-Team: Portuguese (Portugal) (https://www.transifex.com/nextcloud/teams/64236/pt_PT/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: pt_PT\nPlural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["faltam {seconds} segundo(s)"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["faltam {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["faltam uns segundos"]},Add:{msgid:"Add",msgstr:["Adicionar"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Cancelar envios"]},"estimating time left":{msgid:"estimating time left",msgstr:["tempo em falta estimado"]},paused:{msgid:"paused",msgstr:["pausado"]},"Upload files":{msgid:"Upload files",msgstr:["Enviar ficheiros"]}}}}},{locale:"ro",json:{charset:"utf-8",headers:{"Last-Translator":"Mădălin Vasiliu <contact@madalinvasiliu.com>, 2022","Language-Team":"Romanian (https://www.transifex.com/nextcloud/teams/64236/ro/)","Content-Type":"text/plain; charset=UTF-8",Language:"ro","Plural-Forms":"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nMădălin Vasiliu <contact@madalinvasiliu.com>, 2022\n"},msgstr:["Last-Translator: Mădălin Vasiliu <contact@madalinvasiliu.com>, 2022\nLanguage-Team: Romanian (https://www.transifex.com/nextcloud/teams/64236/ro/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ro\nPlural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} secunde rămase"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["{time} rămas"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["câteva secunde rămase"]},Add:{msgid:"Add",msgstr:["Adaugă"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Anulați încărcările"]},"estimating time left":{msgid:"estimating time left",msgstr:["estimarea timpului rămas"]},paused:{msgid:"paused",msgstr:["pus pe pauză"]},"Upload files":{msgid:"Upload files",msgstr:["Încarcă fișiere"]}}}}},{locale:"ru",json:{charset:"utf-8",headers:{"Last-Translator":"Александр, 2025","Language-Team":"Russian (https://app.transifex.com/nextcloud/teams/64236/ru/)","Content-Type":"text/plain; charset=UTF-8",Language:"ru","Plural-Forms":"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nВлад, 2024\nAlex <fedotov22091982@gmail.com>, 2024\nRoman Stepanov, 2024\nMaksim Sukharev, 2024\nАлександр, 2025\n"},msgstr:["Last-Translator: Александр, 2025\nLanguage-Team: Russian (https://app.transifex.com/nextcloud/teams/64236/ru/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ru\nPlural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:["«{segment}» — это запрещенное имя файла или папки."]},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:["«{segment}» — это запрещенный тип файла."]},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:["«{segment}» не допускается в имени файла или папки."]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["конфликт {count} файла","конфликт {count} файлов","конфликт {count} файлов","конфликт {count} файлов"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["конфликт {count} файла в «{dirname}»","конфликт {count} файлов в «{dirname}»","конфликт {count} файлов в «{dirname}»","конфликт {count} файлов в «{dirname}»"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["осталась {seconds} секунда","осталось {seconds} секунды","осталось {seconds} секунд","осталось {seconds} секунд"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["осталось {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["осталось несколько секунд"]},assembling:{msgid:"assembling",msgstr:["сборка"]},Cancel:{msgid:"Cancel",msgstr:["Отменить"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Отменить операцию целиком"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Отменить загрузки"]},Continue:{msgid:"Continue",msgstr:["Продолжить"]},"Create new":{msgid:"Create new",msgstr:["Создать новое"]},"estimating time left":{msgid:"estimating time left",msgstr:["оценка оставшегося времени"]},"Existing version":{msgid:"Existing version",msgstr:["Текущая версия"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Не удалось собрать части вместе"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Не удалось загрузить файл"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:["Имена файлов не должны заканчиваться на «{segment}»"]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Если вы выберете обе версии, к имени входящего файла будет добавлен номер."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Неверное имя файла"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Дата последнего изменения неизвестна"]},New:{msgid:"New",msgstr:["Новый"]},"New filename":{msgid:"New filename",msgstr:["Новое имя файла"]},"New version":{msgid:"New version",msgstr:["Новая версия"]},paused:{msgid:"paused",msgstr:["приостановлено"]},"Preview image":{msgid:"Preview image",msgstr:["Предварительный просмотр"]},Rename:{msgid:"Rename",msgstr:["Переименовать"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Выбрать все"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Выбрать все существующие файлы"]},"Select all new files":{msgid:"Select all new files",msgstr:["Выбрать все новые файлы"]},Skip:{msgid:"Skip",msgstr:["Пропустить"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Пропустить файл","Пропустить {count} файла","Пропустить {count} файлов","Пропустить {count} файлов"]},"Unknown size":{msgid:"Unknown size",msgstr:["Неизвестный размер"]},Upload:{msgid:"Upload",msgstr:["Загрузить"]},"Upload files":{msgid:"Upload files",msgstr:["Загрузить файлы"]},"Upload folders":{msgid:"Upload folders",msgstr:["Загрузить папки"]},"Upload from device":{msgid:"Upload from device",msgstr:["Загрузить с устройства"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Загрузка была отменена"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Загрузка была пропущена"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:["Загрузка «{folder}» была пропущена"]},"Upload progress":{msgid:"Upload progress",msgstr:["Прогресс загрузки"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Когда выбрана входящая папка, все конфликтующие файлы в ней также будут перезаписаны."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Когда выбрана входящая папка, содержимое записывается в существующую папку и выполняется рекурсивное разрешение конфликтов."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Какие файлы вы хотите сохранить?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Вы можете переименовать файл, пропустить этот файл или отменить всю операцию."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Для продолжения вам нужно выбрать по крайней мере одну версию каждого файла."]}}}}},{locale:"sc",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Sardinian (https://www.transifex.com/nextcloud/teams/64236/sc/)","Content-Type":"text/plain; charset=UTF-8",Language:"sc","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Sardinian (https://www.transifex.com/nextcloud/teams/64236/sc/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: sc\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"si",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Sinhala (https://www.transifex.com/nextcloud/teams/64236/si/)","Content-Type":"text/plain; charset=UTF-8",Language:"si","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Sinhala (https://www.transifex.com/nextcloud/teams/64236/si/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: si\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"sk",json:{charset:"utf-8",headers:{"Last-Translator":"Tomas Rusnak <linkermail@gmail.com>, 2024","Language-Team":"Slovak (Slovakia) (https://app.transifex.com/nextcloud/teams/64236/sk_SK/)","Content-Type":"text/plain; charset=UTF-8",Language:"sk_SK","Plural-Forms":"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJozef Gaal <preklady@mayday.sk>, 2024\nTomas Rusnak <linkermail@gmail.com>, 2024\n"},msgstr:["Last-Translator: Tomas Rusnak <linkermail@gmail.com>, 2024\nLanguage-Team: Slovak (Slovakia) (https://app.transifex.com/nextcloud/teams/64236/sk_SK/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: sk_SK\nPlural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:["„{segment}“ je zakázaný názov súboru alebo priečinka."]},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" je zákazaný typ súboru.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}“ je zakázané v názve súboru alebo adresára.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} súbor má konflikt","{count} súbory majú konflikt","{count} súborov má konflikt","{count} súborov má konflikt"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} súborový konflikt v {dirname}","{count} súborové konflikty v {dirname}","{count} súborových konfliktov v {dirname}","{count} súborových konfliktov v {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["{seconds} sekúnd zostáva"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} zostáva"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["zostáva niekoľko sekúnd"]},Cancel:{msgid:"Cancel",msgstr:["Zrušiť"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Zrušiť celú operáciu"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Zrušiť nahrávanie"]},Continue:{msgid:"Continue",msgstr:["Pokračovať"]},"Create new":{msgid:"Create new",msgstr:["Vytvoriť nové"]},"estimating time left":{msgid:"estimating time left",msgstr:["odhadovanie zostávajúceho času"]},"Existing version":{msgid:"Existing version",msgstr:["Existujúca verzia"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Názvy súborov nesmú končiť znakom "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Ak vyberiete obe verzie, k názvu prichádzajúceho súboru sa pridá číslo."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Neplatný názov súboru"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Dátum poslednej úpravy neznámy"]},New:{msgid:"New",msgstr:["Nový"]},"New filename":{msgid:"New filename",msgstr:["Nový názov súboru"]},"New version":{msgid:"New version",msgstr:["Nová verzia"]},paused:{msgid:"paused",msgstr:["pozastavené"]},"Preview image":{msgid:"Preview image",msgstr:["Náhľad obrázka"]},Rename:{msgid:"Rename",msgstr:["Premenovať"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Označiť všetky výberové políčka"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Vybrať všetky existujúce súbory"]},"Select all new files":{msgid:"Select all new files",msgstr:["Vybrať všetky nové súbory"]},Skip:{msgid:"Skip",msgstr:["Preskočiť"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Preskočiť tento súbor","Preskočiť {count} súbory","Preskočiť {count} súborov","Preskočiť {count} súborov"]},"Unknown size":{msgid:"Unknown size",msgstr:["Neznáma veľkosť"]},Upload:{msgid:"Upload",msgstr:["Nahrať"]},"Upload files":{msgid:"Upload files",msgstr:["Nahrať súbory"]},"Upload folders":{msgid:"Upload folders",msgstr:["Nahrať priečinky"]},"Upload from device":{msgid:"Upload from device",msgstr:["Nahrať zo zariadenia"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Nahrávanie bolo zrušené"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Nahrávanie bolo preskočené"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Nahrávanie "{folder}" bolo preskočené']},"Upload progress":{msgid:"Upload progress",msgstr:["Priebeh nahrávania"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Keď je vybraný prichádzajúci priečinok, prepíšu sa aj všetky konfliktné súbory v ňom."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Po výbere prichádzajúceho priečinka sa obsah zapíše do existujúceho priečinka a vykoná sa rekurzívne riešenie konfliktov."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Ktoré súbory chcete ponechať?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Súbor môžete premenovať, preskočiť alebo zrušiť celú operáciu."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Ak chcete pokračovať, musíte vybrať aspoň jednu verziu každého súboru."]}}}}},{locale:"sl",json:{charset:"utf-8",headers:{"Last-Translator":"Simon Bogina, 2024","Language-Team":"Slovenian (https://app.transifex.com/nextcloud/teams/64236/sl/)","Content-Type":"text/plain; charset=UTF-8",Language:"sl","Plural-Forms":"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nJan Kraljič <jan.kraljic@patware.eu>, 2024\nSimon Bogina, 2024\n"},msgstr:["Last-Translator: Simon Bogina, 2024\nLanguage-Team: Slovenian (https://app.transifex.com/nextcloud/teams/64236/sl/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: sl\nPlural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" je prepovedano ime datoteka ali mape.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" je prepovedan tip datoteke.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" ni dovoljeno v imenu datoteke ali mape.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["1{count} datoteka je v konfliktu","1{count} datoteki sta v konfiktu","1{count} datotek je v konfliktu","{count} datotek je v konfliktu"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} datoteka je v konfiktu v {dirname}","{count} datoteki sta v konfiktu v {dirname}","{count} datotek je v konfiktu v {dirname}","{count} konfliktov datotek v {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["še {seconds} sekund"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["še {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["še nekaj sekund"]},Cancel:{msgid:"Cancel",msgstr:["Prekliči"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Prekliči celotni postopek"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Prekliči pošiljanje"]},Continue:{msgid:"Continue",msgstr:["Nadaljuj"]},"Create new":{msgid:"Create new",msgstr:["Ustvari nov"]},"estimating time left":{msgid:"estimating time left",msgstr:["ocenjujem čas do konca"]},"Existing version":{msgid:"Existing version",msgstr:["Obstoječa različica"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Imena datotek se ne smejo končati s "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Če izberete obe različici, bo imenu dohodne datoteke na koncu dodana številka."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Nepravilno ime datoteke"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Datum zadnje spremembe neznan"]},New:{msgid:"New",msgstr:["Nov"]},"New filename":{msgid:"New filename",msgstr:["Novo ime datoteke"]},"New version":{msgid:"New version",msgstr:["Nova različica"]},paused:{msgid:"paused",msgstr:["v premoru"]},"Preview image":{msgid:"Preview image",msgstr:["Predogled slike"]},Rename:{msgid:"Rename",msgstr:["Preimenuj"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Izberi vsa potrditvena polja"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Označi vse obstoječe datoteke"]},"Select all new files":{msgid:"Select all new files",msgstr:["Označi vse nove datoteke"]},Skip:{msgid:"Skip",msgstr:["Preskoči"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Preskoči  datoteko","Preskoči {count} datoteki","Preskoči {count} datotek","Preskoči {count} datotek"]},"Unknown size":{msgid:"Unknown size",msgstr:["Neznana velikost"]},Upload:{msgid:"Upload",msgstr:["Naloži"]},"Upload files":{msgid:"Upload files",msgstr:["Naloži datoteke"]},"Upload folders":{msgid:"Upload folders",msgstr:["Naloži mape"]},"Upload from device":{msgid:"Upload from device",msgstr:["Naloži iz naprave"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Nalaganje je bilo preklicano"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Nalaganje je bilo preskočeno"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Nalaganje "{folder}" je bilo preskočeno']},"Upload progress":{msgid:"Upload progress",msgstr:["Napredek nalaganja"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Ko je izbrana dohodna mapa, bodo vse datototeke v konfliktu znotraj nje prepisane."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Ko je izbrana dohodna mapa, je vsebina vpisana v obstoječo mapo in je izvedeno rekurzivno reševanje konfliktov."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Katere datoteke želite obdržati?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Datoteko lahko preimenujete, preskočite ali prekličete celo operacijo."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Izbrati morate vsaj eno različico vsake datoteke da nadaljujete."]}}}}},{locale:"sq",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Albanian (https://www.transifex.com/nextcloud/teams/64236/sq/)","Content-Type":"text/plain; charset=UTF-8",Language:"sq","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Albanian (https://www.transifex.com/nextcloud/teams/64236/sq/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: sq\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"sr",json:{charset:"utf-8",headers:{"Last-Translator":"Иван Пешић, 2024","Language-Team":"Serbian (https://app.transifex.com/nextcloud/teams/64236/sr/)","Content-Type":"text/plain; charset=UTF-8",Language:"sr","Plural-Forms":"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nИван Пешић, 2024\n"},msgstr:["Last-Translator: Иван Пешић, 2024\nLanguage-Team: Serbian (https://app.transifex.com/nextcloud/teams/64236/sr/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: sr\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:["„{segment}” је забрањено име фајла или фолдера."]},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:["„{segment}” је забрањен тип фајла."]},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:["„{segment}” није дозвољено унутар имена фајла или фолдера."]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} фајл конфликт","{count} фајл конфликта","{count} фајл конфликта"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} фајл конфликт у {dirname}","{count} фајл конфликта у {dirname}","{count} фајл конфликта у {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["преостало је {seconds} секунди"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} преостало"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["преостало је неколико секунди"]},Cancel:{msgid:"Cancel",msgstr:["Откажи"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Отказује комплетну операцију"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Обустави отпремања"]},Continue:{msgid:"Continue",msgstr:["Настави"]},"Create new":{msgid:"Create new",msgstr:["Креирај ново"]},"estimating time left":{msgid:"estimating time left",msgstr:["процена преосталог времена"]},"Existing version":{msgid:"Existing version",msgstr:["Постојећа верзија"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:["Имена фајлова не смеју да се завршавају на „{segment}”."]},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Ако изаберете обе верзије, на име долазног фајла ће се додати број."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Неисправно име фајла"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Није познат датум последње измене"]},New:{msgid:"New",msgstr:["Ново"]},"New filename":{msgid:"New filename",msgstr:["Ново име фајла"]},"New version":{msgid:"New version",msgstr:["Нова верзија"]},paused:{msgid:"paused",msgstr:["паузирано"]},"Preview image":{msgid:"Preview image",msgstr:["Слика прегледа"]},Rename:{msgid:"Rename",msgstr:["Промени име"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Штиклирај сва поља за штиклирање"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Изабери све постојеће фајлове"]},"Select all new files":{msgid:"Select all new files",msgstr:["Изабери све нове фајлове"]},Skip:{msgid:"Skip",msgstr:["Прескочи"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Прескочи овај фајл","Прескочи {count} фајла","Прескочи {count} фајлова"]},"Unknown size":{msgid:"Unknown size",msgstr:["Непозната величина"]},Upload:{msgid:"Upload",msgstr:["Отпреми"]},"Upload files":{msgid:"Upload files",msgstr:["Отпреми фајлове"]},"Upload folders":{msgid:"Upload folders",msgstr:["Отпреми фолдере"]},"Upload from device":{msgid:"Upload from device",msgstr:["Отпреми са уређаја"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Отпремање је отказано"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Отпремање је прескочено"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:["Отпремање „{folder}”је прескочено"]},"Upload progress":{msgid:"Upload progress",msgstr:["Напредак отпремања"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Када се изабере долазни фолдер, сва имена фајлова са конфликтом унутар њега ће се такође преписати."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Када се изабере долазни фолдер, садржај се уписује у постојећи фолдер и извршава се рекурзивно разрешавање конфликата."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Које фајлове желите да задржите?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Можете или да промените име фајлу, прескочите овај фајл или откажете комплетну операцију."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Морате да изаберете барем једну верзију сваког фајла да наставите."]}}}}},{locale:"sr@latin",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Serbian (Latin) (https://www.transifex.com/nextcloud/teams/64236/sr@latin/)","Content-Type":"text/plain; charset=UTF-8",Language:"sr@latin","Plural-Forms":"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Serbian (Latin) (https://www.transifex.com/nextcloud/teams/64236/sr@latin/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: sr@latin\nPlural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"sv",json:{charset:"utf-8",headers:{"Last-Translator":"Magnus Höglund, 2025","Language-Team":"Swedish (https://app.transifex.com/nextcloud/teams/64236/sv/)","Content-Type":"text/plain; charset=UTF-8",Language:"sv","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nMagnus Höglund, 2025\n"},msgstr:["Last-Translator: Magnus Höglund, 2025\nLanguage-Team: Swedish (https://app.transifex.com/nextcloud/teams/64236/sv/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: sv\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" är ett förbjudet fil- eller mappnamn.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" är en förbjuden filtyp.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" är inte tillåtet i ett fil- eller mappnamn.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} filkonflikt","{count} filkonflikter"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} filkonflikt i {dirname}","{count} filkonflikter i {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} sekunder kvar","{seconds} sekunder kvar"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} kvarstår"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["några sekunder kvar"]},assembling:{msgid:"assembling",msgstr:["Sammanställer"]},Cancel:{msgid:"Cancel",msgstr:["Avbryt"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Avbryt hela operationen"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Avbryt uppladdningar"]},Continue:{msgid:"Continue",msgstr:["Fortsätt"]},"Create new":{msgid:"Create new",msgstr:["Skapa ny"]},"estimating time left":{msgid:"estimating time left",msgstr:["uppskattar kvarstående tid"]},"Existing version":{msgid:"Existing version",msgstr:["Nuvarande version"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Misslyckades med att sammanställa delarna"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Kunde inte ladda upp filen"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Filnamn får inte sluta med "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Om du väljer båda versionerna kommer den inkommande filen att läggas till ett nummer i namnet."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Ogiltigt filnamn"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Senaste ändringsdatum okänt"]},New:{msgid:"New",msgstr:["Ny"]},"New filename":{msgid:"New filename",msgstr:["Nytt filnamn"]},"New version":{msgid:"New version",msgstr:["Ny version"]},paused:{msgid:"paused",msgstr:["pausad"]},"Preview image":{msgid:"Preview image",msgstr:["Förhandsgranska bild"]},Rename:{msgid:"Rename",msgstr:["Byt namn"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Markera alla kryssrutor"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Välj alla befintliga filer"]},"Select all new files":{msgid:"Select all new files",msgstr:["Välj alla nya filer"]},Skip:{msgid:"Skip",msgstr:["Hoppa över"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Hoppa över denna fil","Hoppa över {count} filer"]},"Unknown size":{msgid:"Unknown size",msgstr:["Okänd storlek"]},Upload:{msgid:"Upload",msgstr:["Ladda upp"]},"Upload files":{msgid:"Upload files",msgstr:["Ladda upp filer"]},"Upload folders":{msgid:"Upload folders",msgstr:["Ladda upp mappar"]},"Upload from device":{msgid:"Upload from device",msgstr:["Ladda upp från enhet"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Uppladdningen har avbrutits"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Uppladdningen har hoppats över"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Uppladdningen av "{folder}" har hoppats över']},"Upload progress":{msgid:"Upload progress",msgstr:["Uppladdningsförlopp"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["När en inkommande mapp väljs skrivs även alla konfliktande filer i den över."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["När en inkommande mapp väljs skrivs innehållet in i den befintliga mappen och en rekursiv konfliktlösning utförs."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Vilka filer vill du behålla?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Du kan antingen byta namn på filen, hoppa över den här filen eller avbryta hela operationen."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Du måste välja minst en version av varje fil för att fortsätta."]}}}}},{locale:"sw",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Swahili (https://www.transifex.com/nextcloud/teams/64236/sw/)","Content-Type":"text/plain; charset=UTF-8",Language:"sw","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Swahili (https://www.transifex.com/nextcloud/teams/64236/sw/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: sw\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"ta",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Tamil (https://www.transifex.com/nextcloud/teams/64236/ta/)","Content-Type":"text/plain; charset=UTF-8",Language:"ta","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Tamil (https://www.transifex.com/nextcloud/teams/64236/ta/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ta\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"th",json:{charset:"utf-8",headers:{"Last-Translator":"Phongpanot Phairat <ppnplus@protonmail.com>, 2022","Language-Team":"Thai (Thailand) (https://www.transifex.com/nextcloud/teams/64236/th_TH/)","Content-Type":"text/plain; charset=UTF-8",Language:"th_TH","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nPhongpanot Phairat <ppnplus@protonmail.com>, 2022\n"},msgstr:["Last-Translator: Phongpanot Phairat <ppnplus@protonmail.com>, 2022\nLanguage-Team: Thai (Thailand) (https://www.transifex.com/nextcloud/teams/64236/th_TH/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: th_TH\nPlural-Forms: nplurals=1; plural=0;\n"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["เหลืออีก {seconds} วินาที"]},"{time} left":{msgid:"{time} left",comments:{extracted:"time has the format 00:00:00"},msgstr:["เหลืออีก {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["เหลืออีกไม่กี่วินาที"]},Add:{msgid:"Add",msgstr:["เพิ่ม"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["ยกเลิกการอัปโหลด"]},"estimating time left":{msgid:"estimating time left",msgstr:["กำลังคำนวณเวลาที่เหลือ"]},paused:{msgid:"paused",msgstr:["หยุดชั่วคราว"]},"Upload files":{msgid:"Upload files",msgstr:["อัปโหลดไฟล์"]}}}}},{locale:"tk",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Turkmen (https://www.transifex.com/nextcloud/teams/64236/tk/)","Content-Type":"text/plain; charset=UTF-8",Language:"tk","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Turkmen (https://www.transifex.com/nextcloud/teams/64236/tk/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: tk\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"tr",json:{charset:"utf-8",headers:{"Last-Translator":"Kaya Zeren <kayazeren@gmail.com>, 2025","Language-Team":"Turkish (https://app.transifex.com/nextcloud/teams/64236/tr/)","Content-Type":"text/plain; charset=UTF-8",Language:"tr","Plural-Forms":"nplurals=2; plural=(n > 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nKaya Zeren <kayazeren@gmail.com>, 2025\n"},msgstr:["Last-Translator: Kaya Zeren <kayazeren@gmail.com>, 2025\nLanguage-Team: Turkish (https://app.transifex.com/nextcloud/teams/64236/tr/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: tr\nPlural-Forms: nplurals=2; plural=(n > 1);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" dosya ya da klasör adına izin verilmiyor.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" dosya türüne izin verilmiyor.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['Bir dosya ya da klasör adında "{segment}" ifadesine izin verilmiyor.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} dosya çakışması var","{count} dosya çakışması var"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{dirname} klasöründe {count} dosya çakışması var","{dirname} klasöründe {count} dosya çakışması var"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} saniye kaldı","{seconds} saniye kaldı"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} kaldı"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["bir kaç saniye kaldı"]},assembling:{msgid:"assembling",msgstr:["birleştiriliyor"]},Cancel:{msgid:"Cancel",msgstr:["İptal"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Tüm işlemi iptal et"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Yüklemeleri iptal et"]},Continue:{msgid:"Continue",msgstr:["İlerle"]},"Create new":{msgid:"Create new",msgstr:["Yeni ekle"]},"estimating time left":{msgid:"estimating time left",msgstr:["öngörülen kalan süre"]},"Existing version":{msgid:"Existing version",msgstr:["Var olan sürüm"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Parçalar birleştirilemedi"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Dosya yüklenemedi"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Dosya adları "{segment}" ile bitmemeli.']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["İki sürümü de seçerseniz, gelen dosyanın adına bir sayı eklenir."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Dosya adı geçersiz"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Son değiştirilme tarihi bilinmiyor"]},New:{msgid:"New",msgstr:["Yeni"]},"New filename":{msgid:"New filename",msgstr:["Yeni dosya adı"]},"New version":{msgid:"New version",msgstr:["Yeni sürüm"]},paused:{msgid:"paused",msgstr:["duraklatıldı"]},"Preview image":{msgid:"Preview image",msgstr:["Görsel ön izlemesi"]},Rename:{msgid:"Rename",msgstr:["Yeniden adlandır"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Tüm kutuları işaretle"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Tüm var olan dosyaları seç"]},"Select all new files":{msgid:"Select all new files",msgstr:["Tüm yeni dosyaları seç"]},Skip:{msgid:"Skip",msgstr:["Atla"]},"Skip {count} file":{msgid:"Skip {count} file",msgid_plural:"Skip {count} files",msgstr:["{count} dosyayı atla","{count} dosyayı atla"]},"Skip this file":{msgid:"Skip this file",msgstr:["Bu dosyayı atla"]},"Unknown size":{msgid:"Unknown size",msgstr:["Boyut bilinmiyor"]},Upload:{msgid:"Upload",msgstr:["Yükle"]},"Upload files":{msgid:"Upload files",msgstr:["Dosyaları yükle"]},"Upload folders":{msgid:"Upload folders",msgstr:["Klasörleri yükle"]},"Upload from device":{msgid:"Upload from device",msgstr:["Aygıttan yükle"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Yükleme iptal edildi"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Yükleme atlandı"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['"{folder}" klasörünün yüklenmesi atlandı']},"Upload progress":{msgid:"Upload progress",msgstr:["Yükleme ilerlemesi"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Bir gelen klasör seçildiğinde, içindeki çakışan dosyaların da üzerine yazılır."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Bir gelen klasörü seçildiğinde içerik var olan klasöre yazılır ve yinelemeli bir çakışma çözümü uygulanır."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Hangi dosyaları tutmak istiyorsunuz?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Dosya adını değiştirebilir, bu dosyayı atlayabilir ya da tüm işlemi iptal edebilirsiniz."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["İlerlemek için her dosyanın en az bir sürümünü seçmelisiniz."]}}}}},{locale:"ug",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Uyghur (https://www.transifex.com/nextcloud/teams/64236/ug/)","Content-Type":"text/plain; charset=UTF-8",Language:"ug","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Uyghur (https://www.transifex.com/nextcloud/teams/64236/ug/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ug\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"uk",json:{charset:"utf-8",headers:{"Last-Translator":"O St <oleksiy.stasevych@gmail.com>, 2025","Language-Team":"Ukrainian (https://app.transifex.com/nextcloud/teams/64236/uk/)","Content-Type":"text/plain; charset=UTF-8",Language:"uk","Plural-Forms":"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nO St <oleksiy.stasevych@gmail.com>, 2025\n"},msgstr:["Last-Translator: O St <oleksiy.stasevych@gmail.com>, 2025\nLanguage-Team: Ukrainian (https://app.transifex.com/nextcloud/teams/64236/uk/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: uk\nPlural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" не є  дозволеним ім\'ям файлу або каталогу.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" не є дозволеним типом файлу.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" не дозволене сполучення символів в назві файлу або каталогу.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} конфліктний файл","{count} конфліктних файли","{count} конфліктних файлів","{count} конфліктних файлів"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} конфліктний файл у каталозі {dirname}","{count} конфліктних файли у каталозі {dirname}","{count} конфліктних файлів у каталозі {dirname}","{count} конфліктних файлів у каталозі {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} секунда залишилася","{seconds} секунди залишилося","{seconds} секунд залишилося","{seconds} секунд залишилося"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["Залишилося {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["залишилося кілька секунд"]},assembling:{msgid:"assembling",msgstr:["збірка"]},Cancel:{msgid:"Cancel",msgstr:["Скасувати"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Скасувати операцію повністю"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Скасувати завантаження"]},Continue:{msgid:"Continue",msgstr:["Продовжити"]},"Create new":{msgid:"Create new",msgstr:["Створити новий"]},"estimating time left":{msgid:"estimating time left",msgstr:["оцінка часу, що залишився"]},"Existing version":{msgid:"Existing version",msgstr:["Присутня версія"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Не вдалося зібрати частинки докупи"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Не вдалося завантажити файл"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Ім\'я файлів не можуть закінчуватися на "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Якщо буде вибрано обидві версії, до імени вхідного файлу було додано цифру."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Недійсне ім'я файлу"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Дата останньої зміни невідома"]},New:{msgid:"New",msgstr:["Нове"]},"New filename":{msgid:"New filename",msgstr:["Нове ім'я файлу"]},"New version":{msgid:"New version",msgstr:["Нова версія"]},paused:{msgid:"paused",msgstr:["призупинено"]},"Preview image":{msgid:"Preview image",msgstr:["Попередній перегляд"]},Rename:{msgid:"Rename",msgstr:["Перейменувати"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Вибрати все"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Вибрати усі присутні файли"]},"Select all new files":{msgid:"Select all new files",msgstr:["Вибрати усі нові файли"]},Skip:{msgid:"Skip",msgstr:["Пропустити"]},"Skip {count} file":{msgid:"Skip {count} file",msgid_plural:"Skip {count} files",msgstr:["Пропустити {count} файл","Пропустити {count} файли","Пропустити {count} файлів","Пропустити {count} файлів"]},"Skip this file":{msgid:"Skip this file",msgstr:["Пропустити цей файл"]},"Unknown size":{msgid:"Unknown size",msgstr:["Невідомий розмір"]},Upload:{msgid:"Upload",msgstr:["Завантажити"]},"Upload files":{msgid:"Upload files",msgstr:["Завантажити файли"]},"Upload folders":{msgid:"Upload folders",msgstr:["Завантажити каталоги"]},"Upload from device":{msgid:"Upload from device",msgstr:["Завантажити з пристрою"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Завантаження скасовано"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Завантаження пропущено"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['Завантаження "{folder}" пропущено']},"Upload progress":{msgid:"Upload progress",msgstr:["Поступ завантаження"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Усі конфліктні файли у вибраному каталозі призначення буде перезаписано поверх."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Якщо буде вибрано вхідний каталог, вміст буде записано до наявного каталогу та вирішено конфлікти у відповідних файлах каталогу та підкаталогів."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Які файли залишити?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Ви можете або перейменувати цей файл, пропустити або скасувати дію з файлом."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Для продовження потрібно вибрати принаймні одну версію для кожного файлу."]}}}}},{locale:"ur_PK",json:{charset:"utf-8",headers:{"Last-Translator":"Transifex Bot <>, 2022","Language-Team":"Urdu (Pakistan) (https://www.transifex.com/nextcloud/teams/64236/ur_PK/)","Content-Type":"text/plain; charset=UTF-8",Language:"ur_PK","Plural-Forms":"nplurals=2; plural=(n != 1);"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nTransifex Bot <>, 2022\n"},msgstr:["Last-Translator: Transifex Bot <>, 2022\nLanguage-Team: Urdu (Pakistan) (https://www.transifex.com/nextcloud/teams/64236/ur_PK/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: ur_PK\nPlural-Forms: nplurals=2; plural=(n != 1);\n"]},"{estimate} seconds left":{msgid:"{estimate} seconds left",msgstr:[""]},"{hours} hours and {minutes} minutes left":{msgid:"{hours} hours and {minutes} minutes left",msgstr:[""]},"{minutes} minutes left":{msgid:"{minutes} minutes left",msgstr:[""]},"a few seconds left":{msgid:"a few seconds left",msgstr:[""]},Add:{msgid:"Add",msgstr:[""]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:[""]},"estimating time left":{msgid:"estimating time left",msgstr:[""]},paused:{msgid:"paused",msgstr:[""]}}}}},{locale:"uz",json:{charset:"utf-8",headers:{"Last-Translator":"Khurshid Ibatov <x.ibatov@dtsj.uz>, 2025","Language-Team":"Uzbek (https://app.transifex.com/nextcloud/teams/64236/uz/)","Content-Type":"text/plain; charset=UTF-8",Language:"uz","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nKhurshid Ibatov <x.ibatov@dtsj.uz>, 2025\n"},msgstr:["Last-Translator: Khurshid Ibatov <x.ibatov@dtsj.uz>, 2025\nLanguage-Team: Uzbek (https://app.transifex.com/nextcloud/teams/64236/uz/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: uz\nPlural-Forms: nplurals=1; plural=0;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" taqiqlangan fayl yoki papka nomidir.']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" taqiqlangan fayl turi hisoblanadi.']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" fayl yoki papka nomi ichida ruxsat berilmaydi.']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} fayllar ziddiyati"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count}fayl ziddiyatlari {dirname} da"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["{seconds} soniya qoldi"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["{time} qoldi"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["bir necha soniya qoldi"]},assembling:{msgid:"assembling",msgstr:["yig'ish"]},Cancel:{msgid:"Cancel",msgstr:["Bekor qilish"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["Butun operatsiyani bekor qiling"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Yuklashni bekor qilish"]},Continue:{msgid:"Continue",msgstr:["Davom eting"]},"Create new":{msgid:"Create new",msgstr:["Yangi yaratish"]},"estimating time left":{msgid:"estimating time left",msgstr:["qolgan vaqtni hisoblash"]},"Existing version":{msgid:"Existing version",msgstr:["Mavjud versiya"]},"Failed to assemble the chunks together":{msgid:"Failed to assemble the chunks together",msgstr:["Bo'laklarni birlashtirib bo'lmadi"]},"Failed to upload the file":{msgid:"Failed to upload the file",msgstr:["Fayl yuklanmadi"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['Fayl nomlari bilan tugamasligi kerak "{segment}".']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["Agar siz ikkala versiyani tanlasangiz, kiruvchi fayl nomiga qo'shilgan raqamga ega bo'ladi."]},"Invalid filename":{msgid:"Invalid filename",msgstr:["Fayl nomi noto‘g‘ri"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Oxirgi tahrirlangan sana noma'lum"]},New:{msgid:"New",msgstr:["Yangi"]},"New filename":{msgid:"New filename",msgstr:["Yangi nom faylga"]},"New version":{msgid:"New version",msgstr:["Yangi versiya"]},paused:{msgid:"paused",msgstr:["tanaffus"]},"Preview image":{msgid:"Preview image",msgstr:["Rasmni oldindan ko'rish"]},Rename:{msgid:"Rename",msgstr:["Qayta nomlash"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Barcha katakchalarni belgilang"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Barcha mavjud fayllarni tanlang"]},"Select all new files":{msgid:"Select all new files",msgstr:["Barcha yangi fayllarni tanlang"]},Skip:{msgid:"Skip",msgstr:["Oʻtkazib yuborish"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Oʻtkazib yuborish {count} fayllarini"]},"Unknown size":{msgid:"Unknown size",msgstr:["Noma'lum o'lcham"]},Upload:{msgid:"Upload",msgstr:["Yuklash"]},"Upload files":{msgid:"Upload files",msgstr:["Fayllarni yuklash"]},"Upload folders":{msgid:"Upload folders",msgstr:["Jildlarni yuklash"]},"Upload from device":{msgid:"Upload from device",msgstr:["Qurilmadan yuklash"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["Yuklash bekor qilindi"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["Yuklash oʻtkazib yuborildi"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:[' "{folder}" ni yuklash bekor qilindi']},"Upload progress":{msgid:"Upload progress",msgstr:["Yuklash jarayoni"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["Kiruvchi jild tanlanganda, undagi har qanday ziddiyatli fayllar ham ustiga yoziladi."]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["Kiruvchi jild tanlanganda, kontent mavjud jildga yoziladi va nizolarni rekursiv hal qilish amalga oshiriladi."]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Qaysi fayllarni saqlamoqchisiz?"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["Siz fayl nomini o'zgartirishingiz, ushbu faylni o'tkazib yuborishingiz yoki butun operatsiyani bekor qilishingiz mumkin."]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Davom etish uchun har bir faylning kamida bitta versiyasini tanlashingiz kerak."]}}}}},{locale:"vi",json:{charset:"utf-8",headers:{"Last-Translator":"Tung DangQuang, 2023","Language-Team":"Vietnamese (https://app.transifex.com/nextcloud/teams/64236/vi/)","Content-Type":"text/plain; charset=UTF-8",Language:"vi","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJohn Molakvoæ <skjnldsv@protonmail.com>, 2023\nTung DangQuang, 2023\n"},msgstr:["Last-Translator: Tung DangQuang, 2023\nLanguage-Team: Vietnamese (https://app.transifex.com/nextcloud/teams/64236/vi/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: vi\nPlural-Forms: nplurals=1; plural=0;\n"]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} Tập tin xung đột"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{count} tập tin lỗi trong {dirname}"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["Còn {second} giây"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["Còn lại {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["Còn lại một vài giây"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["Huỷ tải lên"]},Continue:{msgid:"Continue",msgstr:["Tiếp Tục"]},"estimating time left":{msgid:"estimating time left",msgstr:["Thời gian còn lại dự kiến"]},"Existing version":{msgid:"Existing version",msgstr:["Phiên Bản Hiện Tại"]},"If you select both versions, the copied file will have a number added to its name.":{msgid:"If you select both versions, the copied file will have a number added to its name.",msgstr:["Nếu bạn chọn cả hai phiên bản, tệp được sao chép sẽ có thêm một số vào tên của nó."]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["Ngày sửa dổi lần cuối không xác định"]},New:{msgid:"New",msgstr:["Tạo Mới"]},"New version":{msgid:"New version",msgstr:["Phiên Bản Mới"]},paused:{msgid:"paused",msgstr:["đã tạm dừng"]},"Preview image":{msgid:"Preview image",msgstr:["Xem Trước Ảnh"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["Chọn tất cả hộp checkbox"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["Chọn tất cả các tập tin có sẵn"]},"Select all new files":{msgid:"Select all new files",msgstr:["Chọn tất cả các tập tin mới"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["Bỏ Qua {count} tập tin"]},"Unknown size":{msgid:"Unknown size",msgstr:["Không rõ dung lượng"]},"Upload cancelled":{msgid:"Upload cancelled",msgstr:["Dừng Tải Lên"]},"Upload files":{msgid:"Upload files",msgstr:["Tập tin tải lên"]},"Upload progress":{msgid:"Upload progress",msgstr:["Đang Tải Lên"]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["Bạn muốn giữ tập tin nào?"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["Bạn cần chọn ít nhất một phiên bản tập tin mới có thể tiếp tục"]}}}}},{locale:"zh_CN",json:{charset:"utf-8",headers:{"Last-Translator":"Gloryandel, 2024","Language-Team":"Chinese (China) (https://app.transifex.com/nextcloud/teams/64236/zh_CN/)","Content-Type":"text/plain; charset=UTF-8",Language:"zh_CN","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nGloryandel, 2024\n"},msgstr:["Last-Translator: Gloryandel, 2024\nLanguage-Team: Chinese (China) (https://app.transifex.com/nextcloud/teams/64236/zh_CN/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: zh_CN\nPlural-Forms: nplurals=1; plural=0;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" 是被禁止的文件名或文件夹名。']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" 是被禁止的文件类型。']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" 不允许包含在文件名或文件夹名中。']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count}文件冲突"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["在{dirname}目录下有{count}个文件冲突"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["剩余 {seconds} 秒"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["剩余 {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["还剩几秒"]},Cancel:{msgid:"Cancel",msgstr:["取消"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["取消整个操作"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["取消上传"]},Continue:{msgid:"Continue",msgstr:["继续"]},"Create new":{msgid:"Create new",msgstr:["新建"]},"estimating time left":{msgid:"estimating time left",msgstr:["估计剩余时间"]},"Existing version":{msgid:"Existing version",msgstr:["服务端版本"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['文件名不得以 "{segment}" 结尾。']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["如果同时选择两个版本，则上传文件的名称中将添加一个数字。"]},"Invalid filename":{msgid:"Invalid filename",msgstr:["无效文件名"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["文件最后修改日期未知"]},New:{msgid:"New",msgstr:["新建"]},"New filename":{msgid:"New filename",msgstr:["新文件名"]},"New version":{msgid:"New version",msgstr:["上传版本"]},paused:{msgid:"paused",msgstr:["已暂停"]},"Preview image":{msgid:"Preview image",msgstr:["图片预览"]},Rename:{msgid:"Rename",msgstr:["重命名"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["选择所有的选择框"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["保留所有服务端版本"]},"Select all new files":{msgid:"Select all new files",msgstr:["保留所有上传版本"]},Skip:{msgid:"Skip",msgstr:["跳过"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["跳过{count}个文件"]},"Unknown size":{msgid:"Unknown size",msgstr:["文件大小未知"]},Upload:{msgid:"Upload",msgstr:["上传"]},"Upload files":{msgid:"Upload files",msgstr:["上传文件"]},"Upload folders":{msgid:"Upload folders",msgstr:["上传文件夹"]},"Upload from device":{msgid:"Upload from device",msgstr:["从设备上传"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["上传已取消"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["上传已跳过"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['已跳过上传"{folder}"']},"Upload progress":{msgid:"Upload progress",msgstr:["上传进度"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["当选择上传文件夹时，其中任何冲突的文件也都会被覆盖。"]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["选择上传文件夹后，内容将写入现有文件夹，并递归执行冲突解决。"]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["你要保留哪些文件？"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["您可以重命名文件、跳过此文件或取消整个操作。"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["每个文件至少选择保留一个版本"]}}}}},{locale:"zh_HK",json:{charset:"utf-8",headers:{"Last-Translator":"Café Tango, 2025","Language-Team":"Chinese (Hong Kong) (https://app.transifex.com/nextcloud/teams/64236/zh_HK/)","Content-Type":"text/plain; charset=UTF-8",Language:"zh_HK","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\nCafé Tango, 2025\n"},msgstr:["Last-Translator: Café Tango, 2025\nLanguage-Team: Chinese (Hong Kong) (https://app.transifex.com/nextcloud/teams/64236/zh_HK/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: zh_HK\nPlural-Forms: nplurals=1; plural=0;\n"]},'"{segment}" is a forbidden file or folder name.':{msgid:'"{segment}" is a forbidden file or folder name.',msgstr:['"{segment}" 是禁止使用的檔案或資料夾名稱。']},'"{segment}" is a forbidden file type.':{msgid:'"{segment}" is a forbidden file type.',msgstr:['"{segment}" 是禁止使用的檔案類型。']},'"{segment}" is not allowed inside a file or folder name.':{msgid:'"{segment}" is not allowed inside a file or folder name.',msgstr:['"{segment}" 不允許出現在檔案或資料夾名稱中。']},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} 個檔案衝突"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{dirname} 中有 {count} 個檔案衝突"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgid_plural:"{seconds} seconds left",msgstr:["剩餘 {seconds} 秒"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["剩餘 {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["還剩幾秒"]},assembling:{msgid:"assembling",msgstr:["組裝"]},Cancel:{msgid:"Cancel",msgstr:["取消"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["取消整個操作"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["取消上傳"]},Continue:{msgid:"Continue",msgstr:["繼續"]},"Create new":{msgid:"Create new",msgstr:["創建新"]},"estimating time left":{msgid:"estimating time left",msgstr:["估計剩餘時間"]},"Existing version":{msgid:"Existing version",msgstr:["既有版本"]},"Failed assembling the chunks together":{msgid:"Failed assembling the chunks together",msgstr:["組裝這些部分時失敗"]},"Failed uploading the file":{msgid:"Failed uploading the file",msgstr:["上傳文件失敗"]},'Filenames must not end with "{segment}".':{msgid:'Filenames must not end with "{segment}".',msgstr:['檔案名不得以 "{segment}" 結尾。']},"If you select both versions, the incoming file will have a number added to its name.":{msgid:"If you select both versions, the incoming file will have a number added to its name.",msgstr:["若您選取兩個版本，傳入檔案的名稱將會新增編號。"]},"Invalid filename":{msgid:"Invalid filename",msgstr:["無效的檔案名"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["最後修改日期不詳"]},New:{msgid:"New",msgstr:["新增"]},"New filename":{msgid:"New filename",msgstr:["新檔案名"]},"New version":{msgid:"New version",msgstr:["新版本 "]},paused:{msgid:"paused",msgstr:["已暫停"]},"Preview image":{msgid:"Preview image",msgstr:["預覽圖片"]},Rename:{msgid:"Rename",msgstr:["重新命名"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["選取所有核取方塊"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["選取所有既有檔案"]},"Select all new files":{msgid:"Select all new files",msgstr:["選取所有新檔案"]},Skip:{msgid:"Skip",msgstr:["跳過"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["略過 {count} 個檔案"]},"Unknown size":{msgid:"Unknown size",msgstr:["大小不詳"]},Upload:{msgid:"Upload",msgstr:["上傳"]},"Upload files":{msgid:"Upload files",msgstr:["上傳檔案"]},"Upload folders":{msgid:"Upload folders",msgstr:["上傳資料夾"]},"Upload from device":{msgid:"Upload from device",msgstr:["從裝置上傳"]},"Upload has been cancelled":{msgid:"Upload has been cancelled",msgstr:["上傳已被取消"]},"Upload has been skipped":{msgid:"Upload has been skipped",msgstr:["上傳已被跳過"]},'Upload of "{folder}" has been skipped':{msgid:'Upload of "{folder}" has been skipped',msgstr:['"{folder}" 的上傳已被跳過']},"Upload progress":{msgid:"Upload progress",msgstr:["上傳進度"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["選取傳入資料夾後，其中任何的衝突檔案都會被覆寫。"]},"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.":{msgid:"When an incoming folder is selected, the content is written into the existing folder and a recursive conflict resolution is performed.",msgstr:["選擇傳入資料夾後，內容將寫入現有資料夾並執行遞歸衝突解決。"]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["您想保留哪些檔案？"]},"You can either rename the file, skip this file or cancel the whole operation.":{msgid:"You can either rename the file, skip this file or cancel the whole operation.",msgstr:["您可以選擇重新命名檔案、跳過此檔案或取消整個操作。"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["您必須為每個檔案都至少選取一個版本以繼續。"]}}}}},{locale:"zh_TW",json:{charset:"utf-8",headers:{"Last-Translator":"黃柏諺 <s8321414@gmail.com>, 2024","Language-Team":"Chinese (Taiwan) (https://app.transifex.com/nextcloud/teams/64236/zh_TW/)","Content-Type":"text/plain; charset=UTF-8",Language:"zh_TW","Plural-Forms":"nplurals=1; plural=0;"},translations:{"":{"":{msgid:"",comments:{translator:"\nTranslators:\nJoas Schilling, 2024\n黃柏諺 <s8321414@gmail.com>, 2024\n"},msgstr:["Last-Translator: 黃柏諺 <s8321414@gmail.com>, 2024\nLanguage-Team: Chinese (Taiwan) (https://app.transifex.com/nextcloud/teams/64236/zh_TW/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: zh_TW\nPlural-Forms: nplurals=1; plural=0;\n"]},"{count} file conflict":{msgid:"{count} file conflict",msgid_plural:"{count} files conflict",msgstr:["{count} 個檔案衝突"]},"{count} file conflict in {dirname}":{msgid:"{count} file conflict in {dirname}",msgid_plural:"{count} file conflicts in {dirname}",msgstr:["{dirname} 中有 {count} 個檔案衝突"]},"{seconds} seconds left":{msgid:"{seconds} seconds left",msgstr:["剩餘 {seconds} 秒"]},"{time} left":{msgid:"{time} left",comments:{extracted:"TRANSLATORS time has the format 00:00:00"},msgstr:["剩餘 {time}"]},"a few seconds left":{msgid:"a few seconds left",msgstr:["還剩幾秒"]},Cancel:{msgid:"Cancel",msgstr:["取消"]},"Cancel the entire operation":{msgid:"Cancel the entire operation",msgstr:["取消整個操作"]},"Cancel uploads":{msgid:"Cancel uploads",msgstr:["取消上傳"]},Continue:{msgid:"Continue",msgstr:["繼續"]},"estimating time left":{msgid:"estimating time left",msgstr:["估計剩餘時間"]},"Existing version":{msgid:"Existing version",msgstr:["既有版本"]},"If you select both versions, the copied file will have a number added to its name.":{msgid:"If you select both versions, the copied file will have a number added to its name.",msgstr:["若您選取兩個版本，複製的檔案的名稱將會新增編號。"]},"Last modified date unknown":{msgid:"Last modified date unknown",msgstr:["最後修改日期未知"]},New:{msgid:"New",msgstr:["新增"]},"New version":{msgid:"New version",msgstr:["新版本"]},paused:{msgid:"paused",msgstr:["已暫停"]},"Preview image":{msgid:"Preview image",msgstr:["預覽圖片"]},"Select all checkboxes":{msgid:"Select all checkboxes",msgstr:["選取所有核取方塊"]},"Select all existing files":{msgid:"Select all existing files",msgstr:["選取所有既有檔案"]},"Select all new files":{msgid:"Select all new files",msgstr:["選取所有新檔案"]},"Skip this file":{msgid:"Skip this file",msgid_plural:"Skip {count} files",msgstr:["略過 {count} 檔案"]},"Unknown size":{msgid:"Unknown size",msgstr:["未知大小"]},"Upload cancelled":{msgid:"Upload cancelled",msgstr:["已取消上傳"]},"Upload files":{msgid:"Upload files",msgstr:["上傳檔案"]},"Upload progress":{msgid:"Upload progress",msgstr:["上傳進度"]},"When an incoming folder is selected, any conflicting files within it will also be overwritten.":{msgid:"When an incoming folder is selected, any conflicting files within it will also be overwritten.",msgstr:["選取傳入資料夾後，其中任何的衝突檔案都會被覆寫。"]},"Which files do you want to keep?":{msgid:"Which files do you want to keep?",msgstr:["您想保留哪些檔案？"]},"You need to select at least one version of each file to continue.":{msgid:"You need to select at least one version of each file to continue.",msgstr:["您必須為每個檔案都至少選取一個版本以繼續。"]}}}}}].map(e=>U.addTranslation(e.locale,e.json));const _=U.build(),A=_.ngettext.bind(_),N=_.gettext.bind(_);class F extends Error{constructor(e){super(N("Upload has been cancelled"),{cause:e})}}const E=(0,h.YK)().setApp("@nextcloud/upload").detectUser().build();async function P(e,t,s){const n={headers:{},onUploadProgress:()=>{},onUploadRetry:()=>{},retries:5,...s};let i;return i=t instanceof Blob?t:await t(),n.destinationFile&&(n.headers.Destination=n.destinationFile),n.headers["Content-Type"]||(n.headers["Content-Type"]="application/octet-stream"),await m.Ay.request({method:"PUT",url:e,data:i,signal:n.signal,onUploadProgress:n.onUploadProgress,headers:n.headers,"axios-retry":{retries:n.retries,retryDelay:(e,t)=>(0,p.Nv)(e,t,1e3),retryCondition:e=>507!==e.status&&(423===e.status||(0,p.Gp)(e)),onRetry:n.onUploadRetry}})}(0,p.Ay)(m.Ay,{retries:0});const I=function(e,t,s){return 0===t&&e.size<=s?Promise.resolve(new Blob([e],{type:e.type||"application/octet-stream"})):Promise.resolve(new Blob([e.slice(t,t+s)],{type:"application/octet-stream"}))},R=function(e=void 0){const t=window.OC?.appConfig?.files?.max_chunk_size;if(t<=0)return 0;if(!Number(t))return 10485760;const s=Math.max(Number(t),5242880);return void 0===e?s:Math.max(s,Math.ceil(e/1e4))};var O=(e=>(e[e.INITIALIZED=0]="INITIALIZED",e[e.UPLOADING=1]="UPLOADING",e[e.ASSEMBLING=2]="ASSEMBLING",e[e.FINISHED=3]="FINISHED",e[e.CANCELLED=4]="CANCELLED",e[e.FAILED=5]="FAILED",e))(O||{});class z{_source;_file;_isChunked;_chunks;_size;_uploaded=0;_startTime=0;_status=0;_controller;_response=null;constructor(e,t=!1,s,n){const i=Math.min(R()>0?Math.ceil(s/R()):1,1e4);this._source=e,this._isChunked=t&&R()>0&&i>1,this._chunks=this._isChunked?i:1,this._size=s,this._file=n,this._controller=new AbortController}get source(){return this._source}get file(){return this._file}get isChunked(){return this._isChunked}get chunks(){return this._chunks}get size(){return this._size}get startTime(){return this._startTime}set response(e){this._response=e}get response(){return this._response}get uploaded(){return this._uploaded}set uploaded(e){if(e>=this._size)return this._status=this._isChunked?2:3,void(this._uploaded=this._size);this._status=1,this._uploaded=e,0===this._startTime&&(this._startTime=(new Date).getTime())}get status(){return this._status}set status(e){this._status=e}get signal(){return this._controller.signal}cancel(){this._controller.abort(),this._status=4}}const B=e=>"FileSystemFileEntry"in window&&e instanceof FileSystemFileEntry,D=e=>"FileSystemEntry"in window&&e instanceof FileSystemEntry;class j extends File{_originalName;_path;_children;constructor(e){super([],(0,r.P8)(e),{type:"httpd/unix-directory",lastModified:0}),this._children=new Map,this._originalName=(0,r.P8)(e),this._path=e}get size(){return this.children.reduce((e,t)=>e+t.size,0)}get lastModified(){return this.children.reduce((e,t)=>Math.max(e,t.lastModified),0)}get originalName(){return this._originalName}get children(){return Array.from(this._children.values())}get webkitRelativePath(){return this._path}getChild(e){return this._children.get(e)??null}async addChildren(e){for(const t of e)await this.addChild(t)}async addChild(e){const t=this._path&&`${this._path}/`;if(B(e))e=await new Promise((t,s)=>e.file(t,s));else if("FileSystemDirectoryEntry"in window&&e instanceof FileSystemDirectoryEntry){const s=e.createReader(),n=await new Promise((e,t)=>s.readEntries(e,t)),i=new j(`${t}${e.name}`);return await i.addChildren(n),void this._children.set(e.name,i)}const s=e.webkitRelativePath??e.name;if(s.includes("/")){if(!s.startsWith(this._path))throw new Error(`File ${s} is not a child of ${this._path}`);const n=s.slice(t.length),i=(0,r.P8)(n);if(i===n)this._children.set(i,e);else{const s=n.slice(0,n.indexOf("/"));if(this._children.has(s))await this._children.get(s).addChild(e);else{const n=new j(`${t}${s}`);await n.addChild(e),this._children.set(s,n)}}}else this._children.set(e.name,e)}}class V extends w.m{_done=0;_total=0;_progress=0;_status=0;_startTime=-1;_elapsedTime=0;_speed=-1;_eta=1/0;_cutoffTime=2.5;constructor(e={}){super(),e.start&&this.resume(),e.total&&this.update(0,e.total),this._cutoffTime=e.cutoffTime??2.5}add(e){this.update(this._done+e)}update(e,t){if(2!==this.status)return;t&&t>0&&(this._total=t);const s=e-this._done,n=(Date.now()-this._startTime)/1e3;this._startTime=Date.now(),this._elapsedTime+=n,this._done=e,this._progress=this._done/this._total;const i=this._cutoffTime+n;if(this._elapsedTime>i){const e=n/(n+1/this._cutoffTime),t=this._done-s+(1-e)*s;this._speed=Math.round(t/this._elapsedTime)}else if(-1===this._speed&&this._elapsedTime>n){const t=(this._total-e)/(e/this._elapsedTime);(this._eta!==1/0||t<=2*this._cutoffTime)&&(this._eta=t)}this._speed>0&&(this._eta=Math.round((this._total-this._done)/this._speed)),this.dispatchTypedEvent("update",new CustomEvent("update",{cancelable:!1}))}reset(){this._done=0,this._total=0,this._progress=0,this._elapsedTime=0,this._eta=1/0,this._speed=-1,this._startTime=-1,this._status=0,this.dispatchTypedEvent("reset",new CustomEvent("reset"))}pause(){2===this._status&&(this._status=1,this._elapsedTime+=(Date.now()-this._startTime)/1e3,this.dispatchTypedEvent("pause",new CustomEvent("pause")))}resume(){2!==this._status&&(this._startTime=Date.now(),this._status=2,this.dispatchTypedEvent("resume",new CustomEvent("resume")))}get status(){return this._status}get progress(){return Math.round(1e4*this._progress)/100}get time(){return this._eta}get timeReadable(){if(this._eta===1/0)return N("estimating time left");if(this._eta<10)return N("a few seconds left");if(this._eta<60)return A("{seconds} seconds left","{seconds} seconds left",this._eta,{seconds:this._eta});const e=String(Math.floor(this._eta/3600)).padStart(2,"0"),t=String(Math.floor(this._eta%3600/60)).padStart(2,"0"),s=String(this._eta%60).padStart(2,"0");return N("{time} left",{time:`${e}:${t}:${s}`})}get speed(){return this._speed}get speedReadable(){return this._speed>0?`${(0,o.v7)(this._speed,!0)}∕s`:""}}var M=(e=>(e[e.IDLE=0]="IDLE",e[e.UPLOADING=1]="UPLOADING",e[e.PAUSED=2]="PAUSED",e))(M||{});class H{_destinationFolder;_isPublic;_customHeaders;_uploadQueue=[];_jobQueue=new g.A({concurrency:(0,d.F)().files?.chunked_upload?.max_parallel_count??5});_queueSize=0;_queueProgress=0;_queueStatus=0;_eta=new V;_notifiers=[];constructor(e=!1,t){if(this._isPublic=e,this._customHeaders={},!t){const s=`${o.PY}${o.lJ}`;let n;if(e)n="anonymous";else{const e=(0,a.HW)()?.uid;if(!e)throw new Error("User is not logged in");n=e}t=new o.vd({id:0,owner:n,permissions:o.aX.ALL,root:o.lJ,source:s})}this.destination=t,E.debug("Upload workspace initialized",{destination:this.destination,root:this.root,isPublic:e,maxChunksSize:R()})}get destination(){return this._destinationFolder}set destination(e){if(!e||e.type!==o.pt.Folder||!e.source)throw new Error("Invalid destination folder");E.debug("Destination set",{folder:e}),this._destinationFolder=e}get root(){return this._destinationFolder.source}get customHeaders(){return structuredClone(this._customHeaders)}setCustomHeader(e,t=""){this._customHeaders[e]=t}deleteCustomerHeader(e){delete this._customHeaders[e]}get queue(){return this._uploadQueue}reset(){this._eta.reset(),0===this._uploadQueue.length&&0===this._jobQueue.size||(this._uploadQueue.splice(0,this._uploadQueue.length),this._jobQueue.clear(),this._queueSize=0,this._queueProgress=0,this._queueStatus=0,E.debug("Uploader state reset"))}pause(){this._eta.pause(),this._jobQueue.pause(),this._queueStatus=2,this.updateStats(),E.debug("Uploader paused")}start(){this._eta.resume(),this._jobQueue.start(),this._queueStatus=1,this.updateStats(),E.debug("Uploader resumed")}get eta(){return this._eta}get info(){return{size:this._queueSize,progress:this._queueProgress,status:this._queueStatus}}updateStats(){const e=this._uploadQueue.map(e=>e.size).reduce((e,t)=>e+t,0),t=this._uploadQueue.map(e=>e.uploaded).reduce((e,t)=>e+t,0);if(this._eta.update(t,e),this._queueSize=e,this._queueProgress=t,2!==this._queueStatus){const e=this._uploadQueue.find(({status:e})=>[O.INITIALIZED,O.UPLOADING,O.ASSEMBLING].includes(e));this._jobQueue.size>0||e?this._queueStatus=1:(this.eta.reset(),this._queueStatus=0)}}addNotifier(e){this._notifiers.push(e)}_notifyAll(e){for(const t of this._notifiers)try{t(e)}catch(t){E.warn("Error in upload notifier",{error:t,source:e.source})}}batchUpload(e,t,s){return s||(s=async e=>e),new c.A(async(n,i,a)=>{const r=new j("");await r.addChildren(t);const l=`${this.root.replace(/\/$/,"")}/${e.replace(/^\//,"")}`,d=new z(l,!1,0,r);d.status=O.UPLOADING,this._uploadQueue.push(d),E.debug("Starting new batch upload",{target:l});try{const t=(0,o.H4)(this.root,this._customHeaders),i=this.uploadDirectory(e,r,s,t);a(()=>i.cancel());const l=await i;d.status=O.FINISHED,n(l)}catch(e){(0,m.FZ)(e)||e instanceof F?(E.info("Upload cancelled by user",{error:e}),d.status=O.CANCELLED,i(new F(e))):(E.error("Error in batch upload",{error:e}),d.status=O.FAILED,i(e))}finally{this._notifyAll(d),this.updateStats()}})}createDirectory(e,t,s){const n=(0,l.normalize)(`${e}/${t.name}`).replace(/\/$/,""),i=`${this.root.replace(/\/$/,"")}/${n.replace(/^\//,"")}`;if(!t.name)throw new Error("Can not create empty directory");const a=new z(i,!1,0,t);return this._uploadQueue.push(a),new c.A(async(e,i,o)=>{const r=new AbortController;o(()=>r.abort()),a.signal.addEventListener("abort",()=>i(N("Upload has been cancelled"))),await this._jobQueue.add(async()=>{a.status=O.UPLOADING;try{await s.createDirectory(n,{signal:r.signal}),e(a)}catch(s){(0,m.FZ)(s)||s instanceof F?(a.status=O.CANCELLED,i(new F(s))):s&&"object"==typeof s&&"status"in s&&405===s.status?(E.debug("Directory already exists, writing into it",{directory:t.name}),a.status=O.FINISHED,e(a)):(a.status=O.FAILED,i(s))}finally{this._notifyAll(a),this.updateStats()}})})}uploadDirectory(e,t,s,n){const i=(0,l.normalize)(`${e}/${t.name}`).replace(/\/$/,"");return new c.A(async(a,o,r)=>{const l=new AbortController;r(()=>l.abort());const d=await s(t.children,i);if(!1===d)return E.debug("Upload canceled by user",{directory:t}),void o(new F("Conflict resolution cancelled by user"));if(0===d.length&&t.children.length>0)return E.debug("Skipping directory, as all files were skipped by user",{directory:t}),void a([]);const m=[],c=[];l.signal.addEventListener("abort",()=>{m.forEach(e=>e.cancel()),c.forEach(e=>e.cancel())}),E.debug("Start directory upload",{directory:t});try{t.name&&(c.push(this.createDirectory(e,t,n)),await c.at(-1));for(const e of d)e instanceof j?m.push(this.uploadDirectory(i,e,s,n)):c.push(this.upload(`${i}/${e.name}`,e));a([await Promise.all(c),...await Promise.all(m)].flat())}catch(e){l.abort(e),o(e)}})}upload(e,t,s,i=5){const o=`${(s=s||this.root).replace(/\/$/,"")}/${e.replace(/^\//,"")}`,{origin:l}=new URL(o),g=l+(0,r.O0)(o.slice(l.length));return this.eta.resume(),E.debug(`Uploading ${t.name} to ${g}`),new c.A(async(e,s,r)=>{B(t)&&(t=await new Promise(e=>t.file(e,s)));const l=t,c=(0,d.F)().dav?.public_shares_chunking??!1,u=R("size"in l?l.size:void 0),h=this._isPublic&&!c||0===u||"size"in l&&l.size<u,w=new z(o,!h,l.size,l);if(this._uploadQueue.push(w),this.updateStats(),r(w.cancel),h){E.debug("Initializing regular upload",{file:l,upload:w});const t=await I(l,0,w.size),n=async()=>{try{w.response=await P(g,t,{signal:w.signal,onUploadProgress:({bytes:e})=>{w.uploaded+=.9*e,this.updateStats()},onUploadRetry:()=>{w.uploaded=0,this.updateStats()},headers:{...this._customHeaders,...this._mtimeHeader(l),"Content-Type":l.type}}),w.uploaded=w.size,this.updateStats(),E.debug(`Successfully uploaded ${l.name}`,{file:l,upload:w}),e(w)}catch(e){if((0,m.FZ)(e)||e instanceof F)return w.status=O.CANCELLED,void s(new F(e));e?.response&&(w.response=e.response),w.status=O.FAILED,E.error(`Failed uploading ${l.name}`,{error:e,file:l,upload:w}),s(N("Failed to upload the file"))}this._notifyAll(w)};this._jobQueue.add(n),this.updateStats()}else{E.debug("Initializing chunked upload",{file:l,upload:w});const t=await async function(e,t=5,s=!1){let i;i=s?`${(0,f.$_)()}/public.php/dav/uploads/${(0,n.G)()}`:(0,f.dC)(`dav/uploads/${(0,a.HW)()?.uid}`);const o=`${i}/web-file-upload-${[...Array(16)].map(()=>Math.floor(16*Math.random()).toString(16)).join("")}`,r=e?{Destination:e}:void 0;return await m.Ay.request({method:"MKCOL",url:o,headers:r,"axios-retry":{retries:t,retryDelay:(e,t)=>(0,p.Nv)(e,t,1e3)}}),E.debug("Created temporary upload workspace",{url:o}),o}(g,i,this._isPublic),o=[];for(let e=0;e<w.chunks;e++){const s=e*u,n=Math.min(s+u,w.size),a=()=>I(l,s,u),r=()=>{let o=0;return P(`${t}/${e+1}`,a,{signal:w.signal,destinationFile:g,retries:i,onUploadProgress:({bytes:e})=>{const t=.9*e;o+=t,w.uploaded+=t,this.updateStats()},onUploadRetry:()=>{w.uploaded-=o,o=0,this.updateStats()},headers:{...this._customHeaders,...this._mtimeHeader(l),"OC-Total-Length":l.size,"Content-Type":"application/octet-stream"}}).then(()=>{w.uploaded+=n-s-o,this.updateStats()}).catch(t=>{if(507===t?.response?.status)throw E.error("Upload failed, not enough space on the server or quota exceeded. Cancelling the remaining chunks",{error:t,upload:w}),w.cancel(),w.status=O.FAILED,t;throw(0,m.FZ)(t)||(E.error(`Chunk ${e+1} ${s} - ${n} uploading failed`,{error:t,upload:w}),w.cancel(),w.status=O.FAILED),t})};o.push(this._jobQueue.add(r))}const r=async()=>{try{await Promise.all(o),w.status=O.ASSEMBLING,this.updateStats(),w.response=await m.Ay.request({method:"MOVE",url:`${t}/.file`,headers:{...this._customHeaders,...this._mtimeHeader(l),"OC-Total-Length":l.size,Destination:g}}),w.status=O.FINISHED,this.updateStats(),E.debug(`Successfully uploaded ${l.name}`,{file:l,upload:w}),e(w)}catch(e){(0,m.FZ)(e)||e instanceof F?(w.status=O.CANCELLED,s(new F(e))):(w.status=O.FAILED,s(N("Failed to assemble the chunks together"))),m.Ay.request({method:"DELETE",url:`${t}`})}finally{this._notifyAll(w)}};this._jobQueue.add(r)}return this._jobQueue.onIdle().then(()=>this.reset()),w})}_mtimeHeader(e){const t=Math.floor(e.lastModified/1e3);return t>0?{"X-OC-Mtime":t}:{}}}function W(e,t,s,n,i,a,o,r){var l="function"==typeof e?e.options:e;return t&&(l.render=t,l.staticRenderFns=s,l._compiled=!0),a&&(l._scopeId="data-v-"+a),{exports:e,options:l}}const Y=W({name:"CancelIcon",emits:["click"],props:{title:{type:String},fillColor:{type:String,default:"currentColor"},size:{type:Number,default:24}}},function(){var e=this,t=e._self._c;return t("span",e._b({staticClass:"material-design-icon cancel-icon",attrs:{"aria-hidden":e.title?null:"true","aria-label":e.title,role:"img"},on:{click:function(t){return e.$emit("click",t)}}},"span",e.$attrs,!1),[t("svg",{staticClass:"material-design-icon__svg",attrs:{fill:e.fillColor,width:e.size,height:e.size,viewBox:"0 0 24 24"}},[t("path",{attrs:{d:"M12 2C17.5 2 22 6.5 22 12S17.5 22 12 22 2 17.5 2 12 6.5 2 12 2M12 4C10.1 4 8.4 4.6 7.1 5.7L18.3 16.9C19.3 15.5 20 13.8 20 12C20 7.6 16.4 4 12 4M16.9 18.3L5.7 7.1C4.6 8.4 4 10.1 4 12C4 16.4 7.6 20 12 20C13.9 20 15.6 19.4 16.9 18.3Z"}},[e.title?t("title",[e._v(e._s(e.title))]):e._e()])])])},[],0,0,null).exports,$=W({name:"FolderUploadIcon",emits:["click"],props:{title:{type:String},fillColor:{type:String,default:"currentColor"},size:{type:Number,default:24}}},function(){var e=this,t=e._self._c;return t("span",e._b({staticClass:"material-design-icon folder-upload-icon",attrs:{"aria-hidden":e.title?null:"true","aria-label":e.title,role:"img"},on:{click:function(t){return e.$emit("click",t)}}},"span",e.$attrs,!1),[t("svg",{staticClass:"material-design-icon__svg",attrs:{fill:e.fillColor,width:e.size,height:e.size,viewBox:"0 0 24 24"}},[t("path",{attrs:{d:"M20,6A2,2 0 0,1 22,8V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4H10L12,6H20M10.75,13H14V17H16V13H19.25L15,8.75"}},[e.title?t("title",[e._v(e._s(e.title))]):e._e()])])])},[],0,0,null).exports,G=W({name:"PlusIcon",emits:["click"],props:{title:{type:String},fillColor:{type:String,default:"currentColor"},size:{type:Number,default:24}}},function(){var e=this,t=e._self._c;return t("span",e._b({staticClass:"material-design-icon plus-icon",attrs:{"aria-hidden":e.title?null:"true","aria-label":e.title,role:"img"},on:{click:function(t){return e.$emit("click",t)}}},"span",e.$attrs,!1),[t("svg",{staticClass:"material-design-icon__svg",attrs:{fill:e.fillColor,width:e.size,height:e.size,viewBox:"0 0 24 24"}},[t("path",{attrs:{d:"M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"}},[e.title?t("title",[e._v(e._s(e.title))]):e._e()])])])},[],0,0,null).exports,q=W({name:"UploadIcon",emits:["click"],props:{title:{type:String},fillColor:{type:String,default:"currentColor"},size:{type:Number,default:24}}},function(){var e=this,t=e._self._c;return t("span",e._b({staticClass:"material-design-icon upload-icon",attrs:{"aria-hidden":e.title?null:"true","aria-label":e.title,role:"img"},on:{click:function(t){return e.$emit("click",t)}}},"span",e.$attrs,!1),[t("svg",{staticClass:"material-design-icon__svg",attrs:{fill:e.fillColor,width:e.size,height:e.size,viewBox:"0 0 24 24"}},[t("path",{attrs:{d:"M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z"}},[e.title?t("title",[e._v(e._s(e.title))]):e._e()])])])},[],0,0,null).exports;function K(e){const t=(0,i.$V)(()=>Promise.all([s.e(4208),s.e(1656)]).then(s.bind(s,11656))),{promise:n,reject:a,resolve:r}=Promise.withResolvers();return(0,S.Ss)(t,{error:e,validateFilename:o.KT},(...e)=>{const[{skip:t,rename:s}]=e;t?r(!1):s?r(s):a()}),n}function X(e,t){return J(e,t).length>0}function J(e,t){const s=t.map(e=>e.basename);return e.filter(e=>{const t="basename"in e?e.basename:e.name;return-1!==s.indexOf(t)})}function Z(e=(0,n.f)(),t=!1){return(t||void 0===window._nc_uploader)&&(window._nc_uploader=new H(e)),window._nc_uploader}async function Q(e,t,n,a){const o=(0,i.$V)(()=>Promise.all([s.e(4208),s.e(3485)]).then(s.bind(s,13485)));return new Promise((s,r)=>{const l=new i.Ay({name:"ConflictPickerRoot",render:i=>i(o,{props:{dirname:e,conflicts:t,content:n,recursiveUpload:!0===a?.recursive},on:{submit(e){s(e),l.$destroy(),l.$el?.parentNode?.removeChild(l.$el)},cancel(e){r(e??new Error("Canceled")),l.$destroy(),l.$el?.parentNode?.removeChild(l.$el)}}})});l.$mount(),document.body.appendChild(l.$el)})}W((0,i.pM)({name:"UploadPicker",components:{IconCancel:Y,IconFolderUpload:$,IconPlus:G,IconUpload:q,NcActionButton:b.A,NcActionCaption:y.A,NcActionSeparator:k.A,NcActions:T.A,NcButton:x.A,NcIconSvgWrapper:C.A,NcProgressBar:L.A},props:{accept:{type:Array,default:null},disabled:{type:Boolean,default:!1},multiple:{type:Boolean,default:!1},noMenu:{type:Boolean,default:!1},primary:{type:Boolean,default:!1},destination:{type:o.vd,default:void 0},allowFolders:{type:Boolean,default:!1},content:{type:[Array,Function],default:()=>[]},forbiddenCharacters:{type:Array,default:()=>[]}},setup:()=>({t:N,progressTimeId:`nc-uploader-progress-${Math.random().toString(36).slice(7)}`}),data:()=>({newFileMenuEntries:[],openedMenu:!1,uploadManager:Z()}),computed:{menuEntriesUpload(){return this.newFileMenuEntries.filter(e=>e.category===o.a7.UploadFromDevice)},menuEntriesNew(){return this.newFileMenuEntries.filter(e=>e.category===o.a7.CreateNew)},menuEntriesOther(){return this.newFileMenuEntries.filter(e=>e.category===o.a7.Other)},canUploadFolders(){return this.allowFolders&&"webkitdirectory"in document.createElement("input")},queue(){return this.uploadManager.queue},hasFailure(){return this.queue.some(e=>e.status===O.FAILED)},isAssembling(){return this.queue.some(e=>e.status===O.ASSEMBLING)},isUploading(){return this.queue.some(e=>e.status!==O.CANCELLED)},isOnlyAssembling(){return this.isAssembling&&this.queue.every(e=>0===e.size||e.status===O.ASSEMBLING||e.status===O.FINISHED)},isPaused(){return this.uploadManager.info?.status===M.PAUSED},buttonLabel(){return this.noMenu?N("Upload"):N("New")},haveMenu(){return!((this.noMenu||0===this.newFileMenuEntries.length)&&!this.canUploadFolders)}},watch:{allowFolders:{immediate:!0,handler(){"function"!=typeof this.content&&this.allowFolders&&E.error("[UploadPicker] Setting `allowFolders` is only allowed if `content` is a function")}},destination(e){this.setDestination(e)},isPaused(e){e?this.$emit("paused",this.queue):this.$emit("resumed",this.queue)}},beforeMount(){this.destination&&this.setDestination(this.destination),this.uploadManager.addNotifier(this.onUploadCompletion),(0,v.C)("u",this.onKeyDown,{stop:!0,prevent:!0,shift:!0}),(0,v.C)("Escape",this.onKeyDown,{stop:!0,prevent:!0}),E.debug("UploadPicker initialised")},methods:{etaTimeAndSpeed(){const e=this.uploadManager.eta.speedReadable;return e?`${this.uploadManager.eta.timeReadable} (${e})`:this.uploadManager.eta.timeReadable},async onClick(e){e.handler(this.destination,await this.getContent().catch(()=>[]))},onTriggerPick(e=!1){const t=this.$refs.input;this.canUploadFolders&&(t.webkitdirectory=e),this.$nextTick(()=>t.click())},async getContent(e){return Array.isArray(this.content)?this.content:await this.content(e)},async onPick(){const e=this.$refs.input,t=e.files?Array.from(e.files):[];try{await this.uploadManager.batchUpload("",t,(s=this.getContent,async(e,t)=>{try{const n=await s(t).catch(()=>[]),i=J(e,n);if(i.length>0){const{selected:s,renamed:a}=await Q(t,i,n,{recursive:!0});e=[...e.filter(e=>!i.includes(e)),...s,...a]}const a=[];for(const t of e)try{(0,o.KT)(t.name),a.push(t)}catch(s){if(!(s instanceof o.di))throw E.error(`Unexpected error while validating ${t.name}`,{error:s}),s;let n=await K(s);!1!==n&&(n=(0,o.E6)(n,e.map(e=>e.name)),Object.defineProperty(t,"name",{value:n}),a.push(t))}if(0===a.length&&e.length>0){const e=(0,r.P8)(t);(0,S.cf)(e?N('Upload of "{folder}" has been skipped',{folder:e}):N("Upload has been skipped"))}return a}catch(e){return E.debug("Upload has been cancelled",{error:e}),(0,S.I9)(N("Upload has been cancelled")),!1}}))}catch(e){E.debug("Error while uploading",{error:e})}finally{this.resetForm()}var s},resetForm(){const e=this.$refs.form;e?.reset()},onCancel(){this.uploadManager.queue.forEach(e=>{e.cancel()}),this.resetForm()},setDestination(e){this.destination?(this.uploadManager.destination=e,this.newFileMenuEntries=(0,o.m1)(e)):E.debug("Invalid destination")},onUploadCompletion(e){e.status===O.FAILED?this.$emit("failed",e):this.$emit("uploaded",e)},onKeyDown(e){if("u"===e.key){if(this.haveMenu)return void(this.openedMenu=!0);this.onTriggerPick()}"Escape"===e.key&&this.openedMenu&&(this.openedMenu=!1)}}}),function(){var e=this,t=e._self._c;return e._self._setupProxy,e.destination?t("form",{ref:"form",staticClass:"upload-picker",class:{"upload-picker--uploading":e.isUploading,"upload-picker--paused":e.isPaused},attrs:{"data-cy-upload-picker":""}},[e.haveMenu?t("NcActions",{attrs:{"aria-label":e.buttonLabel,"menu-name":e.buttonLabel,open:e.openedMenu,type:e.primary?"primary":"secondary"},on:{"update:open":function(t){e.openedMenu=t}},scopedSlots:e._u([{key:"icon",fn:function(){return[t("IconPlus",{attrs:{size:20}})]},proxy:!0}],null,!1,1991456921)},[t("NcActionCaption",{attrs:{name:e.t("Upload from device")}}),t("NcActionButton",{attrs:{"data-cy-upload-picker-add":"","data-cy-upload-picker-menu-entry":"upload-file","close-after-click":!0},on:{click:function(t){return e.onTriggerPick()}},scopedSlots:e._u([{key:"icon",fn:function(){return[t("IconUpload",{attrs:{size:20}})]},proxy:!0}],null,!1,337456192)},[e._v(" "+e._s(e.t("Upload files"))+" ")]),e.canUploadFolders?t("NcActionButton",{attrs:{"close-after-click":"","data-cy-upload-picker-add-folders":"","data-cy-upload-picker-menu-entry":"upload-folder"},on:{click:function(t){return e.onTriggerPick(!0)}},scopedSlots:e._u([{key:"icon",fn:function(){return[t("IconFolderUpload",{staticStyle:{color:"var(--color-primary-element)"},attrs:{size:20}})]},proxy:!0}],null,!1,1037549157)},[e._v(" "+e._s(e.t("Upload folders"))+" ")]):e._e(),e.noMenu?e._e():e._l(e.menuEntriesUpload,function(s){return t("NcActionButton",{key:s.id,staticClass:"upload-picker__menu-entry",attrs:{icon:s.iconClass,"close-after-click":!0,"data-cy-upload-picker-menu-entry":s.id},on:{click:function(t){return e.onClick(s)}},scopedSlots:e._u([s.iconSvgInline?{key:"icon",fn:function(){return[t("NcIconSvgWrapper",{attrs:{svg:s.iconSvgInline}})]},proxy:!0}:null],null,!0)},[e._v(" "+e._s(s.displayName)+" ")])}),!e.noMenu&&e.menuEntriesNew.length>0?[t("NcActionSeparator"),t("NcActionCaption",{attrs:{name:e.t("Create new")}}),e._l(e.menuEntriesNew,function(s){return t("NcActionButton",{key:s.id,staticClass:"upload-picker__menu-entry",attrs:{icon:s.iconClass,"close-after-click":!0,"data-cy-upload-picker-menu-entry":s.id},on:{click:function(t){return e.onClick(s)}},scopedSlots:e._u([s.iconSvgInline?{key:"icon",fn:function(){return[t("NcIconSvgWrapper",{attrs:{svg:s.iconSvgInline}})]},proxy:!0}:null],null,!0)},[e._v(" "+e._s(s.displayName)+" ")])})]:e._e(),!e.noMenu&&e.menuEntriesOther.length>0?[t("NcActionSeparator"),e._l(e.menuEntriesOther,function(s){return t("NcActionButton",{key:s.id,staticClass:"upload-picker__menu-entry",attrs:{icon:s.iconClass,"close-after-click":!0,"data-cy-upload-picker-menu-entry":s.id},on:{click:function(t){return e.onClick(s)}},scopedSlots:e._u([s.iconSvgInline?{key:"icon",fn:function(){return[t("NcIconSvgWrapper",{attrs:{svg:s.iconSvgInline}})]},proxy:!0}:null],null,!0)},[e._v(" "+e._s(s.displayName)+" ")])})]:e._e()],2):t("NcButton",{attrs:{"aria-label":e.buttonLabel,disabled:e.disabled,"data-cy-upload-picker-add":"","data-cy-upload-picker-menu-entry":"upload-file",type:e.primary?"primary":"secondary"},on:{click:function(t){return e.onTriggerPick()}},scopedSlots:e._u([{key:"icon",fn:function(){return[t("IconPlus",{attrs:{size:20}})]},proxy:!0},e.isUploading?null:{key:"default",fn:function(){return[e._v(" "+e._s(e.buttonLabel)+" ")]},proxy:!0}],null,!0)}),t("div",{directives:[{name:"show",rawName:"v-show",value:e.isUploading,expression:"isUploading"}],staticClass:"upload-picker__progress"},[t("NcProgressBar",{attrs:{"aria-label":e.t("Upload progress"),"aria-describedby":e.progressTimeId,"data-cy-upload-picker-progress":"",error:e.hasFailure,value:e.uploadManager.eta.progress,size:"medium"}}),t("p",{attrs:{id:e.progressTimeId,"data-cy-upload-picker-progress-label":""}},[e.isPaused?t("span",[e._v(" "+e._s(e.t("paused"))+" ")]):e.isOnlyAssembling?t("span",[e._v(" "+e._s(e.t("assembling"))+" ")]):t("span",{attrs:{title:e.etaTimeAndSpeed()}},[e._v(" "+e._s(e.uploadManager.eta.timeReadable)+" "),e.uploadManager.eta.speedReadable&&e.uploadManager.eta.time>=60?t("span",[e._v(" ("+e._s(e.uploadManager.eta.speedReadable)+") ")]):e._e()])])],1),e.isUploading&&!e.isOnlyAssembling?t("NcButton",{staticClass:"upload-picker__cancel",attrs:{type:"tertiary","aria-label":e.t("Cancel uploads"),"data-cy-upload-picker-cancel":""},on:{click:e.onCancel},scopedSlots:e._u([{key:"icon",fn:function(){return[t("IconCancel",{attrs:{size:20}})]},proxy:!0}],null,!1,3076329829)}):e._e(),t("input",{ref:"input",staticClass:"hidden-visually",attrs:{accept:e.accept?.join?.(", "),multiple:e.multiple,"data-cy-upload-picker-input":"",type:"file"},on:{change:e.onPick}})],1):e._e()},[],0,0,"12e6e354").exports},89761:(e,t,s)=>{s.d(t,{_:()=>d});var n=s(65899),i=s(61338),a=s(9558),o=s(85471),r=s(56908),l=s(45238);const d=function(){const e=(0,n.nY)("files",{state:()=>({files:{},roots:{}}),getters:{getNode:e=>t=>e.files[t],getNodes:e=>t=>t.map(t=>e.files[t]).filter(Boolean),getNodesById:e=>t=>Object.values(e.files).filter(e=>e.fileid===t),getRoot:e=>t=>e.roots[t]},actions:{getDirectoryByPath(e,t){const s=(0,l.B)();let n;if(t&&"/"!==t){const i=s.getPath(e,t);i&&(n=this.getNode(i))}else n=this.getRoot(e);return n},getNodesByPath(e,t){const s=this.getDirectoryByPath(e,t);return(s?._children??[]).map(e=>this.getNode(e)).filter(Boolean)},updateNodes(e){const t=e.reduce((e,t)=>t.fileid?(e[t.source]=t,e):(a.A.error("Trying to update/set a node without fileid",{node:t}),e),{});o.Ay.set(this,"files",{...this.files,...t})},deleteNodes(e){e.forEach(e=>{e.source&&o.Ay.delete(this.files,e.source)})},setRoot(e){let{service:t,root:s}=e;o.Ay.set(this.roots,t,s)},onDeletedNode(e){this.deleteNodes([e])},onCreatedNode(e){this.updateNodes([e])},onMovedNode(e){let{node:t,oldSource:s}=e;t.fileid?(o.Ay.delete(this.files,s),this.updateNodes([t])):a.A.error("Trying to update/set a node without fileid",{node:t})},async onUpdatedNode(e){if(!e.fileid)return void a.A.error("Trying to update/set a node without fileid",{node:e});const t=this.getNodesById(e.fileid);if(t.length>1)return await Promise.all(t.map(e=>(0,r.t)(e.path))).then(this.updateNodes),void a.A.debug(t.length+" nodes updated in store",{fileid:e.fileid});1!==t.length||e.source!==t[0].source?(0,r.t)(e.path).then(e=>this.updateNodes([e])):this.updateNodes([e])},onAddFavorite(e){const t=this.getNode(e.source);t&&o.Ay.set(t.attributes,"favorite",1)},onRemoveFavorite(e){const t=this.getNode(e.source);t&&o.Ay.set(t.attributes,"favorite",0)}}})(...arguments);return e._initialized||((0,i.B1)("files:node:created",e.onCreatedNode),(0,i.B1)("files:node:deleted",e.onDeletedNode),(0,i.B1)("files:node:updated",e.onUpdatedNode),(0,i.B1)("files:node:moved",e.onMovedNode),(0,i.B1)("files:favorites:added",e.onAddFavorite),(0,i.B1)("files:favorites:removed",e.onRemoveFavorite),e._initialized=!0),e}},96102:(e,t,s)=>{s.d(t,{A:()=>r});var n=s(71354),i=s.n(n),a=s(76314),o=s.n(a)()(i());o.push([e.id,"\n.new-node-dialog__form[data-v-04462327] {\n\t/* Ensure the dialog does not jump when there is a validity error */\n\tmin-height: calc(2 * var(--default-clickable-area));\n}\n","",{version:3,sources:["webpack://./apps/files/src/components/NewNodeDialog.vue"],names:[],mappings:";AAmKA;CACA,mEAAA;CACA,mDAAA;AACA",sourcesContent:["\x3c!--\n  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors\n  - SPDX-License-Identifier: AGPL-3.0-or-later\n--\x3e\n<template>\n\t<NcDialog data-cy-files-new-node-dialog\n\t\t:name=\"name\"\n\t\t:open=\"open\"\n\t\tclose-on-click-outside\n\t\tout-transition\n\t\t@update:open=\"emit('close', null)\">\n\t\t<template #actions>\n\t\t\t<NcButton data-cy-files-new-node-dialog-submit\n\t\t\t\ttype=\"primary\"\n\t\t\t\t:disabled=\"validity !== ''\"\n\t\t\t\t@click=\"submit\">\n\t\t\t\t{{ t('files', 'Create') }}\n\t\t\t</NcButton>\n\t\t</template>\n\t\t<form ref=\"formElement\"\n\t\t\tclass=\"new-node-dialog__form\"\n\t\t\t@submit.prevent=\"emit('close', localDefaultName)\">\n\t\t\t<NcTextField ref=\"nameInput\"\n\t\t\t\tdata-cy-files-new-node-dialog-input\n\t\t\t\t:error=\"validity !== ''\"\n\t\t\t\t:helper-text=\"validity\"\n\t\t\t\t:label=\"label\"\n\t\t\t\t:value.sync=\"localDefaultName\" />\n\n\t\t\t\x3c!-- Hidden file warning --\x3e\n\t\t\t<NcNoteCard v-if=\"isHiddenFileName\"\n\t\t\t\ttype=\"warning\"\n\t\t\t\t:text=\"t('files', 'Files starting with a dot are hidden by default')\" />\n\t\t</form>\n\t</NcDialog>\n</template>\n\n<script setup lang=\"ts\">\nimport type { ComponentPublicInstance, PropType } from 'vue'\nimport { getUniqueName } from '@nextcloud/files'\nimport { t } from '@nextcloud/l10n'\nimport { extname } from 'path'\nimport { computed, nextTick, onMounted, ref, watch, watchEffect } from 'vue'\nimport { getFilenameValidity } from '../utils/filenameValidity.ts'\n\nimport NcButton from '@nextcloud/vue/components/NcButton'\nimport NcDialog from '@nextcloud/vue/components/NcDialog'\nimport NcTextField from '@nextcloud/vue/components/NcTextField'\nimport NcNoteCard from '@nextcloud/vue/components/NcNoteCard'\n\nconst props = defineProps({\n\t/**\n\t * The name to be used by default\n\t */\n\tdefaultName: {\n\t\ttype: String,\n\t\tdefault: t('files', 'New folder'),\n\t},\n\t/**\n\t * Other files that are in the current directory\n\t */\n\totherNames: {\n\t\ttype: Array as PropType<string[]>,\n\t\tdefault: () => [],\n\t},\n\t/**\n\t * Open state of the dialog\n\t */\n\topen: {\n\t\ttype: Boolean,\n\t\tdefault: true,\n\t},\n\t/**\n\t * Dialog name\n\t */\n\tname: {\n\t\ttype: String,\n\t\tdefault: t('files', 'Create new folder'),\n\t},\n\t/**\n\t * Input label\n\t */\n\tlabel: {\n\t\ttype: String,\n\t\tdefault: t('files', 'Folder name'),\n\t},\n})\n\nconst emit = defineEmits<{\n\t(event: 'close', name: string | null): void\n}>()\n\nconst localDefaultName = ref<string>(props.defaultName)\nconst nameInput = ref<ComponentPublicInstance>()\nconst formElement = ref<HTMLFormElement>()\nconst validity = ref('')\n\nconst isHiddenFileName = computed(() => {\n\t// Check if the name starts with a dot, which indicates a hidden file\n\treturn localDefaultName.value.trim().startsWith('.')\n})\n\n/**\n * Focus the filename input field\n */\nfunction focusInput() {\n\tnextTick(() => {\n\t\t// get the input element\n\t\tconst input = nameInput.value?.$el.querySelector('input')\n\t\tif (!props.open || !input) {\n\t\t\treturn\n\t\t}\n\n\t\t// length of the basename\n\t\tconst length = localDefaultName.value.length - extname(localDefaultName.value).length\n\t\t// focus the input\n\t\tinput.focus()\n\t\t// and set the selection to the basename (name without extension)\n\t\tinput.setSelectionRange(0, length)\n\t})\n}\n\n/**\n * Trigger submit on the form\n */\nfunction submit() {\n\tformElement.value?.requestSubmit()\n}\n\n// Reset local name on props change\nwatch(() => [props.defaultName, props.otherNames], () => {\n\tlocalDefaultName.value = getUniqueName(props.defaultName, props.otherNames).trim()\n})\n\n// Validate the local name\nwatchEffect(() => {\n\tif (props.otherNames.includes(localDefaultName.value.trim())) {\n\t\tvalidity.value = t('files', 'This name is already in use.')\n\t} else {\n\t\tvalidity.value = getFilenameValidity(localDefaultName.value.trim())\n\t}\n\tconst input = nameInput.value?.$el.querySelector('input')\n\tif (input) {\n\t\tinput.setCustomValidity(validity.value)\n\t\tinput.reportValidity()\n\t}\n})\n\n// Ensure the input is focussed even if the dialog is already mounted but not open\nwatch(() => props.open, () => {\n\tnextTick(() => {\n\t\tfocusInput()\n\t})\n})\n\nonMounted(() => {\n\t// on mounted lets use the unique name\n\tlocalDefaultName.value = getUniqueName(localDefaultName.value, props.otherNames).trim()\n\tnextTick(() => focusInput())\n})\n<\/script>\n\n<style scoped>\n.new-node-dialog__form {\n\t/* Ensure the dialog does not jump when there is a validity error */\n\tmin-height: calc(2 * var(--default-clickable-area));\n}\n</style>\n"],sourceRoot:""}]);const r=o}},i={};function a(e){var t=i[e];if(void 0!==t)return t.exports;var s=i[e]={id:e,loaded:!1,exports:{}};return n[e].call(s.exports,s,s.exports,a),s.loaded=!0,s.exports}a.m=n,e=[],a.O=(t,s,n,i)=>{if(!s){var o=1/0;for(m=0;m<e.length;m++){s=e[m][0],n=e[m][1],i=e[m][2];for(var r=!0,l=0;l<s.length;l++)(!1&i||o>=i)&&Object.keys(a.O).every(e=>a.O[e](s[l]))?s.splice(l--,1):(r=!1,i<o&&(o=i));if(r){e.splice(m--,1);var d=n();void 0!==d&&(t=d)}}return t}i=i||0;for(var m=e.length;m>0&&e[m-1][2]>i;m--)e[m]=e[m-1];e[m]=[s,n,i]},a.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return a.d(t,{a:t}),t},a.d=(e,t)=>{for(var s in t)a.o(t,s)&&!a.o(e,s)&&Object.defineProperty(e,s,{enumerable:!0,get:t[s]})},a.f={},a.e=e=>Promise.all(Object.keys(a.f).reduce((t,s)=>(a.f[s](e,t),t),[])),a.u=e=>e+"-"+e+".js?v="+{640:"d3d98600d88fd55c7b27",1656:"add223a88c3ff25f5e22",3485:"43f0d40397a6153c2940",5771:"d141d1ad8187d99738b9",5810:"fc51f8aa95a9854d22fd",7457:"0b93057e62a64bfabdb8",7471:"6423b9b898ffefeb7d1d",7729:"6f8efc1b258b6a37aded",8474:"d060bb2e97b1499bd6b0"}[e],a.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),a.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),t={},s="nextcloud:",a.l=(e,n,i,o)=>{if(t[e])t[e].push(n);else{var r,l;if(void 0!==i)for(var d=document.getElementsByTagName("script"),m=0;m<d.length;m++){var c=d[m];if(c.getAttribute("src")==e||c.getAttribute("data-webpack")==s+i){r=c;break}}r||(l=!0,(r=document.createElement("script")).charset="utf-8",r.timeout=120,a.nc&&r.setAttribute("nonce",a.nc),r.setAttribute("data-webpack",s+i),r.src=e),t[e]=[n];var g=(s,n)=>{r.onerror=r.onload=null,clearTimeout(u);var i=t[e];if(delete t[e],r.parentNode&&r.parentNode.removeChild(r),i&&i.forEach(e=>e(n)),s)return s(n)},u=setTimeout(g.bind(null,void 0,{type:"timeout",target:r}),12e4);r.onerror=g.bind(null,r.onerror),r.onload=g.bind(null,r.onload),l&&document.head.appendChild(r)}},a.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},a.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),a.j=1171,(()=>{var e;a.g.importScripts&&(e=a.g.location+"");var t=a.g.document;if(!e&&t&&(t.currentScript&&"SCRIPT"===t.currentScript.tagName.toUpperCase()&&(e=t.currentScript.src),!e)){var s=t.getElementsByTagName("script");if(s.length)for(var n=s.length-1;n>-1&&(!e||!/^http(s?):/.test(e));)e=s[n--].src}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),a.p=e})(),(()=>{a.b=document.baseURI||self.location.href;var e={1171:0,5810:0};a.f.j=(t,s)=>{var n=a.o(e,t)?e[t]:void 0;if(0!==n)if(n)s.push(n[2]);else{var i=new Promise((s,i)=>n=e[t]=[s,i]);s.push(n[2]=i);var o=a.p+a.u(t),r=new Error;a.l(o,s=>{if(a.o(e,t)&&(0!==(n=e[t])&&(e[t]=void 0),n)){var i=s&&("load"===s.type?"missing":s.type),o=s&&s.target&&s.target.src;r.message="Loading chunk "+t+" failed.\n("+i+": "+o+")",r.name="ChunkLoadError",r.type=i,r.request=o,n[1](r)}},"chunk-"+t,t)}},a.O.j=t=>0===e[t];var t=(t,s)=>{var n,i,o=s[0],r=s[1],l=s[2],d=0;if(o.some(t=>0!==e[t])){for(n in r)a.o(r,n)&&(a.m[n]=r[n]);if(l)var m=l(a)}for(t&&t(s);d<o.length;d++)i=o[d],a.o(e,i)&&e[i]&&e[i][0](),e[i]=0;return a.O(m)},s=self.webpackChunknextcloud=self.webpackChunknextcloud||[];s.forEach(t.bind(null,0)),s.push=t.bind(null,s.push.bind(s))})(),a.nc=void 0;var o=a.O(void 0,[4208],()=>a(63444));o=a.O(o)})();
-//# sourceMappingURL=files-init.js.map?v=9fea549f2175c00871fc
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/files/src/actions/convertAction.ts":
+/*!*************************************************!*\
+  !*** ./apps/files/src/actions/convertAction.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ACTION_CONVERT: () => (/* binding */ ACTION_CONVERT),
+/* harmony export */   generateIconSvg: () => (/* binding */ generateIconSvg),
+/* harmony export */   registerConvertActions: () => (/* binding */ registerConvertActions)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/capabilities */ "./node_modules/@nextcloud/capabilities/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_autorenew_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/autorenew.svg?raw */ "./node_modules/@mdi/svg/svg/autorenew.svg?raw");
+/* harmony import */ var _convertUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./convertUtils */ "./apps/files/src/actions/convertUtils.ts");
+
+
+
+
+
+
+const ACTION_CONVERT = 'convert';
+const registerConvertActions = () => {
+  // Generate sub actions
+  const convertProviders = (0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_2__.getCapabilities)()?.files?.file_conversions ?? [];
+  const actions = convertProviders.map(_ref => {
+    let {
+      to,
+      from,
+      displayName
+    } = _ref;
+    return new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+      id: `convert-${from}-${to}`,
+      displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Save as {displayName}', {
+        displayName
+      }),
+      iconSvgInline: () => generateIconSvg(to),
+      enabled: nodes => {
+        // Check that all nodes have the same mime type
+        return nodes.every(node => from === node.mime);
+      },
+      async exec(node) {
+        // If we're here, we know that the node has a fileid
+        (0,_convertUtils__WEBPACK_IMPORTED_MODULE_5__.convertFile)(node.fileid, to);
+        // Silently terminate, we'll handle the UI in the background
+        return null;
+      },
+      async execBatch(nodes) {
+        const fileIds = nodes.map(node => node.fileid).filter(Boolean);
+        (0,_convertUtils__WEBPACK_IMPORTED_MODULE_5__.convertFiles)(fileIds, to);
+        // Silently terminate, we'll handle the UI in the background
+        return Array(nodes.length).fill(null);
+      },
+      parent: ACTION_CONVERT
+    });
+  });
+  // Register main action
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+    id: ACTION_CONVERT,
+    displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Save as …'),
+    iconSvgInline: () => _mdi_svg_svg_autorenew_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+    enabled: (nodes, view) => {
+      return actions.some(action => action.enabled(nodes, view));
+    },
+    async exec() {
+      return null;
+    },
+    order: 25
+  }));
+  // Register sub actions
+  actions.forEach(_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction);
+};
+const generateIconSvg = mime => {
+  // Generate icon based on mime type
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('/core/mimeicon?mime=' + encodeURIComponent(mime));
+  return `<svg width="32" height="32" viewBox="0 0 32 32"
+		xmlns="http://www.w3.org/2000/svg">
+		<image href="${url}" height="32" width="32" />
+	</svg>`;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/convertUtils.ts":
+/*!************************************************!*\
+  !*** ./apps/files/src/actions/convertUtils.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   convertFile: () => (/* binding */ convertFile),
+/* harmony export */   convertFiles: () => (/* binding */ convertFiles)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var p_queue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! p-queue */ "./node_modules/p-queue/dist/index.js");
+/* harmony import */ var _services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../logger */ "./apps/files/src/logger.ts");
+
+
+
+
+
+
+
+
+const queue = new p_queue__WEBPACK_IMPORTED_MODULE_5__["default"]({
+  concurrency: 5
+});
+const requestConversion = function (fileId, targetMimeType) {
+  return _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('/apps/files/api/v1/convert'), {
+    fileId,
+    targetMimeType
+  });
+};
+const convertFiles = async function (fileIds, targetMimeType) {
+  const conversions = fileIds.map(fileId => queue.add(() => requestConversion(fileId, targetMimeType)));
+  // Start conversion
+  const toast = (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showLoading)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Converting files …'));
+  // Handle results
+  try {
+    const results = await Promise.allSettled(conversions);
+    const failed = results.filter(result => result.status === 'rejected');
+    if (failed.length > 0) {
+      const messages = failed.map(result => result.reason?.response?.data?.ocs?.meta?.message);
+      _logger__WEBPACK_IMPORTED_MODULE_7__["default"].error('Failed to convert files', {
+        fileIds,
+        targetMimeType,
+        messages
+      });
+      // If all failed files have the same error message, show it
+      if (new Set(messages).size === 1 && typeof messages[0] === 'string') {
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Failed to convert files: {message}', {
+          message: messages[0]
+        }));
+        return;
+      }
+      if (failed.length === fileIds.length) {
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'All files failed to be converted'));
+        return;
+      }
+      // A single file failed and if we have a message for the failed file, show it
+      if (failed.length === 1 && messages[0]) {
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'One file could not be converted: {message}', {
+          message: messages[0]
+        }));
+        return;
+      }
+      // We already check above when all files failed
+      // if we're here, we have a mix of failed and successful files
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.n)('files', 'One file could not be converted', '%n files could not be converted', failed.length));
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.n)('files', 'One file successfully converted', '%n files successfully converted', fileIds.length - failed.length));
+      return;
+    }
+    // All files converted
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Files successfully converted'));
+    // Extract files that are within the current directory
+    // in batch mode, you might have files from different directories
+    // ⚠️, let's get the actual current dir, as the one from the action
+    // might have changed as the user navigated away
+    const currentDir = window.OCP.Files.Router.query.dir;
+    const newPaths = results.filter(result => result.status === 'fulfilled').map(result => result.value.data.ocs.data.path).filter(path => path.startsWith(currentDir));
+    // Fetch the new files
+    _logger__WEBPACK_IMPORTED_MODULE_7__["default"].debug('Files to fetch', {
+      newPaths
+    });
+    const newFiles = await Promise.all(newPaths.map(path => (0,_services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_6__.fetchNode)(path)));
+    // Inform the file list about the new files
+    newFiles.forEach(file => (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:created', file));
+    // Switch to the new files
+    const firstSuccess = results[0];
+    const newFileId = firstSuccess.value.data.ocs.data.fileId;
+    window.OCP.Files.Router.goToRoute(null, {
+      ...window.OCP.Files.Router.params,
+      fileid: newFileId.toString()
+    }, window.OCP.Files.Router.query);
+  } catch (error) {
+    // Should not happen as we use allSettled and handle errors above
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Failed to convert files'));
+    _logger__WEBPACK_IMPORTED_MODULE_7__["default"].error('Failed to convert files', {
+      fileIds,
+      targetMimeType,
+      error
+    });
+  } finally {
+    // Hide loading toast
+    toast.hideToast();
+  }
+};
+const convertFile = async function (fileId, targetMimeType) {
+  const toast = (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showLoading)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Converting file …'));
+  try {
+    const result = await queue.add(() => requestConversion(fileId, targetMimeType));
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'File successfully converted'));
+    // Inform the file list about the new file
+    const newFile = await (0,_services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_6__.fetchNode)(result.data.ocs.data.path);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:created', newFile);
+    // Switch to the new file
+    const newFileId = result.data.ocs.data.fileId;
+    window.OCP.Files.Router.goToRoute(null, {
+      ...window.OCP.Files.Router.params,
+      fileid: newFileId.toString()
+    }, window.OCP.Files.Router.query);
+  } catch (error) {
+    // If the server returned an error message, show it
+    if ((0,_nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__.isAxiosError)(error) && error.response?.data?.ocs?.meta?.message) {
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Failed to convert file: {message}', {
+        message: error.response.data.ocs.meta.message
+      }));
+      return;
+    }
+    _logger__WEBPACK_IMPORTED_MODULE_7__["default"].error('Failed to convert file', {
+      fileId,
+      targetMimeType,
+      error
+    });
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_2__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Failed to convert file'));
+  } finally {
+    // Hide loading toast
+    toast.hideToast();
+  }
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/deleteAction.ts":
+/*!************************************************!*\
+  !*** ./apps/files/src/actions/deleteAction.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ACTION_DELETE: () => (/* binding */ ACTION_DELETE),
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var p_queue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! p-queue */ "./node_modules/p-queue/dist/index.js");
+/* harmony import */ var _mdi_svg_svg_close_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/close.svg?raw */ "./node_modules/@mdi/svg/svg/close.svg?raw");
+/* harmony import */ var _mdi_svg_svg_network_off_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/network-off.svg?raw */ "./node_modules/@mdi/svg/svg/network-off.svg?raw");
+/* harmony import */ var _mdi_svg_svg_trash_can_outline_svg_raw__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mdi/svg/svg/trash-can-outline.svg?raw */ "./node_modules/@mdi/svg/svg/trash-can-outline.svg?raw");
+/* harmony import */ var _files_trashbin_src_files_views_trashbinView_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../files_trashbin/src/files_views/trashbinView.ts */ "./apps/files_trashbin/src/files_views/trashbinView.ts");
+/* harmony import */ var _deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./deleteUtils.ts */ "./apps/files/src/actions/deleteUtils.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+const queue = new p_queue__WEBPACK_IMPORTED_MODULE_2__["default"]({
+  concurrency: 5
+});
+const ACTION_DELETE = 'delete';
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+  id: ACTION_DELETE,
+  displayName: _deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.displayName,
+  iconSvgInline: nodes => {
+    if ((0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.canUnshareOnly)(nodes)) {
+      return _mdi_svg_svg_close_svg_raw__WEBPACK_IMPORTED_MODULE_3__;
+    }
+    if ((0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.canDisconnectOnly)(nodes)) {
+      return _mdi_svg_svg_network_off_svg_raw__WEBPACK_IMPORTED_MODULE_4__;
+    }
+    return _mdi_svg_svg_trash_can_outline_svg_raw__WEBPACK_IMPORTED_MODULE_5__;
+  },
+  enabled(nodes, view) {
+    if (view.id === _files_trashbin_src_files_views_trashbinView_ts__WEBPACK_IMPORTED_MODULE_6__.TRASHBIN_VIEW_ID) {
+      const config = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('files_trashbin', 'config', {
+        allow_delete: true
+      });
+      if (config.allow_delete === false) {
+        return false;
+      }
+    }
+    return nodes.length > 0 && nodes.map(node => node.permissions).every(permission => (permission & _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.DELETE) !== 0);
+  },
+  async exec(node, view) {
+    try {
+      let confirm = true;
+      // Trick to detect if the action was called from a keyboard event
+      // we need to make sure the method calling have its named containing 'keydown'
+      // here we use `onKeydown` method from the FileEntryActions component
+      const callStack = new Error().stack || '';
+      const isCalledFromEventListener = callStack.toLocaleLowerCase().includes('keydown');
+      if ((0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.shouldAskForConfirmation)() || isCalledFromEventListener) {
+        confirm = await (0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.askConfirmation)([node], view);
+      }
+      // If the user cancels the deletion, we don't want to do anything
+      if (confirm === false) {
+        return null;
+      }
+      await (0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.deleteNode)(node);
+      return true;
+    } catch (error) {
+      _logger_ts__WEBPACK_IMPORTED_MODULE_8__["default"].error('Error while deleting a file', {
+        error,
+        source: node.source,
+        node
+      });
+      return false;
+    }
+  },
+  async execBatch(nodes, view) {
+    let confirm = true;
+    if ((0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.shouldAskForConfirmation)()) {
+      confirm = await (0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.askConfirmation)(nodes, view);
+    } else if (nodes.length >= 5 && !(0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.canUnshareOnly)(nodes) && !(0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.canDisconnectOnly)(nodes)) {
+      confirm = await (0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.askConfirmation)(nodes, view);
+    }
+    // If the user cancels the deletion, we don't want to do anything
+    if (confirm === false) {
+      return Promise.all(nodes.map(() => null));
+    }
+    // Map each node to a promise that resolves with the result of exec(node)
+    const promises = nodes.map(node => {
+      // Create a promise that resolves with the result of exec(node)
+      const promise = new Promise(resolve => {
+        queue.add(async () => {
+          try {
+            await (0,_deleteUtils_ts__WEBPACK_IMPORTED_MODULE_7__.deleteNode)(node);
+            resolve(true);
+          } catch (error) {
+            _logger_ts__WEBPACK_IMPORTED_MODULE_8__["default"].error('Error while deleting a file', {
+              error,
+              source: node.source,
+              node
+            });
+            resolve(false);
+          }
+        });
+      });
+      return promise;
+    });
+    return Promise.all(promises);
+  },
+  destructive: true,
+  order: 100
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/deleteUtils.ts":
+/*!***********************************************!*\
+  !*** ./apps/files/src/actions/deleteUtils.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   askConfirmation: () => (/* binding */ askConfirmation),
+/* harmony export */   canDisconnectOnly: () => (/* binding */ canDisconnectOnly),
+/* harmony export */   canUnshareOnly: () => (/* binding */ canUnshareOnly),
+/* harmony export */   deleteNode: () => (/* binding */ deleteNode),
+/* harmony export */   displayName: () => (/* binding */ displayName),
+/* harmony export */   isAllFiles: () => (/* binding */ isAllFiles),
+/* harmony export */   isAllFolders: () => (/* binding */ isAllFolders),
+/* harmony export */   isMixedUnshareAndDelete: () => (/* binding */ isMixedUnshareAndDelete),
+/* harmony export */   isTrashbinEnabled: () => (/* binding */ isTrashbinEnabled),
+/* harmony export */   shouldAskForConfirmation: () => (/* binding */ shouldAskForConfirmation)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/capabilities */ "./node_modules/@nextcloud/capabilities/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _store_userconfig__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/userconfig */ "./apps/files/src/store/userconfig.ts");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../store */ "./apps/files/src/store/index.ts");
+
+
+
+
+
+
+
+const isTrashbinEnabled = () => (0,_nextcloud_capabilities__WEBPACK_IMPORTED_MODULE_2__.getCapabilities)()?.files?.undelete === true;
+const canUnshareOnly = nodes => {
+  return nodes.every(node => node.attributes['is-mount-root'] === true && node.attributes['mount-type'] === 'shared');
+};
+const canDisconnectOnly = nodes => {
+  return nodes.every(node => node.attributes['is-mount-root'] === true && node.attributes['mount-type'] === 'external');
+};
+const isMixedUnshareAndDelete = nodes => {
+  if (nodes.length === 1) {
+    return false;
+  }
+  const hasSharedItems = nodes.some(node => canUnshareOnly([node]));
+  const hasDeleteItems = nodes.some(node => !canUnshareOnly([node]));
+  return hasSharedItems && hasDeleteItems;
+};
+const isAllFiles = nodes => {
+  return !nodes.some(node => node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileType.File);
+};
+const isAllFolders = nodes => {
+  return !nodes.some(node => node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileType.Folder);
+};
+const displayName = (nodes, view) => {
+  /**
+   * If those nodes are all the root node of a
+   * share, we can only unshare them.
+   */
+  if (canUnshareOnly(nodes)) {
+    if (nodes.length === 1) {
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Leave this share');
+    }
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Leave these shares');
+  }
+  /**
+   * If those nodes are all the root node of an
+   * external storage, we can only disconnect it.
+   */
+  if (canDisconnectOnly(nodes)) {
+    if (nodes.length === 1) {
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Disconnect storage');
+    }
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Disconnect storages');
+  }
+  /**
+   * If we're in the trashbin, we can only delete permanently
+   */
+  if (view.id === 'trashbin' || !isTrashbinEnabled()) {
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Delete permanently');
+  }
+  /**
+   * If we're in the sharing view, we can only unshare
+   */
+  if (isMixedUnshareAndDelete(nodes)) {
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Delete and unshare');
+  }
+  /**
+   * If we're only selecting files, use proper wording
+   */
+  if (isAllFiles(nodes)) {
+    if (nodes.length === 1) {
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Delete file');
+    }
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Delete files');
+  }
+  /**
+   * If we're only selecting folders, use proper wording
+   */
+  if (isAllFolders(nodes)) {
+    if (nodes.length === 1) {
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Delete folder');
+    }
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Delete folders');
+  }
+  return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Delete');
+};
+const shouldAskForConfirmation = () => {
+  const userConfig = (0,_store_userconfig__WEBPACK_IMPORTED_MODULE_5__.useUserConfigStore)((0,_store__WEBPACK_IMPORTED_MODULE_6__.getPinia)());
+  return userConfig.userConfig.show_dialog_deletion !== false;
+};
+const askConfirmation = async (nodes, view) => {
+  const message = view.id === 'trashbin' || !isTrashbinEnabled() ? (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.n)('files', 'You are about to permanently delete {count} item', 'You are about to permanently delete {count} items', nodes.length, {
+    count: nodes.length
+  }) : (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.n)('files', 'You are about to delete {count} item', 'You are about to delete {count} items', nodes.length, {
+    count: nodes.length
+  });
+  return new Promise(resolve => {
+    // TODO: Use the new dialog API
+    window.OC.dialogs.confirmDestructive(message, (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Confirm deletion'), {
+      type: window.OC.dialogs.YES_NO_BUTTONS,
+      confirm: displayName(nodes, view),
+      confirmClasses: 'error',
+      cancel: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.t)('files', 'Cancel')
+    }, decision => {
+      resolve(decision);
+    });
+  });
+};
+const deleteNode = async node => {
+  await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_4__["default"].delete(node.encodedSource);
+  // Let's delete even if it's moved to the trashbin
+  // since it has been removed from the current view
+  // and changing the view will trigger a reload anyway.
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:deleted', node);
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/downloadAction.ts":
+/*!**************************************************!*\
+  !*** ./apps/files/src/actions/downloadAction.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_arrow_down_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/arrow-down.svg?raw */ "./node_modules/@mdi/svg/svg/arrow-down.svg?raw");
+/* harmony import */ var _utils_permissions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/permissions */ "./apps/files/src/utils/permissions.ts");
+/* harmony import */ var _store_paths__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../store/paths */ "./apps/files/src/store/paths.ts");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../store */ "./apps/files/src/store/index.ts");
+/* harmony import */ var _store_files__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../store/files */ "./apps/files/src/store/files.ts");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+
+
+
+
+
+
+
+
+
+
+/**
+ * Trigger downloading a file.
+ *
+ * @param url The url of the asset to download
+ * @param name Optionally the recommended name of the download (browsers might ignore it)
+ */
+async function triggerDownload(url, name) {
+  // try to see if the resource is still available
+  await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_3__["default"].head(url);
+  const hiddenElement = document.createElement('a');
+  hiddenElement.download = name ?? '';
+  hiddenElement.href = url;
+  hiddenElement.click();
+}
+/**
+ * Find the longest common path prefix of both input paths
+ * @param first The first path
+ * @param second The second path
+ */
+function longestCommonPath(first, second) {
+  const firstSegments = first.split('/').filter(Boolean);
+  const secondSegments = second.split('/').filter(Boolean);
+  let base = '';
+  for (const [index, segment] of firstSegments.entries()) {
+    if (index >= second.length) {
+      break;
+    }
+    if (segment !== secondSegments[index]) {
+      break;
+    }
+    const sep = base === '' ? '' : '/';
+    base = `${base}${sep}${segment}`;
+  }
+  return base;
+}
+/**
+ * Download the given nodes.
+ *
+ * If only one node is given, it will be downloaded directly.
+ * If multiple nodes are given, they will be zipped and downloaded.
+ *
+ * @param nodes The node(s) to download
+ */
+async function downloadNodes(nodes) {
+  let url;
+  if (nodes.length === 1) {
+    if (nodes[0].type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.File) {
+      await triggerDownload(nodes[0].encodedSource, nodes[0].displayname);
+      return;
+    } else {
+      url = new URL(nodes[0].encodedSource);
+      url.searchParams.append('accept', 'zip');
+    }
+  } else {
+    url = new URL(nodes[0].encodedSource);
+    let base = url.pathname;
+    for (const node of nodes.slice(1)) {
+      base = longestCommonPath(base, new URL(node.encodedSource).pathname);
+    }
+    url.pathname = base;
+    // The URL contains the path encoded so we need to decode as the query.append will re-encode it
+    const filenames = nodes.map(node => decodeURIComponent(node.encodedSource.slice(url.href.length + 1)));
+    url.searchParams.append('accept', 'zip');
+    url.searchParams.append('files', JSON.stringify(filenames));
+  }
+  if (url.pathname.at(-1) !== '/') {
+    url.pathname = `${url.pathname}/`;
+  }
+  await triggerDownload(url.href);
+}
+/**
+ * Get the current directory node for the given view and path.
+ * TODO: ideally the folder would directly be passed as exec params
+ *
+ * @param view The current view
+ * @param directory The directory path
+ * @return The current directory node or null if not found
+ */
+function getCurrentDirectory(view, directory) {
+  const filesStore = (0,_store_files__WEBPACK_IMPORTED_MODULE_8__.useFilesStore)((0,_store__WEBPACK_IMPORTED_MODULE_7__.getPinia)());
+  const pathsStore = (0,_store_paths__WEBPACK_IMPORTED_MODULE_6__.usePathsStore)((0,_store__WEBPACK_IMPORTED_MODULE_7__.getPinia)());
+  if (!view?.id) {
+    return null;
+  }
+  if (directory === '/') {
+    return filesStore.getRoot(view.id) || null;
+  }
+  const fileId = pathsStore.getPath(view.id, directory);
+  return filesStore.getNode(fileId) || null;
+}
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+  id: 'download',
+  default: _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.DefaultType.DEFAULT,
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'Download'),
+  iconSvgInline: () => _mdi_svg_svg_arrow_down_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+  enabled(nodes, view) {
+    if (nodes.length === 0) {
+      return false;
+    }
+    // We can only download dav files and folders.
+    if (nodes.some(node => !node.isDavResource)) {
+      return false;
+    }
+    // Trashbin does not allow batch download
+    if (nodes.length > 1 && view.id === 'trashbin') {
+      return false;
+    }
+    return nodes.every(_utils_permissions__WEBPACK_IMPORTED_MODULE_5__.isDownloadable);
+  },
+  async exec(node) {
+    try {
+      await downloadNodes([node]);
+    } catch (e) {
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'The requested file is not available.'));
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_9__.emit)('files:node:deleted', node);
+    }
+    return null;
+  },
+  async execBatch(nodes, view, dir) {
+    try {
+      await downloadNodes(nodes);
+    } catch (e) {
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'The requested files are not available.'));
+      // Try to reload the current directory to update the view
+      const directory = getCurrentDirectory(view, dir);
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_9__.emit)('files:node:updated', directory);
+    }
+    return new Array(nodes.length).fill(null);
+  },
+  order: 30
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/favoriteAction.ts":
+/*!**************************************************!*\
+  !*** ./apps/files/src/actions/favoriteAction.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ACTION_FAVORITE: () => (/* binding */ ACTION_FAVORITE),
+/* harmony export */   action: () => (/* binding */ action),
+/* harmony export */   favoriteNode: () => (/* binding */ favoriteNode)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_paths__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/paths */ "./node_modules/@nextcloud/paths/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var p_queue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! p-queue */ "./node_modules/p-queue/dist/index.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _mdi_svg_svg_star_outline_svg_raw__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mdi/svg/svg/star-outline.svg?raw */ "./node_modules/@mdi/svg/svg/star-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_star_svg_raw__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mdi/svg/svg/star.svg?raw */ "./node_modules/@mdi/svg/svg/star.svg?raw");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+const ACTION_FAVORITE = 'favorite';
+const queue = new p_queue__WEBPACK_IMPORTED_MODULE_7__["default"]({
+  concurrency: 5
+});
+// If any of the nodes is not favorited, we display the favorite action.
+const shouldFavorite = nodes => {
+  return nodes.some(node => node.attributes.favorite !== 1);
+};
+const favoriteNode = async (node, view, willFavorite) => {
+  try {
+    // TODO: migrate to webdav tags plugin
+    const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_4__.generateUrl)('/apps/files/api/v1/files') + (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_3__.encodePath)(node.path);
+    await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].post(url, {
+      tags: willFavorite ? [window.OC.TAG_FAVORITE] : []
+    });
+    // Let's delete if we are in the favourites view
+    // AND if it is removed from the user favorites
+    // AND it's in the root of the favorites view
+    if (view.id === 'favorites' && !willFavorite && node.dirname === '/') {
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:deleted', node);
+    }
+    // Update the node webdav attribute
+    vue__WEBPACK_IMPORTED_MODULE_8__["default"].set(node.attributes, 'favorite', willFavorite ? 1 : 0);
+    // Dispatch event to whoever is interested
+    if (willFavorite) {
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:favorites:added', node);
+    } else {
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:favorites:removed', node);
+    }
+    return true;
+  } catch (error) {
+    const action = willFavorite ? 'adding a file to favourites' : 'removing a file from favourites';
+    _logger_ts__WEBPACK_IMPORTED_MODULE_11__["default"].error('Error while ' + action, {
+      error,
+      source: node.source,
+      node
+    });
+    return false;
+  }
+};
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileAction({
+  id: ACTION_FAVORITE,
+  displayName(nodes) {
+    return shouldFavorite(nodes) ? (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files', 'Add to favorites') : (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files', 'Remove from favorites');
+  },
+  iconSvgInline: nodes => {
+    return shouldFavorite(nodes) ? _mdi_svg_svg_star_outline_svg_raw__WEBPACK_IMPORTED_MODULE_9__ : _mdi_svg_svg_star_svg_raw__WEBPACK_IMPORTED_MODULE_10__;
+  },
+  enabled(nodes) {
+    // Not enabled for public shares
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_5__.isPublicShare)()) {
+      return false;
+    }
+    // We can only favorite nodes if they are located in files
+    return nodes.every(node => node.root?.startsWith?.('/files'))
+    // and we have permissions
+    && nodes.every(node => node.permissions !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.NONE);
+  },
+  async exec(node, view) {
+    const willFavorite = shouldFavorite([node]);
+    return await favoriteNode(node, view, willFavorite);
+  },
+  async execBatch(nodes, view) {
+    const willFavorite = shouldFavorite(nodes);
+    // Map each node to a promise that resolves with the result of exec(node)
+    const promises = nodes.map(node => {
+      // Create a promise that resolves with the result of exec(node)
+      const promise = new Promise(resolve => {
+        queue.add(async () => {
+          try {
+            await favoriteNode(node, view, willFavorite);
+            resolve(true);
+          } catch (error) {
+            _logger_ts__WEBPACK_IMPORTED_MODULE_11__["default"].error('Error while adding file to favorite', {
+              error,
+              source: node.source,
+              node
+            });
+            resolve(false);
+          }
+        });
+      });
+      return promise;
+    });
+    return Promise.all(promises);
+  },
+  order: -50
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/moveOrCopyAction.ts":
+/*!****************************************************!*\
+  !*** ./apps/files/src/actions/moveOrCopyAction.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ACTION_COPY_MOVE: () => (/* binding */ ACTION_COPY_MOVE),
+/* harmony export */   action: () => (/* binding */ action),
+/* harmony export */   handleCopyMoveNodeTo: () => (/* binding */ handleCopyMoveNodeTo)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_upload__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/upload */ "./node_modules/@nextcloud/upload/dist/index.mjs");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! path */ "./node_modules/path/path.js");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _mdi_svg_svg_folder_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mdi/svg/svg/folder-multiple-outline.svg?raw */ "./node_modules/@mdi/svg/svg/folder-multiple-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_folder_move_outline_svg_raw__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mdi/svg/svg/folder-move-outline.svg?raw */ "./node_modules/@mdi/svg/svg/folder-move-outline.svg?raw");
+/* harmony import */ var _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./moveOrCopyActionUtils */ "./apps/files/src/actions/moveOrCopyActionUtils.ts");
+/* harmony import */ var _services_Files__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../services/Files */ "./apps/files/src/services/Files.ts");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../logger */ "./apps/files/src/logger.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Return the action that is possible for the given nodes
+ * @param {Node[]} nodes The nodes to check against
+ * @return {MoveCopyAction} The action that is possible for the given nodes
+ */
+const getActionForNodes = nodes => {
+  if ((0,_moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.canMove)(nodes)) {
+    if ((0,_moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.canCopy)(nodes)) {
+      return _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE_OR_COPY;
+    }
+    return _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE;
+  }
+  // Assuming we can copy as the enabled checks for copy permissions
+  return _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.COPY;
+};
+/**
+ * Create a loading notification toast
+ * @param mode The move or copy mode
+ * @param source Name of the node that is copied / moved
+ * @param destination Destination path
+ * @return {() => void} Function to hide the notification
+ */
+function createLoadingNotification(mode, source, destination) {
+  const text = mode === _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE ? (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Moving "{source}" to "{destination}" …', {
+    source,
+    destination
+  }) : (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Copying "{source}" to "{destination}" …', {
+    source,
+    destination
+  });
+  let toast;
+  toast = (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showInfo)(`<span class="icon icon-loading-small toast-loading-icon"></span> ${text}`, {
+    isHTML: true,
+    timeout: _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.TOAST_PERMANENT_TIMEOUT,
+    onRemove: () => {
+      toast?.hideToast();
+      toast = undefined;
+    }
+  });
+  return () => toast && toast.hideToast();
+}
+/**
+ * Handle the copy/move of a node to a destination
+ * This can be imported and used by other scripts/components on server
+ * @param {Node} node The node to copy/move
+ * @param {Folder} destination The destination to copy/move the node to
+ * @param {MoveCopyAction} method The method to use for the copy/move
+ * @param {boolean} overwrite Whether to overwrite the destination if it exists
+ * @return {Promise<void>} A promise that resolves when the copy/move is done
+ */
+const handleCopyMoveNodeTo = async function (node, destination, method) {
+  let overwrite = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+  if (!destination) {
+    return;
+  }
+  if (destination.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.FileType.Folder) {
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Destination is not a folder'));
+  }
+  // Do not allow to MOVE a node to the same folder it is already located
+  if (method === _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE && node.dirname === destination.path) {
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'This file/folder is already in that directory'));
+  }
+  /**
+   * Example:
+   * - node: /foo/bar/file.txt -> path = /foo/bar/file.txt, destination: /foo
+   *   Allow move of /foo does not start with /foo/bar/file.txt so allow
+   * - node: /foo , destination: /foo/bar
+   *   Do not allow as it would copy foo within itself
+   * - node: /foo/bar.txt, destination: /foo
+   *   Allow copy a file to the same directory
+   * - node: "/foo/bar", destination: "/foo/bar 1"
+   *   Allow to move or copy but we need to check with trailing / otherwise it would report false positive
+   */
+  if (`${destination.path}/`.startsWith(`${node.path}/`)) {
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'You cannot move a file/folder onto itself or into a subfolder of itself'));
+  }
+  // Set loading state
+  vue__WEBPACK_IMPORTED_MODULE_7__["default"].set(node, 'status', _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.NodeStatus.LOADING);
+  const actionFinished = createLoadingNotification(method, node.basename, destination.path);
+  const queue = (0,_moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.getQueue)();
+  return await queue.add(async () => {
+    const copySuffix = index => {
+      if (index === 1) {
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', '(copy)'); // TRANSLATORS: Mark a file as a copy of another file
+      }
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', '(copy %n)', undefined, index); // TRANSLATORS: Meaning it is the n'th copy of a file
+    };
+    try {
+      const client = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.davGetClient)();
+      const currentPath = (0,path__WEBPACK_IMPORTED_MODULE_6__.join)(_nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.davRootPath, node.path);
+      const destinationPath = (0,path__WEBPACK_IMPORTED_MODULE_6__.join)(_nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.davRootPath, destination.path);
+      if (method === _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.COPY) {
+        let target = node.basename;
+        // If we do not allow overwriting then find an unique name
+        if (!overwrite) {
+          const otherNodes = await client.getDirectoryContents(destinationPath);
+          target = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.getUniqueName)(node.basename, otherNodes.map(n => n.basename), {
+            suffix: copySuffix,
+            ignoreFileExtension: node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.FileType.Folder
+          });
+        }
+        await client.copyFile(currentPath, (0,path__WEBPACK_IMPORTED_MODULE_6__.join)(destinationPath, target));
+        // If the node is copied into current directory the view needs to be updated
+        if (node.dirname === destination.path) {
+          const {
+            data
+          } = await client.stat((0,path__WEBPACK_IMPORTED_MODULE_6__.join)(destinationPath, target), {
+            details: true,
+            data: (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.davGetDefaultPropfind)()
+          });
+          (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_2__.emit)('files:node:created', (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.davResultToNode)(data));
+        }
+      } else {
+        // show conflict file popup if we do not allow overwriting
+        if (!overwrite) {
+          const otherNodes = await (0,_services_Files__WEBPACK_IMPORTED_MODULE_11__.getContents)(destination.path);
+          if ((0,_nextcloud_upload__WEBPACK_IMPORTED_MODULE_5__.hasConflict)([node], otherNodes.contents)) {
+            try {
+              // Let the user choose what to do with the conflicting files
+              const {
+                selected,
+                renamed
+              } = await (0,_nextcloud_upload__WEBPACK_IMPORTED_MODULE_5__.openConflictPicker)(destination.path, [node], otherNodes.contents);
+              // two empty arrays: either only old files or conflict skipped -> no action required
+              if (!selected.length && !renamed.length) {
+                return;
+              }
+            } catch (error) {
+              // User cancelled
+              return;
+            }
+          }
+        }
+        // getting here means either no conflict, file was renamed to keep both files
+        // in a conflict, or the selected file was chosen to be kept during the conflict
+        try {
+          await client.moveFile(currentPath, (0,path__WEBPACK_IMPORTED_MODULE_6__.join)(destinationPath, node.basename));
+        } catch (error) {
+          const parser = new DOMParser();
+          const text = await error.response?.text();
+          const message = parser.parseFromString(text ?? '', 'text/xml').querySelector('message')?.textContent;
+          if (message) {
+            (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)(message);
+          }
+          throw error;
+        }
+        // Delete the node as it will be fetched again
+        // when navigating to the destination folder
+        (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_2__.emit)('files:node:deleted', node);
+      }
+    } catch (error) {
+      if ((0,_nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__.isAxiosError)(error)) {
+        if (error.response?.status === 412) {
+          throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'A file or folder with that name already exists in this folder'));
+        } else if (error.response?.status === 423) {
+          throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'The files are locked'));
+        } else if (error.response?.status === 404) {
+          throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'The file does not exist anymore'));
+        } else if (error.message) {
+          throw new Error(error.message);
+        }
+      }
+      _logger__WEBPACK_IMPORTED_MODULE_12__["default"].debug(error);
+      throw new Error();
+    } finally {
+      vue__WEBPACK_IMPORTED_MODULE_7__["default"].set(node, 'status', '');
+      actionFinished();
+    }
+  });
+};
+/**
+ * Open a file picker for the given action
+ * @param action The action to open the file picker for
+ * @param dir The directory to start the file picker in
+ * @param nodes The nodes to move/copy
+ * @return The picked destination or false if cancelled by user
+ */
+async function openFilePickerForAction(action) {
+  let dir = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '/';
+  let nodes = arguments.length > 2 ? arguments[2] : undefined;
+  const {
+    resolve,
+    reject,
+    promise
+  } = Promise.withResolvers();
+  const fileIDs = nodes.map(node => node.fileid).filter(Boolean);
+  const filePicker = (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.getFilePickerBuilder)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Choose destination')).allowDirectories(true).setFilter(n => {
+    // We don't want to show the current nodes in the file picker
+    return !fileIDs.includes(n.fileid);
+  }).setMimeTypeFilter([]).setMultiSelect(false).startAt(dir).setButtonFactory((selection, path) => {
+    const buttons = [];
+    const target = (0,path__WEBPACK_IMPORTED_MODULE_6__.basename)(path);
+    const dirnames = nodes.map(node => node.dirname);
+    const paths = nodes.map(node => node.path);
+    if (action === _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.COPY || action === _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE_OR_COPY) {
+      buttons.push({
+        label: target ? (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Copy to {target}', {
+          target
+        }, undefined, {
+          escape: false,
+          sanitize: false
+        }) : (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Copy'),
+        type: 'primary',
+        icon: _mdi_svg_svg_folder_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_8__,
+        disabled: selection.some(node => (node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.Permission.CREATE) === 0),
+        async callback(destination) {
+          resolve({
+            destination: destination[0],
+            action: _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.COPY
+          });
+        }
+      });
+    }
+    // Invalid MOVE targets (but valid copy targets)
+    if (dirnames.includes(path)) {
+      // This file/folder is already in that directory
+      return buttons;
+    }
+    if (paths.includes(path)) {
+      // You cannot move a file/folder onto itself
+      return buttons;
+    }
+    if (selection.some(node => (node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.Permission.CREATE) === 0)) {
+      // Missing 'CREATE' permissions for selected destination
+      return buttons;
+    }
+    if (action === _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE || action === _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE_OR_COPY) {
+      buttons.push({
+        label: target ? (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Move to {target}', {
+          target
+        }, undefined, {
+          escape: false,
+          sanitize: false
+        }) : (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Move'),
+        type: action === _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE ? 'primary' : 'secondary',
+        icon: _mdi_svg_svg_folder_move_outline_svg_raw__WEBPACK_IMPORTED_MODULE_9__,
+        async callback(destination) {
+          resolve({
+            destination: destination[0],
+            action: _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE
+          });
+        }
+      });
+    }
+    return buttons;
+  }).build();
+  filePicker.pick().catch(error => {
+    _logger__WEBPACK_IMPORTED_MODULE_12__["default"].debug(error);
+    if (error instanceof _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.FilePickerClosed) {
+      resolve(false);
+    } else {
+      reject(new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Move or copy operation failed')));
+    }
+  });
+  return promise;
+}
+const ACTION_COPY_MOVE = 'move-copy';
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.FileAction({
+  id: ACTION_COPY_MOVE,
+  displayName(nodes) {
+    switch (getActionForNodes(nodes)) {
+      case _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Move');
+      case _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.COPY:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Copy');
+      case _moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.MoveCopyAction.MOVE_OR_COPY:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Move or copy');
+    }
+  },
+  iconSvgInline: () => _mdi_svg_svg_folder_move_outline_svg_raw__WEBPACK_IMPORTED_MODULE_9__,
+  enabled(nodes, view) {
+    // We can not copy or move in single file shares
+    if (view.id === 'public-file-share') {
+      return false;
+    }
+    // We only support moving/copying files within the user folder
+    if (!nodes.every(node => node.root?.startsWith('/files/'))) {
+      return false;
+    }
+    return nodes.length > 0 && ((0,_moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.canMove)(nodes) || (0,_moveOrCopyActionUtils__WEBPACK_IMPORTED_MODULE_10__.canCopy)(nodes));
+  },
+  async exec(node, view, dir) {
+    const action = getActionForNodes([node]);
+    let result;
+    try {
+      result = await openFilePickerForAction(action, dir, [node]);
+    } catch (e) {
+      _logger__WEBPACK_IMPORTED_MODULE_12__["default"].error(e);
+      return false;
+    }
+    if (result === false) {
+      return null;
+    }
+    try {
+      await handleCopyMoveNodeTo(node, result.destination, result.action);
+      return true;
+    } catch (error) {
+      if (error instanceof Error && !!error.message) {
+        (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)(error.message);
+        // Silent action as we handle the toast
+        return null;
+      }
+      return false;
+    }
+  },
+  async execBatch(nodes, view, dir) {
+    const action = getActionForNodes(nodes);
+    const result = await openFilePickerForAction(action, dir, nodes);
+    // Handle cancellation silently
+    if (result === false) {
+      return nodes.map(() => null);
+    }
+    const promises = nodes.map(async node => {
+      try {
+        await handleCopyMoveNodeTo(node, result.destination, result.action);
+        return true;
+      } catch (error) {
+        _logger__WEBPACK_IMPORTED_MODULE_12__["default"].error(`Failed to ${result.action} node`, {
+          node,
+          error
+        });
+        return false;
+      }
+    });
+    // We need to keep the selection on error!
+    // So we do not return null, and for batch action
+    // we let the front handle the error.
+    return await Promise.all(promises);
+  },
+  order: 15
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/moveOrCopyActionUtils.ts":
+/*!*********************************************************!*\
+  !*** ./apps/files/src/actions/moveOrCopyActionUtils.ts ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MoveCopyAction: () => (/* binding */ MoveCopyAction),
+/* harmony export */   canCopy: () => (/* binding */ canCopy),
+/* harmony export */   canDownload: () => (/* binding */ canDownload),
+/* harmony export */   canMove: () => (/* binding */ canMove),
+/* harmony export */   getQueue: () => (/* binding */ getQueue)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+/* harmony import */ var p_queue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! p-queue */ "./node_modules/p-queue/dist/index.js");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+const sharePermissions = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('files_sharing', 'sharePermissions', _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.NONE);
+// This is the processing queue. We only want to allow 3 concurrent requests
+let queue;
+// Maximum number of concurrent operations
+const MAX_CONCURRENCY = 5;
+/**
+ * Get the processing queue
+ */
+const getQueue = () => {
+  if (!queue) {
+    queue = new p_queue__WEBPACK_IMPORTED_MODULE_2__["default"]({
+      concurrency: MAX_CONCURRENCY
+    });
+  }
+  return queue;
+};
+var MoveCopyAction;
+(function (MoveCopyAction) {
+  MoveCopyAction["MOVE"] = "Move";
+  MoveCopyAction["COPY"] = "Copy";
+  MoveCopyAction["MOVE_OR_COPY"] = "move-or-copy";
+})(MoveCopyAction || (MoveCopyAction = {}));
+const canMove = nodes => {
+  const minPermission = nodes.reduce((min, node) => Math.min(min, node.permissions), _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.ALL);
+  return Boolean(minPermission & _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.DELETE);
+};
+const canDownload = nodes => {
+  return nodes.every(node => {
+    const shareAttributes = JSON.parse(node.attributes?.['share-attributes'] ?? '[]');
+    return !shareAttributes.some(attribute => attribute.scope === 'permissions' && attribute.value === false && attribute.key === 'download');
+  });
+};
+const canCopy = nodes => {
+  // a shared file cannot be copied if the download is disabled
+  if (!canDownload(nodes)) {
+    return false;
+  }
+  // it cannot be copied if the user has only view permissions
+  if (nodes.some(node => node.permissions === _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.NONE)) {
+    return false;
+  }
+  // on public shares all files have the same permission so copy is only possible if write permission is granted
+  if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_1__.isPublicShare)()) {
+    return Boolean(sharePermissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.CREATE);
+  }
+  // otherwise permission is granted
+  return true;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/openFolderAction.ts":
+/*!****************************************************!*\
+  !*** ./apps/files/src/actions/openFolderAction.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_folder_svg_raw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mdi/svg/svg/folder.svg?raw */ "./node_modules/@mdi/svg/svg/folder.svg?raw");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+  id: 'open-folder',
+  displayName(files) {
+    // Only works on single node
+    const displayName = files[0].displayname;
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files', 'Open folder {displayName}', {
+      displayName
+    });
+  },
+  iconSvgInline: () => _mdi_svg_svg_folder_svg_raw__WEBPACK_IMPORTED_MODULE_2__,
+  enabled(nodes) {
+    // Only works on single node
+    if (nodes.length !== 1) {
+      return false;
+    }
+    const node = nodes[0];
+    if (!node.isDavRessource) {
+      return false;
+    }
+    return node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder && (node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.READ) !== 0;
+  },
+  async exec(node, view) {
+    if (!node || node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder) {
+      return false;
+    }
+    window.OCP.Files.Router.goToRoute(null, {
+      view: view.id,
+      fileid: String(node.fileid)
+    }, {
+      dir: node.path
+    });
+    return null;
+  },
+  // Main action if enabled, meaning folders only
+  default: _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.DefaultType.HIDDEN,
+  order: -100
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/openInFilesAction.ts":
+/*!*****************************************************!*\
+  !*** ./apps/files/src/actions/openInFilesAction.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _views_search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../views/search */ "./apps/files/src/views/search.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileAction({
+  id: 'open-in-files',
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.t)('files', 'Open in Files'),
+  iconSvgInline: () => '',
+  enabled(nodes, view) {
+    return view.id === 'recent' || view.id === _views_search__WEBPACK_IMPORTED_MODULE_2__.VIEW_ID;
+  },
+  async exec(node) {
+    let dir = node.dirname;
+    if (node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileType.Folder) {
+      dir = dir + '/' + node.basename;
+    }
+    window.OCP.Files.Router.goToRoute(null,
+    // use default route
+    {
+      view: 'files',
+      fileid: String(node.fileid)
+    }, {
+      dir,
+      openfile: 'true'
+    });
+    return null;
+  },
+  // Before openFolderAction
+  order: -1000,
+  default: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.DefaultType.HIDDEN
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/openLocallyAction.ts":
+/*!*****************************************************!*\
+  !*** ./apps/files/src/actions/openLocallyAction.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_paths__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/paths */ "./node_modules/@nextcloud/paths/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_laptop_svg_raw__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mdi/svg/svg/laptop.svg?raw */ "./node_modules/@mdi/svg/svg/laptop.svg?raw");
+/* harmony import */ var _mdi_svg_svg_web_svg_raw__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mdi/svg/svg/web.svg?raw */ "./node_modules/@mdi/svg/svg/web.svg?raw");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.FileAction({
+  id: 'edit-locally',
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('files', 'Open locally'),
+  iconSvgInline: () => _mdi_svg_svg_laptop_svg_raw__WEBPACK_IMPORTED_MODULE_7__,
+  // Only works on single files
+  enabled(nodes) {
+    // Only works on single node
+    if (nodes.length !== 1) {
+      return false;
+    }
+    // does not work with shares
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_9__.isPublicShare)()) {
+      return false;
+    }
+    return (nodes[0].permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.Permission.UPDATE) !== 0;
+  },
+  async exec(node) {
+    await attemptOpenLocalClient(node.path);
+    return null;
+  },
+  order: 25
+});
+/**
+ * Try to open the path in the Nextcloud client.
+ *
+ * If this fails a dialog is shown with 3 options:
+ * 1. Retry: If it fails no further dialog is shown.
+ * 2. Open online: The viewer is used to open the file.
+ * 3. Close the dialog and nothing happens (abort).
+ *
+ * @param path - The path to open
+ */
+async function attemptOpenLocalClient(path) {
+  await openLocalClient(path);
+  const result = await confirmLocalEditDialog();
+  if (result === 'local') {
+    await openLocalClient(path);
+  } else if (result === 'online') {
+    window.OCA.Viewer.open({
+      path
+    });
+  }
+}
+/**
+ * Try to open a file in the Nextcloud client.
+ * There is no way to get notified if this action was successfull.
+ *
+ * @param path - Path to open
+ */
+async function openLocalClient(path) {
+  const link = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('apps/files/api/v1') + '/openlocaleditor?format=json';
+  try {
+    const result = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].post(link, {
+      path
+    });
+    const uid = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__.getCurrentUser)()?.uid;
+    let url = `nc://open/${uid}@` + window.location.host + (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_0__.encodePath)(path);
+    url += '?token=' + result.data.ocs.data.token;
+    window.open(url, '_self');
+  } catch (error) {
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('files', 'Failed to redirect to client'));
+  }
+}
+/**
+ * Open the confirmation dialog.
+ */
+async function confirmLocalEditDialog() {
+  let result = false;
+  const dialog = new _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.DialogBuilder().setName((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('files', 'Open file locally')).setText((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('files', 'The file should now open on your device. If it doesn\'t, please check that you have the desktop app installed.')).setButtons([{
+    label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('files', 'Retry and close'),
+    type: 'secondary',
+    callback: () => {
+      result = 'local';
+    }
+  }, {
+    label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('files', 'Open online'),
+    icon: _mdi_svg_svg_web_svg_raw__WEBPACK_IMPORTED_MODULE_8__,
+    type: 'primary',
+    callback: () => {
+      result = 'online';
+    }
+  }]).build();
+  await dialog.show();
+  return result;
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/renameAction.ts":
+/*!************************************************!*\
+  !*** ./apps/files/src/actions/renameAction.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ACTION_RENAME: () => (/* binding */ ACTION_RENAME),
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_pencil_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/pencil-outline.svg?raw */ "./node_modules/@mdi/svg/svg/pencil-outline.svg?raw");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store */ "./apps/files/src/store/index.ts");
+/* harmony import */ var _store_files__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/files */ "./apps/files/src/store/files.ts");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! path */ "./node_modules/path/path.js");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_6__);
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+const ACTION_RENAME = 'rename';
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileAction({
+  id: ACTION_RENAME,
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files', 'Rename'),
+  iconSvgInline: () => _mdi_svg_svg_pencil_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__,
+  enabled: (nodes, view) => {
+    if (nodes.length === 0) {
+      return false;
+    }
+    // Disable for single file shares
+    if (view.id === 'public-file-share') {
+      return false;
+    }
+    const node = nodes[0];
+    const filesStore = (0,_store_files__WEBPACK_IMPORTED_MODULE_5__.useFilesStore)((0,_store__WEBPACK_IMPORTED_MODULE_4__.getPinia)());
+    const parentNode = node.dirname === '/' ? filesStore.getRoot(view.id) : filesStore.getNode((0,path__WEBPACK_IMPORTED_MODULE_6__.dirname)(node.source));
+    const parentPermissions = parentNode?.permissions || _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.NONE;
+    // Only enable if the node have the delete permission
+    // and if the parent folder allows creating files
+    return Boolean(node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.DELETE) && Boolean(parentPermissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.CREATE);
+  },
+  async exec(node) {
+    // Renaming is a built-in feature of the files app
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:rename', node);
+    return null;
+  },
+  order: 10
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/sidebarAction.ts":
+/*!*************************************************!*\
+  !*** ./apps/files/src/actions/sidebarAction.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ACTION_DETAILS: () => (/* binding */ ACTION_DETAILS),
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+/* harmony import */ var _mdi_svg_svg_information_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/information-outline.svg?raw */ "./node_modules/@mdi/svg/svg/information-outline.svg?raw");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+
+
+
+
+
+const ACTION_DETAILS = 'details';
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+  id: ACTION_DETAILS,
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files', 'Details'),
+  iconSvgInline: () => _mdi_svg_svg_information_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__,
+  // Sidebar currently supports user folder only, /files/USER
+  enabled: nodes => {
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_2__.isPublicShare)()) {
+      return false;
+    }
+    // Only works on single node
+    if (nodes.length !== 1) {
+      return false;
+    }
+    if (!nodes[0]) {
+      return false;
+    }
+    // Only work if the sidebar is available
+    if (!window?.OCA?.Files?.Sidebar) {
+      return false;
+    }
+    return (nodes[0].root?.startsWith('/files/') && nodes[0].permissions !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.NONE) ?? false;
+  },
+  async exec(node, view, dir) {
+    try {
+      // If the sidebar is already open for the current file, do nothing
+      if (window.OCA.Files.Sidebar.file === node.path) {
+        _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].debug('Sidebar already open for this file', {
+          node
+        });
+        return null;
+      }
+      // Open sidebar and set active tab to sharing by default
+      window.OCA.Files.Sidebar.setActiveTab('sharing');
+      // TODO: migrate Sidebar to use a Node instead
+      await window.OCA.Files.Sidebar.open(node.path);
+      // Silently update current fileid
+      window.OCP?.Files?.Router?.goToRoute(null, {
+        view: view.id,
+        fileid: String(node.fileid)
+      }, {
+        ...window.OCP.Files.Router.query,
+        dir,
+        opendetails: 'true'
+      }, true);
+      return null;
+    } catch (error) {
+      _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].error('Error while opening sidebar', {
+        error
+      });
+      return false;
+    }
+  },
+  order: -50
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/actions/viewInFolderAction.ts":
+/*!******************************************************!*\
+  !*** ./apps/files/src/actions/viewInFolderAction.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_folder_move_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/folder-move-outline.svg?raw */ "./node_modules/@mdi/svg/svg/folder-move-outline.svg?raw");
+
+
+
+
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileAction({
+  id: 'view-in-folder',
+  displayName() {
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'View in folder');
+  },
+  iconSvgInline: () => _mdi_svg_svg_folder_move_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__,
+  enabled(nodes, view) {
+    // Not enabled for public shares
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_0__.isPublicShare)()) {
+      return false;
+    }
+    // Only works outside of the main files view
+    if (view.id === 'files') {
+      return false;
+    }
+    // Only works on single node
+    if (nodes.length !== 1) {
+      return false;
+    }
+    const node = nodes[0];
+    if (!node.isDavRessource) {
+      return false;
+    }
+    // Can only view files that are in the user root folder
+    if (!node.root?.startsWith('/files')) {
+      return false;
+    }
+    if (node.permissions === _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.NONE) {
+      return false;
+    }
+    return node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileType.File;
+  },
+  async exec(node) {
+    if (!node || node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileType.File) {
+      return false;
+    }
+    window.OCP.Files.Router.goToRoute(null, {
+      view: 'files',
+      fileid: String(node.fileid)
+    }, {
+      dir: node.dirname
+    });
+    return null;
+  },
+  order: 80
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilter.vue":
+/*!*********************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilter.vue ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileListFilter.vue?vue&type=template&id=5c291778&scoped=true */ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true");
+/* harmony import */ var _FileListFilter_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileListFilter.vue?vue&type=script&setup=true&lang=ts */ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css */ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _FileListFilter_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "5c291778",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/components/FileListFilter/FileListFilter.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts":
+/*!********************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts ***!
+  \********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilter.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css":
+/*!*****************************************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css ***!
+  \*****************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true":
+/*!***************************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true ***!
+  \***************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_template_id_5c291778_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilter.vue?vue&type=template&id=5c291778&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterModified.vue":
+/*!*****************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterModified.vue ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FileListFilterModified_vue_vue_type_template_id_f47dfc3e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileListFilterModified.vue?vue&type=template&id=f47dfc3e&scoped=true */ "./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=template&id=f47dfc3e&scoped=true");
+/* harmony import */ var _FileListFilterModified_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileListFilterModified.vue?vue&type=script&lang=ts */ "./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=script&lang=ts");
+/* harmony import */ var _FileListFilterModified_vue_vue_type_style_index_0_id_f47dfc3e_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss */ "./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _FileListFilterModified_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FileListFilterModified_vue_vue_type_template_id_f47dfc3e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _FileListFilterModified_vue_vue_type_template_id_f47dfc3e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "f47dfc3e",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/components/FileListFilter/FileListFilterModified.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=script&lang=ts":
+/*!*****************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=script&lang=ts ***!
+  \*****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterModified.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss":
+/*!**************************************************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss ***!
+  \**************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_style_index_0_id_f47dfc3e_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/sass-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=template&id=f47dfc3e&scoped=true":
+/*!***********************************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=template&id=f47dfc3e&scoped=true ***!
+  \***********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_template_id_f47dfc3e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_template_id_f47dfc3e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_template_id_f47dfc3e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterModified.vue?vue&type=template&id=f47dfc3e&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=template&id=f47dfc3e&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue":
+/*!*****************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FileListFilterToSearch_vue_vue_type_template_id_032b2a1b__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileListFilterToSearch.vue?vue&type=template&id=032b2a1b */ "./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=template&id=032b2a1b");
+/* harmony import */ var _FileListFilterToSearch_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileListFilterToSearch.vue?vue&type=script&setup=true&lang=ts */ "./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FileListFilterToSearch_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FileListFilterToSearch_vue_vue_type_template_id_032b2a1b__WEBPACK_IMPORTED_MODULE_0__.render,
+  _FileListFilterToSearch_vue_vue_type_template_id_032b2a1b__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/components/FileListFilter/FileListFilterToSearch.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=script&setup=true&lang=ts":
+/*!****************************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=script&setup=true&lang=ts ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterToSearch_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterToSearch.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterToSearch_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=template&id=032b2a1b":
+/*!***********************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=template&id=032b2a1b ***!
+  \***********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterToSearch_vue_vue_type_template_id_032b2a1b__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterToSearch_vue_vue_type_template_id_032b2a1b__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterToSearch_vue_vue_type_template_id_032b2a1b__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterToSearch.vue?vue&type=template&id=032b2a1b */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=template&id=032b2a1b");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterType.vue":
+/*!*************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterType.vue ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FileListFilterType_vue_vue_type_template_id_6c0e6dd2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileListFilterType.vue?vue&type=template&id=6c0e6dd2 */ "./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=template&id=6c0e6dd2");
+/* harmony import */ var _FileListFilterType_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileListFilterType.vue?vue&type=script&lang=ts */ "./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=script&lang=ts");
+/* harmony import */ var _FileListFilterType_vue_vue_type_style_index_0_id_6c0e6dd2_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css */ "./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _FileListFilterType_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FileListFilterType_vue_vue_type_template_id_6c0e6dd2__WEBPACK_IMPORTED_MODULE_0__.render,
+  _FileListFilterType_vue_vue_type_template_id_6c0e6dd2__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/components/FileListFilter/FileListFilterType.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=script&lang=ts":
+/*!*************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=script&lang=ts ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterType.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css":
+/*!*********************************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css ***!
+  \*********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_style_index_0_id_6c0e6dd2_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=template&id=6c0e6dd2":
+/*!*******************************************************************************************************!*\
+  !*** ./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=template&id=6c0e6dd2 ***!
+  \*******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_template_id_6c0e6dd2__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_template_id_6c0e6dd2__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_template_id_6c0e6dd2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterType.vue?vue&type=template&id=6c0e6dd2 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=template&id=6c0e6dd2");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/components/NewNodeDialog.vue":
+/*!*****************************************************!*\
+  !*** ./apps/files/src/components/NewNodeDialog.vue ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _NewNodeDialog_vue_vue_type_template_id_e6b9c05a_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewNodeDialog.vue?vue&type=template&id=e6b9c05a&scoped=true */ "./apps/files/src/components/NewNodeDialog.vue?vue&type=template&id=e6b9c05a&scoped=true");
+/* harmony import */ var _NewNodeDialog_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewNodeDialog.vue?vue&type=script&setup=true&lang=ts */ "./apps/files/src/components/NewNodeDialog.vue?vue&type=script&setup=true&lang=ts");
+/* harmony import */ var _NewNodeDialog_vue_vue_type_style_index_0_id_e6b9c05a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css */ "./apps/files/src/components/NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _NewNodeDialog_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _NewNodeDialog_vue_vue_type_template_id_e6b9c05a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _NewNodeDialog_vue_vue_type_template_id_e6b9c05a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "e6b9c05a",
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "apps/files/src/components/NewNodeDialog.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./apps/files/src/components/NewNodeDialog.vue?vue&type=script&setup=true&lang=ts":
+/*!****************************************************************************************!*\
+  !*** ./apps/files/src/components/NewNodeDialog.vue?vue&type=script&setup=true&lang=ts ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NewNodeDialog.vue?vue&type=script&setup=true&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=script&setup=true&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_script_setup_true_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./apps/files/src/components/NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css":
+/*!*************************************************************************************************************!*\
+  !*** ./apps/files/src/components/NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_style_index_0_id_e6b9c05a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/components/NewNodeDialog.vue?vue&type=template&id=e6b9c05a&scoped=true":
+/*!***********************************************************************************************!*\
+  !*** ./apps/files/src/components/NewNodeDialog.vue?vue&type=template&id=e6b9c05a&scoped=true ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_template_id_e6b9c05a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_template_id_e6b9c05a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_template_id_e6b9c05a_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NewNodeDialog.vue?vue&type=template&id=e6b9c05a&scoped=true */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=template&id=e6b9c05a&scoped=true");
+
+
+/***/ }),
+
+/***/ "./apps/files/src/filters/FilenameFilter.ts":
+/*!**************************************************!*\
+  !*** ./apps/files/src/filters/FilenameFilter.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerFilenameFilter: () => (/* binding */ registerFilenameFilter)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _store_index_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/index.ts */ "./apps/files/src/store/index.ts");
+/* harmony import */ var _store_search_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/search.ts */ "./apps/files/src/store/search.ts");
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+/**
+ * Register the filename filter
+ */
+function registerFilenameFilter() {
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.registerFileListFilter)(new FilenameFilter());
+}
+/**
+ * Simple file list filter controlled by the Navigation search box
+ */
+class FilenameFilter extends _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileListFilter {
+  constructor() {
+    super('files:filename', 5);
+    _defineProperty(this, "searchQuery", '');
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:search:updated', _ref => {
+      let {
+        query,
+        scope
+      } = _ref;
+      if (scope === 'filter') {
+        this.updateQuery(query);
+      }
+    });
+  }
+  filter(nodes) {
+    const queryParts = this.searchQuery.toLocaleLowerCase().split(' ').filter(Boolean);
+    return nodes.filter(node => {
+      const displayname = node.displayname.toLocaleLowerCase();
+      return queryParts.every(part => displayname.includes(part));
+    });
+  }
+  reset() {
+    this.updateQuery('');
+  }
+  updateQuery(query) {
+    query = (query || '').trim();
+    // Only if the query is different we update the filter to prevent re-computing all nodes
+    if (query !== this.searchQuery) {
+      this.searchQuery = query;
+      this.filterUpdated();
+      const chips = [];
+      if (query !== '') {
+        chips.push({
+          text: query,
+          onclick: () => {
+            this.updateQuery('');
+          }
+        });
+      } else {
+        // make sure to also reset the search store when pressing the "X" on the filter chip
+        const store = (0,_store_search_ts__WEBPACK_IMPORTED_MODULE_3__.useSearchStore)((0,_store_index_ts__WEBPACK_IMPORTED_MODULE_2__.getPinia)());
+        if (store.scope === 'filter') {
+          store.query = '';
+        }
+      }
+      this.updateChips(chips);
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/filters/HiddenFilesFilter.ts":
+/*!*****************************************************!*\
+  !*** ./apps/files/src/filters/HiddenFilesFilter.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerHiddenFilesFilter: () => (/* binding */ registerHiddenFilesFilter)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+class HiddenFilesFilter extends _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileListFilter {
+  constructor() {
+    super('files:hidden', 0);
+    _defineProperty(this, "showHidden", void 0);
+    this.showHidden = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('files', 'config', {
+      show_hidden: false
+    }).show_hidden;
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:config:updated', _ref => {
+      let {
+        key,
+        value
+      } = _ref;
+      if (key === 'show_hidden') {
+        this.showHidden = Boolean(value);
+        this.filterUpdated();
+      }
+    });
+  }
+  filter(nodes) {
+    if (this.showHidden) {
+      return nodes;
+    }
+    return nodes.filter(node => node.attributes.hidden !== true && !node.basename.startsWith('.'));
+  }
+}
+/**
+ * Register a file list filter to only show hidden files if enabled by user config
+ */
+function registerHiddenFilesFilter() {
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileListFilter)(new HiddenFilesFilter());
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/filters/ModifiedFilter.ts":
+/*!**************************************************!*\
+  !*** ./apps/files/src/filters/ModifiedFilter.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerModifiedFilter: () => (/* binding */ registerModifiedFilter)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_FileListFilter_FileListFilterModified_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/FileListFilter/FileListFilterModified.vue */ "./apps/files/src/components/FileListFilter/FileListFilterModified.vue");
+/* harmony import */ var _mdi_svg_svg_calendar_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/calendar.svg?raw */ "./node_modules/@mdi/svg/svg/calendar.svg?raw");
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+
+
+
+const startOfToday = () => new Date().setHours(0, 0, 0, 0);
+/**
+ * Available presets
+ */
+const timePresets = [{
+  id: 'today',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Today'),
+  filter: time => time > startOfToday()
+}, {
+  id: 'last-7',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Last 7 days'),
+  filter: time => time > startOfToday() - 7 * 24 * 60 * 60 * 1000
+}, {
+  id: 'last-30',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Last 30 days'),
+  filter: time => time > startOfToday() - 30 * 24 * 60 * 60 * 1000
+}, {
+  id: 'this-year',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'This year ({year})', {
+    year: new Date().getFullYear()
+  }),
+  filter: time => time > new Date(startOfToday()).setMonth(0, 1)
+}, {
+  id: 'last-year',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Last year ({year})', {
+    year: new Date().getFullYear() - 1
+  }),
+  filter: time => time > new Date(startOfToday()).setFullYear(new Date().getFullYear() - 1, 0, 1) && time < new Date(startOfToday()).setMonth(0, 1)
+}];
+class ModifiedFilter extends _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileListFilter {
+  constructor() {
+    super('files:modified', 50);
+    _defineProperty(this, "currentInstance", void 0);
+    _defineProperty(this, "currentPreset", void 0);
+  }
+  mount(el) {
+    if (this.currentInstance) {
+      this.currentInstance.$destroy();
+    }
+    const View = vue__WEBPACK_IMPORTED_MODULE_2__["default"].extend(_components_FileListFilter_FileListFilterModified_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
+    this.currentInstance = new View({
+      propsData: {
+        timePresets
+      },
+      el
+    }).$on('update:preset', this.setPreset.bind(this)).$mount();
+  }
+  filter(nodes) {
+    if (!this.currentPreset) {
+      return nodes;
+    }
+    return nodes.filter(node => node.mtime === undefined || this.currentPreset.filter(node.mtime.getTime()));
+  }
+  reset() {
+    this.setPreset();
+  }
+  setPreset(preset) {
+    this.currentPreset = preset;
+    this.filterUpdated();
+    const chips = [];
+    if (preset) {
+      chips.push({
+        icon: _mdi_svg_svg_calendar_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+        text: preset.label,
+        onclick: () => this.setPreset()
+      });
+    } else {
+      this.currentInstance?.resetFilter();
+    }
+    this.updateChips(chips);
+  }
+}
+/**
+ * Register the file list filter by modification date
+ */
+function registerModifiedFilter() {
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileListFilter)(new ModifiedFilter());
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/filters/SearchFilter.ts":
+/*!************************************************!*\
+  !*** ./apps/files/src/filters/SearchFilter.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerFilterToSearchToggle: () => (/* binding */ registerFilterToSearchToggle)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_FileListFilter_FileListFilterToSearch_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/FileListFilter/FileListFilterToSearch.vue */ "./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue");
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+class SearchFilter extends _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileListFilter {
+  constructor() {
+    super('files:filter-to-search', 999);
+    _defineProperty(this, "currentInstance", void 0);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:search:updated', _ref => {
+      let {
+        query,
+        scope
+      } = _ref;
+      if (query && scope === 'filter') {
+        this.currentInstance?.showButton();
+      } else {
+        this.currentInstance?.hideButton();
+      }
+    });
+  }
+  mount(el) {
+    if (this.currentInstance) {
+      this.currentInstance.$destroy();
+    }
+    const View = vue__WEBPACK_IMPORTED_MODULE_2__["default"].extend(_components_FileListFilter_FileListFilterToSearch_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
+    this.currentInstance = new View().$mount(el);
+  }
+  filter(nodes) {
+    return nodes;
+  }
+}
+/**
+ * Register a file list filter to only show hidden files if enabled by user config
+ */
+function registerFilterToSearchToggle() {
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.registerFileListFilter)(new SearchFilter());
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/filters/TypeFilter.ts":
+/*!**********************************************!*\
+  !*** ./apps/files/src/filters/TypeFilter.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerTypeFilter: () => (/* binding */ registerTypeFilter)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _components_FileListFilter_FileListFilterType_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/FileListFilter/FileListFilterType.vue */ "./apps/files/src/components/FileListFilter/FileListFilterType.vue");
+/* harmony import */ var _mdi_svg_svg_file_document_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/file-document.svg?raw */ "./node_modules/@mdi/svg/svg/file-document.svg?raw");
+/* harmony import */ var _mdi_svg_svg_file_table_box_svg_raw__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mdi/svg/svg/file-table-box.svg?raw */ "./node_modules/@mdi/svg/svg/file-table-box.svg?raw");
+/* harmony import */ var _mdi_svg_svg_file_presentation_box_svg_raw__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mdi/svg/svg/file-presentation-box.svg?raw */ "./node_modules/@mdi/svg/svg/file-presentation-box.svg?raw");
+/* harmony import */ var _mdi_svg_svg_file_pdf_box_svg_raw__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mdi/svg/svg/file-pdf-box.svg?raw */ "./node_modules/@mdi/svg/svg/file-pdf-box.svg?raw");
+/* harmony import */ var _mdi_svg_svg_folder_svg_raw__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mdi/svg/svg/folder.svg?raw */ "./node_modules/@mdi/svg/svg/folder.svg?raw");
+/* harmony import */ var _mdi_svg_svg_music_svg_raw__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mdi/svg/svg/music.svg?raw */ "./node_modules/@mdi/svg/svg/music.svg?raw");
+/* harmony import */ var _mdi_svg_svg_image_svg_raw__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @mdi/svg/svg/image.svg?raw */ "./node_modules/@mdi/svg/svg/image.svg?raw");
+/* harmony import */ var _mdi_svg_svg_movie_svg_raw__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @mdi/svg/svg/movie.svg?raw */ "./node_modules/@mdi/svg/svg/movie.svg?raw");
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+
+
+// TODO: Create a modern replacement for OC.MimeType...
+
+
+
+
+
+
+
+
+const colorize = (svg, color) => {
+  return svg.replace('<path ', `<path fill="${color}" `);
+};
+/**
+ * Available presets
+ */
+const getTypePresets = async () => [{
+  id: 'document',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Documents'),
+  icon: colorize(_mdi_svg_svg_file_document_svg_raw__WEBPACK_IMPORTED_MODULE_4__, '#49abea'),
+  mime: ['x-office/document']
+}, {
+  id: 'spreadsheet',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Spreadsheets'),
+  icon: colorize(_mdi_svg_svg_file_table_box_svg_raw__WEBPACK_IMPORTED_MODULE_5__, '#9abd4e'),
+  mime: ['x-office/spreadsheet']
+}, {
+  id: 'presentation',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Presentations'),
+  icon: colorize(_mdi_svg_svg_file_presentation_box_svg_raw__WEBPACK_IMPORTED_MODULE_6__, '#f0965f'),
+  mime: ['x-office/presentation']
+}, {
+  id: 'pdf',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'PDFs'),
+  icon: colorize(_mdi_svg_svg_file_pdf_box_svg_raw__WEBPACK_IMPORTED_MODULE_7__, '#dc5047'),
+  mime: ['application/pdf']
+}, {
+  id: 'folder',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Folders'),
+  icon: colorize(_mdi_svg_svg_folder_svg_raw__WEBPACK_IMPORTED_MODULE_8__, window.getComputedStyle(document.body).getPropertyValue('--color-primary-element')),
+  mime: ['httpd/unix-directory']
+}, {
+  id: 'audio',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Audio'),
+  icon: _mdi_svg_svg_music_svg_raw__WEBPACK_IMPORTED_MODULE_9__,
+  mime: ['audio']
+}, {
+  id: 'image',
+  // TRANSLATORS: This is for filtering files, e.g. PNG or JPEG, so photos, drawings, or images in general
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Images'),
+  icon: _mdi_svg_svg_image_svg_raw__WEBPACK_IMPORTED_MODULE_10__,
+  mime: ['image']
+}, {
+  id: 'video',
+  label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Videos'),
+  icon: _mdi_svg_svg_movie_svg_raw__WEBPACK_IMPORTED_MODULE_11__,
+  mime: ['video']
+}];
+class TypeFilter extends _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileListFilter {
+  constructor() {
+    super('files:type', 10);
+    _defineProperty(this, "currentInstance", void 0);
+    _defineProperty(this, "currentPresets", void 0);
+    _defineProperty(this, "allPresets", void 0);
+    this.currentPresets = [];
+  }
+  async mount(el) {
+    // We need to defer this as on init script this is not available:
+    if (this.allPresets === undefined) {
+      this.allPresets = await getTypePresets();
+    }
+    // Already mounted
+    if (this.currentInstance) {
+      this.currentInstance.$destroy();
+      delete this.currentInstance;
+    }
+    const View = vue__WEBPACK_IMPORTED_MODULE_2__["default"].extend(_components_FileListFilter_FileListFilterType_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
+    this.currentInstance = new View({
+      propsData: {
+        presets: this.currentPresets,
+        typePresets: this.allPresets
+      },
+      el
+    }).$on('update:presets', this.setPresets.bind(this)).$mount();
+  }
+  filter(nodes) {
+    if (!this.currentPresets || this.currentPresets.length === 0) {
+      return nodes;
+    }
+    const mimeList = this.currentPresets.reduce((previous, current) => [...previous, ...current.mime], []);
+    return nodes.filter(node => {
+      if (!node.mime) {
+        return false;
+      }
+      const mime = node.mime.toLowerCase();
+      if (mimeList.includes(mime)) {
+        return true;
+      } else if (mimeList.includes(window.OC.MimeTypeList.aliases[mime])) {
+        return true;
+      } else if (mimeList.includes(mime.split('/')[0])) {
+        return true;
+      }
+      return false;
+    });
+  }
+  reset() {
+    this.setPresets();
+  }
+  setPresets(presets) {
+    this.currentPresets = presets ?? [];
+    if (this.currentInstance !== undefined) {
+      // could be called before the instance was created
+      // (meaning the files list is not mounted yet)
+      this.currentInstance.$props.presets = presets;
+    }
+    this.filterUpdated();
+    const chips = [];
+    if (presets && presets.length > 0) {
+      for (const preset of presets) {
+        chips.push({
+          icon: preset.icon,
+          text: preset.label,
+          onclick: () => this.removeFilterPreset(preset.id)
+        });
+      }
+    } else {
+      this.currentInstance?.resetFilter();
+    }
+    this.updateChips(chips);
+  }
+  /**
+   * Helper callback that removed a preset from selected.
+   * This is used when clicking on "remove" on a filter-chip.
+   * @param presetId Id of preset to remove
+   */
+  removeFilterPreset(presetId) {
+    const filtered = this.currentPresets.filter(_ref => {
+      let {
+        id
+      } = _ref;
+      return id !== presetId;
+    });
+    this.setPresets(filtered);
+  }
+}
+/**
+ * Register the file list filter by file type
+ */
+function registerTypeFilter() {
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileListFilter)(new TypeFilter());
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/init.ts":
+/*!********************************!*\
+  !*** ./apps/files/src/init.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _actions_deleteAction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions/deleteAction */ "./apps/files/src/actions/deleteAction.ts");
+/* harmony import */ var _actions_downloadAction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./actions/downloadAction */ "./apps/files/src/actions/downloadAction.ts");
+/* harmony import */ var _actions_openLocallyAction_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions/openLocallyAction.ts */ "./apps/files/src/actions/openLocallyAction.ts");
+/* harmony import */ var _actions_favoriteAction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions/favoriteAction */ "./apps/files/src/actions/favoriteAction.ts");
+/* harmony import */ var _actions_moveOrCopyAction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./actions/moveOrCopyAction */ "./apps/files/src/actions/moveOrCopyAction.ts");
+/* harmony import */ var _actions_openFolderAction__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./actions/openFolderAction */ "./apps/files/src/actions/openFolderAction.ts");
+/* harmony import */ var _actions_openInFilesAction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./actions/openInFilesAction */ "./apps/files/src/actions/openInFilesAction.ts");
+/* harmony import */ var _actions_renameAction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./actions/renameAction */ "./apps/files/src/actions/renameAction.ts");
+/* harmony import */ var _actions_sidebarAction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./actions/sidebarAction */ "./apps/files/src/actions/sidebarAction.ts");
+/* harmony import */ var _actions_viewInFolderAction__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./actions/viewInFolderAction */ "./apps/files/src/actions/viewInFolderAction.ts");
+/* harmony import */ var _filters_HiddenFilesFilter_ts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./filters/HiddenFilesFilter.ts */ "./apps/files/src/filters/HiddenFilesFilter.ts");
+/* harmony import */ var _filters_TypeFilter_ts__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./filters/TypeFilter.ts */ "./apps/files/src/filters/TypeFilter.ts");
+/* harmony import */ var _filters_ModifiedFilter_ts__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./filters/ModifiedFilter.ts */ "./apps/files/src/filters/ModifiedFilter.ts");
+/* harmony import */ var _newMenu_newFolder_ts__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./newMenu/newFolder.ts */ "./apps/files/src/newMenu/newFolder.ts");
+/* harmony import */ var _newMenu_newTemplatesFolder_ts__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./newMenu/newTemplatesFolder.ts */ "./apps/files/src/newMenu/newTemplatesFolder.ts");
+/* harmony import */ var _newMenu_newFromTemplate_ts__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./newMenu/newFromTemplate.ts */ "./apps/files/src/newMenu/newFromTemplate.ts");
+/* harmony import */ var _views_favorites_ts__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./views/favorites.ts */ "./apps/files/src/views/favorites.ts");
+/* harmony import */ var _views_recent__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./views/recent */ "./apps/files/src/views/recent.ts");
+/* harmony import */ var _views_personal_files__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./views/personal-files */ "./apps/files/src/views/personal-files.ts");
+/* harmony import */ var _views_files__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./views/files */ "./apps/files/src/views/files.ts");
+/* harmony import */ var _views_folderTree_ts__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./views/folderTree.ts */ "./apps/files/src/views/folderTree.ts");
+/* harmony import */ var _views_search_ts__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./views/search.ts */ "./apps/files/src/views/search.ts");
+/* harmony import */ var _services_ServiceWorker_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./services/ServiceWorker.js */ "./apps/files/src/services/ServiceWorker.js");
+/* harmony import */ var _services_LivePhotos__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./services/LivePhotos */ "./apps/files/src/services/LivePhotos.ts");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+/* harmony import */ var _actions_convertAction_ts__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./actions/convertAction.ts */ "./apps/files/src/actions/convertAction.ts");
+/* harmony import */ var _filters_FilenameFilter_ts__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./filters/FilenameFilter.ts */ "./apps/files/src/filters/FilenameFilter.ts");
+/* harmony import */ var _filters_SearchFilter_ts__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./filters/SearchFilter.ts */ "./apps/files/src/filters/SearchFilter.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Register file actions
+(0,_actions_convertAction_ts__WEBPACK_IMPORTED_MODULE_26__.registerConvertActions)();
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_deleteAction__WEBPACK_IMPORTED_MODULE_1__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_downloadAction__WEBPACK_IMPORTED_MODULE_2__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_openLocallyAction_ts__WEBPACK_IMPORTED_MODULE_3__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_favoriteAction__WEBPACK_IMPORTED_MODULE_4__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_moveOrCopyAction__WEBPACK_IMPORTED_MODULE_5__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_openFolderAction__WEBPACK_IMPORTED_MODULE_6__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_openInFilesAction__WEBPACK_IMPORTED_MODULE_7__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_renameAction__WEBPACK_IMPORTED_MODULE_8__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_sidebarAction__WEBPACK_IMPORTED_MODULE_9__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_actions_viewInFolderAction__WEBPACK_IMPORTED_MODULE_10__.action);
+// Register new menu entry
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.addNewFileMenuEntry)(_newMenu_newFolder_ts__WEBPACK_IMPORTED_MODULE_14__.entry);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.addNewFileMenuEntry)(_newMenu_newTemplatesFolder_ts__WEBPACK_IMPORTED_MODULE_15__.entry);
+(0,_newMenu_newFromTemplate_ts__WEBPACK_IMPORTED_MODULE_16__.registerTemplateEntries)();
+// Register files views when not on public share
+if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_25__.isPublicShare)() === false) {
+  (0,_views_favorites_ts__WEBPACK_IMPORTED_MODULE_17__.registerFavoritesView)();
+  (0,_views_files__WEBPACK_IMPORTED_MODULE_20__.registerFilesView)();
+  (0,_views_personal_files__WEBPACK_IMPORTED_MODULE_19__.registerPersonalFilesView)();
+  (0,_views_recent__WEBPACK_IMPORTED_MODULE_18__["default"])();
+  (0,_views_search_ts__WEBPACK_IMPORTED_MODULE_22__.registerSearchView)();
+  (0,_views_folderTree_ts__WEBPACK_IMPORTED_MODULE_21__.registerFolderTreeView)();
+}
+// Register file list filters
+(0,_filters_HiddenFilesFilter_ts__WEBPACK_IMPORTED_MODULE_11__.registerHiddenFilesFilter)();
+(0,_filters_TypeFilter_ts__WEBPACK_IMPORTED_MODULE_12__.registerTypeFilter)();
+(0,_filters_ModifiedFilter_ts__WEBPACK_IMPORTED_MODULE_13__.registerModifiedFilter)();
+(0,_filters_FilenameFilter_ts__WEBPACK_IMPORTED_MODULE_27__.registerFilenameFilter)();
+(0,_filters_SearchFilter_ts__WEBPACK_IMPORTED_MODULE_28__.registerFilterToSearchToggle)();
+// Register preview service worker
+(0,_services_ServiceWorker_js__WEBPACK_IMPORTED_MODULE_23__["default"])();
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerDavProperty)('nc:hidden', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerDavProperty)('nc:is-mount-root', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerDavProperty)('nc:metadata-blurhash', {
+  nc: 'http://nextcloud.org/ns'
+});
+(0,_services_LivePhotos__WEBPACK_IMPORTED_MODULE_24__.initLivePhotos)();
+
+/***/ }),
+
+/***/ "./apps/files/src/logger.ts":
+/*!**********************************!*\
+  !*** ./apps/files/src/logger.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('files').detectUser().build());
+
+/***/ }),
+
+/***/ "./apps/files/src/newMenu/newFolder.ts":
+/*!*********************************************!*\
+  !*** ./apps/files/src/newMenu/newFolder.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   entry: () => (/* binding */ entry)
+/* harmony export */ });
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! path */ "./node_modules/path/path.js");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_folder_plus_outline_svg_raw__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mdi/svg/svg/folder-plus-outline.svg?raw */ "./node_modules/@mdi/svg/svg/folder-plus-outline.svg?raw");
+/* harmony import */ var _utils_newNodeDialog__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/newNodeDialog */ "./apps/files/src/utils/newNodeDialog.ts");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../logger */ "./apps/files/src/logger.ts");
+
+
+
+
+
+
+
+
+
+
+const createNewFolder = async (root, name) => {
+  const source = root.source + '/' + name;
+  const encodedSource = root.encodedSource + '/' + encodeURIComponent(name);
+  const response = await (0,_nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"])({
+    method: 'MKCOL',
+    url: encodedSource,
+    headers: {
+      Overwrite: 'F'
+    }
+  });
+  return {
+    fileid: parseInt(response.headers['oc-fileid']),
+    source
+  };
+};
+const entry = {
+  id: 'newFolder',
+  displayName: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('files', 'New folder'),
+  enabled: context => Boolean(context.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.Permission.CREATE) && Boolean(context.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.Permission.READ),
+  // Make the svg icon color match the primary element color
+  iconSvgInline: _mdi_svg_svg_folder_plus_outline_svg_raw__WEBPACK_IMPORTED_MODULE_7__.replace(/viewBox/gi, 'style="color: var(--color-primary-element)" viewBox'),
+  order: 0,
+  async handler(context, content) {
+    const name = await (0,_utils_newNodeDialog__WEBPACK_IMPORTED_MODULE_8__.newNodeName)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('files', 'New folder'), content);
+    if (name === null) {
+      return;
+    }
+    try {
+      const {
+        fileid,
+        source
+      } = await createNewFolder(context, name.trim());
+      // Create the folder in the store
+      const folder = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.Folder({
+        source,
+        id: fileid,
+        mtime: new Date(),
+        owner: context.owner,
+        permissions: _nextcloud_files__WEBPACK_IMPORTED_MODULE_3__.Permission.ALL,
+        root: context?.root || '/files/' + (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__.getCurrentUser)()?.uid,
+        // Include mount-type from parent folder as this is inherited
+        attributes: {
+          'mount-type': context.attributes?.['mount-type'],
+          'owner-id': context.attributes?.['owner-id'],
+          'owner-display-name': context.attributes?.['owner-display-name']
+        }
+      });
+      // Show success
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.emit)('files:node:created', folder);
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.translate)('files', 'Created new folder "{name}"', {
+        name: (0,path__WEBPACK_IMPORTED_MODULE_0__.basename)(source)
+      }));
+      _logger__WEBPACK_IMPORTED_MODULE_9__["default"].debug('Created new folder', {
+        folder,
+        source
+      });
+      // Navigate to the new folder
+      window.OCP.Files.Router.goToRoute(null,
+      // use default route
+      {
+        view: 'files',
+        fileid: String(fileid)
+      }, {
+        dir: context.path
+      });
+    } catch (error) {
+      _logger__WEBPACK_IMPORTED_MODULE_9__["default"].error('Creating new folder failed', {
+        error
+      });
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_4__.showError)('Creating new folder failed');
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/newMenu/newFromTemplate.ts":
+/*!***************************************************!*\
+  !*** ./apps/files/src/newMenu/newFromTemplate.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerTemplateEntries: () => (/* binding */ registerTemplateEntries)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _utils_newNodeDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/newNodeDialog */ "./apps/files/src/utils/newNodeDialog.ts");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+// async to reduce bundle size
+const TemplatePickerVue = (0,vue__WEBPACK_IMPORTED_MODULE_4__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("core-common"), __webpack_require__.e("apps_files_src_views_TemplatePicker_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ../views/TemplatePicker.vue */ "./apps/files/src/views/TemplatePicker.vue")));
+let TemplatePicker = null;
+const getTemplatePicker = async context => {
+  if (TemplatePicker === null) {
+    // Create document root
+    const mountingPoint = document.createElement('div');
+    mountingPoint.id = 'template-picker';
+    document.body.appendChild(mountingPoint);
+    // Init vue app
+    TemplatePicker = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
+      render: h => h(TemplatePickerVue, {
+        ref: 'picker',
+        props: {
+          parent: context
+        }
+      }),
+      methods: {
+        open() {
+          this.$refs.picker.open(...arguments);
+        }
+      },
+      el: mountingPoint
+    });
+  }
+  return TemplatePicker;
+};
+/**
+ * Register all new-file-menu entries for all template providers
+ */
+function registerTemplateEntries() {
+  const templates = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('files', 'templates', []);
+  // Init template files menu
+  templates.forEach((provider, index) => {
+    (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.addNewFileMenuEntry)({
+      id: `template-new-${provider.app}-${index}`,
+      displayName: provider.label,
+      iconClass: provider.iconClass || 'icon-file',
+      iconSvgInline: provider.iconSvgInline,
+      enabled(context) {
+        return (context.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.CREATE) !== 0;
+      },
+      order: 11,
+      async handler(context, content) {
+        const templatePicker = getTemplatePicker(context);
+        const name = await (0,_utils_newNodeDialog__WEBPACK_IMPORTED_MODULE_2__.newNodeName)(`${provider.label}${provider.extension}`, content, {
+          label: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_3__.translate)('files', 'Filename'),
+          name: provider.label
+        });
+        if (name !== null) {
+          // Create the file
+          const picker = await templatePicker;
+          picker.open(name.trim(), provider);
+        }
+      }
+    });
+  });
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/newMenu/newTemplatesFolder.ts":
+/*!******************************************************!*\
+  !*** ./apps/files/src/newMenu/newTemplatesFolder.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   entry: () => (/* binding */ entry)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! path */ "./node_modules/path/path.js");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _utils_newNodeDialog__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/newNodeDialog */ "./apps/files/src/utils/newNodeDialog.ts");
+/* harmony import */ var _mdi_svg_svg_plus_svg_raw__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mdi/svg/svg/plus.svg?raw */ "./node_modules/@mdi/svg/svg/plus.svg?raw");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+
+
+
+
+
+
+
+
+
+
+
+const templatesEnabled = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('files', 'templates_enabled', true);
+let templatesPath = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_3__.loadState)('files', 'templates_path', false);
+_logger_ts__WEBPACK_IMPORTED_MODULE_10__["default"].debug('Templates folder enabled', {
+  templatesEnabled
+});
+_logger_ts__WEBPACK_IMPORTED_MODULE_10__["default"].debug('Initial templates folder', {
+  templatesPath
+});
+/**
+ * Init template folder
+ * @param directory Folder where to create the templates folder
+ * @param name Name to use or the templates folder
+ */
+const initTemplatesFolder = async function (directory, name) {
+  const templatePath = (0,path__WEBPACK_IMPORTED_MODULE_6__.join)(directory.path, name);
+  try {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_10__["default"].debug('Initializing the templates directory', {
+      templatePath
+    });
+    const {
+      data
+    } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_9__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_5__.generateOcsUrl)('apps/files/api/v1/templates/path'), {
+      templatePath,
+      copySystemTemplates: true
+    });
+    // Go to template directory
+    window.OCP.Files.Router.goToRoute(null,
+    // use default route
+    {
+      view: 'files',
+      fileid: undefined
+    }, {
+      dir: templatePath
+    });
+    _logger_ts__WEBPACK_IMPORTED_MODULE_10__["default"].info('Created new templates folder', {
+      ...data.ocs.data
+    });
+    templatesPath = data.ocs.data.templates_path;
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_10__["default"].error('Unable to initialize the templates directory');
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Unable to initialize the templates directory'));
+  }
+};
+const entry = {
+  id: 'template-picker',
+  displayName: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Create templates folder'),
+  iconSvgInline: _mdi_svg_svg_plus_svg_raw__WEBPACK_IMPORTED_MODULE_8__,
+  order: 30,
+  enabled(context) {
+    // Templates disabled or templates folder already initialized
+    if (!templatesEnabled || templatesPath) {
+      return false;
+    }
+    // Allow creation on your own folders only
+    if (context.owner !== (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid) {
+      return false;
+    }
+    return (context.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.Permission.CREATE) !== 0;
+  },
+  async handler(context, content) {
+    const name = await (0,_utils_newNodeDialog__WEBPACK_IMPORTED_MODULE_7__.newNodeName)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'Templates'), content, {
+      name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.translate)('files', 'New template folder')
+    });
+    if (name !== null) {
+      // Create the template folder
+      initTemplatesFolder(context, name);
+      // Remove the menu entry
+      (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.removeNewFileMenuEntry)('template-picker');
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/services/Favorites.ts":
+/*!**********************************************!*\
+  !*** ./apps/files/src/services/Favorites.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContents: () => (/* binding */ getContents)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cancelable-promise */ "./node_modules/cancelable-promise/umd/CancelablePromise.js");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cancelable_promise__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Files_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Files.ts */ "./apps/files/src/services/Files.ts");
+/* harmony import */ var _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+
+
+
+
+
+const getContents = function () {
+  let path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/';
+  // We only filter root files for favorites, for subfolders we can simply reuse the files contents
+  if (path !== '/') {
+    return (0,_Files_ts__WEBPACK_IMPORTED_MODULE_3__.getContents)(path);
+  }
+  return new cancelable_promise__WEBPACK_IMPORTED_MODULE_2__.CancelablePromise((resolve, reject, cancel) => {
+    const promise = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getFavoriteNodes)(_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_4__.client).catch(reject).then(contents => {
+      if (!contents) {
+        reject();
+        return;
+      }
+      resolve({
+        contents,
+        folder: new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Folder({
+          id: 0,
+          source: `${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRemoteURL}${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRootPath}`,
+          root: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRootPath,
+          owner: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid || null,
+          permissions: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.READ
+        })
+      });
+    });
+    cancel(() => promise.cancel());
+  });
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/services/Files.ts":
+/*!******************************************!*\
+  !*** ./apps/files/src/services/Files.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   defaultGetContents: () => (/* binding */ defaultGetContents),
+/* harmony export */   getContents: () => (/* binding */ getContents),
+/* harmony export */   resultToNode: () => (/* binding */ resultToNode)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cancelable-promise */ "./node_modules/cancelable-promise/umd/CancelablePromise.js");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(cancelable_promise__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! path */ "./node_modules/path/path.js");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _WebDavSearch_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./WebDavSearch.ts */ "./apps/files/src/services/WebDavSearch.ts");
+/* harmony import */ var _store_index_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/index.ts */ "./apps/files/src/store/index.ts");
+/* harmony import */ var _store_files_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../store/files.ts */ "./apps/files/src/store/files.ts");
+/* harmony import */ var _store_search_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../store/search.ts */ "./apps/files/src/store/search.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+
+
+
+
+
+
+
+
+
+/**
+ * Slim wrapper over `@nextcloud/files` `davResultToNode` to allow using the function with `Array.map`
+ * @param stat The result returned by the webdav library
+ */
+const resultToNode = stat => (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.resultToNode)(stat);
+/**
+ * Get contents implementation for the files view.
+ * This also allows to fetch local search results when the user is currently filtering.
+ *
+ * @param path - The path to query
+ */
+function getContents() {
+  let path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/';
+  const controller = new AbortController();
+  const searchStore = (0,_store_search_ts__WEBPACK_IMPORTED_MODULE_7__.useSearchStore)((0,_store_index_ts__WEBPACK_IMPORTED_MODULE_5__.getPinia)());
+  if (searchStore.query.length >= 3) {
+    return new cancelable_promise__WEBPACK_IMPORTED_MODULE_1__.CancelablePromise((resolve, reject, cancel) => {
+      cancel(() => controller.abort());
+      getLocalSearch(path, searchStore.query, controller.signal).then(resolve).catch(reject);
+    });
+  } else {
+    return defaultGetContents(path);
+  }
+}
+/**
+ * Generic `getContents` implementation for the users files.
+ *
+ * @param path - The path to get the contents
+ */
+function defaultGetContents(path) {
+  path = (0,path__WEBPACK_IMPORTED_MODULE_2__.join)(_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.defaultRootPath, path);
+  const controller = new AbortController();
+  const propfindPayload = (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.getDefaultPropfind)();
+  return new cancelable_promise__WEBPACK_IMPORTED_MODULE_1__.CancelablePromise(async (resolve, reject, onCancel) => {
+    onCancel(() => controller.abort());
+    try {
+      const contentsResponse = await _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__.client.getDirectoryContents(path, {
+        details: true,
+        data: propfindPayload,
+        includeSelf: true,
+        signal: controller.signal
+      });
+      const root = contentsResponse.data[0];
+      const contents = contentsResponse.data.slice(1);
+      if (root.filename !== path && `${root.filename}/` !== path) {
+        _logger_ts__WEBPACK_IMPORTED_MODULE_8__["default"].debug(`Exepected "${path}" but got filename "${root.filename}" instead.`);
+        throw new Error('Root node does not match requested path');
+      }
+      resolve({
+        folder: resultToNode(root),
+        contents: contents.map(result => {
+          try {
+            return resultToNode(result);
+          } catch (error) {
+            _logger_ts__WEBPACK_IMPORTED_MODULE_8__["default"].error(`Invalid node detected '${result.basename}'`, {
+              error
+            });
+            return null;
+          }
+        }).filter(Boolean)
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+/**
+ * Get the local search results for the current folder.
+ *
+ * @param path - The path
+ * @param query - The current search query
+ * @param signal - The aboort signal
+ */
+async function getLocalSearch(path, query, signal) {
+  const filesStore = (0,_store_files_ts__WEBPACK_IMPORTED_MODULE_6__.useFilesStore)((0,_store_index_ts__WEBPACK_IMPORTED_MODULE_5__.getPinia)());
+  let folder = filesStore.getDirectoryByPath('files', path);
+  if (!folder) {
+    const rootPath = (0,path__WEBPACK_IMPORTED_MODULE_2__.join)(_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.defaultRootPath, path);
+    const stat = await _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__.client.stat(rootPath, {
+      details: true
+    });
+    folder = resultToNode(stat.data);
+  }
+  const contents = await (0,_WebDavSearch_ts__WEBPACK_IMPORTED_MODULE_4__.searchNodes)(query, {
+    dir: path,
+    signal
+  });
+  return {
+    folder,
+    contents
+  };
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/services/FolderTree.ts":
+/*!***********************************************!*\
+  !*** ./apps/files/src/services/FolderTree.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   encodeSource: () => (/* binding */ encodeSource),
+/* harmony export */   folderTreeId: () => (/* binding */ folderTreeId),
+/* harmony export */   getContents: () => (/* binding */ getContents),
+/* harmony export */   getFolderTreeNodes: () => (/* binding */ getFolderTreeNodes),
+/* harmony export */   getSourceParent: () => (/* binding */ getSourceParent),
+/* harmony export */   sourceRoot: () => (/* binding */ sourceRoot)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_paths__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/paths */ "./node_modules/@nextcloud/paths/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _Files_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Files.ts */ "./apps/files/src/services/Files.ts");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+const folderTreeId = 'folders';
+const sourceRoot = `${_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.davRemoteURL}/files/${(0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_3__.getCurrentUser)()?.uid}`;
+const collator = Intl.Collator([(0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.getLanguage)(), (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_5__.getCanonicalLocale)()], {
+  numeric: true,
+  usage: 'sort'
+});
+const compareNodes = (a, b) => collator.compare(a.displayName ?? a.basename, b.displayName ?? b.basename);
+const getTreeNodes = function (tree) {
+  let currentPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '/';
+  let nodes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  const sortedTree = tree.toSorted(compareNodes);
+  for (const {
+    id,
+    basename,
+    displayName,
+    children
+  } of sortedTree) {
+    const path = (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_4__.joinPaths)(currentPath, basename);
+    const source = `${sourceRoot}${path}`;
+    const node = {
+      source,
+      encodedSource: encodeSource(source),
+      path,
+      fileid: id,
+      basename
+    };
+    if (displayName) {
+      node.displayName = displayName;
+    }
+    nodes.push(node);
+    if (children.length > 0) {
+      getTreeNodes(children, path, nodes);
+    }
+  }
+  return nodes;
+};
+const getFolderTreeNodes = async function () {
+  let path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/';
+  let depth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  const {
+    data: tree
+  } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateOcsUrl)('/apps/files/api/v1/folder-tree'), {
+    params: new URLSearchParams({
+      path,
+      depth: String(depth)
+    })
+  });
+  const nodes = getTreeNodes(tree, path);
+  return nodes;
+};
+const getContents = path => (0,_Files_ts__WEBPACK_IMPORTED_MODULE_6__.getContents)(path);
+const encodeSource = source => {
+  const {
+    origin
+  } = new URL(source);
+  return origin + (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_4__.encodePath)(source.slice(origin.length));
+};
+const getSourceParent = source => {
+  const parent = (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_4__.dirname)(source);
+  if (parent === sourceRoot) {
+    return folderTreeId;
+  }
+  return encodeSource(parent);
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/services/LivePhotos.ts":
+/*!***********************************************!*\
+  !*** ./apps/files/src/services/LivePhotos.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initLivePhotos: () => (/* binding */ initLivePhotos),
+/* harmony export */   isLivePhoto: () => (/* binding */ isLivePhoto)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/**
+ *
+ */
+function initLivePhotos() {
+  (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerDavProperty)('nc:metadata-files-live-photo', {
+    nc: 'http://nextcloud.org/ns'
+  });
+}
+/**
+ * @param {Node} node - The node
+ */
+function isLivePhoto(node) {
+  return node.attributes['metadata-files-live-photo'] !== undefined;
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/services/PersonalFiles.ts":
+/*!**************************************************!*\
+  !*** ./apps/files/src/services/PersonalFiles.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContents: () => (/* binding */ getContents),
+/* harmony export */   isPersonalFile: () => (/* binding */ isPersonalFile)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _Files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Files */ "./apps/files/src/services/Files.ts");
+
+
+const currentUserId = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid;
+/**
+ * Filters each file/folder on its shared status
+ *
+ * A personal file is considered a file that has all of the following properties:
+ * 1. the current user owns
+ * 2. the file is not shared with anyone
+ * 3. the file is not a group folder
+ * @todo Move to `@nextcloud/files`
+ * @param node The node to check
+ */
+const isPersonalFile = function (node) {
+  // the type of mounts that determine whether the file is shared
+  const sharedMountTypes = ['group', 'shared'];
+  const mountType = node.attributes['mount-type'];
+  return currentUserId === node.owner && !sharedMountTypes.includes(mountType);
+};
+const getContents = function () {
+  let path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/';
+  // get all the files from the current path as a cancellable promise
+  // then filter the files that the user does not own, or has shared / is a group folder
+  return (0,_Files__WEBPACK_IMPORTED_MODULE_1__.getContents)(path).then(content => {
+    content.contents = content.contents.filter(isPersonalFile);
+    return content;
+  });
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/services/Recent.ts":
+/*!*******************************************!*\
+  !*** ./apps/files/src/services/Recent.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContents: () => (/* binding */ getContents)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cancelable-promise */ "./node_modules/cancelable-promise/umd/CancelablePromise.js");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(cancelable_promise__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _store_userconfig_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store/userconfig.ts */ "./apps/files/src/store/userconfig.ts");
+/* harmony import */ var _store_index_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/index.ts */ "./apps/files/src/store/index.ts");
+/* harmony import */ var _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+
+
+
+
+
+
+
+const lastTwoWeeksTimestamp = Math.round(Date.now() / 1000 - 60 * 60 * 24 * 14);
+/**
+ * Helper to map a WebDAV result to a Nextcloud node
+ * The search endpoint already includes the dav remote URL so we must not include it in the source
+ *
+ * @param stat the WebDAV result
+ */
+const resultToNode = stat => (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davResultToNode)(stat, _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRootPath, (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_6__.getBaseUrl)());
+/**
+ * Get recently changed nodes
+ *
+ * This takes the users preference about hidden files into account.
+ * If hidden files are not shown, then also recently changed files *in* hidden directories are filtered.
+ *
+ * @param path Path to search for recent changes
+ */
+const getContents = function () {
+  let path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/';
+  const store = (0,_store_userconfig_ts__WEBPACK_IMPORTED_MODULE_3__.useUserConfigStore)((0,_store_index_ts__WEBPACK_IMPORTED_MODULE_4__.getPinia)());
+  /**
+   * Filter function that returns only the visible nodes - or hidden if explicitly configured
+   * @param node The node to check
+   */
+  const filterHidden = node => path !== '/' // We need to hide files from hidden directories in the root if not configured to show
+  || store.userConfig.show_hidden // If configured to show hidden files we can early return
+  || !node.dirname.split('/').some(dir => dir.startsWith('.')); // otherwise only include the file if non of the parent directories is hidden
+  const controller = new AbortController();
+  const handler = async () => {
+    const contentsResponse = await _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_5__.client.search('/', {
+      signal: controller.signal,
+      details: true,
+      data: (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davGetRecentSearch)(lastTwoWeeksTimestamp)
+    });
+    const contents = contentsResponse.data.results.map(resultToNode).filter(filterHidden);
+    return {
+      folder: new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Folder({
+        id: 0,
+        source: `${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRemoteURL}${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRootPath}`,
+        root: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRootPath,
+        owner: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid || null,
+        permissions: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.READ
+      }),
+      contents
+    };
+  };
+  return new cancelable_promise__WEBPACK_IMPORTED_MODULE_2__.CancelablePromise(async (resolve, reject, cancel) => {
+    cancel(() => controller.abort());
+    resolve(handler());
+  });
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/services/Search.ts":
+/*!*******************************************!*\
+  !*** ./apps/files/src/services/Search.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContents: () => (/* binding */ getContents)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cancelable-promise */ "./node_modules/cancelable-promise/umd/CancelablePromise.js");
+/* harmony import */ var cancelable_promise__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(cancelable_promise__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _WebDavSearch_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./WebDavSearch.ts */ "./apps/files/src/services/WebDavSearch.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/* harmony import */ var _store_search_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../store/search.ts */ "./apps/files/src/store/search.ts");
+/* harmony import */ var _store_index_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../store/index.ts */ "./apps/files/src/store/index.ts");
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+/**
+ * Get the contents for a search view
+ */
+function getContents() {
+  const controller = new AbortController();
+  const searchStore = (0,_store_search_ts__WEBPACK_IMPORTED_MODULE_6__.useSearchStore)((0,_store_index_ts__WEBPACK_IMPORTED_MODULE_7__.getPinia)());
+  return new cancelable_promise__WEBPACK_IMPORTED_MODULE_3__.CancelablePromise(async (resolve, reject, cancel) => {
+    cancel(() => controller.abort());
+    try {
+      const contents = await (0,_WebDavSearch_ts__WEBPACK_IMPORTED_MODULE_4__.searchNodes)(searchStore.query, {
+        signal: controller.signal
+      });
+      resolve({
+        contents,
+        folder: new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Folder({
+          id: 0,
+          source: `${_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_2__.defaultRemoteURL}#search`,
+          owner: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)().uid,
+          permissions: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.READ
+        })
+      });
+    } catch (error) {
+      _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error('Failed to fetch search results', {
+        error
+      });
+      reject(error);
+    }
+  });
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/services/ServiceWorker.js":
+/*!**************************************************!*\
+  !*** ./apps/files/src/services/ServiceWorker.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {
+  if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', async () => {
+      try {
+        const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/apps/files/preview-service-worker.js', {}, {
+          noRewrite: true
+        });
+        let scope = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.getRootUrl)();
+        // If the instance is not in a subfolder an empty string will be returned.
+        // The service worker registration will use the current path if it receives an empty string,
+        // which will result in a service worker registration for every single path the user visits.
+        if (scope === '') {
+          scope = '/';
+        }
+        const registration = await navigator.serviceWorker.register(url, {
+          scope
+        });
+        _logger_ts__WEBPACK_IMPORTED_MODULE_1__["default"].debug('SW registered: ', {
+          registration
+        });
+      } catch (error) {
+        _logger_ts__WEBPACK_IMPORTED_MODULE_1__["default"].error('SW registration failed: ', {
+          error
+        });
+      }
+    });
+  } else {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_1__["default"].debug('Service Worker is not enabled on this browser.');
+  }
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/services/WebDavSearch.ts":
+/*!*************************************************!*\
+  !*** ./apps/files/src/services/WebDavSearch.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   searchNodes: () => (/* binding */ searchNodes)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+/**
+ * Search for nodes matching the given query.
+ *
+ * @param query - Search query
+ * @param options - Options
+ * @param options.dir - The base directory to scope the search to
+ * @param options.signal - Abort signal for the request
+ */
+async function searchNodes(query, _ref) {
+  let {
+    dir,
+    signal
+  } = _ref;
+  const user = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)();
+  if (!user) {
+    // the search plugin only works for user roots
+    return [];
+  }
+  query = query.trim();
+  if (query.length < 3) {
+    // the search plugin only works with queries of at least 3 characters
+    return [];
+  }
+  if (dir && !dir.startsWith('/')) {
+    dir = `/${dir}`;
+  }
+  _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].debug('Searching for nodes', {
+    query,
+    dir
+  });
+  const {
+    data
+  } = await _WebdavClient_ts__WEBPACK_IMPORTED_MODULE_3__.client.search('/', {
+    details: true,
+    signal,
+    data: `
+<d:searchrequest ${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.getDavNameSpaces)()}>
+	 <d:basicsearch>
+		 <d:select>
+			 <d:prop>
+			 ${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.getDavProperties)()}
+			 </d:prop>
+		 </d:select>
+		 <d:from>
+			 <d:scope>
+				 <d:href>/files/${user.uid}${dir || ''}</d:href>
+				 <d:depth>infinity</d:depth>
+			 </d:scope>
+		 </d:from>
+		 <d:where>
+			 <d:like>
+				 <d:prop>
+					 <d:displayname/>
+				 </d:prop>
+				 <d:literal>%${query.replace('%', '')}%</d:literal>
+			 </d:like>
+		 </d:where>
+		 <d:orderby/>
+	</d:basicsearch>
+</d:searchrequest>`
+  });
+  // check if the request was aborted
+  if (signal?.aborted) {
+    return [];
+  }
+  // otherwise return the result mapped to Nextcloud nodes
+  return data.results.map(result => (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.resultToNode)(result, _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_1__.defaultRootPath, (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.getBaseUrl)()));
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/services/WebdavClient.ts":
+/*!*************************************************!*\
+  !*** ./apps/files/src/services/WebdavClient.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   client: () => (/* binding */ client),
+/* harmony export */   fetchNode: () => (/* binding */ fetchNode)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+
+const client = (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.getClient)();
+const fetchNode = async path => {
+  const propfindPayload = (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.getDefaultPropfind)();
+  const result = await client.stat(`${(0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.getRootPath)()}${path}`, {
+    details: true,
+    data: propfindPayload
+  });
+  return (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_0__.resultToNode)(result.data);
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/store/active.ts":
+/*!****************************************!*\
+  !*** ./apps/files/src/store/active.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useActiveStore: () => (/* binding */ useActiveStore)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+const useActiveStore = (0,pinia__WEBPACK_IMPORTED_MODULE_2__.defineStore)('active', () => {
+  /**
+   * The currently active action
+   */
+  const activeAction = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  /**
+   * The currently active folder
+   */
+  const activeFolder = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  /**
+   * The current active node within the folder
+   */
+  const activeNode = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  /**
+   * The current active view
+   */
+  const activeView = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  initialize();
+  /**
+   * Unset the active node if deleted
+   *
+   * @param node - The node thats deleted
+   * @private
+   */
+  function onDeletedNode(node) {
+    if (activeNode.value && activeNode.value.source === node.source) {
+      activeNode.value = undefined;
+    }
+  }
+  /**
+   * Callback to update the current active view
+   *
+   * @param view - The new active view
+   * @private
+   */
+  function onChangedView() {
+    let view = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].debug('Setting active view', {
+      view
+    });
+    activeView.value = view ?? undefined;
+    activeNode.value = undefined;
+  }
+  /**
+   * Initalize the store - connect all event listeners.
+   * @private
+   */
+  function initialize() {
+    const navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+    // Make sure we only register the listeners once
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:node:deleted', onDeletedNode);
+    onChangedView(navigation.active);
+    // Or you can react to changes of the current active view
+    navigation.addEventListener('updateActive', event => {
+      onChangedView(event.detail);
+    });
+  }
+  return {
+    activeAction,
+    activeFolder,
+    activeNode,
+    activeView
+  };
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/store/files.ts":
+/*!***************************************!*\
+  !*** ./apps/files/src/store/files.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useFilesStore: () => (/* binding */ useFilesStore)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../logger */ "./apps/files/src/logger.ts");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../services/WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _paths_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./paths.ts */ "./apps/files/src/store/paths.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const useFilesStore = function () {
+  const store = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)('files', {
+    state: () => ({
+      files: {},
+      roots: {}
+    }),
+    getters: {
+      /**
+       * Get a file or folder by its source
+       * @param state
+       */
+      getNode: state => source => state.files[source],
+      /**
+       * Get a list of files or folders by their IDs
+       * Note: does not return undefined values
+       * @param state
+       */
+      getNodes: state => sources => sources.map(source => state.files[source]).filter(Boolean),
+      /**
+       * Get files or folders by their file ID
+       * Multiple nodes can have the same file ID but different sources
+       * (e.g. in a shared context)
+       * @param state
+       */
+      getNodesById: state => fileId => Object.values(state.files).filter(node => node.fileid === fileId),
+      /**
+       * Get the root folder of a service
+       * @param state
+       */
+      getRoot: state => service => state.roots[service]
+    },
+    actions: {
+      /**
+       * Get cached directory matching a given path
+       *
+       * @param service - The service (files view)
+       * @param path - The path relative within the service
+       * @return The folder if found
+       */
+      getDirectoryByPath(service, path) {
+        const pathsStore = (0,_paths_ts__WEBPACK_IMPORTED_MODULE_5__.usePathsStore)();
+        let folder;
+        // Get the containing folder from path store
+        if (!path || path === '/') {
+          folder = this.getRoot(service);
+        } else {
+          const source = pathsStore.getPath(service, path);
+          if (source) {
+            folder = this.getNode(source);
+          }
+        }
+        return folder;
+      },
+      /**
+       * Get cached child nodes within a given path
+       *
+       * @param service - The service (files view)
+       * @param path - The path relative within the service
+       * @return Array of cached nodes within the path
+       */
+      getNodesByPath(service, path) {
+        const folder = this.getDirectoryByPath(service, path);
+        // If we found a cache entry and the cache entry was already loaded (has children) then use it
+        return (folder?._children ?? []).map(source => this.getNode(source)).filter(Boolean);
+      },
+      updateNodes(nodes) {
+        // Update the store all at once
+        const files = nodes.reduce((acc, node) => {
+          if (!node.fileid) {
+            _logger__WEBPACK_IMPORTED_MODULE_2__["default"].error('Trying to update/set a node without fileid', {
+              node
+            });
+            return acc;
+          }
+          acc[node.source] = node;
+          return acc;
+        }, {});
+        vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(this, 'files', {
+          ...this.files,
+          ...files
+        });
+      },
+      deleteNodes(nodes) {
+        nodes.forEach(node => {
+          if (node.source) {
+            vue__WEBPACK_IMPORTED_MODULE_3__["default"].delete(this.files, node.source);
+          }
+        });
+      },
+      setRoot(_ref) {
+        let {
+          service,
+          root
+        } = _ref;
+        vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(this.roots, service, root);
+      },
+      onDeletedNode(node) {
+        this.deleteNodes([node]);
+      },
+      onCreatedNode(node) {
+        this.updateNodes([node]);
+      },
+      onMovedNode(_ref2) {
+        let {
+          node,
+          oldSource
+        } = _ref2;
+        if (!node.fileid) {
+          _logger__WEBPACK_IMPORTED_MODULE_2__["default"].error('Trying to update/set a node without fileid', {
+            node
+          });
+          return;
+        }
+        // Update the path of the node
+        vue__WEBPACK_IMPORTED_MODULE_3__["default"].delete(this.files, oldSource);
+        this.updateNodes([node]);
+      },
+      async onUpdatedNode(node) {
+        if (!node.fileid) {
+          _logger__WEBPACK_IMPORTED_MODULE_2__["default"].error('Trying to update/set a node without fileid', {
+            node
+          });
+          return;
+        }
+        // If we have multiple nodes with the same file ID, we need to update all of them
+        const nodes = this.getNodesById(node.fileid);
+        if (nodes.length > 1) {
+          await Promise.all(nodes.map(node => (0,_services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_4__.fetchNode)(node.path))).then(this.updateNodes);
+          _logger__WEBPACK_IMPORTED_MODULE_2__["default"].debug(nodes.length + ' nodes updated in store', {
+            fileid: node.fileid
+          });
+          return;
+        }
+        // If we have only one node with the file ID, we can update it directly
+        if (nodes.length === 1 && node.source === nodes[0].source) {
+          this.updateNodes([node]);
+          return;
+        }
+        // Otherwise, it means we receive an event for a node that is not in the store
+        (0,_services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_4__.fetchNode)(node.path).then(n => this.updateNodes([n]));
+      },
+      // Handlers for legacy sidebar (no real nodes support)
+      onAddFavorite(node) {
+        const ourNode = this.getNode(node.source);
+        if (ourNode) {
+          vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(ourNode.attributes, 'favorite', 1);
+        }
+      },
+      onRemoveFavorite(node) {
+        const ourNode = this.getNode(node.source);
+        if (ourNode) {
+          vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(ourNode.attributes, 'favorite', 0);
+        }
+      }
+    }
+  });
+  const fileStore = store(...arguments);
+  // Make sure we only register the listeners once
+  if (!fileStore._initialized) {
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:node:created', fileStore.onCreatedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:node:deleted', fileStore.onDeletedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:node:updated', fileStore.onUpdatedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:node:moved', fileStore.onMovedNode);
+    // legacy sidebar
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:favorites:added', fileStore.onAddFavorite);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:favorites:removed', fileStore.onRemoveFavorite);
+    fileStore._initialized = true;
+  }
+  return fileStore;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/store/index.ts":
+/*!***************************************!*\
+  !*** ./apps/files/src/store/index.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getPinia: () => (/* binding */ getPinia)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const getPinia = () => {
+  if (window._nc_files_pinia) {
+    return window._nc_files_pinia;
+  }
+  window._nc_files_pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.createPinia)();
+  return window._nc_files_pinia;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/store/paths.ts":
+/*!***************************************!*\
+  !*** ./apps/files/src/store/paths.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   usePathsStore: () => (/* binding */ usePathsStore)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var _nextcloud_paths__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/paths */ "./node_modules/@nextcloud/paths/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logger */ "./apps/files/src/logger.ts");
+/* harmony import */ var _files__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./files */ "./apps/files/src/store/files.ts");
+
+
+
+
+
+
+
+const usePathsStore = function () {
+  const files = (0,_files__WEBPACK_IMPORTED_MODULE_6__.useFilesStore)(...arguments);
+  const store = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.defineStore)('paths', {
+    state: () => ({
+      paths: {}
+    }),
+    getters: {
+      getPath: state => {
+        return (service, path) => {
+          if (!state.paths[service]) {
+            return undefined;
+          }
+          return state.paths[service][path];
+        };
+      }
+    },
+    actions: {
+      addPath(payload) {
+        // If it doesn't exists, init the service state
+        if (!this.paths[payload.service]) {
+          vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(this.paths, payload.service, {});
+        }
+        // Now we can set the provided path
+        vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(this.paths[payload.service], payload.path, payload.source);
+      },
+      deletePath(service, path) {
+        // skip if service does not exist
+        if (!this.paths[service]) {
+          return;
+        }
+        vue__WEBPACK_IMPORTED_MODULE_4__["default"].delete(this.paths[service], path);
+      },
+      onCreatedNode(node) {
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        if (!node.fileid) {
+          _logger__WEBPACK_IMPORTED_MODULE_5__["default"].error('Node has no fileid', {
+            node
+          });
+          return;
+        }
+        // Only add path if it's a folder
+        if (node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.FileType.Folder) {
+          this.addPath({
+            service,
+            path: node.path,
+            source: node.source
+          });
+        }
+        // Update parent folder children if exists
+        // If the folder is the root, get it and update it
+        this.addNodeToParentChildren(node);
+      },
+      onDeletedNode(node) {
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        if (node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.FileType.Folder) {
+          // Delete the path
+          this.deletePath(service, node.path);
+        }
+        this.deleteNodeFromParentChildren(node);
+      },
+      onMovedNode(_ref) {
+        let {
+          node,
+          oldSource
+        } = _ref;
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        // Update the path of the node
+        if (node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.FileType.Folder) {
+          // Delete the old path if it exists
+          const oldPath = Object.entries(this.paths[service]).find(_ref2 => {
+            let [, source] = _ref2;
+            return source === oldSource;
+          });
+          if (oldPath?.[0]) {
+            this.deletePath(service, oldPath[0]);
+          }
+          // Add the new path
+          this.addPath({
+            service,
+            path: node.path,
+            source: node.source
+          });
+        }
+        // Dummy simple clone of the renamed node from a previous state
+        const oldNode = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.File({
+          source: oldSource,
+          owner: node.owner,
+          mime: node.mime
+        });
+        this.deleteNodeFromParentChildren(oldNode);
+        this.addNodeToParentChildren(node);
+      },
+      deleteNodeFromParentChildren(node) {
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        // Update children of a root folder
+        const parentSource = (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_1__.dirname)(node.source);
+        const folder = node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource);
+        if (folder) {
+          // ensure sources are unique
+          const children = new Set(folder._children ?? []);
+          children.delete(node.source);
+          vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(folder, '_children', [...children.values()]);
+          _logger__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Children updated', {
+            parent: folder,
+            node,
+            children: folder._children
+          });
+          return;
+        }
+        _logger__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Parent path does not exists, skipping children update', {
+          node
+        });
+      },
+      addNodeToParentChildren(node) {
+        const service = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_2__.getNavigation)()?.active?.id || 'files';
+        // Update children of a root folder
+        const parentSource = (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_1__.dirname)(node.source);
+        const folder = node.dirname === '/' ? files.getRoot(service) : files.getNode(parentSource);
+        if (folder) {
+          // ensure sources are unique
+          const children = new Set(folder._children ?? []);
+          children.add(node.source);
+          vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(folder, '_children', [...children.values()]);
+          _logger__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Children updated', {
+            parent: folder,
+            node,
+            children: folder._children
+          });
+          return;
+        }
+        _logger__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Parent path does not exists, skipping children update', {
+          node
+        });
+      }
+    }
+  });
+  const pathsStore = store(...arguments);
+  // Make sure we only register the listeners once
+  if (!pathsStore._initialized) {
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:created', pathsStore.onCreatedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:deleted', pathsStore.onDeletedNode);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:moved', pathsStore.onMovedNode);
+    pathsStore._initialized = true;
+  }
+  return pathsStore;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/store/search.ts":
+/*!****************************************!*\
+  !*** ./apps/files/src/store/search.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useSearchStore: () => (/* binding */ useSearchStore)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var debounce__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! debounce */ "./node_modules/debounce/index.js");
+/* harmony import */ var debounce__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(debounce__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _views_search_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/search.ts */ "./apps/files/src/views/search.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const useSearchStore = (0,pinia__WEBPACK_IMPORTED_MODULE_2__.defineStore)('search', () => {
+  /**
+   * The current search query
+   */
+  const query = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)('');
+  /**
+   * Scope of the search.
+   * Scopes:
+   * - filter: only filter current file list
+   * - globally: search everywhere
+   */
+  const scope = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)('filter');
+  // reset the base if query is cleared
+  (0,vue__WEBPACK_IMPORTED_MODULE_3__.watch)(scope, updateSearch);
+  (0,vue__WEBPACK_IMPORTED_MODULE_3__.watch)(query, (old, current) => {
+    // skip if only whitespaces changed
+    if (old.trim() === current.trim()) {
+      return;
+    }
+    updateSearch();
+  });
+  // initialize the search store
+  initialize();
+  /**
+   * Debounced update of the current route
+   * @private
+   */
+  const updateRouter = debounce__WEBPACK_IMPORTED_MODULE_1___default()(isSearch => {
+    const router = window.OCP.Files.Router;
+    router.goToRoute(undefined, {
+      view: _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID
+    }, {
+      query: query.value
+    }, isSearch);
+  });
+  /**
+   * Handle updating the filter if needed.
+   * Also update the search view by updating the current route if needed.
+   *
+   * @private
+   */
+  function updateSearch() {
+    // emit the search event to update the filter
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:search:updated', {
+      query: query.value,
+      scope: scope.value
+    });
+    const router = window.OCP.Files.Router;
+    // if we are on the search view and the query was unset or scope was set to 'filter' we need to move back to the files view
+    if (router.params.view === _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID && (query.value === '' || scope.value === 'filter')) {
+      scope.value = 'filter';
+      return router.goToRoute(undefined, {
+        view: 'files'
+      }, {
+        ...router.query,
+        query: undefined
+      });
+    }
+    // for the filter scope we do not need to adjust the current route anymore
+    // also if the query is empty we do not need to do anything
+    if (scope.value === 'filter' || !query.value) {
+      return;
+    }
+    const isSearch = router.params.view === _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID;
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Update route for updated search query', {
+      query: query.value,
+      isSearch
+    });
+    updateRouter(isSearch);
+  }
+  /**
+   * Event handler that resets the store if the file list view was changed.
+   *
+   * @param view - The new view that is active
+   * @private
+   */
+  function onViewChanged(view) {
+    if (view.id !== _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID) {
+      query.value = '';
+      scope.value = 'filter';
+    }
+  }
+  /**
+   * Initialize the store from the router if needed
+   */
+  function initialize() {
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:navigation:changed', onViewChanged);
+    const router = window.OCP.Files.Router;
+    // if we initially load the search view (e.g. hard page refresh)
+    // then we need to initialize the store from the router
+    if (router.params.view === _views_search_ts__WEBPACK_IMPORTED_MODULE_4__.VIEW_ID) {
+      query.value = [router.query.query].flat()[0] ?? '';
+      if (query.value) {
+        scope.value = 'globally';
+        _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].debug('Directly navigated to search view', {
+          query: query.value
+        });
+      } else {
+        // we do not have any query so we need to move to the files list
+        _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].info('Directly navigated to search view without any query, redirect to files view.');
+        router.goToRoute(undefined, {
+          ...router.params,
+          view: 'files'
+        }, {
+          ...router.query,
+          query: undefined
+        }, true);
+      }
+    }
+  }
+  return {
+    query,
+    scope
+  };
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/store/userconfig.ts":
+/*!********************************************!*\
+  !*** ./apps/files/src/store/userconfig.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useUserConfigStore: () => (/* binding */ useUserConfigStore)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+
+
+
+
+
+
+
+const initialUserConfig = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_2__.loadState)('files', 'config', {
+  crop_image_previews: true,
+  default_view: 'files',
+  grid_view: false,
+  show_files_extensions: true,
+  show_hidden: false,
+  show_mime_column: true,
+  sort_favorites_first: true,
+  sort_folders_first: true,
+  show_dialog_deletion: false,
+  show_dialog_file_extension: true
+});
+const useUserConfigStore = (0,pinia__WEBPACK_IMPORTED_MODULE_4__.defineStore)('userconfig', () => {
+  const userConfig = (0,vue__WEBPACK_IMPORTED_MODULE_5__.ref)({
+    ...initialUserConfig
+  });
+  /**
+   * Update the user config local store
+   * @param key The config key
+   * @param value The new value
+   */
+  function onUpdate(key, value) {
+    (0,vue__WEBPACK_IMPORTED_MODULE_5__.set)(userConfig.value, key, value);
+  }
+  /**
+   * Update the user config local store AND on server side
+   * @param key The config key
+   * @param value The new value
+   */
+  async function update(key, value) {
+    // only update if a user is logged in (not the case for public shares)
+    if ((0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)() !== null) {
+      await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_6__["default"].put((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_3__.generateUrl)('/apps/files/api/v1/config/{key}', {
+        key
+      }), {
+        value
+      });
+    }
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.emit)('files:config:updated', {
+      key,
+      value
+    });
+  }
+  // Register the event listener
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('files:config:updated', _ref => {
+    let {
+      key,
+      value
+    } = _ref;
+    return onUpdate(key, value);
+  });
+  return {
+    userConfig,
+    update
+  };
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/utils/filenameValidity.ts":
+/*!**************************************************!*\
+  !*** ./apps/files/src/utils/filenameValidity.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getFilenameValidity: () => (/* binding */ getFilenameValidity)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/*!
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+/**
+ * Get the validity of a filename (empty if valid).
+ * This can be used for `setCustomValidity` on input elements
+ * @param name The filename
+ * @param escape Escape the matched string in the error (only set when used in HTML)
+ */
+function getFilenameValidity(name) {
+  let escape = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  if (name.trim() === '') {
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Filename must not be empty.');
+  }
+  try {
+    (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.validateFilename)(name);
+    return '';
+  } catch (error) {
+    if (!(error instanceof _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.InvalidFilenameError)) {
+      throw error;
+    }
+    switch (error.reason) {
+      case _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.InvalidFilenameErrorReason.Character:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', '"{char}" is not allowed inside a filename.', {
+          char: error.segment
+        }, undefined, {
+          escape
+        });
+      case _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.InvalidFilenameErrorReason.ReservedName:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', '"{segment}" is a reserved name and not allowed for filenames.', {
+          segment: error.segment
+        }, undefined, {
+          escape: false
+        });
+      case _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.InvalidFilenameErrorReason.Extension:
+        if (error.segment.match(/\.[a-z]/i)) {
+          return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', '"{extension}" is not an allowed filetype.', {
+            extension: error.segment
+          }, undefined, {
+            escape: false
+          });
+        }
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Filenames must not end with "{extension}".', {
+          extension: error.segment
+        }, undefined, {
+          escape: false
+        });
+      default:
+        return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Invalid filename.');
+    }
+  }
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/utils/filesViews.ts":
+/*!********************************************!*\
+  !*** ./apps/files/src/utils/filesViews.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   defaultView: () => (/* binding */ defaultView),
+/* harmony export */   hasPersonalFilesView: () => (/* binding */ hasPersonalFilesView)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/**
+ * Check whether the personal files view can be shown
+ */
+function hasPersonalFilesView() {
+  const storageStats = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('files', 'storageStats', {
+    quota: -1
+  });
+  // Don't show this view if the user has no storage quota
+  return storageStats.quota !== 0;
+}
+/**
+ * Get the default files view
+ */
+function defaultView() {
+  const {
+    default_view: defaultView
+  } = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_0__.loadState)('files', 'config', {
+    default_view: 'files'
+  });
+  // the default view - only use the personal one if it is enabled
+  if (defaultView !== 'personal' || hasPersonalFilesView()) {
+    return defaultView;
+  }
+  return 'files';
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/utils/hashUtils.ts":
+/*!*******************************************!*\
+  !*** ./apps/files/src/utils/hashUtils.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   hashCode: () => (/* binding */ hashCode)
+/* harmony export */ });
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/**
+ * Simple non-secure hashing function similar to Java's `hashCode`
+ * @param str The string to hash
+ * @return {number} a non secure hash of the string
+ */
+const hashCode = function (str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i) | 0;
+  }
+  return hash >>> 0;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/utils/newNodeDialog.ts":
+/*!***********************************************!*\
+  !*** ./apps/files/src/utils/newNodeDialog.ts ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   newNodeName: () => (/* binding */ newNodeName)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _components_NewNodeDialog_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/NewNodeDialog.vue */ "./apps/files/src/components/NewNodeDialog.vue");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+/**
+ * Ask user for file or folder name
+ * @param defaultName Default name to use
+ * @param folderContent Nodes with in the current folder to check for unique name
+ * @param labels Labels to set on the dialog
+ * @return string if successful otherwise null if aborted
+ */
+function newNodeName(defaultName, folderContent) {
+  let labels = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  const contentNames = folderContent.map(node => node.basename);
+  return new Promise(resolve => {
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_0__.spawnDialog)(_components_NewNodeDialog_vue__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      ...labels,
+      defaultName,
+      otherNames: contentNames
+    }, folderName => {
+      resolve(folderName);
+    });
+  });
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/utils/permissions.ts":
+/*!*********************************************!*\
+  !*** ./apps/files/src/utils/permissions.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   isDownloadable: () => (/* binding */ isDownloadable)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+
+/**
+ * Check permissions on the node if it can be downloaded
+ * @param node The node to check
+ * @return True if downloadable, false otherwise
+ */
+function isDownloadable(node) {
+  if ((node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.READ) === 0) {
+    return false;
+  }
+  // check hide-download property of shares
+  if (node.attributes['hide-download'] === true || node.attributes['hide-download'] === 'true') {
+    return false;
+  }
+  // If the mount type is a share, ensure it got download permissions.
+  if (node.attributes['share-attributes']) {
+    const shareAttributes = JSON.parse(node.attributes['share-attributes'] || '[]');
+    const downloadAttribute = shareAttributes.find(_ref => {
+      let {
+        scope,
+        key
+      } = _ref;
+      return scope === 'permissions' && key === 'download';
+    });
+    if (downloadAttribute !== undefined) {
+      return downloadAttribute.value === true;
+    }
+  }
+  return true;
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/views/favorites.ts":
+/*!*******************************************!*\
+  !*** ./apps/files/src/views/favorites.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerFavoritesView: () => (/* binding */ registerFavoritesView)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/files/dav */ "./node_modules/@nextcloud/files/dist/dav.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_folder_outline_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/folder-outline.svg?raw */ "./node_modules/@mdi/svg/svg/folder-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_star_outline_svg_raw__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mdi/svg/svg/star-outline.svg?raw */ "./node_modules/@mdi/svg/svg/star-outline.svg?raw");
+/* harmony import */ var _services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../services/WebdavClient.ts */ "./apps/files/src/services/WebdavClient.ts");
+/* harmony import */ var _services_Favorites__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../services/Favorites */ "./apps/files/src/services/Favorites.ts");
+/* harmony import */ var _utils_hashUtils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/hashUtils */ "./apps/files/src/utils/hashUtils.ts");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../logger */ "./apps/files/src/logger.ts");
+
+
+
+
+
+
+
+
+
+
+const generateFavoriteFolderView = function (folder) {
+  let index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  return new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.View({
+    id: generateIdFromPath(folder.path),
+    name: folder.displayname,
+    icon: _mdi_svg_svg_folder_outline_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+    order: index,
+    params: {
+      dir: folder.path,
+      fileid: String(folder.fileid),
+      view: 'favorites'
+    },
+    parent: 'favorites',
+    columns: [],
+    getContents: _services_Favorites__WEBPACK_IMPORTED_MODULE_7__.getContents
+  });
+};
+const generateIdFromPath = function (path) {
+  return `favorite-${(0,_utils_hashUtils__WEBPACK_IMPORTED_MODULE_8__.hashCode)(path)}`;
+};
+const registerFavoritesView = async () => {
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.View({
+    id: 'favorites',
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Favorites'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'List of favorite files and folders.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'No favorites yet'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Files and folders you mark as favorite will show up here'),
+    icon: _mdi_svg_svg_star_outline_svg_raw__WEBPACK_IMPORTED_MODULE_5__,
+    order: 15,
+    columns: [],
+    getContents: _services_Favorites__WEBPACK_IMPORTED_MODULE_7__.getContents
+  }));
+  const favoriteFolders = (await (0,_nextcloud_files_dav__WEBPACK_IMPORTED_MODULE_2__.getFavoriteNodes)(_services_WebdavClient_ts__WEBPACK_IMPORTED_MODULE_6__.client)).filter(node => node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder);
+  const favoriteFoldersViews = favoriteFolders.map((folder, index) => generateFavoriteFolderView(folder, index));
+  _logger__WEBPACK_IMPORTED_MODULE_9__["default"].debug('Generating favorites view', {
+    favoriteFolders
+  });
+  favoriteFoldersViews.forEach(view => Navigation.register(view));
+  /**
+   * Update favorites navigation when a new folder is added
+   */
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:favorites:added', node => {
+    if (node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder) {
+      return;
+    }
+    // Sanity check
+    if (node.path === null || !node.root?.startsWith('/files')) {
+      _logger__WEBPACK_IMPORTED_MODULE_9__["default"].error('Favorite folder is not within user files root', {
+        node
+      });
+      return;
+    }
+    addToFavorites(node);
+  });
+  /**
+   * Remove favorites navigation when a folder is removed
+   */
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:favorites:removed', node => {
+    if (node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder) {
+      return;
+    }
+    // Sanity check
+    if (node.path === null || !node.root?.startsWith('/files')) {
+      _logger__WEBPACK_IMPORTED_MODULE_9__["default"].error('Favorite folder is not within user files root', {
+        node
+      });
+      return;
+    }
+    removePathFromFavorites(node.path);
+  });
+  /**
+   * Update favorites navigation when a folder is renamed
+   */
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:renamed', node => {
+    if (node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder) {
+      return;
+    }
+    if (node.attributes.favorite !== 1) {
+      return;
+    }
+    updateNodeFromFavorites(node);
+  });
+  /**
+   * Sort the favorites paths array and
+   * update the order property of the existing views
+   */
+  const updateAndSortViews = function () {
+    favoriteFolders.sort((a, b) => a.basename.localeCompare(b.basename, [(0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.getLanguage)(), (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.getCanonicalLocale)()], {
+      ignorePunctuation: true,
+      numeric: true,
+      usage: 'sort'
+    }));
+    favoriteFolders.forEach((folder, index) => {
+      const view = favoriteFoldersViews.find(view => view.id === generateIdFromPath(folder.path));
+      if (view) {
+        view.order = index;
+      }
+    });
+  };
+  // Add a folder to the favorites paths array and update the views
+  const addToFavorites = function (node) {
+    const view = generateFavoriteFolderView(node);
+    // Skip if already exists
+    if (favoriteFolders.find(folder => folder.path === node.path)) {
+      return;
+    }
+    // Update arrays
+    favoriteFolders.push(node);
+    favoriteFoldersViews.push(view);
+    // Update and sort views
+    updateAndSortViews();
+    Navigation.register(view);
+  };
+  // Remove a folder from the favorites paths array and update the views
+  const removePathFromFavorites = function (path) {
+    const id = generateIdFromPath(path);
+    const index = favoriteFolders.findIndex(folder => folder.path === path);
+    // Skip if not exists
+    if (index === -1) {
+      return;
+    }
+    // Update arrays
+    favoriteFolders.splice(index, 1);
+    favoriteFoldersViews.splice(index, 1);
+    // Update and sort views
+    Navigation.remove(id);
+    updateAndSortViews();
+  };
+  // Update a folder from the favorites paths array and update the views
+  const updateNodeFromFavorites = function (node) {
+    const favoriteFolder = favoriteFolders.find(folder => folder.fileid === node.fileid);
+    // Skip if it does not exists
+    if (favoriteFolder === undefined) {
+      return;
+    }
+    removePathFromFavorites(favoriteFolder.path);
+    addToFavorites(node);
+  };
+  updateAndSortViews();
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/views/files.ts":
+/*!***************************************!*\
+  !*** ./apps/files/src/views/files.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   VIEW_ID: () => (/* binding */ VIEW_ID),
+/* harmony export */   registerFilesView: () => (/* binding */ registerFilesView)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _services_Files_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/Files.ts */ "./apps/files/src/services/Files.ts");
+/* harmony import */ var _store_active_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/active.ts */ "./apps/files/src/store/active.ts");
+/* harmony import */ var _utils_filesViews_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/filesViews.ts */ "./apps/files/src/utils/filesViews.ts");
+/* harmony import */ var _mdi_svg_svg_folder_outline_svg_raw__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mdi/svg/svg/folder-outline.svg?raw */ "./node_modules/@mdi/svg/svg/folder-outline.svg?raw");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+const VIEW_ID = 'files';
+/**
+ * Register the files view to the navigation
+ */
+function registerFilesView() {
+  // we cache the query to allow more performant search (see below in event listener)
+  let oldQuery = '';
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: VIEW_ID,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'All files'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'List of your files and folders.'),
+    icon: _mdi_svg_svg_folder_outline_svg_raw__WEBPACK_IMPORTED_MODULE_6__,
+    // if this is the default view we set it at the top of the list - otherwise below it
+    order: (0,_utils_filesViews_ts__WEBPACK_IMPORTED_MODULE_5__.defaultView)() === VIEW_ID ? 0 : 5,
+    getContents: _services_Files_ts__WEBPACK_IMPORTED_MODULE_3__.getContents
+  }));
+  // when the search is updated
+  // and we are in the files view
+  // and there is already a folder fetched
+  // then we "update" it to trigger a new `getContents` call to search for the query while the filelist is filtered
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:search:updated', _ref => {
+    let {
+      scope,
+      query
+    } = _ref;
+    if (scope === 'globally') {
+      return;
+    }
+    if (Navigation.active?.id !== VIEW_ID) {
+      return;
+    }
+    // If neither the old query nor the new query is longer than the search minimum
+    // then we do not need to trigger a new PROPFIND / SEARCH
+    // so we skip unneccessary requests here
+    if (oldQuery.length < 3 && query.length < 3) {
+      return;
+    }
+    const store = (0,_store_active_ts__WEBPACK_IMPORTED_MODULE_4__.useActiveStore)();
+    if (!store.activeFolder) {
+      return;
+    }
+    oldQuery = query;
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.emit)('files:node:updated', store.activeFolder);
+  });
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/views/folderTree.ts":
+/*!********************************************!*\
+  !*** ./apps/files/src/views/folderTree.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerFolderTreeView: () => (/* binding */ registerFolderTreeView)
+/* harmony export */ });
+/* harmony import */ var p_queue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! p-queue */ "./node_modules/p-queue/dist/index.js");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_paths__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/paths */ "./node_modules/@nextcloud/paths/dist/index.mjs");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _mdi_svg_svg_folder_outline_svg_raw__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mdi/svg/svg/folder-outline.svg?raw */ "./node_modules/@mdi/svg/svg/folder-outline.svg?raw");
+/* harmony import */ var _mdi_svg_svg_folder_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mdi/svg/svg/folder-multiple-outline.svg?raw */ "./node_modules/@mdi/svg/svg/folder-multiple-outline.svg?raw");
+/* harmony import */ var _services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../services/FolderTree.ts */ "./apps/files/src/services/FolderTree.ts");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+
+const isFolderTreeEnabled = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_5__.loadState)('files', 'config', {
+  folder_tree: true
+}).folder_tree;
+let showHiddenFiles = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_5__.loadState)('files', 'config', {
+  show_hidden: false
+}).show_hidden;
+const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+const queue = new p_queue__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  concurrency: 5,
+  intervalCap: 5,
+  interval: 200
+});
+const registerQueue = new p_queue__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  concurrency: 5,
+  intervalCap: 5,
+  interval: 200
+});
+const registerTreeChildren = async function () {
+  let path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/';
+  await queue.add(async () => {
+    const nodes = await (0,_services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__.getFolderTreeNodes)(path);
+    const promises = nodes.map(node => registerQueue.add(() => registerNodeView(node)));
+    await Promise.allSettled(promises);
+  });
+};
+const getLoadChildViews = node => {
+  return async view => {
+    // @ts-expect-error Custom property on View instance
+    if (view.loading || view.loaded) {
+      return;
+    }
+    // @ts-expect-error Custom property
+    view.loading = true;
+    await registerTreeChildren(node.path);
+    // @ts-expect-error Custom property
+    view.loading = false;
+    // @ts-expect-error Custom property
+    view.loaded = true;
+    // @ts-expect-error No payload
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.emit)('files:navigation:updated');
+    // @ts-expect-error No payload
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.emit)('files:folder-tree:expanded');
+  };
+};
+const registerNodeView = node => {
+  const registeredView = Navigation.views.find(view => view.id === node.encodedSource);
+  if (registeredView) {
+    Navigation.remove(registeredView.id);
+  }
+  if (!showHiddenFiles && node.basename.startsWith('.')) {
+    return;
+  }
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: node.encodedSource,
+    parent: (0,_services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__.getSourceParent)(node.source),
+    // @ts-expect-error Casing differences
+    name: node.displayName ?? node.displayname ?? node.basename,
+    icon: _mdi_svg_svg_folder_outline_svg_raw__WEBPACK_IMPORTED_MODULE_6__,
+    getContents: _services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__.getContents,
+    loadChildViews: getLoadChildViews(node),
+    params: {
+      view: _services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__.folderTreeId,
+      fileid: String(node.fileid),
+      // Needed for matching exact routes
+      dir: node.path
+    }
+  }));
+};
+const removeFolderView = folder => {
+  const viewId = folder.encodedSource;
+  Navigation.remove(viewId);
+};
+const removeFolderViewSource = source => {
+  Navigation.remove(source);
+};
+const onCreateNode = node => {
+  if (node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileType.Folder) {
+    return;
+  }
+  registerNodeView(node);
+};
+const onDeleteNode = node => {
+  if (node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileType.Folder) {
+    return;
+  }
+  removeFolderView(node);
+};
+const onMoveNode = _ref => {
+  let {
+    node,
+    oldSource
+  } = _ref;
+  if (node.type !== _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.FileType.Folder) {
+    return;
+  }
+  removeFolderViewSource(oldSource);
+  registerNodeView(node);
+  const newPath = node.source.replace(_services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__.sourceRoot, '');
+  const oldPath = oldSource.replace(_services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__.sourceRoot, '');
+  const childViews = Navigation.views.filter(view => {
+    if (!view.params?.dir) {
+      return false;
+    }
+    if ((0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_4__.isSamePath)(view.params.dir, oldPath)) {
+      return false;
+    }
+    return view.params.dir.startsWith(oldPath);
+  });
+  for (const view of childViews) {
+    // @ts-expect-error FIXME Allow setting parent
+    view.parent = (0,_services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__.getSourceParent)(node.source);
+    // @ts-expect-error dir param is defined
+    view.params.dir = view.params.dir.replace(oldPath, newPath);
+  }
+};
+const onUserConfigUpdated = async _ref2 => {
+  let {
+    key,
+    value
+  } = _ref2;
+  if (key === 'show_hidden') {
+    showHiddenFiles = value;
+    await registerTreeChildren();
+    // @ts-expect-error No payload
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.emit)('files:folder-tree:initialized');
+  }
+};
+const registerTreeRoot = () => {
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: _services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__.folderTreeId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files', 'Folder tree'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.translate)('files', 'List of your files and folders.'),
+    icon: _mdi_svg_svg_folder_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_7__,
+    order: 50,
+    // Below all other views
+    getContents: _services_FolderTree_ts__WEBPACK_IMPORTED_MODULE_8__.getContents
+  }));
+};
+const registerFolderTreeView = async () => {
+  if (!isFolderTreeEnabled) {
+    return;
+  }
+  registerTreeRoot();
+  await registerTreeChildren();
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:created', onCreateNode);
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:deleted', onDeleteNode);
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:node:moved', onMoveNode);
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.subscribe)('files:config:updated', onUserConfigUpdated);
+  // @ts-expect-error No payload
+  (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_3__.emit)('files:folder-tree:initialized');
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/views/personal-files.ts":
+/*!************************************************!*\
+  !*** ./apps/files/src/views/personal-files.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   VIEW_ID: () => (/* binding */ VIEW_ID),
+/* harmony export */   registerPersonalFilesView: () => (/* binding */ registerPersonalFilesView)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _services_PersonalFiles_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/PersonalFiles.ts */ "./apps/files/src/services/PersonalFiles.ts");
+/* harmony import */ var _utils_filesViews_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/filesViews.ts */ "./apps/files/src/utils/filesViews.ts");
+/* harmony import */ var _mdi_svg_svg_account_outline_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/account-outline.svg?raw */ "./node_modules/@mdi/svg/svg/account-outline.svg?raw");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+const VIEW_ID = 'personal';
+/**
+ * Register the personal files view if allowed
+ */
+function registerPersonalFilesView() {
+  if (!(0,_utils_filesViews_ts__WEBPACK_IMPORTED_MODULE_3__.hasPersonalFilesView)()) {
+    return;
+  }
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: VIEW_ID,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.t)('files', 'Personal files'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.t)('files', 'List of your files and folders that are not shared.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.t)('files', 'No personal files found'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.t)('files', 'Files that are not shared will show up here.'),
+    icon: _mdi_svg_svg_account_outline_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+    // if this is the default view we set it at the top of the list - otherwise default position of fifth
+    order: (0,_utils_filesViews_ts__WEBPACK_IMPORTED_MODULE_3__.defaultView)() === VIEW_ID ? 0 : 5,
+    getContents: _services_PersonalFiles_ts__WEBPACK_IMPORTED_MODULE_2__.getContents
+  }));
+}
+
+/***/ }),
+
+/***/ "./apps/files/src/views/recent.ts":
+/*!****************************************!*\
+  !*** ./apps/files/src/views/recent.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_history_svg_raw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mdi/svg/svg/history.svg?raw */ "./node_modules/@mdi/svg/svg/history.svg?raw");
+/* harmony import */ var _services_Recent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/Recent */ "./apps/files/src/services/Recent.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (() => {
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.View({
+    id: 'recent',
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files', 'Recent'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files', 'List of recently modified files and folders.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files', 'No recently modified files'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate)('files', 'Files and folders you recently modified will show up here.'),
+    icon: _mdi_svg_svg_history_svg_raw__WEBPACK_IMPORTED_MODULE_2__,
+    order: 10,
+    defaultSortKey: 'mtime',
+    getContents: _services_Recent__WEBPACK_IMPORTED_MODULE_3__.getContents
+  }));
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/views/search.ts":
+/*!****************************************!*\
+  !*** ./apps/files/src/views/search.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   VIEW_ID: () => (/* binding */ VIEW_ID),
+/* harmony export */   registerSearchView: () => (/* binding */ registerSearchView)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _services_Search_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/Search.ts */ "./apps/files/src/services/Search.ts");
+/* harmony import */ var _files_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./files.ts */ "./apps/files/src/views/files.ts");
+/* harmony import */ var _mdi_svg_svg_magnify_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/magnify.svg?raw */ "./node_modules/@mdi/svg/svg/magnify.svg?raw");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const VIEW_ID = 'search';
+/**
+ * Register the search-in-files view
+ */
+function registerSearchView() {
+  let instance;
+  let view;
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.View({
+    id: VIEW_ID,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Search'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files', 'Search results within your files.'),
+    async emptyView(el) {
+      if (!view) {
+        view = (await Promise.all(/*! import() */[__webpack_require__.e("core-common"), __webpack_require__.e("apps_files_src_views_SearchEmptyView_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./SearchEmptyView.vue */ "./apps/files/src/views/SearchEmptyView.vue"))).default;
+      } else {
+        instance.$destroy();
+      }
+      instance = new vue__WEBPACK_IMPORTED_MODULE_5__["default"](view);
+      instance.$mount(el);
+    },
+    icon: _mdi_svg_svg_magnify_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+    order: 10,
+    parent: _files_ts__WEBPACK_IMPORTED_MODULE_3__.VIEW_ID,
+    // it should be shown expanded
+    expanded: true,
+    // this view is hidden by default and only shown when active
+    hidden: true,
+    getContents: _services_Search_ts__WEBPACK_IMPORTED_MODULE_2__.getContents
+  }));
+}
+
+/***/ }),
+
+/***/ "./apps/files_trashbin/src/files_views/columns.ts":
+/*!********************************************************!*\
+  !*** ./apps/files_trashbin/src/files_views/columns.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   deleted: () => (/* binding */ deleted),
+/* harmony export */   deletedBy: () => (/* binding */ deletedBy),
+/* harmony export */   originalLocation: () => (/* binding */ originalLocation)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_paths__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/paths */ "./node_modules/@nextcloud/paths/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_vue_components_NcUserBubble__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/vue/components/NcUserBubble */ "./node_modules/@nextcloud/vue/dist/Components/NcUserBubble.mjs");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+const originalLocation = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Column({
+  id: 'files_trashbin--original-location',
+  title: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files_trashbin', 'Original location'),
+  render(node) {
+    const originalLocation = parseOriginalLocation(node);
+    const span = document.createElement('span');
+    span.title = originalLocation;
+    span.textContent = originalLocation;
+    return span;
+  },
+  sort(nodeA, nodeB) {
+    const locationA = parseOriginalLocation(nodeA);
+    const locationB = parseOriginalLocation(nodeB);
+    return locationA.localeCompare(locationB, [(0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.getLanguage)(), (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.getCanonicalLocale)()], {
+      numeric: true,
+      usage: 'sort'
+    });
+  }
+});
+const deletedBy = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Column({
+  id: 'files_trashbin--deleted-by',
+  title: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files_trashbin', 'Deleted by'),
+  render(node) {
+    const {
+      userId,
+      displayName,
+      label
+    } = parseDeletedBy(node);
+    if (label) {
+      const span = document.createElement('span');
+      span.textContent = label;
+      return span;
+    }
+    const UserBubble = vue__WEBPACK_IMPORTED_MODULE_4__["default"].extend(_nextcloud_vue_components_NcUserBubble__WEBPACK_IMPORTED_MODULE_5__["default"]);
+    const propsData = {
+      size: 32,
+      user: userId ?? undefined,
+      displayName: displayName ?? userId
+    };
+    const userBubble = new UserBubble({
+      propsData
+    }).$mount().$el;
+    return userBubble;
+  },
+  sort(nodeA, nodeB) {
+    const deletedByA = parseDeletedBy(nodeA);
+    const deletedbyALabel = deletedByA.label ?? deletedByA.displayName ?? deletedByA.userId;
+    const deletedByB = parseDeletedBy(nodeB);
+    const deletedByBLabel = deletedByB.label ?? deletedByB.displayName ?? deletedByB.userId;
+    // label is set if uid and display name are unset - if label is unset at least uid or display name is set.
+    return deletedbyALabel.localeCompare(deletedByBLabel, [(0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.getLanguage)(), (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.getCanonicalLocale)()], {
+      numeric: true,
+      usage: 'sort'
+    });
+  }
+});
+const deleted = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Column({
+  id: 'files_trashbin--deleted',
+  title: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files_trashbin', 'Deleted'),
+  render(node) {
+    const deletionTime = node.attributes?.['trashbin-deletion-time'] || (node?.mtime?.getTime() ?? 0) / 1000;
+    const span = document.createElement('span');
+    if (deletionTime) {
+      const formatter = Intl.DateTimeFormat([(0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.getCanonicalLocale)()], {
+        dateStyle: 'long',
+        timeStyle: 'short'
+      });
+      const timestamp = new Date(deletionTime * 1000);
+      span.title = formatter.format(timestamp);
+      span.textContent = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.formatRelativeTime)(timestamp, {
+        ignoreSeconds: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'few seconds ago')
+      });
+      return span;
+    }
+    // Unknown deletion time
+    span.textContent = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files_trashbin', 'A long time ago');
+    return span;
+  },
+  sort(nodeA, nodeB) {
+    // deletion time is a unix timestamp while mtime is a JS Date -> we need to align the numbers (seconds vs milliseconds)
+    const deletionTimeA = nodeA.attributes?.['trashbin-deletion-time'] || (nodeA?.mtime?.getTime() ?? 0) / 1000;
+    const deletionTimeB = nodeB.attributes?.['trashbin-deletion-time'] || (nodeB?.mtime?.getTime() ?? 0) / 1000;
+    return deletionTimeB - deletionTimeA;
+  }
+});
+/**
+ * Get the original file location of a trashbin file.
+ *
+ * @param node The node to parse
+ */
+function parseOriginalLocation(node) {
+  const path = stringOrNull(node.attributes?.['trashbin-original-location']);
+  if (!path) {
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files_trashbin', 'Unknown');
+  }
+  const dir = (0,_nextcloud_paths__WEBPACK_IMPORTED_MODULE_3__.dirname)(path);
+  if (dir === path) {
+    // Node is in root folder
+    return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files_trashbin', 'All files');
+  }
+  return dir.replace(/^\//, '');
+}
+/**
+ * Parse a trashbin file to get information about the user that deleted the file.
+ *
+ * @param node The node to parse
+ */
+function parseDeletedBy(node) {
+  const userId = stringOrNull(node.attributes?.['trashbin-deleted-by-id']);
+  const displayName = stringOrNull(node.attributes?.['trashbin-deleted-by-display-name']);
+  let label;
+  const currentUserId = (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid;
+  if (userId === currentUserId) {
+    label = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files_trashbin', 'You');
+  }
+  if (!userId && !displayName) {
+    label = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files_trashbin', 'Unknown');
+  }
+  return {
+    userId,
+    displayName,
+    label
+  };
+}
+/**
+ * If the attribute is given it will be stringified and returned - otherwise null is returned.
+ *
+ * @param attribute The attribute to check
+ */
+function stringOrNull(attribute) {
+  if (attribute) {
+    return String(attribute);
+  }
+  return null;
+}
+
+/***/ }),
+
+/***/ "./apps/files_trashbin/src/files_views/trashbinView.ts":
+/*!*************************************************************!*\
+  !*** ./apps/files_trashbin/src/files_views/trashbinView.ts ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   TRASHBIN_VIEW_ID: () => (/* binding */ TRASHBIN_VIEW_ID),
+/* harmony export */   trashbinView: () => (/* binding */ trashbinView)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _columns_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./columns.ts */ "./apps/files_trashbin/src/files_views/columns.ts");
+/* harmony import */ var _services_trashbin_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/trashbin.ts */ "./apps/files_trashbin/src/services/trashbin.ts");
+/* harmony import */ var _mdi_svg_svg_trash_can_outline_svg_raw__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mdi/svg/svg/trash-can-outline.svg?raw */ "./node_modules/@mdi/svg/svg/trash-can-outline.svg?raw");
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+const TRASHBIN_VIEW_ID = 'trashbin';
+const trashbinView = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.View({
+  id: TRASHBIN_VIEW_ID,
+  name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files_trashbin', 'Deleted files'),
+  caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files_trashbin', 'List of files that have been deleted.'),
+  emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files_trashbin', 'No deleted files'),
+  emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('files_trashbin', 'Files and folders you have deleted will show up here'),
+  icon: _mdi_svg_svg_trash_can_outline_svg_raw__WEBPACK_IMPORTED_MODULE_4__,
+  order: 50,
+  sticky: true,
+  defaultSortKey: 'deleted',
+  columns: [_columns_ts__WEBPACK_IMPORTED_MODULE_2__.originalLocation, _columns_ts__WEBPACK_IMPORTED_MODULE_2__.deletedBy, _columns_ts__WEBPACK_IMPORTED_MODULE_2__.deleted],
+  getContents: _services_trashbin_ts__WEBPACK_IMPORTED_MODULE_3__.getContents
+});
+
+/***/ }),
+
+/***/ "./apps/files_trashbin/src/services/client.ts":
+/*!****************************************************!*\
+  !*** ./apps/files_trashbin/src/services/client.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   client: () => (/* binding */ client),
+/* harmony export */   rootPath: () => (/* binding */ rootPath)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+// init webdav client
+const rootPath = `/trashbin/${(0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid}/trash`;
+const client = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davGetClient)();
+
+/***/ }),
+
+/***/ "./apps/files_trashbin/src/services/trashbin.ts":
+/*!******************************************************!*\
+  !*** ./apps/files_trashbin/src/services/trashbin.ts ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContents: () => (/* binding */ getContents)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./client */ "./apps/files_trashbin/src/services/client.ts");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+
+
+
+const data = `<?xml version="1.0"?>
+<d:propfind ${(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.getDavNameSpaces)()}>
+	<d:prop>
+		<nc:trashbin-deletion-time />
+		<nc:trashbin-original-location />
+		<nc:trashbin-title />
+		<nc:trashbin-deleted-by-id />
+		<nc:trashbin-deleted-by-display-name />
+		${(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.getDavProperties)()}
+	</d:prop>
+</d:propfind>`;
+const resultToNode = stat => {
+  const node = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.davResultToNode)(stat, _client__WEBPACK_IMPORTED_MODULE_1__.rootPath);
+  node.attributes.previewUrl = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_2__.generateUrl)('/apps/files_trashbin/preview?fileId={fileid}&x=32&y=32', {
+    fileid: node.fileid
+  });
+  return node;
+};
+const getContents = async function () {
+  let path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/';
+  const contentsResponse = await _client__WEBPACK_IMPORTED_MODULE_1__.client.getDirectoryContents(`${_client__WEBPACK_IMPORTED_MODULE_1__.rootPath}${path}`, {
+    details: true,
+    data,
+    includeSelf: true
+  });
+  const contents = contentsResponse.data.map(resultToNode);
+  const [folder] = contents.splice(contents.findIndex(node => node.path === path), 1);
+  return {
+    folder: folder,
+    contents
+  };
+};
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/account-outline.svg?raw":
+/*!***********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/account-outline.svg?raw ***!
+  \***********************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-account-outline\" viewBox=\"0 0 24 24\"><path d=\"M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,6A2,2 0 0,0 10,8A2,2 0 0,0 12,10A2,2 0 0,0 14,8A2,2 0 0,0 12,6M12,13C14.67,13 20,14.33 20,17V20H4V17C4,14.33 9.33,13 12,13M12,14.9C9.03,14.9 5.9,16.36 5.9,17V18.1H18.1V17C18.1,16.36 14.97,14.9 12,14.9Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/arrow-down.svg?raw":
+/*!******************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/arrow-down.svg?raw ***!
+  \******************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-arrow-down\" viewBox=\"0 0 24 24\"><path d=\"M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/autorenew.svg?raw":
+/*!*****************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/autorenew.svg?raw ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-autorenew\" viewBox=\"0 0 24 24\"><path d=\"M12,6V9L16,5L12,1V4A8,8 0 0,0 4,12C4,13.57 4.46,15.03 5.24,16.26L6.7,14.8C6.25,13.97 6,13 6,12A6,6 0 0,1 12,6M18.76,7.74L17.3,9.2C17.74,10.04 18,11 18,12A6,6 0 0,1 12,18V15L8,19L12,23V20A8,8 0 0,0 20,12C20,10.43 19.54,8.97 18.76,7.74Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/calendar.svg?raw":
+/*!****************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/calendar.svg?raw ***!
+  \****************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-calendar\" viewBox=\"0 0 24 24\"><path d=\"M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/file-document.svg?raw":
+/*!*********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/file-document.svg?raw ***!
+  \*********************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-file-document\" viewBox=\"0 0 24 24\"><path d=\"M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/file-pdf-box.svg?raw":
+/*!********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/file-pdf-box.svg?raw ***!
+  \********************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-file-pdf-box\" viewBox=\"0 0 24 24\"><path d=\"M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M9.5 11.5C9.5 12.3 8.8 13 8 13H7V15H5.5V9H8C8.8 9 9.5 9.7 9.5 10.5V11.5M14.5 13.5C14.5 14.3 13.8 15 13 15H10.5V9H13C13.8 9 14.5 9.7 14.5 10.5V13.5M18.5 10.5H17V11.5H18.5V13H17V15H15.5V9H18.5V10.5M12 10.5H13V13.5H12V10.5M7 10.5H8V11.5H7V10.5Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/file-presentation-box.svg?raw":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/file-presentation-box.svg?raw ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-file-presentation-box\" viewBox=\"0 0 24 24\"><path d=\"M19,16H5V8H19M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/file-table-box.svg?raw":
+/*!**********************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/file-table-box.svg?raw ***!
+  \**********************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-file-table-box\" viewBox=\"0 0 24 24\"><path d=\"M19 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.89 20.1 3 19 3M9 18H6V16H9V18M9 15H6V13H9V15M9 12H6V10H9V12M13 18H10V16H13V18M13 15H10V13H13V15M13 12H10V10H13V12Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/folder-move-outline.svg?raw":
+/*!***************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/folder-move-outline.svg?raw ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-folder-move-outline\" viewBox=\"0 0 24 24\"><path d=\"M20 18H4V8H20V18M12 6L10 4H4C2.9 4 2 4.89 2 6V18C2 19.11 2.9 20 4 20H20C21.11 20 22 19.11 22 18V8C22 6.9 21.11 6 20 6H12M11 14V12H15V9L19 13L15 17V14H11Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/folder-plus-outline.svg?raw":
+/*!***************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/folder-plus-outline.svg?raw ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-folder-plus-outline\" viewBox=\"0 0 24 24\"><path d=\"M13 19C13 19.34 13.04 19.67 13.09 20H4C2.9 20 2 19.11 2 18V6C2 4.89 2.89 4 4 4H10L12 6H20C21.1 6 22 6.89 22 8V13.81C21.39 13.46 20.72 13.22 20 13.09V8H4V18H13.09C13.04 18.33 13 18.66 13 19M20 18V15H18V18H15V20H18V23H20V20H23V18H20Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/folder.svg?raw":
+/*!**************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/folder.svg?raw ***!
+  \**************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-folder\" viewBox=\"0 0 24 24\"><path d=\"M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/history.svg?raw":
+/*!***************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/history.svg?raw ***!
+  \***************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-history\" viewBox=\"0 0 24 24\"><path d=\"M13.5,8H12V13L16.28,15.54L17,14.33L13.5,12.25V8M13,3A9,9 0 0,0 4,12H1L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/image.svg?raw":
+/*!*************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/image.svg?raw ***!
+  \*************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-image\" viewBox=\"0 0 24 24\"><path d=\"M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/laptop.svg?raw":
+/*!**************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/laptop.svg?raw ***!
+  \**************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-laptop\" viewBox=\"0 0 24 24\"><path d=\"M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/movie.svg?raw":
+/*!*************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/movie.svg?raw ***!
+  \*************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-movie\" viewBox=\"0 0 24 24\"><path d=\"M18,4L20,8H17L15,4H13L15,8H12L10,4H8L10,8H7L5,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V4H18Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/music.svg?raw":
+/*!*************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/music.svg?raw ***!
+  \*************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-music\" viewBox=\"0 0 24 24\"><path d=\"M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V6L21,3Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/network-off.svg?raw":
+/*!*******************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/network-off.svg?raw ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-network-off\" viewBox=\"0 0 24 24\"><path d=\"M1,5.27L5,9.27V15A2,2 0 0,0 7,17H11V19H10A1,1 0 0,0 9,20H2V22H9A1,1 0 0,0 10,23H14A1,1 0 0,0 15,22H17.73L19.73,24L21,22.72L2.28,4L1,5.27M15,20A1,1 0 0,0 14,19H13V17.27L15.73,20H15M17.69,16.87L5.13,4.31C5.41,3.55 6.14,3 7,3H17A2,2 0 0,1 19,5V15C19,15.86 18.45,16.59 17.69,16.87M22,20V21.18L20.82,20H22Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/plus.svg?raw":
+/*!************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/plus.svg?raw ***!
+  \************************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-plus\" viewBox=\"0 0 24 24\"><path d=\"M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/web.svg?raw":
+/*!***********************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/web.svg?raw ***!
+  \***********************************************/
+/***/ ((module) => {
+
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-web\" viewBox=\"0 0 24 24\"><path d=\"M16.36,14C16.44,13.34 16.5,12.68 16.5,12C16.5,11.32 16.44,10.66 16.36,10H19.74C19.9,10.64 20,11.31 20,12C20,12.69 19.9,13.36 19.74,14M14.59,19.56C15.19,18.45 15.65,17.25 15.97,16H18.92C17.96,17.65 16.43,18.93 14.59,19.56M14.34,14H9.66C9.56,13.34 9.5,12.68 9.5,12C9.5,11.32 9.56,10.65 9.66,10H14.34C14.43,10.65 14.5,11.32 14.5,12C14.5,12.68 14.43,13.34 14.34,14M12,19.96C11.17,18.76 10.5,17.43 10.09,16H13.91C13.5,17.43 12.83,18.76 12,19.96M8,8H5.08C6.03,6.34 7.57,5.06 9.4,4.44C8.8,5.55 8.35,6.75 8,8M5.08,16H8C8.35,17.25 8.8,18.45 9.4,19.56C7.57,18.93 6.03,17.65 5.08,16M4.26,14C4.1,13.36 4,12.69 4,12C4,11.31 4.1,10.64 4.26,10H7.64C7.56,10.66 7.5,11.32 7.5,12C7.5,12.68 7.56,13.34 7.64,14M12,4.03C12.83,5.23 13.5,6.57 13.91,8H10.09C10.5,6.57 11.17,5.23 12,4.03M18.92,8H15.97C15.65,6.75 15.19,5.55 14.59,4.44C16.43,5.07 17.96,6.34 18.92,8M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts":
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=script&setup=true&lang=ts ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/components/NcActions */ "./node_modules/@nextcloud/vue/dist/Components/NcActions.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionButton */ "./node_modules/@nextcloud/vue/dist/Components/NcActionButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcActionSeparator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionSeparator */ "./node_modules/@nextcloud/vue/dist/Components/NcActionSeparator.mjs");
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'FileListFilter',
+  props: {
+    isActive: {
+      type: Boolean,
+      required: true
+    },
+    filterName: {
+      type: String,
+      required: true
+    }
+  },
+  emits: ["reset-filter"],
+  setup(__props) {
+    return {
+      __sfc: true,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t,
+      NcActions: _nextcloud_vue_components_NcActions__WEBPACK_IMPORTED_MODULE_2__["default"],
+      NcActionButton: _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_3__["default"],
+      NcActionSeparator: _nextcloud_vue_components_NcActionSeparator__WEBPACK_IMPORTED_MODULE_4__["default"]
+    };
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=script&lang=ts":
+/*!*******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=script&lang=ts ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mdi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/js */ "./node_modules/@mdi/js/mdi.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionButton */ "./node_modules/@nextcloud/vue/dist/Components/NcActionButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcIconSvgWrapper */ "./node_modules/@nextcloud/vue/dist/Components/NcIconSvgWrapper.mjs");
+/* harmony import */ var _FileListFilter_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FileListFilter.vue */ "./apps/files/src/components/FileListFilter/FileListFilter.vue");
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_2__.defineComponent)({
+  components: {
+    FileListFilter: _FileListFilter_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    NcActionButton: _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_3__["default"],
+    NcIconSvgWrapper: _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  props: {
+    timePresets: {
+      type: Array,
+      required: true
+    }
+  },
+  setup() {
+    return {
+      // icons used in template
+      mdiCalendarRangeOutline: _mdi_js__WEBPACK_IMPORTED_MODULE_0__.mdiCalendarRangeOutline
+    };
+  },
+  data() {
+    return {
+      selectedOption: null,
+      timeRangeEnd: null,
+      timeRangeStart: null
+    };
+  },
+  computed: {
+    /**
+     * Is the filter currently active
+     */
+    isActive() {
+      return this.selectedOption !== null;
+    },
+    currentPreset() {
+      return this.timePresets.find(_ref => {
+        let {
+          id
+        } = _ref;
+        return id === this.selectedOption;
+      }) ?? null;
+    }
+  },
+  watch: {
+    selectedOption() {
+      if (this.selectedOption === null) {
+        this.$emit('update:preset');
+      } else {
+        const preset = this.currentPreset;
+        this.$emit('update:preset', preset);
+      }
+    }
+  },
+  methods: {
+    t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate,
+    resetFilter() {
+      this.selectedOption = null;
+      this.timeRangeEnd = null;
+      this.timeRangeStart = null;
+    }
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=script&setup=true&lang=ts":
+/*!******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=script&setup=true&lang=ts ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _store_index_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../store/index.ts */ "./apps/files/src/store/index.ts");
+/* harmony import */ var _store_search_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../store/search.ts */ "./apps/files/src/store/search.ts");
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'FileListFilterToSearch',
+  setup(__props, _ref) {
+    let {
+      expose
+    } = _ref;
+    const isVisible = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    expose({
+      hideButton,
+      showButton
+    });
+    /**
+     * Hide the button - called by the filter class
+     */
+    function hideButton() {
+      isVisible.value = false;
+    }
+    /**
+     * Show the button - called by the filter class
+     */
+    function showButton() {
+      isVisible.value = true;
+    }
+    /**
+     * Button click handler to make the filtering a global search.
+     */
+    function onClick() {
+      const searchStore = (0,_store_search_ts__WEBPACK_IMPORTED_MODULE_4__.useSearchStore)((0,_store_index_ts__WEBPACK_IMPORTED_MODULE_3__.getPinia)());
+      searchStore.scope = 'globally';
+    }
+    return {
+      __sfc: true,
+      isVisible,
+      hideButton,
+      showButton,
+      onClick,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t,
+      NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_2__["default"]
+    };
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=script&lang=ts":
+/*!***************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=script&lang=ts ***!
+  \***************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _mdi_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @mdi/js */ "./node_modules/@mdi/js/mdi.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/vue/components/NcActionButton */ "./node_modules/@nextcloud/vue/dist/Components/NcActionButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcIconSvgWrapper */ "./node_modules/@nextcloud/vue/dist/Components/NcIconSvgWrapper.mjs");
+/* harmony import */ var _FileListFilter_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FileListFilter.vue */ "./apps/files/src/components/FileListFilter/FileListFilter.vue");
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_2__.defineComponent)({
+  name: 'FileListFilterType',
+  components: {
+    FileListFilter: _FileListFilter_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    NcActionButton: _nextcloud_vue_components_NcActionButton__WEBPACK_IMPORTED_MODULE_3__["default"],
+    NcIconSvgWrapper: _nextcloud_vue_components_NcIconSvgWrapper__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  props: {
+    presets: {
+      type: Array,
+      default: () => []
+    },
+    typePresets: {
+      type: Array,
+      required: true
+    }
+  },
+  setup() {
+    return {
+      mdiFileOutline: _mdi_js__WEBPACK_IMPORTED_MODULE_0__.mdiFileOutline,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.translate
+    };
+  },
+  data() {
+    return {
+      selectedOptions: []
+    };
+  },
+  computed: {
+    isActive() {
+      return this.selectedOptions.length > 0;
+    }
+  },
+  watch: {
+    /** Reset selected options if property is changed */
+    presets() {
+      this.selectedOptions = this.presets ?? [];
+    },
+    selectedOptions(newValue, oldValue) {
+      if (this.selectedOptions.length === 0) {
+        if (oldValue.length !== 0) {
+          this.$emit('update:presets');
+        }
+      } else {
+        this.$emit('update:presets', this.selectedOptions);
+      }
+    }
+  },
+  mounted() {
+    this.selectedOptions = this.presets ?? [];
+  },
+  methods: {
+    resetFilter() {
+      this.selectedOptions = [];
+    },
+    /**
+     * Toggle option from selected option
+     * @param option The option to toggle
+     */
+    toggleOption(option) {
+      const idx = this.selectedOptions.indexOf(option);
+      if (idx !== -1) {
+        this.selectedOptions.splice(idx, 1);
+      } else {
+        this.selectedOptions.push(option);
+      }
+    }
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=script&setup=true&lang=ts":
+/*!******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=script&setup=true&lang=ts ***!
+  \******************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! path */ "./node_modules/path/path.js");
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _utils_filenameValidity_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/filenameValidity.ts */ "./apps/files/src/utils/filenameValidity.ts");
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcDialog__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/vue/components/NcDialog */ "./node_modules/@nextcloud/vue/dist/Components/NcDialog.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/components/NcTextField */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/vue/components/NcNoteCard */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.mjs");
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  __name: 'NewNodeDialog',
+  props: {
+    /**
+     * The name to be used by default
+     */
+    defaultName: {
+      type: String,
+      default: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'New folder')
+    },
+    /**
+     * Other files that are in the current directory
+     */
+    otherNames: {
+      type: Array,
+      default: () => []
+    },
+    /**
+     * Open state of the dialog
+     */
+    open: {
+      type: Boolean,
+      default: true
+    },
+    /**
+     * Dialog name
+     */
+    name: {
+      type: String,
+      default: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'Create new folder')
+    },
+    /**
+     * Input label
+     */
+    label: {
+      type: String,
+      default: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'Folder name')
+    }
+  },
+  emits: ["close"],
+  setup(__props, _ref) {
+    let {
+      emit
+    } = _ref;
+    const props = __props;
+    const localDefaultName = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(props.defaultName);
+    const nameInput = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
+    const formElement = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)();
+    const validity = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    const isHiddenFileName = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+      // Check if the name starts with a dot, which indicates a hidden file
+      return localDefaultName.value.trim().startsWith('.');
+    });
+    /**
+     * Focus the filename input field
+     */
+    function focusInput() {
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => {
+        // get the input element
+        const input = nameInput.value?.$el.querySelector('input');
+        if (!props.open || !input) {
+          return;
+        }
+        // length of the basename
+        const length = localDefaultName.value.length - (0,path__WEBPACK_IMPORTED_MODULE_3__.extname)(localDefaultName.value).length;
+        // focus the input
+        input.focus();
+        // and set the selection to the basename (name without extension)
+        input.setSelectionRange(0, length);
+      });
+    }
+    /**
+     * Trigger submit on the form
+     */
+    function submit() {
+      formElement.value?.requestSubmit();
+    }
+    // Reset local name on props change
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(() => [props.defaultName, props.otherNames], () => {
+      localDefaultName.value = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getUniqueName)(props.defaultName, props.otherNames).trim();
+    });
+    // Validate the local name
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watchEffect)(() => {
+      if (props.otherNames.includes(localDefaultName.value.trim())) {
+        validity.value = (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'This name is already in use.');
+      } else {
+        validity.value = (0,_utils_filenameValidity_ts__WEBPACK_IMPORTED_MODULE_4__.getFilenameValidity)(localDefaultName.value.trim());
+      }
+      const input = nameInput.value?.$el.querySelector('input');
+      if (input) {
+        input.setCustomValidity(validity.value);
+        input.reportValidity();
+      }
+    });
+    // Ensure the input is focussed even if the dialog is already mounted but not open
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(() => props.open, () => {
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => {
+        focusInput();
+      });
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(() => {
+      // on mounted lets use the unique name
+      localDefaultName.value = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getUniqueName)(localDefaultName.value, props.otherNames).trim();
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => focusInput());
+    });
+    return {
+      __sfc: true,
+      props,
+      emit,
+      localDefaultName,
+      nameInput,
+      formElement,
+      validity,
+      isHiddenFileName,
+      focusInput,
+      submit,
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t,
+      NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_5__["default"],
+      NcDialog: _nextcloud_vue_components_NcDialog__WEBPACK_IMPORTED_MODULE_6__["default"],
+      NcTextField: _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_7__["default"],
+      NcNoteCard: _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_8__["default"]
+    };
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=template&id=5c291778&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcActions, {
+    attrs: {
+      "force-menu": "",
+      type: _vm.isActive ? "secondary" : "tertiary",
+      "menu-name": _vm.filterName
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_vm._t("icon")];
+      },
+      proxy: true
+    }], null, true)
+  }, [_vm._v(" "), _vm._t("default"), _vm._v(" "), _vm.isActive ? [_c(_setup.NcActionSeparator), _vm._v(" "), _c(_setup.NcActionButton, {
+    staticClass: "files-list-filter__clear-button",
+    attrs: {
+      "close-after-click": ""
+    },
+    on: {
+      click: function ($event) {
+        return _vm.$emit("reset-filter");
+      }
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_setup.t("files", "Clear filter")) + "\n\t\t")])] : _vm._e()], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=template&id=f47dfc3e&scoped=true":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=template&id=f47dfc3e&scoped=true ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("FileListFilter", {
+    attrs: {
+      "is-active": _vm.isActive,
+      "filter-name": _vm.t("files", "Modified")
+    },
+    on: {
+      "reset-filter": _vm.resetFilter
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("NcIconSvgWrapper", {
+          attrs: {
+            path: _vm.mdiCalendarRangeOutline
+          }
+        })];
+      },
+      proxy: true
+    }])
+  }, [_vm._v(" "), _vm._l(_vm.timePresets, function (preset) {
+    return _c("NcActionButton", {
+      key: preset.id,
+      attrs: {
+        type: "radio",
+        "close-after-click": "",
+        "model-value": _vm.selectedOption,
+        value: preset.id
+      },
+      on: {
+        "update:modelValue": function ($event) {
+          _vm.selectedOption = $event;
+        },
+        "update:model-value": function ($event) {
+          _vm.selectedOption = $event;
+        }
+      }
+    }, [_vm._v("\n\t\t" + _vm._s(preset.label) + "\n\t")]);
+  })], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=template&id=032b2a1b":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterToSearch.vue?vue&type=template&id=032b2a1b ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcButton, {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _setup.isVisible,
+      expression: "isVisible"
+    }],
+    on: {
+      click: _setup.onClick
+    }
+  }, [_vm._v("\n\t" + _vm._s(_setup.t("files", "Search everywhere")) + "\n")]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=template&id=6c0e6dd2":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=template&id=6c0e6dd2 ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("FileListFilter", {
+    staticClass: "file-list-filter-type",
+    attrs: {
+      "is-active": _vm.isActive,
+      "filter-name": _vm.t("files", "Type")
+    },
+    on: {
+      "reset-filter": _vm.resetFilter
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_c("NcIconSvgWrapper", {
+          attrs: {
+            path: _vm.mdiFileOutline
+          }
+        })];
+      },
+      proxy: true
+    }])
+  }, [_vm._v(" "), _vm._l(_vm.typePresets, function (fileType) {
+    return _c("NcActionButton", {
+      key: fileType.id,
+      attrs: {
+        type: "checkbox",
+        "model-value": _vm.selectedOptions.includes(fileType)
+      },
+      on: {
+        click: function ($event) {
+          return _vm.toggleOption(fileType);
+        }
+      },
+      scopedSlots: _vm._u([{
+        key: "icon",
+        fn: function () {
+          return [_c("NcIconSvgWrapper", {
+            attrs: {
+              svg: fileType.icon
+            }
+          })];
+        },
+        proxy: true
+      }], null, true)
+    }, [_vm._v("\n\t\t" + _vm._s(fileType.label) + "\n\t")]);
+  })], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=template&id=e6b9c05a&scoped=true":
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=template&id=e6b9c05a&scoped=true ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c(_setup.NcDialog, {
+    attrs: {
+      "data-cy-files-new-node-dialog": "",
+      name: _vm.name,
+      open: _vm.open,
+      "close-on-click-outside": "",
+      "out-transition": ""
+    },
+    on: {
+      "update:open": function ($event) {
+        return _setup.emit("close", null);
+      }
+    },
+    scopedSlots: _vm._u([{
+      key: "actions",
+      fn: function () {
+        return [_c(_setup.NcButton, {
+          attrs: {
+            "data-cy-files-new-node-dialog-submit": "",
+            type: "primary",
+            disabled: _setup.validity !== ""
+          },
+          on: {
+            click: _setup.submit
+          }
+        }, [_vm._v("\n\t\t\t" + _vm._s(_setup.t("files", "Create")) + "\n\t\t")])];
+      },
+      proxy: true
+    }])
+  }, [_vm._v(" "), _c("form", {
+    ref: "formElement",
+    staticClass: "new-node-dialog__form",
+    on: {
+      submit: function ($event) {
+        $event.preventDefault();
+        return _setup.emit("close", _setup.localDefaultName);
+      }
+    }
+  }, [_c(_setup.NcTextField, {
+    ref: "nameInput",
+    attrs: {
+      "data-cy-files-new-node-dialog-input": "",
+      error: _setup.validity !== "",
+      "helper-text": _setup.validity,
+      label: _vm.label,
+      value: _setup.localDefaultName
+    },
+    on: {
+      "update:value": function ($event) {
+        _setup.localDefaultName = $event;
+      }
+    }
+  }), _vm._v(" "), _setup.isHiddenFileName ? _c(_setup.NcNoteCard, {
+    attrs: {
+      type: "warning",
+      text: _setup.t("files", "Files starting with a dot are hidden by default")
+    }
+  }) : _vm._e()], 1)]);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `.files-list-filter-time__clear-button[data-v-f47dfc3e] .action-button__text {
+  color: var(--color-error-text);
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+.files-list-filter__clear-button[data-v-5c291778] .action-button__text {
+	color: var(--color-error-text);
+}
+[data-v-5c291778] .button-vue {
+	font-weight: normal !important;
+*[data-v-5c291778] {
+		font-weight: normal !important;
+}
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+.file-list-filter-type {
+	max-width: 220px;
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `
+.new-node-dialog__form[data-v-e6b9c05a] {
+	/* Ensure the dialog does not jump when there is a validity error */
+	min-height: calc(2 * var(--default-clickable-area));
+}
+`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_style_index_0_id_f47dfc3e_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/sass-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterModified.vue?vue&type=style&index=0&id=f47dfc3e&scoped=true&lang=scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_style_index_0_id_f47dfc3e_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_style_index_0_id_f47dfc3e_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_style_index_0_id_f47dfc3e_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterModified_vue_vue_type_style_index_0_id_f47dfc3e_scoped_true_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilter.vue?vue&type=style&index=0&id=5c291778&scoped=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilter_vue_vue_type_style_index_0_id_5c291778_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_style_index_0_id_6c0e6dd2_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/FileListFilter/FileListFilterType.vue?vue&type=style&index=0&id=6c0e6dd2&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_style_index_0_id_6c0e6dd2_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_style_index_0_id_6c0e6dd2_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_style_index_0_id_6c0e6dd2_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_FileListFilterType_vue_vue_type_style_index_0_id_6c0e6dd2_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_style_index_0_id_e6b9c05a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./apps/files/src/components/NewNodeDialog.vue?vue&type=style&index=0&id=e6b9c05a&scoped=true&lang=css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_style_index_0_id_e6b9c05a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_style_index_0_id_e6b9c05a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_style_index_0_id_e6b9c05a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_NewNodeDialog_vue_vue_type_style_index_0_id_e6b9c05a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_index-BC-7VPxC_mjs":"2fcef36253529e5f48bc","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-BSFsDqYB_mjs":"f3a3966faa81f9b81fa8","apps_files_src_views_SearchEmptyView_vue":"f4a1d1b5018f4999b20a","node_modules_nextcloud_upload_dist_chunks_InvalidFilenameDialog-BYpqWa7P_mjs":"b5048b7dd1c81ffc8fe6","node_modules_nextcloud_upload_dist_chunks_ConflictPicker-BvM7ZujP_mjs":"f457ef4faf127a8a345a","apps_files_src_views_TemplatePicker_vue":"8034a0e7f970992f72fb","node_modules_nextcloud_dialogs_dist_chunks_FilePicker-CsU6FfAP_mjs":"8bce3ebf3ef868f175e5","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-cc29b1":"9fa10a9863e5b78deec8"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"files-init": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/files/src/init.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=files-init.js.map?v=5c50880652f4d555270b

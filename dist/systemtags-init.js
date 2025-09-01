@@ -1,2 +1,4131 @@
-(()=>{var t,e,r,n={8828:(t,e,r)=>{"use strict";r.d(e,{R:()=>s});var n=r(45505),i=r(63814),a=r(21777);const o=(0,i.dC)("dav"),s=(0,n.UU)(o),l=t=>{s.setHeaders({"X-Requested-With":"XMLHttpRequest",requesttoken:t??""})};(0,a.zo)(l),l((0,a.do)())},12686:(t,e,r)=>{"use strict";r.d(e,{GX:()=>o,Pq:()=>c,_3:()=>s,rA:()=>l,rL:()=>a});var n=r(71654),i=r(85471);const a=t=>t.map(t=>{let{props:e}=t;return Object.fromEntries(Object.entries(e).map(t=>{let[e,r]=t;return[(0,n.A)(e),"displayName"===(0,n.A)(e)?String(r):r]}))}),o=t=>{const e=t.indexOf("?");e>0&&(t=t.substring(0,e));const r=t.split("/");let n;do{n=r[r.length-1],r.pop()}while(!n&&r.length>0);return Number(n)},s=t=>{if("name"in t&&!("displayName"in t))return{...t};const e={...t};return e.name=e.displayName,delete e.displayName,e},l=function(t){const e=t.attributes?.["system-tags"]?.["system-tag"];return void 0===e?[]:[e].flat().map(t=>"string"==typeof t?t:t.text)},c=function(t,e){i.Ay.set(t.attributes,"system-tags",{"system-tag":e})}},25631:(t,e,r)=>{"use strict";r.d(e,{A:()=>n});const n=(0,r(35947).YK)().setApp("systemtags").detectUser().build()},35810:(t,e,r)=>{"use strict";r.d(e,{Al:()=>n.r,CP:()=>n.k,Gg:()=>h,H4:()=>n.c,KT:()=>W,PY:()=>n.b,Q$:()=>n.e,R3:()=>n.n,Ss:()=>q,VL:()=>n.l,VX:()=>n.j,Yc:()=>n.i,aX:()=>n.P,bh:()=>F,di:()=>z,hY:()=>d,lJ:()=>n.d,m9:()=>u,nF:()=>H,pt:()=>n.F,ur:()=>tt,v7:()=>Z,vd:()=>n.s,zI:()=>n.t});var n=r(68896),i=r(380),a=r(83141),o=r(87485),s=(r(43627),r(53334)),l=r(65606),c=r(62045).hp,u=(t=>(t.DEFAULT="default",t.HIDDEN="hidden",t))(u||{});class d{_action;constructor(t){this.validateAction(t),this._action=t}get id(){return this._action.id}get displayName(){return this._action.displayName}get title(){return this._action.title}get iconSvgInline(){return this._action.iconSvgInline}get enabled(){return this._action.enabled}get exec(){return this._action.exec}get execBatch(){return this._action.execBatch}get hotkey(){return this._action.hotkey}get order(){return this._action.order}get parent(){return this._action.parent}get default(){return this._action.default}get destructive(){return this._action.destructive}get inline(){return this._action.inline}get renderInline(){return this._action.renderInline}validateAction(t){if(!t.id||"string"!=typeof t.id)throw new Error("Invalid id");if(!t.displayName||"function"!=typeof t.displayName)throw new Error("Invalid displayName function");if("title"in t&&"function"!=typeof t.title)throw new Error("Invalid title function");if(!t.iconSvgInline||"function"!=typeof t.iconSvgInline)throw new Error("Invalid iconSvgInline function");if(!t.exec||"function"!=typeof t.exec)throw new Error("Invalid exec function");if("enabled"in t&&"function"!=typeof t.enabled)throw new Error("Invalid enabled function");if("execBatch"in t&&"function"!=typeof t.execBatch)throw new Error("Invalid execBatch function");if("order"in t&&"number"!=typeof t.order)throw new Error("Invalid order");if(void 0!==t.destructive&&"boolean"!=typeof t.destructive)throw new Error("Invalid destructive flag");if("parent"in t&&"string"!=typeof t.parent)throw new Error("Invalid parent");if(t.default&&!Object.values(u).includes(t.default))throw new Error("Invalid default");if("inline"in t&&"function"!=typeof t.inline)throw new Error("Invalid inline function");if("renderInline"in t&&"function"!=typeof t.renderInline)throw new Error("Invalid renderInline function");if("hotkey"in t&&void 0!==t.hotkey){if("object"!=typeof t.hotkey)throw new Error("Invalid hotkey configuration");if("string"!=typeof t.hotkey.key||!t.hotkey.key)throw new Error("Missing or invalid hotkey key");if("string"!=typeof t.hotkey.description||!t.hotkey.description)throw new Error("Missing or invalid hotkey description")}}}const h=function(t){void 0===window._nc_fileactions&&(window._nc_fileactions=[],n.o.debug("FileActions initialized")),window._nc_fileactions.find(e=>e.id===t.id)?n.o.error(`FileAction ${t.id} already registered`,{action:t}):window._nc_fileactions.push(t)};function p(t){return t&&t.__esModule&&Object.prototype.hasOwnProperty.call(t,"default")?t.default:t}var m,g,f,E;function b(){if(g)return m;g=1;const t="object"==typeof l&&l.env&&l.env.NODE_DEBUG&&/\bsemver\b/i.test(l.env.NODE_DEBUG)?(...t)=>console.error("SEMVER",...t):()=>{};return m=t}function y(){if(E)return f;E=1;const t=Number.MAX_SAFE_INTEGER||9007199254740991;return f={MAX_LENGTH:256,MAX_SAFE_COMPONENT_LENGTH:16,MAX_SAFE_BUILD_LENGTH:250,MAX_SAFE_INTEGER:t,RELEASE_TYPES:["major","premajor","minor","preminor","patch","prepatch","prerelease"],SEMVER_SPEC_VERSION:"2.0.0",FLAG_INCLUDE_PRERELEASE:1,FLAG_LOOSE:2}}var w,A,v,T,N,I,_,C,O,x,R,L,D,S={exports:{}};function k(){if(_)return I;_=1;const t=b(),{MAX_LENGTH:e,MAX_SAFE_INTEGER:r}=y(),{safeRe:n,t:i}=(w||(w=1,function(t,e){const{MAX_SAFE_COMPONENT_LENGTH:r,MAX_SAFE_BUILD_LENGTH:n,MAX_LENGTH:i}=y(),a=b(),o=(e=t.exports={}).re=[],s=e.safeRe=[],l=e.src=[],c=e.t={};let u=0;const d="[a-zA-Z0-9-]",h=[["\\s",1],["\\d",i],[d,n]],p=(t,e,r)=>{const n=(t=>{for(const[e,r]of h)t=t.split(`${e}*`).join(`${e}{0,${r}}`).split(`${e}+`).join(`${e}{1,${r}}`);return t})(e),i=u++;a(t,i,e),c[t]=i,l[i]=e,o[i]=new RegExp(e,r?"g":void 0),s[i]=new RegExp(n,r?"g":void 0)};p("NUMERICIDENTIFIER","0|[1-9]\\d*"),p("NUMERICIDENTIFIERLOOSE","\\d+"),p("NONNUMERICIDENTIFIER",`\\d*[a-zA-Z-]${d}*`),p("MAINVERSION",`(${l[c.NUMERICIDENTIFIER]})\\.(${l[c.NUMERICIDENTIFIER]})\\.(${l[c.NUMERICIDENTIFIER]})`),p("MAINVERSIONLOOSE",`(${l[c.NUMERICIDENTIFIERLOOSE]})\\.(${l[c.NUMERICIDENTIFIERLOOSE]})\\.(${l[c.NUMERICIDENTIFIERLOOSE]})`),p("PRERELEASEIDENTIFIER",`(?:${l[c.NUMERICIDENTIFIER]}|${l[c.NONNUMERICIDENTIFIER]})`),p("PRERELEASEIDENTIFIERLOOSE",`(?:${l[c.NUMERICIDENTIFIERLOOSE]}|${l[c.NONNUMERICIDENTIFIER]})`),p("PRERELEASE",`(?:-(${l[c.PRERELEASEIDENTIFIER]}(?:\\.${l[c.PRERELEASEIDENTIFIER]})*))`),p("PRERELEASELOOSE",`(?:-?(${l[c.PRERELEASEIDENTIFIERLOOSE]}(?:\\.${l[c.PRERELEASEIDENTIFIERLOOSE]})*))`),p("BUILDIDENTIFIER",`${d}+`),p("BUILD",`(?:\\+(${l[c.BUILDIDENTIFIER]}(?:\\.${l[c.BUILDIDENTIFIER]})*))`),p("FULLPLAIN",`v?${l[c.MAINVERSION]}${l[c.PRERELEASE]}?${l[c.BUILD]}?`),p("FULL",`^${l[c.FULLPLAIN]}$`),p("LOOSEPLAIN",`[v=\\s]*${l[c.MAINVERSIONLOOSE]}${l[c.PRERELEASELOOSE]}?${l[c.BUILD]}?`),p("LOOSE",`^${l[c.LOOSEPLAIN]}$`),p("GTLT","((?:<|>)?=?)"),p("XRANGEIDENTIFIERLOOSE",`${l[c.NUMERICIDENTIFIERLOOSE]}|x|X|\\*`),p("XRANGEIDENTIFIER",`${l[c.NUMERICIDENTIFIER]}|x|X|\\*`),p("XRANGEPLAIN",`[v=\\s]*(${l[c.XRANGEIDENTIFIER]})(?:\\.(${l[c.XRANGEIDENTIFIER]})(?:\\.(${l[c.XRANGEIDENTIFIER]})(?:${l[c.PRERELEASE]})?${l[c.BUILD]}?)?)?`),p("XRANGEPLAINLOOSE",`[v=\\s]*(${l[c.XRANGEIDENTIFIERLOOSE]})(?:\\.(${l[c.XRANGEIDENTIFIERLOOSE]})(?:\\.(${l[c.XRANGEIDENTIFIERLOOSE]})(?:${l[c.PRERELEASELOOSE]})?${l[c.BUILD]}?)?)?`),p("XRANGE",`^${l[c.GTLT]}\\s*${l[c.XRANGEPLAIN]}$`),p("XRANGELOOSE",`^${l[c.GTLT]}\\s*${l[c.XRANGEPLAINLOOSE]}$`),p("COERCEPLAIN",`(^|[^\\d])(\\d{1,${r}})(?:\\.(\\d{1,${r}}))?(?:\\.(\\d{1,${r}}))?`),p("COERCE",`${l[c.COERCEPLAIN]}(?:$|[^\\d])`),p("COERCEFULL",l[c.COERCEPLAIN]+`(?:${l[c.PRERELEASE]})?(?:${l[c.BUILD]})?(?:$|[^\\d])`),p("COERCERTL",l[c.COERCE],!0),p("COERCERTLFULL",l[c.COERCEFULL],!0),p("LONETILDE","(?:~>?)"),p("TILDETRIM",`(\\s*)${l[c.LONETILDE]}\\s+`,!0),e.tildeTrimReplace="$1~",p("TILDE",`^${l[c.LONETILDE]}${l[c.XRANGEPLAIN]}$`),p("TILDELOOSE",`^${l[c.LONETILDE]}${l[c.XRANGEPLAINLOOSE]}$`),p("LONECARET","(?:\\^)"),p("CARETTRIM",`(\\s*)${l[c.LONECARET]}\\s+`,!0),e.caretTrimReplace="$1^",p("CARET",`^${l[c.LONECARET]}${l[c.XRANGEPLAIN]}$`),p("CARETLOOSE",`^${l[c.LONECARET]}${l[c.XRANGEPLAINLOOSE]}$`),p("COMPARATORLOOSE",`^${l[c.GTLT]}\\s*(${l[c.LOOSEPLAIN]})$|^$`),p("COMPARATOR",`^${l[c.GTLT]}\\s*(${l[c.FULLPLAIN]})$|^$`),p("COMPARATORTRIM",`(\\s*)${l[c.GTLT]}\\s*(${l[c.LOOSEPLAIN]}|${l[c.XRANGEPLAIN]})`,!0),e.comparatorTrimReplace="$1$2$3",p("HYPHENRANGE",`^\\s*(${l[c.XRANGEPLAIN]})\\s+-\\s+(${l[c.XRANGEPLAIN]})\\s*$`),p("HYPHENRANGELOOSE",`^\\s*(${l[c.XRANGEPLAINLOOSE]})\\s+-\\s+(${l[c.XRANGEPLAINLOOSE]})\\s*$`),p("STAR","(<|>)?=?\\s*\\*"),p("GTE0","^\\s*>=\\s*0\\.0\\.0\\s*$"),p("GTE0PRE","^\\s*>=\\s*0\\.0\\.0-0\\s*$")}(S,S.exports)),S.exports),a=function(){if(v)return A;v=1;const t=Object.freeze({loose:!0}),e=Object.freeze({});return A=r=>r?"object"!=typeof r?t:r:e}(),{compareIdentifiers:o}=function(){if(N)return T;N=1;const t=/^[0-9]+$/,e=(e,r)=>{const n=t.test(e),i=t.test(r);return n&&i&&(e=+e,r=+r),e===r?0:n&&!i?-1:i&&!n?1:e<r?-1:1};return T={compareIdentifiers:e,rcompareIdentifiers:(t,r)=>e(r,t)}}();class s{constructor(o,l){if(l=a(l),o instanceof s){if(o.loose===!!l.loose&&o.includePrerelease===!!l.includePrerelease)return o;o=o.version}else if("string"!=typeof o)throw new TypeError(`Invalid version. Must be a string. Got type "${typeof o}".`);if(o.length>e)throw new TypeError(`version is longer than ${e} characters`);t("SemVer",o,l),this.options=l,this.loose=!!l.loose,this.includePrerelease=!!l.includePrerelease;const c=o.trim().match(l.loose?n[i.LOOSE]:n[i.FULL]);if(!c)throw new TypeError(`Invalid Version: ${o}`);if(this.raw=o,this.major=+c[1],this.minor=+c[2],this.patch=+c[3],this.major>r||this.major<0)throw new TypeError("Invalid major version");if(this.minor>r||this.minor<0)throw new TypeError("Invalid minor version");if(this.patch>r||this.patch<0)throw new TypeError("Invalid patch version");c[4]?this.prerelease=c[4].split(".").map(t=>{if(/^[0-9]+$/.test(t)){const e=+t;if(e>=0&&e<r)return e}return t}):this.prerelease=[],this.build=c[5]?c[5].split("."):[],this.format()}format(){return this.version=`${this.major}.${this.minor}.${this.patch}`,this.prerelease.length&&(this.version+=`-${this.prerelease.join(".")}`),this.version}toString(){return this.version}compare(e){if(t("SemVer.compare",this.version,this.options,e),!(e instanceof s)){if("string"==typeof e&&e===this.version)return 0;e=new s(e,this.options)}return e.version===this.version?0:this.compareMain(e)||this.comparePre(e)}compareMain(t){return t instanceof s||(t=new s(t,this.options)),o(this.major,t.major)||o(this.minor,t.minor)||o(this.patch,t.patch)}comparePre(e){if(e instanceof s||(e=new s(e,this.options)),this.prerelease.length&&!e.prerelease.length)return-1;if(!this.prerelease.length&&e.prerelease.length)return 1;if(!this.prerelease.length&&!e.prerelease.length)return 0;let r=0;do{const n=this.prerelease[r],i=e.prerelease[r];if(t("prerelease compare",r,n,i),void 0===n&&void 0===i)return 0;if(void 0===i)return 1;if(void 0===n)return-1;if(n!==i)return o(n,i)}while(++r)}compareBuild(e){e instanceof s||(e=new s(e,this.options));let r=0;do{const n=this.build[r],i=e.build[r];if(t("build compare",r,n,i),void 0===n&&void 0===i)return 0;if(void 0===i)return 1;if(void 0===n)return-1;if(n!==i)return o(n,i)}while(++r)}inc(t,e,r){switch(t){case"premajor":this.prerelease.length=0,this.patch=0,this.minor=0,this.major++,this.inc("pre",e,r);break;case"preminor":this.prerelease.length=0,this.patch=0,this.minor++,this.inc("pre",e,r);break;case"prepatch":this.prerelease.length=0,this.inc("patch",e,r),this.inc("pre",e,r);break;case"prerelease":0===this.prerelease.length&&this.inc("patch",e,r),this.inc("pre",e,r);break;case"major":0===this.minor&&0===this.patch&&0!==this.prerelease.length||this.major++,this.minor=0,this.patch=0,this.prerelease=[];break;case"minor":0===this.patch&&0!==this.prerelease.length||this.minor++,this.patch=0,this.prerelease=[];break;case"patch":0===this.prerelease.length&&this.patch++,this.prerelease=[];break;case"pre":{const t=Number(r)?1:0;if(!e&&!1===r)throw new Error("invalid increment argument: identifier is empty");if(0===this.prerelease.length)this.prerelease=[t];else{let n=this.prerelease.length;for(;--n>=0;)"number"==typeof this.prerelease[n]&&(this.prerelease[n]++,n=-2);if(-1===n){if(e===this.prerelease.join(".")&&!1===r)throw new Error("invalid increment argument: identifier already exists");this.prerelease.push(t)}}if(e){let n=[e,t];!1===r&&(n=[e]),0===o(this.prerelease[0],e)?isNaN(this.prerelease[1])&&(this.prerelease=n):this.prerelease=n}break}default:throw new Error(`invalid increment argument: ${t}`)}return this.raw=this.format(),this.build.length&&(this.raw+=`+${this.build.join(".")}`),this}}return I=s}!function(){if(R)return x;R=1;const t=function(){if(O)return C;O=1;const t=k();return C=(e,r,n=!1)=>{if(e instanceof t)return e;try{return new t(e,r)}catch(t){if(!n)return null;throw t}}}();x=(e,r)=>{const n=t(e,r);return n?n.version:null}}(),function(){if(D)return L;D=1;const t=k();L=(e,r)=>new t(e,r).major}(),i.m;class M extends i.m{_views=[];_currentView=null;register(t){if(this._views.find(e=>e.id===t.id))throw new Error(`View id ${t.id} is already registered`);this._views.push(t),this.dispatchTypedEvent("update",new CustomEvent("update"))}remove(t){const e=this._views.findIndex(e=>e.id===t);-1!==e&&(this._views.splice(e,1),this.dispatchTypedEvent("update",new CustomEvent("update")))}setActive(t){this._currentView=t;const e=new CustomEvent("updateActive",{detail:t});this.dispatchTypedEvent("updateActive",e)}get active(){return this._currentView}get views(){return this._views}}const F=function(){return void 0===window._nc_navigation&&(window._nc_navigation=new M,n.o.debug("Navigation service initialized")),window._nc_navigation};class P{_column;constructor(t){$(t),this._column=t}get id(){return this._column.id}get title(){return this._column.title}get render(){return this._column.render}get sort(){return this._column.sort}get summary(){return this._column.summary}}const $=function(t){if(!t.id||"string"!=typeof t.id)throw new Error("A column id is required");if(!t.title||"string"!=typeof t.title)throw new Error("A column title is required");if(!t.render||"function"!=typeof t.render)throw new Error("A render function is required");if(t.sort&&"function"!=typeof t.sort)throw new Error("Column sortFunction must be a function");if(t.summary&&"function"!=typeof t.summary)throw new Error("Column summary must be a function");return!0};var B,U={};const G=p((B||(B=1,function(t){t.parser=function(t,e){return new n(t,e)},t.SAXParser=n,t.SAXStream=o,t.createStream=function(t,e){return new o(t,e)},t.MAX_BUFFER_LENGTH=65536;var e,r=["comment","sgmlDecl","textNode","tagName","doctype","procInstName","procInstBody","entity","attribName","attribValue","cdata","script"];function n(e,i){if(!(this instanceof n))return new n(e,i);var a=this;!function(t){for(var e=0,n=r.length;e<n;e++)t[r[e]]=""}(a),a.q=a.c="",a.bufferCheckPosition=t.MAX_BUFFER_LENGTH,a.opt=i||{},a.opt.lowercase=a.opt.lowercase||a.opt.lowercasetags,a.looseCase=a.opt.lowercase?"toLowerCase":"toUpperCase",a.tags=[],a.closed=a.closedRoot=a.sawRoot=!1,a.tag=a.error=null,a.strict=!!e,a.noscript=!(!e&&!a.opt.noscript),a.state=I.BEGIN,a.strictEntities=a.opt.strictEntities,a.ENTITIES=a.strictEntities?Object.create(t.XML_ENTITIES):Object.create(t.ENTITIES),a.attribList=[],a.opt.xmlns&&(a.ns=Object.create(h)),void 0===a.opt.unquotedAttributeValues&&(a.opt.unquotedAttributeValues=!e),a.trackPosition=!1!==a.opt.position,a.trackPosition&&(a.position=a.line=a.column=0),C(a,"onready")}t.EVENTS=["text","processinginstruction","sgmldeclaration","doctype","comment","opentagstart","attribute","opentag","closetag","opencdata","cdata","closecdata","error","end","ready","script","opennamespace","closenamespace"],Object.create||(Object.create=function(t){function e(){}return e.prototype=t,new e}),Object.keys||(Object.keys=function(t){var e=[];for(var r in t)t.hasOwnProperty(r)&&e.push(r);return e}),n.prototype={end:function(){D(this)},write:function(e){var n=this;if(this.error)throw this.error;if(n.closed)return L(n,"Cannot write after close. Assign an onready handler.");if(null===e)return D(n);"object"==typeof e&&(e=e.toString());for(var i=0,a="";a=G(e,i++),n.c=a,a;)switch(n.trackPosition&&(n.position++,"\n"===a?(n.line++,n.column=0):n.column++),n.state){case I.BEGIN:if(n.state=I.BEGIN_WHITESPACE,"\ufeff"===a)continue;U(n,a);continue;case I.BEGIN_WHITESPACE:U(n,a);continue;case I.TEXT:if(n.sawRoot&&!n.closedRoot){for(var o=i-1;a&&"<"!==a&&"&"!==a;)(a=G(e,i++))&&n.trackPosition&&(n.position++,"\n"===a?(n.line++,n.column=0):n.column++);n.textNode+=e.substring(o,i-1)}"<"!==a||n.sawRoot&&n.closedRoot&&!n.strict?(E(a)||n.sawRoot&&!n.closedRoot||S(n,"Text data outside of root node."),"&"===a?n.state=I.TEXT_ENTITY:n.textNode+=a):(n.state=I.OPEN_WAKA,n.startTagPosition=n.position);continue;case I.SCRIPT:"<"===a?n.state=I.SCRIPT_ENDING:n.script+=a;continue;case I.SCRIPT_ENDING:"/"===a?n.state=I.CLOSE_TAG:(n.script+="<"+a,n.state=I.SCRIPT);continue;case I.OPEN_WAKA:if("!"===a)n.state=I.SGML_DECL,n.sgmlDecl="";else if(E(a));else if(w(p,a))n.state=I.OPEN_TAG,n.tagName=a;else if("/"===a)n.state=I.CLOSE_TAG,n.tagName="";else if("?"===a)n.state=I.PROC_INST,n.procInstName=n.procInstBody="";else{if(S(n,"Unencoded <"),n.startTagPosition+1<n.position){var c=n.position-n.startTagPosition;a=new Array(c).join(" ")+a}n.textNode+="<"+a,n.state=I.TEXT}continue;case I.SGML_DECL:if(n.sgmlDecl+a==="--"){n.state=I.COMMENT,n.comment="",n.sgmlDecl="";continue}n.doctype&&!0!==n.doctype&&n.sgmlDecl?(n.state=I.DOCTYPE_DTD,n.doctype+="<!"+n.sgmlDecl+a,n.sgmlDecl=""):(n.sgmlDecl+a).toUpperCase()===s?(O(n,"onopencdata"),n.state=I.CDATA,n.sgmlDecl="",n.cdata=""):(n.sgmlDecl+a).toUpperCase()===l?(n.state=I.DOCTYPE,(n.doctype||n.sawRoot)&&S(n,"Inappropriately located doctype declaration"),n.doctype="",n.sgmlDecl=""):">"===a?(O(n,"onsgmldeclaration",n.sgmlDecl),n.sgmlDecl="",n.state=I.TEXT):b(a)?(n.state=I.SGML_DECL_QUOTED,n.sgmlDecl+=a):n.sgmlDecl+=a;continue;case I.SGML_DECL_QUOTED:a===n.q&&(n.state=I.SGML_DECL,n.q=""),n.sgmlDecl+=a;continue;case I.DOCTYPE:">"===a?(n.state=I.TEXT,O(n,"ondoctype",n.doctype),n.doctype=!0):(n.doctype+=a,"["===a?n.state=I.DOCTYPE_DTD:b(a)&&(n.state=I.DOCTYPE_QUOTED,n.q=a));continue;case I.DOCTYPE_QUOTED:n.doctype+=a,a===n.q&&(n.q="",n.state=I.DOCTYPE);continue;case I.DOCTYPE_DTD:"]"===a?(n.doctype+=a,n.state=I.DOCTYPE):"<"===a?(n.state=I.OPEN_WAKA,n.startTagPosition=n.position):b(a)?(n.doctype+=a,n.state=I.DOCTYPE_DTD_QUOTED,n.q=a):n.doctype+=a;continue;case I.DOCTYPE_DTD_QUOTED:n.doctype+=a,a===n.q&&(n.state=I.DOCTYPE_DTD,n.q="");continue;case I.COMMENT:"-"===a?n.state=I.COMMENT_ENDING:n.comment+=a;continue;case I.COMMENT_ENDING:"-"===a?(n.state=I.COMMENT_ENDED,n.comment=R(n.opt,n.comment),n.comment&&O(n,"oncomment",n.comment),n.comment=""):(n.comment+="-"+a,n.state=I.COMMENT);continue;case I.COMMENT_ENDED:">"!==a?(S(n,"Malformed comment"),n.comment+="--"+a,n.state=I.COMMENT):n.doctype&&!0!==n.doctype?n.state=I.DOCTYPE_DTD:n.state=I.TEXT;continue;case I.CDATA:"]"===a?n.state=I.CDATA_ENDING:n.cdata+=a;continue;case I.CDATA_ENDING:"]"===a?n.state=I.CDATA_ENDING_2:(n.cdata+="]"+a,n.state=I.CDATA);continue;case I.CDATA_ENDING_2:">"===a?(n.cdata&&O(n,"oncdata",n.cdata),O(n,"onclosecdata"),n.cdata="",n.state=I.TEXT):"]"===a?n.cdata+="]":(n.cdata+="]]"+a,n.state=I.CDATA);continue;case I.PROC_INST:"?"===a?n.state=I.PROC_INST_ENDING:E(a)?n.state=I.PROC_INST_BODY:n.procInstName+=a;continue;case I.PROC_INST_BODY:if(!n.procInstBody&&E(a))continue;"?"===a?n.state=I.PROC_INST_ENDING:n.procInstBody+=a;continue;case I.PROC_INST_ENDING:">"===a?(O(n,"onprocessinginstruction",{name:n.procInstName,body:n.procInstBody}),n.procInstName=n.procInstBody="",n.state=I.TEXT):(n.procInstBody+="?"+a,n.state=I.PROC_INST_BODY);continue;case I.OPEN_TAG:w(m,a)?n.tagName+=a:(k(n),">"===a?P(n):"/"===a?n.state=I.OPEN_TAG_SLASH:(E(a)||S(n,"Invalid character in tag name"),n.state=I.ATTRIB));continue;case I.OPEN_TAG_SLASH:">"===a?(P(n,!0),$(n)):(S(n,"Forward-slash in opening tag not followed by >"),n.state=I.ATTRIB);continue;case I.ATTRIB:if(E(a))continue;">"===a?P(n):"/"===a?n.state=I.OPEN_TAG_SLASH:w(p,a)?(n.attribName=a,n.attribValue="",n.state=I.ATTRIB_NAME):S(n,"Invalid attribute name");continue;case I.ATTRIB_NAME:"="===a?n.state=I.ATTRIB_VALUE:">"===a?(S(n,"Attribute without value"),n.attribValue=n.attribName,F(n),P(n)):E(a)?n.state=I.ATTRIB_NAME_SAW_WHITE:w(m,a)?n.attribName+=a:S(n,"Invalid attribute name");continue;case I.ATTRIB_NAME_SAW_WHITE:if("="===a)n.state=I.ATTRIB_VALUE;else{if(E(a))continue;S(n,"Attribute without value"),n.tag.attributes[n.attribName]="",n.attribValue="",O(n,"onattribute",{name:n.attribName,value:""}),n.attribName="",">"===a?P(n):w(p,a)?(n.attribName=a,n.state=I.ATTRIB_NAME):(S(n,"Invalid attribute name"),n.state=I.ATTRIB)}continue;case I.ATTRIB_VALUE:if(E(a))continue;b(a)?(n.q=a,n.state=I.ATTRIB_VALUE_QUOTED):(n.opt.unquotedAttributeValues||L(n,"Unquoted attribute value"),n.state=I.ATTRIB_VALUE_UNQUOTED,n.attribValue=a);continue;case I.ATTRIB_VALUE_QUOTED:if(a!==n.q){"&"===a?n.state=I.ATTRIB_VALUE_ENTITY_Q:n.attribValue+=a;continue}F(n),n.q="",n.state=I.ATTRIB_VALUE_CLOSED;continue;case I.ATTRIB_VALUE_CLOSED:E(a)?n.state=I.ATTRIB:">"===a?P(n):"/"===a?n.state=I.OPEN_TAG_SLASH:w(p,a)?(S(n,"No whitespace between attributes"),n.attribName=a,n.attribValue="",n.state=I.ATTRIB_NAME):S(n,"Invalid attribute name");continue;case I.ATTRIB_VALUE_UNQUOTED:if(!y(a)){"&"===a?n.state=I.ATTRIB_VALUE_ENTITY_U:n.attribValue+=a;continue}F(n),">"===a?P(n):n.state=I.ATTRIB;continue;case I.CLOSE_TAG:if(n.tagName)">"===a?$(n):w(m,a)?n.tagName+=a:n.script?(n.script+="</"+n.tagName,n.tagName="",n.state=I.SCRIPT):(E(a)||S(n,"Invalid tagname in closing tag"),n.state=I.CLOSE_TAG_SAW_WHITE);else{if(E(a))continue;A(p,a)?n.script?(n.script+="</"+a,n.state=I.SCRIPT):S(n,"Invalid tagname in closing tag."):n.tagName=a}continue;case I.CLOSE_TAG_SAW_WHITE:if(E(a))continue;">"===a?$(n):S(n,"Invalid characters in closing tag");continue;case I.TEXT_ENTITY:case I.ATTRIB_VALUE_ENTITY_Q:case I.ATTRIB_VALUE_ENTITY_U:var u,d;switch(n.state){case I.TEXT_ENTITY:u=I.TEXT,d="textNode";break;case I.ATTRIB_VALUE_ENTITY_Q:u=I.ATTRIB_VALUE_QUOTED,d="attribValue";break;case I.ATTRIB_VALUE_ENTITY_U:u=I.ATTRIB_VALUE_UNQUOTED,d="attribValue"}if(";"===a){var h=B(n);n.opt.unparsedEntities&&!Object.values(t.XML_ENTITIES).includes(h)?(n.entity="",n.state=u,n.write(h)):(n[d]+=h,n.entity="",n.state=u)}else w(n.entity.length?f:g,a)?n.entity+=a:(S(n,"Invalid character in entity name"),n[d]+="&"+n.entity+a,n.entity="",n.state=u);continue;default:throw new Error(n,"Unknown state: "+n.state)}return n.position>=n.bufferCheckPosition&&function(e){for(var n=Math.max(t.MAX_BUFFER_LENGTH,10),i=0,a=0,o=r.length;a<o;a++){var s=e[r[a]].length;if(s>n)switch(r[a]){case"textNode":x(e);break;case"cdata":O(e,"oncdata",e.cdata),e.cdata="";break;case"script":O(e,"onscript",e.script),e.script="";break;default:L(e,"Max buffer length exceeded: "+r[a])}i=Math.max(i,s)}var l=t.MAX_BUFFER_LENGTH-i;e.bufferCheckPosition=l+e.position}(n),n},resume:function(){return this.error=null,this},close:function(){return this.write(null)},flush:function(){var t;x(t=this),""!==t.cdata&&(O(t,"oncdata",t.cdata),t.cdata=""),""!==t.script&&(O(t,"onscript",t.script),t.script="")}};try{e=require("stream").Stream}catch(t){e=function(){}}e||(e=function(){});var i=t.EVENTS.filter(function(t){return"error"!==t&&"end"!==t});function o(t,r){if(!(this instanceof o))return new o(t,r);e.apply(this),this._parser=new n(t,r),this.writable=!0,this.readable=!0;var a=this;this._parser.onend=function(){a.emit("end")},this._parser.onerror=function(t){a.emit("error",t),a._parser.error=null},this._decoder=null,i.forEach(function(t){Object.defineProperty(a,"on"+t,{get:function(){return a._parser["on"+t]},set:function(e){if(!e)return a.removeAllListeners(t),a._parser["on"+t]=e,e;a.on(t,e)},enumerable:!0,configurable:!1})})}o.prototype=Object.create(e.prototype,{constructor:{value:o}}),o.prototype.write=function(t){if("function"==typeof c&&"function"==typeof c.isBuffer&&c.isBuffer(t)){if(!this._decoder){var e=a.I;this._decoder=new e("utf8")}t=this._decoder.write(t)}return this._parser.write(t.toString()),this.emit("data",t),!0},o.prototype.end=function(t){return t&&t.length&&this.write(t),this._parser.end(),!0},o.prototype.on=function(t,r){var n=this;return n._parser["on"+t]||-1===i.indexOf(t)||(n._parser["on"+t]=function(){var e=1===arguments.length?[arguments[0]]:Array.apply(null,arguments);e.splice(0,0,t),n.emit.apply(n,e)}),e.prototype.on.call(n,t,r)};var s="[CDATA[",l="DOCTYPE",u="http://www.w3.org/XML/1998/namespace",d="http://www.w3.org/2000/xmlns/",h={xml:u,xmlns:d},p=/[:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/,m=/[:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u00B7\u0300-\u036F\u203F-\u2040.\d-]/,g=/[#:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/,f=/[#:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u00B7\u0300-\u036F\u203F-\u2040.\d-]/;function E(t){return" "===t||"\n"===t||"\r"===t||"\t"===t}function b(t){return'"'===t||"'"===t}function y(t){return">"===t||E(t)}function w(t,e){return t.test(e)}function A(t,e){return!w(t,e)}var v,T,N,I=0;for(var _ in t.STATE={BEGIN:I++,BEGIN_WHITESPACE:I++,TEXT:I++,TEXT_ENTITY:I++,OPEN_WAKA:I++,SGML_DECL:I++,SGML_DECL_QUOTED:I++,DOCTYPE:I++,DOCTYPE_QUOTED:I++,DOCTYPE_DTD:I++,DOCTYPE_DTD_QUOTED:I++,COMMENT_STARTING:I++,COMMENT:I++,COMMENT_ENDING:I++,COMMENT_ENDED:I++,CDATA:I++,CDATA_ENDING:I++,CDATA_ENDING_2:I++,PROC_INST:I++,PROC_INST_BODY:I++,PROC_INST_ENDING:I++,OPEN_TAG:I++,OPEN_TAG_SLASH:I++,ATTRIB:I++,ATTRIB_NAME:I++,ATTRIB_NAME_SAW_WHITE:I++,ATTRIB_VALUE:I++,ATTRIB_VALUE_QUOTED:I++,ATTRIB_VALUE_CLOSED:I++,ATTRIB_VALUE_UNQUOTED:I++,ATTRIB_VALUE_ENTITY_Q:I++,ATTRIB_VALUE_ENTITY_U:I++,CLOSE_TAG:I++,CLOSE_TAG_SAW_WHITE:I++,SCRIPT:I++,SCRIPT_ENDING:I++},t.XML_ENTITIES={amp:"&",gt:">",lt:"<",quot:'"',apos:"'"},t.ENTITIES={amp:"&",gt:">",lt:"<",quot:'"',apos:"'",AElig:198,Aacute:193,Acirc:194,Agrave:192,Aring:197,Atilde:195,Auml:196,Ccedil:199,ETH:208,Eacute:201,Ecirc:202,Egrave:200,Euml:203,Iacute:205,Icirc:206,Igrave:204,Iuml:207,Ntilde:209,Oacute:211,Ocirc:212,Ograve:210,Oslash:216,Otilde:213,Ouml:214,THORN:222,Uacute:218,Ucirc:219,Ugrave:217,Uuml:220,Yacute:221,aacute:225,acirc:226,aelig:230,agrave:224,aring:229,atilde:227,auml:228,ccedil:231,eacute:233,ecirc:234,egrave:232,eth:240,euml:235,iacute:237,icirc:238,igrave:236,iuml:239,ntilde:241,oacute:243,ocirc:244,ograve:242,oslash:248,otilde:245,ouml:246,szlig:223,thorn:254,uacute:250,ucirc:251,ugrave:249,uuml:252,yacute:253,yuml:255,copy:169,reg:174,nbsp:160,iexcl:161,cent:162,pound:163,curren:164,yen:165,brvbar:166,sect:167,uml:168,ordf:170,laquo:171,not:172,shy:173,macr:175,deg:176,plusmn:177,sup1:185,sup2:178,sup3:179,acute:180,micro:181,para:182,middot:183,cedil:184,ordm:186,raquo:187,frac14:188,frac12:189,frac34:190,iquest:191,times:215,divide:247,OElig:338,oelig:339,Scaron:352,scaron:353,Yuml:376,fnof:402,circ:710,tilde:732,Alpha:913,Beta:914,Gamma:915,Delta:916,Epsilon:917,Zeta:918,Eta:919,Theta:920,Iota:921,Kappa:922,Lambda:923,Mu:924,Nu:925,Xi:926,Omicron:927,Pi:928,Rho:929,Sigma:931,Tau:932,Upsilon:933,Phi:934,Chi:935,Psi:936,Omega:937,alpha:945,beta:946,gamma:947,delta:948,epsilon:949,zeta:950,eta:951,theta:952,iota:953,kappa:954,lambda:955,mu:956,nu:957,xi:958,omicron:959,pi:960,rho:961,sigmaf:962,sigma:963,tau:964,upsilon:965,phi:966,chi:967,psi:968,omega:969,thetasym:977,upsih:978,piv:982,ensp:8194,emsp:8195,thinsp:8201,zwnj:8204,zwj:8205,lrm:8206,rlm:8207,ndash:8211,mdash:8212,lsquo:8216,rsquo:8217,sbquo:8218,ldquo:8220,rdquo:8221,bdquo:8222,dagger:8224,Dagger:8225,bull:8226,hellip:8230,permil:8240,prime:8242,Prime:8243,lsaquo:8249,rsaquo:8250,oline:8254,frasl:8260,euro:8364,image:8465,weierp:8472,real:8476,trade:8482,alefsym:8501,larr:8592,uarr:8593,rarr:8594,darr:8595,harr:8596,crarr:8629,lArr:8656,uArr:8657,rArr:8658,dArr:8659,hArr:8660,forall:8704,part:8706,exist:8707,empty:8709,nabla:8711,isin:8712,notin:8713,ni:8715,prod:8719,sum:8721,minus:8722,lowast:8727,radic:8730,prop:8733,infin:8734,ang:8736,and:8743,or:8744,cap:8745,cup:8746,int:8747,there4:8756,sim:8764,cong:8773,asymp:8776,ne:8800,equiv:8801,le:8804,ge:8805,sub:8834,sup:8835,nsub:8836,sube:8838,supe:8839,oplus:8853,otimes:8855,perp:8869,sdot:8901,lceil:8968,rceil:8969,lfloor:8970,rfloor:8971,lang:9001,rang:9002,loz:9674,spades:9824,clubs:9827,hearts:9829,diams:9830},Object.keys(t.ENTITIES).forEach(function(e){var r=t.ENTITIES[e],n="number"==typeof r?String.fromCharCode(r):r;t.ENTITIES[e]=n}),t.STATE)t.STATE[t.STATE[_]]=_;function C(t,e,r){t[e]&&t[e](r)}function O(t,e,r){t.textNode&&x(t),C(t,e,r)}function x(t){t.textNode=R(t.opt,t.textNode),t.textNode&&C(t,"ontext",t.textNode),t.textNode=""}function R(t,e){return t.trim&&(e=e.trim()),t.normalize&&(e=e.replace(/\s+/g," ")),e}function L(t,e){return x(t),t.trackPosition&&(e+="\nLine: "+t.line+"\nColumn: "+t.column+"\nChar: "+t.c),e=new Error(e),t.error=e,C(t,"onerror",e),t}function D(t){return t.sawRoot&&!t.closedRoot&&S(t,"Unclosed root tag"),t.state!==I.BEGIN&&t.state!==I.BEGIN_WHITESPACE&&t.state!==I.TEXT&&L(t,"Unexpected end"),x(t),t.c="",t.closed=!0,C(t,"onend"),n.call(t,t.strict,t.opt),t}function S(t,e){if("object"!=typeof t||!(t instanceof n))throw new Error("bad call to strictFail");t.strict&&L(t,e)}function k(t){t.strict||(t.tagName=t.tagName[t.looseCase]());var e=t.tags[t.tags.length-1]||t,r=t.tag={name:t.tagName,attributes:{}};t.opt.xmlns&&(r.ns=e.ns),t.attribList.length=0,O(t,"onopentagstart",r)}function M(t,e){var r=t.indexOf(":")<0?["",t]:t.split(":"),n=r[0],i=r[1];return e&&"xmlns"===t&&(n="xmlns",i=""),{prefix:n,local:i}}function F(t){if(t.strict||(t.attribName=t.attribName[t.looseCase]()),-1!==t.attribList.indexOf(t.attribName)||t.tag.attributes.hasOwnProperty(t.attribName))t.attribName=t.attribValue="";else{if(t.opt.xmlns){var e=M(t.attribName,!0),r=e.prefix,n=e.local;if("xmlns"===r)if("xml"===n&&t.attribValue!==u)S(t,"xml: prefix must be bound to "+u+"\nActual: "+t.attribValue);else if("xmlns"===n&&t.attribValue!==d)S(t,"xmlns: prefix must be bound to "+d+"\nActual: "+t.attribValue);else{var i=t.tag,a=t.tags[t.tags.length-1]||t;i.ns===a.ns&&(i.ns=Object.create(a.ns)),i.ns[n]=t.attribValue}t.attribList.push([t.attribName,t.attribValue])}else t.tag.attributes[t.attribName]=t.attribValue,O(t,"onattribute",{name:t.attribName,value:t.attribValue});t.attribName=t.attribValue=""}}function P(t,e){if(t.opt.xmlns){var r=t.tag,n=M(t.tagName);r.prefix=n.prefix,r.local=n.local,r.uri=r.ns[n.prefix]||"",r.prefix&&!r.uri&&(S(t,"Unbound namespace prefix: "+JSON.stringify(t.tagName)),r.uri=n.prefix);var i=t.tags[t.tags.length-1]||t;r.ns&&i.ns!==r.ns&&Object.keys(r.ns).forEach(function(e){O(t,"onopennamespace",{prefix:e,uri:r.ns[e]})});for(var a=0,o=t.attribList.length;a<o;a++){var s=t.attribList[a],l=s[0],c=s[1],u=M(l,!0),d=u.prefix,h=u.local,p=""===d?"":r.ns[d]||"",m={name:l,value:c,prefix:d,local:h,uri:p};d&&"xmlns"!==d&&!p&&(S(t,"Unbound namespace prefix: "+JSON.stringify(d)),m.uri=d),t.tag.attributes[l]=m,O(t,"onattribute",m)}t.attribList.length=0}t.tag.isSelfClosing=!!e,t.sawRoot=!0,t.tags.push(t.tag),O(t,"onopentag",t.tag),e||(t.noscript||"script"!==t.tagName.toLowerCase()?t.state=I.TEXT:t.state=I.SCRIPT,t.tag=null,t.tagName=""),t.attribName=t.attribValue="",t.attribList.length=0}function $(t){if(!t.tagName)return S(t,"Weird empty close tag."),t.textNode+="</>",void(t.state=I.TEXT);if(t.script){if("script"!==t.tagName)return t.script+="</"+t.tagName+">",t.tagName="",void(t.state=I.SCRIPT);O(t,"onscript",t.script),t.script=""}var e=t.tags.length,r=t.tagName;t.strict||(r=r[t.looseCase]());for(var n=r;e--&&t.tags[e].name!==n;)S(t,"Unexpected close tag");if(e<0)return S(t,"Unmatched closing tag: "+t.tagName),t.textNode+="</"+t.tagName+">",void(t.state=I.TEXT);t.tagName=r;for(var i=t.tags.length;i-- >e;){var a=t.tag=t.tags.pop();t.tagName=t.tag.name,O(t,"onclosetag",t.tagName);var o={};for(var s in a.ns)o[s]=a.ns[s];var l=t.tags[t.tags.length-1]||t;t.opt.xmlns&&a.ns!==l.ns&&Object.keys(a.ns).forEach(function(e){var r=a.ns[e];O(t,"onclosenamespace",{prefix:e,uri:r})})}0===e&&(t.closedRoot=!0),t.tagName=t.attribValue=t.attribName="",t.attribList.length=0,t.state=I.TEXT}function B(t){var e,r=t.entity,n=r.toLowerCase(),i="";return t.ENTITIES[r]?t.ENTITIES[r]:t.ENTITIES[n]?t.ENTITIES[n]:("#"===(r=n).charAt(0)&&("x"===r.charAt(1)?(r=r.slice(2),i=(e=parseInt(r,16)).toString(16)):(r=r.slice(1),i=(e=parseInt(r,10)).toString(10))),r=r.replace(/^0+/,""),isNaN(e)||i.toLowerCase()!==r?(S(t,"Invalid character entity"),"&"+t.entity+";"):String.fromCodePoint(e))}function U(t,e){"<"===e?(t.state=I.OPEN_WAKA,t.startTagPosition=t.position):E(e)||(S(t,"Non-whitespace before first tag."),t.textNode=e,t.state=I.TEXT)}function G(t,e){var r="";return e<t.length&&(r=t.charAt(e)),r}I=t.STATE,String.fromCodePoint||(v=String.fromCharCode,T=Math.floor,N=function(){var t,e,r=[],n=-1,i=arguments.length;if(!i)return"";for(var a="";++n<i;){var o=Number(arguments[n]);if(!isFinite(o)||o<0||o>1114111||T(o)!==o)throw RangeError("Invalid code point: "+o);o<=65535?r.push(o):(t=55296+((o-=65536)>>10),e=o%1024+56320,r.push(t,e)),(n+1===i||r.length>16384)&&(a+=v.apply(null,r),r.length=0)}return a},Object.defineProperty?Object.defineProperty(String,"fromCodePoint",{value:N,configurable:!0,writable:!0}):String.fromCodePoint=N)}(U)),U)),j={"http://www.w3.org/2000/svg":{ext:"svg",mime:"image/svg+xml"},"http://www.w3.org/1999/xhtml":{ext:"xhtml",mime:"application/xhtml+xml"},"http://www.opengis.net/kml/2.2":{ext:"kml",mime:"application/vnd.google-earth.kml+xml"},"http://www.opengis.net/gml":{ext:"gml",mime:"application/gml+xml"}},V={rss:{ext:"rss",mime:"application/rss+xml"},"score-partwise":{ext:"musicxml",mime:"application/vnd.recordare.musicxml+xml"},svg:{ext:"svg",mime:"image/svg+xml"}};class X{constructor(t){this.options=t??{},this.firstTag=!0,this.onEnd=!1,this.parser=G.parser(!0,{xmlns:!0}),this.nesting=0,this.parser.onerror=t=>{t.message.startsWith("Invalid character entity")||(this.fileType=void 0,this.onEnd=!0)},this.parser.onopentag=t=>{++this.nesting,this.firstTag&&!this.onEnd&&(this.firstTag=!1,t.uri?this.fileType=j[t.uri]:t.name&&(this.fileType=V[t.name.toLowerCase()]),this.fileType&&!this.options.fullScan&&(this.onEnd=!0))},this.parser.onclosetag=()=>{--this.nesting}}write(t){this.parser.write(t)}close(){this.parser.close(),this.onEnd=!0}isValid(){return 0===this.nesting}}class q{_view;constructor(t){Y(t),this._view=t}get id(){return this._view.id}get name(){return this._view.name}get caption(){return this._view.caption}get emptyTitle(){return this._view.emptyTitle}get emptyCaption(){return this._view.emptyCaption}get getContents(){return this._view.getContents}get hidden(){return this._view.hidden}get icon(){return this._view.icon}set icon(t){this._view.icon=t}get order(){return this._view.order}set order(t){this._view.order=t}get params(){return this._view.params}set params(t){this._view.params=t}get columns(){return this._view.columns}get emptyView(){return this._view.emptyView}get parent(){return this._view.parent}get sticky(){return this._view.sticky}get expanded(){return this._view.expanded}set expanded(t){this._view.expanded=t}get defaultSortKey(){return this._view.defaultSortKey}get loadChildViews(){return this._view.loadChildViews}}const Y=function(t){if(!t.id||"string"!=typeof t.id)throw new Error("View id is required and must be a string");if(!t.name||"string"!=typeof t.name)throw new Error("View name is required and must be a string");if("caption"in t&&"string"!=typeof t.caption)throw new Error("View caption must be a string");if(!t.getContents||"function"!=typeof t.getContents)throw new Error("View getContents is required and must be a function");if("hidden"in t&&"boolean"!=typeof t.hidden)throw new Error("View hidden must be a boolean");if(!t.icon||"string"!=typeof t.icon||!function(t){if("string"!=typeof t)throw new TypeError(`Expected a \`string\`, got \`${typeof t}\``);if(0===(t=t.trim()).length)return!1;const e=new X;return e.write(t),e.isValid()&&"svg"===e.fileType?.ext}(t.icon))throw new Error("View icon is required and must be a valid svg string");if("order"in t&&"number"!=typeof t.order)throw new Error("View order must be a number");if(t.columns&&t.columns.forEach(t=>{if(!(t instanceof P))throw new Error("View columns must be an array of Column. Invalid column found")}),t.emptyView&&"function"!=typeof t.emptyView)throw new Error("View emptyView must be a function");if(t.parent&&"string"!=typeof t.parent)throw new Error("View parent must be a string");if("sticky"in t&&"boolean"!=typeof t.sticky)throw new Error("View sticky must be a boolean");if("expanded"in t&&"boolean"!=typeof t.expanded)throw new Error("View expanded must be a boolean");if(t.defaultSortKey&&"string"!=typeof t.defaultSortKey)throw new Error("View defaultSortKey must be a string");if(t.loadChildViews&&"function"!=typeof t.loadChildViews)throw new Error("View loadChildViews must be a function");return!0};var H=(t=>(t.ReservedName="reserved name",t.Character="character",t.Extension="extension",t))(H||{});class z extends Error{constructor(t){super(`Invalid ${t.reason} '${t.segment}' in filename '${t.filename}'`,{cause:t})}get filename(){return this.cause.filename}get reason(){return this.cause.reason}get segment(){return this.cause.segment}}function W(t){const e=(0,o.F)().files,r=e.forbidden_filename_characters??window._oc_config?.forbidden_filenames_characters??["/","\\"];for(const e of r)if(t.includes(e))throw new z({segment:e,reason:"character",filename:t});if(t=t.toLocaleLowerCase(),(e.forbidden_filenames??[".htaccess"]).includes(t))throw new z({filename:t,segment:t,reason:"reserved name"});const n=t.indexOf(".",1),i=t.substring(0,-1===n?void 0:n);if((e.forbidden_filename_basenames??[]).includes(i))throw new z({filename:t,segment:i,reason:"reserved name"});const a=e.forbidden_filename_extensions??[".part",".filepart"];for(const e of a)if(t.length>e.length&&t.endsWith(e))throw new z({segment:e,reason:"extension",filename:t})}const Q=["B","KB","MB","GB","TB","PB"],K=["B","KiB","MiB","GiB","TiB","PiB"];function Z(t,e=!1,r=!1,n=!1){r=r&&!n,"string"==typeof t&&(t=Number(t));let i=t>0?Math.floor(Math.log(t)/Math.log(n?1e3:1024)):0;i=Math.min((r?K.length:Q.length)-1,i);const a=r?K[i]:Q[i];let o=(t/Math.pow(n?1e3:1024,i)).toFixed(1);return!0===e&&0===i?("0.0"!==o?"< 1 ":"0 ")+(r?K[1]:Q[1]):(o=i<2?parseFloat(o).toFixed(0):parseFloat(o).toLocaleString((0,s.lO)()),o+" "+a)}function J(t){return t instanceof Date?t.toISOString():String(t)}function tt(t,e={}){const r={sortingMode:"basename",sortingOrder:"asc",...e};return function(t,e,r){r=r??[];const n=(e=e??[t=>t]).map((t,e)=>"asc"===(r[e]??"asc")?1:-1),i=Intl.Collator([(0,s.Z0)(),(0,s.lO)()],{numeric:!0,usage:"sort"});return[...t].sort((t,r)=>{for(const[a,o]of e.entries()){const e=i.compare(J(o(t)),J(o(r)));if(0!==e)return e*n[a]}return 0})}(t,[...r.sortFavoritesFirst?[t=>1!==t.attributes?.favorite]:[],...r.sortFoldersFirst?[t=>"folder"!==t.type]:[],..."basename"!==r.sortingMode?[t=>t[r.sortingMode]??t.attributes[r.sortingMode]]:[],t=>{return(e=t.displayname||t.attributes?.displayname||t.basename||"").lastIndexOf(".")>0?e.slice(0,e.lastIndexOf(".")):e;var e},t=>t.basename],[...r.sortFavoritesFirst?["asc"]:[],...r.sortFoldersFirst?["asc"]:[],..."mtime"===r.sortingMode?["asc"===r.sortingOrder?"desc":"asc"]:[],..."mtime"!==r.sortingMode&&"basename"!==r.sortingMode?[r.sortingOrder]:[],r.sortingOrder,r.sortingOrder])}},42634:()=>{},45218:(t,e,r)=>{"use strict";var n=r(35810),i=r(94205),a=r(85471),o=r(82680),s=r(85168),l=r(53334);const c='<svg xmlns="http://www.w3.org/2000/svg" id="mdi-tag-multiple-outline" viewBox="0 0 24 24"><path d="M6.5 10C7.3 10 8 9.3 8 8.5S7.3 7 6.5 7 5 7.7 5 8.5 5.7 10 6.5 10M9 6L16 13L11 18L4 11V6H9M9 4H4C2.9 4 2 4.9 2 6V11C2 11.6 2.2 12.1 2.6 12.4L9.6 19.4C9.9 19.8 10.4 20 11 20S12.1 19.8 12.4 19.4L17.4 14.4C17.8 14 18 13.5 18 13C18 12.4 17.8 11.9 17.4 11.6L10.4 4.6C10.1 4.2 9.6 4 9 4M13.5 5.7L14.5 4.7L21.4 11.6C21.8 12 22 12.5 22 13S21.8 14.1 21.4 14.4L16 19.8L15 18.8L20.7 13L13.5 5.7Z" /></svg>';async function u(t){const e=await new Promise(e=>{(0,s.Ss)((0,a.$V)(()=>Promise.all([r.e(4208),r.e(9167)]).then(r.bind(r,99167))),{nodes:t},t=>{e(t)})});return Array(t.length).fill(e)}const d=new n.hY({id:"systemtags:bulk",displayName:()=>(0,l.t)("systemtags","Manage tags"),iconSvgInline:()=>c,enabled:t=>!(0,o.f)()&&0!==t.length&&!t.some(t=>!t.isDavResource)&&!t.some(t=>0===(t.permissions&n.aX.UPDATE)),exec:async t=>u([t])[0],execBatch:u});var h=r(65899),p=r(61338);const m=(0,r(35947).YK)().setApp("files").detectUser().build(),g=(0,h.nY)("active",()=>{const t=(0,a.KR)(),e=(0,a.KR)(),r=(0,a.KR)(),i=(0,a.KR)();function o(t){r.value&&r.value.source===t.source&&(r.value=void 0)}function s(){let t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:null;m.debug("Setting active view",{view:t}),i.value=t??void 0,r.value=void 0}return function(){const t=(0,n.bh)();(0,p.B1)("files:node:deleted",o),s(t.active),t.addEventListener("updateActive",t=>{s(t.detail)})}(),{activeAction:t,activeFolder:e,activeNode:r,activeView:i}});var f=r(25631),E=r(21777),b=r(82528);const y="/systemtags",w=(0,n.H4)(),A=t=>(0,n.Al)(t),v=t=>`<?xml version="1.0"?>\n<oc:filter-files ${(0,n.CP)()}>\n\t<d:prop>\n\t\t${(0,n.VX)()}\n\t</d:prop>\n\t<oc:filter-rules>\n\t\t<oc:systemtag>${t}</oc:systemtag>\n\t</oc:filter-rules>\n</oc:filter-files>`,T=function(t){return new n.vd({id:t.id,source:`${n.PY}${y}/${t.id}`,owner:String((0,E.HW)()?.uid??"anonymous"),root:y,displayname:t.displayName,permissions:n.aX.READ,attributes:{...t,"is-tag":!0}})},N="tags";var I=r(85072),_=r.n(I),C=r(97825),O=r.n(C),x=r(77659),R=r.n(x),L=r(55056),D=r.n(L),S=r(10540),k=r.n(S),M=r(41113),F=r.n(M),P=r(73911),$={};$.styleTagTransform=F(),$.setAttributes=D(),$.insert=R().bind(null,"head"),$.domAPI=O(),$.insertStyleElement=k(),_()(P.A,$),P.A&&P.A.locals&&P.A.locals;var B=r(57599),U=r(12686);const G=[],j=function(t){let e=arguments.length>1&&void 0!==arguments[1]&&arguments[1];const r=document.createElement("li");r.classList.add("files-list__system-tag"),r.setAttribute("data-systemtag-name",t),r.textContent=t;const n=G.find(e=>e.displayName===t);if(n?.color){const t=getComputedStyle(document.body).getPropertyValue("--color-main-background").replace("#","")||((0,B.j2)()?"000000":"ffffff"),e=(0,B.W7)(`#${n.color}`,`#${t}`);r.style.setProperty("--systemtag-color",e),r.setAttribute("data-systemtag-color","true")}return e&&r.classList.add("files-list__system-tag--more"),r},V=async function(t){const e=(0,U.rA)(t),r=document.createElement("ul");if(r.classList.add("files-list__system-tags"),r.setAttribute("aria-label",(0,l.t)("files","Assigned collaborative tags")),r.setAttribute("data-systemtags-fileid",t.fileid?.toString()||""),0===e.length)return r;if(0===G.length)try{G.push(...await(0,b.un)())}catch(t){f.A.error("Failed to fetch tags",{error:t})}if(r.append(j(e[0])),2===e.length)r.append(j(e[1]));else if(e.length>1){const t=j("+"+(e.length-1),!0);t.setAttribute("title",e.slice(1).join(", ")),t.setAttribute("aria-hidden","true"),t.setAttribute("role","presentation"),r.append(t);for(const t of e.slice(1)){const e=j(t);e.classList.add("hidden-visually"),r.append(e)}}return r},X=new n.hY({id:"system-tags",displayName:()=>"",iconSvgInline:()=>"",enabled:t=>1===t.length,exec:async()=>null,renderInline:V,order:0});(0,p.B1)("systemtags:node:updated",function(t){V(t).then(e=>{document.querySelectorAll(`[data-systemtags-fileid="${t.fileid}"]`).forEach(t=>{t.replaceWith(e)})})}),(0,p.B1)("systemtags:tag:created",function(t){G.push(t)}),(0,p.B1)("systemtags:tag:deleted",function(t){G.splice(G.findIndex(e=>e.id===t.id),1)}),(0,p.B1)("systemtags:tag:updated",function(t){const e=G.findIndex(e=>e.id===t.id);-1!==e&&(G[e]=t),function(t){document.querySelectorAll(`[data-systemtag-name="${t.displayName}"]`).forEach(e=>{e.style.setProperty("--systemtag-color",`#${t.color}`)})}(t)});const q=new n.hY({id:"systemtags:open-in-files",displayName:()=>(0,l.t)("systemtags","Open in Files"),iconSvgInline:()=>"",enabled:(t,e)=>e.id===N&&1===t.length&&!0!==t[0].attributes["is-tag"]&&t[0].type===n.pt.Folder,async exec(t){let e=t.dirname;return t.type===n.pt.Folder&&(e=t.path),window.OCP.Files.Router.goToRoute(null,{view:"files",fileid:String(t.fileid)},{dir:e,openfile:"true"}),null},order:-1e3,default:n.m9.HIDDEN});(0,n.Yc)("nc:system-tags"),(0,n.Gg)(d),(0,n.Gg)(X),(0,n.Gg)(q),(0,n.bh)().register(new n.Ss({id:N,name:(0,l.Tl)("systemtags","Tags"),caption:(0,l.Tl)("systemtags","List of tags and their associated files and folders."),emptyTitle:(0,l.Tl)("systemtags","No tags found"),emptyCaption:(0,l.Tl)("systemtags","Tags you have created will show up here."),icon:c,order:25,getContents:async function(){let t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"/";const e=(await(0,b.un)()).filter(t=>t.userVisible);if("/"===t)return{folder:new n.vd({id:0,source:`${n.PY}${y}`,owner:(0,E.HW)()?.uid,root:y,permissions:n.aX.NONE}),contents:e.map(T)};const r=parseInt(t.split("/",2)[1]),i=e.find(t=>t.id===r);if(!i)throw new Error("Tag not found");return{folder:T(i),contents:(await w.getDirectoryContents(n.lJ,{details:!0,data:v(r),headers:{method:"REPORT"}})).data.map(A)}}})),document.addEventListener("DOMContentLoaded",()=>{(0,i.C)("t",()=>(async t=>{const e=g((window._nc_files_pinia||(window._nc_files_pinia=(0,h.Ey)()),window._nc_files_pinia)),r=window?.OCP?.Files?.Router?.query?.dir||"/",i=e.activeNode,o=e.activeView;if(!i||!o)return void m.error("No active node or view",{node:i,view:o});if(i.status===n.zI.LOADING)return void m.debug("Node is already loading",{node:i});if(!t.enabled([i],o))return void m.debug("Action is not not available for the current context",{action:t,node:i,view:o});let c=t.id;try{c=t.displayName([i],o)}catch(e){m.error("Error while getting action display name",{action:t,error:e})}try{a.Ay.set(i,"status",n.zI.LOADING),e.activeAction=t;const u=await t.exec(i,o,r);if(null==u)return;if(u)return void(0,s.Te)((0,l.t)("files","{displayName}: done",{displayName:c}));(0,s.Qg)((0,l.t)("files","{displayName}: failed",{displayName:c}))}catch(e){m.error("Error while executing action",{action:t,error:e}),(0,s.Qg)((0,l.t)("files","{displayName}: failed",{displayName:c}))}finally{a.Ay.set(i,"status",void 0),e.activeAction=void 0}})(d),{stop:!0,prevent:!0}),f.A.debug("Hotkeys registered")})},57599:(t,e,r)=>{"use strict";r.d(e,{W7:()=>F,Pj:()=>M,j2:()=>k});const n={aliceblue:[240,248,255],antiquewhite:[250,235,215],aqua:[0,255,255],aquamarine:[127,255,212],azure:[240,255,255],beige:[245,245,220],bisque:[255,228,196],black:[0,0,0],blanchedalmond:[255,235,205],blue:[0,0,255],blueviolet:[138,43,226],brown:[165,42,42],burlywood:[222,184,135],cadetblue:[95,158,160],chartreuse:[127,255,0],chocolate:[210,105,30],coral:[255,127,80],cornflowerblue:[100,149,237],cornsilk:[255,248,220],crimson:[220,20,60],cyan:[0,255,255],darkblue:[0,0,139],darkcyan:[0,139,139],darkgoldenrod:[184,134,11],darkgray:[169,169,169],darkgreen:[0,100,0],darkgrey:[169,169,169],darkkhaki:[189,183,107],darkmagenta:[139,0,139],darkolivegreen:[85,107,47],darkorange:[255,140,0],darkorchid:[153,50,204],darkred:[139,0,0],darksalmon:[233,150,122],darkseagreen:[143,188,143],darkslateblue:[72,61,139],darkslategray:[47,79,79],darkslategrey:[47,79,79],darkturquoise:[0,206,209],darkviolet:[148,0,211],deeppink:[255,20,147],deepskyblue:[0,191,255],dimgray:[105,105,105],dimgrey:[105,105,105],dodgerblue:[30,144,255],firebrick:[178,34,34],floralwhite:[255,250,240],forestgreen:[34,139,34],fuchsia:[255,0,255],gainsboro:[220,220,220],ghostwhite:[248,248,255],gold:[255,215,0],goldenrod:[218,165,32],gray:[128,128,128],green:[0,128,0],greenyellow:[173,255,47],grey:[128,128,128],honeydew:[240,255,240],hotpink:[255,105,180],indianred:[205,92,92],indigo:[75,0,130],ivory:[255,255,240],khaki:[240,230,140],lavender:[230,230,250],lavenderblush:[255,240,245],lawngreen:[124,252,0],lemonchiffon:[255,250,205],lightblue:[173,216,230],lightcoral:[240,128,128],lightcyan:[224,255,255],lightgoldenrodyellow:[250,250,210],lightgray:[211,211,211],lightgreen:[144,238,144],lightgrey:[211,211,211],lightpink:[255,182,193],lightsalmon:[255,160,122],lightseagreen:[32,178,170],lightskyblue:[135,206,250],lightslategray:[119,136,153],lightslategrey:[119,136,153],lightsteelblue:[176,196,222],lightyellow:[255,255,224],lime:[0,255,0],limegreen:[50,205,50],linen:[250,240,230],magenta:[255,0,255],maroon:[128,0,0],mediumaquamarine:[102,205,170],mediumblue:[0,0,205],mediumorchid:[186,85,211],mediumpurple:[147,112,219],mediumseagreen:[60,179,113],mediumslateblue:[123,104,238],mediumspringgreen:[0,250,154],mediumturquoise:[72,209,204],mediumvioletred:[199,21,133],midnightblue:[25,25,112],mintcream:[245,255,250],mistyrose:[255,228,225],moccasin:[255,228,181],navajowhite:[255,222,173],navy:[0,0,128],oldlace:[253,245,230],olive:[128,128,0],olivedrab:[107,142,35],orange:[255,165,0],orangered:[255,69,0],orchid:[218,112,214],palegoldenrod:[238,232,170],palegreen:[152,251,152],paleturquoise:[175,238,238],palevioletred:[219,112,147],papayawhip:[255,239,213],peachpuff:[255,218,185],peru:[205,133,63],pink:[255,192,203],plum:[221,160,221],powderblue:[176,224,230],purple:[128,0,128],rebeccapurple:[102,51,153],red:[255,0,0],rosybrown:[188,143,143],royalblue:[65,105,225],saddlebrown:[139,69,19],salmon:[250,128,114],sandybrown:[244,164,96],seagreen:[46,139,87],seashell:[255,245,238],sienna:[160,82,45],silver:[192,192,192],skyblue:[135,206,235],slateblue:[106,90,205],slategray:[112,128,144],slategrey:[112,128,144],snow:[255,250,250],springgreen:[0,255,127],steelblue:[70,130,180],tan:[210,180,140],teal:[0,128,128],thistle:[216,191,216],tomato:[255,99,71],turquoise:[64,224,208],violet:[238,130,238],wheat:[245,222,179],white:[255,255,255],whitesmoke:[245,245,245],yellow:[255,255,0],yellowgreen:[154,205,50]},i=Object.create(null);for(const t in n)Object.hasOwn(n,t)&&(i[n[t]]=t);const a={to:{},get:{}};function o(t,e,r){return Math.min(Math.max(e,t),r)}function s(t){const e=Math.round(t).toString(16).toUpperCase();return e.length<2?"0"+e:e}a.get=function(t){let e,r;switch(t.slice(0,3).toLowerCase()){case"hsl":e=a.get.hsl(t),r="hsl";break;case"hwb":e=a.get.hwb(t),r="hwb";break;default:e=a.get.rgb(t),r="rgb"}return e?{model:r,value:e}:null},a.get.rgb=function(t){if(!t)return null;let e,r,i,a=[0,0,0,1];if(e=t.match(/^#([a-f\d]{6})([a-f\d]{2})?$/i)){for(i=e[2],e=e[1],r=0;r<3;r++){const t=2*r;a[r]=Number.parseInt(e.slice(t,t+2),16)}i&&(a[3]=Number.parseInt(i,16)/255)}else if(e=t.match(/^#([a-f\d]{3,4})$/i)){for(e=e[1],i=e[3],r=0;r<3;r++)a[r]=Number.parseInt(e[r]+e[r],16);i&&(a[3]=Number.parseInt(i+i,16)/255)}else if(e=t.match(/^rgba?\(\s*([+-]?\d+)(?=[\s,])\s*(?:,\s*)?([+-]?\d+)(?=[\s,])\s*(?:,\s*)?([+-]?\d+)\s*(?:[,|/]\s*([+-]?[\d.]+)(%?)\s*)?\)$/)){for(r=0;r<3;r++)a[r]=Number.parseInt(e[r+1],10);e[4]&&(a[3]=e[5]?.01*Number.parseFloat(e[4]):Number.parseFloat(e[4]))}else{if(!(e=t.match(/^rgba?\(\s*([+-]?[\d.]+)%\s*,?\s*([+-]?[\d.]+)%\s*,?\s*([+-]?[\d.]+)%\s*(?:[,|/]\s*([+-]?[\d.]+)(%?)\s*)?\)$/)))return(e=t.match(/^(\w+)$/))?"transparent"===e[1]?[0,0,0,0]:Object.hasOwn(n,e[1])?(a=n[e[1]],a[3]=1,a):null:null;for(r=0;r<3;r++)a[r]=Math.round(2.55*Number.parseFloat(e[r+1]));e[4]&&(a[3]=e[5]?.01*Number.parseFloat(e[4]):Number.parseFloat(e[4]))}for(r=0;r<3;r++)a[r]=o(a[r],0,255);return a[3]=o(a[3],0,1),a},a.get.hsl=function(t){if(!t)return null;const e=t.match(/^hsla?\(\s*([+-]?(?:\d{0,3}\.)?\d+)(?:deg)?\s*,?\s*([+-]?[\d.]+)%\s*,?\s*([+-]?[\d.]+)%\s*(?:[,|/]\s*([+-]?(?=\.\d|\d)(?:0|[1-9]\d*)?(?:\.\d*)?(?:[eE][+-]?\d+)?)\s*)?\)$/);if(e){const t=Number.parseFloat(e[4]);return[(Number.parseFloat(e[1])%360+360)%360,o(Number.parseFloat(e[2]),0,100),o(Number.parseFloat(e[3]),0,100),o(Number.isNaN(t)?1:t,0,1)]}return null},a.get.hwb=function(t){if(!t)return null;const e=t.match(/^hwb\(\s*([+-]?\d{0,3}(?:\.\d+)?)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?(?=\.\d|\d)(?:0|[1-9]\d*)?(?:\.\d*)?(?:[eE][+-]?\d+)?)\s*)?\)$/);if(e){const t=Number.parseFloat(e[4]);return[(Number.parseFloat(e[1])%360+360)%360,o(Number.parseFloat(e[2]),0,100),o(Number.parseFloat(e[3]),0,100),o(Number.isNaN(t)?1:t,0,1)]}return null},a.to.hex=function(...t){return"#"+s(t[0])+s(t[1])+s(t[2])+(t[3]<1?s(Math.round(255*t[3])):"")},a.to.rgb=function(...t){return t.length<4||1===t[3]?"rgb("+Math.round(t[0])+", "+Math.round(t[1])+", "+Math.round(t[2])+")":"rgba("+Math.round(t[0])+", "+Math.round(t[1])+", "+Math.round(t[2])+", "+t[3]+")"},a.to.rgb.percent=function(...t){const e=Math.round(t[0]/255*100),r=Math.round(t[1]/255*100),n=Math.round(t[2]/255*100);return t.length<4||1===t[3]?"rgb("+e+"%, "+r+"%, "+n+"%)":"rgba("+e+"%, "+r+"%, "+n+"%, "+t[3]+")"},a.to.hsl=function(...t){return t.length<4||1===t[3]?"hsl("+t[0]+", "+t[1]+"%, "+t[2]+"%)":"hsla("+t[0]+", "+t[1]+"%, "+t[2]+"%, "+t[3]+")"},a.to.hwb=function(...t){let e="";return t.length>=4&&1!==t[3]&&(e=", "+t[3]),"hwb("+t[0]+", "+t[1]+"%, "+t[2]+"%"+e+")"},a.to.keyword=function(...t){return i[t.slice(0,3)]};const l=a,c={aliceblue:[240,248,255],antiquewhite:[250,235,215],aqua:[0,255,255],aquamarine:[127,255,212],azure:[240,255,255],beige:[245,245,220],bisque:[255,228,196],black:[0,0,0],blanchedalmond:[255,235,205],blue:[0,0,255],blueviolet:[138,43,226],brown:[165,42,42],burlywood:[222,184,135],cadetblue:[95,158,160],chartreuse:[127,255,0],chocolate:[210,105,30],coral:[255,127,80],cornflowerblue:[100,149,237],cornsilk:[255,248,220],crimson:[220,20,60],cyan:[0,255,255],darkblue:[0,0,139],darkcyan:[0,139,139],darkgoldenrod:[184,134,11],darkgray:[169,169,169],darkgreen:[0,100,0],darkgrey:[169,169,169],darkkhaki:[189,183,107],darkmagenta:[139,0,139],darkolivegreen:[85,107,47],darkorange:[255,140,0],darkorchid:[153,50,204],darkred:[139,0,0],darksalmon:[233,150,122],darkseagreen:[143,188,143],darkslateblue:[72,61,139],darkslategray:[47,79,79],darkslategrey:[47,79,79],darkturquoise:[0,206,209],darkviolet:[148,0,211],deeppink:[255,20,147],deepskyblue:[0,191,255],dimgray:[105,105,105],dimgrey:[105,105,105],dodgerblue:[30,144,255],firebrick:[178,34,34],floralwhite:[255,250,240],forestgreen:[34,139,34],fuchsia:[255,0,255],gainsboro:[220,220,220],ghostwhite:[248,248,255],gold:[255,215,0],goldenrod:[218,165,32],gray:[128,128,128],green:[0,128,0],greenyellow:[173,255,47],grey:[128,128,128],honeydew:[240,255,240],hotpink:[255,105,180],indianred:[205,92,92],indigo:[75,0,130],ivory:[255,255,240],khaki:[240,230,140],lavender:[230,230,250],lavenderblush:[255,240,245],lawngreen:[124,252,0],lemonchiffon:[255,250,205],lightblue:[173,216,230],lightcoral:[240,128,128],lightcyan:[224,255,255],lightgoldenrodyellow:[250,250,210],lightgray:[211,211,211],lightgreen:[144,238,144],lightgrey:[211,211,211],lightpink:[255,182,193],lightsalmon:[255,160,122],lightseagreen:[32,178,170],lightskyblue:[135,206,250],lightslategray:[119,136,153],lightslategrey:[119,136,153],lightsteelblue:[176,196,222],lightyellow:[255,255,224],lime:[0,255,0],limegreen:[50,205,50],linen:[250,240,230],magenta:[255,0,255],maroon:[128,0,0],mediumaquamarine:[102,205,170],mediumblue:[0,0,205],mediumorchid:[186,85,211],mediumpurple:[147,112,219],mediumseagreen:[60,179,113],mediumslateblue:[123,104,238],mediumspringgreen:[0,250,154],mediumturquoise:[72,209,204],mediumvioletred:[199,21,133],midnightblue:[25,25,112],mintcream:[245,255,250],mistyrose:[255,228,225],moccasin:[255,228,181],navajowhite:[255,222,173],navy:[0,0,128],oldlace:[253,245,230],olive:[128,128,0],olivedrab:[107,142,35],orange:[255,165,0],orangered:[255,69,0],orchid:[218,112,214],palegoldenrod:[238,232,170],palegreen:[152,251,152],paleturquoise:[175,238,238],palevioletred:[219,112,147],papayawhip:[255,239,213],peachpuff:[255,218,185],peru:[205,133,63],pink:[255,192,203],plum:[221,160,221],powderblue:[176,224,230],purple:[128,0,128],rebeccapurple:[102,51,153],red:[255,0,0],rosybrown:[188,143,143],royalblue:[65,105,225],saddlebrown:[139,69,19],salmon:[250,128,114],sandybrown:[244,164,96],seagreen:[46,139,87],seashell:[255,245,238],sienna:[160,82,45],silver:[192,192,192],skyblue:[135,206,235],slateblue:[106,90,205],slategray:[112,128,144],slategrey:[112,128,144],snow:[255,250,250],springgreen:[0,255,127],steelblue:[70,130,180],tan:[210,180,140],teal:[0,128,128],thistle:[216,191,216],tomato:[255,99,71],turquoise:[64,224,208],violet:[238,130,238],wheat:[245,222,179],white:[255,255,255],whitesmoke:[245,245,245],yellow:[255,255,0],yellowgreen:[154,205,50]},u={};for(const t of Object.keys(c))u[c[t]]=t;const d={rgb:{channels:3,labels:"rgb"},hsl:{channels:3,labels:"hsl"},hsv:{channels:3,labels:"hsv"},hwb:{channels:3,labels:"hwb"},cmyk:{channels:4,labels:"cmyk"},xyz:{channels:3,labels:"xyz"},lab:{channels:3,labels:"lab"},oklab:{channels:3,labels:["okl","oka","okb"]},lch:{channels:3,labels:"lch"},oklch:{channels:3,labels:["okl","okc","okh"]},hex:{channels:1,labels:["hex"]},keyword:{channels:1,labels:["keyword"]},ansi16:{channels:1,labels:["ansi16"]},ansi256:{channels:1,labels:["ansi256"]},hcg:{channels:3,labels:["h","c","g"]},apple:{channels:3,labels:["r16","g16","b16"]},gray:{channels:1,labels:["gray"]}},h=d,p=(6/29)**3;function m(t){const e=t>.0031308?1.055*t**(1/2.4)-.055:12.92*t;return Math.min(Math.max(0,e),1)}function g(t){return t>.04045?((t+.055)/1.055)**2.4:t/12.92}for(const t of Object.keys(d)){if(!("channels"in d[t]))throw new Error("missing channels property: "+t);if(!("labels"in d[t]))throw new Error("missing channel labels property: "+t);if(d[t].labels.length!==d[t].channels)throw new Error("channel and label counts mismatch: "+t);const{channels:e,labels:r}=d[t];delete d[t].channels,delete d[t].labels,Object.defineProperty(d[t],"channels",{value:e}),Object.defineProperty(d[t],"labels",{value:r})}function f(t,e){return(t[0]-e[0])**2+(t[1]-e[1])**2+(t[2]-e[2])**2}function E(t,e){return function(r){return e(t(r))}}function b(t,e){const r=[e[t].parent,t];let n=h[e[t].parent][t],i=e[t].parent;for(;e[i].parent;)r.unshift(e[i].parent),n=E(h[e[i].parent][i],n),i=e[i].parent;return n.conversion=r,n}d.rgb.hsl=function(t){const e=t[0]/255,r=t[1]/255,n=t[2]/255,i=Math.min(e,r,n),a=Math.max(e,r,n),o=a-i;let s,l;switch(a){case i:s=0;break;case e:s=(r-n)/o;break;case r:s=2+(n-e)/o;break;case n:s=4+(e-r)/o}s=Math.min(60*s,360),s<0&&(s+=360);const c=(i+a)/2;return l=a===i?0:c<=.5?o/(a+i):o/(2-a-i),[s,100*l,100*c]},d.rgb.hsv=function(t){let e,r,n,i,a;const o=t[0]/255,s=t[1]/255,l=t[2]/255,c=Math.max(o,s,l),u=c-Math.min(o,s,l),d=function(t){return(c-t)/6/u+.5};if(0===u)i=0,a=0;else{switch(a=u/c,e=d(o),r=d(s),n=d(l),c){case o:i=n-r;break;case s:i=1/3+e-n;break;case l:i=2/3+r-e}i<0?i+=1:i>1&&(i-=1)}return[360*i,100*a,100*c]},d.rgb.hwb=function(t){const e=t[0],r=t[1];let n=t[2];const i=d.rgb.hsl(t)[0],a=1/255*Math.min(e,Math.min(r,n));return n=1-1/255*Math.max(e,Math.max(r,n)),[i,100*a,100*n]},d.rgb.oklab=function(t){const e=g(t[0]/255),r=g(t[1]/255),n=g(t[2]/255),i=Math.cbrt(.4122214708*e+.5363325363*r+.0514459929*n),a=Math.cbrt(.2119034982*e+.6806995451*r+.1073969566*n),o=Math.cbrt(.0883024619*e+.2817188376*r+.6299787005*n);return[100*(.2104542553*i+.793617785*a-.0040720468*o),100*(1.9779984951*i-2.428592205*a+.4505937099*o),100*(.0259040371*i+.7827717662*a-.808675766*o)]},d.rgb.cmyk=function(t){const e=t[0]/255,r=t[1]/255,n=t[2]/255,i=Math.min(1-e,1-r,1-n);return[100*((1-e-i)/(1-i)||0),100*((1-r-i)/(1-i)||0),100*((1-n-i)/(1-i)||0),100*i]},d.rgb.keyword=function(t){const e=u[t];if(e)return e;let r,n=Number.POSITIVE_INFINITY;for(const e of Object.keys(c)){const i=f(t,c[e]);i<n&&(n=i,r=e)}return r},d.keyword.rgb=function(t){return c[t]},d.rgb.xyz=function(t){const e=g(t[0]/255),r=g(t[1]/255),n=g(t[2]/255);return[100*(.4124564*e+.3575761*r+.1804375*n),100*(.2126729*e+.7151522*r+.072175*n),100*(.0193339*e+.119192*r+.9503041*n)]},d.rgb.lab=function(t){const e=d.rgb.xyz(t);let r=e[0],n=e[1],i=e[2];return r/=95.047,n/=100,i/=108.883,r=r>p?r**(1/3):7.787*r+16/116,n=n>p?n**(1/3):7.787*n+16/116,i=i>p?i**(1/3):7.787*i+16/116,[116*n-16,500*(r-n),200*(n-i)]},d.hsl.rgb=function(t){const e=t[0]/360,r=t[1]/100,n=t[2]/100;let i,a;if(0===r)return a=255*n,[a,a,a];const o=n<.5?n*(1+r):n+r-n*r,s=2*n-o,l=[0,0,0];for(let t=0;t<3;t++)i=e+1/3*-(t-1),i<0&&i++,i>1&&i--,a=6*i<1?s+6*(o-s)*i:2*i<1?o:3*i<2?s+(o-s)*(2/3-i)*6:s,l[t]=255*a;return l},d.hsl.hsv=function(t){const e=t[0];let r=t[1]/100,n=t[2]/100,i=r;const a=Math.max(n,.01);return n*=2,r*=n<=1?n:2-n,i*=a<=1?a:2-a,[e,100*(0===n?2*i/(a+i):2*r/(n+r)),(n+r)/2*100]},d.hsv.rgb=function(t){const e=t[0]/60,r=t[1]/100;let n=t[2]/100;const i=Math.floor(e)%6,a=e-Math.floor(e),o=255*n*(1-r),s=255*n*(1-r*a),l=255*n*(1-r*(1-a));switch(n*=255,i){case 0:return[n,l,o];case 1:return[s,n,o];case 2:return[o,n,l];case 3:return[o,s,n];case 4:return[l,o,n];case 5:return[n,o,s]}},d.hsv.hsl=function(t){const e=t[0],r=t[1]/100,n=t[2]/100,i=Math.max(n,.01);let a,o;o=(2-r)*n;const s=(2-r)*i;return a=r*i,a/=s<=1?s:2-s,a=a||0,o/=2,[e,100*a,100*o]},d.hwb.rgb=function(t){const e=t[0]/360;let r=t[1]/100,n=t[2]/100;const i=r+n;let a;i>1&&(r/=i,n/=i);const o=Math.floor(6*e),s=1-n;a=6*e-o,1&o&&(a=1-a);const l=r+a*(s-r);let c,u,d;switch(o){default:case 6:case 0:c=s,u=l,d=r;break;case 1:c=l,u=s,d=r;break;case 2:c=r,u=s,d=l;break;case 3:c=r,u=l,d=s;break;case 4:c=l,u=r,d=s;break;case 5:c=s,u=r,d=l}return[255*c,255*u,255*d]},d.cmyk.rgb=function(t){const e=t[0]/100,r=t[1]/100,n=t[2]/100,i=t[3]/100;return[255*(1-Math.min(1,e*(1-i)+i)),255*(1-Math.min(1,r*(1-i)+i)),255*(1-Math.min(1,n*(1-i)+i))]},d.xyz.rgb=function(t){const e=t[0]/100,r=t[1]/100,n=t[2]/100;let i,a,o;return i=3.2404542*e+-1.5371385*r+-.4985314*n,a=-.969266*e+1.8760108*r+.041556*n,o=.0556434*e+-.2040259*r+1.0572252*n,i=m(i),a=m(a),o=m(o),[255*i,255*a,255*o]},d.xyz.lab=function(t){let e=t[0],r=t[1],n=t[2];return e/=95.047,r/=100,n/=108.883,e=e>p?e**(1/3):7.787*e+16/116,r=r>p?r**(1/3):7.787*r+16/116,n=n>p?n**(1/3):7.787*n+16/116,[116*r-16,500*(e-r),200*(r-n)]},d.xyz.oklab=function(t){const e=t[0]/100,r=t[1]/100,n=t[2]/100,i=Math.cbrt(.8189330101*e+.3618667424*r-.1288597137*n),a=Math.cbrt(.0329845436*e+.9293118715*r+.0361456387*n),o=Math.cbrt(.0482003018*e+.2643662691*r+.633851707*n);return[100*(.2104542553*i+.793617785*a-.0040720468*o),100*(1.9779984951*i-2.428592205*a+.4505937099*o),100*(.0259040371*i+.7827717662*a-.808675766*o)]},d.oklab.oklch=function(t){return d.lab.lch(t)},d.oklab.xyz=function(t){const e=t[0]/100,r=t[1]/100,n=t[2]/100,i=(.999999998*e+.396337792*r+.215803758*n)**3,a=(1.000000008*e-.105561342*r-.063854175*n)**3,o=(1.000000055*e-.089484182*r-1.291485538*n)**3;return[100*(1.227013851*i-.55779998*a+.281256149*o),100*(-.040580178*i+1.11225687*a-.071676679*o),100*(-.076381285*i-.421481978*a+1.58616322*o)]},d.oklab.rgb=function(t){const e=t[0]/100,r=t[1]/100,n=t[2]/100,i=(e+.3963377774*r+.2158037573*n)**3,a=(e-.1055613458*r-.0638541728*n)**3,o=(e-.0894841775*r-1.291485548*n)**3;return[255*m(4.0767416621*i-3.3077115913*a+.2309699292*o),255*m(-1.2684380046*i+2.6097574011*a-.3413193965*o),255*m(-.0041960863*i-.7034186147*a+1.707614701*o)]},d.oklch.oklab=function(t){return d.lch.lab(t)},d.lab.xyz=function(t){let e,r,n;r=(t[0]+16)/116,e=t[1]/500+r,n=r-t[2]/200;const i=r**3,a=e**3,o=n**3;return r=i>p?i:(r-16/116)/7.787,e=a>p?a:(e-16/116)/7.787,n=o>p?o:(n-16/116)/7.787,e*=95.047,r*=100,n*=108.883,[e,r,n]},d.lab.lch=function(t){const e=t[0],r=t[1],n=t[2];let i;return i=360*Math.atan2(n,r)/2/Math.PI,i<0&&(i+=360),[e,Math.sqrt(r*r+n*n),i]},d.lch.lab=function(t){const e=t[0],r=t[1],n=t[2]/360*2*Math.PI;return[e,r*Math.cos(n),r*Math.sin(n)]},d.rgb.ansi16=function(t,e=null){const[r,n,i]=t;let a=null===e?d.rgb.hsv(t)[2]:e;if(a=Math.round(a/50),0===a)return 30;let o=30+(Math.round(i/255)<<2|Math.round(n/255)<<1|Math.round(r/255));return 2===a&&(o+=60),o},d.hsv.ansi16=function(t){return d.rgb.ansi16(d.hsv.rgb(t),t[2])},d.rgb.ansi256=function(t){const e=t[0],r=t[1],n=t[2];return e>>4==r>>4&&r>>4==n>>4?e<8?16:e>248?231:Math.round((e-8)/247*24)+232:16+36*Math.round(e/255*5)+6*Math.round(r/255*5)+Math.round(n/255*5)},d.ansi16.rgb=function(t){let e=(t=t[0])%10;if(0===e||7===e)return t>50&&(e+=3.5),e=e/10.5*255,[e,e,e];const r=.5*(Math.trunc(t>50)+1);return[(1&e)*r*255,(e>>1&1)*r*255,(e>>2&1)*r*255]},d.ansi256.rgb=function(t){if((t=t[0])>=232){const e=10*(t-232)+8;return[e,e,e]}let e;return t-=16,[Math.floor(t/36)/5*255,Math.floor((e=t%36)/6)/5*255,e%6/5*255]},d.rgb.hex=function(t){const e=(((255&Math.round(t[0]))<<16)+((255&Math.round(t[1]))<<8)+(255&Math.round(t[2]))).toString(16).toUpperCase();return"000000".slice(e.length)+e},d.hex.rgb=function(t){const e=t.toString(16).match(/[a-f\d]{6}|[a-f\d]{3}/i);if(!e)return[0,0,0];let r=e[0];3===e[0].length&&(r=[...r].map(t=>t+t).join(""));const n=Number.parseInt(r,16);return[n>>16&255,n>>8&255,255&n]},d.rgb.hcg=function(t){const e=t[0]/255,r=t[1]/255,n=t[2]/255,i=Math.max(Math.max(e,r),n),a=Math.min(Math.min(e,r),n),o=i-a;let s;return s=o<=0?0:i===e?(r-n)/o%6:i===r?2+(n-e)/o:4+(e-r)/o,s/=6,s%=1,[360*s,100*o,100*(o<1?a/(1-o):0)]},d.hsl.hcg=function(t){const e=t[1]/100,r=t[2]/100,n=r<.5?2*e*r:2*e*(1-r);let i=0;return n<1&&(i=(r-.5*n)/(1-n)),[t[0],100*n,100*i]},d.hsv.hcg=function(t){const e=t[1]/100,r=t[2]/100,n=e*r;let i=0;return n<1&&(i=(r-n)/(1-n)),[t[0],100*n,100*i]},d.hcg.rgb=function(t){const e=t[0]/360,r=t[1]/100,n=t[2]/100;if(0===r)return[255*n,255*n,255*n];const i=[0,0,0],a=e%1*6,o=a%1,s=1-o;let l=0;switch(Math.floor(a)){case 0:i[0]=1,i[1]=o,i[2]=0;break;case 1:i[0]=s,i[1]=1,i[2]=0;break;case 2:i[0]=0,i[1]=1,i[2]=o;break;case 3:i[0]=0,i[1]=s,i[2]=1;break;case 4:i[0]=o,i[1]=0,i[2]=1;break;default:i[0]=1,i[1]=0,i[2]=s}return l=(1-r)*n,[255*(r*i[0]+l),255*(r*i[1]+l),255*(r*i[2]+l)]},d.hcg.hsv=function(t){const e=t[1]/100,r=e+t[2]/100*(1-e);let n=0;return r>0&&(n=e/r),[t[0],100*n,100*r]},d.hcg.hsl=function(t){const e=t[1]/100,r=t[2]/100*(1-e)+.5*e;let n=0;return r>0&&r<.5?n=e/(2*r):r>=.5&&r<1&&(n=e/(2*(1-r))),[t[0],100*n,100*r]},d.hcg.hwb=function(t){const e=t[1]/100,r=e+t[2]/100*(1-e);return[t[0],100*(r-e),100*(1-r)]},d.hwb.hcg=function(t){const e=t[1]/100,r=1-t[2]/100,n=r-e;let i=0;return n<1&&(i=(r-n)/(1-n)),[t[0],100*n,100*i]},d.apple.rgb=function(t){return[t[0]/65535*255,t[1]/65535*255,t[2]/65535*255]},d.rgb.apple=function(t){return[t[0]/255*65535,t[1]/255*65535,t[2]/255*65535]},d.gray.rgb=function(t){return[t[0]/100*255,t[0]/100*255,t[0]/100*255]},d.gray.hsl=function(t){return[0,0,t[0]]},d.gray.hsv=d.gray.hsl,d.gray.hwb=function(t){return[0,100,t[0]]},d.gray.cmyk=function(t){return[0,0,0,t[0]]},d.gray.lab=function(t){return[t[0],0,0]},d.gray.hex=function(t){const e=255&Math.round(t[0]/100*255),r=((e<<16)+(e<<8)+e).toString(16).toUpperCase();return"000000".slice(r.length)+r},d.rgb.gray=function(t){return[(t[0]+t[1]+t[2])/3/255*100]};const y=function(t){const e=function(t){const e=function(){const t={},e=Object.keys(h);for(let{length:r}=e,n=0;n<r;n++)t[e[n]]={distance:-1,parent:null};return t}(),r=[t];for(e[t].distance=0;r.length>0;){const t=r.pop(),n=Object.keys(h[t]);for(let{length:i}=n,a=0;a<i;a++){const i=n[a],o=e[i];-1===o.distance&&(o.distance=e[t].distance+1,o.parent=t,r.unshift(i))}}return e}(t),r={},n=Object.keys(e);for(let{length:t}=n,i=0;i<t;i++){const t=n[i];null!==e[t].parent&&(r[t]=b(t,e))}return r},w={},A=Object.keys(h);function v(t){const e=function(...e){const r=e[0];return null==r?r:(r.length>1&&(e=r),t(e))};return"conversion"in t&&(e.conversion=t.conversion),e}function T(t){const e=function(...e){const r=e[0];if(null==r)return r;r.length>1&&(e=r);const n=t(e);if("object"==typeof n)for(let{length:t}=n,e=0;e<t;e++)n[e]=Math.round(n[e]);return n};return"conversion"in t&&(e.conversion=t.conversion),e}for(const t of A){w[t]={},Object.defineProperty(w[t],"channels",{value:h[t].channels}),Object.defineProperty(w[t],"labels",{value:h[t].labels});const e=y(t),r=Object.keys(e);for(const n of r){const r=e[n];w[t][n]=T(r),w[t][n].raw=v(r)}}const N=w,I=["keyword","gray","hex"],_={};for(const t of Object.keys(N))_[[...N[t].labels].sort().join("")]=t;const C={};function O(t,e){if(!(this instanceof O))return new O(t,e);if(e&&e in I&&(e=null),e&&!(e in N))throw new Error("Unknown model: "+e);let r,n;if(null==t)this.model="rgb",this.color=[0,0,0],this.valpha=1;else if(t instanceof O)this.model=t.model,this.color=[...t.color],this.valpha=t.valpha;else if("string"==typeof t){const e=l.get(t);if(null===e)throw new Error("Unable to parse color from string: "+t);this.model=e.model,n=N[this.model].channels,this.color=e.value.slice(0,n),this.valpha="number"==typeof e.value[n]?e.value[n]:1}else if(t.length>0){this.model=e||"rgb",n=N[this.model].channels;const r=Array.prototype.slice.call(t,0,n);this.color=D(r,n),this.valpha="number"==typeof t[n]?t[n]:1}else if("number"==typeof t)this.model="rgb",this.color=[t>>16&255,t>>8&255,255&t],this.valpha=1;else{this.valpha=1;const e=Object.keys(t);"alpha"in t&&(e.splice(e.indexOf("alpha"),1),this.valpha="number"==typeof t.alpha?t.alpha:0);const n=e.sort().join("");if(!(n in _))throw new Error("Unable to parse color from object: "+JSON.stringify(t));this.model=_[n];const{labels:i}=N[this.model],a=[];for(r=0;r<i.length;r++)a.push(t[i[r]]);this.color=D(a)}if(C[this.model])for(n=N[this.model].channels,r=0;r<n;r++){const t=C[this.model][r];t&&(this.color[r]=t(this.color[r]))}this.valpha=Math.max(0,Math.min(1,this.valpha)),Object.freeze&&Object.freeze(this)}O.prototype={toString(){return this.string()},toJSON(){return this[this.model]()},string(t){let e=this.model in l.to?this:this.rgb();e=e.round("number"==typeof t?t:1);const r=1===e.valpha?e.color:[...e.color,this.valpha];return l.to[e.model](...r)},percentString(t){const e=this.rgb().round("number"==typeof t?t:1),r=1===e.valpha?e.color:[...e.color,this.valpha];return l.to.rgb.percent(...r)},array(){return 1===this.valpha?[...this.color]:[...this.color,this.valpha]},object(){const t={},{channels:e}=N[this.model],{labels:r}=N[this.model];for(let n=0;n<e;n++)t[r[n]]=this.color[n];return 1!==this.valpha&&(t.alpha=this.valpha),t},unitArray(){const t=this.rgb().color;return t[0]/=255,t[1]/=255,t[2]/=255,1!==this.valpha&&t.push(this.valpha),t},unitObject(){const t=this.rgb().object();return t.r/=255,t.g/=255,t.b/=255,1!==this.valpha&&(t.alpha=this.valpha),t},round(t){return t=Math.max(t||0,0),new O([...this.color.map(x(t)),this.valpha],this.model)},alpha(t){return void 0!==t?new O([...this.color,Math.max(0,Math.min(1,t))],this.model):this.valpha},red:R("rgb",0,L(255)),green:R("rgb",1,L(255)),blue:R("rgb",2,L(255)),hue:R(["hsl","hsv","hsl","hwb","hcg"],0,t=>(t%360+360)%360),saturationl:R("hsl",1,L(100)),lightness:R("hsl",2,L(100)),saturationv:R("hsv",1,L(100)),value:R("hsv",2,L(100)),chroma:R("hcg",1,L(100)),gray:R("hcg",2,L(100)),white:R("hwb",1,L(100)),wblack:R("hwb",2,L(100)),cyan:R("cmyk",0,L(100)),magenta:R("cmyk",1,L(100)),yellow:R("cmyk",2,L(100)),black:R("cmyk",3,L(100)),x:R("xyz",0,L(95.047)),y:R("xyz",1,L(100)),z:R("xyz",2,L(108.833)),l:R("lab",0,L(100)),a:R("lab",1),b:R("lab",2),keyword(t){return void 0!==t?new O(t):N[this.model].keyword(this.color)},hex(t){return void 0!==t?new O(t):l.to.hex(...this.rgb().round().color)},hexa(t){if(void 0!==t)return new O(t);const e=this.rgb().round().color;let r=Math.round(255*this.valpha).toString(16).toUpperCase();return 1===r.length&&(r="0"+r),l.to.hex(...e)+r},rgbNumber(){const t=this.rgb().color;return(255&t[0])<<16|(255&t[1])<<8|255&t[2]},luminosity(){const t=this.rgb().color,e=[];for(const[r,n]of t.entries()){const t=n/255;e[r]=t<=.04045?t/12.92:((t+.055)/1.055)**2.4}return.2126*e[0]+.7152*e[1]+.0722*e[2]},contrast(t){const e=this.luminosity(),r=t.luminosity();return e>r?(e+.05)/(r+.05):(r+.05)/(e+.05)},level(t){const e=this.contrast(t);return e>=7?"AAA":e>=4.5?"AA":""},isDark(){const t=this.rgb().color;return(2126*t[0]+7152*t[1]+722*t[2])/1e4<128},isLight(){return!this.isDark()},negate(){const t=this.rgb();for(let e=0;e<3;e++)t.color[e]=255-t.color[e];return t},lighten(t){const e=this.hsl();return e.color[2]+=e.color[2]*t,e},darken(t){const e=this.hsl();return e.color[2]-=e.color[2]*t,e},saturate(t){const e=this.hsl();return e.color[1]+=e.color[1]*t,e},desaturate(t){const e=this.hsl();return e.color[1]-=e.color[1]*t,e},whiten(t){const e=this.hwb();return e.color[1]+=e.color[1]*t,e},blacken(t){const e=this.hwb();return e.color[2]+=e.color[2]*t,e},grayscale(){const t=this.rgb().color,e=.3*t[0]+.59*t[1]+.11*t[2];return O.rgb(e,e,e)},fade(t){return this.alpha(this.valpha-this.valpha*t)},opaquer(t){return this.alpha(this.valpha+this.valpha*t)},rotate(t){const e=this.hsl();let r=e.color[0];return r=(r+t)%360,r=r<0?360+r:r,e.color[0]=r,e},mix(t,e){if(!t||!t.rgb)throw new Error('Argument to "mix" was not a Color instance, but rather an instance of '+typeof t);const r=t.rgb(),n=this.rgb(),i=void 0===e?.5:e,a=2*i-1,o=r.alpha()-n.alpha(),s=((a*o===-1?a:(a+o)/(1+a*o))+1)/2,l=1-s;return O.rgb(s*r.red()+l*n.red(),s*r.green()+l*n.green(),s*r.blue()+l*n.blue(),r.alpha()*i+n.alpha()*(1-i))}};for(const t of Object.keys(N)){if(I.includes(t))continue;const{channels:e}=N[t];O.prototype[t]=function(...e){return this.model===t?new O(this):e.length>0?new O(e,t):new O([...(r=N[this.model][t].raw(this.color),Array.isArray(r)?r:[r]),this.valpha],t);var r},O[t]=function(...r){let n=r[0];return"number"==typeof n&&(n=D(r,e)),new O(n,t)}}function x(t){return function(e){return function(t,e){return Number(t.toFixed(e))}(e,t)}}function R(t,e,r){t=Array.isArray(t)?t:[t];for(const n of t)(C[n]||=[])[e]=r;return t=t[0],function(n){let i;return void 0!==n?(r&&(n=r(n)),i=this[t](),i.color[e]=n,i):(i=this[t]().color[e],r&&(i=r(i)),i)}}function L(t){return function(e){return Math.max(0,Math.min(t,e))}}function D(t,e){for(let r=0;r<e;r++)"number"!=typeof t[r]&&(t[r]=0);return t}const S=O;function k(){const t=window?.matchMedia?.("(prefers-color-scheme: dark)")?.matches,e=document.body.getAttribute("data-themes")?.includes("dark");return e||t||!1}function M(t){return $(t,"#ffffff")<4.5}function F(t,e){const r=function(t){return P(t)>.6}(e),n=(i=e,new S(r?t:"#ffffff").mix(new S(i),.83).hex());var i;let a=$(t,n);const o=function(){const t=window?.matchMedia?.("(forced-colors: active)")?.matches,e=document.body.getAttribute("data-themes")?.includes("highcontrast");return e||t||!1}()?5.6:3.2;let s=0,l=t;const c=(r?-100:100)/255;for(;a<o&&s++<100;){const t=B(l),e=Math.max(0,Math.min(255,t.l+c));l=U({h:t.h,s:t.s,l:e}),a=$(l,n)}return l}function P(t){const e=function(t){return new S(t).rgb().array()}(t).map(t=>(t/=255)<=.03928?t/12.92:Math.pow((t+.055)/1.055,2.4)),[r,n,i]=e;return.2126*r+.7152*n+.0722*i}function $(t,e){const r=P(t)+.05,n=P(e)+.05;return Math.max(r,n)/Math.min(r,n)}function B(t){const e=new S(t).hsl();return{h:e.color[0],s:e.color[1],l:e.color[2]}}function U(t){return new S(t).hex()}},59169:()=>{},63779:()=>{},73911:(t,e,r)=>{"use strict";r.d(e,{A:()=>s});var n=r(71354),i=r.n(n),a=r(76314),o=r.n(a)()(i());o.push([t.id,".files-list__system-tags{--min-size: 32px;display:none;justify-content:center;align-items:center;min-width:calc(var(--min-size)*2);max-width:300px}.files-list__system-tag{padding:5px 10px;border:1px solid;border-radius:var(--border-radius-pill);border-color:var(--color-border);color:var(--color-text-maxcontrast);height:var(--min-size);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:20px;text-align:center}.files-list__system-tag--more{overflow:visible;text-overflow:initial}.files-list__system-tag+.files-list__system-tag{margin-inline-start:5px}.files-list__system-tag[data-systemtag-color]{border-color:var(--systemtag-color);color:var(--systemtag-color);border-width:2px;line-height:18px}@media(min-width: 512px){.files-list__system-tags{display:flex}}","",{version:3,sources:["webpack://./apps/systemtags/src/css/fileEntryInlineSystemTags.scss"],names:[],mappings:"AAKA,yBACC,gBAAA,CACA,YAAA,CACA,sBAAA,CACA,kBAAA,CACA,iCAAA,CACA,eAAA,CAGD,wBACC,gBAAA,CACA,gBAAA,CACA,uCAAA,CACA,gCAAA,CACA,mCAAA,CACA,sBAAA,CACA,kBAAA,CACA,eAAA,CACA,sBAAA,CACA,gBAAA,CACA,iBAAA,CAEA,8BACC,gBAAA,CACA,qBAAA,CAID,gDACC,uBAAA,CAID,8CACC,mCAAA,CACA,4BAAA,CACA,gBAAA,CACA,gBAAA,CAIF,yBACC,yBACC,YAAA,CAAA",sourcesContent:["/**\n * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors\n * SPDX-License-Identifier: AGPL-3.0-or-later\n */\n\n.files-list__system-tags {\n\t--min-size: 32px;\n\tdisplay: none;\n\tjustify-content: center;\n\talign-items: center;\n\tmin-width: calc(var(--min-size) * 2);\n\tmax-width: 300px;\n}\n\n.files-list__system-tag {\n\tpadding: 5px 10px;\n\tborder: 1px solid;\n\tborder-radius: var(--border-radius-pill);\n\tborder-color: var(--color-border);\n\tcolor: var(--color-text-maxcontrast);\n\theight: var(--min-size);\n\twhite-space: nowrap;\n\toverflow: hidden;\n\ttext-overflow: ellipsis;\n\tline-height: 20px; // min-size - 2 * 5px padding - 2 * 1px border\n\ttext-align: center;\n\n\t&--more {\n\t\toverflow: visible;\n\t\ttext-overflow: initial;\n\t}\n\n\t// Proper spacing if multiple shown\n\t& + .files-list__system-tag {\n\t\tmargin-inline-start: 5px;\n\t}\n\n\t// With color\n\t&[data-systemtag-color] {\n\t\tborder-color: var(--systemtag-color);\n\t\tcolor: var(--systemtag-color);\n\t\tborder-width: 2px;\n\t\tline-height: 18px; // min-size - 2 * 5px padding - 2 * 2px border\n\t}\n}\n\n@media (min-width: 512px) {\n\t.files-list__system-tags {\n\t\tdisplay: flex;\n\t}\n}\n"],sourceRoot:""}]);const s=o},77199:()=>{},82528:(t,e,r)=>{"use strict";r.d(e,{Gw:()=>h,T0:()=>m,VZ:()=>d,b0:()=>p,un:()=>c,xI:()=>u}),r(65043);var n=r(53334),i=r(8828),a=r(12686),o=r(25631),s=r(61338);r(56760);const l='<?xml version="1.0"?>\n<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">\n\t<d:prop>\n\t\t<oc:id />\n\t\t<oc:display-name />\n\t\t<oc:user-visible />\n\t\t<oc:user-assignable />\n\t\t<oc:can-assign />\n\t\t<d:getetag />\n\t\t<nc:color />\n\t</d:prop>\n</d:propfind>',c=async()=>{try{const{data:t}=await i.R.getDirectoryContents("/systemtags",{data:l,details:!0,glob:"/systemtags/*"});return(0,a.rL)(t)}catch(t){throw o.A.error((0,n.t)("systemtags","Failed to load tags"),{error:t}),new Error((0,n.t)("systemtags","Failed to load tags"))}},u=async t=>{const e="/systemtags/"+t;try{const{data:t}=await i.R.stat(e,{data:l,details:!0});return(0,a.rL)([t])[0]}catch(t){throw o.A.error((0,n.t)("systemtags","Failed to load tag"),{error:t}),new Error((0,n.t)("systemtags","Failed to load tag"))}},d=async t=>{const e=(0,a._3)(t);try{const{headers:r}=await i.R.customRequest("/systemtags",{method:"POST",data:e}),l=r.get("content-location");if(l)return(0,s.Ic)("systemtags:tag:created",t),(0,a.GX)(l);throw o.A.error((0,n.t)("systemtags",'Missing "Content-Location" header')),new Error((0,n.t)("systemtags",'Missing "Content-Location" header'))}catch(t){if(409===t?.response?.status)throw o.A.error((0,n.t)("systemtags","A tag with the same name already exists"),{error:t}),new Error((0,n.t)("systemtags","A tag with the same name already exists"));throw o.A.error((0,n.t)("systemtags","Failed to create tag"),{error:t}),new Error((0,n.t)("systemtags","Failed to create tag"))}},h=async t=>{const e="/systemtags/"+t.id,r=`<?xml version="1.0"?>\n\t<d:propertyupdate xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">\n\t\t<d:set>\n\t\t\t<d:prop>\n\t\t\t\t<oc:display-name>${t.displayName}</oc:display-name>\n\t\t\t\t<oc:user-visible>${t.userVisible}</oc:user-visible>\n\t\t\t\t<oc:user-assignable>${t.userAssignable}</oc:user-assignable>\n\t\t\t\t<nc:color>${t?.color||null}</nc:color>\n\t\t\t</d:prop>\n\t\t</d:set>\n\t</d:propertyupdate>`;try{await i.R.customRequest(e,{method:"PROPPATCH",data:r}),(0,s.Ic)("systemtags:tag:updated",t)}catch(t){throw o.A.error((0,n.t)("systemtags","Failed to update tag"),{error:t}),new Error((0,n.t)("systemtags","Failed to update tag"))}},p=async function(t,e){const r=`/systemtags/${t.id}/${e}`,n=await i.R.stat(r,{data:'<?xml version="1.0"?>\n\t<d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">\n\t\t<d:prop>\n\t\t\t<nc:object-ids />\n\t\t\t<d:getetag />\n\t\t</d:prop>\n\t</d:propfind>',details:!0});return{etag:n?.data?.props?.getetag||'""',objects:Object.values(n?.data?.props?.["object-ids"]||[]).flat()}},m=async function(t,e,r){let n=arguments.length>3&&void 0!==arguments[3]?arguments[3]:"";const a=`/systemtags/${t.id}/${e}`;let o=`<?xml version="1.0"?>\n\t<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">\n\t\t<d:set>\n\t\t\t<d:prop>\n\t\t\t\t<nc:object-ids>${r.map(t=>{let{id:e,type:r}=t;return`<nc:object-id><nc:id>${e}</nc:id><nc:type>${r}</nc:type></nc:object-id>`}).join("")}</nc:object-ids>\n\t\t\t</d:prop>\n\t\t</d:set>\n\t</d:propertyupdate>`;0===r.length&&(o='<?xml version="1.0"?>\n\t\t<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">\n\t\t\t<d:remove>\n\t\t\t\t<d:prop>\n\t\t\t\t\t<nc:object-ids />\n\t\t\t\t</d:prop>\n\t\t\t</d:remove>\n\t\t</d:propertyupdate>'),await i.R.customRequest(a,{method:"PROPPATCH",data:o,headers:{"if-match":n}})}},86833:()=>{}},i={};function a(t){var e=i[t];if(void 0!==e)return e.exports;var r=i[t]={id:t,loaded:!1,exports:{}};return n[t].call(r.exports,r,r.exports,a),r.loaded=!0,r.exports}a.m=n,t=[],a.O=(e,r,n,i)=>{if(!r){var o=1/0;for(u=0;u<t.length;u++){r=t[u][0],n=t[u][1],i=t[u][2];for(var s=!0,l=0;l<r.length;l++)(!1&i||o>=i)&&Object.keys(a.O).every(t=>a.O[t](r[l]))?r.splice(l--,1):(s=!1,i<o&&(o=i));if(s){t.splice(u--,1);var c=n();void 0!==c&&(e=c)}}return e}i=i||0;for(var u=t.length;u>0&&t[u-1][2]>i;u--)t[u]=t[u-1];t[u]=[r,n,i]},a.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return a.d(e,{a:e}),e},a.d=(t,e)=>{for(var r in e)a.o(e,r)&&!a.o(t,r)&&Object.defineProperty(t,r,{enumerable:!0,get:e[r]})},a.f={},a.e=t=>Promise.all(Object.keys(a.f).reduce((e,r)=>(a.f[r](t,e),e),[])),a.u=t=>t+"-"+t+".js?v="+{640:"d3d98600d88fd55c7b27",5771:"d141d1ad8187d99738b9",5810:"fc51f8aa95a9854d22fd",7471:"6423b9b898ffefeb7d1d",8474:"d060bb2e97b1499bd6b0",9167:"8f0638f20e8509ce3012"}[t],a.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(t){if("object"==typeof window)return window}}(),a.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),e={},r="nextcloud:",a.l=(t,n,i,o)=>{if(e[t])e[t].push(n);else{var s,l;if(void 0!==i)for(var c=document.getElementsByTagName("script"),u=0;u<c.length;u++){var d=c[u];if(d.getAttribute("src")==t||d.getAttribute("data-webpack")==r+i){s=d;break}}s||(l=!0,(s=document.createElement("script")).charset="utf-8",s.timeout=120,a.nc&&s.setAttribute("nonce",a.nc),s.setAttribute("data-webpack",r+i),s.src=t),e[t]=[n];var h=(r,n)=>{s.onerror=s.onload=null,clearTimeout(p);var i=e[t];if(delete e[t],s.parentNode&&s.parentNode.removeChild(s),i&&i.forEach(t=>t(n)),r)return r(n)},p=setTimeout(h.bind(null,void 0,{type:"timeout",target:s}),12e4);s.onerror=h.bind(null,s.onerror),s.onload=h.bind(null,s.onload),l&&document.head.appendChild(s)}},a.r=t=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},a.nmd=t=>(t.paths=[],t.children||(t.children=[]),t),a.j=2766,(()=>{var t;a.g.importScripts&&(t=a.g.location+"");var e=a.g.document;if(!t&&e&&(e.currentScript&&"SCRIPT"===e.currentScript.tagName.toUpperCase()&&(t=e.currentScript.src),!t)){var r=e.getElementsByTagName("script");if(r.length)for(var n=r.length-1;n>-1&&(!t||!/^http(s?):/.test(t));)t=r[n--].src}if(!t)throw new Error("Automatic publicPath is not supported in this browser");t=t.replace(/^blob:/,"").replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),a.p=t})(),(()=>{a.b=document.baseURI||self.location.href;var t={2766:0,5810:0};a.f.j=(e,r)=>{var n=a.o(t,e)?t[e]:void 0;if(0!==n)if(n)r.push(n[2]);else{var i=new Promise((r,i)=>n=t[e]=[r,i]);r.push(n[2]=i);var o=a.p+a.u(e),s=new Error;a.l(o,r=>{if(a.o(t,e)&&(0!==(n=t[e])&&(t[e]=void 0),n)){var i=r&&("load"===r.type?"missing":r.type),o=r&&r.target&&r.target.src;s.message="Loading chunk "+e+" failed.\n("+i+": "+o+")",s.name="ChunkLoadError",s.type=i,s.request=o,n[1](s)}},"chunk-"+e,e)}},a.O.j=e=>0===t[e];var e=(e,r)=>{var n,i,o=r[0],s=r[1],l=r[2],c=0;if(o.some(e=>0!==t[e])){for(n in s)a.o(s,n)&&(a.m[n]=s[n]);if(l)var u=l(a)}for(e&&e(r);c<o.length;c++)i=o[c],a.o(t,i)&&t[i]&&t[i][0](),t[i]=0;return a.O(u)},r=self.webpackChunknextcloud=self.webpackChunknextcloud||[];r.forEach(e.bind(null,0)),r.push=e.bind(null,r.push.bind(r))})(),a.nc=void 0;var o=a.O(void 0,[4208],()=>a(45218));o=a.O(o)})();
-//# sourceMappingURL=systemtags-init.js.map?v=991fb1941f89bc67c91b
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/files/src/logger.ts":
+/*!**********************************!*\
+  !*** ./apps/files/src/logger.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('files').detectUser().build());
+
+/***/ }),
+
+/***/ "./apps/files/src/store/active.ts":
+/*!****************************************!*\
+  !*** ./apps/files/src/store/active.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useActiveStore: () => (/* binding */ useActiveStore)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../logger.ts */ "./apps/files/src/logger.ts");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+const useActiveStore = (0,pinia__WEBPACK_IMPORTED_MODULE_2__.defineStore)('active', () => {
+  /**
+   * The currently active action
+   */
+  const activeAction = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  /**
+   * The currently active folder
+   */
+  const activeFolder = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  /**
+   * The current active node within the folder
+   */
+  const activeNode = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  /**
+   * The current active view
+   */
+  const activeView = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
+  initialize();
+  /**
+   * Unset the active node if deleted
+   *
+   * @param node - The node thats deleted
+   * @private
+   */
+  function onDeletedNode(node) {
+    if (activeNode.value && activeNode.value.source === node.source) {
+      activeNode.value = undefined;
+    }
+  }
+  /**
+   * Callback to update the current active view
+   *
+   * @param view - The new active view
+   * @private
+   */
+  function onChangedView() {
+    let view = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    _logger_ts__WEBPACK_IMPORTED_MODULE_4__["default"].debug('Setting active view', {
+      view
+    });
+    activeView.value = view ?? undefined;
+    activeNode.value = undefined;
+  }
+  /**
+   * Initalize the store - connect all event listeners.
+   * @private
+   */
+  function initialize() {
+    const navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+    // Make sure we only register the listeners once
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_0__.subscribe)('files:node:deleted', onDeletedNode);
+    onChangedView(navigation.active);
+    // Or you can react to changes of the current active view
+    navigation.addEventListener('updateActive', event => {
+      onChangedView(event.detail);
+    });
+  }
+  return {
+    activeAction,
+    activeFolder,
+    activeNode,
+    activeView
+  };
+});
+
+/***/ }),
+
+/***/ "./apps/files/src/store/index.ts":
+/*!***************************************!*\
+  !*** ./apps/files/src/store/index.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getPinia: () => (/* binding */ getPinia)
+/* harmony export */ });
+/* harmony import */ var pinia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pinia */ "./node_modules/pinia/dist/pinia.mjs");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+const getPinia = () => {
+  if (window._nc_files_pinia) {
+    return window._nc_files_pinia;
+  }
+  window._nc_files_pinia = (0,pinia__WEBPACK_IMPORTED_MODULE_0__.createPinia)();
+  return window._nc_files_pinia;
+};
+
+/***/ }),
+
+/***/ "./apps/files/src/utils/actionUtils.ts":
+/*!*********************************************!*\
+  !*** ./apps/files/src/utils/actionUtils.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   executeAction: () => (/* binding */ executeAction)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store */ "./apps/files/src/store/index.ts");
+/* harmony import */ var _store_active__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../store/active */ "./apps/files/src/store/active.ts");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../logger */ "./apps/files/src/logger.ts");
+
+
+
+
+
+
+
+/**
+ * Execute an action on the current active node
+ *
+ * @param action The action to execute
+ */
+const executeAction = async action => {
+  const activeStore = (0,_store_active__WEBPACK_IMPORTED_MODULE_5__.useActiveStore)((0,_store__WEBPACK_IMPORTED_MODULE_4__.getPinia)());
+  const currentDir = window?.OCP?.Files?.Router?.query?.dir || '/';
+  const currentNode = activeStore.activeNode;
+  const currentView = activeStore.activeView;
+  if (!currentNode || !currentView) {
+    _logger__WEBPACK_IMPORTED_MODULE_6__["default"].error('No active node or view', {
+      node: currentNode,
+      view: currentView
+    });
+    return;
+  }
+  if (currentNode.status === _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.NodeStatus.LOADING) {
+    _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('Node is already loading', {
+      node: currentNode
+    });
+    return;
+  }
+  if (!action.enabled([currentNode], currentView)) {
+    _logger__WEBPACK_IMPORTED_MODULE_6__["default"].debug('Action is not not available for the current context', {
+      action,
+      node: currentNode,
+      view: currentView
+    });
+    return;
+  }
+  let displayName = action.id;
+  try {
+    displayName = action.displayName([currentNode], currentView);
+  } catch (error) {
+    _logger__WEBPACK_IMPORTED_MODULE_6__["default"].error('Error while getting action display name', {
+      action,
+      error
+    });
+  }
+  try {
+    // Set the loading marker
+    vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(currentNode, 'status', _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.NodeStatus.LOADING);
+    activeStore.activeAction = action;
+    const success = await action.exec(currentNode, currentView, currentDir);
+    // If the action returns null, we stay silent
+    if (success === null || success === undefined) {
+      return;
+    }
+    if (success) {
+      (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showSuccess)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', '{displayName}: done', {
+        displayName
+      }));
+      return;
+    }
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', '{displayName}: failed', {
+      displayName
+    }));
+  } catch (error) {
+    _logger__WEBPACK_IMPORTED_MODULE_6__["default"].error('Error while executing action', {
+      action,
+      error
+    });
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_1__.showError)((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', '{displayName}: failed', {
+      displayName
+    }));
+  } finally {
+    // Reset the loading marker
+    vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(currentNode, 'status', undefined);
+    activeStore.activeAction = undefined;
+  }
+};
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/css/fileEntryInlineSystemTags.scss":
+/*!****************************************************************!*\
+  !*** ./apps/systemtags/src/css/fileEntryInlineSystemTags.scss ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_fileEntryInlineSystemTags_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/sass-loader/dist/cjs.js!./fileEntryInlineSystemTags.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./apps/systemtags/src/css/fileEntryInlineSystemTags.scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_fileEntryInlineSystemTags_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_fileEntryInlineSystemTags_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_fileEntryInlineSystemTags_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_fileEntryInlineSystemTags_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/files_actions/bulkSystemTagsAction.ts":
+/*!*******************************************************************!*\
+  !*** ./apps/systemtags/src/files_actions/bulkSystemTagsAction.ts ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/sharing/public */ "./node_modules/@nextcloud/sharing/dist/public.mjs");
+/* harmony import */ var _nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @nextcloud/dialogs */ "./node_modules/@nextcloud/dialogs/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _mdi_svg_svg_tag_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mdi/svg/svg/tag-multiple-outline.svg?raw */ "./node_modules/@mdi/svg/svg/tag-multiple-outline.svg?raw");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+/**
+ * Spawn a dialog to add or remove tags from multiple nodes.
+ * @param nodes Nodes to modify tags for
+ */
+async function execBatch(nodes) {
+  const response = await new Promise(resolve => {
+    (0,_nextcloud_dialogs__WEBPACK_IMPORTED_MODULE_3__.spawnDialog)((0,vue__WEBPACK_IMPORTED_MODULE_1__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("core-common"), __webpack_require__.e("apps_systemtags_src_components_SystemTagPicker_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ../components/SystemTagPicker.vue */ "./apps/systemtags/src/components/SystemTagPicker.vue"))), {
+      nodes
+    }, status => {
+      resolve(status);
+    });
+  });
+  return Array(nodes.length).fill(response);
+}
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+  id: 'systemtags:bulk',
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_4__.t)('systemtags', 'Manage tags'),
+  iconSvgInline: () => _mdi_svg_svg_tag_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_5__,
+  // If the app is disabled, the action is not available anyway
+  enabled(nodes) {
+    if ((0,_nextcloud_sharing_public__WEBPACK_IMPORTED_MODULE_2__.isPublicShare)()) {
+      return false;
+    }
+    if (nodes.length === 0) {
+      return false;
+    }
+    // Disabled for non dav resources
+    if (nodes.some(node => !node.isDavResource)) {
+      return false;
+    }
+    // We need to have the update permission on all nodes
+    return !nodes.some(node => (node.permissions & _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.Permission.UPDATE) === 0);
+  },
+  async exec(node) {
+    return execBatch([node])[0];
+  },
+  execBatch
+});
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/files_actions/inlineSystemTagsAction.ts":
+/*!*********************************************************************!*\
+  !*** ./apps/systemtags/src/files_actions/inlineSystemTagsAction.ts ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _css_fileEntryInlineSystemTags_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../css/fileEntryInlineSystemTags.scss */ "./apps/systemtags/src/css/fileEntryInlineSystemTags.scss");
+/* harmony import */ var _utils_colorUtils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/colorUtils */ "./apps/systemtags/src/utils/colorUtils.ts");
+/* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../services/api */ "./apps/systemtags/src/services/api.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils */ "./apps/systemtags/src/utils.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../logger.ts */ "./apps/systemtags/src/logger.ts");
+
+
+
+
+
+
+
+
+// Init tag cache
+const cache = [];
+const renderTag = function (tag) {
+  let isMore = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  const tagElement = document.createElement('li');
+  tagElement.classList.add('files-list__system-tag');
+  tagElement.setAttribute('data-systemtag-name', tag);
+  tagElement.textContent = tag;
+  // Set the color if it exists
+  const cachedTag = cache.find(t => t.displayName === tag);
+  if (cachedTag?.color) {
+    // Make sure contrast is good and follow WCAG guidelines
+    const mainBackgroundColor = getComputedStyle(document.body).getPropertyValue('--color-main-background').replace('#', '') || ((0,_utils_colorUtils__WEBPACK_IMPORTED_MODULE_4__.isDarkModeEnabled)() ? '000000' : 'ffffff');
+    const primaryElement = (0,_utils_colorUtils__WEBPACK_IMPORTED_MODULE_4__.elementColor)(`#${cachedTag.color}`, `#${mainBackgroundColor}`);
+    tagElement.style.setProperty('--systemtag-color', primaryElement);
+    tagElement.setAttribute('data-systemtag-color', 'true');
+  }
+  if (isMore) {
+    tagElement.classList.add('files-list__system-tag--more');
+  }
+  return tagElement;
+};
+const renderInline = async function (node) {
+  // Ensure we have the system tags as an array
+  const tags = (0,_utils__WEBPACK_IMPORTED_MODULE_6__.getNodeSystemTags)(node);
+  const systemTagsElement = document.createElement('ul');
+  systemTagsElement.classList.add('files-list__system-tags');
+  systemTagsElement.setAttribute('aria-label', (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('files', 'Assigned collaborative tags'));
+  systemTagsElement.setAttribute('data-systemtags-fileid', node.fileid?.toString() || '');
+  if (tags.length === 0) {
+    return systemTagsElement;
+  }
+  // Fetch the tags if the cache is empty
+  if (cache.length === 0) {
+    try {
+      // Best would be to support attributes from webdav,
+      // but currently the library does not support it
+      cache.push(...(await (0,_services_api__WEBPACK_IMPORTED_MODULE_5__.fetchTags)()));
+    } catch (error) {
+      _logger_ts__WEBPACK_IMPORTED_MODULE_7__["default"].error('Failed to fetch tags', {
+        error
+      });
+    }
+  }
+  systemTagsElement.append(renderTag(tags[0]));
+  if (tags.length === 2) {
+    // Special case only two tags:
+    // the overflow fake tag would take the same space as this, so render it
+    systemTagsElement.append(renderTag(tags[1]));
+  } else if (tags.length > 1) {
+    // More tags than the one we're showing
+    // So we add a overflow element indicating there are more tags
+    const moreTagElement = renderTag('+' + (tags.length - 1), true);
+    moreTagElement.setAttribute('title', tags.slice(1).join(', '));
+    // because the title is not accessible we hide this element for screen readers (see alternative below)
+    moreTagElement.setAttribute('aria-hidden', 'true');
+    moreTagElement.setAttribute('role', 'presentation');
+    systemTagsElement.append(moreTagElement);
+    // For accessibility the tags are listed, as the title is not accessible
+    // but those tags are visually hidden
+    for (const tag of tags.slice(1)) {
+      const tagElement = renderTag(tag);
+      tagElement.classList.add('hidden-visually');
+      systemTagsElement.append(tagElement);
+    }
+  }
+  return systemTagsElement;
+};
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+  id: 'system-tags',
+  displayName: () => '',
+  iconSvgInline: () => '',
+  enabled(nodes) {
+    // Only show the action on single nodes
+    if (nodes.length !== 1) {
+      return false;
+    }
+    // Always show the action, even if there are no tags
+    // This will render an empty tag list and allow events to update it
+    return true;
+  },
+  exec: async () => null,
+  renderInline,
+  order: 0
+});
+// Update the system tags html when the node is updated
+const updateSystemTagsHtml = function (node) {
+  renderInline(node).then(systemTagsHtml => {
+    document.querySelectorAll(`[data-systemtags-fileid="${node.fileid}"]`).forEach(element => {
+      element.replaceWith(systemTagsHtml);
+    });
+  });
+};
+// Add and remove tags from the cache
+const addTag = function (tag) {
+  cache.push(tag);
+};
+const removeTag = function (tag) {
+  cache.splice(cache.findIndex(t => t.id === tag.id), 1);
+};
+const updateTag = function (tag) {
+  const index = cache.findIndex(t => t.id === tag.id);
+  if (index !== -1) {
+    cache[index] = tag;
+  }
+  updateSystemTagsColorAttribute(tag);
+};
+// Update the color attribute of the system tags
+const updateSystemTagsColorAttribute = function (tag) {
+  document.querySelectorAll(`[data-systemtag-name="${tag.displayName}"]`).forEach(element => {
+    element.style.setProperty('--systemtag-color', `#${tag.color}`);
+  });
+};
+// Subscribe to the events
+(0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('systemtags:node:updated', updateSystemTagsHtml);
+(0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('systemtags:tag:created', addTag);
+(0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('systemtags:tag:deleted', removeTag);
+(0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_1__.subscribe)('systemtags:tag:updated', updateTag);
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/files_actions/openInFilesAction.ts":
+/*!****************************************************************!*\
+  !*** ./apps/systemtags/src/files_actions/openInFilesAction.ts ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   action: () => (/* binding */ action)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _files_views_systemtagsView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../files_views/systemtagsView */ "./apps/systemtags/src/files_views/systemtagsView.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+const action = new _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileAction({
+  id: 'systemtags:open-in-files',
+  displayName: () => (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_1__.t)('systemtags', 'Open in Files'),
+  iconSvgInline: () => '',
+  enabled(nodes, view) {
+    // Only for the system tags view
+    if (view.id !== _files_views_systemtagsView__WEBPACK_IMPORTED_MODULE_2__.systemTagsViewId) {
+      return false;
+    }
+    // Only for single nodes
+    if (nodes.length !== 1) {
+      return false;
+    }
+    // Do not open tags (keep the default action) and only open folders
+    return nodes[0].attributes['is-tag'] !== true && nodes[0].type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder;
+  },
+  async exec(node) {
+    let dir = node.dirname;
+    if (node.type === _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.FileType.Folder) {
+      dir = node.path;
+    }
+    window.OCP.Files.Router.goToRoute(null,
+    // use default route
+    {
+      view: 'files',
+      fileid: String(node.fileid)
+    }, {
+      dir,
+      openfile: 'true'
+    });
+    return null;
+  },
+  // Before openFolderAction
+  order: -1000,
+  default: _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.DefaultType.HIDDEN
+});
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/files_views/systemtagsView.ts":
+/*!***********************************************************!*\
+  !*** ./apps/systemtags/src/files_views/systemtagsView.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerSystemTagsView: () => (/* binding */ registerSystemTagsView),
+/* harmony export */   systemTagsViewId: () => (/* binding */ systemTagsViewId)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _services_systemtags_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/systemtags.js */ "./apps/systemtags/src/services/systemtags.ts");
+/* harmony import */ var _mdi_svg_svg_tag_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mdi/svg/svg/tag-multiple-outline.svg?raw */ "./node_modules/@mdi/svg/svg/tag-multiple-outline.svg?raw");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+const systemTagsViewId = 'tags';
+/**
+ * Register the system tags files view
+ */
+function registerSystemTagsView() {
+  const Navigation = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getNavigation)();
+  Navigation.register(new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.View({
+    id: systemTagsViewId,
+    name: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('systemtags', 'Tags'),
+    caption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('systemtags', 'List of tags and their associated files and folders.'),
+    emptyTitle: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('systemtags', 'No tags found'),
+    emptyCaption: (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_0__.translate)('systemtags', 'Tags you have created will show up here.'),
+    icon: _mdi_svg_svg_tag_multiple_outline_svg_raw__WEBPACK_IMPORTED_MODULE_3__,
+    order: 25,
+    getContents: _services_systemtags_js__WEBPACK_IMPORTED_MODULE_2__.getContents
+  }));
+}
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/init.ts":
+/*!*************************************!*\
+  !*** ./apps/systemtags/src/init.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _services_HotKeysService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/HotKeysService */ "./apps/systemtags/src/services/HotKeysService.ts");
+/* harmony import */ var _files_views_systemtagsView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./files_views/systemtagsView */ "./apps/systemtags/src/files_views/systemtagsView.ts");
+/* harmony import */ var _files_actions_bulkSystemTagsAction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./files_actions/bulkSystemTagsAction */ "./apps/systemtags/src/files_actions/bulkSystemTagsAction.ts");
+/* harmony import */ var _files_actions_inlineSystemTagsAction__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./files_actions/inlineSystemTagsAction */ "./apps/systemtags/src/files_actions/inlineSystemTagsAction.ts");
+/* harmony import */ var _files_actions_openInFilesAction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./files_actions/openInFilesAction */ "./apps/systemtags/src/files_actions/openInFilesAction.ts");
+/**
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerDavProperty)('nc:system-tags');
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_files_actions_bulkSystemTagsAction__WEBPACK_IMPORTED_MODULE_3__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_files_actions_inlineSystemTagsAction__WEBPACK_IMPORTED_MODULE_4__.action);
+(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_0__.registerFileAction)(_files_actions_openInFilesAction__WEBPACK_IMPORTED_MODULE_5__.action);
+(0,_files_views_systemtagsView__WEBPACK_IMPORTED_MODULE_2__.registerSystemTagsView)();
+document.addEventListener('DOMContentLoaded', () => {
+  (0,_services_HotKeysService__WEBPACK_IMPORTED_MODULE_1__.registerHotkeys)();
+});
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/logger.ts":
+/*!***************************************!*\
+  !*** ./apps/systemtags/src/logger.ts ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/logger */ "./node_modules/@nextcloud/logger/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_nextcloud_logger__WEBPACK_IMPORTED_MODULE_0__.getLoggerBuilder)().setApp('systemtags').detectUser().build());
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/services/HotKeysService.ts":
+/*!********************************************************!*\
+  !*** ./apps/systemtags/src/services/HotKeysService.ts ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerHotkeys: () => (/* binding */ registerHotkeys)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_vue_composables_useHotKey__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/vue/composables/useHotKey */ "./node_modules/@nextcloud/vue/dist/Composables/useHotKey.mjs");
+/* harmony import */ var _files_actions_bulkSystemTagsAction_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../files_actions/bulkSystemTagsAction.ts */ "./apps/systemtags/src/files_actions/bulkSystemTagsAction.ts");
+/* harmony import */ var _files_src_utils_actionUtils_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../files/src/utils/actionUtils.ts */ "./apps/files/src/utils/actionUtils.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../logger.ts */ "./apps/systemtags/src/logger.ts");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+/**
+ * This register the hotkeys for the Files app.
+ * As much as possible, we try to have all the hotkeys in one place.
+ * Please make sure to add tests for the hotkeys after adding a new one.
+ */
+const registerHotkeys = function () {
+  // t opens the tag management dialog
+  (0,_nextcloud_vue_composables_useHotKey__WEBPACK_IMPORTED_MODULE_0__.useHotKey)('t', () => (0,_files_src_utils_actionUtils_ts__WEBPACK_IMPORTED_MODULE_2__.executeAction)(_files_actions_bulkSystemTagsAction_ts__WEBPACK_IMPORTED_MODULE_1__.action), {
+    stop: true,
+    prevent: true
+  });
+  _logger_ts__WEBPACK_IMPORTED_MODULE_3__["default"].debug('Hotkeys registered');
+};
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/services/api.ts":
+/*!*********************************************!*\
+  !*** ./apps/systemtags/src/services/api.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createTag: () => (/* binding */ createTag),
+/* harmony export */   deleteTag: () => (/* binding */ deleteTag),
+/* harmony export */   fetchLastUsedTagIds: () => (/* binding */ fetchLastUsedTagIds),
+/* harmony export */   fetchTag: () => (/* binding */ fetchTag),
+/* harmony export */   fetchTags: () => (/* binding */ fetchTags),
+/* harmony export */   fetchTagsPayload: () => (/* binding */ fetchTagsPayload),
+/* harmony export */   getTagObjects: () => (/* binding */ getTagObjects),
+/* harmony export */   setTagObjects: () => (/* binding */ setTagObjects),
+/* harmony export */   updateSystemTagsAdminRestriction: () => (/* binding */ updateSystemTagsAdminRestriction),
+/* harmony export */   updateTag: () => (/* binding */ updateTag)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var _davClient_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./davClient.js */ "./apps/systemtags/src/services/davClient.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./apps/systemtags/src/utils.ts");
+/* harmony import */ var _logger_ts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../logger.ts */ "./apps/systemtags/src/logger.ts");
+/* harmony import */ var _nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/event-bus */ "./node_modules/@nextcloud/event-bus/dist/index.mjs");
+/* harmony import */ var _nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/password-confirmation */ "./node_modules/@nextcloud/password-confirmation/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+
+
+
+
+const fetchTagsPayload = `<?xml version="1.0"?>
+<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+	<d:prop>
+		<oc:id />
+		<oc:display-name />
+		<oc:user-visible />
+		<oc:user-assignable />
+		<oc:can-assign />
+		<d:getetag />
+		<nc:color />
+	</d:prop>
+</d:propfind>`;
+const fetchTags = async () => {
+  const path = '/systemtags';
+  try {
+    const {
+      data: tags
+    } = await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.getDirectoryContents(path, {
+      data: fetchTagsPayload,
+      details: true,
+      glob: '/systemtags/*' // Filter out first empty tag
+    });
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_4__.parseTags)(tags);
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load tags'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load tags'));
+  }
+};
+const fetchTag = async tagId => {
+  const path = '/systemtags/' + tagId;
+  try {
+    const {
+      data: tag
+    } = await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.stat(path, {
+      data: fetchTagsPayload,
+      details: true
+    });
+    return (0,_utils__WEBPACK_IMPORTED_MODULE_4__.parseTags)([tag])[0];
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load tag'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load tag'));
+  }
+};
+const fetchLastUsedTagIds = async () => {
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateUrl)('/apps/systemtags/lastused');
+  try {
+    const {
+      data: lastUsedTagIds
+    } = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(url);
+    return lastUsedTagIds.map(Number);
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load last used tags'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to load last used tags'));
+  }
+};
+/**
+ * Create a tag and return the Id of the newly created tag.
+ *
+ * @param tag The tag to create
+ */
+const createTag = async tag => {
+  const path = '/systemtags';
+  const tagToPost = (0,_utils__WEBPACK_IMPORTED_MODULE_4__.formatTag)(tag);
+  try {
+    const {
+      headers
+    } = await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.customRequest(path, {
+      method: 'POST',
+      data: tagToPost
+    });
+    const contentLocation = headers.get('content-location');
+    if (contentLocation) {
+      (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_6__.emit)('systemtags:tag:created', tag);
+      return (0,_utils__WEBPACK_IMPORTED_MODULE_4__.parseIdFromLocation)(contentLocation);
+    }
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Missing "Content-Location" header'));
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Missing "Content-Location" header'));
+  } catch (error) {
+    if (error?.response?.status === 409) {
+      _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'A tag with the same name already exists'), {
+        error
+      });
+      throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'A tag with the same name already exists'));
+    }
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to create tag'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to create tag'));
+  }
+};
+const updateTag = async tag => {
+  const path = '/systemtags/' + tag.id;
+  const data = `<?xml version="1.0"?>
+	<d:propertyupdate xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+		<d:set>
+			<d:prop>
+				<oc:display-name>${tag.displayName}</oc:display-name>
+				<oc:user-visible>${tag.userVisible}</oc:user-visible>
+				<oc:user-assignable>${tag.userAssignable}</oc:user-assignable>
+				<nc:color>${tag?.color || null}</nc:color>
+			</d:prop>
+		</d:set>
+	</d:propertyupdate>`;
+  try {
+    await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.customRequest(path, {
+      method: 'PROPPATCH',
+      data
+    });
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_6__.emit)('systemtags:tag:updated', tag);
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to update tag'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to update tag'));
+  }
+};
+const deleteTag = async tag => {
+  const path = '/systemtags/' + tag.id;
+  try {
+    await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.deleteFile(path);
+    (0,_nextcloud_event_bus__WEBPACK_IMPORTED_MODULE_6__.emit)('systemtags:tag:deleted', tag);
+  } catch (error) {
+    _logger_ts__WEBPACK_IMPORTED_MODULE_5__["default"].error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to delete tag'), {
+      error
+    });
+    throw new Error((0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('systemtags', 'Failed to delete tag'));
+  }
+};
+const getTagObjects = async function (tag, type) {
+  const path = `/systemtags/${tag.id}/${type}`;
+  const data = `<?xml version="1.0"?>
+	<d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+		<d:prop>
+			<nc:object-ids />
+			<d:getetag />
+		</d:prop>
+	</d:propfind>`;
+  const response = await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.stat(path, {
+    data,
+    details: true
+  });
+  const etag = response?.data?.props?.getetag || '""';
+  const objects = Object.values(response?.data?.props?.['object-ids'] || []).flat();
+  return {
+    etag,
+    objects
+  };
+};
+/**
+ * Set the objects for a tag.
+ * Warning: This will overwrite the existing objects.
+ * @param tag The tag to set the objects for
+ * @param type The type of the objects
+ * @param objectIds The objects to set
+ * @param etag Strongly recommended to avoid conflict and data loss.
+ */
+const setTagObjects = async function (tag, type, objectIds) {
+  let etag = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+  const path = `/systemtags/${tag.id}/${type}`;
+  let data = `<?xml version="1.0"?>
+	<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+		<d:set>
+			<d:prop>
+				<nc:object-ids>${objectIds.map(_ref => {
+    let {
+      id,
+      type
+    } = _ref;
+    return `<nc:object-id><nc:id>${id}</nc:id><nc:type>${type}</nc:type></nc:object-id>`;
+  }).join('')}</nc:object-ids>
+			</d:prop>
+		</d:set>
+	</d:propertyupdate>`;
+  if (objectIds.length === 0) {
+    data = `<?xml version="1.0"?>
+		<d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+			<d:remove>
+				<d:prop>
+					<nc:object-ids />
+				</d:prop>
+			</d:remove>
+		</d:propertyupdate>`;
+  }
+  await _davClient_js__WEBPACK_IMPORTED_MODULE_3__.davClient.customRequest(path, {
+    method: 'PROPPATCH',
+    data,
+    headers: {
+      'if-match': etag
+    }
+  });
+};
+const updateSystemTagsAdminRestriction = async isAllowed => {
+  // Convert to string for compatibility
+  const isAllowedString = isAllowed ? '1' : '0';
+  const url = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateOcsUrl)('/apps/provisioning_api/api/v1/config/apps/{appId}/{key}', {
+    appId: 'systemtags',
+    key: 'restrict_creation_to_admin'
+  });
+  await (0,_nextcloud_password_confirmation__WEBPACK_IMPORTED_MODULE_7__.confirmPassword)();
+  const res = await _nextcloud_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(url, {
+    value: isAllowedString
+  });
+  return res.data;
+};
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/services/davClient.ts":
+/*!***************************************************!*\
+  !*** ./apps/systemtags/src/services/davClient.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   davClient: () => (/* binding */ davClient)
+/* harmony export */ });
+/* harmony import */ var webdav_dist_node_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! webdav/dist/node/index.js */ "./node_modules/webdav/dist/node/index.js");
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+// init webdav client
+const rootUrl = (0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_1__.generateRemoteUrl)('dav');
+const davClient = (0,webdav_dist_node_index_js__WEBPACK_IMPORTED_MODULE_0__.createClient)(rootUrl);
+// set CSRF token header
+const setHeaders = token => {
+  davClient.setHeaders({
+    // Add this so the server knows it is an request from the browser
+    'X-Requested-With': 'XMLHttpRequest',
+    // Inject user auth
+    requesttoken: token ?? ''
+  });
+};
+// refresh headers when request token changes
+(0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__.onRequestTokenUpdate)(setHeaders);
+setHeaders((0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_2__.getRequestToken)());
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/services/systemtags.ts":
+/*!****************************************************!*\
+  !*** ./apps/systemtags/src/services/systemtags.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getContents: () => (/* binding */ getContents)
+/* harmony export */ });
+/* harmony import */ var _nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/auth */ "./node_modules/@nextcloud/auth/dist/index.mjs");
+/* harmony import */ var _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/files */ "./node_modules/@nextcloud/files/dist/index.mjs");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./api */ "./apps/systemtags/src/services/api.ts");
+
+
+
+const rootPath = '/systemtags';
+const client = (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davGetClient)();
+const resultToNode = node => (0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davResultToNode)(node);
+const formatReportPayload = tagId => `<?xml version="1.0"?>
+<oc:filter-files ${(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getDavNameSpaces)()}>
+	<d:prop>
+		${(0,_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.getDavProperties)()}
+	</d:prop>
+	<oc:filter-rules>
+		<oc:systemtag>${tagId}</oc:systemtag>
+	</oc:filter-rules>
+</oc:filter-files>`;
+const tagToNode = function (tag) {
+  return new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Folder({
+    id: tag.id,
+    source: `${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRemoteURL}${rootPath}/${tag.id}`,
+    owner: String((0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid ?? 'anonymous'),
+    root: rootPath,
+    displayname: tag.displayName,
+    permissions: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.READ,
+    attributes: {
+      ...tag,
+      'is-tag': true
+    }
+  });
+};
+const getContents = async function () {
+  let path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/';
+  // List tags in the root
+  const tagsCache = (await (0,_api__WEBPACK_IMPORTED_MODULE_2__.fetchTags)()).filter(tag => tag.userVisible);
+  if (path === '/') {
+    return {
+      folder: new _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Folder({
+        id: 0,
+        source: `${_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRemoteURL}${rootPath}`,
+        owner: (0,_nextcloud_auth__WEBPACK_IMPORTED_MODULE_0__.getCurrentUser)()?.uid,
+        root: rootPath,
+        permissions: _nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.Permission.NONE
+      }),
+      contents: tagsCache.map(tagToNode)
+    };
+  }
+  const tagId = parseInt(path.split('/', 2)[1]);
+  const tag = tagsCache.find(tag => tag.id === tagId);
+  if (!tag) {
+    throw new Error('Tag not found');
+  }
+  const folder = tagToNode(tag);
+  const contentsResponse = await client.getDirectoryContents(_nextcloud_files__WEBPACK_IMPORTED_MODULE_1__.davRootPath, {
+    details: true,
+    // Only filter favorites if we're at the root
+    data: formatReportPayload(tagId),
+    headers: {
+      // Patched in WebdavClient.ts
+      method: 'REPORT'
+    }
+  });
+  return {
+    folder,
+    contents: contentsResponse.data.map(resultToNode)
+  };
+};
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/utils.ts":
+/*!**************************************!*\
+  !*** ./apps/systemtags/src/utils.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   defaultBaseTag: () => (/* binding */ defaultBaseTag),
+/* harmony export */   formatTag: () => (/* binding */ formatTag),
+/* harmony export */   getNodeSystemTags: () => (/* binding */ getNodeSystemTags),
+/* harmony export */   parseIdFromLocation: () => (/* binding */ parseIdFromLocation),
+/* harmony export */   parseTags: () => (/* binding */ parseTags),
+/* harmony export */   setNodeSystemTags: () => (/* binding */ setNodeSystemTags)
+/* harmony export */ });
+/* harmony import */ var camelcase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! camelcase */ "./node_modules/camelcase/index.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+const defaultBaseTag = {
+  userVisible: true,
+  userAssignable: true,
+  canAssign: true
+};
+const parseTags = tags => {
+  return tags.map(_ref => {
+    let {
+      props
+    } = _ref;
+    return Object.fromEntries(Object.entries(props).map(_ref2 => {
+      let [key, value] = _ref2;
+      return [(0,camelcase__WEBPACK_IMPORTED_MODULE_0__["default"])(key), (0,camelcase__WEBPACK_IMPORTED_MODULE_0__["default"])(key) === 'displayName' ? String(value) : value];
+    }));
+  });
+};
+/**
+ * Parse id from `Content-Location` header
+ * @param url URL to parse
+ */
+const parseIdFromLocation = url => {
+  const queryPos = url.indexOf('?');
+  if (queryPos > 0) {
+    url = url.substring(0, queryPos);
+  }
+  const parts = url.split('/');
+  let result;
+  do {
+    result = parts[parts.length - 1];
+    parts.pop();
+    // note: first result can be empty when there is a trailing slash,
+    // so we take the part before that
+  } while (!result && parts.length > 0);
+  return Number(result);
+};
+const formatTag = initialTag => {
+  if ('name' in initialTag && !('displayName' in initialTag)) {
+    return {
+      ...initialTag
+    };
+  }
+  const tag = {
+    ...initialTag
+  };
+  tag.name = tag.displayName;
+  delete tag.displayName;
+  return tag;
+};
+const getNodeSystemTags = function (node) {
+  const attribute = node.attributes?.['system-tags']?.['system-tag'];
+  if (attribute === undefined) {
+    return [];
+  }
+  // if there is only one tag it is a single string or prop object
+  // if there are multiple then its an array - so we flatten it to be always an array of string or prop objects
+  return [attribute].flat().map(tag => typeof tag === 'string'
+  // its a plain text prop (the tag name) without prop attributes
+  ? tag
+  // its a prop object with attributes, the tag name is in the 'text' attribute
+  : tag.text);
+};
+const setNodeSystemTags = function (node, tags) {
+  vue__WEBPACK_IMPORTED_MODULE_1__["default"].set(node.attributes, 'system-tags', {
+    'system-tag': tags
+  });
+};
+
+/***/ }),
+
+/***/ "./apps/systemtags/src/utils/colorUtils.ts":
+/*!*************************************************!*\
+  !*** ./apps/systemtags/src/utils/colorUtils.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   calculateLuma: () => (/* binding */ calculateLuma),
+/* harmony export */   calculateLuminance: () => (/* binding */ calculateLuminance),
+/* harmony export */   colorContrast: () => (/* binding */ colorContrast),
+/* harmony export */   darken: () => (/* binding */ darken),
+/* harmony export */   elementColor: () => (/* binding */ elementColor),
+/* harmony export */   hexToHSL: () => (/* binding */ hexToHSL),
+/* harmony export */   hexToRGB: () => (/* binding */ hexToRGB),
+/* harmony export */   hslToHex: () => (/* binding */ hslToHex),
+/* harmony export */   invertTextColor: () => (/* binding */ invertTextColor),
+/* harmony export */   isBrightColor: () => (/* binding */ isBrightColor),
+/* harmony export */   isDarkModeEnabled: () => (/* binding */ isDarkModeEnabled),
+/* harmony export */   isHighContrastModeEnabled: () => (/* binding */ isHighContrastModeEnabled),
+/* harmony export */   lighten: () => (/* binding */ lighten),
+/* harmony export */   mix: () => (/* binding */ mix),
+/* harmony export */   rgbToHex: () => (/* binding */ rgbToHex)
+/* harmony export */ });
+/* harmony import */ var color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! color */ "./node_modules/color/index.js");
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/**
+ * Is the current theme dark?
+ */
+function isDarkModeEnabled() {
+  const darkModePreference = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches;
+  const darkModeSetting = document.body.getAttribute('data-themes')?.includes('dark');
+  return darkModeSetting || darkModePreference || false;
+}
+/**
+ * Is the current theme high contrast?
+ */
+function isHighContrastModeEnabled() {
+  const highContrastPreference = window?.matchMedia?.('(forced-colors: active)')?.matches;
+  const highContrastSetting = document.body.getAttribute('data-themes')?.includes('highcontrast');
+  return highContrastSetting || highContrastPreference || false;
+}
+/**
+ * Should we invert the text on this background color?
+ * @param color RGB color value as a hex string
+ * @return boolean
+ */
+function invertTextColor(color) {
+  return colorContrast(color, '#ffffff') < 4.5;
+}
+/**
+ * Is this color too bright?
+ * @param color RGB color value as a hex string
+ * @return boolean
+ */
+function isBrightColor(color) {
+  return calculateLuma(color) > 0.6;
+}
+/**
+ * Get color for on-page elements
+ * theme color by default, grey if theme color is too bright.
+ * @param color the color to contrast against, e.g. #ffffff
+ * @param backgroundColor the background color to contrast against, e.g. #000000
+ */
+function elementColor(color, backgroundColor) {
+  const brightBackground = isBrightColor(backgroundColor);
+  const blurredBackground = mix(backgroundColor, brightBackground ? color : '#ffffff', 66);
+  let contrast = colorContrast(color, blurredBackground);
+  const minContrast = isHighContrastModeEnabled() ? 5.6 : 3.2;
+  let iteration = 0;
+  let result = color;
+  const epsilon = (brightBackground ? -100 : 100) / 255;
+  while (contrast < minContrast && iteration++ < 100) {
+    const hsl = hexToHSL(result);
+    const l = Math.max(0, Math.min(255, hsl.l + epsilon));
+    result = hslToHex({
+      h: hsl.h,
+      s: hsl.s,
+      l
+    });
+    contrast = colorContrast(result, blurredBackground);
+  }
+  return result;
+}
+/**
+ * Get color for on-page text:
+ * black if background is bright, white if background is dark.
+ * @param color1 the color to contrast against, e.g. #ffffff
+ * @param color2 the background color to contrast against, e.g. #000000
+ * @param factor the factor to mix the colors between -100 and 100, e.g. 66
+ */
+function mix(color1, color2, factor) {
+  if (factor < -100 || factor > 100) {
+    throw new RangeError('Factor must be between -100 and 100');
+  }
+  return new color__WEBPACK_IMPORTED_MODULE_0__["default"](color2).mix(new color__WEBPACK_IMPORTED_MODULE_0__["default"](color1), (factor + 100) / 200).hex();
+}
+/**
+ * Lighten a color by a factor
+ * @param color the color to lighten, e.g. #000000
+ * @param factor the factor to lighten the color by between -100 and 100, e.g. -41
+ */
+function lighten(color, factor) {
+  if (factor < -100 || factor > 100) {
+    throw new RangeError('Factor must be between -100 and 100');
+  }
+  return new color__WEBPACK_IMPORTED_MODULE_0__["default"](color).lighten((factor + 100) / 200).hex();
+}
+/**
+ * Darken a color by a factor
+ * @param color the color to darken, e.g. #ffffff
+ * @param factor the factor to darken the color by between -100 and 100, e.g. 32
+ */
+function darken(color, factor) {
+  if (factor < -100 || factor > 100) {
+    throw new RangeError('Factor must be between -100 and 100');
+  }
+  return new color__WEBPACK_IMPORTED_MODULE_0__["default"](color).darken((factor + 100) / 200).hex();
+}
+/**
+ * Calculate the luminance of a color
+ * @param color the color to calculate the luminance of, e.g. #ffffff
+ */
+function calculateLuminance(color) {
+  return hexToHSL(color).l;
+}
+/**
+ * Calculate the luma of a color
+ * @param color the color to calculate the luma of, e.g. #ffffff
+ */
+function calculateLuma(color) {
+  const rgb = hexToRGB(color).map(value => {
+    value /= 255;
+    return value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+  });
+  const [red, green, blue] = rgb;
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+}
+/**
+ * Calculate the contrast between two colors
+ * @param color1 the first color to calculate the contrast of, e.g. #ffffff
+ * @param color2 the second color to calculate the contrast of, e.g. #000000
+ */
+function colorContrast(color1, color2) {
+  const luminance1 = calculateLuma(color1) + 0.05;
+  const luminance2 = calculateLuma(color2) + 0.05;
+  return Math.max(luminance1, luminance2) / Math.min(luminance1, luminance2);
+}
+/**
+ * Convert hex color to RGB
+ * @param color RGB color value as a hex string
+ */
+function hexToRGB(color) {
+  return new color__WEBPACK_IMPORTED_MODULE_0__["default"](color).rgb().array();
+}
+/**
+ * Convert RGB color to hex
+ * @param color RGB color value as a hex string
+ */
+function hexToHSL(color) {
+  const hsl = new color__WEBPACK_IMPORTED_MODULE_0__["default"](color).hsl();
+  return {
+    h: hsl.color[0],
+    s: hsl.color[1],
+    l: hsl.color[2]
+  };
+}
+/**
+ * Convert HSL color to hex
+ * @param hsl HSL color value as an object
+ * @param hsl.h hue
+ * @param hsl.s saturation
+ * @param hsl.l lightness
+ */
+function hslToHex(hsl) {
+  return new color__WEBPACK_IMPORTED_MODULE_0__["default"](hsl).hex();
+}
+/**
+ * Convert RGB color to hex
+ * @param r red
+ * @param g green
+ * @param b blue
+ */
+function rgbToHex(r, g, b) {
+  const hex = (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
+  return `#${hex}`;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@mdi/svg/svg/tag-multiple-outline.svg?raw":
+/*!****************************************************************!*\
+  !*** ./node_modules/@mdi/svg/svg/tag-multiple-outline.svg?raw ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"mdi-tag-multiple-outline\" viewBox=\"0 0 24 24\"><path d=\"M6.5 10C7.3 10 8 9.3 8 8.5S7.3 7 6.5 7 5 7.7 5 8.5 5.7 10 6.5 10M9 6L16 13L11 18L4 11V6H9M9 4H4C2.9 4 2 4.9 2 6V11C2 11.6 2.2 12.1 2.6 12.4L9.6 19.4C9.9 19.8 10.4 20 11 20S12.1 19.8 12.4 19.4L17.4 14.4C17.8 14 18 13.5 18 13C18 12.4 17.8 11.9 17.4 11.6L10.4 4.6C10.1 4.2 9.6 4 9 4M13.5 5.7L14.5 4.7L21.4 11.6C21.8 12 22 12.5 22 13S21.8 14.1 21.4 14.4L16 19.8L15 18.8L20.7 13L13.5 5.7Z\" /></svg>";
+
+/***/ }),
+
+/***/ "./node_modules/color-string/index.js":
+/*!********************************************!*\
+  !*** ./node_modules/color-string/index.js ***!
+  \********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var color_name__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! color-name */ "./node_modules/color-string/node_modules/color-name/index.js");
+
+
+const reverseNames = Object.create(null);
+
+// Create a list of reverse color names
+for (const name in color_name__WEBPACK_IMPORTED_MODULE_0__["default"]) {
+	if (Object.hasOwn(color_name__WEBPACK_IMPORTED_MODULE_0__["default"], name)) {
+		reverseNames[color_name__WEBPACK_IMPORTED_MODULE_0__["default"][name]] = name;
+	}
+}
+
+const cs = {
+	to: {},
+	get: {},
+};
+
+cs.get = function (string) {
+	const prefix = string.slice(0, 3).toLowerCase();
+	let value;
+	let model;
+	switch (prefix) {
+		case 'hsl': {
+			value = cs.get.hsl(string);
+			model = 'hsl';
+			break;
+		}
+
+		case 'hwb': {
+			value = cs.get.hwb(string);
+			model = 'hwb';
+			break;
+		}
+
+		default: {
+			value = cs.get.rgb(string);
+			model = 'rgb';
+			break;
+		}
+	}
+
+	if (!value) {
+		return null;
+	}
+
+	return {model, value};
+};
+
+cs.get.rgb = function (string) {
+	if (!string) {
+		return null;
+	}
+
+	const abbr = /^#([a-f\d]{3,4})$/i;
+	const hex = /^#([a-f\d]{6})([a-f\d]{2})?$/i;
+	const rgba = /^rgba?\(\s*([+-]?\d+)(?=[\s,])\s*(?:,\s*)?([+-]?\d+)(?=[\s,])\s*(?:,\s*)?([+-]?\d+)\s*(?:[,|/]\s*([+-]?[\d.]+)(%?)\s*)?\)$/;
+	const per = /^rgba?\(\s*([+-]?[\d.]+)%\s*,?\s*([+-]?[\d.]+)%\s*,?\s*([+-]?[\d.]+)%\s*(?:[,|/]\s*([+-]?[\d.]+)(%?)\s*)?\)$/;
+	const keyword = /^(\w+)$/;
+
+	let rgb = [0, 0, 0, 1];
+	let match;
+	let i;
+	let hexAlpha;
+
+	if (match = string.match(hex)) {
+		hexAlpha = match[2];
+		match = match[1];
+
+		for (i = 0; i < 3; i++) {
+			// https://jsperf.com/slice-vs-substr-vs-substring-methods-long-string/19
+			const i2 = i * 2;
+			rgb[i] = Number.parseInt(match.slice(i2, i2 + 2), 16);
+		}
+
+		if (hexAlpha) {
+			rgb[3] = Number.parseInt(hexAlpha, 16) / 255;
+		}
+	} else if (match = string.match(abbr)) {
+		match = match[1];
+		hexAlpha = match[3];
+
+		for (i = 0; i < 3; i++) {
+			rgb[i] = Number.parseInt(match[i] + match[i], 16);
+		}
+
+		if (hexAlpha) {
+			rgb[3] = Number.parseInt(hexAlpha + hexAlpha, 16) / 255;
+		}
+	} else if (match = string.match(rgba)) {
+		for (i = 0; i < 3; i++) {
+			rgb[i] = Number.parseInt(match[i + 1], 10);
+		}
+
+		if (match[4]) {
+			rgb[3] = match[5] ? Number.parseFloat(match[4]) * 0.01 : Number.parseFloat(match[4]);
+		}
+	} else if (match = string.match(per)) {
+		for (i = 0; i < 3; i++) {
+			rgb[i] = Math.round(Number.parseFloat(match[i + 1]) * 2.55);
+		}
+
+		if (match[4]) {
+			rgb[3] = match[5] ? Number.parseFloat(match[4]) * 0.01 : Number.parseFloat(match[4]);
+		}
+	} else if (match = string.match(keyword)) {
+		if (match[1] === 'transparent') {
+			return [0, 0, 0, 0];
+		}
+
+		if (!Object.hasOwn(color_name__WEBPACK_IMPORTED_MODULE_0__["default"], match[1])) {
+			return null;
+		}
+
+		rgb = color_name__WEBPACK_IMPORTED_MODULE_0__["default"][match[1]];
+		rgb[3] = 1;
+
+		return rgb;
+	} else {
+		return null;
+	}
+
+	for (i = 0; i < 3; i++) {
+		rgb[i] = clamp(rgb[i], 0, 255);
+	}
+
+	rgb[3] = clamp(rgb[3], 0, 1);
+
+	return rgb;
+};
+
+cs.get.hsl = function (string) {
+	if (!string) {
+		return null;
+	}
+
+	const hsl = /^hsla?\(\s*([+-]?(?:\d{0,3}\.)?\d+)(?:deg)?\s*,?\s*([+-]?[\d.]+)%\s*,?\s*([+-]?[\d.]+)%\s*(?:[,|/]\s*([+-]?(?=\.\d|\d)(?:0|[1-9]\d*)?(?:\.\d*)?(?:[eE][+-]?\d+)?)\s*)?\)$/;
+	const match = string.match(hsl);
+
+	if (match) {
+		const alpha = Number.parseFloat(match[4]);
+		const h = ((Number.parseFloat(match[1]) % 360) + 360) % 360;
+		const s = clamp(Number.parseFloat(match[2]), 0, 100);
+		const l = clamp(Number.parseFloat(match[3]), 0, 100);
+		const a = clamp(Number.isNaN(alpha) ? 1 : alpha, 0, 1);
+
+		return [h, s, l, a];
+	}
+
+	return null;
+};
+
+cs.get.hwb = function (string) {
+	if (!string) {
+		return null;
+	}
+
+	const hwb = /^hwb\(\s*([+-]?\d{0,3}(?:\.\d+)?)(?:deg)?\s*,\s*([+-]?[\d.]+)%\s*,\s*([+-]?[\d.]+)%\s*(?:,\s*([+-]?(?=\.\d|\d)(?:0|[1-9]\d*)?(?:\.\d*)?(?:[eE][+-]?\d+)?)\s*)?\)$/;
+	const match = string.match(hwb);
+
+	if (match) {
+		const alpha = Number.parseFloat(match[4]);
+		const h = ((Number.parseFloat(match[1]) % 360) + 360) % 360;
+		const w = clamp(Number.parseFloat(match[2]), 0, 100);
+		const b = clamp(Number.parseFloat(match[3]), 0, 100);
+		const a = clamp(Number.isNaN(alpha) ? 1 : alpha, 0, 1);
+		return [h, w, b, a];
+	}
+
+	return null;
+};
+
+cs.to.hex = function (...rgba) {
+	return (
+		'#' +
+		hexDouble(rgba[0]) +
+		hexDouble(rgba[1]) +
+		hexDouble(rgba[2]) +
+		(rgba[3] < 1
+			? (hexDouble(Math.round(rgba[3] * 255)))
+			: '')
+	);
+};
+
+cs.to.rgb = function (...rgba) {
+	return rgba.length < 4 || rgba[3] === 1
+		? 'rgb(' + Math.round(rgba[0]) + ', ' + Math.round(rgba[1]) + ', ' + Math.round(rgba[2]) + ')'
+		: 'rgba(' + Math.round(rgba[0]) + ', ' + Math.round(rgba[1]) + ', ' + Math.round(rgba[2]) + ', ' + rgba[3] + ')';
+};
+
+cs.to.rgb.percent = function (...rgba) {
+	const r = Math.round(rgba[0] / 255 * 100);
+	const g = Math.round(rgba[1] / 255 * 100);
+	const b = Math.round(rgba[2] / 255 * 100);
+
+	return rgba.length < 4 || rgba[3] === 1
+		? 'rgb(' + r + '%, ' + g + '%, ' + b + '%)'
+		: 'rgba(' + r + '%, ' + g + '%, ' + b + '%, ' + rgba[3] + ')';
+};
+
+cs.to.hsl = function (...hsla) {
+	return hsla.length < 4 || hsla[3] === 1
+		? 'hsl(' + hsla[0] + ', ' + hsla[1] + '%, ' + hsla[2] + '%)'
+		: 'hsla(' + hsla[0] + ', ' + hsla[1] + '%, ' + hsla[2] + '%, ' + hsla[3] + ')';
+};
+
+// Hwb is a bit different than rgb(a) & hsl(a) since there is no alpha specific syntax
+// (hwb have alpha optional & 1 is default value)
+cs.to.hwb = function (...hwba) {
+	let a = '';
+	if (hwba.length >= 4 && hwba[3] !== 1) {
+		a = ', ' + hwba[3];
+	}
+
+	return 'hwb(' + hwba[0] + ', ' + hwba[1] + '%, ' + hwba[2] + '%' + a + ')';
+};
+
+cs.to.keyword = function (...rgb) {
+	return reverseNames[rgb.slice(0, 3)];
+};
+
+// Helpers
+function clamp(number_, min, max) {
+	return Math.min(Math.max(min, number_), max);
+}
+
+function hexDouble(number_) {
+	const string_ = Math.round(number_).toString(16).toUpperCase();
+	return (string_.length < 2) ? '0' + string_ : string_;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (cs);
+
+
+/***/ }),
+
+/***/ "./node_modules/color-string/node_modules/color-name/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/color-string/node_modules/color-name/index.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+	aliceblue: [240, 248, 255],
+	antiquewhite: [250, 235, 215],
+	aqua: [0, 255, 255],
+	aquamarine: [127, 255, 212],
+	azure: [240, 255, 255],
+	beige: [245, 245, 220],
+	bisque: [255, 228, 196],
+	black: [0, 0, 0],
+	blanchedalmond: [255, 235, 205],
+	blue: [0, 0, 255],
+	blueviolet: [138, 43, 226],
+	brown: [165, 42, 42],
+	burlywood: [222, 184, 135],
+	cadetblue: [95, 158, 160],
+	chartreuse: [127, 255, 0],
+	chocolate: [210, 105, 30],
+	coral: [255, 127, 80],
+	cornflowerblue: [100, 149, 237],
+	cornsilk: [255, 248, 220],
+	crimson: [220, 20, 60],
+	cyan: [0, 255, 255],
+	darkblue: [0, 0, 139],
+	darkcyan: [0, 139, 139],
+	darkgoldenrod: [184, 134, 11],
+	darkgray: [169, 169, 169],
+	darkgreen: [0, 100, 0],
+	darkgrey: [169, 169, 169],
+	darkkhaki: [189, 183, 107],
+	darkmagenta: [139, 0, 139],
+	darkolivegreen: [85, 107, 47],
+	darkorange: [255, 140, 0],
+	darkorchid: [153, 50, 204],
+	darkred: [139, 0, 0],
+	darksalmon: [233, 150, 122],
+	darkseagreen: [143, 188, 143],
+	darkslateblue: [72, 61, 139],
+	darkslategray: [47, 79, 79],
+	darkslategrey: [47, 79, 79],
+	darkturquoise: [0, 206, 209],
+	darkviolet: [148, 0, 211],
+	deeppink: [255, 20, 147],
+	deepskyblue: [0, 191, 255],
+	dimgray: [105, 105, 105],
+	dimgrey: [105, 105, 105],
+	dodgerblue: [30, 144, 255],
+	firebrick: [178, 34, 34],
+	floralwhite: [255, 250, 240],
+	forestgreen: [34, 139, 34],
+	fuchsia: [255, 0, 255],
+	gainsboro: [220, 220, 220],
+	ghostwhite: [248, 248, 255],
+	gold: [255, 215, 0],
+	goldenrod: [218, 165, 32],
+	gray: [128, 128, 128],
+	green: [0, 128, 0],
+	greenyellow: [173, 255, 47],
+	grey: [128, 128, 128],
+	honeydew: [240, 255, 240],
+	hotpink: [255, 105, 180],
+	indianred: [205, 92, 92],
+	indigo: [75, 0, 130],
+	ivory: [255, 255, 240],
+	khaki: [240, 230, 140],
+	lavender: [230, 230, 250],
+	lavenderblush: [255, 240, 245],
+	lawngreen: [124, 252, 0],
+	lemonchiffon: [255, 250, 205],
+	lightblue: [173, 216, 230],
+	lightcoral: [240, 128, 128],
+	lightcyan: [224, 255, 255],
+	lightgoldenrodyellow: [250, 250, 210],
+	lightgray: [211, 211, 211],
+	lightgreen: [144, 238, 144],
+	lightgrey: [211, 211, 211],
+	lightpink: [255, 182, 193],
+	lightsalmon: [255, 160, 122],
+	lightseagreen: [32, 178, 170],
+	lightskyblue: [135, 206, 250],
+	lightslategray: [119, 136, 153],
+	lightslategrey: [119, 136, 153],
+	lightsteelblue: [176, 196, 222],
+	lightyellow: [255, 255, 224],
+	lime: [0, 255, 0],
+	limegreen: [50, 205, 50],
+	linen: [250, 240, 230],
+	magenta: [255, 0, 255],
+	maroon: [128, 0, 0],
+	mediumaquamarine: [102, 205, 170],
+	mediumblue: [0, 0, 205],
+	mediumorchid: [186, 85, 211],
+	mediumpurple: [147, 112, 219],
+	mediumseagreen: [60, 179, 113],
+	mediumslateblue: [123, 104, 238],
+	mediumspringgreen: [0, 250, 154],
+	mediumturquoise: [72, 209, 204],
+	mediumvioletred: [199, 21, 133],
+	midnightblue: [25, 25, 112],
+	mintcream: [245, 255, 250],
+	mistyrose: [255, 228, 225],
+	moccasin: [255, 228, 181],
+	navajowhite: [255, 222, 173],
+	navy: [0, 0, 128],
+	oldlace: [253, 245, 230],
+	olive: [128, 128, 0],
+	olivedrab: [107, 142, 35],
+	orange: [255, 165, 0],
+	orangered: [255, 69, 0],
+	orchid: [218, 112, 214],
+	palegoldenrod: [238, 232, 170],
+	palegreen: [152, 251, 152],
+	paleturquoise: [175, 238, 238],
+	palevioletred: [219, 112, 147],
+	papayawhip: [255, 239, 213],
+	peachpuff: [255, 218, 185],
+	peru: [205, 133, 63],
+	pink: [255, 192, 203],
+	plum: [221, 160, 221],
+	powderblue: [176, 224, 230],
+	purple: [128, 0, 128],
+	rebeccapurple: [102, 51, 153],
+	red: [255, 0, 0],
+	rosybrown: [188, 143, 143],
+	royalblue: [65, 105, 225],
+	saddlebrown: [139, 69, 19],
+	salmon: [250, 128, 114],
+	sandybrown: [244, 164, 96],
+	seagreen: [46, 139, 87],
+	seashell: [255, 245, 238],
+	sienna: [160, 82, 45],
+	silver: [192, 192, 192],
+	skyblue: [135, 206, 235],
+	slateblue: [106, 90, 205],
+	slategray: [112, 128, 144],
+	slategrey: [112, 128, 144],
+	snow: [255, 250, 250],
+	springgreen: [0, 255, 127],
+	steelblue: [70, 130, 180],
+	tan: [210, 180, 140],
+	teal: [0, 128, 128],
+	thistle: [216, 191, 216],
+	tomato: [255, 99, 71],
+	turquoise: [64, 224, 208],
+	violet: [238, 130, 238],
+	wheat: [245, 222, 179],
+	white: [255, 255, 255],
+	whitesmoke: [245, 245, 245],
+	yellow: [255, 255, 0],
+	yellowgreen: [154, 205, 50]
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/color/index.js":
+/*!*************************************!*\
+  !*** ./node_modules/color/index.js ***!
+  \*************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var color_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! color-string */ "./node_modules/color-string/index.js");
+/* harmony import */ var color_convert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! color-convert */ "./node_modules/color/node_modules/color-convert/index.js");
+
+
+
+const skippedModels = [
+	// To be honest, I don't really feel like keyword belongs in color convert, but eh.
+	'keyword',
+
+	// Gray conflicts with some method names, and has its own method defined.
+	'gray',
+
+	// Shouldn't really be in color-convert either...
+	'hex',
+];
+
+const hashedModelKeys = {};
+for (const model of Object.keys(color_convert__WEBPACK_IMPORTED_MODULE_1__["default"])) {
+	hashedModelKeys[[...color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][model].labels].sort().join('')] = model;
+}
+
+const limiters = {};
+
+function Color(object, model) {
+	if (!(this instanceof Color)) {
+		return new Color(object, model);
+	}
+
+	if (model && model in skippedModels) {
+		model = null;
+	}
+
+	if (model && !(model in color_convert__WEBPACK_IMPORTED_MODULE_1__["default"])) {
+		throw new Error('Unknown model: ' + model);
+	}
+
+	let i;
+	let channels;
+
+	if (object == null) { // eslint-disable-line no-eq-null,eqeqeq
+		this.model = 'rgb';
+		this.color = [0, 0, 0];
+		this.valpha = 1;
+	} else if (object instanceof Color) {
+		this.model = object.model;
+		this.color = [...object.color];
+		this.valpha = object.valpha;
+	} else if (typeof object === 'string') {
+		const result = color_string__WEBPACK_IMPORTED_MODULE_0__["default"].get(object);
+		if (result === null) {
+			throw new Error('Unable to parse color from string: ' + object);
+		}
+
+		this.model = result.model;
+		channels = color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][this.model].channels;
+		this.color = result.value.slice(0, channels);
+		this.valpha = typeof result.value[channels] === 'number' ? result.value[channels] : 1;
+	} else if (object.length > 0) {
+		this.model = model || 'rgb';
+		channels = color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][this.model].channels;
+		const newArray = Array.prototype.slice.call(object, 0, channels);
+		this.color = zeroArray(newArray, channels);
+		this.valpha = typeof object[channels] === 'number' ? object[channels] : 1;
+	} else if (typeof object === 'number') {
+		// This is always RGB - can be converted later on.
+		this.model = 'rgb';
+		this.color = [
+			(object >> 16) & 0xFF,
+			(object >> 8) & 0xFF,
+			object & 0xFF,
+		];
+		this.valpha = 1;
+	} else {
+		this.valpha = 1;
+
+		const keys = Object.keys(object);
+		if ('alpha' in object) {
+			keys.splice(keys.indexOf('alpha'), 1);
+			this.valpha = typeof object.alpha === 'number' ? object.alpha : 0;
+		}
+
+		const hashedKeys = keys.sort().join('');
+		if (!(hashedKeys in hashedModelKeys)) {
+			throw new Error('Unable to parse color from object: ' + JSON.stringify(object));
+		}
+
+		this.model = hashedModelKeys[hashedKeys];
+
+		const {labels} = color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][this.model];
+		const color = [];
+		for (i = 0; i < labels.length; i++) {
+			color.push(object[labels[i]]);
+		}
+
+		this.color = zeroArray(color);
+	}
+
+	// Perform limitations (clamping, etc.)
+	if (limiters[this.model]) {
+		channels = color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][this.model].channels;
+		for (i = 0; i < channels; i++) {
+			const limit = limiters[this.model][i];
+			if (limit) {
+				this.color[i] = limit(this.color[i]);
+			}
+		}
+	}
+
+	this.valpha = Math.max(0, Math.min(1, this.valpha));
+
+	if (Object.freeze) {
+		Object.freeze(this);
+	}
+}
+
+Color.prototype = {
+	toString() {
+		return this.string();
+	},
+
+	toJSON() {
+		return this[this.model]();
+	},
+
+	string(places) {
+		let self = this.model in color_string__WEBPACK_IMPORTED_MODULE_0__["default"].to ? this : this.rgb();
+		self = self.round(typeof places === 'number' ? places : 1);
+		const arguments_ = self.valpha === 1 ? self.color : [...self.color, this.valpha];
+		return color_string__WEBPACK_IMPORTED_MODULE_0__["default"].to[self.model](...arguments_);
+	},
+
+	percentString(places) {
+		const self = this.rgb().round(typeof places === 'number' ? places : 1);
+		const arguments_ = self.valpha === 1 ? self.color : [...self.color, this.valpha];
+		return color_string__WEBPACK_IMPORTED_MODULE_0__["default"].to.rgb.percent(...arguments_);
+	},
+
+	array() {
+		return this.valpha === 1 ? [...this.color] : [...this.color, this.valpha];
+	},
+
+	object() {
+		const result = {};
+		const {channels} = color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][this.model];
+		const {labels} = color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][this.model];
+
+		for (let i = 0; i < channels; i++) {
+			result[labels[i]] = this.color[i];
+		}
+
+		if (this.valpha !== 1) {
+			result.alpha = this.valpha;
+		}
+
+		return result;
+	},
+
+	unitArray() {
+		const rgb = this.rgb().color;
+		rgb[0] /= 255;
+		rgb[1] /= 255;
+		rgb[2] /= 255;
+
+		if (this.valpha !== 1) {
+			rgb.push(this.valpha);
+		}
+
+		return rgb;
+	},
+
+	unitObject() {
+		const rgb = this.rgb().object();
+		rgb.r /= 255;
+		rgb.g /= 255;
+		rgb.b /= 255;
+
+		if (this.valpha !== 1) {
+			rgb.alpha = this.valpha;
+		}
+
+		return rgb;
+	},
+
+	round(places) {
+		places = Math.max(places || 0, 0);
+		return new Color([...this.color.map(roundToPlace(places)), this.valpha], this.model);
+	},
+
+	alpha(value) {
+		if (value !== undefined) {
+			return new Color([...this.color, Math.max(0, Math.min(1, value))], this.model);
+		}
+
+		return this.valpha;
+	},
+
+	// Rgb
+	red: getset('rgb', 0, maxfn(255)),
+	green: getset('rgb', 1, maxfn(255)),
+	blue: getset('rgb', 2, maxfn(255)),
+
+	hue: getset(['hsl', 'hsv', 'hsl', 'hwb', 'hcg'], 0, value => ((value % 360) + 360) % 360),
+
+	saturationl: getset('hsl', 1, maxfn(100)),
+	lightness: getset('hsl', 2, maxfn(100)),
+
+	saturationv: getset('hsv', 1, maxfn(100)),
+	value: getset('hsv', 2, maxfn(100)),
+
+	chroma: getset('hcg', 1, maxfn(100)),
+	gray: getset('hcg', 2, maxfn(100)),
+
+	white: getset('hwb', 1, maxfn(100)),
+	wblack: getset('hwb', 2, maxfn(100)),
+
+	cyan: getset('cmyk', 0, maxfn(100)),
+	magenta: getset('cmyk', 1, maxfn(100)),
+	yellow: getset('cmyk', 2, maxfn(100)),
+	black: getset('cmyk', 3, maxfn(100)),
+
+	x: getset('xyz', 0, maxfn(95.047)),
+	y: getset('xyz', 1, maxfn(100)),
+	z: getset('xyz', 2, maxfn(108.833)),
+
+	l: getset('lab', 0, maxfn(100)),
+	a: getset('lab', 1),
+	b: getset('lab', 2),
+
+	keyword(value) {
+		if (value !== undefined) {
+			return new Color(value);
+		}
+
+		return color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][this.model].keyword(this.color);
+	},
+
+	hex(value) {
+		if (value !== undefined) {
+			return new Color(value);
+		}
+
+		return color_string__WEBPACK_IMPORTED_MODULE_0__["default"].to.hex(...this.rgb().round().color);
+	},
+
+	hexa(value) {
+		if (value !== undefined) {
+			return new Color(value);
+		}
+
+		const rgbArray = this.rgb().round().color;
+
+		let alphaHex = Math.round(this.valpha * 255).toString(16).toUpperCase();
+		if (alphaHex.length === 1) {
+			alphaHex = '0' + alphaHex;
+		}
+
+		return color_string__WEBPACK_IMPORTED_MODULE_0__["default"].to.hex(...rgbArray) + alphaHex;
+	},
+
+	rgbNumber() {
+		const rgb = this.rgb().color;
+		return ((rgb[0] & 0xFF) << 16) | ((rgb[1] & 0xFF) << 8) | (rgb[2] & 0xFF);
+	},
+
+	luminosity() {
+		// http://www.w3.org/TR/WCAG20/#relativeluminancedef
+		const rgb = this.rgb().color;
+
+		const lum = [];
+		for (const [i, element] of rgb.entries()) {
+			const chan = element / 255;
+			lum[i] = (chan <= 0.04045) ? chan / 12.92 : ((chan + 0.055) / 1.055) ** 2.4;
+		}
+
+		return 0.2126 * lum[0] + 0.7152 * lum[1] + 0.0722 * lum[2];
+	},
+
+	contrast(color2) {
+		// http://www.w3.org/TR/WCAG20/#contrast-ratiodef
+		const lum1 = this.luminosity();
+		const lum2 = color2.luminosity();
+
+		if (lum1 > lum2) {
+			return (lum1 + 0.05) / (lum2 + 0.05);
+		}
+
+		return (lum2 + 0.05) / (lum1 + 0.05);
+	},
+
+	level(color2) {
+		// https://www.w3.org/TR/WCAG/#contrast-enhanced
+		const contrastRatio = this.contrast(color2);
+		if (contrastRatio >= 7) {
+			return 'AAA';
+		}
+
+		return (contrastRatio >= 4.5) ? 'AA' : '';
+	},
+
+	isDark() {
+		// YIQ equation from http://24ways.org/2010/calculating-color-contrast
+		const rgb = this.rgb().color;
+		const yiq = (rgb[0] * 2126 + rgb[1] * 7152 + rgb[2] * 722) / 10000;
+		return yiq < 128;
+	},
+
+	isLight() {
+		return !this.isDark();
+	},
+
+	negate() {
+		const rgb = this.rgb();
+		for (let i = 0; i < 3; i++) {
+			rgb.color[i] = 255 - rgb.color[i];
+		}
+
+		return rgb;
+	},
+
+	lighten(ratio) {
+		const hsl = this.hsl();
+		hsl.color[2] += hsl.color[2] * ratio;
+		return hsl;
+	},
+
+	darken(ratio) {
+		const hsl = this.hsl();
+		hsl.color[2] -= hsl.color[2] * ratio;
+		return hsl;
+	},
+
+	saturate(ratio) {
+		const hsl = this.hsl();
+		hsl.color[1] += hsl.color[1] * ratio;
+		return hsl;
+	},
+
+	desaturate(ratio) {
+		const hsl = this.hsl();
+		hsl.color[1] -= hsl.color[1] * ratio;
+		return hsl;
+	},
+
+	whiten(ratio) {
+		const hwb = this.hwb();
+		hwb.color[1] += hwb.color[1] * ratio;
+		return hwb;
+	},
+
+	blacken(ratio) {
+		const hwb = this.hwb();
+		hwb.color[2] += hwb.color[2] * ratio;
+		return hwb;
+	},
+
+	grayscale() {
+		// http://en.wikipedia.org/wiki/Grayscale#Converting_colour_to_grayscale
+		const rgb = this.rgb().color;
+		const value = rgb[0] * 0.3 + rgb[1] * 0.59 + rgb[2] * 0.11;
+		return Color.rgb(value, value, value);
+	},
+
+	fade(ratio) {
+		return this.alpha(this.valpha - (this.valpha * ratio));
+	},
+
+	opaquer(ratio) {
+		return this.alpha(this.valpha + (this.valpha * ratio));
+	},
+
+	rotate(degrees) {
+		const hsl = this.hsl();
+		let hue = hsl.color[0];
+		hue = (hue + degrees) % 360;
+		hue = hue < 0 ? 360 + hue : hue;
+		hsl.color[0] = hue;
+		return hsl;
+	},
+
+	mix(mixinColor, weight) {
+		// Ported from sass implementation in C
+		// https://github.com/sass/libsass/blob/0e6b4a2850092356aa3ece07c6b249f0221caced/functions.cpp#L209
+		if (!mixinColor || !mixinColor.rgb) {
+			throw new Error('Argument to "mix" was not a Color instance, but rather an instance of ' + typeof mixinColor);
+		}
+
+		const color1 = mixinColor.rgb();
+		const color2 = this.rgb();
+		const p = weight === undefined ? 0.5 : weight;
+
+		const w = 2 * p - 1;
+		const a = color1.alpha() - color2.alpha();
+
+		const w1 = (((w * a === -1) ? w : (w + a) / (1 + w * a)) + 1) / 2;
+		const w2 = 1 - w1;
+
+		return Color.rgb(
+			w1 * color1.red() + w2 * color2.red(),
+			w1 * color1.green() + w2 * color2.green(),
+			w1 * color1.blue() + w2 * color2.blue(),
+			color1.alpha() * p + color2.alpha() * (1 - p));
+	},
+};
+
+// Model conversion methods and static constructors
+for (const model of Object.keys(color_convert__WEBPACK_IMPORTED_MODULE_1__["default"])) {
+	if (skippedModels.includes(model)) {
+		continue;
+	}
+
+	const {channels} = color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][model];
+
+	// Conversion methods
+	Color.prototype[model] = function (...arguments_) {
+		if (this.model === model) {
+			return new Color(this);
+		}
+
+		if (arguments_.length > 0) {
+			return new Color(arguments_, model);
+		}
+
+		return new Color([...assertArray(color_convert__WEBPACK_IMPORTED_MODULE_1__["default"][this.model][model].raw(this.color)), this.valpha], model);
+	};
+
+	// 'static' construction methods
+	Color[model] = function (...arguments_) {
+		let color = arguments_[0];
+		if (typeof color === 'number') {
+			color = zeroArray(arguments_, channels);
+		}
+
+		return new Color(color, model);
+	};
+}
+
+function roundTo(number, places) {
+	return Number(number.toFixed(places));
+}
+
+function roundToPlace(places) {
+	return function (number) {
+		return roundTo(number, places);
+	};
+}
+
+function getset(model, channel, modifier) {
+	model = Array.isArray(model) ? model : [model];
+
+	for (const m of model) {
+		(limiters[m] ||= [])[channel] = modifier;
+	}
+
+	model = model[0];
+
+	return function (value) {
+		let result;
+
+		if (value !== undefined) {
+			if (modifier) {
+				value = modifier(value);
+			}
+
+			result = this[model]();
+			result.color[channel] = value;
+			return result;
+		}
+
+		result = this[model]().color[channel];
+		if (modifier) {
+			result = modifier(result);
+		}
+
+		return result;
+	};
+}
+
+function maxfn(max) {
+	return function (v) {
+		return Math.max(0, Math.min(max, v));
+	};
+}
+
+function assertArray(value) {
+	return Array.isArray(value) ? value : [value];
+}
+
+function zeroArray(array, length) {
+	for (let i = 0; i < length; i++) {
+		if (typeof array[i] !== 'number') {
+			array[i] = 0;
+		}
+	}
+
+	return array;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Color);
+
+
+/***/ }),
+
+/***/ "./node_modules/color/node_modules/color-convert/conversions.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/color/node_modules/color-convert/conversions.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var color_name__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! color-name */ "./node_modules/color/node_modules/color-name/index.js");
+/* MIT license */
+/* eslint-disable no-mixed-operators */
+
+
+// NOTE: conversions should only return primitive values (i.e. arrays, or
+//       values that give correct `typeof` results).
+//       do not use box values types (i.e. Number(), String(), etc.)
+
+const reverseKeywords = {};
+for (const key of Object.keys(color_name__WEBPACK_IMPORTED_MODULE_0__["default"])) {
+	reverseKeywords[color_name__WEBPACK_IMPORTED_MODULE_0__["default"][key]] = key;
+}
+
+const convert = {
+	rgb: {channels: 3, labels: 'rgb'},
+	hsl: {channels: 3, labels: 'hsl'},
+	hsv: {channels: 3, labels: 'hsv'},
+	hwb: {channels: 3, labels: 'hwb'},
+	cmyk: {channels: 4, labels: 'cmyk'},
+	xyz: {channels: 3, labels: 'xyz'},
+	lab: {channels: 3, labels: 'lab'},
+	oklab: {channels: 3, labels: ['okl', 'oka', 'okb']},
+	lch: {channels: 3, labels: 'lch'},
+	oklch: {channels: 3, labels: ['okl', 'okc', 'okh']},
+	hex: {channels: 1, labels: ['hex']},
+	keyword: {channels: 1, labels: ['keyword']},
+	ansi16: {channels: 1, labels: ['ansi16']},
+	ansi256: {channels: 1, labels: ['ansi256']},
+	hcg: {channels: 3, labels: ['h', 'c', 'g']},
+	apple: {channels: 3, labels: ['r16', 'g16', 'b16']},
+	gray: {channels: 1, labels: ['gray']},
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (convert);
+
+// LAB f(t) constant
+const LAB_FT = (6 / 29) ** 3;
+
+// SRGB non-linear transform functions
+function srgbNonlinearTransform(c) {
+	const cc = c > 0.003_130_8
+		? ((1.055 * (c ** (1 / 2.4))) - 0.055)
+		: c * 12.92;
+	return Math.min(Math.max(0, cc), 1);
+}
+
+function srgbNonlinearTransformInv(c) {
+	return c > 0.040_45 ? (((c + 0.055) / 1.055) ** 2.4) : (c / 12.92);
+}
+
+// Hide .channels and .labels properties
+for (const model of Object.keys(convert)) {
+	if (!('channels' in convert[model])) {
+		throw new Error('missing channels property: ' + model);
+	}
+
+	if (!('labels' in convert[model])) {
+		throw new Error('missing channel labels property: ' + model);
+	}
+
+	if (convert[model].labels.length !== convert[model].channels) {
+		throw new Error('channel and label counts mismatch: ' + model);
+	}
+
+	const {channels, labels} = convert[model];
+	delete convert[model].channels;
+	delete convert[model].labels;
+	Object.defineProperty(convert[model], 'channels', {value: channels});
+	Object.defineProperty(convert[model], 'labels', {value: labels});
+}
+
+convert.rgb.hsl = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const min = Math.min(r, g, b);
+	const max = Math.max(r, g, b);
+	const delta = max - min;
+	let h;
+	let s;
+
+	switch (max) {
+		case min: {
+			h = 0;
+
+			break;
+		}
+
+		case r: {
+			h = (g - b) / delta;
+
+			break;
+		}
+
+		case g: {
+			h = 2 + (b - r) / delta;
+
+			break;
+		}
+
+		case b: {
+			h = 4 + (r - g) / delta;
+
+			break;
+		}
+	// No default
+	}
+
+	h = Math.min(h * 60, 360);
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	const l = (min + max) / 2;
+
+	if (max === min) {
+		s = 0;
+	} else if (l <= 0.5) {
+		s = delta / (max + min);
+	} else {
+		s = delta / (2 - max - min);
+	}
+
+	return [h, s * 100, l * 100];
+};
+
+convert.rgb.hsv = function (rgb) {
+	let rdif;
+	let gdif;
+	let bdif;
+	let h;
+	let s;
+
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const v = Math.max(r, g, b);
+	const diff = v - Math.min(r, g, b);
+	const diffc = function (c) {
+		return (v - c) / 6 / diff + 1 / 2;
+	};
+
+	if (diff === 0) {
+		h = 0;
+		s = 0;
+	} else {
+		s = diff / v;
+		rdif = diffc(r);
+		gdif = diffc(g);
+		bdif = diffc(b);
+
+		switch (v) {
+			case r: {
+				h = bdif - gdif;
+
+				break;
+			}
+
+			case g: {
+				h = (1 / 3) + rdif - bdif;
+
+				break;
+			}
+
+			case b: {
+				h = (2 / 3) + gdif - rdif;
+
+				break;
+			}
+		// No default
+		}
+
+		if (h < 0) {
+			h += 1;
+		} else if (h > 1) {
+			h -= 1;
+		}
+	}
+
+	return [
+		h * 360,
+		s * 100,
+		v * 100,
+	];
+};
+
+convert.rgb.hwb = function (rgb) {
+	const r = rgb[0];
+	const g = rgb[1];
+	let b = rgb[2];
+	const h = convert.rgb.hsl(rgb)[0];
+	const w = 1 / 255 * Math.min(r, Math.min(g, b));
+
+	b = 1 - 1 / 255 * Math.max(r, Math.max(g, b));
+
+	return [h, w * 100, b * 100];
+};
+
+convert.rgb.oklab = function (rgb) {
+	// Assume sRGB
+	const r = srgbNonlinearTransformInv(rgb[0] / 255);
+	const g = srgbNonlinearTransformInv(rgb[1] / 255);
+	const b = srgbNonlinearTransformInv(rgb[2] / 255);
+
+	const lp = Math.cbrt(0.412_221_470_8 * r + 0.536_332_536_3 * g + 0.051_445_992_9 * b);
+	const mp = Math.cbrt(0.211_903_498_2 * r + 0.680_699_545_1 * g + 0.107_396_956_6 * b);
+	const sp = Math.cbrt(0.088_302_461_9 * r + 0.281_718_837_6 * g + 0.629_978_700_5 * b);
+
+	const l = 0.210_454_255_3 * lp + 0.793_617_785 * mp - 0.004_072_046_8 * sp;
+	const aa = 1.977_998_495_1 * lp - 2.428_592_205 * mp + 0.450_593_709_9 * sp;
+	const bb = 0.025_904_037_1 * lp + 0.782_771_766_2 * mp - 0.808_675_766 * sp;
+
+	return [l * 100, aa * 100, bb * 100];
+};
+
+convert.rgb.cmyk = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+
+	const k = Math.min(1 - r, 1 - g, 1 - b);
+	const c = (1 - r - k) / (1 - k) || 0;
+	const m = (1 - g - k) / (1 - k) || 0;
+	const y = (1 - b - k) / (1 - k) || 0;
+
+	return [c * 100, m * 100, y * 100, k * 100];
+};
+
+function comparativeDistance(x, y) {
+	/*
+		See https://en.m.wikipedia.org/wiki/Euclidean_distance#Squared_Euclidean_distance
+	*/
+	return (
+		((x[0] - y[0]) ** 2) +
+		((x[1] - y[1]) ** 2) +
+		((x[2] - y[2]) ** 2)
+	);
+}
+
+convert.rgb.keyword = function (rgb) {
+	const reversed = reverseKeywords[rgb];
+	if (reversed) {
+		return reversed;
+	}
+
+	let currentClosestDistance = Number.POSITIVE_INFINITY;
+	let currentClosestKeyword;
+
+	for (const keyword of Object.keys(color_name__WEBPACK_IMPORTED_MODULE_0__["default"])) {
+		const value = color_name__WEBPACK_IMPORTED_MODULE_0__["default"][keyword];
+
+		// Compute comparative distance
+		const distance = comparativeDistance(rgb, value);
+
+		// Check if its less, if so set as closest
+		if (distance < currentClosestDistance) {
+			currentClosestDistance = distance;
+			currentClosestKeyword = keyword;
+		}
+	}
+
+	return currentClosestKeyword;
+};
+
+convert.keyword.rgb = function (keyword) {
+	return color_name__WEBPACK_IMPORTED_MODULE_0__["default"][keyword];
+};
+
+convert.rgb.xyz = function (rgb) {
+	// Assume sRGB
+	const r = srgbNonlinearTransformInv(rgb[0] / 255);
+	const g = srgbNonlinearTransformInv(rgb[1] / 255);
+	const b = srgbNonlinearTransformInv(rgb[2] / 255);
+
+	const x = (r * 0.412_456_4) + (g * 0.357_576_1) + (b * 0.180_437_5);
+	const y = (r * 0.212_672_9) + (g * 0.715_152_2) + (b * 0.072_175);
+	const z = (r * 0.019_333_9) + (g * 0.119_192) + (b * 0.950_304_1);
+
+	return [x * 100, y * 100, z * 100];
+};
+
+convert.rgb.lab = function (rgb) {
+	const xyz = convert.rgb.xyz(rgb);
+	let x = xyz[0];
+	let y = xyz[1];
+	let z = xyz[2];
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > LAB_FT ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
+	y = y > LAB_FT ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
+	z = z > LAB_FT ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
+
+	const l = (116 * y) - 16;
+	const a = 500 * (x - y);
+	const b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.hsl.rgb = function (hsl) {
+	const h = hsl[0] / 360;
+	const s = hsl[1] / 100;
+	const l = hsl[2] / 100;
+	let t3;
+	let value;
+
+	if (s === 0) {
+		value = l * 255;
+		return [value, value, value];
+	}
+
+	const t2 = l < 0.5 ? l * (1 + s) : l + s - l * s;
+
+	const t1 = 2 * l - t2;
+
+	const rgb = [0, 0, 0];
+	for (let i = 0; i < 3; i++) {
+		t3 = h + 1 / 3 * -(i - 1);
+		if (t3 < 0) {
+			t3++;
+		}
+
+		if (t3 > 1) {
+			t3--;
+		}
+
+		if (6 * t3 < 1) {
+			value = t1 + (t2 - t1) * 6 * t3;
+		} else if (2 * t3 < 1) {
+			value = t2;
+		} else if (3 * t3 < 2) {
+			value = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
+		} else {
+			value = t1;
+		}
+
+		rgb[i] = value * 255;
+	}
+
+	return rgb;
+};
+
+convert.hsl.hsv = function (hsl) {
+	const h = hsl[0];
+	let s = hsl[1] / 100;
+	let l = hsl[2] / 100;
+	let smin = s;
+	const lmin = Math.max(l, 0.01);
+
+	l *= 2;
+	s *= (l <= 1) ? l : 2 - l;
+	smin *= lmin <= 1 ? lmin : 2 - lmin;
+	const v = (l + s) / 2;
+	const sv = l === 0 ? (2 * smin) / (lmin + smin) : (2 * s) / (l + s);
+
+	return [h, sv * 100, v * 100];
+};
+
+convert.hsv.rgb = function (hsv) {
+	const h = hsv[0] / 60;
+	const s = hsv[1] / 100;
+	let v = hsv[2] / 100;
+	const hi = Math.floor(h) % 6;
+
+	const f = h - Math.floor(h);
+	const p = 255 * v * (1 - s);
+	const q = 255 * v * (1 - (s * f));
+	const t = 255 * v * (1 - (s * (1 - f)));
+	v *= 255;
+
+	switch (hi) {
+		case 0: {
+			return [v, t, p];
+		}
+
+		case 1: {
+			return [q, v, p];
+		}
+
+		case 2: {
+			return [p, v, t];
+		}
+
+		case 3: {
+			return [p, q, v];
+		}
+
+		case 4: {
+			return [t, p, v];
+		}
+
+		case 5: {
+			return [v, p, q];
+		}
+	}
+};
+
+convert.hsv.hsl = function (hsv) {
+	const h = hsv[0];
+	const s = hsv[1] / 100;
+	const v = hsv[2] / 100;
+	const vmin = Math.max(v, 0.01);
+	let sl;
+	let l;
+
+	l = (2 - s) * v;
+	const lmin = (2 - s) * vmin;
+	sl = s * vmin;
+	sl /= (lmin <= 1) ? lmin : 2 - lmin;
+	sl = sl || 0;
+	l /= 2;
+
+	return [h, sl * 100, l * 100];
+};
+
+// http://dev.w3.org/csswg/css-color/#hwb-to-rgb
+convert.hwb.rgb = function (hwb) {
+	const h = hwb[0] / 360;
+	let wh = hwb[1] / 100;
+	let bl = hwb[2] / 100;
+	const ratio = wh + bl;
+	let f;
+
+	// Wh + bl cant be > 1
+	if (ratio > 1) {
+		wh /= ratio;
+		bl /= ratio;
+	}
+
+	const i = Math.floor(6 * h);
+	const v = 1 - bl;
+	f = 6 * h - i;
+
+	// eslint-disable-next-line no-bitwise
+	if ((i & 0x01) !== 0) {
+		f = 1 - f;
+	}
+
+	const n = wh + f * (v - wh); // Linear interpolation
+
+	let r;
+	let g;
+	let b;
+	/* eslint-disable max-statements-per-line,no-multi-spaces, default-case-last */
+	switch (i) {
+		default:
+		case 6:
+		case 0: { r = v;  g = n;  b = wh; break;
+		}
+
+		case 1: { r = n;  g = v;  b = wh; break;
+		}
+
+		case 2: { r = wh; g = v;  b = n; break;
+		}
+
+		case 3: { r = wh; g = n;  b = v; break;
+		}
+
+		case 4: { r = n;  g = wh; b = v; break;
+		}
+
+		case 5: { r = v;  g = wh; b = n; break;
+		}
+	}
+	/* eslint-enable max-statements-per-line,no-multi-spaces, default-case-last */
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.cmyk.rgb = function (cmyk) {
+	const c = cmyk[0] / 100;
+	const m = cmyk[1] / 100;
+	const y = cmyk[2] / 100;
+	const k = cmyk[3] / 100;
+
+	const r = 1 - Math.min(1, c * (1 - k) + k);
+	const g = 1 - Math.min(1, m * (1 - k) + k);
+	const b = 1 - Math.min(1, y * (1 - k) + k);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.rgb = function (xyz) {
+	const x = xyz[0] / 100;
+	const y = xyz[1] / 100;
+	const z = xyz[2] / 100;
+	let r;
+	let g;
+	let b;
+
+	r = (x * 3.240_454_2) + (y * -1.537_138_5) + (z * -0.498_531_4);
+	g = (x * -0.969_266) + (y * 1.876_010_8) + (z * 0.041_556);
+	b = (x * 0.055_643_4) + (y * -0.204_025_9) + (z * 1.057_225_2);
+
+	// Assume sRGB
+	r = srgbNonlinearTransform(r);
+	g = srgbNonlinearTransform(g);
+	b = srgbNonlinearTransform(b);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.xyz.lab = function (xyz) {
+	let x = xyz[0];
+	let y = xyz[1];
+	let z = xyz[2];
+
+	x /= 95.047;
+	y /= 100;
+	z /= 108.883;
+
+	x = x > LAB_FT ? (x ** (1 / 3)) : (7.787 * x) + (16 / 116);
+	y = y > LAB_FT ? (y ** (1 / 3)) : (7.787 * y) + (16 / 116);
+	z = z > LAB_FT ? (z ** (1 / 3)) : (7.787 * z) + (16 / 116);
+
+	const l = (116 * y) - 16;
+	const a = 500 * (x - y);
+	const b = 200 * (y - z);
+
+	return [l, a, b];
+};
+
+convert.xyz.oklab = function (xyz) {
+	const x = xyz[0] / 100;
+	const y = xyz[1] / 100;
+	const z = xyz[2] / 100;
+
+	const lp = Math.cbrt(0.818_933_010_1 * x + 0.361_866_742_4 * y - 0.128_859_713_7 * z);
+	const mp = Math.cbrt(0.032_984_543_6 * x + 0.929_311_871_5 * y + 0.036_145_638_7 * z);
+	const sp = Math.cbrt(0.048_200_301_8 * x + 0.264_366_269_1 * y + 0.633_851_707 * z);
+
+	const l = 0.210_454_255_3 * lp + 0.793_617_785 * mp - 0.004_072_046_8 * sp;
+	const a = 1.977_998_495_1 * lp - 2.428_592_205 * mp + 0.450_593_709_9 * sp;
+	const b = 0.025_904_037_1 * lp + 0.782_771_766_2 * mp - 0.808_675_766 * sp;
+
+	return [l * 100, a * 100, b * 100];
+};
+
+convert.oklab.oklch = function (oklab) {
+	return convert.lab.lch(oklab);
+};
+
+convert.oklab.xyz = function (oklab) {
+	const ll = oklab[0] / 100;
+	const a = oklab[1] / 100;
+	const b = oklab[2] / 100;
+
+	const l = (0.999_999_998 * ll + 0.396_337_792 * a + 0.215_803_758 * b) ** 3;
+	const m = (1.000_000_008 * ll - 0.105_561_342 * a - 0.063_854_175 * b) ** 3;
+	const s = (1.000_000_055 * ll - 0.089_484_182 * a - 1.291_485_538 * b) ** 3;
+
+	const x = 1.227_013_851 * l - 0.557_799_98 * m + 0.281_256_149 * s;
+	const y = -0.040_580_178 * l + 1.112_256_87 * m - 0.071_676_679 * s;
+	const z = -0.076_381_285 * l - 0.421_481_978 * m + 1.586_163_22 * s;
+
+	return [x * 100, y * 100, z * 100];
+};
+
+convert.oklab.rgb = function (oklab) {
+	const ll = oklab[0] / 100;
+	const aa = oklab[1] / 100;
+	const bb = oklab[2] / 100;
+
+	const l = (ll + 0.396_337_777_4 * aa + 0.215_803_757_3 * bb) ** 3;
+	const m = (ll - 0.105_561_345_8 * aa - 0.063_854_172_8 * bb) ** 3;
+	const s = (ll - 0.089_484_177_5 * aa - 1.291_485_548 * bb) ** 3;
+
+	// Assume sRGB
+	const r = srgbNonlinearTransform(4.076_741_662_1 * l - 3.307_711_591_3 * m + 0.230_969_929_2 * s);
+	const g = srgbNonlinearTransform(-1.268_438_004_6 * l + 2.609_757_401_1 * m - 0.341_319_396_5 * s);
+	const b = srgbNonlinearTransform(-0.004_196_086_3 * l - 0.703_418_614_7 * m + 1.707_614_701 * s);
+
+	return [r * 255, g * 255, b * 255];
+};
+
+convert.oklch.oklab = function (oklch) {
+	return convert.lch.lab(oklch);
+};
+
+convert.lab.xyz = function (lab) {
+	const l = lab[0];
+	const a = lab[1];
+	const b = lab[2];
+	let x;
+	let y;
+	let z;
+
+	y = (l + 16) / 116;
+	x = a / 500 + y;
+	z = y - b / 200;
+
+	const y2 = y ** 3;
+	const x2 = x ** 3;
+	const z2 = z ** 3;
+	y = y2 > LAB_FT ? y2 : (y - 16 / 116) / 7.787;
+	x = x2 > LAB_FT ? x2 : (x - 16 / 116) / 7.787;
+	z = z2 > LAB_FT ? z2 : (z - 16 / 116) / 7.787;
+
+	// Illuminant D65 XYZ Tristrimulus Values
+	// https://en.wikipedia.org/wiki/CIE_1931_color_space
+	x *= 95.047;
+	y *= 100;
+	z *= 108.883;
+
+	return [x, y, z];
+};
+
+convert.lab.lch = function (lab) {
+	const l = lab[0];
+	const a = lab[1];
+	const b = lab[2];
+	let h;
+
+	const hr = Math.atan2(b, a);
+	h = hr * 360 / 2 / Math.PI;
+
+	if (h < 0) {
+		h += 360;
+	}
+
+	const c = Math.sqrt(a * a + b * b);
+
+	return [l, c, h];
+};
+
+convert.lch.lab = function (lch) {
+	const l = lch[0];
+	const c = lch[1];
+	const h = lch[2];
+
+	const hr = h / 360 * 2 * Math.PI;
+	const a = c * Math.cos(hr);
+	const b = c * Math.sin(hr);
+
+	return [l, a, b];
+};
+
+convert.rgb.ansi16 = function (args, saturation = null) {
+	const [r, g, b] = args;
+	let value = saturation === null ? convert.rgb.hsv(args)[2] : saturation; // Hsv -> ansi16 optimization
+
+	value = Math.round(value / 50);
+
+	if (value === 0) {
+		return 30;
+	}
+
+	let ansi = 30
+		/* eslint-disable no-bitwise */
+		+ ((Math.round(b / 255) << 2)
+		| (Math.round(g / 255) << 1)
+		| Math.round(r / 255));
+		/* eslint-enable no-bitwise */
+
+	if (value === 2) {
+		ansi += 60;
+	}
+
+	return ansi;
+};
+
+convert.hsv.ansi16 = function (args) {
+	// Optimization here; we already know the value and don't need to get
+	// it converted for us.
+	return convert.rgb.ansi16(convert.hsv.rgb(args), args[2]);
+};
+
+convert.rgb.ansi256 = function (args) {
+	const r = args[0];
+	const g = args[1];
+	const b = args[2];
+
+	// We use the extended greyscale palette here, with the exception of
+	// black and white. normal palette only has 4 greyscale shades.
+	// eslint-disable-next-line no-bitwise
+	if (r >> 4 === g >> 4 && g >> 4 === b >> 4) {
+		if (r < 8) {
+			return 16;
+		}
+
+		if (r > 248) {
+			return 231;
+		}
+
+		return Math.round(((r - 8) / 247) * 24) + 232;
+	}
+
+	const ansi = 16
+		+ (36 * Math.round(r / 255 * 5))
+		+ (6 * Math.round(g / 255 * 5))
+		+ Math.round(b / 255 * 5);
+
+	return ansi;
+};
+
+convert.ansi16.rgb = function (args) {
+	args = args[0];
+
+	let color = args % 10;
+
+	// Handle greyscale
+	if (color === 0 || color === 7) {
+		if (args > 50) {
+			color += 3.5;
+		}
+
+		color = color / 10.5 * 255;
+
+		return [color, color, color];
+	}
+
+	const mult = (Math.trunc(args > 50) + 1) * 0.5;
+	/* eslint-disable no-bitwise */
+	const r = ((color & 1) * mult) * 255;
+	const g = (((color >> 1) & 1) * mult) * 255;
+	const b = (((color >> 2) & 1) * mult) * 255;
+	/* eslint-enable no-bitwise */
+
+	return [r, g, b];
+};
+
+convert.ansi256.rgb = function (args) {
+	args = args[0];
+
+	// Handle greyscale
+	if (args >= 232) {
+		const c = (args - 232) * 10 + 8;
+		return [c, c, c];
+	}
+
+	args -= 16;
+
+	let rem;
+	const r = Math.floor(args / 36) / 5 * 255;
+	const g = Math.floor((rem = args % 36) / 6) / 5 * 255;
+	const b = (rem % 6) / 5 * 255;
+
+	return [r, g, b];
+};
+
+convert.rgb.hex = function (args) {
+	/* eslint-disable no-bitwise */
+	const integer = ((Math.round(args[0]) & 0xFF) << 16)
+		+ ((Math.round(args[1]) & 0xFF) << 8)
+		+ (Math.round(args[2]) & 0xFF);
+	/* eslint-enable no-bitwise */
+
+	const string = integer.toString(16).toUpperCase();
+	return '000000'.slice(string.length) + string;
+};
+
+convert.hex.rgb = function (args) {
+	const match = args.toString(16).match(/[a-f\d]{6}|[a-f\d]{3}/i);
+	if (!match) {
+		return [0, 0, 0];
+	}
+
+	let colorString = match[0];
+
+	if (match[0].length === 3) {
+		colorString = [...colorString].map(char => char + char).join('');
+	}
+
+	const integer = Number.parseInt(colorString, 16);
+	/* eslint-disable no-bitwise */
+	const r = (integer >> 16) & 0xFF;
+	const g = (integer >> 8) & 0xFF;
+	const b = integer & 0xFF;
+	/* eslint-enable no-bitwise */
+
+	return [r, g, b];
+};
+
+convert.rgb.hcg = function (rgb) {
+	const r = rgb[0] / 255;
+	const g = rgb[1] / 255;
+	const b = rgb[2] / 255;
+	const max = Math.max(Math.max(r, g), b);
+	const min = Math.min(Math.min(r, g), b);
+	const chroma = (max - min);
+	let hue;
+
+	const grayscale = chroma < 1 ? min / (1 - chroma) : 0;
+
+	if (chroma <= 0) {
+		hue = 0;
+	} else if (max === r) {
+		hue = ((g - b) / chroma) % 6;
+	} else if (max === g) {
+		hue = 2 + (b - r) / chroma;
+	} else {
+		hue = 4 + (r - g) / chroma;
+	}
+
+	hue /= 6;
+	hue %= 1;
+
+	return [hue * 360, chroma * 100, grayscale * 100];
+};
+
+convert.hsl.hcg = function (hsl) {
+	const s = hsl[1] / 100;
+	const l = hsl[2] / 100;
+
+	const c = l < 0.5 ? (2 * s * l) : (2 * s * (1 - l));
+
+	let f = 0;
+	if (c < 1) {
+		f = (l - 0.5 * c) / (1 - c);
+	}
+
+	return [hsl[0], c * 100, f * 100];
+};
+
+convert.hsv.hcg = function (hsv) {
+	const s = hsv[1] / 100;
+	const v = hsv[2] / 100;
+
+	const c = s * v;
+	let f = 0;
+
+	if (c < 1) {
+		f = (v - c) / (1 - c);
+	}
+
+	return [hsv[0], c * 100, f * 100];
+};
+
+convert.hcg.rgb = function (hcg) {
+	const h = hcg[0] / 360;
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	if (c === 0) {
+		return [g * 255, g * 255, g * 255];
+	}
+
+	const pure = [0, 0, 0];
+	const hi = (h % 1) * 6;
+	const v = hi % 1;
+	const w = 1 - v;
+	let mg = 0;
+
+	/* eslint-disable max-statements-per-line */
+	switch (Math.floor(hi)) {
+		case 0: {
+			pure[0] = 1; pure[1] = v; pure[2] = 0; break;
+		}
+
+		case 1: {
+			pure[0] = w; pure[1] = 1; pure[2] = 0; break;
+		}
+
+		case 2: {
+			pure[0] = 0; pure[1] = 1; pure[2] = v; break;
+		}
+
+		case 3: {
+			pure[0] = 0; pure[1] = w; pure[2] = 1; break;
+		}
+
+		case 4: {
+			pure[0] = v; pure[1] = 0; pure[2] = 1; break;
+		}
+
+		default: {
+			pure[0] = 1; pure[1] = 0; pure[2] = w;
+		}
+	}
+	/* eslint-enable max-statements-per-line */
+
+	mg = (1 - c) * g;
+
+	return [
+		(c * pure[0] + mg) * 255,
+		(c * pure[1] + mg) * 255,
+		(c * pure[2] + mg) * 255,
+	];
+};
+
+convert.hcg.hsv = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	const v = c + g * (1 - c);
+	let f = 0;
+
+	if (v > 0) {
+		f = c / v;
+	}
+
+	return [hcg[0], f * 100, v * 100];
+};
+
+convert.hcg.hsl = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+
+	const l = g * (1 - c) + 0.5 * c;
+	let s = 0;
+
+	if (l > 0 && l < 0.5) {
+		s = c / (2 * l);
+	} else if (l >= 0.5 && l < 1) {
+		s = c / (2 * (1 - l));
+	}
+
+	return [hcg[0], s * 100, l * 100];
+};
+
+convert.hcg.hwb = function (hcg) {
+	const c = hcg[1] / 100;
+	const g = hcg[2] / 100;
+	const v = c + g * (1 - c);
+	return [hcg[0], (v - c) * 100, (1 - v) * 100];
+};
+
+convert.hwb.hcg = function (hwb) {
+	const w = hwb[1] / 100;
+	const b = hwb[2] / 100;
+	const v = 1 - b;
+	const c = v - w;
+	let g = 0;
+
+	if (c < 1) {
+		g = (v - c) / (1 - c);
+	}
+
+	return [hwb[0], c * 100, g * 100];
+};
+
+convert.apple.rgb = function (apple) {
+	return [(apple[0] / 65_535) * 255, (apple[1] / 65_535) * 255, (apple[2] / 65_535) * 255];
+};
+
+convert.rgb.apple = function (rgb) {
+	return [(rgb[0] / 255) * 65_535, (rgb[1] / 255) * 65_535, (rgb[2] / 255) * 65_535];
+};
+
+convert.gray.rgb = function (args) {
+	return [args[0] / 100 * 255, args[0] / 100 * 255, args[0] / 100 * 255];
+};
+
+convert.gray.hsl = function (args) {
+	return [0, 0, args[0]];
+};
+
+convert.gray.hsv = convert.gray.hsl;
+
+convert.gray.hwb = function (gray) {
+	return [0, 100, gray[0]];
+};
+
+convert.gray.cmyk = function (gray) {
+	return [0, 0, 0, gray[0]];
+};
+
+convert.gray.lab = function (gray) {
+	return [gray[0], 0, 0];
+};
+
+convert.gray.hex = function (gray) {
+	/* eslint-disable no-bitwise */
+	const value = Math.round(gray[0] / 100 * 255) & 0xFF;
+	const integer = (value << 16) + (value << 8) + value;
+	/* eslint-enable no-bitwise */
+
+	const string = integer.toString(16).toUpperCase();
+	return '000000'.slice(string.length) + string;
+};
+
+convert.rgb.gray = function (rgb) {
+	const value = (rgb[0] + rgb[1] + rgb[2]) / 3;
+	return [value / 255 * 100];
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/color/node_modules/color-convert/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/color/node_modules/color-convert/index.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _conversions_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./conversions.js */ "./node_modules/color/node_modules/color-convert/conversions.js");
+/* harmony import */ var _route_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./route.js */ "./node_modules/color/node_modules/color-convert/route.js");
+
+
+
+const convert = {};
+
+const models = Object.keys(_conversions_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+function wrapRaw(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		return fn(args);
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+function wrapRounded(fn) {
+	const wrappedFn = function (...args) {
+		const arg0 = args[0];
+
+		if (arg0 === undefined || arg0 === null) {
+			return arg0;
+		}
+
+		if (arg0.length > 1) {
+			args = arg0;
+		}
+
+		const result = fn(args);
+
+		// We're assuming the result is an array here.
+		// see notice in conversions.js; don't use box types
+		// in conversion functions.
+		if (typeof result === 'object') {
+			for (let {length} = result, i = 0; i < length; i++) {
+				result[i] = Math.round(result[i]);
+			}
+		}
+
+		return result;
+	};
+
+	// Preserve .conversion property if there is one
+	if ('conversion' in fn) {
+		wrappedFn.conversion = fn.conversion;
+	}
+
+	return wrappedFn;
+}
+
+for (const fromModel of models) {
+	convert[fromModel] = {};
+
+	Object.defineProperty(convert[fromModel], 'channels', {value: _conversions_js__WEBPACK_IMPORTED_MODULE_0__["default"][fromModel].channels});
+	Object.defineProperty(convert[fromModel], 'labels', {value: _conversions_js__WEBPACK_IMPORTED_MODULE_0__["default"][fromModel].labels});
+
+	const routes = (0,_route_js__WEBPACK_IMPORTED_MODULE_1__["default"])(fromModel);
+	const routeModels = Object.keys(routes);
+
+	for (const toModel of routeModels) {
+		const fn = routes[toModel];
+
+		convert[fromModel][toModel] = wrapRounded(fn);
+		convert[fromModel][toModel].raw = wrapRaw(fn);
+	}
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (convert);
+
+
+/***/ }),
+
+/***/ "./node_modules/color/node_modules/color-convert/route.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/color/node_modules/color-convert/route.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _conversions_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./conversions.js */ "./node_modules/color/node_modules/color-convert/conversions.js");
+
+
+/*
+	This function routes a model to all other models.
+
+	all functions that are routed have a property `.conversion` attached
+	to the returned synthetic function. This property is an array
+	of strings, each with the steps in between the 'from' and 'to'
+	color models (inclusive).
+
+	conversions that are not possible simply are not included.
+*/
+
+function buildGraph() {
+	const graph = {};
+	// https://jsperf.com/object-keys-vs-for-in-with-closure/3
+	const models = Object.keys(_conversions_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+	for (let {length} = models, i = 0; i < length; i++) {
+		graph[models[i]] = {
+			// http://jsperf.com/1-vs-infinity
+			// micro-opt, but this is simple.
+			distance: -1,
+			parent: null,
+		};
+	}
+
+	return graph;
+}
+
+// https://en.wikipedia.org/wiki/Breadth-first_search
+function deriveBFS(fromModel) {
+	const graph = buildGraph();
+	const queue = [fromModel]; // Unshift -> queue -> pop
+
+	graph[fromModel].distance = 0;
+
+	while (queue.length > 0) {
+		const current = queue.pop();
+		const adjacents = Object.keys(_conversions_js__WEBPACK_IMPORTED_MODULE_0__["default"][current]);
+
+		for (let {length} = adjacents, i = 0; i < length; i++) {
+			const adjacent = adjacents[i];
+			const node = graph[adjacent];
+
+			if (node.distance === -1) {
+				node.distance = graph[current].distance + 1;
+				node.parent = current;
+				queue.unshift(adjacent);
+			}
+		}
+	}
+
+	return graph;
+}
+
+function link(from, to) {
+	return function (args) {
+		return to(from(args));
+	};
+}
+
+function wrapConversion(toModel, graph) {
+	const path = [graph[toModel].parent, toModel];
+	let fn = _conversions_js__WEBPACK_IMPORTED_MODULE_0__["default"][graph[toModel].parent][toModel];
+
+	let cur = graph[toModel].parent;
+	while (graph[cur].parent) {
+		path.unshift(graph[cur].parent);
+		fn = link(_conversions_js__WEBPACK_IMPORTED_MODULE_0__["default"][graph[cur].parent][cur], fn);
+		cur = graph[cur].parent;
+	}
+
+	fn.conversion = path;
+	return fn;
+}
+
+function route(fromModel) {
+	const graph = deriveBFS(fromModel);
+	const conversion = {};
+
+	const models = Object.keys(graph);
+	for (let {length} = models, i = 0; i < length; i++) {
+		const toModel = models[i];
+		const node = graph[toModel];
+
+		if (node.parent === null) {
+			// No possible conversion, or this node is the source model.
+			continue;
+		}
+
+		conversion[toModel] = wrapConversion(toModel, graph);
+	}
+
+	return conversion;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (route);
+
+
+/***/ }),
+
+/***/ "./node_modules/color/node_modules/color-name/index.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/color/node_modules/color-name/index.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+	aliceblue: [240, 248, 255],
+	antiquewhite: [250, 235, 215],
+	aqua: [0, 255, 255],
+	aquamarine: [127, 255, 212],
+	azure: [240, 255, 255],
+	beige: [245, 245, 220],
+	bisque: [255, 228, 196],
+	black: [0, 0, 0],
+	blanchedalmond: [255, 235, 205],
+	blue: [0, 0, 255],
+	blueviolet: [138, 43, 226],
+	brown: [165, 42, 42],
+	burlywood: [222, 184, 135],
+	cadetblue: [95, 158, 160],
+	chartreuse: [127, 255, 0],
+	chocolate: [210, 105, 30],
+	coral: [255, 127, 80],
+	cornflowerblue: [100, 149, 237],
+	cornsilk: [255, 248, 220],
+	crimson: [220, 20, 60],
+	cyan: [0, 255, 255],
+	darkblue: [0, 0, 139],
+	darkcyan: [0, 139, 139],
+	darkgoldenrod: [184, 134, 11],
+	darkgray: [169, 169, 169],
+	darkgreen: [0, 100, 0],
+	darkgrey: [169, 169, 169],
+	darkkhaki: [189, 183, 107],
+	darkmagenta: [139, 0, 139],
+	darkolivegreen: [85, 107, 47],
+	darkorange: [255, 140, 0],
+	darkorchid: [153, 50, 204],
+	darkred: [139, 0, 0],
+	darksalmon: [233, 150, 122],
+	darkseagreen: [143, 188, 143],
+	darkslateblue: [72, 61, 139],
+	darkslategray: [47, 79, 79],
+	darkslategrey: [47, 79, 79],
+	darkturquoise: [0, 206, 209],
+	darkviolet: [148, 0, 211],
+	deeppink: [255, 20, 147],
+	deepskyblue: [0, 191, 255],
+	dimgray: [105, 105, 105],
+	dimgrey: [105, 105, 105],
+	dodgerblue: [30, 144, 255],
+	firebrick: [178, 34, 34],
+	floralwhite: [255, 250, 240],
+	forestgreen: [34, 139, 34],
+	fuchsia: [255, 0, 255],
+	gainsboro: [220, 220, 220],
+	ghostwhite: [248, 248, 255],
+	gold: [255, 215, 0],
+	goldenrod: [218, 165, 32],
+	gray: [128, 128, 128],
+	green: [0, 128, 0],
+	greenyellow: [173, 255, 47],
+	grey: [128, 128, 128],
+	honeydew: [240, 255, 240],
+	hotpink: [255, 105, 180],
+	indianred: [205, 92, 92],
+	indigo: [75, 0, 130],
+	ivory: [255, 255, 240],
+	khaki: [240, 230, 140],
+	lavender: [230, 230, 250],
+	lavenderblush: [255, 240, 245],
+	lawngreen: [124, 252, 0],
+	lemonchiffon: [255, 250, 205],
+	lightblue: [173, 216, 230],
+	lightcoral: [240, 128, 128],
+	lightcyan: [224, 255, 255],
+	lightgoldenrodyellow: [250, 250, 210],
+	lightgray: [211, 211, 211],
+	lightgreen: [144, 238, 144],
+	lightgrey: [211, 211, 211],
+	lightpink: [255, 182, 193],
+	lightsalmon: [255, 160, 122],
+	lightseagreen: [32, 178, 170],
+	lightskyblue: [135, 206, 250],
+	lightslategray: [119, 136, 153],
+	lightslategrey: [119, 136, 153],
+	lightsteelblue: [176, 196, 222],
+	lightyellow: [255, 255, 224],
+	lime: [0, 255, 0],
+	limegreen: [50, 205, 50],
+	linen: [250, 240, 230],
+	magenta: [255, 0, 255],
+	maroon: [128, 0, 0],
+	mediumaquamarine: [102, 205, 170],
+	mediumblue: [0, 0, 205],
+	mediumorchid: [186, 85, 211],
+	mediumpurple: [147, 112, 219],
+	mediumseagreen: [60, 179, 113],
+	mediumslateblue: [123, 104, 238],
+	mediumspringgreen: [0, 250, 154],
+	mediumturquoise: [72, 209, 204],
+	mediumvioletred: [199, 21, 133],
+	midnightblue: [25, 25, 112],
+	mintcream: [245, 255, 250],
+	mistyrose: [255, 228, 225],
+	moccasin: [255, 228, 181],
+	navajowhite: [255, 222, 173],
+	navy: [0, 0, 128],
+	oldlace: [253, 245, 230],
+	olive: [128, 128, 0],
+	olivedrab: [107, 142, 35],
+	orange: [255, 165, 0],
+	orangered: [255, 69, 0],
+	orchid: [218, 112, 214],
+	palegoldenrod: [238, 232, 170],
+	palegreen: [152, 251, 152],
+	paleturquoise: [175, 238, 238],
+	palevioletred: [219, 112, 147],
+	papayawhip: [255, 239, 213],
+	peachpuff: [255, 218, 185],
+	peru: [205, 133, 63],
+	pink: [255, 192, 203],
+	plum: [221, 160, 221],
+	powderblue: [176, 224, 230],
+	purple: [128, 0, 128],
+	rebeccapurple: [102, 51, 153],
+	red: [255, 0, 0],
+	rosybrown: [188, 143, 143],
+	royalblue: [65, 105, 225],
+	saddlebrown: [139, 69, 19],
+	salmon: [250, 128, 114],
+	sandybrown: [244, 164, 96],
+	seagreen: [46, 139, 87],
+	seashell: [255, 245, 238],
+	sienna: [160, 82, 45],
+	silver: [192, 192, 192],
+	skyblue: [135, 206, 235],
+	slateblue: [106, 90, 205],
+	slategray: [112, 128, 144],
+	slategrey: [112, 128, 144],
+	snow: [255, 250, 250],
+	springgreen: [0, 255, 127],
+	steelblue: [70, 130, 180],
+	tan: [210, 180, 140],
+	teal: [0, 128, 128],
+	thistle: [216, 191, 216],
+	tomato: [255, 99, 71],
+	turquoise: [64, 224, 208],
+	violet: [238, 130, 238],
+	wheat: [245, 222, 179],
+	white: [255, 255, 255],
+	whitesmoke: [245, 245, 245],
+	yellow: [255, 255, 0],
+	yellowgreen: [154, 205, 50]
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./apps/systemtags/src/css/fileEntryInlineSystemTags.scss":
+/*!*********************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./apps/systemtags/src/css/fileEntryInlineSystemTags.scss ***!
+  \*********************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.files-list__system-tags {
+  --min-size: 32px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  min-width: calc(var(--min-size) * 2);
+  max-width: 300px;
+}
+
+.files-list__system-tag {
+  padding: 5px 10px;
+  border: 1px solid;
+  border-radius: var(--border-radius-pill);
+  border-color: var(--color-border);
+  color: var(--color-text-maxcontrast);
+  height: var(--min-size);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 20px;
+  text-align: center;
+}
+.files-list__system-tag--more {
+  overflow: visible;
+  text-overflow: initial;
+}
+.files-list__system-tag + .files-list__system-tag {
+  margin-inline-start: 5px;
+}
+.files-list__system-tag[data-systemtag-color] {
+  border-color: var(--systemtag-color);
+  color: var(--systemtag-color);
+  border-width: 2px;
+  line-height: 18px;
+}
+
+@media (min-width: 512px) {
+  .files-list__system-tags {
+    display: flex;
+  }
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "?0cc0":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?19e6":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?3e83":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?4f7e":
+/*!********************************!*\
+  !*** ./util.inspect (ignored) ***!
+  \********************************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ "?aeb7":
+/*!**********************!*\
+  !*** util (ignored) ***!
+  \**********************/
+/***/ (() => {
+
+/* (ignored) */
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "" + chunkId + "-" + chunkId + ".js?v=" + {"node_modules_nextcloud_dialogs_dist_chunks_index-BC-7VPxC_mjs":"2fcef36253529e5f48bc","node_modules_nextcloud_dialogs_dist_chunks_PublicAuthPrompt-BSFsDqYB_mjs":"f3a3966faa81f9b81fa8","apps_systemtags_src_components_SystemTagPicker_vue":"7f06057ef4d7744ac45a","node_modules_nextcloud_dialogs_dist_chunks_FilePicker-CsU6FfAP_mjs":"8bce3ebf3ef868f175e5","data_image_svg_xml_3c_21--_20-_20SPDX-FileCopyrightText_202020_20Google_20Inc_20-_20SPDX-Lice-cc29b1":"9fa10a9863e5b78deec8"}[chunkId] + "";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "nextcloud:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/^blob:/, "").replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"systemtags-init": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/systemtags/src/init.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=systemtags-init.js.map?v=50288c006f78ef9f9fe2

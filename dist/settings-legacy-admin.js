@@ -1,2 +1,309 @@
-(()=>{"use strict";var e,s={69129:(e,s,i)=>{var n=i(63814),a=i(74692),r=i.n(a),d=i(65043);window.addEventListener("DOMContentLoaded",()=>{r()("#loglevel").change(function(){r().post((0,n.Jv)("/settings/admin/log/level"),{level:r()(this).val()},()=>{OC.Log.reload()})}),r()("#mail_smtpauth").change(function(){this.checked?r()("#mail_credentials").removeClass("hidden"):r()("#mail_credentials").addClass("hidden")}),r()("#mail_smtpmode").change(function(){"smtp"!==r()(this).val()?(r()("#setting_smtpauth").addClass("hidden"),r()("#setting_smtphost").addClass("hidden"),r()("#mail_smtpsecure_label").addClass("hidden"),r()("#mail_smtpsecure").addClass("hidden"),r()("#mail_credentials").addClass("hidden"),r()("#mail_sendmailmode_label, #mail_sendmailmode").removeClass("hidden")):(r()("#setting_smtpauth").removeClass("hidden"),r()("#setting_smtphost").removeClass("hidden"),r()("#mail_smtpsecure_label").removeClass("hidden"),r()("#mail_smtpsecure").removeClass("hidden"),r()("#mail_smtpauth").is(":checked")&&r()("#mail_credentials").removeClass("hidden"),r()("#mail_sendmailmode_label, #mail_sendmailmode").addClass("hidden"))});const e=function(){OC.PasswordConfirmation.requiresPasswordConfirmation()?OC.PasswordConfirmation.requirePasswordConfirmation(e):(OC.msg.startSaving("#mail_settings_msg"),d.Ay.post((0,n.Jv)("/settings/admin/mailsettings"),r()("#mail_general_settings_form").serialize()).then(()=>{OC.msg.finishedSuccess("#mail_settings_msg",t("settings","Saved"))}).catch(e=>{OC.msg.finishedError("#mail_settings_msg",e)}))},s=function(){OC.PasswordConfirmation.requiresPasswordConfirmation()?OC.PasswordConfirmation.requirePasswordConfirmation(s):(OC.msg.startSaving("#mail_settings_msg"),d.Ay.post((0,n.Jv)("/settings/admin/mailsettings/credentials"),r()("#mail_credentials_settings").serialize()).then(()=>{OC.msg.finishedSuccess("#mail_settings_msg",t("settings","Saved"))}).catch(e=>{OC.msg.finishedError("#mail_settings_msg",e)}))};r()("#mail_general_settings_form").change(e),r()("#mail_credentials_settings_submit").click(s),r()("#mail_smtppassword").click(()=>{"text"===(void 0).type&&"********"===(void 0).value&&((void 0).type="password",(void 0).value="")}),r()("#sendtestemail").click(e=>{e.preventDefault(),OC.msg.startAction("#sendtestmail_msg",t("settings","Sending…")),d.Ay.post((0,n.Jv)("/settings/admin/mailtest")).then(()=>{OC.msg.finishedSuccess("#sendtestmail_msg",t("settings","Email sent"))}).catch(e=>{OC.msg.finishedError("#sendtestmail_msg",e)})})})}},i={};function n(e){var t=i[e];if(void 0!==t)return t.exports;var a=i[e]={id:e,loaded:!1,exports:{}};return s[e].call(a.exports,a,a.exports,n),a.loaded=!0,a.exports}n.m=s,e=[],n.O=(s,t,i,a)=>{if(!t){var r=1/0;for(m=0;m<e.length;m++){t=e[m][0],i=e[m][1],a=e[m][2];for(var d=!0,l=0;l<t.length;l++)(!1&a||r>=a)&&Object.keys(n.O).every(e=>n.O[e](t[l]))?t.splice(l--,1):(d=!1,a<r&&(r=a));if(d){e.splice(m--,1);var o=i();void 0!==o&&(s=o)}}return s}a=a||0;for(var m=e.length;m>0&&e[m-1][2]>a;m--)e[m]=e[m-1];e[m]=[t,i,a]},n.n=e=>{var s=e&&e.__esModule?()=>e.default:()=>e;return n.d(s,{a:s}),s},n.d=(e,s)=>{for(var t in s)n.o(s,t)&&!n.o(e,t)&&Object.defineProperty(e,t,{enumerable:!0,get:s[t]})},n.e=()=>Promise.resolve(),n.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),n.o=(e,s)=>Object.prototype.hasOwnProperty.call(e,s),n.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),n.j=6010,(()=>{n.b=document.baseURI||self.location.href;var e={6010:0};n.O.j=s=>0===e[s];var s=(s,t)=>{var i,a,r=t[0],d=t[1],l=t[2],o=0;if(r.some(s=>0!==e[s])){for(i in d)n.o(d,i)&&(n.m[i]=d[i]);if(l)var m=l(n)}for(s&&s(t);o<r.length;o++)a=r[o],n.o(e,a)&&e[a]&&e[a][0](),e[a]=0;return n.O(m)},t=self.webpackChunknextcloud=self.webpackChunknextcloud||[];t.forEach(s.bind(null,0)),t.push=s.bind(null,t.push.bind(t))})(),n.nc=void 0;var a=n.O(void 0,[4208],()=>n(69129));a=n.O(a)})();
-//# sourceMappingURL=settings-legacy-admin.js.map?v=236ba14b3b12a9270176
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./apps/settings/src/admin.js":
+/*!************************************!*\
+  !*** ./apps/settings/src/admin.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _nextcloud_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @nextcloud/router */ "./node_modules/@nextcloud/router/dist/index.mjs");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _nextcloud_axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/axios */ "./node_modules/@nextcloud/axios/dist/index.mjs");
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()('#loglevel').change(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_1___default().post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/settings/admin/log/level'), {
+      level: jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).val()
+    }, () => {
+      OC.Log.reload();
+    });
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_smtpauth').change(function () {
+    if (!this.checked) {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_credentials').addClass('hidden');
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_credentials').removeClass('hidden');
+    }
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_smtpmode').change(function () {
+    if (jquery__WEBPACK_IMPORTED_MODULE_1___default()(this).val() !== 'smtp') {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#setting_smtpauth').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#setting_smtphost').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_smtpsecure_label').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_smtpsecure').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_credentials').addClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_sendmailmode_label, #mail_sendmailmode').removeClass('hidden');
+    } else {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#setting_smtpauth').removeClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#setting_smtphost').removeClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_smtpsecure_label').removeClass('hidden');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_smtpsecure').removeClass('hidden');
+      if (jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_smtpauth').is(':checked')) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_credentials').removeClass('hidden');
+      }
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_sendmailmode_label, #mail_sendmailmode').addClass('hidden');
+    }
+  });
+  const changeEmailSettings = function () {
+    if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+      OC.PasswordConfirmation.requirePasswordConfirmation(changeEmailSettings);
+      return;
+    }
+    OC.msg.startSaving('#mail_settings_msg');
+    _nextcloud_axios__WEBPACK_IMPORTED_MODULE_2__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/settings/admin/mailsettings'), jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_general_settings_form').serialize()).then(() => {
+      OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'));
+    }).catch(error => {
+      OC.msg.finishedError('#mail_settings_msg', error);
+    });
+  };
+  const toggleEmailCredentials = function () {
+    if (OC.PasswordConfirmation.requiresPasswordConfirmation()) {
+      OC.PasswordConfirmation.requirePasswordConfirmation(toggleEmailCredentials);
+      return;
+    }
+    OC.msg.startSaving('#mail_settings_msg');
+    _nextcloud_axios__WEBPACK_IMPORTED_MODULE_2__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/settings/admin/mailsettings/credentials'), jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_credentials_settings').serialize()).then(() => {
+      OC.msg.finishedSuccess('#mail_settings_msg', t('settings', 'Saved'));
+    }).catch(error => {
+      OC.msg.finishedError('#mail_settings_msg', error);
+    });
+  };
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_general_settings_form').change(changeEmailSettings);
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_credentials_settings_submit').click(toggleEmailCredentials);
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()('#mail_smtppassword').click(() => {
+    if (undefined.type === 'text' && undefined.value === '********') {
+      undefined.type = 'password';
+      undefined.value = '';
+    }
+  });
+  jquery__WEBPACK_IMPORTED_MODULE_1___default()('#sendtestemail').click(event => {
+    event.preventDefault();
+    OC.msg.startAction('#sendtestmail_msg', t('settings', 'Sending…'));
+    _nextcloud_axios__WEBPACK_IMPORTED_MODULE_2__["default"].post((0,_nextcloud_router__WEBPACK_IMPORTED_MODULE_0__.generateUrl)('/settings/admin/mailtest')).then(() => {
+      OC.msg.finishedSuccess('#sendtestmail_msg', t('settings', 'Email sent'));
+    }).catch(error => {
+      OC.msg.finishedError('#sendtestmail_msg', error);
+    });
+  });
+});
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		// Since all referenced chunks are already included
+/******/ 		// in this file, this function is empty here.
+/******/ 		__webpack_require__.e = () => (Promise.resolve());
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"settings-legacy-admin": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./apps/settings/src/admin.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=settings-legacy-admin.js.map?v=b2159849780ab5590d31

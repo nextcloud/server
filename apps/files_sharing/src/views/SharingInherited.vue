@@ -6,17 +6,16 @@
 <template>
 	<ul id="sharing-inherited-shares">
 		<!-- Main collapsible entry -->
-		<SharingEntrySimple class="sharing-entry__inherited"
-			:title="mainTitle"
-			:subtitle="subTitle"
-			:aria-expanded="showInheritedShares">
+		<SharingEntrySimple class="sharing-entry__inherited__header"
+			:title="subTitle">
 			<template #avatar>
-				<div class="avatar-shared icon-more-white" />
+				<DotsHorizontal class="sharing-entry__inherited__icon" />
 			</template>
-			<NcActionButton :icon="showInheritedSharesIcon"
-				:aria-label="toggleTooltip"
-				:title="toggleTooltip"
-				@click.prevent.stop="toggleInheritedShares" />
+			<NcActionButton :disabled="true">
+				<template #icon>
+					<NcLoadingIcon v-if="loading" />
+				</template>
+			</NcActionButton>
 		</SharingEntrySimple>
 
 		<!-- Inherited shares list -->
@@ -31,7 +30,9 @@
 <script>
 import { generateOcsUrl } from '@nextcloud/router'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import axios from '@nextcloud/axios'
+import DotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
 
 import Share from '../models/Share.ts'
 import SharingEntryInherited from '../components/SharingEntryInherited.vue'
@@ -42,6 +43,8 @@ export default {
 
 	components: {
 		NcActionButton,
+		NcLoadingIcon,
+		DotsHorizontal,
 		SharingEntryInherited,
 		SharingEntrySimple,
 	},
@@ -56,34 +59,17 @@ export default {
 
 	data() {
 		return {
-			loaded: false,
-			loading: false,
-			showInheritedShares: false,
+			loading: true,
 			shares: [],
 		}
 	},
 	computed: {
-		showInheritedSharesIcon() {
-			if (this.loading) {
-				return 'icon-loading-small'
-			}
-			if (this.showInheritedShares) {
-				return 'icon-triangle-n'
-			}
-			return 'icon-triangle-s'
-		},
-		mainTitle() {
-			return t('files_sharing', 'Others with access')
-		},
 		subTitle() {
-			return (this.showInheritedShares && this.shares.length === 0)
-				? t('files_sharing', 'No other accounts with access found')
-				: ''
-		},
-		toggleTooltip() {
-			return this.fileInfo.type === 'dir'
-				? t('files_sharing', 'Toggle list of others with access to this directory')
-				: t('files_sharing', 'Toggle list of others with access to this file')
+			if (this.loading || this.shares.length > 0) {
+				return t('files_sharing', 'Others with access')
+			} else {
+				return t('files_sharing', 'No other accounts with access found')
+			}
 		},
 		fullPath() {
 			const path = `${this.fileInfo.path}/${this.fileInfo.name}`
@@ -95,23 +81,16 @@ export default {
 			this.resetState()
 		},
 	},
+
+	mounted() {
+		this.fetchInheritedShares()
+	},
+
 	methods: {
-		/**
-		 * Toggle the list view and fetch/reset the state
-		 */
-		toggleInheritedShares() {
-			this.showInheritedShares = !this.showInheritedShares
-			if (this.showInheritedShares) {
-				this.fetchInheritedShares()
-			} else {
-				this.resetState()
-			}
-		},
 		/**
 		 * Fetch the Inherited Shares array
 		 */
 		async fetchInheritedShares() {
-			this.loading = true
 			try {
 				const url = generateOcsUrl('apps/files_sharing/api/v1/shares/inherited?format=json&path={path}', { path: this.fullPath })
 				const shares = await axios.get(url)
@@ -119,22 +98,13 @@ export default {
 					.map(share => new Share(share))
 					.sort((a, b) => b.createdTime - a.createdTime)
 				console.info(this.shares)
-				this.loaded = true
 			} catch (error) {
 				OC.Notification.showTemporary(t('files_sharing', 'Unable to fetch inherited shares'), { type: 'error' })
 			} finally {
 				this.loading = false
 			}
 		},
-		/**
-		 * Reset current component state
-		 */
-		resetState() {
-			this.loaded = false
-			this.loading = false
-			this.showInheritedShares = false
-			this.shares = []
-		},
+
 		/**
 		 * Remove a share from the shares list
 		 *
@@ -151,14 +121,12 @@ export default {
 
 <style lang="scss" scoped>
 .sharing-entry__inherited {
-	.avatar-shared {
-		width: 32px;
-		height: 32px;
-		line-height: 32px;
-		font-size: 18px;
-		background-color: var(--color-text-maxcontrast);
-		border-radius: 50%;
-		flex-shrink: 0;
+	&__header :deep(.sharing-entry__title) {
+		color: var(--color-text-maxcontrast);
+	}
+
+	&__icon {
+		color: var(--color-text-maxcontrast);
 	}
 }
 </style>

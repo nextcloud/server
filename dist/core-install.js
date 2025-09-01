@@ -1,2 +1,927 @@
-(()=>{"use strict";var e,t={9716:(e,t,a)=>{a.d(t,{A:()=>s});var o=a(71354),r=a.n(o),n=a(76314),i=a.n(n)()(r());i.push([e.id,"form{padding:calc(3*var(--default-grid-baseline));color:var(--color-main-text);border-radius:var(--border-radius-container);background-color:var(--color-main-background-blur);box-shadow:0 0 10px var(--color-box-shadow);-webkit-backdrop-filter:var(--filter-background-blur);backdrop-filter:var(--filter-background-blur);max-width:300px;margin-bottom:30px}form>fieldset:first-child,form>.notecard:first-child{margin-top:0}form>.notecard:last-child{margin-bottom:0}form fieldset,form details{margin-block:1rem}form .setup-form__button:not(.setup-form__button--loading) .material-design-icon{transition:all linear var(--animation-quick)}form .setup-form__button:not(.setup-form__button--loading):hover .material-design-icon{transform:translateX(0.2em)}form .setup-form__database-type-select{display:flex}form .setup-form__database-type-select--vertical{flex-direction:column}code{background-color:var(--color-background-dark);margin-top:1rem;padding:0 .3em;border-radius:var(--border-radius)}.input-field{margin-block-start:1rem !important}.notecard__heading{font-size:inherit !important}","",{version:3,sources:["webpack://./core/src/views/Setup.vue"],names:[],mappings:"AACA,KACC,4CAAA,CACA,4BAAA,CACA,4CAAA,CACA,kDAAA,CACA,2CAAA,CACA,qDAAA,CACA,6CAAA,CAEA,eAAA,CACA,kBAAA,CAEA,qDAEC,YAAA,CAGD,0BACC,eAAA,CAGD,2BAEC,iBAAA,CAIA,iFACC,4CAAA,CAGD,uFACC,2BAAA,CAKF,uCACC,YAAA,CACA,iDACC,qBAAA,CAMH,KACC,6CAAA,CACA,eAAA,CACA,cAAA,CACA,kCAAA,CAID,aACC,kCAAA,CAGD,mBACC,4BAAA",sourcesContent:["\nform {\n\tpadding: calc(3 * var(--default-grid-baseline));\n\tcolor: var(--color-main-text);\n\tborder-radius: var(--border-radius-container);\n\tbackground-color: var(--color-main-background-blur);\n\tbox-shadow: 0 0 10px var(--color-box-shadow);\n\t-webkit-backdrop-filter: var(--filter-background-blur);\n\tbackdrop-filter: var(--filter-background-blur);\n\n\tmax-width: 300px;\n\tmargin-bottom: 30px;\n\n\t> fieldset:first-child,\n\t> .notecard:first-child {\n\t\tmargin-top: 0;\n\t}\n\n\t> .notecard:last-child {\n\t\tmargin-bottom: 0;\n\t}\n\n\tfieldset,\n\tdetails {\n\t\tmargin-block: 1rem;\n\t}\n\n\t.setup-form__button:not(.setup-form__button--loading) {\n\t\t.material-design-icon {\n\t\t\ttransition: all linear var(--animation-quick);\n\t\t}\n\n\t\t&:hover .material-design-icon {\n\t\t\ttransform: translateX(0.2em);\n\t\t}\n\t}\n\n\t// Db select required styling\n\t.setup-form__database-type-select {\n\t\tdisplay: flex;\n\t\t&--vertical {\n\t\t\tflex-direction: column;\n\t\t}\n\t}\n\n}\n\ncode {\n\tbackground-color: var(--color-background-dark);\n\tmargin-top: 1rem;\n\tpadding: 0 0.3em;\n\tborder-radius: var(--border-radius);\n}\n\n// Various overrides\n.input-field {\n\tmargin-block-start: 1rem !important;\n}\n\n.notecard__heading {\n\tfont-size: inherit !important;\n}\n"],sourceRoot:""}]);const s=i},95565:(e,t,a)=>{var o,r=a(85471),n=a(81222),i=a(53334),s=a(99418),c=a(21376),l=a(32073),d=a(2645),u=a(3226),f=a(16044),p=a(82182),m=a(33691);!function(e){e[e.VeryWeak=0]="VeryWeak",e[e.Weak=1]="Weak",e[e.Moderate=2]="Moderate",e[e.Strong=3]="Strong",e[e.VeryStrong=4]="VeryStrong",e[e.ExtremelyStrong=5]="ExtremelyStrong"}(o||(o={}));const g=function(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"";const t=new Set(e),a=parseInt(Math.log2(Math.pow(parseInt(t.size.toString()),e.length)).toFixed(2));return a<16?o.VeryWeak:a<31?o.Weak:a<46?o.Moderate:a<61?o.Strong:a<76?o.VeryStrong:o.ExtremelyStrong},b=(0,r.pM)({name:"Setup",components:{IconArrowRight:m.A,NcButton:c.A,NcCheckboxRadioSwitch:l.A,NcLoadingIcon:d.A,NcNoteCard:u.A,NcPasswordField:f.A,NcTextField:p.A},setup:()=>({t:i.t}),data:()=>({config:{},links:{},isValidAutoconfig:!1,loading:!1}),computed:{passwordHelperText(){if(""===this.config?.adminpass)return"";switch(g(this.config?.adminpass)){case o.VeryWeak:return(0,i.t)("core","Password is too weak");case o.Weak:return(0,i.t)("core","Password is weak");case o.Moderate:return(0,i.t)("core","Password is average");case o.Strong:return(0,i.t)("core","Password is strong");case o.VeryStrong:return(0,i.t)("core","Password is very strong");case o.ExtremelyStrong:return(0,i.t)("core","Password is extremely strong")}return(0,i.t)("core","Unknown password strength")},passwordHelperType(){return g(this.config?.adminpass)<o.Moderate?"error":g(this.config?.adminpass)<o.Strong?"warning":"success"},firstAndOnlyDatabase(){const e=Object.values(this.config?.databases||{});return 1===e.length?e[0]:null},DBTypeGroupDirection(){return Object.keys(this.config?.databases||{}).length>3?"vertical":"horizontal"},htaccessWarning(){const e=[(0,i.t)("core","Your data directory and files are probably accessible from the internet because the <code>.htaccess</code> file does not work."),(0,i.t)("core","For information how to properly configure your server, please {linkStart}see the documentation{linkEnd}",{linkStart:'<a href="'+this.links.adminInstall+'" target="_blank" rel="noreferrer noopener">',linkEnd:"</a>"},{escape:!1})].join("<br>");return s.A.sanitize(e)},errors(){return(this.config?.errors||[]).map(e=>"string"==typeof e?{heading:"",message:e}:""===e.hint?{heading:"",message:e.error}:{heading:e.error,message:e.hint})}},beforeMount(){this.config=(0,n.C)("core","config"),this.links=(0,n.C)("core","links")},mounted(){if(""===this.config.dbtype&&(this.config.dbtype=Object.keys(this.config.databases).at(0)),this.config.hasAutoconfig){const e=this.$refs.form;e.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach(e=>{e.removeAttribute("required")}),e.checkValidity()&&0===this.config.errors.length?this.isValidAutoconfig=!0:this.isValidAutoconfig=!1,e.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach(e=>{e.setAttribute("required","true")})}},methods:{async onSubmit(){this.loading=!0}}});var A=a(85072),h=a.n(A),v=a(97825),y=a.n(v),_=a(77659),k=a.n(_),C=a(55056),w=a.n(C),x=a(10540),S=a.n(x),N=a(41113),D=a.n(N),O=a(9716),T={};T.styleTagTransform=D(),T.setAttributes=w(),T.insert=k().bind(null,"head"),T.domAPI=y(),T.insertStyleElement=S(),h()(O.A,T),O.A&&O.A.locals&&O.A.locals;const P=(0,a(14486).A)(b,function(){var e=this,t=e._self._c;return e._self._setupProxy,t("form",{ref:"form",staticClass:"setup-form",class:{"setup-form--loading":e.loading},attrs:{action:"","data-cy-setup-form":"",method:"POST"},on:{submit:e.onSubmit}},[e.config.hasAutoconfig?t("NcNoteCard",{attrs:{heading:e.t("core","Autoconfig file detected"),"data-cy-setup-form-note":"autoconfig",type:"success"}},[e._v("\n\t\t"+e._s(e.t("core","The setup form below is pre-filled with the values from the config file."))+"\n\t")]):e._e(),e._v(" "),!1===e.config.htaccessWorking?t("NcNoteCard",{attrs:{heading:e.t("core","Security warning"),"data-cy-setup-form-note":"htaccess",type:"warning"}},[t("p",{domProps:{innerHTML:e._s(e.htaccessWarning)}})]):e._e(),e._v(" "),e._l(e.errors,function(a,o){return t("NcNoteCard",{key:o,attrs:{heading:a.heading,"data-cy-setup-form-note":"error",type:"error"}},[e._v("\n\t\t"+e._s(a.message)+"\n\t")])}),e._v(" "),t("fieldset",{staticClass:"setup-form__administration"},[t("legend",[e._v(e._s(e.t("core","Create administration account")))]),e._v(" "),t("NcTextField",{attrs:{label:e.t("core","Administration account name"),"data-cy-setup-form-field":"adminlogin",name:"adminlogin",required:""},model:{value:e.config.adminlogin,callback:function(t){e.$set(e.config,"adminlogin",t)},expression:"config.adminlogin"}}),e._v(" "),t("NcPasswordField",{attrs:{label:e.t("core","Administration account password"),"data-cy-setup-form-field":"adminpass",name:"adminpass",required:""},model:{value:e.config.adminpass,callback:function(t){e.$set(e.config,"adminpass",t)},expression:"config.adminpass"}}),e._v(" "),t("NcNoteCard",{directives:[{name:"show",rawName:"v-show",value:""!==e.config.adminpass,expression:"config.adminpass !== ''"}],attrs:{type:e.passwordHelperType}},[e._v("\n\t\t\t"+e._s(e.passwordHelperText)+"\n\t\t")])],1),e._v(" "),t("details",{attrs:{open:!e.isValidAutoconfig,"data-cy-setup-form-advanced-config":""}},[t("summary",[e._v(e._s(e.t("core","Storage & database")))]),e._v(" "),t("fieldset",{staticClass:"setup-form__data-folder"},[t("NcTextField",{attrs:{label:e.t("core","Data folder"),placeholder:e.config.serverRoot+"/data",required:"",autocomplete:"off",autocapitalize:"none","data-cy-setup-form-field":"directory",name:"directory",spellcheck:"false"},model:{value:e.config.directory,callback:function(t){e.$set(e.config,"directory",t)},expression:"config.directory"}})],1),e._v(" "),t("fieldset",{staticClass:"setup-form__database"},[t("legend",[e._v(e._s(e.t("core","Database configuration")))]),e._v(" "),t("fieldset",{staticClass:"setup-form__database-type"},[e.firstAndOnlyDatabase?t("NcNoteCard",{attrs:{"data-cy-setup-form-db-note":"single-db",type:"warning"}},[e._v("\n\t\t\t\t\t"+e._s(e.t("core","Only {firstAndOnlyDatabase} is available.",{firstAndOnlyDatabase:e.firstAndOnlyDatabase}))),t("br"),e._v("\n\t\t\t\t\t"+e._s(e.t("core","Install and activate additional PHP modules to choose other database types."))),t("br"),e._v(" "),t("a",{attrs:{href:e.links.adminSourceInstall,target:"_blank",rel:"noreferrer noopener"}},[e._v("\n\t\t\t\t\t\t"+e._s(e.t("core","For more details check out the documentation."))+" ↗\n\t\t\t\t\t")])]):t("p",{staticClass:"setup-form__database-type-select",class:`setup-form__database-type-select--${e.DBTypeGroupDirection}`},e._l(e.config.databases,function(a,o){return t("NcCheckboxRadioSwitch",{key:o,attrs:{"button-variant":!0,"data-cy-setup-form-field":`dbtype-${o}`,value:o,"button-variant-grouped":e.DBTypeGroupDirection,name:"dbtype",type:"radio"},model:{value:e.config.dbtype,callback:function(t){e.$set(e.config,"dbtype",t)},expression:"config.dbtype"}},[e._v("\n\t\t\t\t\t\t"+e._s(a)+"\n\t\t\t\t\t")])}),1),e._v(" "),"sqlite"===e.config.dbtype?t("NcNoteCard",{attrs:{heading:e.t("core","Performance warning"),"data-cy-setup-form-db-note":"sqlite",type:"warning"}},[e._v("\n\t\t\t\t\t"+e._s(e.t("core","You chose SQLite as database."))),t("br"),e._v("\n\t\t\t\t\t"+e._s(e.t("core","SQLite should only be used for minimal and development instances. For production we recommend a different database backend."))),t("br"),e._v("\n\t\t\t\t\t"+e._s(e.t("core","If you use clients for file syncing, the use of SQLite is highly discouraged."))+"\n\t\t\t\t")]):e._e()],1),e._v(" "),"sqlite"!==e.config.dbtype?t("fieldset",[t("NcTextField",{attrs:{label:e.t("core","Database user"),autocapitalize:"none",autocomplete:"off","data-cy-setup-form-field":"dbuser",name:"dbuser",spellcheck:"false",required:""},model:{value:e.config.dbuser,callback:function(t){e.$set(e.config,"dbuser",t)},expression:"config.dbuser"}}),e._v(" "),t("NcPasswordField",{attrs:{label:e.t("core","Database password"),autocapitalize:"none",autocomplete:"off","data-cy-setup-form-field":"dbpass",name:"dbpass",spellcheck:"false",required:""},model:{value:e.config.dbpass,callback:function(t){e.$set(e.config,"dbpass",t)},expression:"config.dbpass"}}),e._v(" "),t("NcTextField",{attrs:{label:e.t("core","Database name"),autocapitalize:"none",autocomplete:"off","data-cy-setup-form-field":"dbname",name:"dbname",pattern:"[0-9a-zA-Z\\$_\\-]+",spellcheck:"false",required:""},model:{value:e.config.dbname,callback:function(t){e.$set(e.config,"dbname",t)},expression:"config.dbname"}}),e._v(" "),"oci"===e.config.dbtype?t("NcTextField",{attrs:{label:e.t("core","Database tablespace"),autocapitalize:"none",autocomplete:"off","data-cy-setup-form-field":"dbtablespace",name:"dbtablespace",spellcheck:"false"},model:{value:e.config.dbtablespace,callback:function(t){e.$set(e.config,"dbtablespace",t)},expression:"config.dbtablespace"}}):e._e(),e._v(" "),t("NcTextField",{attrs:{"helper-text":e.t("core","Please specify the port number along with the host name (e.g., localhost:5432)."),label:e.t("core","Database host"),placeholder:e.t("core","localhost"),autocapitalize:"none",autocomplete:"off","data-cy-setup-form-field":"dbhost",name:"dbhost",spellcheck:"false"},model:{value:e.config.dbhost,callback:function(t){e.$set(e.config,"dbhost",t)},expression:"config.dbhost"}})],1):e._e()])]),e._v(" "),t("NcButton",{staticClass:"setup-form__button",class:{"setup-form__button--loading":e.loading},attrs:{disabled:e.loading,loading:e.loading,wide:!0,alignment:"center-reverse","data-cy-setup-form-submit":"","native-type":"submit",type:"primary"},scopedSlots:e._u([{key:"icon",fn:function(){return[e.loading?t("NcLoadingIcon"):t("IconArrowRight")]},proxy:!0}])},[e._v("\n\t\t"+e._s(e.loading?e.t("core","Installing …"):e.t("core","Install"))+"\n\t")]),e._v(" "),t("NcNoteCard",{attrs:{"data-cy-setup-form-note":"help",type:"info"}},[e._v("\n\t\t"+e._s(e.t("core","Need help?"))+"\n\t\t"),t("a",{attrs:{target:"_blank",rel:"noreferrer noopener",href:e.links.adminInstall}},[e._v(e._s(e.t("core","See the documentation"))+" ↗")])])],2)},[],!1,null,null,null).exports;(new(r.Ay.extend(P))).$mount("#content")}},a={};function o(e){var r=a[e];if(void 0!==r)return r.exports;var n=a[e]={id:e,loaded:!1,exports:{}};return t[e].call(n.exports,n,n.exports,o),n.loaded=!0,n.exports}o.m=t,e=[],o.O=(t,a,r,n)=>{if(!a){var i=1/0;for(d=0;d<e.length;d++){a=e[d][0],r=e[d][1],n=e[d][2];for(var s=!0,c=0;c<a.length;c++)(!1&n||i>=n)&&Object.keys(o.O).every(e=>o.O[e](a[c]))?a.splice(c--,1):(s=!1,n<i&&(i=n));if(s){e.splice(d--,1);var l=r();void 0!==l&&(t=l)}}return t}n=n||0;for(var d=e.length;d>0&&e[d-1][2]>n;d--)e[d]=e[d-1];e[d]=[a,r,n]},o.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return o.d(t,{a:t}),t},o.d=(e,t)=>{for(var a in t)o.o(t,a)&&!o.o(e,a)&&Object.defineProperty(e,a,{enumerable:!0,get:t[a]})},o.e=()=>Promise.resolve(),o.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),o.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),o.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},o.nmd=e=>(e.paths=[],e.children||(e.children=[]),e),o.j=820,(()=>{o.b=document.baseURI||self.location.href;var e={820:0};o.O.j=t=>0===e[t];var t=(t,a)=>{var r,n,i=a[0],s=a[1],c=a[2],l=0;if(i.some(t=>0!==e[t])){for(r in s)o.o(s,r)&&(o.m[r]=s[r]);if(c)var d=c(o)}for(t&&t(a);l<i.length;l++)n=i[l],o.o(e,n)&&e[n]&&e[n][0](),e[n]=0;return o.O(d)},a=self.webpackChunknextcloud=self.webpackChunknextcloud||[];a.forEach(t.bind(null,0)),a.push=t.bind(null,a.push.bind(a))})(),o.nc=void 0;var r=o.O(void 0,[4208],()=>o(95565));r=o.O(r)})();
-//# sourceMappingURL=core-install.js.map?v=c4504d769145540d3420
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./core/src/install.ts":
+/*!*****************************!*\
+  !*** ./core/src/install.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _views_Setup_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/Setup.vue */ "./core/src/views/Setup.vue");
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+
+const SetupVue = vue__WEBPACK_IMPORTED_MODULE_0__["default"].extend(_views_Setup_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
+new SetupVue().$mount('#content');
+
+/***/ }),
+
+/***/ "./core/src/views/Setup.vue":
+/*!**********************************!*\
+  !*** ./core/src/views/Setup.vue ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Setup_vue_vue_type_template_id_752b1522__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Setup.vue?vue&type=template&id=752b1522 */ "./core/src/views/Setup.vue?vue&type=template&id=752b1522");
+/* harmony import */ var _Setup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Setup.vue?vue&type=script&lang=ts */ "./core/src/views/Setup.vue?vue&type=script&lang=ts");
+/* harmony import */ var _Setup_vue_vue_type_style_index_0_id_752b1522_lang_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss */ "./core/src/views/Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+;
+
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _Setup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Setup_vue_vue_type_template_id_752b1522__WEBPACK_IMPORTED_MODULE_0__.render,
+  _Setup_vue_vue_type_template_id_752b1522__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "core/src/views/Setup.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./core/src/views/Setup.vue?vue&type=script&lang=ts":
+/*!**********************************************************!*\
+  !*** ./core/src/views/Setup.vue?vue&type=script&lang=ts ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Setup.vue?vue&type=script&lang=ts */ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=script&lang=ts");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_ts_loader_index_js_clonedRuleSet_4_use_1_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_script_lang_ts__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./core/src/views/Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss":
+/*!*******************************************************************************!*\
+  !*** ./core/src/views/Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_style_index_0_id_752b1522_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss");
+
+
+/***/ }),
+
+/***/ "./core/src/views/Setup.vue?vue&type=template&id=752b1522":
+/*!****************************************************************!*\
+  !*** ./core/src/views/Setup.vue?vue&type=template&id=752b1522 ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_template_id_752b1522__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_template_id_752b1522__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_template_id_752b1522__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Setup.vue?vue&type=template&id=752b1522 */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=template&id=752b1522");
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=script&lang=ts":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/ts-loader/index.js??clonedRuleSet-4.use[1]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=script&lang=ts ***!
+  \************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
+/* harmony import */ var _nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @nextcloud/initial-state */ "./node_modules/@nextcloud/initial-state/dist/index.js");
+/* harmony import */ var _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @nextcloud/l10n */ "./node_modules/@nextcloud/l10n/dist/index.mjs");
+/* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.es.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @nextcloud/vue/components/NcButton */ "./node_modules/@nextcloud/vue/dist/Components/NcButton.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @nextcloud/vue/components/NcCheckboxRadioSwitch */ "./node_modules/@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @nextcloud/vue/components/NcLoadingIcon */ "./node_modules/@nextcloud/vue/dist/Components/NcLoadingIcon.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @nextcloud/vue/components/NcNoteCard */ "./node_modules/@nextcloud/vue/dist/Components/NcNoteCard.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcPasswordField__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @nextcloud/vue/components/NcPasswordField */ "./node_modules/@nextcloud/vue/dist/Components/NcPasswordField.mjs");
+/* harmony import */ var _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @nextcloud/vue/components/NcTextField */ "./node_modules/@nextcloud/vue/dist/Components/NcTextField.mjs");
+/* harmony import */ var vue_material_design_icons_ArrowRight_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-material-design-icons/ArrowRight.vue */ "./node_modules/vue-material-design-icons/ArrowRight.vue");
+
+
+
+
+
+
+
+
+
+
+
+var PasswordStrength;
+(function (PasswordStrength) {
+  PasswordStrength[PasswordStrength["VeryWeak"] = 0] = "VeryWeak";
+  PasswordStrength[PasswordStrength["Weak"] = 1] = "Weak";
+  PasswordStrength[PasswordStrength["Moderate"] = 2] = "Moderate";
+  PasswordStrength[PasswordStrength["Strong"] = 3] = "Strong";
+  PasswordStrength[PasswordStrength["VeryStrong"] = 4] = "VeryStrong";
+  PasswordStrength[PasswordStrength["ExtremelyStrong"] = 5] = "ExtremelyStrong";
+})(PasswordStrength || (PasswordStrength = {}));
+const checkPasswordEntropy = function () {
+  let password = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  const uniqueCharacters = new Set(password);
+  const entropy = parseInt(Math.log2(Math.pow(parseInt(uniqueCharacters.size.toString()), password.length)).toFixed(2));
+  if (entropy < 16) {
+    return PasswordStrength.VeryWeak;
+  } else if (entropy < 31) {
+    return PasswordStrength.Weak;
+  } else if (entropy < 46) {
+    return PasswordStrength.Moderate;
+  } else if (entropy < 61) {
+    return PasswordStrength.Strong;
+  } else if (entropy < 76) {
+    return PasswordStrength.VeryStrong;
+  }
+  return PasswordStrength.ExtremelyStrong;
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  name: 'Setup',
+  components: {
+    IconArrowRight: vue_material_design_icons_ArrowRight_vue__WEBPACK_IMPORTED_MODULE_10__["default"],
+    NcButton: _nextcloud_vue_components_NcButton__WEBPACK_IMPORTED_MODULE_4__["default"],
+    NcCheckboxRadioSwitch: _nextcloud_vue_components_NcCheckboxRadioSwitch__WEBPACK_IMPORTED_MODULE_5__["default"],
+    NcLoadingIcon: _nextcloud_vue_components_NcLoadingIcon__WEBPACK_IMPORTED_MODULE_6__["default"],
+    NcNoteCard: _nextcloud_vue_components_NcNoteCard__WEBPACK_IMPORTED_MODULE_7__["default"],
+    NcPasswordField: _nextcloud_vue_components_NcPasswordField__WEBPACK_IMPORTED_MODULE_8__["default"],
+    NcTextField: _nextcloud_vue_components_NcTextField__WEBPACK_IMPORTED_MODULE_9__["default"]
+  },
+  setup() {
+    return {
+      t: _nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t
+    };
+  },
+  data() {
+    return {
+      config: {},
+      links: {},
+      isValidAutoconfig: false,
+      loading: false
+    };
+  },
+  computed: {
+    passwordHelperText() {
+      if (this.config?.adminpass === '') {
+        return '';
+      }
+      const passwordStrength = checkPasswordEntropy(this.config?.adminpass);
+      switch (passwordStrength) {
+        case PasswordStrength.VeryWeak:
+          return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('core', 'Password is too weak');
+        case PasswordStrength.Weak:
+          return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('core', 'Password is weak');
+        case PasswordStrength.Moderate:
+          return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('core', 'Password is average');
+        case PasswordStrength.Strong:
+          return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('core', 'Password is strong');
+        case PasswordStrength.VeryStrong:
+          return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('core', 'Password is very strong');
+        case PasswordStrength.ExtremelyStrong:
+          return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('core', 'Password is extremely strong');
+      }
+      return (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('core', 'Unknown password strength');
+    },
+    passwordHelperType() {
+      if (checkPasswordEntropy(this.config?.adminpass) < PasswordStrength.Moderate) {
+        return 'error';
+      }
+      if (checkPasswordEntropy(this.config?.adminpass) < PasswordStrength.Strong) {
+        return 'warning';
+      }
+      return 'success';
+    },
+    firstAndOnlyDatabase() {
+      const dbNames = Object.values(this.config?.databases || {});
+      if (dbNames.length === 1) {
+        return dbNames[0];
+      }
+      return null;
+    },
+    DBTypeGroupDirection() {
+      const databases = Object.keys(this.config?.databases || {});
+      // If we have more than 3 databases, we want to display them vertically
+      if (databases.length > 3) {
+        return 'vertical';
+      }
+      return 'horizontal';
+    },
+    htaccessWarning() {
+      // We use v-html, let's make sure we're safe
+      const message = [(0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('core', 'Your data directory and files are probably accessible from the internet because the <code>.htaccess</code> file does not work.'), (0,_nextcloud_l10n__WEBPACK_IMPORTED_MODULE_2__.t)('core', 'For information how to properly configure your server, please {linkStart}see the documentation{linkEnd}', {
+        linkStart: '<a href="' + this.links.adminInstall + '" target="_blank" rel="noreferrer noopener">',
+        linkEnd: '</a>'
+      }, {
+        escape: false
+      })].join('<br>');
+      return dompurify__WEBPACK_IMPORTED_MODULE_3__["default"].sanitize(message);
+    },
+    errors() {
+      return (this.config?.errors || []).map(error => {
+        if (typeof error === 'string') {
+          return {
+            heading: '',
+            message: error
+          };
+        }
+        // f no hint is set, we don't want to show a heading
+        if (error.hint === '') {
+          return {
+            heading: '',
+            message: error.error
+          };
+        }
+        return {
+          heading: error.error,
+          message: error.hint
+        };
+      });
+    }
+  },
+  beforeMount() {
+    // Needs to only read the state once we're mounted
+    // for Cypress to be properly initialized.
+    this.config = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('core', 'config');
+    this.links = (0,_nextcloud_initial_state__WEBPACK_IMPORTED_MODULE_1__.loadState)('core', 'links');
+  },
+  mounted() {
+    // Set the first database type as default if none is set
+    if (this.config.dbtype === '') {
+      this.config.dbtype = Object.keys(this.config.databases).at(0);
+    }
+    // Validate the legitimacy of the autoconfig
+    if (this.config.hasAutoconfig) {
+      const form = this.$refs.form;
+      // Check the form without the administration account fields
+      form.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach(input => {
+        input.removeAttribute('required');
+      });
+      if (form.checkValidity() && this.config.errors.length === 0) {
+        this.isValidAutoconfig = true;
+      } else {
+        this.isValidAutoconfig = false;
+      }
+      // Restore the required attribute
+      // Check the form without the administration account fields
+      form.querySelectorAll('input[name="adminlogin"], input[name="adminpass"]').forEach(input => {
+        input.setAttribute('required', 'true');
+      });
+    }
+  },
+  methods: {
+    async onSubmit() {
+      this.loading = true;
+    }
+  }
+}));
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=template&id=752b1522":
+/*!*************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=template&id=752b1522 ***!
+  \*************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("form", {
+    ref: "form",
+    staticClass: "setup-form",
+    class: {
+      "setup-form--loading": _vm.loading
+    },
+    attrs: {
+      action: "",
+      "data-cy-setup-form": "",
+      method: "POST"
+    },
+    on: {
+      submit: _vm.onSubmit
+    }
+  }, [_vm.config.hasAutoconfig ? _c("NcNoteCard", {
+    attrs: {
+      heading: _vm.t("core", "Autoconfig file detected"),
+      "data-cy-setup-form-note": "autoconfig",
+      type: "success"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("core", "The setup form below is pre-filled with the values from the config file.")) + "\n\t")]) : _vm._e(), _vm._v(" "), _vm.config.htaccessWorking === false ? _c("NcNoteCard", {
+    attrs: {
+      heading: _vm.t("core", "Security warning"),
+      "data-cy-setup-form-note": "htaccess",
+      type: "warning"
+    }
+  }, [_c("p", {
+    domProps: {
+      innerHTML: _vm._s(_vm.htaccessWarning)
+    }
+  })]) : _vm._e(), _vm._v(" "), _vm._l(_vm.errors, function (error, index) {
+    return _c("NcNoteCard", {
+      key: index,
+      attrs: {
+        heading: error.heading,
+        "data-cy-setup-form-note": "error",
+        type: "error"
+      }
+    }, [_vm._v("\n\t\t" + _vm._s(error.message) + "\n\t")]);
+  }), _vm._v(" "), _c("fieldset", {
+    staticClass: "setup-form__administration"
+  }, [_c("legend", [_vm._v(_vm._s(_vm.t("core", "Create administration account")))]), _vm._v(" "), _c("NcTextField", {
+    attrs: {
+      label: _vm.t("core", "Administration account name"),
+      "data-cy-setup-form-field": "adminlogin",
+      name: "adminlogin",
+      required: ""
+    },
+    model: {
+      value: _vm.config.adminlogin,
+      callback: function ($$v) {
+        _vm.$set(_vm.config, "adminlogin", $$v);
+      },
+      expression: "config.adminlogin"
+    }
+  }), _vm._v(" "), _c("NcPasswordField", {
+    attrs: {
+      label: _vm.t("core", "Administration account password"),
+      "data-cy-setup-form-field": "adminpass",
+      name: "adminpass",
+      required: ""
+    },
+    model: {
+      value: _vm.config.adminpass,
+      callback: function ($$v) {
+        _vm.$set(_vm.config, "adminpass", $$v);
+      },
+      expression: "config.adminpass"
+    }
+  }), _vm._v(" "), _c("NcNoteCard", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.config.adminpass !== "",
+      expression: "config.adminpass !== ''"
+    }],
+    attrs: {
+      type: _vm.passwordHelperType
+    }
+  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.passwordHelperText) + "\n\t\t")])], 1), _vm._v(" "), _c("details", {
+    attrs: {
+      open: !_vm.isValidAutoconfig,
+      "data-cy-setup-form-advanced-config": ""
+    }
+  }, [_c("summary", [_vm._v(_vm._s(_vm.t("core", "Storage & database")))]), _vm._v(" "), _c("fieldset", {
+    staticClass: "setup-form__data-folder"
+  }, [_c("NcTextField", {
+    attrs: {
+      label: _vm.t("core", "Data folder"),
+      placeholder: _vm.config.serverRoot + "/data",
+      required: "",
+      autocomplete: "off",
+      autocapitalize: "none",
+      "data-cy-setup-form-field": "directory",
+      name: "directory",
+      spellcheck: "false"
+    },
+    model: {
+      value: _vm.config.directory,
+      callback: function ($$v) {
+        _vm.$set(_vm.config, "directory", $$v);
+      },
+      expression: "config.directory"
+    }
+  })], 1), _vm._v(" "), _c("fieldset", {
+    staticClass: "setup-form__database"
+  }, [_c("legend", [_vm._v(_vm._s(_vm.t("core", "Database configuration")))]), _vm._v(" "), _c("fieldset", {
+    staticClass: "setup-form__database-type"
+  }, [!_vm.firstAndOnlyDatabase ? _c("p", {
+    staticClass: "setup-form__database-type-select",
+    class: `setup-form__database-type-select--${_vm.DBTypeGroupDirection}`
+  }, _vm._l(_vm.config.databases, function (name, db) {
+    return _c("NcCheckboxRadioSwitch", {
+      key: db,
+      attrs: {
+        "button-variant": true,
+        "data-cy-setup-form-field": `dbtype-${db}`,
+        value: db,
+        "button-variant-grouped": _vm.DBTypeGroupDirection,
+        name: "dbtype",
+        type: "radio"
+      },
+      model: {
+        value: _vm.config.dbtype,
+        callback: function ($$v) {
+          _vm.$set(_vm.config, "dbtype", $$v);
+        },
+        expression: "config.dbtype"
+      }
+    }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(name) + "\n\t\t\t\t\t")]);
+  }), 1) : _c("NcNoteCard", {
+    attrs: {
+      "data-cy-setup-form-db-note": "single-db",
+      type: "warning"
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "Only {firstAndOnlyDatabase} is available.", {
+    firstAndOnlyDatabase: _vm.firstAndOnlyDatabase
+  }))), _c("br"), _vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "Install and activate additional PHP modules to choose other database types."))), _c("br"), _vm._v(" "), _c("a", {
+    attrs: {
+      href: _vm.links.adminSourceInstall,
+      target: "_blank",
+      rel: "noreferrer noopener"
+    }
+  }, [_vm._v("\n\t\t\t\t\t\t" + _vm._s(_vm.t("core", "For more details check out the documentation.")) + " ↗\n\t\t\t\t\t")])]), _vm._v(" "), _vm.config.dbtype === "sqlite" ? _c("NcNoteCard", {
+    attrs: {
+      heading: _vm.t("core", "Performance warning"),
+      "data-cy-setup-form-db-note": "sqlite",
+      type: "warning"
+    }
+  }, [_vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "You chose SQLite as database."))), _c("br"), _vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "SQLite should only be used for minimal and development instances. For production we recommend a different database backend."))), _c("br"), _vm._v("\n\t\t\t\t\t" + _vm._s(_vm.t("core", "If you use clients for file syncing, the use of SQLite is highly discouraged.")) + "\n\t\t\t\t")]) : _vm._e()], 1), _vm._v(" "), _vm.config.dbtype !== "sqlite" ? _c("fieldset", [_c("NcTextField", {
+    attrs: {
+      label: _vm.t("core", "Database user"),
+      autocapitalize: "none",
+      autocomplete: "off",
+      "data-cy-setup-form-field": "dbuser",
+      name: "dbuser",
+      spellcheck: "false",
+      required: ""
+    },
+    model: {
+      value: _vm.config.dbuser,
+      callback: function ($$v) {
+        _vm.$set(_vm.config, "dbuser", $$v);
+      },
+      expression: "config.dbuser"
+    }
+  }), _vm._v(" "), _c("NcPasswordField", {
+    attrs: {
+      label: _vm.t("core", "Database password"),
+      autocapitalize: "none",
+      autocomplete: "off",
+      "data-cy-setup-form-field": "dbpass",
+      name: "dbpass",
+      spellcheck: "false",
+      required: ""
+    },
+    model: {
+      value: _vm.config.dbpass,
+      callback: function ($$v) {
+        _vm.$set(_vm.config, "dbpass", $$v);
+      },
+      expression: "config.dbpass"
+    }
+  }), _vm._v(" "), _c("NcTextField", {
+    attrs: {
+      label: _vm.t("core", "Database name"),
+      autocapitalize: "none",
+      autocomplete: "off",
+      "data-cy-setup-form-field": "dbname",
+      name: "dbname",
+      pattern: "[0-9a-zA-Z\\$_\\-]+",
+      spellcheck: "false",
+      required: ""
+    },
+    model: {
+      value: _vm.config.dbname,
+      callback: function ($$v) {
+        _vm.$set(_vm.config, "dbname", $$v);
+      },
+      expression: "config.dbname"
+    }
+  }), _vm._v(" "), _vm.config.dbtype === "oci" ? _c("NcTextField", {
+    attrs: {
+      label: _vm.t("core", "Database tablespace"),
+      autocapitalize: "none",
+      autocomplete: "off",
+      "data-cy-setup-form-field": "dbtablespace",
+      name: "dbtablespace",
+      spellcheck: "false"
+    },
+    model: {
+      value: _vm.config.dbtablespace,
+      callback: function ($$v) {
+        _vm.$set(_vm.config, "dbtablespace", $$v);
+      },
+      expression: "config.dbtablespace"
+    }
+  }) : _vm._e(), _vm._v(" "), _c("NcTextField", {
+    attrs: {
+      "helper-text": _vm.t("core", "Please specify the port number along with the host name (e.g., localhost:5432)."),
+      label: _vm.t("core", "Database host"),
+      placeholder: _vm.t("core", "localhost"),
+      autocapitalize: "none",
+      autocomplete: "off",
+      "data-cy-setup-form-field": "dbhost",
+      name: "dbhost",
+      spellcheck: "false"
+    },
+    model: {
+      value: _vm.config.dbhost,
+      callback: function ($$v) {
+        _vm.$set(_vm.config, "dbhost", $$v);
+      },
+      expression: "config.dbhost"
+    }
+  })], 1) : _vm._e()])]), _vm._v(" "), _c("NcButton", {
+    staticClass: "setup-form__button",
+    class: {
+      "setup-form__button--loading": _vm.loading
+    },
+    attrs: {
+      disabled: _vm.loading,
+      loading: _vm.loading,
+      wide: true,
+      alignment: "center-reverse",
+      "data-cy-setup-form-submit": "",
+      "native-type": "submit",
+      type: "primary"
+    },
+    scopedSlots: _vm._u([{
+      key: "icon",
+      fn: function () {
+        return [_vm.loading ? _c("NcLoadingIcon") : _c("IconArrowRight")];
+      },
+      proxy: true
+    }])
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.loading ? _vm.t("core", "Installing …") : _vm.t("core", "Install")) + "\n\t")]), _vm._v(" "), _c("NcNoteCard", {
+    attrs: {
+      "data-cy-setup-form-note": "help",
+      type: "info"
+    }
+  }, [_vm._v("\n\t\t" + _vm._s(_vm.t("core", "Need help?")) + "\n\t\t"), _c("a", {
+    attrs: {
+      target: "_blank",
+      rel: "noreferrer noopener",
+      href: _vm.links.adminInstall
+    }
+  }, [_vm._v(_vm._s(_vm.t("core", "See the documentation")) + " ↗")])])], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss":
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `form {
+  padding: calc(3 * var(--default-grid-baseline));
+  color: var(--color-main-text);
+  border-radius: var(--border-radius-container);
+  background-color: var(--color-main-background-blur);
+  box-shadow: 0 0 10px var(--color-box-shadow);
+  -webkit-backdrop-filter: var(--filter-background-blur);
+  backdrop-filter: var(--filter-background-blur);
+  max-width: 300px;
+  margin-bottom: 30px;
+}
+form > fieldset:first-child,
+form > .notecard:first-child {
+  margin-top: 0;
+}
+form > .notecard:last-child {
+  margin-bottom: 0;
+}
+form fieldset,
+form details {
+  margin-block: 1rem;
+}
+form .setup-form__button:not(.setup-form__button--loading) .material-design-icon {
+  transition: all linear var(--animation-quick);
+}
+form .setup-form__button:not(.setup-form__button--loading):hover .material-design-icon {
+  transform: translateX(0.2em);
+}
+form .setup-form__database-type-select {
+  display: flex;
+}
+form .setup-form__database-type-select--vertical {
+  flex-direction: column;
+}
+code {
+  background-color: var(--color-background-dark);
+  margin-top: 1rem;
+  padding: 0 0.3em;
+  border-radius: var(--border-radius);
+}
+.input-field {
+  margin-block-start: 1rem !important;
+}
+.notecard__heading {
+  font-size: inherit !important;
+}`, ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_style_index_0_id_752b1522_lang_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/sass-loader/dist/cjs.js!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./core/src/views/Setup.vue?vue&type=style&index=0&id=752b1522&lang=scss");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_style_index_0_id_752b1522_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_style_index_0_id_752b1522_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_style_index_0_id_752b1522_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Setup_vue_vue_type_style_index_0_id_752b1522_lang_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		// Since all referenced chunks are already included
+/******/ 		// in this file, this function is empty here.
+/******/ 		__webpack_require__.e = () => (Promise.resolve());
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"core-install": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunknextcloud"] = self["webpackChunknextcloud"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["core-common"], () => (__webpack_require__("./core/src/install.ts")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=core-install.js.map?v=c924544f647de8b27015
