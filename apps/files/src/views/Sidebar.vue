@@ -93,6 +93,8 @@
 	</NcAppSidebar>
 </template>
 <script lang="ts">
+import type { INode } from '@nextcloud/files'
+
 import { davRemoteURL, davRootPath, File, Folder, formatFileSize } from '@nextcloud/files'
 import { defineComponent } from 'vue'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -156,7 +158,7 @@ export default defineComponent({
 			error: null,
 			loading: true,
 			fileInfo: null,
-			node: null,
+			node: null as INode | null,
 			isFullScreen: false,
 			hasLowHeight: false,
 		}
