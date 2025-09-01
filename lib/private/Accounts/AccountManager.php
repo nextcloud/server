@@ -348,6 +348,28 @@ class AccountManager implements IAccountManager {
 		return true;
 	}
 
+	public function invalidEmailChangeVerificationRequests(IAccount $account): void {
+		$mailCollection = $account->getPropertyCollection(self::COLLECTION_EMAIL);
+		$user = $account->getUser();
+		$hasChanged = false;
+		foreach ($mailCollection->getProperties() as $property) {
+			if ($property->getVerified() === self::VERIFIED) {
+				continue;
+			}
+			$email = $property->getValue();
+			$ref = \substr(hash('sha256', $email), 0, 8);
+			$this->verificationToken->delete('', $user, 'verifyMail' . $ref);
+			$property->setLocallyVerified(self::NOT_VERIFIED);
+			$mailCollection->removeProperty($property);
+			$hasChanged = true;
+		}
+
+		if ($hasChanged) {
+			$account->setPropertyCollection($mailCollection);
+			$this->updateAccount($account);
+		}
+	}
+
 	/**
 	 * Make sure that all expected data are set
 	 */

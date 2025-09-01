@@ -224,4 +224,11 @@ interface IAccountManager {
 	 * @since 21.0.0
 	 */
 	public function searchUsers(string $property, array $values): array;
+
+	/**
+	 * Invalid any previous email change verification emails.
+	 *
+	 * @since 32.0.0
+	 */
+	public function invalidEmailChangeVerificationRequests(IAccount $account): void;
 }
