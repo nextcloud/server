@@ -1238,7 +1238,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			return (int)$match['cardid'];
 		}, $matches);
 
-		$cards = [];
+		$cardResults = [];
 		$query = $this->db->getQueryBuilder();
 		$query->select('c.addressbookid', 'c.carddata', 'c.uri')
 			->from($this->dbCardsTable, 'c')
@@ -1247,10 +1247,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		foreach (array_chunk($matches, 1000) as $matchesChunk) {
 			$query->setParameter('matches', $matchesChunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$result = $query->executeQuery();
-			$cards = array_merge($cards, $result->fetchAll());
+			$cardResults[] = $result->fetchAll();
 			$result->closeCursor();
 		}
 
+		$cards = array_merge(...$cardResults);
 		return array_map(function ($array) {
 			$array['addressbookid'] = (int)$array['addressbookid'];
 			$modified = false;
