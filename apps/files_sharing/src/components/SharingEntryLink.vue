@@ -154,7 +154,16 @@
 				<NcActionSeparator />
 
 				<!-- external actions -->
-				<ExternalShareAction v-for="action in externalLinkActions"
+				<NcActionButton v-for="action in sortedExternalShareActions"
+					:key="action.id"
+					@click="action.exec(share, fileInfo.node)">
+					<template #icon>
+						<NcIconSvgWrapper :svg="action.iconSvg" />
+					</template>
+					{{ action.label(share, fileInfo.node) }}
+				</NcActionButton>
+
+				<SidebarTabExternalActionLegacy v-for="action in externalLegacyShareActions"
 					:id="action.id"
 					:key="action.id"
 					:action="action"
@@ -224,6 +233,8 @@ import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
+import { getSidebarInlineActions } from '@nextcloud/sharing/ui'
+import { toRaw } from 'vue'
 
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -247,8 +258,8 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
+import SidebarTabExternalActionLegacy from './SidebarTabExternal/SidebarTabExternalActionLegacy.vue'
 
-import ExternalShareAction from './ExternalShareAction.vue'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.ts'
 import SharesMixin from '../mixins/SharesMixin.js'
@@ -259,7 +270,6 @@ export default {
 	name: 'SharingEntryLink',
 
 	components: {
-		ExternalShareAction,
 		NcActions,
 		NcActionButton,
 		NcActionCheckbox,
@@ -280,6 +290,7 @@ export default {
 		CloseIcon,
 		PlusIcon,
 		SharingEntryQuickShareSelect,
+		SidebarTabExternalActionLegacy,
 	},
 
 	mixins: [SharesMixin, ShareDetails],
@@ -307,6 +318,7 @@ export default {
 
 			ExternalLegacyLinkActions: OCA.Sharing.ExternalLinkActions.state,
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
+			externalShareActions: getSidebarInlineActions(),
 
 			// tracks whether modal should be opened or not
 			showQRCode: false,
@@ -560,11 +572,23 @@ export default {
 		 *
 		 * @return {Array}
 		 */
-		externalLinkActions() {
+		externalLegacyShareActions() {
 			const filterValidAction = (action) => (action.shareType.includes(ShareType.Link) || action.shareType.includes(ShareType.Email)) && !action.advanced
 			// filter only the registered actions for said link
+			console.error('external legacy', this.ExternalShareActions, this.ExternalShareActions.actions.filter(filterValidAction))
 			return this.ExternalShareActions.actions
 				.filter(filterValidAction)
+		},
+
+		/**
+		 * Additional actions for the menu
+		 *
+		 * @return {import('@nextcloud/sharing/ui').ISidebarInlineAction[]}
+		 */
+		sortedExternalShareActions() {
+			return this.externalShareActions
+				.filter((action) => action.enabled(toRaw(this.share), toRaw(this.fileInfo.node)))
+				.sort((a, b) => a.order - b.order)
 		},
 
 		isPasswordPolicyEnabled() {
