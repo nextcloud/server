@@ -278,6 +278,8 @@ OC.L10N.register(
     "Confirm deletion" : "Conferma l'eliminazione",
     "Cancel" : "Annulla",
     "Download" : "Scarica",
+    "The requested file is not available." : "Il file richiesto non è disponibile.",
+    "The requested files are not available." : "I file richiesti non sono disponibili.",
     "Moving \"{source}\" to \"{destination}\" …" : "Sposta \"{source}\" in \"{destination}\" …",
     "Copying \"{source}\" to \"{destination}\" …" : "Copia \"{source}\" in \"{destination}\" …",
     "Destination is not a folder" : "La destinazione non è una cartella",
