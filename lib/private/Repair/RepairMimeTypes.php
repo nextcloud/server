@@ -394,7 +394,7 @@ class RepairMimeTypes implements IRepairStep {
 	 *
 	 * @throws Exception
 	 */
-	public function run(IOutput $out): void {
+	public function run(IOutput $output): void {
 		$serverVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$mimeTypeVersion = $this->getMimeTypeVersion();
 
@@ -403,79 +403,79 @@ class RepairMimeTypes implements IRepairStep {
 		// PLEASE ALSO KEEP THE LIST SORTED BY VERSION NUMBER
 
 		if (version_compare($mimeTypeVersion, '12.0.0.14', '<') && $this->introduceImageTypes()) {
-			$out->info('Fixed image mime types');
+			$output->info('Fixed image mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '12.0.0.13', '<') && $this->introduceWindowsProgramTypes()) {
-			$out->info('Fixed windows program mime types');
+			$output->info('Fixed windows program mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '13.0.0.0', '<') && $this->introduceLocationTypes()) {
-			$out->info('Fixed geospatial mime types');
+			$output->info('Fixed geospatial mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '13.0.0.3', '<') && $this->introduceInternetShortcutTypes()) {
-			$out->info('Fixed internet-shortcut mime types');
+			$output->info('Fixed internet-shortcut mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '13.0.0.6', '<') && $this->introduceStreamingTypes()) {
-			$out->info('Fixed streaming mime types');
+			$output->info('Fixed streaming mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '14.0.0.8', '<') && $this->introduceVisioTypes()) {
-			$out->info('Fixed visio mime types');
+			$output->info('Fixed visio mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '14.0.0.10', '<') && $this->introduceComicbookTypes()) {
-			$out->info('Fixed comicbook mime types');
+			$output->info('Fixed comicbook mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '20.0.0.5', '<') && $this->introduceOpenDocumentTemplates()) {
-			$out->info('Fixed OpenDocument template mime types');
+			$output->info('Fixed OpenDocument template mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '21.0.0.7', '<') && $this->introduceOrgModeType()) {
-			$out->info('Fixed orgmode mime types');
+			$output->info('Fixed orgmode mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '23.0.0.2', '<') && $this->introduceFlatOpenDocumentType()) {
-			$out->info('Fixed Flat OpenDocument mime types');
+			$output->info('Fixed Flat OpenDocument mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '25.0.0.2', '<') && $this->introduceOnlyofficeFormType()) {
-			$out->info('Fixed ONLYOFFICE Forms OpenXML mime types');
+			$output->info('Fixed ONLYOFFICE Forms OpenXML mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '26.0.0.1', '<') && $this->introduceAsciidocType()) {
-			$out->info('Fixed AsciiDoc mime types');
+			$output->info('Fixed AsciiDoc mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '28.0.0.5', '<') && $this->introduceEnhancedMetafileFormatType()) {
-			$out->info('Fixed Enhanced Metafile Format mime types');
+			$output->info('Fixed Enhanced Metafile Format mime types');
 		}
 
 		if (version_compare($mimeTypeVersion, '29.0.0.2', '<') && $this->introduceEmlAndMsgFormatType()) {
-			$out->info('Fixed eml and msg mime type');
+			$output->info('Fixed eml and msg mime type');
 		}
 
 		if (version_compare($mimeTypeVersion, '29.0.0.6', '<') && $this->introduceAacAudioType()) {
-			$out->info('Fixed aac mime type');
+			$output->info('Fixed aac mime type');
 		}
 
 		if (version_compare($mimeTypeVersion, '29.0.0.10', '<') && $this->introduceReStructuredTextFormatType()) {
-			$out->info('Fixed ReStructured Text mime type');
+			$output->info('Fixed ReStructured Text mime type');
 		}
 
 		if (version_compare($mimeTypeVersion, '30.0.0.0', '<') && $this->introduceExcalidrawType()) {
-			$out->info('Fixed Excalidraw mime type');
+			$output->info('Fixed Excalidraw mime type');
 		}
 
 		if (version_compare($mimeTypeVersion, '31.0.0.0', '<') && $this->introduceZstType()) {
-			$out->info('Fixed zst mime type');
+			$output->info('Fixed zst mime type');
 		}
 
 		if (version_compare($mimeTypeVersion, '32.0.0.0', '<') && $this->introduceMusicxmlType()) {
-			$out->info('Fixed musicxml mime type');
+			$output->info('Fixed musicxml mime type');
 		}
 
 		if (version_compare($mimeTypeVersion, '32.0.0.0', '<') && $this->introduceTextType()) {

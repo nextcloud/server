@@ -36,7 +36,7 @@ class MoveAvatarsBackgroundJob extends QueuedJob {
 		}
 	}
 
-	public function run($arguments) {
+	public function run($argument) {
 		$this->logger->info('Started migrating avatars to AppData folder');
 		$this->moveAvatars();
 		$this->logger->info('All avatars migrated to AppData folder');
