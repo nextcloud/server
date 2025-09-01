@@ -18,6 +18,7 @@ use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
 use OC\Authentication\Listeners\UserDeletedWebAuthnCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Listener\BeforeTemplateRenderedListener;
+use OC\Core\Listener\PasswordUpdatedListener;
 use OC\Core\Notification\CoreNotifier;
 use OC\TagManager;
 use OCP\AppFramework\App;
@@ -28,6 +29,7 @@ use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 
@@ -296,6 +298,7 @@ class Application extends App {
 		$eventDispatcher->addServiceListener(BeforeUserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedFilesCleanupListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedWebAuthnCleanupListener::class);
+		$eventDispatcher->addServiceListener(PasswordUpdatedEvent::class, PasswordUpdatedListener::class);
 
 		// Tags
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, TagManager::class);
