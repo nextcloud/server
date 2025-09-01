@@ -394,6 +394,7 @@ class OC {
 		// Do not initialize sessions for 'status.php' requests
 		// Monitoring endpoints can quickly flood session handlers
 		// and 'status.php' doesn't require sessions anyway
+		// We still need to run the ini_set above so that same-site cookies use the correct configuration.
 		if (str_ends_with($request->getScriptName(), '/status.php')) {
 			return;
 		}
