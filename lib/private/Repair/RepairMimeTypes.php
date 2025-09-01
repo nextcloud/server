@@ -350,6 +350,18 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
+	/**
+	 * @throws Exception
+	 * @since 32.0.0
+	 */
+	private function introduceTextType(): IResult|int|null {
+		$updatedMimetypes = [
+			'text' => 'text/plain',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
 
 
 	/**
@@ -464,6 +476,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($mimeTypeVersion, '32.0.0.0', '<') && $this->introduceMusicxmlType()) {
 			$out->info('Fixed musicxml mime type');
+		}
+
+		if (version_compare($mimeTypeVersion, '32.0.0.0', '<') && $this->introduceTextType()) {
+			$out->info('Fixed text mime type');
 		}
 
 		if (!$this->dryRun) {
