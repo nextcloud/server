@@ -59,6 +59,7 @@
 	</commands>
 
 	<settings>
+		<admin>OCA\Files\Settings\AdminSettings</admin>
 		<personal>OCA\Files\Settings\PersonalSettings</personal>
 	</settings>
 
