@@ -971,9 +971,9 @@ class View {
 						$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
 					}
 
-					if ($result) {
+					/*if ($result) {
 						$this->copyUpdate($storage1, $storage2, $internalPath1, $internalPath2);
-					}
+					}*/
 
 					$this->changeLock($target, ILockingProvider::LOCK_SHARED);
 					$lockTypePath2 = ILockingProvider::LOCK_SHARED;
