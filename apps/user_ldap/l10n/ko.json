@@ -199,6 +199,7 @@
     "User profile Headline will be set from the specified attribute" : "사용자 프로필의 표제가 지정된 속성으로 설정됩니다",
     "Biography Field" : "소개문구 필드",
     "User profile Biography will be set from the specified attribute" : "사용자 프로필의 소개문구가 지정된 속성으로 설정됩니다",
+    "User profile Date of birth will be set from the specified attribute" : "사용자 프로필 생년월일은 지정된 속성에서 설정됩니다.",
     "Internal Username" : "내부 사용자 이름",
     "Internal Username Attribute:" : "내부 사용자 이름 속성:",
     "Override UUID detection" : "UUID 확인 재정의",

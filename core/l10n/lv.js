@@ -130,6 +130,8 @@ OC.L10N.register(
     "Account name" : "Konta nosaukums",
     "Server side authentication failed!" : "Servera autentifikācija neizdevās!",
     "Please contact your administrator." : "Lūgums sazināties ar savu pārvaldītāju.",
+    "Session error" : "Sesijas kļūda",
+    "It appears your session token has expired, please refresh the page and try again." : "Izskatās, ka sesijas pilnvarai ir beidzies derīgums, lūgums atsvaidzināt lapu un mēģināt vēlreiz.",
     "An internal error occurred." : "Atgadījās iekšēja kļūda.",
     "Please try again or contact your administrator." : "Lūgums mēģināt vēlreiz vai sazināties ar savu pārvaldītāju.",
     "Password" : "Parole",
