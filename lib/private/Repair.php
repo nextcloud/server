@@ -56,6 +56,7 @@ use OC\Repair\RepairDavShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
+use OC\Repair\TruncateMounts;
 use OC\Template\JSCombiner;
 use OCA\DAV\Migration\DeleteSchedulingObjects;
 use OCP\AppFramework\QueryException;
@@ -217,6 +218,7 @@ class Repair implements IOutput {
 				\OCP\Server::get(IDBConnection::class)
 			),
 			\OCP\Server::get(DeleteSchedulingObjects::class),
+			\OCP\Server::get(TruncateMounts::class),
 		];
 	}
 
