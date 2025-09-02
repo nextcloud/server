@@ -278,6 +278,8 @@ OC.L10N.register(
     "Confirm deletion" : "Berretsi ezabaketa",
     "Cancel" : "Utzi",
     "Download" : "Deskargatu",
+    "The requested file is not available." : "Eskatutako fitxategia ez dago eskuragarri.",
+    "The requested files are not available." : "Eskatutako fitxategiak ez daude eskuragarri.",
     "Moving \"{source}\" to \"{destination}\" …" : "«{source}» «{destination}»(e)ra mugitzen",
     "Copying \"{source}\" to \"{destination}\" …" : "«{source}» «{destination}»(e)ra mugitzen",
     "Destination is not a folder" : "Helburua ez da karpeta bat",

@@ -202,6 +202,7 @@ OC.L10N.register(
     "Learn more" : "Научи повеќе",
     "Confirm" : "Потврди",
     "Cancel" : "Откажи",
+    "Description" : "Опис",
     "View in store" : "Преглед во продавницата за апликации",
     "Visit website" : "Посети ја веб страната",
     "Admin documentation" : "Документација за администратор",
