@@ -122,6 +122,7 @@ class UserEventsListener implements IEventListener {
 			);
 		}
 		$this->calDav->deleteAllSharesByUser('principals/users/' . $uid);
+		$this->cardDav->deleteAllSharesByUser('principals/users/' . $uid);
 
 		foreach ($this->addressBooksToDelete[$uid] as $addressBook) {
 			$this->cardDav->deleteAddressBook($addressBook['id']);
