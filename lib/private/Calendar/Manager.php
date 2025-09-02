@@ -11,6 +11,7 @@ namespace OC\Calendar;
 use DateTimeInterface;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\ServerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\Exceptions\CalendarException;
@@ -58,6 +59,7 @@ class Manager implements IManager {
 		private ISecureRandom $random,
 		private IUserManager $userManager,
 		private ServerFactory $serverFactory,
+		private PropertyMapper $propertyMapper,
 	) {
 	}
 
@@ -227,6 +229,7 @@ class Manager implements IManager {
 	public function handleIMip(
 		string $userId,
 		string $message,
+		array $options = [],
 	): bool {
 
 		$userUri = 'principals/users/' . $userId;
@@ -285,6 +288,30 @@ class Manager implements IManager {
 					return false;
 				}
 			}
+		}
+
+		if ($options['absent'] === 'create') {
+			// retrieve the primary calendar for the user
+			$calendar = $this->getPrimaryCalendar($userId);
+			if ($calendar !== null && (
+				!$calendar instanceof IHandleImipMessage || !$calendar instanceof ICalendarIsWritable || $calendar->isDeleted() || !$calendar->isWritable()
+			)) {
+				$calendar = null;
+			}
+			// if no primary calendar is set, use the first writable calendar
+			if ($calendar === null) {
+				foreach ($userCalendars as $userCalendar) {
+					if ($userCalendar instanceof IHandleImipMessage && $userCalendar instanceof ICalendarIsWritable && !$userCalendar->isDeleted() && $userCalendar->isWritable()) {
+						$calendar = $userCalendar;
+						break;
+					}
+				}
+			}
+			if ($calendar === null) {
+				$this->logger->warning('iMip message could not be processed because no writable calendar was found');
+				return false;
+			}
+			$calendar->handleIMipMessage($userId, $vObject->serialize());
 		}
 
 		$this->logger->warning('iMip message could not be processed because no corresponding event was found in any calendar');
@@ -437,4 +464,32 @@ class Manager implements IManager {
 
 		return $result;
 	}
+
+	public function getPrimaryCalendar(string $userId): ?ICalendar {
+		// determine if the principal has a default calendar configured
+		$properties = $this->propertyMapper->findPropertyByPathAndName(
+			$userId,
+			'principals/users/' . $userId,
+			'{urn:ietf:params:xml:ns:caldav}schedule-default-calendar-URL'
+		);
+		if ($properties === []) {
+			return null;
+		}
+		// extract the calendar URI from the property value
+		$propertyValue = $properties[0]->getPropertyvalue() ?? null;
+		if (str_starts_with($propertyValue, 'calendars/' . $userId)) {
+			$calendarUri = rtrim(str_replace('calendars/' . $userId . '/', '', $propertyValue), '/');
+		}
+		if (empty($calendarUri)) {
+			return null;
+		}
+		// retrieve the calendar by URI
+		$calendars = $this->getCalendarsForPrincipal('principals/users/' . $userId, [$calendarUri]);
+		if ($calendars === []) {
+			return null;
+		}
+
+		return $calendars[0];
+	}
+
 }

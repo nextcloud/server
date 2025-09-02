@@ -13,6 +13,7 @@ use OC\Calendar\AvailabilityResult;
 use OC\Calendar\Manager;
 use OCA\DAV\CalDAV\Auth\CustomPrincipalPlugin;
 use OCA\DAV\Connector\Sabre\Server;
+use OCA\DAV\Db\PropertyMapper;
 use OCA\DAV\ServerFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendar;
@@ -61,6 +62,7 @@ class ManagerTest extends TestCase {
 
 	private IUserManager&MockObject $userManager;
 	private ServerFactory&MockObject $serverFactory;
+	private PropertyMapper&MockObject $propertyMapper;
 
 	private VCalendar $vCalendar1a;
 	private VCalendar $vCalendar2a;
@@ -76,6 +78,7 @@ class ManagerTest extends TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->serverFactory = $this->createMock(ServerFactory::class);
+		$this->propertyMapper = $this->createMock(PropertyMapper::class);
 
 		$this->manager = new Manager(
 			$this->coordinator,
@@ -85,6 +88,7 @@ class ManagerTest extends TestCase {
 			$this->secureRandom,
 			$this->userManager,
 			$this->serverFactory,
+			$this->propertyMapper,
 		);
 
 		// construct calendar with a 1 hour event and same start/end time zones
@@ -328,6 +332,7 @@ class ManagerTest extends TestCase {
 				$this->secureRandom,
 				$this->userManager,
 				$this->serverFactory,
+				$this->propertyMapper,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -361,6 +366,7 @@ class ManagerTest extends TestCase {
 				$this->secureRandom,
 				$this->userManager,
 				$this->serverFactory,
+				$this->propertyMapper,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -395,6 +401,7 @@ class ManagerTest extends TestCase {
 				$this->secureRandom,
 				$this->userManager,
 				$this->serverFactory,
+				$this->propertyMapper,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -438,6 +445,7 @@ class ManagerTest extends TestCase {
 				$this->secureRandom,
 				$this->userManager,
 				$this->serverFactory,
+				$this->propertyMapper,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -480,6 +488,7 @@ class ManagerTest extends TestCase {
 				$this->secureRandom,
 				$this->userManager,
 				$this->serverFactory,
+				$this->propertyMapper,
 			])
 			->onlyMethods(['getCalendarsForPrincipal'])
 			->getMock();
@@ -527,6 +536,7 @@ class ManagerTest extends TestCase {
 				$this->secureRandom,
 				$this->userManager,
 				$this->serverFactory,
+				$this->propertyMapper,
 			])
 			->onlyMethods(['handleIMip'])
 			->getMock();
@@ -569,6 +579,7 @@ class ManagerTest extends TestCase {
 				$this->secureRandom,
 				$this->userManager,
 				$this->serverFactory,
+				$this->propertyMapper,
 			])
 			->onlyMethods(['handleIMip'])
 			->getMock();
@@ -613,6 +624,7 @@ class ManagerTest extends TestCase {
 				$this->secureRandom,
 				$this->userManager,
 				$this->serverFactory,
+				$this->propertyMapper,
 			])
 			->onlyMethods(['handleIMip'])
 			->getMock();
