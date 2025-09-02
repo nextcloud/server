@@ -31,10 +31,11 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\Share20\Exception\BackendError;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Node as DavNode;
+use OCA\Files_Sharing\ISharedStorage;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\Storage\ISharedStorage;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -91,9 +92,9 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->protectedProperties[] = self::SHAREES_PROPERTYNAME;
 
 		$this->server = $server;
-		$this->server->on('propFind', $this->handleGetProperties(...));
-		$this->server->on('beforeCopy', $this->validateMoveOrCopy(...));
-		$this->server->on('beforeMove', $this->validateMoveOrCopy(...));
+		$this->server->on('propFind', [$this, 'handleGetProperties']);
+		$this->server->on('beforeCopy', [$this, 'validateMoveOrCopy']);
+		$this->server->on('beforeMove', [$this, 'validateMoveOrCopy']);
 	}
 
 	/**
@@ -264,7 +265,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 		if ($sourceStorage->instanceOfStorage(ISharedStorage::class)) {
 			// source is also a share - check if it is the same share
 
-			/** @var ISharedStorage $sourceStorage */
+			/** @var SharedStorage $sourceStorage */
 			$sourceShare = $sourceStorage->getShare();
 			foreach ($targetShares as $targetShare) {
 				if ($targetShare->getId() === $sourceShare->getId()) {
