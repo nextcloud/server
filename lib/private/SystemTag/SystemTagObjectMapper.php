@@ -17,7 +17,9 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\MapperEvent;
+use OCP\SystemTag\TagAssignedEvent;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\SystemTag\TagUnassignedEvent;
 
 class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public const RELATION_TABLE = 'systemtag_object_mapping';
@@ -169,6 +171,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$objId,
 			$tagsAssigned
 		));
+		$this->dispatcher->dispatchTyped(new TagAssignedEvent($objectType, [$objId], $tagsAssigned));
 	}
 
 	/**
@@ -199,6 +202,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$objId,
 			$tagIds
 		));
+		$this->dispatcher->dispatchTyped(new TagUnassignedEvent($objectType, [$objId], $tagIds));
 	}
 
 	/**
@@ -304,6 +308,9 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				[(int)$tagId]
 			));
 		}
+		if (!empty($removedObjectIds)) {
+			$this->dispatcher->dispatchTyped(new TagUnassignedEvent($objectType, array_map(fn ($objectId) => (string)$objectId, $removedObjectIds), [(int)$tagId]));
+		}
 
 		if (empty($objectIds)) {
 			return;
@@ -334,6 +341,9 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				(string)$objectId,
 				[(int)$tagId]
 			));
+		}
+		if (!empty($addedObjectIds)) {
+			$this->dispatcher->dispatchTyped(new TagAssignedEvent($objectType, array_map(fn ($objectId) => (string)$objectId, $addedObjectIds), [(int)$tagId]));
 		}
 
 		// Dispatch unassign events for removed object ids
