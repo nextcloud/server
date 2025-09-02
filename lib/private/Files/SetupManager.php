@@ -60,7 +60,12 @@ class SetupManager {
 	private array $setupUsers = [];
 	// List of users for which all mounts are setup
 	private array $setupUsersComplete = [];
-	/** @var array<string, string[]> */
+	/**
+	 * An array of provider classes that have already been set up, indexed
+	 * by UserUID.
+	 *
+	 * @var array<string, string[]>
+	 */
 	private array $setupUserMountProviders = [];
 	private ICache $cache;
 	private bool $listeningForProviders;
@@ -213,7 +218,17 @@ class SetupManager {
 	}
 
 	/**
-	 * part of the user setup that is run only once per user
+	 * Part of the user setup that is run only once per user.
+	 *
+	 * This sets up:
+	 *   - the root mount points
+	 *   - built-in wrappers
+	 *
+	 * Moreover, it:
+	 *   - emits OC_Filesystem::preSetup hook
+	 *   - initializes the Filesystem class
+	 *   - adds the home mount to the MountManager and scans it when necessary
+	 *   - listens for newly added mounts to call addMount on the MountManager
 	 */
 	private function oneTimeUserSetup(IUser $user) {
 		if ($this->isSetupStarted($user)) {
@@ -303,6 +318,13 @@ class SetupManager {
 	}
 
 	/**
+	 * Executes the one-time user setup, the callback if the filesystem can be accessed.
+	 *
+	 * Emits OC_Filesystem post_initMountPoints.
+	 *
+	 * Emits OC_Filesystem::setup.
+	 * @see self::oneTimeUserSetup()
+	 *
 	 * @param IUser $user
 	 * @param IMountPoint $mounts
 	 * @return void
@@ -386,6 +408,7 @@ class SetupManager {
 			return;
 		}
 
+		// TBD this can be dropped
 		if ($this->fullSetupRequired($user)) {
 			$this->setupForUser($user);
 			return;
