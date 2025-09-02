@@ -26,6 +26,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Server;
@@ -74,7 +75,7 @@ class Root extends Folder implements IRootFolder {
 		LoggerInterface $logger,
 		IUserManager $userManager,
 		IEventDispatcher $eventDispatcher,
-		ICacheFactory $cacheFactory,
+		private ICacheFactory $cacheFactory,
 	) {
 		parent::__construct($this, $view, '');
 		$this->mountManager = $manager;
@@ -329,7 +330,7 @@ class Root extends Folder implements IRootFolder {
 	 * Returns a view to user's files folder
 	 *
 	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder
+	 * @return \OCP\Files\IUserFolder
 	 * @throws NoUserException
 	 * @throws NotPermittedException
 	 */
@@ -362,9 +363,23 @@ class Root extends Folder implements IRootFolder {
 					}
 				} catch (NotFoundException $e) {
 					if (!$this->nodeExists('/' . $userId)) {
-						$this->newFolder('/' . $userId);
+						$parent = $this->newFolder('/' . $userId);
+					} else {
+						$parent = $this->get('/' . $userId);
+						if (!$parent instanceof \OCP\Files\Folder) {
+							throw new \Exception("Account folder for \"$userId\" exists as a file");
+						}
 					}
-					$folder = $this->newFolder('/' . $userId . '/files');
+					$realFolder = $this->newFolder('/' . $userId . '/files');
+					$folder = new UserFolder(
+						$this->root,
+						$this->view,
+						$realFolder->getPath(),
+						$parent,
+						Server::get(IConfig::class),
+						$userObject,
+						$this->cacheFactory,
+					);
 				}
 			} else {
 				$folder = new LazyUserFolder($this, $userObject, $this->mountManager);
