@@ -93,6 +93,7 @@
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
     "typescript": "^5.9.2",
-    "vite": "^5.4.19"
+    "vite": "^5.4.19",
+    "vite-plugin-static-copy": "^3.1.2"
   }
 }

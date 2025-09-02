@@ -3,18 +3,20 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div ref="editor" class="viewer__image-editor" v-bind="themeDataAttr" />
+	<div>
+		<div ref="editor" class="viewer__image-editor" v-bind="themeDataAttr" />
+	</div>
 </template>
 <script>
-import { basename, dirname, extname, join } from 'path'
+import { showError, showSuccess, DialogBuilder } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { Node } from '@nextcloud/files'
-import { showError, showSuccess, DialogBuilder } from '@nextcloud/dialogs'
+import { linkTo } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-
-import logger from '../services/logger.js'
+import { basename, dirname, extname, join } from 'path'
 import translations from '../models/editorTranslations.js'
 import { rawStat } from '../services/FileInfo.ts'
+import logger from '../services/logger.js'
 
 let TABS, TOOLS
 
@@ -95,6 +97,16 @@ export default {
 						fontFamily: 'var(--font-face)',
 					},
 				},
+
+				Text: {
+					// this must be the value of one of the fonts
+					fontFamily: '"NotoSans", "Noto Sans", "Arial", "Roboto"',
+					fonts: [
+						{ label: 'Sans-serif', value: '"NotoSans", "Noto Sans", "Arial", "Roboto"' },
+						{ label: 'Serif', value: '"PTSerif", "Georgia", "Times New Roman"' },
+						{ label: 'Comic', value: '"Comic Neue", "Comic Sans"' },
+					],
+				},
 			}
 		},
 
@@ -120,6 +132,41 @@ export default {
 				'data-theme-dark': true,
 			}
 		},
+	},
+
+	created() {
+		// we need to apply our fonts on the root, but we cannot do this from Vue as we can only access the component.
+		// so we do this manually
+		if (document.getElementById('oca-viewer_image-editor-fonts')) {
+			return
+		}
+
+		const styleElement = document.createElement('style')
+		styleElement.id = 'oca-viewer_image-editor-fonts'
+		styleElement.appendChild(document.createTextNode(`
+		@font-face {
+			font-display: swap;
+			font-family: 'Comic Neue';
+			font-style: normal;
+			font-weight: 400;
+			src: url('${linkTo('viewer', 'css/fonts/comic-neue-regular.woff2')}') format('woff2');
+		}
+		@font-face {
+			font-display: swap;
+			font-family: 'NotoSans';
+			font-style: normal;
+			font-weight: 400;
+			src: url('${linkTo('core', 'fonts/NotoSans-Regular-latin.woff2')}') format('woff2');
+		}
+		@font-face {
+			font-display: swap;
+			font-family: 'PTSerif';
+			font-style: normal;
+			font-weight: 400;
+			src: url('${linkTo('viewer', 'css/fonts/pt-serif-regular.woff2')}') format('woff2');
+		}
+		`))
+		document.head.appendChild(styleElement)
 	},
 
 	async mounted() {
@@ -328,7 +375,6 @@ export default {
 	width: 100%;
 	height: 100vh;
 }
-
 </style>
 
 <style lang="scss">
@@ -644,5 +690,4 @@ export default {
 
 	filter: var(--background-invert-if-dark);
 }
-
 </style>
