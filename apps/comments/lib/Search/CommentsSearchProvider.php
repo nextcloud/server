@@ -49,25 +49,22 @@ class CommentsSearchProvider implements IProvider {
 			$this->l10n->t('Comments'),
 			array_map(function (Result $result) {
 				$path = $result->path;
+				$pathInfo = pathinfo($path);
 				$isUser = $this->userManager->userExists($result->authorId);
 				$avatarUrl = $isUser
 					? $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $result->authorId, 'size' => 42])
 					: $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $result->authorId, 'size' => 42]);
-				$link = $this->urlGenerator->linkToRoute(
-					'files.View.showFile',
-					['fileid' => $result->fileId]
-				);
-				$searchResultEntry = new SearchResultEntry(
+				return new SearchResultEntry(
 					$avatarUrl,
 					$result->name,
 					$path,
-					$link,
+					$this->urlGenerator->linkToRouteAbsolute('files.view.index', [
+						'dir' => $pathInfo['dirname'],
+						'scrollto' => $pathInfo['basename'],
+					]),
 					'',
 					true
 				);
-				$searchResultEntry->addAttribute('fileId', (string)$result->fileId);
-				$searchResultEntry->addAttribute('path', $path);
-				return $searchResultEntry;
 			}, $this->legacyProvider->search($query->getTerm()))
 		);
 	}
