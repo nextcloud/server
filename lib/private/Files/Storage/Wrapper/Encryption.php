@@ -884,7 +884,7 @@ class Encryption extends Wrapper {
 	/**
 	 * check if the given storage should be encrypted or not
 	 */
-	protected function shouldEncrypt(string $path): bool {
+	public function shouldEncrypt(string $path): bool {
 		$fullPath = $this->getFullPath($path);
 		$mountPointConfig = $this->mount->getOption('encrypt', true);
 		if ($mountPointConfig === false) {
