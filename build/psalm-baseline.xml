@@ -71,6 +71,8 @@
       <code><![CDATA[$result->authorId]]></code>
       <code><![CDATA[$result->authorId]]></code>
       <code><![CDATA[$result->authorId]]></code>
+      <code><![CDATA[$result->fileId]]></code>
+      <code><![CDATA[$result->fileId]]></code>
       <code><![CDATA[$result->name]]></code>
       <code><![CDATA[$result->path]]></code>
     </DeprecatedProperty>
@@ -81,7 +83,8 @@
       <code><![CDATA[new Result($query,
 						$comment,
 						$displayName,
-						$file->getPath()
+						$file->getPath(),
+						$file->getId(),
 					)]]></code>
     </DeprecatedClass>
     <DeprecatedMethod>
@@ -108,6 +111,7 @@
     <DeprecatedProperty>
       <code><![CDATA[$this->authorId]]></code>
       <code><![CDATA[$this->comment]]></code>
+      <code><![CDATA[$this->fileId]]></code>
       <code><![CDATA[$this->fileName]]></code>
       <code><![CDATA[$this->path]]></code>
     </DeprecatedProperty>
