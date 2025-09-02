@@ -7,8 +7,8 @@
  */
 namespace OC\Group;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\User\LazyUser;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IAddToGroupBackend;
@@ -71,12 +71,16 @@ class Database extends ABackend implements
 		try {
 			// Add group
 			$builder = $this->dbConn->getQueryBuilder();
-			$result = $builder->insert('groups')
+			$builder->insert('groups')
 				->setValue('gid', $builder->createNamedParameter($gid))
 				->setValue('displayname', $builder->createNamedParameter($name))
-				->execute();
-		} catch (UniqueConstraintViolationException $e) {
-			return null;
+				->executeStatement();
+		} catch (Exception $e) {
+			if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				return null;
+			} else {
+				throw $e;
+			}
 		}
 
 		// Add to cache

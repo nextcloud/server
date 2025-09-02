@@ -366,7 +366,7 @@ interface ICommentsManager {
 	public function save(IComment $comment);
 
 	/**
-	 * removes references to specific actor (e.g. on user delete) of a comment.
+	 * Deletes all references to specific actor (e.g. on user delete) of a comment.
 	 * The comment itself must not get lost/deleted.
 	 *
 	 * A 'users' type actor (type and id) should get replaced by the
@@ -374,17 +374,17 @@ interface ICommentsManager {
 	 *
 	 * @param string $actorType the actor type (e.g. 'users')
 	 * @param string $actorId a user id
-	 * @return boolean
+	 * @return boolean whether the deletion was successful
 	 * @since 9.0.0
 	 */
 	public function deleteReferencesOfActor($actorType, $actorId);
 
 	/**
-	 * deletes all comments made of a specific object (e.g. on file delete)
+	 * Deletes all comments made of a specific object (e.g. on file delete).
 	 *
 	 * @param string $objectType the object type (e.g. 'files')
 	 * @param string $objectId e.g. the file id
-	 * @return boolean
+	 * @return boolean whether the deletion was successful
 	 * @since 9.0.0
 	 */
 	public function deleteCommentsAtObject($objectType, $objectId);

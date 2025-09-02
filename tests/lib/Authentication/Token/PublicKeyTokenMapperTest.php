@@ -43,7 +43,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 
 	private function resetDatabase() {
 		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->delete('authtoken')->execute();
+		$qb->delete('authtoken')->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user1'),
 			'login_name' => $qb->createNamedParameter('User1'),
@@ -56,7 +56,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'public_key' => $qb->createNamedParameter('public key'),
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
-		])->execute();
+		])->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user2'),
 			'login_name' => $qb->createNamedParameter('User2'),
@@ -69,7 +69,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'public_key' => $qb->createNamedParameter('public key'),
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
-		])->execute();
+		])->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user1'),
 			'login_name' => $qb->createNamedParameter('User1'),
@@ -82,7 +82,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'public_key' => $qb->createNamedParameter('public key'),
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
-		])->execute();
+		])->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user3'),
 			'login_name' => $qb->createNamedParameter('User3'),
@@ -96,7 +96,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
 			'password_invalid' => $qb->createNamedParameter(1),
-		])->execute();
+		])->executeStatement();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user3'),
 			'login_name' => $qb->createNamedParameter('User3'),
@@ -110,14 +110,14 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'private_key' => $qb->createNamedParameter('private key'),
 			'version' => $qb->createNamedParameter(2),
 			'password_invalid' => $qb->createNamedParameter(1),
-		])->execute();
+		])->executeStatement();
 	}
 
 	private function getNumberOfTokens() {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$result = $qb->select($qb->func()->count('*', 'count'))
 			->from('authtoken')
-			->execute()
+			->executeQuery()
 			->fetch();
 		return (int)$result['count'];
 	}
@@ -240,7 +240,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$qb->select('id')
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$id = $result->fetch()['id'];
 
 		$token = $this->mapper->getTokenById((int)$id);
@@ -252,7 +252,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$qb->select('name')
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$name = $result->fetch()['name'];
 		$this->mapper->deleteByName($name);
 		$this->assertEquals(4, $this->getNumberOfTokens());

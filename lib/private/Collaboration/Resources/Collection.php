@@ -95,7 +95,7 @@ class Collection implements ICollection {
 			]);
 
 		try {
-			$query->execute();
+			$query->executeStatement();
 		} catch (ConstraintViolationException $e) {
 			throw new ResourceException('Already part of the collection');
 		}

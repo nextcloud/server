@@ -44,7 +44,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals($return, $column);
@@ -120,7 +120,7 @@ class FunctionBuilderTest extends TestCase {
 			->from('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString(',', $column);
@@ -136,7 +136,7 @@ class FunctionBuilderTest extends TestCase {
 			->from('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString('#', $column);
@@ -152,7 +152,7 @@ class FunctionBuilderTest extends TestCase {
 			->from('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString("'", $column);
@@ -168,7 +168,7 @@ class FunctionBuilderTest extends TestCase {
 			->from('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString('"', $column);
@@ -209,7 +209,7 @@ class FunctionBuilderTest extends TestCase {
 			->from('systemtag')
 			->where($query->expr()->eq('name', $query->createNamedParameter('group_concat')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString(',', $column);
@@ -225,7 +225,7 @@ class FunctionBuilderTest extends TestCase {
 			->from('systemtag')
 			->where($query->expr()->eq('name', $query->createNamedParameter('group_concat')));
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertStringContainsString('#', $column);
@@ -240,7 +240,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(md5('foobar'), $column);
@@ -253,7 +253,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals('oo', $column);
@@ -266,7 +266,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals('oobar', $column);
@@ -279,7 +279,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals('foobar', $column);
@@ -292,7 +292,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(3, $column);
@@ -305,7 +305,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(1, $column);
@@ -318,7 +318,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertGreaterThan(1, $column);
@@ -341,7 +341,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals($bytes, $column);
@@ -364,7 +364,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$column = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertNotNull($column);
@@ -380,7 +380,7 @@ class FunctionBuilderTest extends TestCase {
 				'configkey' => $query->createNamedParameter(uniqid()),
 				'configvalue' => $query->createNamedParameter((string)$value),
 			]);
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	private function clearMinMax() {
@@ -388,7 +388,7 @@ class FunctionBuilderTest extends TestCase {
 
 		$query->delete('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter('minmax')));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	public function testMaxEmpty(): void {
@@ -401,7 +401,7 @@ class FunctionBuilderTest extends TestCase {
 			->where($query->expr()->eq('appid', $query->createNamedParameter('minmax')))
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(null, $row);
@@ -417,7 +417,7 @@ class FunctionBuilderTest extends TestCase {
 			->where($query->expr()->eq('appid', $query->createNamedParameter('minmax')))
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(null, $row);
@@ -436,7 +436,7 @@ class FunctionBuilderTest extends TestCase {
 			->where($query->expr()->eq('appid', $query->createNamedParameter('minmax')))
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(20, $row);
@@ -455,7 +455,7 @@ class FunctionBuilderTest extends TestCase {
 			->where($query->expr()->eq('appid', $query->createNamedParameter('minmax')))
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(10, $row);
@@ -468,7 +468,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(2, $row);
@@ -481,7 +481,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->from('appconfig')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		$row = $result->fetchOne();
 		$result->closeCursor();
 		$this->assertEquals(1, $row);

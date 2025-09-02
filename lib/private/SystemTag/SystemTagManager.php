@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OC\SystemTag;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
@@ -74,7 +74,7 @@ class SystemTagManager implements ISystemTagManager {
 			->addOrderBy('editable', 'ASC')
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$tag = $this->createSystemTagFromRow($row);
 			if ($user && !$this->canUserSeeTag($tag, $user)) {
@@ -137,7 +137,7 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('name', $truncatedTagName)
 			->setParameter('visibility', $userVisible ? 1 : 0)
 			->setParameter('editable', $userAssignable ? 1 : 0)
-			->execute();
+			->executeQuery();
 
 		$row = $result->fetch();
 		$result->closeCursor();
@@ -176,13 +176,16 @@ class SystemTagManager implements ISystemTagManager {
 			]);
 
 		try {
-			$query->execute();
-		} catch (UniqueConstraintViolationException $e) {
-			throw new TagAlreadyExistsException(
-				'Tag ("' . $truncatedTagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
-				0,
-				$e
-			);
+			$query->executeStatement();
+		} catch (Exception $e) {
+			if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw new TagAlreadyExistsException(
+					'Tag ("' . $truncatedTagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
+					0,
+					$e
+				);
+			}
+			throw $e;
 		}
 
 		$tagId = $query->getLastInsertId();
@@ -257,17 +260,20 @@ class SystemTagManager implements ISystemTagManager {
 			->setParameter('color', $color);
 
 		try {
-			if ($query->execute() === 0) {
+			if ($query->executeStatement() === 0) {
 				throw new TagNotFoundException(
 					'Tag does not exist', 0, null, [$tagId]
 				);
 			}
-		} catch (UniqueConstraintViolationException $e) {
-			throw new TagAlreadyExistsException(
-				'Tag ("' . $newName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
-				0,
-				$e
-			);
+		} catch (Exception $e) {
+			if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw new TagAlreadyExistsException(
+					'Tag ("' . $newName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
+					0,
+					$e
+				);
+			}
+			throw $e;
 		}
 
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_UPDATE, new ManagerEvent(
@@ -303,13 +309,13 @@ class SystemTagManager implements ISystemTagManager {
 		$query->delete(SystemTagObjectMapper::RELATION_TABLE)
 			->where($query->expr()->in('systemtagid', $query->createParameter('tagids')))
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
-			->execute();
+			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TAG_TABLE)
 			->where($query->expr()->in('id', $query->createParameter('tagids')))
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
-			->execute();
+			->executeStatement();
 
 		foreach ($tags as $tag) {
 			$this->dispatcher->dispatch(ManagerEvent::EVENT_DELETE, new ManagerEvent(
@@ -404,7 +410,7 @@ class SystemTagManager implements ISystemTagManager {
 			$query = $this->connection->getQueryBuilder();
 			$query->delete(self::TAG_GROUP_TABLE)
 				->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tag->getId())))
-				->execute();
+				->executeStatement();
 
 			// add each group id
 			$query = $this->connection->getQueryBuilder();
@@ -418,7 +424,7 @@ class SystemTagManager implements ISystemTagManager {
 					continue;
 				}
 				$query->setParameter('gid', $groupId);
-				$query->execute();
+				$query->executeStatement();
 			}
 
 			$this->connection->commit();
@@ -436,7 +442,7 @@ class SystemTagManager implements ISystemTagManager {
 			->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tag->getId())))
 			->orderBy('gid');
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$groupIds[] = $row['gid'];
 		}

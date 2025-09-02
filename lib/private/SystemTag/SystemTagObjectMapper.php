@@ -9,7 +9,7 @@ declare(strict_types=1);
  */
 namespace OC\SystemTag;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
@@ -149,9 +149,12 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		foreach ($tagIds as $tagId) {
 			try {
 				$query->setParameter('tagid', $tagId);
-				$query->execute();
+				$query->executeStatement();
 				$tagsAssigned[] = $tagId;
-			} catch (UniqueConstraintViolationException $e) {
+			} catch (Exception $e) {
+				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					throw $e;
+				}
 				// ignore existing relations
 			}
 		}
@@ -213,7 +216,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$query->update('systemtag')
 			->set('etag', $query->createNamedParameter($md5))
 			->where($query->expr()->in('id', $query->createNamedParameter($tagIds, IQueryBuilder::PARAM_INT_ARRAY)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	/**

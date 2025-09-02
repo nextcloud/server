@@ -90,7 +90,7 @@ class CrossShardMoveHelper {
 		$results = [];
 		foreach ($chunks as $chunk) {
 			$query->setParameter('keys', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
-			$results = array_merge($results, $query->execute()->fetchAll());
+			$results = array_merge($results, $query->executeQuery()->fetchAll());
 		}
 
 		return $results;
