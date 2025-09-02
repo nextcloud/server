@@ -233,8 +233,8 @@ class PresetManager {
 	 */
 	private function getPresetApps(Preset $preset): array {
 		return match ($preset) {
-			Preset::CLUB, Preset::FAMILY, Preset::SCHOOL, Preset::UNIVERSITY, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => ['enabled' => ['user_status', 'intros', 'guests'], 'disabled' => []],
-			Preset::SHARED => ['enabled' => ['intros', 'external'], 'disabled' => ['user_status']],
+			Preset::CLUB, Preset::FAMILY, Preset::SCHOOL, Preset::UNIVERSITY, Preset::SMALL, Preset::MEDIUM, Preset::LARGE => ['enabled' => ['user_status', 'guests'], 'disabled' => []],
+			Preset::SHARED => ['enabled' => ['external'], 'disabled' => ['user_status']],
 			default => ['enabled' => [], 'disabled' => []],
 		};
 	}
