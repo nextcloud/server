@@ -59,6 +59,7 @@ OC.L10N.register(
     "Image" : "Слика",
     "+ Add image" : "+ Додади слика",
     "Line" : "Линија",
+    "Rotate" : "Ротирај",
     "Text" : "Текст",
     "Size" : "Големина",
     "Position" : "Позиција",
