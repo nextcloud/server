@@ -82,6 +82,7 @@
     "@nextcloud/sharing": "^0.2.5",
     "@nextcloud/stylelint-config": "^3.1.0",
     "@nextcloud/vite-config": "^1.5.6",
+    "@testing-library/cypress": "^10.0.3",
     "@types/dockerode": "^3.3.39",
     "@vue/tsconfig": "^0.5.1",
     "cypress": "^13.17.0",
