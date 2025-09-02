@@ -114,22 +114,20 @@ class FileAccess implements IFileAccess {
 
 		$path = $root['path'] === '' ? '' : $root['path'] . '/';
 
-		$qb->selectDistinct('*')
+		$qb->selectDistinct('f.*')
 			->from('filecache', 'f')
 			->where($qb->expr()->like('f.path', $qb->createNamedParameter($this->connection->escapeLikeParameter($path) . '%')))
 			->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($storageId)))
-			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($fileIdCursor, IQueryBuilder::PARAM_INT)));
+			->andWhere($qb->expr()->gt('f.fileid', $qb->createNamedParameter($fileIdCursor, IQueryBuilder::PARAM_INT)))
+			->hintShardKey('storage', $storageId);
 
-		if (!$endToEndEncrypted) {
+		if (!$endToEndEncrypted && $this->connection->getShardDefinition('filecache') === null) {
 			// End to end encrypted files are descendants of a folder with encrypted=1
-			// Use a subquery to check the `encrypted` status of the parent folder
-			$subQuery = $this->getQuery()->select('p.encrypted')
-				->from('filecache', 'p')
-				->andWhere($qb->expr()->eq('p.fileid', 'f.parent'))
-				->getSQL();
+			// We can only do this inner join if the filecache table is not sharded
+			$qb->innerJoin('f', 'filecache', 'f2', $qb->expr()->eq('f2.fileid', 'f.parent'));
 
 			$qb->andWhere(
-				$qb->expr()->eq($qb->createFunction(sprintf('(%s)', $subQuery)), $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('f2.encrypted', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			);
 		}
 
@@ -152,6 +150,21 @@ class FileAccess implements IFileAccess {
 			/** @var array */
 			$row = $files->fetch()
 		) {
+			if (!$endToEndEncrypted && $this->connection->getShardDefinition('filecache') !== null) {
+				// End to end encrypted files are descendants of a folder with encrypted=1
+				// If the filecache table is sharded we need to check individually if the parent is encrypted
+				$parentQuery = $this->getQuery();
+				$parentQuery->select('encrypted')->from('filecache');
+				$parentQuery->whereFileId($row['parent']);
+				$parentQuery->hintShardKey('storage', $storageId);
+				$parentQuery->setMaxResults(1);
+				$result = $parentQuery->executeQuery();
+				$encrypted = $result->fetchOne();
+				$result->closeCursor();
+				if ($encrypted === 1) {
+					continue;
+				}
+			}
 			yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
 		}
 
