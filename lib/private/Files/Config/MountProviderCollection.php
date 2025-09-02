@@ -81,6 +81,9 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
+	 * Convenience method that returns mounts coming from the specified provider classes
+	 * and if registered in the current collection instance.
+	 *
 	 * @return list<IMountPoint>
 	 */
 	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array {
