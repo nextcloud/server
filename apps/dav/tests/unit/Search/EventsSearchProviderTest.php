@@ -269,14 +269,14 @@ class EventsSearchProviderTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('john.doe');
 		$query = $this->createMock(ISearchQuery::class);
-		$seachTermFilter = $this->createMock(IFilter::class);
-		$query->method('getFilter')->willReturnCallback(function ($name) use ($seachTermFilter) {
+		$searchTermFilter = $this->createMock(IFilter::class);
+		$query->method('getFilter')->willReturnCallback(function ($name) use ($searchTermFilter) {
 			return match ($name) {
-				'term' => $seachTermFilter,
+				'term' => $searchTermFilter,
 				default => null,
 			};
 		});
-		$seachTermFilter->method('get')->willReturn('search term');
+		$searchTermFilter->method('get')->willReturn('search term');
 		$query->method('getLimit')->willReturn(5);
 		$query->method('getCursor')->willReturn(20);
 		$this->appManager->expects($this->once())
