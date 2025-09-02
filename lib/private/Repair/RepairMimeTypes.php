@@ -479,7 +479,7 @@ class RepairMimeTypes implements IRepairStep {
 		}
 
 		if (version_compare($mimeTypeVersion, '32.0.0.0', '<') && $this->introduceTextType()) {
-			$out->info('Fixed text mime type');
+			$output->info('Fixed text mime type');
 		}
 
 		if (!$this->dryRun) {
