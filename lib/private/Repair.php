@@ -8,6 +8,7 @@
 namespace OC;
 
 use OC\DB\ConnectionAdapter;
+use OC\Migration\RepairStepAppIdDecorator;
 use OC\Repair\AddAppConfigLazyMigration;
 use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupDeletedUsersBackgroundJob;
@@ -101,7 +102,8 @@ class Repair implements IOutput {
 		// run each repair step
 		foreach ($this->repairSteps as $step) {
 			$this->currentStep = $step->getName();
-			$this->dispatcher->dispatchTyped(new RepairStepEvent($this->currentStep));
+			$appId = ($step instanceof RepairStepAppIdDecorator) ? $step->getAppId() : null;
+			$this->dispatcher->dispatchTyped(new RepairStepEvent($this->currentStep, $appId));
 			try {
 				$step->run($this);
 			} catch (\Exception $e) {
@@ -119,7 +121,7 @@ class Repair implements IOutput {
 	 * @param IRepairStep|string $repairStep repair step
 	 * @throws \Exception
 	 */
-	public function addStep($repairStep) {
+	public function addStep($repairStep, ?string $appId = null) {
 		if (is_string($repairStep)) {
 			try {
 				$s = \OC::$server->get($repairStep);
@@ -138,11 +140,17 @@ class Repair implements IOutput {
 			}
 
 			if ($s instanceof IRepairStep) {
+				if ($appId !== null) {
+					$s = new RepairStepAppIdDecorator($appId, $s);
+				}
 				$this->repairSteps[] = $s;
 			} else {
 				throw new \Exception("Repair step '$repairStep' is not of type \\OCP\\Migration\\IRepairStep");
 			}
 		} else {
+			if ($repairStep instanceof IRepairStep && $appId !== null) {
+				$repairStep = new RepairStepAppIdDecorator($appId, $repairStep);
+			}
 			$this->repairSteps[] = $repairStep;
 		}
 	}

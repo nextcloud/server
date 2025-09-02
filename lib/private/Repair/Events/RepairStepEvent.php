@@ -15,11 +15,16 @@ class RepairStepEvent extends Event {
 
 	public function __construct(
 		string $stepName,
+		private ?string $appId,
 	) {
 		$this->stepName = $stepName;
 	}
 
 	public function getStepName(): string {
 		return $this->stepName;
+	}
+
+	public function getAppId(): ?string {
+		return $this->appId;
 	}
 }

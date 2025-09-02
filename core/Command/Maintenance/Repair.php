@@ -74,7 +74,7 @@ class Repair extends Command {
 			$steps = $info['repair-steps']['post-migration'];
 			foreach ($steps as $step) {
 				try {
-					$this->repair->addStep($step);
+					$this->repair->addStep($step, $app);
 				} catch (Exception $ex) {
 					$output->writeln("<error>Failed to load repair step for $app: {$ex->getMessage()}</error>");
 				}
@@ -111,7 +111,12 @@ class Repair extends Command {
 			$this->progress->finish();
 			$this->output->writeln('');
 		} elseif ($event instanceof RepairStepEvent) {
-			$this->output->writeln('<info> - ' . $event->getStepName() . '</info>');
+			$appId = $event->getAppId();
+			if ($appId === null) {
+				$this->output->writeln('<info> - [core] ' . $event->getStepName() . '</info>');
+			} else {
+				$this->output->writeln('<info> - [' . $appId .'] ' . $event->getStepName() . '</info>');
+			}
 		} elseif ($event instanceof RepairInfoEvent) {
 			$this->output->writeln('<info>     - ' . $event->getMessage() . '</info>');
 		} elseif ($event instanceof RepairWarningEvent) {
