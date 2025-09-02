@@ -9,6 +9,8 @@ import { ShareType } from '@nextcloud/sharing'
 import { addCompareSnapshotCommand } from 'cypress-visual-regression/dist/command'
 import { basename } from 'path'
 
+import '@testing-library/cypress/add-commands'
+
 addCommands()
 addCompareSnapshotCommand({
 	errorThreshold: 0.01,
