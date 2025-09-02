@@ -7,6 +7,7 @@
  */
 namespace OCP\Comments;
 
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
 /**
@@ -14,6 +15,7 @@ use OCP\EventDispatcher\Event;
  *
  * @since 9.0.0
  */
+#[Listenable('28.0.0')]
 class CommentsEvent extends Event {
 	/**
 	 * @since 11.0.0
