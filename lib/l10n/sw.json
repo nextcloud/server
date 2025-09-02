@@ -37,6 +37,7 @@
     "Open %s" : "Fungua %s",
     "%1$s via %2$s" : "%1$s via %2$s",
     "Unknown share type" : "Unknown share type",
+    "You are not allowed to share %s" : "You are not allowed to share %s",
     "Sharing %s failed, because this item is already shared with the account %s" : "Sharing %s failed, because this item is already shared with the account %s",
     "Sunday" : "Jumapili",
     "Monday" : "Jumatatu",

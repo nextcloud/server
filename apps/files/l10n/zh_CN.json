@@ -276,6 +276,8 @@
     "Confirm deletion" : "确认删除",
     "Cancel" : "取消",
     "Download" : "下载",
+    "The requested file is not available." : "请求的文件不可用。",
+    "The requested files are not available." : "请求的文件不可用。",
     "Moving \"{source}\" to \"{destination}\" …" : "正在移动 “{source}” 至 “{destination}” ...",
     "Copying \"{source}\" to \"{destination}\" …" : "正在复制 “{source}” 至 “{destination}” ...",
     "Destination is not a folder" : "目标不是一个文件夹",
