@@ -11,15 +11,16 @@ import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { generateOcsUrl } from '@nextcloud/router'
+import { computed, ref, shallowRef } from 'vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
-import { computed, ref, shallowRef } from 'vue'
+import { SanitizeFilenameStatus } from '../../models/SanitizeFilenameStatus.ts'
 import logger from '../../logger.ts'
 
-type ApiStatus = { total: number, processed: number, errors?: Record<string, string[]>, status: 0 | 1 | 2 | 3 | 4 }
+type ApiStatus = { total: number, processed: number, errors?: Record<string, string[]>, status: SanitizeFilenameStatus }
 
 const { status: initialStatus } = loadState<{ isRunningSanitization: boolean, status: ApiStatus }>('files', 'filesCompatibilitySettings')
 
@@ -31,7 +32,7 @@ const totalUsers = ref(initialStatus.total)
 const errors = shallowRef<ApiStatus['errors']>(initialStatus.errors || {})
 
 const progress = computed(() => processedUsers.value > 0 ? Math.round((processedUsers.value * 100) / totalUsers.value) : 0)
-const isRunning = computed(() => status.value === 1 || status.value === 2)
+const isRunning = computed(() => status.value === SanitizeFilenameStatus.Scheduled || status.value === SanitizeFilenameStatus.Running)
 
 /**
  * Start the sanitization process
@@ -46,7 +47,7 @@ async function startSanitization() {
 		await axios.post(generateOcsUrl('apps/files/api/v1/filenames/sanitization'), {
 			limit: renameLimit.value,
 		})
-		status.value = 1
+		status.value = SanitizeFilenameStatus.Scheduled
 	} catch (error) {
 		logger.error('Failed to start filename sanitization.', { error })
 
@@ -107,7 +108,7 @@ async function refreshStatus() {
 		</div>
 	</NcNoteCard>
 
-	<NcNoteCard v-else-if="status === 3" type="success">
+	<NcNoteCard v-else-if="status === SanitizeFilenameStatus.Done" type="success">
 		{{ t('files', 'All files have been santized for Windows filename support.') }}
 	</NcNoteCard>
 
@@ -115,7 +116,7 @@ async function refreshStatus() {
 		class="sanitize-filenames__form"
 		:disabled="loading"
 		@submit.stop.prevent="startSanitization">
-		<NcNoteCard v-if="status === 4" type="error">
+		<NcNoteCard v-if="status === SanitizeFilenameStatus.Error" type="error">
 			{{ t('files', 'Some files could not be sanitized, please check your logs.') }}
 			<ul class="sanitize-filenames__errors" :aria-label="t('files', 'Sanitization errors')">
 				<li v-for="[user, failedFiles] of Object.entries(errors)" :key="user">
