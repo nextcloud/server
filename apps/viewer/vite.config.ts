@@ -5,6 +5,7 @@
 import { createAppConfig } from '@nextcloud/vite-config'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const isProduction = process.env.NODE_ENV === 'production'
 const plyrIcons = readFileSync(
@@ -31,5 +32,17 @@ export default createAppConfig({
 	// Make sure we also clear the CSS directory
 	emptyOutputDirectory: {
 		additionalDirectories: ['css'],
+	},
+	config: {
+		plugins: [
+			viteStaticCopy({
+				targets: [
+					{
+						src: 'src/assets/*.woff2*',
+						dest: 'css/fonts',
+					},
+				],
+			}),
+		],
 	},
 })
