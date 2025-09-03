@@ -797,7 +797,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			foreach ($userIds as $userId) {
 				foreach ($this->backends as $backend) {
 					if ($backend->userExists($userId)) {
-						$user = $this->getUserObject($userId, $backend, false);
+						$user = new LazyUser($userId, $this, null, $backend);
 						yield $user;
 						break;
 					}
