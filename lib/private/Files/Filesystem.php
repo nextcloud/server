@@ -30,8 +30,7 @@ class Filesystem {
 
 	private static ?CappedMemoryCache $normalizedPathCache = null;
 
-	/** @var string[]|null */
-	private static ?array $blacklist = null;
+	private static ?FilenameValidator $validator = null;
 
 	/**
 	 * classname which used for hooks handling
@@ -434,16 +433,16 @@ class Filesystem {
 	/**
 	 * @param string $filename
 	 * @return bool
+	 *
+	 * @deprecated 30.0.0 - use \OC\Files\FilenameValidator::isForbidden
 	 */
 	public static function isFileBlacklisted($filename) {
-		$filename = self::normalizePath($filename);
-
-		if (self::$blacklist === null) {
-			self::$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', ['.htaccess']);
+		if (self::$validator === null) {
+			self::$validator = \OCP\Server::get(FilenameValidator::class);
 		}
 
-		$filename = strtolower(basename($filename));
-		return in_array($filename, self::$blacklist);
+		$filename = self::normalizePath($filename);
+		return self::$validator->isForbidden($filename);
 	}
 
 	/**
