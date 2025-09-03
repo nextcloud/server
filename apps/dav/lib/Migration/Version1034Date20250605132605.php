@@ -12,9 +12,14 @@ namespace OCA\DAV\Migration;
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
+use OCP\Migration\Attributes\AddColumn;
+use OCP\Migration\Attributes\ColumnType;
+use OCP\Migration\Attributes\CreateTable;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
+#[AddColumn(table: 'dav_shares', name: 'token', type: ColumnType::STRING)]
+#[CreateTable(table: 'calendars_federated', columns: ['id', 'display_name', 'color', 'uri', 'principaluri', 'remote_Url', 'token', 'sync_token', 'last_sync', 'shared_by', 'shared_by_display_name', 'components', 'permissions'], description: 'Supporting Federated Calender')]
 class Version1034Date20250605132605 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
