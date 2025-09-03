@@ -4,18 +4,22 @@
  */
  // Only when rendered inline, when not enough space, this is put in the menu
 .action-items > .files-list__row-action-sharing-status {
-	// put icon at the end of the button
-	direction: rtl;
 	// align icons with text-less inline actions
-	padding-inline-end: 0 !important;
+	padding-inline: 0 !important;
+
+	.button-vue__wrapper {
+		// put icon at the end of the button
+		flex-direction: row-reverse;
+		gap: var(--default-grid-baseline);
+	}
 }
 
 svg.sharing-status__avatar {
-	height: 32px !important;
-	width: 32px !important;
-	max-height: 32px !important;
-	max-width: 32px !important;
-	border-radius: 32px;
+	height: var(--button-inner-size, 32px) !important;
+	width: var(--button-inner-size, 32px) !important;
+	max-height: var(--button-inner-size, 32px) !important;
+	max-width: var(--button-inner-size, 32px) !important;
+	border-radius: var(--button-inner-size, 32px);
 	overflow: hidden;
 }
 
