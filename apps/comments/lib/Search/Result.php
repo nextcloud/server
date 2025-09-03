@@ -33,6 +33,10 @@ class Result extends BaseResult {
 	 * @deprecated 20.0.0
 	 */
 	public $fileName;
+	/**
+	 * @deprecated 20.0.0
+	 */
+	public int $fileId;
 
 	/**
 	 * @throws NotFoundException
@@ -46,6 +50,7 @@ class Result extends BaseResult {
 		 */
 		public string $authorName,
 		string $path,
+		int $fileId,
 	) {
 		parent::__construct(
 			$comment->getId(),
@@ -57,6 +62,7 @@ class Result extends BaseResult {
 		$this->authorId = $comment->getActorId();
 		$this->fileName = basename($path);
 		$this->path = $this->getVisiblePath($path);
+		$this->fileId = $fileId;
 	}
 
 	/**
