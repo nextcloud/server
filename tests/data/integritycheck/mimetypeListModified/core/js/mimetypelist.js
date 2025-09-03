@@ -119,6 +119,18 @@ OC.MimeTypeList={
     "text/x-rst": "text",
     "text/x-shellscript": "text/code",
     "web": "text/code",
+    "audio/aac": "audio",
+    "audio/ogg": "audio",
+    "audio/opus": "audio",
+    "audio/midi": "audio",
+    "audio/x-midi": "audio",
+    "audio/mpeg": "audio",
+    "audio/wav": "audio",
+    "audio/webm": "audio",
+    "video/mp4": "video",
+    "video/mpeg": "video",
+    "video/ogg": "video",
+    "video/webm": "video",
     "my-custom/mimetype": "custom"
 },
 	files: [
