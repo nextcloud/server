@@ -57,6 +57,7 @@ use OC\Repair\RepairLogoDimension;
 use OC\Repair\RepairMimeTypes;
 use OC\Template\JSCombiner;
 use OCA\DAV\Migration\DeleteSchedulingObjects;
+use OCA\DAV\Migration\RemoveObjectProperties;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
@@ -207,6 +208,7 @@ class Repair implements IOutput {
 			new RemoveBrokenProperties(\OC::$server->getDatabaseConnection()),
 			new RepairMimeTypes(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			\OC::$server->get(DeleteSchedulingObjects::class),
+			\OC::$server->get(RemoveObjectProperties::class),
 		];
 	}
 
