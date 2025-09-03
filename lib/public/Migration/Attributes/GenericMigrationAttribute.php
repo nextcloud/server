@@ -8,15 +8,13 @@ declare(strict_types=1);
  */
 namespace OCP\Migration\Attributes;
 
-use JsonSerializable;
-
 /**
  * generic entry, used to replace migration attribute not yet known in current version
  * but used in a future release
  *
  * @since 30.0.0
  */
-class GenericMigrationAttribute extends MigrationAttribute implements JsonSerializable {
+class GenericMigrationAttribute extends MigrationAttribute {
 	/**
 	 * @param array $details
 	 * @since 30.0.0

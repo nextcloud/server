@@ -8,14 +8,12 @@ declare(strict_types=1);
  */
 namespace OCP\Migration\Attributes;
 
-use JsonSerializable;
-
 /**
  * generic class related to migration attribute about index changes
  *
  * @since 30.0.0
  */
-class IndexMigrationAttribute extends MigrationAttribute implements JsonSerializable {
+class IndexMigrationAttribute extends MigrationAttribute {
 	/**
 	 * @param string $table name of the database table
 	 * @param IndexType|null $type type of the index
