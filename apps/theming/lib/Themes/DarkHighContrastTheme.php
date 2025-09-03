@@ -107,6 +107,9 @@ class DarkHighContrastTheme extends DarkTheme implements ITheme {
 
 				'--color-box-shadow-rgb' => $colorMainText,
 				'--color-box-shadow' => $colorMainText,
+
+				// remove the gradient from the app icons
+				'--header-menu-icon-mask' => 'none',
 			]
 		);
 	}
