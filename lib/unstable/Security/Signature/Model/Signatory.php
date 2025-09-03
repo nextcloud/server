@@ -121,7 +121,6 @@ class Signatory extends Entity implements JsonSerializable {
 	 *
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\Signatory
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function setSignatoryType(SignatoryType $type): void {
 		$this->setType($type->value);
@@ -131,7 +130,6 @@ class Signatory extends Entity implements JsonSerializable {
 	 * @return SignatoryType
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\Signatory
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getSignatoryType(): SignatoryType {
 		return SignatoryType::from($this->getType());
@@ -142,7 +140,6 @@ class Signatory extends Entity implements JsonSerializable {
 	 *
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\Signatory
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function setSignatoryStatus(SignatoryStatus $status): void {
 		$this->setStatus($status->value);
@@ -152,7 +149,6 @@ class Signatory extends Entity implements JsonSerializable {
 	 * @return SignatoryStatus
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\Signatory
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getSignatoryStatus(): SignatoryStatus {
 		return SignatoryStatus::from($this->getStatus());
@@ -200,7 +196,6 @@ class Signatory extends Entity implements JsonSerializable {
 	 * @throws IdentityNotFoundException if identity cannot be extracted
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\Signatory
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public static function extractIdentityFromUri(string $uri): string {
 		$identity = parse_url($uri, PHP_URL_HOST);

@@ -42,7 +42,6 @@ interface ISignedRequest {
 	 * @return DigestAlgorithm
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\ISignedRequest
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getDigestAlgorithm(): DigestAlgorithm;
 
@@ -111,7 +110,6 @@ interface ISignedRequest {
 	 * @return self
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\ISignedRequest
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function setSignatory(Signatory $signatory): self;
 
@@ -122,7 +120,6 @@ interface ISignedRequest {
 	 * @throws SignatoryNotFoundException
 	 * @experimental 31.0.0
 	 * @deprecated 32.0.0 use \OCP\Security\Signature\ISignedRequest
-	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getSignatory(): Signatory;
 
