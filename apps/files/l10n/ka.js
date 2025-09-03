@@ -93,6 +93,7 @@ OC.L10N.register(
     "New folder" : "New folder",
     "Create new folder" : "Create new folder",
     "Create" : "Create",
+    "Refresh" : "Refresh",
     "Submit" : "Submit",
     "Choose a file or folder to transfer" : "Choose a file or folder to transfer",
     "Transfer" : "Transfer",

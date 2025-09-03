@@ -51,6 +51,7 @@
     "Basic encryption module" : "Basis krypterings modul",
     "Your private key password no longer matches your log-in password." : "Dit private nøglekodeord stemmer ikke længere overens med dit login-kodeord.",
     "Set your old private key password to your current log-in password:" : "Sæt dit gamle, private nøglekodeord til at være dit nuværende login-kodeord. ",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Hvis du ikke kan huske din gamle adgangskode, så kan du bede din administrator om at redde dine filer.",
     "Old log-in password" : "Gammel adgangskode",
     "Current log-in password" : "Nuværende adgangskode",
     "Update Private Key Password" : "Opdater Privat Nøgle Kodeord",

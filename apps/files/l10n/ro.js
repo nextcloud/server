@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Un nou dosar",
     "Create new folder" : "Creează director nou",
     "Create" : "Crează",
+    "Refresh" : "Reîmprospătează",
     "Submit" : "Trimite",
     "Choose a file or folder to transfer" : "Alege un fișier sau dosar de transferat",
     "Transfer" : "Transfer",
