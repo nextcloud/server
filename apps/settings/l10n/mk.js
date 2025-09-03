@@ -379,7 +379,7 @@ OC.L10N.register(
     "Last login" : "Последно најавување",
     "{size} used" : "искористено {size}",
     "Delete account" : "Избриши сметка",
-    "Disable account" : "Оневозможени сметка",
+    "Disable account" : "Оневозможи сметка",
     "Enable account" : "Оневозможи сметка",
     "Resend welcome email" : "Повторно испрати е-пошта порака за добредојде",
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Во случај да го изгубите уредот или да излезете од компанијата, можете далечински да ги избришете податоците од сите уреди кој се конектирани со корисникот {userid}. Ова работи само доколку уредот е поврзан на интернет.",

@@ -86,6 +86,8 @@ OC.L10N.register(
     "New folder" : "Нова папка",
     "Create new folder" : "Създай нова папка",
     "Create" : "Създаване",
+    "Refresh" : "Опресняване",
+    "Limit" : "Ограничение",
     "Submit" : "Изпращане",
     "Choose a file or folder to transfer" : "Избор на файл или папка за прехвърляне",
     "Transfer" : "Прехвърли",
