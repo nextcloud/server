@@ -100,10 +100,10 @@
 
 			<ul class="app-details__dependencies">
 				<li v-if="app.missingMinOwnCloudVersion">
-					{{ t('settings', 'This app has no minimum Nextcloud version assigned. This will be an error in the future.') }}
+					{{ t('settings', 'This app has no minimum {productName} version assigned. This will be an error in the future.', { productName }) }}
 				</li>
 				<li v-if="app.missingMaxOwnCloudVersion">
-					{{ t('settings', 'This app has no maximum Nextcloud version assigned. This will be an error in the future.') }}
+					{{ t('settings', 'This app has no maximum {productName} version assigned. This will be an error in the future.', { productName }) }}
 				</li>
 				<li v-if="!app.canInstall">
 					{{ t('settings', 'This app cannot be installed because the following dependencies are not fulfilled:') }}
@@ -248,6 +248,8 @@ export default {
 		return {
 			store,
 			appApiStore,
+
+			productName: window.OC.theme.productName,
 
 			mdiBugOutline,
 			mdiFeatureSearchOutline,

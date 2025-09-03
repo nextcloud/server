@@ -26,13 +26,25 @@ const {
 	loggingSectionUrl,
 } = loadState<Record<string, string>>('settings', 'setup-checks-section')
 
-const adminDocsHtml = t('settings', 'Please double check the {linkStartInstallationGuides}installation guides{linkEnd}, and check for any errors or warnings in the {linkStartLog}log{linkEnd}.', {
-	linkEnd: ' ↗</a>',
-	linkStartInstallationGuides: `<a target="_blank" rel="noreferrer noopener" href="${installationGuidesDocsUrl}">`,
-	linkStartLog: `<a target="_blank" rel="noreferrer noopener" href="${loggingSectionUrl}">`,
-}, { escape: false })
+const adminDocsHtml = t('settings',
+	'Please double check the {linkStartInstallationGuides}installation guides{linkEnd}, and check for any errors or warnings in the {linkStartLog}log{linkEnd}.',
+	{
+		linkEnd: ' ↗</a>',
+		linkStartInstallationGuides: `<a target="_blank" rel="noreferrer noopener" href="${installationGuidesDocsUrl}">`,
+		linkStartLog: `<a target="_blank" rel="noreferrer noopener" href="${loggingSectionUrl}">`,
+	},
+	{ escape: false },
+)
 
-const footerHtml = t('settings', 'Check the security of your Nextcloud over {linkStart}our security scan{linkEnd}.', { linkStart: '<a target="_blank" rel="noreferrer noopener" href="https://scan.nextcloud.com">', linkEnd: ' ↗</a>' }, { escape: false })
+const footerHtml = t('settings',
+	'Check the security of your {productName} over {linkStart}our security scan{linkEnd}.',
+	{
+		linkStart: '<a target="_blank" rel="noreferrer noopener" href="https://scan.nextcloud.com">',
+		linkEnd: ' ↗</a>',
+		productName: window.OC.theme.productName,
+	},
+	{ escape: false },
+)
 
 const loading = ref(true)
 const loadingFailed = ref(false)

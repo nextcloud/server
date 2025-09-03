@@ -5,7 +5,7 @@
 
 <template>
 	<NcSettingsSection :name="t('federatedfilesharing', 'Federated Cloud')"
-		:description="t('federatedfilesharing', 'You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com')"
+		:description="t('federatedfilesharing', 'You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com', { productName })"
 		:doc-url="docUrlFederated">
 		<NcInputField class="federated-cloud__cloud-id"
 			readonly
@@ -64,7 +64,7 @@
 					:href="reference"
 					:style="backgroundStyle">
 					<span :style="linkStyle" />
-					{{ t('federatedfilesharing', 'Share with me via Nextcloud') }}
+					{{ t('federatedfilesharing', 'Share with me via {productName}', { productName }) }}
 				</a>
 			</p>
 
@@ -103,6 +103,7 @@ export default {
 		return {
 			t,
 
+			productName: window.OC.theme.productName,
 			cloudId: loadState<string>('federatedfilesharing', 'cloudId'),
 			reference: loadState<string>('federatedfilesharing', 'reference'),
 			urlFacebookIcon: imagePath('core', 'facebook'),

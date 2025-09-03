@@ -187,6 +187,8 @@ import SharingDetailsTab from './SharingDetailsTab.vue'
 import ShareDetails from '../mixins/ShareDetails.js'
 import logger from '../services/logger.ts'
 
+const productName = window.OC.theme.productName
+
 export default {
 	name: 'SharingTab',
 
@@ -230,7 +232,7 @@ export default {
 			returnFocusElement: null,
 
 			internalSharesHelpText: t('files_sharing', 'Share files within your organization. Recipients who can already view the file can also use this link for easy access.'),
-			externalSharesHelpText: t('files_sharing', 'Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID.'),
+			externalSharesHelpText: t('files_sharing', 'Share files with others outside your organization via public links and email addresses. You can also share to {productName} accounts on other instances using their federated cloud ID.', { productName }),
 			additionalSharesHelpText: t('files_sharing', 'Shares from apps or other sources which are not included in internal or external shares.'),
 		}
 	},

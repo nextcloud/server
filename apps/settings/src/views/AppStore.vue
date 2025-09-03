@@ -6,7 +6,8 @@
 <template>
 	<!-- Apps list -->
 	<NcAppContent class="app-settings-content"
-		:page-heading="appStoreLabel">
+		:page-heading="pageHeading"
+		:page-title="pageTitle">
 		<h2 class="app-settings-content__label" v-text="viewLabel" />
 
 		<AppStoreDiscoverSection v-if="currentCategory === 'discover'" />
@@ -23,7 +24,7 @@
 
 <script setup lang="ts">
 import { translate as t } from '@nextcloud/l10n'
-import { computed, getCurrentInstance, onBeforeMount, onBeforeUnmount, watchEffect } from 'vue'
+import { computed, getCurrentInstance, onBeforeMount, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router/composables'
 
 import { useAppsStore } from '../store/apps-store'
@@ -45,12 +46,10 @@ const appApiStore = useAppApiStore()
  */
 const currentCategory = computed(() => route.params?.category ?? 'discover')
 
-const appStoreLabel = t('settings', 'App Store')
-const viewLabel = computed(() => APPS_SECTION_ENUM[currentCategory.value] ?? store.getCategoryById(currentCategory.value)?.displayName ?? appStoreLabel)
+const viewLabel = computed<string>(() => APPS_SECTION_ENUM[currentCategory.value] ?? store.getCategoryById(currentCategory.value)?.displayName)
 
-watchEffect(() => {
-	window.document.title = `${viewLabel.value} - ${appStoreLabel} - Nextcloud`
-})
+const pageHeading = t('settings', 'App Store')
+const pageTitle = computed(() => `${viewLabel.value} - ${pageHeading}`) // NcAppContent automatically appends the instance name
 
 // TODO this part should be migrated to pinia
 const instance = getCurrentInstance()
