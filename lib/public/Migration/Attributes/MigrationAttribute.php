@@ -9,10 +9,9 @@ declare(strict_types=1);
 namespace OCP\Migration\Attributes;
 
 use JsonSerializable;
+use OCP\AppFramework\Attribute\Consumable;
 
-/**
- * @since 30.0.0
- */
+#[Consumable(since: '30.0.0')]
 class MigrationAttribute implements JsonSerializable {
 	/**
 	 * @param string $table name of the database table

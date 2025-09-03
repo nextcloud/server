@@ -8,10 +8,11 @@ declare(strict_types=1);
  */
 namespace OCP\Migration\Attributes;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * generic class related to migration attribute about data migration
- *
- * @since 32.0.0
  */
+#[Consumable(since: '32.0.0')]
 class DataMigrationAttribute extends MigrationAttribute {
 }
