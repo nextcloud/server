@@ -302,6 +302,8 @@ import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
 import { searchGroups, loadUserGroups, loadUserSubAdminGroups } from '../../service/groups.ts'
 import logger from '../../logger.ts'
 
+const productName = window.OC.theme.productName
+
 export default {
 	name: 'UserRow',
 
@@ -534,7 +536,10 @@ export default {
 			const userid = this.user.id
 			await confirmPassword()
 			OC.dialogs.confirmDestructive(
-				t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid }),
+				t('settings',
+					'In case of lost device or exiting the organization, this can remotely wipe the {productName} data from all devices associated with {userid}. Only works if the devices are connected to the internet.',
+					{ userid, productName },
+				),
 				t('settings', 'Remote wipe of devices'),
 				{
 					type: OC.dialogs.YES_NO_BUTTONS,
