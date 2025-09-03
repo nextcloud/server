@@ -2,22 +2,18 @@
 
 declare(strict_types=1);
 /**
- * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace NCU\Federation;
-
-use OCP\Federation\ICloudFederationProvider;
+namespace OCP\Federation;
 
 /**
  * Interface ICloudFederationProvider
  *
  * Enable apps to create their own cloud federation provider
  *
- * @experimental 31.0.0
- * @deprecated 32.0.0 use \OCP\Federation\ISignedCloudFederationProvider
- *
+ * @since 32.0.0
  */
 interface ISignedCloudFederationProvider extends ICloudFederationProvider {
 
@@ -28,9 +24,8 @@ interface ISignedCloudFederationProvider extends ICloudFederationProvider {
 	 * @param string $sharedSecret
 	 * @param array $payload
 	 *
-	 * @experimental 31.0.0
+	 * @since 32.0.0
 	 * @return string
-	 * @deprecated 32.0.0 use \OCP\Federation\ISignedCloudFederationProvider
 	 */
 	public function getFederationIdFromSharedSecret(string $sharedSecret, array $payload): string;
 }

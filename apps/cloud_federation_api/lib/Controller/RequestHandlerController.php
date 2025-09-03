@@ -7,7 +7,6 @@
 
 namespace OCA\CloudFederationAPI\Controller;
 
-use NCU\Federation\ISignedCloudFederationProvider;
 use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\Db\FederatedInviteMapper;
@@ -32,6 +31,7 @@ use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\Federation\ISignedCloudFederationProvider;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
