@@ -61,19 +61,30 @@ class AccountFilter extends FileListFilter {
 		const userIds = this.filterAccounts.map(({ uid }) => uid)
 		// Filter if the owner of the node is in the list of filtered accounts
 		return nodes.filter((node) => {
-			const sharees = node.attributes.sharees?.sharee as { id: string }[] | undefined
-			// If the node provides no information lets keep it
-			if (!node.owner && !sharees) {
-				return true
+			if (window.OCP.Files.Router.params.view === TRASHBIN_VIEW_ID) {
+				const deletedBy = node.attributes?.['trashbin-deleted-by-id']
+				if (deletedBy && userIds.includes(deletedBy)) {
+					return true
+				}
+				return false
 			}
+
 			// if the owner matches
 			if (node.owner && userIds.includes(node.owner)) {
 				return true
 			}
+
 			// Or any of the sharees (if only one share this will be an object, otherwise an array. So using `.flat()` to make it always an array)
+			const sharees = node.attributes.sharees?.sharee as { id: string }[] | undefined
 			if (sharees && [sharees].flat().some(({ id }) => userIds.includes(id))) {
 				return true
 			}
+
+			// If the node provides no information lets keep it
+			if (!node.owner && !sharees) {
+				return true
+			}
+
 			// Not a valid node for the current filter
 			return false
 		})
@@ -137,6 +148,15 @@ class AccountFilter extends FileListFilter {
 						displayName: sharee['display-name'],
 					})
 				}
+			}
+
+			// lets also handle trashbin
+			const deletedBy = node.attributes?.['trashbin-deleted-by-id']
+			if (deletedBy) {
+				available.set(deletedBy, {
+					uid: deletedBy,
+					displayName: node.attributes?.['trashbin-deleted-by-display-name'] || deletedBy,
+				})
 			}
 		}
 
