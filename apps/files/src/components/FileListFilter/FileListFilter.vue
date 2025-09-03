@@ -40,7 +40,7 @@ defineEmits<{
 
 <style scoped>
 .files-list-filter__clear-button :deep(.action-button__text) {
-	color: var(--color-error-text);
+	color: var(--color-text-error, var(--color-error-text));
 }
 
 :deep(.button-vue) {
