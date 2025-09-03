@@ -85,6 +85,8 @@ OC.L10N.register(
     "New folder" : "Carpeta nueva",
     "Create new folder" : "Crear nueva carpeta",
     "Create" : "Crear",
+    "Refresh" : "Actualizar",
+    "Limit" : "Límite",
     "Submit" : "Enviar",
     "Choose a file or folder to transfer" : "Elige un archivo o carpeta para transferir.",
     "Transfer" : "Transferencia",

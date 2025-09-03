@@ -188,6 +188,7 @@
     "Nov." : "Ное.",
     "Dec." : "Дек.",
     "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
+    "Account disabled" : "Сметката е оневозможена",
     "Login canceled by app" : "Најавата е одкажана од апликација",
     "App \"%1$s\" cannot be installed because the following dependencies are not fulfilled: %2$s" : "Апликацијата \"%1$s\" не може да се инсталира затоа што следниве зависности не се исполнети: %2$s",
     "a safe home for all your data" : "безбеден дом за сите ваши податоци",

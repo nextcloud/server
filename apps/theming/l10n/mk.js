@@ -66,7 +66,7 @@ OC.L10N.register(
     "Background and login image" : "Позадина и слика на страната за најавување",
     "Advanced options" : "Напредни опции",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирај ImageMagick додаток за PHP со што ќе се овозможи поддршка за SVG сликите автоматски да генерираат Фавикон базирано на прикаченото лого и боја.",
-    "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Доколку наидете на некој проблем, не се двоумете и пријавете го на {issuetracker} {linkend}. И доколку сакате можете да се приклучите кон нашиот {designteam} {linkend}!",
+    "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Доколку наидете на некој проблем, не се двоумете и пријавете го на {issuetracker} {linkend}. И доколку сакате можете да се приклучите кон нашиот дизајнерски тим{designteam} {linkend}!",
     "Appearance and accessibility settings" : "Поставки за изглед и пристапност",
     "Misc accessibility options" : "Разни опции за пристапност",
     "Enable blur background filter (may increase GPU load)" : "Овозможи филтер за замаглување на позадината (може да го зголеми оптоварувањето на графичкиот процесор)",
