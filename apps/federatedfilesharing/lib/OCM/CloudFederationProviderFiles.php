@@ -6,7 +6,6 @@
  */
 namespace OCA\FederatedFileSharing\OCM;
 
-use NCU\Federation\ISignedCloudFederationProvider;
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\AddressHandler;
@@ -27,6 +26,7 @@ use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
+use OCP\Federation\ISignedCloudFederationProvider;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
