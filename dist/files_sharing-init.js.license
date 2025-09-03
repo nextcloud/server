@@ -203,6 +203,9 @@ This file is generated from multiple sources. Included packages:
 - vue-loader
 	- version: 15.11.1
 	- license: MIT
+- vue-router
+	- version: 3.6.5
+	- license: MIT
 - vue
 	- version: 2.7.16
 	- license: MIT
