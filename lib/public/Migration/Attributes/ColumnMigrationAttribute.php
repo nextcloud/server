@@ -8,11 +8,12 @@ declare(strict_types=1);
  */
 namespace OCP\Migration\Attributes;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * generic class related to migration attribute about column changes
- *
- * @since 30.0.0
  */
+#[Consumable(since: '30.0.0')]
 class ColumnMigrationAttribute extends MigrationAttribute {
 	/**
 	 * @param string $table name of the database table

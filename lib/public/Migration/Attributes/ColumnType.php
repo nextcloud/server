@@ -8,12 +8,14 @@ declare(strict_types=1);
  */
 namespace OCP\Migration\Attributes;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * enum ColumnType based on OCP\DB\Types
  *
  * @see \OCP\DB\Types
- * @since 30.0.0
  */
+#[Consumable(since: '30.0.0')]
 enum ColumnType : string {
 	/** @since 30.0.0 */
 	case BIGINT = 'bigint';

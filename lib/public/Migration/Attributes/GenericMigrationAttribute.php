@@ -8,12 +8,13 @@ declare(strict_types=1);
  */
 namespace OCP\Migration\Attributes;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * generic entry, used to replace migration attribute not yet known in current version
  * but used in a future release
- *
- * @since 30.0.0
  */
+#[Consumable(since: '30.0.0')]
 class GenericMigrationAttribute extends MigrationAttribute {
 	/**
 	 * @param array $details
