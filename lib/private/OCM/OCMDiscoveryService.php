@@ -11,8 +11,6 @@ namespace OC\OCM;
 
 use GuzzleHttp\Exception\ConnectException;
 use JsonException;
-use NCU\Security\Signature\Exceptions\IdentityNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatoryException;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\OCM\Model\OCMProvider;
 use OCP\AppFramework\Http;
@@ -27,6 +25,8 @@ use OCP\OCM\Events\ResourceTypeRegisterEvent;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\ICapabilityAwareOCMProvider;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\Exceptions\IdentityNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatoryException;
 use Psr\Log\LoggerInterface;
 
 /**
