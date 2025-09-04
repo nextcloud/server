@@ -90,12 +90,8 @@ class Recovery {
 
 	/**
 	 * change recovery key id
-	 *
-	 * @param string $newPassword
-	 * @param string $oldPassword
-	 * @return bool
 	 */
-	public function changeRecoveryKeyPassword($newPassword, $oldPassword) {
+	public function changeRecoveryKeyPassword(string $newPassword, string $oldPassword): bool {
 		$recoveryKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
 		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $oldPassword);
 		if ($decryptedRecoveryKey === false) {
@@ -103,7 +99,7 @@ class Recovery {
 		}
 		$encryptedRecoveryKey = $this->crypt->encryptPrivateKey($decryptedRecoveryKey, $newPassword);
 		$header = $this->crypt->generateHeader();
-		if ($encryptedRecoveryKey) {
+		if ($encryptedRecoveryKey !== false) {
 			$this->keyManager->setSystemPrivateKey($this->keyManager->getRecoveryKeyId(), $header . $encryptedRecoveryKey);
 			return true;
 		}

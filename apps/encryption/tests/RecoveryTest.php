@@ -5,6 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Tests;
 
 use OC\Files\View;
@@ -124,17 +125,20 @@ class RecoveryTest extends TestCase {
 			'passwordOld'));
 
 		$this->keyManagerMock->expects($this->once())
-			->method('getSystemPrivateKey');
+			->method('getSystemPrivateKey')
+			->willReturn('privateKey');
 
 		$this->cryptMock->expects($this->once())
-			->method('decryptPrivateKey');
+			->method('decryptPrivateKey')
+			->with('privateKey', 'passwordOld')
+			->willReturn('decryptedPrivateKey');
 
 		$this->cryptMock->expects($this->once())
 			->method('encryptPrivateKey')
-			->willReturn(true);
+			->with('decryptedPrivateKey', 'password')
+			->willReturn('privateKey');
 
-		$this->assertTrue($this->instance->changeRecoveryKeyPassword('password',
-			'passwordOld'));
+		$this->assertTrue($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
 	}
 
 	public function testChangeRecoveryKeyPasswordCouldNotDecryptPrivateRecoveryKey() {

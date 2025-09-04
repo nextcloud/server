@@ -985,13 +985,15 @@ class EncryptionTest extends Storage {
 			->setMethods(['getFullPath', 'getEncryptionModule'])
 			->getMock();
 
+		$encryptionManager->method('isEnabled')->willReturn($encryptionEnabled);
+
 		if ($encryptionModule === true) {
 			/** @var IEncryptionModule|\PHPUnit\Framework\MockObject\MockObject $encryptionModule */
 			$encryptionModule = $this->createMock(IEncryptionModule::class);
 		}
 
 		$wrapper->method('getFullPath')->with($path)->willReturn($fullPath);
-		$wrapper->expects($encryptMountPoint ? $this->once() : $this->never())
+		$wrapper->expects(($encryptionEnabled && $encryptMountPoint) ? $this->once() : $this->never())
 			->method('getEncryptionModule')
 			->with($fullPath)
 			->willReturnCallback(
@@ -1002,7 +1004,8 @@ class EncryptionTest extends Storage {
 					return $encryptionModule;
 				}
 			);
-		$mount->expects($this->once())->method('getOption')->with('encrypt', true)
+		$mount->expects($encryptionEnabled ? $this->once() : $this->never())
+			->method('getOption')->with('encrypt', true)
 			->willReturn($encryptMountPoint);
 
 		if ($encryptionModule !== null && $encryptionModule !== false) {
@@ -1026,11 +1029,12 @@ class EncryptionTest extends Storage {
 
 	public function dataTestShouldEncrypt() {
 		return [
-			[false, false, false, false],
-			[true, false, false, false],
-			[true, true, false, false],
-			[true, true, true, true],
-			[true, null, false, true],
+			[true, false, false, false, false],
+			[true, true, false, false, false],
+			[true, true, true, false, false],
+			[true, true, true, true, true],
+			[true, true, null, false, true],
+			[false, true, true, true, false],
 		];
 	}
 }
