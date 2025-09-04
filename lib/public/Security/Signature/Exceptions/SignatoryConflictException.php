@@ -6,12 +6,10 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace NCU\Security\Signature\Exceptions;
+namespace OCP\Security\Signature\Exceptions;
 
 /**
- * @experimental 31.0.0
- * @deprecated 32.0.0 use \OCP\Security\Signature\SignatoryConflictException
- * @psalm-suppress DeprecatedClass
+ * @since 32.0.0
  */
 class SignatoryConflictException extends SignatoryException {
 }

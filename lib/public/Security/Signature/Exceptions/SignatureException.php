@@ -6,13 +6,12 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace NCU\Security\Signature\Exceptions;
+namespace OCP\Security\Signature\Exceptions;
 
 use Exception;
 
 /**
- * @experimental 31.0.0
- * @deprecated 32.0.0 use \OCP\Security\Signature\SignatureException
+ * @since 32.0.0
  */
 class SignatureException extends Exception {
 }
