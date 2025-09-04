@@ -295,7 +295,7 @@ interface IAppConfig {
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param string $value the value that you want to store
-	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
+	 * @param ?string $preCondition only update if the config value was previously the value passed as $preCondition
 	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
 	 * @throws \UnexpectedValueException when trying to store an unexpected value
 	 * @since 20.0.0
