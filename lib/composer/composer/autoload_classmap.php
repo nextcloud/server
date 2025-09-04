@@ -678,6 +678,8 @@ return array(
     'OCP\\Migration\\Attributes\\ColumnMigrationAttribute' => $baseDir . '/lib/public/Migration/Attributes/ColumnMigrationAttribute.php',
     'OCP\\Migration\\Attributes\\ColumnType' => $baseDir . '/lib/public/Migration/Attributes/ColumnType.php',
     'OCP\\Migration\\Attributes\\CreateTable' => $baseDir . '/lib/public/Migration/Attributes/CreateTable.php',
+    'OCP\\Migration\\Attributes\\DataCleansing' => $baseDir . '/lib/public/Migration/Attributes/DataCleansing.php',
+    'OCP\\Migration\\Attributes\\DataMigrationAttribute' => $baseDir . '/lib/public/Migration/Attributes/DataMigrationAttribute.php',
     'OCP\\Migration\\Attributes\\DropColumn' => $baseDir . '/lib/public/Migration/Attributes/DropColumn.php',
     'OCP\\Migration\\Attributes\\DropIndex' => $baseDir . '/lib/public/Migration/Attributes/DropIndex.php',
     'OCP\\Migration\\Attributes\\DropTable' => $baseDir . '/lib/public/Migration/Attributes/DropTable.php',

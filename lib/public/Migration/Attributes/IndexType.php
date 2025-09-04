@@ -8,11 +8,12 @@ declare(strict_types=1);
  */
 namespace OCP\Migration\Attributes;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * type of index
- *
- * @since 30.0.0
  */
+#[Consumable(since: '30.0.0')]
 enum IndexType : string {
 	/** @since 30.0.0 */
 	case PRIMARY = 'primary';

@@ -13,10 +13,12 @@ use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Migration\Attributes\DataCleansing;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 use Override;
 
+#[DataCleansing(table: 'properties', description: 'remove commonly used custom properties set as default')]
 class Version1034Date20250813093701 extends SimpleMigrationStep {
 	public function __construct(
 		private IDBConnection $db,
