@@ -201,7 +201,18 @@ class Dispatcher {
 		}
 
 		$this->eventLogger->start('controller:' . get_class($controller) . '::' . $methodName, 'App framework controller execution');
-		$response = \call_user_func_array([$controller, $methodName], $arguments);
+		try {
+			$response = \call_user_func_array([$controller, $methodName], $arguments);
+		} catch (\TypeError $e) {
+			// Only intercept TypeErrors occuring on the first line, meaning that the invocation of the controller method failed.
+			// Any other TypeError happens inside the controller method logic and should be logged as normal.
+			if ($e->getFile() === $this->reflector->getFile() && $e->getLine() === $this->reflector->getStartLine()) {
+				$this->logger->debug('Failed to call controller method: ' . $e->getMessage(), ['exception' => $e]);
+				return new Response(Http::STATUS_BAD_REQUEST);
+			}
+
+			throw $e;
+		}
 		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
 
 		if (!($response instanceof Response)) {
