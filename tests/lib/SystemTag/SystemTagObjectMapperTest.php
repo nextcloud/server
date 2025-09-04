@@ -11,13 +11,16 @@ namespace Test\SystemTag;
 use OC\SystemTag\SystemTag;
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
+use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\Server;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\SystemTag\TagAssignedEvent;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\SystemTag\TagUnassignedEvent;
 use Test\TestCase;
 
 /**
@@ -208,7 +211,20 @@ class SystemTagObjectMapperTest extends TestCase {
 	}
 
 	public function testAssignUnassignTags(): void {
+		$event = null;
+		$this->dispatcher->expects($this->any())->method('dispatchTyped')->willReturnCallback(function (Event $e) use (&$event) {
+			$event = $e;
+		});
+
 		$this->tagMapper->unassignTags('1', 'testtype', [$this->tag1->getId()]);
+
+		$this->assertNotNull($event);
+		$this->assertEquals(TagUnassignedEvent::class, $event::class);
+		$this->assertEquals('testtype', $event->getObjectType());
+		$this->assertCount(1, $event->getObjectIds());
+		$this->assertEquals('1', current($event->getObjectIds()));
+		$this->assertCount(1, $event->getTags());
+		$this->assertEquals($this->tag1->getId(), current($event->getTags()));
 
 		$tagIdMapping = $this->tagMapper->getTagIdsForObjects('1', 'testtype');
 		$this->assertEquals([
@@ -216,7 +232,24 @@ class SystemTagObjectMapperTest extends TestCase {
 		], $tagIdMapping);
 
 		$this->tagMapper->assignTags('1', 'testtype', [$this->tag1->getId()]);
+
+		$this->assertNotNull($event);
+		$this->assertEquals(TagAssignedEvent::class, $event::class);
+		$this->assertEquals('testtype', $event->getObjectType());
+		$this->assertCount(1, $event->getObjectIds());
+		$this->assertEquals('1', current($event->getObjectIds()));
+		$this->assertCount(1, $event->getTags());
+		$this->assertEquals($this->tag1->getId(), current($event->getTags()));
+
 		$this->tagMapper->assignTags('1', 'testtype', $this->tag3->getId());
+
+		$this->assertNotNull($event);
+		$this->assertEquals(TagAssignedEvent::class, $event::class);
+		$this->assertEquals('testtype', $event->getObjectType());
+		$this->assertCount(1, $event->getObjectIds());
+		$this->assertEquals('1', current($event->getObjectIds()));
+		$this->assertCount(1, $event->getTags());
+		$this->assertEquals($this->tag3->getId(), current($event->getTags()));
 
 		$tagIdMapping = $this->tagMapper->getTagIdsForObjects('1', 'testtype');
 
