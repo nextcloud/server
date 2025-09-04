@@ -71,7 +71,7 @@ jobs:
             curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
             curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
           output: before.json
-          profiler-branch: master
+          profiler-branch: stable32
 
       - name: Apply PR # zizmor: ignore[template-injection]
         run: |
@@ -93,7 +93,7 @@ jobs:
             curl -s -u test:test -T README.md http://localhost:8080/remote.php/dav/files/test/new_file.txt
             curl -s -u test:test -X DELETE http://localhost:8080/remote.php/dav/files/test/new_file.txt
           output: after.json
-          profiler-branch: master
+          profiler-branch: stable32
           compare-with: before.json
 
       - name: Upload profiles
