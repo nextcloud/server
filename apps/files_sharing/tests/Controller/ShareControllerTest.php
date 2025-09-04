@@ -31,6 +31,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -72,6 +73,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private $shareManager;
 	/** @var IUserManager|MockObject */
 	private $userManager;
+	private ITemplateManager&MockObject $templateManager;
 	/** @var FederatedShareProvider|MockObject */
 	private $federatedShareProvider;
 	/** @var IAccountManager|MockObject */
@@ -123,6 +125,7 @@ class ShareControllerTest extends \Test\TestCase {
 					$this->defaults,
 					$this->config,
 					$this->createMock(IRequest::class),
+					$this->templateManager,
 					$this->createMock(IInitialState::class)
 				)
 			);
@@ -356,6 +359,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'showgridview' => false,
 			'label' => '',
 			'filename' => $filename,
+			'templates' => [],
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
