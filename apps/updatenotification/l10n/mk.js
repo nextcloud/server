@@ -23,10 +23,7 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "Проверка за компатибилност на апликациите со новата верзија",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Бидете сигурни дека во config.php датотеката параматарот <samp>appstoreenabled</samp> е поставен на false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Неможе да се поврзе со appstore или одговорот е дека нема ажурирање. Пребарајте рачно за ажурирање или бидете сигурни дека серверот има пристап до интернет и може да се поврзе со продавницата.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Сите</strong> апликации се компатибилни за оваа верзија",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1 апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"],
     "Enterprise" : "Професионален",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За професионална употреба. Овозможува секогаш најново ниво на ажурирање, но нема веднаш да се ажурира на следното големо издание. Ова ажурирање се случува откако Nextcloud GmbH ќе направи дополнително тестирање за големи и критични сервери. Овој канал е достапен само за клиентите и го имаат пакетот Nextcloud Enterprise.",
     "Stable" : "Стабилна",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Најнова стабилна верзија. Корисно за редовна употреба и секогаш ќе се ажурира до последната најнова верзија.",
     "Beta" : "Бета",
@@ -56,6 +53,9 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Избраниот канал за ажурирање не поддржува ажурирање за серверот.",
     "Changelog for app {app}" : "Дневник на промени за апликацијата {app}",
     "What's new in {app} version {version}" : "Што е ново во {app} верзија {version}",
-    "{version} is available. Get more information on how to update." : "Достапна е нова верзија {version}. Видете ги информациите како да ја ажурирате."
+    "{version} is available. Get more information on how to update." : "Достапна е нова верзија {version}. Видете ги информациите како да ја ажурирате.",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Сите</strong> апликации се компатибилни за оваа верзија",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1 апликација нема компатибилност со оваа веријза","<strong>%n</strong> апликации немаат компатибилност со оваа веријза"],
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "За професионална употреба. Овозможува секогаш најново ниво на ажурирање, но нема веднаш да се ажурира на следното големо издание. Ова ажурирање се случува откако Nextcloud GmbH ќе направи дополнително тестирање за големи и критични сервери. Овој канал е достапен само за клиентите и го имаат пакетот Nextcloud Enterprise."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

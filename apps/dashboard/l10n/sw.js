@@ -20,9 +20,9 @@ OC.L10N.register(
     "Edit widgets" : "Hariri wijeti",
     "Get more widgets from the App Store" : "Pata wijeti zaidi kutoka kwenye hifadhi ya Programu",
     "Weather service" : "Huduma ya hali ya hewa",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Kwa faragha yako, data ya hali ya hewa inaombwa na seva yako ya Nextcloud kwa niaba yako ili huduma ya hali ya hewa isipokee taarifa za kibinafsi.",
     "Weather data from Met.no" : "Data za hali ya hewa kutoka Met.no",
     "geocoding with Nominatim" : "geocoding na Nominatim",
-    "elevation data from OpenTopoData" : "data ya mwinuko kutoka OpenTopoData"
+    "elevation data from OpenTopoData" : "data ya mwinuko kutoka OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Kwa faragha yako, data ya hali ya hewa inaombwa na seva yako ya Nextcloud kwa niaba yako ili huduma ya hali ya hewa isipokee taarifa za kibinafsi."
 },
 "nplurals=2; plural=(n != 1);");

@@ -40,7 +40,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "A vágólap nem érhető el. Másolja át a felhőazonosítót kézileg.",
     "Copied!" : "Másolva!",
     "Federated Cloud" : "Föderált felhő",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Bármelyik Nextcloud-kiszolgálót vagy egyéb Open Cloud Mesh-kompatibilis (OCM) kiszolgálót és szolgáltatást használó felhasználóval megoszthatja adatait. Csak tegye a föderált felhőazonosítóját a megosztási párbeszédablakba. Hasonlóan néz ki: person@cloud.example.com",
     "Your Federated Cloud ID" : "Az Ön föderált felhőazonosítója",
     "Share it so your friends can share files with you:" : "Ossza meg, hogy a barátai is oszthassanak meg Önnel fájlokat:",
     "Facebook" : "Facebook",
@@ -56,6 +55,7 @@ OC.L10N.register(
     "Remote share password" : "Jelszó a távoli megosztáshoz",
     "Incoming share could not be processed" : "A bejövő megosztás nem dolgozható fel",
     "Cloud ID copied to the clipboard" : "Felhőazonosító a vágólapra másolva",
-    "Copy to clipboard" : "Másolás a vágólapra"
+    "Copy to clipboard" : "Másolás a vágólapra",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Bármelyik Nextcloud-kiszolgálót vagy egyéb Open Cloud Mesh-kompatibilis (OCM) kiszolgálót és szolgáltatást használó felhasználóval megoszthatja adatait. Csak tegye a föderált felhőazonosítóját a megosztási párbeszédablakba. Hasonlóan néz ki: person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

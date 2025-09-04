@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Непознат позадински механизам: {backendName}",
     "Admin defined" : "Дефинисао администратор",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Аутоматска провера статуса је искључена због превеликог броја конфигурисаних складишта, кликните да проверите статус",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Да ли сте сигурни да желите да искључите ово спољно складиште? Nextcloud неће моћи више да га користи, па ће се ови фајлови и фолдери обрисати на било ком синхронизационом клијенту који је тренутно повезан, мада се неће обрисати ниједан фајл или фолдер на самом спољном складишту.",
     "Delete storage?" : "Обриши складиште?",
     "Click to recheck the configuration" : "Кликните овде да поново проверите конфигурацију",
     "Saved" : "Сачувано",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Наведите исправан апликативни кључ и тајну.",
     "OAuth1" : "OAuth1",
     "App key" : "Кључ апликације",
-    "App secret" : "Тајна апликације"
+    "App secret" : "Тајна апликације",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Да ли сте сигурни да желите да искључите ово спољно складиште? Nextcloud неће моћи више да га користи, па ће се ови фајлови и фолдери обрисати на било ком синхронизационом клијенту који је тренутно повезан, мада се неће обрисати ниједан фајл или фолдер на самом спољном складишту."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -111,7 +111,6 @@ OC.L10N.register(
     "Disconnect" : "قطع شدن",
     "Admin defined" : "مدیر تعریف شده",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatic status checking is disabled due to the large number of configured storages, click to check status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.",
     "Delete storage?" : "فضای ذخیره سازی را حذف می کنید؟",
     "Click to recheck the configuration" : "برای بررسی مجدد پیکربندی کلیک کنید.",
     "Saved" : "ذخیره شد",
@@ -130,6 +129,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "لطفا یک کلید و رمز معتبر برای برنامه فرآهم کنید.",
     "OAuth1" : "OAuth1",
     "App key" : "کلید برنامه",
-    "App secret" : "کد برنامه"
+    "App secret" : "کد برنامه",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself."
 },
 "nplurals=2; plural=(n > 1);");

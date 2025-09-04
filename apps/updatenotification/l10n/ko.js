@@ -15,8 +15,6 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "호환되는 앱 업데이트 확인 중",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.php에서 <samp>appstoreenabled</samp> 설정이 false가 아닌지 확인하십시오.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "App Store에 연결할 수 없거나 반환된 업데이트 정보가 없습니다. 업데이트를 직접 검색하거나 App Store와의 인터넷 연결을 확인하십시오.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>모든</strong> 앱에 이 Nextcloud와 호환되는 버전이 있습니다.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>개의 앱에 이 Nextcloud와 호환되는 버전이 없습니다."],
     "Enterprise" : "엔터프라이즈",
     "Stable" : "안정판",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "최신 안정 버전입니다. 일반 사용에 적합하며 항상 최신 주 버전으로 업데이트됩니다.",
@@ -45,6 +43,8 @@ OC.L10N.register(
     "Only notifications for app updates are available." : "앱 업데이트에 대한 알림만 사용할 수 있습니다.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "선택한 업데이트 채널은 서버 알림을 사용하지 않습니다.",
     "The selected update channel does not support updates of the server." : "선택한 업데이트 채널은 서버 업데이트를 지원하지 않습니다.",
-    "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오."
+    "{version} is available. Get more information on how to update." : "{version}을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 알아보십시오.",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>모든</strong> 앱에 이 Nextcloud와 호환되는 버전이 있습니다.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>개의 앱에 이 Nextcloud와 호환되는 버전이 없습니다."]
 },
 "nplurals=1; plural=0;");

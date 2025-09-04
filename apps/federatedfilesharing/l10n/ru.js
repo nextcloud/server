@@ -52,7 +52,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Буфер обмена недоступен. Пожалуйста, скопируйте cloud ID вручную.",
     "Copied!" : "Скопировано!",
     "Federated Cloud" : "Федерация облачных хранилищ",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Вы можете предоставить общий доступ любому пользователю Nextcloud или других серверов и сервисов, совместимых с Open Cloud Mesh (OCM)! Просто введите его идентификатор федеративного облачного хранилища в диалоге предоставления общего доступа. Идентификатор указывается в виде «person@cloud.example.com».",
     "Your Federated Cloud ID" : "Ваш идентификатор в федеративном облаке",
     "Share it so your friends can share files with you:" : "Сообщите его друзьям, чтобы они могли поделиться с вами файлами:",
     "Facebook" : "Facebook",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Remote share password" : "Пароль общего ресурса другого сервера",
     "Incoming share could not be processed" : "Не удалось обработать входящий общий доступ",
     "Cloud ID copied to the clipboard" : "Идентификатор облака скопирован в буфер обмена",
-    "Copy to clipboard" : "Копировать в буфер"
+    "Copy to clipboard" : "Копировать в буфер",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Вы можете предоставить общий доступ любому пользователю Nextcloud или других серверов и сервисов, совместимых с Open Cloud Mesh (OCM)! Просто введите его идентификатор федеративного облачного хранилища в диалоге предоставления общего доступа. Идентификатор указывается в виде «person@cloud.example.com»."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

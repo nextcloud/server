@@ -23,10 +23,7 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "Kontrollere apps for kompatible versioner",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Vær venligst sikker på at din config.php ikke sætter <samp>appstoreenabled</samp> til falsk.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Kunne ikke forbinde til App Store, eller der er ikke returneret nogle opdateringer overhovedet. Søg manuelt efter opdateringer for at være sikker på at din server har adgang til internettet og kan forbinde til App Store.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Alle</strong> apps har en kompatibel version til denne Nextcloud version, tilgængelig.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app har igen tilgængelig kompatibel version til denne Nextcloud version.","<strong>%n</strong> apps kar ingen kompatibel version tilgængelig, til denne Nextcloud version."],
     "Enterprise" : "Enterprise",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Til enterprise anvendelse. Leverer altid det seneste patch niveau, men vil ikke straks opdatere til den næste større udgivelse. Den opdatering sker først når Nextcloud GmbH har foretaget yderligere sikring og testning for storskala og missionskritiske udrulninger. Denne kanal er kun tilgængelig for kunder og leverer Nextcloud Enterprise pakken.",
     "Stable" : "Stabil",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Den seneste stabile version. Den er passende for regulær anvendelse og vil altid opdatere til den seneste større version.",
     "Beta" : "Beta",
@@ -56,6 +53,9 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "Den valgte opdateringskanal understøtter ikke opdatering af serveren.",
     "Changelog for app {app}" : "Ændringslog for app {app}",
     "What's new in {app} version {version}" : "Hvad er nyt i {app} version {version}",
-    "{version} is available. Get more information on how to update." : "{version} er tilgængelig. Få mere information om hvordan du opdaterer."
+    "{version} is available. Get more information on how to update." : "{version} er tilgængelig. Få mere information om hvordan du opdaterer.",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Alle</strong> apps har en kompatibel version til denne Nextcloud version, tilgængelig.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app har igen tilgængelig kompatibel version til denne Nextcloud version.","<strong>%n</strong> apps kar ingen kompatibel version tilgængelig, til denne Nextcloud version."],
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Til enterprise anvendelse. Leverer altid det seneste patch niveau, men vil ikke straks opdatere til den næste større udgivelse. Den opdatering sker først når Nextcloud GmbH har foretaget yderligere sikring og testning for storskala og missionskritiske udrulninger. Denne kanal er kun tilgængelig for kunder og leverer Nextcloud Enterprise pakken."
 },
 "nplurals=2; plural=(n != 1);");

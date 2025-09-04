@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Unknown backend: {backendName}",
     "Admin defined" : "Admin defined",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatic status checking is disabled due to the large number of configured storages, click to check status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself.",
     "Delete storage?" : "Delete storage?",
     "Click to recheck the configuration" : "Click to recheck the configuration",
     "Saved" : "Saved",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Please provide a valid app key and secret.",
     "OAuth1" : "OAuth1",
     "App key" : "App key",
-    "App secret" : "App secret"
+    "App secret" : "App secret",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself."
 },
 "nplurals=2; plural=(n != 1);");

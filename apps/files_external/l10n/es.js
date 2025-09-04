@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Backend desconocido: {backendName}",
     "Admin defined" : "Admin definido",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La comprobación automática del estado está desactivada debido al gran número de almacenes configurados, haga clic para comprobar el estado",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿Estás seguro de que quieres desconectar este almacenamiento externo? Esto hará que el almacenamiento no esté disponible en Nextcloud y provocará la eliminación de estos archivos y carpetas en cualquier cliente de sincronización que esté conectado en ese momento, pero no eliminará ningún archivo ni carpeta en el propio almacenamiento externo.",
     "Delete storage?" : "¿Borrar almacenamiento?",
     "Click to recheck the configuration" : "Clic para volver a comprobar la configuración",
     "Saved" : "Guardado",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Por favor facilite una clave de app y una clave secreta válidas.",
     "OAuth1" : "OAuth1",
     "App key" : "App principal",
-    "App secret" : "App secreta"
+    "App secret" : "App secreta",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿Estás seguro de que quieres desconectar este almacenamiento externo? Esto hará que el almacenamiento no esté disponible en Nextcloud y provocará la eliminación de estos archivos y carpetas en cualquier cliente de sincronización que esté conectado en ese momento, pero no eliminará ningún archivo ni carpeta en el propio almacenamiento externo."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

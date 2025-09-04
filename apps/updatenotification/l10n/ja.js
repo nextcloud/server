@@ -23,10 +23,7 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "アプリの互換性のあるバージョンを確認する",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.phpで<samp>appstoreenabled</samp>がfalseに設定されていないことを確認してください。",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Appstoreに接続できなかったか、Appstoreからアップデートが返されませんでした。アップデートを手動で検索するか、サーバーがインターネットへアクセスでき、Appstoreに接続できることを確認してください。",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>全て</strong>のアプリが、このNextcloudのバージョンに対応しています。 ",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>アプリが、このNextcloudバージョンと互換性があるバージョンではありません。"],
     "Enterprise" : "法人向け",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "法人向けです。 常に最新のパッチレベルを提供しますが、すぐに次のメジャーリリースにアップデートはしません。このアップデートはNextcloud GmbHが大規模でミッションクリティカルな開発のための追加の強化とテストを行った後に行われます。 このチャンネルは顧客だけが利用でき、Nextcloud Enterpriseパッケージを提供します。",
     "Stable" : "安定版",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新の安定版です。 通常の使用に適しており、常に最新のメジャーバージョンにアップデートされます。",
     "Beta" : "ベータ",
@@ -56,6 +53,9 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "選択したチャンネルでは、サーバーのアップデートをサポートしていません。",
     "Changelog for app {app}" : "アプリケーション{app}の変更ログ",
     "What's new in {app} version {version}" : "{app}バージョン{version}の新機能",
-    "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。"
+    "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>全て</strong>のアプリが、このNextcloudのバージョンに対応しています。 ",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>アプリが、このNextcloudバージョンと互換性があるバージョンではありません。"],
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "法人向けです。 常に最新のパッチレベルを提供しますが、すぐに次のメジャーリリースにアップデートはしません。このアップデートはNextcloud GmbHが大規模でミッションクリティカルな開発のための追加の強化とテストを行った後に行われます。 このチャンネルは顧客だけが利用でき、Nextcloud Enterpriseパッケージを提供します。"
 },
 "nplurals=1; plural=0;");

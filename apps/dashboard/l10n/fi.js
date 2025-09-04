@@ -17,9 +17,9 @@ OC.L10N.register(
     "Edit widgets" : "Muokkaa pienoissovelluksia",
     "Get more widgets from the App Store" : "Hae lisää pienoissovelluksia sovelluskaupasta",
     "Weather service" : "Sääpalvelu",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Yksityisyytesi vuoksi Nextcloud-palvelin hakee säätiedot, joten sääpalvelulle ei lähetetä henkilökohtaisia tietojasi.",
     "Weather data from Met.no" : "Säätiedot tarjoaa Met.no",
     "geocoding with Nominatim" : "geokoodauksen Nominatim",
-    "elevation data from OpenTopoData" : "korkeustiedot OpenTopoData"
+    "elevation data from OpenTopoData" : "korkeustiedot OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Yksityisyytesi vuoksi Nextcloud-palvelin hakee säätiedot, joten sääpalvelulle ei lähetetä henkilökohtaisia tietojasi."
 },
 "nplurals=2; plural=(n != 1);");

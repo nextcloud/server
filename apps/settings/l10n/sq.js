@@ -112,8 +112,6 @@ OC.L10N.register(
     "All" : "Të gjithë",
     "No results" : "Asnjë rezultat",
     "Update to {version}" : "Përditëso në {version}",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një minimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një maksimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Ky aplikacion s’mund të instalohet, ngaqë për të nuk plotësohen varësitë vijuese:",
     "Categories" : "Kategoritë",
     "Resources" : "Burimet",
@@ -222,6 +220,8 @@ OC.L10N.register(
     "Like our Facebook page" : "Pëlqeni faqen tonë në Facebook",
     "Check out our blog" : "Shikoni blogun tonë",
     "Subscribe to our newsletter" : "Abonohu në gazeten tonë",
+    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një minimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
+    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ky aplikacion nuk ka të caktuar një maksimum versioni të Nextcloud. Ky do të jetë një gabim në të ardhmen.",
     "You are using <strong>{usage}</strong>" : "Ju po përdorni <strong>{usage}</strong>"
 },
 "nplurals=2; plural=(n != 1);");

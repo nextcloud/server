@@ -20,9 +20,9 @@ OC.L10N.register(
     "Edit widgets" : "Vidjetlarni tahrirlash",
     "Get more widgets from the App Store" : "App Store'dan ko'proq vidjetlarni oling",
     "Weather service" : "Ob-havo xizmati",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Maxfiyligingiz uchun ob-havo maʼlumotlari sizning nomingizdan Nextcloud serveringiz tomonidan soʻraladi, shuning uchun ob-havo xizmati shaxsiy maʼlumotlarni olmaydi.",
     "Weather data from Met.no" : "Met.no dan ob-havo ma'lumotlari",
     "geocoding with Nominatim" : "Nominatim bilan geokodlash",
-    "elevation data from OpenTopoData" : "OpenTopoData dan balandlik ma'lumotlari"
+    "elevation data from OpenTopoData" : "OpenTopoData dan balandlik ma'lumotlari",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Maxfiyligingiz uchun ob-havo maʼlumotlari sizning nomingizdan Nextcloud serveringiz tomonidan soʻraladi, shuning uchun ob-havo xizmati shaxsiy maʼlumotlarni olmaydi."
 },
 "nplurals=1; plural=0;");

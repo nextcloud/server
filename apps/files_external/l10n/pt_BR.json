@@ -131,7 +131,6 @@
     "Unknown backend: {backendName}" : "Back-end desconhecido: {backendName}",
     "Admin defined" : "Definido pelo administrador",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "A verificação automática de status está desabilitada devido ao grande número de armazenamentos configurados, clique para verificar o status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Tem certeza de que deseja desconectar este armazenamento externo? Isso tornará o armazenamento indisponível no Nextcloud e levará à exclusão destes arquivos e pastas em qualquer cliente de sincronização que esteja conectado no momento, mas não excluirá nenhum arquivo e pasta do armazenamento externo em si.",
     "Delete storage?" : "Excluir armazenamento?",
     "Click to recheck the configuration" : "Clique para rechecar a configuração",
     "Saved" : "Salvo",
@@ -155,6 +154,7 @@
     "Please provide a valid app key and secret." : "Por favor forneça uma chave de aplicativo e segurança válidos.",
     "OAuth1" : "OAuth1",
     "App key" : "Chave do aplicativo",
-    "App secret" : "Segredo do aplicativo"
+    "App secret" : "Segredo do aplicativo",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Tem certeza de que deseja desconectar este armazenamento externo? Isso tornará o armazenamento indisponível no Nextcloud e levará à exclusão destes arquivos e pastas em qualquer cliente de sincronização que esteja conectado no momento, mas não excluirá nenhum arquivo e pasta do armazenamento externo em si."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

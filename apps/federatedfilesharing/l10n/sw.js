@@ -52,7 +52,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Ubao wa kunakili haupatikani. Tafadhali nakili kitambulisho cha cloud wewe mwenyewe.",
     "Copied!" : "Imenakiliwa!",
     "Federated Cloud" : "Shirikisho la Cloud",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Unaweza kushiriki na mtu yeyote anayetumia seva ya Nextcloud au seva na huduma zingine zinazooana na Open Cloud Mesh (OCM)! Weka tu Kitambulisho chao cha Wingu Shirikishi kwenye kidirisha cha kushiriki. Inaonekana kama person@cloud.example.com",
     "Your Federated Cloud ID" : "Kitambulisho chako cha Shirikisho la Cloud",
     "Share it so your friends can share files with you:" : "Ishiriki ili marafiki zako waweze kushiriki faili nawe:",
     "Facebook" : "Facebook",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Remote share password" : "Nenosiri la kushiriki kwa mbali",
     "Incoming share could not be processed" : "Ushiriki unaoingia haukuweza kuchakatwa",
     "Cloud ID copied to the clipboard" : "Kitambulisho cha Cloud kimenakiliwa kwenye ubao wa kunakili",
-    "Copy to clipboard" : "Nakili kwenye ubao wa kunakili"
+    "Copy to clipboard" : "Nakili kwenye ubao wa kunakili",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Unaweza kushiriki na mtu yeyote anayetumia seva ya Nextcloud au seva na huduma zingine zinazooana na Open Cloud Mesh (OCM)! Weka tu Kitambulisho chao cha Wingu Shirikishi kwenye kidirisha cha kushiriki. Inaonekana kama person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

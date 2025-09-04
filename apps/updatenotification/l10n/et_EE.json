@@ -21,10 +21,7 @@
     "Checking apps for compatible versions" : "Kontrollin rakenduste ühilduvaid versioone",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Palun kontrolli, et selle serveri config.php failis poleks <samp>appstoreenabled</samp> võtme väärtuseks „false“.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Kas rakendustepoega polnud võimalik ühendust luua või päringu vastuses polnud uuenduste teavet. Otsi uuendusi käsitsi või kontrolli, et serveri internetiühendus toimib ja tal on võimalik rakendustepoe liidesele ligi saada.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Kõikidel</strong> rakendustel on selle Nextcloudi versiooniga ühilduv versioon.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1%n1 rakenduse versioon ei ühildus selle Nextcloudi versiooniga.","<strong>%n</strong> rakenduse versioon ei ühildus selle Nextcloudi versiooniga."],
     "Enterprise" : "Suurorganisatsioonide versioon",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Mõeldud suurorganisatsioonidele. Tagab alati, et viimased pisiparandused on lisatud, kuid järgmine suurem uuendus mitte. See on võimalik alles siis, kui Nextcloud GmbH on lisanud tugevdusmeetmeid ja läbinud suurte ning missioonikriitiliste paigalduste kontekstis vajaliku testimise. See uuenduskanal on saadaval vaid lepingulistele klientidele ning on osa Nextcloudi paketist suurorganisatsioonidele (Nextcloud Enterprise).",
     "Stable" : "Stabiilne versioon",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Viimane stabiilne versioon. Sobib tavakasutuseks ning alati sisaldab uuendamist viimase põhiversioonini.",
     "Beta" : "Beetaversioon",
@@ -54,6 +51,9 @@
     "The selected update channel does not support updates of the server." : "Valitud uuenduskanal ei toeta selle serveri uuendamist.",
     "Changelog for app {app}" : "{app} rakenduse muudatuste logi",
     "What's new in {app} version {version}" : "Mida uut {app} {version} sisaldab",
-    "{version} is available. Get more information on how to update." : "{version} on saadaval. Vaata lisainfot uuendamise kohta."
+    "{version} is available. Get more information on how to update." : "{version} on saadaval. Vaata lisainfot uuendamise kohta.",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Kõikidel</strong> rakendustel on selle Nextcloudi versiooniga ühilduv versioon.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["1%n1 rakenduse versioon ei ühildus selle Nextcloudi versiooniga.","<strong>%n</strong> rakenduse versioon ei ühildus selle Nextcloudi versiooniga."],
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Mõeldud suurorganisatsioonidele. Tagab alati, et viimased pisiparandused on lisatud, kuid järgmine suurem uuendus mitte. See on võimalik alles siis, kui Nextcloud GmbH on lisanud tugevdusmeetmeid ja läbinud suurte ning missioonikriitiliste paigalduste kontekstis vajaliku testimise. See uuenduskanal on saadaval vaid lepingulistele klientidele ning on osa Nextcloudi paketist suurorganisatsioonidele (Nextcloud Enterprise)."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -52,7 +52,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Arbela ez dago eskuragarri, mesedez kopiatu hodei IDa eskuz.",
     "Copied!" : "Kopiatuta!",
     "Federated Cloud" : "Hodei Federatua",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud zerbitzaria darabilen edo Open Cloud Mesh (OCM) zerbitzuarekin bateragarri den zerbitzua erabiltzen duen edonorekin partekatu dezakezu! Ipini beren Federatutako Hodei IDa partekatze leihoan. Horrelako zerbait izan ohi da: erabiltzailea@nextcloud.zerbitzaria.com",
     "Your Federated Cloud ID" : "Zure federatutako hodei IDa",
     "Share it so your friends can share files with you:" : "Bidali lagunei, zurekin fitxategiak parteka ditzaten:",
     "Facebook" : "Facebook",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Remote share password" : "Urruneko partekatzearen pasahitza",
     "Incoming share could not be processed" : "Sarrerako partekatzea ezin izan da prozesatu",
     "Cloud ID copied to the clipboard" : "Hodei IDa arbelean kopiatu da",
-    "Copy to clipboard" : "Kopiatu arbelera"
+    "Copy to clipboard" : "Kopiatu arbelera",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud zerbitzaria darabilen edo Open Cloud Mesh (OCM) zerbitzuarekin bateragarri den zerbitzua erabiltzen duen edonorekin partekatu dezakezu! Ipini beren Federatutako Hodei IDa partekatze leihoan. Horrelako zerbait izan ohi da: erabiltzailea@nextcloud.zerbitzaria.com"
 },
 "nplurals=2; plural=(n != 1);");

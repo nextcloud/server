@@ -120,7 +120,6 @@
     "Disconnect" : "Koble fra",
     "Admin defined" : "Admin-definert",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatisk statuskontroll er deaktivert på grunn av det store antallet konfigurerte lagringsenheter. Klikk for å sjekke status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på at du vil koble fra denne eksterne lagringen? Det vil gjøre lagringen utilgjengelig i Nextcloud og vil føre til sletting av disse filene og mappene på enhver synkroniseringsklient som for øyeblikket er tilkoblet, men vil ikke slette noen filer og mapper på selve den eksterne lagringen.",
     "Delete storage?" : "Slett lagringsplass",
     "Click to recheck the configuration" : "Klikk for å sjekke oppsettet igjen",
     "Saved" : "Lagret",
@@ -142,6 +141,7 @@
     "Please provide a valid app key and secret." : "Oppgi gyldig appnøkkel og hemmelighet.",
     "OAuth1" : "OAuth1",
     "App key" : "App-nøkkel",
-    "App secret" : "App-hemmelighet"
+    "App secret" : "App-hemmelighet",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på at du vil koble fra denne eksterne lagringen? Det vil gjøre lagringen utilgjengelig i Nextcloud og vil føre til sletting av disse filene og mappene på enhver synkroniseringsklient som for øyeblikket er tilkoblet, men vil ikke slette noen filer og mapper på selve den eksterne lagringen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

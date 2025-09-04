@@ -148,8 +148,6 @@ OC.L10N.register(
     "All" : "Todos",
     "No results" : "Sem resultados",
     "Update to {version}" : "Atualizar para {version}",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta app não tem a versão mínima do Nextcloud atribuída. Isto será um erro no futuro.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta app não tem a versão máxima do Nextcloud atribuída. Isto será um erro no futuro.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Esta aplicação não pode ser instalada porque as seguintes dependências não podem ser realizadas:",
     "Author" : "Autor",
     "Categories" : "Categorias",
@@ -294,6 +292,8 @@ OC.L10N.register(
     "Check out our blog" : "Veja o nosso blog",
     "Subscribe to our newsletter" : "Subscreva as nossas notícias",
     "This community release of Nextcloud is unsupported and instant notifications are unavailable." : "Este lançamento comunitário do Nextcloud não é compatível e as notificações instantâneas não estão disponíveis.",
+    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta app não tem a versão mínima do Nextcloud atribuída. Isto será um erro no futuro.",
+    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta app não tem a versão máxima do Nextcloud atribuída. Isto será um erro no futuro.",
     "Your biography" : "Biografia"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

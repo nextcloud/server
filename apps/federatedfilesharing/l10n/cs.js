@@ -52,7 +52,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Schránka není k dispozici. Zkopírujte cloudový identifikátor ručně.",
     "Copied!" : "Zkopírováno",
     "Federated Cloud" : "Federovaný cloud",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud nebo jiný server či služby, kompatibilní se standardem Open Cloud Mesh (OCM)! Stačí do dialogu pro sdílení zadat jejich jejich identif. v rámci sdruženého cloudu. Má podobu person@cloud.example.com",
     "Your Federated Cloud ID" : "Váš identifikátor v rámci fedorovaného cloudu",
     "Share it so your friends can share files with you:" : "Podělte se o to, aby mohli vaši přátelé s vámi mohli sdílet soubory:",
     "Facebook" : "Facebook",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Remote share password" : "Heslo ke vzdálenému sdílení",
     "Incoming share could not be processed" : "Příchozí sdílení se nepodařilo zpracovat",
     "Cloud ID copied to the clipboard" : "Cloudový identifikátor zkopírován do schránky",
-    "Copy to clipboard" : "Zkopírovat do schránky"
+    "Copy to clipboard" : "Zkopírovat do schránky",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Můžete sdílet s kýmkoliv, kdo používá Nextcloud nebo jiný server či služby, kompatibilní se standardem Open Cloud Mesh (OCM)! Stačí do dialogu pro sdílení zadat jejich jejich identif. v rámci sdruženého cloudu. Má podobu person@cloud.example.com"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

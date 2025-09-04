@@ -131,7 +131,6 @@
     "Unknown backend: {backendName}" : "Onbekend back-end: {backendName}",
     "Admin defined" : "Beheerder gedefinieerd",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatische statuscontrole is uitgeschakeld vanwege het grote aantal geconfigureerde opslagplaatsen. Klik om de status te controleren",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Weet je zeker dat je deze externe opslag wilt loskoppelen? Het maakt de opslag niet langer beschikbaar in Nextcloud en leidt tot het verwijderen van de bestanden en mappen op elke synchronisatieclient die momenteel is verbonden. Het verwijdert geen bestanden en mappen op de externe opslag zelf.",
     "Delete storage?" : "Opslag verwijderen?",
     "Click to recheck the configuration" : "Klik om de configuratie opnieuw te controleren",
     "Saved" : "Bewaard",
@@ -155,6 +154,7 @@
     "Please provide a valid app key and secret." : "Geef een geldige app sleutel en geheime sleutel op.",
     "OAuth1" : "OAuth1",
     "App key" : "App key",
-    "App secret" : "App secret"
+    "App secret" : "App secret",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Weet je zeker dat je deze externe opslag wilt loskoppelen? Het maakt de opslag niet langer beschikbaar in Nextcloud en leidt tot het verwijderen van de bestanden en mappen op elke synchronisatieclient die momenteel is verbonden. Het verwijdert geen bestanden en mappen op de externe opslag zelf."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

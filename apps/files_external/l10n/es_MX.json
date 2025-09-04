@@ -125,7 +125,6 @@
     "Unknown backend: {backendName}" : "Backend desconocido: {backendName}",
     "Admin defined" : "Administrador definido",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La verificación automática de estado está desactivada debido al gran número de almacenamientos configurados, haga clic para verificar el estado",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿Está seguro que quiere desconectar este almacenamiento externo? Esto hará que el almacenamiento no esté disponible en Nextcloud y se eliminen estos archivos y carpetas en cualquier cliente de sincronización que esté conectado actualmente, pero no se eliminarán los archivos y carpetas en el propio almacenamiento externo.",
     "Delete storage?" : "¿Borrar almacenamiento?",
     "Click to recheck the configuration" : "Haz click para volver a marcar la configuración",
     "Saved" : "Guardado",
@@ -147,6 +146,7 @@
     "Please provide a valid app key and secret." : "Por favor proporciona una llave de aplicación y secreto válidos.",
     "OAuth1" : "OAuth1",
     "App key" : "Llave de la aplicación",
-    "App secret" : "Secreto de la aplicación"
+    "App secret" : "Secreto de la aplicación",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿Está seguro que quiere desconectar este almacenamiento externo? Esto hará que el almacenamiento no esté disponible en Nextcloud y se eliminen estos archivos y carpetas en cualquier cliente de sincronización que esté conectado actualmente, pero no se eliminarán los archivos y carpetas en el propio almacenamiento externo."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -52,7 +52,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Клипборд није доступан. Молимо вас да ручно копирате ID облака.",
     "Copied!" : "Копирано!",
     "Federated Cloud" : "Здружени облак",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете делите ствари са било ким ко користи Некстклауд сервер или неки други Open Cloud Mesh (OCM) компатибилни сервер и сервисе! Само унесите ИД из њиховог Здруженог Облака у дијалог за дељење. Тај ИД изгледа нешто попут person@cloud.example.com",
     "Your Federated Cloud ID" : "Ваш ИД Здруженог облака",
     "Share it so your friends can share files with you:" : "Поделите да би Ваши пријатељи могли да деле са Вама:",
     "Facebook" : "Фејсбук",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Remote share password" : "Лозинка удаљеног дељења",
     "Incoming share could not be processed" : "Долазеће дељење не може да се обради",
     "Cloud ID copied to the clipboard" : "Cloud ID је копиран у клипборд",
-    "Copy to clipboard" : "Копирај у оставу"
+    "Copy to clipboard" : "Копирај у оставу",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете делите ствари са било ким ко користи Некстклауд сервер или неки други Open Cloud Mesh (OCM) компатибилни сервер и сервисе! Само унесите ИД из њиховог Здруженог Облака у дијалог за дељење. Тај ИД изгледа нешто попут person@cloud.example.com"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

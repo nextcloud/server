@@ -116,8 +116,6 @@ OC.L10N.register(
     "All" : "Todos",
     "No results" : "No hay resultados",
     "Update to {version}" : "Actualizar a {version}",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Esta aplicación no puede ser instalada porque las siguientes dependencias no están satisfechas:",
     "Categories" : "Categorías",
     "Resources" : "Recursos",
@@ -222,6 +220,8 @@ OC.L10N.register(
     "Like our Facebook page" : "Da un Like a nuestra página de Facebook",
     "Check out our blog" : "Visita nuestro blog",
     "Subscribe to our newsletter" : "Suscribete a nuestro boletín",
+    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión mínima de Nextcloud asignada. Esto será un error en el futuro.",
+    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Esta aplicación no cuenta con una versión máxima de Nextcloud asignada. Esto será un error en el futuro.",
     "You are using <strong>{usage}</strong>" : "Estas usando <strong>{usage}</strong>",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Revise la seguridad de su Nextcloud usando <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">el escáner de seguridad ↗</a>."
 },

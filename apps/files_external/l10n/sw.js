@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Mandhari ya nyuma yasiyojulikana: {backendName}",
     "Admin defined" : "Msimamizi amefafanuliwa",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Ukaguzi wa hali otomatiki umezimwa kutokana na idadi kubwa ya hifadhi zilizosanidiwa, bofya ili kuangalia hali",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Je, una uhakika unataka kukata hifadhi hii ya nje? Itafanya hifadhi isipatikane katika Nextcloud na itasababisha kufutwa kwa faili na folda hizi kwenye kiteja chochote cha kusawazisha ambacho kimeunganishwa kwa sasa lakini hakitafuta faili na folda zozote kwenye hifadhi ya nje yenyewe.",
     "Delete storage?" : "Futa hifadhi?",
     "Click to recheck the configuration" : "Bofya ili kuangalia upya usanidi",
     "Saved" : "Imehifadhiwa",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Tafadhali toa ufunguo halali wa programu na siri.",
     "OAuth1" : "OAuth1",
     "App key" : "Kitufe cha programu",
-    "App secret" : "Siri ya programu"
+    "App secret" : "Siri ya programu",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Je, una uhakika unataka kukata hifadhi hii ya nje? Itafanya hifadhi isipatikane katika Nextcloud na itasababisha kufutwa kwa faili na folda hizi kwenye kiteja chochote cha kusawazisha ambacho kimeunganishwa kwa sasa lakini hakitafuta faili na folda zozote kwenye hifadhi ya nje yenyewe."
 },
 "nplurals=2; plural=(n != 1);");

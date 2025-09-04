@@ -23,10 +23,7 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "正在检查应用程序的兼容版本",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "请确认 config.php 没有设置<samp>appstoreenabled </samp> 为 false。",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "无法连接到应用商店或没有返回任何更新。手动搜索更新，或者确保你的服务器可以上网且可以连接到应用商店。",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>所有</strong>应用都有与这个 Nextcloud 版本兼容的版本可用",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>个应用没有与这个 Nextcloud 版本兼容的版本可用"],
     "Enterprise" : "企业级",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "供企业使用。总是提供最新的补丁级别，但不会马上升级到下一个大版本。当Nextcloud GmbH为大规模和关键任务部署完成额外的加固和测试后，升级才会进行。此频道只对客户可用，提供Nextcloud企业级软件包。",
     "Stable" : "稳定版",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "最新稳定版本。适合日常使用并总是更新至最新主版本。",
     "Beta" : "Beta 测试版",
@@ -56,6 +53,9 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "选中的更新通道不支持服务器升级。",
     "Changelog for app {app}" : "应用 {app} 的更新日志",
     "What's new in {app} version {version}" : "{app} 版本 {version} 的新增功能",
-    "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。"
+    "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>所有</strong>应用都有与这个 Nextcloud 版本兼容的版本可用",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong>个应用没有与这个 Nextcloud 版本兼容的版本可用"],
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "供企业使用。总是提供最新的补丁级别，但不会马上升级到下一个大版本。当Nextcloud GmbH为大规模和关键任务部署完成额外的加固和测试后，升级才会进行。此频道只对客户可用，提供Nextcloud企业级软件包。"
 },
 "nplurals=1; plural=0;");
