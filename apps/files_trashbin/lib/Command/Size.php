@@ -10,6 +10,7 @@ namespace OCA\Files_Trashbin\Command;
 
 use OC\Core\Command\Base;
 use OCP\Command\IBus;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -21,6 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Size extends Base {
 	public function __construct(
+		private IAppConfig $appConfig,
 		private IConfig $config,
 		private IUserManager $userManager,
 		private IBus $commandBus,
@@ -55,7 +57,7 @@ class Size extends Base {
 				$this->config->setUserValue($user, 'files_trashbin', 'trashbin_size', (string)$parsedSize);
 				$this->commandBus->push(new Expire($user));
 			} else {
-				$this->config->setAppValue('files_trashbin', 'trashbin_size', (string)$parsedSize);
+				$this->appConfig->setValueInt('files_trashbin', 'trashbin_size', $parsedSize);
 				$output->writeln('<info>Warning: changing the default trashbin size will automatically trigger cleanup of existing trashbins,</info>');
 				$output->writeln('<info>a users trashbin can exceed the configured size until they move a new file to the trashbin.</info>');
 			}
@@ -67,7 +69,7 @@ class Size extends Base {
 	}
 
 	private function printTrashbinSize(InputInterface $input, OutputInterface $output, ?string $user) {
-		$globalSize = (int)$this->config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+		$globalSize = $this->appConfig->getValueInt('files_trashbin', 'trashbin_size', -1);
 		if ($globalSize < 0) {
 			$globalHumanSize = 'default (50% of available space)';
 		} else {

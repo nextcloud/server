@@ -7,29 +7,36 @@
  */
 namespace OCA\Files_Trashbin\Command;
 
+use OC\Core\Command\Base;
+use OC\Files\SetupManager;
+use OC\User\LazyUser;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IDBConnection;
+use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\Util;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CleanUp extends Command {
+class CleanUp extends Base {
 
 	public function __construct(
 		protected IRootFolder $rootFolder,
 		protected IUserManager $userManager,
 		protected IDBConnection $dbConnection,
+		protected SetupManager $setupManager,
 	) {
 		parent::__construct();
 	}
 
 	protected function configure() {
+		parent::configure();
 		$this
 			->setName('trashbin:cleanup')
 			->setDescription('Remove deleted files')
@@ -53,9 +60,10 @@ class CleanUp extends Command {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
 		} elseif (!empty($users)) {
 			foreach ($users as $user) {
-				if ($this->userManager->userExists($user)) {
+				$userObject = $this->userManager->get($user);
+				if ($userObject) {
 					$output->writeln("Remove deleted files of   <info>$user</info>");
-					$this->removeDeletedFiles($user, $output, $verbose);
+					$this->removeDeletedFiles($userObject, $output, $verbose);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
 					return 1;
@@ -75,7 +83,8 @@ class CleanUp extends Command {
 					$users = $backend->getUsers('', $limit, $offset);
 					foreach ($users as $user) {
 						$output->writeln("   <info>$user</info>");
-						$this->removeDeletedFiles($user, $output, $verbose);
+						$userObject = new LazyUser($user, $this->userManager, null, $backend);
+						$this->removeDeletedFiles($userObject, $output, $verbose);
 					}
 					$offset += $limit;
 				} while (count($users) >= $limit);
@@ -89,30 +98,31 @@ class CleanUp extends Command {
 	/**
 	 * remove deleted files for the given user
 	 */
-	protected function removeDeletedFiles(string $uid, OutputInterface $output, bool $verbose): void {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($uid);
-		$path = '/' . $uid . '/files_trashbin';
-		if ($this->rootFolder->nodeExists($path)) {
+	protected function removeDeletedFiles(IUser $user, OutputInterface $output, bool $verbose): void {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
+		$path = '/' . $user->getUID() . '/files_trashbin';
+		try {
 			$node = $this->rootFolder->get($path);
-
+		} catch (NotFoundException|NotPermittedException) {
 			if ($verbose) {
-				$output->writeln('Deleting <info>' . Util::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
+				$output->writeln("No trash found for <info>{$user->getUID()}</info>");
 			}
-			$node->delete();
-			if ($this->rootFolder->nodeExists($path)) {
-				$output->writeln('<error>Trash folder sill exists after attempting to delete it</error>');
-				return;
-			}
-			$query = $this->dbConnection->getQueryBuilder();
-			$query->delete('files_trash')
-				->where($query->expr()->eq('user', $query->createParameter('uid')))
-				->setParameter('uid', $uid);
-			$query->executeStatement();
-		} else {
-			if ($verbose) {
-				$output->writeln("No trash found for <info>$uid</info>");
-			}
+			return;
 		}
+
+		if ($verbose) {
+			$output->writeln('Deleting <info>' . Util::humanFileSize($node->getSize()) . "</info> in trash for <info>{$user->getUID()}</info>.");
+		}
+		$node->delete();
+		if ($this->rootFolder->nodeExists($path)) {
+			$output->writeln('<error>Trash folder sill exists after attempting to delete it</error>');
+			return;
+		}
+		$query = $this->dbConnection->getQueryBuilder();
+		$query->delete('files_trash')
+			->where($query->expr()->eq('user', $query->createParameter('uid')))
+			->setParameter('uid', $user->getUID());
+		$query->executeStatement();
 	}
 }

@@ -7,13 +7,18 @@
  */
 namespace OCA\Files_Trashbin\BackgroundJob;
 
-use OC\Files\View;
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
 use OCA\Files_Trashbin\Trashbin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
+use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
@@ -21,8 +26,10 @@ class ExpireTrash extends TimedJob {
 	public function __construct(
 		private IAppConfig $appConfig,
 		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
 		private Expiration $expiration,
 		private LoggerInterface $logger,
+		private SetupManager $setupManager,
 		ITimeFactory $time,
 	) {
 		parent::__construct($time);
@@ -30,7 +37,7 @@ class ExpireTrash extends TimedJob {
 		$this->setInterval(60 * 30);
 	}
 
-	protected function run($argument) {
+	protected function run($argument): void {
 		$backgroundJob = $this->appConfig->getValueString('files_trashbin', 'background_job_expire_trash', 'yes');
 		if ($backgroundJob === 'no') {
 			return;
@@ -48,7 +55,8 @@ class ExpireTrash extends TimedJob {
 		foreach ($users as $user) {
 			try {
 				$uid = $user->getUID();
-				if (!$this->setupFS($uid)) {
+				$trashRoot = $this->getTrashRoot($user);
+				if (!$trashRoot) {
 					continue;
 				}
 				$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
@@ -61,28 +69,27 @@ class ExpireTrash extends TimedJob {
 
 			if ($stopTime < time()) {
 				$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', $offset);
-				\OC_Util::tearDownFS();
+				$this->setupManager->tearDown();
 				return;
 			}
 		}
 
 		$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', 0);
-		\OC_Util::tearDownFS();
+
+		$this->setupManager->tearDown();
 	}
 
-	/**
-	 * Act on behalf on trash item owner
-	 */
-	protected function setupFS(string $user): bool {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($user);
+	protected function getTrashRoot(IUser $user): ?Folder {
+		$this->setupManager->tearDown();
+		$this->setupManager->setupForUser($user);
 
-		// Check if this user has a trashbin directory
-		$view = new View('/' . $user);
-		if (!$view->is_dir('/files_trashbin/files')) {
-			return false;
+		try {
+			/** @var Folder $folder */
+			$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->get('files_trashbin');
+			return $folder;
+		} catch (NotFoundException|NotPermittedException) {
+			$this->setupManager->tearDown();
+			return null;
 		}
-
-		return true;
 	}
 }
