@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Arka yüz bilinmiyor: {backendName}",
     "Admin defined" : "Yönetici ayarlamış",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Çok sayıda depolama alanı yapılandırılmış olduğundan otomatik durum denetimi kapatıldı. Durumu denetlemek için tıklayın",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Bu dış depolama biriminin bağlantısını kesmek istediğinize emin misiniz? Bu işlem, depolamayı Nextcloud üzerinden kaldırırarak, şu anda bağlı olan ve eşitlenen herhangi bir istemcide bu dosya ve klasörlerin silinmesine yol açar. Ancak dış depolama üzerindeki hiçbir dosya ve klasör silinmez.",
     "Delete storage?" : "Depolama silinsin mi?",
     "Click to recheck the configuration" : "Yapılandırmayı yeniden denetlemek için tıklayın",
     "Saved" : "Kaydedildi",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Lütfen geçerli bir uygulama anahtarı ve parola yazın.",
     "OAuth1" : "OAuth1",
     "App key" : "Uygulama anahtarı",
-    "App secret" : "Uygulama parolası"
+    "App secret" : "Uygulama parolası",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Bu dış depolama biriminin bağlantısını kesmek istediğinize emin misiniz? Bu işlem, depolamayı Nextcloud üzerinden kaldırırarak, şu anda bağlı olan ve eşitlenen herhangi bir istemcide bu dosya ve klasörlerin silinmesine yol açar. Ancak dış depolama üzerindeki hiçbir dosya ve klasör silinmez."
 },
 "nplurals=2; plural=(n > 1);");

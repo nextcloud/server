@@ -30,7 +30,6 @@ OC.L10N.register(
     "Copy" : "복사",
     "Copied!" : "복사 성공!",
     "Federated Cloud" : "연합 클라우드",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud 서버나 다른 Open Cloud Mesh(OCM) 호환 서버 및 서비스 사용자와 공유할 수 있습니다! 공유 대화 상자에 연합 클라우드 ID를 입력하십시오. person@cloud.example.com 형식입니다",
     "Share it so your friends can share files with you:" : "친구들과 파일을 공유할 수 있도록 공유하십시오:",
     "Facebook" : "Facebook",
     "X (formerly Twitter)" : "X (구 Twitter)",
@@ -42,6 +41,7 @@ OC.L10N.register(
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote}의 원격 공유 {name}을(를) 추가하시겠습니까?",
     "Remote share password" : "원격 공유 암호",
     "Cloud ID copied to the clipboard" : "클라우드 ID가 클립보드에 복사됨",
-    "Copy to clipboard" : "클립보드로 복사"
+    "Copy to clipboard" : "클립보드로 복사",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud 서버나 다른 Open Cloud Mesh(OCM) 호환 서버 및 서비스 사용자와 공유할 수 있습니다! 공유 대화 상자에 연합 클라우드 ID를 입력하십시오. person@cloud.example.com 형식입니다"
 },
 "nplurals=1; plural=0;");

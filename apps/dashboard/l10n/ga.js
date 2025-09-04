@@ -20,9 +20,9 @@ OC.L10N.register(
     "Edit widgets" : "Cuir giuirléidí in eagar",
     "Get more widgets from the App Store" : "Faigh tuilleadh giuirléidí ón Siopa Aip",
     "Weather service" : "Seirbhís aimsire",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Ar mhaithe le do phríobháideachas, iarrann do fhreastalaí Nextcloud na sonraí aimsire ar do shon agus mar sin ní fhaigheann an tseirbhís aimsire aon fhaisnéis phearsanta.",
     "Weather data from Met.no" : "Sonraí aimsire ó Met.no",
     "geocoding with Nominatim" : "geochódú le Nominatim",
-    "elevation data from OpenTopoData" : "sonraí ardaithe ó OpenTopoData"
+    "elevation data from OpenTopoData" : "sonraí ardaithe ó OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Ar mhaithe le do phríobháideachas, iarrann do fhreastalaí Nextcloud na sonraí aimsire ar do shon agus mar sin ní fhaigheann an tseirbhís aimsire aon fhaisnéis phearsanta."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

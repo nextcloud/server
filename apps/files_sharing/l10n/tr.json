@@ -304,7 +304,6 @@
     "Link shares" : "Bağlantı paylaşımları",
     "Shares" : "Paylaşımlar",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Dosyaları kuruluşunuzda paylaşın. Dosyayı zaten görüntüleyebilen alıcılar, kolay erişmek için bu bağlantıyı da kullanabilirler.",
-    "Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID." : "Herkese açık bağlantılar ve e-posta adresleri ile dosyaları kuruluşunuzun dışındaki diğer kişilerle paylaşın. Ayrıca, birleşik bulut kimliklerini kullanarak başka kopyalardaki Nextcloud hesaplarıyla da paylaşabilirsiniz.",
     "Shares from apps or other sources which are not included in internal or external shares." : "İç veya dış paylaşımlarda bulunmayan uygulamalardan veya diğer kaynaklardan gelen paylaşımlar.",
     "Type names, teams, federated cloud IDs" : "Adlar, takımlar, birleşik bulut kimlikleri yazın",
     "Type names or teams" : "Adlar ya da takımlar yazın",

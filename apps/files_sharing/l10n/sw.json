@@ -304,7 +304,6 @@
     "Link shares" : "Unganisha shiriki",
     "Shares" : "Shiriki",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Shiriki faili ndani ya shirika lako. Wapokeaji ambao tayari wanaweza kutazama faili wanaweza pia kutumia kiungo hiki kwa ufikiaji rahisi.",
-    "Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID." : "Shiriki faili na wengine nje ya shirika lako kupitia viungo vya umma na anwani za barua pepe. Unaweza pia kushiriki kwenye akaunti za Nextcloud katika matukio mengine kwa kutumia kitambulisho chao cha wingu kilichoshirikishwa.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Shiriki kutoka kwa programu au vyanzo vingine ambavyo hazijajumuishwa katika ushiriki wa ndani au nje.",
     "Type names, teams, federated cloud IDs" : "Andika majina, timu, vitambulisho vya cloud vilivyoshirikishwa",
     "Type names or teams" : "Andika majina au timu",

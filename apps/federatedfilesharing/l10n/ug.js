@@ -37,7 +37,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "چاپلاش تاختىسى يوق. بۇلۇت كىملىكىنى قولدا كۆچۈرۈڭ.",
     "Copied!" : "كۆچۈرۈلگەن!",
     "Federated Cloud" : "فېدېراتسىيە بۇلۇت",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud مۇلازىمېتىرى ياكى باشقا ئوچۇق Cloud Mesh (OCM) ماس كېلىدىغان مۇلازىمېتىر ۋە مۇلازىمەتلەرنى ئىشلەتكەنلەر بىلەن ئورتاقلىشالايسىز! ئۇلارنىڭ فېدېراتسىيە بۇلۇت كىملىكىنى ئورتاقلىشىش دىئالوگىغا قويۇڭ. ئۇ person@cloud.example.com غا ئوخشايدۇ",
     "Your Federated Cloud ID" : "فېدېراتسىيە بۇلۇت كىملىكىڭىز",
     "Share it so your friends can share files with you:" : "ھەمبەھىرلەڭ ، دوستلىرىڭىز ھۆججەتلەرنى سىز بىلەن ئورتاقلىشالايدۇ:",
     "Facebook" : "Facebook",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Remote share password" : "يىراقتىن ئورتاقلىشىش پارولى",
     "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ",
     "Cloud ID copied to the clipboard" : "بۇلۇت كىملىكى چاپلاش تاختىسىغا كۆچۈرۈلدى",
-    "Copy to clipboard" : "چاپلاش تاختىسىغا كۆچۈرۈڭ"
+    "Copy to clipboard" : "چاپلاش تاختىسىغا كۆچۈرۈڭ",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud مۇلازىمېتىرى ياكى باشقا ئوچۇق Cloud Mesh (OCM) ماس كېلىدىغان مۇلازىمېتىر ۋە مۇلازىمەتلەرنى ئىشلەتكەنلەر بىلەن ئورتاقلىشالايسىز! ئۇلارنىڭ فېدېراتسىيە بۇلۇت كىملىكىنى ئورتاقلىشىش دىئالوگىغا قويۇڭ. ئۇ person@cloud.example.com غا ئوخشايدۇ"
 },
 "nplurals=2; plural=(n != 1);");

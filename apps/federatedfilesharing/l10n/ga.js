@@ -52,7 +52,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Níl an gearrthaisce ar fáil. Cóipeáil an t-aitheantas néil de láimh.",
     "Copied!" : "Cóipeáladh!",
     "Federated Cloud" : "Scamall Cónaidhme",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Is féidir leat a roinnt le duine ar bith a úsáideann freastalaí Nextcloud nó freastalaithe agus seirbhísí comhoiriúnacha Open Cloud Mesh (OCM) eile! Níl le déanamh ach a n-ID Cloud Cónaidhme a chur sa dialóg scaireanna. Breathnaíonn sé cosúil le person@cloud.example.com",
     "Your Federated Cloud ID" : "D'Aitheantas Néal Cónaidhmeach",
     "Share it so your friends can share files with you:" : "Roinn é ionas gur féidir le do chairde comhaid a roinnt leat:",
     "Facebook" : "Facebook",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Remote share password" : "Pasfhocal comhroinnte cianda",
     "Incoming share could not be processed" : "Níorbh fhéidir an sciar isteach a phróiseáil",
     "Cloud ID copied to the clipboard" : "Cóipeáladh Cloud ID chuig an ngearrthaisce",
-    "Copy to clipboard" : "Cóipeáil chuig an ngearrthaisce"
+    "Copy to clipboard" : "Cóipeáil chuig an ngearrthaisce",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Is féidir leat a roinnt le duine ar bith a úsáideann freastalaí Nextcloud nó freastalaithe agus seirbhísí comhoiriúnacha Open Cloud Mesh (OCM) eile! Níl le déanamh ach a n-ID Cloud Cónaidhme a chur sa dialóg scaireanna. Breathnaíonn sé cosúil le person@cloud.example.com"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

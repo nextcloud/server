@@ -306,7 +306,6 @@ OC.L10N.register(
     "Link shares" : "Посилання на спільні ресурси",
     "Shares" : "Спільні",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Діліться файлами всередині своєї організації. Одержувачі, які вже мають доступ до файлу, також можуть скористатися цим посиланням для зручного доступу.",
-    "Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID." : "Діліться файлами з іншими користувачами поза вашою організацією за допомогою публічних посилань та електронних адрес. Ви також можете ділитися файлами з обліковими записами Nextcloud на інших серверах, використовуючи їх федеративний хмарний ідентифікатор.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Акції з додатків або інших джерел, які не включені до внутрішніх або зовнішніх акцій.",
     "Type names, teams, federated cloud IDs" : "Назви типів, команди, ідентифікатори федеративної хмари",
     "Type names or teams" : "Назви типів або команд",

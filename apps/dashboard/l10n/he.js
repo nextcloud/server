@@ -16,9 +16,9 @@ OC.L10N.register(
     "Customize" : "התאמה אישית",
     "Edit widgets" : "ערוך יישומונים",
     "Weather service" : "שירות מזג אוויר",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "למען פרטיותך, נתוני מזג האוויר מתבקשים על ידי שרת Nextcloud עבורך, כך ששירות מזג האוויר אינו מקבל מידע אישי.",
     "Weather data from Met.no" : "נתוני מזג אוויר מ- Met.no",
     "geocoding with Nominatim" : "קידוד גיאוגרפי עם Nominatim",
-    "elevation data from OpenTopoData" : "נתוני גובה מ- OpenTopoData"
+    "elevation data from OpenTopoData" : "נתוני גובה מ- OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "למען פרטיותך, נתוני מזג האוויר מתבקשים על ידי שרת Nextcloud עבורך, כך ששירות מזג האוויר אינו מקבל מידע אישי."
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

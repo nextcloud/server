@@ -306,7 +306,6 @@ OC.L10N.register(
     "Link shares" : "リンク共有",
     "Shares" : "共有",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "組織内でファイルを共有します。既にファイルを表示できる受信者もこのリンクを使用して簡単にアクセスできます。",
-    "Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID." : "公開リンクやメールアドレスを使って組織外の他の人とファイルを共有できます。連携クラウドIDを使用すれば他のインスタンス上のNextcloudアカウントにも共有できます。",
     "Shares from apps or other sources which are not included in internal or external shares." : "内部または外部の共有に含まれていないアプリまたはその他のソースからの共有。",
     "Type names, teams, federated cloud IDs" : "タイプ名、チーム、連携クラウドID",
     "Type names or teams" : "名前またはチームを入力",

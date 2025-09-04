@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "不明なバックエンド： {backendName}",
     "Admin defined" : "管理者設定済",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "大量のストレージが設定されているため、ステータスの自動確認は無効になっています。クリックして状態を確認",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "本当にこの外部ストレージを切断しますか？これにより、Nextcloudでストレージが使用できなくなり、現在接続されている同期クライアント上のこれらのファイルとフォルダーが削除されますが、外部ストレージ自体のファイルとフォルダーは削除されません。",
     "Delete storage?" : "ストレージを削除しますか?",
     "Click to recheck the configuration" : "クリックすると設定が再確認されます",
     "Saved" : "保存しました",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "有効なアプリのキーとパスワードを入力してください。",
     "OAuth1" : "OAuth1",
     "App key" : "アプリキー",
-    "App secret" : "アプリシークレット"
+    "App secret" : "アプリシークレット",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "本当にこの外部ストレージを切断しますか？これにより、Nextcloudでストレージが使用できなくなり、現在接続されている同期クライアント上のこれらのファイルとフォルダーが削除されますが、外部ストレージ自体のファイルとフォルダーは削除されません。"
 },
 "nplurals=1; plural=0;");

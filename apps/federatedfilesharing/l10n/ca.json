@@ -39,7 +39,6 @@
     "Clipboard not available. Please copy the cloud ID manually." : "Porta-retalls no disponible. Copieu l'identificador del núvol manualment.",
     "Copied!" : "S'ha copiat!",
     "Federated Cloud" : "Núvol federat",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Podeu compartir contingut amb qualsevol persona que utilitzi un servidor del Nextcloud o altres servidors i serveis compatibles amb Open Cloud Mesh (OCM)! Només cal que n'indiqueu l'ID de núvol federat al quadre de diàleg d'ús compatit. És semblant a persona@nuvol.exemple.com",
     "Your Federated Cloud ID" : "El vostre ID de núvol federat",
     "Share it so your friends can share files with you:" : "Compartiu-lo perquè els vostres amics puguin enviar-vos fitxers compartits:",
     "Facebook" : "Facebook",
@@ -55,6 +54,7 @@
     "Remote share password" : "Contrasenya de l'element compartit remot",
     "Incoming share could not be processed" : "No s'ha pogut processar la compartició entrant",
     "Cloud ID copied to the clipboard" : "S'ha copiat l'ID del núvol al porta-retalls",
-    "Copy to clipboard" : "Copia-ho al porta-retalls"
+    "Copy to clipboard" : "Copia-ho al porta-retalls",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Podeu compartir contingut amb qualsevol persona que utilitzi un servidor del Nextcloud o altres servidors i serveis compatibles amb Open Cloud Mesh (OCM)! Només cal que n'indiqueu l'ID de núvol federat al quadre de diàleg d'ús compatit. És semblant a persona@nuvol.exemple.com"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

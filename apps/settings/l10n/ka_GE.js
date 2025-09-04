@@ -120,8 +120,6 @@ OC.L10N.register(
     "All" : "ყველა",
     "No results" : "შედეგები არაა",
     "Update to {version}" : "განაახლეთ ვერსიაზე {version}",
-    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "ეს აპლიკაცია არ საზღვრავს Nextcloud-ის მინიმალურ ვერსიას. სამომავლოდ ეს ჩაითვლება შეცდომად.",
-    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "ეს აპლიკაცია არ საზღვრავს Nextcloud-ის მაქსიმალურ ვერსიას. სამომავლოდ ეს ჩაითვლება შეცდომად.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "ეს აპლიკაცია ვერ დაყენდა რადგან შემდეგი დამოკიდებულებები არაა დაკმაყოფილებული:",
     "Categories" : "კატეგორიები",
     "Resources" : "რესურსები",
@@ -224,6 +222,8 @@ OC.L10N.register(
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "განავითარა {communityopen}Nextcloud საზოგადოებამ{linkclose}, {githubopen}კოდი{linkclose} is ლიცენზირებულია {licenseopen}AGPL ლიცენზიით{linkclose}.",
     "Like our Facebook page" : "მოიწონეთ ჩვენი Facebook გვერდი",
     "Check out our blog" : "იხილეთ ჩვენი ბლოგი",
-    "Subscribe to our newsletter" : "გამოიწერეთ ჩვენი სიახლეები"
+    "Subscribe to our newsletter" : "გამოიწერეთ ჩვენი სიახლეები",
+    "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "ეს აპლიკაცია არ საზღვრავს Nextcloud-ის მინიმალურ ვერსიას. სამომავლოდ ეს ჩაითვლება შეცდომად.",
+    "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "ეს აპლიკაცია არ საზღვრავს Nextcloud-ის მაქსიმალურ ვერსიას. სამომავლოდ ეს ჩაითვლება შეცდომად."
 },
 "nplurals=2; plural=(n!=1);");

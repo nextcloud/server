@@ -191,7 +191,6 @@
     "Account actions" : "Konta darbības",
     "{size} used" : "Izmantoti {size}",
     "Delete account" : "Izdzēst kontu",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Pazaudētas ierīces vai apvienības pamešanas gadījumā šis var attālināti notīrīt Nextcloud datus visās ar {userid} saistītajās ierīcēs. Darbojas tikai tad, ja ierīces ir savienotas ar internetu.",
     "Add account to group" : "Pievienot kontu kopai",
     "Done" : "Pabeigts",
     "Edit" : "Labot",
@@ -207,7 +206,6 @@
     "Admins" : "Pārvaldītāji",
     "Sending…" : "Sūta …",
     "Email sent" : "E-pasta ziņojums nosūtīts",
-    "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Veiktspējas dēļ, kad Nextcloud serverī iespējo šifrēšanu, jaunās un izmainītās datnes tiek šīfrētas.",
     "Location" : "Atrašanās vieta",
     "Profile picture" : "Profila attēls",
     "About" : "Par",
@@ -254,6 +252,8 @@
     "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Ja izmanto trešo pušu lietotnes, lai savienotos ar Nextcloud, lūgums ņemt vērā, ka pirms divpakāpju pieteikšanās iespējošanas katrai no tām ir nepieciešams izveidot un izmantot lietotnes paroli.",
     "Your biography" : "Apraksts par sevi",
     "You are using <strong>{usage}</strong>" : "Tu izmanto <strong>{usage}</strong>",
-    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Tu izmanto <strong>{usage}</strong> no <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)"
+    "You are using <strong>{usage}</strong> of <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)" : "Tu izmanto <strong>{usage}</strong> no <strong>{totalSpace}</strong> (<strong>{usageRelative}%</strong>)",
+    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Pazaudētas ierīces vai apvienības pamešanas gadījumā šis var attālināti notīrīt Nextcloud datus visās ar {userid} saistītajās ierīcēs. Darbojas tikai tad, ja ierīces ir savienotas ar internetu.",
+    "For performance reasons, when you enable encryption on a Nextcloud server only new and changed files are encrypted." : "Veiktspējas dēļ, kad Nextcloud serverī iespējo šifrēšanu, jaunās un izmainītās datnes tiek šīfrētas."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

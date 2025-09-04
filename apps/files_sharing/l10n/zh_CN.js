@@ -306,7 +306,6 @@ OC.L10N.register(
     "Link shares" : "链接共享",
     "Shares" : "共享",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "在您的组织内共享文件。已经可以查看该文件的接收者也可以使用此链接轻松访问。",
-    "Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID." : "通过公开链接和电子邮件地址与您的组织外部的其他人共享文件。您还可以使用其他实例上的联合云 ID 将其共享给 Nextcloud 账号。",
     "Shares from apps or other sources which are not included in internal or external shares." : "来自应用或其他来源的共享，不包括在内部或外部共享中。",
     "Type names, teams, federated cloud IDs" : "输入名称、团队、联合云 ID",
     "Type names or teams" : "输入名称或团队",

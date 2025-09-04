@@ -131,7 +131,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Infraestrutura descoñecida: {backendName}",
     "Admin defined" : "Definido polo administración",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "A comprobación automática do estado está desactivada por mor da gran cantidade de almacenamentos configurados. Prema para comprobar o estado",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Confirma que quere desconectar este almacenamento externo? Isto fará que o almacenamento non estea dispoñíbel en Nextcloud e provocará a eliminación destes ficheiros e cartafoles en calquera cliente de sincronización que estea conectado agora, mais non eliminará ningún ficheiro e cartafol do propio almacenamento externo.",
     "Delete storage?" : "Eliminar o almacenamento?",
     "Click to recheck the configuration" : "Prema para volver comprobar a configuración",
     "Saved" : "Gardado",
@@ -153,6 +152,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Forneza unha chave de aplicación e o segredo",
     "OAuth1" : "OAuth1",
     "App key" : "Chave da aplicación",
-    "App secret" : "Segredo da aplicación"
+    "App secret" : "Segredo da aplicación",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Confirma que quere desconectar este almacenamento externo? Isto fará que o almacenamento non estea dispoñíbel en Nextcloud e provocará a eliminación destes ficheiros e cartafoles en calquera cliente de sincronización que estea conectado agora, mais non eliminará ningún ficheiro e cartafol do propio almacenamento externo."
 },
 "nplurals=2; plural=(n != 1);");

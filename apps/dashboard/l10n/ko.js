@@ -16,9 +16,9 @@ OC.L10N.register(
     "Customize" : "사용자 지정",
     "Edit widgets" : "위젯 편집",
     "Weather service" : "날씨 서비스",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "개인정보 보호를 위해 사용자를 대신해 Nextcloud 서버에서 요청하므로 개인정보를 수신하지 않습니다.",
     "Weather data from Met.no" : "Met.no의 날씨 데이터",
     "geocoding with Nominatim" : "Nominatim으로 지오 코딩",
-    "elevation data from OpenTopoData" : "OpenTopoData의 고도 데이터"
+    "elevation data from OpenTopoData" : "OpenTopoData의 고도 데이터",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "개인정보 보호를 위해 사용자를 대신해 Nextcloud 서버에서 요청하므로 개인정보를 수신하지 않습니다."
 },
 "nplurals=1; plural=0;");

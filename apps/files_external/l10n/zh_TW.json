@@ -131,7 +131,6 @@
     "Unknown backend: {backendName}" : "未知後端：{backendName}",
     "Admin defined" : "管理員自訂",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "因為組態設定的儲存空間數量過多，自動狀態檢查被停用，點擊以檢查狀態",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您確定要中斷與這個外部儲存空間的連結嗎？這會讓該儲存空間無法在 Nextcloud 中使用，並將會在目前連線的任何同步客戶端上刪除這些檔案與資料夾，但不會刪除外部儲存空間本身的任何檔案與資料夾。",
     "Delete storage?" : "刪除儲存空間？",
     "Click to recheck the configuration" : "點擊以重新檢查組態設定",
     "Saved" : "已儲存",
@@ -155,6 +154,7 @@
     "Please provide a valid app key and secret." : "請提供有效的應用程式金鑰及密碼。",
     "OAuth1" : "OAuth1",
     "App key" : "應用程式金鑰",
-    "App secret" : "應用程式密鑰"
+    "App secret" : "應用程式密鑰",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "您確定要中斷與這個外部儲存空間的連結嗎？這會讓該儲存空間無法在 Nextcloud 中使用，並將會在目前連線的任何同步客戶端上刪除這些檔案與資料夾，但不會刪除外部儲存空間本身的任何檔案與資料夾。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

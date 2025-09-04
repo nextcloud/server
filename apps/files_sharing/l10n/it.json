@@ -302,7 +302,6 @@
     "Link shares" : "Condivisioni dei link",
     "Shares" : "Condivisioni",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Condividi i file all'interno della tua organizzazione. Anche i destinatari che possono già visualizzare il file possono utilizzare questo link per accedervi facilmente.",
-    "Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID." : "Condividi file con altri utenti esterni alla tua organizzazione tramite link pubblici e indirizzi email. Puoi anche condividere file con account Nextcloud su altre istanze utilizzando il loro ID cloud federato.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Condivisioni da app o altre fonti non incluse nelle condivisioni interne o esterne.",
     "Type names, teams, federated cloud IDs" : "Digita nomi, team, ID cloud federati",
     "Type names or teams" : "Digita nomi o team",

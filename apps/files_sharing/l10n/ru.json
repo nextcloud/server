@@ -300,7 +300,6 @@
     "Link shares" : "Общие ссылки",
     "Shares" : "Опубликованные ресурсы",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Делитесь файлами внутри вашей организации. Получатели, которые уже могут просматривать файл, также могут воспользоваться этой ссылкой для быстрого доступа.",
-    "Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID." : "Делитесь файлами с другими пользователями за пределами вашей организации, используя общедоступные ссылки и адреса электронной почты. Вы также можете делиться файлами с учётными записями Nextcloud на других устройствах, используя их идентификаторы федеративного облака.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Обмен из приложений или других источников, которые не включены во внутренние или внешние публикации.",
     "Type names, teams, federated cloud IDs" : "Имена типов, команды, идентификаторы федеративного облака",
     "Type names or teams" : "Введите имена или команды",
