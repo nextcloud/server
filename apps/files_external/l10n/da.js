@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Ukendt backend: {backendName}",
     "Admin defined" : "Bestemt af administrator",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatisk statuskontrol er deaktiveret på grund af det store antal konfigurerede lager, klik for at kontrollere status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på, at du vil frakoble dette eksterne lager? Det vil gøre lageret utilgængeligt i Nextcloud og vil føre til en sletning af disse filer og mapper på enhver synkroniseringsklient, der i øjeblikket er tilsluttet, men vil ikke slette nogen filer og mapper på selve det eksterne lager.",
     "Delete storage?" : "Slet lager?",
     "Click to recheck the configuration" : "Klik for at kontrollere konfigurationen igen",
     "Saved" : "Gemt",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Angiv venligst gyldig app-nøgle og -hemmelighed.",
     "OAuth1" : "OAuth1",
     "App key" : "App-nøgle",
-    "App secret" : "App-hemmelighed"
+    "App secret" : "App-hemmelighed",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på, at du vil frakoble dette eksterne lager? Det vil gøre lageret utilgængeligt i Nextcloud og vil føre til en sletning af disse filer og mapper på enhver synkroniseringsklient, der i øjeblikket er tilsluttet, men vil ikke slette nogen filer og mapper på selve det eksterne lager."
 },
 "nplurals=2; plural=(n != 1);");

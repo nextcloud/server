@@ -52,7 +52,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Pano kullanılamıyor. Lütfen bulut kimliğini el ile kopyalayın.",
     "Copied!" : "Kopyalandı!",
     "Federated Cloud" : "Birleşik bulut",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud ya da Open Cloud Mesh (OCM) ile uyumlu sunucu ve hizmetler ile paylaşım yapılabilir. Paylaşım penceresine person@cloud.example.com gibi birleşik bulut kimliğini yazmanız yeterlidir.",
     "Your Federated Cloud ID" : "Birleşik bulut kimliğiniz",
     "Share it so your friends can share files with you:" : "Paylaşın, böylece arkadaşlarınız da sizinle dosya paylaşabilir:",
     "Facebook" : "Facebook",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Remote share password" : "Uzak paylaşım parolası",
     "Incoming share could not be processed" : "Gelen paylaşım işlenemedi",
     "Cloud ID copied to the clipboard" : "Bulut kimliği panoya kopyalandı",
-    "Copy to clipboard" : "Panoya kopyala"
+    "Copy to clipboard" : "Panoya kopyala",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Nextcloud ya da Open Cloud Mesh (OCM) ile uyumlu sunucu ve hizmetler ile paylaşım yapılabilir. Paylaşım penceresine person@cloud.example.com gibi birleşik bulut kimliğini yazmanız yeterlidir."
 },
 "nplurals=2; plural=(n > 1);");

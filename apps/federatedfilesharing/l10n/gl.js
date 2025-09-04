@@ -40,7 +40,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "O portapapeis non está dispoñíbel. Copie o ID da nube manualmente.",
     "Copied!" : "Copiado!",
     "Federated Cloud" : "Nube federada",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Pode compartir con calquera persoa que empregue servidores Nextcloud, ou outro servidor ou  servizo compatíbel co Open Cloud Mesh (OCM)! Simplemente, introduza o seu ID de nube federada no diálogo de compartir. É algo como persona@cloud.example.com",
     "Your Federated Cloud ID" : "ID da súa nube federada",
     "Share it so your friends can share files with you:" : "Compártao para que as súas amizades poidan compartir ficheiros con Vde.:",
     "Facebook" : "Facebook",
@@ -56,6 +55,7 @@ OC.L10N.register(
     "Remote share password" : "Contrasinal da compartición remota",
     "Incoming share could not be processed" : "Non foi posíbel procesar a compartición entrante",
     "Cloud ID copied to the clipboard" : "O identificador de nube (Cloud ID) (foi copiado no portapapeis",
-    "Copy to clipboard" : "Copiar no portapapeis."
+    "Copy to clipboard" : "Copiar no portapapeis.",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Pode compartir con calquera persoa que empregue servidores Nextcloud, ou outro servidor ou  servizo compatíbel co Open Cloud Mesh (OCM)! Simplemente, introduza o seu ID de nube federada no diálogo de compartir. É algo como persona@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

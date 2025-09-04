@@ -126,7 +126,6 @@
     "Unknown backend: {backendName}" : "알 수 없는 백엔드: {backendName}",
     "Admin defined" : "관리자 지정",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "설정된 저장소가 많아 자동 상태 확인이 비활성화되었습니다. 클릭하여 상태를 확인하십시오",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "이 외부 저장소를 해제하겠습니까? Nextcloud에서 이 저장소에 더 이상 접근할 수 없게 되며, 연결된 모든 동기화 클라이언트에서 이 저장소의 파일이 사라질 것입니다. 단, 저장소에 있는 파일 자체는 삭제되지 않습니다.",
     "Delete storage?" : "저장소를 삭제하시겠습니까?",
     "Click to recheck the configuration" : "설정을 다시 확인하려면 클릭",
     "Saved" : "저장됨",
@@ -148,6 +147,7 @@
     "Please provide a valid app key and secret." : "올바른 앱 키와 비밀 값을 입력하십시오.",
     "OAuth1" : "OAuth1",
     "App key" : "앱 키",
-    "App secret" : "앱 비밀 값"
+    "App secret" : "앱 비밀 값",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "이 외부 저장소를 해제하겠습니까? Nextcloud에서 이 저장소에 더 이상 접근할 수 없게 되며, 연결된 모든 동기화 클라이언트에서 이 저장소의 파일이 사라질 것입니다. 단, 저장소에 있는 파일 자체는 삭제되지 않습니다."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

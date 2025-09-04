@@ -21,10 +21,7 @@
     "Checking apps for compatible versions" : "Inakagua programu kwa matoleo yanayolingana",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Tafadhali hakikisha kuwa config.php yako haiweki <samp>appstoreenabled</samp>kuwa sivyo.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Haikuweza kuunganisha kwenye Duka la Programu au hakuna masasisho yoyote yaliyorejeshwa. Tafuta mwenyewe masasisho au uhakikishe kuwa seva yako ina ufikiaji wa mtandao na inaweza kuunganisha kwenye App Store.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Zote</strong> programu zina toleo linalooana kwa toleo hili la Nextcloud linalopatikana.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> programu hazina toleo linalooana la toleo hili la Nextcloud linalopatikana."],
     "Enterprise" : "Biashara",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Kwa matumizi ya biashara. Hutoa kiwango cha hivi punde zaidi cha kiraka, lakini haitasasishwa hadi toleo kuu linalofuata mara moja. Sasisho hilo hufanyika mara tu Nextcloud GmbH imefanya ugumu zaidi na majaribio kwa uwekaji wa kiasi kikubwa na muhimu wa dhamira. Kituo hiki kinapatikana kwa wateja pekee na hutoa kifurushi cha Nextcloud Enterprise.",
     "Stable" : "Thabiti",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Toleo thabiti la hivi karibuni. Inafaa kwa matumizi ya kawaida na itasasishwa hadi toleo kuu la hivi punde.",
     "Beta" : "Beta",
@@ -54,6 +51,9 @@
     "The selected update channel does not support updates of the server." : "Kituo cha sasisho kilichochaguliwa hakiauni masasisho ya seva.",
     "Changelog for app {app}" : "Changelog kwa programu {app}",
     "What's new in {app} version {version}" : "Kipya ni nini katika {app} toleo {version}",
-    "{version} is available. Get more information on how to update." : "{version} inapatikana. Pata maelezo zaidi kuhusu jinsi ya kusasisha."
+    "{version} is available. Get more information on how to update." : "{version} inapatikana. Pata maelezo zaidi kuhusu jinsi ya kusasisha.",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Zote</strong> programu zina toleo linalooana kwa toleo hili la Nextcloud linalopatikana.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> programu hazina toleo linalooana la toleo hili la Nextcloud linalopatikana."],
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Kwa matumizi ya biashara. Hutoa kiwango cha hivi punde zaidi cha kiraka, lakini haitasasishwa hadi toleo kuu linalofuata mara moja. Sasisho hilo hufanyika mara tu Nextcloud GmbH imefanya ugumu zaidi na majaribio kwa uwekaji wa kiasi kikubwa na muhimu wa dhamira. Kituo hiki kinapatikana kwa wateja pekee na hutoa kifurushi cha Nextcloud Enterprise."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

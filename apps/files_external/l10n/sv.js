@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Okänd backend: {backendName}",
     "Admin defined" : "Admin definerad",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatisk statuskontroll är inaktiverad på grund av det stora antalet konfigurerade lagringar, klicka för att kontrollera status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Är du säker på att du vill koppla bort den här externa lagringen? Det kommer att göra lagringen otillgänglig i Nextcloud och kommer att leda till en radering av dessa filer och mappar på alla synkroniseringsklienter som för närvarande är anslutna men kommer inte att radera några filer och mappar på den externa lagringen i sig.",
     "Delete storage?" : "Ta bort lagring?",
     "Click to recheck the configuration" : "Klicka för att kontrollera inställningarna igen",
     "Saved" : "Sparad",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Ange en giltig applikationsnyckel och hemlig fras.",
     "OAuth1" : "OAuth1",
     "App key" : "Appnyckel",
-    "App secret" : "Apphemlighet"
+    "App secret" : "Apphemlighet",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Är du säker på att du vill koppla bort den här externa lagringen? Det kommer att göra lagringen otillgänglig i Nextcloud och kommer att leda till en radering av dessa filer och mappar på alla synkroniseringsklienter som för närvarande är anslutna men kommer inte att radera några filer och mappar på den externa lagringen i sig."
 },
 "nplurals=2; plural=(n != 1);");

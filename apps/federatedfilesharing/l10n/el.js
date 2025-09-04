@@ -25,7 +25,6 @@ OC.L10N.register(
     "Copy" : "Αντιγραφή",
     "Copied!" : "Αντιγράφτηκε!",
     "Federated Cloud" : "Federated Cloud",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Μπορείτε να διαμοιράζεστε με οποιονδήποτε χρησιμοποιεί Nextcloud ή άλλο συμβατό διακομιστή και υπηρεσιών Open Cloud Mesh (OCM)! Απλά προσθέστε το Federated Cloud ID στο πλαίσιο διαλόγου διαμοιρασμού. Θα μοιάζει με person@cloud.example.com",
     "Share it so your friends can share files with you:" : "Διαμοιραστείτε το ώστε οι φίλοι σας να μπορούν να διαμοιράζονται αρχεία με εσάς:",
     "X (formerly Twitter)" : "X (πρώην Twitter)",
     "Mastodon" : "Mastodon",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "Remote share" : "Απομακρυσμένος κοινόχρηστος φάκελος",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Θέλετε να προσθέσουμε τον απομακρυσμένο κοινόχρηστο φάκελο {name} από {owner}@{remote}?",
     "Remote share password" : "Συνθηματικό απομακρυσμένου κοινόχρηστου φακέλου",
-    "Copy to clipboard" : "Αντιγραφή στο πρόχειρο"
+    "Copy to clipboard" : "Αντιγραφή στο πρόχειρο",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Μπορείτε να διαμοιράζεστε με οποιονδήποτε χρησιμοποιεί Nextcloud ή άλλο συμβατό διακομιστή και υπηρεσιών Open Cloud Mesh (OCM)! Απλά προσθέστε το Federated Cloud ID στο πλαίσιο διαλόγου διαμοιρασμού. Θα μοιάζει με person@cloud.example.com"
 },
 "nplurals=2; plural=(n != 1);");

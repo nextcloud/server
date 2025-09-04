@@ -306,7 +306,6 @@ OC.L10N.register(
     "Link shares" : "Udostępnianie linków",
     "Shares" : "Udostępnienia",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Udostępniaj pliki w swojej organizacji. Odbiorcy, którzy już mogą wyświetlać plik, mogą także użyć tego linku dla łatwiejszego dostępu.",
-    "Share files with others outside your organization via public links and email addresses. You can also share to Nextcloud accounts on other instances using their federated cloud ID." : "Udostępniaj pliki osobom spoza organizacji poprzez publiczne linki i adresy e-mail. Możesz także udostępniać na konta Nextcloud w innych instancjach, używając ich federacyjnego identyfikatora chmury.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Udostępnienia z aplikacji lub innych źródeł, które nie są uwzględnione w udostępnieniach wewnętrznych lub zewnętrznych.",
     "Type names, teams, federated cloud IDs" : "Wpisz nazwy, zespoły, identyfikatory federacyjnej chmury",
     "Type names or teams" : "Wpisz nazwy lub zespoły",

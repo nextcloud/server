@@ -99,7 +99,6 @@ OC.L10N.register(
     "Disconnect" : "Прекъсване на връзката",
     "Admin defined" : "Дефиниран от администратор",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Автоматичната проверка на състоянието е деактивирана поради големия брой конфигурирани хранилища, щракнете, за проверка на състоянието",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Наистина ли искате да изключите това външно хранилище? Това ще направи хранилището недостъпно в Nextcloud и ще доведе до изтриване на тези файлове и папки на всеки синхронизиран клиент, който е свързан в момента, но няма да изтрие никакви файлове и папки от самото външно хранилище.",
     "Delete storage?" : "Изтриване на хранилище?",
     "Click to recheck the configuration" : "Щракнете, за повторна  проверка на конфигурацията",
     "Saved" : "Запазено",
@@ -118,6 +117,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Моля да предоставете валиден ключ и тайна на приложението.",
     "OAuth1" : "OAuth1",
     "App key" : " Ключ на приложение",
-    "App secret" : "Тайна на приложение"
+    "App secret" : "Тайна на приложение",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Наистина ли искате да изключите това външно хранилище? Това ще направи хранилището недостъпно в Nextcloud и ще доведе до изтриване на тези файлове и папки на всеки синхронизиран клиент, който е свързан в момента, но няма да изтрие никакви файлове и папки от самото външно хранилище."
 },
 "nplurals=2; plural=(n != 1);");

@@ -40,7 +40,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Klippispjald er ekki tiltækt. Afritaðu skýjasambandsauðkennið handvirkt.",
     "Copied!" : "Afritað!",
     "Federated Cloud" : "Skýjasamband (federated)",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud-þjóna eða öðrum Open Cloud Mesh (OCM) samhæfðum þjónum og þjónustum! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is",
     "Your Federated Cloud ID" : "Skýjasambandsauðkennið þitt (Federated Cloud ID)",
     "Share it so your friends can share files with you:" : "Deildu þessu svo að vinir þínir geti deilt skrám með þér:",
     "Facebook" : "Facebook",
@@ -56,6 +55,7 @@ OC.L10N.register(
     "Remote share password" : "Lykilorð fjartengdrar sameignar",
     "Incoming share could not be processed" : "Ekki var hægt að vinna með innkomandi sameign",
     "Cloud ID copied to the clipboard" : "Skýjasambandsauðkenni afritað á klippispjald",
-    "Copy to clipboard" : "Afrita á klippispjald"
+    "Copy to clipboard" : "Afrita á klippispjald",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Þú getur deilt með hverjum þeim sem notar Nextcloud-þjóna eða öðrum Open Cloud Mesh (OCM) samhæfðum þjónum og þjónustum! Settu bara skýjasambandsauðkennið þeirra (Federated Cloud ID) inn í deilingargluggann. Það lítur út svipað og einstaklingur@tölvuský.dæmi.is"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

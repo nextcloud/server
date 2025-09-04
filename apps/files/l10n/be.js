@@ -119,6 +119,7 @@ OC.L10N.register(
     "Create new folder" : "Стварыць новую папку",
     "This name is already in use." : "Гэта назва ўжо выкарыстоўваецца.",
     "Create" : "Стварыць",
+    "Preparing …" : "Падрыхтоўка …",
     "Refresh" : "Абнавіць",
     "Fill template fields" : "Запоўніце палі шаблону",
     "Submit" : "Адправіць",

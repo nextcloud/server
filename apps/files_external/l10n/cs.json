@@ -131,7 +131,6 @@
     "Unknown backend: {backendName}" : "Neznámá podpůrná vrstva: {backendName}",
     "Admin defined" : "Nastaveno správcem",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatické zjišťování stavu je vypnuté z důvodu velkého počtu nastavených úložišť – pokud chcete stav zjistit jednorázově, klikněte",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Opravdu chcete toto externí úložiště odpojit? Způsobí že toto úložiště nebude k dispozici v Nextcloud a povede to ke smazání těchto souborů a složek na jakémkoli synchronizačním klientovi, který je v tuto chvíli připojen, ale nesmaže žádné soubory a složky na externím úložišti jako takovém.",
     "Delete storage?" : "Odstranit úložiště?",
     "Click to recheck the configuration" : "Klikněte pro opětovnou kontrolu nastavení",
     "Saved" : "Uloženo",
@@ -155,6 +154,7 @@
     "Please provide a valid app key and secret." : "Zadejte platný klíč aplikace a tajné heslo.",
     "OAuth1" : "OAuth1",
     "App key" : "Klíč aplikace",
-    "App secret" : "Tajemství aplikace"
+    "App secret" : "Tajemství aplikace",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Opravdu chcete toto externí úložiště odpojit? Způsobí že toto úložiště nebude k dispozici v Nextcloud a povede to ke smazání těchto souborů a složek na jakémkoli synchronizačním klientovi, který je v tuto chvíli připojen, ale nesmaže žádné soubory a složky na externím úložišti jako takovém."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

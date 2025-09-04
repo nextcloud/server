@@ -18,9 +18,9 @@ OC.L10N.register(
     "Edit widgets" : "Izbor gradnikov",
     "Get more widgets from the App Store" : "Pridobi več gradnikov s spletišča App Store",
     "Weather service" : "Vremenske storitve",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Za večjo zasebnost so podatki vremena pridobljeni prek strežnika Nextcloud, zato tretje osebe ne pridobijo nobenega vašega osebnega podatka.",
     "Weather data from Met.no" : "Podatke vremena omogoča Met.no",
     "geocoding with Nominatim" : "geokodiranje Nominatim",
-    "elevation data from OpenTopoData" : "podatke nadmorske višine OpenTopoData"
+    "elevation data from OpenTopoData" : "podatke nadmorske višine OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Za večjo zasebnost so podatki vremena pridobljeni prek strežnika Nextcloud, zato tretje osebe ne pridobijo nobenega vašega osebnega podatka."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

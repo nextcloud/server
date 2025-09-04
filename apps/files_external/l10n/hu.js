@@ -133,7 +133,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Ismeretlen háttérszolgáltatás: {backendName}",
     "Admin defined" : "Rendszergazda által definiálva",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Az automatikus állapotellenőrzés a beállított tárolók nagy száma miatt ki van kapcsolva, kattintson az állapot ellenőrzéséhez",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Biztos, hogy bontja a kapcsolatot ezzel a külső tárolóval? A tároló nem lesz elérhető a Nextcloudban, és a szinkronizálási kliensek is törölni fogják azokat a fájlokat, amelyek jelenleg kapcsolatban vannak, viszont magáról a külső tárolóról nem fogja törölni a fájlokat és mappákat.",
     "Delete storage?" : "Tároló törlése?",
     "Click to recheck the configuration" : "Kattintson ide a konfiguráció újraellenőrzéséhez",
     "Saved" : "Mentve",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Adjon meg egy érvényes alkalmazáskulcsot és titkot.",
     "OAuth1" : "OAuth1",
     "App key" : "Alkalmazáskulcs",
-    "App secret" : "Alkalmazás titka"
+    "App secret" : "Alkalmazás titka",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Biztos, hogy bontja a kapcsolatot ezzel a külső tárolóval? A tároló nem lesz elérhető a Nextcloudban, és a szinkronizálási kliensek is törölni fogják azokat a fájlokat, amelyek jelenleg kapcsolatban vannak, viszont magáról a külső tárolóról nem fogja törölni a fájlokat és mappákat."
 },
 "nplurals=2; plural=(n != 1);");

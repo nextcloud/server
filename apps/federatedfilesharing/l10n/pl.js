@@ -52,7 +52,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "Schowek niedostępny. Skopiuj identyfikator chmury ręcznie.",
     "Copied!" : "Skopiowano!",
     "Federated Cloud" : "Chmura Federacyjna",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Możesz udostępniać każdemu, kto używa serwera Nextcloud lub innych serwerów i usług kompatybilnych z Open Cloud Mesh (OCM). Wystarczy, że wpiszesz ID Chmury Federacyjnej w oknie udostępniania, według przykładu: osoba@chmura.przykładowa.com",
     "Your Federated Cloud ID" : "Twój Federowany identyfikator chmury",
     "Share it so your friends can share files with you:" : "Udostępnij, aby Twoi znajomi mogli udostępniać Tobie pliki:",
     "Facebook" : "Facebook",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Remote share password" : "Hasło zdalnego udostępnienia",
     "Incoming share could not be processed" : "Nie można przetworzyć przychodzącego udostępnienia",
     "Cloud ID copied to the clipboard" : "ID chmury skopiowany do schowka",
-    "Copy to clipboard" : "Kopiuj do schowka"
+    "Copy to clipboard" : "Kopiuj do schowka",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Możesz udostępniać każdemu, kto używa serwera Nextcloud lub innych serwerów i usług kompatybilnych z Open Cloud Mesh (OCM). Wystarczy, że wpiszesz ID Chmury Federacyjnej w oknie udostępniania, według przykładu: osoba@chmura.przykładowa.com"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

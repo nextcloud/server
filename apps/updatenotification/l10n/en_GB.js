@@ -23,10 +23,7 @@ OC.L10N.register(
     "Checking apps for compatible versions" : "Checking apps for compatible versions",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store.",
-    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>All</strong> apps have a compatible version for this Nextcloud version available.",
-    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> apps have no compatible version for this Nextcloud version available."],
     "Enterprise" : "Enterprise",
-    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package.",
     "Stable" : "Stable",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "The most recent stable version. It is suited for regular use and will always update to the latest major version.",
     "Beta" : "Beta",
@@ -56,6 +53,9 @@ OC.L10N.register(
     "The selected update channel does not support updates of the server." : "The selected update channel does not support updates of the server.",
     "Changelog for app {app}" : "Changelog for app {app}",
     "What's new in {app} version {version}" : "What's new in {app} version {version}",
-    "{version} is available. Get more information on how to update." : "{version} is available. Get more information on how to update."
+    "{version} is available. Get more information on how to update." : "{version} is available. Get more information on how to update.",
+    "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>All</strong> apps have a compatible version for this Nextcloud version available.",
+    "_<strong>%n</strong> app has no compatible version for this Nextcloud version available._::_<strong>%n</strong> apps have no compatible version for this Nextcloud version available._" : ["<strong>%n</strong> app has no compatible version for this Nextcloud version available.","<strong>%n</strong> apps have no compatible version for this Nextcloud version available."],
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package."
 },
 "nplurals=2; plural=(n != 1);");

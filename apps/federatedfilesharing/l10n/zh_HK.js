@@ -52,7 +52,6 @@ OC.L10N.register(
     "Clipboard not available. Please copy the cloud ID manually." : "剪貼板不可用。請人手複製 cloud ID。",
     "Copied!" : "已複製！",
     "Federated Cloud" : "聯盟式雲端",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以與使用 Nextcloud 伺服器或其他 Open Cloud Mesh（OCM）兼容伺服器和服務的任何人分享！只需將他們的聯盟式雲端 ID 放在分享對話框中。聯盟式雲端 ID 的格式為 person@cloud.example.com ",
     "Your Federated Cloud ID" : "您的雲端聯盟 ID",
     "Share it so your friends can share files with you:" : "使用分享以便您的朋友可以與您分享檔案：",
     "Facebook" : "Facebook",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "Remote share password" : "遠端分享密碼",
     "Incoming share could not be processed" : "無法處理傳入的分享",
     "Cloud ID copied to the clipboard" : "已複製 Cloud ID 至剪貼板",
-    "Copy to clipboard" : "複製到剪貼板"
+    "Copy to clipboard" : "複製到剪貼板",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以與使用 Nextcloud 伺服器或其他 Open Cloud Mesh（OCM）兼容伺服器和服務的任何人分享！只需將他們的聯盟式雲端 ID 放在分享對話框中。聯盟式雲端 ID 的格式為 person@cloud.example.com "
 },
 "nplurals=1; plural=0;");

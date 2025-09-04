@@ -50,7 +50,6 @@
     "Clipboard not available. Please copy the cloud ID manually." : "Udklipsholder ikke tilgængelig. Kopier venligst Cloud ID'et manuelt.",
     "Copied!" : "Kopieret!",
     "Federated Cloud" : "Sammenkoblet Cloud",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle, der bruger en Nextcloud-server eller andre Open Cloud Mesh (OCM)-kompatible servere og tjenester! Indsæt blot deres Sammenkoblings Cloud ID i delingsdialogen. Det ligner person@cloud.example.com",
     "Your Federated Cloud ID" : "Dit sammenkoblings Cloud ID",
     "Share it so your friends can share files with you:" : "Del så dine venner kan dele filer med dig:",
     "Facebook" : "Facebook",
@@ -67,6 +66,7 @@
     "Remote share password" : "Fjerndrev adgangskode",
     "Incoming share could not be processed" : "Indgående deling kunne ikke behandles",
     "Cloud ID copied to the clipboard" : "Cloud ID er kopieret til udklipsholderen.",
-    "Copy to clipboard" : "Kopier til udklipsholder"
+    "Copy to clipboard" : "Kopier til udklipsholder",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Du kan dele med alle, der bruger en Nextcloud-server eller andre Open Cloud Mesh (OCM)-kompatible servere og tjenester! Indsæt blot deres Sammenkoblings Cloud ID i delingsdialogen. Det ligner person@cloud.example.com"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

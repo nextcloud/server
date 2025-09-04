@@ -103,7 +103,6 @@ OC.L10N.register(
     "Disconnect" : "Prekini povezavo",
     "Admin defined" : "Skrbnik je določen",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Samodejno preverjanje stanja je onemogočeno zaradi večjega števila nastavljenih shramb. Stanje je mogoče določiti ročno s klikom.",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ali ste prepričani, da želite odklopiti to mesto zunanje shrambe? Odklopljena shramba ni na voljo v oblaku Nextcloud, mape in datoteke pa ne bodo dostopne in ne usklajevanje. Datoteke zunanje shrambe ostanejo nedotaknjene.",
     "Delete storage?" : "Ali ste prepričani, da želite izbrisati shrambo?",
     "Click to recheck the configuration" : "Kliknite za ponovno preverjanje nastavitev",
     "Saved" : "Shranjeno",
@@ -122,6 +121,7 @@ OC.L10N.register(
     "Please provide a valid app key and secret." : "Vpisati je treba veljaven ključ programa in kodo PIN.",
     "OAuth1" : "OAuth1",
     "App key" : "Programski ključ",
-    "App secret" : "Skrivni programski ključ"
+    "App secret" : "Skrivni programski ključ",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ali ste prepričani, da želite odklopiti to mesto zunanje shrambe? Odklopljena shramba ni na voljo v oblaku Nextcloud, mape in datoteke pa ne bodo dostopne in ne usklajevanje. Datoteke zunanje shrambe ostanejo nedotaknjene."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

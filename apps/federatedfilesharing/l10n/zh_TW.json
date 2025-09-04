@@ -50,7 +50,6 @@
     "Clipboard not available. Please copy the cloud ID manually." : "無法使用剪貼簿。請手動複製雲端 ID。",
     "Copied!" : "已複製！",
     "Federated Cloud" : "聯邦雲端",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以與任何使用 Nextcloud 伺服器，或其他相容於 Open Cloud Mesh (OCM) 的伺服器與服務分享！只要把他們的聯邦雲端 ID 放在分享對話方塊中。ID 看起來會像 person@cloud.example.com",
     "Your Federated Cloud ID" : "您的雲端聯邦 ID",
     "Share it so your friends can share files with you:" : "分享 ID，然後您的朋友就能透過它與您分享檔案：",
     "Facebook" : "Facebook",
@@ -67,6 +66,7 @@
     "Remote share password" : "遠端分享密碼",
     "Incoming share could not be processed" : "無法處理收到的分享",
     "Cloud ID copied to the clipboard" : "雲端 ID 已複製到剪貼簿",
-    "Copy to clipboard" : "複製到剪貼簿"
+    "Copy to clipboard" : "複製到剪貼簿",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "您可以與任何使用 Nextcloud 伺服器，或其他相容於 Open Cloud Mesh (OCM) 的伺服器與服務分享！只要把他們的聯邦雲端 ID 放在分享對話方塊中。ID 看起來會像 person@cloud.example.com"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
