@@ -335,25 +335,25 @@ class KeyManagerTest extends TestCase {
 		return [
 			['user1', false, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
 			['user1', false, 'privateKey', '', 'multiKeyDecryptResult'],
-			['user1', false, false, 'legacyKey', ''],
-			['user1', false, false, '', ''],
+			['user1', false, '', 'legacyKey', ''],
+			['user1', false, '', '', ''],
 			['user1', true, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
 			['user1', true, 'privateKey', '', 'multiKeyDecryptResult'],
-			['user1', true, false, 'legacyKey', ''],
-			['user1', true, false, '', ''],
+			['user1', true, '', 'legacyKey', ''],
+			['user1', true, '', '', ''],
 			[null, false, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
 			[null, false, 'privateKey', '', 'multiKeyDecryptResult'],
-			[null, false, false, 'legacyKey', ''],
-			[null, false, false, '', ''],
+			[null, false, '', 'legacyKey', ''],
+			[null, false, '', '', ''],
 			[null, true, 'privateKey', 'legacyKey', 'multiKeyDecryptResult'],
 			[null, true, 'privateKey', '', 'multiKeyDecryptResult'],
-			[null, true, false, 'legacyKey', ''],
-			[null, true, false, '', ''],
+			[null, true, '', 'legacyKey', ''],
+			[null, true, '', '', ''],
 		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetFileKey')]
-	public function testGetFileKey(?string $uid, bool $isMasterKeyEnabled, string|false $privateKey, string $encryptedFileKey, string $expected): void {
+	public function testGetFileKey(?string $uid, bool $isMasterKeyEnabled, string $privateKey, string $encryptedFileKey, string $expected): void {
 		$path = '/foo.txt';
 
 		if ($isMasterKeyEnabled) {
