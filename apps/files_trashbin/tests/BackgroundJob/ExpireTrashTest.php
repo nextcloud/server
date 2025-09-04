@@ -31,6 +31,7 @@ class ExpireTrashTest extends TestCase {
 	private ITimeFactory&MockObject $time;
 	private SetupManager&MockObject $setupManager;
 	private ILockingProvider&MockObject $lockingProvider;
+	private IRootFolder&MockObject $rootFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,6 +43,7 @@ class ExpireTrashTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->setupManager = $this->createMock(SetupManager::class);
 		$this->lockingProvider = $this->createMock(ILockingProvider::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
 
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->time->method('getTime')
@@ -68,6 +70,7 @@ class ExpireTrashTest extends TestCase {
 			$this->logger,
 			$this->setupManager,
 			$this->lockingProvider,
+			$this->rootFolder,
 			$this->time,
 		);
 		$job->start($this->jobList);
@@ -87,6 +90,7 @@ class ExpireTrashTest extends TestCase {
 			$this->logger,
 			$this->setupManager,
 			$this->lockingProvider,
+			$this->rootFolder,
 			$this->time,
 		);
 		$job->start($this->jobList);

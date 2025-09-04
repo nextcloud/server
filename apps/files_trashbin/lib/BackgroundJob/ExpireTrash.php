@@ -19,6 +19,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use Override;
 use Psr\Log\LoggerInterface;
 
 class ExpireTrash extends TimedJob {
@@ -40,7 +41,8 @@ class ExpireTrash extends TimedJob {
 		$this->setInterval(self::THIRTY_MINUTES);
 	}
 
-	protected function run($argument) {
+	#[Override]
+	protected function run($argument): void {
 		$backgroundJob = $this->appConfig->getValueBool(Application::APP_ID, self::TOGGLE_CONFIG_KEY_NAME, true);
 		if (!$backgroundJob) {
 			return;
@@ -64,9 +66,8 @@ class ExpireTrash extends TimedJob {
 				$count++;
 
 				try {
-					if ($this->setupFS($user)) {
-						Trashbin::expire($uid);
-					}
+					$folder = $this->getTrashRoot($user);
+					Trashbin::expire($folder, $user);
 				} catch (\Throwable $e) {
 					$this->logger->error('Error while expiring trashbin for user ' . $uid, ['exception' => $e]);
 				} finally {
@@ -82,23 +83,19 @@ class ExpireTrash extends TimedJob {
 		}
 	}
 
-	/**
-	 * Act on behalf on trash item owner
-	 */
-	protected function setupFS(IUser $user): bool {
+	private function getTrashRoot(IUser $user): Folder {
+		$this->setupManager->tearDown();
 		$this->setupManager->setupForUser($user);
 
-		// Check if this user has a trashbin directory
-		$view = new View('/' . $user->getUID());
-		if (!$view->is_dir('/files_trashbin/files')) {
-			return false;
+		$folder = $this->rootFolder->getUserFolder($user->getUID())->getParent()->get('files_trashbin');
+		if (!$folder instanceof Folder) {
+			throw new \LogicException("Didn't expect files_trashbin to be a file instead of a folder");
 		}
-
-		return true;
+		return $folder;
 	}
 
 	private function getNextOffset(): int {
-		return $this->runMutexOperation(function () {
+		return $this->runMutexOperation(function (): int {
 			$this->appConfig->clearCache();
 
 			$offset = $this->appConfig->getValueInt(Application::APP_ID, self::OFFSET_CONFIG_KEY_NAME, 0);
@@ -109,13 +106,18 @@ class ExpireTrash extends TimedJob {
 
 	}
 
-	private function resetOffset() {
+	private function resetOffset(): void {
 		$this->runMutexOperation(function (): void {
 			$this->appConfig->setValueInt(Application::APP_ID, self::OFFSET_CONFIG_KEY_NAME, 0);
 		});
 	}
 
-	private function runMutexOperation($operation): mixed {
+	/**
+	 * @template T
+	 * @param callable(): T $operation
+	 * @return T
+	 */
+	private function runMutexOperation(callable $operation): mixed {
 		$acquired = false;
 
 		while ($acquired === false) {

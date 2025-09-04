@@ -1707,72 +1707,18 @@
       <code><![CDATA[moveMount]]></code>
     </UndefinedMethod>
   </file>
-  <file src="apps/files_trashbin/lib/BackgroundJob/ExpireTrash.php">
-    <InternalClass>
-      <code><![CDATA[new View('/' . $user->getUID())]]></code>
-    </InternalClass>
-    <InternalMethod>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[new View('/' . $user->getUID())]]></code>
-    </InternalMethod>
-  </file>
-  <file src="apps/files_trashbin/lib/Command/CleanUp.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files_trashbin/lib/Command/Expire.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($this->user)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
     <DeprecatedInterface>
       <code><![CDATA[Expire]]></code>
     </DeprecatedInterface>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/files_trashbin/lib/Command/ExpireTrash.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($user)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedMethod>
-    <InternalClass>
-      <code><![CDATA[new View('/' . $user)]]></code>
-    </InternalClass>
-    <InternalMethod>
-      <code><![CDATA[is_dir]]></code>
-      <code><![CDATA[new View('/' . $user)]]></code>
-    </InternalMethod>
-  </file>
-  <file src="apps/files_trashbin/lib/Command/RestoreAllFiles.php">
-    <DeprecatedClass>
-      <code><![CDATA[\OC_Util::setupFS($uid)]]></code>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_Util::tearDownFS()]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/files_trashbin/lib/Command/Size.php">
     <DeprecatedInterface>
       <code><![CDATA[private]]></code>
     </DeprecatedInterface>
     <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getUserValue]]></code>
       <code><![CDATA[getUserValueForUsers]]></code>
-      <code><![CDATA[setAppValue]]></code>
       <code><![CDATA[setUserValue]]></code>
     </DeprecatedMethod>
   </file>
@@ -1848,7 +1794,6 @@
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
 				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))])]]></code>
       <code><![CDATA[Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath])]]></code>
-      <code><![CDATA[getUserFolder]]></code>
       <code><![CDATA[getUserFolder]]></code>
       <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
