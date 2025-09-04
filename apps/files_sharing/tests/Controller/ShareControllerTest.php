@@ -30,6 +30,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -67,6 +68,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private Manager&MockObject $shareManager;
 	private IPreview&MockObject $previewManager;
 	private IUserManager&MockObject $userManager;
+	private ITemplateManager&MockObject $templateManager;
 	private IInitialState&MockObject $initialState;
 	private IURLGenerator&MockObject $urlGenerator;
 	private ISecureRandom&MockObject $secureRandom;
@@ -86,6 +88,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->federatedShareProvider->expects($this->any())
@@ -113,6 +116,7 @@ class ShareControllerTest extends \Test\TestCase {
 					$this->defaults,
 					$this->config,
 					$this->createMock(IRequest::class),
+					$this->templateManager,
 					$this->initialState,
 					$this->appConfig,
 				)
@@ -336,6 +340,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'fileId' => 111,
 			'owner' => 'ownerUID',
 			'ownerDisplayName' => 'ownerDisplay',
+			'templates' => [],
 		];
 
 		$response = $this->shareController->showShare();
@@ -482,6 +487,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'ownerDisplayName' => 'ownerDisplay',
 			'note' => 'The note',
 			'label' => 'A label',
+			'templates' => [],
 		];
 
 		$response = $this->shareController->showShare();
