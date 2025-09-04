@@ -85,6 +85,13 @@ jobs:
               "has_npm": false,
               "has_composer": true,
               "makefile_target": "build_files_antivirus_app"
+            },
+            {
+              "name": "notify_push",
+              "path": "apps-external/notify_push",
+              "has_npm": false,
+              "has_composer": true,
+              "makefile_target": "build_notify_push_app"
             }
           ]'
 
