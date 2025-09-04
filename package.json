@@ -176,7 +176,7 @@
     "karma-viewport": "^1.0.9",
     "mime": "^4.0.7",
     "msw": "^2.11.0",
-    "puppeteer": "^24.17.1",
+    "puppeteer": "^24.18.0",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
     "sass": "^1.91.0",
