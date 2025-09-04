@@ -200,10 +200,7 @@ class SetupManager {
 
 		$this->eventLogger->start('fs:setup:user:full', 'Setup full filesystem for user');
 
-		if (!isset($this->setupUserMountProviders[$user->getUID()])) {
-			$this->setupUserMountProviders[$user->getUID()] = [];
-		}
-
+		$this->setupUserMountProviders[$user->getUID()] ??= [];
 		$previouslySetupProviders = $this->setupUserMountProviders[$user->getUID()];
 
 		$this->setupForUserWith($user, function () use ($user) {
