@@ -67,9 +67,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		$mounts = array_map(function (IMountProvider $provider) use ($user, $loader) {
 			return $this->getMountsFromProvider($provider, $user, $loader);
 		}, $providers);
-		$mounts = array_reduce($mounts, function (array $mounts, array $providerMounts) {
-			return array_merge($mounts, $providerMounts);
-		}, []);
+		$mounts = array_merge(...$mounts);
 		return $this->filterMounts($user, $mounts);
 	}
 
