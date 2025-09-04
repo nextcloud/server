@@ -136,7 +136,11 @@ class KeyManager {
 		if (!$this->session->isPrivateKeySet()) {
 			$masterKey = $this->getSystemPrivateKey($this->masterKeyId);
 			$decryptedMasterKey = $this->crypt->decryptPrivateKey($masterKey, $this->getMasterKeyPassword(), $this->masterKeyId);
-			$this->session->setPrivateKey($decryptedMasterKey);
+			if ($decryptedMasterKey === false) {
+				$this->logger->error('A public master key is available but the decryption failed. This should never happen.');
+			} else {
+				$this->session->setPrivateKey($decryptedMasterKey);
+			}
 		}
 
 		// after the encryption key is available we are ready to go
