@@ -227,17 +227,46 @@ class PersonalInfo implements ISettings {
 	}
 
 	/**
+	 * Validates a forced language setting against available languages
+	 */
+	private function validateForcedLanguage(string $forcedLanguage, array $languages): ?array {
+		$allLanguages = array_merge(
+			$languages['commonLanguages'] ?? [],
+			$languages['otherLanguages'] ?? []
+		);
+		$matchingLanguages = array_filter(
+			$allLanguages,
+			fn($lang) => $lang['code'] === $forcedLanguage
+		);
+		$matchingLanguage = reset($matchingLanguages);
+
+		if ($matchingLanguage && isset($matchingLanguage['name'])) {
+			return [
+				'code' => $forcedLanguage,
+				'name' => $matchingLanguage['name']
+			];
+		}
+
+		return null;
+	}
+
+	/**
 	 * returns the user's active language, common languages, and other languages in an
 	 * associative array
 	 */
 	private function getLanguageMap(IUser $user): array {
 		$forceLanguage = $this->config->getSystemValue('force_language', false);
 		if ($forceLanguage !== false) {
+			$languages = $this->l10nFactory->getLanguages();
+			$validated = $this->validateForcedLanguage($forceLanguage, $languages);
+			
+			if ($validated !== null) {
+				return ['forcedLanguage' => $validated];
+			}
 			return [];
 		}
 
 		$uid = $user->getUID();
-
 		$userConfLang = $this->config->getUserValue($uid, 'core', 'lang', $this->l10nFactory->findLanguage());
 		$languages = $this->l10nFactory->getLanguages();
 
@@ -263,9 +292,35 @@ class PersonalInfo implements ISettings {
 		);
 	}
 
+	/**
+	 * Validates a forced locale setting against available locales
+	 */
+	private function validateForcedLocale(string $forcedLocale, array $localeCodes): ?array {
+		$matchingLocales = array_filter(
+			$localeCodes,
+			fn($locale) => $locale['code'] === $forcedLocale
+		);
+		$matchingLocale = reset($matchingLocales);
+
+		if ($matchingLocale && isset($matchingLocale['name'])) {
+			return [
+				'code' => $forcedLocale,
+				'name' => $matchingLocale['name']
+			];
+		}
+
+		return null;
+	}
+
 	private function getLocaleMap(IUser $user): array {
-		$forceLanguage = $this->config->getSystemValue('force_locale', false);
-		if ($forceLanguage !== false) {
+		$forceLocale = $this->config->getSystemValue('force_locale', false);
+		if ($forceLocale !== false) {
+			$localeCodes = $this->l10nFactory->findAvailableLocales();
+			$validated = $this->validateForcedLocale($forceLocale, $localeCodes);
+			
+			if ($validated !== null) {
+				return ['forcedLocale' => $validated];
+			}
 			return [];
 		}
 
