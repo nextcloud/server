@@ -24,6 +24,7 @@ use OCP\Constants;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -49,6 +50,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		private Defaults $defaults,
 		private IConfig $config,
 		private IRequest $request,
+		private ITemplateManager $templateManager,
 		private IInitialState $initialState,
 		private IAppConfig $appConfig,
 	) {
@@ -118,6 +120,8 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
 		}
+
+		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
 		// Allow external apps to register their scripts
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($share));
