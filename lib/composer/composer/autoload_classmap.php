@@ -981,6 +981,7 @@ return array(
     'OCP\\User\\Events\\PasswordUpdatedEvent' => $baseDir . '/lib/public/User/Events/PasswordUpdatedEvent.php',
     'OCP\\User\\Events\\PostLoginEvent' => $baseDir . '/lib/public/User/Events/PostLoginEvent.php',
     'OCP\\User\\Events\\UserChangedEvent' => $baseDir . '/lib/public/User/Events/UserChangedEvent.php',
+    'OCP\\User\\Events\\UserConfigChangedEvent' => $baseDir . '/lib/public/User/Events/UserConfigChangedEvent.php',
     'OCP\\User\\Events\\UserCreatedEvent' => $baseDir . '/lib/public/User/Events/UserCreatedEvent.php',
     'OCP\\User\\Events\\UserDeletedEvent' => $baseDir . '/lib/public/User/Events/UserDeletedEvent.php',
     'OCP\\User\\Events\\UserFirstTimeLoggedInEvent' => $baseDir . '/lib/public/User/Events/UserFirstTimeLoggedInEvent.php',
