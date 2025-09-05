@@ -165,23 +165,44 @@ jobs:
           submodules: true
           fetch-depth: '1'
 
-      - name: Download richdocuments app
+      - name: Download build external apps
         uses: actions/download-artifact@v5
         with:
-          name: external-app-build-richdocuments
-          path: apps-external/richdocuments
+          pattern: external-app-build-*
+          path: apps-external/
 
-      - name: Download viewer app
-        uses: actions/download-artifact@v5
-        with:
-          name: external-app-build-viewer
-          path: apps-external/viewer
+      - name: Reorganize downloaded apps-external artifacts
+        run: |
+          cd apps-external/
 
-      - name: Download contacts app
-        uses: actions/download-artifact@v5
-        with:
-          name: external-app-build-contacts
-          path: apps-external/contacts
+          echo "Initial structure:"
+          ls -la
+
+          # Move contents from external-app-build-* directories to their target directories
+          for artifact_dir in external-app-build-*; do
+            if [ -d "$artifact_dir" ]; then
+              # Extract app name from artifact directory name
+              app_name=${artifact_dir#external-app-build-}
+
+              echo "Processing artifact: $artifact_dir -> $app_name"
+
+              # If target directory exists, merge the contents from the artifact directory containing build artifacts
+              if [ -d "$app_name" ]; then
+                echo "Target directory $app_name exists, merging contents from $artifact_dir"
+                # Copy contents from artifact directory to target directory
+                cp -r "$artifact_dir"/* "$app_name"/
+                # Remove the now-empty artifact directory
+                rm -rf "$artifact_dir"
+              else
+                # Move the artifact directory to the proper app name
+                echo "Moving $artifact_dir to $app_name"
+                mv "$artifact_dir" "$app_name"
+              fi
+            fi
+          done
+
+          echo "Reorganization complete. Final structure:"
+          ls -la
 
       - name: Verify downloaded artifacts structure
         run: |
@@ -306,7 +327,7 @@ jobs:
           fi
 
       - name: Download artifact zip
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@v5
         with:
           name: nextcloud_workspace_build_artifact
 
@@ -372,7 +393,7 @@ jobs:
 
     steps:
       - name: Download artifact zip
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: nextcloud_workspace_build_artifact
 
