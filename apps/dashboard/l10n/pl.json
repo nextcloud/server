@@ -18,6 +18,7 @@
     "Edit widgets" : "Edytuj widżety",
     "Get more widgets from the App Store" : "Pobierz więcej widżetów z Nextcloud App Store",
     "Weather service" : "Serwis pogodowy",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Dla ochrony Twojej prywatności dane pogodowe są pobierane w Twoim imieniu przez serwer {productName}, dzięki czemu usługa pogodowa nie otrzymuje żadnych danych osobowych.",
     "Weather data from Met.no" : "Dane pogodowe z Met.no",
     "geocoding with Nominatim" : "geokodowanie z Nominatim",
     "elevation data from OpenTopoData" : "dane wysokościowe z OpenTopoData",
