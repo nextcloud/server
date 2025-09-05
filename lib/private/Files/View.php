@@ -732,6 +732,11 @@ class View {
 			if ($source == null || $target == null) {
 				return false;
 			}
+			$sourceInfo = $this->getFileInfo($source);
+			if ($sourceInfo && !($sourceInfo->getPermissions() & \OCP\Constants::PERMISSION_UPDATE)) {
+
+			    throw new ForbiddenException('You do not have permission to move this item', false);
+			}
 
 			try {
 				$this->verifyPath(dirname($target), basename($target));
@@ -869,6 +874,10 @@ class View {
 		$l = \OC::$server->get(IFactory::class)->get('files');
 		foreach ($mounts as $mount) {
 			$sourcePath = $this->getRelativePath($mount->getMountPoint());
+<<<<<<< HEAD
+=======
+
+>>>>>>> e65e10d6cd0 (View.php's rename method modified to check permissions before allowing move RE:issue#53041 signed off by tmorg@umich, Troy Morgan)
 			if ($sourcePath) {
 				$sourcePath = trim($sourcePath, '/');
 			} else {
