@@ -79,17 +79,33 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
+	 * Convenience function to get registered IMountProvider instances by their class name.
+	 *
+	 * @param array<IMountProvider> $providers
+	 * @param array<class-string<IMountProvider>> $mountProviderClasses
+	 * @return array<int, IMountProvider> IMountProvider keyed-by the respective class
+	 */
+	public function getProvidersByClass(array $providers, array $mountProviderClasses): array {
+		return array_filter(
+			$providers,
+			fn (IMountProvider $mountProvider) => (in_array(
+				get_class($mountProvider),
+				$mountProviderClasses
+			))
+		);
+	}
+
+	/**
 	 * Convenience method that returns mounts coming from the specified provider classes
 	 * and if registered in the current collection instance.
+	 *
+	 * @inheritdoc
 	 *
 	 * @return list<IMountPoint>
 	 */
 	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array {
-		$providers = array_filter(
-			$this->providers,
-			fn (IMountProvider $mountProvider) => (in_array(get_class($mountProvider), $mountProviderClasses))
-		);
-		return $this->getUserMountsForProviders($user, $providers);
+		$providers = $this->getProvidersByClass($this->providers, $mountProviderClasses);
+		return $this->getUserMountsForProviders($user, array_values($providers));
 	}
 
 	/**
