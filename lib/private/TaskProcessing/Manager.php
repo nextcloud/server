@@ -81,6 +81,9 @@ class Manager implements IManager {
 
 	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 30 * 4; // 4 months
 
+	private const TASK_TYPES_CACHE_KEY = 'available_task_types_v2';
+	private const TASK_TYPE_IDS_CACHE_KEY = 'available_task_type_ids';
+
 	/** @var list<IProvider>|null */
 	private ?array $providers = null;
 
@@ -88,6 +91,9 @@ class Manager implements IManager {
 	 * @var array<array-key,array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 */
 	private ?array $availableTaskTypes = null;
+
+	/** @var list<string>|null */
+	private ?array $availableTaskTypeIds = null;
 
 	private IAppData $appData;
 	private ?array $preferences = null;
@@ -834,7 +840,7 @@ class Manager implements IManager {
 			return [];
 		}
 		if ($this->availableTaskTypes === null) {
-			$cachedValue = $this->distributedCache->get('available_task_types_v2');
+			$cachedValue = $this->distributedCache->get(self::TASK_TYPES_CACHE_KEY);
 			if ($cachedValue !== null) {
 				$this->availableTaskTypes = unserialize($cachedValue);
 			}
@@ -880,11 +886,52 @@ class Manager implements IManager {
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
-			$this->distributedCache->set('available_task_types_v2', serialize($this->availableTaskTypes), 60);
+			$this->distributedCache->set(self::TASK_TYPES_CACHE_KEY, serialize($this->availableTaskTypes), 60);
 		}
 
 
 		return $this->availableTaskTypes;
+	}
+	public function getAvailableTaskTypeIds(bool $showDisabled = false, ?string $userId = null): array {
+		// userId will be obtained from the session if left to null
+		if (!$this->checkGuestAccess($userId)) {
+			return [];
+		}
+		if ($this->availableTaskTypeIds === null) {
+			$cachedValue = $this->distributedCache->get(self::TASK_TYPE_IDS_CACHE_KEY);
+			if ($cachedValue !== null) {
+				$this->availableTaskTypeIds = $cachedValue;
+			}
+		}
+		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
+		if ($this->availableTaskTypeIds === null || $showDisabled) {
+			$taskTypes = $this->_getTaskTypes();
+			$taskTypeSettings = $this->_getTaskTypeSettings();
+
+			$availableTaskTypeIds = [];
+			foreach ($taskTypes as $taskType) {
+				if ((!$showDisabled) && isset($taskTypeSettings[$taskType->getId()]) && !$taskTypeSettings[$taskType->getId()]) {
+					continue;
+				}
+				try {
+					$provider = $this->getPreferredProvider($taskType->getId());
+				} catch (\OCP\TaskProcessing\Exception\Exception $e) {
+					continue;
+				}
+				$availableTaskTypeIds[] = $taskType->getId();
+			}
+
+			if ($showDisabled) {
+				// Do not cache showDisabled, ever.
+				return $availableTaskTypeIds;
+			}
+
+			$this->availableTaskTypeIds = $availableTaskTypeIds;
+			$this->distributedCache->set(self::TASK_TYPE_IDS_CACHE_KEY, $this->availableTaskTypeIds, 60);
+		}
+
+
+		return $this->availableTaskTypeIds;
 	}
 
 	public function canHandleTask(Task $task): bool {
