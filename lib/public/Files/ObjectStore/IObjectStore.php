@@ -60,6 +60,8 @@ interface IObjectStore {
 	 * @param string $from the unified resource name used to identify the source object
 	 * @param string $to the unified resource name used to identify the target object
 	 * @return void
+	 * @throws NotFoundException if the source file does not exist - since 33.0.0
+	 * @throws \Exception when something goes wrong, message will be logged - since 33.0.0
 	 * @since 21.0.0
 	 */
 	public function copyObject($from, $to);

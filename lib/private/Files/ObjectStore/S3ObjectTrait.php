@@ -12,9 +12,11 @@ use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartCopy;
 use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Utils;
 use OC\Files\Stream\SeekableHttpStream;
+use OCP\Files\NotFoundException;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
@@ -260,23 +262,31 @@ trait S3ObjectTrait {
 
 		$size = (int)($sourceMetadata->get('Size') ?? $sourceMetadata->get('ContentLength'));
 
-		if ($this->useMultipartCopy && $size > $this->copySizeLimit) {
-			$copy = new MultipartCopy($this->getConnection(), [
-				'source_bucket' => $this->getBucket(),
-				'source_key' => $from
-			], array_merge([
-				'bucket' => $this->getBucket(),
-				'key' => $to,
-				'acl' => 'private',
-				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
-				'source_metadata' => $sourceMetadata
-			], $options));
-			$copy->copy();
-		} else {
-			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
-				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
-				'mup_threshold' => PHP_INT_MAX,
-			], $options));
+		try {
+			if ($this->useMultipartCopy && $size > $this->copySizeLimit) {
+				$copy = new MultipartCopy($this->getConnection(), [
+					'source_bucket' => $this->getBucket(),
+					'source_key' => $from
+				], array_merge([
+					'bucket' => $this->getBucket(),
+					'key' => $to,
+					'acl' => 'private',
+					'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+					'source_metadata' => $sourceMetadata
+				], $options));
+				$copy->copy();
+			} else {
+				$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
+					'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+					'mup_threshold' => PHP_INT_MAX,
+				], $options));
+			}
+		} catch (BadResponseException $e) {
+			if ($e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
+				throw new NotFoundException("Unable to copy. Object $from not found in object store.");
+			} else {
+				throw $e;
+			}
 		}
 	}
 }
