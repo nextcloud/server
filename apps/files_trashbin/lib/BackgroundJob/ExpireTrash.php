@@ -48,9 +48,10 @@ class ExpireTrash extends TimedJob {
 			return;
 		}
 
-		$stopTime = time() + self::THIRTY_MINUTES;
+		$startTime = time();
 
-		do {
+		// Process users in batches of 10, but don't run for more than 30 minutes
+		while (time() < $startTime + self::THIRTY_MINUTES) {
 			$offset = $this->getNextOffset();
 			$users = $this->userManager->getSeenUsers($offset, self::USER_BATCH_SIZE);
 			$count = 0;
@@ -71,10 +72,10 @@ class ExpireTrash extends TimedJob {
 				}
 			}
 
-		} while (time() < $stopTime && $count === self::USER_BATCH_SIZE);
-
-		if ($count < self::USER_BATCH_SIZE) {
-			$this->resetOffset();
+			// If the last batch was not full it means that we reached the end of the user list.
+			if ($count < self::USER_BATCH_SIZE) {
+				$this->resetOffset();
+			}
 		}
 	}
 
