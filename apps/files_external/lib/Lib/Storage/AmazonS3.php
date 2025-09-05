@@ -755,4 +755,35 @@ class AmazonS3 extends Common {
 
 		return $size;
 	}
+
+	/**
+	 * Generates and returns a presigned URL that expires after set duration
+	 *
+	 */
+	public function getDirectDownload(string $path): array|false {
+		$command = $this->getConnection()->getCommand('GetObject', [
+			'Bucket' => $this->bucket,
+			'Key' => $path,
+		]);
+		$duration = '+10 minutes';
+		$expiration = new \DateTime();
+		$expiration->modify($duration);
+
+		// generate a presigned URL that expires after $duration time
+		$request = $this->getConnection()->createPresignedRequest($command, $duration, []);
+		try {
+			$presignedUrl = (string)$request->getUri();
+		} catch (S3Exception $exception) {
+			$this->logger->error($exception->getMessage(), [
+				'app' => 'files_external',
+				'exception' => $exception,
+			]);
+		}
+		$result = [
+			'url' => $presignedUrl,
+			'presigned' => true,
+			'expiration' => $expiration,
+		];
+		return $result;
+	}
 }
