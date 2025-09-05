@@ -27,6 +27,7 @@ use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
 use Psr\Log\LoggerInterface;
+use Sabre\DAV\Exception\InsufficientStorage;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
 	use CopyDirectory;
@@ -40,6 +41,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	private bool $handleCopiesAsOwned;
 	protected bool $validateWrites = true;
 	private bool $preserveCacheItemsOnDelete = false;
+	private ?int $totalSizeLimit = null;
 
 	/**
 	 * @param array $parameters
@@ -63,6 +65,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$this->validateWrites = (bool)$parameters['validateWrites'];
 		}
 		$this->handleCopiesAsOwned = (bool)($parameters['handleCopiesAsOwned'] ?? false);
+		if (isset($parameters['totalSizeLimit'])) {
+			$this->totalSizeLimit = $parameters['totalSizeLimit'];
+		}
 
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 	}
@@ -455,6 +460,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 		}
 
+		$this->assertTotalSizeLimit($size);
+
 		$stat = $this->stat($path);
 		if (empty($stat)) {
 			// create new file
@@ -644,6 +651,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 				if (!$sourceStream) {
 					throw new \Exception("Failed to open source file {$file->getPath()} ({$file->getId()})");
 				}
+				$this->assertTotalSizeLimit($file->getSize());
 				$this->objectStore->writeObject($this->getURN($file->getId()), $sourceStream, $file->getMimeType());
 				if (is_resource($sourceStream)) {
 					fclose($sourceStream);
@@ -708,6 +716,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	}
 
 	private function copyFile(ICacheEntry $sourceEntry, string $to) {
+		$this->assertTotalSizeLimit($sourceEntry->getSize());
+
 		$cache = $this->getCache();
 
 		$sourceUrn = $this->getURN($sourceEntry->getId());
@@ -755,6 +765,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
 			throw new GenericFileException('Object store does not support multipart upload');
 		}
+
+		$this->assertTotalSizeLimit($size);
+
 		$cacheEntry = $this->getCache()->get($targetPath);
 		$urn = $this->getURN($cacheEntry->getId());
 
@@ -811,5 +824,26 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function setPreserveCacheOnDelete(bool $preserve) {
 		$this->preserveCacheItemsOnDelete = $preserve;
+	}
+
+	/**
+	 * @throws InsufficientStorage
+	 */
+	private function assertTotalSizeLimit(?int $additionalSize): void {
+		if ($this->totalSizeLimit === null) {
+			return;
+		}
+
+		$currentSize = 0;
+		foreach ($this->getAllChildObjects($this->getCache(), $this->getCache()->get('')) as $file) {
+			$currentSize += $file->getSize();
+		}
+
+		// If the additional size is not known, just check that the current size is not over the limit.
+		// It can still happen that the limit is overstepped when multiple uploads happen at the same time,
+		// but any uploads after that will still be prevented.
+		if ($currentSize + ($additionalSize ?? 0) > $this->totalSizeLimit) {
+			throw new InsufficientStorage('Object store size limit reached');
+		}
 	}
 }
