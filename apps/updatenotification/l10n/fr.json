@@ -21,6 +21,7 @@
     "Checking apps for compatible versions" : "Vérification de la compatibilité des applications",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Veuillez vous assurer que le paramètre <samp>appstoreenabled</samp> n'est pas défini à false dans votre config.php.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Impossible de se connecter au magasin d'applications ou aucune mise à jour n'est disponible. Recherchez manuellement les mises à jour ou assurez-vous que votre serveur a accès à Internet et peut se connecter au magasin d'applications.",
+    "<strong>All</strong> apps have a compatible version for this {productName} version available." : "<strong>Toutes</strong> les applications ont une version compatible avec cette version de {productName}.",
     "Enterprise" : "Entreprise",
     "Stable" : "Stable",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "La version stable la plus récente. Elle est adaptée pour une utilisation régulière et sera toujours mise à jour vers la dernière version majeure.",

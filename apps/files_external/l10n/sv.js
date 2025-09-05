@@ -133,6 +133,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Okänd backend: {backendName}",
     "Admin defined" : "Admin definerad",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatisk statuskontroll är inaktiverad på grund av det stora antalet konfigurerade lagringar, klicka för att kontrollera status",
+    "Are you sure you want to disconnect this external storage?" : "Är du säker på att du vill koppla från denna externa lagring?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Detta gör lagringen otillgänglig i {instanceName} och leder till att filer och mappar tas bort på alla synkroniseringsklienter som för närvarande är anslutna, men det raderar inte några filer eller mappar på den externa lagringen.",
     "Delete storage?" : "Ta bort lagring?",
     "Click to recheck the configuration" : "Klicka för att kontrollera inställningarna igen",
     "Saved" : "Sparad",

@@ -222,7 +222,7 @@ OC.L10N.register(
     "Mimetype migrations available" : "Migracións de tipo MIME dispoñíbeis",
     "One or more mimetype migrations are available. Occasionally new mimetypes are added to better handle certain file types. Migrating the mimetypes take a long time on larger instances so this is not done automatically during upgrades. Use the command `occ maintenance:repair --include-expensive` to perform the migrations." : "Están dispoñíbeis unha ou máis migracións de tipo mime. Ocasionalmente engádense novos tipos MIME para xestionar mellor certos tipos de ficheiros. A migración dos tipos MIME leva moito tempo en instancias grandes, polo que non se fai automaticamente durante as actualizacións. Use a orde «occ maintenance:repair --include-expensive» para realizar as migracións.",
     "MySQL row format" : "Formato de fila MySQL",
-    "You are not using MySQL" : "Non está a usar MySQL",
+    "You are not using MySQL" : "Vde. non está a usar MySQL",
     "None of your tables use ROW_FORMAT=Compressed" : "Ningunha das súas táboas emprega ROW_FORMAT=Compressed",
     "Incorrect row format found in your database. ROW_FORMAT=Dynamic offers the best database performances for Nextcloud. Please update row format on the following list: %s." : "Atopouse un formato de fila incorrecto na súa base de datos. ROW_FORMAT=Dynamic ofrece o mellor rendemento da base de datos para Nextcloud. Actualide o formato de fila na seguinte lista: %s.",
     "MySQL Unicode support" : "Compatibilidade con MySQL Unicode",

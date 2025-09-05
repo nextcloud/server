@@ -21,6 +21,7 @@
     "Checking apps for compatible versions" : "Перевірка застосунків на наявність сумісних версій",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Будь ласка, переконайтеся, що ваш config.php не встановлює для <samp>appstoreenabled</samp> значення false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Неможливо з'єднатися із App Store або оновлення не надійшли взагалі. Шукайте оновлення вручну або переконайтеся, що ваш сервер має доступ до Інтернету та може з'єднатися із App Store.",
+    "<strong>All</strong> apps have a compatible version for this {productName} version available." : "<strong>Всі</strong> застосунки мають сумісну версію для {productName}, який має доступну версію.",
     "Enterprise" : "Для бізнесу",
     "Stable" : "Стабільний",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Остання стабільна версія. Він підходить для регулярного використання та завжди оновлюється до останньої основної версії.",

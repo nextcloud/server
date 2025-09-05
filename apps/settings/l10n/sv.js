@@ -632,6 +632,7 @@ OC.L10N.register(
     "Pronouns" : "Pronomen",
     "Role" : "Roll",
     "X (formerly Twitter)" : "X (tidigare Twitter)",
+    "Bluesky" : "Bluesky",
     "Website" : "Webbplats",
     "Profile visibility" : "Profilsynlighet",
     "Locale" : "Plats",
