@@ -290,10 +290,6 @@ export default defineComponent({
 		},
 	},
 
-	created() {
-		this.fetchDisplayName()
-	},
-
 	methods: {
 		labelUpdate() {
 			this.$emit('label-update-request')
