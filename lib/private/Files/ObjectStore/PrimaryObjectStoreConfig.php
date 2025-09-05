@@ -115,7 +115,7 @@ class PrimaryObjectStoreConfig {
 		// new-style multibucket config uses the same 'objectstore' key but sets `'multibucket' => true`, transparently upgrade older style config
 		if ($objectStoreMultiBucket) {
 			$objectStoreMultiBucket['arguments']['multibucket'] = true;
-			return [
+			$configs = [
 				'default' => 'server1',
 				'server1' => $this->validateObjectStoreConfig($objectStoreMultiBucket),
 				'root' => 'server1',
@@ -135,10 +135,23 @@ class PrimaryObjectStoreConfig {
 			if (!is_string($objectStore['default'])) {
 				throw new InvalidObjectStoreConfigurationException('The \'default\' object storage configuration is required to be a reference to another configuration.');
 			}
-			return array_map($this->validateObjectStoreConfig(...), $objectStore);
+			$configs = array_map($this->validateObjectStoreConfig(...), $objectStore);
 		} else {
 			return null;
 		}
+
+		$usedBuckets = [];
+		foreach ($configs as $config) {
+			if (is_array($config)) {
+				$bucket = $config['arguments']['bucket'] ?? '';
+				if (in_array($bucket, $usedBuckets)) {
+					throw new InvalidObjectStoreConfigurationException('Each object store configuration must use distinct bucket names');
+				}
+				$usedBuckets[] = $bucket;
+			}
+		}
+
+		return $configs;
 	}
 
 	/**
