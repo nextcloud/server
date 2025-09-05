@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OC\Core\Command\Info;
 
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Files\View;
@@ -36,6 +37,7 @@ class File extends Command {
 		IFactory $l10nFactory,
 		private FileUtils $fileUtils,
 		private \OC\Encryption\Util $encryptionUtil,
+		private PrimaryObjectStoreConfig $objectStoreConfig,
 	) {
 		$this->l10n = $l10nFactory->get('core');
 		parent::__construct();
@@ -145,6 +147,25 @@ class File extends Command {
 			$parts = explode(':', $objectStoreId);
 			/** @var string $bucket */
 			$bucket = array_pop($parts);
+			if ($this->objectStoreConfig->hasMultipleObjectStorages()) {
+				$configs = $this->objectStoreConfig->getObjectStoreConfigs();
+				foreach ($configs as $instance => $config) {
+					if (is_array($config)) {
+						if ($config['arguments']['multibucket']) {
+							if (str_starts_with($bucket, $config['arguments']['bucket'])) {
+								$postfix = substr($bucket, strlen($config['arguments']['bucket']));
+								if (is_numeric($postfix)) {
+									$output->writeln('  object store instance: ' . $instance);
+								}
+							}
+						} else {
+							if ($config['arguments']['bucket'] === $bucket) {
+								$output->writeln('  object store instance: ' . $instance);
+							}
+						}
+					}
+				}
+			}
 			$output->writeln('  bucket: ' . $bucket);
 			if ($node instanceof \OC\Files\Node\File) {
 				$output->writeln('  object id: ' . $storage->getURN($node->getId()));
