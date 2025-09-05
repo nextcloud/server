@@ -7,6 +7,7 @@
  */
 namespace OCA\Files_Trashbin\BackgroundJob;
 
+use OC\Files\SetupManager;
 use OC\Files\View;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
@@ -14,20 +15,26 @@ use OCA\Files_Trashbin\Trashbin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IAppConfig;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Lock\ILockingProvider;
 use Psr\Log\LoggerInterface;
 
 class ExpireTrash extends TimedJob {
+	private const THIRTY_MINUTES = 30 * 60;
+	private const USER_BATCH_SIZE = 10;
+
 	public function __construct(
 		private IAppConfig $appConfig,
 		private IUserManager $userManager,
 		private Expiration $expiration,
 		private LoggerInterface $logger,
+		private SetupManager $setupManager,
+		private ILockingProvider $lockingProvider,
 		ITimeFactory $time,
 	) {
 		parent::__construct($time);
-		// Run once per 30 minutes
-		$this->setInterval(60 * 30);
+		$this->setInterval(self::THIRTY_MINUTES);
 	}
 
 	protected function run($argument) {
@@ -41,48 +48,86 @@ class ExpireTrash extends TimedJob {
 			return;
 		}
 
-		$stopTime = time() + 60 * 30; // Stops after 30 minutes.
-		$offset = $this->appConfig->getValueInt('files_trashbin', 'background_job_expire_trash_offset', 0);
-		$users = $this->userManager->getSeenUsers($offset);
+		$stopTime = time() + self::THIRTY_MINUTES;
 
-		foreach ($users as $user) {
-			try {
+		do {
+			$offset = $this->getNextOffset();
+			$users = $this->userManager->getSeenUsers($offset, self::USER_BATCH_SIZE);
+			$count = 0;
+
+			foreach ($users as $user) {
 				$uid = $user->getUID();
-				if (!$this->setupFS($uid)) {
-					continue;
+				$count++;
+
+				try {
+					if ($this->setupFS($user)) {
+						$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
+						Trashbin::deleteExpiredFiles($dirContent, $uid);
+					}
+				} catch (\Throwable $e) {
+					$this->logger->error('Error while expiring trashbin for user ' . $uid, ['exception' => $e]);
+				} finally {
+					$this->setupManager->tearDown();
 				}
-				$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
-				Trashbin::deleteExpiredFiles($dirContent, $uid);
-			} catch (\Throwable $e) {
-				$this->logger->error('Error while expiring trashbin for user ' . $user->getUID(), ['exception' => $e]);
 			}
 
-			$offset++;
+		} while (time() < $stopTime && $count === self::USER_BATCH_SIZE);
 
-			if ($stopTime < time()) {
-				$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', $offset);
-				\OC_Util::tearDownFS();
-				return;
-			}
+		if ($count < self::USER_BATCH_SIZE) {
+			$this->resetOffset();
 		}
-
-		$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', 0);
-		\OC_Util::tearDownFS();
 	}
 
 	/**
 	 * Act on behalf on trash item owner
 	 */
-	protected function setupFS(string $user): bool {
-		\OC_Util::tearDownFS();
-		\OC_Util::setupFS($user);
+	protected function setupFS(IUser $user): bool {
+		$this->setupManager->setupForUser($user);
 
 		// Check if this user has a trashbin directory
-		$view = new View('/' . $user);
+		$view = new View('/' . $user->getUID());
 		if (!$view->is_dir('/files_trashbin/files')) {
 			return false;
 		}
 
 		return true;
+	}
+
+	private function getNextOffset(): int {
+		return $this->runMutexOperation(function () {
+			$this->appConfig->clearCache();
+
+			$offset = $this->appConfig->getValueInt('files_trashbin', 'background_job_expire_trash_offset', 0);
+			$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', $offset + self::USER_BATCH_SIZE);
+
+			return $offset;
+		});
+
+	}
+
+	private function resetOffset() {
+		$this->runMutexOperation(function () {
+			$this->appConfig->setValueInt('files_trashbin', 'background_job_expire_trash_offset', 0);
+		});
+	}
+
+	private function runMutexOperation($operation): mixed {
+		$acquired = false;
+
+		while ($acquired === false) {
+			try {
+				$this->lockingProvider->acquireLock('background_job_expire_trash', ILockingProvider::LOCK_EXCLUSIVE, 'Expire trashbin background job');
+				$acquired = true;
+			} catch (\OCP\Lock\LockedException $e) {
+				// wait a bit and try again
+				usleep(100000);
+			}
+		}
+
+		$result = $operation();
+
+		$this->lockingProvider->releaseLock('background_job_expire_trash', ILockingProvider::LOCK_EXCLUSIVE);
+
+		return $result;
 	}
 }
