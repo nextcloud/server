@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Files;
 
+use OC\Files\Cache\FileAccess;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\HomeMountPoint;
 use OC\Files\Mount\MountPoint;
@@ -33,6 +34,8 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IMountProviderArgs;
+use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
@@ -53,6 +56,10 @@ use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Share\Events\ShareCreatedEvent;
 use Psr\Log\LoggerInterface;
+use function array_key_exists;
+use function count;
+use function dirname;
+use function in_array;
 
 class SetupManager {
 	private bool $rootSetup = false;
@@ -66,11 +73,19 @@ class SetupManager {
 	 * @var array<string, class-string<IMountProvider>[]>
 	 */
 	private array $setupUserMountProviders = [];
+	/**
+	 * An array of paths that have already been set up
+	 *
+	 * @var array<string, int>
+	 */
+	private array $setupMountProviderPaths = [];
 	private ICache $cache;
 	private bool $listeningForProviders;
 	private array $fullSetupRequired = [];
 	private bool $setupBuiltinWrappersDone = false;
 	private bool $forceFullSetup = false;
+	private const SETUP_WITH_CHILDREN = 1;
+	private const SETUP_WITHOUT_CHILDREN = 0;
 
 	public function __construct(
 		private IEventLogger $eventLogger,
@@ -86,6 +101,7 @@ class SetupManager {
 		private IConfig $config,
 		private ShareDisableChecker $shareDisableChecker,
 		private IAppManager $appManager,
+		private FileAccess $fileAccess,
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -100,6 +116,27 @@ class SetupManager {
 
 	public function isSetupComplete(IUser $user): bool {
 		return in_array($user->getUID(), $this->setupUsersComplete, true);
+	}
+
+	/**
+	 * Checks if a path has been cached either directly or through a full setup
+	 * of one of its parents.
+	 */
+	private function isPathSetup(string $path): bool {
+		// if the exact path was already setup with or without children
+		if (array_key_exists($path, $this->setupMountProviderPaths)) {
+			return true;
+		}
+
+		// or if any of the ancestors was fully setup
+		while (($path = dirname($path)) !== '/') {
+			$setupPath = $this->setupMountProviderPaths[$path] ?? null;
+			if ($setupPath === self::SETUP_WITH_CHILDREN) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private function setupBuiltinWrappers() {
@@ -204,9 +241,9 @@ class SetupManager {
 
 		$this->setupForUserWith($user, function () use ($user) {
 			$this->mountProviderCollection->addMountForUser($user, $this->mountManager, function (
-				IMountProvider $provider,
+				string $providerClass,
 			) use ($user) {
-				return !in_array(get_class($provider), $this->setupUserMountProviders[$user->getUID()]);
+				return !in_array($providerClass, $this->setupUserMountProviders[$user->getUID()]);
 			});
 		});
 		$this->afterUserFullySetup($user, $previouslySetupProviders);
@@ -379,7 +416,8 @@ class SetupManager {
 	}
 
 	/**
-	 * Set up the filesystem for the specified path
+	 * Set up the filesystem for the specified path, optionally including all
+	 * children mounts.
 	 */
 	public function setupForPath(string $path, bool $includeChildren = false): void {
 		$user = $this->getUserForPath($path);
@@ -421,18 +459,42 @@ class SetupManager {
 		$this->eventLogger->start('fs:setup:user:path', "Setup $path filesystem for user");
 		$this->eventLogger->start('fs:setup:user:path:find', "Find mountpoint for $path");
 
-		$mounts = [];
-		if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
-			$currentProviders[] = $cachedMount->getMountProvider();
-			if ($cachedMount->getMountProvider()) {
-				$setupProviders[] = $cachedMount->getMountProvider();
-				$mounts = $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$cachedMount->getMountProvider()]);
-			} else {
+		$fullProviderMounts = [];
+		$authoritativeMounts = [];
+
+		$mountProvider = $cachedMount->getMountProvider();
+		$mountPoint = $cachedMount->getMountPoint();
+		$isMountProviderSetup = in_array($mountProvider, $setupProviders);
+		$isPathSetupAsAuthoritative
+			= $this->isPathSetup($mountPoint);
+		if (!$isMountProviderSetup && !$isPathSetupAsAuthoritative) {
+			if ($mountProvider === '') {
 				$this->logger->debug('mount at ' . $cachedMount->getMountPoint() . ' has no provider set, performing full setup');
 				$this->eventLogger->end('fs:setup:user:path:find');
 				$this->setupForUser($user);
 				$this->eventLogger->end('fs:setup:user:path');
 				return;
+			}
+
+			if (is_a($mountProvider, IPartialMountProvider::class, true)) {
+				$rootId = $cachedMount->getRootId();
+				$rootMetadata = $this->fileAccess->getByFileId($rootId);
+				$providerArgs = new IMountProviderArgs($cachedMount, $rootMetadata);
+				// mark the path as cached (without children for now...)
+				$cacheKey = rtrim($mountPoint, '/');
+				$this->setupMountProviderPaths[$cacheKey] = self::SETUP_WITHOUT_CHILDREN;
+				$authoritativeMounts[] = array_values(
+					$this->mountProviderCollection->getUserMountsFromProviderByPath(
+						$mountProvider,
+						$path,
+						[$providerArgs]
+					)
+				);
+			} else {
+				$currentProviders[] = $mountProvider;
+				$setupProviders[] = $mountProvider;
+				$fullProviderMounts[]
+					= $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$mountProvider]);
 			}
 		}
 
@@ -440,32 +502,98 @@ class SetupManager {
 			$subCachedMounts = $this->userMountCache->getMountsInPath($user, $path);
 			$this->eventLogger->end('fs:setup:user:path:find');
 
-			$needsFullSetup = array_reduce($subCachedMounts, function (bool $needsFullSetup, ICachedMountInfo $cachedMountInfo) {
-				return $needsFullSetup || $cachedMountInfo->getMountProvider() === '';
-			}, false);
+			$needsFullSetup
+				= array_any(
+					$subCachedMounts,
+					fn (ICachedMountInfo $info) => $info->getMountProvider() === ''
+				);
 
 			if ($needsFullSetup) {
 				$this->logger->debug('mount has no provider set, performing full setup');
 				$this->setupForUser($user);
 				$this->eventLogger->end('fs:setup:user:path');
 				return;
-			} else {
-				foreach ($subCachedMounts as $cachedMount) {
-					if (!in_array($cachedMount->getMountProvider(), $setupProviders)) {
-						$currentProviders[] = $cachedMount->getMountProvider();
-						$setupProviders[] = $cachedMount->getMountProvider();
-						$mounts = array_merge($mounts, $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$cachedMount->getMountProvider()]));
+			}
+
+			/** @var array<class-string<IMountProvider>, ICachedMountInfo[]> $authoritativeCachedMounts */
+			$authoritativeCachedMounts = [];
+			foreach ($subCachedMounts as $cachedMount) {
+				/** @var class-string<IMountProvider> $mountProvider */
+				$mountProvider = $cachedMount->getMountProvider();
+
+				// skip setup for already set up providers
+				if (in_array($mountProvider, $setupProviders)) {
+					continue;
+				}
+
+				if (is_a($mountProvider, IPartialMountProvider::class, true)) {
+					// skip setup if path was set up as authoritative before
+					if ($this->isPathSetup($cachedMount->getMountPoint())) {
+						continue;
 					}
+					// collect cached mount points for authoritative providers
+					$authoritativeCachedMounts[$mountProvider] ??= [];
+					$authoritativeCachedMounts[$mountProvider][] = $cachedMount;
+					continue;
+				}
+
+				$currentProviders[] = $mountProvider;
+				$setupProviders[] = $mountProvider;
+				$fullProviderMounts[]
+					= $this->mountProviderCollection->getUserMountsForProviderClasses(
+						$user,
+						[$mountProvider]
+					);
+			}
+
+			if (!empty($authoritativeCachedMounts)) {
+				$rootIds = array_map(
+					fn (ICachedMountInfo $mount) => $mount->getRootId(),
+					array_merge(...array_values($authoritativeCachedMounts)),
+				);
+
+				$rootsMetadata = [];
+				foreach (array_chunk($rootIds, 1000) as $chunk) {
+					foreach ($this->fileAccess->getByFileIds($chunk) as $id => $fileMetadata) {
+						$rootsMetadata[$id] = $fileMetadata;
+					}
+				}
+				$cacheKey = rtrim($mountPoint, '/');
+				$this->setupMountProviderPaths[$cacheKey] = self::SETUP_WITH_CHILDREN;
+				foreach ($authoritativeCachedMounts as $providerClass => $cachedMounts) {
+					$providerArgs = array_filter(array_map(
+						static function (ICachedMountInfo $info) use ($rootsMetadata) {
+							$rootMetadata = $rootsMetadata[$info->getRootId()] ?? null;
+
+							return $rootMetadata
+								? new IMountProviderArgs($info, $rootMetadata)
+								: null;
+						},
+						$cachedMounts
+					));
+					$authoritativeMounts[]
+						= $this->mountProviderCollection->getUserMountsFromProviderByPath(
+							$providerClass,
+							$path,
+							$providerArgs,
+						);
 				}
 			}
 		} else {
 			$this->eventLogger->end('fs:setup:user:path:find');
 		}
 
-		if (count($mounts)) {
-			$this->registerMounts($user, $mounts, $currentProviders);
-			$this->setupForUserWith($user, function () use ($mounts) {
-				array_walk($mounts, [$this->mountManager, 'addMount']);
+		$fullProviderMounts = array_merge(...$fullProviderMounts);
+		$authoritativeMounts = array_merge(...$authoritativeMounts);
+
+		if (count($fullProviderMounts) || count($authoritativeMounts)) {
+			if (count($fullProviderMounts)) {
+				$this->registerMounts($user, $fullProviderMounts, $currentProviders);
+			}
+
+			$this->setupForUserWith($user, function () use ($fullProviderMounts, $authoritativeMounts) {
+				$allMounts = [...$fullProviderMounts, ...$authoritativeMounts];
+				array_walk($allMounts, $this->mountManager->addMount(...));
 			});
 		} elseif (!$this->isSetupStarted($user)) {
 			$this->oneTimeUserSetup($user);
@@ -545,6 +673,7 @@ class SetupManager {
 		$this->setupUsers = [];
 		$this->setupUsersComplete = [];
 		$this->setupUserMountProviders = [];
+		$this->setupMountProviderPaths = [];
 		$this->fullSetupRequired = [];
 		$this->rootSetup = false;
 		$this->mountManager->clear();
