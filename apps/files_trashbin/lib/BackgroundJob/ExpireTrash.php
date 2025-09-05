@@ -124,9 +124,11 @@ class ExpireTrash extends TimedJob {
 			}
 		}
 
-		$result = $operation();
-
-		$this->lockingProvider->releaseLock('background_job_expire_trash', ILockingProvider::LOCK_EXCLUSIVE);
+		try {
+			$result = $operation();
+		} finally {
+			$this->lockingProvider->releaseLock('background_job_expire_trash', ILockingProvider::LOCK_EXCLUSIVE);
+		}
 
 		return $result;
 	}
