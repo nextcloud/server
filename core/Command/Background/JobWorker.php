@@ -125,9 +125,7 @@ class JobWorker extends JobBase {
 				$this->printJobInfo($job->getId(), $job, $output);
 			}
 
-			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
-			$job->execute($this->jobList);
-
+			$job->start($this->jobList);
 			$output->writeln('Job ' . $job->getId() . ' has finished', OutputInterface::VERBOSITY_VERBOSE);
 
 			// clean up after unclean jobs

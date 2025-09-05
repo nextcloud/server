@@ -171,8 +171,7 @@ Options:
 				echo 'Starting job ' . $jobDetails . PHP_EOL;
 			}
 
-			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
-			$job->execute($jobList);
+			$job->start($jobList);
 
 			$timeAfter = time();
 			$memoryAfter = memory_get_usage();
@@ -237,8 +236,7 @@ Options:
 			$job = $jobList->getNext();
 			if ($job != null) {
 				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
-				/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
-				$job->execute($jobList);
+				$job->start($jobList);
 				$jobList->setLastJob($job);
 			}
 			OC_JSON::success();

@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace OCP\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -18,32 +17,21 @@ use Psr\Log\LoggerInterface;
  * For the most common use cases have a look at QueuedJob and TimedJob
  *
  * @since 15.0.0
+ * @since 25.0.0 deprecated `execute()` method in favor of `start()`
+ * @since 33.0.0 removed deprecated `execute()` method
  */
 abstract class Job implements IJob, IParallelAwareJob {
 	protected int $id = 0;
 	protected int $lastRun = 0;
-	protected $argument;
-	protected ITimeFactory $time;
+	protected mixed $argument = null;
 	protected bool $allowParallelRuns = true;
 
 	/**
 	 * @since 15.0.0
 	 */
-	public function __construct(ITimeFactory $time) {
-		$this->time = $time;
-	}
-
-	/**
-	 * The function to prepare the execution of the job.
-	 *
-	 * @return void
-	 *
-	 * @since 15.0.0
-	 * @deprecated 25.0.0 Use start() instead. This method will be removed
-	 * with the ILogger interface
-	 */
-	public function execute(IJobList $jobList, ?ILogger $logger = null) {
-		$this->start($jobList);
+	public function __construct(
+		protected ITimeFactory $time,
+	) {
 	}
 
 	/**
