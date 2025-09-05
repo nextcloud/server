@@ -9,16 +9,21 @@ namespace OC\Files\Config;
 
 use OC\Hooks\Emitter;
 use OC\Hooks\EmitterTrait;
+use OCA\Files_Sharing\MountProvider;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IMountProviderArgs;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
+use function get_class;
+use function in_array;
 
 class MountProviderCollection implements IMountProviderCollection, Emitter {
 	use EmitterTrait;
@@ -29,7 +34,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	private array $homeProviders = [];
 
 	/**
-	 * @var list<IMountProvider>
+	 * @var array<class-string<IMountProvider>, IMountProvider>
 	 */
 	private array $providers = [];
 
@@ -75,19 +80,51 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @return list<IMountPoint>
 	 */
 	public function getMountsForUser(IUser $user): array {
-		return $this->getUserMountsForProviders($user, $this->providers);
+		return $this->getUserMountsForProviders($user, array_values($this->providers));
+	}
+
+	/**
+	 * @param IMountProviderArgs[] $mountProviderArgs
+	 * @return array<string, IMountPoint> IMountPoint array indexed by mount
+	 *                                    point.
+	 */
+	public function getUserMountsFromProviderByPath(
+		string $providerClass,
+		string $path,
+		array $mountProviderArgs,
+	): array {
+		$provider = $this->providers[$providerClass] ?? null;
+		if ($provider === null) {
+			return [];
+		}
+
+		if (!is_a($providerClass, IPartialMountProvider::class, true)) {
+			throw new \LogicException(
+				'Mount provider does not support partial mounts'
+			);
+		}
+
+		/** @var IPartialMountProvider $provider */
+		return $provider->getMountsFromMountPoints(
+			$path,
+			$mountProviderArgs,
+			$this->loader,
+		);
 	}
 
 	/**
 	 * Returns the mounts for the user from the specified provider classes.
 	 * Providers not registered in the MountProviderCollection will be skipped.
 	 *
+	 * @inheritdoc
+	 *
 	 * @return list<IMountPoint>
 	 */
 	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array {
 		$providers = array_filter(
 			$this->providers,
-			fn (IMountProvider $mountProvider) => (in_array(get_class($mountProvider), $mountProviderClasses))
+			fn (string $providerClass) => in_array($providerClass, $mountProviderClasses),
+			ARRAY_FILTER_USE_KEY
 		);
 		return $this->getUserMountsForProviders($user, $providers);
 	}
@@ -100,16 +137,21 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		// to check for name collisions
 		$firstMounts = [];
 		if ($providerFilter) {
-			$providers = array_filter($this->providers, $providerFilter);
+			$providers = array_filter($this->providers, $providerFilter, ARRAY_FILTER_USE_KEY);
 		} else {
 			$providers = $this->providers;
 		}
-		$firstProviders = array_filter($providers, function (IMountProvider $provider) {
-			return (get_class($provider) !== 'OCA\Files_Sharing\MountProvider');
-		});
-		$lastProviders = array_filter($providers, function (IMountProvider $provider) {
-			return (get_class($provider) === 'OCA\Files_Sharing\MountProvider');
-		});
+		$firstProviders
+			= array_filter(
+				$providers,
+				fn (string $providerClass) => ($providerClass !== MountProvider::class),
+				ARRAY_FILTER_USE_KEY
+			);
+		$lastProviders = array_filter(
+			$providers,
+			fn (string $providerClass) => $providerClass === MountProvider::class,
+			ARRAY_FILTER_USE_KEY
+		);
 		foreach ($firstProviders as $provider) {
 			$mounts = $this->getMountsFromProvider($provider, $user, $this->loader);
 			$firstMounts = array_merge($firstMounts, $mounts);
@@ -151,7 +193,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * Add a provider for mount points
 	 */
 	public function registerProvider(IMountProvider $provider): void {
-		$this->providers[] = $provider;
+		$this->providers[get_class($provider)] = $provider;
 
 		$this->emit('\OC\Files\Config', 'registerMountProvider', [$provider]);
 	}
@@ -229,7 +271,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @return list<IMountProvider>
 	 */
 	public function getProviders(): array {
-		return $this->providers;
+		return array_values($this->providers);
 	}
 
 	/**

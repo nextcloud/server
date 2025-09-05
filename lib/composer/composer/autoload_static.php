@@ -1701,6 +1701,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Cache\\CacheQueryBuilder' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/CacheQueryBuilder.php',
         'OC\\Files\\Cache\\FailedCache' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/FailedCache.php',
         'OC\\Files\\Cache\\FileAccess' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/FileAccess.php',
+        'OC\\Files\\Cache\\FileMetadataCache' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/FileMetadataCache.php',
         'OC\\Files\\Cache\\HomeCache' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/HomeCache.php',
         'OC\\Files\\Cache\\HomePropagator' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/HomePropagator.php',
         'OC\\Files\\Cache\\LocalRootScanner' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/LocalRootScanner.php',

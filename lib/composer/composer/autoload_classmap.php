@@ -1660,6 +1660,7 @@ return array(
     'OC\\Files\\Cache\\CacheQueryBuilder' => $baseDir . '/lib/private/Files/Cache/CacheQueryBuilder.php',
     'OC\\Files\\Cache\\FailedCache' => $baseDir . '/lib/private/Files/Cache/FailedCache.php',
     'OC\\Files\\Cache\\FileAccess' => $baseDir . '/lib/private/Files/Cache/FileAccess.php',
+    'OC\\Files\\Cache\\FileMetadataCache' => $baseDir . '/lib/private/Files/Cache/FileMetadataCache.php',
     'OC\\Files\\Cache\\HomeCache' => $baseDir . '/lib/private/Files/Cache/HomeCache.php',
     'OC\\Files\\Cache\\HomePropagator' => $baseDir . '/lib/private/Files/Cache/HomePropagator.php',
     'OC\\Files\\Cache\\LocalRootScanner' => $baseDir . '/lib/private/Files/Cache/LocalRootScanner.php',
