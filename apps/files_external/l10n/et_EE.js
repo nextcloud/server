@@ -123,6 +123,7 @@ OC.L10N.register(
     "Disconnect" : "Ühenda lahti",
     "Unknown backend: {backendName}" : "Tundmatu taustateenus: {backendName}",
     "Admin defined" : "Admini poolt määratud",
+    "Are you sure you want to disconnect this external storage?" : "Kas sa oled kindel, et soovid katkestada ühenduse selle välise andmeruumiga?",
     "Delete storage?" : "Kas kustutame andmeruumi?",
     "Click to recheck the configuration" : "Klõpsi seadistuste uuesti kontrollimiseks",
     "Saved" : "Salvestatud",

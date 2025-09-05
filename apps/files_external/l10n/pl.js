@@ -133,6 +133,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Nieznane zaplecze: {backendName}",
     "Admin defined" : "Zdefiniowane przez Administratora",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatyczne sprawdzanie statusu jest wyłączone z powodu dużej liczby skonfigurowanych magazynów, kliknij, aby sprawdzić status",
+    "Are you sure you want to disconnect this external storage?" : "Czy na pewno chcesz odłączyć to zewnętrzne miejsce przechowywania?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Spowoduje to, że magazyn stanie się niedostępny w {instanceName} i doprowadzi do usunięcia tych plików i folderów na każdym kliencie synchronizacji, który jest obecnie połączony, ale nie usunie żadnych plików i folderów z samego zewnętrznego magazynu.",
     "Delete storage?" : "Usunąć magazyn?",
     "Click to recheck the configuration" : "Kliknij, aby ponownie sprawdzić konfigurację",
     "Saved" : "Zapisano",

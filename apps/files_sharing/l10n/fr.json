@@ -304,6 +304,7 @@
     "Link shares" : "Partage de liens",
     "Shares" : "Partages",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Partagez des fichiers au sein de votre organisation. Les destinataires qui peuvent déjà consulter le fichier peuvent également utiliser ce lien pour y accéder facilement.",
+    "Share files with others outside your organization via public links and email addresses. You can also share to {productName} accounts on other instances using their federated cloud ID." : "Partagez des fichiers avec des personnes extérieures à votre organisation via des liens publics et des adresses e-mail. Vous pouvez également partager des fichiers avec des comptes {productName} sur d'autres instances à l'aide de leur identifiant cloud fédéré.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Partages provenant d'applications ou d'autres sources qui ne sont pas inclus dans les partages internes ou externes.",
     "Type names, teams, federated cloud IDs" : "Tapez des noms, des équipes, ou des ID de cloud fédéré",
     "Type names or teams" : "Tapez des noms ou des équipes",

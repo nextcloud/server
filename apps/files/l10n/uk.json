@@ -50,6 +50,7 @@
     "The file could not be converted." : "Файл неможливо конвертувати",
     "Could not get relative path to converted file" : "Не вдалося отримати відносний шлях до сконвертованого файлу",
     "Limit must be a positive integer." : "Ліміт має бути позитивним числом.",
+    "The replacement character may only be a single character." : "Символ заміни може містити тільки один знак.",
     "Favorite files" : "Файли із зіркою",
     "No favorites" : "Немає улюблених",
     "More favorites" : "Ще файли із зіркою",

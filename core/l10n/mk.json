@@ -73,7 +73,7 @@
     "Hello {name}" : "Здраво {name}",
     "<strong>These are your search results<script>alert(1)</script></strong>" : "<strong>Ова се вашите резултати од пребарувањето<script>alert(1)</script></strong>",
     "new" : "ново",
-    "_download %n file_::_download %n files_" : ["преземи 1 датотека","преземи %n датотеки"],
+    "_download %n file_::_download %n files_" : ["преземи %n датотека","преземи %n датотеки"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "Во тек е надградба на системот, доколку ја напуштите оваа страница може да дојде до прекин на некој процес во некој дел.",
     "Update to {version}" : "Надгради на {version}",
     "An error occurred." : "Се случи грешка",

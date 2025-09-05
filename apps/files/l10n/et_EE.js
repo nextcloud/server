@@ -51,6 +51,8 @@ OC.L10N.register(
     "You do not have permission to create a file at the specified location" : "Sul puudvad õigused faili loomiseks antud asukohas",
     "The file could not be converted." : "Seda faili ei õnnestunud teisendada.",
     "Could not get relative path to converted file" : "Teisendatud faili suhtelist asukohta ei õnnestunud tuvastada",
+    "Limit must be a positive integer." : "Piirang peab olema positiivne täisarv",
+    "The replacement character may only be a single character." : "Asendatav tähemärk saab olla vaid üks tähemärk.",
     "Favorite files" : "Lemmikfailid",
     "No favorites" : "Lemmikuid pole",
     "More favorites" : "Veel lemmikuid",

@@ -60,6 +60,7 @@ OC.L10N.register(
     "Mastodon" : "Mastodon",
     "Bluesky" : "Bluesky",
     "Add to your website" : "Adicione ao seu website",
+    "Share with me via {productName}" : "Compartilhar comigo via {productName}",
     "HTML Code:" : "Código HTML:",
     "Cancel" : "Cancelar",
     "Add remote share" : "Adicionar compartilhamento remoto",

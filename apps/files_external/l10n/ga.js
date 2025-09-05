@@ -133,6 +133,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Inneall anaithnid: {backendName}",
     "Admin defined" : "Riarachán sainithe",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Tá seiceáil stádais uathoibríoch díchumasaithe mar gheall ar an líon mór stórais cumraithe, cliceáil chun stádas a sheiceáil",
+    "Are you sure you want to disconnect this external storage?" : "An bhfuil tú cinnte gur mian leat an stóráil sheachtrach seo a dhícheangal?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Cuirfidh sé seo deireadh leis an stóráil i {instanceName} agus scriosfar na comhaid agus na fillteáin seo ar aon chliant sioncrónaithe atá ceangailte faoi láthair ach ní scriosfar aon chomhaid ná fillteáin ar an stóráil sheachtrach féin.",
     "Delete storage?" : "An bhfuil fonn ort an stóras a scriosadh?",
     "Click to recheck the configuration" : "Cliceáil chun an chumraíocht a athsheiceáil",
     "Saved" : "Shábháil",
