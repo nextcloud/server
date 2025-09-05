@@ -93,12 +93,14 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 				'class' => StorageObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
+					'bucket' => '1',
 				],
 			],
 			'server2' => [
 				'class' => StorageObjectStore::class,
 				'arguments' => [
 					'host' => 'server2',
+					'bucket' => '2',
 				],
 			],
 		]);
@@ -121,6 +123,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 				'class' => StorageObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
+					'bucket' => '1',
 				],
 			],
 		]);
@@ -136,14 +139,14 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 					'host' => 'server1',
 					'multibucket' => true,
 					'num_buckets' => 8,
-					'bucket' => 'bucket-'
+					'bucket' => 'bucket1-'
 				],
 			],
 		]);
 
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('test'));
 		$this->assertEquals('server1', $result['arguments']['host']);
-		$this->assertEquals('bucket-7', $result['arguments']['bucket']);
+		$this->assertEquals('bucket1-7', $result['arguments']['bucket']);
 
 		$this->setConfig('objectstore', [
 			'default' => 'server1',
@@ -153,18 +156,18 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 					'host' => 'server1',
 					'multibucket' => true,
 					'num_buckets' => 64,
-					'bucket' => 'bucket-'
+					'bucket' => 'bucket1-'
 				],
 			],
 		]);
 
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('test'));
 		$this->assertEquals('server1', $result['arguments']['host']);
-		$this->assertEquals('bucket-7', $result['arguments']['bucket']);
+		$this->assertEquals('bucket1-7', $result['arguments']['bucket']);
 
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('test-foo'));
 		$this->assertEquals('server1', $result['arguments']['host']);
-		$this->assertEquals('bucket-40', $result['arguments']['bucket']);
+		$this->assertEquals('bucket1-40', $result['arguments']['bucket']);
 
 		$this->setConfig('objectstore', [
 			'default' => 'server2',
@@ -174,7 +177,7 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 					'host' => 'server1',
 					'multibucket' => true,
 					'num_buckets' => 64,
-					'bucket' => 'bucket-'
+					'bucket' => 'bucket1-'
 				],
 			],
 			'server2' => [
@@ -183,18 +186,18 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 					'host' => 'server2',
 					'multibucket' => true,
 					'num_buckets' => 16,
-					'bucket' => 'bucket-'
+					'bucket' => 'bucket2-'
 				],
 			],
 		]);
 
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('test'));
 		$this->assertEquals('server1', $result['arguments']['host']);
-		$this->assertEquals('bucket-7', $result['arguments']['bucket']);
+		$this->assertEquals('bucket1-7', $result['arguments']['bucket']);
 
 		$result = $this->objectStoreConfig->getObjectStoreConfigForUser($this->getUser('test-bar'));
 		$this->assertEquals('server2', $result['arguments']['host']);
-		$this->assertEquals('bucket-4', $result['arguments']['bucket']);
+		$this->assertEquals('bucket2-4', $result['arguments']['bucket']);
 	}
 
 	public function testMultibucketOldConfig() {
@@ -251,12 +254,14 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 				'class' => StorageObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
+					'bucket' => '1',
 				],
 			],
 			'server2' => [
 				'class' => StorageObjectStore::class,
 				'arguments' => [
 					'host' => 'server2',
+					'bucket' => '2',
 				],
 			],
 		]);
@@ -271,12 +276,14 @@ class PrimaryObjectStoreConfigTest extends TestCase {
 				'class' => StorageObjectStore::class,
 				'arguments' => [
 					'host' => 'server1',
+					'bucket' => '1',
 				],
 			],
 			'server2' => [
 				'class' => StorageObjectStore::class,
 				'arguments' => [
 					'host' => 'server2',
+					'bucket' => '2',
 				],
 			],
 		]);
