@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Files;
 
+use OC\Files\Cache\FileMetadataCache;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\HomeMountPoint;
 use OC\Files\Mount\MountPoint;
@@ -30,9 +31,11 @@ use OCP\App\IAppManager;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IPartialMountProvider;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\BeforeFileSystemSetupEvent;
@@ -87,6 +90,7 @@ class SetupManager {
 		private IConfig $config,
 		private ShareDisableChecker $shareDisableChecker,
 		private IAppManager $appManager,
+		private FileMetadataCache $fileMetadataCache,
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
@@ -395,6 +399,16 @@ class SetupManager {
 	 * Set up the filesystem for the specified path
 	 */
 	public function setupForPath(string $path, bool $includeChildren = false): void {
+		// I use this to quickly switch from the new version to the current one
+		// keeping DB changes and other unrelated changes
+		$authoritative = false;
+		$authoritative = true;
+
+		if ($authoritative) {
+			$this->setupForPathAuthoritative($path, $includeChildren);
+			return;
+		}
+
 		$user = $this->getUserForPath($path);
 		if (!$user) {
 			$this->setupRoot();
@@ -405,7 +419,6 @@ class SetupManager {
 			return;
 		}
 
-		// TBD this can be dropped
 		if ($this->fullSetupRequired($user)) {
 			$this->setupForUser($user);
 			return;
@@ -478,6 +491,99 @@ class SetupManager {
 
 		if (count($mounts)) {
 			$this->registerMounts($user, $mounts, $currentProviders);
+			$this->setupForUserWith($user, function () use ($mounts) {
+				array_walk($mounts, [$this->mountManager, 'addMount']);
+			});
+		} elseif (!$this->isSetupStarted($user)) {
+			$this->oneTimeUserSetup($user);
+		}
+		$this->eventLogger->end('fs:setup:user:path');
+	}
+
+	/**
+	 * Set up the filesystem for the specified path
+	 */
+	public function setupForPathAuthoritative(string $path, bool $includeChildren = false): void {
+		$user = $this->getUserForPath($path);
+		if (!$user) {
+			$this->setupRoot();
+			return;
+		}
+
+		if ($this->isSetupComplete($user)) {
+			return;
+		}
+
+		$userUID = $user->getUID();
+		$this->setupUserMountProviders[$userUID] ??= [];
+
+		try {
+			$mountInfos = $this->userMountCache->getMountsForPath($user, $path, $includeChildren);
+		} catch (NotFoundException) {
+			$this->setupRoot(); // no mount found? setup root and quit
+			return;
+		}
+
+		$rootIds = array_map(fn (ICachedMountInfo $info) => $info->getRootId(), $mountInfos);
+		$rootsMetadata = $this->fileMetadataCache->getByFileIds($rootIds);
+
+		/** @var array<class-string<IMountProvider>, ICacheEntry[]> $rootsMetadataByProvider */
+		$rootsMetadataByProvider = [];
+		/** @var array<class-string<IMountProvider>, ICachedMountInfo[]> $mountInfosByProvider */
+		$mountInfosByProvider = [];
+		foreach ($mountInfos as $mountInfo) {
+			$rootMetadata = $rootsMetadata[$mountInfo->getRootId()];
+			/** @var class-string<IMountProvider> $mountProvider */
+			$mountProvider = $mountInfo->getMountProvider();
+			if ($rootMetadata !== null) {
+				$rootsMetadataByProvider[$mountProvider][]
+					= $rootMetadata;
+			}
+			$mountInfosByProvider[$mountProvider][] = $mountInfo;
+		}
+
+		$this->oneTimeUserSetup($user);
+
+		// todo: maybe the HomeMountProviders can be initialized here if
+		// 		 there is an entry in oc_mounts
+		$providersToUse = $this->mountProviderCollection->getProviders();
+		$providers = $this->mountProviderCollection->getProvidersByClass($providersToUse, array_keys($mountInfosByProvider));
+		$providerClasses = array_map(fn ($provider) => get_class($provider), $providers);
+		/** @var array<string, IMountProvider|null> $providers */
+		$providers = array_combine($providerClasses, $providers);
+
+		/** @var string[] $setupProviders */
+		$setupProviders = &$this->setupUserMountProviders[$userUID];
+		/** @var list<IMountPoint[]> $mounts */
+		$mounts = [];
+		foreach ($mountInfosByProvider as $providerClass => $mountsInfos) {
+			if (in_array($providerClass, $setupProviders)) {
+				continue; // skip already setup providers
+			}
+
+			$provider = $providers[$providerClass];
+			if ($provider === null) {
+				// todo: this happens for IHomeProviders too because they are
+				//  	 not part of the "normal" providers
+				// question: what to do in this case?
+				// throw new NotFoundException('Couldnt find provider for ' . $providerClass);
+			}
+
+			$setupProviders[] = $providerClass;
+			if ($provider instanceof IPartialMountProvider) {
+				// mount provider capable of returning mount-points specific to
+				// this path
+				$mounts[] = $provider->getMountsFromMountPoints($mountsInfos,
+					$rootsMetadataByProvider[$providerClass]);
+			} elseif ($provider instanceof IMountProvider) {
+				// old-style provider, get the mounts for the whole provider
+				$mounts[] = $this->mountProviderCollection
+					->getUserMountsForProviderClasses($user, [$providerClass]);
+			}
+		}
+		$mounts = array_merge(...$mounts);
+
+		if (!empty($mounts)) {
 			$this->setupForUserWith($user, function () use ($mounts) {
 				array_walk($mounts, [$this->mountManager, 'addMount']);
 			});
