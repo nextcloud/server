@@ -828,6 +828,7 @@ OC.L10N.register(
     "Version {version}, {license}-licensed" : "Versão {version}, licenciada por {license}",
     "Version {version}" : "Versão {version}",
     "Failed to save selected preset." : "Falha ao salvar a predefinição selecionada.",
+    "Quick presets" : "Predefinições rápidas",
     "Select a configuration preset for easy setup." : "Selecione uma predefinição de configuração para facilitar a instalação.",
     "Apply" : "Aplicar",
     "All accounts" : "Todas as contas",

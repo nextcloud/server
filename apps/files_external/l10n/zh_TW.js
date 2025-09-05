@@ -133,6 +133,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "未知後端：{backendName}",
     "Admin defined" : "管理員自訂",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "因為組態設定的儲存空間數量過多，自動狀態檢查被停用，點擊以檢查狀態",
+    "Are you sure you want to disconnect this external storage?" : "您確定要取消連結此外部儲存空間嗎？",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "這會讓 {instanceName} 無法使用該儲存空間，並將會在目前連線的任何同步客戶端上刪除這些檔案與資料夾，但不會刪除外部儲存空間本身的任何檔案與資料夾。",
     "Delete storage?" : "刪除儲存空間？",
     "Click to recheck the configuration" : "點擊以重新檢查組態設定",
     "Saved" : "已儲存",

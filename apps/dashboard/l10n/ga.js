@@ -20,6 +20,7 @@ OC.L10N.register(
     "Edit widgets" : "Cuir giuirléidí in eagar",
     "Get more widgets from the App Store" : "Faigh tuilleadh giuirléidí ón Siopa Aip",
     "Weather service" : "Seirbhís aimsire",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Ar mhaithe le do phríobháideacht, iarrann do fhreastalaí {productName} na sonraí aimsire ar do shon agus mar sin ní fhaigheann an tseirbhís aimsire aon fhaisnéis phearsanta.",
     "Weather data from Met.no" : "Sonraí aimsire ó Met.no",
     "geocoding with Nominatim" : "geochódú le Nominatim",
     "elevation data from OpenTopoData" : "sonraí ardaithe ó OpenTopoData",
