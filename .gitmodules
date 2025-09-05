@@ -22,3 +22,6 @@
 [submodule "apps-external/calendar"]
 	path = apps-external/calendar
 	url = git@github.com:nextcloud/calendar.git
+[submodule "apps-external/notify_push"]
+	path = apps-external/notify_push
+	url = git@github.com:nextcloud/notify_push.git
