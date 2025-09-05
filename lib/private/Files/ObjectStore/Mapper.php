@@ -7,7 +7,6 @@
  */
 namespace OC\Files\ObjectStore;
 
-use OCP\IConfig;
 use OCP\IUser;
 
 /**
@@ -18,33 +17,17 @@ use OCP\IUser;
  * Map a user to a bucket.
  */
 class Mapper {
-	/** @var IUser */
-	private $user;
-
-	/** @var IConfig */
-	private $config;
-
-	/**
-	 * Mapper constructor.
-	 *
-	 * @param IUser $user
-	 * @param IConfig $config
-	 */
-	public function __construct(IUser $user, IConfig $config) {
-		$this->user = $user;
-		$this->config = $config;
+	public function __construct(
+		private readonly IUser $user,
+		private readonly array $config,
+	) {
 	}
 
-	/**
-	 * @param int $numBuckets
-	 * @return string
-	 */
-	public function getBucket($numBuckets = 64) {
+	public function getBucket(int $numBuckets = 64): string {
 		// Get the bucket config and shift if provided.
 		// Allow us to prevent writing in old filled buckets
-		$config = $this->config->getSystemValue('objectstore_multibucket');
-		$minBucket = is_array($config) && isset($config['arguments']['min_bucket'])
-			? (int)$config['arguments']['min_bucket']
+		$minBucket = isset($this->config['arguments']['min_bucket'])
+			? (int)$this->config['arguments']['min_bucket']
 			: 0;
 
 		$hash = md5($this->user->getUID());
