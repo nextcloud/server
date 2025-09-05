@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Controller;
 
-use InvalidArgumentException;
 use OC\Security\Crypto;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Controller;
@@ -18,6 +17,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\HintException;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -51,11 +51,21 @@ class VerificationController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function showVerifyMail(string $token, string $userId, string $key): TemplateResponse {
-		if ($this->userSession->getUser()->getUID() !== $userId) {
-			// not a public page, hence getUser() must return an IUser
-			throw new InvalidArgumentException('Logged in account is not mail address owner');
+		try {
+			if ($this->userSession->getUser()?->getUID() !== $userId) {
+				// not a public page, hence getUser() must return an IUser
+				throw new HintException(
+					'Logged in account is not mail address owner',
+					$this->l10n->t('Logged in account is not mail address owner'),
+				);
+			}
+			$email = $this->crypto->decrypt($key);
+		} catch (HintException $e) {
+			return new TemplateResponse(
+				'core', 'error', [
+					'errors' => [['error' => $e->getHint()]]
+				], TemplateResponse::RENDER_AS_GUEST);
 		}
-		$email = $this->crypto->decrypt($key);
 
 		return new TemplateResponse(
 			'core', 'confirmation', [
@@ -73,8 +83,11 @@ class VerificationController extends Controller {
 	public function verifyMail(string $token, string $userId, string $key): TemplateResponse {
 		$throttle = false;
 		try {
-			if ($this->userSession->getUser()->getUID() !== $userId) {
-				throw new InvalidArgumentException('Logged in account is not mail address owner');
+			if ($this->userSession->getUser()?->getUID() !== $userId) {
+				throw new HintException(
+					'Logged in account is not mail address owner',
+					$this->l10n->t('Logged in account is not mail address owner'),
+				);
 			}
 			$email = $this->crypto->decrypt($key);
 			$ref = \substr(hash('sha256', $email), 0, 8);
@@ -87,7 +100,10 @@ class VerificationController extends Controller {
 				->getPropertyByValue($email);
 
 			if ($emailProperty === null) {
-				throw new InvalidArgumentException($this->l10n->t('Email was already removed from account and cannot be confirmed anymore.'));
+				throw new HintException(
+					'Email was already removed from account and cannot be confirmed anymore.',
+					$this->l10n->t('Email was already removed from account and cannot be confirmed anymore.'),
+				);
 			}
 			$emailProperty->setLocallyVerified(IAccountManager::VERIFIED);
 			$this->accountManager->updateAccount($userAccount);
@@ -99,8 +115,8 @@ class VerificationController extends Controller {
 				$throttle = true;
 				$error = $this->l10n->t('Could not verify mail because the token is invalid.');
 			}
-		} catch (InvalidArgumentException $e) {
-			$error = $e->getMessage();
+		} catch (HintException $e) {
+			$error = $e->getHint();
 		} catch (\Exception $e) {
 			$error = $this->l10n->t('An unexpected error occurred. Please contact your admin.');
 		}
