@@ -176,7 +176,7 @@ class File extends Command {
 					}
 					$stat = fstat($fh);
 					fclose($fh);
-					if ($stat['size'] !== $node->getSize()) {
+					if (isset($stat['size']) && $stat['size'] !== $node->getSize()) {
 						$output->writeln('  <error>warning: object had a size of ' . $stat['size'] . ' but cache entry has a size of ' . $node->getSize() . '</error>. This should have been automatically repaired');
 					}
 				} catch (\Exception $e) {
