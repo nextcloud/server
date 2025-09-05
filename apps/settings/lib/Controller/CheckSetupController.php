@@ -11,10 +11,12 @@ use OC\AppFramework\Http;
 use OC\IntegrityCheck\Checker;
 use OCA\Settings\Settings\Admin\Overview;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -50,6 +52,14 @@ class CheckSetupController extends Controller {
 	#[NoCSRFRequired]
 	#[NoAdminRequired]
 	public function setupCheckManager(): DataResponse {
+		return new DataResponse($this->setupCheckManager->runAll());
+	}
+
+	/**
+	 * @return DataResponse
+	 */
+	#[AuthorizedAdminSetting(settings: Overview::class)]
+	public function check() {
 		return new DataResponse($this->setupCheckManager->runAll());
 	}
 
@@ -125,10 +135,14 @@ Raw output
 	}
 
 	/**
-	 * @return DataResponse
+	 * Used for setup checks to verify the server has request caching.
+	 * @NoSubAdminRequired
 	 */
-	#[AuthorizedAdminSetting(settings: Overview::class)]
-	public function check() {
-		return new DataResponse($this->setupCheckManager->runAll());
+	#[PublicPage()]
+	#[NoCSRFRequired()]
+	#[AnonRateLimit(limit: 10, period: 600)]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
+	public function checkContentLengthHeader(): DataResponse {
+		return new DataResponse(($this->request->getHeader('Content-Length')));
 	}
 }
