@@ -28,12 +28,7 @@ use Psr\Log\LoggerInterface;
 use function array_key_exists;
 
 class PreviewManager implements IPreview {
-	protected IConfig $config;
-	protected IRootFolder $rootFolder;
-	protected IAppData $appData;
-	protected IEventDispatcher $eventDispatcher;
 	private ?Generator $generator = null;
-	private GeneratorHelper $helper;
 	protected bool $providerListDirty = false;
 	protected bool $registeredCoreProviders = false;
 	protected array $providers = [];
@@ -41,41 +36,26 @@ class PreviewManager implements IPreview {
 	/** @var array mime type => support status */
 	protected array $mimeTypeSupportMap = [];
 	protected ?array $defaultProviders = null;
-	protected ?string $userId;
-	private Coordinator $bootstrapCoordinator;
 
 	/**
 	 * Hash map (without value) of loaded bootstrap providers
 	 * @psalm-var array<string, null>
 	 */
 	private array $loadedBootstrapProviders = [];
-	private ContainerInterface $container;
-	private IBinaryFinder $binaryFinder;
-	private IMagickSupport $imagickSupport;
 	private bool $enablePreviews;
 
 	public function __construct(
-		IConfig $config,
-		IRootFolder $rootFolder,
-		IAppData $appData,
-		IEventDispatcher $eventDispatcher,
-		GeneratorHelper $helper,
-		?string $userId,
-		Coordinator $bootstrapCoordinator,
-		ContainerInterface $container,
-		IBinaryFinder $binaryFinder,
-		IMagickSupport $imagickSupport,
+		protected IConfig $config,
+		protected IRootFolder $rootFolder,
+		protected IAppData $appData,
+		protected IEventDispatcher $eventDispatcher,
+		private GeneratorHelper $helper,
+		protected ?string $userId,
+		private Coordinator $bootstrapCoordinator,
+		private ContainerInterface $container,
+		private IBinaryFinder $binaryFinder,
+		private IMagickSupport $imagickSupport,
 	) {
-		$this->config = $config;
-		$this->rootFolder = $rootFolder;
-		$this->appData = $appData;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->helper = $helper;
-		$this->userId = $userId;
-		$this->bootstrapCoordinator = $bootstrapCoordinator;
-		$this->container = $container;
-		$this->binaryFinder = $binaryFinder;
-		$this->imagickSupport = $imagickSupport;
 		$this->enablePreviews = $config->getSystemValueBool('enable_previews', true);
 	}
 
@@ -226,7 +206,7 @@ class PreviewManager implements IPreview {
 		}
 
 		$mount = $file->getMountPoint();
-		if ($mount and !$mount->getOption('previews', true)) {
+		if ($mount && !$mount->getOption('previews', true)) {
 			return false;
 		}
 
@@ -330,19 +310,25 @@ class PreviewManager implements IPreview {
 		}
 		$this->registeredCoreProviders = true;
 
-		$this->registerCoreProvider(Preview\TXT::class, '/text\/plain/');
-		$this->registerCoreProvider(Preview\MarkDown::class, '/text\/(x-)?markdown/');
-		$this->registerCoreProvider(Preview\PNG::class, '/image\/png/');
-		$this->registerCoreProvider(Preview\JPEG::class, '/image\/jpeg/');
-		$this->registerCoreProvider(Preview\GIF::class, '/image\/gif/');
-		$this->registerCoreProvider(Preview\BMP::class, '/image\/bmp/');
-		$this->registerCoreProvider(Preview\XBitmap::class, '/image\/x-xbitmap/');
-		$this->registerCoreProvider(Preview\WebP::class, '/image\/webp/');
-		$this->registerCoreProvider(Preview\Krita::class, '/application\/x-krita/');
-		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg$/');
-		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
-		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
-		$this->registerCoreProvider(Preview\ImaginaryPDF::class, Preview\ImaginaryPDF::supportedMimeTypes());
+		$mimeTypeConfig = [
+			Preview\TXT::class => '/text\/plain/',
+			Preview\MarkDown::class => '/text\/(x-)?markdown/',
+			Preview\PNG::class => '/image\/png/',
+			Preview\JPEG::class => '/image\/jpeg/',
+			Preview\GIF::class => '/image\/gif/',
+			Preview\BMP::class => '/image\/bmp/',
+			Preview\XBitmap::class => '/image\/x-xbitmap/',
+			Preview\WebP::class => '/image\/webp/',
+			Preview\Krita::class => '/application\/x-krita/',
+			Preview\MP3::class => '/audio\/mpeg/',
+			Preview\OpenDocument::class => '/application\/vnd\.oasis\.opendocument\.[a-z]+/',
+			Preview\Imaginary::class => Preview\Imaginary::supportedMimeTypes(),
+			Preview\ImaginaryPDF::class => Preview\ImaginaryPDF::supportedMimeTypes(),
+		];
+
+		foreach ($mimeTypeConfig as $class => $mimeType) {
+			$this->registerCoreProvider($class, $mimeType);
+		}
 
 		// SVG and Bitmap require imagick
 		if ($this->imagickSupport->hasExtension()) {
