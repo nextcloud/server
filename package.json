@@ -158,7 +158,7 @@
     "exports-loader": "^5.0.0",
     "file-loader": "^6.2.0",
     "handlebars-loader": "^1.7.3",
-    "jasmine-core": "~2.5.2",
+    "jasmine-core": "~2.99.1",
     "jasmine-sinon": "^0.4.0",
     "jsdom": "^26.1.0",
     "karma": "^6.4.4",
