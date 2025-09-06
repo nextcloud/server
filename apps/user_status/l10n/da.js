@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Ikke på kontoret",
     "Working remotely" : "Arbejder hjemmefra",
     "In a call" : "Taler i telefon",
+    "Be right back" : "Er straks tilbage",
     "User status" : "Brugerstatus",
     "Clear status after" : "Ryd status efter",
     "Emoji for your status message" : "Emoji til din statusbesked",

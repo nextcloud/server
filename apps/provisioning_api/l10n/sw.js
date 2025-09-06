@@ -20,6 +20,7 @@ OC.L10N.register(
     "Setting the password is not supported by the users backend" : "Kuweka nenosiri hakuhimiliwi na mazingira ya nyuma ya watumiaji",
     "Invalid language" : "Lugha batili",
     "Invalid locale" : "Lugha isiyo sahihi",
+    "Invalid timezone" : "Saa za eneo si sahihi",
     "Invalid first day of week" : "Siku ya kwanza ya wiki si sahihi",
     "Cannot remove yourself from the admin group" : "Huwezi kujiondoa kutoka kwa kikundi cha wasimamizi",
     "Cannot remove yourself from this group as you are a sub-admin" : "Huwezi kujiondoa kwenye kikundi hiki kwa kuwa wewe ni msimamizi mdogo",
