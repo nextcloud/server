@@ -513,6 +513,8 @@ OC.L10N.register(
     "Deploy options" : "Opções de implantação",
     "Default Deploy daemon is not accessible" : "O Deploy daemon padrão não está acessível",
     "Delete data on remove" : "Excluir dados ao remover",
+    "This app has no minimum {productName} version assigned. This will be an error in the future." : "Este aplicativo não tem uma versão mínima do {productName} atribuída. Isso será um erro no futuro.",
+    "This app has no maximum {productName} version assigned. This will be an error in the future." : "Este aplicativo não tem uma versão máxima do {productName} atribuída. Isso será um erro no futuro.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Este aplicativo não pode ser instalado porque as seguintes dependências não foram atendidas:",
     "Latest updated" : "Última atualização",
     "Author" : "Autor",

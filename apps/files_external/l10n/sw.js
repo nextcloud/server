@@ -133,6 +133,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Mandhari ya nyuma yasiyojulikana: {backendName}",
     "Admin defined" : "Msimamizi amefafanuliwa",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Ukaguzi wa hali otomatiki umezimwa kutokana na idadi kubwa ya hifadhi zilizosanidiwa, bofya ili kuangalia hali",
+    "Are you sure you want to disconnect this external storage?" : "Je, una uhakika unataka kukata hifadhi hii ya nje?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Itafanya hifadhi isipatikane katika {instanceName} na itasababisha kufutwa kwa faili na folda hizi kwenye kiteja chochote cha kusawazisha ambacho kimeunganishwa kwa sasa lakini hakitafuta faili na folda zozote kwenye hifadhi ya nje yenyewe.",
     "Delete storage?" : "Futa hifadhi?",
     "Click to recheck the configuration" : "Bofya ili kuangalia upya usanidi",
     "Saved" : "Imehifadhiwa",
