@@ -7,6 +7,7 @@
 namespace OC\Log;
 
 use OC\SystemConfig;
+use Throwable;
 
 abstract class LogDetails {
 	public function __construct(
@@ -32,6 +33,11 @@ abstract class LogDetails {
 		}
 		$request = \OC::$server->getRequest();
 		$reqId = $request->getId();
+		$sessionId = '--';
+		try {
+			$session = \OC::$server->getSession();
+			$sessionId = $session->getId();
+		} catch (Throwable $e) {}
 		$remoteAddr = $request->getRemoteAddress();
 		// remove username/passwords from URLs before writing the to the log file
 		$time = $time->format($format);
@@ -49,6 +55,7 @@ abstract class LogDetails {
 		$version = $this->config->getValue('version', '');
 		$entry = compact(
 			'reqId',
+			'sessionId',
 			'level',
 			'time',
 			'remoteAddr',
