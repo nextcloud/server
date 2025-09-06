@@ -585,7 +585,16 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IURLGenerator::class, URLGenerator::class);
 
-		$this->registerAlias(ICache::class, Cache\File::class);
+		$this->registerService(ICache::class, function ($c) {
+			/** @var LoggerInterface $logger */
+			$logger = $c->get(LoggerInterface::class);
+			$logger->debug('The requested service "' . ICache::class . '" is deprecated. Please use "' . ICacheFactory::class . '" instead to create a cache. This service will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
+
+			/** @var ICacheFactory $cacheFactory */
+			$cacheFactory = $c->get(ICacheFactory::class);
+			return $cacheFactory->isLocalCacheAvailable() ? $cacheFactory->createLocal() : $cacheFactory->createInMemory();
+		});
+
 		$this->registerService(Factory::class, function (Server $c) {
 			$profiler = $c->get(IProfiler::class);
 			$logger = $c->get(LoggerInterface::class);
