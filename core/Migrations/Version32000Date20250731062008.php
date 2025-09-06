@@ -12,6 +12,7 @@ namespace OC\Core\Migrations;
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
+use OCP\Migration\Attributes\DataCleansing;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 use Override;
@@ -21,6 +22,8 @@ use Override;
  * This migration will clean up existing duplicates.
  * The new unique constraint is added in @see \OC\Core\Listener\AddMissingIndicesListener
  */
+#[DataCleansing(table: 'vcategory', description: 'Cleanup of duplicate vcategory records')]
+#[DataCleansing(table: 'vcategory_to_object', description: 'Update object references')]
 class Version32000Date20250731062008 extends SimpleMigrationStep {
 	public function __construct(
 		private IDBConnection $connection,

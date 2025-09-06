@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Migration\Attributes;
@@ -12,16 +12,16 @@ use Attribute;
 use OCP\AppFramework\Attribute\Consumable;
 
 /**
- * attribute on index drop
+ * attribute on new column creation
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
-#[Consumable(since: '30.0.0')]
-class DropIndex extends IndexMigrationAttribute {
+#[Consumable(since: '32.0.0')]
+class DataCleansing extends DataMigrationAttribute {
 	/**
 	 * @return string
-	 * @since 30.0.0
+	 * @since 32.0.0
 	 */
 	public function definition(): string {
-		return 'Deletion of an index from table \'' . $this->getTable() . '\'';
+		return 'Cleansing data from table \'' . $this->getTable() . '\'';
 	}
 }

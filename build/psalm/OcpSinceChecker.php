@@ -26,6 +26,7 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 
 		$isTesting = str_contains($statementsSource->getFilePath(), '/lib/public/Notification/')
 			|| str_contains($statementsSource->getFilePath(), '/lib/public/Config/')
+			|| str_contains($statementsSource->getFilePath(), '/lib/public/Migration/Attributes/')
 			|| str_contains($statementsSource->getFilePath(), 'CalendarEventStatus');
 
 		if ($isTesting) {
