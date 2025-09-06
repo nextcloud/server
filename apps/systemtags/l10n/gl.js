@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Buscar etiqueta",
     "Change tag color" : "Cambiar a cor da etiqueta",
     "Create new tag" : "Crear unha nova etiqueta",
+    "Choose tags for the selected files" : "Escolla as etiquetas para os ficheiros seleccionados",
     "Cancel" : "Cancelar",
     "Apply" : "Aplicar",
     "Failed to load tags" : "Produciuse un fallo ao cargar as etiquetas",

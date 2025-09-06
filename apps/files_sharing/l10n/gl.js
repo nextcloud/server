@@ -235,7 +235,7 @@ OC.L10N.register(
     "Name, email, or Federated Cloud ID …" : "Nome, correo ou ID de nube federada…",
     "Searching …" : "Buscando…",
     "No elements found." : "Non se atopou ningún elemento.",
-    "Search everywhere" : "Buscar por todas partes",
+    "Search everywhere" : "Buscar en todos os sitios",
     "Guest" : "Convidado",
     "Group" : "Grupo",
     "Email" : "Correo-e",

@@ -306,6 +306,7 @@ OC.L10N.register(
     "Link shares" : "Compartilhamentos por link",
     "Shares" : "Compartilhamentos",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Compartilhe arquivos dentro da sua organização. Os destinatários que já conseguem visualizar o arquivo também podem usar este link para facilitar o acesso.",
+    "Share files with others outside your organization via public links and email addresses. You can also share to {productName} accounts on other instances using their federated cloud ID." : "Compartilhe arquivos com outras pessoas fora da sua organização por meio de links públicos e endereços de e-mail. Você também pode compartilhar com contas {productName} em outras instâncias usando seu ID de nuvem federada.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Compartilhamentos de aplicativos ou outras fontes que não estão incluídos em compartilhamentos internos ou externos.",
     "Type names, teams, federated cloud IDs" : "Digite nomes, equipes, IDs de nuvem federada",
     "Type names or teams" : "Digite nomes ou equipes",
