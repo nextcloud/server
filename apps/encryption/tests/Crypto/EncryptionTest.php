@@ -232,7 +232,7 @@ class EncryptionTest extends TestCase {
 			->willReturn(true);
 		$this->keyManagerMock->expects($this->once())
 			->method('getFileKey')
-			->with($path, 'user', null, true)
+			->with($path, null, null, true)
 			->willReturn($fileKey);
 
 		$this->instance->begin($path, 'user', 'r', [], []);
