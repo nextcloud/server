@@ -131,6 +131,8 @@
     "Unknown backend: {backendName}" : "Back-end desconhecido: {backendName}",
     "Admin defined" : "Definido pelo administrador",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "A verificação automática de status está desabilitada devido ao grande número de armazenamentos configurados, clique para verificar o status",
+    "Are you sure you want to disconnect this external storage?" : "Tem certeza de que deseja desconectar este armazenamento externo?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Isso tornará o armazenamento indisponível em {instanceName} e levará à exclusão destes arquivos e pastas em qualquer cliente de sincronização que esteja conectado no momento, mas não excluirá nenhum arquivo ou pasta no próprio armazenamento externo.",
     "Delete storage?" : "Excluir armazenamento?",
     "Click to recheck the configuration" : "Clique para rechecar a configuração",
     "Saved" : "Salvo",

@@ -236,7 +236,7 @@ OC.L10N.register(
     "Search in date range" : "Buscar nun intervalo de datas",
     "Search in current app" : "Buscar na aplicación actual",
     "Clear search" : "Limpar a busca",
-    "Search everywhere" : "Buscar por todas partes",
+    "Search everywhere" : "Buscar en todos os sitios",
     "Searching …" : "Buscando…",
     "Start typing to search" : "Comece a escribir para buscar",
     "No matching results" : "Non hai resultados coincidentes",

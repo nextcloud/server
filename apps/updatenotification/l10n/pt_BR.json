@@ -22,6 +22,8 @@
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Certifique-se de que seu config.php não tenha configurado <samp>appstoreenabled</samp> para falso.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Não foi possível conectar à Loja de Aplicativos ou nenhuma atualização foi retornada. Pesquise manualmente por atualizações ou certifique-se de que seu servidor tenha acesso à Internet e possa se conectar à Loja de Aplicativos.",
     "Enterprise" : "Empresarial",
+    "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately." : "Para uso empresarial. Fornece sempre o nível de patch mais recente, mas não atualiza imediatamente para a próxima versão principal.",
+    "This channel is only available to customers and provides the {enterprise} package." : "Este canal está disponível apenas para clientes e fornece o pacote {enterprise}.",
     "Stable" : "Estável",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "A versão estável mais recente. É adequada para uso regular e será sempre atualizada para a versão principal mais recente.",
     "Beta" : "Beta",

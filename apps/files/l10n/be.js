@@ -410,6 +410,7 @@ OC.L10N.register(
     "All folders" : "Усе папкі",
     "Personal Files" : "Асабістыя файлы",
     "Text file" : "Тэкставы файл",
+    "New text file.txt" : "Новы тэкставы файл.txt",
     "%1$s (renamed)" : "%1$s (перайменаваны)",
     "Prevent warning dialogs from open or reenable them." : "Забараніць папярэджанні або зноў уключыць іх.",
     "Show a warning dialog when changing a file extension." : "Паказваць папярэджанне пры змене пашырэння файла.",
