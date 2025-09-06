@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Søgemærke",
     "Change tag color" : "Skift mærkefarve",
     "Create new tag" : "Opret nyt mærke",
+    "Choose tags for the selected files" : "Vælg tags til de valgte filer",
     "Cancel" : "Annuller",
     "Apply" : "Anvend",
     "Failed to load tags" : "Kunne ikke indlæse tags.",

@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "Sök tagg",
     "Change tag color" : "Ändra färg på tagg",
     "Create new tag" : "Skapa ny tagg",
+    "Choose tags for the selected files" : "Välj taggar för de valda filerna",
     "Cancel" : "Avbryt",
     "Apply" : "Tillämpa",
     "Failed to load tags" : "Kunde inte läsa in taggar",
