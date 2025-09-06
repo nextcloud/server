@@ -111,10 +111,6 @@ Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp tests
 Copyright: 2016-2024 Nextcloud GmbH
 License: LicenseRef-NextcloudTrademarks
 
-Files: apps/settings/data/Reasons to use Nextcloud.pdf
-Copyright: 2020 Nextcloud GmbH
-License: LicenseRef-NextcloudTrademarks
-
 Files: core/img/desktopapp.svg
 Copyright: 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
