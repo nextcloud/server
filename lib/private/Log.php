@@ -12,6 +12,7 @@ use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Log\ExceptionSerializer;
+use OCP\App\IAppManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IRequest;
@@ -44,6 +45,7 @@ class Log implements ILogger, IDataLogger {
 		private SystemConfig $config,
 		private Normalizer $normalizer = new Normalizer(),
 		private ?IRegistry $crashReporters = null,
+		private ?IAppManager $appManager = null,
 	) {
 	}
 
@@ -142,7 +144,6 @@ class Log implements ILogger, IDataLogger {
 		$this->log(ILogger::DEBUG, $message, $context);
 	}
 
-
 	/**
 	 * Logs with an arbitrary level.
 	 *
@@ -158,6 +159,9 @@ class Log implements ILogger, IDataLogger {
 			return; // no crash reporter, no listeners, we can stop for lower log level
 		}
 
+		if ($this->appManager && isset($context['app']) && $version = $this->appManager->getAppVersion($context['app'])) {
+			$context['app_version'] = $version;
+		}
 		array_walk($context, [$this->normalizer, 'format']);
 
 		$app = $context['app'] ?? 'no app in context';
