@@ -1,5 +1,5 @@
 { "translations": {
-    "Cannot write into \"config\" directory!" : "Impossible d’écrire dans le répertoire « config » !",
+    "Cannot write into \"config\" directory!" : "Impossible d’écrire dans le répertoire \"config\" !",
     "This can usually be fixed by giving the web server write access to the config directory." : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire de configuration.",
     "But, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ou, si vous préférez conserver le fichier config.php en lecture seule, définissez l'option « config_is_read_only » sur true.",
     "See %s" : "Voir %s",
