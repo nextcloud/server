@@ -168,11 +168,17 @@ class LostController extends Controller {
 		// FIXME: use HTTP error codes
 		try {
 			$this->sendEmail($user);
+			$response = new JSONResponse($this->success());
+			$response->throttle();
+			return $response;
 		} catch (ResetPasswordException $e) {
-			// Ignore the error since we do not want to leak this info
 			$this->logger->warning('Could not send password reset email: ' . $e->getMessage());
+			// Return 404 Not Found to avoid leaking info
+			return new JSONResponse($this->error($this->l10n->t('Could not send password reset email')), 404);
 		} catch (Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			// Return 500 Internal Server Error for unexpected errors
+			return new JSONResponse($this->error($this->l10n->t('Internal server error')), 500);
 		}
 
 		$response = new JSONResponse($this->success());
