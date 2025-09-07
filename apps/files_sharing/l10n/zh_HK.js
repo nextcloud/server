@@ -306,6 +306,7 @@ OC.L10N.register(
     "Link shares" : "連結分享",
     "Shares" : "分享",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "在您的組織內部分享檔案。已經可以檢視檔案的收件者也可以使用此連結以方便存取。",
+    "Share files with others outside your organization via public links and email addresses. You can also share to {productName} accounts on other instances using their federated cloud ID." : "透過公開連結與電子郵件地址與組織外的其他人分享檔案。您也可以使用其他站台上的聯邦雲端 ID 將檔案分享至 {productName} 帳號。",
     "Shares from apps or other sources which are not included in internal or external shares." : "來自應用程式或其他來源的分享，不包括在內部或外部分享中。",
     "Type names, teams, federated cloud IDs" : "輸入名稱、團隊、聯邦雲端 ID",
     "Type names or teams" : "輸入名稱或團隊",

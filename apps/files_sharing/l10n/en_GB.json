@@ -304,6 +304,7 @@
     "Link shares" : "Link shares",
     "Shares" : "Shares",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Share files within your organization. Recipients who can already view the file can also use this link for easy access.",
+    "Share files with others outside your organization via public links and email addresses. You can also share to {productName} accounts on other instances using their federated cloud ID." : "Share files with others outside your organization via public links and email addresses. You can also share to {productName} accounts on other instances using their federated cloud ID.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Shares from apps or other sources which are not included in internal or external shares.",
     "Type names, teams, federated cloud IDs" : "Type names, teams, federated cloud IDs",
     "Type names or teams" : "Type names or teams",
