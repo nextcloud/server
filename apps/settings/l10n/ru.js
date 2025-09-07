@@ -822,6 +822,7 @@ OC.L10N.register(
     "Version {version}, {license}-licensed" : "Версия:  {version}, лицензия: {license}",
     "Version {version}" : "Версия {version}",
     "Failed to save selected preset." : "Не удалось сохранить выбранную предустановку.",
+    "Quick presets" : "Быстрые предустановки",
     "Select a configuration preset for easy setup." : "Выберите предустановленную конфигурацию для легкой настройки.",
     "Apply" : "Применить",
     "All accounts" : "Все аккаунты",
