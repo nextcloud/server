@@ -187,7 +187,7 @@ OC.L10N.register(
     "Website Field" : "Website Field",
     "Address Field" : "Address Field",
     "Twitter Field" : "Twitter Field",
-    "Fediverse Field" : "Fediverse Field",
+    "Fediverse Field" : "خانهٔ فدیورس",
     "Organisation Field" : "Organisation Field",
     "Role Field" : "Role Field",
     "Headline Field" : "Headline Field",
