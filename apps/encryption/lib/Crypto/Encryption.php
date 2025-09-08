@@ -127,7 +127,7 @@ class Encryption implements IEncryptionModule {
 		/* If useLegacyFileKey is not specified in header, auto-detect, to be safe */
 		$useLegacyFileKey = (($header['useLegacyFileKey'] ?? '') == 'false' ? false : null);
 
-		$this->fileKey = $this->keyManager->getFileKey($this->path, null, $useLegacyFileKey, $this->session->decryptAllModeActivated());
+		$this->fileKey = $this->keyManager->getFileKey($this->path, $useLegacyFileKey, $this->session->decryptAllModeActivated());
 
 		// always use the version from the original file, also part files
 		// need to have a correct version number if they get moved over to the
@@ -335,7 +335,7 @@ class Encryption implements IEncryptionModule {
 			return false;
 		}
 
-		$fileKey = $this->keyManager->getFileKey($path, null, null);
+		$fileKey = $this->keyManager->getFileKey($path, null);
 
 		if (!empty($fileKey)) {
 			$publicKeys = [];
@@ -438,7 +438,7 @@ class Encryption implements IEncryptionModule {
 	 * @throws DecryptionFailedException
 	 */
 	public function isReadable($path, $uid) {
-		$fileKey = $this->keyManager->getFileKey($path, $uid, null);
+		$fileKey = $this->keyManager->getFileKey($path, null);
 		if (empty($fileKey)) {
 			$owner = $this->util->getOwner($path);
 			if ($owner !== $uid) {

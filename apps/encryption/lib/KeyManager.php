@@ -349,10 +349,9 @@ class KeyManager {
 	}
 
 	/**
-	 * @param ?string $uid deprecated
 	 * @param ?bool $useLegacyFileKey null means try both
 	 */
-	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
+	public function getFileKey(string $path, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
 		$publicAccess = ($this->keyUid === null);
 		$encryptedFileKey = '';
 		if ($useLegacyFileKey ?? true) {
