@@ -182,7 +182,7 @@ class Recovery {
 			if ($item['type'] === 'dir') {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
-				$fileKey = $this->keyManager->getFileKey($filePath, $this->user->getUID(), null);
+				$fileKey = $this->keyManager->getFileKey($filePath, null);
 				if (!empty($fileKey)) {
 					$accessList = $this->file->getAccessList($filePath);
 					$publicKeys = [];
