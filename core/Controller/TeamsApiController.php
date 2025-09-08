@@ -66,15 +66,15 @@ class TeamsApiController extends OCSController {
 	public function listTeams(string $providerId, string $resourceId): DataResponse {
 		/** @psalm-suppress PossiblyNullArgument The route is limited to logged-in users */
 		$teams = $this->teamManager->getTeamsForResource($providerId, $resourceId, $this->userId);
-		$teams = array_values(array_map(function (Team $team) {
+		$sharesPerTeams = $this->teamManager->getSharedWithList(array_map(fn (Team $team): string => $team->getId(), $teams), $this->userId);
+		$listTeams = array_values(array_map(function (Team $team) use ($sharesPerTeams) {
 			$response = $team->jsonSerialize();
-			/** @psalm-suppress PossiblyNullArgument The route is limited to logged in users */
-			$response['resources'] = array_map(static fn (TeamResource $resource) => $resource->jsonSerialize(), $this->teamManager->getSharedWith($team->getId(), $this->userId));
+			$response['resources'] = array_map(static fn (TeamResource $resource) => $resource->jsonSerialize(), $sharesPerTeams[$team->getId()] ?? []);
 			return $response;
 		}, $teams));
 
 		return new DataResponse([
-			'teams' => $teams,
+			'teams' => $listTeams,
 		]);
 	}
 }

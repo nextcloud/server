@@ -4331,6 +4331,11 @@
       <code><![CDATA[$path]]></code>
     </InvalidReturnStatement>
   </file>
+  <file src="lib/private/Teams/TeamManager.php">
+    <UndefinedDocblockClass>
+      <code><![CDATA[Circle]]></code>
+    </UndefinedDocblockClass>
+  </file>
   <file src="lib/private/User/Database.php">
     <FalsableReturnStatement>
       <code><![CDATA[false]]></code>
