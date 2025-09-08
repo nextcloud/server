@@ -1153,6 +1153,16 @@ $CONFIG = [
 'log.backtrace' => false,
 
 /**
+ * Enables logging the PHP session ID with each log line
+ *
+ * This can be used for session-related debugging, e.g. to see when a session
+ * is ended or restarted.
+ *
+ * Defaults to ``false``.
+ */
+'log.sessionId' => false,
+
+/**
  * This uses PHP.date formatting; see https://www.php.net/manual/en/function.date.php
  *
  * Defaults to ISO 8601 ``2005-08-15T15:52:01+00:00`` - see \DateTime::ATOM

@@ -15,11 +15,13 @@ use OC\Log\ExceptionSerializer;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Log\BeforeMessageLoggedEvent;
 use OCP\Log\IDataLogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Support\CrashReport\IRegistry;
 use Throwable;
 use function array_merge;
@@ -169,6 +171,13 @@ class Log implements ILogger, IDataLogger {
 		$logBacktrace = $this->config->getValue('log.backtrace', false);
 		if (!$hasBacktrace && $logBacktrace) {
 			$entry['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		}
+		if ($this->config->getValue('log.sessionId', false)) {
+			try {
+				$entry['sessionId'] = \OCP\Server::get(ISession::class)->getId();
+			} catch (SessionNotAvailableException) {
+				$entry['sessionId'] = false;
+			}
 		}
 
 		try {
