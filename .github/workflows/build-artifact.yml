@@ -66,6 +66,13 @@ jobs:
               "makefile_target": "build_dep_viewer_app"
             },
             {
+              "name": "calendar",
+              "path": "apps-external/calendar",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_calendar_app"
+            },
+            {
               "name": "contacts",
               "path": "apps-external/contacts",
               "has_npm": true,
