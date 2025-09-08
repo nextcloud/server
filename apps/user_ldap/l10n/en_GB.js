@@ -128,7 +128,7 @@ OC.L10N.register(
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge.",
     "Manually enter LDAP filters (recommended for large directories)" : "Manually enter LDAP filters (recommended for large directories)",
     "Listing and searching for users is constrained by these criteria:" : "Listing and searching for users is constrained by these criteria:",
-    "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.",
+    "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "The most common object classes for users are organisationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "The filter specifies which LDAP users shall have access to the %s instance.",
     "Verify settings and count users" : "Verify settings and count users",
     "Saving" : "Saving",
