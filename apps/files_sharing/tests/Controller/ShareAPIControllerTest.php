@@ -103,6 +103,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->currentUser = 'currentUser';
+		Server::get(IUserManager::class)->createUser($this->currentUser, 'pass');
 
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
@@ -150,6 +151,11 @@ class ShareAPIControllerTest extends TestCase {
 			$this->currentUser
 		);
 
+	}
+
+	public function tearDown(): void {
+		Server::get(IUserManager::class)->get($this->currentUser)->delete();
+		parent::tearDown();
 	}
 
 	/**
