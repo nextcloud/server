@@ -12,6 +12,7 @@ namespace OCA\Files_Sharing\Controller;
 use Exception;
 use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FileInfo;
+use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Circles\Api\v1\Circles;
 use OCA\Deck\Sharing\ShareAPIHelper;
@@ -496,6 +497,11 @@ class ShareAPIController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function getShare(string $id, bool $include_tags = false): DataResponse {
+		if ($this->userId !== null) {
+			// Ensure \OCP\Share\Events\VerifyMountPointEvent is fired before getting the share, so apps can overwrite their path placeholders.
+			Filesystem::initMountPoints($this->userId);
+		}
+
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
@@ -964,6 +970,11 @@ class ShareAPIController extends OCSController {
 		string $path = '',
 		string $include_tags = 'false',
 	): DataResponse {
+		if ($this->userId !== null) {
+			// Ensure \OCP\Share\Events\VerifyMountPointEvent is fired before getting the share, so apps can overwrite their path placeholders.
+			Filesystem::initMountPoints($this->userId);
+		}
+
 		$node = null;
 		if ($path !== '') {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
