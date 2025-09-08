@@ -438,7 +438,7 @@ class Encryption implements IEncryptionModule {
 	 * @throws DecryptionFailedException
 	 */
 	public function isReadable($path, $uid) {
-		$fileKey = $this->keyManager->getFileKey($path, $uid, null);
+		$fileKey = $this->keyManager->getFileKey($path, null);
 		if (empty($fileKey)) {
 			$owner = $this->util->getOwner($path);
 			if ($owner !== $uid) {

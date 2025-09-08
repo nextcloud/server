@@ -446,7 +446,7 @@ class KeyManagerTest extends TestCase {
 		}
 
 		$this->assertSame($expected,
-			$this->instance->getFileKey($path, null, null)
+			$this->instance->getFileKey($path, null)
 		);
 	}
 
