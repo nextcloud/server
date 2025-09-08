@@ -19,3 +19,6 @@
 [submodule "apps-external/files_antivirus"]
 	path = apps-external/files_antivirus
 	url = git@github.com:nextcloud/files_antivirus.git
+[submodule "apps-external/calendar"]
+	path = apps-external/calendar
+	url = git@github.com:nextcloud/calendar.git
