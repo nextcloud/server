@@ -304,6 +304,7 @@
     "Link shares" : "Enlaces del recurso compartido",
     "Shares" : "Compartidos",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Comparta archivos con su organización. Los destinatarios que ya pueden ver el archivo también pueden utilizar este enlace para un acceso fácil.",
+    "Share files with others outside your organization via public links and email addresses. You can also share to {productName} accounts on other instances using their federated cloud ID." : "Comparta archivos con otros fuera de su organización vía enlaces públicos y direcciones de correo electrónico. Ud. puede también compartir con cuentas de {productName} en otras instancias utilizando su ID de nube federada.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Los recursos compartidos desde las apps o de otras fuentes que no están incluidos en recursos compartidos internos o externos.",
     "Type names, teams, federated cloud IDs" : "Escriba nombres, equipos, IDs de nubes federadas",
     "Type names or teams" : "Escriba nombres o equipos",
