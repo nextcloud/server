@@ -4297,6 +4297,11 @@
       <code><![CDATA[$tag]]></code>
     </MoreSpecificImplementedParamType>
   </file>
+  <file src="lib/private/Teams/TeamManager.php">
+    <UndefinedDocblockClass>
+      <code><![CDATA[Circle]]></code>
+    </UndefinedDocblockClass>
+  </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>
       <code><![CDATA[$path]]></code>
