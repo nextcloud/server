@@ -164,6 +164,10 @@ class Movie extends ProviderV2 {
 					// size of the atom. Needed for large atoms like 'mdat' (the video data)
 					if ($atomSize === 1) {
 						$atomSize = (int)hexdec(bin2hex(stream_get_contents($content, 8, (int)($offset + 8))));
+						// 0 in the 64 bit field should not occur in a valid file, stop processing
+						if ($atomSize === 0) {
+							return false;
+						}
 					}
 				}
 				// Found the 'moov' atom, store its location and size
@@ -194,9 +198,9 @@ class Movie extends ProviderV2 {
 			// Copy first $size bytes of video into new file
 			stream_copy_to_stream($content, $sparseFile, $size, 0);
 
-			// If 'moov' is located before $size in the video, it was already streamed,
+			// If 'moov' is located entirely before $size in the video, it was already streamed,
 			// so no need to download it again.
-			if ($moovOffset >= $size) {
+			if ($moovOffset + $moovSize >= $size) {
 				// Seek to where 'moov' atom needs to be placed
 				fseek($content, (int)$moovOffset);
 				fseek($sparseFile, (int)$moovOffset);
