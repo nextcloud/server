@@ -7,27 +7,14 @@ declare(strict_types=1);
  */
 namespace OCP\BackgroundJob;
 
-use OCP\ILogger;
-
 /**
  * Simple base class for a one time background job
  *
  * @since 15.0.0
+ * @since 25.0.0 deprecated `execute()` method in favor of `start()`
+ * @since 33.0.0 removed deprecated `execute()` method
  */
 abstract class QueuedJob extends Job {
-	/**
-	 * Run the job, then remove it from the joblist
-	 *
-	 * @param IJobList $jobList
-	 * @param ILogger|null $logger
-	 *
-	 * @since 15.0.0
-	 * @deprecated 25.0.0 Use start() instead. This method will be removed
-	 * with the ILogger interface
-	 */
-	final public function execute($jobList, ?ILogger $logger = null) {
-		$this->start($jobList);
-	}
 
 	/**
 	 * Run the job, then remove it from the joblist

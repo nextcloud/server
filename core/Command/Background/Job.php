@@ -69,8 +69,7 @@ class Job extends Command {
 			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
 			return 1;
 		}
-		/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
-		$job->execute($this->jobList);
+		$job->start($this->jobList);
 		$job = $this->jobList->getById($jobId);
 
 		if (($job === null) || ($lastRun !== $job->getLastRun())) {
