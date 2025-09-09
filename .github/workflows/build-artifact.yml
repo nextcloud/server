@@ -73,6 +73,13 @@ jobs:
               "makefile_target": "build_calendar_app"
             },
             {
+              "name": "activity",
+              "path": "apps-external/activity",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_activity_app"
+            },
+            {
               "name": "contacts",
               "path": "apps-external/contacts",
               "has_npm": true,
