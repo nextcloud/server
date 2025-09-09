@@ -81,7 +81,8 @@ try {
 	/* base.php will have removed eventual debug options from argv in $_SERVER */
 	$argv = $_SERVER['argv'];
 	$input = new ArgvInput($argv);
-	$application->loadCommands($input, new ConsoleOutput());
+	$output = new ConsoleOutput();
+	$application->loadCommands($input, $output);
 
 	$eventLogger->end('console:build_application');
 	$eventLogger->start('console:run', 'Run the command');
@@ -98,6 +99,13 @@ try {
 		$profile->setMethod('occ');
 		$profile->setUrl(implode(' ', $argv));
 		$profiler->saveProfile($profile);
+
+		$urlGenerator = Server::get(\OCP\IURLGenerator::class);
+		$url = $urlGenerator->linkToRouteAbsolute('profiler.main.profiler', [
+			'profiler' => 'db',
+			'token' => $profile->getToken(),
+		]);
+		$output->writeln('Profiler output available at ' . $url);
 	}
 
 	if ($exitCode > 255) {
