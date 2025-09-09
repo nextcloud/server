@@ -232,6 +232,7 @@ OC.L10N.register(
     "Set default language" : "Задаць прадвызначаную мову",
     "_{userCount} account …_::_{userCount} accounts …_" : ["{userCount} уліковы запіс …","{userCount} уліковыя запісы …","{userCount} уліковых запісаў …","{userCount} уліковых запісаў …"],
     "_{userCount} account_::_{userCount} accounts_" : ["{userCount} уліковы запіс","{userCount} уліковыя запісы","{userCount} уліковых запісаў","{userCount} уліковых запісаў"],
+    "Total rows summary" : "Зводка па ўсіх радках",
     "Avatar" : "Аватар",
     "Account name" : "Імя ўліковага запісу",
     "{size} used" : "Выкарыстана {size}",

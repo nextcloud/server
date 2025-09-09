@@ -4,7 +4,7 @@ OC.L10N.register(
     "Dashboard" : "Панэль кіравання",
     "Dashboard app" : "Праграма Панэль кіравання",
     "Weather" : "Надвор'е",
-    "Status" : "Стан",
+    "Status" : "Статус",
     "Good morning" : "Добрай раніцы",
     "Good morning, {name}" : "Добрай раніцы, {name}",
     "Good afternoon" : "Добры дзень",
