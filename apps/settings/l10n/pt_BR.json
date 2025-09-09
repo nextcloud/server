@@ -879,6 +879,7 @@
     "Disable" : "Desativar",
     "Allow untested app" : "Permitir aplicativo não testado",
     "The app will be downloaded from the App Store" : "O aplicativo será baixado da Loja de Aplicativos",
+    "This app is not marked as compatible with your {productName} version." : "Este aplicativo não é marcado como compatível com sua versão {productName}.",
     "Unknown" : "Desconhecido",
     "Never" : "Nunca",
     "Could not register device: Network error" : "Não foi possível registrar o dispositivo: Erro de rede",
