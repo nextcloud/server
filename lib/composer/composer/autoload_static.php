@@ -719,6 +719,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Migration\\Attributes\\ColumnMigrationAttribute' => __DIR__ . '/../../..' . '/lib/public/Migration/Attributes/ColumnMigrationAttribute.php',
         'OCP\\Migration\\Attributes\\ColumnType' => __DIR__ . '/../../..' . '/lib/public/Migration/Attributes/ColumnType.php',
         'OCP\\Migration\\Attributes\\CreateTable' => __DIR__ . '/../../..' . '/lib/public/Migration/Attributes/CreateTable.php',
+        'OCP\\Migration\\Attributes\\DataCleansing' => __DIR__ . '/../../..' . '/lib/public/Migration/Attributes/DataCleansing.php',
+        'OCP\\Migration\\Attributes\\DataMigrationAttribute' => __DIR__ . '/../../..' . '/lib/public/Migration/Attributes/DataMigrationAttribute.php',
         'OCP\\Migration\\Attributes\\DropColumn' => __DIR__ . '/../../..' . '/lib/public/Migration/Attributes/DropColumn.php',
         'OCP\\Migration\\Attributes\\DropIndex' => __DIR__ . '/../../..' . '/lib/public/Migration/Attributes/DropIndex.php',
         'OCP\\Migration\\Attributes\\DropTable' => __DIR__ . '/../../..' . '/lib/public/Migration/Attributes/DropTable.php',
