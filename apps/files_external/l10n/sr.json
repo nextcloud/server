@@ -131,6 +131,8 @@
     "Unknown backend: {backendName}" : "Непознат позадински механизам: {backendName}",
     "Admin defined" : "Дефинисао администратор",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Аутоматска провера статуса је искључена због превеликог броја конфигурисаних складишта, кликните да проверите статус",
+    "Are you sure you want to disconnect this external storage?" : "Да ли стварно желите да прекинете везу са овим спољашњим складиштем?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "{instanceName} неће моћи више да га користи, па ће се ови фајлови и фолдери обрисати на било ком синхронизационом клијенту који је тренутно повезан, мада се неће обрисати ниједан фајл или фолдер на самом спољном складишту.",
     "Delete storage?" : "Обриши складиште?",
     "Click to recheck the configuration" : "Кликните овде да поново проверите конфигурацију",
     "Saved" : "Сачувано",

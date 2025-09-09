@@ -31,7 +31,7 @@ OC.L10N.register(
     "Operation #%s does not exist" : "Operation #%s eksisterer ikke",
     "Entity %s does not exist" : "Entitet %s eksisterer ikke",
     "Entity %s is invalid" : "Entitet %s er ugyldig",
-    "No events are chosen." : "Ingen begivenheder er valgte.",
+    "No events are chosen." : "Ingen begivenheder er valgt.",
     "Operation %s does not exist" : "Operation %s eksisterer ikke",
     "Operation %s is invalid" : "Operation %s er invalid",
     "Check %s does not exist" : "Tjek %s eksisterer ikke",
