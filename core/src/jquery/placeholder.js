@@ -1,12 +1,13 @@
+/* eslint-disable jsdoc/require-jsdoc */
+/* eslint-disable no-extend-native */
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-/* eslint-disable */
+import { createHash } from 'crypto-browserify'
 import $ from 'jquery'
-import md5 from 'blueimp-md5'
 
 /*
  * Adds a background color to the element called on and adds the first character
@@ -42,17 +43,19 @@ import md5 from 'blueimp-md5'
 *
 * Will return the rgb parameters within the following object:
 *
-* Color {r: 208, g: 158, b: 109}
+* Color {r: 208, g: 158, b: 109}
 *
 */
 
 const toRgb = (s) => {
 	// Normalize hash
-	var hash = s.toLowerCase()
+	let hash = s.toLowerCase()
 
 	// Already a md5 hash?
 	if (hash.match(/^([0-9a-f]{4}-?){8}$/) === null) {
-		hash = md5(hash)
+		createHash('md5')
+			.update(hash)
+			.digest('hex')
 	}
 
 	hash = hash.replace(/[^0-9a-f]/g, '')
@@ -64,7 +67,7 @@ const toRgb = (s) => {
 	}
 
 	function stepCalc(steps, ends) {
-		var step = new Array(3)
+		const step = new Array(3)
 		step[0] = (ends[1].r - ends[0].r) / steps
 		step[1] = (ends[1].g - ends[0].g) / steps
 		step[2] = (ends[1].b - ends[0].b) / steps
@@ -72,43 +75,43 @@ const toRgb = (s) => {
 	}
 
 	function mixPalette(steps, color1, color2) {
-		var palette = []
+		const palette = []
 		palette.push(color1)
-		var step = stepCalc(steps, [color1, color2])
-		for (var i = 1; i < steps; i++) {
-			var r = parseInt(color1.r + (step[0] * i))
-			var g = parseInt(color1.g + (step[1] * i))
-			var b = parseInt(color1.b + (step[2] * i))
+		const step = stepCalc(steps, [color1, color2])
+		for (let i = 1; i < steps; i++) {
+			const r = parseInt(color1.r + (step[0] * i))
+			const g = parseInt(color1.g + (step[1] * i))
+			const b = parseInt(color1.b + (step[2] * i))
 			palette.push(new Color(r, g, b))
 		}
 		return palette
 	}
 
-	const red = new Color(182, 70, 157);
-	const yellow = new Color(221, 203, 85);
-	const blue = new Color(0, 130, 201); // Nextcloud blue
+	const red = new Color(182, 70, 157)
+	const yellow = new Color(221, 203, 85)
+	const blue = new Color(0, 130, 201) // Nextcloud blue
 	// Number of steps to go from a color to another
 	// 3 colors * 6 will result in 18 generated colors
-	const steps = 6;
+	const steps = 6
 
-	const palette1 = mixPalette(steps, red, yellow);
-	const palette2 = mixPalette(steps, yellow, blue);
-	const palette3 = mixPalette(steps, blue, red);
+	const palette1 = mixPalette(steps, red, yellow)
+	const palette2 = mixPalette(steps, yellow, blue)
+	const palette3 = mixPalette(steps, blue, red)
 
-	const finalPalette = palette1.concat(palette2).concat(palette3);
+	const finalPalette = palette1.concat(palette2).concat(palette3)
 
 	// Convert a string to an integer evenly
 	function hashToInt(hash, maximum) {
-		var finalInt = 0
-		var result = []
+		let finalInt = 0
+		const result = []
 
 		// Splitting evenly the string
-		for (var i = 0; i < hash.length; i++) {
+		for (let i = 0; i < hash.length; i++) {
 			// chars in md5 goes up to f, hex:16
 			result.push(parseInt(hash.charAt(i), 16) % 16)
 		}
 		// Adds up all results
-		for (var j in result) {
+		for (const j in result) {
 			finalInt += result[j]
 		}
 		// chars in md5 goes up to f, hex:16
@@ -129,11 +132,11 @@ $.fn.imageplaceholder = function(seed, text, size) {
 	text = text || seed
 
 	// Compute the hash
-	var rgb = toRgb(seed)
+	const rgb = toRgb(seed)
 	this.css('background-color', 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')')
 
 	// Placeholders are square
-	var height = this.height() || size || 32
+	const height = this.height() || size || 32
 	this.height(height)
 	this.width(height)
 
@@ -147,8 +150,8 @@ $.fn.imageplaceholder = function(seed, text, size) {
 	this.css('font-size', (height * 0.55) + 'px')
 
 	if (seed !== null && seed.length) {
-		var placeholderText = text.replace(/\s+/g, ' ').trim().split(' ', 2).map((word) => word[0].toUpperCase()).join('')
-		this.html(placeholderText);
+		const placeholderText = text.replace(/\s+/g, ' ').trim().split(' ', 2).map((word) => word[0].toUpperCase()).join('')
+		this.html(placeholderText)
 	}
 }
 
