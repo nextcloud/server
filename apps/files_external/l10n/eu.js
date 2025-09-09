@@ -133,6 +133,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Backend ezezaguna: {backendName}",
     "Admin defined" : "Administratzaileak definitua",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Egoeraren egiaztatze automatikoa desgaituta dago konfiguratutako biltegiratze kopuru handia dela eta, egin klik egoera egiaztatzeko",
+    "Are you sure you want to disconnect this external storage?" : "Ziur zaude kanpoko biltegia deskonektatu nahi duzula?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Ezingo da gorde {instanceName} instantzian, eta fitxategi eta karpeta horiek ezabatuko dira gaur egun konektatuta dagoen edozein bezero sinkronikotik baina kanpoko biltegitik ez dira ezabatuko.",
     "Delete storage?" : "Biltegiratzea ezabatu?",
     "Click to recheck the configuration" : "Egin klik konfigurazioa berriro egiaztatzeko",
     "Saved" : "Gordeta",
