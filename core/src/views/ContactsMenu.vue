@@ -210,12 +210,13 @@ export default {
 		}
 
 		&__search-container {
+			padding: 10px;
 			display: flex;
 			flex: row nowrap;
+			column-gap: 10px;
 		}
 
 		&__input-wrapper {
-			padding: 10px;
 			z-index: 2;
 			top: 0;
 			flex-grow: 1;
