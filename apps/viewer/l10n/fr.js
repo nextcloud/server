@@ -11,7 +11,7 @@ OC.L10N.register(
     "Confirm overwrite" : "Confirmer le remplacement",
     "Cancel" : "Annuler",
     "Overwrite" : "Remplacer",
-    "An error occurred while trying to confirm the file overwrite." : "Une erreur s'est produire lors de la tentative de confirmation du remplacement du fichier",
+    "An error occurred while trying to confirm the file overwrite." : "Une erreur est survenue lors de la tentative de confirmation du remplacement du fichier",
     "Image saved" : "Image sauvegardée",
     "Error saving image" : "Erreur lors de l'enregistrement de l'image",
     "Play the live photo" : "Lire la live photo",
@@ -80,8 +80,8 @@ OC.L10N.register(
     "Image" : "Image",
     "Importing …" : "Importation...",
     "+ Add image" : "+ Ajouter une image",
-    "Upload image" : "Téléversement d'image",
-    "From gallery" : "De la galerie",
+    "Upload image" : "Téléverser l'image",
+    "From gallery" : "Depuis la galerie",
     "Line" : "Ligne",
     "Pen" : "Stylo",
     "Polygon" : "Polygone",
@@ -102,7 +102,7 @@ OC.L10N.register(
     "Line height" : "Hauteur de ligne",
     "Warmth" : "Température",
     "+ Add watermark" : "+ Ajouter un filigrane",
-    "+ Add text watermark" : "+ Ajouter un texte filigraner",
+    "+ Add text watermark" : "+ Ajouter un filigrane texte",
     "Choose watermark type" : "Choisir un type de filigrane",
     "Upload watermark" : "Téléverser un filigrane",
     "Add as text" : "Ajouter comme texte",
@@ -128,7 +128,7 @@ OC.L10N.register(
     "Failed to load image." : "Échec du chargement de l'image.",
     "Menu" : "Menu",
     "Width" : "Largeur",
-    "Height" : "Taille",
-    "No preview available for this crop item" : "Aucun aperçu disponible pour cet élément de recadrage"
+    "Height" : "Hauteur",
+    "No preview available for this crop item" : "Aucun aperçu disponible pour cet élément recadré"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
