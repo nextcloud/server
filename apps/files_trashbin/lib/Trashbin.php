@@ -293,9 +293,8 @@ class Trashbin implements IEventListener {
 		try {
 			$moveSuccessful = true;
 
-			$inCache = $sourceStorage->getCache()->inCache($sourceInternalPath);
 			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
-			if ($inCache) {
+			if ($sourceStorage->getCache()->inCache($sourceInternalPath)) {
 				$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 			}
 		} catch (CopyRecursiveException $e) {
