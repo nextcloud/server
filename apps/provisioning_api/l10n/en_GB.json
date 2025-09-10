@@ -28,6 +28,7 @@
     "User is not a sub-admin of this group" : "User is not a sub-admin of this group",
     "Email address not available" : "Email address not available",
     "Sending email failed" : "Sending email failed",
+    "Logged in account is not mail address owner" : "Logged in account is not mail address owner",
     "Email confirmation" : "Email confirmation",
     "To enable the email address %s please click the button below." : "To enable the email address %s please click the button below.",
     "Confirm" : "Confirm",

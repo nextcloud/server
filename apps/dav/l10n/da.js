@@ -301,7 +301,7 @@ OC.L10N.register(
     "Import contact" : "Importér kontakt",
     "Reset to default" : "Nulstil",
     "Import contacts" : "Importér kontakter",
-    "Importing a new .vcf file will delete the existing default contact and replace it with the new one. Do you want to continue?" : "Import af en ny .vcf-fil vil slette den eksisterende standardkontakt og erstatte den med den nye. Vil du fortsætte?",
+    "Importing a new .vcf file will delete the existing default contact and replace it with the new one. Do you want to continue?" : "Import af en ny .vcf fil vil slette den eksisterende standardkontakt og erstatte den med den nye. Vil du fortsætte?",
     "Failed to save example event creation setting" : "Kunne ikke gemme eksempelbegivenhed oprettelsesindstilling",
     "Failed to upload the example event" : "Kunne ikke uploade eksempelbegivenheden",
     "Custom example event was saved successfully" : "Brugerdefineret eksempelbegivenhed blev gemt",
