@@ -28,6 +28,7 @@
     "User is not a sub-admin of this group" : "O usuario non pertence á subadministración deste grupo",
     "Email address not available" : "O enderezo de correo-e non está dispoñíbel",
     "Sending email failed" : "Produciuse un fallo ao enviar o correo-e",
+    "Logged in account is not mail address owner" : "A conta que accede non é a propietaria do enderezo de correo-e.",
     "Email confirmation" : "Confirmación do correo",
     "To enable the email address %s please click the button below." : "Para activar o enderezo de correo %s, prema no botón de embaixo.",
     "Confirm" : "Confirmar",
