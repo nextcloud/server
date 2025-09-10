@@ -105,7 +105,9 @@ try {
 			'profiler' => 'db',
 			'token' => $profile->getToken(),
 		]);
-		$output->writeln('Profiler output available at ' . $url);
+		if (!getenv('CI')) {
+			$output->writeln('Profiler output available at ' . $url);
+		}
 	}
 
 	if ($exitCode > 255) {
