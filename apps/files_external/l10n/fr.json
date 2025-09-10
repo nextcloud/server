@@ -106,7 +106,7 @@
     "We were unable to check the external storage {basename}" : "Nous n'avons pas pu vérifier le stockage externe {basename}",
     "Examine this faulty external storage configuration" : "Examiner la configuration de ce stockage externe défectueuse",
     "Open in Files" : "Ouvrir dans Fichiers",
-    "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Une erreur s'est produite avec ce stockage externe. Voulez-vous vérifier la configuration de ce point de montage dans la page des paramètres ?",
+    "There was an error with this external storage. Do you want to review this mount point config in the settings page?" : "Une erreur est survenue avec ce stockage externe. Voulez-vous vérifier la configuration de ce point de montage dans la page des paramètres ?",
     "External mount error" : "Erreur montage externe",
     "List of external storage." : "Liste des périphériques de stockage externes.",
     "There is no external storage configured. You can configure them in your Personal settings." : "Aucun stockage externe n'est configuré. Vous pouvez le configurer dans vos Paramètres personnels.",
