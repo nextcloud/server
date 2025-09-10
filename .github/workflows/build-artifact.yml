@@ -85,7 +85,28 @@ jobs:
               "has_npm": false,
               "has_composer": true,
               "makefile_target": "build_files_antivirus_app"
-            }
+            },
+            {
+              "name": "fulltextsearch",
+              "path": "apps-external/fulltextsearch",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_fulltextsearch_app"
+            },
+            {
+              "name": "files_fulltextsearch",
+              "path": "apps-external/files_fulltextsearch",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_files_fulltextsearch_app"
+            },
+            {
+              "name": "fulltextsearch_elasticsearch",
+              "path": "apps-external/fulltextsearch_elasticsearch",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_fulltextsearch_elasticsearch_app"
+            },
           ]'
 
           # Validate JSON and output as compact format
