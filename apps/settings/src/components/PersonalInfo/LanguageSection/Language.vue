@@ -15,7 +15,7 @@
 			:value="language"
 			@option:selected="onLanguageChange" />
 
-		<a href="https://www.transifex.com/nextcloud/nextcloud/"
+		<a href="https://explore.transifex.com/nextcloud/"
 			target="_blank"
 			rel="noreferrer noopener">
 			<em>{{ t('settings', 'Help translate') }}</em>
