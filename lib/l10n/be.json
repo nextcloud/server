@@ -45,6 +45,7 @@
     "Empty file" : "Пусты файл",
     "Could not convert file" : "Не атрымалася канвертаваць файл",
     "%1$s (renamed)" : "%1$s (перайменаваны)",
+    "renamed file" : "перайменаваны файл",
     "Filenames must not end with \"%1$s\"." : "Назвы файлаў не могуць заканчвацца на \"%1$s\".",
     "File already exists" : "Файл ужо існуе",
     "Failed to create file from template" : "Не ўдалося стварыць файл з шаблона",
