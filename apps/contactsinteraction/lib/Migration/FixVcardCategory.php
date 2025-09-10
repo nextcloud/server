@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\ContactsInteraction\Migration;
 
 use OC\Migration\BackgroundRepair;
-use OCA\DAV\AppInfo\Application;
+use OCA\ContactsInteraction\AppInfo\Application;
 use OCP\BackgroundJob\IJobList;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
