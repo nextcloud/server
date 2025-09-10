@@ -358,6 +358,7 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertTrue($this->instance->file_exists($fileName));
 
 		$fh = $this->instance->fopen($fileName, 'r');
+		$this->assertTrue(is_resource($fh));
 		$content = stream_get_contents($fh);
 		$this->assertEquals(file_get_contents($textFile), $content);
 	}

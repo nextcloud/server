@@ -18,30 +18,35 @@ use OCP\IConfig;
 
 class LocalPreviewStorage implements IPreviewStorage {
 	private const PREVIEW_DIRECTORY = '__preview';
-
 	private readonly string $rootFolder;
+	private readonly string $instanceId;
 
 	public function __construct(
 		private readonly IConfig $config,
 	) {
+		$this->instanceId = $this->config->getSystemValueString('instanceid');
 		$this->rootFolder = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
 	}
 
 	public function writePreview(Preview $preview, $stream): false|int {
 		$previewPath = $this->constructPath($preview);
 		$this->createParentFiles($previewPath);
-		$file = @fopen($this->rootFolder . '/' . self::PREVIEW_DIRECTORY . '/' . $previewPath, 'w');
+		$file = @fopen($this->getPreviewRootFolder() . $previewPath, 'w');
 		return fwrite($file, $stream);
 	}
 
 	public function readPreview(Preview $preview) {
 		$previewPath = $this->constructPath($preview);
-		return @fopen($this->rootFolder . '/' . self::PREVIEW_DIRECTORY . '/' . $previewPath, 'r');
+		return @fopen($this->getPreviewRootFolder() . $previewPath, 'r');
 	}
 
 	public function deletePreview(Preview $preview) {
 		$previewPath = $this->constructPath($preview);
-		@unlink($this->rootFolder . '/' . self::PREVIEW_DIRECTORY . '/' . $previewPath);
+		@unlink($this->getPreviewRootFolder() . $previewPath);
+	}
+
+	public function getPreviewRootFolder(): string {
+		return $this->rootFolder . '/appdata_' . $this->instanceId . '/preview/';
 	}
 
 	private function constructPath(Preview $preview): string {
@@ -63,11 +68,14 @@ class LocalPreviewStorage implements IPreviewStorage {
 		$previewPath = $this->constructPath($preview);
 		$sourcePath = $this->rootFolder . '/appdata_' . $instanceId . '/preview/' . $previewPath;
 		$destinationPath = $this->rootFolder . '/' . self::PREVIEW_DIRECTORY . '/' . $previewPath;
-		if (!file_exists($sourcePath)) {
-			// legacy flat directory
-			$sourcePath = $this->rootFolder . '/appdata_' . $instanceId . '/preview/' . $preview->getFileId() . '/' . $preview->getName();
+		if (file_exists($sourcePath)) {
+			return; // No need to migrate
 		}
+
+		// legacy flat directory
+		$sourcePath = $this->rootFolder . '/appdata_' . $instanceId . '/preview/' . $preview->getFileId() . '/' . $preview->getName();
 		if (file_exists($destinationPath)) {
+			@unlink($sourcePath); // We already have a new preview, just delete the old one
 			return;
 		}
 		$this->createParentFiles($previewPath);
