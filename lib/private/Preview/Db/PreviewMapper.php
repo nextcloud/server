@@ -22,6 +22,7 @@ use OCP\IPreview;
 class PreviewMapper extends QBMapper {
 
 	private const TABLE_NAME = 'previews';
+	private const LOCATION_TABLE_NAME = 'preview_locations';
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
@@ -34,8 +35,7 @@ class PreviewMapper extends QBMapper {
 	 */
 	public function getAvailablePreviews(array $fileIds): array {
 		$selectQb = $this->db->getQueryBuilder();
-		$selectQb->select('*')
-			->from(self::TABLE_NAME)
+		$this->joinLocation($selectQb)
 			->where(
 				$selectQb->expr()->in('file_id', $selectQb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)),
 			);
@@ -48,8 +48,7 @@ class PreviewMapper extends QBMapper {
 
 	public function getPreview(int $fileId, int $width, int $height, string $mode, int $mimetype = IPreview::MIMETYPE_JPEG): ?Preview {
 		$selectQb = $this->db->getQueryBuilder();
-		$selectQb->select('*')
-			->from(self::TABLE_NAME)
+		$this->joinLocation($selectQb)
 			->where(
 				$selectQb->expr()->eq('file_id', $selectQb->createNamedParameter($fileId)),
 				$selectQb->expr()->eq('width', $selectQb->createNamedParameter($width)),
@@ -68,10 +67,9 @@ class PreviewMapper extends QBMapper {
 	 * @param int[] $fileIds
 	 * @return array<int, Preview[]>
 	 */
-	public function getByFileIds(int $storageId, array $fileIds): array {
+	public function getByFileIds(array $fileIds): array {
 		$selectQb = $this->db->getQueryBuilder();
-		$selectQb->select('*')
-			->from(self::TABLE_NAME)
+		$this->joinLocation($selectQb)
 			->where($selectQb->expr()->andX(
 				$selectQb->expr()->in('file_id', $selectQb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)),
 			));
@@ -85,12 +83,39 @@ class PreviewMapper extends QBMapper {
 	/**
 	 * @param int[] $previewIds
 	 */
-	public function deleteByIds(int $storageId, array $previewIds): void {
+	public function deleteByIds(array $previewIds): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete(self::TABLE_NAME)
 			->where($qb->expr()->andX(
-				$qb->expr()->eq('storage_id', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)),
 				$qb->expr()->in('id', $qb->createNamedParameter($previewIds, IQueryBuilder::PARAM_INT_ARRAY))
 			))->executeStatement();
+	}
+
+	protected function joinLocation(IQueryBuilder $qb): IQueryBuilder {
+		return $qb->select('p.*', 'l.bucket_name', 'l.object_store_name')
+			->from(self::TABLE_NAME, 'p')
+			->join('p', 'preview_locations', 'l', $qb->expr()->eq(
+			'p.location_id', 'l.id'
+		));
+	}
+
+	public function getLocationId(string $bucket, string $objectStore): int {
+		$qb = $this->db->getQueryBuilder();
+		$result = $qb->select('id')
+			->from(self::LOCATION_TABLE_NAME)
+			->where($qb->expr()->eq('bucket_name', $qb->createNamedParameter($bucket)))
+			->andWhere($qb->expr()->eq('object_store_name', $qb->createNamedParameter($objectStore)))
+			->executeQuery();
+		$data = $result->fetchOne();
+		if ($data) {
+			return $data;
+		} else {
+			$qb->insert(self::LOCATION_TABLE_NAME)
+				->values([
+					'bucket_name' => $qb->createNamedParameter($bucket),
+					'object_store_name' => $qb->createNamedParameter($objectStore),
+				])->executeStatement();
+			return $qb->getLastInsertId();
+		}
 	}
 }

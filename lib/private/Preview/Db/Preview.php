@@ -17,8 +17,12 @@ use OCP\IPreview;
 /**
  * @method \int getFileId()
  * @method void setFileId(int $fileId)
- * @method \int getStorageId()
- * @method void setStorageId(\int $fileId)
+ * @method \int getOldFileId() // Old location in the file-cache table, for legacy compatibility
+ * @method void setOldFileId(int $fileId)
+ * @method \int getLocationId()
+ * @method void setLocationId(int $locationId)
+ * @method \string getBucketName()
+ * @method \string getObjectStoreName()
  * @method \int getWidth()
  * @method void setWidth(int $width)
  * @method \int getHeight()
@@ -43,7 +47,11 @@ use OCP\IPreview;
 class Preview extends Entity {
 	protected ?int $fileId = null;
 
-	protected ?int $storageId = null;
+	protected ?int $oldFileId = null;
+
+	protected ?int $locationId = null;
+	protected ?string $bucketName = null;
+	protected ?string $objectStoreName = null;
 
 	protected ?int $width = null;
 
@@ -65,7 +73,8 @@ class Preview extends Entity {
 
 	public function __construct() {
 		$this->addType('fileId', Types::BIGINT);
-		$this->addType('storageId', Types::BIGINT);
+		$this->addType('oldFileId', Types::BIGINT);
+		$this->addType('locationId', Types::BIGINT);
 		$this->addType('width', Types::INTEGER);
 		$this->addType('height', Types::INTEGER);
 		$this->addType('mimetype', Types::INTEGER);
@@ -107,5 +116,13 @@ class Preview extends Entity {
 			IPreview::MIMETYPE_WEBP => 'webp',
 			IPreview::MIMETYPE_GIF => 'gif',
 		};
+	}
+
+	public function setBucketName(string $bucketName): void {
+		$this->bucketName = $bucketName;
+	}
+
+	public function setObjectStoreName(string $objectStoreName): void {
+		$this->objectStoreName = $objectStoreName;
 	}
 }

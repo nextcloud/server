@@ -14,28 +14,29 @@ use Icewind\Streams\CountWrapper;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
+use OC\Preview\Db\PreviewMapper;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 
 /**
- * @psalm-type ObjectStoreDefinition = array{store: IObjectStore, objectPrefix: string, config?: array}
+ * @psalm-import-type ObjectStoreConfig from PrimaryObjectStoreConfig
+ * @psalm-type ObjectStoreDefinition = array{store: IObjectStore, objectPrefix: string, config?: ObjectStoreConfig}
  */
 class ObjectStorePreviewStorage implements IPreviewStorage {
 
 	/**
-	 * @var array<'root'|int, ObjectStoreDefinition>
+	 * @var array<string, array<int, ObjectStoreDefinition>>
 	 */
 	private array $objectStoreCache = [];
 
-	private bool $isMultibucketEnabled;
 	private bool $isMultibucketPreviewDistributionEnabled;
 
 	public function __construct(
 		private readonly PrimaryObjectStoreConfig $objectStoreConfig,
-		readonly private IConfig $config,
+		IConfig $config,
+		readonly private PreviewMapper $previewMapper,
 	) {
-		$this->isMultibucketEnabled = is_array($config->getSystemValue('objectstore_multibucket'));
 		$this->isMultibucketPreviewDistributionEnabled = $config->getSystemValueBool('objectstore.multibucket.preview-distribution');
 	}
 
@@ -56,6 +57,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		[
 			'objectPrefix' => $objectPrefix,
 			'store' => $store,
+			'config' => $config,
 		] = $this->getObjectStoreForPreview($preview);
 
 		$store->writeObject($this->constructUrn($objectPrefix, $preview->getId()), $countStream);
@@ -79,102 +81,72 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	}
 
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
-		foreach ([false, true] as $fallback) {
-			[
-				'objectPrefix' => $objectPrefix,
-				'store' => $store,
-				'config' => $config,
-			] = $this->getObjectStoreForPreview($preview, $fallback);
-
-			$oldObjectPrefix = 'urn:oid:';
-			if (isset($config['objectPrefix'])) {
-				$oldObjectPrefix = $config['objectPrefix'];
-			}
-
-			try {
-				$store->copyObject($this->constructUrn($oldObjectPrefix, $file->getId()), $this->constructUrn($objectPrefix, $preview->getId()));
-				break;
-			} catch (NotFoundException $e) {
-				if (!$fallback && $this->isMultibucketPreviewDistributionEnabled) {
-					continue;
-				}
-				throw $e;
-			}
-		}
-	}
-
-	/**
-	 * @return ObjectStoreDefinition
-	 */
-	private function getMultiBucketObjectStore(int $number): array {
-		/**
-		 * @var array{class: class-string<IObjectStore>, ...} $config
-		 */
-		$config = $this->config->getSystemValue('objectstore_multibucket');
-
-		if (!isset($config['arguments'])) {
-			$config['arguments'] = [];
-		}
-
-		/*
-		 * Use any provided bucket argument as prefix
-		 * and add the mapping from parent/child => bucket
-		 */
-		if (!isset($config['arguments']['bucket'])) {
-			$config['arguments']['bucket'] = '';
-		}
-
-		$config['arguments']['bucket'] .= "-preview-$number";
-
-		$objectPrefix = 'urn:oid:preview:';
-		if (isset($config['objectPrefix'])) {
-			$objectPrefix = $config['objectPrefix'] . 'preview:';
-		}
-
-		return [
-			'store' => new $config['class']($config['arguments']),
-			'objectPrefix' => $objectPrefix,
-			'config' => $config,
-		];
-	}
-
-	/**
-	 * @return ObjectStoreDefinition
-	 */
-	private function getRootObjectStore(): array {
-		if (!isset($this->objectStoreCache['root'])) {
-			$rootConfig = $this->objectStoreConfig->getObjectStoreConfigForRoot();
-			$objectPrefix = 'urn:oid:preview:';
-			if (isset($rootConfig['arguments']['objectPrefix'])) {
-				$objectPrefix = $rootConfig['arguments']['objectPrefix'] . 'preview:';
-			}
-			$this->objectStoreCache['root'] = [
-				'store' => $this->objectStoreConfig->buildObjectStore($rootConfig),
-				'objectPrefix' => $objectPrefix,
-			];
-		}
-		return $this->objectStoreCache['root'];
+		// Just set the Preview::bucket and Preview::objectStore
+		$this->getObjectStoreForPreview($preview, true);
 	}
 
 	/**
 	 * @return ObjectStoreDefinition
 	 */
 	private function getObjectStoreForPreview(Preview $preview, bool $oldFallback = false): array {
-		if (!$this->isMultibucketEnabled || !$this->isMultibucketPreviewDistributionEnabled || $oldFallback) {
-			return $this->getRootObjectStore();
+		if ($preview->getObjectStoreName() === null) {
+			$config = $this->objectStoreConfig->getObjectStoreConfiguration($oldFallback ? 'root' : 'preview');
+			$objectStoreName = $this->objectStoreConfig->resolveAlias($oldFallback ? 'root' : 'preview');
+
+			$bucketName = $config['arguments']['bucket'];
+			if ($config['arguments']['multibucket']) {
+				if ($this->isMultibucketPreviewDistributionEnabled) {
+					$oldLocationArray = str_split(substr(md5((string)$preview->getFileId()), 0, 2));
+					$bucketNumber = hexdec('0x' . $oldLocationArray[0]) * 16 + hexdec('0x' . $oldLocationArray[0]);
+					$bucketName .= '-preview-' . $bucketNumber;
+				} else {
+					$bucketName .= '0';
+				}
+			}
+			$config['arguments']['bucket'] = $bucketName;
+
+			$locationId = $this->previewMapper->getLocationId($bucketName, $objectStoreName);
+			$preview->setLocationId($locationId);
+			$preview->setObjectStoreName($objectStoreName);
+			$preview->setBucketName($bucketName);
+		} else {
+			$config = $this->objectStoreConfig->getObjectStoreConfiguration($preview->getObjectStoreName());
+			$config['arguments']['bucket'] = $bucketName = $preview->getBucketName();
+			$objectStoreName = $preview->getObjectStoreName();
 		}
 
-		$oldLocationArray = str_split(substr(md5((string)$preview->getFileId()), 0, 2));
-		$bucketNumber = hexdec('0x' . $oldLocationArray[0]) * 16 + hexdec('0x' . $oldLocationArray[0]);
+		$objectPrefix = $this->getObjectPrefix($preview, $config);
 
-		if (!isset($this->objectStoreCache[$bucketNumber])) {
-			$this->objectStoreCache[$bucketNumber] = $this->getMultiBucketObjectStore($bucketNumber);
+		if (!isset($this->objectStoreCache[$objectStoreName])) {
+			$this->objectStoreCache[$objectStoreName] = [];
+			$this->objectStoreCache[$objectStoreName][$bucketName] = [
+				'store' => $this->objectStoreConfig->buildObjectStore($config),
+				'objectPrefix' => $objectPrefix,
+				'config' => $config,
+			];
+		} elseif (!isset($this->objectStoreCache[$objectStoreName][$bucketName])) {
+			$this->objectStoreCache[$objectStoreName][$bucketName] = [
+				'store' => $this->objectStoreConfig->buildObjectStore($config),
+				'objectPrefix' => $objectPrefix,
+				'config' => $config,
+			];
 		}
 
-		return $this->objectStoreCache[$bucketNumber];
+		return $this->objectStoreCache[$objectStoreName][$bucketName];
 	}
 
 	private function constructUrn(string $objectPrefix, int $id): string {
 		return $objectPrefix . $id;
+	}
+
+	public function getObjectPrefix(Preview $preview, array $config): string {
+		if ($preview->getOldFileId()) {
+			return $config['arguments']['objectPrefix'] ?? 'uri:oid:';
+		}
+		if (isset($config['arguments']['objectPrefix'])) {
+			return $config['arguments']['objectPrefix'] . 'preview:';
+		} else {
+			return 'uri:oid:preview:';
+		}
 	}
 }

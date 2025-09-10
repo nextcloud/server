@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Core\BackgroundJobs;
 
+use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\Storage\StorageFactory;
@@ -131,11 +132,12 @@ class MovePreviewJob extends TimedJob {
 			$folder = $this->appData->getFolder($internalPath);
 
 			/**
-			 * @var list<array{file: ISimpleFile, width: int, height: int, crop: bool, max: bool, extension: string, mtime: int, size: int}> $previewFiles
+			 * @var list<array{file: SimpleFile, width: int, height: int, crop: bool, max: bool, extension: string, mtime: int, size: int}> $previewFiles
 			 */
 			$previewFiles = [];
 
 			foreach ($folder->getDirectoryListing() as $previewFile) {
+				/** @var SimpleFile $previewFile */
 				[0 => $baseName, 1 => $extension] = explode('.', $previewFile->getName());
 				$nameSplit = explode('-', $baseName);
 
@@ -173,7 +175,7 @@ class MovePreviewJob extends TimedJob {
 				foreach ($previewFiles as $previewFile) {
 					$preview = new Preview();
 					$preview->setFileId((int)$fileId);
-					$preview->setStorageId($result[0]['storage']);
+					$preview->setOldFileId($previewFile['file']->getId());
 					$preview->setEtag($result[0]['etag']);
 					$preview->setMtime($previewFile['mtime']);
 					$preview->setWidth($previewFile['width']);
