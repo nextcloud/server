@@ -528,9 +528,7 @@ class Directory extends Node implements
 
 			$node = new File($this->fileView, $info, $this->shareManager);
 		}
-		if ($this->tree) {
-			$this->tree->cacheNode($node);
-		}
+		$this->tree?->cacheNode($node);
 		return $node;
 	}
 }
