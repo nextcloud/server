@@ -40,3 +40,6 @@
 [submodule "apps-external/fulltextsearch_elasticsearch"]
 	path = apps-external/fulltextsearch_elasticsearch
 	url = git@github.com:nextcloud/fulltextsearch_elasticsearch.git
+[submodule "apps-external/spreed"]
+	path = apps-external/spreed
+	url = git@github.com:nextcloud/spreed.git
