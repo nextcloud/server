@@ -80,7 +80,8 @@ class FixVcardCategory implements IRepairStep {
 		if ($rowCount === self::CARDS_PER_BATCH) {
 			$this->jobList->add(BackgroundRepair::class, [
 				'app' => Application::APP_ID,
-				'step' => FixVcardCategory::class
+				'step' => FixVcardCategory::class,
+				'reschedule' => time(), // Use a different argument to reschedule the job
 			]);
 		}
 	}
