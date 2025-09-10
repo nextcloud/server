@@ -328,7 +328,7 @@ OC.L10N.register(
     "Enable notifications for events via push" : "Activer les notifications push pour les évènements",
     "Example content" : "Exemple de contenu",
     "Example content serves to showcase the features of Nextcloud. Default content is shipped with Nextcloud, and can be replaced by custom content." : "Les exemples de contenu servent à présenter les fonctionnalités de Nextcloud. Le contenu par défaut est fourni avec Nextcloud et peut être remplacé par du contenu personnalisé.",
-    "There was an error updating your attendance status." : "Une erreur s'est produite lors de la mise à jour de votre statut de présence.",
+    "There was an error updating your attendance status." : "Une erreur est survenue lors de la mise à jour de votre statut de présence.",
     "Please contact the organizer directly." : "Merci de contacter l'organisateur directement.",
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
     "Tentative" : "Provisoire",
