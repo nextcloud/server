@@ -1687,7 +1687,6 @@ return array(
     'OC\\Files\\Mount\\MountPoint' => $baseDir . '/lib/private/Files/Mount/MountPoint.php',
     'OC\\Files\\Mount\\MoveableMount' => $baseDir . '/lib/private/Files/Mount/MoveableMount.php',
     'OC\\Files\\Mount\\ObjectHomeMountProvider' => $baseDir . '/lib/private/Files/Mount/ObjectHomeMountProvider.php',
-    'OC\\Files\\Mount\\ObjectStorePreviewCacheMountProvider' => $baseDir . '/lib/private/Files/Mount/ObjectStorePreviewCacheMountProvider.php',
     'OC\\Files\\Mount\\RootMountProvider' => $baseDir . '/lib/private/Files/Mount/RootMountProvider.php',
     'OC\\Files\\Node\\File' => $baseDir . '/lib/private/Files/Node/File.php',
     'OC\\Files\\Node\\Folder' => $baseDir . '/lib/private/Files/Node/Folder.php',

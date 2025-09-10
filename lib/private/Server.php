@@ -49,7 +49,6 @@ use OC\Files\Lock\LockManager;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\ObjectHomeMountProvider;
-use OC\Files\Mount\ObjectStorePreviewCacheMountProvider;
 use OC\Files\Mount\RootMountProvider;
 use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
@@ -788,7 +787,6 @@ class Server extends ServerContainer implements IServerContainer {
 			$manager->registerHomeProvider(new LocalHomeMountProvider());
 			$manager->registerHomeProvider(new ObjectHomeMountProvider($objectStoreConfig));
 			$manager->registerRootProvider(new RootMountProvider($objectStoreConfig, $config));
-			$manager->registerRootProvider(new ObjectStorePreviewCacheMountProvider($logger, $config));
 
 			return $manager;
 		});

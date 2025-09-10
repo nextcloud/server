@@ -5,6 +5,7 @@ namespace OC\Preview\Storage;
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
+use OC\Preview\Db\PreviewMapper;
 use OCP\IConfig;
 
 class StorageFactory implements IPreviewStorage {
@@ -13,6 +14,7 @@ class StorageFactory implements IPreviewStorage {
 	public function __construct(
 		private readonly PrimaryObjectStoreConfig $objectStoreConfig,
 		private readonly IConfig $config,
+		private readonly PreviewMapper $previewMapper,
 	) {
 	}
 
@@ -34,7 +36,7 @@ class StorageFactory implements IPreviewStorage {
 		}
 
 		if ($this->objectStoreConfig->hasObjectStore()) {
-			$this->backend = new ObjectStorePreviewStorage($this->objectStoreConfig, $this->config);
+			$this->backend = new ObjectStorePreviewStorage($this->objectStoreConfig, $this->config, $this->previewMapper);
 		} else {
 			$this->backend = new LocalPreviewStorage($this->config);
 		}

@@ -156,17 +156,13 @@ class Generator {
 
 			// Try to get a cached preview. Else generate (and store) one
 			try {
-				/** @var ISimpleFile $previewFile */
-				$previewFile = null;
-				// TODO(php8.4) replace by array_find
-				foreach ($previews as $p) {
-					if ($p->getWidth() === $width && $p->getHeight() === $height && $p->getMimetype() === $maxPreview->getMimetype() && $p->getVersion() === $previewVersion && $p->getCrop() === $crop) {
-						$previewFile = new PreviewFile($p, $this->storageFactory, $this->previewMapper);
-						break;
-					}
-				}
+				$preview = array_find($previews, fn (Preview $preview): bool => $preview->getWidth() === $width
+					&& $preview->getHeight() === $height && $preview->getMimetype() === $maxPreview->getMimetype()
+					&& $preview->getVersion() === $previewVersion && $preview->getCrop() === $crop);
 
-				if ($previewFile === null) {
+				if ($preview) {
+					$previewFile = new PreviewFile($preview, $this->storageFactory, $this->previewMapper);
+				} else {
 					if (!$this->previewManager->isMimeSupported($mimeType)) {
 						throw new NotFoundException();
 					}
@@ -543,7 +539,6 @@ class Generator {
 	public function savePreview(File $file, int $width, int $height, bool $crop, bool $max, IImage $preview, int $version): Preview {
 		$previewEntry = new Preview();
 		$previewEntry->setFileId($file->getId());
-		$previewEntry->setStorageId((int)$file->getMountPoint()->getNumericStorageId());
 		$previewEntry->setWidth($width);
 		$previewEntry->setHeight($height);
 		$previewEntry->setVersion($version);

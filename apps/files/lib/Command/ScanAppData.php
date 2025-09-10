@@ -51,6 +51,11 @@ class ScanAppData extends Base {
 	}
 
 	protected function scanFiles(OutputInterface $output, string $folder): int {
+		if ($folder === 'preview') {
+			$output->writeln('<error>Scanning the preview folder is not supported.</error>');
+			return self::FAILURE;
+		}
+
 		try {
 			/** @var Folder $appData */
 			$appData = $this->getAppDataFolder();
