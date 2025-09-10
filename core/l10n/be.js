@@ -16,6 +16,7 @@ OC.L10N.register(
     "Invalid file provided" : "Прапанаваны файл некарэктны",
     "Unknown filetype" : "Невядомы тып файла",
     "An error occurred. Please contact your admin." : "Узнікла памылка. Звярніцеся да адміністратара.",
+    "Invalid image" : "Памылковы відарыс",
     "No temporary profile picture available, try again" : "Няма даступных часовых аватараў профілю, паспрабуйце яшчэ раз",
     "Crop is not square" : "Абрэзка не квадратная",
     "Could not complete login" : "Не атрымалася завяршыць уваход",
