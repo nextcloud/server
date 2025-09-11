@@ -174,7 +174,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.5
 	- license: GPL-3.0-or-later
 - @nextcloud/upload
-	- version: 1.10.0
+	- version: 1.11.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.1
@@ -513,7 +513,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - p-queue
-	- version: 8.1.0
+	- version: 8.1.1
 	- license: MIT
 - path-posix
 	- version: 1.0.0
