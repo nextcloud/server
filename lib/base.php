@@ -35,52 +35,108 @@ use function OCP\Log\logger;
 require_once 'public/Constants.php';
 
 /**
- * Class that is a namespace for all global OC variables
- * No, we can not put this class in its own file because it is used by
- * OC_autoload!
+ * This class is essentially the "kernel" of Nextcloud. Among other things, it is the namespace for 
+ * all global OC variables and the init() method which runs before anything else happens.
+ * 
+ * All entry points/runtimes load it before doing their thing. Known consumers are:
+ * - /index.php
+ * - /remote.php
+ * - /public.php
+ * - /console.php
+ * - /status.php
+ * - /cron.php
+ * - /core/ajax/update.php
+ * - /ocs-provider/index.php
+ * - /ocs/v1.php
+ * - /apps/profile/templates/404-profile.php (legacy)
+ * - /core/templates/{403,404}.php (legacy)
  */
 class OC {
+	
 	/**
-	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
-	 */
+ 	 * The installation path for Nextcloud on the server (e.g. '/var/www/html' or '/var/www/html/nextcloud')
+   	 */
 	public static string $SERVERROOT = '';
+
 	/**
-	 * the current request path relative to the Nextcloud root (e.g. files/index.php)
+	 * The current request path relative to the Nextcloud root (e.g. files/index.php)
 	 */
 	private static string $SUBURI = '';
+
 	/**
-	 * the Nextcloud root path for http requests (e.g. /nextcloud)
+	 * The Nextcloud root path for http requests (e.g. '' or '/nextcloud')
 	 */
 	public static string $WEBROOT = '';
+
 	/**
-	 * The installation path array of the apps folder on the server (e.g. /srv/http/nextcloud) 'path' and
-	 * web path in 'url'
+	 * The installation path array of the apps folder(s) on the server. Basically `apps_paths` e.g.: 
+     * [
+	 *		[
+	 *			'path'=> '/var/www/html/apps',
+	 *			'url' => '/apps',
+	 *			'writable' => true,
+	 *		],
+	 * ],
 	 */
 	public static array $APPSROOTS = [];
 
+	/*
+ 	 * The path where config/config.php can be found, needs to end with '/' (e.g. '/var/www/html/config/')
+	 */
 	public static string $configDir;
 
 	/**
-	 * requested app
+	 * The requested app (based on the matching route)
 	 */
 	public static string $REQUESTEDAPP = '';
 
 	/**
-	 * check if Nextcloud runs in cli mode
+	 * Track if running in CLI mode
 	 */
 	public static bool $CLI = false;
 
+	/**
+ 	 * The Composer ClassLoader (implements a PSR-0, PSR-4 and classmap class loader).
+   	 */
 	public static \Composer\Autoload\ClassLoader $composerAutoloader;
 
+	/**
+ 	 * The main Server object
+   	 */
 	public static \OC\Server $server;
 
+	/**
+ 	 * The most basic configuration of Nextcloud (config/config.php + environment variables.
+	 */
 	private static \OC\Config $config;
 
 	/**
-	 * @throws \RuntimeException when the 3rdparty directory is missing or
-	 *                           the app path list is empty or contains an invalid path
+	 *
 	 */
-	public static function initPaths(): void {
+	public static function registerBaseAutoloading(): void {
+		// Add default composer PSR-4 autoloader
+		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
+		// Ensure apcu is disabled
+		self::$composerAutoloader->setApcuPrefix(null);
+	}
+
+	/**
+	 *
+	 */
+	public static function registerThirdPartyAutoloading(): void {
+		// setup 3rdparty autoloader
+		$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
+		if (!file_exists($vendorAutoLoad)) {
+			throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
+		}
+		require_once $vendorAutoLoad;
+	}
+	
+	/**
+	 *
+	 */
+	public static function initBasePaths(): void {
+		// Determine location of basic config file(s) - i.e. /config
 		if (defined('PHPUNIT_CONFIG_DIR')) {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
 		} elseif (defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
@@ -90,6 +146,15 @@ class OC {
 		} else {
 			self::$configDir = OC::$SERVERROOT . '/config/';
 		}
+	
+		// Gain access to the basic config elements needed to bootstrap a Server instance (if available).
+		//
+		// Note: In a new installation, lacking a config file, this will only give us the ability to getValue()
+		// w/ whatever defaults we specify (if any).
+		//
+		// - This will only get us access the essentials specified in /config + any environment variables (`NC_*`).
+		// - Later on - when we have DB access - we'll be able to tap \OCP\IConfig instead to access App + User values too.
+		//
 		self::$config = new \OC\Config(self::$configDir);
 
 		OC::$SUBURI = str_replace('\\', '/', substr(realpath($_SERVER['SCRIPT_FILENAME'] ?? ''), strlen(OC::$SERVERROOT)));
@@ -148,6 +213,12 @@ class OC {
 				exit();
 			}
 		}
+	}
+
+	/**
+	 * @throws \RuntimeException when the the app path list is empty or contains an invalid path
+	 */
+	public static function initAppPaths(): void {
 
 		// search the apps folder
 		$config_paths = self::$config->getValue('apps_paths', []);
@@ -233,8 +304,10 @@ class OC {
 	}
 
 	public static function checkMaintenanceMode(\OC\SystemConfig $systemConfig): void {
-		// Allow ajax update script to execute without being stopped
-		if (((bool)$systemConfig->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
+		if (
+			(bool)$systemConfig->getValue('maintenance', false) 
+			&& OC::$SUBURI !== '/core/ajax/update.php' // Allow web-based upgrades in maintenance mode
+		) {
 			// send http status 503
 			http_response_code(503);
 			header('X-Nextcloud-Maintenance-Mode: 1');
@@ -484,6 +557,18 @@ class OC {
 
 		@ini_set('default_charset', 'UTF-8');
 		@ini_set('gd.jpeg_ignore_warning', '1');
+
+		// Set default timezone before the Server object is booted
+		if (!date_default_timezone_set('UTC')) {
+			throw new \RuntimeException('Could not set timezone to UTC');
+		}
+		
+		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
+		// see https://github.com/nextcloud/server/pull/2619
+		if (!function_exists('simplexml_load_file')) {
+			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
+		}
+
 	}
 
 	/**
@@ -579,43 +664,37 @@ class OC {
 		}
 	}
 
+	/**
+	 * This method is called (automatically) by every entrypoint / code path that includes/requires base.php.
+	 */
 	public static function init(): void {
-		// First handle PHP configuration and copy auth headers to the expected
-		// $_SERVER variable before doing anything Server object related
+		// Esential PHP configuration
 		self::setRequiredIniValues();
+		// Copy auth headers to the expected  $_SERVER variable before doing anything Server object related
 		self::handleAuthHeaders();
-
-		// prevent any XML processing from loading external entities
+		// Prevent any XML processing from loading external entities
+		// - An extra safeguard mostly for PHP <8.0.30, <8.1.22, <8.2.8
+		// - see CVE-2023-3823
 		libxml_set_external_entity_loader(static function () {
 			return null;
 		});
 
-		// Set default timezone before the Server object is booted
-		if (!date_default_timezone_set('UTC')) {
-			throw new \RuntimeException('Could not set timezone to UTC');
-		}
-
-		// calculate the root directories
+		// Determine the installation path
 		OC::$SERVERROOT = str_replace('\\', '/', substr(__DIR__, 0, -4));
 
-		// register autoloader
+		// Pay attention to whether we're in the CLI SAPI or not
+		self::$CLI = (PHP_SAPI == 'cli');
+
+		// Track start time for autoloading (base + 3rdparty) which we'll later log (when the event logger becomes available)
 		$loaderStart = microtime(true);
-
-		self::$CLI = (php_sapi_name() == 'cli');
-
-		// Add default composer PSR-4 autoloader, ensure apcu to be disabled
-		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
-		self::$composerAutoloader->setApcuPrefix(null);
-
+		// Autoloading of our components
+		self::registerBaseAutoloading();
+		self::initBasePaths();
 
 		try {
-			self::initPaths();
-			// setup 3rdparty autoloader
-			$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
-			if (!file_exists($vendorAutoLoad)) {
-				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
-			}
-			require_once $vendorAutoLoad;
+			self::initAppPaths();
+			// Autoloading of 3rparty components
+			self::registerThirdPartyAutoloading();
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
 				http_response_code(503);
@@ -625,88 +704,97 @@ class OC {
 			print($e->getMessage());
 			exit();
 		}
+
+		// End tracking timer for autoloading (base + 3rdparty)
 		$loaderEnd = microtime(true);
 
-		// Enable lazy loading if activated
+		// Override php.ini and log everything if specified in the config
+		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
+			error_reporting(E_ALL);
+		}
+
+		// Enable lazy loading unless it has been disabled
 		\OC\AppFramework\Utility\SimpleContainer::$useLazyObjects = (bool)self::$config->getValue('enable_lazy_objects', true);
 
-		// setup the basic server
+		// Setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
 
+		// Activate the built-in-profiler (if the Excimer PHP extension is installed)
 		try {
-			$profiler = new BuiltInProfiler(
-				Server::get(IConfig::class),
-				Server::get(IRequest::class),
-			);
+			$profiler = new BuiltInProfiler(Server::get(IConfig::class), Server::get(IRequest::class));
 			$profiler->start();
 		} catch (\Throwable $e) {
 			logger('core')->error('Failed to start profiler: ' . $e->getMessage(), ['app' => 'base']);
 		}
 
+		// Check for the `--debug-log` CLI parameter
 		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
 			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
 		}
 
 		$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
+
+		// Log the earlier tracked autoloader timing data
 		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
+
 		$eventLogger->start('boot', 'Initialize');
 
-		// Override php.ini and log everything if we're troubleshooting
-		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
-			error_reporting(E_ALL);
-		}
+		// Set the locale to one which supports UTF-8
+		OC_Util::isSetLocaleWorking(); // FIXME: we should probably check the return value and throw/log
 
-		// initialize intl fallback if necessary
-		OC_Util::isSetLocaleWorking();
+		// Gain access all config sources
+		$config = Server::get(IConfig::class); // FIXME: Don't love this being easily confused with self::$config
 
-		$config = Server::get(IConfig::class);
+		// Register our error, exception, and shutdown handlers (unless running unit tests)
 		if (!defined('PHPUNIT_RUN')) {
-			$errorHandler = new OC\Log\ErrorHandler(
-				\OCP\Server::get(\Psr\Log\LoggerInterface::class),
-			);
-			$exceptionHandler = [$errorHandler, 'onException'];
-			if ($config->getSystemValueBool('debug', false)) {
+			$errorHandler = new OC\Log\ErrorHandler(Server::get(\Psr\Log\LoggerInterface::class));
+			register_shutdown_function([$errorHandler, 'onShutdown']);
+			if (!$config->getSystemValueBool('debug', false)) {
+				set_error_handler([$errorHandler, 'onError']);
+				$exceptionHandler = [$errorHandler, 'onException'];
+			} else { // debug mode
 				set_error_handler([$errorHandler, 'onAll'], E_ALL);
-				if (\OC::$CLI) {
+				if (self::$CLI) { // debug debug mode at CLI
 					$exceptionHandler = [Server::get(ITemplateManager::class), 'printExceptionErrorPage'];
 				}
-			} else {
-				set_error_handler([$errorHandler, 'onError']);
 			}
-			register_shutdown_function([$errorHandler, 'onShutdown']);
 			set_exception_handler($exceptionHandler);
 		}
 
+		// Let apps register their services
 		/** @var \OC\AppFramework\Bootstrap\Coordinator $bootstrapCoordinator */
 		$bootstrapCoordinator = Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$bootstrapCoordinator->runInitialRegistration();
 
-		$eventLogger->start('init_session', 'Initialize session');
-
-		// Check for PHP SimpleXML extension earlier since we need it before our other checks and want to provide a useful hint for web users
-		// see https://github.com/nextcloud/server/pull/2619
-		if (!function_exists('simplexml_load_file')) {
-			throw new \OCP\HintException('The PHP SimpleXML/PHP-XML extension is not installed.', 'Install the extension or make sure it is enabled.');
-		}
-
 		$systemConfig = Server::get(\OC\SystemConfig::class);
 		$appManager = Server::get(\OCP\App\IAppManager::class);
+
+		$eventLogger->start('init_session', 'Initialize session');
+
 		if ($systemConfig->getValue('installed', false)) {
+			// loadApps will return w/o doing anything if in maintenance mode
 			$appManager->loadApps(['session']);
 		}
 		if (!self::$CLI) {
 			self::initSession();
 		}
+
 		$eventLogger->end('init_session');
+
+		// Check if `config/config.php` exists, create it if need be, and confirm it's writable
 		self::checkConfig();
+
+		// If not installed, throw (CLI) or redirect to installer (Web)
 		self::checkInstalled($systemConfig);
 
+		// Provide some sane default security headers (mostly for legacy components)
 		OC_Response::addSecurityHeaders();
 
+		// Check + set a same set cookie(s) with every request
 		self::performSameSiteCookieProtection($config);
 
-		if (!defined('OC_CONSOLE')) {
+		if (!defined('OC_CONSOLE')) { // Run via Web or via `cron.php` but not `occ`
 			$eventLogger->start('check_server', 'Run a few configuration checks');
 			$errors = OC_Util::checkServer($systemConfig);
 			if (count($errors) > 0) {
@@ -847,6 +935,9 @@ class OC {
 		$eventLogger->log('init', 'OC::init', $loaderStart, microtime(true));
 		$eventLogger->start('runtime', 'Runtime');
 		$eventLogger->start('request', 'Full request after boot');
+
+		/* runtime (e.g. /index.php) that loaded us now does continues on and does its thing */
+		
 		register_shutdown_function(function () use ($eventLogger) {
 			$eventLogger->end('request');
 		});
@@ -973,33 +1064,53 @@ class OC {
 	}
 
 	/**
-	 * Handle the request
+	 * Handle requests that go thru the front-end controller (i.e. /index.php) 
+  	 * 
+	 * Note: at the moment some routes (namely core/ajax/update.php) may either flow thru here or be direct, depending on web server config (nginx vs apache .htaccess)
 	 */
 	public static function handleRequest(): void {
 		Server::get(\OCP\Diagnostics\IEventLogger::class)->start('handle_request', 'Handle request');
+		
 		$systemConfig = Server::get(\OC\SystemConfig::class);
 
-		// Check if Nextcloud is installed or in maintenance (update) mode
+		/**
+  		 * handleSetup()
+	 	 */
+		// Trigger installation/setup if not installed
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
-			$controller = Server::get(\OC\Core\Controller\SetupController::class);
-			$controller->run($_POST);
-			exit();
+			$setupController = Server::get(\OC\Core\Controller\SetupController::class);
+			$setupController->run($_POST);
+			exit(); // seems unnecessary; use just a `return` instead?
 		}
 
 		$request = Server::get(IRequest::class);
 		$request->throwDecodingExceptionIfAny();
 		$requestPath = $request->getRawPathInfo();
+
+		// Handle the heartbeat request w/o doing extra work
 		if ($requestPath === '/heartbeat') {
 			return;
 		}
-		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
-			self::checkMaintenanceMode($systemConfig);
 
+		/**
+		 * handleMaintenance()
+   		 */
+		// Still load js files in maintenance mode (i.e. for upgrades)
+		// If request isn't for js files, check for maintenance mode and render an appropriate response unless the web-based updater is being requested
+
+		if (substr($requestPath, -3) !== '.js') { // if request isn't for a js file...
+			self::checkMaintenanceMode($systemConfig); // if in maintenance mode and request isn't for the ajax updater script, generate inform client and exit
+
+			/**
+   			 * handleUpgrade()
+	   		 */
+			// if system needs to be upgraded...
 			if (\OCP\Util::needUpgrade()) {
 				if (function_exists('opcache_reset')) {
 					opcache_reset();
 				}
+				// ... and not in maintenance mode, send the visitor to the update.admin page template
 				if (!((bool)$systemConfig->getValue('maintenance', false))) {
 					self::printUpgradePage($systemConfig);
 					exit();
