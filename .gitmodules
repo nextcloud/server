@@ -34,3 +34,6 @@
 [submodule "apps-external/fulltextsearch"]
 	path = apps-external/fulltextsearch
 	url = git@github.com:nextcloud/fulltextsearch.git
+[submodule "apps-external/files_fulltextsearch"]
+	path = apps-external/files_fulltextsearch
+	url = git@github.com:nextcloud/files_fulltextsearch.git
