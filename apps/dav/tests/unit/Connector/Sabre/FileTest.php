@@ -668,6 +668,41 @@ class FileTest extends TestCase {
 	}
 
 
+	public function testUploadAbortOverwrite(): void {
+		$view = Filesystem::getView();
+		$view->file_put_contents('test.txt', 'old content');
+
+		$request = new Request([
+			'server' => [
+				'CONTENT_LENGTH' => '123456',
+			],
+			'method' => 'PUT',
+		], $this->requestId, $this->config, null);
+
+		$info = $view->getFileInfo('test.txt');
+
+		$file = new File($view, $info, null, $request);
+
+		// action
+		$thrown = false;
+		try {
+			// beforeMethod locks
+			$view->lockFile('test.txt', ILockingProvider::LOCK_SHARED);
+
+			$file->put($this->getStream('test data'));
+		} catch (\Sabre\DAV\Exception\BadRequest $e) {
+			$thrown = true;
+		} finally {
+			// afterMethod unlocks
+			$view->unlockFile('test.txt', ILockingProvider::LOCK_EXCLUSIVE);
+		}
+
+		$this->assertTrue($thrown);
+		$this->assertEquals('old_content', $view->file_get_contents('test.txt'));
+		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
+	}
+
+
 	public function testDeleteWhenAllowed(): void {
 		// setup
 		/** @var View&MockObject */
