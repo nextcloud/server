@@ -182,7 +182,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - p-queue
-	- version: 8.1.0
+	- version: 8.1.1
 	- license: MIT
 - inherits
 	- version: 2.0.3
