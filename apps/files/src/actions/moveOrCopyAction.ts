@@ -85,6 +85,20 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 		throw new Error(t('files', 'This file/folder is already in that directory'))
 	}
 
+	// Check if trying to move a shared file outside of the shared folder
+	if (method === MoveCopyAction.MOVE) {
+		const isNodeShared = node.root && !node.root.startsWith('/files/')
+		const isDestinationPersonalFiles = destination.root && destination.root.startsWith('/files/')
+		
+		// Also check if the node path indicates it's in a shared folder
+		const nodeInSharedFolder = node.dirname && (node.dirname.includes('/Shared') || node.dirname.startsWith('/Shared'))
+		const destinationNotShared = destination.path && !destination.path.includes('/Shared') && !destination.path.startsWith('/Shared')
+		
+		if ((isNodeShared && isDestinationPersonalFiles) || (nodeInSharedFolder && destinationNotShared)) {
+			throw new Error(t('files', 'You cannot move shared files outside of your shared folder'))
+		}
+	}
+
 	/**
 	 * Example:
 	 * - node: /foo/bar/file.txt -> path = /foo/bar/file.txt, destination: /foo
@@ -189,9 +203,20 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				} else if (error.response?.status === 404) {
 					throw new Error(t('files', 'The file does not exist anymore'))
 				} else if (error.message) {
+					// Check for specific share-related error messages
+					if (error.message.includes('Node for share not found')) {
+						throw new Error(t('files', 'You cannot move shared files outside of your shared folder'))
+					}
 					throw new Error(error.message)
 				}
 			}
+			
+			// Handle non-Axios errors that might contain share-related messages
+			const errorMessage = (error as Error)?.message || ''
+			if (errorMessage.includes('Node for share not found')) {
+				throw new Error(t('files', 'You cannot move shared files outside of your shared folder'))
+			}
+			
 			logger.debug(error as Error)
 			throw new Error()
 		} finally {
@@ -286,7 +311,13 @@ async function openFilePickerForAction(
 			if (error instanceof FilePickerClosed) {
 				resolve(false)
 			} else {
-				reject(new Error(t('files', 'Move or copy operation failed')))
+				// Check for specific share-related error messages
+				const errorMessage = error?.message || ''
+				if (errorMessage.includes('Node for share not found')) {
+					reject(new Error(t('files', 'You cannot move shared files outside of your shared folder')))
+				} else {
+					reject(new Error(t('files', 'Move or copy operation failed')))
+				}
 			}
 		})
 
