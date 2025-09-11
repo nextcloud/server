@@ -52,7 +52,7 @@ class MovePreviewJob extends TimedJob {
 
 	private function doRun($argument): void {
 		if ($this->appConfig->getValueBool('core', 'previewMovedDone')) {
-			//return;
+			return;
 		}
 
 		$emptyHierarchicalPreviewFolders = false;
@@ -88,7 +88,7 @@ class MovePreviewJob extends TimedJob {
 			$qb = $this->connection->getQueryBuilder();
 			$qb->select('*')
 				->from('filecache')
-				->where($qb->expr()->like('path', $qb->createNamedParameter('appdata_%/preview/%/%.jpg')))
+				->where($qb->expr()->like('path', $qb->createNamedParameter('appdata_%/preview/%/%.%')))
 				->setMaxResults(100);
 
 			$result = $qb->executeQuery();
@@ -118,13 +118,13 @@ class MovePreviewJob extends TimedJob {
 			}
 		}
 
-		// Delete any left over preview directory
+		// Delete any leftover preview directory
 		$this->appData->getFolder('.')->delete();
 		$this->appConfig->setValueBool('core', 'previewMovedDone', true);
 	}
 
 	/**
-	 * @param array<string, string[]> $previewFolders
+	 * @param array<string|int, string[]> $previewFolders
 	 */
 	private function processPreviews(array $previewFolders, bool $simplePaths): void {
 		foreach ($previewFolders as $fileId => $previewFolder) {

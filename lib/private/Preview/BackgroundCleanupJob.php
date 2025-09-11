@@ -35,23 +35,18 @@ class BackgroundCleanupJob extends TimedJob {
 	}
 
 	public function run($argument): void {
-		foreach ($this->getDeletedFiles() as $chunk) {
-			foreach ($chunk as $storage => $fileIds) {
-				foreach ($this->previewMapper->getByFileIds($storage, $fileIds) as $previews) {
-					$previewIds = [];
-					foreach ($previews as $preview) {
-						$previewIds[] = $preview->getId();
-						$this->storageFactory->deletePreview($preview);
-					}
-
-					$this->previewMapper->deleteByIds($storage, $previewIds);
-				};
+		foreach ($this->getDeletedFiles() as $fileId) {
+			$previewIds = [];
+			foreach ($this->previewMapper->getByFileId($fileId) as $preview) {
+				$previewIds[] = $preview->getId();
+				$this->storageFactory->deletePreview($preview);
 			}
+			$this->previewMapper->deleteByIds($previewIds);
 		}
 	}
 
 	/**
-	 * @return \Iterator<array<StorageId, FileId[]>>
+	 * @return \Iterator<FileId>
 	 */
 	private function getDeletedFiles(): \Iterator {
 		if ($this->connection->getShardDefinition('filecache')) {
@@ -81,7 +76,7 @@ class BackgroundCleanupJob extends TimedJob {
 		 * If the related file is deleted, b.fileid will be null and the preview folder can be deleted.
 		 */
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('p.storage_id', 'p.file_id')
+		$qb->select('p.file_id')
 			->from('previews', 'p')
 			->leftJoin('p', 'filecache', 'f', $qb->expr()->eq(
 				'p.file_id', 'f.fileid'
@@ -93,30 +88,14 @@ class BackgroundCleanupJob extends TimedJob {
 		}
 
 		$cursor = $qb->executeQuery();
-
-		$lastStorageId = null;
-		/** @var FileId[] $tmpResult */
-		$tmpResult = [];
 		while ($row = $cursor->fetch()) {
-			if ($lastStorageId === null) {
-				$lastStorageId = $row['storage_id'];
-			} else if ($lastStorageId !== $row['storage_id']) {
-				yield [$lastStorageId => $tmpResult];
-				$tmpResult = [];
-				$lastStorageId = $row['storage_id'];
-			}
-			$tmpResult[] = $row['file_id'];
+			yield $row['file_id'];
 		}
-
-		if (!empty($tmpResult)) {
-			yield [$lastStorageId => $tmpResult];
-		}
-
 		$cursor->closeCursor();
 	}
 
 	/**
-	 * @return \Iterator<array<StorageId, FileId[]>>
+	 * @return \Iterator<FileId>
 	 */
 	private function getAllPreviewIds(int $chunkSize): \Iterator {
 		$qb = $this->connection->getQueryBuilder();
@@ -131,20 +110,11 @@ class BackgroundCleanupJob extends TimedJob {
 		$minId = 0;
 		while (true) {
 			$qb->setParameter('min_id', $minId);
-			$rows = $qb->executeQuery()->fetchAll();
-			if (count($rows) > 0) {
-				$minId = $rows[count($rows) - 1]['id'];
-				$result = [];
-				foreach ($rows as $row) {
-					if (!isset($result[$row['storage_id']])) {
-						$result[$row['storage_id']] = [];
-					}
-					$result[$row['storage_id']][] = $row['file_id'];
-				}
-				yield $result;
-			} else {
-				break;
+			$cursor = $qb->executeQuery();
+			while ($row = $cursor->fetch()) {
+				yield $row['file_id'];
 			}
+			$cursor->closeCursor();
 		}
 	}
 

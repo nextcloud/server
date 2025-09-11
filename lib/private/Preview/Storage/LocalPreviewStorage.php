@@ -17,7 +17,6 @@ use OC\Preview\Db\Preview;
 use OCP\IConfig;
 
 class LocalPreviewStorage implements IPreviewStorage {
-	private const PREVIEW_DIRECTORY = '__preview';
 	private readonly string $rootFolder;
 	private readonly string $instanceId;
 
@@ -30,19 +29,18 @@ class LocalPreviewStorage implements IPreviewStorage {
 
 	public function writePreview(Preview $preview, $stream): false|int {
 		$previewPath = $this->constructPath($preview);
-		$this->createParentFiles($previewPath);
-		$file = @fopen($this->getPreviewRootFolder() . $previewPath, 'w');
-		return fwrite($file, $stream);
+		if (!$this->createParentFiles($previewPath)) {
+			return false;
+		}
+		return file_put_contents($previewPath, $stream);
 	}
 
 	public function readPreview(Preview $preview) {
-		$previewPath = $this->constructPath($preview);
-		return @fopen($this->getPreviewRootFolder() . $previewPath, 'r');
+		return @fopen($this->constructPath($preview), 'r');
 	}
 
 	public function deletePreview(Preview $preview) {
-		$previewPath = $this->constructPath($preview);
-		@unlink($this->getPreviewRootFolder() . $previewPath);
+		@unlink($this->constructPath($preview));
 	}
 
 	public function getPreviewRootFolder(): string {
@@ -50,36 +48,28 @@ class LocalPreviewStorage implements IPreviewStorage {
 	}
 
 	private function constructPath(Preview $preview): string {
-		return implode('/', str_split(substr(md5((string)$preview->getFileId()), 0, 7))) . '/' . $preview->getFileId() . '/' . $preview->getName();
+		return $this->getPreviewRootFolder() . implode('/', str_split(substr(md5((string)$preview->getFileId()), 0, 7))) . '/' . $preview->getFileId() . '/' . $preview->getName();
 	}
 
-	private function createParentFiles($path) {
-		['basename' => $basename, 'dirname' => $dirname] = pathinfo($path);
-		$currentDir = $this->rootFolder . '/' . self::PREVIEW_DIRECTORY;
-		mkdir($currentDir);
-		foreach (explode('/', $dirname) as $suffix) {
-			$currentDir .= "/$suffix";
-			mkdir($currentDir);
-		}
+	private function createParentFiles(string $path): bool {
+		['dirname' => $dirname] = pathinfo($path);
+		return mkdir($dirname, recursive: true);
 	}
 
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
-		$instanceId = $this->config->getSystemValueString('instanceid');
-		$previewPath = $this->constructPath($preview);
-		$sourcePath = $this->rootFolder . '/appdata_' . $instanceId . '/preview/' . $previewPath;
-		$destinationPath = $this->rootFolder . '/' . self::PREVIEW_DIRECTORY . '/' . $previewPath;
-		if (file_exists($sourcePath)) {
-			return; // No need to migrate
+		// legacy flat directory
+		$sourcePath = $this->getPreviewRootFolder() . $preview->getFileId() . '/' . $preview->getName();
+		if (!file_exists($sourcePath)) {
+			return;
 		}
 
-		// legacy flat directory
-		$sourcePath = $this->rootFolder . '/appdata_' . $instanceId . '/preview/' . $preview->getFileId() . '/' . $preview->getName();
+		$destinationPath = $this->constructPath($preview);
 		if (file_exists($destinationPath)) {
 			@unlink($sourcePath); // We already have a new preview, just delete the old one
 			return;
 		}
-		$this->createParentFiles($previewPath);
-		echo 'Copying ' . $sourcePath . ' to ' . $destinationPath . PHP_EOL;
+
+		$this->createParentFiles($destinationPath);
 		$ok = rename($sourcePath, $destinationPath);
 		if (!$ok) {
 			throw new LogicException('Failed to copy ' . $sourcePath . ' to ' . $destinationPath);
