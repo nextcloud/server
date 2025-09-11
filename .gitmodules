@@ -31,3 +31,6 @@
 [submodule "apps-external/tasks"]
 	path = apps-external/tasks
 	url = git@github.com:nextcloud/tasks.git
+[submodule "apps-external/fulltextsearch"]
+	path = apps-external/fulltextsearch
+	url = git@github.com:nextcloud/fulltextsearch.git
