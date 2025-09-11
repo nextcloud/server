@@ -105,7 +105,7 @@ try {
 			'profiler' => 'db',
 			'token' => $profile->getToken(),
 		]);
-		$output->writeln('Profiler output available at ' . $url);
+		$output->getErrorOutput()->writeln('Profiler output available at ' . $url, );
 	}
 
 	if ($exitCode > 255) {
