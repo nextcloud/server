@@ -395,7 +395,7 @@ OC.L10N.register(
     "Error when assembling chunks, status code {status}" : "Fejl ved montering af klumper, statuskode {status}",
     "Choose target folder" : "Vælg destinationsmappe",
     "Set reminder" : "Sæt påmindelse",
-    "Edit locally" : "Rediger lokalt",
+    "Edit locally" : "Redigér lokalt",
     "Open" : "Åbn",
     "Could not load info for file \"{file}\"" : "Kunne ikke indlæse information for filen \"{file}\"",
     "Please select tag(s) to add to the selection" : "Vælg venligst tag(s) for at tilføje til markeringen",

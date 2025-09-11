@@ -61,7 +61,7 @@ OC.L10N.register(
     "Tag name" : "Mærkets navn",
     "Tag level" : "Tag niveau",
     "Create" : "Opret",
-    "Update" : "Opdater",
+    "Update" : "Opdatér",
     "Delete" : "Slet",
     "Reset" : "Reset",
     "Loading …" : "Indlæser …",
