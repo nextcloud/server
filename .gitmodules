@@ -25,3 +25,6 @@
 [submodule "apps-external/notify_push"]
 	path = apps-external/notify_push
 	url = git@github.com:nextcloud/notify_push.git
+[submodule "apps-external/activity"]
+	path = apps-external/activity
+	url = git@github.com:nextcloud/activity.git
