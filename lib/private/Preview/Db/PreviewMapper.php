@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OC\Preview\Db;
 
+use OC\Preview\Generator;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
@@ -29,6 +30,17 @@ class PreviewMapper extends QBMapper {
 	}
 
 	/**
+	 * @return \Generator<Preview>
+	 * @throws Exception
+	 */
+	public function getAvailablePreviewForFile(int $fileId): \Generator {
+		$selectQb = $this->db->getQueryBuilder();
+		$this->joinLocation($selectQb)
+			->where($selectQb->expr()->eq('p.file_id', $selectQb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+		yield from $this->yieldEntities($selectQb);
+	}
+
+	/**
 	 * @param int[] $fileIds
 	 * @return array<int, Preview[]>
 	 * @throws Exception
@@ -37,7 +49,7 @@ class PreviewMapper extends QBMapper {
 		$selectQb = $this->db->getQueryBuilder();
 		$this->joinLocation($selectQb)
 			->where(
-				$selectQb->expr()->in('file_id', $selectQb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)),
+				$selectQb->expr()->in('p.file_id', $selectQb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)),
 			);
 		$previews = array_fill_keys($fileIds, []);
 		foreach ($this->yieldEntities($selectQb) as $preview) {
@@ -64,20 +76,13 @@ class PreviewMapper extends QBMapper {
 	}
 
 	/**
-	 * @param int[] $fileIds
-	 * @return array<int, Preview[]>
+	 * @return \Generator<Preview>
 	 */
-	public function getByFileIds(array $fileIds): array {
+	public function getByFileId(int $fileId): \Generator {
 		$selectQb = $this->db->getQueryBuilder();
 		$this->joinLocation($selectQb)
-			->where($selectQb->expr()->andX(
-				$selectQb->expr()->in('file_id', $selectQb->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)),
-			));
-		$previews = array_fill_keys($fileIds, []);
-		foreach ($this->yieldEntities($selectQb) as $preview) {
-			$previews[$preview->getFileId()][] = $preview;
-		}
-		return $previews;
+			->where($selectQb->expr()->eq('file_id', $selectQb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+		yield from $this->yieldEntities($selectQb);
 	}
 
 	/**
@@ -94,9 +99,9 @@ class PreviewMapper extends QBMapper {
 	protected function joinLocation(IQueryBuilder $qb): IQueryBuilder {
 		return $qb->select('p.*', 'l.bucket_name', 'l.object_store_name')
 			->from(self::TABLE_NAME, 'p')
-			->join('p', 'preview_locations', 'l', $qb->expr()->eq(
-			'p.location_id', 'l.id'
-		));
+			->leftJoin('p', 'preview_locations', 'l', $qb->expr()->eq(
+				'p.location_id', 'l.id'
+			));
 	}
 
 	public function getLocationId(string $bucket, string $objectStore): int {

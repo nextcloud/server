@@ -83,6 +83,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
 		// Just set the Preview::bucket and Preview::objectStore
 		$this->getObjectStoreForPreview($preview, true);
+		$this->previewMapper->update($preview);
 	}
 
 	/**

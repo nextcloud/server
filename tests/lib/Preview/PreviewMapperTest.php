@@ -55,8 +55,8 @@ class PreviewMapperTest extends TestCase {
 			$qb = $this->connection->getQueryBuilder();
 			$qb->insert('preview_locations')
 				->values([
-					'bucket' => $qb->createNamedParameter('preview-' . $bucket),
-					'object_store' => $qb->createNamedParameter('default'),
+					'bucket_name' => $qb->createNamedParameter('preview-' . $bucket),
+					'object_store_name' => $qb->createNamedParameter('default'),
 				]);
 			$locationId = $qb->executeStatement();
 		}

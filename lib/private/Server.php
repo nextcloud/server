@@ -82,9 +82,11 @@ use OC\Notification\Manager;
 use OC\OCM\Model\OCMProvider;
 use OC\OCM\OCMDiscoveryService;
 use OC\OCS\DiscoveryService;
+use OC\Preview\Db\PreviewMapper;
 use OC\Preview\GeneratorHelper;
 use OC\Preview\IMagickSupport;
 use OC\Preview\MimeIconProvider;
+use OC\Preview\Watcher;
 use OC\Profile\ProfileManager;
 use OC\Profiler\Profiler;
 use OC\Remote\Api\ApiFactory;
@@ -291,10 +293,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new PreviewManager(
 				$c->get(\OCP\IConfig::class),
 				$c->get(IRootFolder::class),
-				new \OC\Preview\Storage\Root(
-					$c->get(IRootFolder::class),
-					$c->get(SystemConfig::class)
-				),
 				$c->get(IEventDispatcher::class),
 				$c->get(GeneratorHelper::class),
 				$c->get(ISession::class)->get('user_id'),
@@ -306,12 +304,10 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IMimeIconProvider::class, MimeIconProvider::class);
 
-		$this->registerService(\OC\Preview\Watcher::class, function (ContainerInterface $c) {
-			return new \OC\Preview\Watcher(
-				new \OC\Preview\Storage\Root(
-					$c->get(IRootFolder::class),
-					$c->get(SystemConfig::class)
-				)
+		$this->registerService(Watcher::class, function (ContainerInterface $c): Watcher {
+			return new Watcher(
+				$c->get(\OC\Preview\Storage\StorageFactory::class),
+				$c->get(PreviewMapper::class),
 			);
 		});
 
