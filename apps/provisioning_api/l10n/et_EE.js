@@ -30,6 +30,7 @@ OC.L10N.register(
     "User is not a sub-admin of this group" : "Kasutaja pole selle grupi peakasutajate alamgrupi liige",
     "Email address not available" : "E-posti aadress pole saadaval",
     "Sending email failed" : "E-kirja saatmine ei õnnestunud",
+    "Logged in account is not mail address owner" : "Sisselogitud kasutajakonto pole e-posti aadressi omanik",
     "Email confirmation" : "E-posti aadressi kinnitamine",
     "To enable the email address %s please click the button below." : "%s e-posti aadressi kinnitamiseks palun klõpsi järgnevat nuppu.",
     "Confirm" : "Kinnita",

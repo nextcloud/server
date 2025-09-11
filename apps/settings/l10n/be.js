@@ -248,6 +248,7 @@ OC.L10N.register(
     "Done" : "Гатова",
     "Edit" : "Рэдагаваць",
     "Account management settings" : "Налады кіравання ўліковымі запісамі",
+    "Visibility" : "Бачнасць",
     "Show language" : "Паказаць мову",
     "Sorting" : "Сартаванне",
     "Group list sorting" : "Сартаванне спіса груп",
