@@ -9,11 +9,11 @@ declare(strict_types=1);
 namespace OC\Security\Signature\Model;
 
 use JsonSerializable;
-use NCU\Security\Signature\Enum\DigestAlgorithm;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
-use NCU\Security\Signature\Exceptions\SignatureElementNotFoundException;
-use NCU\Security\Signature\ISignedRequest;
-use NCU\Security\Signature\Model\Signatory;
+use OCP\Security\Signature\Enum\DigestAlgorithm;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureElementNotFoundException;
+use OCP\Security\Signature\ISignedRequest;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * @inheritDoc

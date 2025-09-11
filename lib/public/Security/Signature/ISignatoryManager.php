@@ -6,9 +6,9 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace NCU\Security\Signature;
+namespace OCP\Security\Signature;
 
-use NCU\Security\Signature\Model\Signatory;
+use OCP\Security\Signature\Model\Signatory;
 
 /**
  * ISignatoryManager contains a group of method that will help
@@ -18,8 +18,7 @@ use NCU\Security\Signature\Model\Signatory;
  * This interface must be implemented to generate a `SignatoryManager` to
  *  be used with {@see ISignatureManager}
  *
- * @experimental 31.0.0
- * @deprecated 32.0.0 use \OCP\Security\Signature\ISignatoryManager
+ * @since 32.0.0
  */
 interface ISignatoryManager {
 	/**
@@ -29,8 +28,7 @@ interface ISignatoryManager {
 	 * Must be unique.
 	 *
 	 * @return string
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\ISignatoryManager
+	 * @since 32.0.0
 	 */
 	public function getProviderId(): string;
 
@@ -46,8 +44,7 @@ interface ISignatoryManager {
 	 * ]
 	 *
 	 * @return array
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\ISignatoryManager
+	 * @since 32.0.0
 	 */
 	public function getOptions(): array;
 
@@ -57,9 +54,7 @@ interface ISignatoryManager {
 	 * Used to sign outgoing request
 	 *
 	 * @return Signatory
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\ISignatoryManager
-	 * @psalm-suppress DeprecatedClass
+	 * @since 32.0.0
 	 */
 	public function getLocalSignatory(): Signatory;
 
@@ -72,9 +67,7 @@ interface ISignatoryManager {
 	 * @param string $remote
 	 *
 	 * @return Signatory|null must be NULL if no signatory is found
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\ISignatoryManager
-	 * @psalm-suppress DeprecatedClass
+	 * @since 32.0.0
 	 */
 	public function getRemoteSignatory(string $remote): ?Signatory;
 }

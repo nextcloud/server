@@ -6,11 +6,11 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace NCU\Security\Signature;
+namespace OCP\Security\Signature;
 
-use NCU\Security\Signature\Enum\SignatureAlgorithm;
-use NCU\Security\Signature\Exceptions\SignatoryException;
-use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Enum\SignatureAlgorithm;
+use OCP\Security\Signature\Exceptions\SignatoryException;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
 
 /**
  * extends ISignedRequest to add info requested at the generation of the signature
@@ -23,8 +23,7 @@ use NCU\Security\Signature\Exceptions\SignatoryNotFoundException;
  *   ```
  *
  * @see ISignatureManager for details on signature
- * @experimental 31.0.0
- * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
+ * @since 32.0.0
  */
 interface IOutgoingSignedRequest extends ISignedRequest {
 	/**
@@ -32,8 +31,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 *
 	 * @param string $host
 	 * @return self
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
+	 * @since 32.0.0
 	 */
 	public function setHost(string $host): self;
 
@@ -43,8 +41,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * - on outgoing request, this is the remote instance.
 	 *
 	 * @return string
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
+	 * @since 32.0.0
 	 */
 	public function getHost(): string;
 
@@ -55,8 +52,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @param string|int|float $value
 	 *
 	 * @return self
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
+	 * @since 32.0.0
 	 */
 	public function addHeader(string $key, string|int|float $value): self;
 
@@ -64,8 +60,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * returns list of headers value that will be added to the base request
 	 *
 	 * @return array
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
+	 * @since 32.0.0
 	 */
 	public function getHeaders(): array;
 
@@ -75,8 +70,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @param list<string> $list
 	 *
 	 * @return self
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
+	 * @since 32.0.0
 	 */
 	public function setHeaderList(array $list): self;
 
@@ -84,8 +78,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * returns ordered list of used headers in the Signature
 	 *
 	 * @return list<string>
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
+	 * @since 32.0.0
 	 */
 	public function getHeaderList(): array;
 
@@ -95,9 +88,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @param SignatureAlgorithm $algorithm
 	 *
 	 * @return self
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
-	 * @psalm-suppress DeprecatedClass
+	 * @since 32.0.0
 	 */
 	public function setAlgorithm(SignatureAlgorithm $algorithm): self;
 
@@ -105,9 +96,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * returns the algorithm set to sign the signature
 	 *
 	 * @return SignatureAlgorithm
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
-	 * @psalm-suppress DeprecatedClass
+	 * @since 32.0.0
 	 */
 	public function getAlgorithm(): SignatureAlgorithm;
 
@@ -117,8 +106,7 @@ interface IOutgoingSignedRequest extends ISignedRequest {
 	 * @return self
 	 * @throws SignatoryException
 	 * @throws SignatoryNotFoundException
-	 * @experimental 31.0.0
-	 * @deprecated 32.0.0 use \OCP\Security\Signature\IOutgoingSignedRequest
+	 * @since 32.0.0
 	 */
 	public function sign(): self;
 }
