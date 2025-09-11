@@ -9,8 +9,11 @@ namespace OC\Memcache;
 
 use OCP\IMemcacheTTL;
 
+/**
+ * Redis-backed cache implementation for Nextcloud.
+ */
 class Redis extends Cache implements IMemcacheTTL {
-	/** name => [script, sha1] */
+	/** Lua scripts used for atomic operations: name => [script, sha1] */
 	public const LUA_SCRIPTS = [
 		'dec' => [
 			'if redis.call("exists", KEYS[1]) == 1 then return redis.call("decrby", KEYS[1], ARGV[1]) else return "NEX" end',
@@ -34,65 +37,86 @@ class Redis extends Cache implements IMemcacheTTL {
 		],
 	];
 
-	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
-
-	/**
-	 * @var \Redis|\RedisCluster $cache
-	 */
+	private const MAX_TTL = 30 * 24 * 60 * 60; // 30 days
+	
+	/** @var \Redis|\RedisCluster|null $cache */
 	private static $cache = null;
 
 	public function __construct($prefix = '', string $logFile = '') {
 		parent::__construct($prefix);
+		if (self::$cache === null) {
+			self::$cache = \OC::$server->get('RedisFactory')->getInstance();
+		}
 	}
 
 	/**
-	 * @return \Redis|\RedisCluster|null
-	 * @throws \Exception
+	 * Fetches a value from the cache.
+	 *
+	 * @param string $key
+	 * @return mixed|null Value if found, null otherwise
 	 */
-	public function getCache() {
-		if (is_null(self::$cache)) {
-			self::$cache = \OC::$server->get('RedisFactory')->getInstance();
-		}
-		return self::$cache;
-	}
-
 	public function get($key) {
-		$result = $this->getCache()->get($this->getPrefix() . $key);
-		if ($result === false) {
-			return null;
-		}
-
-		return self::decodeValue($result);
+		/** @var string|bool */
+		$result = self::$cache->get($this->getPrefix() . $key);
+		return $result === false ? null : self::decodeValue($result);
 	}
-
+	
+	/**
+	 * Stores a value in the cache.
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24 (24h)
+	 * @return bool
+	 */
 	public function set($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
-		if ($ttl === 0) {
-			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
-			$ttl = self::DEFAULT_TTL;
-		}
-		$ttl = min($ttl, self::MAX_TTL);
-		return $this->getCache()->setex($this->getPrefix() . $key, $ttl, $value);
+		// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
+		$ttl = $ttl === 0 ? self::DEFAULT_TTL : min($ttl, self::MAX_TTL);
+		return self::$cache->setex($this->getPrefix() . $key, $ttl, $value);
 	}
 
+	/**
+	 * Checks if a given key exists in the cache.
+	 *
+	 * @param string $key
+	 * @return bool
+	 */
 	public function hasKey($key) {
-		return (bool)$this->getCache()->exists($this->getPrefix() . $key);
+		return self::$cache->exists($this->getPrefix() . $key) !== false;
 	}
 
+	/**
+	 * Removes a value from the cache.
+	 *
+	 * @param string $key
+	 * @return bool
+	 */
 	public function remove($key) {
-		if ($this->getCache()->unlink($this->getPrefix() . $key)) {
-			return true;
-		} else {
-			return false;
-		}
+		return self::$cache->unlink($this->getPrefix() . $key) !== false;
 	}
 
+	/**
+	 * Clears all cache entries that match the given prefix.
+  	 * NOTE: This is slow and may fail with Redis Cluster.
+	 *
+	 * @param string $prefix
+	 * @return bool
+	 */
 	public function clear($prefix = '') {
-		// TODO: this is slow and would fail with Redis cluster
-		$prefix = $this->getPrefix() . $prefix . '*';
-		$keys = $this->getCache()->keys($prefix);
-		$deleted = $this->getCache()->del($keys);
-
+		/**
+		 * Note: Prefixes/namespaces variable naming is inconsistent/confusing.
+   		 * @see APCu::clear()
+		 */
+		$pattern = $this->getPrefix() . $prefix . '*';
+		/** @var array|false */
+		$keys = $self::cache->keys($pattern);		
+		if (!is_array($keys) || count($keys) === 0) {
+			return true; // nothing to do / no matching keys
+		}
+		/** @var array|false */
+		$deleted = self::$cache->unlink($keys);
+		// XXX WIP WIP WIP WIP WIP left off here
 		return (is_array($keys) && (count($keys) === $deleted));
 	}
 
