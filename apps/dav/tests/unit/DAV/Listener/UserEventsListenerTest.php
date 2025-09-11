@@ -34,6 +34,7 @@ class UserEventsListenerTest extends TestCase {
 	private ExampleContactService&MockObject $exampleContactService;
 	private ExampleEventService&MockObject $exampleEventService;
 	private LoggerInterface&MockObject $logger;
+	private IJobList&MockObject $jobList;
 
 	private UserEventsListener $userEventsListener;
 
