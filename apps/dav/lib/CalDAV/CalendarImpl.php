@@ -229,6 +229,13 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		} catch (ParseException $e) {
 			throw new CalendarException('iMip message could not be processed because an error occurred while parsing the iMip message', 0, $e);
 		}
+		// Determine mode base on message source
+		$mode = null;
+		if (isset($vObject->PRODID)) {
+			if ($vObject->PRODID->getValue() === 'Microsoft Exchange Server 2010') {
+				$mode = 'EX2010';
+			}
+		}
 		// validate the iMip message
 		if (!isset($vObject->METHOD)) {
 			throw new CalendarException('iMip message contains no valid method');
@@ -239,7 +246,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		if (!isset($vObject->VEVENT->UID)) {
 			throw new CalendarException('iMip message event dose not contain a UID');
 		}
-		if (!isset($vObject->VEVENT->ORGANIZER)) {
+		if ($mode !== 'EX2010' && !isset($vObject->VEVENT->ORGANIZER)) {
 			throw new CalendarException('iMip message event dose not contain an organizer');
 		}
 		if (!isset($vObject->VEVENT->ATTENDEE)) {
@@ -266,15 +273,22 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage, ICalendarIs
 		if (in_array($imipMethod, ['REPLY', 'REFRESH'], true)) {
 			// extract sender (REPLY and REFRESH method should only have one attendee)
 			$sender = strtolower($vObject->VEVENT->ATTENDEE->getValue());
-			// extract and verify the recipient
-			$recipient = strtolower($vObject->VEVENT->ORGANIZER->getValue());
-			if (!in_array($recipient, $userAddresses, true)) {
-				throw new CalendarException('iMip message dose not contain an organizer that matches the user');
-			}
-			// if the recipient address is not the same as the user address this means an alias was used
-			// the iTip broker uses the users primary email address during processing
-			if ($userAddress !== $recipient) {
+			// fix Microsoft Exchange Server 2010 reply quirk
+			if ($mode === 'EX2010' && $imipMethod === 'REPLY') {
 				$recipient = $userAddress;
+			}
+			// extract and verify the recipient
+			if ($mode === null) {
+				$recipient = strtolower($vObject->VEVENT->ORGANIZER->getValue());
+				
+				if (!in_array($recipient, $userAddresses, true)) {
+					throw new CalendarException('iMip message dose not contain an organizer that matches the user');
+				}
+				// if the recipient address is not the same as the user address this means an alias was used
+				// the iTip broker uses the users primary email address during processing
+				if ($userAddress !== $recipient) {
+					$recipient = $userAddress;
+				}
 			}
 		} elseif (in_array($imipMethod, ['PUBLISH', 'REQUEST', 'ADD', 'CANCEL'], true)) {
 			// extract sender
