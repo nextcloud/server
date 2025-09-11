@@ -22,7 +22,7 @@ OC.L10N.register(
     "Filters" : "Фільтры",
     "Image name" : "Назва відарыса",
     "Crop" : "Абрэзаць",
-    "Custom" : "Скарыстаць",
+    "Custom" : "Карыстальніцкі",
     "Landscape" : "Альбомная",
     "Portrait" : "Кніжная",
     "Brightness" : "Яркасць",

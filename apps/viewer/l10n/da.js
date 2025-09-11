@@ -19,7 +19,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Din browser understøtter ikke videoer.",
     "This file no longer exists" : "Denne fil eksisterer ikke længere",
     "There is no plugin available to display this file type" : "Der er intet plugin tilgængeligt til at vise denne filtype",
-    "Edit" : "Rediger",
+    "Edit" : "Redigér",
     "Exit full screen" : "Afslut fuldskærm",
     "Full screen" : "Fuld skærm",
     "Open sidebar" : "Åbn sidebjælke",
