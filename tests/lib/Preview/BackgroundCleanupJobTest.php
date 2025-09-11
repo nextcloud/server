@@ -82,6 +82,11 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 		$this->logout();
 
+		foreach ($this->previewMapper->getAvailablePreviews(5) as $preview) {
+			$this->previewStorageFactory->deletePreview($preview);
+			$this->previewMapper->delete($preview);
+		}
+
 		parent::tearDown();
 	}
 
@@ -89,7 +94,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		$files = [];
-		for ($i = 0; $i < 11; $i++) {
+		foreach (range(0, 10) as $i) {
 			$file = $userFolder->newFile($i . '.txt');
 			$file->putContent('hello world!');
 			$this->previewManager->getPreview($file);

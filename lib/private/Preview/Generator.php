@@ -349,7 +349,7 @@ class Generator {
 
 				try {
 					return $this->savePreview($file, $preview->width(), $preview->height(), $crop, $max, $preview, $version);
-				} catch (NotPermittedException $e) {
+				} catch (NotPermittedException) {
 					throw new NotFoundException();
 				}
 			}
@@ -570,6 +570,9 @@ class Generator {
 				$size = $this->storageFactory->writePreview($previewEntry, $preview->resource());
 			} else {
 				$size = $this->storageFactory->writePreview($previewEntry, $preview->data());
+			}
+			if (!$size) {
+				throw new \RuntimeException('Unable to write preview file');
 			}
 		} catch (\Exception $e) {
 			$this->previewMapper->delete($previewEntry);

@@ -32,7 +32,6 @@ use function array_key_exists;
 class PreviewManager implements IPreview {
 	protected IConfig $config;
 	protected IRootFolder $rootFolder;
-	protected IAppData $appData;
 	protected IEventDispatcher $eventDispatcher;
 	private ?Generator $generator = null;
 	private GeneratorHelper $helper;
@@ -59,7 +58,6 @@ class PreviewManager implements IPreview {
 	public function __construct(
 		IConfig $config,
 		IRootFolder $rootFolder,
-		IAppData $appData,
 		IEventDispatcher $eventDispatcher,
 		GeneratorHelper $helper,
 		?string $userId,
@@ -70,7 +68,6 @@ class PreviewManager implements IPreview {
 	) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
-		$this->appData = $appData;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->helper = $helper;
 		$this->userId = $userId;
