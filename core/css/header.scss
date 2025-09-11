@@ -246,7 +246,7 @@
 	}
 
 	#content, #content-vue {
-		margin-top: var(--body-container-margin);
+		margin-top: var(--body-container-margin) !important;
 	}
 
 	:root {
