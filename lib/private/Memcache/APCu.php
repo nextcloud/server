@@ -38,7 +38,7 @@ class APCu extends Cache implements IMemcache {
 		if ($ttl === 0) {
 			$ttl = self::DEFAULT_TTL;
 		}
-		return apcu_store($this->getPrefix() . $key, $value, $ttl);
+		return apcu_store($this->getPrefix() . $key, $value, $ttl) === true;
 	}
 
     /**
@@ -48,7 +48,7 @@ class APCu extends Cache implements IMemcache {
      * @return bool
      */
 	public function hasKey($key) {
-		return apcu_exists($this->getPrefix() . $key);
+		return apcu_exists($this->getPrefix() . $key) === true;
 	}
 	
     /**
@@ -58,14 +58,14 @@ class APCu extends Cache implements IMemcache {
      * @return bool
      */
 	public function remove($key) {
-		return apcu_delete($this->getPrefix() . $key);
+		return apcu_delete($this->getPrefix() . $key) !== false;
 	}
 
 	/**
      * Clears all cache entries that match the given prefix.
      *
      * @param string $prefix
-     * @return bool|int
+     * @return bool
      */
 	public function clear($prefix = '') {
 		/**
@@ -83,7 +83,7 @@ class APCu extends Cache implements IMemcache {
 			// only return the key names when interating
 			APC_ITER_KEY,
 		);
-		return apcu_delete($iterator);
+		return apcu_delete($iterator) !== false;
 	}
 
     /**
@@ -98,7 +98,7 @@ class APCu extends Cache implements IMemcache {
 		if ($ttl === 0) {
 			$ttl = self::DEFAULT_TTL;
 		}
-		return apcu_add($this->getPrefix() . $key, $value, $ttl);
+		return apcu_add($this->getPrefix() . $key, $value, $ttl) === true;
 	}
 
     /**
