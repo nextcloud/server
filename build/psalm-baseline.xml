@@ -4039,14 +4039,6 @@
 			'MESSAGE=' . $this->logDetailsAsJSON($app, $message, $level))]]></code>
     </UndefinedFunction>
   </file>
-  <file src="lib/private/Memcache/APCu.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[apcu_add($this->getPrefix() . $key, $value, $ttl)]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[bool]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Memcache/Cache.php">
     <LessSpecificImplementedReturnType>
       <code><![CDATA[mixed]]></code>
