@@ -113,6 +113,13 @@ jobs:
               "has_npm": false,
               "has_composer": true,
               "makefile_target": "build_fulltextsearch_app"
+            },
+            {
+              "name": "files_fulltextsearch",
+              "path": "apps-external/files_fulltextsearch",
+              "has_npm": false,
+              "has_composer": true,
+              "makefile_target": "build_files_fulltextsearch_app"
             }
           ]'
 
