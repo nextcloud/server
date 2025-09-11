@@ -28,3 +28,6 @@
 [submodule "apps-external/activity"]
 	path = apps-external/activity
 	url = git@github.com:nextcloud/activity.git
+[submodule "apps-external/tasks"]
+	path = apps-external/tasks
+	url = git@github.com:nextcloud/tasks.git
