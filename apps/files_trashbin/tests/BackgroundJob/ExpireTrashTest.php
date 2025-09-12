@@ -8,12 +8,15 @@
 
 namespace OCA\Files_Trashbin\Tests\BackgroundJob;
 
+use OC\Files\SetupManager;
+use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
 use OCA\Files_Trashbin\Expiration;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IAppConfig;
 use OCP\IUserManager;
+use OCP\Lock\ILockingProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -37,6 +40,9 @@ class ExpireTrashTest extends TestCase {
 	/** @var ITimeFactory&MockObject */
 	private $time;
 
+	private SetupManager&MockObject $setupManager;
+	private ILockingProvider&MockObject $lockingProvider;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -45,6 +51,8 @@ class ExpireTrashTest extends TestCase {
 		$this->expiration = $this->createMock(Expiration::class);
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->setupManager = $this->createMock(SetupManager::class);
+		$this->lockingProvider = $this->createMock(ILockingProvider::class);
 
 		$this->time = $this->createMock(ITimeFactory::class);
 		$this->time->method('getTime')
@@ -57,25 +65,41 @@ class ExpireTrashTest extends TestCase {
 	}
 
 	public function testConstructAndRun(): void {
-		$this->appConfig->method('getValueString')
-			->with('files_trashbin', 'background_job_expire_trash', 'yes')
-			->willReturn('yes');
+		$this->appConfig->method('getValueBool')
+			->with(Application::APP_ID, ExpireTrash::TOGGLE_CONFIG_KEY_NAME, true)
+			->willReturn(true);
 		$this->appConfig->method('getValueInt')
-			->with('files_trashbin', 'background_job_expire_trash_offset', 0)
+			->with(Application::APP_ID, ExpireTrash::OFFSET_CONFIG_KEY_NAME, 0)
 			->willReturn(0);
 
-		$job = new ExpireTrash($this->appConfig, $this->userManager, $this->expiration, $this->logger, $this->time);
+		$job = new ExpireTrash(
+			$this->appConfig,
+			$this->userManager,
+			$this->expiration,
+			$this->logger,
+			$this->setupManager,
+			$this->lockingProvider,
+			$this->time,
+		);
 		$job->start($this->jobList);
 	}
 
 	public function testBackgroundJobDeactivated(): void {
-		$this->appConfig->method('getValueString')
-			->with('files_trashbin', 'background_job_expire_trash', 'yes')
-			->willReturn('no');
+		$this->appConfig->method('getValueBool')
+			->with(Application::APP_ID, ExpireTrash::TOGGLE_CONFIG_KEY_NAME, true)
+			->willReturn(false);
 		$this->expiration->expects($this->never())
 			->method('getMaxAgeAsTimestamp');
 
-		$job = new ExpireTrash($this->appConfig, $this->userManager, $this->expiration, $this->logger, $this->time);
+		$job = new ExpireTrash(
+			$this->appConfig,
+			$this->userManager,
+			$this->expiration,
+			$this->logger,
+			$this->setupManager,
+			$this->lockingProvider,
+			$this->time,
+		);
 		$job->start($this->jobList);
 	}
 }
