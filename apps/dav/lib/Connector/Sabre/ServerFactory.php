@@ -238,6 +238,7 @@ class ServerFactory {
 				);
 			}
 			$server->addPlugin(new CopyEtagHeaderPlugin());
+			$server->addPlugin(new AddExtraHeadersPlugin($this->logger));
 
 			// Load dav plugins from apps
 			$event = new SabrePluginEvent($server);
