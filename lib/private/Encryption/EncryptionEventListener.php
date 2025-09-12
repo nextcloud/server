@@ -67,21 +67,16 @@ class EncryptionEventListener implements IEventListener {
 	}
 
 	private function getUpdate(?IUser $owner = null): Update {
-		if (is_null($this->updater)) {
-			$user = $this->userSession->getUser();
-			if (!$user && ($owner !== null)) {
-				$user = $owner;
-			}
-			if (!$user) {
-				throw new \Exception('Inconsistent data, File unshared, but owner not found. Should not happen');
-			}
-
-			$uid = $user->getUID();
-
+		$user = $this->userSession->getUser();
+		if (!$user && ($owner !== null)) {
+			$user = $owner;
+		}
+		if ($user) {
 			if (!$this->setupManager->isSetupComplete($user)) {
 				$this->setupManager->setupForUser($user);
 			}
-
+		}
+		if (is_null($this->updater)) {
 			$this->updater = new Update(
 				new Util(
 					new View(),
@@ -91,7 +86,6 @@ class EncryptionEventListener implements IEventListener {
 				\OC::$server->getEncryptionManager(),
 				\OC::$server->get(IFile::class),
 				\OC::$server->get(LoggerInterface::class),
-				$uid
 			);
 		}
 

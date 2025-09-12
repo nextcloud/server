@@ -30,6 +30,7 @@ OC.L10N.register(
     "User is not a sub-admin of this group" : "Erabiltzailea ez da talde honetako azpi-administratzailea",
     "Email address not available" : "Helbide elektronikoa ez dago erabilgarri",
     "Sending email failed" : "Mezu elektronikoa bidaltzeak huts egin du",
+    "Logged in account is not mail address owner" : "Kontuan saioa hasi duena ez da posta helbidearen jabea",
     "Email confirmation" : "Posta elektronikoaren berrespena",
     "To enable the email address %s please click the button below." : "%shelbide elektronikoa gaitzeko, egin klik beheko botoian.",
     "Confirm" : "Berretsi",

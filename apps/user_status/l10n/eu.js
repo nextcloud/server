@@ -10,6 +10,7 @@ OC.L10N.register(
     "Out of office" : "Bulegotik kanpo",
     "Working remotely" : "Urrutitik lanean",
     "In a call" : "Dei batean",
+    "Be right back" : "Berehala itzuliko naiz",
     "User status" : "Erabiltzaile-egoera",
     "Clear status after" : "Garbitu egoera honen ondoren",
     "Emoji for your status message" : "Zure egoera-mezurako emojia",

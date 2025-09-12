@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -17,61 +20,50 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DecryptAll {
-	/** @var OutputInterface */
-	protected $output;
-
-	/** @var InputInterface */
-	protected $input;
-
-	/** @var array files which couldn't be decrypted */
-	protected $failed;
+	/** @var array<string,list<string>> files which couldn't be decrypted */
+	protected array $failed = [];
 
 	public function __construct(
 		protected IManager $encryptionManager,
 		protected IUserManager $userManager,
 		protected View $rootView,
 	) {
-		$this->failed = [];
 	}
 
 	/**
 	 * start to decrypt all files
 	 *
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
 	 * @param string $user which users data folder should be decrypted, default = all users
-	 * @return bool
 	 * @throws \Exception
 	 */
-	public function decryptAll(InputInterface $input, OutputInterface $output, $user = '') {
-		$this->input = $input;
-		$this->output = $output;
-
+	public function decryptAll(InputInterface $input, OutputInterface $output, string $user = ''): bool {
 		if ($user !== '' && $this->userManager->userExists($user) === false) {
-			$this->output->writeln('User "' . $user . '" does not exist. Please check the username and try again');
+			$output->writeln('User "' . $user . '" does not exist. Please check the username and try again');
 			return false;
 		}
 
-		$this->output->writeln('prepare encryption modules...');
-		if ($this->prepareEncryptionModules($user) === false) {
+		$output->writeln('prepare encryption modules...');
+		if ($this->prepareEncryptionModules($input, $output, $user) === false) {
 			return false;
 		}
-		$this->output->writeln(' done.');
+		$output->writeln(' done.');
 
-		$this->decryptAllUsersFiles($user);
+		$this->failed = [];
+		$this->decryptAllUsersFiles($output, $user);
 
+		/** @psalm-suppress RedundantCondition $this->failed is modified by decryptAllUsersFiles, not clear why psalm fails to see it */
 		if (empty($this->failed)) {
-			$this->output->writeln('all files could be decrypted successfully!');
+			$output->writeln('all files could be decrypted successfully!');
 		} else {
-			$this->output->writeln('Files for following users couldn\'t be decrypted, ');
-			$this->output->writeln('maybe the user is not set up in a way that supports this operation: ');
+			$output->writeln('Files for following users couldn\'t be decrypted, ');
+			$output->writeln('maybe the user is not set up in a way that supports this operation: ');
 			foreach ($this->failed as $uid => $paths) {
-				$this->output->writeln('    ' . $uid);
+				$output->writeln('    ' . $uid);
 				foreach ($paths as $path) {
-					$this->output->writeln('        ' . $path);
+					$output->writeln('        ' . $path);
 				}
 			}
-			$this->output->writeln('');
+			$output->writeln('');
 		}
 
 		return true;
@@ -79,21 +71,18 @@ class DecryptAll {
 
 	/**
 	 * prepare encryption modules to perform the decrypt all function
-	 *
-	 * @param $user
-	 * @return bool
 	 */
-	protected function prepareEncryptionModules($user) {
+	protected function prepareEncryptionModules(InputInterface $input, OutputInterface $output, string $user): bool {
 		// prepare all encryption modules for decrypt all
 		$encryptionModules = $this->encryptionManager->getEncryptionModules();
 		foreach ($encryptionModules as $moduleDesc) {
 			/** @var IEncryptionModule $module */
 			$module = call_user_func($moduleDesc['callback']);
-			$this->output->writeln('');
-			$this->output->writeln('Prepare "' . $module->getDisplayName() . '"');
-			$this->output->writeln('');
-			if ($module->prepareDecryptAll($this->input, $this->output, $user) === false) {
-				$this->output->writeln('Module "' . $moduleDesc['displayName'] . '" does not support the functionality to decrypt all files again or the initialization of the module failed!');
+			$output->writeln('');
+			$output->writeln('Prepare "' . $module->getDisplayName() . '"');
+			$output->writeln('');
+			if ($module->prepareDecryptAll($input, $output, $user) === false) {
+				$output->writeln('Module "' . $moduleDesc['displayName'] . '" does not support the functionality to decrypt all files again or the initialization of the module failed!');
 				return false;
 			}
 		}
@@ -106,12 +95,12 @@ class DecryptAll {
 	 *
 	 * @param string $user which users files should be decrypted, default = all users
 	 */
-	protected function decryptAllUsersFiles($user = '') {
-		$this->output->writeln("\n");
+	protected function decryptAllUsersFiles(OutputInterface $output, string $user = ''): void {
+		$output->writeln("\n");
 
 		$userList = [];
 		if ($user === '') {
-			$fetchUsersProgress = new ProgressBar($this->output);
+			$fetchUsersProgress = new ProgressBar($output);
 			$fetchUsersProgress->setFormat(" %message% \n [%bar%]");
 			$fetchUsersProgress->start();
 			$fetchUsersProgress->setMessage('Fetch list of users...');
@@ -135,9 +124,9 @@ class DecryptAll {
 			$userList[] = $user;
 		}
 
-		$this->output->writeln("\n\n");
+		$output->writeln("\n\n");
 
-		$progress = new ProgressBar($this->output);
+		$progress = new ProgressBar($output);
 		$progress->setFormat(" %message% \n [%bar%]");
 		$progress->start();
 		$progress->setMessage('starting to decrypt files...');
@@ -154,17 +143,13 @@ class DecryptAll {
 		$progress->setMessage('starting to decrypt files... finished');
 		$progress->finish();
 
-		$this->output->writeln("\n\n");
+		$output->writeln("\n\n");
 	}
 
 	/**
 	 * encrypt files from the given user
-	 *
-	 * @param string $uid
-	 * @param ProgressBar $progress
-	 * @param string $userCount
 	 */
-	protected function decryptUsersFiles($uid, ProgressBar $progress, $userCount) {
+	protected function decryptUsersFiles(string $uid, ProgressBar $progress, string $userCount): void {
 		$this->setupUserFS($uid);
 		$directories = [];
 		$directories[] = '/' . $uid . '/files';
@@ -207,11 +192,8 @@ class DecryptAll {
 
 	/**
 	 * encrypt file
-	 *
-	 * @param string $path
-	 * @return bool
 	 */
-	protected function decryptFile($path) {
+	protected function decryptFile(string $path): bool {
 		// skip already decrypted files
 		$fileInfo = $this->rootView->getFileInfo($path);
 		if ($fileInfo !== false && !$fileInfo->isEncrypted()) {
@@ -237,20 +219,15 @@ class DecryptAll {
 
 	/**
 	 * get current timestamp
-	 *
-	 * @return int
 	 */
-	protected function getTimestamp() {
+	protected function getTimestamp(): int {
 		return time();
 	}
 
-
 	/**
 	 * setup user file system
-	 *
-	 * @param string $uid
 	 */
-	protected function setupUserFS($uid) {
+	protected function setupUserFS(string $uid): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}

@@ -157,14 +157,18 @@ class ZipFolderPlugin extends ServerPlugin {
 			$content[] = $child->getNode();
 		}
 
-		$archiveName = 'download';
+		$archiveName = $folder->getName();
+		if (count(explode('/', trim($folder->getPath(), '/'), 3)) === 2) {
+			// this is a download of the root folder
+			$archiveName = 'download';
+		}
+
 		$rootPath = $folder->getPath();
 		if (empty($files)) {
 			// We download the full folder so keep it in the tree
 			$rootPath = dirname($folder->getPath());
-			// Full folder is loaded to rename the archive to the folder name
-			$archiveName = $folder->getName();
 		}
+
 		$streamer = new Streamer($tarRequest, -1, count($content), $this->timezoneFactory);
 		$streamer->sendHeaders($archiveName);
 		// For full folder downloads we also add the folder itself to the archive

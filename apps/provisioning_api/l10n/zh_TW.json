@@ -28,6 +28,7 @@
     "User is not a sub-admin of this group" : "使用者不是該群組的子管理員",
     "Email address not available" : "電子郵件地址不可用",
     "Sending email failed" : "傳送電子郵件失敗",
+    "Logged in account is not mail address owner" : "登入帳號並非郵件地址所有者",
     "Email confirmation" : "電子郵件確認",
     "To enable the email address %s please click the button below." : "若要啟用電子郵件地址 %s，請點擊下方按鈕。",
     "Confirm" : "確認",

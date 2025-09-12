@@ -75,7 +75,9 @@ OC.L10N.register(
     "Background and login image" : "Atzeko planoa eta saioa hasteko irudia",
     "Advanced options" : "Ezarpen aurreratuak",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instalatu ImageMagick PHP luzapena SVG irudietarako laguntzarekin automatikoki sortzeko igotako logotipo eta kolorean oinarritutako gogoko-ikonoak.",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sarbide unibertsala oso gai garrantzitsua da guretzat. Web estandarrak betetzen ditugu eta egiaztatzen dugu dena erabilgarri izan dadin sagurik gabe ere, eta laguntza-softwarea, hala nola pantaila-irakurleak. {linkstart} web edukien irisgarritasun jarraibideen{linkend} AAko 2.1 maila betetzea helburu dugu kontraste handiko gaiarekin baita AAA maila.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Arazoren bat aurkitzen baduzu, ez izan zalantzarik eta jakinarazi {issuetracker}gure arazoen jarraipena{linkend} zerbitzuan. Eta parte hartu nahi baduzu, etorri {designteam}gure diseinu taldera{linkend}!",
+    "Unable to apply the setting." : "Ezin izan da ezarpena aplikatu,",
     "Appearance and accessibility settings" : "Itxura eta irisgarritasun ezarpenak",
     "Misc accessibility options" : "Irisgarritasun-aukera desberdinak",
     "Enable blur background filter (may increase GPU load)" : "Gaitu atzeko planoa lausotzeko iragazkia (baliteke GPUaren karga handitzea)",
@@ -117,6 +119,7 @@ OC.L10N.register(
     "Reset to default" : "Berezarri balio lehenetsira",
     "Upload" : "Igo",
     "Remove background image" : "Kendu atzeko-planoko irudia",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sarbide unibertsala izatea oso garrantzitsua da guretzat. Web estadandarrak jarraitu eta guztia sagurik gabe erabili ahal izatea bermatzen dugu, pantaila-irakurle moduko software laguntzaileak barne. Helburu bezala jartzen dugu {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 AA mailan betetzea, kontraste altuko modua AAA mailaraino betez."
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Sarbide unibertsala izatea oso garrantzitsua da guretzat. Web estadandarrak jarraitu eta guztia sagurik gabe erabili ahal izatea bermatzen dugu, pantaila-irakurle moduko software laguntzaileak barne. Helburu bezala jartzen dugu {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 AA mailan betetzea, kontraste altuko modua AAA mailaraino betez.",
+    ". Unable to apply the setting." : ". Ezin izan da ezarpena aplikatu."
 },
 "nplurals=2; plural=(n != 1);");

@@ -28,6 +28,7 @@
     "User is not a sub-admin of this group" : "Корисник није под-админ ове групе",
     "Email address not available" : "Није доступна и-мејл адреса",
     "Sending email failed" : "Није успело слање и-мејла",
+    "Logged in account is not mail address owner" : "Пријављени налог није власник адресе поште",
     "Email confirmation" : "Потврда и-мејла",
     "To enable the email address %s please click the button below." : "Ако желите да укључите и-мејл адресу %s молимо вас да кликнете на дугме испод.",
     "Confirm" : "Потврди",

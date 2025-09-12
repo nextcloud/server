@@ -30,6 +30,7 @@ OC.L10N.register(
     "User is not a sub-admin of this group" : "用戶不是該群組的子管理員",
     "Email address not available" : "電郵地址不可用",
     "Sending email failed" : "傳送電子郵件失敗",
+    "Logged in account is not mail address owner" : "登入帳戶並非郵件地址所有者",
     "Email confirmation" : "電郵地址確認",
     "To enable the email address %s please click the button below." : "請單擊下面的按鈕以啟用電郵地址 %s。",
     "Confirm" : "確認",
