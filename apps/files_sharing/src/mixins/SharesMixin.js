@@ -55,6 +55,9 @@ export default {
 			saving: false,
 			open: false,
 
+			/** @type {boolean | undefined} */
+			passwordProtectedState: undefined,
+
 			// concurrency management queue
 			// we want one queue per share
 			updateQueue: new PQueue({ concurrency: 1 }),
@@ -164,15 +167,22 @@ export default {
 		 */
 		isPasswordProtected: {
 			get() {
-				return this.config.enforcePasswordForPublicLink
-						|| this.share.password !== undefined
-						|| this.share.newPassword !== undefined
+				if (this.config.enforcePasswordForPublicLink) {
+					return true
+				}
+				if (this.passwordProtectedState !== undefined) {
+					return this.passwordProtectedState
+				}
+				return this.share.newPassword !== undefined
+					|| this.share.password !== undefined
+
 			},
 			async set(enabled) {
 				if (enabled) {
+					this.passwordProtectedState = true
 					this.$set(this.share, 'newPassword', await GeneratePassword(true))
 				} else {
-					this.share.password = ''
+					this.passwordProtectedState = false
 					this.$delete(this.share, 'newPassword')
 				}
 			},
@@ -205,6 +215,11 @@ export default {
 		checkShare(share) {
 			if (share.password) {
 				if (typeof share.password !== 'string' || share.password.trim() === '') {
+					return false
+				}
+			}
+			if (share.newPassword) {
+				if (typeof share.newPassword !== 'string') {
 					return false
 				}
 			}
@@ -394,7 +409,7 @@ export default {
 		 * @param {string} message the error message
 		 */
 		onSyncError(property, message) {
-			if (property === 'password' && this.share.newPassword) {
+			if (property === 'password' && this.share.newPassword !== undefined) {
 				if (this.share.newPassword === this.share.password) {
 					this.share.password = ''
 				}
