@@ -128,6 +128,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\PushService' => $baseDir . '/../lib/SetupChecks/PushService.php',
     'OCA\\Settings\\SetupChecks\\RandomnessSecure' => $baseDir . '/../lib/SetupChecks/RandomnessSecure.php',
     'OCA\\Settings\\SetupChecks\\ReadOnlyConfig' => $baseDir . '/../lib/SetupChecks/ReadOnlyConfig.php',
+    'OCA\\Settings\\SetupChecks\\RequestBuffering' => $baseDir . '/../lib/SetupChecks/RequestBuffering.php',
     'OCA\\Settings\\SetupChecks\\SchedulingTableSize' => $baseDir . '/../lib/SetupChecks/SchedulingTableSize.php',
     'OCA\\Settings\\SetupChecks\\SecurityHeaders' => $baseDir . '/../lib/SetupChecks/SecurityHeaders.php',
     'OCA\\Settings\\SetupChecks\\SupportedDatabase' => $baseDir . '/../lib/SetupChecks/SupportedDatabase.php',
