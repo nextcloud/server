@@ -517,7 +517,7 @@ export default {
 				return true
 			}
 			// Check if either password or expiration date is missing and enforced
-			const isPasswordMissing = this.config.enforcePasswordForPublicLink && !this.share.password
+			const isPasswordMissing = this.config.enforcePasswordForPublicLink && !this.share.newPassword
 			const isExpireDateMissing = this.config.isDefaultExpireDateEnforced && !this.share.expireDate
 
 			return isPasswordMissing || isExpireDateMissing
@@ -639,15 +639,12 @@ export default {
 
 				logger.info('Share policy requires a review or has mandated properties (password, expirationDate)...')
 
-				// ELSE, show the pending popovermenu
+				const share = new Share(shareDefaults)
 				// if password default or enforced, pre-fill with random one
 				if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink) {
-					shareDefaults.password = await GeneratePassword(true)
+					this.$set(share, 'newPassword', await GeneratePassword(true))
 				}
 
-				// create share & close menu
-				const share = new Share(shareDefaults)
-				share.newPassword = share.password
 				const component = await new Promise(resolve => {
 					this.$emit('add:share', share, resolve)
 				})
@@ -711,7 +708,7 @@ export default {
 				const options = {
 					path,
 					shareType: ShareType.Link,
-					password: share.password,
+					password: share.newPassword,
 					expireDate: share.expireDate ?? '',
 					attributes: JSON.stringify(this.fileInfo.shareAttributes),
 					// we do not allow setting the publicUpload
@@ -815,10 +812,8 @@ export default {
 		 * cannot ensure data is up-to-date
 		 */
 		onPasswordDisable() {
-			this.share.password = ''
-
 			// reset password state after sync
-			this.$delete(this.share, 'newPassword')
+			this.$set(this.share, 'newPassword', '')
 
 			// only update if valid share.
 			if (this.share.id) {
