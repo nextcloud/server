@@ -47,7 +47,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 			try {
 				$qb->setParameter('oldId', $oldId);
 				$qb->setParameter('newId', $newId);
-				$qb->execute();
+				$qb->executeStatement();
 				$this->logger->info('Migrated s3 storage id for mount with id ' . $mount['mount_id'] . ' to ' . $newId);
 			} catch (Exception $e) {
 				$this->logger->error('Failed to migrate external s3 storage id for mount with id ' . $mount['mount_id'], [
@@ -70,7 +70,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 			->innerJoin('m', 'external_config', 'c', 'c.mount_id = m.mount_id')
 			->where($qb->expr()->eq('m.storage_backend', $qb->createPositionalParameter('amazons3')))
 			->andWhere($qb->expr()->eq('c.key', $qb->createPositionalParameter('bucket')));
-		return $qb->execute();
+		return $qb->executeQuery();
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Version1015Date20211104103506 extends SimpleMigrationStep {
 			->from('external_config')
 			->where($qb->expr()->eq('mount_id', $qb->createPositionalParameter($mountId)));
 		$config = [];
-		foreach ($qb->execute()->fetchAll() as $row) {
+		foreach ($qb->executeQuery()->fetchAll() as $row) {
 			$config[$row['key']] = $row['value'];
 		}
 		return $config;

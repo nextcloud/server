@@ -52,7 +52,7 @@ class Version1002Date20170607113030 extends SimpleMigrationStep {
 		$query->select('*')
 			->from('twofactor_backup_codes')
 			->orderBy('id', 'ASC');
-		$result = $query->execute();
+		$result = $query->executeQuery();
 
 		$output->startProgress();
 		while ($row = $result->fetch()) {
@@ -63,7 +63,7 @@ class Version1002Date20170607113030 extends SimpleMigrationStep {
 				->setParameter('user_id', $row['user_id'], IQueryBuilder::PARAM_STR)
 				->setParameter('code', $row['code'], IQueryBuilder::PARAM_STR)
 				->setParameter('used', $row['used'], IQueryBuilder::PARAM_INT)
-				->execute();
+				->executeStatement();
 		}
 		$output->finishProgress();
 	}
