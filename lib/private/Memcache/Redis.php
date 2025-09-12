@@ -39,13 +39,13 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	private const MAX_TTL = 30 * 24 * 60 * 60; // 30 days
 	
-	/** @var \Redis|\RedisCluster|null $cache */
-	private static $cache = null;
+	/** @var \Redis|\RedisCluster|null $cacheInstance */
+	private static $cacheInstance = null;
 
 	public function __construct($prefix = '', string $logFile = '') {
 		parent::__construct($prefix);
-		if (self::$cache === null) {
-			self::$cache = \OC::$server->get('RedisFactory')->getInstance();
+		if (self::$cacheInstance === null) {
+			self::$cacheInstance = \OC::$server->get('RedisFactory')->getInstance();
 		}
 	}
 
@@ -57,7 +57,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function get($key) {
 		/** @var string|bool */
-		$result = self::$cache->get($this->getPrefix() . $key);
+		$result = self::$cacheInstance->get($this->getPrefix() . $key);
 		return $result === false ? null : self::decodeValue($result);
 	}
 	
@@ -72,27 +72,28 @@ class Redis extends Cache implements IMemcacheTTL {
 	public function set($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
 		$ttl = $ttl === 0 ? self::DEFAULT_TTL : min($ttl, self::MAX_TTL);
-		return self::$cache->setex($this->getPrefix() . $key, $ttl, $value);
+		return self::$cacheInstance->setex($this->getPrefix() . $key, $ttl, $value);
 	}
 
 	/**
 	 * Checks if a given key exists in the cache.
 	 *
 	 * @param string $key
-	 * @return bool
+	 * @return bool True if key exists, false if not
 	 */
 	public function hasKey($key) {
-		return self::$cache->exists($this->getPrefix() . $key) !== false;
+		return self::$cacheInstance->exists($this->getPrefix() . $key) > false;
 	}
 
 	/**
 	 * Removes a value from the cache.
 	 *
 	 * @param string $key
-	 * @return bool
+	 * @return bool True if key was removed (or never existed to start with)
+  	 *				False only upon unexpected failure (i.e. connection matter)
 	 */
 	public function remove($key) {
-		return self::$cache->unlink($this->getPrefix() . $key) !== false;
+		return self::$cacheInstance->unlink($this->getPrefix() . $key) !== false;
 	}
 
 	/**
@@ -100,7 +101,8 @@ class Redis extends Cache implements IMemcacheTTL {
   	 * NOTE: This is slow and may fail with Redis Cluster.
 	 *
 	 * @param string $prefix
-	 * @return bool
+	 * @return bool True if all matching keys were cleared or if no matching keys were found
+  	 * 				False if not all keys were successfully cleared
 	 */
 	public function clear($prefix = '') {
 		/**
@@ -109,12 +111,12 @@ class Redis extends Cache implements IMemcacheTTL {
 		 */
 		$pattern = $this->getPrefix() . $prefix . '*';
 		/** @var array|false */
-		$keys = self::$cache->keys($pattern);		
+		$keys = self::$cacheInstance->keys($pattern);		
 		if (!is_array($keys) || count($keys) === 0) { // no matching keys
 			return true; // nothing to do; consider operation done
 		}
 		/** @var array|false */
-		$deleted = self::$cache->unlink($keys);
+		$deleted = self::$cacheInstance->unlink($keys);
 		return count($keys) === $deleted;
 	}
 
@@ -130,7 +132,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		$encodedValue = self::encodeValue($value);
 		$ttl = $ttl === 0 ? self::DEFAULT_TTL : min($ttl, self::MAX_TTL);
 		$options = ['nx', 'ex' => $ttl];
-		return self::$cache->set($this->getPrefix() . $key, $encodedValue, $options);
+		return self::$cacheInstance->set($this->getPrefix() . $key, $encodedValue, $options);
 	}
 
 	/**
@@ -153,7 +155,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return int|bool New value on success, false on failure
 	 */
 	public function inc($key, $step = 1) {
-		return self::$cache->incrBy($this->getPrefix() . $key, $step);
+		return self::$cacheInstance->incrBy($this->getPrefix() . $key, $step);
 	}
 
 	/**
@@ -230,14 +232,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function setTTL($key, $ttl) {
 		$ttl = $ttl === 0 ? self::DEFAULT_TTL : min($ttl, self::MAX_TTL);
-		self::$cache->expire($this->getPrefix() . $key, $ttl);
+		self::$cacheInstance->expire($this->getPrefix() . $key, $ttl);
 	}
 
 	/**
 	 * Get TTL for a cache key.
 	 */
 	public function getTTL(string $key): int|false {
-		$ttl = self::$cache->ttl($this->getPrefix() . $key);
+		$ttl = self::$cacheInstance->ttl($this->getPrefix() . $key);
 		return $ttl > 0 ? (int)$ttl : false;
 	}
 
@@ -264,9 +266,9 @@ class Redis extends Cache implements IMemcacheTTL {
 		$script = self::LUA_SCRIPTS[$scriptName];
 		
 		// Try running cached script by SHA1 first, fallback to sending the script if not cached
-		$result = self::$cache->evalSha($script[1], $args, $keysCount);
+		$result = self::$cacheInstance->evalSha($script[1], $args, $keysCount);
 		if ($result === false) {
-			$result = self::$cache->eval($script[0], $args, $keysCount);
+			$result = self::$cacheInstance->eval($script[0], $args, $keysCount);
 		}
 		return $result;
 	}
