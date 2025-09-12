@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' => 
+        'N' =>
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' => 
+        'NCU\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -761,7 +761,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\PreConditionNotMetException' => __DIR__ . '/../../..' . '/lib/public/PreConditionNotMetException.php',
         'OCP\\Preview\\BeforePreviewFetchedEvent' => __DIR__ . '/../../..' . '/lib/public/Preview/BeforePreviewFetchedEvent.php',
         'OCP\\Preview\\IMimeIconProvider' => __DIR__ . '/../../..' . '/lib/public/Preview/IMimeIconProvider.php',
-        'OCP\\Preview\\IProvider' => __DIR__ . '/../../..' . '/lib/public/Preview/IProvider.php',
         'OCP\\Preview\\IProviderV2' => __DIR__ . '/../../..' . '/lib/public/Preview/IProviderV2.php',
         'OCP\\Preview\\IVersionedPreviewFile' => __DIR__ . '/../../..' . '/lib/public/Preview/IVersionedPreviewFile.php',
         'OCP\\Profile\\BeforeTemplateRenderedEvent' => __DIR__ . '/../../..' . '/lib/public/Profile/BeforeTemplateRenderedEvent.php',
@@ -1948,8 +1947,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\Photoshop' => __DIR__ . '/../../..' . '/lib/private/Preview/Photoshop.php',
         'OC\\Preview\\Postscript' => __DIR__ . '/../../..' . '/lib/private/Preview/Postscript.php',
         'OC\\Preview\\PreviewService' => __DIR__ . '/../../..' . '/lib/private/Preview/PreviewService.php',
-        'OC\\Preview\\Provider' => __DIR__ . '/../../..' . '/lib/private/Preview/Provider.php',
-        'OC\\Preview\\ProviderV1Adapter' => __DIR__ . '/../../..' . '/lib/private/Preview/ProviderV1Adapter.php',
         'OC\\Preview\\ProviderV2' => __DIR__ . '/../../..' . '/lib/private/Preview/ProviderV2.php',
         'OC\\Preview\\SGI' => __DIR__ . '/../../..' . '/lib/private/Preview/SGI.php',
         'OC\\Preview\\SVG' => __DIR__ . '/../../..' . '/lib/private/Preview/SVG.php',
