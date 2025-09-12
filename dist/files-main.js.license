@@ -131,7 +131,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.5.0
 	- license: Apache-2.0
 - axios
-	- version: 1.12.0
+	- version: 1.11.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1
