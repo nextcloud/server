@@ -134,6 +134,13 @@ jobs:
               "has_npm": true,
               "has_composer": true,
               "makefile_target": "build_spreed_app"
+            },
+            {
+              "name": "mail",
+              "path": "apps-external/mail",
+              "has_npm": true,
+              "has_composer": true,
+              "makefile_target": "build_mail_app"
             }
           ]'
 
