@@ -109,7 +109,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		 */
 		$pattern = $this->getPrefix() . $prefix . '*';
 		/** @var array|false */
-		$keys = $self::$cache->keys($pattern);		
+		$keys = self::$cache->keys($pattern);		
 		if (!is_array($keys) || count($keys) === 0) { // no matching keys
 			return true; // nothing to do; consider operation done
 		}
