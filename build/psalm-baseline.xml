@@ -4066,14 +4066,6 @@
       <code><![CDATA[null|string]]></code>
     </LessSpecificReturnType>
   </file>
-  <file src="lib/private/Preview/ProviderV1Adapter.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$thumbnail === false ? null: $thumbnail]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[?IImage]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Profile/Actions/FediverseAction.php">
     <NoValue>
       <code><![CDATA[$instance]]></code>
