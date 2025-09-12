@@ -71,7 +71,6 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function set($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
-		// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
 		$ttl = $ttl === 0 ? self::DEFAULT_TTL : min($ttl, self::MAX_TTL);
 		return self::$cache->setex($this->getPrefix() . $key, $ttl, $value);
 	}
@@ -106,140 +105,182 @@ class Redis extends Cache implements IMemcacheTTL {
 	public function clear($prefix = '') {
 		/**
 		 * Note: Prefixes/namespaces variable naming is inconsistent/confusing.
-   		 * @see APCu::clear()
+   		 * @see \OC\Memcache\APCu::clear()
 		 */
 		$pattern = $this->getPrefix() . $prefix . '*';
 		/** @var array|false */
-		$keys = $self::cache->keys($pattern);		
-		if (!is_array($keys) || count($keys) === 0) {
-			return true; // nothing to do / no matching keys
+		$keys = $self::$cache->keys($pattern);		
+		if (!is_array($keys) || count($keys) === 0) { // no matching keys
+			return true; // nothing to do; consider operation done
 		}
 		/** @var array|false */
 		$deleted = self::$cache->unlink($keys);
-		// XXX WIP WIP WIP WIP WIP left off here
-		return (is_array($keys) && (count($keys) === $deleted));
+		return count($keys) === $deleted;
 	}
 
 	/**
-	 * Set a value in the cache if it's not already stored
+	 * Adds a key to the cache only if it does not already exist.
 	 *
 	 * @param string $key
 	 * @param mixed $value
-	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
-	 * @return bool
+	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24 (24h)
+	 * @return bool False if key already exists (new value is ignored)
 	 */
 	public function add($key, $value, $ttl = 0) {
-		$value = self::encodeValue($value);
-		if ($ttl === 0) {
-			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
-			$ttl = self::DEFAULT_TTL;
-		}
-		$ttl = min($ttl, self::MAX_TTL);
-
-		$args = ['nx'];
-		$args['ex'] = $ttl;
-
-		return $this->getCache()->set($this->getPrefix() . $key, $value, $args);
+		$encodedValue = self::encodeValue($value);
+		$ttl = $ttl === 0 ? self::DEFAULT_TTL : min($ttl, self::MAX_TTL);
+		$options = ['nx', 'ex' => $ttl];
+		return self::$cache->set($this->getPrefix() . $key, $encodedValue, $options);
 	}
 
 	/**
-	 * Increase a stored number
+	 * Increments a stored number.
+	 *
+	 * If the key does not exist, it is created and set to `0` before 
+	 * performing the increment (i.e. returning a value of `1`).
+	 * 
+	 * The TTL is left alone on preexisting keys, but newly created keys 
+     * will not have a TTL.
+	 * Note: This is different from our APCu implementation, which sets a
+	 * TTL of self::DEFAULT_TTL. 
+  	 * TODO: Our interface is silent on the topic, but the inconsistency
+	 * should probably be fixed.
+	 * @see \OC\Memcache\APCu::inc()
+  	 * @see \OCP\IMemcache::inc()
 	 *
 	 * @param string $key
 	 * @param int $step
-	 * @return int | bool
+	 * @return int|bool New value on success, false on failure
 	 */
 	public function inc($key, $step = 1) {
-		return $this->getCache()->incrBy($this->getPrefix() . $key, $step);
+		return self::$cache->incrBy($this->getPrefix() . $key, $step);
 	}
 
 	/**
-	 * Decrease a stored number
+	 * Decrements a stored number.
+	 *
+	 * If the key does not exist, false is returned and the operation 
+	 * does not take place. This differs from `inc()` above for unknown reasons, 
+	 * but it does match the interface and other implementations.
 	 *
 	 * @param string $key
 	 * @param int $step
-	 * @return int | bool
+	 * @return int|bool New value on success, false if key does not exist
 	 */
 	public function dec($key, $step = 1) {
-		$res = $this->evalLua('dec', [$key], [$step]);
-		return ($res === 'NEX') ? false : $res;
+		$result = $this->evalLua('dec', [$key], [$step]);
+		return ($result === 'NEX') ? false : $result;
 	}
 
 	/**
-	 * Compare and set
+	 * Compare and set.
+	 * 
+	 * Sets $key's value to $new IF its current value matches $old.
+	 * Uses APCu native CAS for integers, otherwise falls back to emulated CAS.
 	 *
 	 * @param string $key
-	 * @param mixed $old
-	 * @param mixed $new
+	 * @param mixed $oldValue
+	 * @param mixed $newValue
 	 * @return bool
 	 */
-	public function cas($key, $old, $new) {
-		$old = self::encodeValue($old);
-		$new = self::encodeValue($new);
-
-		return $this->evalLua('cas', [$key], [$old, $new]) > 0;
+	public function cas($key, $oldValue, $newValue) {
+		$oldValueEncoded = self::encodeValue($oldValue);
+		$newValueEncoded = self::encodeValue($newValue);
+		return $this->evalLua('cas', [$key], [$oldValueEncoded, $newValueEncoded]) > 0;
 	}
 
 	/**
-	 * Compare and delete
+	 * Compare and delete.
 	 *
 	 * @param string $key
 	 * @param mixed $old
 	 * @return bool
 	 */
-	public function cad($key, $old) {
+	public function cad($key, $oldValue) {
 		$old = self::encodeValue($old);
-
-		return $this->evalLua('cad', [$key], [$old]) > 0;
+		return $this->evalLua('cad', [$key], [$oldValue]) > 0;
 	}
 
-	public function ncad(string $key, mixed $old): bool {
-		$old = self::encodeValue($old);
-
-		return $this->evalLua('ncad', [$key], [$old]) > 0;
+	/**
+	 * Delete if current value is NOT $oldValue.
+	 */
+	public function ncad(string $key, mixed $oldValue): bool {
+		$old = self::encodeValue($oldValue);
+		return $this->evalLua('ncad', [$key], [$oldValue]) > 0;
 	}
 
-	public function setTTL($key, $ttl) {
-		if ($ttl === 0) {
-			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
-			$ttl = self::DEFAULT_TTL;
-		}
-		$ttl = min($ttl, self::MAX_TTL);
-		$this->getCache()->expire($this->getPrefix() . $key, $ttl);
-	}
-
-	public function getTTL(string $key): int|false {
-		$ttl = $this->getCache()->ttl($this->getPrefix() . $key);
-		return $ttl > 0 ? (int)$ttl : false;
-	}
-
-	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
-		$value = self::encodeValue($value);
-
-		return $this->evalLua('caSetTtl', [$key], [$value, $ttl]) > 0;
-	}
-
+	/**
+	 * Check if Redis is available (wrapper)
+  	 *
+	 * @return bool
+	 */
 	public static function isAvailable(): bool {
 		return \OC::$server->get('RedisFactory')->isAvailable();
 	}
 
+	//
+	// Implements for OCP\IMemcacheTTL
+	//
+
+	/**
+	 * Set TTL for a cache key.
+  	 *
+	 * @param string $key
+  	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24 (24h)
+	 */
+	public function setTTL($key, $ttl) {
+		$ttl = $ttl === 0 ? self::DEFAULT_TTL : min($ttl, self::MAX_TTL);
+		self::$cache->expire($this->getPrefix() . $key, $ttl);
+	}
+
+	/**
+	 * Get TTL for a cache key.
+	 */
+	public function getTTL(string $key): int|false {
+		$ttl = self::$cache->ttl($this->getPrefix() . $key);
+		return $ttl > 0 ? (int)$ttl : false;
+	}
+
+	/**
+	 * Compare and set TTL atomically.
+	 */
+	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
+		$value = self::encodeValue($value);
+		return $this->evalLua('caSetTtl', [$key], [$value, $ttl]) > 0;
+	}
+
+	//
+	// Utility functions
+	//
+
+	/**
+	 * Evaluate a Lua script for atomic operations.
+	 */
 	protected function evalLua(string $scriptName, array $keys, array $args) {
-		$keys = array_map(fn ($key) => $this->getPrefix() . $key, $keys);
-		$args = array_merge($keys, $args);
+		$keysWithPrefix = array_map(fn ($key) => $this->getPrefix() . $key, $keys);
+		$keysCount = count($keysWithPrefix);
+		$args = array_merge($keysWithPrefix, $args);
+		
 		$script = self::LUA_SCRIPTS[$scriptName];
-
-		$result = $this->getCache()->evalSha($script[1], $args, count($keys));
+		
+		// Try running cached script by SHA1 first, fallback to sending the script if not cached
+		$result = self::$cache->evalSha($script[1], $args, $keysCount);
 		if ($result === false) {
-			$result = $this->getCache()->eval($script[0], $args, count($keys));
+			$result = self::$cache->eval($script[0], $args, $keysCount);
 		}
-
 		return $result;
 	}
 
+	/**
+	 * Encode a value for Redis storage.
+	 */
 	protected static function encodeValue(mixed $value): string {
 		return is_int($value) ? (string)$value : json_encode($value);
 	}
 
+	/**
+	 * Decode a value from Redis storage.
+	 */
 	protected static function decodeValue(string $value): mixed {
 		return is_numeric($value) ? (int)$value : json_decode($value, true);
 	}
