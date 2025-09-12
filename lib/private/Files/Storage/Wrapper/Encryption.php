@@ -446,7 +446,7 @@ class Encryption extends Wrapper {
 			}
 
 			// encryption disabled on write of new file and write to existing unencrypted file -> don't encrypt
-			if (!$encryptionEnabled || !$this->shouldEncrypt($path)) {
+			if (!$this->shouldEncrypt($path)) {
 				if (!$targetExists || !$targetIsEncrypted) {
 					$shouldEncrypt = false;
 				}

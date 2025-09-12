@@ -644,6 +644,13 @@ class Cache implements ICache {
 		return $this->storage->instanceOfStorage(Encryption::class);
 	}
 
+	protected function shouldEncrypt(string $targetPath): bool {
+		if (!$this->storage->instanceOfStorage(Encryption::class)) {
+			return false;
+		}
+		return $this->storage->shouldEncrypt($targetPath);
+	}
+
 	/**
 	 * Move a file or folder in the cache
 	 *
@@ -1158,7 +1165,9 @@ class Cache implements ICache {
 		$data = $this->cacheEntryToArray($sourceEntry);
 
 		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
-		if ($sourceCache instanceof Cache && $sourceCache->hasEncryptionWrapper() && !$this->hasEncryptionWrapper()) {
+		if ($sourceCache instanceof Cache
+			&& $sourceCache->hasEncryptionWrapper()
+			&& !$this->shouldEncrypt($targetPath)) {
 			$data['encrypted'] = 0;
 		}
 
