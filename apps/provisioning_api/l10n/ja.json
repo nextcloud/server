@@ -28,6 +28,7 @@
     "User is not a sub-admin of this group" : "ユーザはこのグループのサブ管理者ではありません。",
     "Email address not available" : "Eメールアドレスは利用できません",
     "Sending email failed" : "Eメールの送信に失敗しました",
+    "Logged in account is not mail address owner" : "ログインしているアカウントはメールアドレスの所有者ではありません",
     "Email confirmation" : "Eメールの確認",
     "To enable the email address %s please click the button below." : "メールアドレス %s を有効にするには、下のボタンをクリックしてください。",
     "Confirm" : "承認",

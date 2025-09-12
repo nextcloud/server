@@ -243,6 +243,7 @@
     "Last 30 days" : "过去 30 天",
     "This year" : "今年",
     "Last year" : "去年",
+    "Between {startDate} and {endDate}" : "{startDate} 和 {endDate} 之间",
     "Unified search" : "统一搜索",
     "Search apps, files, tags, messages" : "搜索应用程序、文件、标签，信息",
     "Places" : "位置",
