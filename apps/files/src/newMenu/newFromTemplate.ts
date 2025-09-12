@@ -9,6 +9,7 @@ import type { TemplateFile } from '../types.ts'
 
 import { Folder, Node, Permission, addNewFileMenuEntry } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import { newNodeName } from '../utils/newNodeDialog'
 import { translate as t } from '@nextcloud/l10n'
 import Vue, { defineAsyncComponent } from 'vue'
@@ -46,7 +47,12 @@ const getTemplatePicker = async (context: Folder) => {
  * Register all new-file-menu entries for all template providers
  */
 export function registerTemplateEntries() {
-	const templates = loadState<TemplateFile[]>('files', 'templates', [])
+	let templates: TemplateFile[]
+	if (isPublicShare()) {
+		templates = loadState<TemplateFile[]>('files_sharing', 'templates', [])
+	} else {
+		templates = loadState<TemplateFile[]>('files', 'templates', [])
+	}
 
 	// Init template files menu
 	templates.forEach((provider, index) => {
