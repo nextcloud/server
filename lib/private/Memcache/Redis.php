@@ -175,15 +175,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	/**
-	 * Compare and set.
+	 * Compare and set if equal.
 	 * 
-	 * Sets $key's value to $new IF its current value matches $old.
-	 * Uses APCu native CAS for integers, otherwise falls back to emulated CAS.
+	 * Sets $key's value to $new if its current value matches $oldValue.
 	 *
 	 * @param string $key
 	 * @param mixed $oldValue
 	 * @param mixed $newValue
-	 * @return bool
+	 * @return bool True if successful, False if operation failed or no match found
 	 */
 	public function cas($key, $oldValue, $newValue) {
 		$oldValueEncoded = self::encodeValue($oldValue);
@@ -192,11 +191,15 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	/**
-	 * Compare and delete.
+	 * Compare and delete if equal.
+  	 * 
+	 * Deletes $key if it's current value matches $oldValue. 
+  	 * TODO: Compare against using built-in `GETDEL` (especially since we currently only
+	 * handle simple strings anyhow; though requires >=v6.2.0).
 	 *
 	 * @param string $key
-	 * @param mixed $old
-	 * @return bool
+	 * @param mixed $oldValue
+	 * @return bool True if successful, False if values not equal or operation failed
 	 */
 	public function cad($key, $oldValue) {
 		$oldValueEncoded = self::encodeValue($oldValue);
@@ -204,7 +207,13 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	/**
-	 * Delete if current value is NOT $oldValue.
+ 	 * Compare and delete if not equal.
+   	 *
+	 * Delete $key if it's current value does not match $oldValue nor is `null`.
+  	 *
+	 * @param string $key
+	 * @param mixed $oldValue
+	 * @return bool True if successful, False if values equal or operation failed
 	 */
 	public function ncad(string $key, mixed $oldValue): bool {
 		$oldValueEncoded = self::encodeValue($oldValue);
