@@ -24,16 +24,16 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 			if ($loginNameColumn->getLength() !== 255) {
 				$loginNameColumn->setLength(255);
 			}
-			$table->changeColumn('type', [
+			$table->modifyColumn('type', [
 				'notnull' => false,
 			]);
-			$table->changeColumn('remember', [
+			$table->modifyColumn('remember', [
 				'notnull' => false,
 			]);
-			$table->changeColumn('last_activity', [
+			$table->modifyColumn('last_activity', [
 				'notnull' => false,
 			]);
-			$table->changeColumn('last_check', [
+			$table->modifyColumn('last_check', [
 				'notnull' => false,
 			]);
 		}
@@ -51,7 +51,7 @@ class Version21000Date20201120141228 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('jobs')) {
 			$table = $schema->getTable('jobs');
-			$table->changeColumn('execution_duration', [
+			$table->modifyColumn('execution_duration', [
 				'notnull' => false,
 				'default' => 0,
 			]);
