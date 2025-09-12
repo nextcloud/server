@@ -65,6 +65,7 @@ class ThemesService {
 			$defaultTheme = $this->themesProviders[$this->defaultTheme->getId()];
 			$darkTheme = $this->themesProviders[$this->darkTheme->getId()];
 			$theme = $this->themesProviders[$enforcedTheme];
+			$dyslexiaFont = $this->themesProviders['opendyslexic'];
 			return [
 				// Leave the default theme as a fallback
 				$defaultTheme->getId() => $defaultTheme,
@@ -73,6 +74,8 @@ class ThemesService {
 				$darkTheme->getId() => $darkTheme,
 				// Finally, the enforced theme
 				$theme->getId() => $theme,
+				// Always available
+				$dyslexiaFont->getId() => $dyslexiaFont,
 			];
 		}
 

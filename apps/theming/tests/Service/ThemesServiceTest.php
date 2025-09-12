@@ -95,6 +95,7 @@ class ThemesServiceTest extends TestCase {
 		$expected = [
 			'default',
 			'dark',
+			'opendyslexic',
 		];
 
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
@@ -134,6 +135,7 @@ class ThemesServiceTest extends TestCase {
 			'default',
 			'dark',
 			'ionos',
+			'opendyslexic',
 		];
 
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
@@ -413,5 +415,14 @@ class ThemesServiceTest extends TestCase {
 				null,
 			),
 		];
+	}
+
+	public function testDyslexiaFontIsAvailable(): void {
+		$themes = $this->themesService->getThemes();
+		$this->assertArrayHasKey('opendyslexic', $themes);
+
+		$dyslexiaTheme = $themes['opendyslexic'];
+		$this->assertEquals('opendyslexic', $dyslexiaTheme->getId());
+		$this->assertEquals(\OCA\Theming\ITheme::TYPE_FONT, $dyslexiaTheme->getType());
 	}
 }
