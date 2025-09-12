@@ -20,7 +20,6 @@ use OCP\IImage;
 use OCP\IPreview;
 use OCP\IStreamImage;
 use OCP\Preview\BeforePreviewFetchedEvent;
-use OCP\Preview\IProviderV2;
 use OCP\Preview\IVersionedPreviewFile;
 use Psr\Log\LoggerInterface;
 
@@ -323,7 +322,7 @@ class Generator {
 
 			foreach ($providers as $providerClosure) {
 				$provider = $this->helper->getProvider($providerClosure);
-				if (!($provider instanceof IProviderV2)) {
+				if (!$provider) {
 					continue;
 				}
 
