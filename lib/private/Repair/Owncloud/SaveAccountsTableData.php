@@ -173,7 +173,8 @@ class SaveAccountsTableData implements IRepairStep {
 		}
 
 		if ($userdata['display_name'] !== null) {
-			$update->setParameter('displayname', $userdata['display_name'])
+			// user.displayname only allows 64 characters but old accounts.display_name allowed 255 characters
+			$update->setParameter('displayname', mb_substr($userdata['display_name'], 0, 64))
 				->setParameter('userid', $userdata['user_id']);
 			$update->executeStatement();
 		}
