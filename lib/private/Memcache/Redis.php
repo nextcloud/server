@@ -199,16 +199,16 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return bool
 	 */
 	public function cad($key, $oldValue) {
-		$old = self::encodeValue($old);
-		return $this->evalLua('cad', [$key], [$oldValue]) > 0;
+		$oldValueEncoded = self::encodeValue($oldValue);
+		return $this->evalLua('cad', [$key], [$oldValueEncoded]) > 0;
 	}
 
 	/**
 	 * Delete if current value is NOT $oldValue.
 	 */
 	public function ncad(string $key, mixed $oldValue): bool {
-		$old = self::encodeValue($oldValue);
-		return $this->evalLua('ncad', [$key], [$oldValue]) > 0;
+		$oldValueEncoded = self::encodeValue($oldValue);
+		return $this->evalLua('ncad', [$key], [$oldValueEncoded]) > 0;
 	}
 
 	/**
