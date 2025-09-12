@@ -2,7 +2,7 @@
 div.files-list__filters {
 	display: none;
 }
-.files-list {
+#app-content-vue  .files-list {
 	& thead.files-list__thead,& div.files-list__thead-overlay {
 		top: 0;
 		.files-list__row-head .files-list__column--sortable .button-vue__text {
@@ -13,7 +13,7 @@ div.files-list__filters {
 	}
 }
 
-div.files-list__header {
+#app-content-vue div.files-list__header {
 	margin-top: 25px;
 	margin-right: 16px;
 	margin-bottom: 14px;
@@ -33,7 +33,7 @@ tfoot.files-list__tfoot tr {
 	}
 }
 
-button.files-list__header-grid-button {
+#app-content-vue button.files-list__header-grid-button {
 	position: absolute;
 	top: 88px;
 	right: 20px;
