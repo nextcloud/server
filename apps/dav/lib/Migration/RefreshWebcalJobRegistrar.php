@@ -38,11 +38,11 @@ class RefreshWebcalJobRegistrar implements IRepairStep {
 	/**
 	 * @inheritdoc
 	 */
-	public function run(IOutput $output) {
+	public function run(IOutput $output): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->select(['principaluri', 'uri'])
 			->from('calendarsubscriptions');
-		$stmt = $query->execute();
+		$stmt = $query->executeQuery();
 
 		$count = 0;
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {

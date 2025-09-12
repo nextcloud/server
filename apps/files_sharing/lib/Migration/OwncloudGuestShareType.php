@@ -47,7 +47,7 @@ class OwncloudGuestShareType implements IRepairStep {
 		$query->update('share')
 			->set('share_type', $query->createNamedParameter(IShare::TYPE_GUEST))
 			->where($query->expr()->eq('share_type', $query->createNamedParameter(IShare::TYPE_EMAIL)));
-		$query->execute();
+		$query->executeStatement();
 	}
 
 	protected function shouldRun() {
