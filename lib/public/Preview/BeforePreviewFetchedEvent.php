@@ -21,6 +21,7 @@ use OCP\IPreview;
  */
 class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	/**
+	 * @param null|IPreview::MODE_FILL|IPreview::MODE_COVER $mode
 	 * @since 25.0.1
 	 */
 	public function __construct(

@@ -8,11 +8,11 @@ declare(strict_types=1);
  */
 namespace OC\Preview;
 
+use OC\Preview\Db\PreviewMapper;
+use OC\Preview\Storage\StorageFactory;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
-use OCP\Files\IAppData;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
 
 /**
  * Class Watcher
@@ -22,40 +22,36 @@ use OCP\Files\NotFoundException;
  * Class that will watch filesystem activity and remove previews as needed.
  */
 class Watcher {
-	/** @var IAppData */
-	private $appData;
-
 	/**
 	 * Watcher constructor.
-	 *
-	 * @param IAppData $appData
 	 */
-	public function __construct(IAppData $appData) {
-		$this->appData = $appData;
+	public function __construct(
+		readonly private StorageFactory $storageFactory,
+		readonly private PreviewMapper $previewMapper,
+	) {
 	}
 
-	public function postWrite(Node $node) {
+	public function postWrite(Node $node): void {
 		$this->deleteNode($node);
 	}
 
-	protected function deleteNode(FileInfo $node) {
+	protected function deleteNode(FileInfo $node): void {
 		// We only handle files
 		if ($node instanceof Folder) {
 			return;
 		}
 
-		try {
-			if (is_null($node->getId())) {
-				return;
-			}
-			$folder = $this->appData->getFolder((string)$node->getId());
-			$folder->delete();
-		} catch (NotFoundException $e) {
-			//Nothing to do
+		if (is_null($node->getId())) {
+			return;
+		}
+
+		[$node->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$node->getId()]);
+		foreach ($previews as $preview) {
+			$this->storageFactory->deletePreview($preview);
 		}
 	}
 
-	public function versionRollback(array $data) {
+	public function versionRollback(array $data): void {
 		if (isset($data['node'])) {
 			$this->deleteNode($data['node']);
 		}
