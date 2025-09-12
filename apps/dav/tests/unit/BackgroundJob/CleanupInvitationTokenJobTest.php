@@ -39,7 +39,6 @@ class CleanupInvitationTokenJobTest extends TestCase {
 
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
 		$expr = $this->createMock(IExpressionBuilder::class);
-		$stmt = $this->createMock(\Doctrine\DBAL\Driver\Statement::class);
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
@@ -72,9 +71,9 @@ class CleanupInvitationTokenJobTest extends TestCase {
 			->with($function)
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->once())
-			->method('execute')
+			->method('executeStatement')
 			->with()
-			->willReturn($stmt);
+			->willReturn(1);
 
 		$this->backgroundJob->run([]);
 	}

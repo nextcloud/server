@@ -8,8 +8,6 @@ declare(strict_types=1);
  */
 namespace OCA\UserStatus\Tests\Service;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use OC\DB\Exceptions\DbalException;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
 use OCA\UserStatus\Exception\InvalidClearAtException;
@@ -671,8 +669,8 @@ class StatusServiceTest extends TestCase {
 	}
 
 	public function testBackupWorkingHasBackupAlready(): void {
-		$p = $this->createMock(UniqueConstraintViolationException::class);
-		$e = DbalException::wrap($p);
+		$e = $this->createMock(Exception::class);
+		$e->method('getReason')->willReturn(Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
 		$this->mapper->expects($this->once())
 			->method('createBackupStatus')
 			->with('john')
@@ -809,10 +807,12 @@ class StatusServiceTest extends TestCase {
 			->with('john')
 			->willReturn($previous);
 
-		$e = DbalException::wrap($this->createMock(UniqueConstraintViolationException::class));
+		/** @var MockObject&Exception $exception */
+		$exception = $this->createMock(Exception::class);
+		$exception->method('getReason')->willReturn(Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
 		$this->mapper->expects($expectedUpdateShortcut ? $this->never() : $this->once())
 			->method('createBackupStatus')
-			->willThrowException($e);
+			->willThrowException($exception);
 
 		$this->mapper->expects($this->any())
 			->method('update')

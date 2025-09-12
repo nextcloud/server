@@ -24,7 +24,7 @@ class Folder extends File implements Share_Backend_Collection {
 			);
 		$result = $qb->executeQuery();
 
-		if ($row = $result->fetch()) {
+		if (($row = $result->fetch()) !== false) {
 			$mimetype = (int)$row['id'];
 		} else {
 			$mimetype = -1;

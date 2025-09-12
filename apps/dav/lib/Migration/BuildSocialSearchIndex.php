@@ -15,9 +15,9 @@ use OCP\Migration\IRepairStep;
 class BuildSocialSearchIndex implements IRepairStep {
 
 	public function __construct(
-		readonly private IDBConnection $db,
-		readonly private IJobList $jobList,
-		readonly private IAppConfig $config,
+		private readonly IDBConnection $db,
+		private readonly IJobList $jobList,
+		private readonly IAppConfig $config,
 	) {
 	}
 
@@ -30,7 +30,7 @@ class BuildSocialSearchIndex implements IRepairStep {
 	 */
 	public function run(IOutput $output) {
 		// only run once
-		if ($this->config->getValueString('dav', 'builtSocialSearchIndex') === 'yes') {
+		if ($this->config->getValueBool('dav', 'builtSocialSearchIndex')) {
 			$output->info('Repair step already executed');
 			return;
 		}
@@ -52,6 +52,6 @@ class BuildSocialSearchIndex implements IRepairStep {
 		]);
 
 		// no need to redo the repair during next upgrade
-		$this->config->setValueString('dav', 'builtSocialSearchIndex', 'yes');
+		$this->config->setValueBool('dav', 'builtSocialSearchIndex', true);
 	}
 }
