@@ -85,7 +85,7 @@ class DropLegacyFileKey extends Command {
 					$output->writeln('<error>' . $path . ' does not have a proper header</error>');
 				} else {
 					try {
-						$legacyFileKey = $this->keyManager->getFileKey($path, null, true);
+						$legacyFileKey = $this->keyManager->getFileKey($path, true);
 						if ($legacyFileKey === '') {
 							$output->writeln('Got an empty legacy filekey for ' . $path . ', continuing', OutputInterface::VERBOSITY_VERBOSE);
 							continue;

@@ -76,6 +76,7 @@ trait EncryptionTrait {
 		$encryptionManager = $container->query(IManager::class);
 		$this->encryptionApp->setUp($encryptionManager);
 		$keyManager->init($name, $password);
+		$this->invokePrivate($keyManager, 'keyUid', [$name]);
 	}
 
 	protected function postLogin() {
