@@ -69,7 +69,7 @@ class Server implements IDelegatedSettings {
 			->orderBy('last_checked', 'ASC')
 			->setMaxResults(1);
 
-		$result = $query->execute();
+		$result = $query->executeQuery();
 		if ($row = $result->fetch()) {
 			$maxAge = (int)$row['last_checked'];
 		} else {
