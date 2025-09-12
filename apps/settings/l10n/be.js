@@ -50,6 +50,7 @@ OC.L10N.register(
     "Database missing indices" : "Адсутнічаюць індэксы ў базе даных",
     "Missing indices:" : "Адсутнічаюць індэксы:",
     "\"%s\" in table \"%s\"" : "\"%s\" у табліцы \"%s\"",
+    "Database pending bigint migrations" : "База даных чакае міграцыі bigint",
     "Debug mode" : "Рэжым адладкі",
     "Debug mode is disabled." : "Рэжым адладкі адключаны.",
     "Disabled" : "Адключана",
