@@ -43,3 +43,6 @@
 [submodule "apps-external/spreed"]
 	path = apps-external/spreed
 	url = git@github.com:nextcloud/spreed.git
+[submodule "apps-external/mail"]
+	path = apps-external/mail
+	url = git@github.com:IONOS-Productivity/ncw-mail.git
