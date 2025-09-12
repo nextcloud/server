@@ -140,6 +140,8 @@ OC.L10N.register(
     "Files starting with a dot are hidden by default" : "Файли, що починаються з крапки, типово приховано",
     "Preparing …" : "Підготовка ...",
     "Refresh" : "Оновити",
+    "Windows filename support has been enabled." : "Увімкнено сумісність з найменуванням файлів у Windows.",
+    "Please note that this may cause high workload on the sync clients." : "Зауважте, що це може спричинити високе навантаження на клієнти синхронізації.",
     "Limit" : "Ліміт",
     "(starting)" : "(початок)",
     "Fill template fields" : "Заповнити поля шаблону",

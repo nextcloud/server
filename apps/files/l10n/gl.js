@@ -479,7 +479,7 @@ OC.L10N.register(
     "Submitting fields…" : "Enviando os campos...",
     "Filter filenames…" : "Filtrar os nomes de ficheiro…",
     "WebDAV URL copied to clipboard" : "O URL de WebDAV foi copiado no portapapeis",
-    "Enable the grid view" : "Activar á vista de grade",
+    "Enable the grid view" : "Activar a vista de grade",
     "Enable folder tree" : "Activar a árbore de cartafoles",
     "Copy to clipboard" : "Copiar no portapapeis.",
     "Use this address to access your Files via WebDAV" : "Empregue este enderezo para acceder ao seu Ficheiros mediante WebDAV",

@@ -80,6 +80,7 @@ OC.L10N.register(
     "Search tag" : "タグを検索",
     "Change tag color" : "タグの色を変更する",
     "Create new tag" : "新しいタグを作成",
+    "Choose tags for the selected files" : "選択したファイルのタグを選択",
     "Cancel" : "キャンセル",
     "Apply" : "適用",
     "Failed to load tags" : "タグの読込に失敗しました",
