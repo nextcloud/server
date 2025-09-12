@@ -61,7 +61,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.11.0
+	- version: 1.12.0
 	- license: MIT
 - base64-js
 	- version: 1.5.1

@@ -155,7 +155,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.11.0
+	- version: 1.12.0
 	- license: MIT
 - backbone
 	- version: 1.6.1
