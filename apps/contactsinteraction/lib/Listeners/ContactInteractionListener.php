@@ -117,6 +117,7 @@ class ContactInteractionListener implements IEventListener {
 		$props = [
 			'URI' => UUIDUtil::getUUID(),
 			'FN' => $this->getDisplayName($contact->getUid()) ?? $contact->getEmail() ?? $contact->getFederatedCloudId(),
+			// Recently contacted not translated on purpose: https://github.com/nextcloud/contacts/issues/4663
 			'CATEGORIES' => 'Recently contacted',
 		];
 
