@@ -7,8 +7,6 @@
  */
 namespace OC\Comments;
 
-use Doctrine\DBAL\Exception\DriverException;
-use OCA\DAV\Connector\Sabre\File;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
@@ -855,20 +853,23 @@ class Manager implements ICommentsManager {
 
 		try {
 			$comment = $this->get($id);
-		} catch (\Exception $e) {
+		} catch (\Exception) {
 			// Ignore exceptions, we just don't fire a hook then
 			$comment = null;
 		}
 
+		if (!is_numeric($id)) {
+			return false;
+		}
+
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->delete('comments')
-			->where($qb->expr()->eq('id', $qb->createParameter('id')))
-			->setParameter('id', $id);
+			->where($qb->expr()->eq('id', $qb->createNamedParameter((int)$id, IQueryBuilder::PARAM_INT)));
 
 		try {
 			$affectedRows = $query->execute();
 			$this->uncache($id);
-		} catch (DriverException $e) {
+		} catch (\OCP\DB\Exception $e) {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
 				'app' => 'core_comments',
@@ -1325,7 +1326,7 @@ class Manager implements ICommentsManager {
 
 		try {
 			$affectedRows = $query->execute();
-		} catch (DriverException $e) {
+		} catch (\OCP\DB\Exception $e) {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
 				'app' => 'core_comments',
@@ -1432,7 +1433,7 @@ class Manager implements ICommentsManager {
 
 		try {
 			$affectedRows = $query->execute();
-		} catch (DriverException $e) {
+		} catch (\OCP\DB\Exception $e) {
 			$this->logger->error($e->getMessage(), [
 				'exception' => $e,
 				'app' => 'core_comments',
