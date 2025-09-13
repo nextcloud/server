@@ -234,7 +234,7 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 			$table->addUniqueIndex(['principaluri', 'uri'], 'calendars_index');
 		} else {
 			$table = $schema->getTable('calendars');
-			$table->changeColumn('components', [
+			$table->modifyColumn('components', [
 				'notnull' => false,
 				'length' => 64,
 			]);
@@ -324,7 +324,7 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 			$table->addUniqueIndex(['principaluri', 'uri'], 'calsub_index');
 		} else {
 			$table = $schema->getTable('calendarsubscriptions');
-			$table->changeColumn('lastmodified', [
+			$table->modifyColumn('lastmodified', [
 				'notnull' => false,
 				'unsigned' => true,
 			]);
