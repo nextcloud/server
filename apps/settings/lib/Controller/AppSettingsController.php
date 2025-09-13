@@ -650,6 +650,12 @@ class AppSettingsController extends Controller {
 	public function updateApp(string $appId): JSONResponse {
 		$appId = $this->appManager->cleanAppId($appId);
 
+		// Don't try to update locked apps
+		$appsLocked = $this->config->getSystemValue('apps_locked', []);
+		if (in_array($appId, $appsLocked, true)) {
+			return new JSONResponse(['data' => ['message' => $this->l10n->t('App is locked, update skipped.')]], Http::STATUS_FORBIDDEN);
+		}
+
 		$this->config->setSystemValue('maintenance', true);
 		try {
 			$result = $this->installer->updateAppstoreApp($appId);

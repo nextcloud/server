@@ -373,7 +373,14 @@ class Updater extends BasicEmitter {
 	 * @throws \Exception
 	 */
 	private function upgradeAppStoreApps(array $apps, array $previousEnableStates = []): void {
+		$appsLocked = $this->config->getSystemValue('apps_locked', []);
+
 		foreach ($apps as $app) {
+			// Don't try to update locked apps
+			if (in_array($app, $appsLocked, true)) {
+				$this->log->info('Update skipped for locked app' . $app, ['app' => 'updater']);
+				continue;
+			}
 			try {
 				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
 				if ($this->installer->isUpdateAvailable($app)) {

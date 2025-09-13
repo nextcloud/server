@@ -11,6 +11,8 @@ namespace OC\Core\Command\App;
 use OC\Installer;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -77,6 +79,10 @@ class Update extends Command {
 		}
 
 		$return = 0;
+
+		$config = Server::get(IConfig::class);
+		$appsLocked = $config->getSystemValue('apps_locked', []);
+
 		foreach ($apps as $appId) {
 			$newVersion = $this->installer->isUpdateAvailable($appId, $input->getOption('allow-unstable'));
 			if ($newVersion) {
@@ -84,6 +90,12 @@ class Update extends Command {
 				$output->writeln($appId . ' new version available: ' . $newVersion);
 
 				if (!$input->getOption('showonly')) {
+					// Don't try to update locked apps
+					if (in_array($appId, $appsLocked, true)) {
+						$output->writeln('Update skipped for locked app ' . $appId);
+						continue;
+					}
+
 					try {
 						$result = $this->installer->updateAppstoreApp($appId, $input->getOption('allow-unstable'));
 					} catch (\Exception $e) {
