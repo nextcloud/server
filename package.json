@@ -179,7 +179,7 @@
     "puppeteer": "^24.20.0",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
-    "sass": "^1.91.0",
+    "sass": "^1.92.1",
     "sass-loader": "^14.0.0",
     "sinon": "<= 5.0.7",
     "style-loader": "^4.0.0",
