@@ -243,6 +243,7 @@
     "Last 30 days" : "Viimase 30 päeva jooksul",
     "This year" : "Sel aastal",
     "Last year" : "Eelmisel aastal",
+    "Between {startDate} and {endDate}" : "Ajavahemikus {startDate} kuni {endDate}",
     "Unified search" : "Ühendatud otsing",
     "Search apps, files, tags, messages" : "Otsi rakendusi, faile, silte, sõnumeid",
     "Places" : "Kohad",

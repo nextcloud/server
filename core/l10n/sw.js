@@ -245,6 +245,7 @@ OC.L10N.register(
     "Last 30 days" : "Siku 30 zilizopita",
     "This year" : "Mwaka huu",
     "Last year" : "Mwaka uliopita",
+    "Between {startDate} and {endDate}" : "Kati ya {startDate} na {endDate}",
     "Unified search" : "Utafutaji wa umoja",
     "Search apps, files, tags, messages" : "Tafuta app, faili, lebo, jumbe",
     "Places" : "Maeneo",

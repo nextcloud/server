@@ -243,6 +243,7 @@
     "Last 30 days" : "Die letzten 30 Tage",
     "This year" : "Dieses Jahr",
     "Last year" : "Letztes Jahr",
+    "Between {startDate} and {endDate}" : "Von {startDate} bis {endDate}",
     "Unified search" : "Einheitliche Suche",
     "Search apps, files, tags, messages" : "Nach Apps, Dateien, Schlagworten und Nachrichten suchen",
     "Places" : "Orte",
