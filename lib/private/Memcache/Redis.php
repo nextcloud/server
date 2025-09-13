@@ -56,7 +56,6 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return mixed|null Value if found, null otherwise
 	 */
 	public function get($key) {
-		/** @var string|bool */
 		$result = self::$cacheInstance->get($this->getPrefix() . $key);
 		return $result === false ? null : self::decodeValue($result);
 	}
@@ -115,7 +114,6 @@ class Redis extends Cache implements IMemcacheTTL {
 		if (!is_array($keys) || count($keys) === 0) { // no matching keys
 			return true; // nothing to do; consider operation done
 		}
-		/** @var array|false */
 		$deleted = self::$cacheInstance->unlink($keys);
 		return count($keys) === $deleted;
 	}
@@ -170,54 +168,58 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return int|bool New value on success, false if key does not exist
 	 */
 	public function dec($key, $step = 1) {
+		// 'if redis.call("exists", KEYS[1]) == 1 then return redis.call("decrby", KEYS[1], ARGV[1]) else return "NEX" end',
 		$result = $this->evalLua('dec', [$key], [$step]);
 		return ($result === 'NEX') ? false : $result;
 	}
 
 	/**
-	 * Compare and set if equal.
+	 * Compare-and-set.
 	 * 
-	 * Sets $key's value to $new if its current value matches $oldValue.
+	 * If $key's current value is equal to $expectedValue, set it to $newValue.
 	 *
 	 * @param string $key
-	 * @param mixed $oldValue
+	 * @param mixed $expectedValue
 	 * @param mixed $newValue
-	 * @return bool True if successful, False if operation failed or no match found
+	 * @return bool True if value was updated; False if no update occurred
 	 */
-	public function cas($key, $oldValue, $newValue) {
-		$oldValueEncoded = self::encodeValue($oldValue);
+	public function cas($key, $expectedValue, $newValue) {
+		$expectedValueEncoded = self::encodeValue($expectedValue);
 		$newValueEncoded = self::encodeValue($newValue);
-		return $this->evalLua('cas', [$key], [$oldValueEncoded, $newValueEncoded]) > 0;
+		// 'if redis.call("get", KEYS[1]) == ARGV[1] then redis.call("set", KEYS[1], ARGV[2]) return 1 else return 0 end',
+		return $this->evalLua('cas', [$key], [$expectedValueEncoded, $newValueEncoded]) > 0;
 	}
 
 	/**
-	 * Compare and delete if equal.
+	 * Compare-and-delete.
+  	 *
+	 * If $key's current value is equal to $expectedValue, delete $key.
   	 * 
-	 * Deletes $key if it's current value matches $oldValue. 
-  	 * TODO: Compare against using built-in `GETDEL` (especially since we currently only
-	 * handle simple strings anyhow; though requires >=v6.2.0).
+  	 * TODO: Compare against using built-in `GETDEL` for simple strings (requires >=v6.2.0).
 	 *
 	 * @param string $key
-	 * @param mixed $oldValue
-	 * @return bool True if successful, False if values not equal or operation failed
+	 * @param mixed $expectedValue
+	 * @return bool True if key was deleted; False if no deletion occurred
 	 */
-	public function cad($key, $oldValue) {
-		$oldValueEncoded = self::encodeValue($oldValue);
-		return $this->evalLua('cad', [$key], [$oldValueEncoded]) > 0;
+	public function cad($key, $expectedValue) {
+		$expectedValueEncoded = self::encodeValue($expectedValue);
+		// 'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
+		return $this->evalLua('cad', [$key], [$expectedValueEncoded]) > 0;
 	}
 
 	/**
- 	 * Compare and delete if not equal.
+ 	 * Nonequal-compare-and-delete.
    	 *
-	 * Delete $key if it's current value does not match $oldValue nor is `null`.
+	 * If $key's current value is not equal to $expectedValue, delete $key.
   	 *
 	 * @param string $key
-	 * @param mixed $oldValue
-	 * @return bool True if successful, False if values equal or operation failed
+	 * @param mixed $expectedValue
+	 * @return bool True if key was deleted; False if no deletion occurred
 	 */
-	public function ncad(string $key, mixed $oldValue): bool {
-		$oldValueEncoded = self::encodeValue($oldValue);
-		return $this->evalLua('ncad', [$key], [$oldValueEncoded]) > 0;
+	public function ncad(string $key, mixed $expectedValue): bool {
+		$expectedValueEncoded = self::encodeValue($expectedValue);
+		// 'if redis.call("get", KEYS[1]) ~= ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
+		return $this->evalLua('ncad', [$key], [$expectedValueEncoded]) > 0;
 	}
 
 	/**
@@ -257,6 +259,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
 		$value = self::encodeValue($value);
+		// 'if redis.call("get", KEYS[1]) == ARGV[1] then redis.call("expire", KEYS[1], ARGV[2]) return 1 else return 0 end',
 		return $this->evalLua('caSetTtl', [$key], [$value, $ttl]) > 0;
 	}
 
