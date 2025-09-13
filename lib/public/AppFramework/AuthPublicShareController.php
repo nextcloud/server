@@ -36,10 +36,12 @@ abstract class AuthPublicShareController extends PublicShareController {
 	/**
 	 * @since 14.0.0
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
 		ISession $session,
-		IURLGenerator $urlGenerator) {
+		IURLGenerator $urlGenerator,
+	) {
 		parent::__construct($appName, $request, $session);
 
 		$this->urlGenerator = $urlGenerator;
