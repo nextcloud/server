@@ -6,11 +6,14 @@
  */
 namespace OC\Collaboration\Collaborators;
 
+use OCA\Federation\TrustedServers;
+use OCA\Files_Sharing\Config\ConfigLexicon;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -27,9 +30,43 @@ class RemotePlugin implements ISearchPlugin {
 		private IConfig $config,
 		private IUserManager $userManager,
 		IUserSession $userSession,
+		private ?IAppConfig $appConfig = null,
+		private ?TrustedServers $trustedServers = null,
 	) {
 		$this->userId = $userSession->getUser()?->getUID() ?? '';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+	}
+
+	private function shouldOnlyShowTrustedServers(): bool {
+		if ($this->appConfig === null) {
+			return false;
+		}
+
+		$showFederatedToTrustedAsInternal = $this->appConfig->getValueBool(
+			'files_sharing',
+			ConfigLexicon::SHOW_FEDERATED_TO_TRUSTED_AS_INTERNAL,
+			false
+		);
+		$showFederatedAsInternal = $this->appConfig->getValueBool(
+			'files_sharing',
+			ConfigLexicon::SHOW_FEDERATED_AS_INTERNAL,
+			false
+		);
+
+		return $showFederatedToTrustedAsInternal && !$showFederatedAsInternal;
+	}
+
+	private function isServerTrusted(string $serverUrl): bool {
+		if ($this->trustedServers === null) {
+			return true;
+		}
+
+		$normalizedUrl = $serverUrl;
+		if (!str_contains($normalizedUrl, '://')) {
+			$normalizedUrl = 'https://' . $normalizedUrl;
+		}
+
+		return $this->trustedServers->isTrustedServer($normalizedUrl);
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult): bool {
@@ -82,33 +119,37 @@ class RemotePlugin implements ISearchPlugin {
 						];
 					}
 
-					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
-						if (strtolower($cloudId) === $lowerSearch) {
-							$searchResult->markExactIdMatch($resultType);
+					$shouldFilter = $this->shouldOnlyShowTrustedServers();
+
+					if (!$shouldFilter || $this->isServerTrusted($serverUrl)) {
+						if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
+							if (strtolower($cloudId) === $lowerSearch) {
+								$searchResult->markExactIdMatch($resultType);
+							}
+							$result['exact'][] = [
+								'label' => $contact['FN'] . " ($cloudId)",
+								'uuid' => $contact['UID'],
+								'name' => $contact['FN'],
+								'type' => $cloudIdType,
+								'value' => [
+									'shareType' => IShare::TYPE_REMOTE,
+									'shareWith' => $cloudId,
+									'server' => $serverUrl,
+								],
+							];
+						} else {
+							$result['wide'][] = [
+								'label' => $contact['FN'] . " ($cloudId)",
+								'uuid' => $contact['UID'],
+								'name' => $contact['FN'],
+								'type' => $cloudIdType,
+								'value' => [
+									'shareType' => IShare::TYPE_REMOTE,
+									'shareWith' => $cloudId,
+									'server' => $serverUrl,
+								],
+							];
 						}
-						$result['exact'][] = [
-							'label' => $contact['FN'] . " ($cloudId)",
-							'uuid' => $contact['UID'],
-							'name' => $contact['FN'],
-							'type' => $cloudIdType,
-							'value' => [
-								'shareType' => IShare::TYPE_REMOTE,
-								'shareWith' => $cloudId,
-								'server' => $serverUrl,
-							],
-						];
-					} else {
-						$result['wide'][] = [
-							'label' => $contact['FN'] . " ($cloudId)",
-							'uuid' => $contact['UID'],
-							'name' => $contact['FN'],
-							'type' => $cloudIdType,
-							'value' => [
-								'shareType' => IShare::TYPE_REMOTE,
-								'shareWith' => $cloudId,
-								'server' => $serverUrl,
-							],
-						];
 					}
 				}
 			}
@@ -120,24 +161,25 @@ class RemotePlugin implements ISearchPlugin {
 			$result['wide'] = array_slice($result['wide'], $offset, $limit);
 		}
 
-		/**
-		 * Add generic share with remote item for valid cloud ids that are not users of the local instance
-		 */
 		if (!$searchResult->hasExactIdMatch($resultType) && $this->cloudIdManager->isValidCloudId($search) && $offset === 0) {
 			try {
 				[$remoteUser, $serverUrl] = $this->splitUserRemote($search);
 				$localUser = $this->userManager->get($remoteUser);
 				if ($localUser === null || $search !== $localUser->getCloudId()) {
-					$result['exact'][] = [
-						'label' => $remoteUser . " ($serverUrl)",
-						'uuid' => $remoteUser,
-						'name' => $remoteUser,
-						'value' => [
-							'shareType' => IShare::TYPE_REMOTE,
-							'shareWith' => $search,
-							'server' => $serverUrl,
-						],
-					];
+					$shouldFilter = $this->shouldOnlyShowTrustedServers();
+
+					if (!$shouldFilter || $this->isServerTrusted($serverUrl)) {
+						$result['exact'][] = [
+							'label' => $remoteUser . " ($serverUrl)",
+							'uuid' => $remoteUser,
+							'name' => $remoteUser,
+							'value' => [
+								'shareType' => IShare::TYPE_REMOTE,
+								'shareWith' => $search,
+								'server' => $serverUrl,
+							],
+						];
+					}
 				}
 			} catch (\InvalidArgumentException $e) {
 			}

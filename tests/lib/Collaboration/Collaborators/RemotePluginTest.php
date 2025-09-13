@@ -10,10 +10,12 @@ namespace Test\Collaboration\Collaborators;
 use OC\Collaboration\Collaborators\RemotePlugin;
 use OC\Collaboration\Collaborators\SearchResult;
 use OC\Federation\CloudIdManager;
+use OCA\Federation\TrustedServers;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Contacts\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;
@@ -36,6 +38,12 @@ class RemotePluginTest extends TestCase {
 	/** @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cloudIdManager;
 
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	protected $appConfig;
+
+	/** @var TrustedServers|\PHPUnit\Framework\MockObject\MockObject */
+	protected $trustedServers;
+
 	/** @var RemotePlugin */
 	protected $plugin;
 
@@ -55,6 +63,8 @@ class RemotePluginTest extends TestCase {
 			$this->createMock(IURLGenerator::class),
 			$this->createMock(IUserManager::class),
 		);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->trustedServers = $this->createMock(TrustedServers::class);
 		$this->searchResult = new SearchResult();
 	}
 
@@ -67,7 +77,7 @@ class RemotePluginTest extends TestCase {
 		$userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$this->plugin = new RemotePlugin($this->contactsManager, $this->cloudIdManager, $this->config, $this->userManager, $userSession);
+		$this->plugin = new RemotePlugin($this->contactsManager, $this->cloudIdManager, $this->config, $this->userManager, $userSession, $this->appConfig, $this->trustedServers);
 	}
 
 	/**
@@ -426,5 +436,88 @@ class RemotePluginTest extends TestCase {
 			['us/erserver'],
 			['us:erserver'],
 		];
+	}
+
+	public function testTrustedServerFiltering(): void {
+		$this->appConfig->expects($this->any())
+			->method('getValueBool')
+			->willReturnCallback(function ($app, $key, $default) {
+				if ($app === 'files_sharing' && $key === 'show_federated_shares_to_trusted_servers_as_internal') {
+					return true;
+				}
+				if ($app === 'files_sharing' && $key === 'show_federated_shares_as_internal') {
+					return false;
+				}
+				return $default;
+			});
+
+		$this->trustedServers->expects($this->any())
+			->method('isTrustedServer')
+			->willReturnMap([
+				['https://mail.example.com', false],
+				['https://cloud.example.com', true],
+			]);
+
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->willReturn('yes');
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
+		$this->userManager->expects($this->any())
+			->method('get')
+			->willReturn(null);
+
+		$this->instantiatePlugin();
+
+		$searchResult = new SearchResult();
+		$this->plugin->search('user@mail.example.com', 10, 0, $searchResult);
+		$results = $searchResult->asArray();
+		$this->assertEmpty($results['remotes'], 'Non-trusted server should not appear in results');
+
+		$searchResult = new SearchResult();
+		$this->plugin->search('user@cloud.example.com', 10, 0, $searchResult);
+		$results = $searchResult->asArray();
+		$this->assertNotEmpty($results['exact']['remotes'], 'Trusted server should appear in results');
+		$this->assertEquals('user@cloud.example.com', $results['exact']['remotes'][0]['value']['shareWith']);
+	}
+
+	public function testNoFilteringWhenShowAllFederatedAsInternal(): void {
+		$this->appConfig->expects($this->any())
+			->method('getValueBool')
+			->willReturnCallback(function ($app, $key, $default) {
+				if ($app === 'files_sharing' && $key === 'show_federated_shares_to_trusted_servers_as_internal') {
+					return true;
+				}
+				if ($app === 'files_sharing' && $key === 'show_federated_shares_as_internal') {
+					return true;
+				}
+				return $default;
+			});
+
+		$this->trustedServers->expects($this->never())
+			->method('isTrustedServer');
+
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->willReturn('yes');
+
+		$this->contactsManager->expects($this->any())
+			->method('search')
+			->willReturn([]);
+
+		$this->userManager->expects($this->any())
+			->method('get')
+			->willReturn(null);
+
+		$this->instantiatePlugin();
+
+		$searchResult = new SearchResult();
+		$this->plugin->search('user@mail.example.com', 10, 0, $searchResult);
+		$results = $searchResult->asArray();
+		$this->assertNotEmpty($results['exact']['remotes'],
+			'All federated servers should appear when show_federated_shares_as_internal is enabled');
 	}
 }
