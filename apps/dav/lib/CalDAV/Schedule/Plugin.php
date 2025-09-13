@@ -132,7 +132,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param string $principal
 	 * @return array
 	 */
-	protected function getAddressesForPrincipal($principal) {
+	public function getAddressesForPrincipal($principal) {
 		$result = parent::getAddressesForPrincipal($principal);
 
 		if ($result === null) {
