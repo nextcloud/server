@@ -245,6 +245,7 @@ OC.L10N.register(
     "Last 30 days" : "30 lá anuas",
     "This year" : "An bhliain seo",
     "Last year" : "Anuraidh",
+    "Between {startDate} and {endDate}" : "Idir {startDate} agus {endDate}",
     "Unified search" : "Cuardach aontaithe",
     "Search apps, files, tags, messages" : "Cuardaigh apps, comhaid, clibeanna, teachtaireachtaí",
     "Places" : "Áiteanna",
