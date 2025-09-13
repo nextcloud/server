@@ -109,7 +109,7 @@ class ExpireTrash extends TimedJob {
 
 	}
 
-	private function resetOffset() {
+	private function resetOffset(): void {
 		$this->runMutexOperation(function () {
 			$this->appConfig->setValueInt(Application::APP_ID, self::OFFSET_CONFIG_KEY_NAME, 0);
 		});
