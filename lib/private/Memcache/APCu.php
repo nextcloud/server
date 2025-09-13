@@ -9,6 +9,19 @@ namespace OC\Memcache;
 
 use OCP\IMemcache;
 
+/**
+ * APCu-backed cache implementation for Nextcloud.
+ *
+ * Primary use case is as a localCache with a data scope of the application server of the running process.
+ * Can also be configured as the "distributedCache" but will still have the data scope of the application server of the running process.
+ * Can also be configured as the lockingCache but data scope will be limited to the application server of the running process.
+ *
+ * @see https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/caching_configuration.html
+ * @see https://docs.nextcloud.com/server/latest/developer_manual/basics/caching.html
+ * @see OC\Memcache\Factory
+ * @see registerService() activation in OC\Server for Factory::class
+ *
+ */
 class APCu extends Cache implements IMemcache {
 	use CASTrait {
 		cas as casEmulated;
@@ -92,7 +105,7 @@ class APCu extends Cache implements IMemcache {
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24 (24h)
-	 * @return bool False if key already exists (new value is ignored)
+	 * @return bool True if added; False if not added (i.e. key already exists)
 	 */
 	public function add($key, $value, $ttl = 0) {
 		if ($ttl === 0) {
@@ -135,22 +148,23 @@ class APCu extends Cache implements IMemcache {
 	}
 
 	/**
-	 * Compare and set operation (CAS).
+	 * Compare-and-set.
 	 * 
-	 * Sets $key's value to $new IF its current value matches $old.
-	 * Uses APCu native CAS for integers, otherwise falls back to emulated CAS.
+	 * If $key's current value is equal to $expectedValue, set it to $newValue.
+	 *
+	 * Uses APCu's native CAS for integers, otherwise an "emulated" CAS.
 	 *
 	 * @param string $key
-	 * @param mixed $old
-	 * @param mixed $new
-	 * @return bool
+	 * @param mixed $expectedValue
+	 * @param mixed $newValue
+	 * @return bool True if value was updated; False if no update occurred
 	 */
-	public function cas($key, $old, $new) {
+	public function cas($key, $expectedValue, $newValue) {
 		// APCu only does cas for ints
-		if (is_int($old) && is_int($new)) {
-			return apcu_cas($this->getPrefix() . $key, $old, $new);
+		if (is_int($expectedValue) && is_int($newValue)) {
+			return apcu_cas($this->getPrefix() . $key, $expectedValue, $newValue);
 		} else {
-			return $this->casEmulated($key, $old, $new);
+			return $this->casEmulated($key, $expectedValue, $newValue);
 		}
 	}
 
