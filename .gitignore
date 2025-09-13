@@ -186,3 +186,5 @@ cypress/snapshots
 cypress/videos
 
 /.direnv
+
+/.hypothesis/
