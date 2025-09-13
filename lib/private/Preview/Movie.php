@@ -100,13 +100,35 @@ class Movie extends ProviderV2 {
 				if ($result !== null) {
 					break;
 				}
+				Server::get(LoggerInterface::class)->debug(
+					'Movie preview generation attempt failed'
+						. ', file=' . $file->getPath()
+						. ', time=' . $timeStamp
+						. ', size=' . ($size ?? 'entire file'),
+					['app' => 'core']
+				);
 			}
 
 			$this->cleanTmpFiles();
 
 			if ($result !== null) {
+				Server::get(LoggerInterface::class)->debug(
+					'Movie preview generation attempt success'
+						. ', file=' . $file->getPath()
+						. ', time=' . $timeStamp
+						. ', size=' . ($size ?? 'entire file'),
+					['app' => 'core']
+				);
 				break;
 			}
+
+		}
+		if ($result === null) {
+			Server::get(LoggerInterface::class)->error(
+				'Movie preview generation process failed'
+					. ', file=' . $file->getPath(),
+				['app' => 'core']
+			);
 		}
 		return $result;
 	}
@@ -128,7 +150,7 @@ class Movie extends ProviderV2 {
 		$absPath = Server::get(ITempManager::class)->getTemporaryFile();
 		if ($absPath === false) {
 			Server::get(LoggerInterface::class)->error(
-				'Failed to get sparse file to generate thumbnail: ' . $file->getPath(),
+				'Failed to get temp file to create sparse file to generate thumbnail: ' . $file->getPath(),
 				['app' => 'core']
 			);
 			fclose($content);
@@ -214,6 +236,10 @@ class Movie extends ProviderV2 {
 		}
 		fclose($content);
 		fclose($sparseFile);
+		Server::get(LoggerInterface::class)->debug(
+			'Sparse file being utilized for preview generation for ' . $file->getPath(),
+			['app' => 'core']
+		);
 		return $absPath;
 	}
 
@@ -287,21 +313,23 @@ class Movie extends ProviderV2 {
 			$output = $stdout . $stderr;
 		}
 
+		Server::get(LoggerInterface::class)->debug(
+			'Movie preview generation output'
+				. ', file=' . $absPath
+				. ', output=',
+			['app' => 'core', 'output' => $output]
+		);
+
 		if ($returnCode === 0) {
 			$image = new \OCP\Image();
 			$image->loadFromFile($tmpPath);
 			if ($image->valid()) {
 				unlink($tmpPath);
 				$image->scaleDownToFit($maxX, $maxY);
-
 				return $image;
 			}
 		}
 
-		if ($second === 0) {
-			$logger = Server::get(LoggerInterface::class);
-			$logger->info('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
-		}
 
 		unlink($tmpPath);
 		return null;
