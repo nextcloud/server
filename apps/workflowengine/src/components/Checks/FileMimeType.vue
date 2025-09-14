@@ -61,6 +61,11 @@ export default {
 		return {
 			predefinedTypes: [
 				{
+					iconUrl: imagePath('core', 'filetypes/audio'),
+					label: t('workflowengine', 'Audio'),
+					id: '/audio\\/.*/',
+				},
+				{
 					icon: 'icon-folder',
 					label: t('workflowengine', 'Folder'),
 					id: 'httpd/unix-directory',
@@ -79,6 +84,11 @@ export default {
 					iconUrl: imagePath('core', 'filetypes/application-pdf'),
 					label: t('workflowengine', 'PDF documents'),
 					id: 'application/pdf',
+				},
+				{
+					iconUrl: imagePath('core', 'filetypes/video'),
+					label: t('workflowengine', 'Video'),
+					id: '/video\\/.*/',
 				},
 			],
 			newValue: '',
