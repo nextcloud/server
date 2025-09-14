@@ -19,7 +19,7 @@ OC.L10N.register(
     "What's new in {app} {version}" : "Novidades en {app} {version}",
     "A new version is available: <strong>{newVersionString}</strong>" : "Hai dispoñíbel unha versión nova:<strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Teña en conta que após unha nova edición, a actualización só aparece após a primeira edición menor ou posterior. Publicamos novas versións espalladas ao longo do tempo e ás veces saltamos unha versión cando se atopan problemas. Máis información sobre actualizacións e canles de edición en {link}",
-    "Checked on {lastCheckedDate} - Open changelog" : "Comprobado o {lastCheckedDate} – Abrir as notas da versión",
+    "Checked on {lastCheckedDate} - Open changelog" : "Comprobado o {lastCheckedDate} — Abrir as notas da versión",
     "Checking apps for compatible versions" : "Comprobando as versións compatíbeis das aplicacións",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Asegúrese de que o seu config.php non ten estabelecido <samp>appstoreenabled</samp> como «false».",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Non foi posíbel conectar á Tenda de aplicacións ou non se devolveu ningunha actualización. Busque actualizacións manualmente ou asegúrese de que o seu servidor ten acceso a Internet e pode conectarse á Tenda de aplicacións.",
