@@ -145,7 +145,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.6
 	- license: MIT
 - libphonenumber-js
-	- version: 1.12.15
+	- version: 1.12.17
 	- license: MIT
 - md5
 	- version: 2.3.0
