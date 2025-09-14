@@ -75,7 +75,6 @@ SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christopher Jeffrey
-SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Ben Drucker
@@ -95,10 +94,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.25.0
 	- license: MIT
 - @floating-ui/core
-	- version: 1.6.5
+	- version: 1.7.3
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.5
+	- version: 0.2.10
 	- license: MIT
 - @linusborg/vue-simple-portal
 	- version: 0.1.5
@@ -140,7 +139,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.10.2
+	- version: 3.12.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -167,16 +166,22 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.5
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
-	- version: 3.25.1
+	- version: 3.26.0
 	- license: MIT
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.3.0
+	- license: GPL-3.0-or-later
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
 - p-queue
-	- version: 8.1.0
+	- version: 8.1.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.29.2
+	- version: 8.31.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -272,7 +277,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.1
 	- license: MIT
 - emoji-mart-vue-fast
-	- version: 15.0.4
+	- version: 15.0.5
 	- license: BSD-3-Clause
 - es-define-property
 	- version: 1.0.1
