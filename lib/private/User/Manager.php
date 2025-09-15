@@ -607,7 +607,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * Getting all userIds that have a listLogin value requires checking the
+	 * Getting all userIds that have a lastLogin value requires checking the
 	 * value in php because on oracle you cannot use a clob in a where clause,
 	 * preventing us from doing a not null or length(value) > 0 check.
 	 *
@@ -780,19 +780,19 @@ class Manager extends PublicEmitter implements IUserManager {
 		return $this->displayNameCache;
 	}
 
-	/**
-	 * Gets the list of users sorted by lastLogin, from most recent to least recent
-	 *
-	 * @param int $offset from which offset to fetch
-	 * @return \Iterator<IUser> list of user IDs
-	 * @since 30.0.0
-	 */
-	public function getSeenUsers(int $offset = 0): \Iterator {
-		$limit = 1000;
+	public function getSeenUsers(int $offset = 0, ?int $limit = null): \Iterator {
+		$maxBatchSize = 1000;
 
 		do {
-			$userIds = $this->getSeenUserIds($limit, $offset);
-			$offset += $limit;
+			if ($limit !== null) {
+				$batchSize = min($limit, $maxBatchSize);
+				$limit -= $batchSize;
+			} else {
+				$batchSize = $maxBatchSize;
+			}
+
+			$userIds = $this->getSeenUserIds($batchSize, $offset);
+			$offset += $batchSize;
 
 			foreach ($userIds as $userId) {
 				foreach ($this->backends as $backend) {
@@ -803,6 +803,6 @@ class Manager extends PublicEmitter implements IUserManager {
 					}
 				}
 			}
-		} while (count($userIds) === $limit);
+		} while (count($userIds) === $batchSize && $limit !== 0);
 	}
 }
