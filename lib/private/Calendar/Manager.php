@@ -290,7 +290,7 @@ class Manager implements IManager {
 			}
 		}
 
-		if ($options['absent'] === 'create') {
+		if (isset($options['absent']) && $options['absent'] === 'create') {
 			// retrieve the primary calendar for the user
 			$calendar = $this->getPrimaryCalendar($userId);
 			if ($calendar !== null && (
