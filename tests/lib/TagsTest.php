@@ -11,6 +11,9 @@ namespace Test;
 use OC\Tagging\TagMapper;
 use OC\TagManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\ITagManager;
 use OCP\IUser;
@@ -35,6 +38,7 @@ class TagsTest extends \Test\TestCase {
 	protected $tagMapper;
 	/** @var ITagManager */
 	protected $tagMgr;
+	protected IRootFolder $rootFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -52,10 +56,22 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
+		$userFolder = $this->createMock(Folder::class);
+		$node = $this->createMock(Node::class);
+		$this->rootFolder = $this->createMock(IRootFolder::class);
+		$this->rootFolder
+			->method('getUserFolder')
+			->willReturnCallback(fn () => $userFolder);
+		$userFolder
+			->method('getFirstNodeById')
+			->willReturnCallback(fn () => $node);
+		$node
+			->method('getPath')
+			->willReturnCallback(fn () => 'file.txt');
 
 		$this->objectType = $this->getUniqueID('type_');
 		$this->tagMapper = new TagMapper(Server::get(IDBConnection::class));
-		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class));
+		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class), $this->rootFolder);
 	}
 
 	protected function tearDown(): void {
@@ -72,7 +88,7 @@ class TagsTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->willReturn(null);
-		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class));
+		$this->tagMgr = new TagManager($this->tagMapper, $this->userSession, Server::get(IDBConnection::class), Server::get(LoggerInterface::class), Server::get(IEventDispatcher::class), $this->rootFolder);
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}
 

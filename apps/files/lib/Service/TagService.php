@@ -54,11 +54,11 @@ class TagService {
 
 		$newTags = array_diff($tags, $currentTags);
 		foreach ($newTags as $tag) {
-			$this->tagger->tagAs($fileId, $tag);
+			$this->tagger->tagAs($fileId, $tag, $path);
 		}
 		$deletedTags = array_diff($currentTags, $tags);
 		foreach ($deletedTags as $tag) {
-			$this->tagger->unTag($fileId, $tag);
+			$this->tagger->unTag($fileId, $tag, $path);
 		}
 
 		// TODO: re-read from tagger to make sure the
