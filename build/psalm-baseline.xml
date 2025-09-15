@@ -916,12 +916,6 @@
       <code><![CDATA[execute]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/dav/lib/Migration/Version1004Date20170825134824.php">
-    <DeprecatedMethod>
-      <code><![CDATA[changeColumn]]></code>
-      <code><![CDATA[changeColumn]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/Migration/Version1008Date20181105104826.php">
     <DeprecatedMethod>
       <code><![CDATA[execute]]></code>
@@ -1481,11 +1475,6 @@
     <InvalidReturnType>
       <code><![CDATA[login]]></code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/files_external/lib/Migration/Version1011Date20200630192246.php">
-    <DeprecatedMethod>
-      <code><![CDATA[changeColumn]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/files_external/lib/Migration/Version1015Date20211104103506.php">
     <DeprecatedMethod>
@@ -2813,11 +2802,6 @@
       <code><![CDATA[bool]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/workflowengine/lib/Migration/Version2200Date20210805101925.php">
-    <DeprecatedMethod>
-      <code><![CDATA[changeColumn]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/workflowengine/lib/Service/Logger.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -3232,15 +3216,6 @@
     <DeprecatedMethod>
       <code><![CDATA[execute]]></code>
       <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="core/Migrations/Version21000Date20201120141228.php">
-    <DeprecatedMethod>
-      <code><![CDATA[changeColumn]]></code>
-      <code><![CDATA[changeColumn]]></code>
-      <code><![CDATA[changeColumn]]></code>
-      <code><![CDATA[changeColumn]]></code>
-      <code><![CDATA[changeColumn]]></code>
     </DeprecatedMethod>
   </file>
   <file src="core/Service/LoginFlowV2Service.php">
