@@ -352,6 +352,7 @@ OC.L10N.register(
     "Failed to rename the project" : "Не ўдалося перайменаваць праект",
     "Failed to create a project" : "Не ўдалося стварыць праект",
     "Failed to add the item to the project" : "Не ўдалося дадаць элемент у праект",
+    "New in" : "Новае ў",
     "View changelog" : "Праглядзець спіс змяненняў",
     "No action available" : "Няма даступных дзеянняў",
     "Close \"{dialogTitle}\" dialog" : "Закрыць дыялогавае акно \"{dialogTitle}\"",

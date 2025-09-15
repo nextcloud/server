@@ -245,6 +245,7 @@ OC.L10N.register(
     "Last 30 days" : "Önceki 30 gün",
     "This year" : "Bu yıl",
     "Last year" : "Önceki yıl",
+    "Between {startDate} and {endDate}" : "{startDate} ile {endDate} arasında",
     "Unified search" : "Birleşik arama",
     "Search apps, files, tags, messages" : "Uygulama, dosya, etiket, ileti ara",
     "Places" : "Yerler",
