@@ -38,10 +38,10 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.6.5
+	- version: 1.7.3
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.5
+	- version: 0.2.10
 	- license: MIT
 - @nextcloud/auth
 	- version: 2.5.2
@@ -80,10 +80,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
-	- version: 3.25.1
+	- version: 3.26.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.29.2
+	- version: 8.31.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 11.3.0
@@ -113,7 +113,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.2.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
-	- version: 15.0.4
+	- version: 15.0.5
 	- license: BSD-3-Clause
 - escape-html
 	- version: 1.0.3
