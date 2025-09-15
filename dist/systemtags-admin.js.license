@@ -115,7 +115,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.9.0
+	- version: 1.12.1
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
