@@ -13,6 +13,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\ITagManager;
 use OCP\ITags;
@@ -31,6 +32,7 @@ class TagManager implements ITagManager, IEventListener {
 		private IDBConnection $connection,
 		private LoggerInterface $logger,
 		private IEventDispatcher $dispatcher,
+		private IRootFolder $rootFolder,
 	) {
 	}
 
@@ -56,7 +58,8 @@ class TagManager implements ITagManager, IEventListener {
 			}
 			$userId = $this->userSession->getUser()->getUId();
 		}
-		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $this->dispatcher, $this->userSession, $defaultTags);
+		$userFolder = $this->rootFolder->getUserFolder($userId);
+		return new Tags($this->mapper, $userId, $type, $this->logger, $this->connection, $this->dispatcher, $this->userSession, $userFolder, $defaultTags);
 	}
 
 	/**
