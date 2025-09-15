@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Test\Authentication\Token;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\Manager;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenProvider;
+use OCP\DB\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -62,8 +62,9 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGenerateConflictingToken(): void {
-		/** @var MockObject|UniqueConstraintViolationException $exception */
-		$exception = $this->createMock(UniqueConstraintViolationException::class);
+		/** @var MockObject&Exception $exception */
+		$exception = $this->createMock(Exception::class);
+		$exception->method('getReason')->willReturn(Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
 
 		$token = new PublicKeyToken();
 		$token->setUid('uid');
