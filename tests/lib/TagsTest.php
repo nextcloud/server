@@ -32,6 +32,7 @@ class TagsTest extends \Test\TestCase {
 	protected $tagMapper;
 	/** @var \OCP\ITagManager */
 	protected $tagMgr;
+	protected IRootFolder $rootFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
