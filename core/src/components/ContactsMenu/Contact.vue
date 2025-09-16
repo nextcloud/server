@@ -6,7 +6,6 @@
 <template>
 	<li class="contact">
 		<NcAvatar class="contact__avatar"
-			:size="44"
 			:user="contact.isUser ? contact.uid : undefined"
 			:is-no-user="!contact.isUser"
 			:disable-menu="true"
@@ -94,7 +93,7 @@ export default {
 		&__icon {
 			width: 20px;
 			height: 20px;
-			padding: 12px;
+			padding: calc((var(--default-clickable-area) - 20px) / 2);
 			filter: var(--background-invert-if-dark);
 		}
 	}
