@@ -761,7 +761,6 @@
   </file>
   <file src="apps/dav/lib/Connector/Sabre/ServerFactory.php">
     <DeprecatedMethod>
-      <code><![CDATA[getL10NFactory]]></code>
       <code><![CDATA[getUserFolder]]></code>
     </DeprecatedMethod>
   </file>
