@@ -123,7 +123,14 @@ class Internal extends Session {
 		}
 
 		try {
+			$oldId = $this->getId();
 			@session_regenerate_id($deleteOldSession);
+			$newId = $this->getId();
+			$this->logger->debug('Regenerated session ID', [
+				'oldId' => $oldId,
+				'newId' => $newId,
+				'deleteOldSession' => $deleteOldSession,
+			]);
 		} catch (\Error $e) {
 			$this->trapError($e->getCode(), $e->getMessage());
 		}
