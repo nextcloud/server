@@ -9,19 +9,13 @@ namespace Test\Preview;
 
 use OC\Files\Storage\Temporary;
 use OC\Preview\BackgroundCleanupJob;
-use OC\Preview\Db\Preview;
-use OC\Preview\Db\PreviewMapper;
-use OC\Preview\Storage\Root;
-use OC\Preview\Storage\StorageFactory;
+use OC\Preview\PreviewService;
 use OC\PreviewManager;
-use OC\SystemConfig;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IPreview;
 use OCP\Server;
@@ -45,8 +39,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	private IRootFolder $rootFolder;
 	private IMimeTypeLoader $mimeTypeLoader;
 	private ITimeFactory $timeFactory;
-	private PreviewMapper $previewMapper;
-	private StorageFactory $previewStorageFactory;
+	private PreviewService $previewService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -70,8 +63,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->rootFolder = Server::get(IRootFolder::class);
 		$this->mimeTypeLoader = Server::get(IMimeTypeLoader::class);
 		$this->timeFactory = Server::get(ITimeFactory::class);
-		$this->previewMapper = Server::get(PreviewMapper::class);
-		$this->previewStorageFactory = Server::get(StorageFactory::class);
+		$this->previewService = Server::get(PreviewService::class);
 	}
 
 	protected function tearDown(): void {
@@ -82,9 +74,8 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 		$this->logout();
 
-		foreach ($this->previewMapper->getAvailablePreviews(5) as $preview) {
-			$this->previewStorageFactory->deletePreview($preview);
-			$this->previewMapper->delete($preview);
+		foreach ($this->previewService->getAvailablePreviewForFile(5) as $preview) {
+			$this->previewService->deletePreview($preview);
 		}
 
 		parent::tearDown();
@@ -104,8 +95,8 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		return $files;
 	}
 
-	private function countPreviews(PreviewMapper $previewMapper, array $fileIds): int {
-		$previews = $previewMapper->getAvailablePreviews($fileIds);
+	private function countPreviews(PreviewService $previewService, array $fileIds): int {
+		$previews = $previewService->getAvailablePreviews($fileIds);
 		return array_reduce($previews, fn (int $result, array $previews) => $result + count($previews), 0);
 	}
 
@@ -113,18 +104,18 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$files = $this->setup11Previews();
 		$fileIds = array_map(fn (File $f): int => $f->getId(), $files);
 
-		$this->assertSame(11, $this->countPreviews($this->previewMapper, $fileIds));
-		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->previewMapper, $this->previewStorageFactory, true);
+		$this->assertSame(11, $this->countPreviews($this->previewService, $fileIds));
+		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->previewService, true);
 		$job->run([]);
 
 		foreach ($files as $file) {
 			$file->delete();
 		}
 
-		$this->assertSame(11, $this->countPreviews($this->previewMapper, $fileIds));
+		$this->assertSame(11, $this->countPreviews($this->previewService, $fileIds));
 		$job->run([]);
 
-		$this->assertSame(0, $this->countPreviews($this->previewMapper, $fileIds));
+		$this->assertSame(0, $this->countPreviews($this->previewService, $fileIds));
 	}
 
 	public function testCleanupAjax(): void {
@@ -134,20 +125,20 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$files = $this->setup11Previews();
 		$fileIds = array_map(fn (File $f): int => $f->getId(), $files);
 
-		$this->assertSame(11, $this->countPreviews($this->previewMapper, $fileIds));
-		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->previewMapper, $this->previewStorageFactory, false);
+		$this->assertSame(11, $this->countPreviews($this->previewService, $fileIds));
+		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->previewService, false);
 		$job->run([]);
 
 		foreach ($files as $file) {
 			$file->delete();
 		}
 
-		$this->assertSame(11, $this->countPreviews($this->previewMapper, $fileIds));
+		$this->assertSame(11, $this->countPreviews($this->previewService, $fileIds));
 		$job->run([]);
 
-		$this->assertSame(1, $this->countPreviews($this->previewMapper, $fileIds));
+		$this->assertSame(1, $this->countPreviews($this->previewService, $fileIds));
 		$job->run([]);
 
-		$this->assertSame(0, $this->countPreviews($this->previewMapper, $fileIds));
+		$this->assertSame(0, $this->countPreviews($this->previewService, $fileIds));
 	}
 }

@@ -1,5 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
+ * SPDX-FileContributor: Carl Schwan
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 namespace OC\Preview\Storage;
 
 use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
@@ -18,11 +26,11 @@ class StorageFactory implements IPreviewStorage {
 	) {
 	}
 
-	public function writePreview(Preview $preview, $stream): false|int {
+	public function writePreview(Preview $preview, mixed $stream): false|int {
 		return $this->getBackend()->writePreview($preview, $stream);
 	}
 
-	public function readPreview(Preview $preview) {
+	public function readPreview(Preview $preview): mixed {
 		return $this->getBackend()->readPreview($preview);
 	}
 

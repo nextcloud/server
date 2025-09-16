@@ -158,7 +158,7 @@ class Generator {
 			try {
 				$preview = array_find($previews, fn (Preview $preview): bool => $preview->getWidth() === $width
 					&& $preview->getHeight() === $height && $preview->getMimetype() === $maxPreview->getMimetype()
-					&& $preview->getVersion() === $previewVersion && $preview->getCrop() === $crop);
+					&& $preview->getVersion() === $previewVersion && $preview->isCropped() === $crop);
 
 				if ($preview) {
 					$previewFile = new PreviewFile($preview, $this->storageFactory, $this->previewMapper);
@@ -300,7 +300,7 @@ class Generator {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previews as $preview) {
-			if ($preview->getIsMax() && ($version == $preview->getVersion())) {
+			if ($preview->isMax() && ($version === $preview->getVersion())) {
 				return $preview;
 			}
 		}
@@ -539,11 +539,13 @@ class Generator {
 	public function savePreview(File $file, int $width, int $height, bool $crop, bool $max, IImage $preview, int $version): Preview {
 		$previewEntry = new Preview();
 		$previewEntry->setFileId($file->getId());
+		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 		$previewEntry->setWidth($width);
 		$previewEntry->setHeight($height);
 		$previewEntry->setVersion($version);
-		$previewEntry->setIsMax($max);
-		$previewEntry->setCrop($crop);
+		$previewEntry->setMax($max);
+		$previewEntry->setCropped($crop);
+		$previewEntry->setEncrypted(false);
 		switch ($preview->dataMimeType()) {
 			case 'image/jpeg':
 				$previewEntry->setMimetype(IPreview::MIMETYPE_JPEG);

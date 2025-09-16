@@ -1,17 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH
+ * SPDX-FileContributor: Carl Schwan
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 namespace lib\Preview;
 
 use OC\Core\BackgroundJobs\MovePreviewJob;
 use OC\Preview\Db\PreviewMapper;
+use OC\Preview\PreviewService;
 use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
+use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Server;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -19,12 +28,13 @@ use Test\TestCase;
 /**
  * @group DB
  */
-#[CoversClass(MovePreviewJob::class)]
 class MovePreviewJobTest extends TestCase {
 	private IAppData $previewAppData;
 	private PreviewMapper $previewMapper;
 	private IAppConfig&MockObject $appConfig;
 	private StorageFactory $storageFactory;
+	private PreviewService $previewService;
+	private IDBConnection $db;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -34,23 +44,54 @@ class MovePreviewJobTest extends TestCase {
 		$this->appConfig->expects($this->any())
 			->method('getValueBool')
 			->willReturn(false);
+		$this->appConfig->expects($this->any())
+			->method('setValueBool')
+			->willReturn(true);
 		$this->storageFactory = Server::get(StorageFactory::class);
+		$this->previewService = Server::get(PreviewService::class);
+		$this->db = Server::get(IDBConnection::class);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('filecache')
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter(5)))
+			->executeStatement();
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('filecache')
+			->values([
+				'fileid' => $qb->createNamedParameter(5),
+				'storage' => $qb->createNamedParameter(1),
+				'path' => $qb->createNamedParameter('test/abc'),
+				'path_hash' => $qb->createNamedParameter(md5('test')),
+				'parent' => $qb->createNamedParameter(0),
+				'name' => $qb->createNamedParameter('abc'),
+				'mimetype' => $qb->createNamedParameter(0),
+				'size' => $qb->createNamedParameter(1000),
+				'mtime' => $qb->createNamedParameter(1000),
+				'storage_mtime' => $qb->createNamedParameter(1000),
+				'encrypted' => $qb->createNamedParameter(0),
+				'unencrypted_size' => $qb->createNamedParameter(0),
+				'etag' => $qb->createNamedParameter('abcdefg'),
+				'permissions' => $qb->createNamedParameter(0),
+				'checksum' => $qb->createNamedParameter('abcdefg'),
+			])->executeStatement();
 	}
 
 	public function tearDown(): void {
-		foreach ($this->previewMapper->getAvailablePreviewForFile(5) as $preview) {
-			$this->storageFactory->deletePreview($preview);
-			$this->previewMapper->delete($preview);
-		}
-
 		foreach ($this->previewAppData->getDirectoryListing() as $folder) {
 			$folder->delete();
 		}
+		$this->previewService->deleteAll();
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('filecache')
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter(5)))
+			->executeStatement();
 	}
 
-	#[TestDox("Test the migration from the legacy flat hierarchy to the new database format")]
-	function testMigrationLegacyPath(): void {
-		$folder = $this->previewAppData->newFolder(5);
+	#[TestDox('Test the migration from the legacy flat hierarchy to the new database format')]
+	public function testMigrationLegacyPath(): void {
+		$folder = $this->previewAppData->newFolder('5');
 		$folder->newFile('64-64-crop.jpg', 'abcdefg');
 		$folder->newFile('128-128-crop.png', 'abcdefg');
 		$this->assertEquals(1, count($this->previewAppData->getDirectoryListing()));
@@ -63,6 +104,7 @@ class MovePreviewJobTest extends TestCase {
 			$this->previewMapper,
 			$this->storageFactory,
 			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
 			Server::get(IAppDataFactory::class)
 		);
 		$this->invokePrivate($job, 'run', [[]]);
@@ -75,12 +117,12 @@ class MovePreviewJobTest extends TestCase {
 	}
 
 	#[TestDox("Test the migration from the 'new' nested hierarchy to the database format")]
-	function testMigrationPath(): void {
-		$folder = $this->previewAppData->newFolder(self::getInternalFolder(5));
+	public function testMigrationPath(): void {
+		$folder = $this->previewAppData->newFolder(self::getInternalFolder((string)5));
 		$folder->newFile('64-64-crop.jpg', 'abcdefg');
 		$folder->newFile('128-128-crop.png', 'abcdefg');
 
-		$folder = $this->previewAppData->getFolder(self::getInternalFolder(5));
+		$folder = $this->previewAppData->getFolder(self::getInternalFolder((string)5));
 		$this->assertEquals(2, count($folder->getDirectoryListing()));
 		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewForFile(5))));
 
@@ -90,10 +132,65 @@ class MovePreviewJobTest extends TestCase {
 			$this->previewMapper,
 			$this->storageFactory,
 			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
 			Server::get(IAppDataFactory::class)
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
 		$this->assertEquals(2, count(iterator_to_array($this->previewMapper->getAvailablePreviewForFile(5))));
+	}
+
+	#[TestDox("Test the migration from the 'new' nested hierarchy to the database format")]
+	public function testMigrationPathWithVersion(): void {
+		$folder = $this->previewAppData->newFolder(self::getInternalFolder((string)5));
+		// No version
+		$folder->newFile('128-128-crop.png', 'abcdefg');
+		$folder->newFile('256-256-max.png', 'abcdefg');
+		$folder->newFile('128-128.png', 'abcdefg');
+
+		// Version 1000
+		$folder->newFile('1000-128-128-crop.png', 'abcdefg');
+		$folder->newFile('1000-256-256-max.png', 'abcdefg');
+		$folder->newFile('1000-128-128.png', 'abcdefg');
+
+		// Version 1001
+		$folder->newFile('1001-128-128-crop.png', 'abcdefg');
+		$folder->newFile('1001-256-256-max.png', 'abcdefg');
+		$folder->newFile('1001-128-128.png', 'abcdefg');
+
+		$folder = $this->previewAppData->getFolder(self::getInternalFolder((string)5));
+		$this->assertEquals(9, count($folder->getDirectoryListing()));
+		$this->assertEquals(0, count(iterator_to_array($this->previewMapper->getAvailablePreviewForFile(5))));
+
+		$job = new MovePreviewJob(
+			Server::get(ITimeFactory::class),
+			$this->appConfig,
+			$this->previewMapper,
+			$this->storageFactory,
+			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
+			Server::get(IAppDataFactory::class)
+		);
+		$this->invokePrivate($job, 'run', [[]]);
+		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
+		$previews = iterator_to_array($this->previewMapper->getAvailablePreviewForFile(5));
+		$this->assertEquals(9, count($previews));
+
+		$nameVersionMapping = [];
+		foreach ($previews as $preview) {
+			$nameVersionMapping[$preview->getName()] = $preview->getVersion();
+		}
+
+		$this->assertEquals([
+			'1000-128-128.png' => 1000,
+			'1000-128-128-crop.png' => 1000,
+			'1000-256-256-max.png' => 1000,
+			'1001-128-128.png' => 1001,
+			'1001-128-128-crop.png' => 1001,
+			'1001-256-256-max.png' => 1001,
+			'128-128.png' => -1,
+			'128-128-crop.png' => -1,
+			'256-256-max.png' => -1,
+		], $nameVersionMapping);
 	}
 }

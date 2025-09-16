@@ -8,8 +8,8 @@ declare(strict_types=1);
  */
 namespace OC\Core\Command\Preview;
 
-use OC\Preview\Storage\Root;
-use OCP\DB\QueryBuilder\IQueryBuilder;
+use OC\Preview\Db\Preview;
+use OC\Preview\PreviewService;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -23,16 +23,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ResetRenderedTexts extends Command {
 	public function __construct(
-		protected IDBConnection $connection,
-		protected IUserManager $userManager,
-		protected IAvatarManager $avatarManager,
-		private Root $previewFolder,
-		private IMimeTypeLoader $mimeTypeLoader,
+		protected readonly IDBConnection $connection,
+		protected readonly IUserManager $userManager,
+		protected readonly IAvatarManager $avatarManager,
+		private readonly PreviewService $previewService,
+		private readonly IMimeTypeLoader $mimeTypeLoader,
 	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('preview:reset-rendered-texts')
 			->setDescription('Deletes all generated avatars and previews of text and md files')
@@ -91,7 +91,7 @@ class ResetRenderedTexts extends Command {
 	private function deletePreviews(OutputInterface $output, bool $dryMode): void {
 		$previewsToDeleteCount = 0;
 
-		foreach ($this->getPreviewsToDelete() as ['name' => $previewFileId, 'path' => $filePath]) {
+		foreach ($this->getPreviewsToDelete() as ['path' => $filePath, 'preview' => $preview]) {
 			$output->writeln('Deleting previews for ' . $filePath, OutputInterface::VERBOSITY_VERBOSE);
 
 			$previewsToDeleteCount++;
@@ -100,63 +100,33 @@ class ResetRenderedTexts extends Command {
 				continue;
 			}
 
-			try {
-				$preview = $this->previewFolder->getFolder((string)$previewFileId);
-				$preview->delete();
-			} catch (NotFoundException $e) {
-				// continue
-			} catch (NotPermittedException $e) {
-				// continue
-			}
+			$this->previewService->deletePreview($preview);
 		}
 
 		$output->writeln('Deleted ' . $previewsToDeleteCount . ' previews');
 	}
 
-	// Copy pasted and adjusted from
-	// "lib/private/Preview/BackgroundCleanupJob.php".
+	/**
+	 * @return \Iterator<array{path: string, preview: Preview}>
+	 */
 	private function getPreviewsToDelete(): \Iterator {
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('path', 'mimetype')
+		$qb->select('fileid', 'path')
 			->from('filecache')
-			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($this->previewFolder->getId())));
-		$cursor = $qb->executeQuery();
-		$data = $cursor->fetch();
-		$cursor->closeCursor();
-
-		if ($data === null) {
-			return [];
-		}
-
-		/*
-		 * This lovely like is the result of the way the new previews are stored
-		 * We take the md5 of the name (fileid) and split the first 7 chars. That way
-		 * there are not a gazillion files in the root of the preview appdata.
-		 */
-		$like = $this->connection->escapeLikeParameter($data['path']) . '/_/_/_/_/_/_/_/%';
-
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('a.name', 'b.path')
-			->from('filecache', 'a')
-			->leftJoin('a', 'filecache', 'b', $qb->expr()->eq(
-				$qb->expr()->castColumn('a.name', IQueryBuilder::PARAM_INT), 'b.fileid'
-			))
 			->where(
-				$qb->expr()->andX(
-					$qb->expr()->like('a.path', $qb->createNamedParameter($like)),
-					$qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory'))),
-					$qb->expr()->orX(
-						$qb->expr()->eq('b.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('text/plain'))),
-						$qb->expr()->eq('b.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('text/markdown'))),
-						$qb->expr()->eq('b.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('text/x-markdown')))
-					)
+				$qb->expr()->orX(
+					$qb->expr()->eq('mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('text/plain'))),
+					$qb->expr()->eq('mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('text/markdown'))),
+					$qb->expr()->eq('mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('text/x-markdown')))
 				)
 			);
 
 		$cursor = $qb->executeQuery();
 
 		while ($row = $cursor->fetch()) {
-			yield $row;
+			foreach ($this->previewService->getAvailablePreviewForFile($row['fileid']) as $preview) {
+				yield ['path' => $row['path'], 'preview' => $preview];
+			}
 		}
 
 		$cursor->closeCursor();

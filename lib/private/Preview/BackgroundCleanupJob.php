@@ -8,8 +8,7 @@ declare(strict_types=1);
  */
 namespace OC\Preview;
 
-use OC\Preview\Db\PreviewMapper;
-use OC\Preview\Storage\StorageFactory;
+use OC\Preview\Db\Preview;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -24,8 +23,7 @@ class BackgroundCleanupJob extends TimedJob {
 	public function __construct(
 		ITimeFactory $timeFactory,
 		readonly private IDBConnection $connection,
-		readonly private PreviewMapper $previewMapper,
-		readonly private StorageFactory $storageFactory,
+		readonly private PreviewService $previewService,
 		readonly private bool $isCLI,
 	) {
 		parent::__construct($timeFactory);
@@ -37,11 +35,9 @@ class BackgroundCleanupJob extends TimedJob {
 	public function run($argument): void {
 		foreach ($this->getDeletedFiles() as $fileId) {
 			$previewIds = [];
-			foreach ($this->previewMapper->getByFileId($fileId) as $preview) {
-				$previewIds[] = $preview->getId();
-				$this->storageFactory->deletePreview($preview);
+			foreach ($this->previewService->getAvailablePreviewForFile($fileId) as $preview) {
+				$this->previewService->deletePreview($preview);
 			}
-			$this->previewMapper->deleteByIds($previewIds);
 		}
 	}
 
@@ -50,13 +46,12 @@ class BackgroundCleanupJob extends TimedJob {
 	 */
 	private function getDeletedFiles(): \Iterator {
 		if ($this->connection->getShardDefinition('filecache')) {
-			$chunks = $this->getAllPreviewIds(1000);
-			foreach ($chunks as $chunk) {
-				foreach ($chunk as $storage => $preview) {
-					yield [$storage => $this->findMissingSources($storage, $preview)];
+			foreach ($this->previewService->getAvailableFileIds() as $availableFileIdGroup) {
+				$fileIds = $this->findMissingSources($availableFileIdGroup['storageId'], $availableFileIdGroup['fileIds']);
+				foreach ($fileIds as $fileId) {
+					yield $fileId;
 				}
 			}
-
 			return;
 		}
 
@@ -89,33 +84,9 @@ class BackgroundCleanupJob extends TimedJob {
 
 		$cursor = $qb->executeQuery();
 		while ($row = $cursor->fetch()) {
-			yield $row['file_id'];
+			yield (int)$row['file_id'];
 		}
 		$cursor->closeCursor();
-	}
-
-	/**
-	 * @return \Iterator<FileId>
-	 */
-	private function getAllPreviewIds(int $chunkSize): \Iterator {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('id', 'file_id', 'storage_id')
-			->from('previews')
-			->where(
-				$qb->expr()->gt('id', $qb->createParameter('min_id')),
-			)
-			->orderBy('id', 'ASC')
-			->setMaxResults($chunkSize);
-
-		$minId = 0;
-		while (true) {
-			$qb->setParameter('min_id', $minId);
-			$cursor = $qb->executeQuery();
-			while ($row = $cursor->fetch()) {
-				yield $row['file_id'];
-			}
-			$cursor->closeCursor();
-		}
 	}
 
 	/**

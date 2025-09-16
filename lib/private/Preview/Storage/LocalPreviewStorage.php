@@ -27,7 +27,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		$this->rootFolder = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
 	}
 
-	public function writePreview(Preview $preview, $stream): false|int {
+	public function writePreview(Preview $preview, mixed $stream): false|int {
 		$previewPath = $this->constructPath($preview);
 		if (!$this->createParentFiles($previewPath)) {
 			return false;
@@ -35,11 +35,11 @@ class LocalPreviewStorage implements IPreviewStorage {
 		return file_put_contents($previewPath, $stream);
 	}
 
-	public function readPreview(Preview $preview) {
+	public function readPreview(Preview $preview): mixed {
 		return @fopen($this->constructPath($preview), 'r');
 	}
 
-	public function deletePreview(Preview $preview) {
+	public function deletePreview(Preview $preview): void {
 		@unlink($this->constructPath($preview));
 	}
 
