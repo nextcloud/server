@@ -19,6 +19,7 @@ return array(
     'OCA\\Settings\\Command\\AdminDelegation\\Add' => $baseDir . '/../lib/Command/AdminDelegation/Add.php',
     'OCA\\Settings\\Command\\AdminDelegation\\Remove' => $baseDir . '/../lib/Command/AdminDelegation/Remove.php',
     'OCA\\Settings\\Command\\AdminDelegation\\Show' => $baseDir . '/../lib/Command/AdminDelegation/Show.php',
+    'OCA\\Settings\\ConfigLexicon' => $baseDir . '/../lib/ConfigLexicon.php',
     'OCA\\Settings\\Controller\\AISettingsController' => $baseDir . '/../lib/Controller/AISettingsController.php',
     'OCA\\Settings\\Controller\\AdminSettingsController' => $baseDir . '/../lib/Controller/AdminSettingsController.php',
     'OCA\\Settings\\Controller\\AppSettingsController' => $baseDir . '/../lib/Controller/AppSettingsController.php',

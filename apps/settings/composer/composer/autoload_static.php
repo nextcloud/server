@@ -34,6 +34,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Command\\AdminDelegation\\Add' => __DIR__ . '/..' . '/../lib/Command/AdminDelegation/Add.php',
         'OCA\\Settings\\Command\\AdminDelegation\\Remove' => __DIR__ . '/..' . '/../lib/Command/AdminDelegation/Remove.php',
         'OCA\\Settings\\Command\\AdminDelegation\\Show' => __DIR__ . '/..' . '/../lib/Command/AdminDelegation/Show.php',
+        'OCA\\Settings\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\Settings\\Controller\\AISettingsController' => __DIR__ . '/..' . '/../lib/Controller/AISettingsController.php',
         'OCA\\Settings\\Controller\\AdminSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AdminSettingsController.php',
         'OCA\\Settings\\Controller\\AppSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AppSettingsController.php',
