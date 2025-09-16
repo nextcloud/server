@@ -41,6 +41,10 @@ class UserMountCache implements IUserMountCache {
 	private CappedMemoryCache $internalPathCache;
 	/** @var CappedMemoryCache<array> */
 	private CappedMemoryCache $cacheInfoCache;
+	/** @var CappedMemoryCache<array<string, ICachedMountInfo|null>|null> */
+	private CappedMemoryCache $usersMountsByPath;
+	/** @var CappedMemoryCache<array<string, ICachedMountInfo|null>|null> */
+	private CappedMemoryCache $childMounts;
 
 	/**
 	 * UserMountCache constructor.
@@ -55,6 +59,8 @@ class UserMountCache implements IUserMountCache {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->internalPathCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
+		$this->usersMountsByPath = new CappedMemoryCache();
+		$this->childMounts = new CappedMemoryCache();
 	}
 
 	public function registerMounts(IUser $user, array $mounts, ?array $mountProviderClasses = null) {
@@ -234,6 +240,93 @@ class UserMountCache implements IUserMountCache {
 				$row['path'] ?? '',
 			);
 		}
+	}
+
+
+	/**
+	 * Given a userId and a path, returns the mount information of the best
+	 * matching path belonging to the user with the specified userId.
+	 *
+	 * @param string $userId
+	 * @param string $path
+	 * @return ICachedMountInfo|null
+	 */
+	private function getLongestMatchingMount(string $userId, string $path):
+	?ICachedMountInfo {
+		$subPaths = $this->splitInSubPaths($path);
+		$cachedMountInfos = $this->getCachedMountsByPaths($userId, $subPaths);
+		$missingMountPaths = array_diff($subPaths, array_keys($cachedMountInfos));
+
+		if (empty($missingMountPaths)) {
+			/** @var string[] $cachedMountPoints */
+			$cachedMountPoints = array_filter(
+				array_map(
+					fn (string $path,
+					) => $cachedMountInfos[$path]?->getMountPoint(),
+					$subPaths
+				)
+			);
+
+			// sort by length desc
+			usort($cachedMountPoints, fn (string $a, string $b) => strlen($b) - strlen($a));
+
+			$longestPath = array_shift($cachedMountPoints);
+			return $cachedMountInfos[$longestPath];
+		}
+
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select(
+			'storage_id',
+			'root_id',
+			'user_id',
+			'mount_point',
+			'mount_id',
+			'mount_provider_class'
+		)->from('mounts', 'm')
+			->where(
+				$builder->expr()->eq(
+					'user_id',
+					$builder->createNamedParameter($userId
+					),
+				)
+			)->andWhere(
+				$builder->expr()->in(
+					'mount_point',
+					$builder->createNamedParameter(
+						$missingMountPaths,
+						IQueryBuilder::PARAM_STR_ARRAY
+					)
+				)
+			)->orderBy($builder->func()->charLength('mount_point'), 'DESC');
+
+		$result = $query->executeQuery();
+		$mountPointRows = $result->fetchAll();
+		$result->closeCursor();
+
+		if (empty($mountPointRows)) {
+			return null;
+		}
+
+		$this->usersMountsByPath[$userId] ??= [];
+		$usersMountsByPath = &$this->usersMountsByPath[$userId];
+		$firstMount = null;
+		foreach ($mountPointRows as $mountPointRow) {
+			$mount = $this->dbRowToMountInfo(
+				$mountPointRow,
+				[$this, 'getInternalPathForMountInfo']
+			);
+			$firstMount ??= $mount;
+			$usersMountsByPath[$mount->getMountPoint()] = $mount;
+		}
+
+		// cache the info that the split paths have no mount-point associated
+		foreach ($subPaths as $path) {
+			if (!array_key_exists($path, $usersMountsByPath)) {
+				$usersMountsByPath[$path] = null;
+			}
+		}
+
+		return $firstMount;
 	}
 
 	/**
@@ -483,6 +576,116 @@ class UserMountCache implements IUserMountCache {
 	public function clear(): void {
 		$this->cacheInfoCache = new CappedMemoryCache();
 		$this->mountsForUsers = new CappedMemoryCache();
+	}
+
+	/**
+	 * Splits $path in an array of subpaths with a trailing '/'.
+	 *
+	 * @param string $path
+	 * @return array
+	 */
+	private function splitInSubPaths(string $path): array {
+		$subPaths = [];
+		$current = $path;
+		while (true) {
+			// paths always have a trailing slash in mount-points stored in the
+			// oc_mounts table
+			$subPaths[] = rtrim($current, '/') . '/';
+			$current = dirname($current);
+			if ($current === '/' || $current === '.') {
+				break;
+			}
+
+		}
+		return $subPaths;
+	}
+
+	/**
+	 * Returns an array of ICachedMountInfo, keyed by path.
+	 *
+	 * Note that null values are also possible, signalling that the path is not
+	 * associated with a mount-point.
+	 *
+	 * @param string[] $subPaths
+	 * @return array<string, ICachedMountInfo|null>
+	 */
+	public function getCachedMountsByPaths(string $userId, array $subPaths):
+	array {
+		$cachedUserPaths = $this->usersMountsByPath[$userId] ?? [];
+
+		return array_reduce(
+			$subPaths,
+			function ($carry, $path) use ($cachedUserPaths) {
+				$hasCache = array_key_exists($path, $cachedUserPaths);
+				if ($hasCache) {
+					$carry[$path] = $cachedUserPaths[$path];
+				}
+				return $carry;
+			},
+			[]
+		);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getMountsForPath(IUser $user, string $path, bool $includeChildMounts): array {
+		$mount = $this->getLongestMatchingMount($user->getUID(), $path);
+
+		if ($mount === null) {
+			throw new NotFoundException('No mount for path ' . $path);
+		}
+
+		$mounts = [$mount->getMountPoint() => $mount];
+
+		if ($includeChildMounts) {
+			$mounts = array_merge($mounts, $this->getChildMounts($path));
+		}
+
+		return $mounts;
+	}
+
+	/**
+	 * Gets the child-mounts for the provided path.
+	 *
+	 * @param string $path
+	 * @return array
+	 * @throws \OCP\DB\Exception
+	 */
+	private function getChildMounts(string $path): array {
+		$path = rtrim($path, '/') . '/';
+		$cachedMounts = $this->childMounts[$path];
+		if ($cachedMounts !== null) {
+			return $cachedMounts;
+		}
+
+		// todo: add a column in the oc_mounts to fetch direct children of the
+		//		 mount.
+
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'mount_provider_class')
+			->from('mounts', 'm')
+			->where($builder->expr()->like('mount_point',
+				$builder->createNamedParameter($path . '%'))
+			)->andWhere($builder->expr()->neq('mount_point',
+				$builder->createNamedParameter($path)));
+		// todo: do we need to add WHERE mount_point IS NOT NULL?
+
+		$result = $query->executeQuery();
+
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		$childMounts = array_filter(
+			array_map(
+				[$this, 'dbRowToMountInfo'],
+				$rows
+			)
+		);
+
+		$this->childMounts[$path] = $childMounts;
+
+		return $childMounts;
 	}
 
 	public function getMountForPath(IUser $user, string $path): ICachedMountInfo {
