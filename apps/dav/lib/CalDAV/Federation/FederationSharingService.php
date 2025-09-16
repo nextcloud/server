@@ -46,10 +46,10 @@ class FederationSharingService {
 	 */
 	private function decodeRemoteUserPrincipal(string $principal): ?string {
 		// Expected format: principals/remote-users/abcdef123
-		[$prefix, $collection, $encodedId] = explode('/', $principal);
-		if ($prefix !== 'principals' || $collection !== 'remote-users') {
+		if (!str_starts_with($principal, 'principals/remote-users/')) {
 			return null;
 		}
+		$encodedId = substr($principal, strlen('principals/remote-users/'));
 
 		$decodedId = base64_decode($encodedId);
 		if (!is_string($decodedId)) {
