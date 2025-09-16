@@ -174,14 +174,14 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #v4.1.7
+        uses: actions/checkout@v5
         with:
           submodules: true
           fetch-depth: '1'
 
       - name: Set up node with version from package.json's engines
         if: matrix.app.has_npm
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@v5
         with:
           node-version-file: "package.json"
           cache: 'npm'
@@ -230,7 +230,7 @@ jobs:
     name: build-artifact
     steps:
       - name: Checkout server
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #v4.1.7
+        uses: actions/checkout@v5
         with:
           submodules: true
           fetch-depth: '1'
@@ -286,7 +286,7 @@ jobs:
           done
 
       - name: Set up node with version from package.json's engines
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@v5
         with:
           node-version-file: "package.json"
           cache: 'npm'
