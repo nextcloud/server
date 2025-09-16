@@ -15,7 +15,6 @@ use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
-use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 
@@ -26,7 +25,7 @@ use OCP\IConfig;
 class ObjectStorePreviewStorage implements IPreviewStorage {
 
 	/**
-	 * @var array<string, array<int, ObjectStoreDefinition>>
+	 * @var array<string, array<string, ObjectStoreDefinition>>
 	 */
 	private array $objectStoreCache = [];
 
@@ -40,7 +39,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		$this->isMultibucketPreviewDistributionEnabled = $config->getSystemValueBool('objectstore.multibucket.preview-distribution');
 	}
 
-	public function writePreview(Preview $preview, $stream): false|int {
+	public function writePreview(Preview $preview, mixed $stream): false|int {
 		if (!is_resource($stream)) {
 			$fh = fopen('php://temp', 'w+');
 			fwrite($fh, $stream);
@@ -64,7 +63,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		return $size;
 	}
 
-	public function readPreview(Preview $preview) {
+	public function readPreview(Preview $preview): mixed {
 		[
 			'objectPrefix' => $objectPrefix,
 			'store' => $store,
@@ -72,12 +71,12 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		return $store->readObject($this->constructUrn($objectPrefix, $preview->getId()));
 	}
 
-	public function deletePreview(Preview $preview) {
+	public function deletePreview(Preview $preview): void {
 		[
 			'objectPrefix' => $objectPrefix,
 			'store' => $store,
 		] = $this->getObjectStoreForPreview($preview);
-		return $store->deleteObject($this->constructUrn($objectPrefix, $preview->getId()));
+		$store->deleteObject($this->constructUrn($objectPrefix, $preview->getId()));
 	}
 
 	public function migratePreview(Preview $preview, SimpleFile $file): void {

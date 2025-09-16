@@ -15,64 +15,63 @@ use OCP\DB\Types;
 use OCP\IPreview;
 
 /**
- * @method \int getFileId()
+ * Preview entity mapped to the oc_previews and oc_preview_locations table.
+ *
+ * @method int getFileId() Get the file id of the original file.
  * @method void setFileId(int $fileId)
- * @method \int getOldFileId() // Old location in the file-cache table, for legacy compatibility
- * @method void setOldFileId(int $fileId)
- * @method \int getLocationId()
+ * @method int getStorageId() Get the storage id of the original file.
+ * @method void setStorageId(int $fileId)
+ * @method int getOldFileId() Get the old location in the file-cache table, for legacy compatibility.
+ * @method void setOldFileId(int $oldFileId)
+ * @method int getLocationId() Get the location id in the preview_locations table. Only set when using an object store as primary storage.
  * @method void setLocationId(int $locationId)
- * @method \string getBucketName()
- * @method \string getObjectStoreName()
- * @method \int getWidth()
+ * @method string getBucketName() Get the bucket name where the preview is stored. This is stored in the preview_locations table.
+ * @method string getObjectStoreName() Get the object store name where the preview is stored. This is stored in the preview_locations table.
+ * @method int getWidth() Get the width of the preview.
  * @method void setWidth(int $width)
- * @method \int getHeight()
+ * @method int getHeight() Get the height of the preview.
  * @method void setHeight(int $height)
- * @method \int getMode()
- * @method void setMode(int $mode)
- * @method \bool getCrop()
- * @method void setCrop(bool $crop)
- * @method void setMimetype(int $mimetype)
- * @method IPreview::MIMETYPE_* getMimetype()
- * @method \int getMtime()
+ * @method bool isCropped() Get whether the preview is cropped or not.
+ * @method void setCropped(bool $cropped)
+ * @method void setMimetype(int $mimetype) Set the mimetype of the preview.
+ * @method int getMimetype() Get the mimetype of the preview.
+ * @method int getMtime() Get the modification time of the preview.
  * @method void setMtime(int $mtime)
- * @method \int getSize()
+ * @method int getSize() Get the size of the preview.
  * @method void setSize(int $size)
- * @method \bool getIsMax()
- * @method void setIsMax(bool $max)
- * @method \string getEtag()
+ * @method bool isMax() Get whether the preview is the biggest one which is then used to generate the smaller previews.
+ * @method void setMax(bool $max)
+ * @method string getEtag() Get the etag of the preview.
  * @method void setEtag(string $etag)
- * @method ?\int getVersion()
+ * @method int|null getVersion() Get the version for files_versions_s3
  * @method void setVersion(?int $version)
+ * @method bool|null getIs() Get the version for files_versions_s3
+ * @method bool isEncrypted() Get whether the preview is encrypted. At the moment every preview is unencrypted.
+ * @method void setEncrypted(bool $encrypted)
+ *
+ * @see PreviewMapper
  */
 class Preview extends Entity {
 	protected ?int $fileId = null;
-
 	protected ?int $oldFileId = null;
-
+	protected ?int $storageId = null;
 	protected ?int $locationId = null;
 	protected ?string $bucketName = null;
 	protected ?string $objectStoreName = null;
-
 	protected ?int $width = null;
-
 	protected ?int $height = null;
-
 	protected ?int $mimetype = null;
-
 	protected ?int $mtime = null;
-
 	protected ?int $size = null;
-
-	protected ?bool $isMax = null;
-
-	protected ?bool $crop = null;
-
+	protected ?bool $max = null;
+	protected ?bool $cropped = null;
 	protected ?string $etag = null;
-
 	protected ?int $version = null;
+	protected ?bool $encrypted = null;
 
 	public function __construct() {
 		$this->addType('fileId', Types::BIGINT);
+		$this->addType('storageId', Types::BIGINT);
 		$this->addType('oldFileId', Types::BIGINT);
 		$this->addType('locationId', Types::BIGINT);
 		$this->addType('width', Types::INTEGER);
@@ -80,18 +79,19 @@ class Preview extends Entity {
 		$this->addType('mimetype', Types::INTEGER);
 		$this->addType('mtime', Types::INTEGER);
 		$this->addType('size', Types::INTEGER);
-		$this->addType('isMax', Types::BOOLEAN);
-		$this->addType('crop', Types::BOOLEAN);
+		$this->addType('max', Types::BOOLEAN);
+		$this->addType('cropped', Types::BOOLEAN);
+		$this->addType('encrypted', Types::BOOLEAN);
 		$this->addType('etag', Types::STRING);
 		$this->addType('version', Types::BIGINT);
 	}
 
 	public function getName(): string {
 		$path = ($this->getVersion() > -1 ? $this->getVersion() . '-' : '') . $this->getWidth() . '-' . $this->getHeight();
-		if ($this->getCrop()) {
+		if ($this->isCropped()) {
 			$path .= '-crop';
 		}
-		if ($this->getIsMax()) {
+		if ($this->isMax()) {
 			$path .= '-max';
 		}
 

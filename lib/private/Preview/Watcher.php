@@ -41,11 +41,12 @@ class Watcher {
 			return;
 		}
 
-		if (is_null($node->getId())) {
+		$nodeId = $node->getId();
+		if (is_null($nodeId)) {
 			return;
 		}
 
-		[$node->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$node->getId()]);
+		[$node->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$nodeId]);
 		foreach ($previews as $preview) {
 			$this->storageFactory->deletePreview($preview);
 		}

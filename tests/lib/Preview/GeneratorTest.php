@@ -16,8 +16,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
@@ -84,19 +82,21 @@ class GeneratorTest extends TestCase {
 		$maxPreview = new Preview();
 		$maxPreview->setWidth(1000);
 		$maxPreview->setHeight(1000);
-		$maxPreview->setIsMax(true);
+		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
 		$maxPreview->setVersion(-1);
-		$maxPreview->setCrop(false);
+		$maxPreview->setCropped(false);
+		$maxPreview->setStorageId(1);
 		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
 
 		$previewFile = new Preview();
 		$previewFile->setWidth(256);
 		$previewFile->setHeight(256);
-		$previewFile->setIsMax(false);
+		$previewFile->setMax(false);
 		$previewFile->setSize(1000);
 		$previewFile->setVersion(-1);
-		$previewFile->setCrop(false);
+		$previewFile->setCropped(false);
+		$previewFile->setStorageId(1);
 		$previewFile->setMimetype(IPreview::MIMETYPE_PNG);
 
 		$this->previewMapper->method('getAvailablePreviews')
@@ -190,7 +190,7 @@ class GeneratorTest extends TestCase {
 		$maxPreview = new Preview();
 		$maxPreview->setWidth(2048);
 		$maxPreview->setHeight(2048);
-		$maxPreview->setIsMax(true);
+		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
 		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
 
@@ -210,7 +210,7 @@ class GeneratorTest extends TestCase {
 						$this->assertSame('my resized data', $data);
 						return 1000;
 				}
-				$this->fail("file name is wrong:". $preview->getName());
+				$this->fail('file name is wrong:' . $preview->getName());
 			});
 
 		$image = $this->getMockImage(2048, 2048, 'my resized data');
@@ -238,7 +238,7 @@ class GeneratorTest extends TestCase {
 		$maxPreview = new Preview();
 		$maxPreview->setWidth(2048);
 		$maxPreview->setHeight(2048);
-		$maxPreview->setIsMax(true);
+		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
 		$maxPreview->setVersion(-1);
 		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
@@ -262,7 +262,7 @@ class GeneratorTest extends TestCase {
 		$maxPreview = new Preview();
 		$maxPreview->setWidth(2048);
 		$maxPreview->setHeight(2048);
-		$maxPreview->setIsMax(true);
+		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
 		$maxPreview->setVersion(-1);
 		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
@@ -270,9 +270,9 @@ class GeneratorTest extends TestCase {
 		$previewFile = new Preview();
 		$previewFile->setWidth(1024);
 		$previewFile->setHeight(512);
-		$previewFile->setIsMax(false);
+		$previewFile->setMax(false);
 		$previewFile->setSize(1000);
-		$previewFile->setCrop(true);
+		$previewFile->setCropped(true);
 		$previewFile->setVersion(-1);
 		$previewFile->setMimetype(IPreview::MIMETYPE_PNG);
 
@@ -380,7 +380,7 @@ class GeneratorTest extends TestCase {
 		$maxPreview = new Preview();
 		$maxPreview->setWidth($maxX);
 		$maxPreview->setHeight($maxY);
-		$maxPreview->setIsMax(true);
+		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
 		$maxPreview->setVersion(-1);
 		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
