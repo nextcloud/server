@@ -19,6 +19,7 @@ use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use Test\Traits\UserTrait;
 
