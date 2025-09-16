@@ -40,7 +40,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 	}
 
 	public function getMediaQuery(): string {
-		return '(prefers-color-scheme: light)';
+		return 'all';
 	}
 
 	public function getCustomCss(): string {
@@ -284,7 +284,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		// https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
 		return [[
 			'name' => 'color-scheme',
-			'content' => 'only light', // Remove only when dark mode is supported
+			'content' => 'light dark', // Remove only when dark mode is supported
 		]];
 	}
 }
