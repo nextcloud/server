@@ -71,8 +71,13 @@ class ServerFactory {
 		Plugin $authPlugin,
 		callable $viewCallBack,
 	): Server {
+		// /public.php/webdav/ shows the files in the share in the root itself
+		// and not under /public.php/webdav/files/{token} so we should keep
+		// compatibility for that.
+		$needsSharesInRoot = $baseUri === '/public.php/webdav/';
+		$useCollection = $isPublicShare && !$needsSharesInRoot;
 		$debugEnabled = $this->config->getSystemValue('debug', false);
-		[$tree, $rootCollection] = $this->getTree($isPublicShare);
+		[$tree, $rootCollection] = $this->getTree($useCollection);
 		$server = new Server($tree);
 		// Set URL explicitly due to reverse-proxy situations
 		$server->httpRequest->setUrl($requestUri);
@@ -121,8 +126,8 @@ class ServerFactory {
 		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
-		$server->on('beforeMethod:*', function () use ($server, $tree,
-			$viewCallBack, $rootCollection, $debugEnabled): void {
+		$server->on('beforeMethod:*', function () use ($server,
+			$tree, $viewCallBack, $isPublicShare, $rootCollection, $debugEnabled): void {
 			// ensure the skeleton is copied
 			$userFolder = \OC::$server->getUserFolder();
 
@@ -157,7 +162,7 @@ class ServerFactory {
 					$this->userSession,
 					\OCP\Server::get(IFilenameValidator::class),
 					\OCP\Server::get(IAccountManager::class),
-					false,
+					$isPublicShare,
 					!$debugEnabled
 				)
 			);
