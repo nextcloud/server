@@ -21,7 +21,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\MapperEvent;
 use OCP\WorkflowEngine\EntityContext\IContextPortation;
@@ -34,16 +33,10 @@ use OCP\WorkflowEngine\IRuleMatcher;
 
 class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	private const EVENT_NAMESPACE = '\OCP\Files::';
-	/** @var string */
-	protected $eventName;
-	/** @var Event */
-	protected $event;
-	/** @var ?Node */
-	private $node;
-	/** @var ?IUser */
-	private $actingUser = null;
-	/** @var UserMountCache */
-	private $userMountCache;
+	protected ?string $eventName = null;
+	protected ?Event $event = null;
+	private ?Node $node = null;
+	private ?IUser $actingUser = null;
 
 	public function __construct(
 		protected IL10N $l10n,
@@ -52,10 +45,9 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		private IUserSession $userSession,
 		private ISystemTagManager $tagManager,
 		private IUserManager $userManager,
-		UserMountCache $userMountCache,
+		private UserMountCache $userMountCache,
 		private IMountManager $mountManager,
 	) {
-		$this->userMountCache = $userMountCache;
 	}
 
 	public function getName(): string {
@@ -185,7 +177,6 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 					$tagIDs = $this->event->getTags();
 					$tagObjects = $this->tagManager->getTagsByIds($tagIDs);
 					foreach ($tagObjects as $systemTag) {
-						/** @var ISystemTag $systemTag */
 						if ($systemTag->isUserVisible()) {
 							$tagNames[] = $systemTag->getName();
 						}
@@ -198,15 +189,15 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 				}
 				array_push($options, $tagString, $filename);
 				return $this->l10n->t('%s assigned %s to %s', $options);
+			default:
+				return '';
 		}
 	}
 
 	public function getUrl(): string {
 		try {
 			return $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $this->getNode()->getId()]);
-		} catch (InvalidPathException $e) {
-			return '';
-		} catch (NotFoundException $e) {
+		} catch (InvalidPathException|NotFoundException) {
 			return '';
 		}
 	}

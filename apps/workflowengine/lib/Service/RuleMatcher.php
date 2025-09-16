@@ -11,10 +11,8 @@ namespace OCA\WorkflowEngine\Service;
 use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
-use OCP\AppFramework\QueryException;
 use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IEntity;
@@ -23,27 +21,27 @@ use OCP\WorkflowEngine\IFileCheck;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use RuntimeException;
 
+/**
+ * @psalm-import-type Check from Manager
+ */
 class RuleMatcher implements IRuleMatcher {
 
-	/** @var array */
-	protected $contexts;
-	/** @var array */
-	protected $fileInfo = [];
-	/** @var IOperation */
-	protected $operation;
-	/** @var IEntity */
-	protected $entity;
-	/** @var string */
-	protected $eventName;
+	protected array $contexts;
+	protected array $fileInfo = [];
+	protected ?IOperation $operation = null;
+	protected ?IEntity $entity = null;
+	protected ?string $eventName = null;
 
 	public function __construct(
-		protected IUserSession $session,
-		protected IServerContainer $container,
-		protected IL10N $l,
-		protected Manager $manager,
-		protected Logger $logger,
+		protected readonly IUserSession $session,
+		protected readonly ContainerInterface $container,
+		protected readonly IL10N $l,
+		protected readonly Manager $manager,
+		protected readonly Logger $logger,
 	) {
 	}
 
@@ -181,13 +179,13 @@ class RuleMatcher implements IRuleMatcher {
 	}
 
 	/**
-	 * @param array $check
+	 * @param Check $check
 	 * @return bool
 	 */
-	public function check(array $check) {
+	public function check(array $check): bool {
 		try {
-			$checkInstance = $this->container->query($check['class']);
-		} catch (QueryException $e) {
+			$checkInstance = $this->container->get($check['class']);
+		} catch (ContainerExceptionInterface $e) {
 			// Check does not exist, assume it matches.
 			return true;
 		}

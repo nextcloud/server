@@ -14,7 +14,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
@@ -27,21 +26,16 @@ use OCP\WorkflowEngine\ISpecificOperation;
 
 abstract class ASettings implements ISettings {
 	public function __construct(
-		private string $appName,
-		private IL10N $l10n,
-		private IEventDispatcher $eventDispatcher,
-		protected Manager $manager,
-		private IInitialState $initialStateService,
-		private IConfig $config,
-		private IURLGenerator $urlGenerator,
+		private readonly IEventDispatcher $eventDispatcher,
+		protected readonly Manager $manager,
+		private readonly IInitialState $initialStateService,
+		private readonly IConfig $config,
+		private readonly IURLGenerator $urlGenerator,
 	) {
 	}
 
 	abstract public function getScope(): int;
 
-	/**
-	 * @return TemplateResponse
-	 */
 	public function getForm(): TemplateResponse {
 		// @deprecated in 20.0.0: retire this one in favor of the typed event
 		$this->eventDispatcher->dispatch(
@@ -87,7 +81,7 @@ abstract class ASettings implements ISettings {
 	}
 
 	/**
-	 * @return string the section ID, e.g. 'sharing'
+	 * @return string|null the section ID, e.g. 'sharing'
 	 */
 	public function getSection(): ?string {
 		return 'workflow';
@@ -104,9 +98,13 @@ abstract class ASettings implements ISettings {
 		return 0;
 	}
 
-	private function entitiesToArray(array $entities) {
-		return array_map(function (IEntity $entity) {
-			$events = array_map(function (IEntityEvent $entityEvent) {
+	/**
+	 * @param IEntity[] $entities
+	 * @return array<array-key, array{id: class-string<IEntity>, icon: string, name: string, events: array<array-key, array{eventName: string, displayName: string}>}>
+	 */
+	private function entitiesToArray(array $entities): array {
+		return array_map(function (IEntity $entity): array {
+			$events = array_map(function (IEntityEvent $entityEvent): array {
 				return [
 					'eventName' => $entityEvent->getEventName(),
 					'displayName' => $entityEvent->getDisplayName()
@@ -122,10 +120,8 @@ abstract class ASettings implements ISettings {
 		}, $entities);
 	}
 
-	private function operatorsToArray(array $operators) {
-		$operators = array_filter($operators, function (IOperation $operator) {
-			return $operator->isAvailableForScope($this->getScope());
-		});
+	private function operatorsToArray(array $operators): array {
+		$operators = array_filter($operators, fn (IOperation $operator): bool => $operator->isAvailableForScope($this->getScope()));
 
 		return array_map(function (IOperation $operator) {
 			return [
@@ -140,10 +136,8 @@ abstract class ASettings implements ISettings {
 		}, $operators);
 	}
 
-	private function checksToArray(array $checks) {
-		$checks = array_filter($checks, function (ICheck $check) {
-			return $check->isAvailableForScope($this->getScope());
-		});
+	private function checksToArray(array $checks): array {
+		$checks = array_filter($checks, fn (ICheck $check): bool => $check->isAvailableForScope($this->getScope()));
 
 		return array_map(function (ICheck $check) {
 			return [
