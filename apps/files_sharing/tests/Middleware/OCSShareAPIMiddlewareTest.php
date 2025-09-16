@@ -14,6 +14,7 @@ use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IL10N;
 use OCP\Share\IManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -71,7 +72,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataBeforeController')]
+	#[DataProvider('dataBeforeController')]
 	public function testBeforeController(string $controllerClass, bool $enabled, bool $exception): void {
 		$controller = $this->createMock($controllerClass);
 		$this->shareManager->method('shareApiEnabled')->willReturn($enabled);
@@ -84,7 +85,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 		}
 	}
 
-	public function dataAfterController() {
+	public static function dataAfterController(): array {
 		return [
 			[
 				Controller::class,
@@ -98,7 +99,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataAfterController')]
+	#[DataProvider('dataAfterController')]
 	public function testAfterController(string $controllerClass): void {
 		$controller = $this->createMock($controllerClass);
 		if ($controller instanceof ShareAPIController) {
