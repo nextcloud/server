@@ -1,4 +1,4 @@
-:root {
+& {
 	/* Text colors */
 	--ion-text: light-dark(var(--ion-color-secondary), var(--ion-color-cool-grey-c1));
 	--ion-text-bright: var(--ion-color-cool-grey-c7);

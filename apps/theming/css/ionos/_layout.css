@@ -1,37 +1,47 @@
 #header {
 	box-shadow: var(--ion-shadow-header);
+	background-color: var(--ion-color-main-background);
+
 	#nextcloud {
 		padding-inline-start: 220px;
+
 		.logo {
 			width: 200px;
 			filter: none;
+
+			@media (prefers-color-scheme: dark) {
+				filter: invert(100%) saturate(1%) brightness(99%) contrast(200%);
+			}
 		}
 	}
 
-	.logo {
-		filter: none;
-	}
-
 	.app-menu-entry--active::before {
-		background-color: var(--ion-color-secondary);
+		background-color: light-dark(var(--ion-color-secondary), var(--ion-color-cool-grey-c1));
 	}
 
 	.app-menu-entry__label {
-		color: var(--ion-color-secondary);
+		color: var(--ion-text);
 	}
 
-	.app-menu-entry__icon .app-menu-icon__icon{
+	.app-menu-entry__icon .app-menu-icon__icon {
 		color: var(--ion-color-secondary);
 		fill: var(--ion-color-secondary);
-		filter: var(--background-invert-if-bright);
+		filter: none;
+		@media (prefers-color-scheme: light) {
+			filter: var(--background-invert-if-bright);
+		}
+
 	}
+}
+
+.header-end svg {
+	fill: var(--ion-text);
 }
 
 
 
 #content-vue {
-	margin: 0;
-	margin-top: 50px;
+	margin: 50px 0 0 0;
 	width: 100%;
 	height: 100%;
 	border-radius: 0;

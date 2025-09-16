@@ -20,6 +20,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		'variables.css',
 		'sidebar.css',
 		'files.css',
+		'settings.css',
 		'_layout.css'
 	];
 
@@ -117,7 +118,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		$originalFontFace = $defaultVariables['--font-face'];
 
 		// IONOS COLORS
-		$ionColorMainBackground = '#fff';
+		$ionColorMainBackground = 'light-dark(#fff, var(--ion-color-blue-b9))';
 		$ionColorPrimary = '#003d8f';
 		$ionColorBlueB1 = '#dbedf8';
 		$ionColorBlueB2 = '#95caeb';
@@ -136,7 +137,7 @@ class IonosTheme extends DefaultTheme implements ITheme {
 		$ionColorCoolGreyC6 = '#465A75';
 		$ionColorCoolGreyC7 = '#2E4360';
 		$ionColorCoolGreyC8 = '#1D2D42';
-		$ionColorTypoMild = $ionColorCoolGreyC7;
+		$ionColorTypoMild = 'light-dark(var(--ion-color-cool-grey-c7), var(--ion-color-cool-grey-c1))';
 		$ionColorLightGrey = '#d7d7d7';
 		$ionColorGreenG3 = '#12cf76';
 		$ionColorRoseR3 = '#ff6159';
@@ -176,28 +177,13 @@ class IonosTheme extends DefaultTheme implements ITheme {
 			'--ion-color-amber-y4' => $ionColorAmberY4,
 			'--ion-color-amber-y5' => $ionColorAmberY5,
 			'--ion-color-amber-y6' => $ionColorAmberY6,
-
-			'--ion-button-sidebar-background' => 'transparent',
-			'--ion-button-sidebar-background-hover' => 'var(--ion-color-cool-grey-c2)',
-			'--ion-button-sidebar-background-active' => 'var(--ion-color-cool-grey-c3)',
-			'--ion-button-sidebar-text' => 'var(--ion-color-secondary)',
-
-			'--ion-button-sidebar--icon-only-background' => 'var(--ion-color-cool-grey-c2)',
-			'--ion-button-sidebar--icon-only-background-hover' => 'var(--ion-color-cool-grey-c3)',
-			'--ion-button-sidebar--icon-only-text' => 'var(--ion-color-secondary)',
-
-			'--ion-dropdown-classic' => 'var(--ion-color-cool-grey-c3)',
-
-			'--ion-surface-primary' => 'var(--ion-color-main-background)',
-			'--ion-surface-secondary' => 'var(--ion-color-cool-grey-c1)',
-			'--ion-surface-dialog' => '#fff',
 		];
 
 
-		$colorPrimary = $ionColorBlueB4;
+		$colorPrimary = $ionColorPrimary;
 		$this->primaryColor = $colorPrimary;
 
-		$colorMainText = $ionColorTypoMild;
+		$colorMainText = '#ff8700';
 		$colorMainBackground = '#ffffff';
 		$colorMainBackgroundRGB = join(',', $this->util->hexToRGB($colorMainBackground));
 		$colorBoxShadow = $this->util->darken($colorMainBackground, 70);
