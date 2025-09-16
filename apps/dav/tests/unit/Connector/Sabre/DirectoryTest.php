@@ -21,6 +21,7 @@ use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\Traits\UserTrait;
@@ -63,12 +64,16 @@ class DirectoryTest extends \Test\TestCase {
 
 	private View&MockObject $view;
 	private FileInfo&MockObject $info;
+	private IStorage&MockObject $storage;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->view = $this->createMock(View::class);
 		$this->info = $this->createMock(FileInfo::class);
+		$this->storage = $this->createMock(IStorage::class);
+		$this->info->method('getStorage')
+			->willReturn($this->storage);
 		$this->info->method('isReadable')
 			->willReturn(true);
 		$this->info->method('getType')
