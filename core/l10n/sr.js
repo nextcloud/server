@@ -245,6 +245,7 @@ OC.L10N.register(
     "Last 30 days" : "Последњих 30 дана",
     "This year" : "Ове године",
     "Last year" : "Прошле године",
+    "Between {startDate} and {endDate}" : "У периоду од {startDate} до {endDate}",
     "Unified search" : "Обједињена претрага",
     "Search apps, files, tags, messages" : "Претражи апликације, фајлове, ознаке, поруке",
     "Places" : "Места",
