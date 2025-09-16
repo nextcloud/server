@@ -29,7 +29,7 @@ class PreviewMapperTest extends TestCase {
 		$this->connection = Server::get(IDBConnection::class);
 	}
 
-	public function testGetAvailablePreviews() {
+	public function testGetAvailablePreviews(): void {
 		// Empty
 		$this->assertEquals([], $this->previewMapper->getAvailablePreviews([]));
 
@@ -50,7 +50,8 @@ class PreviewMapperTest extends TestCase {
 		$this->assertEquals('default', $previews[43][0]->getObjectStoreName());
 	}
 
-	private function createPreviewForFileId(int $fileId, ?int $bucket = null) {
+	private function createPreviewForFileId(int $fileId, ?int $bucket = null): void {
+		$locationId = null;
 		if ($bucket) {
 			$qb = $this->connection->getQueryBuilder();
 			$qb->insert('preview_locations')
@@ -58,20 +59,22 @@ class PreviewMapperTest extends TestCase {
 					'bucket_name' => $qb->createNamedParameter('preview-' . $bucket),
 					'object_store_name' => $qb->createNamedParameter('default'),
 				]);
-			$locationId = $qb->executeStatement();
+			$qb->executeStatement();
+			$locationId = $qb->getLastInsertId();
 		}
 		$preview = new Preview();
 		$preview->setFileId($fileId);
-		$preview->setCrop(true);
-		$preview->setIsMax(true);
+		$preview->setStorageId(1);
+		$preview->setCropped(true);
+		$preview->setMax(true);
 		$preview->setWidth(100);
 		$preview->setHeight(100);
 		$preview->setSize(100);
 		$preview->setMtime(time());
 		$preview->setMimetype(IPreview::MIMETYPE_PNG);
-		$preview->setEtag("abcdefg");
+		$preview->setEtag('abcdefg');
 
-		if ($locationId) {
+		if ($locationId !== null) {
 			$preview->setLocationId($locationId);
 		}
 		$this->previewMapper->insert($preview);

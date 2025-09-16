@@ -2795,17 +2795,6 @@
       <code><![CDATA[$this->timeFactory->getTime()]]></code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/Command/Preview/Repair.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[section]]></code>
-      <code><![CDATA[section]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
-  <file src="core/Command/Preview/ResetRenderedTexts.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[[]]]></code>
-    </InvalidReturnStatement>
-  </file>
   <file src="core/Command/Security/BruteforceAttempts.php">
     <DeprecatedMethod>
       <code><![CDATA[getAttempts]]></code>

@@ -11,32 +11,32 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'N' =>
+        'N' => 
         array (
             'NCU\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
-        'NCU\\' =>
+        'NCU\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/unstable',
         ),
@@ -1384,7 +1384,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Memcache\\RedisCommand' => __DIR__ . '/../../..' . '/core/Command/Memcache/RedisCommand.php',
         'OC\\Core\\Command\\Preview\\Cleanup' => __DIR__ . '/../../..' . '/core/Command/Preview/Cleanup.php',
         'OC\\Core\\Command\\Preview\\Generate' => __DIR__ . '/../../..' . '/core/Command/Preview/Generate.php',
-        'OC\\Core\\Command\\Preview\\Repair' => __DIR__ . '/../../..' . '/core/Command/Preview/Repair.php',
         'OC\\Core\\Command\\Preview\\ResetRenderedTexts' => __DIR__ . '/../../..' . '/core/Command/Preview/ResetRenderedTexts.php',
         'OC\\Core\\Command\\Router\\ListRoutes' => __DIR__ . '/../../..' . '/core/Command/Router/ListRoutes.php',
         'OC\\Core\\Command\\Router\\MatchRoute' => __DIR__ . '/../../..' . '/core/Command/Router/MatchRoute.php',
@@ -1950,6 +1949,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\PNG' => __DIR__ . '/../../..' . '/lib/private/Preview/PNG.php',
         'OC\\Preview\\Photoshop' => __DIR__ . '/../../..' . '/lib/private/Preview/Photoshop.php',
         'OC\\Preview\\Postscript' => __DIR__ . '/../../..' . '/lib/private/Preview/Postscript.php',
+        'OC\\Preview\\PreviewService' => __DIR__ . '/../../..' . '/lib/private/Preview/PreviewService.php',
         'OC\\Preview\\Provider' => __DIR__ . '/../../..' . '/lib/private/Preview/Provider.php',
         'OC\\Preview\\ProviderV1Adapter' => __DIR__ . '/../../..' . '/lib/private/Preview/ProviderV1Adapter.php',
         'OC\\Preview\\ProviderV2' => __DIR__ . '/../../..' . '/lib/private/Preview/ProviderV2.php',
@@ -1960,7 +1960,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\Storage\\LocalPreviewStorage' => __DIR__ . '/../../..' . '/lib/private/Preview/Storage/LocalPreviewStorage.php',
         'OC\\Preview\\Storage\\ObjectStorePreviewStorage' => __DIR__ . '/../../..' . '/lib/private/Preview/Storage/ObjectStorePreviewStorage.php',
         'OC\\Preview\\Storage\\PreviewFile' => __DIR__ . '/../../..' . '/lib/private/Preview/Storage/PreviewFile.php',
-        'OC\\Preview\\Storage\\Root' => __DIR__ . '/../../..' . '/lib/private/Preview/Storage/Root.php',
         'OC\\Preview\\Storage\\StorageFactory' => __DIR__ . '/../../..' . '/lib/private/Preview/Storage/StorageFactory.php',
         'OC\\Preview\\TGA' => __DIR__ . '/../../..' . '/lib/private/Preview/TGA.php',
         'OC\\Preview\\TIFF' => __DIR__ . '/../../..' . '/lib/private/Preview/TIFF.php',

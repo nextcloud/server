@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Preview\Db;
 
-use OC\Preview\Generator;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
@@ -122,5 +121,22 @@ class PreviewMapper extends QBMapper {
 				])->executeStatement();
 			return $qb->getLastInsertId();
 		}
+	}
+
+	public function deleteAll(): void {
+		$delete = $this->db->getQueryBuilder();
+		$delete->delete($this->getTableName());
+	}
+
+	/**
+	 * @return \Generator<Preview>
+	 */
+	public function getPreviews(int $lastId, int $limit = 1000): \Generator {
+		$qb = $this->db->getQueryBuilder();
+		$this->joinLocation($qb)
+			->where($qb->expr()->gt('p.id', $qb->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)))
+			->setMaxResults($limit);
+		return $this->yieldEntities($qb);
+
 	}
 }
