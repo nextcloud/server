@@ -7,7 +7,7 @@
  */
 namespace OCA\Files_External\Service;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -304,8 +304,11 @@ class DBConfigService {
 				->setValue('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT))
 				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
 				->setValue('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
-				->execute();
-		} catch (UniqueConstraintViolationException $e) {
+				->executeStatement();
+		} catch (Exception $e) {
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_config')
 				->set('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
@@ -327,8 +330,11 @@ class DBConfigService {
 				->setValue('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT))
 				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
 				->setValue('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
-				->execute();
-		} catch (UniqueConstraintViolationException $e) {
+				->executeStatement();
+		} catch (Exception $e) {
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_options')
 				->set('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
@@ -345,9 +351,12 @@ class DBConfigService {
 				->setValue('mount_id', $builder->createNamedParameter($mountId))
 				->setValue('type', $builder->createNamedParameter($type))
 				->setValue('value', $builder->createNamedParameter($value))
-				->execute();
-		} catch (UniqueConstraintViolationException $e) {
+				->executeStatement();
+		} catch (Exception $e) {
 			// applicable exists already
+			if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				throw $e;
+			}
 		}
 	}
 

@@ -116,9 +116,7 @@ class ManagerTest extends TestCase {
 
 	protected function tearDown(): void {
 		// clear the share external table to avoid side effects
-		$query = Server::get(IDBConnection::class)->prepare('DELETE FROM `*PREFIX*share_external`');
-		$result = $query->execute();
-		$result->closeCursor();
+		Server::get(IDBConnection::class)->getQueryBuilder()->delete('share_external')->executeStatement();
 
 		parent::tearDown();
 	}

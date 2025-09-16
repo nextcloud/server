@@ -225,11 +225,6 @@
       <code><![CDATA[registerEventListener]]></code>
     </InvalidArgument>
   </file>
-  <file src="apps/dav/lib/BackgroundJob/CleanupInvitationTokenJob.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/BackgroundJob/EventReminderJob.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
@@ -429,18 +424,6 @@
     </UndefinedPropertyFetch>
   </file>
   <file src="apps/dav/lib/CalDAV/ResourceBooking/AbstractPrincipalBackend.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
     <InvalidNullableReturnType>
       <code><![CDATA[array]]></code>
     </InvalidNullableReturnType>
@@ -880,22 +863,10 @@
       <code><![CDATA[setAppValue]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/dav/lib/Migration/BuildSocialSearchIndex.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[getAppValue]]></code>
-      <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/lib/Migration/ChunkCleanup.php">
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/dav/lib/Migration/RefreshWebcalJobRegistrar.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Migration/RegenerateBirthdayCalendars.php">
@@ -908,22 +879,6 @@
     <DeprecatedMethod>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[setAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/dav/lib/Migration/RemoveDeletedUsersCalendarSubscriptions.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/dav/lib/Migration/Version1008Date20181105104826.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/dav/lib/Migration/Version1008Date20181105110300.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/dav/lib/Migration/Version1025Date20240308063933.php">
@@ -1234,7 +1189,6 @@
   </file>
   <file src="apps/federatedfilesharing/lib/Migration/Version1011Date20201120125158.php">
     <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[getName]]></code>
     </DeprecatedMethod>
   </file>
@@ -1335,14 +1289,6 @@
       <code><![CDATA[\OC_Util::tearDownFS()]]></code>
     </DeprecatedMethod>
   </file>
-  <file src="apps/files/lib/Command/RepairTree.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files/lib/Command/Scan.php">
     <DeprecatedMethod>
       <code><![CDATA[listen]]></code>
@@ -1422,9 +1368,6 @@
       <code><![CDATA[\OC_Util::normalizeUnicode($parent)]]></code>
       <code><![CDATA[\OC_Util::normalizeUnicode($path)]]></code>
     </DeprecatedClass>
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/files_external/lib/Command/Scan.php">
     <DeprecatedMethod>
@@ -1476,13 +1419,6 @@
       <code><![CDATA[login]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/files_external/lib/Migration/Version1015Date20211104103506.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/files_external/lib/MountConfig.php">
     <InternalMethod>
       <code><![CDATA[decrypt]]></code>
@@ -1502,13 +1438,6 @@
       <code><![CDATA[registerAuthMechanisms]]></code>
       <code><![CDATA[registerBackend]]></code>
       <code><![CDATA[registerBackends]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/files_external/lib/Service/DBConfigService.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_external/lib/Service/StoragesService.php">
@@ -1651,7 +1580,6 @@
   </file>
   <file src="apps/files_sharing/lib/Migration/OwncloudGuestShareType.php">
     <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
@@ -1663,14 +1591,11 @@
   </file>
   <file src="apps/files_sharing/lib/Migration/SetPasswordColumn.php">
     <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
   <file src="apps/files_sharing/lib/Migration/Version11300Date20201120141438.php">
     <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[getName]]></code>
     </DeprecatedMethod>
   </file>
@@ -1692,15 +1617,6 @@
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$shareWith]]></code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="apps/files_sharing/lib/ShareBackend/Folder.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[fetchRow]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_sharing/lib/SharedMount.php">
     <InvalidReturnType>
@@ -2096,7 +2012,6 @@
   </file>
   <file src="apps/settings/lib/Settings/Admin/Server.php">
     <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[getAppValue]]></code>
     </DeprecatedMethod>
   </file>
@@ -2388,17 +2303,6 @@
     <InvalidReturnType>
       <code><![CDATA[array{0: int, 1: int, 2: int}]]></code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Db/BackupCodeMapper.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/twofactor_backupcodes/lib/Migration/Version1002Date20170607113030.php">
-    <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
-      <code><![CDATA[execute]]></code>
-    </DeprecatedMethod>
   </file>
   <file src="apps/twofactor_backupcodes/lib/Migration/Version1002Date20170919123342.php">
     <DeprecatedMethod>
@@ -2770,7 +2674,6 @@
       <code><![CDATA[protected]]></code>
     </DeprecatedInterface>
     <DeprecatedMethod>
-      <code><![CDATA[execute]]></code>
       <code><![CDATA[getAppValue]]></code>
       <code><![CDATA[query]]></code>
       <code><![CDATA[query]]></code>

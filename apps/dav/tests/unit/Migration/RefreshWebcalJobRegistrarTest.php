@@ -54,7 +54,7 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 			->with('calendarsubscriptions')
 			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->once())
-			->method('execute')
+			->method('executeQuery')
 			->willReturn($statement);
 
 		$statement->expects($this->exactly(4))

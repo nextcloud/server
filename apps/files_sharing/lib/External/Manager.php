@@ -8,11 +8,11 @@
 
 namespace OCA\Files_Sharing\External;
 
-use Doctrine\DBAL\Driver\Exception;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\ResponseDefinitions;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
@@ -130,39 +130,36 @@ class Manager {
 	}
 
 	/**
-	 * write remote share to the database
+	 * Write remote share to the database.
 	 *
-	 * @param $remote
-	 * @param $token
-	 * @param $password
-	 * @param $name
-	 * @param $owner
-	 * @param $user
-	 * @param $mountPoint
-	 * @param $hash
-	 * @param $accepted
-	 * @param $remoteId
-	 * @param $parent
-	 * @param $shareType
-	 *
-	 * @return void
-	 * @throws \Doctrine\DBAL\Driver\Exception
+	 * @throws Exception
 	 */
-	private function writeShareToDb($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType): void {
-		$query = $this->connection->prepare('
-				INSERT INTO `*PREFIX*share_external`
-					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `accepted`, `remote_id`, `parent`, `share_type`)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-			');
-		$query->execute([$remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType]);
+	private function writeShareToDb(string $remote, string $token, ?string $password, string $name, string $owner, string $user, string $mountPoint, string $hash, int $accepted, string $remoteId, int $parent, int $shareType): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share_external')
+			->values([
+				'remote' => $qb->createNamedParameter($remote, IQueryBuilder::PARAM_STR),
+				'share_token' => $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR),
+				'password' => $qb->createNamedParameter($password, IQueryBuilder::PARAM_STR),
+				'name' => $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR),
+				'owner' => $qb->createNamedParameter($owner, IQueryBuilder::PARAM_STR),
+				'user' => $qb->createNamedParameter($user, IQueryBuilder::PARAM_STR),
+				'mountpoint' => $qb->createNamedParameter($mountPoint, IQueryBuilder::PARAM_STR),
+				'mountpoint_hash' => $qb->createNamedParameter($hash, IQueryBuilder::PARAM_STR),
+				'accepted' => $qb->createNamedParameter($accepted, IQueryBuilder::PARAM_INT),
+				'remote_id' => $qb->createNamedParameter($remoteId, IQueryBuilder::PARAM_STR),
+				'parent' => $qb->createNamedParameter($parent, IQueryBuilder::PARAM_INT),
+				'share_type' => $qb->createNamedParameter($shareType, IQueryBuilder::PARAM_INT),
+			])
+			->executeStatement();
 	}
 
 	private function fetchShare(int $id): array|false {
-		$getShare = $this->connection->prepare('
-			SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`, `parent`, `share_type`, `password`, `mountpoint_hash`
-			FROM  `*PREFIX*share_external`
-			WHERE `id` = ?');
-		$result = $getShare->execute([$id]);
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select('id', 'remote', 'remote_id', 'share_token', 'name', 'owner', 'user', 'mountpoint', 'accepted', 'parent', 'share_type', 'password', 'mountpoint_hash')
+			->from('share_external')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)))
+			->executeQuery();
 		$share = $result->fetch();
 		$result->closeCursor();
 		return $share;
@@ -174,23 +171,26 @@ class Manager {
 	 * @param string $token
 	 * @return mixed share of false
 	 */
-	private function fetchShareByToken($token) {
-		$getShare = $this->connection->prepare('
-			SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`, `parent`, `share_type`, `password`, `mountpoint_hash`
-			FROM  `*PREFIX*share_external`
-			WHERE `share_token` = ?');
-		$result = $getShare->execute([$token]);
+	private function fetchShareByToken(string $token): array|false {
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select('id', 'remote', 'remote_id', 'share_token', 'name', 'owner', 'user', 'mountpoint', 'accepted', 'parent', 'share_type', 'password', 'mountpoint_hash')
+			->from('share_external')
+			->where($qb->expr()->eq('share_token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR)))
+			->executeQuery();
 		$share = $result->fetch();
 		$result->closeCursor();
 		return $share;
 	}
 
-	private function fetchUserShare($parentId, $uid) {
-		$getShare = $this->connection->prepare('
-			SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`, `parent`, `share_type`, `password`, `mountpoint_hash`
-			FROM  `*PREFIX*share_external`
-			WHERE `parent` = ? AND `user` = ?');
-		$result = $getShare->execute([$parentId, $uid]);
+	private function fetchUserShare(int $parentId, string $uid): ?array {
+		$qb = $this->connection->getQueryBuilder();
+		$result = $qb->select('id', 'remote', 'remote_id', 'share_token', 'name', 'owner', 'user', 'mountpoint', 'accepted', 'parent', 'share_type', 'password', 'mountpoint_hash')
+			->from('share_external')
+			->where($qb->expr()->andX(
+				$qb->expr()->eq('parent', $qb->createNamedParameter($parentId, IQueryBuilder::PARAM_INT)),
+				$qb->expr()->eq('user', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR)),
+			))
+			->executeQuery();
 		$share = $result->fetch();
 		$result->closeCursor();
 		if ($share !== false) {
@@ -266,25 +266,21 @@ class Manager {
 
 	/**
 	 * Updates accepted flag in the database
-	 *
-	 * @param int $id
 	 */
-	private function updateAccepted(int $shareId, bool $accepted) : void {
-		$query = $this->connection->prepare('
-			UPDATE `*PREFIX*share_external`
-			SET `accepted` = ?
-			WHERE `id` = ?');
-		$updateResult = $query->execute([$accepted ? 1 : 0, $shareId]);
-		$updateResult->closeCursor();
+	private function updateAccepted(int $shareId, bool $accepted): void {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->update('share_external')
+			->set('accepted', $qb->createNamedParameter($accepted ? 1 : 0, IQueryBuilder::PARAM_INT))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId, IQueryBuilder::PARAM_INT)))
+			->executeStatement();
 	}
 
 	/**
 	 * accept server-to-server share
 	 *
-	 * @param int $id
 	 * @return bool True if the share could be accepted, false otherwise
 	 */
-	public function acceptShare(int $id, ?string $user = null) {
+	public function acceptShare(int $id, ?string $user = null): bool {
 		// If we're auto-accepting a share, we need to know the user id
 		// as there is no session available while processing the share
 		// from the remote server request.
@@ -306,13 +302,16 @@ class Manager {
 			$userShareAccepted = false;
 
 			if ((int)$share['share_type'] === IShare::TYPE_USER) {
-				$acceptShare = $this->connection->prepare('
-				UPDATE `*PREFIX*share_external`
-				SET `accepted` = ?,
-					`mountpoint` = ?,
-					`mountpoint_hash` = ?
-				WHERE `id` = ? AND `user` = ?');
-				$userShareAccepted = $acceptShare->execute([1, $mountPoint, $hash, $id, $user]);
+				$qb = $this->connection->getQueryBuilder();
+				$qb->update('share_external')
+					->set('accepted', $qb->createNamedParameter(1))
+					->set('mountpoint', $qb->createNamedParameter($mountPoint))
+					->set('mountpoint_hash', $qb->createNamedParameter($hash))
+					->where($qb->expr()->andX(
+						$qb->expr()->eq('id', $qb->createNamedParameter($id)),
+						$qb->expr()->eq('user', $qb->createNamedParameter($user))
+					));
+				$userShareAccepted = $qb->executeStatement();
 			} else {
 				$parentId = (int)$share['parent'];
 				if ($parentId !== -1) {
@@ -324,13 +323,16 @@ class Manager {
 
 				if ($subshare !== null) {
 					try {
-						$acceptShare = $this->connection->prepare('
-						UPDATE `*PREFIX*share_external`
-						SET `accepted` = ?,
-							`mountpoint` = ?,
-							`mountpoint_hash` = ?
-						WHERE `id` = ? AND `user` = ?');
-						$acceptShare->execute([1, $mountPoint, $hash, $subshare['id'], $user]);
+						$qb = $this->connection->getQueryBuilder();
+						$qb->update('share_external')
+							->set('accepted', $qb->createNamedParameter(1))
+							->set('mountpoint', $qb->createNamedParameter($mountPoint))
+							->set('mountpoint_hash', $qb->createNamedParameter($hash))
+							->where($qb->expr()->andX(
+								$qb->expr()->eq('id', $qb->createNamedParameter($subshare['id'])),
+								$qb->expr()->eq('user', $qb->createNamedParameter($user))
+							))
+							->executeStatement();
 						$result = true;
 					} catch (Exception $e) {
 						$this->logger->emergency('Could not update share', ['exception' => $e]);
@@ -375,10 +377,9 @@ class Manager {
 	/**
 	 * decline server-to-server share
 	 *
-	 * @param int $id
 	 * @return bool True if the share could be declined, false otherwise
 	 */
-	public function declineShare(int $id, ?string $user = null) {
+	public function declineShare(int $id, ?string $user = null): bool {
 		$user = $user ?? $this->uid;
 		if ($user === null) {
 			$this->logger->error('No user specified for declining share');
@@ -389,9 +390,13 @@ class Manager {
 		$result = false;
 
 		if ($share && (int)$share['share_type'] === IShare::TYPE_USER) {
-			$removeShare = $this->connection->prepare('
-				DELETE FROM `*PREFIX*share_external` WHERE `id` = ? AND `user` = ?');
-			$removeShare->execute([$id, $user]);
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('share_external')
+				->where($qb->expr()->andX(
+					$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)),
+					$qb->expr()->eq('user', $qb->createNamedParameter($user, IQueryBuilder::PARAM_STR))
+				))
+				->executeStatement();
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 
 			$this->processNotification($id, $user);
@@ -542,19 +547,15 @@ class Manager {
 		return false;
 	}
 
-
 	/**
 	 * remove '/user/files' from the path and trailing slashes
-	 *
-	 * @param string $path
-	 * @return string
 	 */
-	protected function stripPath($path) {
+	protected function stripPath(string $path): string {
 		$prefix = '/' . $this->uid . '/files';
 		return rtrim(substr($path, strlen($prefix)), '/');
 	}
 
-	public function getMount($data, ?string $user = null) {
+	public function getMount(array $data, ?string $user = null) {
 		$user = $user ?? $this->uid;
 		$data['manager'] = $this;
 		$mountPoint = '/' . $user . '/files' . $data['mountpoint'];
@@ -567,37 +568,30 @@ class Manager {
 	 * @param array $data
 	 * @return Mount
 	 */
-	protected function mountShare($data, ?string $user = null) {
+	protected function mountShare(array $data, ?string $user = null): Mount {
 		$mount = $this->getMount($data, $user);
 		$this->mountManager->addMount($mount);
 		return $mount;
 	}
 
-	/**
-	 * @return \OC\Files\Mount\Manager
-	 */
-	public function getMountManager() {
+	public function getMountManager(): \OC\Files\Mount\Manager {
 		return $this->mountManager;
 	}
 
-	/**
-	 * @param string $source
-	 * @param string $target
-	 * @return bool
-	 */
-	public function setMountPoint($source, $target) {
+	public function setMountPoint(string $source, string $target): bool {
 		$source = $this->stripPath($source);
 		$target = $this->stripPath($target);
 		$sourceHash = md5($source);
 		$targetHash = md5($target);
 
-		$query = $this->connection->prepare('
-			UPDATE `*PREFIX*share_external`
-			SET `mountpoint` = ?, `mountpoint_hash` = ?
-			WHERE `mountpoint_hash` = ?
-			AND `user` = ?
-		');
-		$result = (bool)$query->execute([$target, $targetHash, $sourceHash, $this->uid]);
+		$qb = $this->connection->getQueryBuilder();
+		$qb->update('share_external')
+			->set('mountpoint', $qb->createNamedParameter($target))
+			->set('mountpoint_hash', $qb->createNamedParameter($targetHash))
+			->where($qb->expr()->eq('mountpoint_hash', $qb->createNamedParameter($sourceHash)))
+			->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($this->uid)));
+
+		$result = (bool)$qb->executeStatement();
 
 		$this->eventDispatcher->dispatchTyped(new InvalidateMountCacheEvent($this->userManager->get($this->uid)));
 
@@ -621,11 +615,12 @@ class Manager {
 		$hash = md5($mountPoint);
 
 		try {
-			$getShare = $this->connection->prepare('
-				SELECT `remote`, `share_token`, `remote_id`, `share_type`, `id`
-				FROM  `*PREFIX*share_external`
-				WHERE `mountpoint_hash` = ? AND `user` = ?');
-			$result = $getShare->execute([$hash, $this->uid]);
+			$qb = $this->connection->getQueryBuilder();
+			$qb->select('remote', 'share_token', 'remote_id', 'share_type', 'id')
+				->from('share_external')
+				->where($qb->expr()->eq('mountpoint_hash', $qb->createNamedParameter($hash)))
+				->andWhere($qb->expr()->eq('user', $qb->createNamedParameter($this->uid)));
+			$result = $qb->executeQuery();
 			$share = $result->fetch();
 			$result->closeCursor();
 			if ($share !== false && (int)$share['share_type'] === IShare::TYPE_USER) {
@@ -636,18 +631,16 @@ class Manager {
 					// we still want the share to be gone to prevent undeletable remotes
 				}
 
-				$query = $this->connection->prepare('
-					DELETE FROM `*PREFIX*share_external`
-					WHERE `id` = ?
-				');
-				$deleteResult = $query->execute([(int)$share['id']]);
-				$deleteResult->closeCursor();
+				$qb = $this->connection->getQueryBuilder();
+				$qb->delete('share_external')
+					->where('id', $qb->createNamedParameter((int)$share['id']))
+					->executeStatement();
 			} elseif ($share !== false && (int)$share['share_type'] === IShare::TYPE_GROUP) {
 				$this->updateAccepted((int)$share['id'], false);
 			}
 
-			$this->removeReShares($id);
-		} catch (\Doctrine\DBAL\Exception $ex) {
+			$this->removeReShares((string)$id);
+		} catch (Exception $ex) {
 			$this->logger->emergency('Could not update share', ['exception' => $ex]);
 			return false;
 		}
@@ -656,26 +649,23 @@ class Manager {
 	}
 
 	/**
-	 * remove re-shares from share table and mapping in the federated_reshares table
-	 *
-	 * @param $mountPointId
+	 * Remove re-shares from share table and mapping in the federated_reshares table
 	 */
-	protected function removeReShares($mountPointId) {
+	protected function removeReShares(string $mountPointId): void {
 		$selectQuery = $this->connection->getQueryBuilder();
 		$query = $this->connection->getQueryBuilder();
 		$selectQuery->select('id')->from('share')
 			->where($selectQuery->expr()->eq('file_source', $query->createNamedParameter($mountPointId)));
 		$select = $selectQuery->getSQL();
 
-
 		$query->delete('federated_reshares')
 			->where($query->expr()->in('share_id', $query->createFunction($select)));
-		$query->execute();
+		$query->executeStatement();
 
 		$deleteReShares = $this->connection->getQueryBuilder();
 		$deleteReShares->delete('share')
 			->where($deleteReShares->expr()->eq('file_source', $deleteReShares->createNamedParameter($mountPointId)));
-		$deleteReShares->execute();
+		$deleteReShares->executeStatement();
 	}
 
 	/**
@@ -685,13 +675,12 @@ class Manager {
 	 */
 	public function removeUserShares($uid): bool {
 		try {
-			// TODO: use query builder
-			$getShare = $this->connection->prepare('
-				SELECT `id`, `remote`, `share_type`, `share_token`, `remote_id`
-				FROM  `*PREFIX*share_external`
-				WHERE `user` = ?
-				AND `share_type` = ?');
-			$result = $getShare->execute([$uid, IShare::TYPE_USER]);
+			$qb = $this->connection->getQueryBuilder();
+			$qb->select('id', 'remote', 'share_type', 'share_token', 'remote_id')
+				->from('share_external')
+				->where($qb->expr()->eq('user', $qb->createNamedParameter($uid)))
+				->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USER)));
+			$result = $qb->executeQuery();
 			$shares = $result->fetchAll();
 			$result->closeCursor();
 
@@ -725,12 +714,12 @@ class Manager {
 
 	public function removeGroupShares($gid): bool {
 		try {
-			$getShare = $this->connection->prepare('
-				SELECT `id`, `remote`, `share_type`, `share_token`, `remote_id`
-				FROM  `*PREFIX*share_external`
-				WHERE `user` = ?
-				AND `share_type` = ?');
-			$result = $getShare->execute([$gid, IShare::TYPE_GROUP]);
+			$qb = $this->connection->getQueryBuilder();
+			$qb->select('id', 'remote', 'share_type', 'share_token', 'remote_id')
+				->from('share_external')
+				->where($qb->expr()->eq('user', $qb->createNamedParameter($gid)))
+				->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)));
+			$result = $qb->executeQuery();
 			$shares = $result->fetchAll();
 			$result->closeCursor();
 
@@ -748,7 +737,7 @@ class Manager {
 			foreach ($shares as $share) {
 				$qb->setParameter('share_id', $share['id']);
 				$qb->setParameter('share_parent_id', $share['id']);
-				$qb->execute();
+				$qb->executeStatement();
 			}
 		} catch (\Doctrine\DBAL\Exception $ex) {
 			$this->logger->emergency('Could not delete user shares', ['exception' => $ex]);
