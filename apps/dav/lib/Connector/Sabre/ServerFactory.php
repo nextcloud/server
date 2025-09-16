@@ -27,6 +27,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\SabrePluginEvent;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Plugin;
@@ -186,5 +187,62 @@ class ServerFactory {
 			}
 		}, 30); // priority 30: after auth (10) and acl(20), before lock(50) and handling the request
 		return $server;
+	}
+
+	/**
+	 * Returns a Tree object and, if $useCollection is true, the collection used
+	 * as root.
+	 *
+	 * @param bool $useCollection Whether to use a collection or the legacy
+	 *               ObjectTree, which doesn't use collections.
+	 * @return array{0: CachingTree|ObjectTree, 1: SimpleCollection|null}
+	 */
+	public function getTree(bool $useCollection): array {
+		if ($useCollection) {
+			$rootCollection = new SimpleCollection('root');
+			$tree = new CachingTree($rootCollection);
+			return [$tree, $rootCollection];
+		}
+
+		return [new ObjectTree(), null];
+	}
+
+	/**
+	 * Adds the user's principal backend to $rootCollection.
+	 */
+	private function initRootCollection(SimpleCollection $rootCollection, Directory|File $root): void {
+		$userPrincipalBackend = new Principal(
+			\OCP\Server::get(IUserManager::class),
+			\OCP\Server::get(IGroupManager::class),
+			\OCP\Server::get(IAccountManager::class),
+			\OCP\Server::get(\OCP\Share\IManager::class),
+			\OCP\Server::get(IUserSession::class),
+			\OCP\Server::get(IAppManager::class),
+			\OCP\Server::get(ProxyMapper::class),
+			\OCP\Server::get(KnownUserService::class),
+			\OCP\Server::get(IConfig::class),
+			\OCP\Server::get(IFactory::class),
+		);
+
+		// Mount the share collection at /public.php/dav/files/<share token>
+		$rootCollection->addChild(
+			new RootCollection(
+				$root,
+				$userPrincipalBackend,
+				'principals/shares',
+			)
+		);
+
+		// Mount the upload collection at /public.php/dav/uploads/<share token>
+		$rootCollection->addChild(
+			new \OCA\DAV\Upload\RootCollection(
+				$userPrincipalBackend,
+				'principals/shares',
+				\OCP\Server::get(CleanupService::class),
+				\OCP\Server::get(IRootFolder::class),
+				\OCP\Server::get(IUserSession::class),
+				\OCP\Server::get(\OCP\Share\IManager::class),
+			)
+		);
 	}
 }
