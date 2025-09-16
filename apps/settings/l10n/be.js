@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Federated" : "Федэратыўны",
+    "Only synchronize to trusted servers" : "Сінхранізацыя толькі з даверанымі серверамі",
     "Verify" : "Спраўдзіць",
     "Verifying …" : "Спраўджанне …",
     "Unable to change password" : "Немагчыма змяніць пароль",
@@ -245,6 +246,7 @@ OC.L10N.register(
     "Enable account" : "Уключыць уліковы запіс",
     "Account deletion" : "Выдаленне ўліковага запісу",
     "Loading account …" : "Загрузка ўліковага запісу …",
+    "Set new password" : "Задаць новы пароль",
     "Add account to group" : "Дадаць уліковы запіс у групу",
     "Select account quota" : "Выберыце квоту ўліковага запісу",
     "Set the language" : "Задайце мову",
