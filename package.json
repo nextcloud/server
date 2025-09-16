@@ -184,7 +184,7 @@
     "vitest": "^3.2.4",
     "vue-loader": "^15.11.1",
     "vue-template-compiler": "^2.7.16",
-    "wait-on": "^8.0.4",
+    "wait-on": "^8.0.5",
     "webpack": "^5.101.2",
     "webpack-cli": "^6.0.1",
     "webpack-merge": "^6.0.1",
