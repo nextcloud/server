@@ -245,6 +245,7 @@ OC.L10N.register(
     "Last 30 days" : "過去 30 天",
     "This year" : "今年",
     "Last year" : "去年",
+    "Between {startDate} and {endDate}" : "在 {startDate} 至 {endDate} 間",
     "Unified search" : "統一搜尋",
     "Search apps, files, tags, messages" : "搜尋應用程式、檔案、標籤、訊息",
     "Places" : "地點",
