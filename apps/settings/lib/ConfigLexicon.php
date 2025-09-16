@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Settings;
 
-use OC\Config\UserConfig;
+use OCP\Config\IUserConfig;
 use OCP\Config\Lexicon\Entry;
 use OCP\Config\Lexicon\ILexicon;
 use OCP\Config\Lexicon\Strictness;
@@ -20,7 +20,7 @@ use OCP\Config\ValueType;
  * Please Add & Manage your Config Keys in that file and keep the Lexicon up to date!
  */
 class ConfigLexicon implements ILexicon {
-	public const USER_SETTINGS_MAIL = 'mail';
+	public const USER_SETTINGS_EMAIL = 'email';
 
 	public function getStrictness(): Strictness {
 		return Strictness::IGNORE;
@@ -32,7 +32,7 @@ class ConfigLexicon implements ILexicon {
 
 	public function getUserConfigs(): array {
 		return [
-			new Entry(key: self::USER_SETTINGS_MAIL, type: ValueType::STRING, defaultRaw: '', definition: 'account mail address', flags: UserConfig::FLAG_INDEXED),
+			new Entry(key: self::USER_SETTINGS_EMAIL, type: ValueType::STRING, defaultRaw: '', definition: 'account mail address', flags: IUserConfig::FLAG_INDEXED),
 		];
 	}
 }
