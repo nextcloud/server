@@ -1685,7 +1685,14 @@ class ShareAPIController extends OCSController {
 	 * @throws ShareNotFound
 	 */
 	private function getShareById(string $id): IShare {
-		$share = null;
+		$providers = [
+			'ocinternal' => null, // No type check needed
+			'ocCircleShare' => IShare::TYPE_CIRCLE,
+			'ocMailShare' => IShare::TYPE_EMAIL,
+			'ocRoomShare' => null,
+			'deck' => IShare::TYPE_DECK,
+			'sciencemesh' => IShare::TYPE_SCIENCEMESH,
+		];
 
 		// First check if it is an internal share.
 		try {
@@ -1701,8 +1708,6 @@ class ShareAPIController extends OCSController {
 				$share = $this->shareManager->getShareById('ocCircleShare:' . $id, $this->currentUser);
 				return $share;
 			}
-		} catch (ShareNotFound $e) {
-			// Do nothing, just try the other share type
 		}
 
 		try {
