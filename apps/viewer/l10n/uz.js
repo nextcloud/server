@@ -6,6 +6,7 @@ OC.L10N.register(
     "Edit" : "Tahrirlash",
     "Download" : "Yuklab olish",
     "Delete" : "O'chirish",
+    "View" : "Ko'rish",
     "Name" : "Name",
     "Save" : "Saqlash",
     "Back" : "Orqaga",
