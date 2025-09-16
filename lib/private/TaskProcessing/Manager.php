@@ -81,7 +81,7 @@ class Manager implements IManager {
 
 	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 30 * 4; // 4 months
 
-	private const TASK_TYPES_CACHE_KEY = 'available_task_types_v2';
+	private const TASK_TYPES_CACHE_KEY = 'available_task_types_v3';
 	private const TASK_TYPE_IDS_CACHE_KEY = 'available_task_type_ids';
 
 	/** @var list<IProvider>|null */
@@ -842,7 +842,35 @@ class Manager implements IManager {
 		if ($this->availableTaskTypes === null) {
 			$cachedValue = $this->distributedCache->get(self::TASK_TYPES_CACHE_KEY);
 			if ($cachedValue !== null) {
-				$this->availableTaskTypes = unserialize($cachedValue);
+				try {
+					$availableTaskTypeClasses = json_decode($cachedValue, associative: true, flags: JSON_THROW_ON_ERROR);
+					$availableTaskTypes = [];
+					foreach ($availableTaskTypeClasses as $taskTypeClass => $providerClass) {
+						try {
+							$taskType = \OCP\Server::get($taskTypeClass);
+							$provider = \OCP\Server::get($providerClass);
+							$availableTaskTypes[$provider->getTaskTypeId()] = [
+								'name' => $taskType->getName(),
+								'description' => $taskType->getDescription(),
+								'optionalInputShape' => $provider->getOptionalInputShape(),
+								'inputShapeEnumValues' => $provider->getInputShapeEnumValues(),
+								'inputShapeDefaults' => $provider->getInputShapeDefaults(),
+								'inputShape' => $taskType->getInputShape(),
+								'optionalInputShapeEnumValues' => $provider->getOptionalInputShapeEnumValues(),
+								'optionalInputShapeDefaults' => $provider->getOptionalInputShapeDefaults(),
+								'outputShape' => $taskType->getOutputShape(),
+								'outputShapeEnumValues' => $provider->getOutputShapeEnumValues(),
+								'optionalOutputShape' => $provider->getOptionalOutputShape(),
+								'optionalOutputShapeEnumValues' => $provider->getOptionalOutputShapeEnumValues(),
+							];
+						} catch (\Throwable $e) {
+							$this->logger->error('Failed to set up TaskProcessing provider ' . $providerClass, ['exception' => $e]);
+						}
+					}
+					$this->availableTaskTypes = $availableTaskTypes;
+				} catch (\JsonException $e) {
+					// pass
+				}
 			}
 		}
 		// Either we have no cache or showDisabled is turned on, which we don't want to cache, ever.
@@ -851,6 +879,7 @@ class Manager implements IManager {
 			$taskTypeSettings = $this->_getTaskTypeSettings();
 
 			$availableTaskTypes = [];
+			$availableTaskTypeClasses = [];
 			foreach ($taskTypes as $taskType) {
 				if ((!$showDisabled) && isset($taskTypeSettings[$taskType->getId()]) && !$taskTypeSettings[$taskType->getId()]) {
 					continue;
@@ -878,6 +907,7 @@ class Manager implements IManager {
 				} catch (\Throwable $e) {
 					$this->logger->error('Failed to set up TaskProcessing provider ' . $provider::class, ['exception' => $e]);
 				}
+				$availableTaskTypeClasses[$taskType::class] = $provider::class;
 			}
 
 			if ($showDisabled) {
@@ -886,7 +916,7 @@ class Manager implements IManager {
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
-			$this->distributedCache->set(self::TASK_TYPES_CACHE_KEY, serialize($this->availableTaskTypes), 60);
+			$this->distributedCache->set(self::TASK_TYPES_CACHE_KEY, json_encode($availableTaskTypeClasses), 60);
 		}
 
 
