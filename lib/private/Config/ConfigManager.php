@@ -93,7 +93,7 @@ class ConfigManager {
 		$lexicon = $this->userConfig->getConfigDetailsFromLexicon($appId);
 		foreach ($lexicon['entries'] as $entry) {
 			// upgrade based on index flag
-			$this->userConfig->updateGlobalIndexed($appId, $entry->getKey(), $entry->isFlagged(UserConfig::FLAG_INDEXED));
+			$this->userConfig->updateGlobalIndexed($appId, $entry->getKey(), $entry->isFlagged(IUserConfig::FLAG_INDEXED));
 		}
 	}
 
