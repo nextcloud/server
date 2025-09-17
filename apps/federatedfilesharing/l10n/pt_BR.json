@@ -50,6 +50,7 @@
     "Clipboard not available. Please copy the cloud ID manually." : "Área de transferência indisponível. Copie o ID de Nuvem manualmente.",
     "Copied!" : "Copiado!",
     "Federated Cloud" : "Nuvem Federada",
+    "You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Você pode compartilhar com qualquer pessoa que utilize um servidor {productName} ou outros servidores e serviços compatíveis com Open Cloud Mesh (OCM)! Basta inserir o ID de Nuvem Federada na caixa de diálogo de compartilhamento. Ele tem o seguinte formato: pessoa@cloud.example.com",
     "Your Federated Cloud ID" : "Seu ID de Nuvem Federada",
     "Share it so your friends can share files with you:" : "Compartilhe para que seus amigos possam compartilhar arquivos com você:",
     "Facebook" : "Facebook",
