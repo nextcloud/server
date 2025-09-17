@@ -28,6 +28,7 @@ use OCP\IDBConnection;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
@@ -478,6 +479,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			\OC::$server->get(IClientService::class),
 			\OC::$server->get(IAppManager::class),
 			\OC::$server->get(ICacheFactory::class),
+			\OC::$server->get(IFactory::class),
 		);
 	}
 
