@@ -81,7 +81,7 @@ class Manager implements IManager {
 
 	public const MAX_TASK_AGE_SECONDS = 60 * 60 * 24 * 30 * 4; // 4 months
 
-	private const TASK_TYPES_CACHE_KEY = 'available_task_types_v2';
+	private const TASK_TYPES_CACHE_KEY = 'available_task_types_v3';
 	private const TASK_TYPE_IDS_CACHE_KEY = 'available_task_type_ids';
 
 	/** @var list<IProvider>|null */
@@ -122,6 +122,7 @@ class Manager implements IManager {
 		private IUserManager $userManager,
 		private IUserSession $userSession,
 		ICacheFactory $cacheFactory,
+		private IFactory $l10nFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
@@ -835,12 +836,15 @@ class Manager implements IManager {
 	}
 
 	public function getAvailableTaskTypes(bool $showDisabled = false, ?string $userId = null): array {
+		// We cache by language, because some task type fields are translated
+		$cacheKey = self::TASK_TYPES_CACHE_KEY . ':' . $this->l10nFactory->findLanguage();
+
 		// userId will be obtained from the session if left to null
 		if (!$this->checkGuestAccess($userId)) {
 			return [];
 		}
 		if ($this->availableTaskTypes === null) {
-			$cachedValue = $this->distributedCache->get(self::TASK_TYPES_CACHE_KEY);
+			$cachedValue = $this->distributedCache->get($cacheKey);
 			if ($cachedValue !== null) {
 				$this->availableTaskTypes = unserialize($cachedValue);
 			}
@@ -886,7 +890,7 @@ class Manager implements IManager {
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
-			$this->distributedCache->set(self::TASK_TYPES_CACHE_KEY, serialize($this->availableTaskTypes), 60);
+			$this->distributedCache->set($cacheKey, serialize($this->availableTaskTypes), 60);
 		}
 
 
