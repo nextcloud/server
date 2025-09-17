@@ -180,6 +180,46 @@ class RemotePluginTest extends TestCase {
 		$this->assertTrue($result['exact']['remotes'][0]['value']['isTrustedServer']);
 	}
 
+	public function testEmailSearchInContacts(): void {
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->willReturnCallback(
+				function ($appName, $key, $default) {
+					if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
+						return 'yes';
+					}
+					return $default;
+				}
+			);
+
+		$this->trustedServers->expects($this->any())
+			->method('isTrustedServer')
+			->willReturnCallback(function ($serverUrl) {
+				return $serverUrl === 'trustedserver.com';
+			});
+
+		$this->instantiatePlugin();
+
+		$this->contactsManager->expects($this->once())
+			->method('search')
+			->with('john@gmail.com', ['CLOUD', 'FN', 'EMAIL'])
+			->willReturn([
+				[
+					'FN' => 'John Doe',
+					'EMAIL' => 'john@gmail.com',
+					'CLOUD' => 'john@trustedserver.com',
+					'UID' => 'john-contact-id'
+				]
+			]);
+
+		$this->plugin->search('john@gmail.com', 2, 0, $this->searchResult);
+		$result = $this->searchResult->asArray();
+
+		$this->assertNotEmpty($result['exact']['remotes']);
+		$this->assertEquals('john@trustedserver.com', $result['exact']['remotes'][0]['value']['shareWith']);
+		$this->assertTrue($result['exact']['remotes'][0]['value']['isTrustedServer']);
+	}
+
 	public static function dataGetRemote() {
 		return [
 			['test', [], true, ['remotes' => [], 'exact' => ['remotes' => []]], false, true],
