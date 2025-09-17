@@ -1089,6 +1089,7 @@ class AppManager implements IAppManager {
 		// migrate eventual new config keys in the process
 		/** @psalm-suppress InternalMethod */
 		$this->configManager->migrateConfigLexiconKeys($appId);
+		$this->configManager->updateLexiconEntries($appId);
 
 		$this->dispatcher->dispatchTyped(new AppUpdateEvent($appId));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_UPDATE, new ManagerEvent(

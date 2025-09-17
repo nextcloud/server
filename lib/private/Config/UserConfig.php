@@ -477,40 +477,55 @@ class UserConfig implements IUserConfig {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 		$this->matchAndApplyLexiconDefinition('', $app, $key);
 
+		$lexiconEntry = $this->getLexiconEntry($app, $key);
+		if ($lexiconEntry?->isFlagged(self::FLAG_INDEXED) === false) {
+			$this->logger->notice('UserConfig+Lexicon: using searchUsersByTypedValue on config key ' . $app . '/' . $key . ' which is not set as indexed');
+		}
+
 		$qb = $this->connection->getQueryBuilder();
 		$qb->from('preferences');
 		$qb->select('userid');
 		$qb->where($qb->expr()->eq('appid', $qb->createNamedParameter($app)));
 		$qb->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
 
-		// search within 'indexed' OR 'configvalue' only if 'flags' is set as not indexed
-		// TODO: when implementing config lexicon remove the searches on 'configvalue' if value is set as indexed
 		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) ? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR) : 'configvalue';
 		if (is_array($value)) {
-			$where = $qb->expr()->orX(
-				$qb->expr()->in('indexed', $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY)),
-				$qb->expr()->andX(
-					$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
-					$qb->expr()->in($configValueColumn, $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY))
-				)
-			);
+			$where = $qb->expr()->in('indexed', $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY));
+			// in case lexicon does not exist for this key - or is not set as indexed - we keep searching for non-index entries if 'flags' is set as not indexed
+			if ($lexiconEntry?->isFlagged(self::FLAG_INDEXED) !== true) {
+				$where = $qb->expr()->orX(
+					$where,
+					$qb->expr()->andX(
+						$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
+						$qb->expr()->in($configValueColumn, $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR_ARRAY))
+					)
+				);
+			}
 		} else {
 			if ($caseInsensitive) {
-				$where = $qb->expr()->orX(
-					$qb->expr()->eq($qb->func()->lower('indexed'), $qb->createNamedParameter(strtolower($value))),
-					$qb->expr()->andX(
-						$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
-						$qb->expr()->eq($qb->func()->lower($configValueColumn), $qb->createNamedParameter(strtolower($value)))
-					)
-				);
+				$where = $qb->expr()->eq($qb->func()->lower('indexed'), $qb->createNamedParameter(strtolower($value)));
+				// in case lexicon does not exist for this key - or is not set as indexed - we keep searching for non-index entries if 'flags' is set as not indexed
+				if ($lexiconEntry?->isFlagged(self::FLAG_INDEXED) !== true) {
+					$where = $qb->expr()->orX(
+						$where,
+						$qb->expr()->andX(
+							$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
+							$qb->expr()->eq($qb->func()->lower($configValueColumn), $qb->createNamedParameter(strtolower($value)))
+						)
+					);
+				}
 			} else {
-				$where = $qb->expr()->orX(
-					$qb->expr()->eq('indexed', $qb->createNamedParameter($value)),
-					$qb->expr()->andX(
-						$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
-						$qb->expr()->eq($configValueColumn, $qb->createNamedParameter($value))
-					)
-				);
+				$where = $qb->expr()->eq('indexed', $qb->createNamedParameter($value));
+				// in case lexicon does not exist for this key - or is not set as indexed - we keep searching for non-index entries if 'flags' is set as not indexed
+				if ($lexiconEntry?->isFlagged(self::FLAG_INDEXED) !== true) {
+					$where = $qb->expr()->orX(
+						$where,
+						$qb->expr()->andX(
+							$qb->expr()->neq($qb->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), $qb->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)),
+							$qb->expr()->eq($configValueColumn, $qb->createNamedParameter($value))
+						)
+					);
+				}
 			}
 		}
 
@@ -1408,13 +1423,32 @@ class UserConfig implements IUserConfig {
 		$this->assertParams('', $app, $key, allowEmptyUser: true);
 		$this->matchAndApplyLexiconDefinition('', $app, $key);
 
-		foreach (array_keys($this->getValuesByUsers($app, $key)) as $userId) {
-			try {
-				$this->updateIndexed($userId, $app, $key, $indexed);
-			} catch (UnknownKeyException) {
-				// should not happen and can be ignored
-			}
+		$update = $this->connection->getQueryBuilder();
+		$update->update('preferences')
+			->where(
+				$update->expr()->eq('appid', $update->createNamedParameter($app)),
+				$update->expr()->eq('configkey', $update->createNamedParameter($key))
+			);
+
+		// switching flags 'indexed' on and off is about adding/removing the bit value on the correct entries
+		if ($indexed) {
+			$update->set('indexed', $update->func()->substring('configvalue', $update->createNamedParameter(1, IQueryBuilder::PARAM_INT), $update->createNamedParameter(64, IQueryBuilder::PARAM_INT)));
+			$update->set('flags', $update->func()->add('flags', $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)));
+			$update->andWhere(
+				$update->expr()->neq($update->expr()->castColumn(
+					$update->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), IQueryBuilder::PARAM_INT), $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)
+				));
+		} else {
+			// emptying field 'indexed' if key is not set as indexed anymore
+			$update->set('indexed', $update->createNamedParameter(''));
+			$update->set('flags', $update->func()->subtract('flags', $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)));
+			$update->andWhere(
+				$update->expr()->eq($update->expr()->castColumn(
+					$update->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), IQueryBuilder::PARAM_INT), $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)
+				));
 		}
+
+		$update->executeStatement();
 
 		// we clear all cache
 		$this->clearCacheAll();
