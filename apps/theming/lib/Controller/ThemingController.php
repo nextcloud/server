@@ -17,6 +17,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -61,13 +62,10 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @param string $setting
-	 * @param string $value
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	public function updateStylesheet($setting, $value) {
+	public function updateStylesheet(string $setting, string $value): DataResponse {
 		$value = trim($value);
 		$error = null;
 		$saved = false;
@@ -153,13 +151,10 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @param string $setting
-	 * @param mixed $value
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
-	public function updateAppMenu($setting, $value) {
+	public function updateAppMenu(string $setting, mixed $value): DataResponse {
 		$error = null;
 		switch ($setting) {
 			case 'defaultApps':
@@ -204,7 +199,6 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
 	#[AuthorizedAdminSetting(settings: Admin::class)]
@@ -367,7 +361,6 @@ class ThemingController extends Controller {
 
 	/**
 	 * @NoSameSiteCookieRequired
-	 * @NoTwoFactorRequired
 	 *
 	 * Get the CSS stylesheet for a theme
 	 *
@@ -381,6 +374,7 @@ class ThemingController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
+	#[NoTwoFactorRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
