@@ -13,6 +13,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
@@ -34,13 +35,12 @@ class CSRFTokenController extends Controller {
 	 *
 	 * 200: CSRF token returned
 	 * 403: Strict cookie check failed
-	 *
-	 * @NoTwoFactorRequired
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/csrftoken')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[NoTwoFactorRequired]
 	public function index(): JSONResponse {
 		if (!$this->request->passesStrictCookieCheck()) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
