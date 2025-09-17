@@ -52,7 +52,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.29.2
 	- license: AGPL-3.0-or-later
 - axios
-	- version: 1.11.0
+	- version: 1.12.2
 	- license: MIT
 - base64-js
 	- version: 1.5.1
