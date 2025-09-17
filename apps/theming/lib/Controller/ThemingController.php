@@ -17,6 +17,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
@@ -377,8 +378,6 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
 	 * Get the CSS stylesheet for a theme
 	 *
 	 * @param string $themeId ID of the theme
@@ -393,6 +392,7 @@ class ThemingController extends Controller {
 	#[NoCSRFRequired]
 	#[NoTwoFactorRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_DEFAULT)]
+	#[NoSameSiteCookieRequired]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
 		if (!in_array($themeId, array_keys($themes))) {

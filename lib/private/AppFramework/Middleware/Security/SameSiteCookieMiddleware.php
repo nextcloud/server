@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -10,13 +12,17 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\Exceptions\LaxSameSiteCookieFailedException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
+use Psr\Log\LoggerInterface;
+use ReflectionMethod;
 
 class SameSiteCookieMiddleware extends Middleware {
 	public function __construct(
-		private Request $request,
-		private ControllerMethodReflector $reflector,
+		private readonly Request $request,
+		private readonly ControllerMethodReflector $reflector,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -29,7 +35,8 @@ class SameSiteCookieMiddleware extends Middleware {
 			return;
 		}
 
-		$noSSC = $this->reflector->hasAnnotation('NoSameSiteCookieRequired');
+		$reflectionMethod = new ReflectionMethod($controller, $methodName);
+		$noSSC = $this->hasAnnotationOrAttribute($reflectionMethod, 'NoSameSiteCookieRequired', NoSameSiteCookieRequired::class);
 		if ($noSSC) {
 			return;
 		}
@@ -79,5 +86,26 @@ class SameSiteCookieMiddleware extends Middleware {
 				false
 			);
 		}
+	}
+
+	/**
+	 * @template T
+	 *
+	 * @param ReflectionMethod $reflectionMethod
+	 * @param ?string $annotationName
+	 * @param class-string<T> $attributeClass
+	 * @return boolean
+	 */
+	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, ?string $annotationName, string $attributeClass): bool {
+		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
+			return true;
+		}
+
+		if ($annotationName && $this->reflector->hasAnnotation($annotationName)) {
+			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
+			return true;
+		}
+
+		return false;
 	}
 }

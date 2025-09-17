@@ -14,17 +14,12 @@ use Attribute;
 use OCP\AppFramework\Attribute\Consumable;
 
 /**
- * Attribute for controller methods that want to disable the two factor
- * authentification requirements.
- *
- * A user can access the page before the two-factor challenge has been passed
- * (use this wisely and only in two-factor auth apps, e.g. to allow setup during
- * login).
+ * Attribute for controller methods that want to disable the same site cookies
+ * requirements.
  *
  * @since 33.0.0
  */
 #[Attribute(Attribute::TARGET_METHOD)]
 #[Consumable(since: '33.0.0')]
-class NoTwoFactorRequired {
-
+class NoSameSiteCookieRequired {
 }

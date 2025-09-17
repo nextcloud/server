@@ -134,6 +134,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Http\\Attribute\\IgnoreOpenAPI' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/IgnoreOpenAPI.php',
         'OCP\\AppFramework\\Http\\Attribute\\NoAdminRequired' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/NoAdminRequired.php',
         'OCP\\AppFramework\\Http\\Attribute\\NoCSRFRequired' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/NoCSRFRequired.php',
+        'OCP\\AppFramework\\Http\\Attribute\\NoSameSiteCookieRequired' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/NoSameSiteCookieRequired.php',
         'OCP\\AppFramework\\Http\\Attribute\\NoTwoFactorRequired' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/NoTwoFactorRequired.php',
         'OCP\\AppFramework\\Http\\Attribute\\OpenAPI' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/OpenAPI.php',
         'OCP\\AppFramework\\Http\\Attribute\\PasswordConfirmationRequired' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/PasswordConfirmationRequired.php',

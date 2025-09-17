@@ -93,6 +93,7 @@ return array(
     'OCP\\AppFramework\\Http\\Attribute\\IgnoreOpenAPI' => $baseDir . '/lib/public/AppFramework/Http/Attribute/IgnoreOpenAPI.php',
     'OCP\\AppFramework\\Http\\Attribute\\NoAdminRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/NoAdminRequired.php',
     'OCP\\AppFramework\\Http\\Attribute\\NoCSRFRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/NoCSRFRequired.php',
+    'OCP\\AppFramework\\Http\\Attribute\\NoSameSiteCookieRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/NoSameSiteCookieRequired.php',
     'OCP\\AppFramework\\Http\\Attribute\\NoTwoFactorRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/NoTwoFactorRequired.php',
     'OCP\\AppFramework\\Http\\Attribute\\OpenAPI' => $baseDir . '/lib/public/AppFramework/Http/Attribute/OpenAPI.php',
     'OCP\\AppFramework\\Http\\Attribute\\PasswordConfirmationRequired' => $baseDir . '/lib/public/AppFramework/Http/Attribute/PasswordConfirmationRequired.php',
