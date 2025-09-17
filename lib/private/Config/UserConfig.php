@@ -1425,8 +1425,6 @@ class UserConfig implements IUserConfig {
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('preferences')
-			// emptying field 'indexed' if key is not set as indexed anymore
-			->set('indexed', ($indexed) ? 'configvalue' : $update->createNamedParameter(''))
 			->where(
 				$update->expr()->eq('appid', $update->createNamedParameter($app)),
 				$update->expr()->eq('configkey', $update->createNamedParameter($key))
@@ -1434,12 +1432,15 @@ class UserConfig implements IUserConfig {
 
 		// switching flags 'indexed' on and off is about adding/removing the bit value on the correct entries
 		if ($indexed) {
+			$update->set('indexed', $update->func()->substring('configvalue', $update->createNamedParameter(1, IQueryBuilder::PARAM_INT), $update->createNamedParameter(64, IQueryBuilder::PARAM_INT)));
 			$update->set('flags', $update->func()->add('flags', $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)));
 			$update->andWhere(
 				$update->expr()->neq($update->expr()->castColumn(
 					$update->expr()->bitwiseAnd('flags', self::FLAG_INDEXED), IQueryBuilder::PARAM_INT), $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)
 				));
 		} else {
+			// emptying field 'indexed' if key is not set as indexed anymore
+			$update->set('indexed', $update->createNamedParameter(''));
 			$update->set('flags', $update->func()->subtract('flags', $update->createNamedParameter(self::FLAG_INDEXED, IQueryBuilder::PARAM_INT)));
 			$update->andWhere(
 				$update->expr()->eq($update->expr()->castColumn(
