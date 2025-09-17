@@ -50,6 +50,7 @@ Feature: autocomplete
     Then get email autocomplete for "example"
       | id | source |
       | autocomplete | users |
+      | leon@example.com | emails |
       | user@example.com | emails |
     Then get email autocomplete for "auto"
       | id | source |
@@ -57,6 +58,7 @@ Feature: autocomplete
     Then get email autocomplete for "example"
       | id | source |
       | autocomplete | users |
+      | leon@example.com | emails |
       | user@example.com | emails |
     Then get email autocomplete for "autocomplete@example.com"
       | id | source |
@@ -72,12 +74,14 @@ Feature: autocomplete
     When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
     Then get email autocomplete for "example"
       | id | source |
+      | leon@example.com | emails |
       | user@example.com | emails |
     When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "yes"
     Then get email autocomplete for "auto"
       | id | source |
     Then get email autocomplete for "example"
       | id | source |
+      | leon@example.com | emails |
       | user@example.com | emails |
     Then get email autocomplete for "autocomplete@example.com"
       | id | source |
