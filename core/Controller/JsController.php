@@ -13,12 +13,12 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\NoSameSiteCookieRequired;
 use OCP\AppFramework\Http\Attribute\NoTwoFactorRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -42,8 +42,6 @@ class JsController extends Controller {
 	}
 
 	/**
-	 * @NoSameSiteCookieRequired
-	 *
 	 * @param string $fileName js filename with extension
 	 * @param string $appName js folder name
 	 */
@@ -51,6 +49,7 @@ class JsController extends Controller {
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/js/{appName}/{fileName}')]
 	#[NoTwoFactorRequired]
+	#[NoSameSiteCookieRequired]
 	public function getJs(string $fileName, string $appName): FileDisplayResponse|NotFoundResponse {
 		try {
 			$folder = $this->appData->getFolder($appName);
