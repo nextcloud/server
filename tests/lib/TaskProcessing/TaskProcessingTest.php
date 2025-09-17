@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -28,6 +29,7 @@ use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
@@ -612,6 +614,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$userManager,
 			\OC::$server->get(IUserSession::class),
 			\OC::$server->get(ICacheFactory::class),
+			\OC::$server->get(IFactory::class),
 		);
 	}
 
@@ -1264,6 +1267,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			\OC::$server->get(IUserManager::class),
 			\OC::$server->get(IUserSession::class),
 			\OC::$server->get(ICacheFactory::class),
+			\OC::$server->get(IFactory::class),
 		);
 	}
 
