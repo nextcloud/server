@@ -503,7 +503,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Aktualisierung über die Web-Oberfläche auf eigenes Risiko",
     "Maintenance mode" : "Wartungsmodus",
     "This %s instance is currently in maintenance mode, which may take a while." : "Diese %s-Instanz befindet sich gerade im Wartungsmodus, was eine Weile dauern kann.",
-    "This page will refresh itself when the instance is available again." : "Diese Seite aktualisiert sich automatisch, sobald Nextcloud wieder verfügbar ist.",
+    "This page will refresh itself when the instance is available again." : "Diese Seite aktualisiert sich automatisch, sobald diese Instanz wieder verfügbar ist.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktieren Sie Ihre Systemadministration, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
     "Error occurred while checking server setup" : "Fehler beim Überprüfen der Servereinrichtung",
     "For more details see the {linkstart}documentation ↗{linkend}." : "Weitere Informationen finden Sie in der {linkstart}Dokumentation ↗{linkend}.",
