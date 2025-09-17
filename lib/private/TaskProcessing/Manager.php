@@ -98,6 +98,7 @@ class Manager implements IManager {
 		private IClientService $clientService,
 		private IAppManager $appManager,
 		ICacheFactory $cacheFactory,
+		private IFactory $l10nFactory,
 	) {
 		$this->appData = $appDataFactory->get('core');
 		$this->distributedCache = $cacheFactory->createDistributed('task_processing::');
