@@ -41,7 +41,7 @@ class RemotePlugin implements ISearchPlugin {
 		$resultType = new SearchResultType('remotes');
 
 		// Search in contacts
-		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN'], [
+		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN', 'EMAIL'], [
 			'limit' => $limit,
 			'offset' => $offset,
 			'enumeration' => false,
@@ -83,7 +83,17 @@ class RemotePlugin implements ISearchPlugin {
 						];
 					}
 
-					if (strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
+					$emailMatch = false;
+					if (isset($contact['EMAIL'])) {
+						$emails = is_array($contact['EMAIL']) ? $contact['EMAIL'] : [$contact['EMAIL']];
+						foreach ($emails as $email) {
+							if (is_string($email) && strtolower($email) === $lowerSearch) {
+								$emailMatch = true;
+								break;
+							}
+						}
+					}
+					if ($emailMatch || strtolower($contact['FN']) === $lowerSearch || strtolower($cloudId) === $lowerSearch) {
 						if (strtolower($cloudId) === $lowerSearch) {
 							$searchResult->markExactIdMatch($resultType);
 						}
