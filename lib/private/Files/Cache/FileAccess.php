@@ -150,10 +150,8 @@ class FileAccess implements IFileAccess {
 			// End to end encrypted files are descendants of a folder with encrypted=1
 			// If the filecache table is sharded we need to check with a separate query if the parent is encrypted
 			$rows = [];
-			$i = 0;
 			do {
-				while ($i < 1000 && ($row = $files->fetch())) {
-					$i++;
+				while (count($rows) < 1000 && ($row = $files->fetch())) {
 					$rows[] = $row;
 				}
 				$parents = array_map(function ($row) {
@@ -168,15 +166,14 @@ class FileAccess implements IFileAccess {
 				$parentRows = $result->fetchAll();
 				$result->closeCursor();
 
-				$parentEncryptedByFileId = array_column($parentRows, 'encrypted', 'fileid');
+				$encryptedByFileId = array_column($parentRows, 'encrypted', 'fileid');
 				foreach ($rows as $row) {
-					if ($parentEncryptedByFileId[$row['fileid']] === 1) {
+					if ($encryptedByFileId[$row['parent']]) {
 						continue;
 					}
 					yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
 				}
 				$rows = [];
-				$i = 1;
 			} while ($rows[] = $files->fetch());
 		} else {
 			while (
