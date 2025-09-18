@@ -23,6 +23,8 @@ use OCP\Config\ValueType;
 use OCP\DB\Exception as DBException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\ICrypto;
@@ -52,6 +54,8 @@ class UserConfig implements IUserConfig {
 	private const INDEX_MAX_LENGTH = 64;
 	private const ENCRYPTION_PREFIX = '$UserConfigEncryption$';
 	private const ENCRYPTION_PREFIX_LENGTH = 22; // strlen(self::ENCRYPTION_PREFIX)
+	private const LOCAL_CACHE_PREFIX = self::class;
+	private const LOCAL_CACHE_TTL = 5;
 
 	/** @var array<string, array<string, array<string, mixed>>> [ass'user_id' => ['app_id' => ['key' => 'value']]] */
 	private array $fastCache = [];   // cache for normal config keys
@@ -68,6 +72,8 @@ class UserConfig implements IUserConfig {
 	private bool $ignoreLexiconAliases = false;
 	private array $strictnessApplied = [];
 
+	private ?ICache $localCache = null;
+
 	public function __construct(
 		protected IDBConnection $connection,
 		protected IConfig $config,
@@ -75,7 +81,11 @@ class UserConfig implements IUserConfig {
 		private readonly PresetManager $presetManager,
 		protected LoggerInterface $logger,
 		protected ICrypto $crypto,
+		ICacheFactory $cacheFactory,
 	) {
+		if ($config->getSystemValueBool('cache_user_config', true) && $cacheFactory->isLocalCacheAvailable()) {
+			$this->localCache = $cacheFactory->createLocal(self::LOCAL_CACHE_PREFIX);
+		}
 	}
 
 	/**
@@ -115,7 +125,7 @@ class UserConfig implements IUserConfig {
 	 */
 	public function getApps(string $userId): array {
 		$this->assertParams($userId, allowEmptyApp: true);
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 		$apps = array_merge(array_keys($this->fastCache[$userId] ?? []), array_keys($this->lazyCache[$userId] ?? []));
 		sort($apps);
 
@@ -133,7 +143,7 @@ class UserConfig implements IUserConfig {
 	 */
 	public function getKeys(string $userId, string $app): array {
 		$this->assertParams($userId, $app);
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
 		$keys = array_map('strval', array_keys(($this->fastCache[$userId][$app] ?? []) + ($this->lazyCache[$userId][$app] ?? [])));
 		sort($keys);
@@ -266,7 +276,7 @@ class UserConfig implements IUserConfig {
 	): array {
 		$this->assertParams($userId, $app, $prefix);
 		// if we want to filter values, we need to get sensitivity
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 		// array_merge() will remove numeric keys (here config keys), so addition arrays instead
 		$values = array_filter(
 			$this->formatAppValues($userId, $app, ($this->fastCache[$userId][$app] ?? []) + ($this->lazyCache[$userId][$app] ?? []), $filtered),
@@ -290,7 +300,7 @@ class UserConfig implements IUserConfig {
 	 */
 	public function getAllValues(string $userId, bool $filtered = false): array {
 		$this->assertParams($userId, allowEmptyApp: true);
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 
 		$result = [];
 		foreach ($this->getApps($userId) as $app) {
@@ -1164,7 +1174,7 @@ class UserConfig implements IUserConfig {
 		if (!$inserted) {
 			$currType = $this->valueDetails[$userId][$app][$key]['type'] ?? null;
 			if ($currType === null) { // this might happen when switching lazy loading status
-				$this->loadConfigAll($userId);
+				$this->loadConfig($userId, true);
 				$currType = $this->valueDetails[$userId][$app][$key]['type'];
 			}
 
@@ -1225,6 +1235,7 @@ class UserConfig implements IUserConfig {
 			'type' => $type,
 			'flags' => $flags
 		];
+		$this->updateCache($userId);
 
 		return true;
 	}
@@ -1247,7 +1258,7 @@ class UserConfig implements IUserConfig {
 	 */
 	public function updateType(string $userId, string $app, string $key, ValueType $type = ValueType::MIXED): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 		$this->isLazy($userId, $app, $key); // confirm key exists
 
@@ -1260,6 +1271,7 @@ class UserConfig implements IUserConfig {
 		$update->executeStatement();
 
 		$this->valueDetails[$userId][$app][$key]['type'] = $type;
+		$this->updateCache($userId);
 
 		return true;
 	}
@@ -1277,7 +1289,7 @@ class UserConfig implements IUserConfig {
 	 */
 	public function updateSensitive(string $userId, string $app, string $key, bool $sensitive): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
 		try {
@@ -1319,6 +1331,7 @@ class UserConfig implements IUserConfig {
 		$update->executeStatement();
 
 		$this->valueDetails[$userId][$app][$key]['flags'] = $flags;
+		$this->updateCache($userId);
 
 		return true;
 	}
@@ -1364,7 +1377,7 @@ class UserConfig implements IUserConfig {
 	 */
 	public function updateIndexed(string $userId, string $app, string $key, bool $indexed): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
 		try {
@@ -1405,6 +1418,7 @@ class UserConfig implements IUserConfig {
 		$update->executeStatement();
 
 		$this->valueDetails[$userId][$app][$key]['flags'] = $flags;
+		$this->updateCache($userId);
 
 		return true;
 	}
@@ -1467,7 +1481,7 @@ class UserConfig implements IUserConfig {
 	 */
 	public function updateLazy(string $userId, string $app, string $key, bool $lazy): bool {
 		$this->assertParams($userId, $app, $key);
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
 		try {
@@ -1528,7 +1542,7 @@ class UserConfig implements IUserConfig {
 	 */
 	public function getDetails(string $userId, string $app, string $key): array {
 		$this->assertParams($userId, $app, $key);
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 		$this->matchAndApplyLexiconDefinition($userId, $app, $key);
 
 		$lazy = $this->isLazy($userId, $app, $key);
@@ -1590,6 +1604,7 @@ class UserConfig implements IUserConfig {
 		unset($this->lazyCache[$userId][$app][$key]);
 		unset($this->fastCache[$userId][$app][$key]);
 		unset($this->valueDetails[$userId][$app][$key]);
+		$this->updateCache($userId);
 	}
 
 	/**
@@ -1653,12 +1668,13 @@ class UserConfig implements IUserConfig {
 		$this->assertParams($userId, allowEmptyApp: true);
 		$this->lazyLoaded[$userId] = $this->fastLoaded[$userId] = false;
 		$this->lazyCache[$userId] = $this->fastCache[$userId] = $this->valueDetails[$userId] = [];
+		$this->localCache?->remove($userId);
 
 		if (!$reload) {
 			return;
 		}
 
-		$this->loadConfigAll($userId);
+		$this->loadConfig($userId, true);
 	}
 
 	/**
@@ -1667,6 +1683,7 @@ class UserConfig implements IUserConfig {
 	 * @since 31.0.0
 	 */
 	public function clearCacheAll(): void {
+		$this->localCache?->clear();
 		$this->lazyLoaded = $this->fastLoaded = [];
 		$this->lazyCache = $this->fastCache = $this->valueDetails = $this->configLexiconDetails = [];
 	}
@@ -1733,22 +1750,32 @@ class UserConfig implements IUserConfig {
 		}
 	}
 
-	private function loadConfigAll(string $userId): void {
-		$this->loadConfig($userId, null);
-	}
-
 	/**
 	 * Load normal config or config set as lazy loaded
 	 *
-	 * @param bool|null $lazy set to TRUE to load config set as lazy loaded, set to NULL to load all config
+	 * @param bool $lazy - Set to TRUE to also load config options marked as lazy loaded
 	 */
-	private function loadConfig(string $userId, ?bool $lazy = false): void {
+	private function loadConfig(string $userId, bool $lazy = false): void {
 		if ($this->isLoaded($userId, $lazy)) {
 			return;
 		}
 
-		if (($lazy ?? true) !== false) { // if lazy is null or true, we debug log
+		if ($lazy === true) {
 			$this->logger->debug('The loading of lazy UserConfig values have been requested', ['exception' => new \RuntimeException('ignorable exception')]);
+		}
+
+		/** @var array<mixed> */
+		$cacheContent = $this->localCache?->get($userId) ?? [];
+		$includesLazyValues = !empty($cacheContent) && !empty($cacheContent['lazyCache']);
+		if (!empty($cacheContent) && (!$lazy || $includesLazyValues)) {
+			$this->valueDetails[$userId] = $cacheContent['valueDetails'];
+			$this->fastCache[$userId] = $cacheContent['fastCache'];
+			$this->fastLoaded[$userId] = true;
+			if ($includesLazyValues) {
+				$this->lazyCache[$userId] = $cacheContent['lazyCache'];
+				$this->lazyLoaded[$userId] = true;
+			}
+			return;
 		}
 
 		$qb = $this->connection->getQueryBuilder();
@@ -1756,17 +1783,18 @@ class UserConfig implements IUserConfig {
 		$qb->select('appid', 'configkey', 'configvalue', 'type', 'flags');
 		$qb->where($qb->expr()->eq('userid', $qb->createNamedParameter($userId)));
 
-		// we only need value from lazy when loadConfig does not specify it
-		if ($lazy !== null) {
-			$qb->andWhere($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
-		} else {
+		if ($lazy) {
 			$qb->addSelect('lazy');
+		}
+		if ($lazy === false || $this->isLoaded($userId, false)) {
+			// we only filter by lazy if not requested or if we already have the non-lazy
+			$qb->andWhere($qb->expr()->eq('lazy', $qb->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT)));
 		}
 
 		$result = $qb->executeQuery();
 		$rows = $result->fetchAll();
 		foreach ($rows as $row) {
-			if (($row['lazy'] ?? ($lazy ?? 0) ? 1 : 0) === 1) {
+			if ((($row['lazy'] ?? $lazy) ? 1 : 0) === 1) {
 				$this->lazyCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
 			} else {
 				$this->fastCache[$userId][$row['appid']][$row['configkey']] = $row['configvalue'] ?? '';
@@ -1775,6 +1803,7 @@ class UserConfig implements IUserConfig {
 		}
 		$result->closeCursor();
 		$this->setAsLoaded($userId, $lazy);
+		$this->updateCache($userId);
 	}
 
 	/**
@@ -2082,5 +2111,17 @@ class UserConfig implements IUserConfig {
 	 */
 	public function ignoreLexiconAliases(bool $ignore): void {
 		$this->ignoreLexiconAliases = $ignore;
+	}
+
+	private function updateCache(string $userId): void {
+		$this->localCache?->set(
+			$userId,
+			[
+				'fastCache' => $this->fastCache[$userId],
+				'lazyCache' => $this->lazyCache[$userId],
+				'valueDetails' => $this->valueDetails[$userId],
+			],
+			self::LOCAL_CACHE_TTL,
+		);
 	}
 }
