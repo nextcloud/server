@@ -123,7 +123,7 @@
 						</template>
 					</NcInputField>
 					<template v-if="isPublicShare">
-						<NcCheckboxRadioSwitch :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
+						<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="password-protection" :checked.sync="isPasswordProtected" :disabled="isPasswordEnforced">
 							{{ t('files_sharing', 'Set password') }}
 						</NcCheckboxRadioSwitch>
 						<NcPasswordField v-if="isPasswordProtected"
@@ -143,12 +143,12 @@
 							{{ t('files_sharing', 'Password expired') }}
 						</span>
 					</template>
-					<NcCheckboxRadioSwitch v-if="canTogglePasswordProtectedByTalkAvailable"
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="video-verification" v-if="canTogglePasswordProtectedByTalkAvailable"
 						:checked.sync="isPasswordProtectedByTalk"
 						@update:checked="onPasswordProtectedByTalkChange">
 						{{ t('files_sharing', 'Video verification') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch :checked.sync="hasExpirationDate" :disabled="isExpiryDateEnforced">
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="expiration-date" :checked.sync="hasExpirationDate" :disabled="isExpiryDateEnforced">
 						{{ isExpiryDateEnforced
 							? t('files_sharing', 'Expiration date (enforced)')
 							: t('files_sharing', 'Set expiration date') }}
@@ -163,19 +163,19 @@
 						:placeholder="t('files_sharing', 'Expiration date')"
 						type="date"
 						@input="onExpirationChange" />
-					<NcCheckboxRadioSwitch v-if="isPublicShare"
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="hide-download" v-if="isPublicShare"
 						:disabled="canChangeHideDownload"
 						:checked.sync="share.hideDownload"
 						@update:checked="queueUpdate('hideDownload')">
 						{{ t('files_sharing', 'Hide download') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch v-else
+					<NcCheckboxRadioSwitch v-else data-cy-files-sharing-share-advanced-section="allow-download"
 						:disabled="!canSetDownload"
 						:checked.sync="canDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
 						{{ t('files_sharing', 'Allow download and sync') }}
 					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="note-to-recipient" :checked.sync="writeNoteToRecipientIsChecked">
 						{{ t('files_sharing', 'Note to recipient') }}
 					</NcCheckboxRadioSwitch>
 					<template v-if="writeNoteToRecipientIsChecked">
@@ -194,7 +194,7 @@
 						:action="action"
 						:file-info="fileInfo"
 						:share="share" />
-					<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
+					<NcCheckboxRadioSwitch data-cy-files-sharing-share-advanced-section="custom-permissions" :checked.sync="setCustomPermissions">
 						{{ t('files_sharing', 'Custom permissions') }}
 					</NcCheckboxRadioSwitch>
 					<section v-if="setCustomPermissions" class="custom-permissions-group">
