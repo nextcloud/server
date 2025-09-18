@@ -9,7 +9,7 @@
 	<name>Contacts Interaction</name>
 	<summary>Manages interaction between accounts and contacts</summary>
 	<description>Collect data about accounts and contacts interactions and provide an address book for the data</description>
-	<version>1.12.0</version>
+	<version>1.12.1</version>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
 	<author homepage="https://github.com/nextcloud/groupware">Nextcloud Groupware Team</author>
@@ -26,6 +26,11 @@
 	<background-jobs>
 		<job>OCA\ContactsInteraction\BackgroundJob\CleanupJob</job>
 	</background-jobs>
+	<repair-steps>
+		<live-migration>
+			<step>OCA\ContactsInteraction\Migration\FixVcardCategory</step>
+		</live-migration>
+	</repair-steps>
 	<sabre>
 		<address-book-plugins>
 			<plugin>OCA\ContactsInteraction\AddressBookProvider</plugin>
