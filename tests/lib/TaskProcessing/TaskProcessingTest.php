@@ -32,6 +32,7 @@ use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\Server;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\GetTaskProcessingProvidersEvent;
@@ -620,6 +621,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$userManager,
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
+			Server::get(IFactory::class),
 		);
 	}
 
@@ -1293,6 +1295,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			Server::get(IUserManager::class),
 			Server::get(IUserSession::class),
 			Server::get(ICacheFactory::class),
+			Server::get(IFactory::class),
 		);
 	}
 
