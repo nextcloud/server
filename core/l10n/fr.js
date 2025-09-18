@@ -245,6 +245,7 @@ OC.L10N.register(
     "Last 30 days" : "30 derniers jours",
     "This year" : "Cette année",
     "Last year" : "Année dernière",
+    "Between {startDate} and {endDate}" : "Entre le {startDate} et le {endDate}",
     "Unified search" : "Recherche unifiée",
     "Search apps, files, tags, messages" : "Rechercher des applications, des fichiers, des étiquettes, des messages",
     "Places" : "Emplacements",
