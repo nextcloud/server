@@ -4,18 +4,18 @@
 -->
 
 <template>
-	<Component :is="data.is"
+	<component :is="data.is"
 		v-bind="data"
 		v-on="action.handlers">
 		{{ data.text }}
-	</Component>
+	</component>
 </template>
 
 <script>
-import Share from '../models/Share.ts'
+import Share from '../../models/Share.ts'
 
 export default {
-	name: 'ExternalShareAction',
+	name: 'SidebarTabExternalActionLegacy',
 
 	props: {
 		id: {

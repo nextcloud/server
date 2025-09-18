@@ -187,13 +187,21 @@
 						:checked.sync="showInGridView">
 						{{ t('files_sharing', 'Show files in grid view') }}
 					</NcCheckboxRadioSwitch>
-					<ExternalShareAction v-for="action in externalLinkActions"
+
+					<SidebarTabExternalAction v-for="action in sortedExternalShareActions"
+						:key="action.id"
+						ref="externalShareActions"
+						:action="action"
+						:node="fileInfo.node /* TODO: Fix once we have proper Node API */"
+						:share="share" />
+					<SidebarTabExternalActionLegacy v-for="action in externalLegacyShareActions"
 						:id="action.id"
 						ref="externalLinkActions"
 						:key="action.id"
 						:action="action"
 						:file-info="fileInfo"
 						:share="share" />
+
 					<NcCheckboxRadioSwitch :checked.sync="setCustomPermissions">
 						{{ t('files_sharing', 'Custom permissions') }}
 					</NcCheckboxRadioSwitch>
@@ -264,11 +272,13 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { getLanguage } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
-import { showError } from '@nextcloud/dialogs'
+import { getSidebarActions } from '@nextcloud/sharing/ui'
 import moment from '@nextcloud/moment'
+import { toRaw } from 'vue'
 
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -293,8 +303,8 @@ import MenuDownIcon from 'vue-material-design-icons/MenuDown.vue'
 import MenuUpIcon from 'vue-material-design-icons/MenuUp.vue'
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 import Refresh from 'vue-material-design-icons/Refresh.vue'
-
-import ExternalShareAction from '../components/ExternalShareAction.vue'
+import SidebarTabExternalAction from '../components/SidebarTabExternal/SidebarTabExternalAction.vue'
+import SidebarTabExternalActionLegacy from '../components/SidebarTabExternal/SidebarTabExternalActionLegacy.vue'
 
 import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.ts'
@@ -323,7 +333,6 @@ export default {
 		CloseIcon,
 		CircleIcon,
 		EditIcon,
-		ExternalShareAction,
 		LinkIcon,
 		GroupIcon,
 		ShareIcon,
@@ -334,7 +343,10 @@ export default {
 		MenuUpIcon,
 		DotsHorizontalIcon,
 		Refresh,
+		SidebarTabExternalAction,
+		SidebarTabExternalActionLegacy,
 	},
+
 	mixins: [ShareRequests, SharesMixin],
 	props: {
 		shareRequestValue: {
@@ -365,6 +377,8 @@ export default {
 			initialToken: this.share.token,
 			loadingToken: false,
 
+			externalShareActions: getSidebarActions(),
+			// legacy
 			ExternalShareActions: OCA.Sharing.ExternalShareActions.state,
 		}
 	},
@@ -754,8 +768,20 @@ export default {
 		 *
 		 * @return {Array}
 		 */
-		externalLinkActions() {
+		sortedExternalShareActions() {
+			return this.externalShareActions
+				.filter((action) => action.enabled(toRaw(this.share), toRaw(this.fileInfo.node)))
+				.sort((a, b) => a.order - b.order)
+		},
+
+		/**
+		 * Additional actions for the menu
+		 *
+		 * @return {Array}
+		 */
+		externalLegacyShareActions() {
 			const filterValidAction = (action) => (action.shareType.includes(ShareType.Link) || action.shareType.includes(ShareType.Email)) && action.advanced
+			console.error('legacy details tab', this.ExternalShareActions, this.ExternalShareActions.actions.filter(filterValidAction))
 			// filter only the advanced registered actions for said link
 			return this.ExternalShareActions.actions
 				.filter(filterValidAction)
@@ -1037,6 +1063,12 @@ export default {
 
 			await this.getNode()
 			emit('files:node:updated', this.node)
+
+			if (this.$refs.externalShareActions?.length > 0) {
+				/** @type {import('vue').ComponentPublicInstance<SidebarTabExternalAction>[]} */
+				const actions = this.$refs.externalShareActions
+				await Promise.allSettled(actions.map((action) => action.save()))
+			}
 
 			if (this.$refs.externalLinkActions?.length > 0) {
 				await Promise.allSettled(this.$refs.externalLinkActions.map((action) => {
