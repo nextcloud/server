@@ -28,6 +28,7 @@
     "User is not a sub-admin of this group" : "L'utilisateur n'est pas un sous-administrateur de ce groupe",
     "Email address not available" : "Adresse e-mail indisponible ",
     "Sending email failed" : "L'envoi de l'e-mail a échoué",
+    "Logged in account is not mail address owner" : "Le compte connecté n'est pas un propriétaire de courriel",
     "Email confirmation" : "Confirmation par e-mail",
     "To enable the email address %s please click the button below." : "Pour activer l'adresse e-mail %s, veuillez cliquer sur le bouton ci-dessous.",
     "Confirm" : "Confirmer",
