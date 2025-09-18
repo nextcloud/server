@@ -84,24 +84,43 @@ class TeamManager implements ITeamManager {
 		return array_values($resources);
 	}
 
+	public function getSharedWithList(array $teams, string $userId): array {
+		if (!$this->hasTeamSupport()) {
+			return [];
+		}
+
+		$resources = [];
+		foreach ($this->getProviders() as $provider) {
+			if (method_exists($provider, 'getSharedWithList')) {
+				// TODO: will loose data on multiple provider
+				$resources = $provider->getSharedWithList($teams, $userId);
+			} else {
+				foreach ($teams as $team) {
+					if (!array_key_exists($team->getId(), $resources)) {
+						$resources[$team->getId()] = [];
+					}
+
+					array_push($resources[$team->getId()], ...$provider->getSharedWith($team->getId()));
+				}
+			}
+		}
+
+		return $resources;
+	}
+
 	public function getTeamsForResource(string $providerId, string $resourceId, string $userId): array {
 		if (!$this->hasTeamSupport()) {
 			return [];
 		}
 
 		$provider = $this->getProvider($providerId);
-		return array_values(array_filter(array_map(function ($teamId) use ($userId) {
-			$team = $this->getTeam($teamId, $userId);
-			if ($team === null) {
-				return null;
-			}
-
+		return array_map(function (Circle $team) {
 			return new Team(
-				$teamId,
+				$team->getSingleId(),
 				$team->getDisplayName(),
-				$this->urlGenerator->linkToRouteAbsolute('contacts.contacts.directcircle', ['singleId' => $teamId]),
+				$this->urlGenerator->linkToRouteAbsolute('contacts.contacts.directcircle', ['singleId' => $team->getSingleId()]),
 			);
-		}, $provider->getTeamsForResource($resourceId))));
+		}, $this->getTeams($provider->getTeamsForResource($resourceId), $userId));
 	}
 
 	private function getTeam(string $teamId, string $userId): ?Circle {
@@ -116,5 +135,18 @@ class TeamManager implements ITeamManager {
 		} catch (CircleNotFoundException) {
 			return null;
 		}
+	}
+
+	/**
+	 * @return Circle[]
+	 */
+	private function getTeams(array $teams, string $userId): array {
+		if (!$this->hasTeamSupport()) {
+			return [];
+		}
+
+		$federatedUser = $this->circlesManager->getFederatedUser($userId, Member::TYPE_USER);
+		$this->circlesManager->startSession($federatedUser);
+		return $this->circlesManager->getCirclesByIds($teams);
 	}
 }
