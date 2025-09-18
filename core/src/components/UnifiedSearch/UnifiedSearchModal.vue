@@ -150,7 +150,7 @@
 
 <script lang="ts">
 import { subscribe } from '@nextcloud/event-bus'
-import { translate as t } from '@nextcloud/l10n'
+import { getCanonicalLocale, t } from '@nextcloud/l10n'
 import { useBrowserLocation } from '@vueuse/core'
 import { defineComponent } from 'vue'
 import { getProviders, search as unifiedSearch, getContacts } from '../../services/UnifiedSearchService.js'
@@ -251,7 +251,13 @@ export default defineComponent({
 			providerActionMenuIsOpen: false,
 			dateActionMenuIsOpen: false,
 			providerResultLimit: 5,
-			dateFilter: { id: 'date', type: 'date', text: '', startFrom: null, endAt: null },
+			dateFilter: {
+				id: 'date',
+				type: 'date',
+				text: '',
+				startFrom: null as Date | null,
+				endAt: null as Date | null,
+			},
 			personFilter: { id: 'person', type: 'person', name: '' },
 			filteredProviders: [],
 			searching: false,
@@ -653,13 +659,22 @@ export default defineComponent({
 			this.updateDateFilter()
 
 		},
+
 		setCustomDateRange(event) {
 			unifiedSearchLogger.debug('Custom date range', { range: event })
 			this.dateFilter.startFrom = event.startFrom
 			this.dateFilter.endAt = event.endAt
-			this.dateFilter.text = t('core', `Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}`)
+			this.dateFilter.text = t(
+				'core',
+				'Between {startDate} and {endDate}',
+				{
+					startDate: this.dateFilter.startFrom!.toLocaleDateString([getCanonicalLocale()]),
+					endDate: this.dateFilter.endAt!.toLocaleDateString([getCanonicalLocale()]),
+				},
+			)
 			this.updateDateFilter()
 		},
+
 		handlePluginFilter(addFilterEvent) {
 			unifiedSearchLogger.debug('Handling plugin filter', { addFilterEvent })
 			for (let i = 0; i < this.filteredProviders.length; i++) {
