@@ -39,4 +39,33 @@ class ConnectionFactoryTest extends TestCase {
 
 		$this->assertEquals($expected, self::invokePrivate($factory, 'splitHostFromPortAndSocket', [$host]));
 	}
+
+	public function testPgsqlSslConnection(): void {
+		/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject $config */
+		$config = $this->createMock(SystemConfig::class);
+		$config->method('getValue')
+			->willReturnCallback(function ($key, $default) {
+				return match ($key) {
+					'dbtype' => 'pgsql',
+					'pgsql_ssl' => [
+						'mode' => 'verify-full',
+						'cert' => 'client.crt',
+						'key' => 'client.key',
+						'crl' => 'client.crl',
+						'rootcert' => 'rootCA.crt',
+					],
+					default => $default,
+				};
+			});
+		$factory = new ConnectionFactory($config);
+
+		$params = $factory->createConnectionParams();
+
+		$this->assertEquals('pdo_pgsql', $params['driver']);
+		$this->assertEquals('verify-full', $params['sslmode']);
+		$this->assertEquals('rootCA.crt', $params['sslrootcert']);
+		$this->assertEquals('client.crt', $params['sslcert']);
+		$this->assertEquals('client.key', $params['sslkey']);
+		$this->assertEquals('client.crl', $params['sslcrl']);
+	}
 }
