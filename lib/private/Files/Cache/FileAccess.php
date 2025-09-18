@@ -146,26 +146,44 @@ class FileAccess implements IFileAccess {
 		$qb->orderBy('f.fileid', 'ASC');
 		$files = $qb->executeQuery();
 
-		while (
-			/** @var array */
-			$row = $files->fetch()
-		) {
-			if (!$endToEndEncrypted && $this->connection->getShardDefinition('filecache') !== null) {
-				// End to end encrypted files are descendants of a folder with encrypted=1
-				// If the filecache table is sharded we need to check individually if the parent is encrypted
-				$parentQuery = $this->getQuery();
-				$parentQuery->select('encrypted')->from('filecache');
-				$parentQuery->whereFileId($row['parent']);
-				$parentQuery->hintShardKey('storage', $storageId);
-				$parentQuery->setMaxResults(1);
-				$result = $parentQuery->executeQuery();
-				$encrypted = $result->fetchOne();
-				$result->closeCursor();
-				if ($encrypted === 1) {
-					continue;
+		if (!$endToEndEncrypted && $this->connection->getShardDefinition('filecache') !== null) {
+			// End to end encrypted files are descendants of a folder with encrypted=1
+			// If the filecache table is sharded we need to check with a separate query if the parent is encrypted
+			$rows = [];
+			$i = 0;
+			do {
+				while (($rows[] = $files->fetch()) && $i < 1000) {
+					$i++;
 				}
+				$parents = array_map(function ($row) {
+					return $row['parent'];
+				}, $rows);
+
+				$parentQuery = $this->getQuery();
+				$parentQuery->select('fileid', 'encrypted')->from('filecache');
+				$parentQuery->where($parentQuery->expr()->in('fileid', $parentQuery->createNamedParameter($parents, IQueryBuilder::PARAM_INT_ARRAY)));
+				$parentQuery->hintShardKey('storage', $storageId);
+				$result = $parentQuery->executeQuery();
+				$parentRows = $result->fetchAll();
+				$result->closeCursor();
+
+				$parentEncryptedByFileId = array_column($parentRows, 'encrypted', 'fileid');
+				foreach ($rows as $row) {
+					if ($parentEncryptedByFileId[$row['fileid']] === 1) {
+						continue;
+					}
+					yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
+				}
+				$rows = [];
+				$i = 1;
+			} while ($rows[] = $files->fetch());
+		} else {
+			while (
+				/** @var array */
+				$row = $files->fetch()
+			) {
+				yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
 			}
-			yield Cache::cacheEntryFromData($row, $this->mimeTypeLoader);
 		}
 
 		$files->closeCursor();
