@@ -6,10 +6,19 @@
  */
 namespace OCA\SystemTags\Settings;
 
+use OCA\SystemTags\AppInfo\Application;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
+
+	public function __construct(
+		private IAppConfig $appConfig,
+		private IInitialState $initialStateService,
+	) {
+	}
 
 	/**
 	 * @return TemplateResponse
