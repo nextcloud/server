@@ -152,8 +152,9 @@ class FileAccess implements IFileAccess {
 			$rows = [];
 			$i = 0;
 			do {
-				while (($rows[] = $files->fetch()) && $i < 1000) {
+				while ($i < 1000 && ($row = $files->fetch())) {
 					$i++;
+					$rows[] = $row;
 				}
 				$parents = array_map(function ($row) {
 					return $row['parent'];
