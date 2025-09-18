@@ -121,6 +121,7 @@ return array(
     'OCP\\AppFramework\\Http\\RedirectToDefaultAppResponse' => $baseDir . '/lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php',
     'OCP\\AppFramework\\Http\\Response' => $baseDir . '/lib/public/AppFramework/Http/Response.php',
     'OCP\\AppFramework\\Http\\StandaloneTemplateResponse' => $baseDir . '/lib/public/AppFramework/Http/StandaloneTemplateResponse.php',
+    'OCP\\AppFramework\\Http\\StreamGeneratorResponse' => $baseDir . '/lib/public/AppFramework/Http/StreamGeneratorResponse.php',
     'OCP\\AppFramework\\Http\\StreamResponse' => $baseDir . '/lib/public/AppFramework/Http/StreamResponse.php',
     'OCP\\AppFramework\\Http\\StrictContentSecurityPolicy' => $baseDir . '/lib/public/AppFramework/Http/StrictContentSecurityPolicy.php',
     'OCP\\AppFramework\\Http\\StrictEvalContentSecurityPolicy' => $baseDir . '/lib/public/AppFramework/Http/StrictEvalContentSecurityPolicy.php',
