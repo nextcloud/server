@@ -20,9 +20,21 @@ use function array_key_exists;
 use function array_merge;
 
 final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
+	private ?Log $logger = null;
+
+	/**
+	 * @param \Closure(): Log $loggerClosure
+	 */
 	public function __construct(
-		private Log $logger,
+		private $loggerClosure,
 	) {
+	}
+
+	private function getLogger(): Log {
+		if (!$this->logger) {
+			$this->logger = ($this->loggerClosure)();
+		}
+		return $this->logger;
 	}
 
 	public static function logLevelToInt(string $level): int {
@@ -40,7 +52,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	}
 
 	public function setEventDispatcher(IEventDispatcher $eventDispatcher): void {
-		$this->logger->setEventDispatcher($eventDispatcher);
+		$this->getLogger()->setEventDispatcher($eventDispatcher);
 	}
 
 	private function containsThrowable(array $context): bool {
@@ -158,7 +170,7 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 			throw new InvalidArgumentException('Unsupported custom log level');
 		}
 		if ($this->containsThrowable($context)) {
-			$this->logger->logException($context['exception'], array_merge(
+			$this->getLogger()->logException($context['exception'], array_merge(
 				[
 					'message' => (string)$message,
 					'level' => $level,
@@ -166,11 +178,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 				$context
 			));
 		} else {
-			$this->logger->log($level, (string)$message, $context);
+			$this->getLogger()->log($level, (string)$message, $context);
 		}
 	}
 
 	public function logData(string $message, array $data, array $context = []): void {
-		$this->logger->logData($message, $data, $context);
+		$this->getLogger()->logData($message, $data, $context);
 	}
 }
