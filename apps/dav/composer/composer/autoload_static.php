@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitDAV
 {
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OCA\\DAV\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\DAV\\' =>
+        'OCA\\DAV\\' => 
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -102,6 +102,10 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\FreeBusy\\FreeBusyGenerator' => __DIR__ . '/..' . '/../lib/CalDAV/FreeBusy/FreeBusyGenerator.php',
         'OCA\\DAV\\CalDAV\\ICSExportPlugin\\ICSExportPlugin' => __DIR__ . '/..' . '/../lib/CalDAV/ICSExportPlugin/ICSExportPlugin.php',
         'OCA\\DAV\\CalDAV\\IRestorable' => __DIR__ . '/..' . '/../lib/CalDAV/IRestorable.php',
+        'OCA\\DAV\\CalDAV\\Import\\ImportCountEvent' => __DIR__ . '/..' . '/../lib/CalDAV/Import/ImportCountEvent.php',
+        'OCA\\DAV\\CalDAV\\Import\\ImportDisposition' => __DIR__ . '/..' . '/../lib/CalDAV/Import/ImportDisposition.php',
+        'OCA\\DAV\\CalDAV\\Import\\ImportEvent' => __DIR__ . '/..' . '/../lib/CalDAV/Import/ImportEvent.php',
+        'OCA\\DAV\\CalDAV\\Import\\ImportObjectEvent' => __DIR__ . '/..' . '/../lib/CalDAV/Import/ImportObjectEvent.php',
         'OCA\\DAV\\CalDAV\\Import\\ImportService' => __DIR__ . '/..' . '/../lib/CalDAV/Import/ImportService.php',
         'OCA\\DAV\\CalDAV\\Import\\TextImporter' => __DIR__ . '/..' . '/../lib/CalDAV/Import/TextImporter.php',
         'OCA\\DAV\\CalDAV\\Import\\XmlImporter' => __DIR__ . '/..' . '/../lib/CalDAV/Import/XmlImporter.php',
@@ -276,6 +280,8 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Connector\\Sabre\\UserIdHeaderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/UserIdHeaderPlugin.php',
         'OCA\\DAV\\Connector\\Sabre\\ZipFolderPlugin' => __DIR__ . '/..' . '/../lib/Connector/Sabre/ZipFolderPlugin.php',
         'OCA\\DAV\\Controller\\BirthdayCalendarController' => __DIR__ . '/..' . '/../lib/Controller/BirthdayCalendarController.php',
+        'OCA\\DAV\\Controller\\CalendarExportController' => __DIR__ . '/..' . '/../lib/Controller/CalendarExportController.php',
+        'OCA\\DAV\\Controller\\CalendarImportController' => __DIR__ . '/..' . '/../lib/Controller/CalendarImportController.php',
         'OCA\\DAV\\Controller\\DirectController' => __DIR__ . '/..' . '/../lib/Controller/DirectController.php',
         'OCA\\DAV\\Controller\\ExampleContentController' => __DIR__ . '/..' . '/../lib/Controller/ExampleContentController.php',
         'OCA\\DAV\\Controller\\InvitationResponseController' => __DIR__ . '/..' . '/../lib/Controller/InvitationResponseController.php',
