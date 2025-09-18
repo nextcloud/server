@@ -198,6 +198,17 @@ class ConnectionFactory {
 			'tablePrefix' => $connectionParams['tablePrefix']
 		];
 
+		if ($type === 'pgsql') {
+			$pgsqlSsl = $this->config->getValue('pgsql_ssl', false);
+			if (is_array($pgsqlSsl)) {
+				$connectionParams['sslmode'] = $pgsqlSsl['mode'] ?? '';
+				$connectionParams['sslrootcert'] = $pgsqlSsl['rootcert'] ?? '';
+				$connectionParams['sslcert'] = $pgsqlSsl['cert'] ?? '';
+				$connectionParams['sslkey'] = $pgsqlSsl['key'] ?? '';
+				$connectionParams['sslcrl'] = $pgsqlSsl['crl'] ?? '';
+			}
+		}
+
 		if ($type === 'mysql' && $this->config->getValue('mysql.utf8mb4', false)) {
 			$connectionParams['defaultTableOptions'] = [
 				'collate' => 'utf8mb4_bin',
