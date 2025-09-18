@@ -8,7 +8,7 @@ OC.L10N.register(
     "You are not logged in" : "Aínda non accedeu.",
     "Permission denied" : "Permiso denegado.",
     "Forbidden to manage local mounts" : "Prohibido xestionar montaxes locais",
-    "Storage with ID \"%d\" not found" : "Non se atopa o almacenamento co ID «%d» ",
+    "Storage with ID \"%d\" not found" : "Non se atopou o almacenamento co ID «%d» ",
     "Invalid backend or authentication mechanism class" : "Clase de mecanismo de autenticación ou infraestrutura incorrecta",
     "Invalid mount point" : "Punto de montaxe incorrecto",
     "Objectstore forbidden" : "Almacén de obxectos non admitido",

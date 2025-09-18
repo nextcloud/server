@@ -114,6 +114,7 @@ OC.L10N.register(
     "Administration privileges" : "Oprávnění ke správě",
     "Groupware" : "Software pro podporu spolupráce",
     "Overview" : "Přehled",
+    "Quick presets" : "Rychlá přednastavení",
     "Basic settings" : "Základní nastavení",
     "Sharing" : "Sdílení",
     "Availability" : "Dostupnost",
