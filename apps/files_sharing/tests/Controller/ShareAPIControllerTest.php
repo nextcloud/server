@@ -8,8 +8,11 @@
 
 namespace OCA\Files_Sharing\Tests\Controller;
 
+use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
+use OCA\Files_Sharing\External\Storage;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -5431,5 +5434,218 @@ class ShareAPIControllerTest extends TestCase {
 		$result = $this->invokePrivate($this->ocs, 'formatShare', [$share]);
 
 		$this->assertTrue($result['is_trusted_server']);
+	}
+
+	public function testOwnerCanAlwaysDownload(): void {
+		$ocs = $this->mockFormatShare();
+
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock(Folder::class);
+		$owner = $this->createMock(IUser::class);
+
+		$share->method('getSharedBy')->willReturn('sharedByUser');
+		$share->method('getNodeId')->willReturn(42);
+		$node->method('getOwner')->willReturn($owner);
+		$owner->method('getUID')->willReturn('sharedByUser');
+
+		$userFolder->method('getById')->with(42)->willReturn([$node]);
+		$this->rootFolder->method('getUserFolder')->with('sharedByUser')->willReturn($userFolder);
+
+		// Expect hideDownload to be set to false since owner can always download
+		$share->expects($this->once())->method('setHideDownload')->with(false);
+
+		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
+	}
+
+	public function testParentHideDownloadEnforcedOnChild(): void {
+		$ocs = $this->mockFormatShare();
+
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock(Folder::class);
+		$owner = $this->createMock(IUser::class);
+		$storage = $this->createMock(SharedStorage::class);
+		$originalShare = $this->createMock(IShare::class);
+
+		$share->method('getSharedBy')->willReturn('sharedByUser');
+		$share->method('getNodeId')->willReturn(42);
+		$share->method('getHideDownload')->willReturn(false); // User wants to allow downloads
+		$node->method('getOwner')->willReturn($owner);
+		$owner->method('getUID')->willReturn('differentOwner');
+		$node->method('getStorage')->willReturn($storage);
+		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
+		$storage->method('getInstanceOfStorage')->with(SharedStorage::class)->willReturn($storage);
+		$storage->method('getShare')->willReturn($originalShare);
+		$originalShare->method('getHideDownload')->willReturn(true); // Parent hides download
+		$originalShare->method('getAttributes')->willReturn(null);
+
+		$userFolder->method('getById')->with(42)->willReturn([$node]);
+		$this->rootFolder->method('getUserFolder')->with('sharedByUser')->willReturn($userFolder);
+
+		// Should be forced to hide download due to parent restriction
+		$share->expects($this->once())->method('setHideDownload')->with(true);
+
+		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
+	}
+
+	public function testUserCanHideWhenParentAllows(): void {
+		$ocs = $this->mockFormatShare();
+
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock(Folder::class);
+		$owner = $this->createMock(IUser::class);
+		$storage = $this->createMock(SharedStorage::class);
+		$originalShare = $this->createMock(IShare::class);
+
+		$share->method('getSharedBy')->willReturn('sharedByUser');
+		$share->method('getNodeId')->willReturn(42);
+		$share->method('getHideDownload')->willReturn(true); // User chooses to hide downloads
+		$node->method('getOwner')->willReturn($owner);
+		$owner->method('getUID')->willReturn('differentOwner');
+		$node->method('getStorage')->willReturn($storage);
+		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
+		$storage->method('getInstanceOfStorage')->with(SharedStorage::class)->willReturn($storage);
+		$storage->method('getShare')->willReturn($originalShare);
+		$originalShare->method('getHideDownload')->willReturn(false); // Parent allows download
+		$originalShare->method('getAttributes')->willReturn(null);
+
+		$userFolder->method('getById')->with(42)->willReturn([$node]);
+		$this->rootFolder->method('getUserFolder')->with('sharedByUser')->willReturn($userFolder);
+
+		// Should respect user's choice to hide downloads
+		$share->expects($this->once())->method('setHideDownload')->with(true);
+
+		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
+	}
+
+	public function testParentDownloadAttributeInherited(): void {
+		$ocs = $this->mockFormatShare();
+
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock(Folder::class);
+		$owner = $this->createMock(IUser::class);
+		$storage = $this->createMock(SharedStorage::class);
+		$originalShare = $this->createMock(IShare::class);
+		$attributes = $this->createMock(\OCP\Share\IAttributes::class);
+		$shareAttributes = $this->createMock(\OCP\Share\IAttributes::class);
+
+		$share->method('getSharedBy')->willReturn('sharedByUser');
+		$share->method('getNodeId')->willReturn(42);
+		$share->method('getHideDownload')->willReturn(false); // User wants to allow downloads
+		$share->method('getAttributes')->willReturn($shareAttributes);
+		$share->method('newAttributes')->willReturn($shareAttributes);
+		$node->method('getOwner')->willReturn($owner);
+		$owner->method('getUID')->willReturn('differentOwner');
+		$node->method('getStorage')->willReturn($storage);
+		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
+		$storage->method('getInstanceOfStorage')->with(SharedStorage::class)->willReturn($storage);
+		$storage->method('getShare')->willReturn($originalShare);
+		$originalShare->method('getHideDownload')->willReturn(false);
+		$originalShare->method('getAttributes')->willReturn($attributes);
+		$attributes->method('getAttribute')->with('permissions', 'download')->willReturn(false); // Parent forbids download
+
+		$userFolder->method('getById')->with(42)->willReturn([$node]);
+		$this->rootFolder->method('getUserFolder')->with('sharedByUser')->willReturn($userFolder);
+
+		// Should be forced to hide download and set download attribute to false
+		$share->expects($this->once())->method('setHideDownload')->with(true);
+		$shareAttributes->expects($this->once())->method('setAttribute')->with('permissions', 'download', false);
+		$share->expects($this->once())->method('setAttributes')->with($shareAttributes);
+
+		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
+	}
+
+	public function testFederatedStorageRespectsUserChoice(): void {
+		$ocs = $this->mockFormatShare();
+
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock(Folder::class);
+		$owner = $this->createMock(IUser::class);
+		$storage = $this->createMock(\OCA\Files_Sharing\External\Storage::class);
+
+		$share->method('getSharedBy')->willReturn('sharedByUser');
+		$share->method('getNodeId')->willReturn(42);
+		$share->method('getHideDownload')->willReturn(true); // User chooses to hide downloads
+		$node->method('getOwner')->willReturn($owner);
+		$owner->method('getUID')->willReturn('differentOwner');
+		$node->method('getStorage')->willReturn($storage);
+		$storage->method('instanceOfStorage')->willReturnMap([
+			[SharedStorage::class, false],
+			[\OCA\Files_Sharing\External\Storage::class, true]
+		]);
+
+		$userFolder->method('getById')->with(42)->willReturn([$node]);
+		$this->rootFolder->method('getUserFolder')->with('sharedByUser')->willReturn($userFolder);
+
+		// For federated storage, should respect user's choice
+		$share->expects($this->once())->method('setHideDownload')->with(true);
+
+		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
+	}
+
+	public function testUserAllowsDownloadWhenParentPermits(): void {
+		$ocs = $this->mockFormatShare();
+
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock(Folder::class);
+		$owner = $this->createMock(IUser::class);
+		$storage = $this->createMock(SharedStorage::class);
+		$originalShare = $this->createMock(IShare::class);
+
+		$share->method('getSharedBy')->willReturn('sharedByUser');
+		$share->method('getNodeId')->willReturn(42);
+		$share->method('getHideDownload')->willReturn(false); // User wants to allow downloads
+		$node->method('getOwner')->willReturn($owner);
+		$owner->method('getUID')->willReturn('differentOwner');
+		$node->method('getStorage')->willReturn($storage);
+		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
+		$storage->method('getInstanceOfStorage')->with(SharedStorage::class)->willReturn($storage);
+		$storage->method('getShare')->willReturn($originalShare);
+		$originalShare->method('getHideDownload')->willReturn(false); // Parent allows download
+		$originalShare->method('getAttributes')->willReturn(null);
+
+		$userFolder->method('getById')->with(42)->willReturn([$node]);
+		$this->rootFolder->method('getUserFolder')->with('sharedByUser')->willReturn($userFolder);
+
+		// Should allow downloads as both user and parent permit it
+		$share->expects($this->once())->method('setHideDownload')->with(false);
+
+		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
+	}
+
+	public function testWrapperStorageUnwrapped(): void {
+		$ocs = $this->mockFormatShare();
+
+		$share = $this->createMock(IShare::class);
+		$node = $this->createMock(File::class);
+		$userFolder = $this->createMock(Folder::class);
+		$owner = $this->createMock(IUser::class);
+		$wrapperStorage = $this->createMock(Wrapper::class);
+		$innerStorage = $this->createMock(SharedStorage::class);
+		$originalShare = $this->createMock(IShare::class);
+
+		$share->method('getSharedBy')->willReturn('sharedByUser');
+		$share->method('getNodeId')->willReturn(42);
+		$share->method('getHideDownload')->willReturn(false);
+		$node->method('getOwner')->willReturn($owner);
+		$owner->method('getUID')->willReturn('differentOwner');
+		$node->method('getStorage')->willReturn($wrapperStorage);
+		$wrapperStorage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
+		$wrapperStorage->method('getInstanceOfStorage')->with(SharedStorage::class)->willReturn($innerStorage);
+		$innerStorage->method('getShare')->willReturn($originalShare);
+		$originalShare->method('getHideDownload')->willReturn(false);
+		$originalShare->method('getAttributes')->willReturn(null);
+
+		$userFolder->method('getById')->with(42)->willReturn([$node]);
+		$this->rootFolder->method('getUserFolder')->with('sharedByUser')->willReturn($userFolder);
+
+		$share->expects($this->once())->method('setHideDownload')->with(false);
+
+		$this->invokePrivate($ocs, 'checkInheritedAttributes', [$share]);
 	}
 }
