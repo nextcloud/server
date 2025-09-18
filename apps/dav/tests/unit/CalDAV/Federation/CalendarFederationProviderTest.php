@@ -175,7 +175,7 @@ class CalendarFederationProviderTest extends TestCase {
 			->method('add');
 
 		$this->expectException(ProviderCouldNotAddShareException::class);
-		$this->expectExceptionMessage('Unknown protocol version');
+		$this->expectExceptionMessage('No protocol version');
 		$this->expectExceptionCode(400);
 		$this->assertEquals(10, $this->calendarFederationProvider->shareReceived($share));
 	}

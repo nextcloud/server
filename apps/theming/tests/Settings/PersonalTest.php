@@ -29,6 +29,7 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -69,28 +70,30 @@ class PersonalTest extends TestCase {
 		);
 	}
 
-	public function dataTestGetForm(): array {
+	public static function dataTestGetForm(): array {
 		return [
 			['', [
-				$this->formatThemeForm('default'),
-				$this->formatThemeForm('light'),
-				$this->formatThemeForm('dark'),
-				$this->formatThemeForm('light-highcontrast'),
-				$this->formatThemeForm('dark-highcontrast'),
-				$this->formatThemeForm('opendyslexic'),
+				'default',
+				'light',
+				'dark',
+				'light-highcontrast',
+				'dark-highcontrast',
+				'opendyslexic',
 			]],
 			['dark', [
-				$this->formatThemeForm('dark'),
-				$this->formatThemeForm('opendyslexic'),
+				'dark',
+				'opendyslexic',
 			]],
 		];
 	}
 
-	/**
-	 * @param string[] $enabledThemes
-	 */
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestGetForm')]
+	#[DataProvider('dataTestGetForm')]
 	public function testGetForm(string $enforcedTheme, array $themesState): void {
+		$themesState = array_map(
+			$this->formatThemeForm(...),
+			$themesState
+		);
+
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('enforce_theme', '')
