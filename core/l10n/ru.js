@@ -230,7 +230,6 @@ OC.L10N.register(
     "Federated user" : "Федеративный пользователь",
     "user@your-nextcloud.org" : "пользователь@ваш-nextcloud.org",
     "Create share" : "Создать общий ресурс",
-    "Direct link copied to clipboard" : "Прямая ссылка, скопированная в буфер обмена",
     "Please copy the link manually:" : "Выполните копирование ссылки вручную:",
     "Custom date range" : "Настраиваемый диапазон дат",
     "Pick start date" : "Выберите дату начала",
@@ -527,6 +526,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Переключить видимость пароля",
     "Configure the database" : "Настройка базы данных",
     "Only %s is available." : "Доступен только %s.",
-    "Database account" : "Учётная запись базы данных"
+    "Database account" : "Учётная запись базы данных",
+    "Direct link copied to clipboard" : "Прямая ссылка, скопированная в буфер обмена"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

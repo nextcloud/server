@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Shiriki nami kupitia Kitambulisho changu cha #Nextcloud Federated Cloud, ona, {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Shiriki nami kupitia Kitambulisho changu cha #Nextcloud Federated Cloud",
     "Share with me via Nextcloud" : "Shiriki nami kupitia Nextcloud",
-    "Cloud ID copied to the clipboard" : "Kitambulisho cha Cloud kimenakiliwa kwenye ubao wa kunakili",
-    "Copy to clipboard" : "Nakili kwenye ubao wa kunakili",
+    "Copy" : "Nakili",
     "Clipboard not available. Please copy the cloud ID manually." : "Ubao wa kunakili haupatikani. Tafadhali nakili kitambulisho cha cloud wewe mwenyewe.",
     "Copied!" : "Imenakiliwa!",
     "Federated Cloud" : "Shirikisho la Cloud",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (zamani Twitter)",
     "formerly Twitter" : "zamani Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Angabluu",
     "Add to your website" : "Ongeza kwenye tovuti yako",
     "HTML Code:" : "Msimbo wa HTML:",
     "Cancel" : "Ghaili",
@@ -66,6 +66,8 @@ OC.L10N.register(
     "Remote share" : "Kushiriki kwa mbali",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Je, ungependa kuongeza ushiriki wa mbali {name} tangu {owner}@{remote}?",
     "Remote share password" : "Nenosiri la kushiriki kwa mbali",
-    "Incoming share could not be processed" : "Ushiriki unaoingia haukuweza kuchakatwa"
+    "Incoming share could not be processed" : "Ushiriki unaoingia haukuweza kuchakatwa",
+    "Cloud ID copied to the clipboard" : "Kitambulisho cha Cloud kimenakiliwa kwenye ubao wa kunakili",
+    "Copy to clipboard" : "Nakili kwenye ubao wa kunakili"
 },
 "nplurals=2; plural=(n != 1);");

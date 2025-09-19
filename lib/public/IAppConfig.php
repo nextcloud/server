@@ -65,8 +65,8 @@ interface IAppConfig {
 	 * **WARNING:** ignore lazy filtering, all config values are loaded from database
 	 *
 	 * @param string $app id of the app
-	 *
 	 * @return list<string> list of stored config keys
+	 *
 	 * @since 29.0.0
 	 */
 	public function getKeys(string $app): array;

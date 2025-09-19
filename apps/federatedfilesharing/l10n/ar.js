@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "شارك معي عبر #مُعرّف سحابة نكست كلاود الاتحادية، أنظُر {url} ",
     "Share with me through my #Nextcloud Federated Cloud ID" : "شارك معي عبر #مُعرّف سحابة نكست كلاود الاتحادية",
     "Share with me via Nextcloud" : "شاركه معي عبر النكست كلاود",
-    "Cloud ID copied to the clipboard" : "تمّ نسخ مُعرِّف السحابة إلى الحافظة",
-    "Copy to clipboard" : "نسخ الرابط",
+    "Copy" : "إنسَخ",
     "Clipboard not available. Please copy the cloud ID manually." : "الحافظة غير متوفرة. رجاءً، قم بنسخ مُعرِّف السحابة يدوياً.",
     "Copied!" : "تمَّ النسخ!",
     "Federated Cloud" : "السحابة الاتحادية",
@@ -66,6 +65,8 @@ OC.L10N.register(
     "Remote share" : "مُشاركة بعيدة remote",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "هل ترغب في إضافة مُشاركة بعيدة remote ـ {name} من {owner}@{remote}؟",
     "Remote share password" : "كلمة مرور المشاركة البعيدة remote",
-    "Incoming share could not be processed" : "لا يمكن معالجة المشاركة الواردة"
+    "Incoming share could not be processed" : "لا يمكن معالجة المشاركة الواردة",
+    "Cloud ID copied to the clipboard" : "تمّ نسخ مُعرِّف السحابة إلى الحافظة",
+    "Copy to clipboard" : "نسخ الرابط"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

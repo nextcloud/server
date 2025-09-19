@@ -111,7 +111,6 @@ OC.L10N.register(
     "Federated user" : "Usuario federado",
     "user@your-nextcloud.org" : "usuario@o-seu-nextcloud.org",
     "Create share" : "Crear compartición",
-    "Direct link copied to clipboard" : "A ligazón directa foi copiada no portapapeis",
     "Please copy the link manually:" : "Copie a ligazón manualmente:",
     "Custom date range" : "Intervalo de datas personalizado",
     "Pick start date" : "Escolla a data de inicio",
@@ -383,6 +382,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Alternar a visibilidade do contrasinal",
     "Configure the database" : "Configurar a base de datos",
     "Only %s is available." : "Só está dispoñíbel %s.",
-    "Database account" : "Conta da base de datos"
+    "Database account" : "Conta da base de datos",
+    "Direct link copied to clipboard" : "A ligazón directa foi copiada no portapapeis"
 },
 "nplurals=2; plural=(n != 1);");

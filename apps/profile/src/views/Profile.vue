@@ -461,9 +461,11 @@ $content-max-width: 640px;
 	flex-direction: column;
 	gap: 8px 0;
 	margin-top: 20px;
+	max-width: 300px;
 
 	&__primary {
 		margin: 0 auto;
+		max-width: 100%;
 
 		&__icon {
 			filter: var(--primary-invert-if-dark);

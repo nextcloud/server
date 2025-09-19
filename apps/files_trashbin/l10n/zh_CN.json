@@ -10,7 +10,6 @@
     "Confirm permanent deletion" : "确认永久删除",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "是否确定要永久删除回收站中的所有文件和文件夹？此操作无法撤销。",
     "Cancel" : "取消",
-    "Deletion cancelled" : "已取消删除",
     "Original location" : "初始位置",
     "Deleted by" : "删除者",
     "Deleted" : "已删除",
@@ -23,6 +22,7 @@
     "No deleted files" : "无已删除文件",
     "Files and folders you have deleted will show up here" : "此处将显示您删除的文件和文件夹",
     "All files have been permanently deleted" : "所有文件已被永久删除",
-    "Failed to empty deleted files" : "无法清空回收站"
+    "Failed to empty deleted files" : "无法清空回收站",
+    "Deletion cancelled" : "已取消删除"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

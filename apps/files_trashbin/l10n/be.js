@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "files_trashbin",
+    {
+    "restored" : "адноўлены",
+    "Deleted files" : "Выдаленыя файлы",
+    "This application enables people to restore files that were deleted from the system." : "Гэта праграма дазваляе карыстальнікам аднавіць файлы, якія былі выдалены з сістэмы.",
+    "Restore" : "Аднавіць",
+    "Not enough free space to restore the file/folder" : "Недастаткова вольнай прасторы, каб аднавіць файл/папку",
+    "Empty deleted files" : "Ачысціць выдаленыя файлы",
+    "Confirm permanent deletion" : "Пацвердзіце выдаленне назаўжды",
+    "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Вы ўпэўнены, што хочаце назаўжды выдаліць усе файлы і папкі ў сметніцы? Гэта дзеянне нельга адрабіць.",
+    "Cancel" : "Скасаваць",
+    "Original location" : "Зыходнае размяшчэнне",
+    "Deleted by" : "Выдалены карыстальнікам ",
+    "Deleted" : "Выдалены",
+    "few seconds ago" : "некалькі секунд таму",
+    "A long time ago" : "Вельмі даўно",
+    "Unknown" : "Невядомы",
+    "All files" : "Усе файлы",
+    "You" : "Вы",
+    "List of files that have been deleted." : "Спіс выдаленых файлаў.",
+    "No deleted files" : "Няма выдаленых файлаў",
+    "Files and folders you have deleted will show up here" : "Тут будуць адлюстроўвацца выдаленыя вамі файлы і папкі",
+    "All files have been permanently deleted" : "Усе файлы былі выдалены назаўжды",
+    "Failed to empty deleted files" : "Не атрымалася ачысціць выдаленыя файлы",
+    "Deletion cancelled" : "Выдаленне скасавана"
+},
+"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

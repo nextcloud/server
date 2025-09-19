@@ -11,7 +11,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Потврди бришење за стално",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Дали сте сигурни дека сакате перманентно да ги избришете сите датотеки и папки од корпата за отпадоци? Оваа акција неможе да се врати назад.",
     "Cancel" : "Откажи",
-    "Deletion cancelled" : "Бришењето е откажано",
     "Original location" : "Оргинална локација",
     "Deleted by" : "Избришано од",
     "Deleted" : "Избришана",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "You" : "Вас",
     "List of files that have been deleted." : "Листа на датотеки што ги имате избришано.",
     "No deleted files" : "Нема избришани датотеки",
-    "Files and folders you have deleted will show up here" : "Датотеките и папките кои ги имате избришано ќе се појават тука"
+    "Files and folders you have deleted will show up here" : "Датотеките и папките кои ги имате избришано ќе се појават тука",
+    "Deletion cancelled" : "Бришењето е откажано"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

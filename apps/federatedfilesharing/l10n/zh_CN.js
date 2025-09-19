@@ -1,7 +1,7 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Invalid Federated Cloud ID" : "联合云ID不正确",
+    "Invalid Federated Cloud ID" : "联合云 ID 无效",
     "Server to server sharing is not enabled on this server" : "此服务器未启用服务器间的共享功能",
     "Couldn't establish a federated share." : "无法建立一个联合云共享",
     "Couldn't establish a federated share, maybe the password was wrong." : "无法建立联合云共享，可能密码是错误的。",
@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "通过我的 #Nextcloud 联合云 ID 与我分享文件，链接 {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "通过我的 #Nextcloud 联合云 ID 与我共享",
     "Share with me via Nextcloud" : "通过联合云与我共享",
-    "Cloud ID copied to the clipboard" : "云端 ID 已复制至剪切板",
-    "Copy to clipboard" : "复制到剪贴板",
+    "Copy" : "复制",
     "Clipboard not available. Please copy the cloud ID manually." : "剪贴板不可用，请手动复制云 ID。",
     "Copied!" : "已复制！",
     "Federated Cloud" : "联合云",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X（原 Twitter）",
     "formerly Twitter" : "原 Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "添加到您的网站",
     "HTML Code:" : "HTML 代码：",
     "Cancel" : "取消",
@@ -66,6 +66,8 @@ OC.L10N.register(
     "Remote share" : "远程共享",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "您想要添加来自 {owner}@{remote}的远程共享 {name} 吗？",
     "Remote share password" : "远程共享密码",
-    "Incoming share could not be processed" : "无法处理传入共享"
+    "Incoming share could not be processed" : "无法处理传入共享",
+    "Cloud ID copied to the clipboard" : "云端 ID 已复制至剪切板",
+    "Copy to clipboard" : "复制到剪贴板"
 },
 "nplurals=1; plural=0;");

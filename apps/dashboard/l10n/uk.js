@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Майстерня",
     "Dashboard app" : "Застосунок з панеллю віджетів ",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Почніть свій день з інформацією\n\nПанель управління Nextcloud — це ваша відправна точка на початку дня, яка надає огляд ваших майбутніх зустрічей, термінових електронних листів, повідомлень у чаті, вхідних квитків, останніх твітів та багато іншого! Користувачі можуть додавати вподобані віджети та змінювати фон на свій смак.",
     "Weather" : "Погода",
     "Status" : "Статус",
     "Good morning" : "Доброго ранку",

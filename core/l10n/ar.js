@@ -111,7 +111,6 @@ OC.L10N.register(
     "Federated user" : "مستخدم السحابة الموحدة",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "إنشاء مشاركة",
-    "Direct link copied to clipboard" : "تمّ نسخ الرابط المباشر إلى الحافظة",
     "Please copy the link manually:" : "يرجى نسخ الرابط يدوياً:",
     "Custom date range" : "نطاق زمني مخصص",
     "Pick start date" : "إختر تاريخ البدء",
@@ -402,6 +401,7 @@ OC.L10N.register(
     "Toggle password visibility" : "تبديل قراءة كلمة المرور",
     "Configure the database" : "إعداد قاعدة البيانات",
     "Only %s is available." : "لم يتبقى إلّا %s.",
-    "Database account" : "حساب قاعدة البيانات"
+    "Database account" : "حساب قاعدة البيانات",
+    "Direct link copied to clipboard" : "تمّ نسخ الرابط المباشر إلى الحافظة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

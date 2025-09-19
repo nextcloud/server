@@ -61,7 +61,7 @@
     "Search or create tag" : "Ieškoti ar sukurti žymą",
     "Create new tag" : "Sukurti naują žymą",
     "Cancel" : "Atsisakyti",
-    "Apply changes" : "Taikyti pakeitimus",
+    "Apply" : "Taikyti",
     "Failed to load tags" : "Nepavyko įkelti žymas",
     "Failed to load selected tags" : "Nepavyko įkelti pasirinktų žymų",
     "Failed to select tag" : "Nepavyko pasirinkti žymą",
@@ -73,6 +73,7 @@
     "Tags you have created will show up here." : "Čia bus rodomos jūsų sukurtos žymos.",
     "Failed to load tag" : "Nepavyko įkelti žymos",
     "Failed to load last used tags" : "Nepavyko įkelti paskutinių naudotų žymų",
-    "Failed to load tags for file" : "Nepavyko įkelti failo žymų"
+    "Failed to load tags for file" : "Nepavyko įkelti failo žymų",
+    "Apply changes" : "Taikyti pakeitimus"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

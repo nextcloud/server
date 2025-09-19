@@ -230,7 +230,6 @@ OC.L10N.register(
     "Federated user" : "Úsáideoir cónaidhme",
     "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "Cruthaigh sciar",
-    "Direct link copied to clipboard" : "Cóipeáladh nasc díreach chuig an ngearrthaisce",
     "Please copy the link manually:" : "Cóipeáil an nasc de láimh le do thoil:",
     "Custom date range" : "Raon dáta saincheaptha",
     "Pick start date" : "Roghnaigh dáta tosaithe",
@@ -527,6 +526,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Scoránaigh infheictheacht pasfhocail",
     "Configure the database" : "Cumraigh an bunachar sonraí",
     "Only %s is available." : "Níl ach %s ar fáil.",
-    "Database account" : "Cuntas bunachar sonraí"
+    "Database account" : "Cuntas bunachar sonraí",
+    "Direct link copied to clipboard" : "Cóipeáladh nasc díreach chuig an ngearrthaisce"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

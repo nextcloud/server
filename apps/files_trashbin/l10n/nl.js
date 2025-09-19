@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Bevestig permanente verwijdering",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Weet je zeker dat je parmanent alle bestanden en mappen in de prullenbak wilt verwijderen? Dit kan niet ongedaan worden gemaakt.",
     "Cancel" : "Annuleren",
-    "Deletion cancelled" : "Verwijdering geannuleerd",
     "Original location" : "Originele locatie",
     "Deleted by" : "Verwijderd door",
     "Deleted" : "Verwijderd",
@@ -23,6 +22,9 @@ OC.L10N.register(
     "You" : "Jou",
     "List of files that have been deleted." : "Lijst van bestanden die verwijderd zijn.",
     "No deleted files" : "Geen verwijderde bestanden",
-    "Files and folders you have deleted will show up here" : "Bestanden en mappen die je verwijderd hebt worden hier getoond"
+    "Files and folders you have deleted will show up here" : "Bestanden en mappen die je verwijderd hebt worden hier getoond",
+    "All files have been permanently deleted" : "Alle bestanden zijn permanent verwijderd",
+    "Failed to empty deleted files" : "Mislukt om de verwijderde bestanden leeg te maken",
+    "Deletion cancelled" : "Verwijdering geannuleerd"
 },
 "nplurals=2; plural=(n != 1);");

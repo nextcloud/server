@@ -26,8 +26,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Deel met mij via mijn #Nextcloud Federated Cloud-ID, zie {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deel met mij via mijn #Nextcloud gefedereerde Cloud-ID",
     "Share with me via Nextcloud" : "Deel met mij via Nextcloud",
-    "Cloud ID copied to the clipboard" : "Cloud-ID gekopieerd naar het klembord",
-    "Copy to clipboard" : "Kopiëren naar het klembord",
+    "Copy" : "Kopiëren",
     "Clipboard not available. Please copy the cloud ID manually." : "Klembord niet beschikbaar. Kopieer de cloud-ID handmatig.",
     "Copied!" : "Gekopieerd!",
     "Federated Cloud" : "Gefedereerde Cloud",
@@ -43,6 +42,8 @@ OC.L10N.register(
     "Add remote share" : "Toevoegen externe share",
     "Remote share" : "Externe share",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Wil je de externe share {name} van {owner}@{remote} toevoegen?",
-    "Remote share password" : "Wachtwoord externe share"
+    "Remote share password" : "Wachtwoord externe share",
+    "Cloud ID copied to the clipboard" : "Cloud-ID gekopieerd naar het klembord",
+    "Copy to clipboard" : "Kopiëren naar het klembord"
 },
 "nplurals=2; plural=(n != 1);");

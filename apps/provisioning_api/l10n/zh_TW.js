@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid password value" : "無效的密碼值",
     "An email address is required, to send a password link to the user." : "電子郵件地址必填，用來寄送密碼連結給使用者。",
     "Required email address was not provided" : "未提供必要的電子郵件地址",
+    "User creation failed" : "使用者建立失敗",
     "Invalid quota value: %1$s" : "無效的空間限額值：%1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "無效的空間限額值。%1$s 超過了最大空間限額",
     "Unlimited quota is forbidden on this instance" : "此站台禁止無限空間限額",

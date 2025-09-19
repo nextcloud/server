@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "私の #Nextcloud Federated Cloud ID を通して共有してください、 {url} を参照してください。",
     "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud の「クラウド共有ID」で私と共有できます。",
     "Share with me via Nextcloud" : "Nextcloud 経由で共有",
-    "Cloud ID copied to the clipboard" : "クリップボードにクラウドIDをコピーしました",
-    "Copy to clipboard" : "クリップボードにコピー",
+    "Copy" : "コピー",
     "Clipboard not available. Please copy the cloud ID manually." : "クリップボードが使用できません。手動でクラウドIDをコピーしてください。",
     "Copied!" : "コピーしました！",
     "Federated Cloud" : "クラウド共有",
@@ -66,6 +65,8 @@ OC.L10N.register(
     "Remote share" : "リモート共有",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} からのリモート共有 {name} を追加してもよろしいですか？",
     "Remote share password" : "リモート共有のパスワード",
-    "Incoming share could not be processed" : "受信した共有を処理できませんでした"
+    "Incoming share could not be processed" : "受信した共有を処理できませんでした",
+    "Cloud ID copied to the clipboard" : "クリップボードにクラウドIDをコピーしました",
+    "Copy to clipboard" : "クリップボードにコピー"
 },
 "nplurals=1; plural=0;");

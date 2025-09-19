@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\Authentication\Token\IProvider;
-use OC\User\LoginException;
+use OC\User\DisabledUserException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Authentication\Token\IToken;
@@ -157,7 +157,7 @@ class OC_User {
 
 				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
 					$message = \OC::$server->getL10N('lib')->t('Account disabled');
-					throw new LoginException($message);
+					throw new DisabledUserException($message);
 				}
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();

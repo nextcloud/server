@@ -11,7 +11,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Berretsi betirako ezabatzea",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Ziur betiko ezabatu nahi dituzula zakarrontziko fitxategi eta karpetak? Hau ezin da desegin.",
     "Cancel" : "Utzi",
-    "Deletion cancelled" : "Ezabatzea bertan behera utzi da",
     "Original location" : "Jatorrizko kokalekua",
     "Deleted by" : "Honek ezabatuta",
     "Deleted" : "Ezabatuta",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "You" : "Zu ",
     "List of files that have been deleted." : "Ezabatu diren fitxategien zerrenda.",
     "No deleted files" : "Ez dago ezabatutako fitxategirik",
-    "Files and folders you have deleted will show up here" : "Ezabatu dituzun fitxategi eta karpetak hemen agertuko dira"
+    "Files and folders you have deleted will show up here" : "Ezabatu dituzun fitxategi eta karpetak hemen agertuko dira",
+    "Deletion cancelled" : "Ezabatzea bertan behera utzi da"
 },
 "nplurals=2; plural=(n != 1);");

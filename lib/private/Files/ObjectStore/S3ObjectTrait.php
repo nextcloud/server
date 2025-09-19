@@ -6,6 +6,8 @@
  */
 namespace OC\Files\ObjectStore;
 
+use Aws\Command;
+use Aws\Exception\MultipartUploadException;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartCopy;
 use Aws\S3\MultipartUploader;
@@ -83,18 +85,24 @@ trait S3ObjectTrait {
 	 *
 	 * @param string $urn the unified resource name used to identify the object
 	 * @param StreamInterface $stream stream with the data to write
-	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
+	 * @param array $metaData the metadata to set for the object
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
-	protected function writeSingle(string $urn, StreamInterface $stream, ?string $mimetype = null): void {
-		$this->getConnection()->putObject([
+	protected function writeSingle(string $urn, StreamInterface $stream, array $metaData): void {
+		$args = [
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
 			'Body' => $stream,
 			'ACL' => 'private',
-			'ContentType' => $mimetype,
+			'ContentType' => $metaData['mimetype'] ?? null,
 			'StorageClass' => $this->storageClass,
-		] + $this->getSSECParameters());
+		] + $this->getSSECParameters();
+
+		if ($size = $stream->getSize()) {
+			$args['ContentLength'] = $size;
+		}
+
+		$this->getConnection()->putObject($args);
 	}
 
 
@@ -103,15 +111,17 @@ trait S3ObjectTrait {
 	 *
 	 * @param string $urn the unified resource name used to identify the object
 	 * @param StreamInterface $stream stream with the data to write
-	 * @param string|null $mimetype the mimetype to set for the remove object
+	 * @param array $metaData the metadata to set for the object
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
-	protected function writeMultiPart(string $urn, StreamInterface $stream, ?string $mimetype = null): void {
+	protected function writeMultiPart(string $urn, StreamInterface $stream, array $metaData): void {
 		$attempts = 0;
 		$uploaded = false;
 		$concurrency = $this->concurrency;
 		$exception = null;
 		$state = null;
+		$size = $stream->getSize();
+		$totalWritten = 0;
 
 		// retry multipart upload once with concurrency at half on failure
 		while (!$uploaded && $attempts <= 1) {
@@ -122,9 +132,18 @@ trait S3ObjectTrait {
 				'part_size' => $this->uploadPartSize,
 				'state' => $state,
 				'params' => [
-					'ContentType' => $mimetype,
+					'ContentType' => $metaData['mimetype'] ?? null,
 					'StorageClass' => $this->storageClass,
 				] + $this->getSSECParameters(),
+				'before_upload' => function (Command $command) use (&$totalWritten) {
+					$totalWritten += $command['ContentLength'];
+				},
+				'before_complete' => function ($_command) use (&$totalWritten, $size, &$uploader, &$attempts) {
+					if ($size !== null && $totalWritten != $size) {
+						$e = new \Exception('Incomplete multi part upload, expected ' . $size . ' bytes, wrote ' . $totalWritten);
+						throw new MultipartUploadException($uploader->getState(), $e);
+					}
+				},
 			]);
 
 			try {
@@ -141,6 +160,9 @@ trait S3ObjectTrait {
 				if ($stream->isSeekable()) {
 					$stream->rewind();
 				}
+			} catch (MultipartUploadException $e) {
+				$exception = $e;
+				break;
 			}
 		}
 
@@ -156,17 +178,19 @@ trait S3ObjectTrait {
 		}
 	}
 
-
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param resource $stream stream with the data to write
-	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
-	 * @throws \Exception when something goes wrong, message will be logged
-	 * @since 7.0.0
-	 */
 	public function writeObject($urn, $stream, ?string $mimetype = null) {
+		$metaData = [];
+		if ($mimetype) {
+			$metaData['mimetype'] = $mimetype;
+		}
+		$this->writeObjectWithMetaData($urn, $stream, $metaData);
+	}
+
+	public function writeObjectWithMetaData(string $urn, $stream, array $metaData): void {
 		$canSeek = fseek($stream, 0, SEEK_CUR) === 0;
-		$psrStream = Utils::streamFor($stream);
+		$psrStream = Utils::streamFor($stream, [
+			'size' => $metaData['size'] ?? null,
+		]);
 
 
 		$size = $psrStream->getSize();
@@ -179,16 +203,16 @@ trait S3ObjectTrait {
 			$buffer->seek(0);
 			if ($buffer->getSize() < $this->putSizeLimit) {
 				// buffer is fully seekable, so use it directly for the small upload
-				$this->writeSingle($urn, $buffer, $mimetype);
+				$this->writeSingle($urn, $buffer, $metaData);
 			} else {
 				$loadStream = new Psr7\AppendStream([$buffer, $psrStream]);
-				$this->writeMultiPart($urn, $loadStream, $mimetype);
+				$this->writeMultiPart($urn, $loadStream, $metaData);
 			}
 		} else {
 			if ($size < $this->putSizeLimit) {
-				$this->writeSingle($urn, $psrStream, $mimetype);
+				$this->writeSingle($urn, $psrStream, $metaData);
 			} else {
-				$this->writeMultiPart($urn, $psrStream, $mimetype);
+				$this->writeMultiPart($urn, $psrStream, $metaData);
 			}
 		}
 		$psrStream->close();

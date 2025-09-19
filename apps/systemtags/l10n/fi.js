@@ -60,6 +60,7 @@ OC.L10N.register(
     "Loading …" : "Ladataan…",
     "Manage tags" : "Hallitse tunnisteita",
     "Cancel" : "Peruuta",
+    "Apply" : "Toteuta",
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
     "Failed to select tag" : "Tunnisteen valitseminen epäonnistui",
     "Loading collaborative tags …" : "Ladataan yhteistyöllisiä tunnisteita…",

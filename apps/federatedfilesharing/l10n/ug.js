@@ -33,8 +33,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "#Nextcloud فېدېراتسىيە بۇلۇت كىملىكىم ئارقىلىق مەن بىلەن ئورتاقلىشىڭ ، {url} see نى كۆرۈڭ",
     "Share with me through my #Nextcloud Federated Cloud ID" : "مېنىڭ # كېيىنكى بۇلۇت فېدېراتسىيە بۇلۇت كىملىكىم ئارقىلىق مەن بىلەن ئورتاقلىشىڭ",
     "Share with me via Nextcloud" : "Nextcloud ئارقىلىق مەن بىلەن ئورتاقلىشىڭ",
-    "Cloud ID copied to the clipboard" : "بۇلۇت كىملىكى چاپلاش تاختىسىغا كۆچۈرۈلدى",
-    "Copy to clipboard" : "چاپلاش تاختىسىغا كۆچۈرۈڭ",
+    "Copy" : "كۆچۈرۈڭ",
     "Clipboard not available. Please copy the cloud ID manually." : "چاپلاش تاختىسى يوق. بۇلۇت كىملىكىنى قولدا كۆچۈرۈڭ.",
     "Copied!" : "كۆچۈرۈلگەن!",
     "Federated Cloud" : "فېدېراتسىيە بۇلۇت",
@@ -52,6 +51,8 @@ OC.L10N.register(
     "Remote share" : "يىراقتىن ئورتاقلىشىش",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "{remote} @ {owner} دىن يىراقتىن ئورتاقلىشىش {name} add نى قوشماقچىمۇ؟",
     "Remote share password" : "يىراقتىن ئورتاقلىشىش پارولى",
-    "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ"
+    "Incoming share could not be processed" : "كەلگەن ئۈلۈشنى بىر تەرەپ قىلغىلى بولمايدۇ",
+    "Cloud ID copied to the clipboard" : "بۇلۇت كىملىكى چاپلاش تاختىسىغا كۆچۈرۈلدى",
+    "Copy to clipboard" : "چاپلاش تاختىسىغا كۆچۈرۈڭ"
 },
 "nplurals=2; plural=(n != 1);");

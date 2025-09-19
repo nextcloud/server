@@ -249,8 +249,6 @@
     "Cannot write into \"config\" directory." : "\"Config\" مۇندەرىجىسىگە يازغىلى بولمايدۇ.",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "بۇنى ئادەتتە تور مۇلازىمېتىرىغا مۇندەرىجە مۇندەرىجىسىگە يېزىش ھوقۇقى بېرىش ئارقىلىق ئوڭشىغىلى بولىدۇ. % S گە قاراڭ",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "ياكى ، config.php ھۆججىتىنى پەقەت ئوقۇشنىلا ئويلىسىڭىز ، ئۇنىڭدا «config_is_read_only» تاللانمىسىنى توغرىلاڭ. % S گە قاراڭ",
-    "Cannot write into \"apps\" directory." : "«ئەپلەر» مۇندەرىجىسىگە يازغىلى بولمايدۇ.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "بۇنى ئادەتتە تور مۇلازىمېتىرىغا پروگرامما مۇندەرىجىسىگە زىيارەت قىلىش ھوقۇقى ياكى سەپلىمە ھۆججەتتىكى App دۇكىنىنى چەكلەش ئارقىلىق ئوڭشىغىلى بولىدۇ.",
     "Cannot create \"data\" directory." : "«سانلىق مەلۇمات» مۇندەرىجىسىنى قۇرغىلى بولمايدۇ.",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "بۇنى ئادەتتە تور مۇلازىمېتىرىغا يىلتىز مۇندەرىجىسىگە يېزىش ھوقۇقى بېرىش ئارقىلىق ئوڭشىغىلى بولىدۇ. % S گە قاراڭ",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "ئىجازەتنامە ئادەتتە تور مۇلازىمېتىرىغا يىلتىز مۇندەرىجىسىگە يېزىش ھوقۇقى بېرىش ئارقىلىق ئوڭشىلىدۇ. % S گە قاراڭ.",
@@ -379,6 +377,8 @@
     "Extracts topics from a text and outputs them separated by commas." : "تېكىستتىن تېمىنى چىقىرىپ ، پەش ئارقىلىق ئايرىلىدۇ.",
     "Organisation" : "تەشكىلات",
     "File is currently busy, please try again later" : "ھۆججەت ھازىر ئالدىراش ، كېيىن قايتا سىناڭ",
-    "Cannot download file" : "ھۆججەتنى چۈشۈرگىلى بولمايدۇ"
+    "Cannot download file" : "ھۆججەتنى چۈشۈرگىلى بولمايدۇ",
+    "Cannot write into \"apps\" directory." : "«ئەپلەر» مۇندەرىجىسىگە يازغىلى بولمايدۇ.",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "بۇنى ئادەتتە تور مۇلازىمېتىرىغا پروگرامما مۇندەرىجىسىگە زىيارەت قىلىش ھوقۇقى ياكى سەپلىمە ھۆججەتتىكى App دۇكىنىنى چەكلەش ئارقىلىق ئوڭشىغىلى بولىدۇ."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

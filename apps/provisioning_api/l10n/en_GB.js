@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid password value" : "Invalid password value",
     "An email address is required, to send a password link to the user." : "An email address is required, to send a password link to the user.",
     "Required email address was not provided" : "Required email address was not provided",
+    "User creation failed" : "User creation failed",
     "Invalid quota value: %1$s" : "Invalid quota value: %1$s",
     "Invalid quota value. %1$s is exceeding the maximum quota" : "Invalid quota value. %1$s is exceeding the maximum quota",
     "Unlimited quota is forbidden on this instance" : "Unlimited quota is forbidden on this instance",

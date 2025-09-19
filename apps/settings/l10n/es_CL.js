@@ -68,6 +68,7 @@ OC.L10N.register(
     "Administration" : "Administración",
     "Users" : "Ususarios",
     "Additional settings" : "Configuraciones adicionales",
+    "Assistant" : "Asistente",
     "Overview" : "Generalidades",
     "Basic settings" : "Configuraciones  básicas",
     "Sharing" : "Compartiendo",

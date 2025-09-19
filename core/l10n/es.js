@@ -214,7 +214,7 @@ OC.L10N.register(
     "Update to {version}" : "Actualice a {version}",
     "An error occurred." : "Ocurrió un error.",
     "Please reload the page." : "Recargue/Actualice la página",
-    "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La actualización tuvo un problema. Para más información <a href=\"{url}\">consulta nuestro artículo del foro</a> cubriendo este tema.",
+    "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La actualización tuvo un problema. Para más información <a href=\"{url}\">consulte nuestro artículo del foro</a> que cubre este tema.",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">Nextcloud community</a>." : "La actualización ha fallado. Por favor, informa de este problema a la  <a href=\"https://github.com/nextcloud/server/issues\" target=\"_blank\">comunidad de Nextcloud</a>.",
     "Continue to {productName}" : "Continuar a {productName}",
     "_The update was successful. Redirecting you to {productName} in %n second._::_The update was successful. Redirecting you to {productName} in %n seconds._" : ["La actualización ha terminado con éxito. Redirigiendo a su {productName} en %n segundo. ","La actualización ha terminado con éxito. Redirigiendo a su {productName} en %n segundos. ","La actualización ha terminado con éxito. Redirigiendo a su {productName} en %n segundos. "],
@@ -230,7 +230,7 @@ OC.L10N.register(
     "Federated user" : "Usuario federado",
     "user@your-nextcloud.org" : "usuario@su-nextcloud.org",
     "Create share" : "Crear un recurso compartido",
-    "Direct link copied to clipboard" : "Enlace directo copiado al portapapeles",
+    "Direct link copied" : "Enlace directo copiado",
     "Please copy the link manually:" : "Por favor, copie el enlace manualmente:",
     "Custom date range" : "Rango de fechas personalizado",
     "Pick start date" : "Escoja una fecha de inicio",
@@ -527,6 +527,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Alternar visibilidad de la contraseña",
     "Configure the database" : "Configurar la base de datos",
     "Only %s is available." : "Solo %s está disponible.",
-    "Database account" : "Cuenta de la base de datos"
+    "Database account" : "Cuenta de la base de datos",
+    "Direct link copied to clipboard" : "Enlace directo copiado al portapapeles"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

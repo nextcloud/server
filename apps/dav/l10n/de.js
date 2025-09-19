@@ -271,7 +271,7 @@ OC.L10N.register(
     "Absence cleared" : "Abwesenheit gelöscht",
     "Failed to clear your absence settings" : "Deine Abwesenheitseinstellungen konnten nicht gelöscht werden.",
     "First day" : "Erster Tag",
-    "Last day (inclusive)" : "Letzter Tag (Inklusive)",
+    "Last day (inclusive)" : "Letzter Tag (inklusiv)",
     "Out of office replacement (optional)" : "Abwesenheitsvertretung (optional)",
     "Name of the replacement" : "Name der Vertretung",
     "No results." : "Keine Ergebnisse",

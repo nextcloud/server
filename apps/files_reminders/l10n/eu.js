@@ -9,7 +9,6 @@ OC.L10N.register(
     "Cancel" : "Utzi",
     "Set reminder" : "Ezarri gogorarazpena",
     "Reminder set" : "Gogorarazpena ezarrita",
-    "Set custom reminder" : "Ezarri gogorarazpen pertsonalizatua",
     "Later today" : "Beranduago gaur",
     "Set reminder for later today" : "Ezarri gogorarazpena gaur beranduagorako",
     "Tomorrow" : "Bihar",
@@ -17,6 +16,7 @@ OC.L10N.register(
     "This weekend" : "Asteburu hau",
     "Set reminder for this weekend" : "Ezarri gogorarazpena asteburu honetarako",
     "Next week" : "Hurrengo astea",
-    "Set reminder for next week" : "Ezarri gogorarazpena hurrengo asterako"
+    "Set reminder for next week" : "Ezarri gogorarazpena hurrengo asterako",
+    "Set custom reminder" : "Ezarri gogorarazpen pertsonalizatua"
 },
 "nplurals=2; plural=(n != 1);");

@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Dodijeli pristup",
-    "Error configuring OAuth1" : "Pogreška pri konfiguriranju OAuth1",
-    "Please provide a valid app key and secret." : "Unesite važeći ključ aplikacije i tajnu.",
     "Error configuring OAuth2" : "Pogreška pri konfiguriranju OAuth2",
     "Generate keys" : "Generiraj ključeve",
     "Error generating key pair" : "Pogreška pri generiranju parova ključeva",
@@ -22,9 +20,6 @@ OC.L10N.register(
     "Secret key" : "Tajni ključ",
     "Builtin" : "Ugrađen",
     "None" : "Nema",
-    "OAuth1" : "OAuth1",
-    "App key" : "Ključ aplikacije",
-    "App secret" : "Tajna aplikacije",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID klijenta",
     "Client secret" : "Tajni ključ klijenta",
@@ -112,6 +107,11 @@ OC.L10N.register(
     "Available for" : "Dostupno za",
     "Add storage" : "Dodaj pohranu",
     "Advanced settings" : "Napredne postavke",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globalne vjerodajnice mogu se upotrebljavati za provođenje autentifikacije na više vanjskih pohrana koje imaju iste vjerodajnice.",
+    "Error configuring OAuth1" : "Pogreška pri konfiguriranju OAuth1",
+    "Please provide a valid app key and secret." : "Unesite važeći ključ aplikacije i tajnu.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Ključ aplikacije",
+    "App secret" : "Tajna aplikacije"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

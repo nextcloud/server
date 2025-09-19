@@ -11,7 +11,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Confirmar a eliminación definitiva",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Confirma que quere eliminar definitivamente todos os ficheiros e cartafoles do cesto do lixo? Non é posíbel desfacer esta operación.",
     "Cancel" : "Cancelar",
-    "Deletion cancelled" : "Foi cancelada a eliminación",
     "Original location" : "Localización orixinal",
     "Deleted by" : "Eliminado por",
     "Deleted" : "Eliminado",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "You" : "Vde.",
     "List of files that have been deleted." : "Lista de ficheiros que foron eliminados.",
     "No deleted files" : "Non hai ficheiros eliminados",
-    "Files and folders you have deleted will show up here" : "Os ficheiros e cartafoles que eliminou amosaranse aquí"
+    "Files and folders you have deleted will show up here" : "Os ficheiros e cartafoles que eliminou amosaranse aquí",
+    "Deletion cancelled" : "Foi cancelada a eliminación"
 },
 "nplurals=2; plural=(n != 1);");

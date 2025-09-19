@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "زىيارەت قىلىش ھوقۇقى",
-    "Error configuring OAuth1" : "OAuth1 نى تەڭشەشتە خاتالىق",
-    "Please provide a valid app key and secret." : "ئۈنۈملۈك ئەپ ئاچقۇچى ۋە مەخپىي تەمىنلەڭ.",
     "Error configuring OAuth2" : "OAuth2 نى تەڭشەشتە خاتالىق",
     "Generate keys" : "ئاچقۇچ ھاسىل قىلىڭ",
     "Error generating key pair" : "ئاچقۇچ جۈپ ھاسىل قىلىشتا خاتالىق",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "مەخپىي ئاچقۇچ",
     "Builtin" : "Builtin",
     "None" : "يوق",
-    "OAuth1" : "OAuth1",
-    "App key" : "ئەپ ئاچقۇچى",
-    "App secret" : "ئەپ مەخپىيىتى",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Client secret",
@@ -149,6 +144,11 @@ OC.L10N.register(
     "All people" : "بارلىق كىشىلەر",
     "Advanced settings" : "ئىلغار تەڭشەكلەر",
     "Allow people to mount external storage" : "كىشىلەرنىڭ سىرتقى ساقلىغۇچ ئورنىتىشىغا يول قويۇڭ",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "يەرشارى كىنىشكىسى ئوخشاش سالاھىيەتكە ئىگە كۆپ خىل تاشقى دۇكانلار بىلەن دەلىللەشكە ئىشلىتىلىدۇ."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "يەرشارى كىنىشكىسى ئوخشاش سالاھىيەتكە ئىگە كۆپ خىل تاشقى دۇكانلار بىلەن دەلىللەشكە ئىشلىتىلىدۇ.",
+    "Error configuring OAuth1" : "OAuth1 نى تەڭشەشتە خاتالىق",
+    "Please provide a valid app key and secret." : "ئۈنۈملۈك ئەپ ئاچقۇچى ۋە مەخپىي تەمىنلەڭ.",
+    "OAuth1" : "OAuth1",
+    "App key" : "ئەپ ئاچقۇچى",
+    "App secret" : "ئەپ مەخپىيىتى"
 },
 "nplurals=2; plural=(n != 1);");

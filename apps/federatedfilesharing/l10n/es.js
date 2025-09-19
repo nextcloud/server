@@ -47,8 +47,7 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Comparte conmigo a través de mi ID de Nube Federada #Nextcloud, ve {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Compartirlo conmigo a través de mi ID de Nube Federada #Nextcloud",
     "Share with me via Nextcloud" : "Compartirlo conmigo vía Nextcloud",
-    "Cloud ID copied to the clipboard" : "ID de nube copiado al portapapeles",
-    "Copy to clipboard" : "Copiar al portapapeles",
+    "Copy" : "Copiar",
     "Clipboard not available. Please copy the cloud ID manually." : "Portapapeles no disponible. Por favor, copia el ID de nube manualmente.",
     "Copied!" : "¡Copiado!",
     "Federated Cloud" : "Nube Federada",
@@ -59,6 +58,7 @@ OC.L10N.register(
     "X (formerly Twitter)" : "X (anteriormente Twitter)",
     "formerly Twitter" : "anteriormente Twitter",
     "Mastodon" : "Mastodon",
+    "Bluesky" : "Bluesky",
     "Add to your website" : "Añadir a su sitio web",
     "HTML Code:" : "Código HTML:",
     "Cancel" : "Cancelar",
@@ -66,6 +66,8 @@ OC.L10N.register(
     "Remote share" : "Recurso compartido remoto",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Deseas añadir el recurso compartido remoto {name} de {owner}@{remote}?",
     "Remote share password" : "Contraseña del compartido remoto",
-    "Incoming share could not be processed" : "Elemento compartido entrante no pudo ser procesado"
+    "Incoming share could not be processed" : "Elemento compartido entrante no pudo ser procesado",
+    "Cloud ID copied to the clipboard" : "ID de nube copiado al portapapeles",
+    "Copy to clipboard" : "Copiar al portapapeles"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

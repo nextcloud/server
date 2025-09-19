@@ -237,6 +237,12 @@ class Application extends App {
 				'systag_objecttype',
 				['objecttype']
 			);
+
+			$event->addMissingUniqueIndex(
+				'vcategory',
+				'unique_category_per_user',
+				['uid', 'type', 'category']
+			);
 		});
 
 		$eventDispatcher->addListener(AddMissingPrimaryKeyEvent::class, function (AddMissingPrimaryKeyEvent $event) {
