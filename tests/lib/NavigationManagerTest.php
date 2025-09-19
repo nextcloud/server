@@ -832,4 +832,154 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEquals(false, $this->navigationManager->get('app3')['default']);
 		$this->assertEquals(true, $this->navigationManager->get('app4')['default']);
 	}
+
+	/**
+	 * Test navigation entries when delegated settings are enabled
+	 */
+	public function testNavigationWithDelegatedSettingsEnabled(): void {
+		$l = $this->createMock(IL10N::class);
+		$l->expects($this->any())->method('t')->willReturnCallback(function ($text, $parameters = []) {
+			return vsprintf($text, $parameters);
+		});
+
+		$this->config->method('getUserValue')->willReturnArgument(3);
+		$this->config->method('getSystemValueBool')
+			->with('settings.only-delegated-settings')
+			->willReturn(true);
+
+		$this->appManager->expects($this->any())
+			->method('isEnabledForUser')
+			->with('theming')
+			->willReturn(true);
+		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
+		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
+			if ($route === 'core.login.logout') {
+				return 'https://example.com/logout';
+			}
+			if ($route === 'settings.PersonalSettings.index') {
+				return '/settings/personal';
+			}
+			return '/apps/test/';
+		});
+		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
+			return "/apps/$appName/img/$file";
+		});
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn('user001');
+		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
+		$this->appManager->expects($this->any())
+			->method('getEnabledAppsForUser')
+			->with($user)
+			->willReturn([]);
+		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn(true);
+		$subadmin = $this->createMock(SubAdmin::class);
+		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
+		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
+
+		$this->navigationManager->clear();
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event) {
+				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
+			});
+
+		$entries = $this->navigationManager->getAll('all');
+
+		// When delegated settings are enabled, there should be a single "Settings" entry
+		// with admin icon instead of separate personal and admin settings
+		$settingsEntries = array_filter($entries, function ($entry) {
+			return $entry['type'] === 'settings' && $entry['id'] === 'settings';
+		});
+
+		$this->assertCount(1, $settingsEntries);
+		$settingsEntry = array_values($settingsEntries)[0];
+		$this->assertEquals('Settings', $settingsEntry['name']);
+		$this->assertEquals('/apps/settings/img/admin.svg', $settingsEntry['icon']);
+		$this->assertEquals('/settings/personal', $settingsEntry['href']);
+
+		// There should be no separate admin_settings entry
+		$adminSettingsEntries = array_filter($entries, function ($entry) {
+			return $entry['id'] === 'admin_settings';
+		});
+		$this->assertEmpty($adminSettingsEntries);
+	}
+
+	/**
+	 * Test navigation entries when delegated settings are disabled (default behavior)
+	 */
+	public function testNavigationWithDelegatedSettingsDisabled(): void {
+		$l = $this->createMock(IL10N::class);
+		$l->expects($this->any())->method('t')->willReturnCallback(function ($text, $parameters = []) {
+			return vsprintf($text, $parameters);
+		});
+
+		$this->config->method('getUserValue')->willReturnArgument(3);
+		$this->config->method('getSystemValueBool')
+			->with('settings.only-delegated-settings')
+			->willReturn(false);
+
+		$this->appManager->expects($this->any())
+			->method('isEnabledForUser')
+			->with('theming')
+			->willReturn(true);
+		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
+		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
+			if ($route === 'core.login.logout') {
+				return 'https://example.com/logout';
+			}
+			if ($route === 'settings.PersonalSettings.index') {
+				return '/settings/personal';
+			}
+			if ($route === 'settings.AdminSettings.index') {
+				return '/settings/admin';
+			}
+			return '/apps/test/';
+		});
+		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
+			return "/apps/$appName/img/$file";
+		});
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn('user001');
+		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
+		$this->appManager->expects($this->any())
+			->method('getEnabledAppsForUser')
+			->with($user)
+			->willReturn([]);
+		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn(true);
+		$subadmin = $this->createMock(SubAdmin::class);
+		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
+		$this->groupManager->expects($this->any())->method('getSubAdmin')->willReturn($subadmin);
+
+		$this->navigationManager->clear();
+		$this->dispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->willReturnCallback(function ($event) {
+				$this->assertInstanceOf(LoadAdditionalEntriesEvent::class, $event);
+			});
+
+		$entries = $this->navigationManager->getAll('all');
+
+		// When delegated settings are disabled, there should be both personal and admin settings entries
+		$personalSettingsEntries = array_filter($entries, function ($entry) {
+			return $entry['type'] === 'settings' && $entry['id'] === 'settings';
+		});
+		$adminSettingsEntries = array_filter($entries, function ($entry) {
+			return $entry['type'] === 'settings' && $entry['id'] === 'admin_settings';
+		});
+
+		$this->assertCount(1, $personalSettingsEntries);
+		$this->assertCount(1, $adminSettingsEntries);
+
+		$personalEntry = array_values($personalSettingsEntries)[0];
+		$this->assertEquals('Personal settings', $personalEntry['name']);
+		$this->assertEquals('/apps/settings/img/personal.svg', $personalEntry['icon']);
+
+		$adminEntry = array_values($adminSettingsEntries)[0];
+		$this->assertEquals('Administration settings', $adminEntry['name']);
+		$this->assertEquals('/apps/settings/img/admin.svg', $adminEntry['icon']);
+	}
 }

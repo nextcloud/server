@@ -267,25 +267,38 @@ class NavigationManager implements INavigationManager {
 					'name' => $l->t('Apps'),
 				]);
 
-				// Personal settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'settings',
-					'order' => 3,
-					'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
-					'name' => $l->t('Personal settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
-				]);
+				$hasDelegatedSettings = $this->config->getSystemValueBool('settings.only-delegated-settings');
 
-				// Admin settings
-				$this->add([
-					'type' => 'settings',
-					'id' => 'admin_settings',
-					'order' => 4,
-					'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview']),
-					'name' => $l->t('Administration settings'),
-					'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
-				]);
+				if ($hasDelegatedSettings) {
+					$this->add([
+						'type' => 'settings',
+						'id' => 'settings',
+						'order' => 3,
+						'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
+						'name' => $l->t('Settings'),
+						'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
+					]);
+				} else {
+					// Personal settings
+					$this->add([
+						'type' => 'settings',
+						'id' => 'settings',
+						'order' => 3,
+						'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
+						'name' => $l->t('Personal settings'),
+						'icon' => $this->urlGenerator->imagePath('settings', 'personal.svg'),
+					]);
+
+					// Admin settings
+					$this->add([
+						'type' => 'settings',
+						'id' => 'admin_settings',
+						'order' => 4,
+						'href' => $this->urlGenerator->linkToRoute('settings.AdminSettings.index', ['section' => 'overview']),
+						'name' => $l->t('Administration settings'),
+						'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
+					]);
+				}
 			} else {
 				// Personal settings
 				$this->add([
