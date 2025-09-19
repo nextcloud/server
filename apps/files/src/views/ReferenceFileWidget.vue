@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import { defineComponent, type Component, type PropType } from 'vue'
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { generateRemoteUrl, generateUrl, getBaseUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { Node } from '@nextcloud/files'
@@ -73,6 +73,7 @@ type Ressource = {
 	mimetype: string
 	mtime: number // as unix timestamp
 	'preview-available': boolean
+	'is-public-link': boolean
 }
 
 type ViewerHandler = {
@@ -137,8 +138,11 @@ export default defineComponent({
 				.find(handler => handler.mimes.includes(this.richObject.mimetype))
 		},
 		viewerFile(): ViewerFile {
-			const davSource = generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}/${this.richObject.path}`)
-				.replace(/\/\/$/, '/')
+			const davSource = this.richObject['is-public-link']
+				? (getBaseUrl() + `/public.php/dav/files/${this.richObject.path}`)
+				: generateRemoteUrl(`dav/files/${getCurrentUser()?.uid}/${this.richObject.path}`)
+					.replace(/\/\/$/, '/')
+
 			return {
 				filename: this.richObject.path,
 				basename: this.richObject.name,
@@ -200,6 +204,10 @@ export default defineComponent({
 	},
 	methods: {
 		navigate(event) {
+			if (this.richObject['is-public-link']) {
+				return
+			}
+
 			if (this.isFolder) {
 				event.stopPropagation()
 				event.preventDefault()
