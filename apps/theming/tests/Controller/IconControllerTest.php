@@ -97,7 +97,8 @@ class IconControllerTest extends TestCase {
 			->with('favicon')
 			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
+			->method('canConvert')
+			->with('PNG')
 			->willReturn(true);
 		$this->imageManager->expects($this->once())
 			->method('getCachedImage')
@@ -121,7 +122,8 @@ class IconControllerTest extends TestCase {
 			->with('favicon', false)
 			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
+			->method('canConvert')
+			->with('PNG')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon.png';
 		$this->fileAccessHelper->expects($this->once())
@@ -146,7 +148,8 @@ class IconControllerTest extends TestCase {
 			->method('getImage')
 			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
+			->method('canConvert')
+			->with('PNG')
 			->willReturn(true);
 		$this->iconBuilder->expects($this->once())
 			->method('getTouchIcon')
@@ -171,7 +174,8 @@ class IconControllerTest extends TestCase {
 			->with('favicon')
 			->willThrowException(new NotFoundException());
 		$this->imageManager->expects($this->any())
-			->method('shouldReplaceIcons')
+			->method('canConvert')
+			->with('PNG')
 			->willReturn(false);
 		$fallbackLogo = \OC::$SERVERROOT . '/core/img/favicon-touch.png';
 		$this->fileAccessHelper->expects($this->once())

@@ -206,21 +206,33 @@ class Util {
 	 * @param string $app app name
 	 * @return string|ISimpleFile path to app icon / file of logo
 	 */
-	public function getAppIcon($app) {
+	public function getAppIcon($app, $useSvg = true) {
 		$app = $this->appManager->cleanAppId($app);
 		try {
+			// find app specific icon
 			$appPath = $this->appManager->getAppPath($app);
-			$icon = $appPath . '/img/' . $app . '.svg';
-			if (file_exists($icon)) {
-				return $icon;
-			}
-			$icon = $appPath . '/img/app.svg';
-			if (file_exists($icon)) {
-				return $icon;
+			if ($useSvg) {
+				$icon = $appPath . '/img/' . $app . '.svg';
+				if (file_exists($icon)) {
+					return $icon;
+				}
+				$icon = $appPath . '/img/app.svg';
+				if (file_exists($icon)) {
+					return $icon;
+				}
+			} else {
+				$icon = $appPath . '/img/' . $app . '.png';
+				if (file_exists($icon)) {
+					return $icon;
+				}
+				$icon = $appPath . '/img/app.png';
+				if (file_exists($icon)) {
+					return $icon;
+				}
 			}
 		} catch (AppPathNotFoundException $e) {
 		}
-
+		// fallback to custom instance logo
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
 			$logoFile = null;
 			try {
@@ -229,7 +241,18 @@ class Util {
 			} catch (NotFoundException $e) {
 			}
 		}
-		return \OC::$SERVERROOT . '/core/img/logo/logo.svg';
+		// fallback to core logo
+		if ($useSvg) {
+			$icon = \OC::$SERVERROOT . '/core/img/logo/logo.svg';
+			if (file_exists($icon)) {
+				return $icon;
+			}
+		} else {
+			$icon = \OC::$SERVERROOT . '/core/img/logo/logo.png';
+			if (file_exists($icon)) {
+				return $icon;
+			}
+		}
 	}
 
 	/**

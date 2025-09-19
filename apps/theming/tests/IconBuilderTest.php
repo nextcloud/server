@@ -116,7 +116,8 @@ class IconBuilderTest extends TestCase {
 	public function testGetFavicon(string $app, string $color, string $file): void {
 		$this->checkImagick();
 		$this->imageManager->expects($this->once())
-			->method('shouldReplaceIcons')
+			->method('canConvert')
+			->with('SVG')
 			->willReturn(true);
 		$this->themingDefaults->expects($this->once())
 			->method('getColorPrimary')
@@ -147,7 +148,8 @@ class IconBuilderTest extends TestCase {
 		$util = $this->createMock(Util::class);
 		$iconBuilder = new IconBuilder($this->themingDefaults, $util, $this->imageManager);
 		$this->imageManager->expects($this->once())
-			->method('shouldReplaceIcons')
+			->method('canConvert')
+			->with('SVG')
 			->willReturn(true);
 		$util->expects($this->once())
 			->method('getAppIcon')
