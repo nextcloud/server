@@ -108,7 +108,6 @@ OC.L10N.register(
     "Federated user" : "Người dùng được liên kết",
     "user@your-nextcloud.org" : "người_dùng@nextcloud_của_bạn.org",
     "Create share" : "Tạo chia sẻ",
-    "Direct link copied to clipboard" : "URL đã được sao chép vào bộ nhớ tạm",
     "Please copy the link manually:" : "Vui lòng sao chép thủ công liên kết:",
     "Pick start date" : "Chọn ngày bắt đầu",
     "Pick end date" : "Chọn ngày kết thúc",
@@ -371,6 +370,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Chuyển chế độ hiển thị mật khẩu",
     "Configure the database" : "Cấu hình cơ sở dữ liệu",
     "Only %s is available." : "Chỉ %s khả dụng.",
-    "Database account" : "Tài khoản CSDL"
+    "Database account" : "Tài khoản CSDL",
+    "Direct link copied to clipboard" : "URL đã được sao chép vào bộ nhớ tạm"
 },
 "nplurals=1; plural=0;");

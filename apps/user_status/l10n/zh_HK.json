@@ -8,6 +8,7 @@
     "Out of office" : "不在辦公室",
     "Working remotely" : "遠程工作中",
     "In a call" : "通話中",
+    "Be right back" : "馬上回來",
     "User status" : "用戶狀態",
     "Clear status after" : "繼此之後清空狀態",
     "Emoji for your status message" : "狀態訊息的表情符號",
@@ -21,7 +22,6 @@
     "There was an error saving the status" : "儲存狀態時發生錯誤",
     "There was an error clearing the status" : "變更狀態時發生錯誤",
     "There was an error reverting the status" : "恢復狀態時出錯",
-    "Set status" : "設定狀態",
     "Online status" : "線上狀態",
     "Status message" : "狀態訊息",
     "Set absence period" : "設定缺席時間",
@@ -37,10 +37,12 @@
     "Do not disturb" : "請勿打擾",
     "Invisible" : "隱藏",
     "Offline" : "離線",
+    "Set status" : "設定狀態",
     "There was an error saving the new status" : "儲存新狀態時發生錯誤",
     "30 minutes" : "30分鐘",
     "1 hour" : "1 小時",
     "4 hours" : "4 小時",
+    "Busy" : "忙碌",
     "Mute all notifications" : "靜音所有通知",
     "Appear offline" : "顯示為離線"
 },"pluralForm" :"nplurals=1; plural=0;"

@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Anna ligipääs",
-    "Error configuring OAuth1" : "Viga OAuth1 seadistamisel",
-    "Please provide a valid app key and secret." : "Palun sisesta rakenduse kehtiv võti ja saladus.",
     "Error configuring OAuth2" : "Viga OAuth2 seadistamisel",
     "Generate keys" : "Loo võtmed",
     "Error generating key pair" : "Viga võtmepaari loomisel",
@@ -25,9 +23,6 @@ OC.L10N.register(
     "Secret key" : "Salavõti",
     "Builtin" : "Sisseehitatud",
     "None" : "Pole",
-    "OAuth1" : "OAuth1",
-    "App key" : "Rakenduse võti",
-    "App secret" : "Rakenduse salasõna",
     "OAuth2" : "OAuth2",
     "Client ID" : "Kliendi ID",
     "Client secret" : "Kliendi saladus",
@@ -143,6 +138,11 @@ OC.L10N.register(
     "Add storage" : "Lisa andmehoidla",
     "All people" : "Kõik inimesed",
     "Advanced settings" : "Lisavalikud",
-    "Allow people to mount external storage" : "Luba kõigil haakida välist andmeruumi"
+    "Allow people to mount external storage" : "Luba kõigil haakida välist andmeruumi",
+    "Error configuring OAuth1" : "Viga OAuth1 seadistamisel",
+    "Please provide a valid app key and secret." : "Palun sisesta rakenduse kehtiv võti ja saladus.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Rakenduse võti",
+    "App secret" : "Rakenduse salasõna"
 },
 "nplurals=2; plural=(n != 1);");

@@ -105,7 +105,6 @@ OC.L10N.register(
     "Invalid remote URL." : "невалиден отдалечен URL(адрес)",
     "Failed to add the public link to your Nextcloud" : "Неуспешно добавяне на публичната връзка към вашия Nextcloud",
     "Create share" : "Създаване на споделяне",
-    "Direct link copied to clipboard" : "Директният адрес е копиран в клипборда",
     "Please copy the link manually:" : "Моля копирайте адреса ръчно:",
     "Search in date range" : "Търси във времеви период",
     "Search in current app" : "Търси в настоящето приложение",
@@ -355,6 +354,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Превключване на видимостта на парола",
     "Configure the database" : "Конфигуриране на базата данни",
     "Only %s is available." : "Само %s е наличен.",
-    "Database account" : "Профил за база данни"
+    "Database account" : "Профил за база данни",
+    "Direct link copied to clipboard" : "Директният адрес е копиран в клипборда"
 },
 "nplurals=2; plural=(n != 1);");

@@ -151,7 +151,7 @@
 			</NcCheckboxRadioSwitch>
 			<fieldset v-show="settings.allowLinks && settings.defaultExpireDate" id="settings-sharing-api-api-expiration" class="sharing__sub-section">
 				<NcCheckboxRadioSwitch :checked.sync="settings.enforceExpireDate">
-					{{ t('settings', 'Enforce expiration date for remote shares') }}
+					{{ t('settings', 'Enforce expiration date for link or mail shares') }}
 				</NcCheckboxRadioSwitch>
 				<NcTextField type="number"
 					class="sharing__input"

@@ -283,8 +283,6 @@
     "Cannot write into \"config\" directory." : "Kan ikke skrive til mappen \"config\".",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "Dette kan som regel ordnes ved at give webserveren skrive adgang til config mappen. Se %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Men hvis du foretrækker at bibeholde config.php skrivebeskyttet, så sæt parameter \"config_is_read_only\" til true i filen. Se %s",
-    "Cannot write into \"apps\" directory." : "Kan ikke skrive til mappen \"apps\".",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Dette kan som regel rettes ved at give webserveren skriveadgang til apps-mappen eller slå appstore fra i config-filen.",
     "Cannot create \"data\" directory." : "Kan ikke oprette mappen \"data\".",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "Dette kan som regel ordnes ved at give webserveren skrive adgang til rod mappen. Se %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Rettigheder kan som regel rettes ved at give webserveren skriveadgang til rodmappen. Se %s.",
@@ -445,6 +443,8 @@
     "Organisation" : "Organisation",
     "File is currently busy, please try again later" : "Filen er i øjeblikket optaget - forsøg igen senere",
     "Cannot download file" : "Kan ikke downloade filen",
+    "Cannot write into \"apps\" directory." : "Kan ikke skrive til mappen \"apps\".",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "Dette kan som regel rettes ved at give webserveren skriveadgang til apps-mappen eller slå appstore fra i config-filen.",
     "Login is too long" : "Login er for lang"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

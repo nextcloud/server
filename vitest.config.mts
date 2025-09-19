@@ -27,6 +27,10 @@ export default defineConfig({
 	plugins: [vue()],
 	test: {
 		include: ['{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+		env: {
+			LANG: 'en-US',
+			TZ: 'UTC',
+		},
 		environment: 'jsdom',
 		environmentOptions: {
 			jsdom: {

@@ -1,7 +1,5 @@
 { "translations": {
     "Grant access" : "접근 권한 부여",
-    "Error configuring OAuth1" : "OAuth1 설정 오류",
-    "Please provide a valid app key and secret." : "올바른 앱 키와 비밀 값을 입력하십시오.",
     "Error configuring OAuth2" : "OAuth2 설정 오류",
     "Generate keys" : "키 생성",
     "Error generating key pair" : "키 쌍을 생성하는 중 오류 발생",
@@ -22,9 +20,6 @@
     "Secret key" : "비밀 키",
     "Builtin" : "내장",
     "None" : "없음",
-    "OAuth1" : "OAuth1",
-    "App key" : "앱 키",
-    "App secret" : "앱 비밀 값",
     "OAuth2" : "OAuth2",
     "Client ID" : "클라이언트 ID",
     "Client secret" : "클라이언트 비밀 값",
@@ -148,6 +143,11 @@
     "All people" : "모든 사용자",
     "Advanced settings" : "고급 설정",
     "Allow people to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
+    "Error configuring OAuth1" : "OAuth1 설정 오류",
+    "Please provide a valid app key and secret." : "올바른 앱 키와 비밀 값을 입력하십시오.",
+    "OAuth1" : "OAuth1",
+    "App key" : "앱 키",
+    "App secret" : "앱 비밀 값"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

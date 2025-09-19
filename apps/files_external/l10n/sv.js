@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Bevilja åtkomst",
-    "Error configuring OAuth1" : "Misslyckades konfigurera OAuth1",
-    "Please provide a valid app key and secret." : "Ange en giltig applikationsnyckel och hemlig fras.",
     "Error configuring OAuth2" : "Misslyckades konfigurera OAuth2",
     "Generate keys" : "Generera nycklar",
     "Error generating key pair" : "Fel vid generering av nyckelpar",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Hemlig nyckel",
     "Builtin" : "Inbyggt",
     "None" : "Ingen",
-    "OAuth1" : "OAuth1",
-    "App key" : "Appnyckel",
-    "App secret" : "Apphemlighet",
     "OAuth2" : "OAuth2",
     "Client ID" : "Klient ID",
     "Client secret" : "Klienthemlighet",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Alla användare",
     "Advanced settings" : "Avancerade inställningar",
     "Allow people to mount external storage" : "Tillåt användare att montera extern lagring",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globala användaruppgifter kan användas för att autentisera med flera externa lagrings-instanser som använder samma användaruppgifter.",
+    "Error configuring OAuth1" : "Misslyckades konfigurera OAuth1",
+    "Please provide a valid app key and secret." : "Ange en giltig applikationsnyckel och hemlig fras.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Appnyckel",
+    "App secret" : "Apphemlighet"
 },
 "nplurals=2; plural=(n != 1);");

@@ -199,7 +199,7 @@ OC.L10N.register(
     "User Home Folder Naming Rule" : "Правило именования домашнего каталога пользователя",
     "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "Оставьте пустым для использования имени пользователя (по умолчанию) или укажите атрибут LDAP/AD.",
     "\"$home\" Placeholder Field" : "Поле-заполнитель \"$home\"",
-    "$home in an external storage configuration will be replaced with the value of the specified attribute" : "В конфигурации внешнего хранилища $home будет заменен значением указанного атрибута",
+    "$home in an external storage configuration will be replaced with the value of the specified attribute" : "В конфигурации внешнего хранилища $home будет заменён значением указанного атрибута",
     "User Profile Attributes" : "Атрибуты профиля пользователей",
     "Phone Field" : "Поле телефона",
     "User profile Phone will be set from the specified attribute" : "Телефон в профиле пользователя будет установлен из указанного атрибута",

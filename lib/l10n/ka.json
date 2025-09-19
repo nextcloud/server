@@ -190,8 +190,6 @@
     "Cannot write into \"config\" directory." : "Cannot write into \"config\" directory.",
     "This can usually be fixed by giving the web server write access to the config directory. See %s" : "This can usually be fixed by giving the web server write access to the config directory. See %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s",
-    "Cannot write into \"apps\" directory." : "Cannot write into \"apps\" directory.",
-    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file.",
     "Cannot create \"data\" directory." : "Cannot create \"data\" directory.",
     "This can usually be fixed by giving the web server write access to the root directory. See %s" : "This can usually be fixed by giving the web server write access to the root directory. See %s",
     "Permissions can usually be fixed by giving the web server write access to the root directory. See %s." : "Permissions can usually be fixed by giving the web server write access to the root directory. See %s.",
@@ -241,6 +239,8 @@
     "Extracts topics from a text and outputs them separated by commas." : "Extracts topics from a text and outputs them separated by commas.",
     "Organisation" : "Organisation",
     "File is currently busy, please try again later" : "File is currently busy, please try again later",
-    "Cannot download file" : "Cannot download file"
+    "Cannot download file" : "Cannot download file",
+    "Cannot write into \"apps\" directory." : "Cannot write into \"apps\" directory.",
+    "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file." : "This can usually be fixed by giving the web server write access to the apps directory or disabling the App Store in the config file."
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

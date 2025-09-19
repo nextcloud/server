@@ -72,17 +72,14 @@
     "{displayName} (restricted)" : "{displayName} (restreint)",
     "Only admins can create new tags" : "Seuls les administrateurs peuvent créer de nouvelles étiquettes",
     "Failed to apply tags changes" : "Échec de lors d'application des étiquettes",
-    "File tags modification canceled" : "Modification des étiquettes du fichier annulée",
     "Manage tags" : "Gérer les étiquettes",
     "Applying tags changes…" : "Application des changements d'étiquettes…",
     "Search or create tag" : "Rechercher ou créer une étiquette",
     "Search tag" : "Rechercher une étiquette",
     "Change tag color" : "Changer la couleur de l'étiquette",
     "Create new tag" : "Créer une nouvelle étiquette",
-    "Select or create tags to apply to all selected files" : "Sélectionnez ou créez des étiquettes à appliquer à tous les fichiers sélectionnés",
-    "Select tags to apply to all selected files" : "Sélectionnez les étiquettes à appliquer à tous les fichiers sélectionnés",
     "Cancel" : "Annuler",
-    "Apply changes" : "Appliquer les modifications",
+    "Apply" : "Appliquer",
     "Failed to load tags" : "Impossible de charger les étiquettes",
     "Failed to load selected tags" : "Impossible de charger les étiquettes sélectionnées",
     "Failed to select tag" : "Impossible de sélectionner l'étiquette",
@@ -108,6 +105,10 @@
     "A tag with the same name already exists" : "Une étiquette portant le même nom existe déjà",
     "Failed to load tags for file" : "Impossible de charger les étiquettes du fichier",
     "Failed to set tag for file" : "Impossible d'attribuer l'étiquette au fichier",
-    "Failed to delete tag for file" : "Impossible de supprimer l'étiquette au fichier"
+    "Failed to delete tag for file" : "Impossible de supprimer l'étiquette au fichier",
+    "File tags modification canceled" : "Modification des étiquettes du fichier annulée",
+    "Select or create tags to apply to all selected files" : "Sélectionnez ou créez des étiquettes à appliquer à tous les fichiers sélectionnés",
+    "Select tags to apply to all selected files" : "Sélectionnez les étiquettes à appliquer à tous les fichiers sélectionnés",
+    "Apply changes" : "Appliquer les modifications"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

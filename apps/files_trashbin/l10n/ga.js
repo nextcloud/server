@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Deimhnigh scriosadh buan",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "An bhfuil tú cinnte gur mian leat gach comhad agus fillteán sa bhruscar a scriosadh go buan? Ní féidir é seo a chealú.",
     "Cancel" : "Cealaigh",
-    "Deletion cancelled" : "Scriosadh cealaithe",
     "Original location" : "Suíomh bunaidh",
     "Deleted by" : "Scriosta ag",
     "Deleted" : "Scriosta",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "No deleted files" : "Níl aon chomhaid scriosta",
     "Files and folders you have deleted will show up here" : "Taispeánfar na comhaid agus na fillteáin atá scriosta agat anseo",
     "All files have been permanently deleted" : "Scriosadh na comhaid go léir go buan",
-    "Failed to empty deleted files" : "Theip ar na comhaid scriosta a fholmhú"
+    "Failed to empty deleted files" : "Theip ar na comhaid scriosta a fholmhú",
+    "Deletion cancelled" : "Scriosadh cealaithe"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

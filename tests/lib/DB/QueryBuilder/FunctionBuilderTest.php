@@ -370,6 +370,7 @@ class FunctionBuilderTest extends TestCase {
 		$result = $query->execute();
 		$column = $result->fetchOne();
 		$result->closeCursor();
+		$this->assertNotNull($column);
 		$this->assertEquals($bytes, $column);
 	}
 

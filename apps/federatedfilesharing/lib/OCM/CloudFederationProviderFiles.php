@@ -308,7 +308,10 @@ class CloudFederationProviderFiles implements ISignedCloudFederationProvider {
 
 		$this->verifyShare($share, $token);
 		$this->executeAcceptShare($share);
-		if ($share->getShareOwner() !== $share->getSharedBy()) {
+
+		if ($share->getShareOwner() !== $share->getSharedBy()
+			&& !$this->userManager->userExists($share->getSharedBy())) {
+			// only if share was initiated from another instance
 			[, $remote] = $this->addressHandler->splitUserRemote($share->getSharedBy());
 			$remoteId = $this->federatedShareProvider->getRemoteId($share);
 			$notification = $this->cloudFederationFactory->getCloudFederationNotification();

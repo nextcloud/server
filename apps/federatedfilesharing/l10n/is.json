@@ -34,8 +34,7 @@
     "Share with me through my #Nextcloud Federated Cloud ID, see {url}" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID, sjá {url}",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID",
     "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
-    "Cloud ID copied to the clipboard" : "Skýjasambandsauðkenni afritað á klippispjald",
-    "Copy to clipboard" : "Afrita á klippispjald",
+    "Copy" : "Afrita",
     "Clipboard not available. Please copy the cloud ID manually." : "Klippispjald er ekki tiltækt. Afritaðu skýjasambandsauðkennið handvirkt.",
     "Copied!" : "Afritað!",
     "Federated Cloud" : "Skýjasamband (federated)",
@@ -53,6 +52,8 @@
     "Remote share" : "Fjartengd sameign",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Viltu bæta við fjartengdri sameign {name} frá {owner}@{remote}?",
     "Remote share password" : "Lykilorð fjartengdrar sameignar",
-    "Incoming share could not be processed" : "Ekki var hægt að vinna með innkomandi sameign"
+    "Incoming share could not be processed" : "Ekki var hægt að vinna með innkomandi sameign",
+    "Cloud ID copied to the clipboard" : "Skýjasambandsauðkenni afritað á klippispjald",
+    "Copy to clipboard" : "Afrita á klippispjald"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

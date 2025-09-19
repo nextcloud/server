@@ -10,7 +10,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Staðfesta endanlega eyðingu",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Ertu viss um að þú viljir eyða öllum skrám og möppum úr ruslinu? Þessi aðgerð er óafturkræf.",
     "Cancel" : "Hætta við",
-    "Deletion cancelled" : "Hætt við eyðingu",
     "Original location" : "Upprunaleg staðsetning",
     "Deleted by" : "Eytt af",
     "Deleted" : "Eytt",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "You" : "Þú",
     "List of files that have been deleted." : "Listi yfir skrár sem hefur verið eytt.",
     "No deleted files" : "Engar eyddar skrár",
-    "Files and folders you have deleted will show up here" : "Skrár og möppur sem þú hefur eytt birtast hér"
+    "Files and folders you have deleted will show up here" : "Skrár og möppur sem þú hefur eytt birtast hér",
+    "Deletion cancelled" : "Hætt við eyðingu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

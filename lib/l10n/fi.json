@@ -176,7 +176,6 @@
     "Token expired. Please reload page." : "Valtuutus vanheni. Lataa sivu uudelleen.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Tietokanta-ajureita (sqlite, mysql tai postgresql) ei ole asennettu.",
     "Cannot write into \"config\" directory." : "Ei voi kirjoittaa \"config\"-hakemistoon",
-    "Cannot write into \"apps\" directory." : "Ei voi kirjoittaa \"apps\"-hakemistoon",
     "Cannot create \"data\" directory." : "Ei voi luoda \"data\"-hakemistoa",
     "Your data directory is not writable." : "Datahakemistosi ei ole kirjoitettavissa.",
     "Setting locale to %s failed." : "Maa-asetuston %s asettaminen epäonnistui.",
@@ -220,6 +219,7 @@
     "Result" : "Tulos",
     "Organisation" : "Organisaatio",
     "File is currently busy, please try again later" : "Tiedosto on parhaillaan käytössä, yritä myöhemmin uudelleen",
-    "Cannot download file" : "Tiedostoa ei voi ladata"
+    "Cannot download file" : "Tiedostoa ei voi ladata",
+    "Cannot write into \"apps\" directory." : "Ei voi kirjoittaa \"apps\"-hakemistoon"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

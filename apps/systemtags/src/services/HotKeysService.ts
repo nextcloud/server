@@ -18,6 +18,7 @@ export const registerHotkeys = function() {
 	useHotKey('t', () => executeAction(manageTagAction), {
 		stop: true,
 		prevent: true,
+		window,
 	})
 
 	logger.debug('Hotkeys registered')

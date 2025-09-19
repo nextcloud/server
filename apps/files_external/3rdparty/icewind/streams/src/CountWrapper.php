@@ -60,6 +60,17 @@ class CountWrapper extends Wrapper {
 		return true;
 	}
 
+    public function stream_seek($offset, $whence = SEEK_SET) {
+        if ($whence === SEEK_SET) {
+            $this->readCount = $offset;
+            $this->writeCount = $offset;
+        } else if ($whence === SEEK_CUR) {
+            $this->readCount += $offset;
+            $this->writeCount += $offset;
+        }
+        return parent::stream_seek($offset, $whence);
+    }
+
 	public function dir_opendir($path, $options) {
 		return $this->open();
 	}

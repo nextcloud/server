@@ -63,6 +63,7 @@
 		<command>OCA\DAV\Command\CreateSubscription</command>
 		<command>OCA\DAV\Command\DeleteCalendar</command>
 		<command>OCA\DAV\Command\FixCalendarSyncCommand</command>
+		<command>OCA\DAV\Command\GetAbsenceCommand</command>
 		<command>OCA\DAV\Command\ListAddressbooks</command>
 		<command>OCA\DAV\Command\ListCalendarShares</command>
 		<command>OCA\DAV\Command\ListCalendars</command>
@@ -70,6 +71,7 @@
 		<command>OCA\DAV\Command\RemoveInvalidShares</command>
 		<command>OCA\DAV\Command\RetentionCleanupCommand</command>
 		<command>OCA\DAV\Command\SendEventReminders</command>
+		<command>OCA\DAV\Command\SetAbsenceCommand</command>
 		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
 		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
 	</commands>

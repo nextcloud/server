@@ -21,7 +21,6 @@
     "There was an error saving the status" : "S'ha produït un error en desar l'estat",
     "There was an error clearing the status" : "S'ha produït un error en esborrar l'estat",
     "There was an error reverting the status" : "S'ha produït un error en recuperar l'estat anterior",
-    "Set status" : "Indica l'estat",
     "Online status" : "Estat en línia",
     "Status message" : "Missatge d'estat",
     "Set absence period" : "Establir període d'absència",
@@ -37,10 +36,12 @@
     "Do not disturb" : "No molesteu",
     "Invisible" : "Invisible",
     "Offline" : "Fora de línia",
+    "Set status" : "Indica l'estat",
     "There was an error saving the new status" : "S'ha produït un error en desar l'estat nou",
     "30 minutes" : "30 minuts",
     "1 hour" : "1 hora",
     "4 hours" : "4 hores",
+    "Busy" : "Ocupat",
     "Mute all notifications" : "Silencieu totes les notificacions",
     "Appear offline" : "Apareixeu fora de línia"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

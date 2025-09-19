@@ -191,7 +191,6 @@ OC.L10N.register(
     "Federated user" : "Federoitu käyttäjä",
     "user@your-nextcloud.org" : "käyttäjä@oma-nextcloud.org",
     "Create share" : "Luo jako",
-    "Direct link copied to clipboard" : "Suora linkki kopioitu työpöydälle",
     "Please copy the link manually:" : "Kopioi linkki manuaalisesti:",
     "Custom date range" : "Mukautettu päivämääräväli",
     "Pick start date" : "Valitse aloituspäivä",
@@ -476,6 +475,7 @@ OC.L10N.register(
     "Toggle password visibility" : "Näytä/piilota salasana",
     "Configure the database" : "Määritä tietokanta",
     "Only %s is available." : "Vain %s on käytettävissä.",
-    "Database account" : "Tietokantatili"
+    "Database account" : "Tietokantatili",
+    "Direct link copied to clipboard" : "Suora linkki kopioitu työpöydälle"
 },
 "nplurals=2; plural=(n != 1);");

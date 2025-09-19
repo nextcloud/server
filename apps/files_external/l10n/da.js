@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Godkend adgang",
-    "Error configuring OAuth1" : "Fejl under konfiguration af OAuth1",
-    "Please provide a valid app key and secret." : "Angiv venligst gyldig app-nøgle og -hemmelighed.",
     "Error configuring OAuth2" : "Fejl under konfiguration af OAuth2",
     "Generate keys" : "Opret nøgler.",
     "Error generating key pair" : "Fejl under oprettelse af nøglepar",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "Hemmelig nøgle",
     "Builtin" : "Indbygget",
     "None" : "Ingen",
-    "OAuth1" : "OAuth1",
-    "App key" : "App-nøgle",
-    "App secret" : "App-hemmelighed",
     "OAuth2" : "OAuth2",
     "Client ID" : "Klient-ID",
     "Client secret" : "Klient hemmelighed",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "Alle personer",
     "Advanced settings" : "Avancerede indstillinger",
     "Allow people to mount external storage" : "Tillad personer at montere eksternt lager",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale legitimationsoplysninger kan bruges til at godkende med flere eksterne lager, der har de samme legitimationsoplysninger."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale legitimationsoplysninger kan bruges til at godkende med flere eksterne lager, der har de samme legitimationsoplysninger.",
+    "Error configuring OAuth1" : "Fejl under konfiguration af OAuth1",
+    "Please provide a valid app key and secret." : "Angiv venligst gyldig app-nøgle og -hemmelighed.",
+    "OAuth1" : "OAuth1",
+    "App key" : "App-nøgle",
+    "App secret" : "App-hemmelighed"
 },
 "nplurals=2; plural=(n != 1);");

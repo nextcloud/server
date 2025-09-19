@@ -146,6 +146,7 @@ OC.L10N.register(
     "Two-factor authentication is not enforced for members of the following groups." : "Dvofaktorska autentifikacija ne primjenjuje se na članove sljedećih grupa.",
     "Excluded groups" : "Izuzete grupe",
     "Save changes" : "Spremi promjene",
+    "Default" : "Zadani",
     "Update to {update}" : "Ažuriraj na {update}",
     "Remove" : "Ukloni",
     "Featured" : "Istaknuto",

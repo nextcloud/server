@@ -155,6 +155,7 @@ class User implements IUser {
 	 */
 	public function setSystemEMailAddress(string $mailAddress): void {
 		$oldMailAddress = $this->getSystemEMailAddress();
+		$mailAddress = mb_strtolower(trim($mailAddress));
 
 		if ($mailAddress === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'email');
@@ -177,6 +178,7 @@ class User implements IUser {
 	 * @inheritDoc
 	 */
 	public function setPrimaryEMailAddress(string $mailAddress): void {
+		$mailAddress = mb_strtolower(trim($mailAddress));
 		if ($mailAddress === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'primary_email');
 			return;
@@ -515,14 +517,16 @@ class User implements IUser {
 	 * @inheritDoc
 	 */
 	public function getSystemEMailAddress(): ?string {
-		return $this->config->getUserValue($this->uid, 'settings', 'email', null);
+		$email = $this->config->getUserValue($this->uid, 'settings', 'email', null);
+		return $email ? mb_strtolower(trim($email)) : null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function getPrimaryEMailAddress(): ?string {
-		return $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);
+		$email = $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);
+		return $email ? mb_strtolower(trim($email)) : null;
 	}
 
 	/**

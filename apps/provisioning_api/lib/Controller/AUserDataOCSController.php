@@ -141,7 +141,8 @@ abstract class AUserDataOCSController extends OCSController {
 			$additionalEmails = $additionalEmailScopes = [];
 			$emailCollection = $userAccount->getPropertyCollection(IAccountManager::COLLECTION_EMAIL);
 			foreach ($emailCollection->getProperties() as $property) {
-				$additionalEmails[] = $property->getValue();
+				$email = mb_strtolower(trim($property->getValue()));
+				$additionalEmails[] = $email;
 				if ($includeScopes) {
 					$additionalEmailScopes[] = $property->getScope();
 				}

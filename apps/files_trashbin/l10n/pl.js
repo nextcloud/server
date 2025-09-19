@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm permanent deletion" : "Potwierdź trwałe usunięcie",
     "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Czy na pewno chcesz trwale usunąć wszystkie pliki i katalogi w koszu? Tego nie można cofnąć.",
     "Cancel" : "Anuluj",
-    "Deletion cancelled" : "Usuwanie anulowane",
     "Original location" : "Oryginalna lokalizacja",
     "Deleted by" : "Usunięto przez",
     "Deleted" : "Usunięto",
@@ -25,6 +24,7 @@ OC.L10N.register(
     "No deleted files" : "Brak usuniętych plików",
     "Files and folders you have deleted will show up here" : "Tutaj pojawią się usunięte pliki i katalogi",
     "All files have been permanently deleted" : "Wszystkie pliki zostały trwale usunięte",
-    "Failed to empty deleted files" : "Nie udało się opróżnić usuniętych plików"
+    "Failed to empty deleted files" : "Nie udało się opróżnić usuniętych plików",
+    "Deletion cancelled" : "Usuwanie anulowane"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

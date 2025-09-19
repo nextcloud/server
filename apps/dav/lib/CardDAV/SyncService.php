@@ -168,7 +168,8 @@ class SyncService {
 			'auth' => [$userName, $sharedSecret],
 			'body' => $this->buildSyncCollectionRequestBody($syncToken),
 			'headers' => ['Content-Type' => 'application/xml'],
-			'timeout' => $this->config->getSystemValueInt('carddav_sync_request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT)
+			'timeout' => $this->config->getSystemValueInt('carddav_sync_request_timeout', IClient::DEFAULT_REQUEST_TIMEOUT),
+			'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 		];
 
 		$response = $client->request(
@@ -189,6 +190,7 @@ class SyncService {
 
 		$options = [
 			'auth' => [$userName, $sharedSecret],
+			'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
 		];
 
 		$response = $client->get(

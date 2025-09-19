@@ -68,15 +68,13 @@ OC.L10N.register(
     "{displayName} (hidden)" : "{displayName} (ezkutua)",
     "{displayName} (restricted)" : "{displayName} (mugatua)",
     "Failed to apply tags changes" : "Etiketen aldaketak aplikatzeak huts egin du",
-    "File tags modification canceled" : "Fitxategien etiketen aldaketa baztertuta",
     "Manage tags" : "Kudeatu etiketak",
     "Applying tags changes…" : "Etiketen aldaketak aplikatzen...",
     "Search or create tag" : "Bilatu edo sortu etiketa",
     "Change tag color" : "Aldatu etiketaren kolorea",
     "Create new tag" : "Sortu etiketa berria",
-    "Select or create tags to apply to all selected files" : "Hautatu edo sortu hautatutako fitxategi guztientzako etiketak",
     "Cancel" : "Utzi",
-    "Apply changes" : "Aplikatu aldaketak",
+    "Apply" : "Aplikatu",
     "Failed to load tags" : "Etiketak kargatzeak huts egin du",
     "Failed to load selected tags" : "Hautatutako etiketa kargatzeak huts egin du",
     "Failed to select tag" : "Etiketa hautatzeak huts egin du",
@@ -95,6 +93,9 @@ OC.L10N.register(
     "A tag with the same name already exists" : "Izen bereko etiketa bat dagoeneko existitzen da",
     "Failed to load tags for file" : "Fitxategiarentzako etiketak kargatzeak huts egin du",
     "Failed to set tag for file" : "Fitxategiarentzako etiketa ezartzeak huts egin du",
-    "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du"
+    "Failed to delete tag for file" : "Fitxategiaren etiketa ezabatzeak huts egin du",
+    "File tags modification canceled" : "Fitxategien etiketen aldaketa baztertuta",
+    "Select or create tags to apply to all selected files" : "Hautatu edo sortu hautatutako fitxategi guztientzako etiketak",
+    "Apply changes" : "Aplikatu aldaketak"
 },
 "nplurals=2; plural=(n != 1);");

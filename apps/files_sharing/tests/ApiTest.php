@@ -11,6 +11,7 @@ use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OCA\Federation\TrustedServers;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -24,6 +25,7 @@ use OCP\IDateTimeZone;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\ITagManager;
 use OCP\Mail\IMailer;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -106,6 +108,8 @@ class ApiTest extends TestCase {
 		$logger = $this->createMock(LoggerInterface::class);
 		$providerFactory = $this->createMock(IProviderFactory::class);
 		$mailer = $this->createMock(IMailer::class);
+		$tagManager = $this->createMock(ITagManager::class);
+		$trustedServers = $this->createMock(TrustedServers::class);
 		$dateTimeZone->method('getTimeZone')->willReturn(new \DateTimeZone(date_default_timezone_get()));
 
 		return new ShareAPIController(
@@ -126,6 +130,8 @@ class ApiTest extends TestCase {
 			$logger,
 			$providerFactory,
 			$mailer,
+			$tagManager,
+			$trustedServers,
 			$userId,
 		);
 	}

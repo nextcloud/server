@@ -72,17 +72,14 @@
     "{displayName} (restricted)" : "{displayName} (kısıtlanmış)",
     "Only admins can create new tags" : "Yalnızca yöneticiler yeni etiketler ekleyebilir",
     "Failed to apply tags changes" : "Etiket değişiklikleri uygulanamadı",
-    "File tags modification canceled" : "Dosya etiket değişikliği iptal edildi",
     "Manage tags" : "Etiket yönetimi",
     "Applying tags changes…" : "Etiket değişikllikleri uygulanıyor…",
     "Search or create tag" : "Etiket arayın ya da oluşturun",
     "Search tag" : "Etiket arama",
     "Change tag color" : "Etiket rengini değiştir",
     "Create new tag" : "Etiket ekle",
-    "Select or create tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin ya da oluşturun",
-    "Select tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin",
     "Cancel" : "İptal",
-    "Apply changes" : "Değişiklikleri uygula",
+    "Apply" : "Uygula",
     "Failed to load tags" : "Etiketler yüklenemedi",
     "Failed to load selected tags" : "Seçilmiş etiketler yüklenemedi",
     "Failed to select tag" : "Seçilmiş etiket yüklenemedi",
@@ -108,6 +105,10 @@
     "A tag with the same name already exists" : "Aynı adlı bir etiket zaten var",
     "Failed to load tags for file" : "Dosyanın etiketleri yüklenemedi",
     "Failed to set tag for file" : "Dosyanın etiketi ayarlanamadı",
-    "Failed to delete tag for file" : "Dosyanın etiketi silinemedi"
+    "Failed to delete tag for file" : "Dosyanın etiketi silinemedi",
+    "File tags modification canceled" : "Dosya etiket değişikliği iptal edildi",
+    "Select or create tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin ya da oluşturun",
+    "Select tags to apply to all selected files" : "Tüm seçilmiş dosyalara uygulanacak etiketleri seçin",
+    "Apply changes" : "Değişiklikleri uygula"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

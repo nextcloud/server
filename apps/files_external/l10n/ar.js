@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "منح إذن بالنفاذ",
-    "Error configuring OAuth1" : "خطأ في تكوين OAuth1",
-    "Please provide a valid app key and secret." : "يرجى توفير مفتاح للتطبيق وكلمة سر صالحين.",
     "Error configuring OAuth2" : "خطأ في تكوين OAuth2",
     "Generate keys" : "توليد المفاتيح",
     "Error generating key pair" : "خطأ في توليد زوج المفاتيح",
@@ -26,9 +24,6 @@ OC.L10N.register(
     "Secret key" : "المفتاح السّرّي",
     "Builtin" : "مُضمّن",
     "None" : "لا شيء",
-    "OAuth1" : "OAuth1",
-    "App key" : "مفتاح التطبيق",
-    "App secret" : "كلمة مرور التطبيق",
     "OAuth2" : "OAuth2",
     "Client ID" : "مُعرِّف العميل",
     "Client secret" : "كلمة مرور العميل",
@@ -157,6 +152,11 @@ OC.L10N.register(
     "All people" : "كُلَّ الأشخاص",
     "Advanced settings" : "إعدادات متقدمة",
     "Allow people to mount external storage" : "السماح للأشخاص بثبيت وحدات تخزين خارجية",
-    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "بيانات تسجيل الدخول الشاملة تستخدم للتحقق من عدة وحدات تخزين خارجية لها نفس بيانات تسجيل الدخول."
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "بيانات تسجيل الدخول الشاملة تستخدم للتحقق من عدة وحدات تخزين خارجية لها نفس بيانات تسجيل الدخول.",
+    "Error configuring OAuth1" : "خطأ في تكوين OAuth1",
+    "Please provide a valid app key and secret." : "يرجى توفير مفتاح للتطبيق وكلمة سر صالحين.",
+    "OAuth1" : "OAuth1",
+    "App key" : "مفتاح التطبيق",
+    "App secret" : "كلمة مرور التطبيق"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
