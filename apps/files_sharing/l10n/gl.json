@@ -121,7 +121,7 @@
     "The request will expire on {date} at midnight." : "A solicitude caducará na media noite do {date}.",
     "The request will be password protected." : "A solicitude estará protexida por contrasinal.",
     "When should the request expire?" : "Cando debe caducar a solicitude?",
-    "Set a submission expiration date" : "Definir unha data de caducidade de envío",
+    "Set a submission expiration date" : "Definir unha data de caducidade de entrega",
     "Expiration date" : "Data de caducidade",
     "Select a date" : "Seleccione unha data",
     "Your administrator has enforced a {count} days expiration policy." : "A administración do sitio impuxo unha directiva de caducidade de {count} días.",

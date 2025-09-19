@@ -8,6 +8,7 @@
     "The \"files_reminders\" app needs the notification app to work properly. You should either enable notifications or disable files_reminder." : "Aplikace „files_reminder“ potřebuje, aby aplikace notifikace správně fungovala. Buď byste měli zapnout notifikace, nebo vypnout files_reminder.",
     "Set file reminders" : "Nastavit připomínky souborů",
     "Set reminder for \"{fileName}\"" : "Nastavit připomínku pro „{fileName}",
+    "Reminder at custom date & time" : "Připomínka v uživatelsky určený datum a čas",
     "Clear reminder" : "Vyčistit připomínku",
     "Please choose a valid date & time" : "Zvolte platný datum a čas",
     "Reminder set for \"{fileName}\"" : "Nastavena připomínka ohledně „{fileName}“",

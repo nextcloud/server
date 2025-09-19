@@ -243,6 +243,7 @@
     "Last 30 days" : "Uplynulých 30 dnů",
     "This year" : "Tento rok",
     "Last year" : "Uplynulý rok",
+    "Between {startDate} and {endDate}" : "Mezi {startDate} a {endDate}",
     "Unified search" : "Sjednocené vyhledávání",
     "Search apps, files, tags, messages" : "Prohledat aplikace, soubory, štítky a zprávy",
     "Places" : "Místa",
