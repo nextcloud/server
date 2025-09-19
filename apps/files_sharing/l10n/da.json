@@ -304,6 +304,7 @@
     "Link shares" : "Link delinger",
     "Shares" : "Delinger",
     "Share files within your organization. Recipients who can already view the file can also use this link for easy access." : "Del filer i din organisation. Modtagere som allerede kan se filen kan også anvende dette link til let adgang.",
+    "Share files with others outside your organization via public links and email addresses. You can also share to {productName} accounts on other instances using their federated cloud ID." : "Del filer med andre udenfor din organisation via offentlige links og e-mailadresser. Du kan også dele til {productName} konti på andre instanser ved at anvende deres fødererede cloud ID.",
     "Shares from apps or other sources which are not included in internal or external shares." : "Delinger fra apps eller andre kilder som ikke er inkluderet i interne eller eksterne delinger.",
     "Type names, teams, federated cloud IDs" : "Type navne, teams, fødererede cloud IDer",
     "Type names or teams" : "Type navne eller teams",

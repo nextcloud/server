@@ -21,6 +21,8 @@
     "Checking apps for compatible versions" : "Kontrola kompatibilních verzí aplikací",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Ověřte, že v souboru s nastaveními config.php není volba <samp>appstoreenabled</samp> nastavena na hodnotu false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Nedaří se spojit s katalogem aplikací nebo tento nevrátil vůbec žádné aktualizace. Vyhledejte aktualizace ručně nebo ověřte, zda má váš server přístup k Internetu a může se spojit s katalogem.",
+    "<strong>All</strong> apps have a compatible version for this {productName} version available." : "<strong>Všechny</strong> aplikace mají kompatibilní verzi pro tuto verzi {productName}.",
+    "_<strong>%n</strong> app has no compatible version for this {productName} version available._::_<strong>%n</strong> apps have no compatible version for this {productName} version available._" : ["<strong>%n</strong> aplikace nemá kompatibilní verzi pro tuto verzi {productName} serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi {productName} serveru.","<strong>%n</strong>aplikací nemá kompatibilní verzi pro tuto verzi {productName} serveru.","<strong>%n</strong> aplikace nemají kompatibilní verzi pro tuto verzi {productName}."],
     "Enterprise" : "Podnikové",
     "Stable" : "Stabilní",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi",

@@ -30,6 +30,7 @@ OC.L10N.register(
     "User is not a sub-admin of this group" : "Mtumiaji si msimamizi mdogo wa kikundi hiki",
     "Email address not available" : "Anwani ya barua pepe haipatikani",
     "Sending email failed" : "Imeshindwa kutuma barua pepe",
+    "Logged in account is not mail address owner" : "Umeingia kwenye akaunti sio mmiliki wa anwani ya barua pepe",
     "Email confirmation" : "Uthibitishaji wa barua pepe",
     "To enable the email address %s please click the button below." : "Ili kuwezesha anwani ya barua pepe %s tafadhali bofya kitufe kilicho hapa chini.",
     "Confirm" : "Thibitisha",
