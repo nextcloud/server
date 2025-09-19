@@ -164,8 +164,9 @@ interface IJobList {
 	/**
 	 * Returns a count of jobs per Job class
 	 *
+	 * @param class-string<IJob>|null $class
 	 * @return list<array{class:class-string, count:int}>
 	 * @since 30.0.0
 	 */
-	public function countByClass(): array;
+	public function countByClass(?string $class = null): array;
 }
