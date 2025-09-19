@@ -252,6 +252,15 @@ class Manager implements IManager {
 			$this->logger->warning('iMip message does not contain any event(s)');
 			return false;
 		}
+
+		$mode = null;
+		if (isset($vObject->PRODID)) {
+			if ($vObject->PRODID->getValue() === 'Microsoft Exchange Server 2010') {
+				$mode = 'EX2010';
+				$this->logger->warning('iMip message source is Microsoft Exchange Server 2010, using quirks mode');
+			}
+		}
+
 		/** @var VEvent $vEvent */
 		$vEvent = $vObject->VEVENT;
 
@@ -260,7 +269,8 @@ class Manager implements IManager {
 			return false;
 		}
 
-		if (!isset($vEvent->ORGANIZER)) {
+		// skip organizer check for message from Exchange 2010
+		if ($mode !== 'EX2010' && !isset($vEvent->ORGANIZER)) {
 			$this->logger->warning('iMip message event dose not contains an organizer');
 			return false;
 		}
