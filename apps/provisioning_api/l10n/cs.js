@@ -30,6 +30,7 @@ OC.L10N.register(
     "User is not a sub-admin of this group" : "Uživatel není dílčím správcem této skupiny",
     "Email address not available" : "E-mailová adresa není k dispozici",
     "Sending email failed" : "Odeslání e-mailu se nezdařilo",
+    "Logged in account is not mail address owner" : "Přihlášený účet není vlastníkem e-mailové adresy",
     "Email confirmation" : "Potvrzení e-mailu",
     "To enable the email address %s please click the button below." : "Pokud chcete povolit e-mailovou adresu %s, klikněte na tlačítko níže.",
     "Confirm" : "Potvrdit",

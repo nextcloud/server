@@ -200,6 +200,7 @@
     "_Reject share_::_Reject shares_" : ["Απόρριψη κοινόχρηστου","Απόρριψη κοινόχρηστων"],
     "_Restore share_::_Restore shares_" : ["Επαναφορά κοινόχρηστου","Επαναφορά κοινόχρηστων"],
     "Shared" : "Κοινόχρηστα",
+    "Shared multiple times with different people" : "Κοινοποιήθηκε πολλές φορές με διαφορετικά άτομα",
     "Shared with others" : "Διαμοιρασμένα με άλλους",
     "No file" : "Κανένα αρχείο",
     "Public share" : "Δημόσια κοινόχρηστο",
