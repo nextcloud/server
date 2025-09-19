@@ -131,6 +131,8 @@
     "Unknown backend: {backendName}" : "Neznámá podpůrná vrstva: {backendName}",
     "Admin defined" : "Nastaveno správcem",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatické zjišťování stavu je vypnuté z důvodu velkého počtu nastavených úložišť – pokud chcete stav zjistit jednorázově, klikněte",
+    "Are you sure you want to disconnect this external storage?" : "Opravdu chcete toto vnější úložiště odpojit?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Způsobí že toto úložiště nebude k dispozici v {instanceName} a povede to ke smazání těchto souborů a složek na jakémkoli synchronizačním klientovi, který je v tuto chvíli připojen, ale nesmaže žádné soubory a složky na externím úložišti jako takovém.",
     "Delete storage?" : "Odstranit úložiště?",
     "Click to recheck the configuration" : "Klikněte pro opětovnou kontrolu nastavení",
     "Saved" : "Uloženo",

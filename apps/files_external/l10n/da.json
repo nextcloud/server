@@ -131,6 +131,8 @@
     "Unknown backend: {backendName}" : "Ukendt backend: {backendName}",
     "Admin defined" : "Bestemt af administrator",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatisk statuskontrol er deaktiveret på grund af det store antal konfigurerede lager, klik for at kontrollere status",
+    "Are you sure you want to disconnect this external storage?" : "Er du sikker på at du ønsker at afbryde den eksterne lagring?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Det vil gøre lageret utilgængeligt på {instanceName} og vil medføre en sletning af disse filer og mapper på enhver synkroniseret klient som aktuelt er forbundet, men det vil ikke slette nogen filer og mapper på selve det eksterne lager.",
     "Delete storage?" : "Slet lager?",
     "Click to recheck the configuration" : "Klik for at kontrollere konfigurationen igen",
     "Saved" : "Gemt",
