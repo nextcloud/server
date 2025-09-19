@@ -7,6 +7,7 @@
 namespace OC\Files\ObjectStore;
 
 use Aws\Command;
+use Aws\Exception\AwsException;
 use Aws\Exception\MultipartUploadException;
 use Aws\S3\Exception\S3MultipartUploadException;
 use Aws\S3\MultipartCopy;
@@ -277,6 +278,20 @@ trait S3ObjectTrait {
 				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
 				'mup_threshold' => PHP_INT_MAX,
 			], $options));
+		}
+	}
+
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+		$command = $this->getConnection()->getCommand('GetObject', [
+			'Bucket' => $this->getBucket(),
+			'Key' => $urn,
+		]);
+
+		try {
+			return $this->getConnection()->createPresignedRequest($command, $expiration)->getUri();
+		} catch (AwsException $exception) {
+			$this->logger->warning("Unable to create pre-signed url: " . $exception->getMessage());
+			return null;
 		}
 	}
 }

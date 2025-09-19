@@ -117,4 +117,8 @@ class Azure implements IObjectStore {
 	public function copyObject($from, $to) {
 		$this->getBlobClient()->copyBlob($this->containerName, $to, $this->containerName, $from);
 	}
+
+	public function preSignedUrl(string $urn, \DateTimeInterface $expiration): ?string {
+		return null;
+	}
 }
