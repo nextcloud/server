@@ -13,8 +13,7 @@ use OCP\WorkflowEngine\IManager;
 
 class GlobalWorkflowsController extends AWorkflowController {
 
-	/** @var ScopeContext */
-	private $scopeContext;
+	private ?ScopeContext $scopeContext = null;
 
 	protected function getScopeContext(): ScopeContext {
 		if ($this->scopeContext === null) {

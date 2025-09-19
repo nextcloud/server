@@ -6,8 +6,6 @@
  */
 namespace OCA\WorkflowEngine;
 
-use Doctrine\DBAL\Exception;
-use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Check\FileMimeType;
 use OCA\WorkflowEngine\Check\FileName;
 use OCA\WorkflowEngine\Check\FileSize;
@@ -21,15 +19,14 @@ use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Service\Logger;
 use OCA\WorkflowEngine\Service\RuleMatcher;
-use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Cache\CappedMemoryCache;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\Events\RegisterChecksEvent;
 use OCP\WorkflowEngine\Events\RegisterEntitiesEvent;
@@ -41,36 +38,41 @@ use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @psalm-type Check = array{id: int, class: class-string<ICheck>, operator: string, value: string, hash: string}
+ */
 class Manager implements IManager {
 	/** @var array[] */
-	protected $operations = [];
+	protected array $operations = [];
 
-	/** @var array[] */
-	protected $checks = [];
+	/** @var array<int, Check> */
+	protected array $checks = [];
 
 	/** @var IEntity[] */
-	protected $registeredEntities = [];
+	protected array $registeredEntities = [];
 
 	/** @var IOperation[] */
-	protected $registeredOperators = [];
+	protected array $registeredOperators = [];
 
 	/** @var ICheck[] */
-	protected $registeredChecks = [];
+	protected array $registeredChecks = [];
 
 	/** @var CappedMemoryCache<int[]> */
 	protected CappedMemoryCache $operationsByScope;
 
 	public function __construct(
-		protected IDBConnection $connection,
-		protected IServerContainer $container,
-		protected IL10N $l,
-		protected LoggerInterface $logger,
-		protected IUserSession $session,
-		private IEventDispatcher $dispatcher,
-		private IConfig $config,
-		private ICacheFactory $cacheFactory,
+		protected readonly IDBConnection $connection,
+		protected readonly ContainerInterface $container,
+		protected readonly IL10N $l,
+		protected readonly LoggerInterface $logger,
+		protected readonly IUserSession $session,
+		private readonly IEventDispatcher $dispatcher,
+		private readonly IAppConfig $appConfig,
+		private readonly ICacheFactory $cacheFactory,
 	) {
 		$this->operationsByScope = new CappedMemoryCache(64);
 	}
@@ -81,7 +83,7 @@ class Manager implements IManager {
 			$this->container,
 			$this->l,
 			$this,
-			$this->container->query(Logger::class)
+			$this->container->get(Logger::class)
 		);
 	}
 
@@ -121,10 +123,11 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $operationClass
+	 * @param class-string<IOperation> $operationClass
 	 * @return ScopeContext[]
 	 */
 	public function getAllConfiguredScopesForOperation(string $operationClass): array {
+		/** @var array<class-string<IOperation>, ScopeContext[]> $scopesByOperation */
 		static $scopesByOperation = [];
 		if (isset($scopesByOperation[$operationClass])) {
 			return $scopesByOperation[$operationClass];
@@ -132,8 +135,8 @@ class Manager implements IManager {
 
 		try {
 			/** @var IOperation $operation */
-			$operation = $this->container->query($operationClass);
-		} catch (QueryException $e) {
+			$operation = $this->container->get($operationClass);
+		} catch (ContainerExceptionInterface $e) {
 			return [];
 		}
 
@@ -187,8 +190,8 @@ class Manager implements IManager {
 		while ($row = $result->fetch()) {
 			try {
 				/** @var IOperation $operation */
-				$operation = $this->container->query($row['class']);
-			} catch (QueryException $e) {
+				$operation = $this->container->get($row['class']);
+			} catch (ContainerExceptionInterface $e) {
 				continue;
 			}
 
@@ -261,7 +264,7 @@ class Manager implements IManager {
 	/**
 	 * @param string $class
 	 * @param string $name
-	 * @param array[] $checks
+	 * @param array<int, Check> $checks
 	 * @param string $operation
 	 * @return array The added operation
 	 * @throws \UnexpectedValueException
@@ -379,13 +382,11 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param int $id
-	 * @return bool
 	 * @throws \UnexpectedValueException
 	 * @throws Exception
 	 * @throws \DomainException
 	 */
-	public function deleteOperation($id, ScopeContext $scopeContext) {
+	public function deleteOperation(int $id, ScopeContext $scopeContext): bool {
 		if (!$this->canModify($id, $scopeContext)) {
 			throw new \DomainException('Target operation not within scope');
 		};
@@ -397,7 +398,7 @@ class Manager implements IManager {
 				->executeStatement();
 			if ($result) {
 				$qb = $this->connection->getQueryBuilder();
-				$result &= (bool)$qb->delete('flow_operations_scope')
+				$result = (bool)$qb->delete('flow_operations_scope')
 					->where($qb->expr()->eq('operation_id', $qb->createNamedParameter($id)))
 					->executeStatement();
 			}
@@ -416,11 +417,14 @@ class Manager implements IManager {
 		return $result;
 	}
 
-	protected function validateEvents(string $entity, array $events, IOperation $operation) {
+	/**
+	 * @param class-string<IEntity> $entity
+	 * @param array $events
+	 */
+	protected function validateEvents(string $entity, array $events, IOperation $operation): void {
 		try {
-			/** @var IEntity $instance */
-			$instance = $this->container->query($entity);
-		} catch (QueryException $e) {
+			$instance = $this->container->get($entity);
+		} catch (ContainerExceptionInterface $e) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s does not exist', [$entity]));
 		}
 
@@ -448,20 +452,16 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $class
-	 * @param string $name
-	 * @param array[] $checks
-	 * @param string $operation
-	 * @param ScopeContext $scope
-	 * @param string $entity
+	 * @param class-string<IOperation> $class
+	 * @param array<int, Check> $checks
 	 * @param array $events
 	 * @throws \UnexpectedValueException
 	 */
-	public function validateOperation($class, $name, array $checks, $operation, ScopeContext $scope, string $entity, array $events) {
+	public function validateOperation(string $class, string $name, array $checks, string $operation, ScopeContext $scope, string $entity, array $events): void {
 		try {
 			/** @var IOperation $instance */
-			$instance = $this->container->query($class);
-		} catch (QueryException $e) {
+			$instance = $this->container->get($class);
+		} catch (ContainerExceptionInterface $e) {
 			throw new \UnexpectedValueException($this->l->t('Operation %s does not exist', [$class]));
 		}
 
@@ -479,7 +479,7 @@ class Manager implements IManager {
 			throw new \UnexpectedValueException($this->l->t('At least one check needs to be provided'));
 		}
 
-		if (strlen((string)$operation) > IManager::MAX_OPERATION_VALUE_BYTES) {
+		if (strlen($operation) > IManager::MAX_OPERATION_VALUE_BYTES) {
 			throw new \UnexpectedValueException($this->l->t('The provided operation data is too long'));
 		}
 
@@ -492,8 +492,8 @@ class Manager implements IManager {
 
 			try {
 				/** @var ICheck $instance */
-				$instance = $this->container->query($check['class']);
-			} catch (QueryException $e) {
+				$instance = $this->container->get($check['class']);
+			} catch (ContainerExceptionInterface) {
 				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', [$class]));
 			}
 
@@ -517,9 +517,9 @@ class Manager implements IManager {
 
 	/**
 	 * @param int[] $checkIds
-	 * @return array[]
+	 * @return array<int, Check>
 	 */
-	public function getChecks(array $checkIds) {
+	public function getChecks(array $checkIds): array {
 		$checkIds = array_map('intval', $checkIds);
 
 		$checks = [];
@@ -541,6 +541,7 @@ class Manager implements IManager {
 		$result = $query->executeQuery();
 
 		while ($row = $result->fetch()) {
+			/** @var Check $row */
 			$this->checks[(int)$row['id']] = $row;
 			$checks[(int)$row['id']] = $row;
 		}
@@ -550,19 +551,16 @@ class Manager implements IManager {
 
 		if (!empty($checkIds)) {
 			$missingCheck = array_pop($checkIds);
-			throw new \UnexpectedValueException($this->l->t('Check #%s does not exist', $missingCheck));
+			throw new \UnexpectedValueException($this->l->t('Check #%s does not exist', (string)$missingCheck));
 		}
 
 		return $checks;
 	}
 
 	/**
-	 * @param string $class
-	 * @param string $operator
-	 * @param string $value
 	 * @return int Check unique ID
 	 */
-	protected function addCheck($class, $operator, $value) {
+	protected function addCheck(string $class, string $operator, string $value): int {
 		$hash = md5($class . '::' . $operator . '::' . $value);
 
 		$query = $this->connection->getQueryBuilder();
@@ -664,9 +662,9 @@ class Manager implements IManager {
 	protected function getBuildInEntities(): array {
 		try {
 			return [
-				File::class => $this->container->query(File::class),
+				File::class => $this->container->get(File::class),
 			];
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return [];
 		}
@@ -680,7 +678,7 @@ class Manager implements IManager {
 			return [
 				// None yet
 			];
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return [];
 		}
@@ -692,23 +690,23 @@ class Manager implements IManager {
 	protected function getBuildInChecks(): array {
 		try {
 			return [
-				$this->container->query(FileMimeType::class),
-				$this->container->query(FileName::class),
-				$this->container->query(FileSize::class),
-				$this->container->query(FileSystemTags::class),
-				$this->container->query(RequestRemoteAddress::class),
-				$this->container->query(RequestTime::class),
-				$this->container->query(RequestURL::class),
-				$this->container->query(RequestUserAgent::class),
-				$this->container->query(UserGroupMembership::class),
+				$this->container->get(FileMimeType::class),
+				$this->container->get(FileName::class),
+				$this->container->get(FileSize::class),
+				$this->container->get(FileSystemTags::class),
+				$this->container->get(RequestRemoteAddress::class),
+				$this->container->get(RequestTime::class),
+				$this->container->get(RequestURL::class),
+				$this->container->get(RequestUserAgent::class),
+				$this->container->get(UserGroupMembership::class),
 			];
-		} catch (QueryException $e) {
+		} catch (ContainerExceptionInterface $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return [];
 		}
 	}
 
 	public function isUserScopeEnabled(): bool {
-		return $this->config->getAppValue(Application::APP_ID, 'user_scope_disabled', 'no') === 'no';
+		return !$this->appConfig->getAppValueBool('user_scope_disabled');
 	}
 }

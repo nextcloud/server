@@ -13,8 +13,16 @@ use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 
 class LogContext {
-	/** @var array */
-	protected $details;
+	/** @var array{
+	 *     message?: string,
+	 *     scopes?: array,
+	 *     operation?: array{class: class-string<IOperation>, name: string},
+	 *     entity?: array{class: class-string<IEntity>, name: string},
+	 *     configuration?: array,
+	 *     eventName?: string,
+	 * }
+	 */
+	protected array $details;
 
 	public function setDescription(string $description): LogContext {
 		$this->details['message'] = $description;

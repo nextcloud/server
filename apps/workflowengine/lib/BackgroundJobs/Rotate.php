@@ -9,6 +9,7 @@ namespace OCA\WorkflowEngine\BackgroundJobs;
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Log\RotationTrait;
 use OCP\Server;
@@ -21,17 +22,18 @@ class Rotate extends TimedJob {
 		$this->setInterval(60 * 60 * 3);
 	}
 
-	protected function run($argument) {
+	protected function run($argument): void {
 		$config = Server::get(IConfig::class);
-		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
-		$this->filePath = trim((string)$config->getAppValue(Application::APP_ID, 'logfile', $default));
+		$appConfig = Server::get(IAppConfig::class);
+		$default = $config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
+		$this->filePath = trim($appConfig->getValueString(Application::APP_ID, 'logfile', $default));
 
 		if ($this->filePath === '') {
 			// disabled, nothing to do
 			return;
 		}
 
-		$this->maxSize = $config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
+		$this->maxSize = $config->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
 
 		if ($this->shouldRotateBySize()) {
 			$this->rotate();
