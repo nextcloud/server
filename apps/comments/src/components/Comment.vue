@@ -320,6 +320,7 @@ $comment-padding: 10px;
 		display: flex;
 		flex-grow: 1;
 		flex-direction: column;
+		container-type: inline-size;
 	}
 
 	&__header {
