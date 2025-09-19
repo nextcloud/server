@@ -66,6 +66,10 @@ class Card implements ICard, IACL {
 		return 'text/vcard; charset=utf-8';
 	}
 
+	public function getVersion(): ?string {
+		return '3.0';
+	}
+
 	/**
 	 * @inheritDoc
 	 */
