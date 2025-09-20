@@ -42,6 +42,7 @@ use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -764,24 +765,19 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * calculate remaining free space for trash bin
+	 * Calculate remaining free space for trash bin
 	 *
 	 * @param int|float $trashbinSize current size of the trash bin
-	 * @param string $user
 	 * @return int|float available free space for trash bin
 	 */
-	private static function calculateFreeSpace(int|float $trashbinSize, string $user): int|float {
-		$configuredTrashbinSize = static::getConfiguredTrashbinSize($user);
+	private static function calculateFreeSpace(Folder $userFolder, int|float $trashbinSize, IUser $user): int|float {
+		$configuredTrashbinSize = static::getConfiguredTrashbinSize($user->getUID());
 		if ($configuredTrashbinSize > -1) {
 			return $configuredTrashbinSize - $trashbinSize;
 		}
 
-		$userObject = Server::get(IUserManager::class)->get($user);
-		if (is_null($userObject)) {
-			return 0;
-		}
 		$softQuota = true;
-		$quota = $userObject->getQuota();
+		$quota = $user->getQuota();
 		if ($quota === null || $quota === 'none') {
 			$quota = Filesystem::free_space('/');
 			$softQuota = false;
@@ -800,10 +796,6 @@ class Trashbin implements IEventListener {
 		// calculate available space for trash bin
 		// subtract size of files and current trash bin size from quota
 		if ($softQuota) {
-			$userFolder = \OC::$server->getUserFolder($user);
-			if (is_null($userFolder)) {
-				return 0;
-			}
 			$free = $quota - $userFolder->getSize(false); // remaining free space for user
 			if ($free > 0) {
 				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
@@ -818,38 +810,34 @@ class Trashbin implements IEventListener {
 	}
 
 	/**
-	 * resize trash bin if necessary after a new file was added to Nextcloud
-	 *
-	 * @param string $user user id
+	 * Resize trash bin if necessary after a new file was added to Nextcloud
 	 */
-	public static function resizeTrash($user) {
-		$size = self::getTrashbinSize($user);
+	public static function resizeTrash(Folder $trashRoot, IUser $user): void {
+		$trashBinSize = $trashRoot->getSize();
 
-		$freeSpace = self::calculateFreeSpace($size, $user);
+		$freeSpace = self::calculateFreeSpace($trashRoot->getParent(), $trashBinSize, $user);
 
 		if ($freeSpace < 0) {
-			self::scheduleExpire($user);
+			self::scheduleExpire($user->getUID());
 		}
 	}
 
 	/**
-	 * clean up the trash bin
-	 *
-	 * @param string $user
+	 * Clean up the trash bin
 	 */
-	public static function expire($user) {
-		$trashBinSize = self::getTrashbinSize($user);
-		$availableSpace = self::calculateFreeSpace($trashBinSize, $user);
+	public static function expire(Folder $trashRoot, IUser $user): void {
+		$trashBinSize = $trashRoot->getSize();
+		$availableSpace = self::calculateFreeSpace($trashRoot->getParent(), $trashBinSize, $user);
 
-		$dirContent = Helper::getTrashFiles('/', $user, 'mtime');
+		$dirContent = Helper::getTrashFiles('/', $user->getUID(), 'mtime');
 
 		// delete all files older then $retention_obligation
-		[$delSize, $count] = self::deleteExpiredFiles($dirContent, $user);
+		[$delSize, $count] = self::deleteExpiredFiles($dirContent, $user->getUID());
 
 		$availableSpace += $delSize;
 
 		// delete files from trash until we meet the trash bin size limit again
-		self::deleteFiles(array_slice($dirContent, $count), $user, $availableSpace);
+		self::deleteFiles(array_slice($dirContent, $count), $user->getUID(), $availableSpace);
 	}
 
 	/**
