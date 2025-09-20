@@ -1202,16 +1202,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.26",
+            "version": "9.6.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a0139ea157533454f611038326f3020b3051f129"
+                "reference": "0a9aa4440b6a9528cf360071502628d717af3e0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a0139ea157533454f611038326f3020b3051f129",
-                "reference": "a0139ea157533454f611038326f3020b3051f129",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0a9aa4440b6a9528cf360071502628d717af3e0a",
+                "reference": "0a9aa4440b6a9528cf360071502628d717af3e0a",
                 "shasum": ""
             },
             "require": {
@@ -1285,7 +1285,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.26"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.27"
             },
             "funding": [
                 {
@@ -1309,7 +1309,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-11T06:17:45+00:00"
+            "time": "2025-09-14T06:18:03+00:00"
         },
         {
             "name": "psr/container",
