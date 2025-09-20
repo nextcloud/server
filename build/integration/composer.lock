@@ -9,16 +9,16 @@
     "packages-dev": [
         {
             "name": "behat/behat",
-            "version": "v3.24.0",
+            "version": "v3.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Behat.git",
-                "reference": "2e820251d67b205cfaa363ea14ee5f54551c21c3"
+                "reference": "1b67565a55283b6c0d050a0e4c4e44025c791a67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/2e820251d67b205cfaa363ea14ee5f54551c21c3",
-                "reference": "2e820251d67b205cfaa363ea14ee5f54551c21c3",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/1b67565a55283b6c0d050a0e4c4e44025c791a67",
+                "reference": "1b67565a55283b6c0d050a0e4c4e44025c791a67",
                 "shasum": ""
             },
             "require": {
@@ -97,9 +97,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Behat/Behat/issues",
-                "source": "https://github.com/Behat/Behat/tree/v3.24.0"
+                "source": "https://github.com/Behat/Behat/tree/v3.24.1"
             },
-            "time": "2025-09-11T09:17:09+00:00"
+            "time": "2025-09-15T09:09:06+00:00"
         },
         {
             "name": "behat/gherkin",
