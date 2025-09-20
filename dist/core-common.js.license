@@ -77,7 +77,6 @@ SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christopher Jeffrey
-SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Borys Serebrov
 SPDX-FileCopyrightText: Ben Drucker
@@ -142,7 +141,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.10.2
+	- version: 3.12.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -165,8 +164,14 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/router
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.4
+	- version: 0.3.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.2.5
 	- license: GPL-3.0-or-later
 - eventemitter3
 	- version: 5.0.1
@@ -180,6 +185,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue-select
 	- version: 3.25.1
 	- license: MIT
+- @nextcloud/sharing
+	- version: 0.2.5
+	- license: GPL-3.0-or-later
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
