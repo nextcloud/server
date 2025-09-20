@@ -812,6 +812,7 @@
     "No devices configured." : "Není nastavené žádné zařízení.",
     "The following devices are configured for your account:" : "U svého účtu máte nastavená následující zařízení:",
     "Your browser does not support WebAuthn." : "Vámi používaný prohlížeč nepodporuje WebAuthn.",
+    "Please double check the {linkStartInstallationGuides}installation guides{linkEnd}, and check for any errors or warnings in the {linkStartLog}log{linkEnd}." : "Prosím  překontrolujte vůči {linkStartInstallationGuides} instalačním příručkám{linkEnd}a zkontrolujte jakékoliv chyby a varování v {linkStartLog}záznamu událostí{linkEnd}.",
     "Check the security of your {productName} over {linkStart}our security scan{linkEnd}." : "Zkontrolujte bezpečnost vašeho {productName} pomocí {linkStart}našeho bezpečnostního skenu{linkEnd}.",
     "Security & setup warnings" : "Varování ohledně zabezpečení a nastavení",
     "It is important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Pro zabezpečení a optimální výkon instance Nextcloud je důležité, aby vše bylo správně nastaveno. Jako pomoc, instance samotná automaticky ověřuje některá nastavení. Další informace naleznete v odkazované dokumentaci.",
