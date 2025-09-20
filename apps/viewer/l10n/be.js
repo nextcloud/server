@@ -27,6 +27,7 @@ OC.L10N.register(
     "Custom" : "Карыстальніцкі",
     "Landscape" : "Альбомная",
     "Portrait" : "Кніжная",
+    "Blur" : "Размытасць",
     "Brightness" : "Яркасць",
     "Value" : "Значэнне",
     "Importing …" : "Імпарт …",
