@@ -14,7 +14,7 @@ use OCP\IConfig;
 use OCP\IUser;
 
 /**
- * @psalm-type ObjectStoreConfig array{class: class-string<IObjectStore>, arguments: array{multibucket: bool, ...}}
+ * @psalm-type ObjectStoreConfig array{class: class-string<IObjectStore>, arguments: array{multibucket: bool, objectPrefix?: string, ...}}
  */
 class PrimaryObjectStoreConfig {
 	public function __construct(
@@ -119,17 +119,23 @@ class PrimaryObjectStoreConfig {
 				'default' => 'server1',
 				'server1' => $this->validateObjectStoreConfig($objectStoreMultiBucket),
 				'root' => 'server1',
+				'preview' => 'server1',
 			];
 		} elseif ($objectStore) {
 			if (!isset($objectStore['default'])) {
 				$objectStore = [
 					'default' => 'server1',
 					'root' => 'server1',
+					'preview' => 'server1',
 					'server1' => $objectStore,
 				];
 			}
 			if (!isset($objectStore['root'])) {
 				$objectStore['root'] = 'default';
+			}
+
+			if (!isset($objectStore['preview'])) {
+				$objectStore['preview'] = 'default';
 			}
 
 			if (!is_string($objectStore['default'])) {
@@ -155,7 +161,7 @@ class PrimaryObjectStoreConfig {
 	}
 
 	/**
-	 * @param array|string $config
+	 * @param array{multibucket?: bool, objectPrefix?: string, ...}|string $config
 	 * @return string|ObjectStoreConfig
 	 */
 	private function validateObjectStoreConfig(array|string $config): array|string {
