@@ -21,6 +21,7 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Lockdown\ILockdownManager;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserCreatedEvent;
@@ -43,6 +44,7 @@ class UserEventsListener implements IEventListener {
 		private IUserSession $userSession,
 		private SetupManager $setupManager,
 		private PassphraseService $passphraseService,
+		private ILockdownManager $lockdownManager,
 	) {
 	}
 
@@ -70,6 +72,11 @@ class UserEventsListener implements IEventListener {
 	 * Startup encryption backend upon user login
 	 */
 	private function onUserLogin(IUser $user, ?string $password): void {
+		// Do not try to setup filesystem if the current request does not have permissions to access it
+		if (!$this->lockdownManager->canAccessFilesystem()) {
+			return;
+		}
+
 		// ensure filesystem is loaded
 		$this->setupManager->setupForUser($user);
 		if ($this->util->isMasterKeyEnabled() === false) {

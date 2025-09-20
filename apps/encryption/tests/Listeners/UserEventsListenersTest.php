@@ -20,6 +20,7 @@ use OCA\Encryption\Util;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Lockdown\ILockdownManager;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserCreatedEvent;
@@ -41,6 +42,7 @@ class UserEventsListenersTest extends TestCase {
 	protected IUserManager&MockObject $userManager;
 	protected IUserSession&MockObject $userSession;
 	protected SetupManager&MockObject $setupManager;
+	protected ILockdownManager&MockObject $lockdownManager;
 	protected PassphraseService&MockObject $passphraseService;
 
 	protected UserEventsListener $instance;
@@ -55,6 +57,7 @@ class UserEventsListenersTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->setupManager = $this->createMock(SetupManager::class);
+		$this->lockdownManager = $this->createMock(ILockdownManager::class);
 		$this->passphraseService = $this->createMock(PassphraseService::class);
 
 		$this->instance = new UserEventsListener(
@@ -66,10 +69,14 @@ class UserEventsListenersTest extends TestCase {
 			$this->userSession,
 			$this->setupManager,
 			$this->passphraseService,
+			$this->lockdownManager,
 		);
 	}
 
 	public function testLogin(): void {
+		$this->lockdownManager->expects(self::once())
+			->method('canAccessFilesystem')
+			->willReturn(true);
 		$this->userSetup->expects(self::once())
 			->method('setupUser')
 			->willReturn(true);
@@ -96,6 +103,9 @@ class UserEventsListenersTest extends TestCase {
 	}
 
 	public function testLoginMasterKey(): void {
+		$this->lockdownManager->expects(self::once())
+			->method('canAccessFilesystem')
+			->willReturn(true);
 		$this->util->method('isMasterKeyEnabled')->willReturn(true);
 
 		$this->userSetup->expects(self::never())
@@ -104,6 +114,36 @@ class UserEventsListenersTest extends TestCase {
 		$this->keyManager->expects(self::once())
 			->method('init')
 			->with('testUser', 'password');
+
+		$user = $this->createMock(IUser::class);
+		$user->expects(self::any())
+			->method('getUID')
+			->willReturn('testUser');
+
+		$event = $this->createMock(UserLoggedInEvent::class);
+		$event->expects(self::atLeastOnce())
+			->method('getUser')
+			->willReturn($user);
+		$event->expects(self::atLeastOnce())
+			->method('getPassword')
+			->willReturn('password');
+
+		$this->instance->handle($event);
+	}
+
+	public function testLoginNoFilesystemAccess(): void {
+		$this->lockdownManager->expects(self::once())
+			->method('canAccessFilesystem')
+			->willReturn(false);
+
+		$this->userSetup->expects(self::never())
+			->method('setupUser');
+
+		$this->setupManager->expects(self::never())
+			->method('setupForUser');
+
+		$this->keyManager->expects(self::never())
+			->method('init');
 
 		$user = $this->createMock(IUser::class);
 		$user->expects(self::any())
