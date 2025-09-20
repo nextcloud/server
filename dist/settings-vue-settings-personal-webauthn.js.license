@@ -68,7 +68,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.29.2
 	- license: AGPL-3.0-or-later
 - @simplewebauthn/browser
-	- version: 13.1.2
+	- version: 13.2.0
 	- license: MIT
 - @vueuse/core
 	- version: 11.3.0
