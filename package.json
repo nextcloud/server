@@ -74,7 +74,7 @@
     "camelcase": "^8.0.0",
     "cancelable-promise": "^4.3.1",
     "clipboard": "^2.0.11",
-    "color": "^5.0.0",
+    "color": "^5.0.2",
     "core-js": "^3.45.0",
     "davclient.js": "nextcloud-deps/davclient.js#59d7777d7fe290c5f1fd74a58e7eb529b63e153d",
     "debounce": "^2.2.0",
