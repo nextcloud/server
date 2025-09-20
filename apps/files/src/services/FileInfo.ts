@@ -31,6 +31,7 @@ export default function(node: Node) {
 	fileInfo.get = (key) => fileInfo[key]
 	fileInfo.isDirectory = () => fileInfo.mimetype === 'httpd/unix-directory'
 	fileInfo.canEdit = () => Boolean(fileInfo.permissions & OC.PERMISSION_UPDATE)
+	fileInfo.node = node
 
 	return fileInfo
 }

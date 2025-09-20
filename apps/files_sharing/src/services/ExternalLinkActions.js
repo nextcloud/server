@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import logger from './logger.ts'
+
 export default class ExternalLinkActions {
 
 	_state
@@ -13,7 +15,7 @@ export default class ExternalLinkActions {
 
 		// init default values
 		this._state.actions = []
-		console.debug('OCA.Sharing.ExternalLinkActions initialized')
+		logger.debug('OCA.Sharing.ExternalLinkActions initialized')
 	}
 
 	/**
@@ -35,13 +37,13 @@ export default class ExternalLinkActions {
 	 * @return {boolean}
 	 */
 	registerAction(action) {
-		OC.debug && console.warn('OCA.Sharing.ExternalLinkActions is deprecated, use OCA.Sharing.ExternalShareAction instead')
+		logger.warn('OCA.Sharing.ExternalLinkActions is deprecated, use `registerSidebarAction` from `@nextcloud/sharing` instead')
 
 		if (typeof action === 'object' && action.icon && action.name && action.url) {
 			this._state.actions.push(action)
 			return true
 		}
-		console.error('Invalid action provided', action)
+		logger.error('Invalid action provided', action)
 		return false
 	}
 

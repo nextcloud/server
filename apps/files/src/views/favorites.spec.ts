@@ -17,6 +17,7 @@ import { action } from '../actions/favoriteAction'
 import * as favoritesService from '../services/Favorites'
 import { registerFavoritesView } from './favorites'
 
+// eslint-disable-next-line import/namespace
 const { Folder, getNavigation } = filesUtils
 
 vi.mock('@nextcloud/axios')

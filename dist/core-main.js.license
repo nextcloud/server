@@ -5,6 +5,7 @@ SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: string_decoder developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
@@ -42,7 +43,6 @@ SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: Denis Pushkarev
 SPDX-FileCopyrightText: David Clark
-SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Newman <bn@cs.stanford.edu>
 SPDX-FileCopyrightText: Austin Andrews
@@ -77,7 +77,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.10.2
+	- version: 3.12.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -96,9 +96,6 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
-	- license: GPL-3.0-or-later
-- @nextcloud/sharing
-	- version: 0.2.4
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.29.2
@@ -123,6 +120,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - blueimp-md5
 	- version: 2.19.0
+	- license: MIT
+- buffer
+	- version: 5.7.1
 	- license: MIT
 - cancelable-promise
 	- version: 4.3.1
@@ -199,6 +199,9 @@ This file is generated from multiple sources. Included packages:
 - regenerator-runtime
 	- version: 0.14.1
 	- license: MIT
+- safe-buffer
+	- version: 5.2.1
+	- license: MIT
 - select2
 	- version: 3.5.1
 	- license: MIT
@@ -207,6 +210,9 @@ This file is generated from multiple sources. Included packages:
 	- license: ISC
 - strengthify
 	- version: 0.5.9
+	- license: MIT
+- string_decoder
+	- version: 1.3.0
 	- license: MIT
 - striptags
 	- version: 3.2.0

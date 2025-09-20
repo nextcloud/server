@@ -6,7 +6,7 @@
 <template>
 	<div class="sharingTab" :class="{ 'icon-loading': loading }">
 		<!-- error message -->
-		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: sections.length > 0 }">
+		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: hasExternalSections }">
 			<div class="icon icon-error" />
 			<h2>{{ error }}</h2>
 		</div>
@@ -108,7 +108,7 @@
 					@open-sharing-details="toggleShareDetailsView" />
 			</section>
 
-			<section v-if="sections.length > 0 && !showSharingDetailsView">
+			<section v-if="hasExternalSections && !showSharingDetailsView">
 				<div class="section-header">
 					<h4>{{ t('files_sharing', 'Additional shares') }}</h4>
 					<NcPopover popup-role="dialog">
@@ -127,12 +127,18 @@
 					</NcPopover>
 				</div>
 				<!-- additional entries, use it with cautious -->
-				<div v-for="(section, index) in sections"
-					:ref="'section-' + index"
+				<SidebarTabExternalSection v-for="section in sortedExternalSections"
+					:key="section.id"
+					:section="section"
+					:node="fileInfo.node /* TODO: Fix once we have proper Node API */"
+					class="sharingTab__additionalContent" />
+
+				<!-- legacy sections: TODO: Remove as soon as possible -->
+				<SidebarTabExternalSectionLegacy v-for="(section, index) in legacySections"
 					:key="index"
-					class="sharingTab__additionalContent">
-					<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
-				</div>
+					:file-info="fileInfo"
+					:section-callback="section"
+					class="sharingTab__additionalContent" />
 
 				<!-- projects (deprecated as of NC25 (replaced by related_resources) - see instance config "projects.enabled" ; ignore this / remove it / move into own section) -->
 				<div v-if="projectsEnabled"
@@ -162,8 +168,10 @@ import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
+import { getSidebarSections } from '@nextcloud/sharing/ui'
 import axios from '@nextcloud/axios'
 import moment from '@nextcloud/moment'
+
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCollectionList from '@nextcloud/vue/components/NcCollectionList'
@@ -181,6 +189,8 @@ import SharingInherited from './SharingInherited.vue'
 import SharingLinkList from './SharingLinkList.vue'
 import SharingList from './SharingList.vue'
 import SharingDetailsTab from './SharingDetailsTab.vue'
+import SidebarTabExternalSection from '../components/SidebarTabExternal/SidebarTabExternalSection.vue'
+import SidebarTabExternalSectionLegacy from '../components/SidebarTabExternal/SidebarTabExternalSectionLegacy.vue'
 
 import ShareDetails from '../mixins/ShareDetails.js'
 import logger from '../services/logger.ts'
@@ -201,6 +211,8 @@ export default {
 		SharingLinkList,
 		SharingList,
 		SharingDetailsTab,
+		SidebarTabExternalSection,
+		SidebarTabExternalSectionLegacy,
 	},
 	mixins: [ShareDetails],
 
@@ -221,7 +233,9 @@ export default {
 			linkShares: [],
 			externalShares: [],
 
-			sections: OCA.Sharing.ShareTabSections.getSections(),
+			legacySections: OCA.Sharing.ShareTabSections.getSections(),
+			sections: getSidebarSections(),
+
 			projectsEnabled: loadState('core', 'projects_enabled', false),
 			showSharingDetailsView: false,
 			shareDetailsData: {},
@@ -234,6 +248,21 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * Are any sections registered by other apps.
+		 *
+		 * @return {boolean}
+		 */
+		hasExternalSections() {
+			return this.sections.length > 0 || this.legacySections.length > 0
+		},
+
+		sortedExternalSections() {
+			return this.sections
+				.filter((section) => section.enabled(this.fileInfo.node))
+				.sort((a, b) => a.order - b.order)
+		},
+
 		/**
 		 * Is this share shared with me?
 		 *
@@ -605,7 +634,7 @@ export default {
 	}
 
 	&__additionalContent {
-		margin: 44px 0;
+		margin: var(--default-clickable-area) 0;
 	}
 }
 
