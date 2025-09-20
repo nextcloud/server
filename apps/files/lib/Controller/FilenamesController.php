@@ -93,7 +93,7 @@ class FilenamesController extends OCSController {
 	#[Route(type: Route::TYPE_API, verb: 'DELETE', url: '/api/v1/filenames/sanitization')]
 	public function stopSanitization(): DataResponse {
 		if (!$this->settingsService->isFilenameSanitizationRunning()) {
-			throw new OCSBadRequestException($this->l10n->t('No filename sanitization inprogress.'));
+			throw new OCSBadRequestException($this->l10n->t('No filename sanitization in progress.'));
 		}
 
 		$this->jobList->remove(SanitizeFilenames::class);
