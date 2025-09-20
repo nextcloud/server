@@ -245,6 +245,7 @@ OC.L10N.register(
     "Last 30 days" : "30日以内",
     "This year" : "今年",
     "Last year" : "去年",
+    "Between {startDate} and {endDate}" : "{startDate}から{endDate}まで",
     "Unified search" : "統合検索",
     "Search apps, files, tags, messages" : "アプリ、ファイル、タグ、メッセージを検索",
     "Places" : "場所",

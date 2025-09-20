@@ -261,7 +261,7 @@ OC.L10N.register(
     "View terms of service" : "Voir les conditions d'utilisation du service",
     "Terms of service" : "Conditions d'utilisation",
     "Share with {user}" : "Partage avec {user}",
-    "Share with email {email}" : "Partager avec l'e-mail {email}",
+    "Share with email {email}" : "Partager avec un e-mail {email}",
     "Share with group" : "Partager avec le groupe",
     "Share in conversation" : "Partager dans la conversation",
     "Share with {user} on remote server {server}" : "Partager avec {user} sur le serveur distant {server}",
