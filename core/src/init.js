@@ -9,6 +9,7 @@ import $ from 'jquery'
 import moment from 'moment'
 
 import OC from './OC/index.js'
+import { isRTL } from '@nextcloud/l10n'
 import { initSessionHeartBeat } from './session-heartbeat.ts'
 import { setUp as setUpContactsMenu } from './components/ContactsMenu.js'
 import { setUp as setUpMainMenu } from './components/MainMenu.js'
@@ -58,6 +59,9 @@ moment.locale(locale)
  * Initializes core
  */
 export const initCore = () => {
+	const SNAPPER_OPEN = isRTL() ? 'right' : 'left'
+	const SNAPPER_CLOSE = isRTL() ? 'left' : 'right'
+
 	interceptRequests()
 	initFallbackClipboardAPI()
 
@@ -116,7 +120,7 @@ export const initCore = () => {
 		// App sidebar on mobile
 		const snapper = new Snap({
 			element: document.getElementById('app-content'),
-			disable: 'right',
+			disable: SNAPPER_CLOSE,
 			maxPosition: 300, // $navigation-width
 			minDragDistance: 100,
 		})
@@ -162,7 +166,7 @@ export const initCore = () => {
 			if (animating || snapper.state().state !== 'closed') {
 				return
 			}
-			oldSnapperOpen('left')
+			oldSnapperOpen(SNAPPER_OPEN)
 		}
 
 		const _snapperClose = () => {
@@ -187,16 +191,17 @@ export const initCore = () => {
 		}
 
 		$('#app-navigation-toggle').click((e) => {
+			console.error('snapper', SNAPPER_OPEN, isRTL(), snapper.state().state, snapper)
 			// close is implicit in the button by snap.js
-			if (snapper.state().state !== 'left') {
-				snapper.open()
+			if (snapper.state().state !== SNAPPER_OPEN) {
+				snapper.open(SNAPPER_OPEN)
 			}
 		})
 		$('#app-navigation-toggle').keypress(e => {
-			if (snapper.state().state === 'left') {
+			if (snapper.state().state === SNAPPER_OPEN) {
 				snapper.close()
 			} else {
-				snapper.open()
+				snapper.open(SNAPPER_OPEN)
 			}
 		})
 
