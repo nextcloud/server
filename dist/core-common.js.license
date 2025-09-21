@@ -555,7 +555,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.14.0
 	- license: BSD-3-Clause
 - query-string
-	- version: 9.3.0
+	- version: 9.3.1
 	- license: MIT
 - querystringify
 	- version: 2.2.0
