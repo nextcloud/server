@@ -447,7 +447,7 @@ OC.L10N.register(
     "Line: %s" : "Lerroa: %s",
     "Trace" : "Aztarna",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Badirudi zure Nextcloud berrinstalatu nahian ari zarela. Hala ere CAN_INSTALL fitxategia falta da zure config direktorioan. Mesedez sor ezazu CAN_INSTALL fitxategia zure config karpetan jarraitu ahal izateko.",
-    "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Ezin izan da CAN_INSTALL fitxategia config karpetatik ezabatu. Mesedez ezaba ezazu fitxategi hau eskuz.",
+    "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "Ezin izan da CAN_INSTALL fitxategia config karpetatik kendu. Mesedez kendu ezazu fitxategi hau eskuz.",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Aplikazio honek JavaScript eskatzen du ondo funtzionatzeko. Mesedez {linkstart}JavaScript gaitu{linkend} eta webgunea birkargatu.",
     "Skip to main content" : "Salto eduki nagusira",
     "Skip to navigation of app" : "Salto aplikazioaren nabigaziora",
