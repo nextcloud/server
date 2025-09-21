@@ -152,6 +152,12 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 		$provider->setEndPoint(substr($url, 0, $pos));
 		$provider->setCapabilities(['/invite-accepted', '/notifications', '/shares']);
 
+		// The inviteAcceptDialog is available from the contacts app, if this config value is set
+		$inviteAcceptDialog = $this->appConfig->getValueString('core', ConfigLexicon::OCM_INVITE_ACCEPT_DIALOG);
+		if ($inviteAcceptDialog !== '') {
+			$provider->setInviteAcceptDialog($this->urlGenerator->linkToRouteAbsolute($inviteAcceptDialog));
+		}
+
 		$resource = $provider->createNewResourceType();
 		$resource->setName('file')
 			->setShareTypes(['user', 'group'])
