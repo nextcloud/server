@@ -26,11 +26,12 @@
 
 	/* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
 	#app-navigation:not(.vue) {
-		transform: translateX(-#{variables.$navigation-width});
 		position: fixed;
 		height: var(--body-height);
+		transform: translateX(-#{variables.$navigation-width});
 	}
-	.snapjs-left {
+	.snapjs-left,
+	.snapjs-right {
 		#app-navigation {
 			transform: translateX(0);
 		}
