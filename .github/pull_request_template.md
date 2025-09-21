@@ -21,3 +21,5 @@
 - [ ] Screenshots before/after for front-end changes
 - [ ] Documentation ([manuals](https://github.com/nextcloud/documentation/) or wiki) has been updated or is not required
 - [ ] [Backports requested](https://github.com/nextcloud/backportbot/#usage) where applicable (ex: critical bugfixes)
+- [ ] [Labels added](https://github.com/nextcloud/server/labels) where applicable (ex: bug/enhancement, `3. to review`, feature component)
+- [ ] [Milestone added](https://github.com/nextcloud/server/milestones) for target branch/version (ex: 32.x for `stable32`)
