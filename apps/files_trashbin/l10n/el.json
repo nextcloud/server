@@ -1,0 +1,28 @@
+{ "translations": {
+    "restored" : "επαναφέρθηκαν",
+    "Deleted files" : "Διεγραμμένα αρχεία",
+    "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Διαγραμμένα αρχεία και φάκελοι στον κάδο απορριμμάτων (μπορεί να λήξουν κατά την εξαγωγή, αν δεν έχετε αρκετό αποθηκευτικό χώρο)",
+    "This application enables people to restore files that were deleted from the system." : "Αυτή η εφαρμογή επιτρέπει στους χρήστες να επαναφέρουν αρχεία που διαγράφηκαν από το σύστημα.",
+    "This application enables people to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the people file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent an account from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Αυτή η εφαρμογή επιτρέπει στους χρήστες να επαναφέρουν αρχεία που διαγράφηκαν από το σύστημα. Εμφανίζει μια λίστα διαγραμμένων αρχείων στη διαδικτυακή διεπαφή και έχει επιλογές για να επαναφέρει αυτά τα διαγραμμένα αρχεία πίσω στους καταλόγους αρχείων των χρηστών ή να τα αφαιρέσει μόνιμα από το σύστημα. Η επαναφορά ενός αρχείου επαναφέρει επίσης τις σχετικές εκδόσεις αρχείων, εάν η εφαρμογή εκδόσεων είναι ενεργοποιημένη. Όταν ένα αρχείο διαγράφεται από ένα διαμοιρασμό, μπορεί να επαναφερθεί με τον ίδιο τρόπο, αν και δεν διαμοιράζεται πλέον. Από προεπιλογή, αυτά τα αρχεία παραμένουν στον κάδο ανακύκλωσης για 30 ημέρες.\nΓια να αποτραπεί ο εξαντλημός του διαθέσιμου χώρου δίσκου ενός λογαριασμού, η εφαρμογή Διαγραμμένα αρχεία δεν θα χρησιμοποιεί περισσότερο από το 50% του τρέχοντα διαθέσιμου ελεύθερου ορίου για διαγραμμένα αρχεία. Εάν τα διαγραμμένα αρχεία υπερβούν αυτό το όριο, η εφαρμογή διαγράφει τα παλαιότερα αρχεία μέχρι να πέσει κάτω από αυτό το όριο. Περισσότερες πληροφορίες είναι διαθέσιμες στην τεκμηρίωση Διαγραμμένα Αρχεία.",
+    "Restore" : "Επαναφορά",
+    "Not enough free space to restore the file/folder" : "Δεν υπάρχει αρκετός ελεύθερος χώρος για να επαναφερθεί το αρχείο/φάκελος",
+    "Empty deleted files" : "Αδειάστε τα διαγραμμένα αρχεία",
+    "Confirm permanent deletion" : "Επιβεβαίωση μόνιμης διαγραφής",
+    "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Είστε σίγουροι ότι θέλετε να διαγράψετε μόνιμα όλα τα αρχεία και τους φακέλους στον κάδο ανακύκλωσης; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+    "Cancel" : "Ακύρωση",
+    "Original location" : "Αρχική τοποθεσία",
+    "Deleted by" : "Διαγράφτηκε από",
+    "Deleted" : "Διαγραμμένα",
+    "few seconds ago" : "πριν από λίγα δευτερόλεπτα",
+    "A long time ago" : "Πριν αρκετό καιρό",
+    "Unknown" : "Άγνωστο",
+    "All files" : "Όλα τα αρχεία",
+    "You" : "Εσύ",
+    "List of files that have been deleted." : "Λίστα αρχείων που έχουν διαγραφεί.",
+    "No deleted files" : "Κανένα διαγεγραμμένο αρχείο",
+    "Files and folders you have deleted will show up here" : "Τα αρχεία και οι φάκελοι που έχετε διαγράψει θα εμφανιστούν εδώ",
+    "All files have been permanently deleted" : "Όλα τα αρχεία έχουν διαγραφεί μόνιμα",
+    "Failed to empty deleted files" : "Αποτυχία αδειάσματος των διαγραμμένων αρχείων",
+    "Deletion cancelled" : "Η διαγραφή ακυρώθηκε"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
