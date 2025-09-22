@@ -676,7 +676,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
 	 */
 	public function getHttpProtocol(): string {
-		$claimedProtocol = $this->server['SERVER_PROTOCOL'];
+		$claimedProtocol = $this->server['SERVER_PROTOCOL'] ?? '';
 
 		if (\is_string($claimedProtocol)) {
 			$claimedProtocol = strtoupper($claimedProtocol);
