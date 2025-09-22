@@ -403,7 +403,7 @@ OC.L10N.register(
     "Hide details" : "Agochar os detalles",
     "Rename project" : "Cambiar o nome do proxecto",
     "Failed to rename the project" : "Produciuse un fallo ao cambiarlle o nome ao proxecto",
-    "Failed to create a project" : "Produciuse un fallo ao crear o proxecto",
+    "Failed to create a project" : "Produciuse un fallo ao crear un proxecto",
     "Failed to add the item to the project" : "Produciuse un fallo ao engadir un elemento o proxecto",
     "Connect items to a project to make them easier to find" : "Conecte os elementos a un proxecto para que sexan máis doados de atopar",
     "Type to search for existing projects" : "Escriba para buscar proxectos existentes",
