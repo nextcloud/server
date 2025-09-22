@@ -34,6 +34,16 @@ class Show extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
+
+		$this->outputPlainFormat($io);
+
+		return 0;
+	}
+
+	/**
+	 * Output data in plain table format
+	 */
+	private function outputPlainFormat(SymfonyStyle $io): void {
 		$io->title('Current delegations');
 
 		$sections = $this->settingManager->getAdminSections();
@@ -62,8 +72,6 @@ class Show extends Base {
 				}, $sectionSettings));
 			}
 		}
-
-		return 0;
 	}
 
 	/**
