@@ -5,6 +5,7 @@
 <template>
 	<div class="unified-search-menu">
 		<NcHeaderButton v-show="!showLocalSearch"
+			id="unified-search"
 			:aria-label="t('core', 'Unified search')"
 			@click="toggleUnifiedSearch">
 			<template #icon>
