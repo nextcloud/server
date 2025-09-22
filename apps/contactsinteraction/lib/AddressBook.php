@@ -57,12 +57,12 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	public function getChild($name): Card {
 		try {
 			return new Card(
+				$this->mapper,
 				$this->mapper->find(
 					$this->getUid(),
 					(int)$name
 				),
-				$this->principalUri,
-				$this->getACL()
+				$this->principalUri
 			);
 		} catch (DoesNotExistException $ex) {
 			throw new NotFound('Contact does not exist: ' . $ex->getMessage(), 0, $ex);
@@ -76,9 +76,9 @@ class AddressBook extends ExternalAddressBook implements IACL {
 		return array_map(
 			function (RecentContact $contact) {
 				return new Card(
+					$this->mapper,
 					$contact,
-					$this->principalUri,
-					$this->getACL()
+					$this->principalUri
 				);
 			},
 			$this->mapper->findAll($this->getUid())
@@ -138,6 +138,11 @@ class AddressBook extends ExternalAddressBook implements IACL {
 		return [
 			[
 				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}unbind',
 				'principal' => $this->getOwner(),
 				'protected' => true,
 			],

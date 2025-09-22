@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\ContactsInteraction;
 
 use OCA\ContactsInteraction\Db\RecentContact;
+use OCA\ContactsInteraction\Db\RecentContactMapper;
 use Sabre\CardDAV\ICard;
 use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAVACL\ACLTrait;
@@ -18,9 +19,9 @@ class Card implements ICard, IACL {
 	use ACLTrait;
 
 	public function __construct(
+		private RecentContactMapper $mapper,
 		private RecentContact $contact,
 		private string $principal,
-		private array $acls,
 	) {
 	}
 
@@ -35,7 +36,13 @@ class Card implements ICard, IACL {
 	 * @inheritDoc
 	 */
 	public function getACL(): array {
-		return $this->acls;
+		return [
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			],
+		];
 	}
 
 	/**
@@ -84,7 +91,7 @@ class Card implements ICard, IACL {
 	 * @inheritDoc
 	 */
 	public function delete(): void {
-		throw new NotImplemented();
+		$this->mapper->delete($this->contact);
 	}
 
 	/**
