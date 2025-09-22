@@ -37,7 +37,6 @@ class Show extends Base {
 		$io->title('Current delegations');
 
 		$sections = $this->settingManager->getAdminSections();
-		$settings = [];
 		$headers = ['Name', 'SettingId', 'Delegated to groups'];
 		foreach ($sections as $sectionPriority) {
 			foreach ($sectionPriority as $section) {
