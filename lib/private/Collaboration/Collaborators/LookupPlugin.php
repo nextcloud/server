@@ -61,6 +61,9 @@ class LookupPlugin implements ISearchPlugin {
 			);
 
 			$body = json_decode($response->getBody(), true);
+			$this->logger->debug('Received ' . count($body) . ' users from lookup server', [
+				'result' => $body,
+			]);
 
 			foreach ($body as $lookup) {
 				try {
@@ -72,6 +75,7 @@ class LookupPlugin implements ISearchPlugin {
 					continue;
 				}
 				if ($this->currentUserRemote === $remote) {
+					$this->logger->debug('Removing current user ' . $remote . ' from lookup results');
 					continue;
 				}
 				$name = $lookup['name']['value'] ?? '';
