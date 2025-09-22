@@ -315,7 +315,7 @@ class Util {
 	}
 
 	/**
-	 * Converts string to int of float depending if it fits an int
+	 * Converts string to int of float depending on if it fits an int
 	 * @param numeric-string|float|int $number numeric string
 	 * @return int|float int if it fits, float if it is too big
 	 * @since 26.0.0

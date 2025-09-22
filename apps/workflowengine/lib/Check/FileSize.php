@@ -14,41 +14,32 @@ use OCP\WorkflowEngine\ICheck;
 
 class FileSize implements ICheck {
 
-	/** @var int */
-	protected $size;
+	protected int|float|null $size = null;
 
-	/**
-	 * @param IL10N $l
-	 * @param IRequest $request
-	 */
 	public function __construct(
-		protected IL10N $l,
-		protected IRequest $request,
+		protected readonly IL10N $l,
+		protected readonly IRequest $request,
 	) {
 	}
 
 	/**
 	 * @param string $operator
 	 * @param string $value
-	 * @return bool
 	 */
-	public function executeCheck($operator, $value) {
+	public function executeCheck($operator, $value): bool {
 		$size = $this->getFileSizeFromHeader();
+		if ($size === false) {
+			return false;
+		}
 
 		$value = Util::computerFileSize($value);
-		if ($size !== false) {
-			switch ($operator) {
-				case 'less':
-					return $size < $value;
-				case '!less':
-					return $size >= $value;
-				case 'greater':
-					return $size > $value;
-				case '!greater':
-					return $size <= $value;
-			}
-		}
-		return false;
+		return match ($operator) {
+			'less' => $size < $value,
+			'!less' => $size >= $value,
+			'greater' => $size > $value,
+			'!greater' => $size <= $value,
+			default => false,
+		};
 	}
 
 	/**
@@ -56,7 +47,7 @@ class FileSize implements ICheck {
 	 * @param string $value
 	 * @throws \UnexpectedValueException
 	 */
-	public function validateCheck($operator, $value) {
+	public function validateCheck($operator, $value): void {
 		if (!in_array($operator, ['less', '!less', 'greater', '!greater'])) {
 			throw new \UnexpectedValueException($this->l->t('The given operator is invalid'), 1);
 		}
@@ -66,10 +57,7 @@ class FileSize implements ICheck {
 		}
 	}
 
-	/**
-	 * @return string
-	 */
-	protected function getFileSizeFromHeader() {
+	protected function getFileSizeFromHeader(): int|float|false {
 		if ($this->size !== null) {
 			return $this->size;
 		}
@@ -81,11 +69,11 @@ class FileSize implements ICheck {
 			}
 		}
 
-		if ($size === '') {
+		if ($size === '' || !is_numeric($size)) {
 			$size = false;
 		}
 
-		$this->size = $size;
+		$this->size = Util::numericToNumber($size);
 		return $this->size;
 	}
 
