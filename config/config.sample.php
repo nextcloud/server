@@ -2119,6 +2119,17 @@ $CONFIG = [
 	'mysql.collation' => null,
 
 	/**
+	 * PostgreSQL SSL connection
+	 */
+	'pgsql_ssl' => [
+		'mode' => '',
+		'cert' => '',
+		'rootcert' => '',
+		'key' => '',
+		'crl' => '',
+	],
+
+	/**
 	 * Database types supported for installation.
 	 *
 	 * Available:
