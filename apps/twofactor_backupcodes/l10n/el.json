@@ -9,6 +9,7 @@
     "A two-factor auth backup codes provider" : "Παροχέας εφεδρικών κωδικών δύο-παραγόντων",
     "An error occurred while generating your backup codes" : "Ένα σφάλμα προέκυψε κατά τη δημιουργία των εφεδρικών κωδικών.",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Δημιουργήθηκαν εφεδρικοί κωδικοί. Χρησιμοποιήθηκαν {used} από {total} κωδικοί.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Αυτοί είναι οι εφεδρικοί σας κωδικοί. Παρακαλώ αποθηκεύστε και/ή εκτυπώστε τους καθώς δεν θα μπορείτε να διαβάσετε τους κωδικούς ξανά αργότερα.",
     "Save backup codes" : "Αποθήκευση εφεδρικών κωδικών",
     "Print backup codes" : "Εκτύπωση εφεδρικών κωδικών",
     "Regenerate backup codes" : "Δημιουργία εφεδρικών κωδικών",

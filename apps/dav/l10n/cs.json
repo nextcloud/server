@@ -219,6 +219,7 @@
     "You updated contact {card} in address book {addressbook}" : "Upravili jste kontakt {card} v adresáři kontaktů {addressbook}",
     "A <strong>contact</strong> or <strong>address book</strong> was modified" : "<strong>Kontakt</strong> nebo <strong>adresář kontaktů</strong> byl upraven",
     "System address book disabled" : "Systémový adresář kontaktů vypnut",
+    "The system contacts address book has been automatically disabled during upgrade. This means that the address book will no longer be available to users in the contacts app or other clients. The system contacts address book was disabled because the amount of contacts in the address book exceeded the maximum recommended number of contacts. This limit is set to prevent performance issues. You can re-enable the system address book with the following command {command}" : "Systémový adresář kontaktů byl automaticky vypnut v průběhu přechodu na novější verzi serveru. To znamená, že adresář kontaktů už nebude k dispozici uživatelům v aplikaci Kontakty či jiných klientech. Systémový adresář kontaktů byl vypnut z toho důvodu, že množství kontaktů v něm přesahovalo nejvyšší doporučený počet kontaktů. Tento limit je nastaven jako prevence problémům s výkonem. I tak je ale možné systémový adresář kontaktů pomocí následujícího příkazu {command}",
     "Accounts" : "Účty",
     "System address book which holds all accounts" : "Systémový adresář kontaktů, který obsahuje veškeré účty",
     "File is not updatable: %1$s" : "Soubor není možné zaktualizovat: %1$s",

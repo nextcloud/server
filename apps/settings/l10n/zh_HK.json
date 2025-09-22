@@ -122,7 +122,7 @@
     "Artificial Intelligence" : "人工智能",
     "Email server" : "電郵伺服器",
     "Mail Providers" : "郵件提供者",
-    "Mail provider enables sending emails directly through the user's personal email account. At present, this functionality is limited to calendar invitations. It requires Nextcloud Mail 4.1 and an email account in Nextcloud Mail that matches the user's email address in Nextcloud." : "郵件提供者可直接透過使用者的個人電子郵件帳號傳送電子郵件。目前，此功能僅限於行事曆邀請。它需要 Nextcloud Mail 4.1，以及 Nextcloud Mail 中與使用者在 Nextcloud 中的電子郵件位址相符的電子郵件帳號。",
+    "Mail provider enables sending emails directly through the user's personal email account. At present, this functionality is limited to calendar invitations. It requires Nextcloud Mail 4.1 and an email account in Nextcloud Mail that matches the user's email address in Nextcloud." : "郵件提供者允許通過用戶的個人電郵帳戶直接發送電子郵件。目前，此功能僅限於日曆邀請。需要 Nextcloud Mail 4.1 以及在 Nextcloud Mail 中的電郵帳戶與用戶在 Nextcloud 的電郵地址匹配。",
     "Send emails using" : "傳送電子郵件，使用",
     "User's email account" : "用戶的電子郵件帳戶",
     "System email account" : "系統電郵地址帳戶",
