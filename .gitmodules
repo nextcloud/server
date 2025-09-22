@@ -49,3 +49,6 @@
 [submodule "apps-external/ncw_apps_menu"]
 	path = apps-external/ncw_apps_menu
 	url = git@github.com:IONOS-Productivity/ncw-apps-menu.git
+[submodule "apps-external/ncw_mailtemplate"]
+	path = apps-external/ncw_mailtemplate
+	url = git@github.com:IONOS-Productivity/ncw-mailtemplate.git
