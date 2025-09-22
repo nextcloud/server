@@ -26,6 +26,7 @@ class Show extends Base {
 	}
 
 	protected function configure(): void {
+		parent::configure();
 		$this
 			->setName('admin-delegation:show')
 			->setDescription('show delegated settings')
@@ -34,17 +35,37 @@ class Show extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
+		$outputFormat = $input->getOption('output');
+
+		// Validate output format
+		if (!$this->validateOutputFormat($outputFormat)) {
+			$io->error("Invalid output format: {$outputFormat}. Valid formats are: plain, json, json_pretty");
+			return 1;
+		}
 
 		// Collect delegation data
 		$delegationData = $this->collectDelegationData();
 
 		// Handle empty results
 		if (empty($delegationData)) {
-			$io->info('No delegated settings found.');
+			if ($outputFormat === self::OUTPUT_FORMAT_PLAIN) {
+				$io->info('No delegated settings found.');
+			} else {
+				$this->writeArrayInOutputFormat($input, $io, []);
+			}
 			return 0;
 		}
 
-		$this->outputPlainFormat($io, $delegationData);
+		// Output based on format
+		switch ($outputFormat) {
+			case self::OUTPUT_FORMAT_JSON:
+			case self::OUTPUT_FORMAT_JSON_PRETTY:
+				$this->writeArrayInOutputFormat($input, $io, $delegationData);
+				break;
+			default:
+				$this->outputPlainFormat($io, $delegationData);
+				break;
+		}
 
 		return 0;
 	}
@@ -116,6 +137,17 @@ class Show extends Base {
 
 			$io->table($headers, $tableData);
 		}
+	}
+
+	/**
+	 * Validate the output format parameter
+	 */
+	private function validateOutputFormat(string $format): bool {
+		return in_array($format, [
+			self::OUTPUT_FORMAT_PLAIN,
+			self::OUTPUT_FORMAT_JSON,
+			self::OUTPUT_FORMAT_JSON_PRETTY
+		], true);
 	}
 
 	/**
