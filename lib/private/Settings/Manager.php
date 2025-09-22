@@ -23,53 +23,30 @@ use OCP\Settings\ISubAdminSettings;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-	/** @var LoggerInterface */
-	private $log;
-
-	/** @var IL10N */
-	private $l;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $url;
-
-	/** @var IServerContainer */
-	private $container;
-
-	/** @var AuthorizedGroupMapper $mapper */
-	private $mapper;
-
-	/** @var IGroupManager $groupManager */
-	private $groupManager;
-
-	/** @var ISubAdmin $subAdmin */
-	private $subAdmin;
-
-	public function __construct(
-		LoggerInterface $log,
-		IFactory $l10nFactory,
-		IURLGenerator $url,
-		IServerContainer $container,
-		AuthorizedGroupMapper $mapper,
-		IGroupManager $groupManager,
-		ISubAdmin $subAdmin,
-	) {
-		$this->log = $log;
-		$this->l10nFactory = $l10nFactory;
-		$this->url = $url;
-		$this->container = $container;
-		$this->mapper = $mapper;
-		$this->groupManager = $groupManager;
-		$this->subAdmin = $subAdmin;
-	}
+	private ?IL10N $l = null;
 
 	/** @var array<self::SETTINGS_*, list<class-string<IIconSection>>> */
-	protected $sectionClasses = [];
+	protected array $sectionClasses = [];
 
 	/** @var array<self::SETTINGS_*, array<string, IIconSection>> */
-	protected $sections = [];
+	protected array $sections = [];
+
+	/** @var array<class-string<ISettings>, self::SETTINGS_*> */
+	protected array $settingClasses = [];
+
+	/** @var array<self::SETTINGS_*, array<string, list<ISettings>>> */
+	protected array $settings = [];
+
+	public function __construct(
+		private LoggerInterface $log,
+		private IFactory $l10nFactory,
+		private IURLGenerator $url,
+		private IServerContainer $container,
+		private AuthorizedGroupMapper $mapper,
+		private IGroupManager $groupManager,
+		private ISubAdmin $subAdmin,
+	) {
+	}
 
 	/**
 	 * @inheritdoc
@@ -138,12 +115,6 @@ class Manager implements IManager {
 		], true);
 	}
 
-	/** @var array<class-string<ISettings>, self::SETTINGS_*> */
-	protected $settingClasses = [];
-
-	/** @var array<self::SETTINGS_*, array<string, list<ISettings>>> */
-	protected $settings = [];
-
 	/**
 	 * @inheritdoc
 	 */
@@ -188,14 +159,15 @@ class Manager implements IManager {
 			if ($filter !== null && !$filter($setting)) {
 				continue;
 			}
-			if ($setting->getSection() === null) {
+			$settingSection = $setting->getSection();
+			if ($settingSection === null) {
 				continue;
 			}
 
-			if (!isset($this->settings[$settingsType][$setting->getSection()])) {
-				$this->settings[$settingsType][$setting->getSection()] = [];
+			if (!isset($this->settings[$settingsType][$settingSection])) {
+				$this->settings[$settingsType][$settingSection] = [];
 			}
-			$this->settings[$settingsType][$setting->getSection()][] = $setting;
+			$this->settings[$settingsType][$settingSection][] = $setting;
 
 			unset($this->settingClasses[$class]);
 		}
