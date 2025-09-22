@@ -35,42 +35,86 @@ class Show extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$io = new SymfonyStyle($input, $output);
 
-		$this->outputPlainFormat($io);
+		// Collect delegation data
+		$delegationData = $this->collectDelegationData();
+
+		// Handle empty results
+		if (empty($delegationData)) {
+			$io->info('No delegated settings found.');
+			return 0;
+		}
+
+		$this->outputPlainFormat($io, $delegationData);
 
 		return 0;
 	}
 
 	/**
-	 * Output data in plain table format
+	 * Collect all delegation data in a structured format
 	 */
-	private function outputPlainFormat(SymfonyStyle $io): void {
-		$io->title('Current delegations');
-
+	private function collectDelegationData(): array {
+		$result = [];
 		$sections = $this->settingManager->getAdminSections();
-		$headers = ['Name', 'SettingId', 'Delegated to groups'];
+
 		foreach ($sections as $sectionPriority) {
 			foreach ($sectionPriority as $section) {
 				$sectionSettings = $this->settingManager->getAdminSettings($section->getId());
-				$sectionSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
-				if (empty($sectionSettings)) {
+				$delegatedSettings = array_reduce($sectionSettings, [$this, 'getDelegatedSettings'], []);
+
+				if (empty($delegatedSettings)) {
 					continue;
 				}
 
-				$io->section('Section: ' . $section->getID());
-				$io->table($headers, array_map(function (IDelegatedSettings $setting) use ($section) {
-					$className = get_class($setting);
-					$groups = array_map(
-						static fn (AuthorizedGroup $group) => $group->getGroupId(),
-						$this->authorizedGroupService->findExistingGroupsForClass($className)
-					);
-					natsort($groups);
-					return [
-						$setting->getName() ?: 'Global',
-						$className,
-						implode(', ', $groups),
-					];
-				}, $sectionSettings));
+				$result[] = [
+					'id' => $section->getID(),
+					'name' => $section->getName() ?: $section->getID(),
+					'settings' => $this->formatSettingsData($delegatedSettings)
+				];
 			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Format settings data for consistent output
+	 */
+	private function formatSettingsData(array $settings): array {
+		return array_map(function (IDelegatedSettings $setting) {
+			$className = get_class($setting);
+			$groups = array_map(
+				static fn (AuthorizedGroup $group) => $group->getGroupId(),
+				$this->authorizedGroupService->findExistingGroupsForClass($className)
+			);
+			natsort($groups);
+
+			return [
+				'name' => $setting->getName() ?: 'Global',
+				'className' => $className,
+				'delegatedGroups' => $groups,
+			];
+		}, $settings);
+	}
+
+	/**
+	 * Output data in plain table format
+	 */
+	private function outputPlainFormat(SymfonyStyle $io, array $data): void {
+		$io->title('Current delegations');
+		$headers = ['Name', 'SettingId', 'Delegated to groups'];
+
+		foreach ($data as $section) {
+			$io->section('Section: ' . $section['id']);
+
+			$tableData = array_map(static function (array $setting) {
+				return [
+					$setting['name'],
+					$setting['className'],
+					implode(', ', $setting['delegatedGroups']),
+				];
+			}, $section['settings']);
+
+			$io->table($headers, $tableData);
 		}
 	}
 
