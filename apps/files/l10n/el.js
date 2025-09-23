@@ -54,7 +54,6 @@ OC.L10N.register(
     "Limit must be a positive integer." : "Το όριο πρέπει να είναι θετικός ακέραιος.",
     "The replacement character may only be a single character." : "Ο χαρακτήρας αντικατάστασης μπορεί να είναι μόνο ένας χαρακτήρας.",
     "Filename sanitization already started." : "Ο καθαρισμός ονομάτων αρχείων έχει ήδη ξεκινήσει.",
-    "No filename sanitization inprogress." : "Δεν εκτελείται καθαρισμός ονομάτων αρχείων.",
     "Favorite files" : "Αγαπημένα αρχεία",
     "No favorites" : "Δεν υπάρχουν αγαπημένα",
     "More favorites" : "Περισσότερα αγαπημένα",
