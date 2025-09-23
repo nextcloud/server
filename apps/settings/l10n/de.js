@@ -932,6 +932,7 @@ OC.L10N.register(
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Entwickelt von der {communityopen}Nextcloud Community{linkclose}, der {githubopen}Quellcode{linkclose} ist lizensiert unter {licenseopen}AGPL{linkclose}-Lizenz.",
     "Like our Facebook page" : "Like uns auf unserer Facebook-Seite",
     "Follow us on X" : "Uns auf X folgen",
+    "Follow us on Bluesky" : "Folge uns auf Bluesky",
     "Follow us on Mastodon" : "Uns auf Mastodon folgen",
     "Check out our blog" : "Sieh dir unseren Blog an",
     "Subscribe to our newsletter" : "Abonniere unseren Newsletter",
