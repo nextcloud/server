@@ -133,6 +133,8 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "Неизвестный бэкэнд: {backendName}",
     "Admin defined" : "Определено администратором",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Автоматическая проверка статуса отключена из-за большого количества настроенных хранилищ, нажмите для проверки статуса",
+    "Are you sure you want to disconnect this external storage?" : "Вы действительно хотите отключить это внешнее хранилище?",
+    "It will make the storage unavailable in {instanceName} and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Это сделает хранилище недоступным на сервере {instanceName} и приведёт к удалению этих файлов и папок на любом клиенте синхронизации, который в данный момент подключён, но не удалит файлы и папки на самом внешнем хранилище.",
     "Delete storage?" : "Удалить хранилище?",
     "Click to recheck the configuration" : "Нажмите для повторной проверки конфигурации",
     "Saved" : "Сохранено",
