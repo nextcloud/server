@@ -184,6 +184,9 @@ class InfoParser {
 		if (isset($array['settings']['personal-section']) && !is_array($array['settings']['personal-section'])) {
 			$array['settings']['personal-section'] = [$array['settings']['personal-section']];
 		}
+		if (isset($array['settings']['delegation']) && !is_array($array['settings']['delegation'])) {
+			$array['settings']['delegation'] = [$array['settings']['delegation']];
+		}
 		if (isset($array['navigations']['navigation']) && $this->isNavigationItem($array['navigations']['navigation'])) {
 			$array['navigations']['navigation'] = [$array['navigations']['navigation']];
 		}

@@ -502,7 +502,7 @@ class AppManager implements IAppManager {
 		}
 
 		if (!empty($info['settings'])) {
-			$settingsManager = \OC::$server->get(ISettingsManager::class);
+			$settingsManager = \OCP\Server::get(ISettingsManager::class);
 			if (!empty($info['settings']['admin'])) {
 				foreach ($info['settings']['admin'] as $setting) {
 					$settingsManager->registerSetting('admin', $setting);
@@ -521,6 +521,11 @@ class AppManager implements IAppManager {
 			if (!empty($info['settings']['personal-section'])) {
 				foreach ($info['settings']['personal-section'] as $section) {
 					$settingsManager->registerSection('personal', $section);
+				}
+			}
+			if (!empty($info['settings']['delegation'])) {
+				foreach ($info['settings']['delegation'] as $setting) {
+					$settingsManager->registerSetting(ISettingsManager::SETTINGS_DELEGATION, $setting);
 				}
 			}
 		}

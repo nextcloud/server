@@ -16,6 +16,7 @@ use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
+use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IIconSection;
 use OCP\Settings\IManager;
 use OCP\Settings\ISettings;
@@ -135,41 +136,41 @@ class Manager implements IManager {
 		}
 		if (!isset($this->settings[$type][$section])) {
 			$this->settings[$type][$section] = [];
+
+			foreach ($this->settingClasses as $class => $settingsType) {
+				if ($type !== $settingsType) {
+					continue;
+				}
+
+				try {
+					/** @var ISettings $setting */
+					$setting = $this->container->get($class);
+				} catch (QueryException $e) {
+					$this->log->info($e->getMessage(), ['exception' => $e]);
+					continue;
+				}
+
+				if (!$setting instanceof ISettings) {
+					$e = new \InvalidArgumentException('Invalid settings setting registered (' . $class . ')');
+					$this->log->info($e->getMessage(), ['exception' => $e]);
+					continue;
+				}
+				$settingSection = $setting->getSection();
+				if ($settingSection === null) {
+					continue;
+				}
+
+				if (!isset($this->settings[$settingsType][$settingSection])) {
+					$this->settings[$settingsType][$settingSection] = [];
+				}
+				$this->settings[$settingsType][$settingSection][] = $setting;
+
+				unset($this->settingClasses[$class]);
+			}
 		}
 
-		foreach ($this->settingClasses as $class => $settingsType) {
-			if ($type !== $settingsType) {
-				continue;
-			}
-
-			try {
-				/** @var ISettings $setting */
-				$setting = $this->container->get($class);
-			} catch (QueryException $e) {
-				$this->log->info($e->getMessage(), ['exception' => $e]);
-				continue;
-			}
-
-			if (!$setting instanceof ISettings) {
-				$e = new \InvalidArgumentException('Invalid settings setting registered (' . $class . ')');
-				$this->log->info($e->getMessage(), ['exception' => $e]);
-				continue;
-			}
-
-			if ($filter !== null && !$filter($setting)) {
-				continue;
-			}
-			$settingSection = $setting->getSection();
-			if ($settingSection === null) {
-				continue;
-			}
-
-			if (!isset($this->settings[$settingsType][$settingSection])) {
-				$this->settings[$settingsType][$settingSection] = [];
-			}
-			$this->settings[$settingsType][$settingSection][] = $setting;
-
-			unset($this->settingClasses[$class]);
+		if ($filter !== null) {
+			return array_values(array_filter($this->settings[$type][$section], $filter));
 		}
 
 		return $this->settings[$type][$section];
@@ -319,6 +320,33 @@ class Manager implements IManager {
 				}
 			}
 		}
+		return $settings;
+	}
+
+	/**
+	 * @return array<string, array{section:IIconSection,settings:list<IDelegatedSettings>}>
+	 */
+	public function getAdminDelegatedSettings(): array {
+		$sections = $this->getAdminSections();
+		$settings = [];
+		foreach ($sections as $sectionPriority) {
+			foreach ($sectionPriority as $section) {
+				/** @var IDelegatedSettings[] */
+				$sectionSettings = array_merge(
+					$this->getSettings(self::SETTINGS_ADMIN, $section->getID(), fn (ISettings $settings): bool => $settings instanceof IDelegatedSettings),
+					$this->getSettings(self::SETTINGS_DELEGATION, $section->getID(), fn (ISettings $settings): bool => $settings instanceof IDelegatedSettings),
+				);
+				usort(
+					$sectionSettings,
+					fn (ISettings $s1, ISettings $s2) => $s1->getPriority() <=> $s2->getPriority()
+				);
+				$settings[$section->getID()] = [
+					'section' => $section,
+					'settings' => $sectionSettings,
+				];
+			}
+		}
+		uasort($settings, fn (array $a, array $b) => $a['section']->getPriority() <=> $b['section']->getPriority());
 		return $settings;
 	}
 }
