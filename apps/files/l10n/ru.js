@@ -54,7 +54,6 @@ OC.L10N.register(
     "Limit must be a positive integer." : "Предел должен быть положительным целым числом.",
     "The replacement character may only be a single character." : "Заменяющий символ может состоять только из одного символа.",
     "Filename sanitization already started." : "Очистка имени файла уже начата.",
-    "No filename sanitization inprogress." : "В процессе работы не выполняется очистка имени файла.",
     "Favorite files" : "Избранные файлы",
     "No favorites" : "Нет избранного",
     "More favorites" : "Больше избранного",

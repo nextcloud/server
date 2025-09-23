@@ -54,7 +54,6 @@ OC.L10N.register(
     "Limit must be a positive integer." : "Sınır değeri bir pozitif tamsayı olmalıdır.",
     "The replacement character may only be a single character." : "Değiştirilecek karakter yalnızca tek bir karakter olabilir.",
     "Filename sanitization already started." : "Dosya adı sadeleştirme işlemi zaten başlatılmış.",
-    "No filename sanitization inprogress." : "İşlenen bir dosya sadeleştirmesi yok.",
     "Favorite files" : "Sık kullanılan dosyalar",
     "No favorites" : "Sık kullanılan bir öge yok",
     "More favorites" : "Diğer sık kullanılanlar",

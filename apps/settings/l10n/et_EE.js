@@ -812,6 +812,7 @@ OC.L10N.register(
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Arendajaks on {communityopen}Nextcloudi kogukond{linkclose},  {githubopen}lähtekood{linkclose} on avaldatud {licenseopen}GNU AGPL{linkclose} litsentsi alusel.",
     "Like our Facebook page" : "Märgi meie Facebooki leht meeldivaks",
     "Follow us on X" : "Jälgi meid X-is",
+    "Follow us on Bluesky" : "Jälgi meid Bluesky's",
     "Follow us on Mastodon" : "Jälgi meid Mastodonis",
     "Check out our blog" : "Loe meie ajaveebi",
     "Subscribe to our newsletter" : "Telli meie uudiskiri",

@@ -54,7 +54,6 @@ OC.L10N.register(
     "Limit must be a positive integer." : "Kikomo lazima kiwe nambari chanya.",
     "The replacement character may only be a single character." : "Herufi mbadala inaweza tu kuwa herufi moja.",
     "Filename sanitization already started." : "Usafishaji wa jina la faili tayari umeanza.",
-    "No filename sanitization inprogress." : "Hakuna maendeleo ya utakaso wa jina la faili.",
     "Favorite files" : "Faili pendwa",
     "No favorites" : "Hakuna vipendwa",
     "More favorites" : "Vipendwa zaidi",

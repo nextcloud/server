@@ -54,7 +54,6 @@ OC.L10N.register(
     "Limit must be a positive integer." : "限制必须是正整数。",
     "The replacement character may only be a single character." : "替换字符只能是单个字符。",
     "Filename sanitization already started." : "文件名清理已开始。",
-    "No filename sanitization inprogress." : "没有正在进行的文件名清理。",
     "Favorite files" : "收藏的文件",
     "No favorites" : "无收藏",
     "More favorites" : "更多收藏",

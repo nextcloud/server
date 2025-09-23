@@ -52,7 +52,6 @@
     "Limit must be a positive integer." : "O limite deve ser um número inteiro positivo.",
     "The replacement character may only be a single character." : "O caractere substituto só pode ser um único caractere.",
     "Filename sanitization already started." : "A sanitização do nome do arquivo já começou.",
-    "No filename sanitization inprogress." : "Nenhuma sanitização de nome de arquivo em andamento.",
     "Favorite files" : "Arquivos favoritos",
     "No favorites" : "Sem favoritos",
     "More favorites" : "Mais favoritos",

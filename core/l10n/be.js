@@ -372,6 +372,7 @@ OC.L10N.register(
     "Collaborative tags" : "Супольныя тэгі",
     "No tags found" : "Тэгі не знойдзены",
     "Clipboard not available, please copy manually" : "Буфер абмену недаступны, скапіюйце ўручную",
+    "Personal" : "Асабістыя",
     "Accounts" : "Уліковыя запісы",
     "Admin" : "Адміністратар",
     "Help" : "Даведка",

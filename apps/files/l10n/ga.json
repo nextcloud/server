@@ -52,7 +52,6 @@
     "Limit must be a positive integer." : "Ní mór don teorainn a bheith ina slánuimhir dhearfach.",
     "The replacement character may only be a single character." : "Ní fhéadfaidh ach carachtar amháin a bheith sa charachtar athsholáthair.",
     "Filename sanitization already started." : "Tá glanadh ainm comhaid tosaithe cheana féin.",
-    "No filename sanitization inprogress." : "Níl aon ghlanadh ainm comhaid ar siúl.",
     "Favorite files" : "Comhaid is fearr leat",
     "No favorites" : "Gan aon cheanáin",
     "More favorites" : "Gan aon cheanáin",
