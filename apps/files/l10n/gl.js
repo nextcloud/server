@@ -54,6 +54,7 @@ OC.L10N.register(
     "Limit must be a positive integer." : "O límite debe ser un número enteiro positivo.",
     "The replacement character may only be a single character." : "O carácter de substitución só poderá ser un carácter único.",
     "Filename sanitization already started." : "Xa foi iniciado o saneamento dos nomes do ficheiro.",
+    "No filename sanitization in progress." : "O saneamento dos nomes de ficheiro non está en proceso.",
     "Favorite files" : "Ficheiros favoritos",
     "No favorites" : "Non hai favoritos",
     "More favorites" : "Máis favoritos",

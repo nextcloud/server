@@ -54,6 +54,7 @@ OC.L10N.register(
     "Limit must be a positive integer." : "Ліміт павінен быць дадатным цэлым лікам.",
     "The replacement character may only be a single character." : "Сімвалам замены можа быць толькі адзіночны сімвал.",
     "Filename sanitization already started." : "Ачыстка назваў файлаў ужо запушчана.",
+    "No filename sanitization in progress." : "Ачыстка назваў файлаў не выконваецца.",
     "Favorite files" : "Абраныя файлы",
     "No favorites" : "Няма абраных",
     "More favorites" : "Больш абраных",
