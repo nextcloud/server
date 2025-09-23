@@ -54,6 +54,7 @@ OC.L10N.register(
     "Limit must be a positive integer." : "Mugak zenbaki osoa eta positiboa izan behar du.",
     "The replacement character may only be a single character." : "Ordezko karaktereak bakarra izan behar du.",
     "Filename sanitization already started." : "Fitxategi-izenen garbiketa hasi da jada.",
+    "No filename sanitization in progress." : "Fitxategi-izenen garbiketa ez dago martxan.",
     "Favorite files" : "Gogoko fitxategiak",
     "No favorites" : "Gogokorik ez",
     "More favorites" : "Gogoko gehiago",
