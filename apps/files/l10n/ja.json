@@ -52,6 +52,7 @@
     "Limit must be a positive integer." : "制限は正の整数である必要があります。",
     "The replacement character may only be a single character." : "置換文字は1文字のみです。",
     "Filename sanitization already started." : "ファイル名のサニタイズは既に開始されています。",
+    "No filename sanitization in progress." : "進行中のファイル名サニタイズ処理はありません。",
     "Favorite files" : "お気に入りファイル",
     "No favorites" : "お気に入りなし",
     "More favorites" : "その他のお気に入り",
