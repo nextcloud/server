@@ -54,6 +54,7 @@ OC.L10N.register(
     "Limit must be a positive integer." : "Der Grenzwert muss eine positive Ganzzahl sein.",
     "The replacement character may only be a single character." : "Das Ersatzzeichen darf nur ein einzelnes Zeichen sein.",
     "Filename sanitization already started." : "Die Dateinamenbereinigung hat bereits begonnen.",
+    "No filename sanitization in progress." : "Es läuft keine Dateinamenbereinigung.",
     "Favorite files" : "Favorisierte Dateien",
     "No favorites" : "Keine Favoriten",
     "More favorites" : "Weitere Favoriten",
