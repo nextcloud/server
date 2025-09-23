@@ -32,6 +32,6 @@
 	</commands>
 
 	<settings>
-		<admin>OCA\WebhookListeners\Settings\Admin</admin>
+		<delegation>OCA\WebhookListeners\Settings\Admin</delegation>
 	</settings>
 </info>
