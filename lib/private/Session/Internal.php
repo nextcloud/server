@@ -12,11 +12,9 @@ namespace OC\Session;
 use OC\Authentication\Token\IProvider;
 use OC\Diagnostics\TLogSlowOperation;
 use OCP\Authentication\Exceptions\InvalidTokenException;
-use OCP\ILogger;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 use function call_user_func_array;
-use function microtime;
 
 /**
  * Class Internal
@@ -198,7 +196,7 @@ class Internal extends Session {
 			return $this->monitorAndLog(
 				$this->logger,
 				$functionName,
-				function () use ($silence, $functionName, $parameters){
+				function () use ($silence, $functionName, $parameters) {
 					if ($silence) {
 						return @call_user_func_array($functionName, $parameters);
 					} else {
