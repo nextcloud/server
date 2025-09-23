@@ -37,7 +37,7 @@ class Users implements IDelegatedSettings {
 	}
 
 	public function getSection(): ?string {
-		return null;
+		return 'admindelegation';
 	}
 
 	/**
