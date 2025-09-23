@@ -296,7 +296,7 @@ OC.L10N.register(
     "Weekdays" : "Días laborábeis",
     "Pick a start time for {dayName}" : "Escolla unha hora de inicio para {dayName}",
     "Pick a end time for {dayName}" : "Escolla unha hora de finalización para {dayName}",
-    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Definir automaticamente o estado do usuario en «Non molestar» fóra de dispoñibilidade para enmudecer todas as notificacións.",
+    "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Definir automaticamente o estado do usuario en «Non molestar» fóra de dispoñibilidade para silenciar todas as notificacións.",
     "Cancel" : "Cancelar",
     "Import" : "Importar",
     "Error while saving settings" : "Produciuse un erro ao gardar os axustes",
