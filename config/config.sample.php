@@ -2037,7 +2037,7 @@ $CONFIG = [
 
 /**
  * PostgreSQL SSL connection
-*/
+ */
 'pgsql_ssl' => [
 	'mode' => '',
 	'cert' => '',
