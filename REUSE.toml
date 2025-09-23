@@ -334,13 +334,13 @@ SPDX-FileCopyrightText = "X Corp."
 SPDX-License-Identifier = "LicenseRef-XTrademarks"
 
 [[annotations]]
-path = ["core/img/bluesky.svg", "core/img/actions/bluesky.svg"]
+path = ["core/img/bluesky.svg", "core/img/bluesky-light.svg", "core/img/actions/bluesky.svg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2012-2024 Fonticons, Inc."
 SPDX-License-Identifier = "CC-BY-4.0"
 
 [[annotations]]
-path = ["core/img/facebook.svg", "apps/federatedfilesharing/img/social-facebook.svg"]
+path = ["core/img/facebook.svg", "core/img/facebook-light.svg", "apps/federatedfilesharing/img/social-facebook.svg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2024 Meta"
 SPDX-License-Identifier = "LicenseRef-FacebookTrademarks"
@@ -352,7 +352,7 @@ SPDX-FileCopyrightText = "2024 Diaspora"
 SPDX-License-Identifier = "LicenseRef-DiasporaTrademarks"
 
 [[annotations]]
-path = ["core/img/mastodon.svg", "core/img/actions/mastodon.svg"]
+path = ["core/img/mastodon.svg", "core/img/mastodon-light.svg", "core/img/actions/mastodon.svg"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2024 Mastodon gGmbH"
 SPDX-License-Identifier = "LicenseRef-MastodonTrademarks"
