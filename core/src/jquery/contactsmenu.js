@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import $ from 'jquery'
-
 import { generateUrl } from '@nextcloud/router'
-import { isA11yActivation } from '../Util/a11y.js'
+import { isA11yActivation } from '@nextcloud/vue/functions/a11y'
+import $ from 'jquery'
 
 const LIST = ''
 	+ '<div class="menu popovermenu menu-left hidden contactsmenu-popover">'
