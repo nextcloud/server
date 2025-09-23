@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OC\Session;
 
 use OC\Authentication\Token\IProvider;
+use OC\Diagnostics\TLogSlowOperation;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\ILogger;
 use OCP\Session\Exceptions\SessionNotAvailableException;
@@ -25,6 +26,9 @@ use function microtime;
  * @package OC\Session
  */
 class Internal extends Session {
+
+	use TLogSlowOperation;
+
 	/**
 	 * @param string $name
 	 * @throws \Exception
@@ -191,31 +195,17 @@ class Internal extends Session {
 	 */
 	private function invoke(string $functionName, array $parameters = [], bool $silence = false) {
 		try {
-			$timeBefore = microtime(true);
-			if ($silence) {
-				$result = @call_user_func_array($functionName, $parameters);
-			} else {
-				$result = call_user_func_array($functionName, $parameters);
-			}
-			$timeAfter = microtime(true);
-			$timeSpent = $timeAfter - $timeBefore;
-			if ($timeSpent > 0.1) {
-				$logLevel = match (true) {
-					$timeSpent > 25 => ILogger::ERROR,
-					$timeSpent > 10 => ILogger::WARN,
-					$timeSpent > 0.5 => ILogger::INFO,
-					default => ILogger::DEBUG,
-				};
-				$this->logger?->log(
-					$logLevel,
-					"Slow session operation $functionName detected",
-					[
-						'parameters' => $parameters,
-						'timeSpent' => $timeSpent,
-					],
-				);
-			}
-			return $result;
+			return $this->monitorAndLog(
+				$this->logger,
+				$functionName,
+				function () use ($silence, $functionName, $parameters){
+					if ($silence) {
+						return @call_user_func_array($functionName, $parameters);
+					} else {
+						return call_user_func_array($functionName, $parameters);
+					}
+				}
+			);
 		} catch (\Error $e) {
 			$this->trapError($e->getCode(), $e->getMessage());
 		}
