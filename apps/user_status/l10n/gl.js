@@ -45,7 +45,7 @@ OC.L10N.register(
     "1 hour" : "1 hora",
     "4 hours" : "4 horas",
     "Busy" : "Ocupado",
-    "Mute all notifications" : "Enmudecer todas as notificacións",
+    "Mute all notifications" : "Silenciar todas as notificacións",
     "Appear offline" : "Aparece coma sen conexión"
 },
 "nplurals=2; plural=(n != 1);");
