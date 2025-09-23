@@ -52,7 +52,6 @@
     "Limit must be a positive integer." : "限制必須為正整數。",
     "The replacement character may only be a single character." : "取代字元僅限單一字元。",
     "Filename sanitization already started." : "檔案名稱消毒流程已啟動",
-    "No filename sanitization inprogress." : "目前未執行檔案名稱的消毒流程。",
     "Favorite files" : "收藏檔案",
     "No favorites" : "沒有最愛",
     "More favorites" : "更多收藏",

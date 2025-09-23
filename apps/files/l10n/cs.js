@@ -54,7 +54,6 @@ OC.L10N.register(
     "Limit must be a positive integer." : "Je třeba, aby limit bylo celé kladné číslo.",
     "The replacement character may only be a single character." : "Nahrazující znak může být pouze jednotlivý znak.",
     "Filename sanitization already started." : "Sanitizace názvu souboru už začala.",
-    "No filename sanitization inprogress." : "Neprobíhá žádná sanitizace názvu souboru.",
     "Favorite files" : "Oblíbené soubory",
     "No favorites" : "Žádné oblíbené",
     "More favorites" : "Další oblíbené",
