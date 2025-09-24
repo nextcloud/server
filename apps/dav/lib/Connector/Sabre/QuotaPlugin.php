@@ -1,11 +1,18 @@
 <?php
-
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-FileCopyrightText: 2012 entreCables S.L. All rights reserved
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+/*
+ * @author Sergio Cambra
+ * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
+ * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ */
+
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
@@ -19,42 +26,41 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 /**
- * This plugin check user quota and deny creating files when they exceeds the quota.
+ * This plugin enforces user storage quotas by preventing file operations that would 
+ * exceed the user’s allotted quota.
  *
- * @author Sergio Cambra
- * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ * @property-read View $view The Nextcloud file view for quota operations.
  */
 class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	/**
-	 * Reference to main server object
+	 * The Sabre\DAV server instance (set during initialize()).
 	 *
-	 * @var \Sabre\DAV\Server
+	 * @var \Sabre\DAV\Server|null
 	 */
-	private $server;
+	private ?\Sabre\DAV\Server $server = null;
 
 	/**
-	 * @param View $view
+	 * QuotaPlugin constructor.
+	 *
+	 * @param View $view The Nextcloud Files View instance.
 	 */
 	public function __construct(
-		private $view,
+		private View $view
 	) {
 	}
 
 	/**
-	 * This initializes the plugin.
+	 * Initializes the quota plugin and subscribes to relevant Sabre\DAV server events.
 	 *
-	 * This function is called by \Sabre\DAV\Server, after
-	 * addPlugin is called.
+	 * @link https://sabre.io/dav/writing-plugins/#events
 	 *
-	 * This method should set up the requires event subscriptions.
-	 *
-	 * @param \Sabre\DAV\Server $server
+	 * @param \Sabre\DAV\Server $server The Sabre\DAV server instance.
 	 * @return void
 	 */
-	public function initialize(\Sabre\DAV\Server $server) {
+	public function initialize(\Sabre\DAV\Server $server): void {
 		$this->server = $server;
 
+		// Register event handlers for quota checks on various file operations
 		$server->on('beforeWriteContent', [$this, 'beforeWriteContent'], 10);
 		$server->on('beforeCreateFile', [$this, 'beforeCreateFile'], 10);
 		$server->on('method:MKCOL', [$this, 'onCreateCollection'], 30);
@@ -63,78 +69,91 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * Check quota before creating file
+	 * Checks quota before creating a new file.
+	 * For chunked uploads (with 'Destination' and 'OC-Total-Length'), checks quota for the destination folder.
+	 * Otherwise, checks quota for the parent node plus the new filename.
 	 *
-	 * @param string $uri target file URI
-	 * @param resource $data data
-	 * @param INode $parent Sabre Node
-	 * @param bool $modified modified
+	 * @param string $uri Target file URI (unused).
+	 * @param resource $data The data to write (unused).
+	 * @param INode $parent Parent Sabre node.
+	 * @param bool $modified Whether the node is modified (unused).
+	 * @return bool True if quota is sufficient, otherwise throws InsufficientStorage.
 	 */
-	public function beforeCreateFile($uri, $data, INode $parent, $modified) {
+	public function beforeCreateFile(string $uri, $data, INode $parent, bool $modified): bool {
 		$request = $this->server->httpRequest;
+
+		// Check quota during chunked uploads
 		if ($parent instanceof UploadFolder && $request->getHeader('Destination')) {
-			// If chunked upload and Total-Length header is set, use that
-			// value for quota check. This allows us to also check quota while
-			// uploading chunks and not only when the file is assembled.
-			$length = $request->getHeader('OC-Total-Length');
-			$destinationPath = $this->server->calculateUri($request->getHeader('Destination'));
+			$totalLength = $request->getHeader('OC-Total-Length');
+			$destinationUri = $request->getHeader('Destination');
+			$destinationPath = $this->server->calculateUri($destinationUri);
 			$quotaPath = $this->getPathForDestination($destinationPath);
-			if ($quotaPath && is_numeric($length)) {
-				return $this->checkQuota($quotaPath, (int)$length);
+
+			if ($quotaPath && is_numeric($totalLength)) {
+				return $this->checkQuota($quotaPath, (int)$totalLength);
 			}
+			// If quota cannot be checked, allow by default
+			// NOTE: We can still check during assembly.
+			return true;
 		}
 
 		if (!$parent instanceof Node) {
-			return;
+			// No quota check for non-Node parents
+			return true;
 		}
 
-		return $this->checkQuota($parent->getPath() . '/' . basename($uri));
+		$filePath = $parent->getPath() . '/' . basename($uri);
+		return $this->checkQuota($filePath);
 	}
 
 	/**
-	 * Check quota before creating directory
+	 * Checks quota before creating a new collection (directory) via MKCOL.
+	 * Assumes a fixed size (4096 bytes) for quota check as MKCOL lacks a Content-Length header.
 	 *
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
-	 * @return bool
-	 * @throws InsufficientStorage
-	 * @throws \Sabre\DAV\Exception\Forbidden
+	 * @param RequestInterface $request The HTTP request for the MKCOL operation.
+	 * @param ResponseInterface $response The HTTP response object.
+	 * @return bool True if there is enough quota, otherwise throws InsufficientStorage or \Sabre\DAV\Exception\Forbidden (?).
 	 */
 	public function onCreateCollection(RequestInterface $request, ResponseInterface $response): bool {
 		try {
 			$destinationPath = $this->server->calculateUri($request->getUrl());
-			$quotaPath = $this->getPathForDestination($destinationPath);
+			$collectionPath = $this->getPathForDestination($destinationPath);
 		} catch (\Exception $e) {
-			return true;
+			// Optionally log: error_log('Quota check failed during onCreateCollection: ' . $e->getMessage());
+			return true; // Quota cannot be checked, allow by default
 		}
-		if ($quotaPath) {
-			// MKCOL does not have a Content-Length header, so we can use
-			// a fixed value for the quota check.
-			return $this->checkQuota($quotaPath, 4096, true);
+		if ($collectionPath) {
+			// Default directory size for quota check since MKCOL doesn't specify one
+			return $this->checkQuota($collectionPath, 4096, true);
 		}
 
-		return true;
+		return true; // No path to check, allow by default
 	}
 
 	/**
-	 * Check quota before writing content
+	 * Checks quota before writing content to a node.
 	 *
-	 * @param string $uri target file URI
-	 * @param INode $node Sabre Node
-	 * @param resource $data data
-	 * @param bool $modified modified
+	 * @param string $uri Target file URI (unused).
+	 * @param INode $node Sabre node to which content will be written.
+	 * @param resource $data Content data (unused).
+	 * @param bool $modified Whether the node is modified (unused).
+	 * @return bool True if there is enough quota, otherwise throws InsufficientStorage.
 	 */
-	public function beforeWriteContent($uri, INode $node, $data, $modified) {
+	public function beforeWriteContent(string $uri, INode $node, $data, bool $modified): bool {
 		if (!$node instanceof Node) {
-			return;
+			// No quota check for non-Node objects
+			return true;
 		}
 
 		return $this->checkQuota($node->getPath());
 	}
 
 	/**
-	 * Check if we're moving a FutureFile in which case we need to check
-	 * the quota on the target destination.
+	 * Checks quota before moving a FutureFile node to a new destination.
+	 *
+	 * @param string $sourcePath Path to the source node.
+	 * @param string $destinationPath Path where the node will be moved to.
+	 * @return bool True if there is enough quota, otherwise throws InsufficientStorage.
 	 */
 	public function beforeMove(string $sourcePath, string $destinationPath): bool {
 		$sourceNode = $this->server->tree->getNodeForPath($sourcePath);
@@ -143,17 +162,22 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		try {
-			// The final path is not known yet, we check the quota on the parent
-			$path = $this->getPathForDestination($destinationPath);
+			// The final path is not known yet, check quota on the parent of the destination
+			$quotaPath = $this->getPathForDestination($destinationPath);
 		} catch (\Exception $e) {
+			// Optionally log: e.g. ('Quota check failed during beforeMove: ' . $e->getMessage());
 			return true;
 		}
 
-		return $this->checkQuota($path, $sourceNode->getSize());
+		return $this->checkQuota($quotaPath, $sourceNode->getSize());
 	}
 
 	/**
-	 * Check quota on the target destination before a copy.
+	 * Checks quota before allowing a file copy operation.
+	 *
+	 * @param string $sourcePath Path to the source node.
+	 * @param string $destinationPath Path where the node will be copied to.
+	 * @return bool True if there is enough quota, otherwise throws InsufficientStorage.
 	 */
 	public function beforeCopy(string $sourcePath, string $destinationPath): bool {
 		$sourceNode = $this->server->tree->getNodeForPath($sourcePath);
@@ -162,101 +186,130 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		try {
-			$path = $this->getPathForDestination($destinationPath);
+			$quotaPath = $this->getPathForDestination($destinationPath);
 		} catch (\Exception $e) {
+			// Optionally log: e.g. ('Quota check failed during beforeCopy: ' . $e->getMessage());
 			return true;
 		}
 
-		return $this->checkQuota($path, $sourceNode->getSize());
+		return $this->checkQuota($quotaPath, $sourceNode->getSize());
 	}
 
+	/**
+	 * Resolves the path for quota checking, given a destination path.
+	 *
+	 * If the destination node exists, returns its internal path.
+	 * If it does not exist, returns the internal path of its parent node.
+	 * Throws an exception if the relevant node is not a valid Node instance.
+	 *
+	 * @param string $destinationPath Destination path within the virtual file tree.
+	 * @return string Internal path to use for quota checking.
+	 * @throws \Exception If the destination or parent node is not a valid Node.
+	 */
 	private function getPathForDestination(string $destinationPath): string {
-		// get target node for proper path conversion
+		// If the node exists, return its actual path
 		if ($this->server->tree->nodeExists($destinationPath)) {
 			$destinationNode = $this->server->tree->getNodeForPath($destinationPath);
 			if (!$destinationNode instanceof Node) {
-				throw new \Exception('Invalid destination node');
+				throw new \Exception("Destination node at '$destinationPath' is not a valid Node instance.");
 			}
 			return $destinationNode->getPath();
 		}
 
+		// Otherwise, use the parent directory's path
 		$parent = dirname($destinationPath);
-		if ($parent === '.') {
-			$parent = '';
-		}
+		$parent = ($parent === '.') ? '' : $parent;
 
 		$parentNode = $this->server->tree->getNodeForPath($parent);
 		if (!$parentNode instanceof Node) {
-			throw new \Exception('Invalid destination node');
+			throw new \Exception("Parent node at '$parent' is not a valid Node instance.");
 		}
 
 		return $parentNode->getPath();
 	}
 
-
 	/**
-	 * This method is called before any HTTP method and validates there is enough free space to store the file
+	 * Validates there is enough free space to store the file at the given path.
 	 *
-	 * @param string $path relative to the users home
-	 * @param int|float|null $length
+	 * Called before relevant HTTP DAV events (when there is an associated View).
+	 * @see initialize() for specific events we're registered for.
+	 *
+	 * @param string $path Path relative to the user's home.
+	 * @param int|float|null $length Size to check for, or null to auto-detect.
+	 * @param bool $isDir Whether the target is a directory.
 	 * @throws InsufficientStorage
-	 * @return bool
+	 * @return bool True if there is enough space, otherwise throws.
 	 */
-	public function checkQuota(string $path, $length = null, $isDir = false) {
+	private function checkQuota(string $path, $length = null, bool $isDir = false): bool {
+		// Auto-detect length if not provided
 		if ($length === null) {
 			$length = $this->getLength();
 		}
+		if (empty($length)) {
+			return true; // No length to check, assume okay
+		}
 
-		if ($length) {
-			[$parentPath, $newName] = \Sabre\Uri\split($path);
-			if (is_null($parentPath)) {
-				$parentPath = '';
-			}
-			$req = $this->server->httpRequest;
+		$normalizedPath = str_replace('//', '/', $path);
+		$freeSpace = $this->getFreeSpace($normalizedPath);
 
-			// Strip any duplicate slashes
-			$path = str_replace('//', '/', $path);
+		// Explicitly handle unknown/invalid free space
+		if ($freeSpace === false || $freeSpace < 0) {
+			// You might log here; currently allows the operation
+			return true;
+		}
 
-			$freeSpace = $this->getFreeSpace($path);
-			if ($freeSpace >= 0 && $length > $freeSpace) {
-				if ($isDir) {
-					throw new InsufficientStorage("Insufficient space in $path. $freeSpace available. Cannot create directory");
-				}
-
-				throw new InsufficientStorage("Insufficient space in $path, $length required, $freeSpace available");
-			}
+		if ($length > $freeSpace) {
+			$msg = $isDir
+				? "Insufficient space in $normalizedPath. $freeSpace available. Cannot create directory"
+				: "Insufficient space in $normalizedPath, $length required, $freeSpace available";
+			throw new InsufficientStorage($msg);
 		}
 
 		return true;
 	}
 
-	public function getLength() {
-		$req = $this->server->httpRequest;
-		$length = $req->getHeader('X-Expected-Entity-Length');
-		if (!is_numeric($length)) {
-			$length = $req->getHeader('Content-Length');
-			$length = is_numeric($length) ? $length : null;
-		}
+	/**
+	 * Returns the largest valid content length found in any of the following HTTP headers:
+	 * - X-Expected-Entity-Length
+	 * - Content-Length
+	 * - OC-Total-Length
+	 *
+	 * Only numeric values are considered. If none of the headers contain a valid numeric value,
+	 * returns null.
+	 *
+	 * @return int|null The largest valid content length, or null if none is found.
+	 */
+	private function getLength(): ?int {
+		$request = $this->server->httpRequest;
 
-		$ocLength = $req->getHeader('OC-Total-Length');
-		if (!is_numeric($ocLength)) {
-			return $length;
-		}
-		if (!is_numeric($length)) {
-			return $ocLength;
-		}
-		return max($length, $ocLength);
+		// Get headers as strings
+		$expectedLength = $request->getHeader('X-Expected-Entity-Length');
+		$contentLength = $request->getHeader('Content-Length');
+		$ocTotalLength = $request->getHeader('OC-Total-Length');
+
+		// Filter out non-numeric values, cast to int
+		$lengths = array_filter([
+			is_numeric($expectedLength) ? (int)$expectedLength : null,
+			is_numeric($contentLength) ? (int)$contentLength : null,
+			is_numeric($ocTotalLength) ? (int)$ocTotalLength : null,
+		], fn($v) => $v !== null);
+
+		// Return the largest valid length, or null if none
+		return !empty($lengths) ? max($lengths) : null;
 	}
 
 	/**
-	 * @param string $uri
-	 * @return mixed
-	 * @throws ServiceUnavailable
+	 * Returns the available free space for the given URI.
+	 *
+	 * TODO: `false` can probably be dropped here, if not now when free_space is cleaned up.
+	 *
+	 * @param string $uri The resource URI whose free space is being queried.
+	 * @return int|float|false The amount of free space in bytes, 
+	 * @throws ServiceUnavailable If the underlying storage is not available.
 	 */
-	public function getFreeSpace($uri) {
+	private function getFreeSpace(string $uri): int|float|false {
 		try {
-			$freeSpace = $this->view->free_space(ltrim($uri, '/'));
-			return $freeSpace;
+			return $this->view->free_space(ltrim($uri, '/'));
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable($e->getMessage());
 		}
