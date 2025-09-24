@@ -57,23 +57,36 @@ class FileSize implements ICheck {
 		}
 	}
 
+	/**
+	 * Gets the file size from HTTP headers.
+	 *
+	 * Checks 'OC-Total-Length' first; if unavailable and the method is POST or PUT,
+	 * checks 'Content-Length'. Returns the size as int, float, or false if not found or invalid.
+	 *
+	 * @return int|float|false File size in bytes, or false if unavailable.
+	 */
 	protected function getFileSizeFromHeader(): int|float|false {
+		// Already have it cached?
 		if ($this->size !== null) {
 			return $this->size;
 		}
 
 		$size = $this->request->getHeader('OC-Total-Length');
 		if ($size === '') {
-			if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
+			// Try fallback for upload methods
+			$method = $this->request->getMethod();
+			if (in_array($method, ['POST', 'PUT'], true)) {
 				$size = $this->request->getHeader('Content-Length');
 			}
 		}
 
-		if ($size === '' || !is_numeric($size)) {
-			$size = false;
+		if ($size !== '' && is_numeric($size)) {
+			$this->size = Util::numericToNumber($size);			
+		} else {
+			// No valid size header found
+			$this->size = false;
 		}
-
-		$this->size = Util::numericToNumber($size);
+		
 		return $this->size;
 	}
 
