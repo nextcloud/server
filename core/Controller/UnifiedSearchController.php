@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -37,6 +38,7 @@ class UnifiedSearchController extends OCSController {
 		private SearchComposer $composer,
 		private IRouter $router,
 		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
 	) {
 		parent::__construct('core', $request);
 	}
@@ -101,6 +103,11 @@ class UnifiedSearchController extends OCSController {
 		} catch (UnsupportedFilter|InvalidArgumentException $e) {
 			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
 		}
+
+		if ($filters->count() === 0) {
+			return new DataResponse($this->l10n->t('No valid filters provided'), Http::STATUS_BAD_REQUEST);
+		}
+
 		return new DataResponse(
 			$this->composer->search(
 				$this->userSession->getUser(),
