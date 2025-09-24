@@ -10,6 +10,8 @@ namespace OC;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Authentication\Token\IProvider;
+use OC\Core\AppInfo\ConfigLexicon;
+use OC\Core\Application;
 use OC\Files\FilenameValidator;
 use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
@@ -18,6 +20,7 @@ use OC\Template\JSResourceLocator;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
@@ -41,6 +44,7 @@ class TemplateLayout extends \OC_Template {
 	public static $jsLocator = null;
 
 	private IConfig $config;
+	private IAppConfig $appConfig;
 	private IAppManager $appManager;
 	private InitialStateService $initialState;
 	private INavigationManager $navigationManager;
@@ -51,6 +55,7 @@ class TemplateLayout extends \OC_Template {
 	 */
 	public function __construct($renderAs, $appId = '') {
 		$this->config = \OCP\Server::get(IConfig::class);
+		$this->appConfig = \OCP\Server::get(IAppConfig::class);
 		$this->appManager = \OCP\Server::get(IAppManager::class);
 		$this->initialState = \OCP\Server::get(InitialStateService::class);
 		$this->navigationManager = \OCP\Server::get(INavigationManager::class);
@@ -73,9 +78,9 @@ class TemplateLayout extends \OC_Template {
 			$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
 			$this->initialState->provideInitialState('core', 'apps', array_values($this->navigationManager->getAll()));
 
+			$this->initialState->provideInitialState('unified-search', 'min-search-length', $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MIN_SEARCH_LENGTH));
 			if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
 				$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
-				$this->initialState->provideInitialState('unified-search', 'min-search-length', (int)$this->config->getAppValue('core', 'unified-search.min-search-length', (string)1));
 				$this->initialState->provideInitialState('unified-search', 'live-search', $this->config->getAppValue('core', 'unified-search.live-search', 'yes') === 'yes');
 				Util::addScript('core', 'legacy-unified-search', 'core');
 			} else {
