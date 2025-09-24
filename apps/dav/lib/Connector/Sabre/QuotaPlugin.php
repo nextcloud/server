@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
@@ -26,7 +27,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 /**
- * This plugin enforces user storage quotas by preventing file operations that would 
+ * This plugin enforces user storage quotas by preventing file operations that would
  * exceed the user’s allotted quota.
  *
  * @property-read View $view The Nextcloud file view for quota operations.
@@ -45,7 +46,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @param View $view The Nextcloud Files View instance.
 	 */
 	public function __construct(
-		private View $view
+		private View $view,
 	) {
 	}
 
@@ -292,7 +293,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			is_numeric($expectedLength) ? (int)$expectedLength : null,
 			is_numeric($contentLength) ? (int)$contentLength : null,
 			is_numeric($ocTotalLength) ? (int)$ocTotalLength : null,
-		], fn($v) => $v !== null);
+		], fn ($v) => $v !== null);
 
 		// Return the largest valid length, or null if none
 		return !empty($lengths) ? max($lengths) : null;
@@ -304,7 +305,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * TODO: `false` can probably be dropped here, if not now when free_space is cleaned up.
 	 *
 	 * @param string $uri The resource URI whose free space is being queried.
-	 * @return int|float|false The amount of free space in bytes, 
+	 * @return int|float|false The amount of free space in bytes,
 	 * @throws ServiceUnavailable If the underlying storage is not available.
 	 */
 	private function getFreeSpace(string $uri): int|float|false {
