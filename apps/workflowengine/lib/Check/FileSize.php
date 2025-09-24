@@ -81,12 +81,12 @@ class FileSize implements ICheck {
 		}
 
 		if ($size !== '' && is_numeric($size)) {
-			$this->size = Util::numericToNumber($size);			
+			$this->size = Util::numericToNumber($size);
 		} else {
 			// No valid size header found
 			$this->size = false;
 		}
-		
+
 		return $this->size;
 	}
 
