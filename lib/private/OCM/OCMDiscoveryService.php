@@ -84,9 +84,11 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 					throw new OCMProviderException('Previous discovery failed.');
 				}
 
-				$provider->import(json_decode($cached ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
-				$this->remoteProviders[$remote] = $provider;
-				return $provider;
+				if ($cached !== null) {
+					$provider->import(json_decode($cached, true, 8, JSON_THROW_ON_ERROR) ?? []);
+					$this->remoteProviders[$remote] = $provider;
+					return $provider;
+				}
 			} catch (JsonException|OCMProviderException $e) {
 				$this->logger->warning('cache issue on ocm discovery', ['exception' => $e]);
 			}
