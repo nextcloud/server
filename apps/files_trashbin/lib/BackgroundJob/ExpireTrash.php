@@ -78,6 +78,7 @@ class ExpireTrash extends TimedJob {
 			// If the last batch was not full it means that we reached the end of the user list.
 			if ($count < self::USER_BATCH_SIZE) {
 				$this->resetOffset();
+				break;
 			}
 		}
 	}
