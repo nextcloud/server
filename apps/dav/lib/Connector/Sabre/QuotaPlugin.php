@@ -235,13 +235,14 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * Called before relevant HTTP DAV events (when there is an associated View).
 	 * @see initialize() for specific events we're registered for.
 	 *
+	 * @internal
 	 * @param string $path Path relative to the user's home.
 	 * @param int|float|null $length Size to check for, or null to auto-detect.
 	 * @param bool $isDir Whether the target is a directory.
 	 * @throws InsufficientStorage
 	 * @return bool True if there is enough space, otherwise throws.
 	 */
-	private function checkQuota(string $path, $length = null, bool $isDir = false): bool {
+	public function checkQuota(string $path, $length = null, bool $isDir = false): bool {
 		// Auto-detect length if not provided
 		if ($length === null) {
 			$length = $this->getLength();
@@ -278,9 +279,10 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * Only numeric values are considered. If none of the headers contain a valid numeric value,
 	 * returns null.
 	 *
+	 * @internal
 	 * @return int|null The largest valid content length, or null if none is found.
 	 */
-	private function getLength(): ?int {
+	public function getLength(): ?int {
 		$request = $this->server->httpRequest;
 
 		// Get headers as strings
