@@ -148,6 +148,13 @@ jobs:
               "has_npm": true,
               "has_composer": true,
               "makefile_target": "build_ncw_apps_menu_app"
+            },
+            {
+              "name": "ncw_mailtemplate",
+              "path": "apps-external/ncw_mailtemplate",
+              "has_npm": false,
+              "has_composer": true,
+              "makefile_target": "build_ncw_mailtemplate_app"
             }
           ]'
 
