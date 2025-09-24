@@ -52,3 +52,6 @@
 [submodule "apps-external/ncw_mailtemplate"]
 	path = apps-external/ncw_mailtemplate
 	url = git@github.com:IONOS-Productivity/ncw-mailtemplate.git
+[submodule "apps-external/groupfolders"]
+	path = apps-external/groupfolders
+	url = git@github.com:nextcloud/groupfolders.git
