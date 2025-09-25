@@ -523,9 +523,14 @@ class AppManager implements IAppManager {
 					$settingsManager->registerSection('personal', $section);
 				}
 			}
-			if (!empty($info['settings']['delegation'])) {
-				foreach ($info['settings']['delegation'] as $setting) {
+			if (!empty($info['settings']['admin-delegation'])) {
+				foreach ($info['settings']['admin-delegation'] as $setting) {
 					$settingsManager->registerSetting(ISettingsManager::SETTINGS_DELEGATION, $setting);
+				}
+			}
+			if (!empty($info['settings']['admin-delegation-section'])) {
+				foreach ($info['settings']['admin-delegation-section'] as $section) {
+					$settingsManager->registerSection(ISettingsManager::SETTINGS_DELEGATION, $section);
 				}
 			}
 		}
