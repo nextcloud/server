@@ -15,6 +15,7 @@ use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\IConfig;
+use OCP\Server;
 
 class StorageFactory implements IPreviewStorage {
 	private ?IPreviewStorage $backend = null;
@@ -46,7 +47,7 @@ class StorageFactory implements IPreviewStorage {
 		if ($this->objectStoreConfig->hasObjectStore()) {
 			$this->backend = new ObjectStorePreviewStorage($this->objectStoreConfig, $this->config, $this->previewMapper);
 		} else {
-			$this->backend = new LocalPreviewStorage($this->config);
+			$this->backend = Server::get(LocalPreviewStorage::class);
 		}
 
 		return $this->backend;
@@ -54,5 +55,9 @@ class StorageFactory implements IPreviewStorage {
 
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
 		$this->getBackend()->migratePreview($preview, $file);
+	}
+
+	public function scan(): int {
+		return $this->getBackend()->scan();
 	}
 }

@@ -36,4 +36,6 @@ interface IPreviewStorage {
 	 * @throw \Exception
 	 */
 	public function migratePreview(Preview $preview, SimpleFile $file): void;
+
+	public function scan(): int;
 }

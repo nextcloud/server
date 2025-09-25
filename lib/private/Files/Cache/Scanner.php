@@ -65,6 +65,8 @@ class Scanner extends BasicEmitter implements IScanner {
 
 	protected IDBConnection $connection;
 
+	private string $previewFolder;
+
 	public function __construct(\OC\Files\Storage\Storage $storage) {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
@@ -75,6 +77,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->useTransactions = !$config->getValue('filescanner_no_transactions', false);
 		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$this->connection = \OC::$server->get(IDBConnection::class);
+		$this->previewFolder = 'appdata_' . $config->getValue('instanceid', '') . '/preview';
 	}
 
 	/**
@@ -318,7 +321,6 @@ class Scanner extends BasicEmitter implements IScanner {
 
 		try {
 			$data = $this->scanFile($path, $reuse, -1, lock: $lock);
-
 			if ($data !== null && $data['mimetype'] === 'httpd/unix-directory') {
 				$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock, $data['size']);
 				$data['size'] = $size;
@@ -412,6 +414,11 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', [$path, $this->storageId]);
 		$size = 0;
 		$childQueue = $this->handleChildren($path, $recursive, $reuse, $folderId, $lock, $size, $etagChanged);
+
+		if (str_starts_with($path, $this->previewFolder)) {
+			// Preview scanning is handled in LocalPreviewStorage
+			return 0;
+		}
 
 		foreach ($childQueue as $child => [$childId, $childSize]) {
 			// "etag changed" propagates up, but not down, so we pass `false` to the children even if we already know that the etag of the current folder changed

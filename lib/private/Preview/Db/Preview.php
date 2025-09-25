@@ -86,6 +86,41 @@ class Preview extends Entity {
 		$this->addType('version', Types::BIGINT);
 	}
 
+	public static function fromPath(string $path): Preview {
+		$preview = new self();
+		$preview->setFileId((int)basename(dirname($path)));
+
+		$fileName = pathinfo($path, PATHINFO_FILENAME) . '.' . pathinfo($path, PATHINFO_EXTENSION);
+
+		[0 => $baseName, 1 => $extension] = explode('.', $fileName);
+		$preview->setMimetype(match ($extension) {
+			'jpg' | 'jpeg' => IPreview::MIMETYPE_JPEG,
+			'png' => IPreview::MIMETYPE_PNG,
+			'gif' => IPreview::MIMETYPE_GIF,
+			'webp' => IPreview::MIMETYPE_WEBP,
+			default => IPreview::MIMETYPE_JPEG,
+		});
+		$nameSplit = explode('-', $baseName);
+
+		$offset = 0;
+		$preview->setVersion(null);
+		if (count($nameSplit) === 4 || (count($nameSplit) === 3 && is_numeric($nameSplit[2]))) {
+			$offset = 1;
+			$preview->setVersion((int)$nameSplit[0]);
+		}
+
+		$preview->setWidth((int)$nameSplit[$offset + 0]);
+		$preview->setHeight((int)$nameSplit[$offset + 1]);
+
+		$preview->setCropped(false);
+		$preview->setMax(false);
+		if (isset($nameSplit[$offset + 2])) {
+			$preview->setCropped($nameSplit[$offset + 2] === 'crop');
+			$preview->setMax($nameSplit[$offset + 2] === 'max');
+		}
+		return $preview;
+	}
+
 	public function getName(): string {
 		$path = ($this->getVersion() > -1 ? $this->getVersion() . '-' : '') . $this->getWidth() . '-' . $this->getHeight();
 		if ($this->isCropped()) {

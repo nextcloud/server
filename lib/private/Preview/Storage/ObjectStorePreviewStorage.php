@@ -149,4 +149,8 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 			return 'uri:oid:preview:';
 		}
 	}
+
+	public function scan(): int {
+		return 0;
+	}
 }

@@ -82,13 +82,18 @@ class MovePreviewJob extends TimedJob {
 				->setMaxResults(100);
 
 			$result = $qb->executeQuery();
+			$foundOldPreview = false;
 			while ($row = $result->fetch()) {
 				$pathSplit = explode('/', $row['path']);
 				assert(count($pathSplit) >= 2);
 				$fileId = $pathSplit[count($pathSplit) - 2];
 				array_pop($pathSplit);
-				$path = implode('/', $pathSplit);
 				$this->processPreviews($fileId, true);
+				$foundOldPreview = true;
+			}
+
+			if (!$foundOldPreview) {
+				break;
 			}
 
 			// Stop if execution time is more than one hour.
@@ -114,44 +119,21 @@ class MovePreviewJob extends TimedJob {
 		$folder = $this->appData->getFolder($internalPath);
 
 		/**
-		 * @var list<array{
-		 *     file: SimpleFile, width: int, height: int, crop: bool, max: bool, extension: string, mtime: int, size: int, version: ?int
-		 * }> $previewFiles
+		 * @var list<array{file: SimpleFile, preview: Preview}> $previewFiles
 		 */
 		$previewFiles = [];
 
 		foreach ($folder->getDirectoryListing() as $previewFile) {
 			/** @var SimpleFile $previewFile */
-			[0 => $baseName, 1 => $extension] = explode('.', $previewFile->getName());
-			$nameSplit = explode('-', $baseName);
-
-			$offset = 0;
-			$version = null;
-			if (count($nameSplit) === 4 || (count($nameSplit) === 3 && is_numeric($nameSplit[2]))) {
-				$offset = 1;
-				$version = (int)$nameSplit[0];
-			}
-
-			$width = (int)$nameSplit[$offset + 0];
-			$height = (int)$nameSplit[$offset + 1];
-
-			$crop = false;
-			$max = false;
-			if (isset($nameSplit[$offset + 2])) {
-				$crop = $nameSplit[$offset + 2] === 'crop';
-				$max = $nameSplit[$offset + 2] === 'max';
-			}
+			$preview = Preview::fromPath($fileId . '/' . $previewFile->getName());
+			$preview->setSize($previewFile->getSize());
+			$preview->setMtime($previewFile->getMtime());
+			$preview->setOldFileId($previewFile->getId());
+			$preview->setEncrypted(false);
 
 			$previewFiles[] = [
 				'file' => $previewFile,
-				'width' => $width,
-				'height' => $height,
-				'crop' => $crop,
-				'version' => $version,
-				'max' => $max,
-				'extension' => $extension,
-				'size' => $previewFile->getSize(),
-				'mtime' => $previewFile->getMTime(),
+				'preview' => $preview,
 			];
 		}
 
@@ -166,27 +148,11 @@ class MovePreviewJob extends TimedJob {
 
 		if (count($result) > 0) {
 			foreach ($previewFiles as $previewFile) {
-				$preview = new Preview();
-				$preview->setFileId((int)$fileId);
+				$preview = $previewFile['preview'];
 				/** @var SimpleFile $file */
 				$file = $previewFile['file'];
-				$preview->setOldFileId($file->getId());
 				$preview->setStorageId($result[0]['storage']);
 				$preview->setEtag($result[0]['etag']);
-				$preview->setMtime($previewFile['mtime']);
-				$preview->setWidth($previewFile['width']);
-				$preview->setHeight($previewFile['height']);
-				$preview->setCropped($previewFile['crop']);
-				$preview->setVersion($previewFile['version']);
-				$preview->setMax($previewFile['max']);
-				$preview->setEncrypted(false);
-				$preview->setMimetype(match ($previewFile['extension']) {
-					'png' => IPreview::MIMETYPE_PNG,
-					'webp' => IPreview::MIMETYPE_WEBP,
-					'gif' => IPreview::MIMETYPE_GIF,
-					default => IPreview::MIMETYPE_JPEG,
-				});
-				$preview->setSize($previewFile['size']);
 				try {
 					$preview = $this->previewMapper->insert($preview);
 				} catch (Exception $e) {
