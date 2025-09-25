@@ -32,6 +32,7 @@
 	</commands>
 
 	<settings>
-		<delegation>OCA\WebhookListeners\Settings\Admin</delegation>
+		<admin-delegation>OCA\WebhookListeners\Settings\Admin</admin-delegation>
+		<admin-delegation-section>OCA\WebhookListeners\Settings\AdminSection</admin-delegation-section>
 	</settings>
 </info>

@@ -35,7 +35,6 @@
 		<admin>OCA\Settings\Settings\Admin\Sharing</admin>
 		<admin>OCA\Settings\Settings\Admin\Security</admin>
 		<admin>OCA\Settings\Settings\Admin\Delegation</admin>
-		<delegation>OCA\Settings\Settings\Admin\Users</delegation>
 		<admin-section>OCA\Settings\Sections\Admin\Additional</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Delegation</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Groupware</admin-section>
@@ -45,6 +44,8 @@
 		<admin-section>OCA\Settings\Sections\Admin\Security</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Server</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Sharing</admin-section>
+		<admin-delegation>OCA\Settings\Settings\Admin\Users</admin-delegation>
+		<admin-delegation-section>OCA\Settings\Sections\Admin\Users</admin-delegation-section>
 		<personal>OCA\Settings\Settings\Personal\Additional</personal>
 		<personal>OCA\Settings\Settings\Personal\PersonalInfo</personal>
 		<personal>OCA\Settings\Settings\Personal\ServerDevNotice</personal>

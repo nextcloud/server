@@ -411,7 +411,10 @@
                         maxOccurs="unbounded"/>
             <xs:element name="personal-section" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
-			<xs:element name="delegation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="admin-delegation" type="php-class" minOccurs="0"
+						maxOccurs="unbounded"/>
+			<xs:element name="admin-delegation-section" type="php-class" minOccurs="0"
+                        maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
