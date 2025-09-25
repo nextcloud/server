@@ -230,6 +230,7 @@ class Server {
 			$this->server->tree,
 			$logger,
 			$eventDispatcher,
+			\OCP\Server::get(IDateTimeZone::class),
 		));
 		$this->server->addPlugin(\OCP\Server::get(PaginatePlugin::class));
 
