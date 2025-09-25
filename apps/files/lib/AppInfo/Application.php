@@ -13,6 +13,7 @@ use OCA\Files\AdvancedCapabilities;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
+use OCA\Files\ConfigLexicon;
 use OCA\Files\Controller\ApiController;
 use OCA\Files\Dashboard\FavoriteWidget;
 use OCA\Files\DirectEditingCapabilities;
@@ -124,6 +125,9 @@ class Application extends App implements IBootstrap {
 
 		$context->registerNotifierService(Notifier::class);
 		$context->registerDashboardWidget(FavoriteWidget::class);
+
+		$context->registerConfigLexicon(ConfigLexicon::class);
+
 	}
 
 	public function boot(IBootContext $context): void {
