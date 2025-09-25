@@ -94,7 +94,8 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				// Assistant colors (see default theme)
 				'--color-background-assistant' => '#221D2B',
 				'--color-border-assistant' => 'linear-gradient(125deg, #0C3A65 50%, #6204A5 125%)',
-				'--color-element-assistant-icon' => 'linear-gradient(285deg, #CDACE7 15.28%, #008FDB 39.98%, #A180E0 82.05%)',
+				'--color-element-assistant' => 'linear-gradient(214deg, #C8A3E8 12%, #007CFF 39%, #C297DD 86%)',
+				'--color-element-assistant-icon' => 'linear-gradient(214deg, #CDACE7 15.28%, #008FDB 39.98%, #A180E0 82.05%)',
 
 				'--color-element-error' => $colorErrorElement,
 				'--color-element-info' => $colorInfoElement,
