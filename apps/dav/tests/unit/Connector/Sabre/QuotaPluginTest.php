@@ -136,7 +136,7 @@ class QuotaPluginTest extends TestCase {
 		];
 	}
 
-	private function buildFileViewMock(string $quota, string $checkedPath): View {
+	private function buildFileViewMock(int|float|false $quota, string $checkedPath): View {
 		// mock filesystem
 		$view = $this->getMockBuilder(View::class)
 			->onlyMethods(['free_space'])
