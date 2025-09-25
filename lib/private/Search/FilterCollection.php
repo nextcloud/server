@@ -40,4 +40,8 @@ class FilterCollection implements IFilterCollection {
 			yield $k => $v;
 		}
 	}
+
+	public function count(): int {
+		return count($this->filters);
+	}
 }
