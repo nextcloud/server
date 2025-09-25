@@ -119,7 +119,7 @@ class LoginController extends Controller {
 			if (!is_array($loginMessages)) {
 				$loginMessages = [[], []];
 			}
-			$loginMessages[1][] = $this->l10n->t('This community release of Nextcloud is unsupported and push notifications are limited.');
+			//$loginMessages[1][] = $this->l10n->t('This community release of Nextcloud is unsupported and push notifications are limited.');
 		}
 		if (is_array($loginMessages)) {
 			[$errors, $messages] = $loginMessages;
