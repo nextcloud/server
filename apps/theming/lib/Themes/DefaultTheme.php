@@ -185,8 +185,8 @@ class DefaultTheme implements ITheme {
 			// Assistant colors (marking AI generated content)
 			'--color-background-assistant' => '#F6F5FF', // Background for AI generated content
 			'--color-border-assistant' => 'linear-gradient(125deg, #7398FE 50%, #6104A4 125%)', // Border for AI generated content
-			'--color-element-assistant' => 'linear-gradient(238deg, #A569D3 12%, #00679E 39%, #422083 86%)', // Background of primary buttons to interact with the Assistant (e.g. generate content)
-			'--color-element-assistant-icon' => 'linear-gradient(285deg, #9669D3 15%, #00679E 40%, #492083 80%)', // The color used for the Assistant icon
+			'--color-element-assistant' => 'linear-gradient(214deg, #A569D3 12%, #00679E 39%, #422083 86%)', // Background of primary buttons to interact with the Assistant (e.g. generate content)
+			'--color-element-assistant-icon' => 'linear-gradient(214deg, #9669D3 15%, #00679E 40%, #492083 80%)', // The color used for the Assistant icon
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
