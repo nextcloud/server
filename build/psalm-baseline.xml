@@ -1304,8 +1304,10 @@
       <code><![CDATA[listen]]></code>
       <code><![CDATA[listen]]></code>
     </DeprecatedMethod>
+    <InvalidArgument>
+      <code><![CDATA[[$this, 'exceptionErrorHandler']]]></code>
+    </InvalidArgument>
     <NullArgument>
-      <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
     </NullArgument>
   </file>
