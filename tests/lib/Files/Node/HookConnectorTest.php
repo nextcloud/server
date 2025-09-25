@@ -30,6 +30,7 @@ use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeTouchedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\Node;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -85,6 +86,7 @@ class HookConnectorTest extends TestCase {
 			$this->createMock(IUserManager::class),
 			$this->createMock(IEventDispatcher::class),
 			$cacheFactory,
+			$this->createMock(IAppConfig::class),
 		);
 		$this->eventDispatcher = \OC::$server->query(IEventDispatcher::class);
 		$this->logger = \OC::$server->query(LoggerInterface::class);
