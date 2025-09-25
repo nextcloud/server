@@ -254,7 +254,7 @@ class TemplateManager implements ITemplateManager {
 		return $templates;
 	}
 
-	/*
+	/**
 	 * @return list<Field>
 	 */
 	private function getTemplateFields(TemplateFileCreator $type, int $fileId): array {
