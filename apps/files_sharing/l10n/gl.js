@@ -314,7 +314,7 @@ OC.L10N.register(
     "Type an email" : "Escriba un correo",
     "Type an email or federated cloud ID" : "Escriba un correo ou un ID de nube federada.",
     "Unable to load the shares list" : "Non é posíbel cargar a lista de comparticións",
-    "Expires {relativetime}" : "Caducidades {relativetime}",
+    "Expires {relativetime}" : "Caduca ás {relativetime}",
     "this share just expired." : "vén de caducar esta compartición",
     "Shared with you by {owner}" : "Compartido con Vde. por {owner}",
     "Internal shares" : "Comparticións internas",
