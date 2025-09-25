@@ -15,6 +15,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\GenericFileException;
+use OCP\Files\IFilenameValidator;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -65,6 +66,7 @@ class TemplateManager implements ITemplateManager {
 		IConfig $config,
 		IFactory $l10nFactory,
 		LoggerInterface $logger,
+		private IFilenameValidator $filenameValidator,
 	) {
 		$this->serverContainer = $serverContainer;
 		$this->eventDispatcher = $eventDispatcher;
@@ -171,7 +173,9 @@ class TemplateManager implements ITemplateManager {
 				}
 			}
 
-			$targetFile = $folder->newFile(basename($filePath), ($template instanceof File ? $template->fopen('rb') : null));
+			$filename = basename($filePath);
+			$this->filenameValidator->validateFilename($filename);
+			$targetFile = $folder->newFile($filename, ($template instanceof File ? $template->fopen('rb') : null));
 
 			$this->eventDispatcher->dispatchTyped(new FileCreatedFromTemplateEvent($template, $targetFile, $templateFields));
 			return $this->formatFile($userFolder->get($filePath));
