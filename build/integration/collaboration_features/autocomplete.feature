@@ -41,6 +41,63 @@ Feature: autocomplete
     Then get autocomplete for "autocomplete"
       | id | source |
 
+  Scenario: getting autocomplete from address book with enumeration
+    Given As an "admin"
+    And sending "PUT" to "/cloud/users/autocomplete" with
+      | key | email |
+      | value | autocomplete@example.com |
+    And there is a contact in an addressbook
+    When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
+    Then get autocomplete for "auto"
+      | id | source |
+      | auto | users |
+      | autocomplete | users |
+      | autocomplete2 | users |
+    Then get autocomplete for "example"
+      | id | source |
+      | autocomplete | users |
+    Then get autocomplete for "autocomplete@example.com"
+      | id | source |
+      | autocomplete | users |
+    When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "yes"
+    Then get autocomplete for "auto"
+      | id | source |
+      | auto | users |
+      | autocomplete | users |
+      | autocomplete2 | users |
+    Then get autocomplete for "example"
+      | id | source |
+      | autocomplete | users |
+    Then get autocomplete for "autocomplete@example.com"
+      | id | source |
+      | autocomplete | users |
+      | autocomplete | users |
+
+  Scenario: getting autocomplete from address book without enumeration
+    Given As an "admin"
+    And sending "PUT" to "/cloud/users/autocomplete" with
+      | key | email |
+      | value | autocomplete@example.com |
+    And there is a contact in an addressbook
+    And parameter "shareapi_allow_share_dialog_user_enumeration" of app "core" is set to "no"
+    When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "no"
+    Then get autocomplete for "auto"
+      | id | source |
+    Then get autocomplete for "example"
+      | id | source |
+    Then get autocomplete for "autocomplete@example.com"
+      | id | source |
+    When parameter "shareapi_restrict_user_enumeration_full_match" of app "core" is set to "yes"
+    Then get autocomplete for "auto"
+      | id | source |
+      | auto | users |
+    Then get autocomplete for "example"
+      | id | source |
+    Then get autocomplete for "autocomplete@example.com"
+      | id | source |
+      | autocomplete | users |
+      | autocomplete | users |
+
   Scenario: getting autocomplete emails from address book with enumeration
     Given As an "admin"
     And sending "PUT" to "/cloud/users/autocomplete" with
