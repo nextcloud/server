@@ -21,7 +21,6 @@ module.exports = {
 		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
 		'public-page-user-menu': path.resolve(__dirname, 'core/src', 'public-page-user-menu.ts'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
-		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.ts'),
 		'legacy-unified-search': path.join(__dirname, 'core/src', 'legacy-unified-search.js'),
 		'unsupported-browser': path.join(__dirname, 'core/src', 'unsupported-browser.js'),

@@ -49,7 +49,6 @@ class Application extends App implements IBootstrap {
 			$dispatcher->addListener(
 				LoadAdditionalScriptsEvent::class,
 				function (): void {
-					Util::addScript('core', 'systemtags');
 					Util::addInitScript(self::APP_ID, 'init');
 				}
 			);
