@@ -16,6 +16,7 @@ use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -139,6 +140,7 @@ class PreviewManager implements IPreview {
 				$this->container->get(LoggerInterface::class),
 				$this->container->get(PreviewMapper::class),
 				$this->container->get(StorageFactory::class),
+				$this->container->get(IMimeTypeLoader::class),
 			);
 		}
 		return $this->generator;

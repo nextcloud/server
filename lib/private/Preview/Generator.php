@@ -12,6 +12,7 @@ use OC\Preview\Storage\PreviewFile;
 use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -38,6 +39,7 @@ class Generator {
 		private LoggerInterface $logger,
 		private PreviewMapper $previewMapper,
 		private StorageFactory $storageFactory,
+		private IMimeTypeLoader $mimeTypeLoader,
 	) {
 	}
 
@@ -541,6 +543,7 @@ class Generator {
 		$previewEntry->setFileId($file->getId());
 		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 		$previewEntry->setWidth($width);
+		$previewEntry->setSourceMimetype($this->mimeTypeLoader->getId($file->getMimeType()));
 		$previewEntry->setHeight($height);
 		$previewEntry->setVersion($version);
 		$previewEntry->setMax($max);

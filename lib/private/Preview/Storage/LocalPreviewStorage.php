@@ -101,7 +101,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 					$preview->setEncrypted(false);
 
 					$qb = $this->connection->getQueryBuilder();
-					$result = $qb->select('*')
+					$result = $qb->select('storage', 'etag', 'mimetype')
 						->from('filecache')
 						->where($qb->expr()->eq('fileid', $qb->createNamedParameter($preview->getFileId())))
 						->setMaxResults(1)
@@ -127,6 +127,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 
 					$preview->setStorageId($result[0]['storage']);
 					$preview->setEtag($result[0]['etag']);
+					$preview->setSourceMimetype($result[0]['mimetype']);
 
 					// try to insert, if that fails the preview is already in the DB
 					$this->previewMapper->insert($preview);

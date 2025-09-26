@@ -35,6 +35,8 @@ use OCP\IPreview;
  * @method void setCropped(bool $cropped)
  * @method void setMimetype(int $mimetype) Set the mimetype of the preview.
  * @method int getMimetype() Get the mimetype of the preview.
+ * @method void setSourceMimetype(int $sourceMimetype) Set the mimetype of the source file.
+ * @method int getSourceMimetype() Get the mimetype of the source file.
  * @method int getMtime() Get the modification time of the preview.
  * @method void setMtime(int $mtime)
  * @method int getSize() Get the size of the preview.
@@ -61,6 +63,8 @@ class Preview extends Entity {
 	protected ?int $width = null;
 	protected ?int $height = null;
 	protected ?int $mimetype = null;
+
+	protected ?int $sourceMimetype = null;
 	protected ?int $mtime = null;
 	protected ?int $size = null;
 	protected ?bool $max = null;
@@ -77,6 +81,7 @@ class Preview extends Entity {
 		$this->addType('width', Types::INTEGER);
 		$this->addType('height', Types::INTEGER);
 		$this->addType('mimetype', Types::INTEGER);
+		$this->addType('sourceMimetype', Types::INTEGER);
 		$this->addType('mtime', Types::INTEGER);
 		$this->addType('size', Types::INTEGER);
 		$this->addType('max', Types::BOOLEAN);

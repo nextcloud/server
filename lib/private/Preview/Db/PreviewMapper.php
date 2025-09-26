@@ -139,4 +139,19 @@ class PreviewMapper extends QBMapper {
 		return $this->yieldEntities($qb);
 
 	}
+
+	/**
+	 * @param int[] $mimeTypes
+	 * @return \Generator<Preview>
+	 */
+	public function getPreviewsForMimeTypes(array $mimeTypes): \Generator {
+		$qb = $this->db->getQueryBuilder();
+		$this->joinLocation($qb)
+			->where($qb->expr()->orX(
+				...array_map(function (int $mimeType) use ($qb) {
+					return $qb->expr()->eq('source_mimetype', $qb->createNamedParameter($mimeType, IQueryBuilder::PARAM_INT));
+				}, $mimeTypes)
+			));
+		return $this->yieldEntities($qb);
+	}
 }
