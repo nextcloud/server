@@ -18,16 +18,14 @@ use OCA\Files_External\Lib\Storage\FTP;
  * @package OCA\Files_External\Tests\Storage
  */
 class FtpTest extends \Test\Files\Storage\Storage {
-	private $config;
+	use ConfigurableStorageTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.ftp.php');
-		if (! is_array($this->config) or ! $this->config['run']) {
-			$this->markTestSkipped('FTP backend not configured');
-		}
+		$this->loadConfig('files_external/tests/config.ftp.php');
+
 		$rootInstance = new FTP($this->config);
 		$rootInstance->mkdir($id);
 
