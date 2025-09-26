@@ -37,6 +37,8 @@ class Sharing implements IDelegatedSettings {
 		$excludedPasswordGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
 		$onlyShareWithGroupMembersExcludeGroupList = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
 
+		/** @var \OC\Share20\Manager */
+		$share20Manager = $this->shareManager;
 		$parameters = [
 			// Built-In Sharing
 			'enabled' => $this->getHumanBooleanConfig('core', 'shareapi_enabled', true),
@@ -49,7 +51,7 @@ class Sharing implements IDelegatedSettings {
 			'restrictUserEnumerationToGroup' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_to_group'),
 			'restrictUserEnumerationToPhone' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_to_phone'),
 			'restrictUserEnumerationFullMatch' => $this->shareManager->allowEnumerationFullMatch(),
-			'restrictUserEnumerationFullMatchUserId' => $this->shareManager->matchUserId(),
+			'restrictUserEnumerationFullMatchUserId' => $share20Manager->matchUserId(),
 			'restrictUserEnumerationFullMatchEmail' => $this->shareManager->matchEmail(),
 			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->shareManager->ignoreSecondDisplayName(),
 			'enforceLinksPassword' => Util::isPublicLinkPasswordRequired(false),
