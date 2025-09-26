@@ -97,6 +97,11 @@ class CheckerTest extends TestCase {
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
 		$rsa = RSA::loadPrivateKey($rsaPrivateKey);
+		// After loading the key, always set the PSS padding and options:
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeAppSignature('NotExistingApp', $x509, $rsa);
@@ -116,6 +121,11 @@ class CheckerTest extends TestCase {
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
 		$rsaPrivateKey = file_get_contents(__DIR__ .'/../../data/integritycheck/SomeApp.key');
 		$rsa = RSA::loadPrivateKey($rsaPrivateKey);
+		// After loading the key, always set the PSS padding and options:
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeAppSignature(\OC::$SERVERROOT . '/tests/data/integritycheck/app/', $x509, $rsa);
@@ -153,7 +163,12 @@ class CheckerTest extends TestCase {
 
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
-		$rsa = RSA::load($rsaPrivateKey);
+		$rsa = RSA::loadPrivateKey($rsaPrivateKey);
+		// After loading the key, always set the PSS padding and options:
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeAppSignature(\OC::$SERVERROOT . '/tests/data/integritycheck/app/', $x509, $rsa);
@@ -484,6 +499,11 @@ class CheckerTest extends TestCase {
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
 		$rsa = RSA::loadPrivateKey($rsaPrivateKey);
+		// After loading the key, always set the PSS padding and options:
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
@@ -507,6 +527,11 @@ class CheckerTest extends TestCase {
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/SomeApp.key');
 		$rsa = RSA::loadPrivateKey($rsaPrivateKey);
+		// After loading the key, always set the PSS padding and options:
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
@@ -541,6 +566,11 @@ class CheckerTest extends TestCase {
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/core.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/core.key');
 		$rsa = RSA::loadPrivateKey($rsaPrivateKey);
+		// After loading the key, always set the PSS padding and options:
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/app/');
@@ -575,6 +605,11 @@ class CheckerTest extends TestCase {
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/core.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/core.key');
 		$rsa = RSA::loadPrivateKey($rsaPrivateKey);
+		// After loading the key, always set the PSS padding and options:
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified/');
@@ -604,6 +639,11 @@ class CheckerTest extends TestCase {
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/core.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/core.key');
 		$rsa = RSA::loadPrivateKey($rsaPrivateKey);
+		// After loading the key, always set the PSS padding and options:
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithInvalidModifiedContent/');
@@ -638,6 +678,11 @@ class CheckerTest extends TestCase {
 		$keyBundle = file_get_contents(__DIR__ . '/../../data/integritycheck/core.crt');
 		$rsaPrivateKey = file_get_contents(__DIR__ . '/../../data/integritycheck/core.key');
 		$rsa = RSA::loadPrivateKey($rsaPrivateKey);
+		// After loading the key, always set the PSS padding and options:
+		$rsa = $rsa
+			->withPadding(RSA::SIGNATURE_PSS)
+			->withMGFHash('sha512')
+			->withSaltLength(0);
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent');
