@@ -25,10 +25,12 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\Server;
 use OCP\Util;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class CleaningDBConfig extends DBConfigService {
 	private $mountIds = [];
@@ -50,40 +52,15 @@ class CleaningDBConfig extends DBConfigService {
  * @group DB
  */
 abstract class StoragesServiceTest extends \Test\TestCase {
-	/**
-	 * @var StoragesService
-	 */
+	/** @var StoragesService $service */
 	protected $service;
-
-	/** @var BackendService */
-	protected $backendService;
-
-	/**
-	 * Data directory
-	 *
-	 * @var string
-	 */
-	protected $dataDir;
-
-	/** @var CleaningDBConfig */
-	protected $dbConfig;
-
-	/**
-	 * Hook calls
-	 *
-	 * @var array
-	 */
-	protected static $hookCalls;
-
-	/**
-	 * @var \PHPUnit\Framework\MockObject\MockObject|IUserMountCache
-	 */
-	protected $mountCache;
-
-	/**
-	 * @var \PHPUnit\Framework\MockObject\MockObject|IEventDispatcher
-	 */
-	protected IEventDispatcher $eventDispatcher;
+	protected BackendService&MockObject $backendService;
+	protected string $dataDir;
+	protected CleaningDBConfig $dbConfig;
+	protected static array $hookCalls;
+	protected IUserMountCache&MockObject $mountCache;
+	protected IEventDispatcher&MockObject $eventDispatcher;
+	protected IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -98,6 +75,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 		$this->mountCache = $this->createMock(IUserMountCache::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		// prepare BackendService mock
 		$this->backendService =
