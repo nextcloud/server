@@ -22,7 +22,6 @@ SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: Yehuda Katz
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
@@ -334,9 +333,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - gopd
 	- version: 1.2.0
-	- license: MIT
-- handlebars
-	- version: 4.7.8
 	- license: MIT
 - has-property-descriptors
 	- version: 1.0.2
