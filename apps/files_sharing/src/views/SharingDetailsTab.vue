@@ -1001,7 +1001,7 @@ export default {
 				this.share.note = ''
 			}
 			if (this.isPasswordProtected) {
-				if (this.isPasswordEnforced && this.isNewShare && !this.isValidShareAttribute(this.share.password)) {
+				if (this.isPasswordEnforced && this.isNewShare && !this.isValidShareAttribute(this.share.newPassword)) {
 					this.passwordError = true
 				}
 			} else {
