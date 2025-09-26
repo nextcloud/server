@@ -237,7 +237,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @throws InsufficientStorage
 	 * @return bool True if there is enough space, otherwise throws.
 	 */
-	public function checkQuota(string $path, $length = null, bool $isDir = false): bool {
+	public function checkQuota(string $path, int|float|null $length = null, bool $isDir = false): bool {
 		// Auto-detect length if not provided
 		if ($length === null) {
 			$length = $this->getLength();
