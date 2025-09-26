@@ -10,6 +10,7 @@ import escapeHTML from 'escape-html'
 (function(OC) {
 	/**
 	 * @namespace
+	 * @deprecated since 32.0.0
 	 */
 	OC.SystemTags = {
 		/**
