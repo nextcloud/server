@@ -4,7 +4,7 @@
 -->
 <template>
 	<form class="sharing">
-		<NcCheckboxRadioSwitch aria-controls="settings-sharing-api settings-sharing-api-settings settings-sharing-default-permissions settings-sharing-privary-related"
+		<NcCheckboxRadioSwitch aria-controls="settings-sharing-api settings-sharing-api-settings settings-sharing-default-permissions settings-sharing-privacy-related"
 			type="switch"
 			:checked.sync="settings.enabled">
 			{{ t('settings', 'Allow apps to use the Share API') }}
@@ -174,7 +174,7 @@
 			</fieldset>
 		</div>
 
-		<div v-show="settings.enabled" id="settings-sharing-privary-related" class="sharing__section">
+		<div v-show="settings.enabled" id="settings-sharing-privacy-related" class="sharing__section">
 			<h3>{{ t('settings', 'Privacy settings for sharing') }}</h3>
 
 			<NcCheckboxRadioSwitch type="switch"
@@ -183,33 +183,52 @@
 				{{ t('settings', 'Allow account name autocompletion in share dialog and allow access to the system address book') }}
 			</NcCheckboxRadioSwitch>
 			<fieldset v-show="settings.allowShareDialogUserEnumeration" id="settings-sharing-privacy-user-enumeration" class="sharing__sub-section">
+				<legend class="hidden-visually">
+					{{ t('settings', 'Sharing autocompletion restrictions') }}
+				</legend>
 				<em>
-					{{ t('settings', 'If autocompletion "same group" and "phone number integration" are enabled a match in either is enough to show the user.') }}
+					{{ t('settings', 'If autocompletion restrictions for both "same group" and "phonebook integration" are enabled, a match in either is enough to show the user.') }}
 				</em>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationToGroup">
 					{{ t('settings', 'Restrict account name autocompletion and system address book access to users within the same groups') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationToPhone">
-					{{ t('settings', 'Restrict account name autocompletion to users based on phone number integration') }}
+					{{ t('settings', 'Restrict account name autocompletion to users based on their phonebook') }}
 				</NcCheckboxRadioSwitch>
 			</fieldset>
 
-			<NcCheckboxRadioSwitch type="switch" :checked.sync="settings.restrictUserEnumerationFullMatch">
-				{{ t('settings', 'Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)') }}
+			<NcCheckboxRadioSwitch v-model="settings.restrictUserEnumerationFullMatch"
+				type="switch"
+				aria-controls="settings-sharing-privacy-autocomplete">
+				{{ t('settings', 'Allow autocompletion to full match when entering the full name (ignoring restrictions like group membership or missing phonebook match)') }}
 			</NcCheckboxRadioSwitch>
+			<fieldset v-show="settings.restrictUserEnumerationFullMatch" id="settings-sharing-privacy-autocomplete" class="sharing__sub-section">
+				<legend class="hidden-visually">
+					{{ t('settings', 'Full match autocompletion restrictions') }}
+				</legend>
+				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationFullMatchUserId">
+					{{ t('settings', 'Also allow autocompletion on full match of the user id') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationFullMatchEmail">
+					{{ t('settings', 'Also allow autocompletion on full match of the user email') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationFullMatchIgnoreSecondDN">
+					{{ t('settings', 'Do not use second user displayname for full match') }}
+				</NcCheckboxRadioSwitch>
+			</fieldset>
 
 			<NcCheckboxRadioSwitch type="switch" :checked.sync="publicShareDisclaimerEnabled">
 				{{ t('settings', 'Show disclaimer text on the public link upload page (only shown when the file list is hidden)') }}
 			</NcCheckboxRadioSwitch>
 			<div v-if="publicShareDisclaimerEnabled"
-				aria-describedby="settings-sharing-privary-related-disclaimer-hint"
+				aria-describedby="settings-sharing-privacy-related-disclaimer-hint"
 				class="sharing__sub-section">
 				<NcTextArea class="sharing__input"
 					:label="t('settings', 'Disclaimer text')"
-					aria-describedby="settings-sharing-privary-related-disclaimer-hint"
+					aria-describedby="settings-sharing-privacy-related-disclaimer-hint"
 					:value="settings.publicShareDisclaimerText"
 					@update:value="onUpdateDisclaimer" />
-				<em id="settings-sharing-privary-related-disclaimer-hint" class="sharing__input">
+				<em id="settings-sharing-privacy-related-disclaimer-hint" class="sharing__input">
 					{{ t('settings', 'This text will be shown on the public link upload page when the file list is hidden.') }}
 				</em>
 			</div>
