@@ -41,7 +41,7 @@ class InternetConnectivity implements ISetupCheck {
 		}
 
 		$siteArray = $this->config->getSystemValue('connectivity_check_domains', [
-			'https://connectivity.nextcloud.com', 'https://www.startpage.com', 'https://www.eff.org', 'https://www.edri.org'
+			'https://connectivity.nextcloud.com', 'https://www.eff.org', 'https://edri.org'
 		]);
 
 		foreach ($siteArray as $site) {
