@@ -15,6 +15,7 @@ use OC\Files\View;
 use OCA\DAV\Upload\FutureFile;
 use OCA\DAV\Upload\UploadFolder;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Util;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\INode;
