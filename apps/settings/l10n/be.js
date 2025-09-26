@@ -88,6 +88,7 @@ OC.L10N.register(
     "You are currently running PHP %s." : "Вы зараз выкарыстоўваеце PHP %s.",
     "PHP \"output_buffering\" option" : "Параметр PHP \"output_buffering\"",
     "PHP configuration option \"output_buffering\" must be disabled" : "Параметр канфігурацыі PHP \"output_buffering\" павінен быць адключаны",
+    "HTTP headers" : "Загалоўкі HTTP",
     "Database version" : "Версія базы даных",
     "Unknown database platform" : "Невядомая платформа базы даных",
     "Architecture" : "Архітэктура",

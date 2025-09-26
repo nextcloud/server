@@ -38,7 +38,7 @@ OC.L10N.register(
     "Flow" : "Проток",
     "Select a filter" : "Изберете филтер",
     "Select a comparator" : "Изберете компаратор",
-    "Remove filter" : "Острани филтер",
+    "Remove filter" : "Отстрани филтер",
     "Folder" : "Папка",
     "Images" : "Слики",
     "Office documents" : "Office документи",
