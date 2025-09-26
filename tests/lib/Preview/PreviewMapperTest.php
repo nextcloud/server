@@ -68,6 +68,7 @@ class PreviewMapperTest extends TestCase {
 		$preview->setCropped(true);
 		$preview->setMax(true);
 		$preview->setWidth(100);
+		$preview->setSourceMimetype(1);
 		$preview->setHeight(100);
 		$preview->setSize(100);
 		$preview->setMtime(time());

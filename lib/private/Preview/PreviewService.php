@@ -71,7 +71,15 @@ class PreviewService {
 	 * @return \Generator<Preview>
 	 */
 	public function getAvailablePreviewForFile(int $fileId): \Generator {
-		yield from $this->previewMapper->getAvailablePreviewForFile($fileId);
+		return $this->previewMapper->getAvailablePreviewForFile($fileId);
+	}
+
+	/**
+	 * @param int[] $mimeTypes
+	 * @return \Generator<Preview>
+	 */
+	public function getPreviewsForMimeTypes(array $mimeTypes): \Generator {
+		return $this->previewMapper->getPreviewsForMimeTypes($mimeTypes);
 	}
 
 	public function deleteAll(): void {

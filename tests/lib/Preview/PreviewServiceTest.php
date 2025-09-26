@@ -43,6 +43,7 @@ class PreviewServiceTest extends TestCase {
 			$preview->setWidth($i);
 			$preview->setHeight($i);
 			$preview->setMax(true);
+			$preview->setSourceMimetype(1);
 			$preview->setCropped(true);
 			$preview->setEncrypted(false);
 			$preview->setMimetype(IPreview::MIMETYPE_JPEG);

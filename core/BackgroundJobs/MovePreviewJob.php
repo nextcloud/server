@@ -24,7 +24,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
-use OCP\IPreview;
 
 class MovePreviewJob extends TimedJob {
 	private IAppData $appData;
@@ -138,7 +137,7 @@ class MovePreviewJob extends TimedJob {
 		}
 
 		$qb = $this->connection->getQueryBuilder();
-		$qb->select('*')
+		$qb->select('storage', 'etag', 'mimetype')
 			->from('filecache')
 			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId)))
 			->setMaxResults(1);
@@ -153,6 +152,7 @@ class MovePreviewJob extends TimedJob {
 				$file = $previewFile['file'];
 				$preview->setStorageId($result[0]['storage']);
 				$preview->setEtag($result[0]['etag']);
+				$preview->setSourceMimetype($result[0]['mimetype']);
 				try {
 					$preview = $this->previewMapper->insert($preview);
 				} catch (Exception $e) {

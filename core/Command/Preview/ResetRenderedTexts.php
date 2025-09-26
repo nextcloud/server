@@ -67,9 +67,7 @@ class ResetRenderedTexts extends Command {
 
 			try {
 				$avatar->remove();
-			} catch (NotFoundException $e) {
-				// continue
-			} catch (NotPermittedException $e) {
+			} catch (NotFoundException|NotPermittedException) {
 				// continue
 			}
 		}
@@ -91,8 +89,8 @@ class ResetRenderedTexts extends Command {
 	private function deletePreviews(OutputInterface $output, bool $dryMode): void {
 		$previewsToDeleteCount = 0;
 
-		foreach ($this->getPreviewsToDelete() as ['path' => $filePath, 'preview' => $preview]) {
-			$output->writeln('Deleting previews for ' . $filePath, OutputInterface::VERBOSITY_VERBOSE);
+		foreach ($this->getPreviewsToDelete() as $preview) {
+			$output->writeln('Deleting preview ' . $preview->getName() . ' for fileId ' . $preview->getFileId(), OutputInterface::VERBOSITY_VERBOSE);
 
 			$previewsToDeleteCount++;
 
@@ -107,28 +105,13 @@ class ResetRenderedTexts extends Command {
 	}
 
 	/**
-	 * @return \Iterator<array{path: string, preview: Preview}>
+	 * @return \Generator<Preview>
 	 */
-	private function getPreviewsToDelete(): \Iterator {
-		$qb = $this->connection->getQueryBuilder();
-		$qb->select('fileid', 'path')
-			->from('filecache')
-			->where(
-				$qb->expr()->orX(
-					$qb->expr()->eq('mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('text/plain'))),
-					$qb->expr()->eq('mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('text/markdown'))),
-					$qb->expr()->eq('mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('text/x-markdown')))
-				)
-			);
-
-		$cursor = $qb->executeQuery();
-
-		while ($row = $cursor->fetch()) {
-			foreach ($this->previewService->getAvailablePreviewForFile($row['fileid']) as $preview) {
-				yield ['path' => $row['path'], 'preview' => $preview];
-			}
-		}
-
-		$cursor->closeCursor();
+	private function getPreviewsToDelete(): \Generator {
+		return $this->previewService->getPreviewsForMimeTypes([
+			$this->mimeTypeLoader->getId('text/plain'),
+			$this->mimeTypeLoader->getId('text/markdown'),
+			$this->mimeTypeLoader->getId('text/x-markdown'),
+		]);
 	}
 }

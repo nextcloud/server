@@ -14,6 +14,7 @@ use OC\Preview\GeneratorHelper;
 use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -34,6 +35,7 @@ class GeneratorTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private StorageFactory&MockObject $storageFactory;
 	private PreviewMapper&MockObject $previewMapper;
+	private IMimeTypeLoader&MockObject $mimeTypeLoader;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,6 +47,7 @@ class GeneratorTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->previewMapper = $this->createMock(PreviewMapper::class);
 		$this->storageFactory = $this->createMock(StorageFactory::class);
+		$this->mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
 
 		$this->generator = new Generator(
 			$this->config,
@@ -53,7 +56,8 @@ class GeneratorTest extends TestCase {
 			$this->eventDispatcher,
 			$this->logger,
 			$this->previewMapper,
-			$this->storageFactory
+			$this->storageFactory,
+			$this->mimetypeLoader,
 		);
 	}
 
