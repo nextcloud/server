@@ -42,6 +42,26 @@ class Movie extends ProviderV2 {
 		return is_string($this->binary);
 	}
 
+	private function connectDirect(File $file): string|false {
+		if (stream_get_meta_data($file->fopen('r'))['seekable'] !== true) {
+			return false;
+		}
+
+		// Checks for availability to access the video file directly via HTTP/HTTPS.
+		// Returns a string containing URL if available. Only implemented and tested
+		// with Amazon S3 currently.  In all other cases, return false. ffmpeg
+		// supports other protocols so this function may expand in the future.
+		$gddValues = $file->getStorage()->getDirectDownload($file->getName());
+
+		if (is_array($gddValues)) {
+			if (array_key_exists('url', $gddValues) && array_key_exists('presigned', $gddValues)) {
+				$directUrl = (str_starts_with($gddValues['url'], 'http') && ($gddValues['presigned'] === true)) ? $gddValues['url'] : false;
+				return $directUrl;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -54,58 +74,72 @@ class Movie extends ProviderV2 {
 
 		$result = null;
 
+		$connectDirect = $this->connectDirect($file);
+
 		// Timestamps to make attempts to generate a still
 		$timeAttempts = [5, 1, 0];
 
-		// By default, download $sizeAttempts from the file along with
-		// the 'moov' atom.
-		// Example bitrates in the higher range:
-		// 4K HDR H265 60 FPS = 75 Mbps = 9 MB per second needed for a still
-		// 1080p H265 30 FPS = 10 Mbps = 1.25 MB per second needed for a still
-		// 1080p H264 30 FPS = 16 Mbps = 2 MB per second needed for a still
-		$sizeAttempts = [1024 * 1024 * 10];
+		// If HTTP/HTTPS direct connect is not available or if the file is encrypted,
+		// process normally
+		if (($connectDirect === false) || $file->isEncrypted()) {
+			// By default, download $sizeAttempts from the file along with
+			// the 'moov' atom.
+			// Example bitrates in the higher range:
+			// 4K HDR H265 60 FPS = 75 Mbps = 9 MB per second needed for a still
+			// 1080p H265 30 FPS = 10 Mbps = 1.25 MB per second needed for a still
+			// 1080p H264 30 FPS = 16 Mbps = 2 MB per second needed for a still
+			$sizeAttempts = [1024 * 1024 * 10];
 
-		if ($this->useTempFile($file)) {
-			if ($file->getStorage()->isLocal()) {
-				// Temp file required but file is local, so retrieve $sizeAttempt bytes first,
-				// and if it doesn't work, retrieve the entire file.
-				$sizeAttempts[] = null;
-			}
-		} else {
-			// Temp file is not required and file is local so retrieve entire file.
-			$sizeAttempts = [null];
-		}
-
-		foreach ($sizeAttempts as $size) {
-			$absPath = false;
-			// File is remote, generate a sparse file
-			if (!$file->getStorage()->isLocal()) {
-				$absPath = $this->getSparseFile($file, $size);
-			}
-			// Defaults to existing routine if generating sparse file fails
-			if ($absPath === false) {
-				$absPath = $this->getLocalFile($file, $size);
-			}
-			if ($absPath === false) {
-				Server::get(LoggerInterface::class)->error(
-					'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
-					['app' => 'core']
-				);
-				return null;
+			if ($this->useTempFile($file)) {
+				if ($file->getStorage()->isLocal()) {
+					// Temp file required but file is local, so retrieve $sizeAttempt bytes first,
+					// and if it doesn't work, retrieve the entire file.
+					$sizeAttempts[] = null;
+				}
+			} else {
+				// Temp file is not required and file is local so retrieve entire file.
+				$sizeAttempts = [null];
 			}
 
-			// Attempt still image grabs from selected timestamps
-			foreach ($timeAttempts as $timeStamp) {
-				$result = $this->generateThumbNail($maxX, $maxY, $absPath, $timeStamp);
+			foreach ($sizeAttempts as $size) {
+				$absPath = false;
+				// File is remote, generate a sparse file
+				if (!$file->getStorage()->isLocal()) {
+					$absPath = $this->getSparseFile($file, $size);
+				}
+				// Defaults to existing routine if generating sparse file fails
+				if ($absPath === false) {
+					$absPath = $this->getLocalFile($file, $size);
+				}
+				if ($absPath === false) {
+					Server::get(LoggerInterface::class)->error(
+						'Failed to get local file to generate thumbnail for: ' . $file->getPath(),
+						['app' => 'core']
+					);
+					return null;
+				}
+
+				// Attempt still image grabs from selected timestamps
+				foreach ($timeAttempts as $timeStamp) {
+					$result = $this->generateThumbNail($maxX, $maxY, $absPath, $timeStamp);
+					if ($result !== null) {
+						break;
+					}
+				}
+
+				$this->cleanTmpFiles();
+
 				if ($result !== null) {
 					break;
 				}
 			}
-
-			$this->cleanTmpFiles();
-
-			if ($result !== null) {
-				break;
+		} else {
+			// HTTP/HTTPS direct connect is available so pass the URL directly to ffmpeg
+			foreach ($timeAttempts as $timeStamp) {
+				$result = $this->generateThumbNail($maxX, $maxY, $connectDirect, $timeStamp);
+				if ($result !== null) {
+					break;
+				}
 			}
 		}
 		return $result;
@@ -219,7 +253,8 @@ class Movie extends ProviderV2 {
 
 	private function useHdr(string $absPath): bool {
 		// load ffprobe path from configuration, otherwise generate binary path using ffmpeg binary path
-		$ffprobe_binary = $this->config->getSystemValue('preview_ffprobe_path', null) ?? (pathinfo($this->binary, PATHINFO_DIRNAME) . '/ffprobe');
+		$ffprobe_binary = $this->config->getSystemValue('preview_ffprobe_path', null)
+			?? (pathinfo($this->binary, PATHINFO_DIRNAME) . '/ffprobe');
 		// run ffprobe on the video file to get value of "color_transfer"
 		$test_hdr_cmd = [$ffprobe_binary,'-select_streams', 'v:0',
 			'-show_entries', 'stream=color_transfer',
