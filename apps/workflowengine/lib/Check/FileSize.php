@@ -75,7 +75,9 @@ class FileSize implements ICheck {
 
 		$size = $this->request->getHeader('OC-Total-Length');
 		if ($size === '') {
-			if (in_array($this->request->getMethod(), ['POST', 'PUT'])) {
+			// Try fallback for upload methods
+			$method = $this->request->getMethod();
+			if (in_array($method, ['POST', 'PUT'], true)) {
 				$size = $this->request->getHeader('Content-Length');
 			}
 		}
