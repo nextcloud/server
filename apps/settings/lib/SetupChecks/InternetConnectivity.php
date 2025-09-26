@@ -41,7 +41,7 @@ class InternetConnectivity implements ISetupCheck {
 		}
 
 		$siteArray = $this->config->getSystemValue('connectivity_check_domains', [
-			'https://www.nextcloud.com', 'https://www.startpage.com', 'https://www.eff.org', 'https://www.edri.org'
+			'https://connectivity.nextcloud.com', 'https://www.startpage.com', 'https://www.eff.org', 'https://www.edri.org'
 		]);
 
 		foreach ($siteArray as $site) {
@@ -67,7 +67,7 @@ class InternetConnectivity implements ISetupCheck {
 		}
 		try {
 			$client = $this->clientService->newClient();
-			$client->get($site);
+			$client->head($site);
 		} catch (\Exception $e) {
 			$this->logger->error('Cannot connect to: ' . $site, [
 				'app' => 'internet_connection_check',
