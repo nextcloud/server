@@ -5,13 +5,8 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-FileCopyrightText: 2012 entreCables S.L. All rights reserved
- * SPDX-License-Identifier: AGPL-3.0-only
- */
-
-/*
- * @author Sergio Cambra
- * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
- * @license http://code.google.com/p/sabredav/wiki/License Modified BSD License
+ * SPDX-FileContributor: Sergio Cambra
+ * SPDX-License-Identifier: AGPL-3.0-only AND BSD-3-Clause
  */
 
 namespace OCA\DAV\Connector\Sabre;
@@ -91,7 +86,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			$quotaPath = $this->getPathForDestination($destinationPath);
 
 			if ($quotaPath && is_numeric($totalLength)) {
-				return $this->checkQuota($quotaPath, (int)$totalLength);
+				return $this->checkQuota($quotaPath, Util::numericToNumber($totalLength));
 			}
 			// If quota cannot be checked, allow by default
 			// NOTE: We can still check during assembly.
