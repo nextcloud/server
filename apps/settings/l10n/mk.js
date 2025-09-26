@@ -306,7 +306,7 @@ OC.L10N.register(
     "Remove primary email" : "Избриши примарна е-пошта",
     "Delete email" : "Избриши е-пошта",
     "This address is not confirmed" : "Оваа адреса не е потврдена",
-    "Unset as primary email" : "Острани од примарна е-пошта",
+    "Unset as primary email" : "Отстрани од примарна е-пошта",
     "Set as primary email" : "Постави како примарна е-пошта",
     "Additional email address {index}" : "Дополнителна е-пошта {index}",
     "Unable to delete primary email address" : "Неможе да се избрише примарната е-пошта",
