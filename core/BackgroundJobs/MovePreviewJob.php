@@ -24,6 +24,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
+use Override;
 
 class MovePreviewJob extends TimedJob {
 	private IAppData $appData;
@@ -44,6 +45,7 @@ class MovePreviewJob extends TimedJob {
 		$this->setInterval(24 * 60 * 60);
 	}
 
+	#[Override]
 	protected function run(mixed $argument): void {
 		if ($this->appConfig->getValueBool('core', 'previewMovedDone')) {
 			return;

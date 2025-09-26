@@ -17,6 +17,7 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
+use Override;
 
 /**
  * @psalm-import-type ObjectStoreConfig from PrimaryObjectStoreConfig
@@ -39,6 +40,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		$this->isMultibucketPreviewDistributionEnabled = $config->getSystemValueBool('objectstore.multibucket.preview-distribution');
 	}
 
+	#[Override]
 	public function writePreview(Preview $preview, mixed $stream): false|int {
 		if (!is_resource($stream)) {
 			$fh = fopen('php://temp', 'w+');
@@ -63,6 +65,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		return $size;
 	}
 
+	#[Override]
 	public function readPreview(Preview $preview): mixed {
 		[
 			'objectPrefix' => $objectPrefix,
@@ -71,6 +74,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		return $store->readObject($this->constructUrn($objectPrefix, $preview->getId()));
 	}
 
+	#[Override]
 	public function deletePreview(Preview $preview): void {
 		[
 			'objectPrefix' => $objectPrefix,
@@ -79,6 +83,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		$store->deleteObject($this->constructUrn($objectPrefix, $preview->getId()));
 	}
 
+	#[Override]
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
 		// Just set the Preview::bucket and Preview::objectStore
 		$this->getObjectStoreForPreview($preview, true);
@@ -150,6 +155,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 		}
 	}
 
+	#[Override]
 	public function scan(): int {
 		return 0;
 	}

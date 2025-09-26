@@ -16,6 +16,7 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\IConfig;
 use OCP\Server;
+use Override;
 
 class StorageFactory implements IPreviewStorage {
 	private ?IPreviewStorage $backend = null;
@@ -27,14 +28,17 @@ class StorageFactory implements IPreviewStorage {
 	) {
 	}
 
+	#[Override]
 	public function writePreview(Preview $preview, mixed $stream): false|int {
 		return $this->getBackend()->writePreview($preview, $stream);
 	}
 
+	#[Override]
 	public function readPreview(Preview $preview): mixed {
 		return $this->getBackend()->readPreview($preview);
 	}
 
+	#[Override]
 	public function deletePreview(Preview $preview): void {
 		$this->getBackend()->deletePreview($preview);
 	}
@@ -53,10 +57,12 @@ class StorageFactory implements IPreviewStorage {
 		return $this->backend;
 	}
 
+	#[Override]
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
 		$this->getBackend()->migratePreview($preview, $file);
 	}
 
+	#[Override]
 	public function scan(): int {
 		return $this->getBackend()->scan();
 	}

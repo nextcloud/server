@@ -16,6 +16,7 @@ use OCP\Files\NotPermittedException;
 use OCP\IAvatarManager;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -32,6 +33,7 @@ class ResetRenderedTexts extends Command {
 		parent::__construct();
 	}
 
+	#[Override]
 	protected function configure(): void {
 		$this
 			->setName('preview:reset-rendered-texts')
@@ -39,6 +41,7 @@ class ResetRenderedTexts extends Command {
 			->addOption('dry', 'd', InputOption::VALUE_NONE, 'Dry mode - will not delete any files - in combination with the verbose mode one could check the operations.');
 	}
 
+	#[Override]
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$dryMode = $input->getOption('dry');
 

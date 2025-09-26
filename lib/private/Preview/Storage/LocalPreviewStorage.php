@@ -19,6 +19,7 @@ use OCP\DB\Exception;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use Override;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -37,6 +38,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		$this->rootFolder = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
 	}
 
+	#[Override]
 	public function writePreview(Preview $preview, mixed $stream): false|int {
 		$previewPath = $this->constructPath($preview);
 		if (!$this->createParentFiles($previewPath)) {
@@ -45,10 +47,12 @@ class LocalPreviewStorage implements IPreviewStorage {
 		return file_put_contents($previewPath, $stream);
 	}
 
+	#[Override]
 	public function readPreview(Preview $preview): mixed {
 		return @fopen($this->constructPath($preview), 'r');
 	}
 
+	#[Override]
 	public function deletePreview(Preview $preview): void {
 		@unlink($this->constructPath($preview));
 	}
@@ -67,6 +71,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		return is_dir($dirname);
 	}
 
+	#[Override]
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
 		// legacy flat directory
 		$sourcePath = $this->getPreviewRootFolder() . $preview->getFileId() . '/' . $preview->getName();
@@ -87,6 +92,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		}
 	}
 
+	#[Override]
 	public function scan(): int {
 		$checkForFileCache = !$this->appConfig->getValueBool('core', 'previewMovedDone');
 
