@@ -726,6 +726,8 @@ class MigrationsTest extends \Test\TestCase {
 		$table->expects($this->any())
 			->method('getName')
 			->willReturn(\str_repeat('a', 30));
+		$table->method('getIndexes')->willReturn([]);
+		$table->method('getForeignKeys')->willReturn([]);
 
 		$table->expects($this->once())
 			->method('getColumns')
@@ -735,6 +737,7 @@ class MigrationsTest extends \Test\TestCase {
 		$schema->expects($this->once())
 			->method('getTables')
 			->willReturn([$table]);
+		$schema->method('getSequences')->willReturn([]);
 
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
