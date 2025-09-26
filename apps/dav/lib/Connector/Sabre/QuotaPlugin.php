@@ -115,7 +115,7 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			$destinationPath = $this->server->calculateUri($request->getUrl());
 			$collectionPath = $this->getPathForDestination($destinationPath);
 		} catch (\Exception $e) {
-			// Optionally log: error_log('Quota check failed during onCreateCollection: ' . $e->getMessage());
+			// Optionally log: e.g. ('Quota check failed during onCreateCollection: ' . $e->getMessage());
 			return true; // Quota cannot be checked, allow by default
 		}
 		if ($collectionPath) {
@@ -275,9 +275,9 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	 * returns null.
 	 *
 	 * @internal
-	 * @return int|null The largest valid content length, or null if none is found.
+	 * @return int|float|null The largest valid content length, or null if none is found.
 	 */
-	public function getLength(): ?int {
+	public function getLength(): int|float|null {
 		$request = $this->server->httpRequest;
 
 		// Get headers as strings
@@ -285,11 +285,11 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		$contentLength = $request->getHeader('Content-Length');
 		$ocTotalLength = $request->getHeader('OC-Total-Length');
 
-		// Filter out non-numeric values, cast to int
+		// Filter out non-numeric values, use Util::numericToNumber for safe conversion
 		$lengths = array_filter([
-			is_numeric($expectedLength) ? (int)$expectedLength : null,
-			is_numeric($contentLength) ? (int)$contentLength : null,
-			is_numeric($ocTotalLength) ? (int)$ocTotalLength : null,
+			is_numeric($expectedLength) ? Util::numericToNumber($expectedLength) : null,
+			is_numeric($contentLength) ? Util::numericToNumber($contentLength) : null,
+			is_numeric($ocTotalLength) ? Util::numericToNumber($ocTotalLength) : null,
 		], fn ($v) => $v !== null);
 
 		// Return the largest valid length, or null if none
