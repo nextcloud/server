@@ -250,7 +250,7 @@ SPDX-FileCopyrightText = "2023 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["apps/dav/lib/ExampleContentFiles/exampleContact.vcf", "tests/data/testvideo-remote-file.mp4", "tests/lib/AppFramework/Middleware/Mock/UseSessionController.php"]
+path = ["apps/dav/lib/ExampleContentFiles/exampleContact.vcf", "tests/data/testvideo-remote-file.mp4", "tests/lib/AppFramework/Middleware/Mock/UseSessionController.php", "tests/lib/AppFramework/Middleware/Security/Mock/BruteForceMiddlewareController.php", "tests/lib/AppFramework/Middleware/Security/Mock/RateLimitingMiddlewareController.php"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"

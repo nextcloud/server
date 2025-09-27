@@ -78,6 +78,7 @@ $config = RectorConfig::configure()
 		$nextcloudDir . '/apps/*/composer/*',
 		$nextcloudDir . '/apps/*/config/*',
 		$nextcloudDir . '/tests/lib/AppFramework/Middleware/Mock/*',
+		$nextcloudDir . '/tests/lib/AppFramework/Middleware/Security/Mock/*',
 	])
 	// uncomment to reach your current PHP version
 	// ->withPhpSets()
@@ -93,7 +94,7 @@ $config = RectorConfig::configure()
 		'rename_property' => true,
 	])
 	->withSets([
-		NextcloudSets::NEXTCLOUD_26,
+		NextcloudSets::NEXTCLOUD_27,
 	]);
 
 $config->registerService(NextcloudNamespaceSkipVoter::class, tag:ClassNameImportSkipVoterInterface::class);
