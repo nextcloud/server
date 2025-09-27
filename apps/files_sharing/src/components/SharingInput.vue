@@ -249,10 +249,12 @@ export default {
 
 			// remove invalid data and format to user-select layout
 			const exactSuggestions = this.filterOutExistingShares(rawExactSuggestions)
+				.filter(result => this.filterByTrustedServer(result))
 				.map(share => this.formatForMultiselect(share))
 				// sort by type so we can get user&groups first...
 				.sort((a, b) => a.shareType - b.shareType)
 			const suggestions = this.filterOutExistingShares(rawSuggestions)
+				.filter(result => this.filterByTrustedServer(result))
 				.map(share => this.formatForMultiselect(share))
 				// sort by type so we can get user&groups first...
 				.sort((a, b) => a.shareType - b.shareType)
@@ -335,6 +337,7 @@ export default {
 
 			// remove invalid data and format to user-select layout
 			this.recommendations = this.filterOutExistingShares(rawRecommendations)
+				.filter(result => this.filterByTrustedServer(result))
 				.map(share => this.formatForMultiselect(share))
 				.concat(externalResults)
 
@@ -455,6 +458,28 @@ export default {
 			default:
 				return {}
 			}
+		},
+
+		/**
+		 * Filter suggestion results based on trusted server configuration
+		 *
+		 * @param {object} result The raw suggestion result from API
+		 * @return {boolean} Whether to include this result in suggestions
+		 */
+		filterByTrustedServer(result) {
+			if (result.value.shareType !== ShareType.Remote && result.value.shareType !== ShareType.RemoteGroup) {
+				return true
+			}
+
+			if (this.isExternal) {
+				return true
+			}
+
+			if (this.config.showFederatedSharesToTrustedServersAsInternal) {
+				return result.value.isTrustedServer || false
+			}
+
+			return true
 		},
 
 		/**
