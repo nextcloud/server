@@ -29,6 +29,11 @@ interface IPreview {
 	 */
 	public const MODE_COVER = 'cover';
 
+	public const MIMETYPE_JPEG = 0;
+	public const MIMETYPE_WEBP = 1;
+	public const MIMETYPE_PNG = 2;
+	public const MIMETYPE_GIF = 3;
+
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be
 	 * called in case preview providers are actually requested

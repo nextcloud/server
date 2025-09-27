@@ -45,11 +45,7 @@ class GeneratorHelper {
 		return $provider->getThumbnail($file, $maxWidth, $maxHeight) ?? false;
 	}
 
-	/**
-	 * @param ISimpleFile $maxPreview
-	 * @return IImage
-	 */
-	public function getImage(ISimpleFile $maxPreview) {
+	public function getImage(ISimpleFile $maxPreview): IImage {
 		$image = new OCPImage();
 		$image->loadFromData($maxPreview->getContent());
 		return $image;
