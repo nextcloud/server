@@ -62,8 +62,10 @@ class UserPlugin implements ISearchPlugin {
 		$users = [];
 		$hasMoreResults = false;
 
-		$currentUserId = $this->userSession->getUser()->getUID();
-		$currentUserGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+		/** @var IUser */
+		$currentUser = $this->userSession->getUser();
+		$currentUserId = $currentUser->getUID();
+		$currentUserGroups = $this->groupManager->getUserGroupIds($currentUser);
 
 		// ShareWithGroupOnly filtering
 		$currentUserGroups = array_diff($currentUserGroups, $this->shareWithGroupOnlyExcludeGroupsList);
@@ -75,7 +77,7 @@ class UserPlugin implements ISearchPlugin {
 				foreach ($usersInGroup as $userId => $displayName) {
 					$userId = (string)$userId;
 					$user = $this->userManager->get($userId);
-					if (!$user->isEnabled()) {
+					if (!$user?->isEnabled()) {
 						// Ignore disabled users
 						continue;
 					}
@@ -85,37 +87,43 @@ class UserPlugin implements ISearchPlugin {
 					$hasMoreResults = true;
 				}
 			}
+		}
 
-			if (!$this->shareWithGroupOnly && $this->shareeEnumerationPhone) {
-				$usersTmp = $this->userManager->searchKnownUsersByDisplayName($currentUserId, $search, $limit, $offset);
-				if (!empty($usersTmp)) {
+		// not limited to group only sharing
+		if (!$this->shareWithGroupOnly) {
+			if (!$this->shareeEnumerationPhone && !$this->shareeEnumerationInGroupOnly) {
+				// no restrictions, add everything
+				$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
+				foreach ($usersTmp as $user) {
+					if ($user->isEnabled()) { // Don't keep deactivated users
+						$users[$user->getUID()] = $user;
+					}
+				}
+			} else {
+				// make sure to add phonebook matches if configured
+				if ($this->shareeEnumerationPhone) {
+					$usersTmp = $this->userManager->searchKnownUsersByDisplayName($currentUserId, $search, $limit, $offset);
 					foreach ($usersTmp as $user) {
 						if ($user->isEnabled()) { // Don't keep deactivated users
 							$users[$user->getUID()] = $user;
 						}
 					}
+				}
 
-					uasort($users, function ($a, $b) {
-						/**
-						 * @var \OC\User\User $a
-						 * @var \OC\User\User $b
-						 */
-						return strcasecmp($a->getDisplayName(), $b->getDisplayName());
-					});
+				// additionally we need to add full matches
+				if ($this->shareeEnumerationFullMatch) {
+					$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
+					foreach ($usersTmp as $user) {
+						if ($user->isEnabled() && mb_strtolower($user->getDisplayName()) === mb_strtolower($search)) {
+							$users[$user->getUID()] = $user;
+						}
+					}
 				}
 			}
-		} else {
-			// Search in all users
-			if ($this->shareeEnumerationPhone) {
-				$usersTmp = $this->userManager->searchKnownUsersByDisplayName($currentUserId, $search, $limit, $offset);
-			} else {
-				$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
-			}
-			foreach ($usersTmp as $user) {
-				if ($user->isEnabled()) { // Don't keep deactivated users
-					$users[$user->getUID()] = $user;
-				}
-			}
+
+			uasort($users, function (IUser $a, IUser $b) {
+				return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+			});
 		}
 
 		$this->takeOutCurrentUser($users);
