@@ -64,9 +64,7 @@ class ExpireTrashTest extends TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @dataProvider retentionObligationProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('retentionObligationProvider')]
 	public function testRetentionObligation(string $obligation, string $quota, int $elapsed, int $fileSize, bool $shouldExpire): void {
 		$this->config->setSystemValues(['trashbin_retention_obligation' => $obligation]);
 		$this->expiration->setRetentionObligation($obligation);

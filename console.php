@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use OCP\IConfig;
+use OCP\IURLGenerator;
 use OCP\Server;
 
 /**
@@ -100,7 +101,7 @@ try {
 		$profile->setUrl(implode(' ', $argv));
 		$profiler->saveProfile($profile);
 
-		$urlGenerator = Server::get(\OCP\IURLGenerator::class);
+		$urlGenerator = Server::get(IURLGenerator::class);
 		$url = $urlGenerator->linkToRouteAbsolute('profiler.main.profiler', [
 			'profiler' => 'db',
 			'token' => $profile->getToken(),
