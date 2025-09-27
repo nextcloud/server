@@ -2123,6 +2123,7 @@ class ShareAPIController extends OCSController {
 
 		$canDownload = false;
 		$hideDownload = true;
+		$userExplicitlySetHideDownload = $share->getHideDownload(); // Capture user's explicit choice
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 		$nodes = $userFolder->getById($share->getNodeId());
@@ -2148,23 +2149,48 @@ class ShareAPIController extends OCSController {
 				/** @var SharedStorage $storage */
 				$originalShare = $storage->getShare();
 				$inheritedAttributes = $originalShare->getAttributes();
-				// hide if hidden and also the current share enforces hide (can only be false if one share is false or user is owner)
-				$hideDownload = $hideDownload && $originalShare->getHideDownload();
-				// allow download if already allowed by previous share or when the current share allows downloading
-				$canDownload = $canDownload || $inheritedAttributes === null || $inheritedAttributes->getAttribute('permissions', 'download') !== false;
+				
+				// For federated shares: users can only be MORE restrictive, never LESS restrictive
+				// If parent has hideDownload=true, child MUST have hideDownload=true
+				$parentHidesDownload = $originalShare->getHideDownload();
+				
+				// Check if download permission is available from parent
+				$parentAllowsDownload = $inheritedAttributes === null || $inheritedAttributes->getAttribute('permissions', 'download') !== false;
+				
+				// Apply inheritance rules:
+				// 1. If parent hides download, child must hide download
+				// 2. If parent allows download, child can choose to hide or allow
+				// 3. If parent forbids download, child cannot allow download
+				if ($parentHidesDownload) {
+					$hideDownload = true; // Parent forces hide, child cannot override
+				} else {
+					$hideDownload = $userExplicitlySetHideDownload; // Respect user's choice when parent allows
+				}
+				
+				$canDownload = $canDownload || $parentAllowsDownload;
+				
 			} elseif ($node->getStorage()->instanceOfStorage(Storage::class)) {
 				$canDownload = true; // in case of federation storage, we can expect the download to be activated by default
+				// For external federation storage, respect user's choice if downloads are available
+				$hideDownload = $userExplicitlySetHideDownload;
 			}
 		}
 
-		if ($hideDownload || !$canDownload) {
+		// Apply the final restrictions:
+		// 1. If parent doesn't allow downloads at all, force hide and disable download attribute
+		// 2. If parent allows downloads, respect user's hideDownload choice
+		if (!$canDownload) {
+			// Parent completely forbids downloads - must enforce this restriction
 			$share->setHideDownload(true);
-
-			if (!$canDownload) {
-				$attributes = $share->getAttributes() ?? $share->newAttributes();
-				$attributes->setAttribute('permissions', 'download', false);
-				$share->setAttributes($attributes);
-			}
+			$attributes = $share->getAttributes() ?? $share->newAttributes();
+			$attributes->setAttribute('permissions', 'download', false);
+			$share->setAttributes($attributes);
+		} elseif ($hideDownload) {
+			// Either parent forces hide, or user chooses to hide - respect this
+			$share->setHideDownload(true);
+		} else {
+			// User explicitly wants to allow downloads and parent permits it
+			$share->setHideDownload(false);
 		}
 	}
 
