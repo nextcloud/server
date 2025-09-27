@@ -407,7 +407,7 @@ class SMB extends Common implements INotifyStorage {
 	 * check if a file or folder has been updated since $time
 	 */
 	public function hasUpdated(string $path, int $time): bool {
-		if (!$path and $this->root === '/') {
+		if (!$path && $this->root === '/') {
 			// mtime doesn't work for shares, but giving the nature of the backend,
 			// doing a full update is still just fast enough
 			return true;

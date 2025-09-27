@@ -46,7 +46,9 @@ class AppManagerTest extends TestCase {
 		$config->expects($this->any())
 			->method('getValue')
 			->willReturnCallback(function ($app, $key, $default) use (&$appConfig) {
-				return (isset($appConfig[$app]) and isset($appConfig[$app][$key])) ? $appConfig[$app][$key] : $default;
+				return (isset($appConfig[$app]) && isset($appConfig[$app][$key]))
+					? $appConfig[$app][$key]
+					: $default;
 			});
 		$config->expects($this->any())
 			->method('setValue')

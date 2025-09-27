@@ -226,7 +226,7 @@ class PreviewManager implements IPreview {
 		}
 
 		$mount = $file->getMountPoint();
-		if ($mount and !$mount->getOption('previews', true)) {
+		if ($mount && !$mount->getOption('previews', true)) {
 			return false;
 		}
 

@@ -98,7 +98,7 @@ class Files {
 	 * @deprecated 14.0.0
 	 */
 	public static function streamCopy($source, $target, ?bool $includeResult = null) {
-		if (!$source or !$target) {
+		if (!$source || !$target) {
 			return $includeResult ? [0, false] : 0;
 		}
 

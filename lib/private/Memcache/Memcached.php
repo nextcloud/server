@@ -82,7 +82,7 @@ class Memcached extends Cache implements IMemcache {
 
 	public function get($key) {
 		$result = self::$cache->get($this->getNameSpace() . $key);
-		if ($result === false and self::$cache->getResultCode() == \Memcached::RES_NOTFOUND) {
+		if ($result === false && self::$cache->getResultCode() === \Memcached::RES_NOTFOUND) {
 			return null;
 		} else {
 			return $result;

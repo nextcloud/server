@@ -40,19 +40,19 @@ class PermissionsMask extends Wrapper {
 	}
 
 	public function isUpdatable(string $path): bool {
-		return $this->checkMask(Constants::PERMISSION_UPDATE) and parent::isUpdatable($path);
+		return $this->checkMask(Constants::PERMISSION_UPDATE) && parent::isUpdatable($path);
 	}
 
 	public function isCreatable(string $path): bool {
-		return $this->checkMask(Constants::PERMISSION_CREATE) and parent::isCreatable($path);
+		return $this->checkMask(Constants::PERMISSION_CREATE) && parent::isCreatable($path);
 	}
 
 	public function isDeletable(string $path): bool {
-		return $this->checkMask(Constants::PERMISSION_DELETE) and parent::isDeletable($path);
+		return $this->checkMask(Constants::PERMISSION_DELETE) && parent::isDeletable($path);
 	}
 
 	public function isSharable(string $path): bool {
-		return $this->checkMask(Constants::PERMISSION_SHARE) and parent::isSharable($path);
+		return $this->checkMask(Constants::PERMISSION_SHARE) && parent::isSharable($path);
 	}
 
 	public function getPermissions(string $path): int {
@@ -62,30 +62,30 @@ class PermissionsMask extends Wrapper {
 	public function rename(string $source, string $target): bool {
 		//This is a rename of the transfer file to the original file
 		if (dirname($source) === dirname($target) && strpos($source, '.ocTransferId') > 0) {
-			return $this->checkMask(Constants::PERMISSION_CREATE) and parent::rename($source, $target);
+			return $this->checkMask(Constants::PERMISSION_CREATE) && parent::rename($source, $target);
 		}
-		return $this->checkMask(Constants::PERMISSION_UPDATE) and parent::rename($source, $target);
+		return $this->checkMask(Constants::PERMISSION_UPDATE) && parent::rename($source, $target);
 	}
 
 	public function copy(string $source, string $target): bool {
-		return $this->checkMask(Constants::PERMISSION_CREATE) and parent::copy($source, $target);
+		return $this->checkMask(Constants::PERMISSION_CREATE) && parent::copy($source, $target);
 	}
 
 	public function touch(string $path, ?int $mtime = null): bool {
 		$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;
-		return $this->checkMask($permissions) and parent::touch($path, $mtime);
+		return $this->checkMask($permissions) && parent::touch($path, $mtime);
 	}
 
 	public function mkdir(string $path): bool {
-		return $this->checkMask(Constants::PERMISSION_CREATE) and parent::mkdir($path);
+		return $this->checkMask(Constants::PERMISSION_CREATE) && parent::mkdir($path);
 	}
 
 	public function rmdir(string $path): bool {
-		return $this->checkMask(Constants::PERMISSION_DELETE) and parent::rmdir($path);
+		return $this->checkMask(Constants::PERMISSION_DELETE) && parent::rmdir($path);
 	}
 
 	public function unlink(string $path): bool {
-		return $this->checkMask(Constants::PERMISSION_DELETE) and parent::unlink($path);
+		return $this->checkMask(Constants::PERMISSION_DELETE) && parent::unlink($path);
 	}
 
 	public function file_put_contents(string $path, mixed $data): int|float|false {
@@ -94,7 +94,7 @@ class PermissionsMask extends Wrapper {
 	}
 
 	public function fopen(string $path, string $mode) {
-		if ($mode === 'r' or $mode === 'rb') {
+		if ($mode === 'r' || $mode === 'rb') {
 			return parent::fopen($path, $mode);
 		} else {
 			$permissions = $this->file_exists($path) ? Constants::PERMISSION_UPDATE : Constants::PERMISSION_CREATE;

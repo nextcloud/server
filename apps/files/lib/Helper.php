@@ -26,9 +26,9 @@ class Helper {
 	public static function compareFileNames(FileInfo $a, FileInfo $b) {
 		$aType = $a->getType();
 		$bType = $b->getType();
-		if ($aType === 'dir' and $bType !== 'dir') {
+		if ($aType === 'dir' && $bType !== 'dir') {
 			return -1;
-		} elseif ($aType !== 'dir' and $bType === 'dir') {
+		} elseif ($aType !== 'dir' && $bType === 'dir') {
 			return 1;
 		} else {
 			return Util::naturalSortCompare($a->getName(), $b->getName());

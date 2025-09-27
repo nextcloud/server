@@ -265,7 +265,7 @@ class FTP extends Common {
 			case 'c':
 			case 'c+':
 				//emulate these
-				if ($useExisting and $this->file_exists($path)) {
+				if ($useExisting && $this->file_exists($path)) {
 					if (!$this->isUpdatable($path)) {
 						return false;
 					}

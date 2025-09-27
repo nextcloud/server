@@ -278,7 +278,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 			foreach ($newGroups as $groupId => $group) {
 				$groups[$groupId] = $group;
 			}
-			if (!is_null($limit) and $limit <= 0) {
+			if (!is_null($limit) && $limit <= 0) {
 				return array_values($groups);
 			}
 		}

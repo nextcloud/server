@@ -55,7 +55,7 @@ foreach ($_['authMechanisms'] as $authMechanism) {
 	<h2 class="inlineblock" data-anchor-name="external-storage"><?php p($l->t('External storage')); ?></h2>
 	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-external-storage')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services.')); ?></p>
-	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) {
+	<?php if (isset($_['dependencies']) && ($_['dependencies'] !== '') && $canCreateMounts) {
 		print_unescaped('' . $_['dependencies'] . '');
 	} ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
