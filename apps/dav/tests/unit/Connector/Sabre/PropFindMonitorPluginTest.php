@@ -105,9 +105,7 @@ class PropFindMonitorPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTest
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTest')]
 	public function test(array $queries, $expectedLogCalls): void {
 		$this->plugin->initialize($this->server);
 		$this->server->expects($this->once())->method('getPluginQueries')

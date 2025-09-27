@@ -16,11 +16,11 @@ use OCP\IRequest;
 
 class AuthorizedGroupController extends Controller {
 	public function __construct(
-		string $AppName,
+		string $appName,
 		IRequest $request,
 		private AuthorizedGroupService $authorizedGroupService,
 	) {
-		parent::__construct($AppName, $request);
+		parent::__construct($appName, $request);
 	}
 
 	/**

@@ -25,13 +25,13 @@ class RecoveryController extends Controller {
 	 * @param Recovery $recovery
 	 */
 	public function __construct(
-		$AppName,
+		$appName,
 		IRequest $request,
 		private IConfig $config,
 		private IL10N $l,
 		private Recovery $recovery,
 	) {
-		parent::__construct($AppName, $request);
+		parent::__construct($appName, $request);
 	}
 
 	/**

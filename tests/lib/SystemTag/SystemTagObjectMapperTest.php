@@ -212,7 +212,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 	public function testAssignUnassignTags(): void {
 		$event = null;
-		$this->dispatcher->expects($this->any())->method('dispatchTyped')->willReturnCallback(function (Event $e) use (&$event) {
+		$this->dispatcher->expects($this->any())->method('dispatchTyped')->willReturnCallback(function (Event $e) use (&$event): void {
 			$event = $e;
 		});
 

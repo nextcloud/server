@@ -11,6 +11,7 @@ namespace OCA\DAV\CalDAV\Federation;
 
 use OCA\DAV\BackgroundJob\FederatedCalendarSyncJob;
 use OCA\DAV\CalDAV\Federation\Protocol\CalendarFederationProtocolV1;
+use OCA\DAV\CalDAV\Federation\Protocol\CalendarProtocolParseException;
 use OCA\DAV\CalDAV\Federation\Protocol\ICalendarFederationProtocol;
 use OCA\DAV\DAV\Sharing\Backend as DavSharingBackend;
 use OCP\AppFramework\Http;
@@ -74,7 +75,7 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 			case CalendarFederationProtocolV1::VERSION:
 				try {
 					$protocol = CalendarFederationProtocolV1::parse($rawProtocol);
-				} catch (Protocol\CalendarProtocolParseException $e) {
+				} catch (CalendarProtocolParseException $e) {
 					throw new ProviderCouldNotAddShareException(
 						'Invalid protocol data (v1)',
 						'',
