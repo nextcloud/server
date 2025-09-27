@@ -85,7 +85,8 @@ class Client implements IClient {
 		}
 
 		if (!isset($options[RequestOptions::HEADERS]['Accept-Encoding'])) {
-			$options[RequestOptions::HEADERS]['Accept-Encoding'] = 'gzip';
+			// let curl populate with whatever encodings it has been built with
+			$options['curl'][CURLOPT_ACCEPT_ENCODING] = '';
 		}
 
 		// Fallback for save_to
