@@ -14,6 +14,7 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -150,7 +151,6 @@ class TwoFactorChallengeController extends Controller {
 	/**
 	 * @TwoFactorSetUpDoneRequired
 	 *
-	 * @UserRateThrottle(limit=5, period=100)
 	 *
 	 * @param string $challengeProviderId
 	 * @param string $challenge
@@ -161,6 +161,7 @@ class TwoFactorChallengeController extends Controller {
 	#[NoCSRFRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: '/login/challenge/{challengeProviderId}')]
+	#[UserRateLimit(limit: 5, period: 100)]
 	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
