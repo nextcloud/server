@@ -35,6 +35,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Modulo de laborfluo de Nextcloud",
     "Select a filter" : "Elekti filtrilon",
     "Select a comparator" : "Elekti komparilon",
+    "Audio" : "Sonaĵo",
     "Folder" : "Dosierujo",
     "Images" : "Bildoj",
     "Office documents" : "Oficejaj dokumentoj",

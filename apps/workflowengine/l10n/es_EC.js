@@ -49,6 +49,7 @@ OC.L10N.register(
     "Select a filter" : "Seleccionar un filtro",
     "Select a comparator" : "Seleccionar un comparador",
     "Remove filter" : "Eliminar filtro",
+    "Audio" : "Audio",
     "Folder" : "Carpeta",
     "Images" : "Imágenes",
     "Office documents" : "Documentos de Office",

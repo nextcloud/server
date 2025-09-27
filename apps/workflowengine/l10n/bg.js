@@ -49,6 +49,7 @@ OC.L10N.register(
     "Select a filter" : "Избор на филтър",
     "Select a comparator" : "Избор на инструмент за сравняване",
     "Remove filter" : "Премахни филтър",
+    "Audio" : "Аудио",
     "Folder" : "Папка",
     "Images" : "Изображения",
     "Office documents" : "Офис документи",

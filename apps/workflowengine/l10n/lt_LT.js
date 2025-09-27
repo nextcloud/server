@@ -47,6 +47,7 @@ OC.L10N.register(
     "Select a filter" : "Pasirinkite filtrą",
     "Select a comparator" : "Pasirinkite palyginimą",
     "Remove filter" : "Šalinti filtrą",
+    "Audio" : "Garso įrašai",
     "Folder" : "Aplankas",
     "Images" : "Paveikslai",
     "Office documents" : "Raštinės dokumentai",
