@@ -1025,6 +1025,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
+	 * Delete all of a user's shares
+	 */
+	public function deleteAllSharesByUser(string $principaluri): void {
+		$this->sharingBackend->deleteAllSharesByUser($principaluri);
+	}
+
+	/**
 	 * Search contacts in a specific address-book
 	 *
 	 * @param int $addressBookId
