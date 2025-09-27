@@ -69,6 +69,8 @@ class DarkTheme extends DefaultTheme implements ITheme {
 			$defaultVariables,
 			$this->generatePrimaryVariables($colorMainBackground, $colorMainText),
 			[
+				'--nextcloud-theme-dark' => 1,
+
 				'--color-main-text' => $colorMainText,
 				'--color-main-background' => $colorMainBackground,
 				'--color-main-background-rgb' => $colorMainBackgroundRGB,
