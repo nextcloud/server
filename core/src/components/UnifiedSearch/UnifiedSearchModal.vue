@@ -181,6 +181,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import { loadState } from '@nextcloud/initial-state'
 
 import CustomDateRangeModal from './CustomDateRangeModal.vue'
 import FilterChip from './SearchFilterChip.vue'
@@ -281,6 +282,7 @@ export default defineComponent({
 			internalIsVisible: this.open,
 			initialized: false,
 			searchExternalResources: false,
+			minSearchLength: loadState('unified-search', 'min-search-length', 1),
 		}
 	},
 
@@ -293,6 +295,10 @@ export default defineComponent({
 			return !this.isEmptySearch && this.results.length === 0
 		},
 
+		isSearchQueryTooShort() {
+			return this.searchQuery.length < this.minSearchLength
+		},
+
 		showEmptyContentInfo() {
 			return this.isEmptySearch || this.hasNoResults
 		},
@@ -301,9 +307,16 @@ export default defineComponent({
 			if (this.searching && this.hasNoResults) {
 				return t('core', 'Searching …')
 			}
-			if (this.isEmptySearch) {
-				return t('core', 'Start typing to search')
+
+			if (this.isSearchQueryTooShort) {
+				switch (this.minSearchLength) {
+				case 1:
+					return t('core', 'Start typing to search')
+				default:
+					return t('core', 'Minimum search length is {minSearchLength} characters', { minSearchLength: this.minSearchLength })
+				}
 			}
+
 			return t('core', 'No matching results')
 		},
 
@@ -395,7 +408,7 @@ export default defineComponent({
 			})
 		},
 		find(query: string, providersToSearchOverride = null) {
-			if (query.length === 0) {
+			if (this.isSearchQueryTooShort) {
 				this.results = []
 				this.searching = false
 				return

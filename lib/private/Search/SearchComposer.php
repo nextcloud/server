@@ -10,6 +10,8 @@ namespace OC\Search;
 
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Core\AppInfo\Application;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Core\ResponseDefinitions;
 use OCP\IAppConfig;
 use OCP\IURLGenerator;
@@ -313,6 +315,12 @@ class SearchComposer {
 		if (!$this->filterSupportedByProvider($filterDefinition, $providerId)) {
 			// FIXME Use dedicated exception and handle it
 			throw new UnsupportedFilter($name, $providerId);
+		}
+
+		$minSearchLength = $this->appConfig->getValueInt(Application::APP_ID, ConfigLexicon::UNIFIED_SEARCH_MIN_SEARCH_LENGTH);
+		if ($filterDefinition->name() === 'term' && mb_strlen(trim($value)) < $minSearchLength) {
+			// Ignore term values that are not long enough
+			return null;
 		}
 
 		return FilterFactory::get($filterDefinition->type(), $value);
