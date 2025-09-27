@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Upravljački program tijeka rada Nextclouda",
     "Select a filter" : "Odaberi filtar",
     "Select a comparator" : "Odaberi usporednik",
+    "Audio" : "Audio",
     "Folder" : "Mapa",
     "Images" : "Slike",
     "Office documents" : "Dokumenti paketa Office",

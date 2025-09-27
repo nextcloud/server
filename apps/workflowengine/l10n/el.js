@@ -49,6 +49,7 @@ OC.L10N.register(
     "Select a filter" : "Επιλογή φίλτρου",
     "Select a comparator" : "Επιλέξτε για σύγκριση",
     "Remove filter" : "Αφαίρεση φίλτρου",
+    "Audio" : "Ήχος",
     "Folder" : "Φάκελος",
     "Images" : "Εικόνες",
     "Office documents" : "Έγγραφα γραφείου",

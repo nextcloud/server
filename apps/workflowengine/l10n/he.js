@@ -39,6 +39,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "מנגנון רצף הפעילות של Nextcloud",
     "Select a filter" : "נא לבחור מסנן",
     "Select a comparator" : "נא לבחור משווה",
+    "Audio" : "קובץ שמע",
     "Folder" : "תיקייה",
     "Images" : "תמונות",
     "Office documents" : "מסמכי אופיס (Office)",
