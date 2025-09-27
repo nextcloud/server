@@ -39,7 +39,7 @@ class UserStoragesController extends StoragesController {
 	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
-		$AppName,
+		$appName,
 		IRequest $request,
 		IL10N $l10n,
 		UserStoragesService $userStoragesService,
@@ -49,7 +49,7 @@ class UserStoragesController extends StoragesController {
 		IConfig $config,
 	) {
 		parent::__construct(
-			$AppName,
+			$appName,
 			$request,
 			$l10n,
 			$userStoragesService,
