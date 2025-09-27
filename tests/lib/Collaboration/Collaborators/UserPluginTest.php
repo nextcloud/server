@@ -447,12 +447,11 @@ class UserPluginTest extends TestCase {
 						[$this->user->getUID(), 'test1', true],
 						[$this->user->getUID(), 'test2', true],
 					]);
-			} else {
-				$this->userManager->expects($this->once())
-					->method('searchDisplayName')
-					->with($searchTerm, $this->limit, $this->offset)
-					->willReturn($userResponse);
 			}
+			$this->userManager->expects($this->once())
+				->method('searchDisplayName')
+				->with($searchTerm, $this->limit, $this->offset)
+				->willReturn($userResponse);
 		} else {
 			$this->groupManager->method('getUserGroupIds')
 				->with($this->user)
@@ -690,7 +689,7 @@ class UserPluginTest extends TestCase {
 	}
 
 	#[DataProvider('dataSearchEnumeration')]
-	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result, $mockedSettings): void {
+	public function testSearchEnumerationLimit(string $search, $userGroups, $matchingUsers, $result, $mockedSettings): void {
 		$this->mockConfig($mockedSettings);
 
 		$userResults = [];
@@ -737,10 +736,10 @@ class UserPluginTest extends TestCase {
 			->willReturnCallback(function ($search) use ($matchingUsers) {
 				$users = array_filter(
 					$matchingUsers,
-					fn ($user) => str_contains(strtolower($user['displayName']), strtolower($search))
+					fn ($user) => str_contains(strtolower($user['displayName'] ?? ''), strtolower($search))
 				);
 				return array_map(
-					fn ($user) => $this->getUserMock($user['uid'], $user['displayName']),
+					fn ($user) => $this->getUserMock($user['uid'], $user['displayName'] ?? ''),
 					$users);
 			});
 
