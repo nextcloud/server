@@ -9,6 +9,9 @@ namespace OCA\Files_External\Service;
 
 use OC\Files\Cache\Storage;
 use OC\Files\Filesystem;
+use OCA\Files\AppInfo\Application as FilesApplication;
+use OCA\Files\ConfigLexicon;
+use OCA\Files_External\AppInfo\Application;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
 use OCA\Files_External\Lib\Backend\Backend;
@@ -20,6 +23,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IAppConfig;
 use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -40,6 +44,7 @@ abstract class StoragesService {
 		protected DBConfigService $dbConfig,
 		protected IUserMountCache $userMountCache,
 		protected IEventDispatcher $eventDispatcher,
+		protected IAppConfig $appConfig,
 	) {
 	}
 
@@ -242,6 +247,9 @@ abstract class StoragesService {
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 
 		$newStorage->setStatus(StorageNotAvailableException::STATUS_SUCCESS);
+
+		$this->updateOverwriteHomeFolders();
+
 		return $newStorage;
 	}
 
@@ -425,6 +433,8 @@ abstract class StoragesService {
 			}
 		}
 
+		$this->updateOverwriteHomeFolders();
+
 		return $this->getStorage($id);
 	}
 
@@ -449,6 +459,8 @@ abstract class StoragesService {
 
 		// delete oc_storages entries and oc_filecache
 		Storage::cleanByMountId($id);
+
+		$this->updateOverwriteHomeFolders();
 	}
 
 	/**
@@ -471,6 +483,22 @@ abstract class StoragesService {
 			return $storage->getStorageCache()->getNumericId();
 		} catch (\Exception $e) {
 			return -1;
+		}
+	}
+
+	public function updateOverwriteHomeFolders(): void {
+		$appIdsList = $this->appConfig->getValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS);
+
+		if ($this->dbConfig->hasHomeFolderOverwriteMount()) {
+			if (!in_array(Application::APP_ID, $appIdsList)) {
+				$appIdsList[] = Application::APP_ID;
+				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
+			}
+		} else {
+			if (in_array(Application::APP_ID, $appIdsList)) {
+				$appIdsList = array_values(array_filter($appIdsList, fn ($v) => $v !== Application::APP_ID));
+				$this->appConfig->setValueArray(FilesApplication::APP_ID, ConfigLexicon::OVERWRITES_HOME_FOLDERS, $appIdsList);
+			}
 		}
 	}
 }

@@ -65,6 +65,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Command\\ScanAppData' => __DIR__ . '/..' . '/../lib/Command/ScanAppData.php',
         'OCA\\Files\\Command\\TransferOwnership' => __DIR__ . '/..' . '/../lib/Command/TransferOwnership.php',
         'OCA\\Files\\Command\\WindowsCompatibleFilenames' => __DIR__ . '/..' . '/../lib/Command/WindowsCompatibleFilenames.php',
+        'OCA\\Files\\ConfigLexicon' => __DIR__ . '/..' . '/../lib/ConfigLexicon.php',
         'OCA\\Files\\Controller\\ApiController' => __DIR__ . '/..' . '/../lib/Controller/ApiController.php',
         'OCA\\Files\\Controller\\ConversionApiController' => __DIR__ . '/..' . '/../lib/Controller/ConversionApiController.php',
         'OCA\\Files\\Controller\\DirectEditingController' => __DIR__ . '/..' . '/../lib/Controller/DirectEditingController.php',
