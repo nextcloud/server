@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcListItem :id="href ? undefined : id"
+	<NcListItem :id="href ? undefined : `${id}-account-menu-entry`"
 		:anchor-id="id"
 		:active="active"
 		class="account-menu-entry"
