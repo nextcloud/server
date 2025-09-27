@@ -9,6 +9,7 @@ namespace OCA\User_LDAP\Settings;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IL10N;
 use OCP\Server;
 use OCP\Settings\IDelegatedSettings;
@@ -18,6 +19,7 @@ class Admin implements IDelegatedSettings {
 	public function __construct(
 		private IL10N $l,
 		private ITemplateManager $templateManager,
+		private IInitialState $InitialState
 	) {
 	}
 
@@ -42,6 +44,7 @@ class Admin implements IDelegatedSettings {
 		$sControls = $this->templateManager->getTemplate('user_ldap', 'part.settingcontrols');
 		$sControls = $sControls->fetchPage();
 
+		// TODO: remove
 		$parameters = [];
 		$parameters['serverConfigurationPrefixes'] = $prefixes;
 		$parameters['serverConfigurationHosts'] = $hosts;
@@ -56,6 +59,22 @@ class Admin implements IDelegatedSettings {
 		foreach ($defaults as $key => $default) {
 			$parameters[$key . '_default'] = $default;
 		}
+
+		$ldapConfigs = [];
+		foreach ($prefixes as $prefix) {
+			$ldapConfig = new Configuration($prefix);
+			$rawLdapConfig = $ldapConfig->getConfiguration();
+			foreach ($rawLdapConfig as $key => $value) {
+				if (is_array($value)) {
+					$rawLdapConfig[$key] = implode(';', $value);
+				}
+			}
+
+			$ldapConfigs[$prefix] = $rawLdapConfig;
+		}
+
+		$this->InitialState->provideInitialState('ldapConfigs', $ldapConfigs);
+		$this->InitialState->provideInitialState('ldapModuleInstalled', function_exists('ldap_connect'));
 
 		return new TemplateResponse('user_ldap', 'settings', $parameters);
 	}
