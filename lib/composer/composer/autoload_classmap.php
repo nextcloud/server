@@ -1196,6 +1196,7 @@ return array(
     'OC\\Contacts\\ContactsMenu\\Providers\\EMailProvider' => $baseDir . '/lib/private/Contacts/ContactsMenu/Providers/EMailProvider.php',
     'OC\\Contacts\\ContactsMenu\\Providers\\LocalTimeProvider' => $baseDir . '/lib/private/Contacts/ContactsMenu/Providers/LocalTimeProvider.php',
     'OC\\Contacts\\ContactsMenu\\Providers\\ProfileProvider' => $baseDir . '/lib/private/Contacts/ContactsMenu/Providers/ProfileProvider.php',
+    'OC\\Core\\AppInfo\\ConfigLexicon' => $baseDir . '/core/AppInfo/ConfigLexicon.php',
     'OC\\Core\\Application' => $baseDir . '/core/Application.php',
     'OC\\Core\\BackgroundJobs\\BackgroundCleanupUpdaterBackupsJob' => $baseDir . '/core/BackgroundJobs/BackgroundCleanupUpdaterBackupsJob.php',
     'OC\\Core\\BackgroundJobs\\CheckForUserCertificates' => $baseDir . '/core/BackgroundJobs/CheckForUserCertificates.php',
