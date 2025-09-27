@@ -26,6 +26,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\Attributes\Group;
 
 if (version_compare(\PHPUnit\Runner\Version::id(), 10, '>=')) {
 	trait OnNotSuccessfulTestTrait {
@@ -529,11 +530,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		$r = new \ReflectionClass($this);
 		$doc = $r->getDocComment();
+
+		if (class_exists(Group::class)) {
+			$attributes = array_map(function (\ReflectionAttribute $attribute) {
+				/** @var Group $group */
+				$group = $attribute->newInstance();
+				return $group->name();
+			}, $r->getAttributes(Group::class));
+			if (count($attributes) > 0) {
+				return $attributes;
+			}
+		}
 		preg_match_all('#@group\s+(.*?)\n#s', $doc, $annotations);
 		return $annotations[1] ?? [];
 	}
 
-	protected function IsDatabaseAccessAllowed() {
+	protected function IsDatabaseAccessAllowed(): bool {
 		$annotations = $this->getGroupAnnotations();
 		if (isset($annotations)) {
 			if (in_array('DB', $annotations) || in_array('SLOWDB', $annotations)) {
