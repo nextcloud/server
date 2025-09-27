@@ -104,7 +104,7 @@ OC.L10N.register(
     "You can configure the app order used for the navigation bar. The first entry will be the default app, opened after login or when clicking on the logo." : "Pode configurar a orde das aplicacións utilizadas na barra de navegación. A primeira entrada será a aplicación predeterminada, abriráse tras de acceder ou ao premer no logotipo.",
     "The default app can not be changed because it was configured by the administrator." : "A aplicación predeterminada non se pode cambiar porque foi configurada pola administración.",
     "The app order was changed, to see it in action you have to reload the page." : "Cambiouse a orde das aplicacións, para vela en acción ten que cargar de novo a páxina.",
-    "Reset default app order" : "Restablecer a orde predeterminada das aplicacións",
+    "Reset default app order" : "Restabelecer a orde predeterminada das aplicacións",
     "Could not set primary color" : "Non foi posíbel definir a cor principal",
     "Reset primary color" : "Restabelecer a cor principal",
     "Could not set global default apps" : "Non foi posíbel definir as aplicacións predeterminadas globais",

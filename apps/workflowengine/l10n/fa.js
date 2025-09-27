@@ -49,6 +49,7 @@ OC.L10N.register(
     "Select a filter" : "Select a filter",
     "Select a comparator" : "Select a comparator",
     "Remove filter" : "Remove filter",
+    "Audio" : "صدا",
     "Folder" : "پوشه",
     "Images" : "عکسها",
     "Office documents" : "Office documents",

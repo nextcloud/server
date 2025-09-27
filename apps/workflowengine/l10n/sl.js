@@ -49,6 +49,7 @@ OC.L10N.register(
     "Select a filter" : "Izbor filtra",
     "Select a comparator" : "Izbor primerjalnika",
     "Remove filter" : "Odstrani filter",
+    "Audio" : "Zvočni posnetek",
     "Folder" : "Mapa",
     "Images" : "Slike",
     "Office documents" : "Pisarniški dokumenti",
