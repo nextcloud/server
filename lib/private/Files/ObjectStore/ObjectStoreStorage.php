@@ -15,6 +15,7 @@ use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\PolyFill\CopyDirectory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IScanner;
@@ -26,6 +27,8 @@ use OCP\Files\ObjectStore\IObjectStoreMetaData;
 use OCP\Files\ObjectStore\IObjectStoreMultiPartUpload;
 use OCP\Files\Storage\IChunkedFileWrite;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFileWrite {
@@ -40,6 +43,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	private bool $handleCopiesAsOwned;
 	protected bool $validateWrites = true;
 	private bool $preserveCacheItemsOnDelete = false;
+	private ?int $totalSizeLimit = null;
 
 	/**
 	 * @param array $parameters
@@ -63,6 +67,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$this->validateWrites = (bool)$parameters['validateWrites'];
 		}
 		$this->handleCopiesAsOwned = (bool)($parameters['handleCopiesAsOwned'] ?? false);
+		if (isset($parameters['totalSizeLimit'])) {
+			$this->totalSizeLimit = $parameters['totalSizeLimit'];
+		}
 
 		$this->logger = \OCP\Server::get(LoggerInterface::class);
 	}
@@ -755,6 +762,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
 			throw new GenericFileException('Object store does not support multipart upload');
 		}
+
 		$cacheEntry = $this->getCache()->get($targetPath);
 		$urn = $this->getURN($cacheEntry->getId());
 
@@ -811,5 +819,29 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 
 	public function setPreserveCacheOnDelete(bool $preserve) {
 		$this->preserveCacheItemsOnDelete = $preserve;
+	}
+
+	public function free_space(string $path): int|float|false {
+		if ($this->totalSizeLimit === null) {
+			return FileInfo::SPACE_UNLIMITED;
+		}
+
+		// To avoid iterating all objects in the object store, calculate the sum of the cached sizes of the root folders of all object storages.
+		$qb = Server::get(IDBConnection::class)->getQueryBuilder();
+		$result = $qb->select($qb->func()->sum('f.size'))
+			->from('storages', 's')
+			->leftJoin('s', 'filecache', 'f', $qb->expr()->eq('f.storage', 's.numeric_id'))
+			->where($qb->expr()->like('s.id', 'object::%', IQueryBuilder::PARAM_STR))
+			->andWhere($qb->expr()->eq('f.path', $qb->createNamedParameter('')))
+			->executeQuery();
+		$used = $result->fetchOne();
+		$result->closeCursor();
+
+		$available = $this->totalSizeLimit - $used;
+		if ($available < 0) {
+			$available = 0;
+		}
+
+		return $available;
 	}
 }
