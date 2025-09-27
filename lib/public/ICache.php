@@ -26,7 +26,7 @@ interface ICache {
 	 * @return mixed
 	 * @since 6.0.0
 	 */
-	public function get($key);
+	public function get(string $key);
 
 	/**
 	 * Set a value in the user cache
@@ -36,7 +36,7 @@ interface ICache {
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function set($key, $value, $ttl = 0);
+	public function set(string $key, mixed $value, int $ttl = 0);
 
 	/**
 	 * Check if a value is set in the user cache
@@ -45,7 +45,7 @@ interface ICache {
 	 * @since 6.0.0
 	 * @deprecated 9.1.0 Directly read from GET to prevent race conditions
 	 */
-	public function hasKey($key);
+	public function hasKey(string $key);
 
 	/**
 	 * Remove an item from the user cache
@@ -53,7 +53,7 @@ interface ICache {
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function remove($key);
+	public function remove(string $key);
 
 	/**
 	 * Clear the user cache of all entries starting with a prefix
@@ -61,7 +61,7 @@ interface ICache {
 	 * @return bool
 	 * @since 6.0.0
 	 */
-	public function clear($prefix = '');
+	public function clear(string $prefix = '');
 
 	/**
 	 * Check if the cache implementation is available

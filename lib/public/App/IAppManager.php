@@ -27,12 +27,11 @@ interface IAppManager {
 	/**
 	 * Returns the app information from "appinfo/info.xml" for an app
 	 *
-	 * @param string|null $lang
 	 * @return array|null
 	 * @since 14.0.0
 	 * @since 31.0.0 Usage of $path is discontinued and throws an \InvalidArgumentException, use {@see self::getAppInfoByPath} instead.
 	 */
-	public function getAppInfo(string $appId, bool $path = false, $lang = null);
+	public function getAppInfo(string $appId, bool $path = false, ?string $lang = null);
 
 	/**
 	 * Returns the app information from a given path ending with "/appinfo/info.xml"
@@ -72,12 +71,11 @@ interface IAppManager {
 	/**
 	 * Check if an app is enabled for user
 	 *
-	 * @param string $appId
-	 * @param \OCP\IUser|null $user (optional) if not defined, the currently loggedin user will be used
+	 * @param IUser|null $user (optional) if not defined, the currently loggedin user will be used
 	 * @return bool
 	 * @since 8.0.0
 	 */
-	public function isEnabledForUser($appId, $user = null);
+	public function isEnabledForUser(string $appId, ?IUser $user = null);
 
 	/**
 	 * Check if an app is enabled in the instance
@@ -89,7 +87,7 @@ interface IAppManager {
 	 * @since 8.0.0
 	 * @deprecated 32.0.0 Use either {@see self::isEnabledForUser} or {@see self::isEnabledForAnyone}
 	 */
-	public function isInstalled($appId);
+	public function isInstalled(string $appId);
 
 	/**
 	 * Check if an app is enabled in the instance, either for everyone or for specific groups
@@ -140,7 +138,7 @@ interface IAppManager {
 	 * @return bool
 	 * @since 12.0.0
 	 */
-	public function hasProtectedAppType($types);
+	public function hasProtectedAppType(array $types);
 
 	/**
 	 * Enable an app only for specific groups
@@ -160,7 +158,7 @@ interface IAppManager {
 	 * @param bool $automaticDisabled
 	 * @since 8.0.0
 	 */
-	public function disableApp($appId, $automaticDisabled = false): void;
+	public function disableApp(string $appId, bool $automaticDisabled = false): void;
 
 	/**
 	 * Get the directory for the given app.
@@ -184,7 +182,7 @@ interface IAppManager {
 	/**
 	 * List all apps enabled for a user
 	 *
-	 * @param \OCP\IUser $user
+	 * @param IUser $user
 	 * @return list<string>
 	 * @since 8.1.0
 	 */
@@ -218,7 +216,7 @@ interface IAppManager {
 	 * @return boolean
 	 * @since 9.0.0
 	 */
-	public function isShipped($appId);
+	public function isShipped(string $appId);
 
 	/**
 	 * Loads all apps
