@@ -5,7 +5,6 @@
 
 <template>
 	<form id="generate-app-token-section"
-		class="row spacing"
 		@submit.prevent="submit">
 		<!-- Port to TextField component when available -->
 		<NcTextField :value.sync="deviceName"
@@ -17,7 +16,9 @@
 			:placeholder="t('settings', 'App name')" />
 		<NcButton type="primary"
 			:disabled="loading || deviceName.length === 0"
-			native-type="submit">
+			native-type="submit"
+			class="submit-button"
+		>
 			{{ t('settings', 'Create new app password') }}
 		</NcButton>
 
@@ -79,19 +80,21 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-	.app-name-text-field {
-		height: 44px !important;
-		padding-inline-start: 12px;
-		margin-inline-end: 12px;
-		width: 200px;
-	}
-
-	.row {
+	#generate-app-token-section {
 		display: flex;
-		align-items: center;
-	}
+		gap: 1rem;
+		max-width: 900px;
+		flex-wrap: wrap;
+		margin-block-start: 2rem !important;
+		margin-block-end: 1rem !important;
 
-	.spacing {
-		padding-top: 16px;
+		.input-field {
+			margin-top: 0;
+			flex: 1 1 50%;
+		}
+
+		.submit-button {
+			flex: 0 0 auto;
+		}
 	}
 </style>
