@@ -63,6 +63,13 @@ class CalendarFederationProvider implements ICloudFederationProvider {
 		}
 
 		$rawProtocol = $share->getProtocol();
+		if (!isset($rawProtocol[ICalendarFederationProtocol::PROP_VERSION])) {
+			throw new ProviderCouldNotAddShareException(
+				'No protocol version',
+				'',
+				Http::STATUS_BAD_REQUEST,
+			);
+		}
 		switch ($rawProtocol[ICalendarFederationProtocol::PROP_VERSION]) {
 			case CalendarFederationProtocolV1::VERSION:
 				try {
