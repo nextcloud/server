@@ -20,4 +20,5 @@ return array(
     'OCA\\WebhookListeners\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',
     'OCA\\WebhookListeners\\Service\\PHPMongoQuery' => $baseDir . '/../lib/Service/PHPMongoQuery.php',
     'OCA\\WebhookListeners\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
+    'OCA\\WebhookListeners\\Settings\\AdminSection' => $baseDir . '/../lib/Settings/AdminSection.php',
 );
