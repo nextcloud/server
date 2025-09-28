@@ -52,7 +52,7 @@ OC.L10N.register(
     "The file could not be converted." : "Filen kunne ikke konverteres.",
     "Could not get relative path to converted file" : "Kunne ikke hente relativ sti til konverteret fil",
     "Limit must be a positive integer." : "Grænse skal være et positivt heltal.",
-    "The replacement character may only be a single character." : "Erstatningskarakteren må kun være en enkelt karakter.",
+    "The replacement character may only be a single character." : "Erstatningskarakteren må kun være én enkelt karakter.",
     "Filename sanitization already started." : "Filnavnsrensning allerede startet.",
     "No filename sanitization in progress." : "Ingen filnavnsrensning igangsat.",
     "Favorite files" : "Favoriser filer",

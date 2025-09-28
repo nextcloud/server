@@ -5,7 +5,7 @@ OC.L10N.register(
     "Only visible to people matched via phone number integration through Talk on mobile" : "Kun synlig for personer, der matches via telefonnummerintegration via Snak på mobil",
     "Local" : "Lokal",
     "Only visible to people on this instance and guests" : "Kun synlig for personer i denne instans og gæster",
-    "Federated" : "Sammenkoblet",
+    "Federated" : "Fødereret",
     "Only synchronize to trusted servers" : "Synkroniser kun til betroede servere",
     "Published" : "Udgivet",
     "Synchronize to trusted servers and the global and public address book" : "Synkroniser til betroede servere og den globale og offentlige adressebog",
