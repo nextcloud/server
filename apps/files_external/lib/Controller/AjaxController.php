@@ -17,6 +17,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 class AjaxController extends Controller {
@@ -35,9 +36,43 @@ class AjaxController extends Controller {
 		private GlobalAuth $globalAuth,
 		private IUserSession $userSession,
 		private IGroupManager $groupManager,
+		private IUserManager $userManager,
 		private IL10N $l10n,
 	) {
 		parent::__construct($appName, $request);
+	}
+
+
+	/**
+	 * Legacy endpoint for oauth2 callback
+	 */
+	#[NoAdminRequired()]
+	public function oauth2Callback(): JSONResponse {
+		return new JSONResponse(['status' => 'success']);
+	}
+
+	/**
+	 * Returns a list of users and groups that match the given pattern.
+	 * Used for user and group picker in the admin settings.
+	 *
+	 * @param string $pattern The search pattern
+	 * @param int|null $limit The maximum number of results to return
+	 * @param int|null $offset The offset from which to start returning results
+	 * @return JSONResponse
+	 */
+	public function getApplicableEntities(string $pattern = '', ?int $limit = null, ?int $offset = null): JSONResponse {
+		$groups = [];
+		foreach ($this->groupManager->search($pattern, $limit, $offset) as $group) {
+			$groups[$group->getGID()] = $group->getDisplayName();
+		}
+
+		$users = [];
+		foreach ($this->userManager->searchDisplayName($pattern, $limit, $offset) as $user) {
+			$users[$user->getUID()] = $user->getDisplayName();
+		}
+
+		$results = ['groups' => $groups, 'users' => $users];
+		return new JSONResponse($results);
 	}
 
 	/**

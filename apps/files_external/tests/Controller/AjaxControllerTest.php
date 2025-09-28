@@ -15,6 +15,7 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -25,6 +26,7 @@ class AjaxControllerTest extends TestCase {
 	private GlobalAuth&MockObject $globalAuth;
 	private IUserSession&MockObject $userSession;
 	private IGroupManager&MockObject $groupManager;
+	private IUserManager&MockObject $userManager;
 	private IL10N&MockObject $l10n;
 	private AjaxController $ajaxController;
 
@@ -34,6 +36,7 @@ class AjaxControllerTest extends TestCase {
 		$this->globalAuth = $this->createMock(GlobalAuth::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->ajaxController = new AjaxController(
@@ -43,6 +46,7 @@ class AjaxControllerTest extends TestCase {
 			$this->globalAuth,
 			$this->userSession,
 			$this->groupManager,
+			$this->userManager,
 			$this->l10n,
 		);
 
