@@ -389,13 +389,50 @@ class Folder extends Node implements \OCP\Files\Folder {
 	/**
 	 * Add a suffix to the name in case the file exists
 	 *
-	 * @param string $name
+	 * @param string $filename
 	 * @return string
 	 * @throws NotPermittedException
 	 */
-	public function getNonExistingName($name) {
-		$uniqueName = \OC_Helper::buildNotExistingFileNameForView($this->getPath(), $name, $this->view);
-		return trim($this->getRelativePath($uniqueName), '/');
+	public function getNonExistingName($filename) {
+		$path = $this->getPath();
+		if ($path === '/') {
+			$path = '';
+		}
+		if ($pos = strrpos($filename, '.')) {
+			$name = substr($filename, 0, $pos);
+			$ext = substr($filename, $pos);
+		} else {
+			$name = $filename;
+			$ext = '';
+		}
+
+		$newpath = $path . '/' . $filename;
+		if ($this->view->file_exists($newpath)) {
+			if (preg_match_all('/\((\d+)\)/', $name, $matches, PREG_OFFSET_CAPTURE)) {
+				/** @var array<int<0, max>, array> $matches */
+				//Replace the last "(number)" with "(number+1)"
+				$last_match = count($matches[0]) - 1;
+				$counter = $matches[1][$last_match][0] + 1;
+				$offset = $matches[0][$last_match][1];
+				$match_length = strlen($matches[0][$last_match][0]);
+			} else {
+				$counter = 2;
+				$match_length = 0;
+				$offset = false;
+			}
+			do {
+				if ($offset) {
+					//Replace the last "(number)" with "(number+1)"
+					$newname = substr_replace($name, '(' . $counter . ')', $offset, $match_length);
+				} else {
+					$newname = $name . ' (' . $counter . ')';
+				}
+				$newpath = $path . '/' . $newname . $ext;
+				$counter++;
+			} while ($this->view->file_exists($newpath));
+		}
+
+		return trim($this->getRelativePath($newpath), '/');
 	}
 
 	/**
