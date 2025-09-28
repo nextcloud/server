@@ -120,7 +120,7 @@ class PermissionsMask extends Wrapper {
 		$data = parent::getMetaData($path);
 
 		if ($data && isset($data['permissions'])) {
-			$data['scan_permissions'] = $data['scan_permissions'] ?? $data['permissions'];
+			$data['scan_permissions'] ??= $data['permissions'];
 			$data['permissions'] &= $this->mask;
 		}
 		return $data;
@@ -135,7 +135,7 @@ class PermissionsMask extends Wrapper {
 
 	public function getDirectoryContent($directory): \Traversable {
 		foreach ($this->getWrapperStorage()->getDirectoryContent($directory) as $data) {
-			$data['scan_permissions'] = $data['scan_permissions'] ?? $data['permissions'];
+			$data['scan_permissions'] ??= $data['permissions'];
 			$data['permissions'] &= $this->mask;
 
 			yield $data;
