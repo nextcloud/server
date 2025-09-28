@@ -1803,7 +1803,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Files\\Template\\TemplateManager' => __DIR__ . '/../../..' . '/lib/private/Files/Template/TemplateManager.php',
         'OC\\Files\\Type\\Detection' => __DIR__ . '/../../..' . '/lib/private/Files/Type/Detection.php',
         'OC\\Files\\Type\\Loader' => __DIR__ . '/../../..' . '/lib/private/Files/Type/Loader.php',
-        'OC\\Files\\Type\\TemplateManager' => __DIR__ . '/../../..' . '/lib/private/Files/Type/TemplateManager.php',
         'OC\\Files\\Utils\\PathHelper' => __DIR__ . '/../../..' . '/lib/private/Files/Utils/PathHelper.php',
         'OC\\Files\\Utils\\Scanner' => __DIR__ . '/../../..' . '/lib/private/Files/Utils/Scanner.php',
         'OC\\Files\\View' => __DIR__ . '/../../..' . '/lib/private/Files/View.php',
