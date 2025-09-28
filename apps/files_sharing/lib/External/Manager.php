@@ -8,7 +8,6 @@
 
 namespace OCA\Files_Sharing\External;
 
-use HttpResponse;
 use OC\Files\Filesystem;
 use OC\Files\SetupManager;
 use OC\User\NoUserException;
@@ -28,7 +27,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Http\Client\IClientService;
-use OCP\Http\Client\IResponse;
 use OCP\ICertificateManager;
 use OCP\IDBConnection;
 use OCP\IGroup;
