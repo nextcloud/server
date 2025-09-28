@@ -585,7 +585,7 @@ class User implements IUser {
 	 */
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
-		if ($quota !== 'none' and $quota !== 'default') {
+		if ($quota !== 'none' && $quota !== 'default') {
 			$bytesQuota = \OCP\Util::computerFileSize($quota);
 			if ($bytesQuota === false) {
 				throw new InvalidArgumentException('Failed to set quota to invalid value ' . $quota);

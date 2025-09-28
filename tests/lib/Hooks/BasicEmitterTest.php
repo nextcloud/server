@@ -133,7 +133,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
 		$this->emitter->listen('Test', 'test', function ($foo, $bar): void {
-			if ($foo == 'foo' and $bar == 'bar') {
+			if ($foo === 'foo' && $bar === 'bar') {
 				throw new EmittedException;
 			}
 		});
@@ -145,7 +145,7 @@ class BasicEmitterTest extends \Test\TestCase {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
 		$this->emitter->listen('Test', 'test', function ($foo, $bar): void {
-			if ($foo == 'foo' and $bar == 'bar') {
+			if ($foo === 'foo' && $bar === 'bar') {
 				throw new EmittedException;
 			}
 		});

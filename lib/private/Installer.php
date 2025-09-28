@@ -498,7 +498,7 @@ class Installer {
 		foreach (\OC::$APPSROOTS as $app_dir) {
 			if ($dir = opendir($app_dir['path'])) {
 				while (false !== ($filename = readdir($dir))) {
-					if ($filename[0] !== '.' and is_dir($app_dir['path'] . "/$filename")) {
+					if ($filename[0] !== '.' && is_dir($app_dir['path'] . "/$filename")) {
 						if (file_exists($app_dir['path'] . "/$filename/appinfo/info.xml")) {
 							if ($this->config->getAppValue($filename, 'installed_version') === '') {
 								$enabled = $this->appManager->isDefaultEnabled($filename);

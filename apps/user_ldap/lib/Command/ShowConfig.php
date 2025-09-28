@@ -75,7 +75,7 @@ class ShowConfig extends Base {
 		InputInterface $input,
 		OutputInterface $output,
 	): void {
-		$renderTable = $input->getOption('output') === 'table' or $input->getOption('output') === null;
+		$renderTable = $input->getOption('output') === 'table' || $input->getOption('output') === null;
 		$showPassword = $input->getOption('show-password');
 
 		$configs = [];

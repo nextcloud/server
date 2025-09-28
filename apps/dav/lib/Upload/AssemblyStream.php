@@ -240,7 +240,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 		} else {
 			throw new \BadMethodCallException('Invalid context, "' . $name . '" options not set');
 		}
-		if (isset($context['nodes']) and is_array($context['nodes'])) {
+		if (isset($context['nodes']) && is_array($context['nodes'])) {
 			$this->nodes = $context['nodes'];
 		} else {
 			throw new \BadMethodCallException('Invalid context, nodes not set');

@@ -102,7 +102,7 @@ class Updater implements IUpdater {
 	 * @param int $time
 	 */
 	public function update($path, $time = null, ?int $sizeDifference = null) {
-		if (!$this->enabled or Scanner::isPartialFile($path)) {
+		if (!$this->enabled || Scanner::isPartialFile($path)) {
 			return;
 		}
 		if (is_null($time)) {
@@ -134,7 +134,7 @@ class Updater implements IUpdater {
 	 * @param string $path
 	 */
 	public function remove($path) {
-		if (!$this->enabled or Scanner::isPartialFile($path)) {
+		if (!$this->enabled || Scanner::isPartialFile($path)) {
 			return;
 		}
 
@@ -204,7 +204,7 @@ class Updater implements IUpdater {
 	 * Utility to copy or rename a file or folder in the cache and update the size, etag and mtime of the parent folders
 	 */
 	private function copyOrRenameFromStorage(IStorage $sourceStorage, string $source, string $target, callable $operation): void {
-		if (!$this->enabled or Scanner::isPartialFile($source) or Scanner::isPartialFile($target)) {
+		if (!$this->enabled || Scanner::isPartialFile($source) || Scanner::isPartialFile($target)) {
 			return;
 		}
 

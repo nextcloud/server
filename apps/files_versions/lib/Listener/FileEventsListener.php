@@ -396,7 +396,7 @@ class FileEventsListener implements IEventListener {
 		$manager = Filesystem::getMountManager();
 		$mount = $manager->find($absOldPath);
 		$internalPath = $mount->getInternalPath($absOldPath);
-		if ($internalPath === '' and $mount instanceof MoveableMount) {
+		if ($internalPath === '' && $mount instanceof MoveableMount) {
 			return;
 		}
 

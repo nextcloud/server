@@ -53,7 +53,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 			}
 		}
 
-		if (!$userBackendFound or !$groupBackendFound) {
+		if (!$userBackendFound || !$groupBackendFound) {
 			throw new \Exception('To use the LDAPProvider, user_ldap app must be enabled');
 		}
 	}

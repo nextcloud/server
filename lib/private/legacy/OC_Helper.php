@@ -101,7 +101,7 @@ class OC_Helper {
 		$obd = OC::$server->get(IniGetWrapper::class)->getString('open_basedir');
 		if ($obd != 'none') {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
-			if (count($obd_values) > 0 and $obd_values[0]) {
+			if (count($obd_values) > 0 && $obd_values[0]) {
 				// open_basedir is in effect !
 				// We need to check if the program is in one of these dirs :
 				$dirs = $obd_values;

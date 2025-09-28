@@ -41,7 +41,7 @@ trait EmitterTrait {
 	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$names = [];
 		$allNames = array_keys($this->listeners);
-		if ($scope and $method) {
+		if ($scope && $method) {
 			$name = $scope . '::' . $method;
 			if (isset($this->listeners[$name])) {
 				$names[] = $name;

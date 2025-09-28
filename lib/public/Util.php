@@ -514,7 +514,7 @@ class Util {
 		$it = new \RecursiveIteratorIterator($aIt);
 
 		while ($it->valid()) {
-			if (((isset($index) and ($it->key() == $index)) or !isset($index)) and ($it->current() == $needle)) {
+			if (((isset($index) && ($it->key() == $index)) || !isset($index)) && ($it->current() == $needle)) {
 				return $aIt->key();
 			}
 

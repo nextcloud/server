@@ -59,7 +59,7 @@ class OC_User {
 			Server::get(IUserManager::class)->registerBackend($backend);
 		} else {
 			// You'll never know what happens
-			if ($backend === null or !is_string($backend)) {
+			if ($backend === null || !is_string($backend)) {
 				$backend = 'database';
 			}
 
