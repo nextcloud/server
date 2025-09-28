@@ -7,7 +7,6 @@
  */
 namespace OC\Core\Command;
 
-use OCP\Defaults;
 use OCP\IConfig;
 use OCP\ServerVersion;
 use OCP\Util;
@@ -18,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Status extends Base {
 	public function __construct(
 		private IConfig $config,
-		private Defaults $themingDefaults,
+		private string $productName,
 		private ServerVersion $serverVersion,
 	) {
 		parent::__construct('status');
@@ -47,7 +46,7 @@ class Status extends Base {
 			'edition' => '',
 			'maintenance' => $maintenanceMode,
 			'needsDbUpgrade' => $needUpgrade,
-			'productname' => $this->themingDefaults->getProductName(),
+			'productname' => $this->productName,
 			'extendedSupport' => Util::hasExtendedSupport()
 		];
 

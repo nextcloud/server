@@ -1001,6 +1001,20 @@ class Server extends ServerContainer implements IServerContainer {
 			return $manager;
 		});
 
+		$this->registerService('instanceName', function (ContainerInterface $c) {
+			try {
+				return $c->get(\OCP\Theming\IDefaults::class)->getName();
+			} catch (\Throwable $e) {
+				return 'Nextcloud';
+			}
+		});
+		$this->registerService('productName', function (ContainerInterface $c) {
+			try {
+				return $c->get(\OCP\Theming\IDefaults::class)->getProductName();
+			} catch (\Throwable $e) {
+				return 'Nextcloud';
+			}
+		});
 		$this->registerDeprecatedAlias(\OC_Defaults::class, \OCP\Theming\IDefaults::class);
 		$this->registerDeprecatedAlias('ThemingDefaults', \OCP\Theming\IDefaults::class);
 		$this->registerAlias(ThemingDefaults::class, \OCP\Theming\IDefaults::class);
@@ -1044,6 +1058,10 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(ServerVersion::class),
 				);
 			}
+			var_dump(
+				$classExists,
+				$c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false),
+				$c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost()));
 			throw new \Exception('Does it break?');
 			return new \OC_Defaults();
 		});
