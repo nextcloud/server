@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\DAV;
 
 use OCA\DAV\DAV\Sharing\SharingMapper;
+use OCP\Federation\ICloudId;
 use OCP\Federation\ICloudIdManager;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
 
@@ -102,7 +103,7 @@ class RemoteUserPrincipalBackend implements BackendInterface {
 	}
 
 	/**
-	 * @return array{'{DAV:}displayname': string, '{http://nextcloud.com/ns}cloud-id': \OCP\Federation\ICloudId, uri: string}
+	 * @return array{'{DAV:}displayname': string, '{http://nextcloud.com/ns}cloud-id': ICloudId, uri: string}
 	 */
 	private function principalUriToPrincipal(string $principalUri): array {
 		[, $name] = \Sabre\Uri\split($principalUri);

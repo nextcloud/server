@@ -22,13 +22,13 @@ use Psr\Log\LoggerInterface;
 
 class SettingsController extends OCSController {
 	public function __construct(
-		string $AppName,
+		string $appName,
 		IRequest $request,
 		private IL10N $l,
 		private TrustedServers $trustedServers,
 		private LoggerInterface $logger,
 	) {
-		parent::__construct($AppName, $request);
+		parent::__construct($appName, $request);
 	}
 
 

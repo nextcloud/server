@@ -240,8 +240,8 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @group RoutingWeirdness
-	 * @dataProvider dataAllowFederationOnPublicShares
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAllowFederationOnPublicShares')]
 	public function testCreateShareLinkPublicUpload(array $appConfig, int $permissions): void {
 		$this->appConfig->method('getValueBool')
 			->willReturnMap([$appConfig]);
@@ -1016,8 +1016,8 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
-	 * @dataProvider dataAllowFederationOnPublicShares
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAllowFederationOnPublicShares')]
 	public function testUpdateShareUpload(array $appConfig, int $permissions): void {
 		$this->appConfig->method('getValueBool')->willReturnMap([
 			$appConfig,

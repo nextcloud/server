@@ -36,7 +36,7 @@ class GlobalStoragesController extends StoragesController {
 	 * @param IConfig $config
 	 */
 	public function __construct(
-		$AppName,
+		$appName,
 		IRequest $request,
 		IL10N $l10n,
 		GlobalStoragesService $globalStoragesService,
@@ -46,7 +46,7 @@ class GlobalStoragesController extends StoragesController {
 		IConfig $config,
 	) {
 		parent::__construct(
-			$AppName,
+			$appName,
 			$request,
 			$l10n,
 			$globalStoragesService,

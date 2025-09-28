@@ -189,7 +189,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		array_walk_recursive(
 			$selectArguments,
-			function (string &$arg) {
+			function (string &$arg): void {
 				if (\str_starts_with($arg, 'l::')) {
 					$arg = $this->queryBuilder->expr()->literal(substr($arg, 3));
 				}
@@ -357,7 +357,7 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		array_walk_recursive(
 			$selectArguments,
-			function (string &$arg) {
+			function (string &$arg): void {
 				if (\str_starts_with($arg, 'l::')) {
 					$arg = $this->queryBuilder->expr()->literal(substr($arg, 3));
 				}
