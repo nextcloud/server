@@ -405,6 +405,7 @@ OC.L10N.register(
     "Default expiration time of shares in days" : "Domyślny czas wygaśnięcia udostępnień w dniach",
     "Privacy settings for sharing" : "Ustawienia prywatności dotyczące udostępniania",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Zezwalaj na automatyczne uzupełnianie nazwy konta w oknie udostępniania i zezwalaj na dostęp do systemowej książki adresowej",
+    "Sharing autocompletion restrictions" : "Ograniczenia udostępniania",
     "Restrict account name autocompletion and system address book access to users within the same groups" : "Ogranicz autouzupełnianie nazwy konta i dostęp do systemowej książki adresowej do użytkowników w tych samych grupach",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Pokaż tekst zastrzeżenia na stronie przesyłania linków publicznych (wyświetlane tylko wtedy, gdy lista plików jest ukryta)",
     "Disclaimer text" : "Tekst zastrzeżenia",

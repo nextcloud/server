@@ -88,7 +88,7 @@ OC.L10N.register(
     "Custom background" : "Anpassad bakgrund",
     "Plain background" : "Enkel bakgrund",
     "Default background" : "Standardbakgrund",
-    "Theme selection is enforced" : "Temaval är tvingande",
+    "Theme selection is enforced" : "Temaval är låst",
     "Could not set the app order" : "Det gick inte att ställa in appordningen",
     "Could not reset the app order" : "Kunde inte återställa appordningen",
     "Navigation bar settings" : "Inställningar för navigeringsfältet",

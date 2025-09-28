@@ -1,5 +1,6 @@
 { "translations": {
     "Files" : "Ifuyla",
+    "yesterday" : "iḍelli",
     "Templates" : "Timudmiwin",
     "Apps" : "Isnasen",
     "Settings" : "Iɣewwaṛen",
@@ -11,6 +12,7 @@
     "Website" : "Asmel web",
     "Address" : "Adresse",
     "About" : "Γef",
+    "Open %s" : "Ldi %s",
     "Sunday" : "Acer",
     "Monday" : "Arim",
     "Tuesday" : "Aram",
@@ -18,8 +20,10 @@
     "Thursday" : "Amhad",
     "Friday" : "Sem",
     "Saturday" : "Sed",
+    "January" : "Yennayer",
     "Images" : "Tugniwin",
     "Question" : "Asteqsi",
+    "Text" : "Aḍris",
     "Translate" : "Suqel"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

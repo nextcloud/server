@@ -54,7 +54,7 @@ OC.L10N.register(
     "Images" : "Bilder",
     "Office documents" : "Office Dokumente",
     "PDF documents" : "PDF-Dokumente",
-    "Video" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Video" : "Video",
     "Custom MIME type" : "Benutzerdefinierter MIME Typ",
     "Custom mimetype" : "Benutzerdefinierter Mime-Typ",
     "Select a file type" : "Dateityp auswählen",
