@@ -119,7 +119,10 @@ class Factory implements ICacheFactory {
 				$versions = $appConfig->getAppInstalledVersions();
 			}
 			$versions['core'] = implode('.', $this->serverVersion->getVersion());
-			$this->globalPrefix = hash('xxh128', implode(',', $versions));
+
+			// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
+			$instanceid = $config->getValue('instanceid');
+			$this->globalPrefix = hash('xxh128', $instanceid . implode(',', $versions));
 		}
 		return $this->globalPrefix;
 	}
@@ -132,7 +135,10 @@ class Factory implements ICacheFactory {
 	 */
 	public function withServerVersionPrefix(\Closure $closure): void {
 		$backupPrefix = $this->globalPrefix;
-		$this->globalPrefix = hash('xxh128', implode('.', $this->serverVersion->getVersion()));
+
+		// Include instanceid in the prefix, in case multiple instances use the same cache (e.g. same FPM pool)
+		$instanceid = \OCP\Server::get(SystemConfig::class)->getValue('instanceid');
+		$this->globalPrefix = hash('xxh128', $instanceid . implode('.', $this->serverVersion->getVersion()));
 		$closure($this);
 		$this->globalPrefix = $backupPrefix;
 	}
