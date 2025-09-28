@@ -4,7 +4,7 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <psalm
-	errorLevel="4"
+	errorLevel="3"
 	resolveFromConfigFile="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
