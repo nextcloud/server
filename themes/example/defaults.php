@@ -118,14 +118,4 @@ class OC_Theme {
 	public function getColorBackground(): string {
 		return '#3d85c6';
 	}
-
-	/**
-	 * Returns variables to overload defaults from core/css/variables.scss
-	 * @return array
-	 */
-	public function getScssVariables(): array {
-		return [
-			'color-primary' => '#745bca'
-		];
-	}
 }

@@ -56,6 +56,7 @@ use OCP\Share\IShareProvider;
 use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderSupportsAllSharesInFolder;
 use OCP\Share\IShareProviderWithNotification;
+use OCP\Theming\IDefaults;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -79,7 +80,7 @@ class Manager implements IManager {
 		private IRootFolder $rootFolder,
 		private IMailer $mailer,
 		private IURLGenerator $urlGenerator,
-		private \OC_Defaults $defaults,
+		private IDefaults $defaults,
 		private IEventDispatcher $dispatcher,
 		private IUserSession $userSession,
 		private KnownUserService $knownUserService,

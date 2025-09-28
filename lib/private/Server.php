@@ -1001,8 +1001,10 @@ class Server extends ServerContainer implements IServerContainer {
 			return $manager;
 		});
 
-		$this->registerAlias(\OC_Defaults::class, 'ThemingDefaults');
-		$this->registerService('ThemingDefaults', function (Server $c) {
+		$this->registerDeprecatedAlias(\OC_Defaults::class, \OCP\Theming\IDefaults::class);
+		$this->registerDeprecatedAlias('ThemingDefaults', \OCP\Theming\IDefaults::class);
+		$this->registerAlias(ThemingDefaults::class, \OCP\Theming\IDefaults::class);
+		$this->registerService(\OCP\Theming\IDefaults::class, function (Server $c) {
 			try {
 				$classExists = class_exists('OCA\Theming\ThemingDefaults');
 			} catch (\OCP\AutoloadNotAllowedException $e) {
@@ -1010,7 +1012,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$classExists = false;
 			}
 
-			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(IAppManager::class)->isEnabledForAnyone('theming') && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
+			if ($classExists && $c->get(\OCP\IConfig::class)->getSystemValueBool('installed', false) && $c->get(TrustedDomainHelper::class)->isTrustedDomain($c->getRequest()->getInsecureServerHost())) {
 				$backgroundService = new BackgroundService(
 					$c->get(IRootFolder::class),
 					$c->getAppDataDir('theming'),
@@ -1029,7 +1031,7 @@ class Server extends ServerContainer implements IServerContainer {
 				);
 				return new ThemingDefaults(
 					$c->get(\OCP\IConfig::class),
-					$c->get(\OCP\IAppConfig::class),
+					$c->getAppContainerForService(\OCA\Theming\ThemingDefaults::class)->get(\OCP\AppFramework\Services\IAppConfig::class),
 					$c->getL10N('theming'),
 					$c->get(IUserSession::class),
 					$c->get(IURLGenerator::class),
@@ -1039,8 +1041,10 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->get(IAppManager::class),
 					$c->get(INavigationManager::class),
 					$backgroundService,
+					$c->get(ServerVersion::class),
 				);
 			}
+			throw new \Exception('Does it break?');
 			return new \OC_Defaults();
 		});
 		$this->registerService(JSCombiner::class, function (Server $c) {
