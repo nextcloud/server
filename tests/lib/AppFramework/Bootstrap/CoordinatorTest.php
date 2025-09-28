@@ -76,7 +76,7 @@ class CoordinatorTest extends TestCase {
 	public function testBootAppNotLoadable(): void {
 		$appId = 'settings';
 		$this->serverContainer->expects($this->once())
-			->method('query')
+			->method('get')
 			->with(Application::class)
 			->willThrowException(new QueryException(''));
 		$this->logger->expects($this->once())
@@ -89,7 +89,7 @@ class CoordinatorTest extends TestCase {
 		$appId = 'settings';
 		$mockApp = $this->createMock(Application::class);
 		$this->serverContainer->expects($this->once())
-			->method('query')
+			->method('get')
 			->with(Application::class)
 			->willReturn($mockApp);
 
@@ -110,7 +110,7 @@ class CoordinatorTest extends TestCase {
 			}
 		};
 		$this->serverContainer->expects($this->once())
-			->method('query')
+			->method('get')
 			->with(Application::class)
 			->willReturn($mockApp);
 

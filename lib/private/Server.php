@@ -257,6 +257,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function __construct($webRoot, \OC\Config $config) {
 		parent::__construct();
+
 		$this->webRoot = $webRoot;
 
 		// To find out if we are running from CLI or not
@@ -575,7 +576,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(IFactory::class, function (Server $c) {
 			return new \OC\L10N\Factory(
 				$c->get(\OCP\IConfig::class),
-				$c->getRequest(),
+				$c->get(Request::class),
 				$c->get(IUserSession::class),
 				$c->get(ICacheFactory::class),
 				\OC::$SERVERROOT,

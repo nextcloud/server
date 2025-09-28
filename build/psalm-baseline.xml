@@ -3745,11 +3745,6 @@
       <code><![CDATA[isAdmin]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/InitialStateService.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[query]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/private/IntegrityCheck/Checker.php">
     <InvalidArrayAccess>
       <code><![CDATA[$x509->getDN(X509::DN_OPENSSL)['CN']]]></code>

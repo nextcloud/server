@@ -60,6 +60,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Ip\IRemoteAddress;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -263,7 +264,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return string the name of your application
 	 */
 	public function getAppName() {
-		return $this->query('appName');
+		return $this->get('appName');
 	}
 
 	/**
@@ -293,8 +294,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 */
 	public function registerCapability($serviceName) {
-		$this->query('OC\CapabilitiesManager')->registerCapability(function () use ($serviceName) {
-			return $this->query($serviceName);
+		$this->get('OC\CapabilitiesManager')->registerCapability(function () use ($serviceName) {
+			return $this->get($serviceName);
 		});
 	}
 
@@ -322,10 +323,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		try {
 			return $this->queryNoFallback($name);
-		} catch (QueryException $firstException) {
+		} catch (ContainerExceptionInterface $firstException) {
 			try {
 				return $this->getServer()->query($name, $autoload);
-			} catch (QueryException $secondException) {
+			} catch (ContainerExceptionInterface $secondException) {
 				if ($firstException->getCode() === 1) {
 					throw $secondException;
 				}
@@ -334,28 +335,30 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		}
 	}
 
+	public function get(string $id): mixed {
+		return $this->query($id);
+	}
+
 	/**
-	 * @param string $name
-	 * @return mixed
 	 * @throws QueryException if the query could not be resolved
 	 */
-	public function queryNoFallback($name) {
+	public function queryNoFallback(string $name): mixed {
 		$name = $this->sanitizeName($name);
 
-		if ($this->offsetExists($name)) {
-			return parent::query($name);
+		if ($this->has($name)) {
+			return parent::get($name);
 		} elseif ($this->appName === 'settings' && str_starts_with($name, 'OC\\Settings\\')) {
-			return parent::query($name);
+			return parent::get($name);
 		} elseif ($this->appName === 'core' && str_starts_with($name, 'OC\\Core\\')) {
-			return parent::query($name);
+			return parent::get($name);
 		} elseif (str_starts_with($name, \OC\AppFramework\App::buildAppNamespace($this->appName) . '\\')) {
-			return parent::query($name);
+			return parent::get($name);
 		} elseif (
 			str_starts_with($name, 'OC\\AppFramework\\Services\\')
 			|| str_starts_with($name, 'OC\\AppFramework\\Middleware\\')
 		) {
 			/* AppFramework services are scoped to the application */
-			return parent::query($name);
+			return parent::get($name);
 		}
 
 		throw new QueryException('Could not resolve ' . $name . '!'

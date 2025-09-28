@@ -137,20 +137,20 @@ class Application extends App implements IBootstrap {
 		 */
 		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->query(IServerContainer::class);
-			return $serverContainer->query(IProvider::class);
+			$serverContainer = $appContainer->get(IServerContainer::class);
+			return $serverContainer->get(IProvider::class);
 		});
 		$context->registerService(IManager::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->query(IServerContainer::class);
+			$serverContainer = $appContainer->get(IServerContainer::class);
 			return $serverContainer->getSettingsManager();
 		});
 
 		$context->registerService(NewUserMailHelper::class, function (IAppContainer $appContainer) {
 			/** @var Server $server */
-			$server = $appContainer->query(IServerContainer::class);
+			$server = $appContainer->get(IServerContainer::class);
 			/** @var Defaults $defaults */
-			$defaults = $server->query(Defaults::class);
+			$defaults = $server->get(Defaults::class);
 
 			return new NewUserMailHelper(
 				$defaults,
@@ -234,7 +234,7 @@ class Application extends App implements IBootstrap {
 	 */
 	public function onChangePassword(array $parameters) {
 		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks = $this->getContainer()->get(Hooks::class);
 		$hooks->onChangePassword($parameters['uid']);
 	}
 
@@ -251,7 +251,7 @@ class Application extends App implements IBootstrap {
 		}
 
 		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks = $this->getContainer()->get(Hooks::class);
 		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
 	}
 }

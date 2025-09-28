@@ -18,6 +18,7 @@ use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class Registry implements IRegistry {
@@ -54,8 +55,8 @@ class Registry implements IRegistry {
 	private function getSubscription(): ?ISubscription {
 		if ($this->subscription === null && $this->subscriptionService !== null) {
 			try {
-				$this->subscription = $this->container->query($this->subscriptionService);
-			} catch (QueryException $e) {
+				$this->subscription = $this->container->get($this->subscriptionService);
+			} catch (ContainerExceptionInterface) {
 				// Ignore this
 			}
 		}

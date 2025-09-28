@@ -54,12 +54,12 @@ class DIIntergrationTests extends TestCase {
 
 		$this->server->registerService(ClassB::class, function (SimpleContainer $c) {
 			return new ClassB(
-				$c->query(Interface1::class)
+				$c->get(Interface1::class)
 			);
 		});
 
 		/** @var ClassB $res */
-		$res = $this->container->query(ClassB::class);
+		$res = $this->container->get(ClassB::class);
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
@@ -70,12 +70,12 @@ class DIIntergrationTests extends TestCase {
 
 		$this->container->registerService(ClassB::class, function (SimpleContainer $c) {
 			return new ClassB(
-				$c->query(Interface1::class)
+				$c->get(Interface1::class)
 			);
 		});
 
 		/** @var ClassB $res */
-		$res = $this->container->query(ClassB::class);
+		$res = $this->container->get(ClassB::class);
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
@@ -90,12 +90,12 @@ class DIIntergrationTests extends TestCase {
 
 		$this->container->registerService(ClassB::class, function (SimpleContainer $c) {
 			return new ClassB(
-				$c->query(Interface1::class)
+				$c->get(Interface1::class)
 			);
 		});
 
 		/** @var ClassB $res */
-		$res = $this->container->query(ClassB::class);
+		$res = $this->container->get(ClassB::class);
 		$this->assertSame(ClassA2::class, get_class($res->interface1));
 	}
 
@@ -110,12 +110,12 @@ class DIIntergrationTests extends TestCase {
 
 		$this->server->registerService(ClassB::class, function (SimpleContainer $c) {
 			return new ClassB(
-				$c->query(Interface1::class)
+				$c->get(Interface1::class)
 			);
 		});
 
 		/** @var ClassB $res */
-		$res = $this->container->query(ClassB::class);
+		$res = $this->container->get(ClassB::class);
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 }
