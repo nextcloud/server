@@ -973,6 +973,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TextToImage\\IProvider' => __DIR__ . '/../../..' . '/lib/public/TextToImage/IProvider.php',
         'OCP\\TextToImage\\IProviderWithUserId' => __DIR__ . '/../../..' . '/lib/public/TextToImage/IProviderWithUserId.php',
         'OCP\\TextToImage\\Task' => __DIR__ . '/../../..' . '/lib/public/TextToImage/Task.php',
+        'OCP\\Theming\\IDefaults' => __DIR__ . '/../../..' . '/lib/public/Theming/IDefaults.php',
         'OCP\\Translation\\CouldNotTranslateException' => __DIR__ . '/../../..' . '/lib/public/Translation/CouldNotTranslateException.php',
         'OCP\\Translation\\IDetectLanguageProvider' => __DIR__ . '/../../..' . '/lib/public/Translation/IDetectLanguageProvider.php',
         'OCP\\Translation\\ITranslationManager' => __DIR__ . '/../../..' . '/lib/public/Translation/ITranslationManager.php',
