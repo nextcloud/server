@@ -579,6 +579,41 @@ class OC {
 		}
 	}
 
+	/**
+	 * This function adds some security related headers to all requests served via base.php
+	 * The implementation of this function has to happen here to ensure that all third-party
+	 * components (e.g. SabreDAV) also benefit from this headers.
+	 */
+	private static function addSecurityHeaders(): void {
+		/**
+		 * FIXME: Content Security Policy for legacy components. This
+		 * can be removed once \OCP\AppFramework\Http\Response from the AppFramework
+		 * is used everywhere.
+		 * @see \OCP\AppFramework\Http\Response::getHeaders
+		 */
+		$policy = 'default-src \'self\'; '
+			. 'script-src \'self\' \'nonce-' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '\'; '
+			. 'style-src \'self\' \'unsafe-inline\'; '
+			. 'frame-src *; '
+			. 'img-src * data: blob:; '
+			. 'font-src \'self\' data:; '
+			. 'media-src *; '
+			. 'connect-src *; '
+			. 'object-src \'none\'; '
+			. 'base-uri \'self\'; ';
+		header('Content-Security-Policy:' . $policy);
+
+		// Send fallback headers for installations that don't have the possibility to send
+		// custom headers on the webserver side
+		if (getenv('modHeadersAvailable') !== 'true') {
+			header('Referrer-Policy: no-referrer'); // https://www.w3.org/TR/referrer-policy/
+			header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+			header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
+			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
+			header('X-Robots-Tag: noindex, nofollow'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
+		}
+	}
+
 	public static function init(): void {
 		// First handle PHP configuration and copy auth headers to the expected
 		// $_SERVER variable before doing anything Server object related
@@ -702,7 +737,7 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled($systemConfig);
 
-		OC_Response::addSecurityHeaders();
+		self::addSecurityHeaders();
 
 		self::performSameSiteCookieProtection($config);
 
