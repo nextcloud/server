@@ -75,6 +75,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Sections\\Admin\\Security' => __DIR__ . '/..' . '/../lib/Sections/Admin/Security.php',
         'OCA\\Settings\\Sections\\Admin\\Server' => __DIR__ . '/..' . '/../lib/Sections/Admin/Server.php',
         'OCA\\Settings\\Sections\\Admin\\Sharing' => __DIR__ . '/..' . '/../lib/Sections/Admin/Sharing.php',
+        'OCA\\Settings\\Sections\\Admin\\Users' => __DIR__ . '/..' . '/../lib/Sections/Admin/Users.php',
         'OCA\\Settings\\Sections\\Personal\\Availability' => __DIR__ . '/..' . '/../lib/Sections/Personal/Availability.php',
         'OCA\\Settings\\Sections\\Personal\\Calendar' => __DIR__ . '/..' . '/../lib/Sections/Personal/Calendar.php',
         'OCA\\Settings\\Sections\\Personal\\PersonalInfo' => __DIR__ . '/..' . '/../lib/Sections/Personal/PersonalInfo.php',
