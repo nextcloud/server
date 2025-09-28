@@ -6,6 +6,7 @@
  */
 namespace OCA\Files_Trashbin\Tests\Command;
 
+use OC\Files\SetupManager;
 use OCA\Files_Trashbin\Command\ExpireTrash;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Helper;
@@ -35,7 +36,6 @@ class ExpireTrashTest extends TestCase {
 	private IUserManager $userManager;
 	private IUser $user;
 	private ITimeFactory $timeFactory;
-
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -101,7 +101,9 @@ class ExpireTrashTest extends TestCase {
 		$command = new ExpireTrash(
 			Server::get(LoggerInterface::class),
 			Server::get(IUserManager::class),
-			$this->expiration
+			$this->expiration,
+			Server::get(SetupManager::class),
+			Server::get(IRootFolder::class),
 		);
 
 		$this->invokePrivate($command, 'execute', [$inputInterface, $outputInterface]);
