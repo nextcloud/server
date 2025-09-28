@@ -61,7 +61,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 			/* No constructor, return a instance directly */
 			return $class->newInstance();
 		}
-		if (PHP_VERSION_ID >= 80400 && self::$useLazyObjects) {
+		if (PHP_VERSION_ID >= 80400 && self::$useLazyObjects && !$class->isInternal()) {
 			/* For PHP>=8.4, use a lazy ghost to delay constructor and dependency resolving */
 			/** @psalm-suppress UndefinedMethod */
 			return $class->newLazyGhost(function (object $object) use ($constructor): void {
