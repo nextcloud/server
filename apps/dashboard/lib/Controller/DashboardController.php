@@ -50,8 +50,8 @@ class DashboardController extends Controller {
 	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/')]
 	public function index(): TemplateResponse {
-		Util::addStyle('dashboard', 'dashboard');
-		Util::addScript('dashboard', 'main', 'theming');
+		Util::addStyle('dashboard', 'dashboard-main');
+		Util::addScript('dashboard', 'dashboard-main', 'theming');
 
 		$widgets = array_map(function (IWidget $widget) {
 			return [

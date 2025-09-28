@@ -1,0 +1,11 @@
+{
+	"extends": "@vue/tsconfig/tsconfig.json",
+	"include": ["./src/**/*.ts", "./src/**/*.vue"],
+	"compilerOptions": {
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+	},
+	"vueCompilerOptions": {
+		"target": 3.6
+	},
+}

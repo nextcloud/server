@@ -1,0 +1,27 @@
+{
+  "name": "@nextcloud/app-dashboard",
+  "private": true,
+  "license": "AGPL-3.0-or-later",
+  "author": "Nextcloud GmbH and Nextcloud contributors",
+  "scripts": {
+    "build": "vite build --mode=production",
+    "dev": "vite build --mode=development",
+    "watch": "vite build --mode=development --watch"
+  },
+  "browserslist": [
+    "extends @nextcloud/browserslist-config"
+  ],
+  "type": "module",
+  "dependencies": {
+    "@nextcloud/vue": "^9.0.0",
+    "@vueuse/integrations": "^13.9.0",
+    "vue": "^3.5.22",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+    "@nextcloud/vite-config": "^2.5.0",
+    "@types/sortablejs": "^1.15.8",
+    "@vue/tsconfig": "^0.8.1",
+    "vite": "npm:rolldown-vite@latest"
+  }
+}

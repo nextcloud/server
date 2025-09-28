@@ -3,114 +3,108 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
  -->
 <template>
-	<main id="app-dashboard">
-		<h2>{{ greeting.text }}</h2>
-		<ul class="statuses">
-			<li v-for="status in sortedRegisteredStatus"
-				:id="'status-' + status"
-				:key="status">
-				<div :ref="'status-' + status" />
-			</li>
-		</ul>
+	<NcContent app-name="dashboard">
+		<main>
+			<h2>{{ greeting.text }}</h2>
 
-		<Draggable v-model="layout"
-			class="panels"
-			v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
-			handle=".panel--header"
-			@end="saveLayout">
-			<template v-for="panelId in layout">
-				<div v-if="isApiWidgetV2(panels[panelId].id)"
-					:key="`${panels[panelId].id}-v2`"
-					class="panel">
-					<div class="panel--header">
-						<h2>
-							<img v-if="apiWidgets[panels[panelId].id].icon_url" :src="apiWidgets[panels[panelId].id].icon_url" alt="">
-							<span v-else :class="apiWidgets[panels[panelId].id].icon_class" aria-hidden="true" />
-							{{ apiWidgets[panels[panelId].id].title }}
-						</h2>
-					</div>
-					<div class="panel--content">
-						<ApiDashboardWidget :widget="apiWidgets[panels[panelId].id]"
-							:data="apiWidgetItems[panels[panelId].id]"
-							:loading="loadingItems" />
-					</div>
-				</div>
-				<div v-else :key="panels[panelId].id" class="panel">
-					<div class="panel--header">
-						<h2>
-							<span :class="panels[panelId].iconClass" aria-hidden="true" />
-							{{ panels[panelId].title }}
-						</h2>
-					</div>
-					<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
-						<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
-					</div>
-				</div>
-			</template>
-		</Draggable>
+			<ul class="statuses">
+				<li v-for="status in sortedRegisteredStatus"
+					:id="'status-' + status"
+					:key="status">
+					<div :ref="'status-' + status" />
+				</li>
+			</ul>
 
-		<div class="footer">
-			<NcButton @click="showModal">
-				<template #icon>
-					<Pencil :size="20" />
+			<div ref="panelsContainer" class="panels">
+				<template v-for="panelId in layout">
+					<div v-if="isApiWidgetV2(panels[panelId].id)"
+						:key="`${panels[panelId].id}-v2`"
+						class="panel">
+						<div class="panel--header">
+							<h2>
+								<img v-if="apiWidgets[panels[panelId].id].icon_url" :src="apiWidgets[panels[panelId].id].icon_url" alt="">
+								<span v-else :class="apiWidgets[panels[panelId].id].icon_class" aria-hidden="true" />
+								{{ apiWidgets[panels[panelId].id].title }}
+							</h2>
+						</div>
+						<div class="panel--content">
+							<ApiDashboardWidget :widget="apiWidgets[panels[panelId].id]"
+								:data="apiWidgetItems[panels[panelId].id]"
+								:loading="loadingItems" />
+						</div>
+					</div>
+					<div v-else :key="panels[panelId].id" class="panel">
+						<div class="panel--header">
+							<h2>
+								<span :class="panels[panelId].iconClass" aria-hidden="true" />
+								{{ panels[panelId].title }}
+							</h2>
+						</div>
+						<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
+							<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
+						</div>
+					</div>
 				</template>
-				{{ t('dashboard', 'Customize') }}
-			</NcButton>
-		</div>
-
-		<NcModal v-if="modal" size="large" @close="closeModal">
-			<div class="modal__content">
-				<h2>{{ t('dashboard', 'Edit widgets') }}</h2>
-				<ol class="panels">
-					<li v-for="status in sortedAllStatuses" :key="status" :class="'panel-' + status">
-						<input :id="'status-checkbox-' + status"
-							type="checkbox"
-							class="checkbox"
-							:checked="isStatusActive(status)"
-							@input="updateStatusCheckbox(status, $event.target.checked)">
-						<label :for="'status-checkbox-' + status">
-							<NcUserStatusIcon v-if="status === 'status'" status="online" aria-hidden="true" />
-							<span v-else :class="statusInfo[status].icon" aria-hidden="true" />
-							{{ statusInfo[status].text }}
-						</label>
-					</li>
-				</ol>
-				<Draggable v-model="layout"
-					class="panels"
-					tag="ol"
-					v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
-					handle=".draggable"
-					@end="saveLayout">
-					<li v-for="panel in sortedPanels" :key="panel.id" :class="'panel-' + panel.id">
-						<input :id="'panel-checkbox-' + panel.id"
-							type="checkbox"
-							class="checkbox"
-							:checked="isActive(panel)"
-							@input="updateCheckbox(panel, $event.target.checked)">
-						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<img v-if="panel.iconUrl" alt="" :src="panel.iconUrl">
-							<span v-else :class="panel.iconClass" aria-hidden="true" />
-							{{ panel.title }}
-						</label>
-					</li>
-				</Draggable>
-
-				<a v-if="isAdmin && appStoreEnabled" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
-
-				<div v-if="statuses.weather && isStatusActive('weather')">
-					<h2>{{ t('dashboard', 'Weather service') }}</h2>
-					<p>
-						{{ t('dashboard', 'For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information.', { productName }) }}
-					</p>
-					<p class="credits--end">
-						<a href="https://api.met.no/doc/TermsOfService" target="_blank" rel="noopener">{{ t('dashboard', 'Weather data from Met.no') }}</a>,
-						<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">{{ t('dashboard', 'geocoding with Nominatim') }}</a>,
-						<a href="https://www.opentopodata.org/#public-api" target="_blank" rel="noopener">{{ t('dashboard', 'elevation data from OpenTopoData') }}</a>.
-					</p>
-				</div>
 			</div>
-		</NcModal>
-	</main>
+
+			<div class="footer">
+				<NcButton @click="showModal">
+					<template #icon>
+						<Pencil :size="20" />
+					</template>
+					{{ t('dashboard', 'Customize') }}
+				</NcButton>
+			</div>
+
+			<NcModal v-if="modal" size="large" @close="closeModal">
+				<div class="modal__content">
+					<h2>{{ t('dashboard', 'Edit widgets') }}</h2>
+					<ol class="panels">
+						<li v-for="status in sortedAllStatuses" :key="status" :class="'panel-' + status">
+							<input :id="'status-checkbox-' + status"
+								type="checkbox"
+								class="checkbox"
+								:checked="isStatusActive(status)"
+								@input="updateStatusCheckbox(status, $event.target.checked)">
+							<label :for="'status-checkbox-' + status">
+								<NcUserStatusIcon v-if="status === 'status'" status="online" aria-hidden="true" />
+								<span v-else :class="statusInfo[status].icon" aria-hidden="true" />
+								{{ statusInfo[status].text }}
+							</label>
+						</li>
+					</ol>
+					<ol ref="modalPanelsContainer" class="panels">
+						<li v-for="panel in sortedPanels" :key="panel.id" :class="'panel-' + panel.id">
+							<input :id="'panel-checkbox-' + panel.id"
+								type="checkbox"
+								class="checkbox"
+								:checked="isActive(panel)"
+								@input="updateCheckbox(panel, $event.target.checked)">
+							<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
+								<img v-if="panel.iconUrl" alt="" :src="panel.iconUrl">
+								<span v-else :class="panel.iconClass" aria-hidden="true" />
+								{{ panel.title }}
+							</label>
+						</li>
+					</ol>
+
+					<a v-if="isAdmin && appStoreEnabled" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
+
+					<div v-if="statuses.weather && isStatusActive('weather')">
+						<h2>{{ t('dashboard', 'Weather service') }}</h2>
+						<p>
+							{{ t('dashboard', 'For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information.', { productName }) }}
+						</p>
+						<p class="credits--end">
+							<a href="https://api.met.no/doc/TermsOfService" target="_blank" rel="noopener">{{ t('dashboard', 'Weather data from Met.no') }}</a>,
+							<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">{{ t('dashboard', 'geocoding with Nominatim') }}</a>,
+							<a href="https://www.opentopodata.org/#public-api" target="_blank" rel="noopener">{{ t('dashboard', 'elevation data from OpenTopoData') }}</a>.
+						</p>
+					</div>
+				</div>
+			</NcModal>
+		</main>
+	</NcContent>
 </template>
 
 <script>
@@ -119,16 +113,17 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import Draggable from 'vuedraggable'
 import NcModal from '@nextcloud/vue/components/NcModal'
+import NcContent from '@nextcloud/vue/components/NcContent'
 import NcUserStatusIcon from '@nextcloud/vue/components/NcUserStatusIcon'
+import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
-import Vue from 'vue'
+import { t } from '@nextcloud/l10n'
 
-import isMobile from './mixins/isMobile.js'
 import ApiDashboardWidget from './components/ApiDashboardWidget.vue'
+import { useSortable } from '@vueuse/integrations/useSortable'
+import { ref, watch } from 'vue'
 
-const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
 const birthdate = new Date(loadState('dashboard', 'birthdate'))
 
@@ -147,18 +142,53 @@ export default {
 	components: {
 		ApiDashboardWidget,
 		NcButton,
-		Draggable,
+		NcContent,
 		NcModal,
-		Pencil,
 		NcUserStatusIcon,
+		Pencil,
 	},
-	mixins: [
-		isMobile,
-	],
 
 	setup() {
+		const isMobile = useIsMobile()
+
+		const panelsContainer = ref()
+		const modalPanelsContainer = ref()
+		const panels = ref(loadState('dashboard', 'panels'))
+		const layout = ref(loadState('dashboard', 'layout').filter((panelId) => panels.value[panelId]))
+
+		watch(layout, saveLayout)
+		useSortable(panelsContainer, layout, {
+			handle: '.panel--header',
+			swapThreshold: 0.3,
+			delay: 500,
+			delayOnTouchOnly: true,
+			touchStartThreshold: 3,
+		})
+
+		useSortable(modalPanelsContainer, layout, {
+			handle: '.draggable',
+			swapThreshold: 0.3,
+			delay: 500,
+			delayOnTouchOnly: true,
+			touchStartThreshold: 3,
+		})
+
 		return {
+			isMobile,
+			layout,
+			panels,
+			panelsContainer,
+			modalPanelsContainer,
+
 			productName: window.OC.theme.productName,
+			saveLayout,
+			t,
+		}
+
+		function saveLayout() {
+			axios.post(generateOcsUrl('/apps/dashboard/api/v3/layout'), {
+				layout: layout.value,
+			})
 		}
 	},
 
@@ -172,11 +202,9 @@ export default {
 			allCallbacksStatus: {},
 			statusInfo,
 			enabledStatuses: loadState('dashboard', 'statuses'),
-			panels,
 			firstRun,
 			displayName: getCurrentUser()?.displayName,
 			uid: getCurrentUser()?.uid,
-			layout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			appStoreEnabled: loadState('dashboard', 'appStoreEnabled', true),
@@ -275,7 +303,7 @@ export default {
 				}
 				if (element) {
 					this.callbacksStatus[app](element[0])
-					Vue.set(this.statuses, app, { mounted: true })
+					this.statuses[app] = { mounted: true }
 				} else {
 					console.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
 				}
@@ -305,7 +333,6 @@ export default {
 		}
 	},
 	mounted() {
-		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
 
 		setInterval(() => {
@@ -328,16 +355,16 @@ export default {
 		 * @param {Function} callback The callback function to register a panel which gets the DOM element passed as parameter
 		 */
 		register(app, callback) {
-			Vue.set(this.callbacks, app, callback)
+			this.callbacks[app] = callback
 		},
 		registerStatus(app, callback) {
 			// always save callbacks in case user enables the status later
-			Vue.set(this.allCallbacksStatus, app, callback)
+			this.allCallbacksStatus[app] = callback
 			// register only if status is enabled or missing from config
 			if (this.isStatusActive(app)) {
 				this.registeredStatus.push(app)
 				this.$nextTick(() => {
-					Vue.set(this.callbacksStatus, app, callback)
+					this.callbacksStatus[app] = callback
 				})
 			}
 		},
@@ -359,16 +386,11 @@ export default {
 					this.callbacks[app](element[0], {
 						widget: this.panels[app],
 					})
-					Vue.set(this.panels[app], 'mounted', true)
+					this.panels[app].mounted = true
 				} else {
 					console.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
 				}
 			}
-		},
-		saveLayout() {
-			axios.post(generateOcsUrl('/apps/dashboard/api/v3/layout'), {
-				layout: this.layout,
-			})
 		},
 		saveStatuses() {
 			axios.post(generateOcsUrl('/apps/dashboard/api/v3/statuses'), {
@@ -392,7 +414,7 @@ export default {
 					this.fetchApiWidgetItems([panel.id], true)
 				}
 			}
-			Vue.set(this.panels[panel.id], 'mounted', false)
+			this.panels[panel.id].mounted = false
 			this.saveLayout()
 			this.$nextTick(() => this.rerenderPanels())
 		},
@@ -401,10 +423,6 @@ export default {
 			setTimeout(() => {
 				this.firstRun = false
 			}, 1000)
-		},
-		updateSkipLink() {
-			// Make sure "Skip to main content" link points to the app content
-			document.getElementsByClassName('skip-navigation')[0].setAttribute('href', '#app-dashboard')
 		},
 		updateStatusCheckbox(app, checked) {
 			if (checked) {
@@ -426,9 +444,9 @@ export default {
 			const j = this.registeredStatus.findIndex((s) => s === app)
 			if (j !== -1) {
 				this.registeredStatus.splice(j, 1)
-				Vue.set(this.statuses, app, { mounted: false })
+				this.statuses[app] = { mounted: false }
 				this.$nextTick(() => {
-					Vue.delete(this.callbacksStatus, app)
+					delete this.callbacksStatus[app]
 				})
 			}
 			this.saveStatuses()
@@ -481,7 +499,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#app-dashboard {
+main {
 	width: 100%;
 	min-height: 100%;
 	background-size: cover;
