@@ -249,6 +249,7 @@
     "Completed on %s" : "Slutförd %s",
     "Due on %s by %s" : "Slutar den %s vid %s",
     "Due on %s" : "Slutar den %s",
+    "Welcome to Nextcloud Calendar!\n\nThis is a sample event - explore the flexibility of planning with Nextcloud Calendar by making any edits you want!\n\nWith Nextcloud Calendar, you can:\n- Create, edit, and manage events effortlessly.\n- Create multiple calendars and share them with teammates, friends, or family.\n- Check availability and display your busy times to others.\n- Seamlessly integrate with apps and devices via CalDAV.\n- Customize your experience: schedule recurring events, adjust notifications and other settings." : "Välkommen till Nextcloud-kalendern!\n\nDetta är ett test-event - utforska flexibiliteten i att planera med Nextcloud-kalendern genom att göra alla ändringar du vill!\n\nMed Nextcloud-kalendern kan du:\n- Skapa, ändra och hantera kalenderhändelser utan besvär.\n- Skapa flera kalendrar och dela dem med kollegor, vänner eller familj.\n- Kolla huruvida någon är tillgänglig och dela vilka tider du själv är upptagen med andra.\n- Interagera sömlöst med appar och enheter via CalDAV.\n- Anpassa din upplevelse: schemalägg återkommande händelser, anpassa notiser och andra inställningar.",
     "Example event - open me!" : "Exempelhändelse – öppna mig!",
     "System Address Book" : "Systemadressbok",
     "The system address book contains contact information for all users in your instance." : "Systemadressboken innehåller kontaktinformation för alla användare i din instans.",

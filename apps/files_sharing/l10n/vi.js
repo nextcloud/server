@@ -157,6 +157,7 @@ OC.L10N.register(
     "Guest" : "Khách",
     "Group" : "Nhóm",
     "Email" : "Thư điện tử",
+    "Team" : "Đội",
     "Talk conversation" : "Nói chuyện",
     "Deck board" : "Dự án Deck",
     "ScienceMesh" : "Khoa học Mesh",
