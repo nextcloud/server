@@ -58,6 +58,7 @@ OC.L10N.register(
     "Create new tag" : "Стварыць новы тэг",
     "Cancel" : "Скасаваць",
     "Apply" : "Ужыць",
+    "Failed to load tags" : "Не ўдалося загрузіць тэгі",
     "No tags to select, type to create a new tag" : "Няма тэгаў для выбару, увядзіце тэкст, каб стварыць новы тэг",
     "Open in Files" : "Адкрыць у Файлах",
     "List of tags and their associated files and folders." : "Спіс тэгаў і звязаных з імі файлаў і папак.",

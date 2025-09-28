@@ -90,7 +90,7 @@ OC.L10N.register(
     "You are not allowed to edit incoming shares" : "Du får inte redigera inkommande delningar",
     "Wrong or no update parameter given" : "Fel eller ingen uppdateringsparameter angiven",
     "\"Sending the password by Nextcloud Talk\" for sharing a file or folder failed because Nextcloud Talk is not enabled." : "\"Skicka lösenord via Nextcloud Talk\" för att dela en fil eller mapp misslyckades eftersom Nextcloud Talk inte är aktiverat.",
-    "Custom share link tokens have been disabled by the administrator" : "Anpassade tokens för delningslänkar har inaktiverats av administratören",
+    "Custom share link tokens have been disabled by the administrator" : "Anpassade delningslänkar har inaktiverats av administratören",
     "Tokens must contain at least 1 character and may only contain letters, numbers, or a hyphen" : "Token måste innehålla minst 1 tecken och får endast innehålla bokstäver, siffror eller bindestreck",
     "Invalid date. Format must be YYYY-MM-DD" : "Ogiltigt datum. Formatet måste vara ÅÅÅÅ-MM-DD",
     "No sharing rights on this item" : "Inga delningsrättigheter för detta objekt",
