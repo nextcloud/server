@@ -12,7 +12,6 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
-use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -246,41 +245,6 @@ class OC_App {
 	 */
 	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
 		return Server::get(AppManager::class)->findAppInDirectories($appId, $ignoreCache);
-	}
-
-	/**
-	 * Get the directory for the given app.
-	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
-	 *
-	 * @psalm-taint-specialize
-	 *
-	 * @param string $appId
-	 * @param bool $refreshAppPath should be set to true only during install/upgrade
-	 * @return string|false
-	 * @deprecated 11.0.0 use Server::get(IAppManager)->getAppPath()
-	 */
-	public static function getAppPath(string $appId, bool $refreshAppPath = false) {
-		try {
-			return Server::get(IAppManager::class)->getAppPath($appId, $refreshAppPath);
-		} catch (AppPathNotFoundException) {
-			return false;
-		}
-	}
-
-	/**
-	 * Get the path for the given app on the access
-	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
-	 *
-	 * @param string $appId
-	 * @return string|false
-	 * @deprecated 18.0.0 use Server::get(IAppManager)->getAppWebPath()
-	 */
-	public static function getAppWebPath(string $appId) {
-		try {
-			return Server::get(IAppManager::class)->getAppWebPath($appId);
-		} catch (AppPathNotFoundException) {
-			return false;
-		}
 	}
 
 	/**
