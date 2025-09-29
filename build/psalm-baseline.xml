@@ -4037,27 +4037,6 @@
       <code><![CDATA[$tag]]></code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="lib/private/Template/CSSResourceLocator.php">
-    <ParamNameMismatch>
-      <code><![CDATA[$style]]></code>
-      <code><![CDATA[$style]]></code>
-    </ParamNameMismatch>
-  </file>
-  <file src="lib/private/Template/JSConfigHelper.php">
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
-  </file>
-  <file src="lib/private/Template/JSResourceLocator.php">
-    <InvalidArgument>
-      <code><![CDATA[false]]></code>
-    </InvalidArgument>
-    <ParamNameMismatch>
-      <code><![CDATA[$script]]></code>
-      <code><![CDATA[$script]]></code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/URLGenerator.php">
     <InvalidReturnStatement>
       <code><![CDATA[$path]]></code>
