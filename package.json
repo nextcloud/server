@@ -44,7 +44,7 @@
     "@mdi/js": "^7.4.47",
     "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.5.2",
-    "@nextcloud/axios": "^2.5.1",
+    "@nextcloud/axios": "^2.5.2",
     "@nextcloud/browser-storage": "^0.4.0",
     "@nextcloud/browserslist-config": "^3.0.1",
     "@nextcloud/calendar-availability-vue": "^2.2.10",
