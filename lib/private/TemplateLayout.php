@@ -7,6 +7,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
@@ -42,8 +43,8 @@ class TemplateLayout {
 	/** @var string[] */
 	private static array $cacheBusterCache = [];
 
-	public static ?CSSResourceLocator $cssLocator = null;
-	public static ?JSResourceLocator $jsLocator = null;
+	public ?CSSResourceLocator $cssLocator = null;
+	public ?JSResourceLocator $jsLocator = null;
 
 	public function __construct(
 		private IConfig $config,
@@ -214,7 +215,7 @@ class TemplateLayout {
 		}
 
 		// Add the js files
-		$jsFiles = self::findJavascriptFiles(Util::getScripts());
+		$jsFiles = $this->findJavascriptFiles(Util::getScripts());
 		$page->assign('jsfiles', []);
 		if ($this->config->getSystemValueBool('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
 			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
@@ -265,12 +266,12 @@ class TemplateLayout {
 			&& !preg_match('/^\/login/', $pathInfo)
 			&& $renderAs !== TemplateResponse::RENDER_AS_ERROR
 		) {
-			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
+			$cssFiles = $this->findStylesheetFiles(\OC_Util::$styles);
 		} else {
 			// If we ignore the scss compiler,
 			// we need to load the guest css fallback
 			Util::addStyle('guest');
-			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
+			$cssFiles = $this->findStylesheetFiles(\OC_Util::$styles);
 		}
 
 		$page->assign('cssfiles', []);
@@ -365,12 +366,12 @@ class TemplateLayout {
 		return self::$cacheBusterCache[$path];
 	}
 
-	public static function findStylesheetFiles(array $styles): array {
-		if (!self::$cssLocator) {
-			self::$cssLocator = \OCP\Server::get(CSSResourceLocator::class);
+	private function findStylesheetFiles(array $styles): array {
+		if ($this->cssLocator === null) {
+			$this->cssLocator = \OCP\Server::get(CSSResourceLocator::class);
 		}
-		self::$cssLocator->find($styles);
-		return self::$cssLocator->getResources();
+		$this->cssLocator->find($styles);
+		return $this->cssLocator->getResources();
 	}
 
 	public function getAppNamefromPath(string $path): string|false {
@@ -387,12 +388,12 @@ class TemplateLayout {
 		return false;
 	}
 
-	public static function findJavascriptFiles(array $scripts): array {
-		if (!self::$jsLocator) {
-			self::$jsLocator = \OCP\Server::get(JSResourceLocator::class);
+	private function findJavascriptFiles(array $scripts): array {
+		if ($this->jsLocator === null) {
+			$this->jsLocator = \OCP\Server::get(JSResourceLocator::class);
 		}
-		self::$jsLocator->find($scripts);
-		return self::$jsLocator->getResources();
+		$this->jsLocator->find($scripts);
+		return $this->jsLocator->getResources();
 	}
 
 	/**
