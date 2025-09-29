@@ -9,6 +9,7 @@
 namespace Test\Template;
 
 use OC\SystemConfig;
+use OC\Template\ResourceLocator;
 use OC\Template\ResourceNotFoundException;
 use Psr\Log\LoggerInterface;
 
@@ -46,7 +47,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 		$locator->expects($this->once())
 			->method('doFindTheme')
 			->with('foo');
-		/** @var \OC\Template\ResourceLocator $locator */
+		/** @var ResourceLocator $locator */
 		$locator->find(['foo']);
 	}
 
@@ -69,13 +70,13 @@ class ResourceLocatorTest extends \Test\TestCase {
 		$this->logger->expects($this->exactly(2))
 			->method('debug')
 			->with($this->stringContains('map/foo'));
-		/** @var \OC\Template\ResourceLocator $locator */
+		/** @var ResourceLocator $locator */
 		$locator->find(['foo']);
 	}
 
 	public function testAppendIfExist(): void {
 		$locator = $this->getResourceLocator('theme');
-		/** @var \OC\Template\ResourceLocator $locator */
+		/** @var ResourceLocator $locator */
 		$method = new \ReflectionMethod($locator, 'appendIfExist');
 		$method->setAccessible(true);
 

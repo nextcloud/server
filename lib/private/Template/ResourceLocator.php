@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OC\Template;
 
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 abstract class ResourceLocator {
@@ -23,7 +24,7 @@ abstract class ResourceLocator {
 
 	public function __construct(
 		protected LoggerInterface $logger,
-		\OCP\IConfig $config,
+		IConfig $config,
 	) {
 		$this->mapping = [
 			\OC::$SERVERROOT => \OC::$WEBROOT
