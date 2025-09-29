@@ -45,6 +45,11 @@ interface IDBConnection {
 	public const PLATFORM_SQLITE = 'sqlite';
 
 	/**
+	 * @since 32.0.0
+	 */
+	public const PLATFORM_MARIADB = 'mariadb';
+
+	/**
 	 * Gets the QueryBuilder for the connection.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
@@ -141,7 +146,7 @@ interface IDBConnection {
 	 * @return int number of inserted rows
 	 * @throws Exception used to be the removed dbal exception, since 21.0.0 it's \OCP\DB\Exception
 	 * @since 6.0.0 - parameter $compare was added in 8.1.0, return type changed from boolean in 8.1.0
-	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
+	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (\OCP\DB\Exception $e) { if ($e->getReason() === \OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION) {} }" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
 	public function insertIfNotExist(string $table, array $input, ?array $compare = null);
 
@@ -357,11 +362,15 @@ interface IDBConnection {
 
 	/**
 	 * Returns the database provider name
+	 *
 	 * @link https://github.com/nextcloud/server/issues/30877
+	 *
+	 * @param bool $strict differentiate between database flavors, e.g. MySQL vs MariaDB
+	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE|self::PLATFORM_MARIADB
+	 * @since 32.0.0 Optional parameter $strict was added
 	 * @since 28.0.0
-	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
 	 */
-	public function getDatabaseProvider(): string;
+	public function getDatabaseProvider(bool $strict = false): string;
 
 	/**
 	 * Get the shard definition by name, if configured

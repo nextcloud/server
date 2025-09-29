@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -37,6 +38,7 @@ class FakeManager implements ICommentsManager {
 		string $sortDirection = 'asc',
 		int $limit = 30,
 		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array {
 		return [];
 	}
@@ -49,11 +51,16 @@ class FakeManager implements ICommentsManager {
 		string $sortDirection = 'asc',
 		int $limit = 30,
 		bool $includeLastKnown = false,
+		string $topmostParentId = '',
 	): array {
 		return [];
 	}
 
-	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = '') {
+	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = ''): int {
+	}
+
+	public function getNumberOfCommentsForObjects(string $objectType, array $objectIds, ?\DateTime $notOlderThan = null, string $verb = ''): array {
+		return array_fill_keys($objectIds, 0);
 	}
 
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array {

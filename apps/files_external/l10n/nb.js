@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Gi tilgang",
-    "Error configuring OAuth1" : "Feil ved oppsett av OAuth1",
-    "Please provide a valid app key and secret." : "Oppgi gyldig appnøkkel og hemmelighet.",
     "Error configuring OAuth2" : "Feil ved oppsett av OAuth2",
     "Generate keys" : "Generer nøkler",
     "Error generating key pair" : "Feil ved nøkkelgenerering",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "Hemmelig nøkkel",
     "Builtin" : "Innebygget",
     "None" : "Ingen",
-    "OAuth1" : "OAuth1",
-    "App key" : "App-nøkkel",
-    "App secret" : "App-hemmelighet",
     "OAuth2" : "OAuth2",
     "Client ID" : "Klient-ID",
     "Client secret" : "Klient-hemmelighet",
@@ -127,7 +122,6 @@ OC.L10N.register(
     "Disconnect" : "Koble fra",
     "Admin defined" : "Admin-definert",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Automatisk statuskontroll er deaktivert på grunn av det store antallet konfigurerte lagringsenheter. Klikk for å sjekke status",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på at du vil koble fra denne eksterne lagringen? Det vil gjøre lagringen utilgjengelig i Nextcloud og vil føre til sletting av disse filene og mappene på enhver synkroniseringsklient som for øyeblikket er tilkoblet, men vil ikke slette noen filer og mapper på selve den eksterne lagringen.",
     "Delete storage?" : "Slett lagringsplass",
     "Click to recheck the configuration" : "Klikk for å sjekke oppsettet igjen",
     "Saved" : "Lagret",
@@ -145,6 +139,11 @@ OC.L10N.register(
     "Advanced settings" : "Avanserte innstillinger",
     "Allow people to mount external storage" : "Tillatt personer å montere ekstern lagring",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Globale påloggingsdetaljer kan brukes til å autentisere med flere eksterne lagringer som krever de samme påloggingsdetaljer.",
-    "Submit" : "Send inn"
+    "Error configuring OAuth1" : "Feil ved oppsett av OAuth1",
+    "Please provide a valid app key and secret." : "Oppgi gyldig appnøkkel og hemmelighet.",
+    "OAuth1" : "OAuth1",
+    "App key" : "App-nøkkel",
+    "App secret" : "App-hemmelighet",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Er du sikker på at du vil koble fra denne eksterne lagringen? Det vil gjøre lagringen utilgjengelig i Nextcloud og vil føre til sletting av disse filene og mappene på enhver synkroniseringsklient som for øyeblikket er tilkoblet, men vil ikke slette noen filer og mapper på selve den eksterne lagringen."
 },
 "nplurals=2; plural=(n != 1);");

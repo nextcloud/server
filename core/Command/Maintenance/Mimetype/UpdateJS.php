@@ -32,7 +32,8 @@ class UpdateJS extends Command {
 
 		// Output the JS
 		$generatedMimetypeFile = new GenerateMimetypeFileBuilder();
-		file_put_contents(\OC::$SERVERROOT . '/core/js/mimetypelist.js', $generatedMimetypeFile->generateFile($aliases));
+		$namings = $this->mimetypeDetector->getAllNamings();
+		file_put_contents(\OC::$SERVERROOT . '/core/js/mimetypelist.js', $generatedMimetypeFile->generateFile($aliases, $namings));
 
 		$output->writeln('<info>mimetypelist.js is updated');
 		return 0;

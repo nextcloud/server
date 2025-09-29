@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,15 +11,12 @@ use OCA\DAV\CalDAV\Activity\Filter\Todo;
 use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class TodoTest extends TestCase {
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $url;
-
-	/** @var IFilter|\PHPUnit\Framework\MockObject\MockObject */
-	protected $filter;
+	protected IURLGenerator&MockObject $url;
+	protected IFilter $filter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -48,7 +47,7 @@ class TodoTest extends TestCase {
 		$this->assertEquals('absolute-path-to-icon', $this->filter->getIcon());
 	}
 
-	public function dataFilterTypes() {
+	public static function dataFilterTypes(): array {
 		return [
 			[[], []],
 			[['calendar_todo'], ['calendar_todo']],
@@ -58,11 +57,11 @@ class TodoTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataFilterTypes
 	 * @param string[] $types
 	 * @param string[] $expected
 	 */
-	public function testFilterTypes($types, $expected): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataFilterTypes')]
+	public function testFilterTypes(array $types, array $expected): void {
 		$this->assertEquals($expected, $this->filter->filterTypes($types));
 	}
 }

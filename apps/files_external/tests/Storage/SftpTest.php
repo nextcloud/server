@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,21 +18,17 @@ use OCA\Files_External\Lib\Storage\SFTP;
  * @package OCA\Files_External\Tests\Storage
  */
 class SftpTest extends \Test\Files\Storage\Storage {
+	use ConfigurableStorageTrait;
 	/**
 	 * @var SFTP instance
 	 */
 	protected $instance;
 
-	private $config;
-
 	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.sftp.php');
-		if (!is_array($this->config) or !$this->config['run']) {
-			$this->markTestSkipped('SFTP backend not configured');
-		}
+		$this->loadConfig('files_external/tests/config.sftp.php');
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new SFTP($this->config);
 		$this->instance->mkdir('/');
@@ -44,15 +42,13 @@ class SftpTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	/**
-	 * @dataProvider configProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('configProvider')]
 	public function testStorageId($config, $expectedStorageId): void {
 		$instance = new SFTP($config);
 		$this->assertEquals($expectedStorageId, $instance->getId());
 	}
 
-	public function configProvider() {
+	public static function configProvider(): array {
 		return [
 			[
 				// no root path

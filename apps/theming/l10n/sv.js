@@ -70,7 +70,7 @@ OC.L10N.register(
     "Background and login image" : "Bakgrund och inloggningsbild",
     "Advanced options" : "Avancerade inställningar",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Allmän åtkomst är mycket viktig för oss. Vi följer webbstandarder och kontrollerar att allt är användbart även utan mus och hjälpmedel som skärmläsare. Vi strävar efter att följa {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 på AA-nivå, med temat hög kontrast även på AAA-nivå.",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Tillgänglighet är mycket viktig för oss. Vi följer webbstandarder och kontrollerar att allt är användbart även utan mus och hjälpmedel som skärmläsare. Vi strävar efter att följa {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 på AA-nivå, med högkontrast-temat även på AAA-nivå.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Om du hittar några problem, tveka inte att rapportera dem på {issuetracker}vår problemhanterare{linkend}. Och om du vill engagera dig, gå med i {designteam}vårt designteam{linkend}!",
     "Appearance and accessibility settings" : "Utseende och tillgänglighetsinställningar",
     "Misc accessibility options" : "Diverse tillgänglighetsalternativ",
@@ -88,7 +88,7 @@ OC.L10N.register(
     "Custom background" : "Anpassad bakgrund",
     "Plain background" : "Enkel bakgrund",
     "Default background" : "Standardbakgrund",
-    "Theme selection is enforced" : "Temaval är tvingande",
+    "Theme selection is enforced" : "Temaval är låst",
     "Could not set the app order" : "Det gick inte att ställa in appordningen",
     "Could not reset the app order" : "Kunde inte återställa appordningen",
     "Navigation bar settings" : "Inställningar för navigeringsfältet",
@@ -110,10 +110,6 @@ OC.L10N.register(
     "Reset to default" : "Återställ till grundinställningar",
     "Upload" : "Ladda upp",
     "Remove background image" : "Ta bort bakgrundsbild",
-    "Color" : "Färg",
-    "Background" : "Bakgrund",
-    "Set a custom background" : "Ställ in en anpassad bakgrund",
-    "Change color" : "Ändra färg",
-    "No background" : "Ingen bakgrund"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Allmän åtkomst är mycket viktig för oss. Vi följer webbstandarder och kontrollerar att allt är användbart även utan mus och hjälpmedel som skärmläsare. Vi strävar efter att följa {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 på AA-nivå, med temat hög kontrast även på AAA-nivå."
 },
 "nplurals=2; plural=(n != 1);");

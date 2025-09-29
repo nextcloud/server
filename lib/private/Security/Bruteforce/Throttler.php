@@ -127,6 +127,13 @@ class Throttler implements IThrottler {
 	 */
 	public function getDelay(string $ip, string $action = ''): int {
 		$attempts = $this->getAttempts($ip, $action);
+		return $this->calculateDelay($attempts);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function calculateDelay(int $attempts): int {
 		if ($attempts === 0) {
 			return 0;
 		}
@@ -199,25 +206,31 @@ class Throttler implements IThrottler {
 	 * {@inheritDoc}
 	 */
 	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int {
-		$delay = $this->getDelay($ip, $action);
-		if (($delay === self::MAX_DELAY_MS) && $this->getAttempts($ip, $action, 0.5) > $this->config->getSystemValueInt('auth.bruteforce.max-attempts', self::MAX_ATTEMPTS)) {
-			$this->logger->info('IP address blocked because it reached the maximum failed attempts in the last 30 minutes [action: {action}, ip: {ip}]', [
+		$maxAttempts = $this->config->getSystemValueInt('auth.bruteforce.max-attempts', self::MAX_ATTEMPTS);
+		$attempts = $this->getAttempts($ip, $action);
+		if ($attempts > $maxAttempts) {
+			$attempts30mins = $this->getAttempts($ip, $action, 0.5);
+			if ($attempts30mins > $maxAttempts) {
+				$this->logger->info('IP address blocked because it reached the maximum failed attempts in the last 30 minutes [action: {action}, attempts: {attempts}, ip: {ip}]', [
+					'action' => $action,
+					'ip' => $ip,
+					'attempts' => $attempts30mins,
+				]);
+				// If the ip made too many attempts within the last 30 mins we don't execute anymore
+				throw new MaxDelayReached('Reached maximum delay');
+			}
+
+			$this->logger->info('IP address throttled because it reached the attempts limit in the last 12 hours [action: {action}, attempts: {attempts}, ip: {ip}]', [
 				'action' => $action,
 				'ip' => $ip,
-			]);
-			// If the ip made too many attempts within the last 30 mins we don't execute anymore
-			throw new MaxDelayReached('Reached maximum delay');
-		}
-		if ($delay > 100) {
-			$this->logger->info('IP address throttled because it reached the attempts limit in the last 30 minutes [action: {action}, delay: {delay}, ip: {ip}]', [
-				'action' => $action,
-				'ip' => $ip,
-				'delay' => $delay,
+				'attempts' => $attempts,
 			]);
 		}
-		if (!$this->config->getSystemValueBool('auth.bruteforce.protection.testing')) {
-			usleep($delay * 1000);
+
+		if ($attempts > 0) {
+			return $this->calculateDelay($attempts);
 		}
-		return $delay;
+
+		return 0;
 	}
 }

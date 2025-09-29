@@ -39,9 +39,9 @@ export default {
 
 <style lang="scss" scoped>
 label {
+	color: var(--color-text-maxcontrast);
 	display: block;
 	font-size: 16px;
-	margin: 12px 0;
-	color: var(--color-text-light);
+	margin: 12px 0 6px 0;
 }
 </style>

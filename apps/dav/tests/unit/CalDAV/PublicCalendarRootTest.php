@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,10 +9,12 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
 use OCA\DAV\CalDAV\PublicCalendar;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -18,6 +22,7 @@ use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -30,25 +35,18 @@ use Test\TestCase;
  */
 class PublicCalendarRootTest extends TestCase {
 	public const UNIT_TEST_USER = '';
-	/** @var CalDavBackend */
-	private $backend;
-	/** @var PublicCalendarRoot */
-	private $publicCalendarRoot;
-	/** @var IL10N */
-	private $l10n;
-	/** @var Principal|\PHPUnit\Framework\MockObject\MockObject */
-	private $principal;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
-	/** @var IConfig */
-	protected $config;
+	private CalDavBackend $backend;
+	private PublicCalendarRoot $publicCalendarRoot;
+	private IL10N&MockObject $l10n;
+	private Principal&MockObject $principal;
+	protected IUserManager&MockObject $userManager;
+	protected IGroupManager&MockObject $groupManager;
+	protected IConfig&MockObject $config;
+	private ISecureRandom $random;
+	private LoggerInterface&MockObject $logger;
+	protected ICacheFactory&MockObject $cacheFactory;
 
-	/** @var ISecureRandom */
-	private $random;
-	/** @var LoggerInterface */
-	private $logger;
+	protected FederatedCalendarMapper&MockObject $federatedCalendarMapper;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -59,6 +57,8 @@ class PublicCalendarRootTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->random = Server::get(ISecureRandom::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->federatedCalendarMapper = $this->createMock(FederatedCalendarMapper::class);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$dispatcher = $this->createMock(IEventDispatcher::class);
 		$config = $this->createMock(IConfig::class);
 		$sharingBackend = $this->createMock(\OCA\DAV\CalDAV\Sharing\Backend::class);
@@ -80,10 +80,11 @@ class PublicCalendarRootTest extends TestCase {
 			$dispatcher,
 			$config,
 			$sharingBackend,
+			$this->federatedCalendarMapper,
+			$this->cacheFactory,
 			false,
 		);
-		$this->l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->publicCalendarRoot = new PublicCalendarRoot($this->backend,
@@ -134,10 +135,7 @@ class PublicCalendarRootTest extends TestCase {
 		$this->assertSame([], $calendarResults);
 	}
 
-	/**
-	 * @return Calendar
-	 */
-	protected function createPublicCalendar() {
+	protected function createPublicCalendar(): Calendar {
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
 		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];

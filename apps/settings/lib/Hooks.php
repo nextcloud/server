@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -111,8 +112,8 @@ class Hooks {
 	 * @throws \BadMethodCallException
 	 */
 	public function onChangeEmail(IUser $user, $oldMailAddress) {
-		if ($oldMailAddress === $user->getEMailAddress() ||
-			$user->getLastLogin() === 0) {
+		if ($oldMailAddress === $user->getEMailAddress()
+			|| $user->getLastLogin() === 0) {
 			// Email didn't really change or user didn't login,
 			// so don't create activities and emails.
 			return;

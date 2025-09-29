@@ -255,9 +255,9 @@ class LoginControllerTest extends TestCase {
 					],
 				]
 			);
-		$this->initialState->expects($this->exactly(13))
-			->method('provideInitialState')
-			->withConsecutive([
+
+		$calls = [
+			[
 				'loginMessages',
 				[
 					'MessageArray1',
@@ -265,17 +265,26 @@ class LoginControllerTest extends TestCase {
 					'This community release of Nextcloud is unsupported and push notifications are limited.',
 				],
 			],
+			[
+				'loginErrors',
 				[
-					'loginErrors',
-					[
-						'ErrorArray1',
-						'ErrorArray2',
-					],
+					'ErrorArray1',
+					'ErrorArray2',
 				],
-				[
-					'loginUsername',
-					'',
-				]);
+			],
+			[
+				'loginUsername',
+				'',
+			]
+		];
+		$this->initialState->expects($this->exactly(13))
+			->method('provideInitialState')
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				if (!empty($expected)) {
+					$this->assertEquals($expected, func_get_args());
+				}
+			});
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -294,15 +303,25 @@ class LoginControllerTest extends TestCase {
 			->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
-		$this->initialState->expects($this->exactly(14))
-			->method('provideInitialState')
-			->withConsecutive([], [], [], [
+		$calls = [
+			[], [], [],
+			[
 				'loginAutocomplete',
 				false
-			], [
+			],
+			[
 				'loginRedirectUrl',
 				'login/flow'
-			]);
+			],
+		];
+		$this->initialState->expects($this->exactly(14))
+			->method('provideInitialState')
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				if (!empty($expected)) {
+					$this->assertEquals($expected, func_get_args());
+				}
+			});
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -319,7 +338,7 @@ class LoginControllerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function passwordResetDataProvider(): array {
+	public static function passwordResetDataProvider(): array {
 		return [
 			[
 				true,
@@ -332,9 +351,7 @@ class LoginControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider passwordResetDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('passwordResetDataProvider')]
 	public function testShowLoginFormWithPasswordResetOption($canChangePassword,
 		$expectedResult): void {
 		$this->userSession
@@ -363,15 +380,26 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('LdapUser')
 			->willReturn($user);
-		$this->initialState->expects($this->exactly(13))
-			->method('provideInitialState')
-			->withConsecutive([], [], [
+		$calls = [
+			[], [],
+			[
 				'loginUsername',
 				'LdapUser'
-			], [], [], [], [
+			],
+			[], [], [],
+			[
 				'loginCanResetPassword',
 				$expectedResult
-			]);
+			],
+		];
+		$this->initialState->expects($this->exactly(13))
+			->method('provideInitialState')
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				if (!empty($expected)) {
+					$this->assertEquals($expected, func_get_args());
+				}
+			});
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -411,18 +439,30 @@ class LoginControllerTest extends TestCase {
 			->method('get')
 			->with('0')
 			->willReturn($user);
-		$this->initialState->expects($this->exactly(13))
-			->method('provideInitialState')
-			->withConsecutive([], [], [], [
+		$calls = [
+			[], [], [],
+			[
 				'loginAutocomplete',
 				true
-			], [], [
+			],
+			[],
+			[
 				'loginResetPasswordLink',
 				false
-			], [
+			],
+			[
 				'loginCanResetPassword',
 				false
-			]);
+			],
+		];
+		$this->initialState->expects($this->exactly(13))
+			->method('provideInitialState')
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				if (!empty($expected)) {
+					$this->assertEquals($expected, func_get_args());
+				}
+			});
 
 		$expectedResponse = new TemplateResponse(
 			'core',

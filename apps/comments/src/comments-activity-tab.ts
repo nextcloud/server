@@ -19,7 +19,7 @@ let ActivityTabPluginInstance
  */
 export function registerCommentsPlugins() {
 	window.OCA.Activity.registerSidebarAction({
-		mount: async (el, { context, fileInfo, reload }) => {
+		mount: async (el, { fileInfo, reload }) => {
 			const pinia = createPinia()
 
 			if (!ActivityTabPluginView) {
@@ -29,7 +29,6 @@ export function registerCommentsPlugins() {
 			}
 			ActivityTabPluginInstance = new ActivityTabPluginView({
 				el,
-				parent: context,
 				pinia,
 				propsData: {
 					reloadCallback: reload,
@@ -58,10 +57,9 @@ export function registerCommentsPlugins() {
 
 			timestamp: moment(comment.props?.creationDateTime).toDate().getTime(),
 
-			mount(element: HTMLElement, { context, reload }) {
+			mount(element: HTMLElement, { reload }) {
 				this._CommentsViewInstance = new CommentsViewObject({
 					el: element,
-					parent: context,
 					propsData: {
 						comment,
 						resourceId: fileInfo.id,

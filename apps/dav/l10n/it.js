@@ -198,7 +198,6 @@ OC.L10N.register(
     "Failed to load availability" : "Caricamento disponibilità non riuscito",
     "Saved availability" : "Disponibilità salvata",
     "Failed to save availability" : "Salvataggio disponibilità non riuscito",
-    "Time zone:" : "Fuso orario:",
     "to" : "a",
     "Delete slot" : "Elimina slot",
     "No working hours set" : "Orari lavorativi non impostati",
@@ -207,6 +206,10 @@ OC.L10N.register(
     "Pick a start time for {dayName}" : "Scegli un orario di inizio per {dayName}",
     "Pick a end time for {dayName}" : "Scegli un orario di fine per {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Imposta automaticamente lo stato dell'utente su \"Non disturbare\" al di fuori della disponibilità per disattivare tutte le notifiche.",
+    "Cancel" : "Annulla",
+    "Import" : "Importa",
+    "Error while saving settings" : "Errore durante il salvataggio delle impostazioni",
+    "Reset to default" : "Ripristina valori predefiniti",
     "Availability" : "Disponibilità",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Se imposti il tuo orario di lavoro, le altre persone potranno vedere quando non sei in ufficio per organizzare una riunione.",
     "Absence" : "Assenza",
@@ -228,9 +231,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Accetti l'invito?",
     "Tentative" : "Provvisorio",
     "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente.",
-    "Time:" : "Ora:",
-    "Could not open file" : "Impossibile aprire il file",
-    "Invalid chunk name" : "Nome non valido per lo spezzone",
-    "Could not rename part file assembled from chunks" : "Non è possibile rinominare il file assemblato da più spezzoni"
+    "Time zone:" : "Fuso orario:"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -45,7 +45,7 @@ class Sqlite extends AbstractDatabase {
 		}
 	}
 
-	public function setupDatabase($username) {
+	public function setupDatabase() {
 		$datadir = $this->config->getValue(
 			'datadirectory',
 			\OC::$SERVERROOT . '/data'

@@ -441,10 +441,10 @@ class ReminderService {
 	 */
 	private function deleteOrProcessNext(array $reminder,
 		VObject\Component\VEvent $vevent):void {
-		if ($reminder['is_repeat_based'] ||
-			!$reminder['is_recurring'] ||
-			!$reminder['is_relative'] ||
-			$reminder['is_recurrence_exception']) {
+		if ($reminder['is_repeat_based']
+			|| !$reminder['is_recurring']
+			|| !$reminder['is_relative']
+			|| $reminder['is_recurrence_exception']) {
 			$this->backend->removeReminder($reminder['id']);
 			return;
 		}

@@ -337,4 +337,13 @@ class AppConfig implements IAppConfig {
 	public function deleteUserValue(string $userId, string $key): void {
 		$this->config->deleteUserValue($userId, $this->appName, $key);
 	}
+
+	/**
+	 * Returns the installed versions of all apps
+	 *
+	 * @return array<string, string>
+	 */
+	public function getAppInstalledVersions(bool $onlyEnabled = false): array {
+		return $this->appConfig->getAppInstalledVersions($onlyEnabled);
+	}
 }

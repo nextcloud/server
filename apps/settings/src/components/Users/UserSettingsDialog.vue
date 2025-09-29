@@ -43,6 +43,9 @@
 			</NcNoteCard>
 			<fieldset>
 				<legend>{{ t('settings', 'Group list sorting') }}</legend>
+				<NcNoteCard class="dialog__note"
+					type="info"
+					:text="t('settings', 'Sorting only applies to the currently loaded groups for performance reasons. Groups will be loaded as you navigate or search through the list.')" />
 				<NcCheckboxRadioSwitch type="radio"
 					:checked.sync="groupSorting"
 					data-test="sortGroupsByMemberCount"
@@ -322,6 +325,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.dialog {
+	&__note {
+		font-weight: normal;
+	}
+}
+
 fieldset {
 	font-weight: bold;
 }

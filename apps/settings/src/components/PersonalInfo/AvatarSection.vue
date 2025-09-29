@@ -86,9 +86,9 @@ import VueCropper from 'vue-cropperjs'
 // eslint-disable-next-line n/no-extraneous-import
 import 'cropperjs/dist/cropper.css'
 
-import Upload from 'vue-material-design-icons/Upload.vue'
+import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
 import Folder from 'vue-material-design-icons/Folder.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 
 import HeaderBar from './shared/HeaderBar.vue'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
@@ -182,8 +182,7 @@ export default {
 				if (data.status === 'success') {
 					this.handleAvatarUpdate(false)
 				} else if (data.data === 'notsquare') {
-					const tempAvatar = generateUrl('/avatar/tmp') + '?requesttoken=' + encodeURIComponent(OC.requestToken) + '#' + Math.floor(Math.random() * 1000)
-					this.$refs.cropper.replace(tempAvatar)
+					this.$refs.cropper.replace(data.image)
 					this.showCropper = true
 				} else {
 					showError(data.data.message)
@@ -269,7 +268,7 @@ section {
 		width: min(100%, 300px);
 
 		span {
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 		}
 	}
 

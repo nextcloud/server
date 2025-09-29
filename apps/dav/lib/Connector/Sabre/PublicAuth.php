@@ -14,7 +14,9 @@ namespace OCA\DAV\Connector\Sabre;
 use OCP\Defaults;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\Bruteforce\MaxDelayReached;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -22,6 +24,7 @@ use Psr\Log\LoggerInterface;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\HTTP;
 use Sabre\HTTP\RequestInterface;
@@ -44,6 +47,7 @@ class PublicAuth extends AbstractBasic {
 		private ISession $session,
 		private IThrottler $throttler,
 		private LoggerInterface $logger,
+		private IURLGenerator $urlGenerator,
 	) {
 		// setup realm
 		$defaults = new Defaults();
@@ -51,16 +55,17 @@ class PublicAuth extends AbstractBasic {
 	}
 
 	/**
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
-	 *
-	 * @return array
 	 * @throws NotAuthenticated
+	 * @throws MaxDelayReached
 	 * @throws ServiceUnavailable
 	 */
 	public function check(RequestInterface $request, ResponseInterface $response): array {
 		try {
 			$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
+
+			if (count($_COOKIE) > 0 && !$this->request->passesStrictCookieCheck() && $this->getShare()->getPassword() !== null) {
+				throw new PreconditionFailed('Strict cookie check failed');
+			}
 
 			$auth = new HTTP\Auth\Basic(
 				$this->realm,
@@ -75,7 +80,17 @@ class PublicAuth extends AbstractBasic {
 			}
 
 			return $this->checkToken();
-		} catch (NotAuthenticated $e) {
+		} catch (NotAuthenticated|MaxDelayReached $e) {
+			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
+			throw $e;
+		} catch (PreconditionFailed $e) {
+			$response->setHeader(
+				'Location',
+				$this->urlGenerator->linkToRoute(
+					'files_sharing.share.showShare',
+					[ 'token' => $this->getToken() ],
+				),
+			);
 			throw $e;
 		} catch (\Exception $e) {
 			$class = get_class($e);
@@ -87,14 +102,13 @@ class PublicAuth extends AbstractBasic {
 
 	/**
 	 * Extract token from request url
-	 * @return string
 	 * @throws NotFound
 	 */
 	private function getToken(): string {
 		$path = $this->request->getPathInfo() ?: '';
 		// ['', 'dav', 'files', 'token']
 		$splittedPath = explode('/', $path);
-		
+
 		if (count($splittedPath) < 4 || $splittedPath[3] === '') {
 			throw new NotFound();
 		}
@@ -104,7 +118,7 @@ class PublicAuth extends AbstractBasic {
 
 	/**
 	 * Check token validity
-	 * @return array
+	 *
 	 * @throws NotFound
 	 * @throws NotAuthenticated
 	 */
@@ -152,15 +166,13 @@ class PublicAuth extends AbstractBasic {
 	protected function validateUserPass($username, $password) {
 		$this->throttler->sleepDelayOrThrowOnMax($this->request->getRemoteAddress(), self::BRUTEFORCE_ACTION);
 
-		$token = $this->getToken();
 		try {
-			$share = $this->shareManager->getShareByToken($token);
+			$share = $this->getShare();
 		} catch (ShareNotFound $e) {
 			$this->throttler->registerAttempt(self::BRUTEFORCE_ACTION, $this->request->getRemoteAddress());
 			return false;
 		}
 
-		$this->share = $share;
 		\OC_User::setIncognitoMode(true);
 
 		// check if the share is password protected
@@ -176,7 +188,7 @@ class PublicAuth extends AbstractBasic {
 					}
 					return true;
 				}
-				
+
 				if ($this->session->exists(PublicAuth::DAV_AUTHENTICATED)
 					&& $this->session->get(PublicAuth::DAV_AUTHENTICATED) === $share->getId()) {
 					return true;
@@ -203,7 +215,13 @@ class PublicAuth extends AbstractBasic {
 	}
 
 	public function getShare(): IShare {
-		assert($this->share !== null);
+		$token = $this->getToken();
+
+		if ($this->share === null) {
+			$share = $this->shareManager->getShareByToken($token);
+			$this->share = $share;
+		}
+
 		return $this->share;
 	}
 }

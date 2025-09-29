@@ -111,9 +111,9 @@ class AccountProperty implements IAccountProperty {
 		}
 
 		return match ($scope) {
-			IAccountManager::VISIBILITY_PRIVATE, '' => IAccountManager::SCOPE_LOCAL,
-			IAccountManager::VISIBILITY_CONTACTS_ONLY => IAccountManager::SCOPE_FEDERATED,
-			IAccountManager::VISIBILITY_PUBLIC => IAccountManager::SCOPE_PUBLISHED,
+			'private', '' => IAccountManager::SCOPE_LOCAL,
+			'contacts' => IAccountManager::SCOPE_FEDERATED,
+			'public' => IAccountManager::SCOPE_PUBLISHED,
 			default => $scope,
 		};
 	}

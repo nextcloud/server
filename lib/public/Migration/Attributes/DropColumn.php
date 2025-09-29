@@ -9,21 +9,21 @@ declare(strict_types=1);
 namespace OCP\Migration\Attributes;
 
 use Attribute;
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * attribute on column drop
- *
- * @since 30.0.0
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
+#[Consumable(since: '30.0.0')]
 class DropColumn extends ColumnMigrationAttribute {
 	/**
 	 * @return string
 	 * @since 30.0.0
 	 */
 	public function definition(): string {
-		return empty($this->getName()) ?
-			'Deletion of a column from table \'' . $this->getTable() . '\''
+		return empty($this->getName())
+			? 'Deletion of a column from table \'' . $this->getTable() . '\''
 			: 'Deletion of column \'' . $this->getName() . '\' from table \'' . $this->getTable() . '\'';
 	}
 }

@@ -23,7 +23,6 @@ use OC\Repair\Events\RepairInfoEvent;
 use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
-use OC_App;
 use OCP\App\IAppManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -60,6 +59,7 @@ class Updater extends BasicEmitter {
 		private Checker $checker,
 		private ?LoggerInterface $log,
 		private Installer $installer,
+		private IAppManager $appManager,
 	) {
 	}
 
@@ -167,8 +167,8 @@ class Updater extends BasicEmitter {
 
 		// Vendor was not set correctly on install, so we have to white-list known versions
 		if ($currentVendor === '' && (
-			isset($allowedPreviousVersions['owncloud'][$oldVersion]) ||
-			isset($allowedPreviousVersions['owncloud'][$majorMinor])
+			isset($allowedPreviousVersions['owncloud'][$oldVersion])
+			|| isset($allowedPreviousVersions['owncloud'][$majorMinor])
 		)) {
 			$currentVendor = 'owncloud';
 			$this->config->setAppValue('core', 'vendor', $currentVendor);
@@ -176,13 +176,13 @@ class Updater extends BasicEmitter {
 
 		if ($currentVendor === 'nextcloud') {
 			return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
-				&& (version_compare($oldVersion, $newVersion, '<=') ||
-					$this->config->getSystemValueBool('debug', false));
+				&& (version_compare($oldVersion, $newVersion, '<=')
+					|| $this->config->getSystemValueBool('debug', false));
 		}
 
 		// Check if the instance can be migrated
-		return isset($allowedPreviousVersions[$currentVendor][$majorMinor]) ||
-			isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
+		return isset($allowedPreviousVersions[$currentVendor][$majorMinor])
+			|| isset($allowedPreviousVersions[$currentVendor][$oldVersion]);
 	}
 
 	/**
@@ -238,18 +238,16 @@ class Updater extends BasicEmitter {
 		// Update the appfetchers version so it downloads the correct list from the appstore
 		\OC::$server->get(AppFetcher::class)->setVersion($currentVersion);
 
-		/** @var AppManager $appManager */
-		$appManager = \OC::$server->getAppManager();
-
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps($appManager->getEnabledApps());
-		$autoDisabledApps = $appManager->getAutoDisabledApps();
+		$this->upgradeAppStoreApps($this->appManager->getEnabledApps());
+		/** @var AppManager $this->appManager */
+		$autoDisabledApps = $this->appManager->getAutoDisabledApps();
 		if (!empty($autoDisabledApps)) {
 			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);
 		}
 
 		// install new shipped apps on upgrade
-		$errors = Installer::installShippedApps(true);
+		$errors = $this->installer->installShippedApps(true);
 		foreach ($errors as $appId => $exception) {
 			/** @var \Exception $exception */
 			$this->log->error($exception->getMessage(), [
@@ -296,7 +294,7 @@ class Updater extends BasicEmitter {
 	 * @throws NeedsUpdateException
 	 */
 	protected function doAppUpgrade(): void {
-		$apps = \OC_App::getEnabledApps();
+		$apps = $this->appManager->getEnabledApps();
 		$priorityTypes = ['authentication', 'extended_authentication', 'filesystem', 'logging'];
 		$pseudoOtherType = 'other';
 		$stacks = [$pseudoOtherType => []];
@@ -307,7 +305,7 @@ class Updater extends BasicEmitter {
 				if (!isset($stacks[$type])) {
 					$stacks[$type] = [];
 				}
-				if (\OC_App::isType($appId, [$type])) {
+				if ($this->appManager->isType($appId, [$type])) {
 					$stacks[$type][] = $appId;
 					$priorityType = true;
 					break;
@@ -320,16 +318,16 @@ class Updater extends BasicEmitter {
 		foreach (array_merge($priorityTypes, [$pseudoOtherType]) as $type) {
 			$stack = $stacks[$type];
 			foreach ($stack as $appId) {
-				if (\OC_App::shouldUpgrade($appId)) {
-					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, \OCP\Server::get(IAppManager::class)->getAppVersion($appId)]);
-					\OC_App::updateApp($appId);
-					$this->emit('\OC\Updater', 'appUpgrade', [$appId, \OCP\Server::get(IAppManager::class)->getAppVersion($appId)]);
+				if ($this->appManager->isUpgradeRequired($appId)) {
+					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, $this->appManager->getAppVersion($appId)]);
+					$this->appManager->upgradeApp($appId);
+					$this->emit('\OC\Updater', 'appUpgrade', [$appId, $this->appManager->getAppVersion($appId)]);
 				}
 				if ($type !== $pseudoOtherType) {
 					// load authentication, filesystem and logging apps after
 					// upgrading them. Other apps my need to rely on modifying
 					// user and/or filesystem aspects.
-					\OC_App::loadApp($appId);
+					$this->appManager->loadApp($appId);
 				}
 			}
 		}
@@ -345,25 +343,21 @@ class Updater extends BasicEmitter {
 	 */
 	private function checkAppsRequirements(): void {
 		$isCoreUpgrade = $this->isCodeUpgrade();
-		$apps = OC_App::getEnabledApps();
+		$apps = $this->appManager->getEnabledApps();
 		$version = implode('.', Util::getVersion());
-		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
-			$info = $appManager->getAppInfo($app);
-			if ($info === null || !OC_App::isAppCompatible($version, $info)) {
-				if ($appManager->isShipped($app)) {
+			$info = $this->appManager->getAppInfo($app);
+			if ($info === null || !$this->appManager->isAppCompatible($version, $info)) {
+				if ($this->appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
-				$appManager->disableApp($app, true);
+				$this->appManager->disableApp($app, true);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', [$app]);
 			}
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
 	private function isCodeUpgrade(): bool {
 		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', Util::getVersion());
@@ -385,15 +379,21 @@ class Updater extends BasicEmitter {
 				if ($this->installer->isUpdateAvailable($app)) {
 					$this->emit('\OC\Updater', 'upgradeAppStoreApp', [$app]);
 					$this->installer->updateAppstoreApp($app);
+				} elseif (!empty($previousEnableStates)) {
+					/**
+					 * When updating a local app we still need to run updateApp
+					 * so that repair steps and migrations are correctly executed
+					 * Ref: https://github.com/nextcloud/server/issues/53985
+					 */
+					\OC_App::updateApp($app);
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 
-				if (!empty($previousEnableStates)) {
-					$ocApp = new \OC_App();
+				if (isset($previousEnableStates[$app])) {
 					if (!empty($previousEnableStates[$app]) && is_array($previousEnableStates[$app])) {
-						$ocApp->enable($app, $previousEnableStates[$app]);
-					} else {
-						$ocApp->enable($app);
+						$this->appManager->enableAppForGroups($app, $previousEnableStates[$app]);
+					} elseif ($previousEnableStates[$app] === 'yes') {
+						$this->appManager->enableApp($app);
 					}
 				}
 			} catch (\Exception $ex) {

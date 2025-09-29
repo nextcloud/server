@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,7 +7,10 @@
 
 namespace Test\Lock;
 
+use OC\Lock\DBLockingProvider;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
 
 /**
  * @group DB
@@ -15,11 +19,11 @@ use OCP\Lock\ILockingProvider;
  */
 class NonCachingDBLockingProviderTest extends DBLockingProviderTest {
 	/**
-	 * @return \OCP\Lock\ILockingProvider
+	 * @return ILockingProvider
 	 */
 	protected function getInstance() {
-		$this->connection = \OC::$server->getDatabaseConnection();
-		return new \OC\Lock\DBLockingProvider($this->connection, $this->timeFactory, 3600, false);
+		$this->connection = Server::get(IDBConnection::class);
+		return new DBLockingProvider($this->connection, $this->timeFactory, 3600, false);
 	}
 
 	public function testDoubleShared(): void {

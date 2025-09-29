@@ -46,8 +46,8 @@ class EventReader {
 		7 => 'July', 8 => 'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
 	];
 	protected array $relativePositionNamesMap = [
-		1 => 'First', 2 => 'Second', 3 => 'Third', 4 => 'Fourth', 5 => 'Fifty',
-		-1 => 'Last', -2 => 'Second Last', -3 => 'Third Last', -4 => 'Fourth Last', -5 => 'Fifty Last'
+		1 => 'First', 2 => 'Second', 3 => 'Third', 4 => 'Fourth', 5 => 'Fifth',
+		-1 => 'Last', -2 => 'Second Last', -3 => 'Third Last', -4 => 'Fourth Last', -5 => 'Fifth Last'
 	];
 
 	/**
@@ -169,9 +169,9 @@ class EventReader {
 		if (isset($this->baseEvent->DTEND)) {
 			$this->baseEventEndDate = $this->baseEvent->DTEND->getDateTime($this->baseEventEndTimeZone);
 			$this->baseEventEndDateFloating = $this->baseEvent->DTEND->isFloating();
-			$this->baseEventDuration =
-				$this->baseEvent->DTEND->getDateTime($this->baseEventEndTimeZone)->getTimeStamp() -
-				$this->baseEventStartDate->getTimeStamp();
+			$this->baseEventDuration
+				= $this->baseEvent->DTEND->getDateTime($this->baseEventEndTimeZone)->getTimeStamp()
+				- $this->baseEventStartDate->getTimeStamp();
 		}
 		// evaluate if duration exists
 		// extract duration and calculate end date
@@ -362,8 +362,8 @@ class EventReader {
 	public function recurringConcludes(): bool {
 
 		// retrieve rrule conclusions
-		if ($this->rruleIterator?->concludesOn() !== null ||
-			$this->rruleIterator?->concludesAfter() !== null) {
+		if ($this->rruleIterator?->concludesOn() !== null
+			|| $this->rruleIterator?->concludesAfter() !== null) {
 			return true;
 		}
 		// retrieve rdate conclusions

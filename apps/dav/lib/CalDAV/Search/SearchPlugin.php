@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -61,8 +62,8 @@ class SearchPlugin extends ServerPlugin {
 
 		$server->on('report', [$this, 'report']);
 
-		$server->xml->elementMap['{' . self::NS_Nextcloud . '}calendar-search'] =
-			CalendarSearchReport::class;
+		$server->xml->elementMap['{' . self::NS_Nextcloud . '}calendar-search']
+			= CalendarSearchReport::class;
 	}
 
 	/**

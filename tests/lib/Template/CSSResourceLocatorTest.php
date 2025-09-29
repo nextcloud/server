@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -86,7 +87,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		symlink($apps_dirname, $new_apps_path_symlink);
 
 		// Create an app within that path
-		mkdir($new_apps_path . '/' . 'test-css-app');
+		mkdir($new_apps_path . '/' . 'test_css_app');
 
 		// Use the symlink as the app path
 		\OC::$APPSROOTS[] = [
@@ -96,7 +97,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		];
 
 		$locator = $this->cssResourceLocator();
-		$locator->find(['test-css-app/test-file']);
+		$locator->find(['test_css_app/test-file']);
 
 		$resources = $locator->getResources();
 		$this->assertCount(1, $resources);
@@ -106,8 +107,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$webRoot = $resource[1];
 		$file = $resource[2];
 
-		$expectedRoot = $new_apps_path . '/test-css-app';
-		$expectedWebRoot = \OC::$WEBROOT . '/css-apps-test/test-css-app';
+		$expectedRoot = $new_apps_path . '/test_css_app';
+		$expectedWebRoot = \OC::$WEBROOT . '/css-apps-test/test_css_app';
 		$expectedFile = 'test-file.css';
 
 		$this->assertEquals($expectedRoot, $root,

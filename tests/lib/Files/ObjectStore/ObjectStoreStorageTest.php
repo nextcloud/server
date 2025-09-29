@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,6 +11,7 @@ namespace Test\Files\ObjectStore;
 use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
+use OCP\Constants;
 use OCP\Files\ObjectStore\IObjectStore;
 use Test\Files\Storage\Storage;
 
@@ -71,9 +73,7 @@ class ObjectStoreStorageTest extends Storage {
 		$this->markTestSkipped('Detecting external changes is not supported on object storages');
 	}
 
-	/**
-	 * @dataProvider copyAndMoveProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('copyAndMoveProvider')]
 	public function testMove($source, $target): void {
 		$this->initSourceAndTarget($source);
 		$sourceId = $this->instance->getCache()->getId(ltrim($source, '/'));
@@ -231,13 +231,13 @@ class ObjectStoreStorageTest extends Storage {
 		$this->instance->file_put_contents('test.txt', 'foo');
 		$this->assertTrue($cache->inCache('test.txt'));
 
-		$cache->update($cache->getId('test.txt'), ['permissions' => \OCP\Constants::PERMISSION_READ]);
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $this->instance->getPermissions('test.txt'));
+		$cache->update($cache->getId('test.txt'), ['permissions' => Constants::PERMISSION_READ]);
+		$this->assertEquals(Constants::PERMISSION_READ, $this->instance->getPermissions('test.txt'));
 
 		$this->assertTrue($this->instance->copy('test.txt', 'new.txt'));
 
 		$this->assertTrue($cache->inCache('new.txt'));
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $this->instance->getPermissions('new.txt'));
+		$this->assertEquals(Constants::PERMISSION_READ, $this->instance->getPermissions('new.txt'));
 	}
 
 	/**
@@ -254,12 +254,25 @@ class ObjectStoreStorageTest extends Storage {
 		$instance->file_put_contents('test.txt', 'foo');
 		$this->assertTrue($cache->inCache('test.txt'));
 
-		$cache->update($cache->getId('test.txt'), ['permissions' => \OCP\Constants::PERMISSION_READ]);
-		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $instance->getPermissions('test.txt'));
+		$cache->update($cache->getId('test.txt'), ['permissions' => Constants::PERMISSION_READ]);
+		$this->assertEquals(Constants::PERMISSION_READ, $instance->getPermissions('test.txt'));
 
 		$this->assertTrue($instance->copy('test.txt', 'new.txt'));
 
 		$this->assertTrue($cache->inCache('new.txt'));
-		$this->assertEquals(\OCP\Constants::PERMISSION_ALL, $instance->getPermissions('new.txt'));
+		$this->assertEquals(Constants::PERMISSION_ALL, $instance->getPermissions('new.txt'));
+	}
+
+	public function testCopyFolderSize(): void {
+		$cache = $this->instance->getCache();
+
+		$this->instance->mkdir('source');
+		$this->instance->file_put_contents('source/test.txt', 'foo');
+		$this->instance->getUpdater()->update('source/test.txt');
+		$this->assertEquals(3, $cache->get('source')->getSize());
+
+		$this->assertTrue($this->instance->copy('source', 'target'));
+
+		$this->assertEquals(3, $cache->get('target')->getSize());
 	}
 }

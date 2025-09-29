@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,44 +8,31 @@
 
 namespace Tests\Core\Command\User;
 
+use InvalidArgumentException;
 use OC\Core\Command\User\Setting;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SettingTest extends TestCase {
-	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var \OCP\IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $connection;
-	/** @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleInput;
-	/** @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $consoleOutput;
+	protected IUserManager&MockObject $userManager;
+	protected IConfig&MockObject $config;
+	protected IDBConnection&MockObject $connection;
+	protected InputInterface&MockObject $consoleInput;
+	protected MockObject&OutputInterface $consoleOutput;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->userManager = $this->getMockBuilder(IUserManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->connection = $this->getMockBuilder(IDBConnection::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->consoleInput = $this->getMockBuilder(InputInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->connection = $this->createMock(IDBConnection::class);
+		$this->consoleInput = $this->createMock(InputInterface::class);
+		$this->consoleOutput = $this->createMock(OutputInterface::class);
 	}
 
 	public function getCommand(array $methods = []) {
@@ -62,7 +50,7 @@ class SettingTest extends TestCase {
 		}
 	}
 
-	public function dataCheckInput() {
+	public static function dataCheckInput(): array {
 		return [
 			[
 				[['uid', 'username']],
@@ -176,7 +164,6 @@ class SettingTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataCheckInput
 	 *
 	 * @param array $arguments
 	 * @param array $options
@@ -184,6 +171,7 @@ class SettingTest extends TestCase {
 	 * @param mixed $user
 	 * @param string $expectedException
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckInput')]
 	public function testCheckInput($arguments, $options, $parameterOptions, $user, $expectedException): void {
 		$this->consoleInput->expects($this->any())
 			->method('getArgument')
@@ -217,7 +205,7 @@ class SettingTest extends TestCase {
 		try {
 			$this->invokePrivate($command, 'checkInput', [$this->consoleInput]);
 			$this->assertFalse($expectedException);
-		} catch (\InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			$this->assertEquals($expectedException, $e->getMessage());
 		}
 	}
@@ -226,7 +214,7 @@ class SettingTest extends TestCase {
 		$command = $this->getCommand(['checkInput']);
 		$command->expects($this->once())
 			->method('checkInput')
-			->willThrowException(new \InvalidArgumentException('test'));
+			->willThrowException(new InvalidArgumentException('test'));
 
 		$this->consoleOutput->expects($this->once())
 			->method('writeln')
@@ -235,7 +223,7 @@ class SettingTest extends TestCase {
 		$this->assertEquals(1, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
-	public function dataExecuteDelete() {
+	public static function dataExecuteDelete(): array {
 		return [
 			['config', false, null, 0],
 			['config', true, null, 0],
@@ -245,13 +233,13 @@ class SettingTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataExecuteDelete
 	 *
 	 * @param string|null $value
 	 * @param bool $errorIfNotExists
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteDelete')]
 	public function testExecuteDelete($value, $errorIfNotExists, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
@@ -299,7 +287,7 @@ class SettingTest extends TestCase {
 		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
-	public function dataExecuteSet() {
+	public static function dataExecuteSet(): array {
 		return [
 			['config', false, null, 0],
 			['config', true, null, 0],
@@ -309,13 +297,13 @@ class SettingTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataExecuteSet
 	 *
 	 * @param string|null $value
 	 * @param bool $updateOnly
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteSet')]
 	public function testExecuteSet($value, $updateOnly, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
@@ -367,7 +355,7 @@ class SettingTest extends TestCase {
 		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
-	public function dataExecuteGet() {
+	public static function dataExecuteGet(): array {
 		return [
 			['config', null, 'config', 0],
 			[null, 'config', 'config', 0],
@@ -376,13 +364,13 @@ class SettingTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataExecuteGet
 	 *
 	 * @param string|null $value
 	 * @param string|null $defaultValue
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataExecuteGet')]
 	public function testExecuteGet($value, $defaultValue, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',

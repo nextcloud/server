@@ -3,6 +3,7 @@
     "This application automatically maintains older versions of files that are changed." : "Þetta forrit viðheldur sjálfvirkt eldri útgáfum skráa sem er breytt.",
     "Current version" : "Fyrirliggjandi útgáfa",
     "Initial version" : "Upprunaleg útgáfa",
+    "You" : "Þú",
     "Actions for version from {versionHumanExplicitDate}" : "Aðgerðir fyrir útgáfu frá {versionHumanExplicitDate}",
     "Name this version" : "Settu heiti á þessa útgáfu",
     "Edit version name" : "Breyta heiti útgáfunnar",

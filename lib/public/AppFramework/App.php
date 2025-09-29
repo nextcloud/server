@@ -9,10 +9,10 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework;
 
-use OC\AppFramework\Routing\RouteConfig;
-use OC\Route\Router;
+use OC\AppFramework\Utility\SimpleContainer;
 use OC\ServerContainer;
-use OCP\Route\IRouter;
+use OCP\IConfig;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -47,7 +47,7 @@ class App {
 	 * @since 6.0.0
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
-		$runIsSetupDirectly = \OC::$server->getConfig()->getSystemValueBool('debug')
+		$runIsSetupDirectly = Server::get(IConfig::class)->getSystemValueBool('debug')
 			&& !ini_get('zend.exception_ignore_args');
 
 		if ($runIsSetupDirectly) {
@@ -58,23 +58,30 @@ class App {
 			$classNameParts = explode('\\', trim($applicationClassName, '\\'));
 
 			foreach ($e->getTrace() as $step) {
-				if (isset($step['class'], $step['function'], $step['args'][0]) &&
-					$step['class'] === ServerContainer::class &&
-					$step['function'] === 'query' &&
-					$step['args'][0] === $applicationClassName) {
+				if (isset($step['class'], $step['function'], $step['args'][0])
+					&& $step['class'] === ServerContainer::class
+					&& $step['function'] === 'query'
+					&& $step['args'][0] === $applicationClassName) {
 					$setUpViaQuery = true;
 					break;
-				} elseif (isset($step['class'], $step['function'], $step['args'][0]) &&
-					$step['class'] === ServerContainer::class &&
-					$step['function'] === 'getAppContainer' &&
-					$step['args'][1] === $classNameParts[1]) {
+				} elseif (isset($step['class'], $step['function'], $step['args'][0])
+					&& $step['class'] === ServerContainer::class
+					&& $step['function'] === 'getAppContainer'
+					&& $step['args'][1] === $classNameParts[1]) {
+					$setUpViaQuery = true;
+					break;
+				} elseif (isset($step['class'], $step['function'], $step['args'][0])
+					&& $step['class'] === SimpleContainer::class
+					&& preg_match('/{closure:OC\\\\AppFramework\\\\Utility\\\\SimpleContainer::buildClass\\(\\):\\d+}/', $step['function'])
+					&& $step['args'][0] === $this) {
+					/* We are setup through a lazy ghost, fine */
 					$setUpViaQuery = true;
 					break;
 				}
 			}
 
 			if (!$setUpViaQuery && $applicationClassName !== \OCP\AppFramework\App::class) {
-				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), [
+				Server::get(LoggerInterface::class)->error($e->getMessage(), [
 					'app' => $appName,
 					'exception' => $e,
 				]);
@@ -94,35 +101,6 @@ class App {
 	 */
 	public function getContainer(): IAppContainer {
 		return $this->container;
-	}
-
-	/**
-	 * This function is to be called to create single routes and restful routes based on the given $routes array.
-	 *
-	 * Example code in routes.php of tasks app (it will register two restful resources):
-	 * $routes = array(
-	 *		'resources' => array(
-	 *		'lists' => array('url' => '/tasklists'),
-	 *		'tasks' => array('url' => '/tasklists/{listId}/tasks')
-	 *	)
-	 *	);
-	 *
-	 * $a = new TasksApp();
-	 * $a->registerRoutes($this, $routes);
-	 *
-	 * @param \OCP\Route\IRouter $router
-	 * @param array $routes
-	 * @since 6.0.0
-	 * @suppress PhanAccessMethodInternal
-	 * @deprecated 20.0.0 Just return an array from your routes.php
-	 */
-	public function registerRoutes(IRouter $router, array $routes) {
-		if (!($router instanceof Router)) {
-			throw new \RuntimeException('Can only setup routes with real router');
-		}
-
-		$routeConfig = new RouteConfig($this->container, $router, $routes);
-		$routeConfig->register();
 	}
 
 	/**

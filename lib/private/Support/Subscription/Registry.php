@@ -138,8 +138,8 @@ class Registry implements IRegistry {
 	 */
 	public function delegateIsHardUserLimitReached(?IManager $notificationManager = null): bool {
 		$subscription = $this->getSubscription();
-		if ($subscription instanceof ISubscription &&
-			$subscription->hasValidSubscription()) {
+		if ($subscription instanceof ISubscription
+			&& $subscription->hasValidSubscription()) {
 			$userLimitReached = $subscription->isHardUserLimitReached();
 			if ($userLimitReached && $notificationManager instanceof IManager) {
 				$this->notifyAboutReachedUserLimit($notificationManager);

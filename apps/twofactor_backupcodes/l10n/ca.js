@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si torneu a generar els codis de reserva, anul·lareu automàticament els codis antics.",
     "{name} backup codes" : "Codis de seguretat per a {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Utilitzeu un dels codis de reserva que vau desar en configurar l'autenticació de dos factors.",
-    "Submit" : "Envia",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Aquests són els vostres codis de reserva. Deseu-los o imprimiu-los, ja que no podreu tornar-los a consultar més tard"
+    "Submit" : "Envia"
 },
 "nplurals=2; plural=(n != 1);");

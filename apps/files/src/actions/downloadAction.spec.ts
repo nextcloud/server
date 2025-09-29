@@ -7,6 +7,14 @@ import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import { action } from './downloadAction'
 
+import axios from '@nextcloud/axios'
+import * as dialogs from '@nextcloud/dialogs'
+import * as eventBus from '@nextcloud/event-bus'
+
+vi.mock('@nextcloud/axios')
+vi.mock('@nextcloud/dialogs')
+vi.mock('@nextcloud/event-bus')
+
 const view = {
 	id: 'files',
 	name: 'Files',
@@ -105,7 +113,7 @@ describe('Download action execute tests', () => {
 
 		// Silent action
 		expect(exec).toBe(null)
-		expect(link.download).toEqual('')
+		expect(link.download).toBe('foobar.txt')
 		expect(link.href).toEqual('https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt')
 		expect(link.click).toHaveBeenCalledTimes(1)
 	})
@@ -123,7 +131,26 @@ describe('Download action execute tests', () => {
 
 		// Silent action
 		expect(exec).toStrictEqual([null])
-		expect(link.download).toEqual('')
+		expect(link.download).toEqual('foobar.txt')
+		expect(link.href).toEqual('https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt')
+		expect(link.click).toHaveBeenCalledTimes(1)
+	})
+
+	test('Download single file with displayname set', async () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			displayname: 'baz.txt',
+			permissions: Permission.READ,
+		})
+
+		const exec = await action.execBatch!([file], view, '/')
+
+		// Silent action
+		expect(exec).toStrictEqual([null])
+		expect(link.download).toEqual('baz.txt')
 		expect(link.href).toEqual('https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt')
 		expect(link.click).toHaveBeenCalledTimes(1)
 	})
@@ -168,5 +195,47 @@ describe('Download action execute tests', () => {
 		expect(link.download).toEqual('')
 		expect(link.href).toMatch('https://cloud.domain.com/remote.php/dav/files/admin/Dir/?accept=zip&files=%5B%22foo.txt%22%2C%22bar.txt%22%5D')
 		expect(link.click).toHaveBeenCalledTimes(1)
+	})
+
+	test('Download fails with error', async () => {
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+		vi.spyOn(axios, 'head').mockRejectedValue(new Error('File not found'))
+
+		const errorSpy = vi.spyOn(dialogs, 'showError')
+		const exec = await action.exec(file, view, '/')
+		expect(exec).toBe(null)
+		expect(errorSpy).toHaveBeenCalledWith('The requested file is not available.')
+		expect(link.click).not.toHaveBeenCalled()
+	})
+
+	test('Download batch fails with error', async () => {
+		const file1 = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foo.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+		const file2 = new File({
+			id: 2,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/bar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+		})
+		vi.spyOn(axios, 'head').mockRejectedValue(new Error('File not found'))
+		vi.spyOn(eventBus, 'emit').mockImplementation(() => {})
+
+		const errorSpy = vi.spyOn(dialogs, 'showError')
+		const exec = await action.execBatch!([file1, file2], view, '/')
+		expect(exec).toStrictEqual([null, null])
+		expect(errorSpy).toHaveBeenCalledWith('The requested files are not available.')
+		expect(link.click).not.toHaveBeenCalled()
 	})
 })

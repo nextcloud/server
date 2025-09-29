@@ -95,7 +95,7 @@ class Collection implements ICollection {
 			]);
 
 		try {
-			$query->execute();
+			$query->executeStatement();
 		} catch (ConstraintViolationException $e) {
 			throw new ResourceException('Already part of the collection');
 		}
@@ -164,8 +164,8 @@ class Collection implements ICollection {
 	}
 
 	protected function isSameResource(IResource $resource1, IResource $resource2): bool {
-		return $resource1->getType() === $resource2->getType() &&
-			$resource1->getId() === $resource2->getId();
+		return $resource1->getType() === $resource2->getType()
+			&& $resource1->getId() === $resource2->getId();
 	}
 
 	protected function removeCollection(): void {

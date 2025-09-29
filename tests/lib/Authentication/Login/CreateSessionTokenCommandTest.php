@@ -15,7 +15,7 @@ use OC\User\Session;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class CreateSessionTokenCommandTest extends ALoginCommandTest {
+class CreateSessionTokenCommandTest extends ALoginTestCommand {
 	/** @var IConfig|MockObject */
 	private $config;
 

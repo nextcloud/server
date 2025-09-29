@@ -1,0 +1,21 @@
+{ "translations": {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Mteja wako hajaidhinishwa kuunganisha. Tafadhali mjulishe msimamizi wa mteja wako.",
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "URL yako ya kuelekeza kwingine inahitaji kuwa URL kamili kwa mfano: https://yourdomain.com/path",
+    "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "Huruhusu uthibitishaji tangamanifu wa OAuth2 kutoka kwa programu zingine za wavuti.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Programu ya OAuth2 huruhusu wasimamizi kusanidi utendakazi wa uthibitishaji uliojengewa ndani ili kuruhusu pia uthibitishaji unaooana na OAuth2 kutoka kwa programu zingine za wavuti.",
+    "OAuth 2.0 clients" : "OAuth 2.0 clients",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 inaruhusu huduma za nje kuomba ufikiaji {instanceName}.",
+    "Name" : "Jina",
+    "Redirection URI" : "URI ya kuelekeza kwingine",
+    "Client Identifier" : "Kitambulisho cha Mteja",
+    "Secret key" : "Ufunguo wa siri",
+    "Delete client" : "Futa mteja",
+    "Make sure you store the secret key, it cannot be recovered." : "Hakikisha umehifadhi ufunguo wa siri, hauwezi kurejeshwa.",
+    "Add client" : "Ongeza mteja",
+    "Add" : "Ongeza",
+    "Show client secret" : "Onyesha siri ya mteja",
+    "Hide client secret" : "Ficha siri ya mteja",
+    "Delete" : "Futa"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

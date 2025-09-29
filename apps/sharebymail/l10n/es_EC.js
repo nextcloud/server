@@ -26,17 +26,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Proveedor de compartidos que te permite compartir archivos por correo electrónico",
     "Unable to update share by mail config" : "No se pudo actualizar la configuración de compartido por correo",
     "Send password by mail" : "La contraseña ha sido enviada por correo",
-    "Reply to initiator" : "Responder al remitente",
-    "%1$s shared »%2$s« with you" : "%1$s compartió »%2$s« contigo",
-    "%1$s shared »%2$s« with you." : "%1$s compartió »%2$s« contigo.",
-    "Click the button below to open it." : "Haz click en el botón de abajo para abrirlo.",
-    "Open »%s«" : "Abrir »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "Contraseña para acceder a »%1$s« compartida contigo por %2$s",
-    "Password to access »%s«" : "Contraseña para acceder  »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s compartió »%2$s« contigo y quiere añadir:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s compartió »%2$s« contigo y quiere añadir",
-    "»%s« added a note to a file shared with you" : "»%s« añadió una nota a un archivo compartido contigo",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Acabas de compartir »%1$s« con %2$s. El compartido ya ha sido enviado al destinatario. Debido a las políticas de seguridad definidas por el administrador de %3$s, cada compartido debe estar protegido con una contraseña y no se permite enviar la contraseña directamente al destinatario. Por lo tanto, debes enviar manualmente la contraseña al destinatario.",
-    "Password to access »%1$s« shared by you with %2$s" : "Contraseña para acceder a »%1$s« compartido por ti con %2$s"
+    "Reply to initiator" : "Responder al remitente"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

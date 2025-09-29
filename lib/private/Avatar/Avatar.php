@@ -10,17 +10,17 @@ declare(strict_types=1);
 namespace OC\Avatar;
 
 use Imagick;
+use OC\User\User;
 use OCP\Color;
 use OCP\Files\NotFoundException;
 use OCP\IAvatar;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 /**
  * This class gets and sets users avatars.
  */
 abstract class Avatar implements IAvatar {
-	protected LoggerInterface $logger;
-
 	/**
 	 * https://github.com/sebdesign/cap-height -- for 500px height
 	 * Automated check: https://codepen.io/skjnldsv/pen/PydLBK/
@@ -35,8 +35,10 @@ abstract class Avatar implements IAvatar {
 			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#{fgFill}">{letter}</text>
 		</svg>';
 
-	public function __construct(LoggerInterface $logger) {
-		$this->logger = $logger;
+	public function __construct(
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -84,8 +86,7 @@ abstract class Avatar implements IAvatar {
 	 * @return string
 	 *
 	 */
-	protected function getAvatarVector(int $size, bool $darkTheme): string {
-		$userDisplayName = $this->getDisplayName();
+	protected function getAvatarVector(string $userDisplayName, int $size, bool $darkTheme): string {
 		$fgRGB = $this->avatarBackgroundColor($userDisplayName);
 		$bgRGB = $fgRGB->alphaBlending(0.1, $darkTheme ? new Color(0, 0, 0) : new Color(255, 255, 255));
 		$fill = sprintf('%02x%02x%02x', $bgRGB->red(), $bgRGB->green(), $bgRGB->blue());
@@ -96,9 +97,30 @@ abstract class Avatar implements IAvatar {
 	}
 
 	/**
+	 * Select the rendering font based on the user's display name and language
+	 */
+	private function getFont(string $userDisplayName): string {
+		if (preg_match('/\p{Han}/u', $userDisplayName) === 1) {
+			switch ($this->getAvatarLanguage()) {
+				case 'zh_TW':
+					return __DIR__ . '/../../../core/fonts/NotoSansTC-Regular.ttf';
+				case 'zh_HK':
+					return __DIR__ . '/../../../core/fonts/NotoSansHK-Regular.ttf';
+				case 'ja':
+					return __DIR__ . '/../../../core/fonts/NotoSansJP-Regular.ttf';
+				case 'ko':
+					return __DIR__ . '/../../../core/fonts/NotoSansKR-Regular.ttf';
+				default:
+					return __DIR__ . '/../../../core/fonts/NotoSansSC-Regular.ttf';
+			}
+		}
+		return __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+	}
+
+	/**
 	 * Generate png avatar from svg with Imagick
 	 */
-	protected function generateAvatarFromSvg(int $size, bool $darkTheme): ?string {
+	protected function generateAvatarFromSvg(string $userDisplayName, int $size, bool $darkTheme): ?string {
 		if (!extension_loaded('imagick')) {
 			return null;
 		}
@@ -107,9 +129,10 @@ abstract class Avatar implements IAvatar {
 		if (in_array('RSVG', $formats, true)) {
 			return null;
 		}
+		$text = $this->getAvatarText();
 		try {
-			$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
-			$svg = $this->getAvatarVector($size, $darkTheme);
+			$font = $this->getFont($text);
+			$svg = $this->getAvatarVector($userDisplayName, $size, $darkTheme);
 			$avatar = new Imagick();
 			$avatar->setFont($font);
 			$avatar->readImageBlob($svg);
@@ -151,7 +174,7 @@ abstract class Avatar implements IAvatar {
 		}
 		imagefilledrectangle($im, 0, 0, $size, $size, $background);
 
-		$font = __DIR__ . '/../../../core/fonts/NotoSans-Regular.ttf';
+		$font = $this->getFont($text);
 
 		$fontSize = $size * 0.4;
 		[$x, $y] = $this->imageTTFCenter(
@@ -257,5 +280,13 @@ abstract class Avatar implements IAvatar {
 		$finalPalette = array_merge($palette1, $palette2, $palette3);
 
 		return $finalPalette[$this->hashToInt($hash, $steps * 3)];
+	}
+
+	/**
+	 * Get the language to be used for avatar generation.
+	 * This is used to determine the font to use for the avatar text (e.g. CJK characters).
+	 */
+	protected function getAvatarLanguage(): string {
+		return $this->config->getSystemValueString('default_language', 'en');
 	}
 }

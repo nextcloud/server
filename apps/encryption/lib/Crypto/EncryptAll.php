@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
@@ -12,6 +15,7 @@ use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
+use OCP\Files\FileInfo;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
@@ -20,6 +24,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
@@ -50,6 +55,7 @@ class EncryptAll {
 		protected IFactory $l10nFactory,
 		protected QuestionHelper $questionHelper,
 		protected ISecureRandom $secureRandom,
+		protected LoggerInterface $logger,
 	) {
 		// store one time passwords for the users
 		$this->userPasswords = [];
@@ -57,11 +63,8 @@ class EncryptAll {
 
 	/**
 	 * start to encrypt all files
-	 *
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
 	 */
-	public function encryptAll(InputInterface $input, OutputInterface $output) {
+	public function encryptAll(InputInterface $input, OutputInterface $output): void {
 		$this->input = $input;
 		$this->output = $output;
 
@@ -108,7 +111,7 @@ class EncryptAll {
 	/**
 	 * create key-pair for every user
 	 */
-	protected function createKeyPairs() {
+	protected function createKeyPairs(): void {
 		$this->output->writeln("\n");
 		$progress = new ProgressBar($this->output);
 		$progress->setFormat(" %message% \n [%bar%]");
@@ -143,7 +146,7 @@ class EncryptAll {
 	/**
 	 * iterate over all user and encrypt their files
 	 */
-	protected function encryptAllUsersFiles() {
+	protected function encryptAllUsersFiles(): void {
 		$this->output->writeln("\n");
 		$progress = new ProgressBar($this->output);
 		$progress->setFormat(" %message% \n [%bar%]");
@@ -165,10 +168,8 @@ class EncryptAll {
 
 	/**
 	 * encrypt all user files with the master key
-	 *
-	 * @param ProgressBar $progress
 	 */
-	protected function encryptAllUserFilesWithMasterKey(ProgressBar $progress) {
+	protected function encryptAllUserFilesWithMasterKey(ProgressBar $progress): void {
 		$userNo = 1;
 		foreach ($this->userManager->getBackends() as $backend) {
 			$limit = 500;
@@ -187,12 +188,8 @@ class EncryptAll {
 
 	/**
 	 * encrypt files from the given user
-	 *
-	 * @param string $uid
-	 * @param ProgressBar $progress
-	 * @param string $userCount
 	 */
-	protected function encryptUsersFiles($uid, ProgressBar $progress, $userCount) {
+	protected function encryptUsersFiles(string $uid, ProgressBar $progress, string $userCount): void {
 		$this->setupUserFS($uid);
 		$directories = [];
 		$directories[] = '/' . $uid . '/files';
@@ -200,33 +197,42 @@ class EncryptAll {
 		while ($root = array_pop($directories)) {
 			$content = $this->rootView->getDirectoryContent($root);
 			foreach ($content as $file) {
-				$path = $root . '/' . $file['name'];
-				if ($this->rootView->is_dir($path)) {
+				$path = $root . '/' . $file->getName();
+				if ($file->isShared()) {
+					$progress->setMessage("Skip shared file/folder $path");
+					$progress->advance();
+					continue;
+				} elseif ($file->getType() === FileInfo::TYPE_FOLDER) {
 					$directories[] = $path;
 					continue;
 				} else {
 					$progress->setMessage("encrypt files for user $userCount: $path");
 					$progress->advance();
-					if ($this->encryptFile($path) === false) {
-						$progress->setMessage("encrypt files for user $userCount: $path (already encrypted)");
+					try {
+						if ($this->encryptFile($file, $path) === false) {
+							$progress->setMessage("encrypt files for user $userCount: $path (already encrypted)");
+							$progress->advance();
+						}
+					} catch (\Exception $e) {
+						$progress->setMessage("Failed to encrypt path $path: " . $e->getMessage());
 						$progress->advance();
+						$this->logger->error(
+							'Failed to encrypt path {path}',
+							[
+								'user' => $uid,
+								'path' => $path,
+								'exception' => $e,
+							]
+						);
 					}
 				}
 			}
 		}
 	}
 
-	/**
-	 * encrypt file
-	 *
-	 * @param string $path
-	 * @return bool
-	 */
-	protected function encryptFile($path) {
-
+	protected function encryptFile(FileInfo $fileInfo, string $path): bool {
 		// skip already encrypted files
-		$fileInfo = $this->rootView->getFileInfo($path);
-		if ($fileInfo !== false && $fileInfo->isEncrypted()) {
+		if ($fileInfo->isEncrypted()) {
 			return true;
 		}
 
@@ -234,7 +240,14 @@ class EncryptAll {
 		$target = $path . '.encrypted.' . time();
 
 		try {
-			$this->rootView->copy($source, $target);
+			$copySuccess = $this->rootView->copy($source, $target);
+			if ($copySuccess === false) {
+				/* Copy failed, abort */
+				if ($this->rootView->file_exists($target)) {
+					$this->rootView->unlink($target);
+				}
+				throw new \Exception('Copy failed for ' . $source);
+			}
 			$this->rootView->rename($target, $source);
 		} catch (DecryptionFailedException $e) {
 			if ($this->rootView->file_exists($target)) {
@@ -249,7 +262,7 @@ class EncryptAll {
 	/**
 	 * output one-time encryption passwords
 	 */
-	protected function outputPasswords() {
+	protected function outputPasswords(): void {
 		$table = new Table($this->output);
 		$table->setHeaders(['Username', 'Private key password']);
 
@@ -290,10 +303,8 @@ class EncryptAll {
 
 	/**
 	 * write one-time encryption passwords to a csv file
-	 *
-	 * @param array $passwords
 	 */
-	protected function writePasswordsToFile(array $passwords) {
+	protected function writePasswordsToFile(array $passwords): void {
 		$fp = $this->rootView->fopen('oneTimeEncryptionPasswords.csv', 'w');
 		foreach ($passwords as $pwd) {
 			fputcsv($fp, $pwd);
@@ -311,10 +322,8 @@ class EncryptAll {
 
 	/**
 	 * setup user file system
-	 *
-	 * @param string $uid
 	 */
-	protected function setupUserFS($uid) {
+	protected function setupUserFS(string $uid): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
@@ -322,10 +331,9 @@ class EncryptAll {
 	/**
 	 * generate one time password for the user and store it in a array
 	 *
-	 * @param string $uid
 	 * @return string password
 	 */
-	protected function generateOneTimePassword($uid) {
+	protected function generateOneTimePassword(string $uid): string {
 		$password = $this->secureRandom->generate(16, ISecureRandom::CHAR_HUMAN_READABLE);
 		$this->userPasswords[$uid] = $password;
 		return $password;
@@ -334,7 +342,7 @@ class EncryptAll {
 	/**
 	 * send encryption key passwords to the users by mail
 	 */
-	protected function sendPasswordsByMail() {
+	protected function sendPasswordsByMail(): void {
 		$noMail = [];
 
 		$this->output->writeln('');

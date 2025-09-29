@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -19,7 +20,7 @@ use OCP\Lock\ILockingProvider;
  */
 class DownloadTest extends RequestTestCase {
 	public function testDownload(): void {
-		$user = $this->getUniqueID();
+		$user = self::getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
 		$view->file_put_contents('foo.txt', 'bar');
@@ -30,7 +31,7 @@ class DownloadTest extends RequestTestCase {
 	}
 
 	public function testDownloadWriteLocked(): void {
-		$user = $this->getUniqueID();
+		$user = self::getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
 		$view->file_put_contents('foo.txt', 'bar');
@@ -42,7 +43,7 @@ class DownloadTest extends RequestTestCase {
 	}
 
 	public function testDownloadReadLocked(): void {
-		$user = $this->getUniqueID();
+		$user = self::getUniqueID();
 		$view = $this->setupUser($user, 'pass');
 
 		$view->file_put_contents('foo.txt', 'bar');

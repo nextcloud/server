@@ -11,6 +11,7 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IUserBackend;
 use OCP\IUserManager;
+use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -48,7 +49,7 @@ class CleanUp extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = $input->getArgument('user_id');
 		$verbose = $input->getOption('verbose');
-		if ((!empty($users)) and ($input->getOption('all-users'))) {
+		if (!empty($users) && $input->getOption('all-users')) {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
 		} elseif (!empty($users)) {
 			foreach ($users as $user) {
@@ -96,7 +97,7 @@ class CleanUp extends Command {
 			$node = $this->rootFolder->get($path);
 
 			if ($verbose) {
-				$output->writeln('Deleting <info>' . \OC_Helper::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
+				$output->writeln('Deleting <info>' . Util::humanFileSize($node->getSize()) . "</info> in trash for <info>$uid</info>.");
 			}
 			$node->delete();
 			if ($this->rootFolder->nodeExists($path)) {

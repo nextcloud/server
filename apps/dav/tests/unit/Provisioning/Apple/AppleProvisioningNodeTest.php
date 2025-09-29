@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -7,15 +9,13 @@ namespace OCA\DAV\Tests\unit\Provisioning\Apple;
 
 use OCA\DAV\Provisioning\Apple\AppleProvisioningNode;
 use OCP\AppFramework\Utility\ITimeFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class AppleProvisioningNodeTest extends TestCase {
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-
-	/** @var AppleProvisioningNode */
-	private $node;
+	private ITimeFactory&MockObject $timeFactory;
+	private AppleProvisioningNode $node;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -27,7 +27,6 @@ class AppleProvisioningNodeTest extends TestCase {
 	public function testGetName(): void {
 		$this->assertEquals('apple-provisioning.mobileconfig', $this->node->getName());
 	}
-
 
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
@@ -55,7 +54,7 @@ class AppleProvisioningNodeTest extends TestCase {
 
 		$this->assertEquals([
 			'{DAV:}getcontentlength' => 42,
-			'{DAV:}getlastmodified' => 'Sat, 01 Jan 2000 00:00:00 +0000',
+			'{DAV:}getlastmodified' => 'Sat, 01 Jan 2000 00:00:00 GMT',
 		], $this->node->getProperties([]));
 	}
 

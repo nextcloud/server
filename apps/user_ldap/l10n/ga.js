@@ -61,7 +61,7 @@ OC.L10N.register(
     "No LDAP base DN was given" : "Níor tugadh bonn LDAP DN",
     "User base DN is not a subnode of global base DN" : "Ní fonód de bhonn domhanda DN é an bonn úsáideora DN",
     "Group base DN is not a subnode of global base DN" : "Ní fonód de bhonn domhanda DN é bonnghrúpa DN",
-    "Login filter does not contain %uid place holder" : "Níl %u coinneálaí áite san áireamh sa scagaire logála isteach",
+    "Login filter does not contain %s placeholder." : "Níl %s coinneálaí logála isteach sa scagaire logála isteach.",
     "Please login with the new password" : "Logáil isteach leis an bpasfhocal nua le do thoil",
     "LDAP User backend" : "Inneall Úsáideora LDAP",
     "Your password will expire tomorrow." : "Rachaidh do phasfhocal in éag amárach.",
@@ -234,7 +234,6 @@ OC.L10N.register(
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Úsáidtear ainmneacha úsáideoirí chun meiteashonraí a stóráil agus a shannadh. Chun úsáideoirí a shainaithint agus a aithint go beacht, beidh ainm úsáideora inmheánach ag gach úsáideoir LDAP. Teastaíonn mapáil ón ainm úsáideora go dtí an t-úsáideoir LDAP chuige seo. Tá an t-ainm úsáideora cruthaithe mapáilte chuig UUID an úsáideora LDAP. Ina theannta sin tá an DN i dtaisce freisin chun idirghníomhaíocht LDAP a laghdú, ach ní úsáidtear é le haghaidh aitheantais. Má athraíonn an DN, beidh na hathruithe le fáil. Úsáidtear an t-ainm úsáideora inmheánach ar fad. Beidh rudaí fágtha i ngach áit chun na mapálacha a ghlanadh. Ní íogair don chumraíocht é na mapálacha a ghlanadh, bíonn tionchar aige ar gach cumraíocht LDAP! Ná glan na mapálacha riamh i dtimpeallacht táirgthe, ach amháin ag céim tástála nó turgnamhach.",
     "Clear Username-LDAP User Mapping" : "Glan Léarscáiliú Úsáideora Ainm Úsáideora-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Glan Léarscáiliú Grúpa Ainm an Ghrúpa-LDAP",
-    "Invalid configuration. Please have a look at the logs for further details." : "Cumraíocht neamhbhailí. Féach ar na logaí le haghaidh tuilleadh sonraí le do thoil.",
-    " Could not set configuration %s" : " Níorbh fhéidir cumraíocht a shocrú%s"
+    "Invalid configuration. Please have a look at the logs for further details." : "Cumraíocht neamhbhailí. Féach ar na logaí le haghaidh tuilleadh sonraí le do thoil."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

@@ -25,6 +25,10 @@ html {
 }
 
 body {
+	// Legacy variables deprecated in Nextcloud 20 - to be removed soon
+	--color-text-light: var(--color-main-text);
+	--color-text-lighter: var(--color-text-maxcontrast);
+
 	// color-background-plain should always be defined.
 	background-color: var(--color-background-plain, var(--color-main-background));
 	// user background, or plain color
@@ -355,7 +359,7 @@ kbd {
 				/* counter can also be inside the link */
 				> .app-navigation-entry-utils  {
 					display: inline-block;
-					/* Check Floating fix below */ 
+					/* Check Floating fix below */
 					.app-navigation-entry-utils-counter {
 						padding-inline-end: 0 !important;
 					}
@@ -648,7 +652,7 @@ kbd {
 	}
 
 	.error {
-		color: var(--color-error);
+		color: var(--color-error-text);
 	}
 
 	.app-navigation-entry-utils ul,
@@ -658,7 +662,7 @@ kbd {
 }
 
 /* Floating and background-position fix */
-/* Cannot use inline-start and :dir to support Samsung Internet */ 
+/* Cannot use inline-start and :dir to support Samsung Internet */
 body[dir='ltr'] {
 	.app-navigation-personal,
 	.app-navigation-administration {
@@ -698,7 +702,7 @@ body[dir='rtl'] {
 	box-sizing: border-box;
 	position: static;
 	margin: var(--body-container-margin);
-	margin-top: 50px;
+	margin-top: var(--header-height);
 	padding: 0;
 	display: flex;
 	width: calc(100% - var(--body-container-margin) * 2);
@@ -831,7 +835,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	.info-text {
 		padding-block: 5px 7px;
 		padding-inline: 22px 0;
-		color: var(--color-text-lighter);
+		color: var(--color-text-maxcontrast);
 	}
 	input {
 		&[type='checkbox'],
@@ -971,7 +975,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		cursor: pointer;
-		color: var(--color-text-lighter);
+		color: var(--color-text-maxcontrast);
 		margin-bottom: 1px;
 		padding: 5px;
 
@@ -1000,7 +1004,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 		}
 
 		a {
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 			margin-bottom: 1px;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -1013,7 +1017,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 		&:focus {
 			margin-bottom: 0px;
 			color: var(--color-main-text);
-			border-bottom: 1px solid var(--color-text-lighter);
+			border-bottom: 1px solid var(--color-text-maxcontrast);
 		}
 	}
 }
@@ -1024,7 +1028,7 @@ body[dir='rtl'] #app-settings-header .settings-button {
 	}
 }
 
-/* Cannot use inline-start to support Samsung Internet*/ 
+/* Cannot use inline-start to support Samsung Internet*/
 body[dir='ltr'] .tabsContainer {
 	clear: left;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -33,7 +34,7 @@ class ListCommandTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->command = $this->getMockBuilder(ListCommand::class)
 			->setConstructorArgs([$this->groupManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);

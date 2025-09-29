@@ -27,11 +27,12 @@ trait CommonThemeTrait {
 	protected function generatePrimaryVariables(string $colorMainBackground, string $colorMainText, bool $highContrast = false): array {
 		$isBrightColor = $this->util->isBrightColor($colorMainBackground);
 		$colorPrimaryElement = $this->util->elementColor($this->primaryColor, $isBrightColor, $colorMainBackground, $highContrast);
+		$colorPrimaryElementText = $this->util->getTextColor($colorPrimaryElement);
 		$colorPrimaryLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
-		$colorPrimaryElementLight = $this->util->mix($colorPrimaryElement, $colorMainBackground, -80);
+		$colorPrimaryLightText = $this->util->getTextColor($colorPrimaryLight);
 		$invertPrimaryTextColor = $this->util->invertTextColor($colorPrimaryElement);
 
-		// primary related colours
+		// primary related colors
 		return [
 			// invert filter if primary is too bright
 			// to be used for legacy reasons only. Use inline
@@ -44,23 +45,23 @@ trait CommonThemeTrait {
 			'--primary-invert-if-dark' => $this->util->invertTextColor($colorPrimaryElement) ? 'no' : 'invert(100%)',
 
 			'--color-primary' => $this->primaryColor,
-			'--color-primary-text' => $this->util->invertTextColor($this->primaryColor) ? '#000000' : '#ffffff',
+			'--color-primary-text' => $this->util->getTextColor($this->primaryColor),
 			'--color-primary-hover' => $this->util->mix($this->primaryColor, $colorMainBackground, 60),
-			'--color-primary-light' => $colorPrimaryLight,
-			'--color-primary-light-text' => $this->util->mix($this->primaryColor, $this->util->invertTextColor($colorPrimaryLight) ? '#000000' : '#ffffff', -20),
-			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorMainText, 90),
-
 			// used for buttons, inputs...
 			'--color-primary-element' => $colorPrimaryElement,
-			'--color-primary-element-hover' => $invertPrimaryTextColor ? $this->util->lighten($colorPrimaryElement, 4) : $this->util->darken($colorPrimaryElement, 4),
-			'--color-primary-element-text' => $invertPrimaryTextColor ? '#000000' : '#ffffff',
+			'--color-primary-element-hover' => $invertPrimaryTextColor ? $this->util->lighten($colorPrimaryElement, 7) : $this->util->darken($colorPrimaryElement, 7),
+			'--color-primary-element-text' => $colorPrimaryElementText,
 			// mostly used for disabled states
-			'--color-primary-element-text-dark' => $invertPrimaryTextColor ? $this->util->lighten('#000000', 4) : $this->util->darken('#ffffff', 4),
+			'--color-primary-element-text-dark' => $invertPrimaryTextColor ? $this->util->lighten($colorPrimaryElementText, 7) : $this->util->darken($colorPrimaryElementText, 7),
 
 			// used for hover/focus states
-			'--color-primary-element-light' => $colorPrimaryElementLight,
-			'--color-primary-element-light-hover' => $this->util->mix($colorPrimaryElementLight, $colorMainText, 90),
-			'--color-primary-element-light-text' => $this->util->mix($colorPrimaryElement, $this->util->invertTextColor($colorPrimaryElementLight) ? '#000000' : '#ffffff', -20),
+			'--color-primary-light' => $colorPrimaryLight,
+			'--color-primary-light-hover' => $this->util->mix($colorPrimaryLight, $colorPrimaryLightText, 90),
+			'--color-primary-light-text' => $this->util->mix($this->primaryColor, $colorPrimaryLightText, -20),
+			// deprecated aliases
+			'--color-primary-element-light' => 'var(--color-primary-light)',
+			'--color-primary-element-light-text' => 'var(--color-primary-light-text)',
+			'--color-primary-element-light-hover' => 'var(--color-primary-light-hover)',
 
 			// to use like this: background-image: var(--gradient-primary-background);
 			'--gradient-primary-background' => 'linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)',

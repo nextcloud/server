@@ -39,7 +39,7 @@ class ValidatorTest extends TestCase {
 
 		$this->expectException(InvalidObjectExeption::class);
 
-		$this->expectExceptionMessage('Object is invalid, value 123 is not a string');
+		$this->expectExceptionMessage('Object for placeholder string1 is invalid, value 123 for key key is not a string');
 		$v->validate('test {string1} test.', [
 			'string1' => [
 				'type' => 'user',
@@ -49,7 +49,7 @@ class ValidatorTest extends TestCase {
 			],
 		]);
 
-		$this->expectExceptionMessage('Object is invalid, key 456 is not a string');
+		$this->expectExceptionMessage('Object for placeholder string1 is invalid, key 456 is not a string');
 		$v->validate('test {string1} test.', [
 			'string1' => [
 				'type' => 'user',
@@ -80,9 +80,7 @@ class ValidatorTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataValidateParameterKeys
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataValidateParameterKeys')]
 	public function testValidateParameterKeys(mixed $key, ?string $throws): void {
 
 		if ($throws !== null) {

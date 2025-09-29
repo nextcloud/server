@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,15 +9,14 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
-use OC\L10N\L10N;
-use OC\L10N\LazyL10N;
 use OC\URLGenerator;
 use OCA\DAV\CalDAV\EventReader;
 use OCA\DAV\CalDAV\Schedule\IMipService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\L10N\IFactory as L10NFactory;
+use OCP\IL10N;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
@@ -24,48 +24,32 @@ use Sabre\VObject\Property\ICalendar\DateTime;
 use Test\TestCase;
 
 class IMipServiceTest extends TestCase {
-	/** @var URLGenerator|MockObject */
-	private $urlGenerator;
+	private URLGenerator&MockObject $urlGenerator;
+	private IConfig&MockObject $config;
+	private IDBConnection&MockObject $db;
+	private ISecureRandom&MockObject $random;
+	private IFactory&MockObject $l10nFactory;
+	private IL10N&MockObject $l10n;
+	private ITimeFactory&MockObject $timeFactory;
+	private IMipService $service;
 
-	/** @var IConfig|MockObject */
-	private $config;
 
-	/** @var IDBConnection|MockObject */
-	private $db;
-
-	/** @var ISecureRandom|MockObject */
-	private $random;
-
-	/** @var L10NFactory|MockObject */
-	private $l10nFactory;
-
-	/** @var L10N|MockObject */
-	private $l10n;
-
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-
-	/** @var IMipService */
-	private $service;
-
-	/** @var VCalendar */
-	private $vCalendar1a;
-	/** @var VCalendar */
-	private $vCalendar1b;
-	/** @var VCalendar */
-	private $vCalendar2;
-	/** @var VCalendar */
-	private $vCalendar3;
+	private VCalendar $vCalendar1a;
+	private VCalendar $vCalendar1b;
+	private VCalendar $vCalendar2;
+	private VCalendar $vCalendar3;
 	/** @var DateTime DateTime object that will be returned by DateTime() or DateTime('now') */
 	public static $datetimeNow;
 
 	protected function setUp(): void {
+		parent::setUp();
+
 		$this->urlGenerator = $this->createMock(URLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->db = $this->createMock(IDBConnection::class);
 		$this->random = $this->createMock(ISecureRandom::class);
-		$this->l10nFactory = $this->createMock(L10NFactory::class);
-		$this->l10n = $this->createMock(LazyL10N::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->l10n = $this->createMock(IL10N::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->l10nFactory->expects(self::once())
 			->method('findGenericLanguage')
@@ -170,7 +154,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testBuildBodyDataCreated(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -218,7 +202,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testBuildBodyDataUpdate(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -349,7 +333,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringSingular(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -802,7 +786,7 @@ class IMipServiceTest extends TestCase {
 			'In 2 months on July 1, 2024 for the entire day',
 			$this->service->generateWhenString($eventReader)
 		);
-		
+
 		/** test patrial day event in 1 year*/
 		$vCalendar = clone $this->vCalendar1a;
 		// construct event reader
@@ -846,7 +830,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringDaily(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -960,7 +944,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringWeekly(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1077,7 +1061,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringMonthly(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1290,7 +1274,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringYearly(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1504,7 +1488,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateWhenStringRecurringFixed(): void {
-		
+
 		// construct l10n return maps
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1545,7 +1529,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateOccurringStringWithRrule(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1602,7 +1586,7 @@ class IMipServiceTest extends TestCase {
 				'In 2 days on July 1, 2024 then on July 3, 2024 and July 5, 2024'
 			],
 		]);
-		
+
 		// construct time factory return(s)
 		$this->timeFactory->method('getDateTime')->willReturnOnConsecutiveCalls(
 			(new \DateTime('20240629T170000', (new \DateTimeZone('America/Toronto')))),
@@ -1687,7 +1671,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateOccurringStringWithRdate(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -1838,7 +1822,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateOccurringStringWithOneExdate(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {
@@ -2022,7 +2006,7 @@ class IMipServiceTest extends TestCase {
 	}
 
 	public function testGenerateOccurringStringWithTwoExdate(): void {
-		
+
 		// construct l10n return(s)
 		$this->l10n->method('l')->willReturnCallback(
 			function ($v1, $v2, $v3) {

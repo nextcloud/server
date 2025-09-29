@@ -17,27 +17,16 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Server;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RememberBackupCodesJobTest extends TestCase {
-
-	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
-	private $registry;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $time;
-
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $notificationManager;
-
-	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
-	private $jobList;
-
-	/** @var RememberBackupCodesJob */
-	private $job;
+	private IRegistry&MockObject $registry;
+	private IUserManager&MockObject $userManager;
+	private ITimeFactory&MockObject $time;
+	private IManager&MockObject $notificationManager;
+	private IJobList&MockObject $jobList;
+	private RememberBackupCodesJob $job;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -165,12 +154,12 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->notificationManager->expects($this->once())
 			->method('notify')
 			->with($this->callback(function (INotification $n) {
-				return $n->getApp() === 'twofactor_backupcodes' &&
-					$n->getUser() === 'validUID' &&
-					$n->getDateTime()->getTimestamp() === 10000000 &&
-					$n->getObjectType() === 'create' &&
-					$n->getObjectId() === 'codes' &&
-					$n->getSubject() === 'create_backupcodes';
+				return $n->getApp() === 'twofactor_backupcodes'
+					&& $n->getUser() === 'validUID'
+					&& $n->getDateTime()->getTimestamp() === 10000000
+					&& $n->getObjectType() === 'create'
+					&& $n->getObjectId() === 'codes'
+					&& $n->getSubject() === 'create_backupcodes';
 			}));
 
 		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
@@ -209,11 +198,11 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->notificationManager->expects($this->once())
 			->method('markProcessed')
 			->with($this->callback(function (INotification $n) {
-				return $n->getApp() === 'twofactor_backupcodes' &&
-					$n->getUser() === 'validUID' &&
-					$n->getObjectType() === 'create' &&
-					$n->getObjectId() === 'codes' &&
-					$n->getSubject() === 'create_backupcodes';
+				return $n->getApp() === 'twofactor_backupcodes'
+					&& $n->getUser() === 'validUID'
+					&& $n->getObjectType() === 'create'
+					&& $n->getObjectId() === 'codes'
+					&& $n->getSubject() === 'create_backupcodes';
 			}));
 
 		$this->notificationManager->expects($this->never())

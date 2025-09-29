@@ -27,7 +27,7 @@ class Version2200Date20210805101925 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('flow_operations')) {
 			$table = $schema->getTable('flow_operations');
-			$table->changeColumn('name', [
+			$table->modifyColumn('name', [
 				'notnull' => false,
 			]);
 		}

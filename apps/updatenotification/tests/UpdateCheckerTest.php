@@ -16,7 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UpdateCheckerTest extends TestCase {
-	
+
 	private ChangesCheck&MockObject $changesChecker;
 	private VersionCheck&MockObject $updater;
 	private IInitialState&MockObject $initialState;

@@ -9,11 +9,13 @@ declare(strict_types=1);
 namespace OCA\ContactsInteraction\AppInfo;
 
 use OCA\ContactsInteraction\Listeners\ContactInteractionListener;
+use OCA\ContactsInteraction\Listeners\UserDeletedListener;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
+use OCP\User\Events\UserDeletedEvent;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'contactsinteraction';
@@ -24,6 +26,7 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(ContactInteractedWithEvent::class, ContactInteractionListener::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

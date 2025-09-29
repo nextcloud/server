@@ -8,6 +8,7 @@
 
 namespace Test\DB;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
@@ -20,6 +21,7 @@ use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
 use OC\Migration\MetadataManager;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\IDBConnection;
 use OCP\Migration\Attributes\AddColumn;
@@ -33,6 +35,7 @@ use OCP\Migration\Attributes\IndexType;
 use OCP\Migration\Attributes\ModifyColumn;
 use OCP\Migration\IMigrationStep;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -81,10 +84,10 @@ class MigrationsTest extends \Test\TestCase {
 
 
 	public function testUnknownApp(): void {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('App not found');
+		$this->expectException(AppPathNotFoundException::class);
+		$this->expectExceptionMessage('Could not find path for unknown_bloody_app');
 
-		$migrationService = new MigrationService('unknown-bloody-app', $this->db);
+		$migrationService = new MigrationService('unknown_bloody_app', $this->db);
 	}
 
 
@@ -93,7 +96,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->expectExceptionMessage('Migration step \'X\' is unknown');
 
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['findMigrations'])
+			->onlyMethods(['findMigrations'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 		$this->migrationService->expects($this->any())->method('findMigrations')->willReturn(
@@ -134,7 +137,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('postSchemaChange');
 
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['createInstance'])
+			->onlyMethods(['createInstance'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 
@@ -164,7 +167,7 @@ class MigrationsTest extends \Test\TestCase {
 			->method('postSchemaChange');
 
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['createInstance'])
+			->onlyMethods(['createInstance'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 
@@ -175,7 +178,7 @@ class MigrationsTest extends \Test\TestCase {
 		$this->migrationService->executeStep('20170130180000');
 	}
 
-	public function dataGetMigration() {
+	public static function dataGetMigration(): array {
 		return [
 			['current', '20170130180001'],
 			['prev', '20170130180000'],
@@ -185,13 +188,13 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetMigration
 	 * @param string $alias
 	 * @param string $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetMigration')]
 	public function testGetMigration($alias, $expected): void {
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['getMigratedVersions', 'findMigrations'])
+			->onlyMethods(['getMigratedVersions', 'findMigrations'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
 		$this->migrationService->expects($this->any())->method('getMigratedVersions')->willReturn(
@@ -211,22 +214,33 @@ class MigrationsTest extends \Test\TestCase {
 
 	public function testMigrate(): void {
 		$this->migrationService = $this->getMockBuilder(MigrationService::class)
-			->setMethods(['getMigratedVersions', 'findMigrations', 'executeStep'])
+			->onlyMethods(['getMigratedVersions', 'findMigrations', 'executeStep'])
 			->setConstructorArgs(['testing', $this->db])
 			->getMock();
-		$this->migrationService->expects($this->any())->method('getMigratedVersions')->willReturn(
-			['20170130180000', '20170130180001']
-		);
-		$this->migrationService->expects($this->any())->method('findMigrations')->willReturn(
-			['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
-		);
+		$this->migrationService->method('getMigratedVersions')
+			->willReturn(
+				['20170130180000', '20170130180001']
+			);
+		$this->migrationService->method('findMigrations')
+			->willReturn(
+				['20170130180000' => 'X', '20170130180001' => 'Y', '20170130180002' => 'Z', '20170130180003' => 'A']
+			);
 
 		$this->assertEquals(
 			['20170130180000', '20170130180001', '20170130180002', '20170130180003'],
-			$this->migrationService->getAvailableVersions());
+			$this->migrationService->getAvailableVersions()
+		);
 
-		$this->migrationService->expects($this->exactly(2))->method('executeStep')
-			->withConsecutive(['20170130180002'], ['20170130180003']);
+		$calls = [
+			['20170130180002', false],
+			['20170130180003', false],
+		];
+		$this->migrationService->expects($this->exactly(2))
+			->method('executeStep')
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->migrationService->migrate();
 	}
 
@@ -691,8 +705,11 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 
-	public function testEnsureOracleConstraintsBooleanNotNull(): void {
-		$this->expectException(\InvalidArgumentException::class);
+	#[TestWith([true])]
+	#[TestWith([false])]
+	public function testEnsureOracleConstraintsBooleanNotNull(bool $isOracle): void {
+		$this->db->method('getDatabasePlatform')
+			->willReturn($isOracle ? $this->createMock(OraclePlatform::class) : null);
 
 		$column = $this->createMock(Column::class);
 		$column->expects($this->any())
@@ -709,6 +726,8 @@ class MigrationsTest extends \Test\TestCase {
 		$table->expects($this->any())
 			->method('getName')
 			->willReturn(\str_repeat('a', 30));
+		$table->method('getIndexes')->willReturn([]);
+		$table->method('getForeignKeys')->willReturn([]);
 
 		$table->expects($this->once())
 			->method('getColumns')
@@ -718,6 +737,7 @@ class MigrationsTest extends \Test\TestCase {
 		$schema->expects($this->once())
 			->method('getTables')
 			->willReturn([$table]);
+		$schema->method('getSequences')->willReturn([]);
 
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
@@ -726,6 +746,15 @@ class MigrationsTest extends \Test\TestCase {
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
+
+		if ($isOracle) {
+			$column->expects($this->once())
+				->method('setNotnull')
+				->with(false);
+		} else {
+			$column->expects($this->never())
+				->method('setNotnull');
+		}
 
 		self::invokePrivate($this->migrationService, 'ensureOracleConstraints', [$sourceSchema, $schema, 3]);
 	}
@@ -833,11 +862,10 @@ class MigrationsTest extends \Test\TestCase {
 					'class' => 'OCP\\Migration\\Attributes\\CreateTable',
 					'table' => 'new_table',
 					'description' => 'Table is used to store things, but also to get more things',
-					'notes' =>
-						[
-							'this is a notice',
-							'and another one, if really needed'
-						],
+					'notes' => [
+						'this is a notice',
+						'and another one, if really needed'
+					],
 					'columns' => []
 				],
 				[

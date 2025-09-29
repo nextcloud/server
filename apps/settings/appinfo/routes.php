@@ -57,6 +57,10 @@ return [
 		['name' => 'TwoFactorSettings#update', 'url' => '/settings/api/admin/twofactorauth', 'verb' => 'PUT' , 'root' => ''],
 		['name' => 'AISettings#update', 'url' => '/settings/api/admin/ai', 'verb' => 'PUT' , 'root' => ''],
 
+		['name' => 'Preset#getPreset', 'url' => '/settings/preset', 'verb' => 'GET' , 'root' => ''],
+		['name' => 'Preset#getCurrentPreset', 'url' => '/settings/preset/current', 'verb' => 'GET' , 'root' => ''],
+		['name' => 'Preset#setCurrentPreset', 'url' => '/settings/preset/current', 'verb' => 'POST' , 'root' => ''],
+
 		['name' => 'Help#help', 'url' => '/settings/help/{mode}', 'verb' => 'GET', 'defaults' => ['mode' => ''] , 'root' => ''],
 
 		['name' => 'WebAuthn#startRegistration', 'url' => '/settings/api/personal/webauthn/registration', 'verb' => 'GET' , 'root' => ''],
@@ -67,6 +71,7 @@ return [
 	],
 	'ocs' => [
 		['name' => 'DeclarativeSettings#setValue', 'url' => '/settings/api/declarative/value', 'verb' => 'POST', 'root' => ''],
+		['name' => 'DeclarativeSettings#setSensitiveValue', 'url' => '/settings/api/declarative/value-sensitive', 'verb' => 'POST', 'root' => ''],
 		['name' => 'DeclarativeSettings#getForms', 'url' => '/settings/api/declarative/forms', 'verb' => 'GET', 'root' => ''],
 	],
 ];

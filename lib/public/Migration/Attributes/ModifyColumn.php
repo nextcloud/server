@@ -9,13 +9,13 @@ declare(strict_types=1);
 namespace OCP\Migration\Attributes;
 
 use Attribute;
+use OCP\AppFramework\Attribute\Consumable;
 
 /**
  * attribute on column modification
- *
- * @since 30.0.0
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
+#[Consumable(since: '30.0.0')]
 class ModifyColumn extends ColumnMigrationAttribute {
 	/**
 	 * @return string
@@ -23,8 +23,8 @@ class ModifyColumn extends ColumnMigrationAttribute {
 	 */
 	public function definition(): string {
 		$type = is_null($this->getType()) ? '' : ' to ' . $this->getType()->value;
-		return empty($this->getName()) ?
-			'Modification of a column from table \'' . $this->getTable() . '\'' . $type
+		return empty($this->getName())
+			? 'Modification of a column from table \'' . $this->getTable() . '\'' . $type
 			: 'Modification of column \'' . $this->getName() . '\' from table \'' . $this->getTable() . '\'' . $type;
 	}
 }

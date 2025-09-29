@@ -5,6 +5,7 @@ OC.L10N.register(
     "This application automatically maintains older versions of files that are changed." : "Ši programa automatiškai palaiko senesnes pakeistų failų versijas.",
     "Current version" : "Dabartinė versija",
     "Initial version" : "Pradinė versija",
+    "You" : "Jūs",
     "Edit version name" : "Taisyti versijos pavadinimą",
     "Compare to current version" : "Palyginti su dabartine versija",
     "Restore version" : "Atkurti versiją",

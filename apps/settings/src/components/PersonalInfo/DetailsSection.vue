@@ -36,7 +36,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 
 import NcProgressBar from '@nextcloud/vue/components/NcProgressBar'
-import Account from 'vue-material-design-icons/Account.vue'
+import Account from 'vue-material-design-icons/AccountOutline.vue'
 import CircleSlice from 'vue-material-design-icons/CircleSlice3.vue'
 
 import HeaderBar from './shared/HeaderBar.vue'

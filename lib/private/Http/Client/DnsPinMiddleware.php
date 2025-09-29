@@ -13,23 +13,15 @@ use OCP\Http\Client\LocalServerException;
 use Psr\Http\Message\RequestInterface;
 
 class DnsPinMiddleware {
-	/** @var NegativeDnsCache */
-	private $negativeDnsCache;
-	private IpAddressClassifier $ipAddressClassifier;
 
 	public function __construct(
-		NegativeDnsCache $negativeDnsCache,
-		IpAddressClassifier $ipAddressClassifier,
+		private NegativeDnsCache $negativeDnsCache,
+		private IpAddressClassifier $ipAddressClassifier,
 	) {
-		$this->negativeDnsCache = $negativeDnsCache;
-		$this->ipAddressClassifier = $ipAddressClassifier;
 	}
 
 	/**
 	 * Fetch soa record for a target
-	 *
-	 * @param string $target
-	 * @return array|null
 	 */
 	private function soaRecord(string $target): ?array {
 		$labels = explode('.', $target);
@@ -99,7 +91,7 @@ class DnsPinMiddleware {
 		return \dns_get_record($hostname, $type);
 	}
 
-	public function addDnsPinning() {
+	public function addDnsPinning(): callable {
 		return function (callable $handler) {
 			return function (
 				RequestInterface $request,
@@ -109,7 +101,7 @@ class DnsPinMiddleware {
 					return $handler($request, $options);
 				}
 
-				$hostName = (string)$request->getUri()->getHost();
+				$hostName = $request->getUri()->getHost();
 				$port = $request->getUri()->getPort();
 
 				$ports = [

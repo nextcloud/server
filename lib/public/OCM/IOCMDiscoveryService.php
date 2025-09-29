@@ -23,9 +23,10 @@ interface IOCMDiscoveryService {
 	 * @param string $remote address of the remote provider
 	 * @param bool $skipCache ignore cache, refresh data
 	 *
-	 * @return IOCMProvider
+	 * @return ICapabilityAwareOCMProvider
 	 * @throws OCMProviderException if no valid discovery data can be returned
 	 * @since 28.0.0
+	 * @since 32.0.0 returns ICapabilityAwareOCMProvider instead of IOCMProvider
 	 */
-	public function discover(string $remote, bool $skipCache = false): IOCMProvider;
+	public function discover(string $remote, bool $skipCache = false): ICapabilityAwareOCMProvider;
 }

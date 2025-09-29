@@ -66,6 +66,7 @@ final class Task implements \JsonSerializable {
 	protected ?int $scheduledAt = null;
 	protected ?int $startedAt = null;
 	protected ?int $endedAt = null;
+	protected bool $allowCleanup = true;
 
 	/**
 	 * @param string $taskTypeId
@@ -253,7 +254,23 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: int, lastUpdated: int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<string, list<numeric|string>|numeric|string>, output: ?array<string, list<numeric|string>|numeric|string>, customId: ?string, completionExpectedAt: ?int, progress: ?float, scheduledAt: ?int, startedAt: ?int, endedAt: ?int}
+	 * @return bool
+	 * @since 32.0.0
+	 */
+	final public function getAllowCleanup(): bool {
+		return $this->allowCleanup;
+	}
+
+	/**
+	 * @param bool $allowCleanup
+	 * @since 32.0.0
+	 */
+	final public function setAllowCleanup(bool $allowCleanup): void {
+		$this->allowCleanup = $allowCleanup;
+	}
+
+	/**
+	 * @psalm-return array{id: int, lastUpdated: int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<string, list<numeric|string>|numeric|string>, output: ?array<string, list<numeric|string>|numeric|string>, customId: ?string, completionExpectedAt: ?int, progress: ?float, scheduledAt: ?int, startedAt: ?int, endedAt: ?int, allowCleanup: bool}
 	 * @since 30.0.0
 	 */
 	final public function jsonSerialize(): array {
@@ -272,6 +289,7 @@ final class Task implements \JsonSerializable {
 			'scheduledAt' => $this->getScheduledAt(),
 			'startedAt' => $this->getStartedAt(),
 			'endedAt' => $this->getEndedAt(),
+			'allowCleanup' => $this->getAllowCleanup(),
 		];
 	}
 

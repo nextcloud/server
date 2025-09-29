@@ -9,18 +9,20 @@ import { calculateViewportHeight, createFolder, getRowForFile, haveValidity, ren
 describe('files: Rename nodes', { testIsolation: true }, () => {
 	let user: User
 
-	beforeEach(() => cy.createRandomUser().then(($user) => {
-		user = $user
+	beforeEach(() => {
+		cy.createRandomUser().then(($user) => {
+			user = $user
 
-		// remove welcome file
-		cy.rm(user, '/welcome.txt')
-		// create a file called "file.txt"
-		cy.uploadContent(user, new Blob([]), 'text/plain', '/file.txt')
+			// remove welcome file
+			cy.rm(user, '/welcome.txt')
+			// create a file called "file.txt"
+			cy.uploadContent(user, new Blob([]), 'text/plain', '/file.txt')
 
-		// login and visit files app
-		cy.login(user)
+			// login and visit files app
+			cy.login(user)
+		})
 		cy.visit('/apps/files')
-	}))
+	})
 
 	it('can rename a file', () => {
 		// All are visible by default
@@ -179,13 +181,16 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 
 		cy.visit('/apps/files')
 
-		getRowForFile('file.txt').should('be.visible')
+		getRowForFile('file.txt')
+			.should('be.visible')
 		// Z so it is shown last
 		renameFile('file.txt', 'zzz.txt')
 		// not visible any longer
-		getRowForFile('zzz.txt').should('not.exist')
+		getRowForFile('zzz.txt')
+			.should('not.exist')
 		// scroll file list to bottom
-		cy.get('[data-cy-files-list]').scrollTo('bottom')
+		cy.get('[data-cy-files-list]')
+			.scrollTo('bottom')
 		cy.screenshot()
 		// The file is no longer in rename state
 		getRowForFile('zzz.txt')

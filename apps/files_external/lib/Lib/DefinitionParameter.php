@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -18,12 +19,12 @@ class DefinitionParameter implements \JsonSerializable {
 	public const VALUE_TEXT = 0;
 	public const VALUE_BOOLEAN = 1;
 	public const VALUE_PASSWORD = 2;
-	public const VALUE_HIDDEN = 3;
 
 	/** Flag constants */
 	public const FLAG_NONE = 0;
 	public const FLAG_OPTIONAL = 1;
 	public const FLAG_USER_PROVIDED = 2;
+	public const FLAG_HIDDEN = 4;
 
 	/** @var string human-readable parameter tooltip */
 	private string $tooltip = '';

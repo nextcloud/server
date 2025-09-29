@@ -12,6 +12,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\AppPasswordCreatedEvent;
 use OC\Authentication\Token\IProvider;
 use OC\Server;
+use OCA\Settings\ConfigLexicon;
 use OCA\Settings\Hooks;
 use OCA\Settings\Listener\AppPasswordCreatedActivityListener;
 use OCA\Settings\Listener\GroupRemovedListener;
@@ -70,6 +71,7 @@ use OCA\Settings\SetupChecks\SchedulingTableSize;
 use OCA\Settings\SetupChecks\SecurityHeaders;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
+use OCA\Settings\SetupChecks\TaskProcessingPickupSpeed;
 use OCA\Settings\SetupChecks\TempSpaceAvailable;
 use OCA\Settings\SetupChecks\TransactionIsolation;
 use OCA\Settings\SetupChecks\WellKnownUrls;
@@ -110,6 +112,8 @@ class Application extends App implements IBootstrap {
 		$context->registerSearchProvider(SectionSearch::class);
 		$context->registerSearchProvider(AppSearch::class);
 		$context->registerSearchProvider(UserSearch::class);
+
+		$context->registerConfigLexicon(ConfigLexicon::class);
 
 		// Register listeners
 		$context->registerEventListener(AppPasswordCreatedEvent::class, AppPasswordCreatedActivityListener::class);
@@ -206,6 +210,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(SchedulingTableSize::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
+		$context->registerSetupCheck(TaskProcessingPickupSpeed::class);
 		$context->registerSetupCheck(TempSpaceAvailable::class);
 		$context->registerSetupCheck(TransactionIsolation::class);
 		$context->registerSetupCheck(PushService::class);

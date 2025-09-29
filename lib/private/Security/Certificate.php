@@ -85,7 +85,7 @@ class Certificate implements ICertificate {
 
 	public function isExpired(): bool {
 		$now = new \DateTime();
-		return $this->issueDate > $now or $now > $this->expireDate;
+		return $this->issueDate > $now || $now > $this->expireDate;
 	}
 
 	public function getIssuerName(): ?string {

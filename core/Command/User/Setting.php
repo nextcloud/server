@@ -155,7 +155,8 @@ class Setting extends Base {
 					$user = $this->userManager->get($uid);
 					if ($user instanceof IUser) {
 						if ($key === 'email') {
-							$user->setEMailAddress($input->getArgument('value'));
+							$email = $input->getArgument('value');
+							$user->setSystemEMailAddress(mb_strtolower(trim($email)));
 						} elseif ($key === 'display_name') {
 							if (!$user->setDisplayName($input->getArgument('value'))) {
 								if ($user->getDisplayName() === $input->getArgument('value')) {

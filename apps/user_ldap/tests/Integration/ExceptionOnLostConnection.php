@@ -9,6 +9,8 @@ namespace OCA\User_LDAP\Tests\Integration;
 
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\LDAP;
+use OCP\App\IAppManager;
+use OCP\Server;
 
 /**
  * Class ExceptionOnLostConnection
@@ -63,7 +65,7 @@ class ExceptionOnLostConnection {
 	 */
 	public function setUp(): void {
 		require_once __DIR__ . '/../../../../lib/base.php';
-		\OC_App::loadApps(['user_ldap']);
+		Server::get(IAppManager::class)->loadApps(['user_ldap']);
 
 		$ch = $this->getCurl();
 		$proxyInfoJson = curl_exec($ch);

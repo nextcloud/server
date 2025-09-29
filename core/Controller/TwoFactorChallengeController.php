@@ -14,6 +14,7 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
@@ -25,6 +26,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
@@ -89,6 +91,7 @@ class TwoFactorChallengeController extends Controller {
 			'logout_url' => $this->getLogoutUrl(),
 			'hasSetupProviders' => !empty($setupProviders),
 		];
+		Util::addScript('core', 'twofactor-request-token');
 		return new StandaloneTemplateResponse($this->appName, 'twofactorselectchallenge', $data, 'guest');
 	}
 
@@ -141,13 +144,13 @@ class TwoFactorChallengeController extends Controller {
 		if ($provider instanceof IProvidesCustomCSP) {
 			$response->setContentSecurityPolicy($provider->getCSP());
 		}
+		Util::addScript('core', 'twofactor-request-token');
 		return $response;
 	}
 
 	/**
 	 * @TwoFactorSetUpDoneRequired
 	 *
-	 * @UserRateThrottle(limit=5, period=100)
 	 *
 	 * @param string $challengeProviderId
 	 * @param string $challenge
@@ -158,6 +161,7 @@ class TwoFactorChallengeController extends Controller {
 	#[NoCSRFRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: '/login/challenge/{challengeProviderId}')]
+	#[UserRateLimit(limit: 5, period: 100)]
 	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
@@ -204,6 +208,7 @@ class TwoFactorChallengeController extends Controller {
 			'redirect_url' => $redirect_url,
 		];
 
+		Util::addScript('core', 'twofactor-request-token');
 		return new StandaloneTemplateResponse($this->appName, 'twofactorsetupselection', $data, 'guest');
 	}
 
@@ -235,6 +240,7 @@ class TwoFactorChallengeController extends Controller {
 			'template' => $tmpl->fetchPage(),
 		];
 		$response = new StandaloneTemplateResponse($this->appName, 'twofactorsetupchallenge', $data, 'guest');
+		Util::addScript('core', 'twofactor-request-token');
 		return $response;
 	}
 

@@ -53,7 +53,7 @@ OC.L10N.register(
     "Basic encryption module" : "Основний модуль шифрування",
     "Your private key password no longer matches your log-in password." : "Пароль вашого закритого ключа більше не відповідає паролю від вашого облікового запису.",
     "Set your old private key password to your current log-in password:" : "Замініть старий пароль від закритого ключа на новий пароль входу:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Якщо ви не пам'ятаєте ваш старий пароль, ви можете звернутися до адміністратора щоб його відновити.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Якщо ви не пам'ятаєте ваш старий пароль, ви можете звернутися до вашого адміністратора для відновлення ваших файлів.",
     "Old log-in password" : "Старий пароль входу",
     "Current log-in password" : "Поточний пароль входу",
     "Update Private Key Password" : "Оновити пароль для закритого ключа",

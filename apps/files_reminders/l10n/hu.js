@@ -7,7 +7,6 @@ OC.L10N.register(
     "View folder" : "Mappa megtekintése",
     "Set file reminders" : "Fájl emlékeztetők beállítása",
     "Set reminder for \"{fileName}\"" : "Emlékeztető beállítása a következőhöz: „{fileName}”",
-    "Set reminder at custom date & time" : "Emlékeztető beállítása tetszőleges időpontra",
     "Clear reminder" : "Emlékeztető törlése",
     "Please choose a valid date & time" : "Adjon meg egy érvényes dátumot és időt",
     "Reminder set for \"{fileName}\"" : "Emlékeztető beállítva a következőhöz: {fileName}",
@@ -18,7 +17,6 @@ OC.L10N.register(
     "Cancel" : "Mégse",
     "Set reminder" : "Emlékeztető beállítása",
     "Reminder set" : "Emlékeztető beállítása",
-    "Set custom reminder" : "Egyéni emlékeztető beállítása",
     "Later today" : "Mai nap később",
     "Set reminder for later today" : "Emlékeztető beállítása a mai napon későbbre",
     "Tomorrow" : "Holnap",
@@ -26,6 +24,8 @@ OC.L10N.register(
     "This weekend" : "Ezen a héten",
     "Set reminder for this weekend" : "Emlékeztető beállítása erre a hétvégére",
     "Next week" : "Következő hét",
-    "Set reminder for next week" : "Emlékeztető beállítása a következő hétre"
+    "Set reminder for next week" : "Emlékeztető beállítása a következő hétre",
+    "Set reminder at custom date & time" : "Emlékeztető beállítása tetszőleges időpontra",
+    "Set custom reminder" : "Egyéni emlékeztető beállítása"
 },
 "nplurals=2; plural=(n != 1);");

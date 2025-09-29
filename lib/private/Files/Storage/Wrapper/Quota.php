@@ -21,6 +21,7 @@ class Quota extends Wrapper {
 	protected string $sizeRoot;
 	private SystemConfig $config;
 	private bool $quotaIncludeExternalStorage;
+	private bool $enabled = true;
 
 	/**
 	 * @param array $parameters
@@ -46,6 +47,9 @@ class Quota extends Wrapper {
 	}
 
 	private function hasQuota(): bool {
+		if (!$this->enabled) {
+			return false;
+		}
 		return $this->getQuota() !== FileInfo::SPACE_UNLIMITED;
 	}
 
@@ -196,5 +200,9 @@ class Quota extends Wrapper {
 		}
 
 		return parent::touch($path, $mtime);
+	}
+
+	public function enableQuota(bool $enabled): void {
+		$this->enabled = $enabled;
 	}
 }

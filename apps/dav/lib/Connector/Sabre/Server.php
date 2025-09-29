@@ -7,7 +7,11 @@
  */
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\DB\Connection;
+use Override;
 use Sabre\DAV\Exception;
+use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
 use Sabre\DAV\Version;
 use TypeError;
 
@@ -22,12 +26,170 @@ class Server extends \Sabre\DAV\Server {
 	/** @var CachingTree $tree */
 
 	/**
+	 * Tracks queries done by plugins.
+	 * @var array<string, array<int, array<string, array{nodes:int,
+	 *     queries:int}>>> The keys represent: event name, depth and plugin name
+	 */
+	private array $pluginQueries = [];
+
+	public bool $debugEnabled = false;
+
+	/**
+	 * @var array<string, array<int, callable>>
+	 */
+	private array $originalListeners = [];
+
+	/**
+	 * @var array<string, array<int, callable>>
+	 */
+	private array $wrappedListeners = [];
+
+	/**
 	 * @see \Sabre\DAV\Server
 	 */
 	public function __construct($treeOrNode = null) {
 		parent::__construct($treeOrNode);
 		self::$exposeVersion = false;
 		$this->enablePropfindDepthInfinity = true;
+	}
+
+	#[Override]
+	public function once(
+		string $eventName,
+		callable $callBack,
+		int $priority = 100,
+	): void {
+		$this->debugEnabled ? $this->monitorPropfindQueries(
+			parent::once(...),
+			...\func_get_args(),
+		) : parent::once(...\func_get_args());
+	}
+
+	#[Override]
+	public function on(
+		string $eventName,
+		callable $callBack,
+		int $priority = 100,
+	): void {
+		$this->debugEnabled ? $this->monitorPropfindQueries(
+			parent::on(...),
+			...\func_get_args(),
+		) : parent::on(...\func_get_args());
+	}
+
+	/**
+	 * Wraps the handler $callBack into a query-monitoring function and calls
+	 * $parentFn to register it.
+	 */
+	private function monitorPropfindQueries(
+		callable $parentFn,
+		string $eventName,
+		callable $callBack,
+		int $priority = 100,
+	): void {
+		$pluginName = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2]['class'] ?? 'unknown';
+		// The NotifyPlugin needs to be excluded as it emits the
+		// `preloadCollection` event, which causes many plugins run queries.
+		/** @psalm-suppress TypeDoesNotContainType */
+		if ($pluginName === PropFindPreloadNotifyPlugin::class || ($eventName !== 'propFind'
+				&& $eventName !== 'preloadCollection')) {
+			$parentFn($eventName, $callBack, $priority);
+			return;
+		}
+
+		$wrappedCallback
+			= $this->getMonitoredCallback($callBack, $pluginName, $eventName);
+		$this->originalListeners[$eventName][] = $callBack;
+		$this->wrappedListeners[$eventName][] = $wrappedCallback;
+
+		$parentFn($eventName, $wrappedCallback, $priority);
+	}
+
+	public function removeListener(
+		string $eventName,
+		callable $listener,
+	): bool {
+		$listenerIndex = null;
+		if (isset($this->wrappedListeners[$eventName], $this->originalListeners[$eventName])) {
+			$key = array_search(
+				$listener,
+				$this->originalListeners[$eventName],
+				true
+			);
+			if ($key !== false) {
+				$listenerIndex = $key;
+				$listener = $this->wrappedListeners[$eventName][$listenerIndex];
+			}
+		}
+		$removed = parent::removeListener($eventName, $listener);
+
+		if ($removed && $listenerIndex !== null) {
+			unset($this->originalListeners[$eventName][$listenerIndex], $this->wrappedListeners[$eventName][$listenerIndex]);
+		}
+
+		return $removed;
+	}
+
+	public function removeAllListeners(?string $eventName = null): void {
+		parent::removeAllListeners($eventName);
+
+		if ($eventName === null) {
+			$this->originalListeners = [];
+			$this->wrappedListeners = [];
+		} else {
+			unset($this->wrappedListeners[$eventName], $this->originalListeners[$eventName]);
+		}
+	}
+
+	/**
+	 * Returns a callable that wraps $callBack with code that monitors and
+	 * records queries per plugin.
+	 */
+	private function getMonitoredCallback(
+		callable $callBack,
+		string $pluginName,
+		string $eventName,
+	): callable {
+		return function (PropFind $propFind, INode $node) use (
+			$callBack,
+			$pluginName,
+			$eventName,
+		): bool {
+			$connection = \OCP\Server::get(Connection::class);
+			$queriesBefore = $connection->getStats()['executed'];
+			$result = $callBack($propFind, $node);
+			$queriesAfter = $connection->getStats()['executed'];
+			$this->trackPluginQueries(
+				$pluginName,
+				$eventName,
+				$queriesAfter - $queriesBefore,
+				$propFind->getDepth()
+			);
+
+			// many callbacks don't care about returning a bool
+			return $result ?? true;
+		};
+	}
+
+	/**
+	 * Tracks the queries executed by a specific plugin.
+	 */
+	private function trackPluginQueries(
+		string $pluginName,
+		string $eventName,
+		int $queriesExecuted,
+		int $depth,
+	): void {
+		// report only nodes which cause queries to the DB
+		if ($queriesExecuted === 0) {
+			return;
+		}
+
+		$this->pluginQueries[$eventName][$depth][$pluginName]['nodes']
+			= ($this->pluginQueries[$eventName][$depth][$pluginName]['nodes'] ?? 0) + 1;
+
+		$this->pluginQueries[$eventName][$depth][$pluginName]['queries']
+			= ($this->pluginQueries[$eventName][$depth][$pluginName]['queries'] ?? 0) + $queriesExecuted;
 	}
 
 	/**
@@ -114,5 +276,14 @@ class Server extends \Sabre\DAV\Server {
 			$this->httpResponse->setBody($DOM->saveXML());
 			$this->sapi->sendResponse($this->httpResponse);
 		}
+	}
+
+	/**
+	 * Returns queries executed by registered plugins.
+	 * @return array<string, array<int, array<string, array{nodes:int,
+	 *     queries:int}>>> The keys represent: event name, depth and plugin name
+	 */
+	public function getPluginQueries(): array {
+		return $this->pluginQueries;
 	}
 }

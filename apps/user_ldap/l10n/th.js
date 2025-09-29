@@ -135,7 +135,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "แอททริบิวต์ UUID สำหรับกลุ่ม:",
     "Username-LDAP User Mapping" : "การแมปชื่อผู้ใช้-ผู้ใช้ LDAP",
     "Clear Username-LDAP User Mapping" : "ล้างการแมปชื่อผู้ใช้-ผู้ใช้ LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "ล้างการแมปกลุ่ม Groupname-LDAP",
-    " Could not set configuration %s" : "ไม่สามารถกำหนดค่า %s"
+    "Clear Groupname-LDAP Group Mapping" : "ล้างการแมปกลุ่ม Groupname-LDAP"
 },
 "nplurals=1; plural=0;");

@@ -17,13 +17,14 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\PreConditionNotMetException;
 use OCP\Translation\CouldNotTranslateException;
 use OCP\Translation\ITranslationManager;
 
-class TranslationApiController extends \OCP\AppFramework\OCSController {
+class TranslationApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,

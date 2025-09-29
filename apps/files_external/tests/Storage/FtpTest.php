@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,16 +18,14 @@ use OCA\Files_External\Lib\Storage\FTP;
  * @package OCA\Files_External\Tests\Storage
  */
 class FtpTest extends \Test\Files\Storage\Storage {
-	private $config;
+	use ConfigurableStorageTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.ftp.php');
-		if (! is_array($this->config) or ! $this->config['run']) {
-			$this->markTestSkipped('FTP backend not configured');
-		}
+		$this->loadConfig('files_external/tests/config.ftp.php');
+
 		$rootInstance = new FTP($this->config);
 		$rootInstance->mkdir($id);
 
@@ -45,7 +45,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 	/**
 	 * ftp has no proper way to handle spaces at the end of file names
 	 */
-	public function directoryProvider() {
+	public static function directoryProvider(): array {
 		return array_filter(parent::directoryProvider(), function ($item) {
 			return substr($item[0], -1) !== ' ';
 		});

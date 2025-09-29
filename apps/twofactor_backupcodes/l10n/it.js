@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Se rigeneri i codici di backup, invaliderai automaticamente i vecchi codici.",
     "{name} backup codes" : "Codici di backup di {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Usa uno dei codici di backup che hai salvato quando configuri l'autenticazione a due fattori.",
-    "Submit" : "Invia",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Questi sono i tuoi codici di backup. Salvali e/o stampali poiché non potrai più leggerli successivamente"
+    "Submit" : "Invia"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

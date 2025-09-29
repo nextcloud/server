@@ -61,7 +61,7 @@ OC.L10N.register(
     "No LDAP base DN was given" : "Ingen LDAP-base DN har angetts",
     "User base DN is not a subnode of global base DN" : "Användarens base DN är inte en undernod till den globala base DN",
     "Group base DN is not a subnode of global base DN" : "Gruppens base DN är inte en undernod till den globala base DN",
-    "Login filter does not contain %uid place holder" : "Inloggningsfiltret innehåller inte %uid platshållaren",
+    "Login filter does not contain %s placeholder." : "Inloggningsfiltret innehåller inte %s platshållare.",
     "Please login with the new password" : "Vänligen logga in med det nya lösenordet",
     "LDAP User backend" : "LDAP användarbackend",
     "Your password will expire tomorrow." : "Ditt lösenord kommer att gå ut imorgon.",
@@ -234,7 +234,6 @@ OC.L10N.register(
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Användarnamn används för att lagra och tilldela metadata. För att exakt identifiera användare har varje LDAP-användare ett internt användarnamn. Detta kräver en mappning från användarnamn till LDAP-användare. Det skapade användarnamnet är mappat till UUID för LDAP-användaren. Dessutom cachas DN för att minska LDAP-interaktion, men den används inte för identifiering. Om DN ändras kommer ändringarna att hittas. Det interna användarnamnet används på nytt. Att rensa mappningarna kommer att ha rester överallt. Att rensa mappningarna är inte konfigurationskänsligt, det påverkar alla LDAP-konfigurationer! Rensa aldrig mappningarna i en produktionsmiljö, bara i en test- eller experimentfas.",
     "Clear Username-LDAP User Mapping" : "Rensa användarnamn-LDAP användarmappning",
     "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning",
-    "Invalid configuration. Please have a look at the logs for further details." : "Ogiltig konfiguration. Vänligen undersök loggar för mer detaljer.",
-    " Could not set configuration %s" : "Kunde inte sätta inställning %s"
+    "Invalid configuration. Please have a look at the logs for further details." : "Ogiltig konfiguration. Vänligen undersök loggar för mer detaljer."
 },
 "nplurals=2; plural=(n != 1);");

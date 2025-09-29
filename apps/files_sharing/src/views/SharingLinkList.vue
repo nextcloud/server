@@ -7,12 +7,6 @@
 	<ul v-if="canLinkShare"
 		:aria-label="t('files_sharing', 'Link shares')"
 		class="sharing-link-list">
-		<!-- If no link shares, show the add link default entry -->
-		<SharingEntryLink v-if="!hasLinkShares && canReshare"
-			:can-reshare="canReshare"
-			:file-info="fileInfo"
-			@add:share="addShare" />
-
 		<!-- Else we display the list -->
 		<template v-if="hasShares">
 			<!-- using shares[index] to work with .sync -->
@@ -27,6 +21,12 @@
 				@remove:share="removeShare"
 				@open-sharing-details="openSharingDetails(share)" />
 		</template>
+
+		<!-- If no link shares, show the add link default entry -->
+		<SharingEntryLink v-if="!hasLinkShares && canReshare"
+			:can-reshare="canReshare"
+			:file-info="fileInfo"
+			@add:share="addShare" />
 	</ul>
 </template>
 

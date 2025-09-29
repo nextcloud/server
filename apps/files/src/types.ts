@@ -50,15 +50,21 @@ export interface PathOptions {
 
 // User config store
 export interface UserConfig {
-	[key: string]: boolean|undefined
+	[key: string]: boolean | string | undefined
 
-	show_dialog_file_extension: boolean,
-	show_hidden: boolean
 	crop_image_previews: boolean
+	default_view: 'files' | 'personal'
+	grid_view: boolean
+	show_files_extensions: boolean
+	show_hidden: boolean
+	show_mime_column: boolean
 	sort_favorites_first: boolean
 	sort_folders_first: boolean
-	grid_view: boolean
+
+	show_dialog_deletion: boolean
+	show_dialog_file_extension: boolean,
 }
+
 export interface UserConfigStore {
 	userConfig: UserConfig
 }
@@ -104,11 +110,16 @@ export interface DragAndDropStore {
 
 // Active node store
 export interface ActiveStore {
-	_initialized: boolean
+	activeAction: FileAction|null
+	activeFolder: Folder|null
 	activeNode: Node|null
 	activeView: View|null
-	activeAction: FileAction|null
 }
+
+/**
+ * Search scope for the in-files-search
+ */
+export type SearchScope = 'filter'|'globally'
 
 export interface TemplateFile {
 	app: string

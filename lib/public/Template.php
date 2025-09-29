@@ -7,15 +7,23 @@
  */
 namespace OCP;
 
+use OCP\Template\ITemplate;
+
+/*
+ * We have to require the functions file because this class contains aliases to the functions
+ */
+require_once __DIR__ . '/../private/Template/functions.php';
+
 /**
  * This class provides the template system for owncloud. You can use it to load
  * specific templates, add data and generate the html code
  *
  * @since 8.0.0
+ * @deprecated 32.0.0 Use \OCP\Template\ITemplateManager instead
  */
-class Template extends \OC_Template {
+class Template extends \OC_Template implements ITemplate {
 	/**
-	 * Make OC_Helper::imagePath available as a simple function
+	 * Make \OCP\IURLGenerator::imagePath available as a simple function
 	 *
 	 * @see \OCP\IURLGenerator::imagePath
 	 *
@@ -23,7 +31,7 @@ class Template extends \OC_Template {
 	 * @param string $image
 	 * @return string to the image
 	 * @since 8.0.0
-	 * @suppress PhanDeprecatedFunction
+	 * @deprecated 32.0.0 Use the function directly instead
 	 */
 	public static function image_path($app, $image) {
 		return \image_path($app, $image);
@@ -31,12 +39,12 @@ class Template extends \OC_Template {
 
 
 	/**
-	 * Make OC_Helper::mimetypeIcon available as a simple function
+	 * Make IMimeTypeDetector->mimeTypeIcon available as a simple function
 	 *
 	 * @param string $mimetype
 	 * @return string to the image of this file type.
 	 * @since 8.0.0
-	 * @suppress PhanDeprecatedFunction
+	 * @deprecated 32.0.0 Use the function directly instead
 	 */
 	public static function mimetype_icon($mimetype) {
 		return \mimetype_icon($mimetype);
@@ -48,7 +56,7 @@ class Template extends \OC_Template {
 	 * @param string $path path to file
 	 * @return string to the preview of the image
 	 * @since 8.0.0
-	 * @suppress PhanDeprecatedFunction
+	 * @deprecated 32.0.0 Use the function directly instead
 	 */
 	public static function preview_icon($path) {
 		return \preview_icon($path);
@@ -62,23 +70,23 @@ class Template extends \OC_Template {
 	 * @param string $token
 	 * @return string link to the preview
 	 * @since 8.0.0
-	 * @suppress PhanDeprecatedFunction
+	 * @deprecated 32.0.0 Use the function directly instead
 	 */
 	public static function publicPreview_icon($path, $token) {
 		return \publicPreview_icon($path, $token);
 	}
 
 	/**
-	 * Make OC_Helper::humanFileSize available as a simple function
+	 * Make \OCP\Util::humanFileSize available as a simple function
 	 * Example: 2048 to 2 kB.
 	 *
 	 * @param int $bytes in bytes
 	 * @return string size as string
 	 * @since 8.0.0
-	 * @suppress PhanDeprecatedFunction
+	 * @deprecated 32.0.0 Use \OCP\Util::humanFileSize instead
 	 */
 	public static function human_file_size($bytes) {
-		return \human_file_size($bytes);
+		return Util::humanFileSize($bytes);
 	}
 
 	/**
@@ -88,8 +96,8 @@ class Template extends \OC_Template {
 	 * @param boolean $dateOnly
 	 * @return string human readable interpretation of the timestamp
 	 * @since 8.0.0
-	 * @suppress PhanDeprecatedFunction
 	 * @suppress PhanTypeMismatchArgument
+	 * @deprecated 32.0.0 Use the function directly instead
 	 */
 	public static function relative_modified_date($timestamp, $dateOnly = false) {
 		return \relative_modified_date($timestamp, null, $dateOnly);
@@ -103,7 +111,7 @@ class Template extends \OC_Template {
 	 * @param array $params the parameters
 	 * @return string html options
 	 * @since 8.0.0
-	 * @suppress PhanDeprecatedFunction
+	 * @deprecated 32.0.0 Use the function directly instead
 	 */
 	public static function html_select_options($options, $selected, $params = []) {
 		return \html_select_options($options, $selected, $params);

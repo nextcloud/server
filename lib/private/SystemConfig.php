@@ -15,8 +15,9 @@ use OCP\IConfig;
  * fixes cyclic DI: AllConfig needs AppConfig needs Database needs AllConfig
  */
 class SystemConfig {
-	/** @var array */
-	protected $sensitiveValues = [
+	protected array $sensitiveValues;
+
+	protected const DEFAULT_SENSITIVE_VALUES = [
 		'instanceid' => true,
 		'datadirectory' => true,
 		'dbname' => true,
@@ -114,6 +115,7 @@ class SystemConfig {
 	public function __construct(
 		private Config $config,
 	) {
+		$this->sensitiveValues = array_merge(self::DEFAULT_SENSITIVE_VALUES, $this->config->getValue('config_extra_sensitive_values', []));
 	}
 
 	/**

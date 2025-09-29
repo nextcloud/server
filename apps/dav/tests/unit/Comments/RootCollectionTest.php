@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,44 +17,27 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class RootCollectionTest extends \Test\TestCase {
-
-	/** @var ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $commentsManager;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-	/** @var RootCollection */
-	protected $collection;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
-	/** @var IEventDispatcher */
-	protected $dispatcher;
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-	protected $user;
+	protected ICommentsManager&MockObject $commentsManager;
+	protected IUserManager&MockObject $userManager;
+	protected LoggerInterface&MockObject $logger;
+	protected IUserSession&MockObject $userSession;
+	protected IEventDispatcher $dispatcher;
+	protected IUser&MockObject $user;
+	protected RootCollection $collection;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->user = $this->getMockBuilder(IUser::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->user = $this->createMock(IUser::class);
 
-		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userManager = $this->getMockBuilder(IUserManager::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->userSession = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->commentsManager = $this->createMock(ICommentsManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->userSession = $this->createMock(IUserSession::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->dispatcher = new EventDispatcher(
 			new \Symfony\Component\EventDispatcher\EventDispatcher(),
 			\OC::$server,
@@ -69,7 +53,7 @@ class RootCollectionTest extends \Test\TestCase {
 		);
 	}
 
-	protected function prepareForInitCollections() {
+	protected function prepareForInitCollections(): void {
 		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('alice');
@@ -102,7 +86,7 @@ class RootCollectionTest extends \Test\TestCase {
 	public function testGetChild(): void {
 		$this->prepareForInitCollections();
 		$etc = $this->collection->getChild('files');
-		$this->assertTrue($etc instanceof EntityTypeCollectionImplementation);
+		$this->assertInstanceOf(EntityTypeCollectionImplementation::class, $etc);
 	}
 
 
@@ -125,7 +109,7 @@ class RootCollectionTest extends \Test\TestCase {
 		$children = $this->collection->getChildren();
 		$this->assertFalse(empty($children));
 		foreach ($children as $child) {
-			$this->assertTrue($child instanceof EntityTypeCollectionImplementation);
+			$this->assertInstanceOf(EntityTypeCollectionImplementation::class, $child);
 		}
 	}
 

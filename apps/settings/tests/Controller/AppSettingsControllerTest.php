@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
@@ -37,39 +38,23 @@ use Test\TestCase;
  * @group DB
  */
 class AppSettingsControllerTest extends TestCase {
-	/** @var AppSettingsController */
-	private $appSettingsController;
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var IL10N|MockObject */
-	private $l10n;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var INavigationManager|MockObject */
-	private $navigationManager;
+	private IRequest&MockObject $request;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private INavigationManager&MockObject $navigationManager;
 	private AppManager&MockObject $appManager;
-	/** @var CategoryFetcher|MockObject */
-	private $categoryFetcher;
-	/** @var AppFetcher|MockObject */
-	private $appFetcher;
-	/** @var IFactory|MockObject */
-	private $l10nFactory;
-	/** @var BundleFetcher|MockObject */
-	private $bundleFetcher;
-	/** @var Installer|MockObject */
-	private $installer;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-	/** @var IInitialState|MockObject */
-	private $initialState;
-	/** @var IAppDataFactory|MockObject */
-	private $appDataFactory;
-	/** @var AppDiscoverFetcher|MockObject */
-	private $discoverFetcher;
-	/** @var IClientService|MockObject */
-	private $clientService;
+	private CategoryFetcher&MockObject $categoryFetcher;
+	private AppFetcher&MockObject $appFetcher;
+	private IFactory&MockObject $l10nFactory;
+	private BundleFetcher&MockObject $bundleFetcher;
+	private Installer&MockObject $installer;
+	private IURLGenerator&MockObject $urlGenerator;
+	private LoggerInterface&MockObject $logger;
+	private IInitialState&MockObject $initialState;
+	private IAppDataFactory&MockObject $appDataFactory;
+	private AppDiscoverFetcher&MockObject $discoverFetcher;
+	private IClientService&MockObject $clientService;
+	private AppSettingsController $appSettingsController;
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -26,17 +26,6 @@ OC.L10N.register(
     "Share provider which allows you to share files by mail" : "Доставчик на споделяне, който ви позволява да споделяте файлове по имейл",
     "Unable to update share by mail config" : "Не може да се актуализира конфигурацията за споделяне по поща",
     "Send password by mail" : "Изпращане на парола по имейл",
-    "Reply to initiator" : "Отговор към инициатора",
-    "%1$s shared »%2$s« with you" : "%1$s сподели »%2$s« с вас",
-    "%1$s shared »%2$s« with you." : "%1$s сподели »%2$s« с вас.",
-    "Click the button below to open it." : "Щракнете върху долния бутон, за да го отворите.",
-    "Open »%s«" : "Отвори »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "Парола за достъп »%1$s» е споделенас вас от %2$s",
-    "Password to access »%s«" : "Парола за достъп »%s»",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s сподели »%2$s« с вас и иска да добави:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s сподели »%2$s« с вас и иска да добави",
-    "»%s« added a note to a file shared with you" : "»%s« добави бележка към файл, споделен с вас ",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Току-що споделихте »%1$s« с %2$s. Споделянето вече е изпратено до получателя. Поради политиките за сигурност, дефинирани от администратора на %3$s, всяка споделена информация трябва да бъде защитена с парола и не е позволено паролата да се изпраща директно на получателя. Следователно трябва да препратите паролата ръчно на получателя.",
-    "Password to access »%1$s« shared by you with %2$s" : "Парола за достъп »%1$s» е споделена от вас с %2$s"
+    "Reply to initiator" : "Отговор към инициатора"
 },
 "nplurals=2; plural=(n != 1);");

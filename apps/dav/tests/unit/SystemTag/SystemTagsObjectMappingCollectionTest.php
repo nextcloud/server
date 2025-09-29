@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,27 +14,24 @@ use OCP\IUser;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
-	private ISystemTagManager $tagManager;
-	private ISystemTagObjectMapper $tagMapper;
-	private IUser $user;
+	private ISystemTagManager&MockObject $tagManager;
+	private ISystemTagObjectMapper&MockObject $tagMapper;
+	private IUser&MockObject $user;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
-			->getMock();
-		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
-			->getMock();
-
-		$this->user = $this->getMockBuilder(IUser::class)
-			->getMock();
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
+		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
+		$this->user = $this->createMock(IUser::class);
 	}
 
-	public function getNode(array $writableNodeIds = []) {
+	public function getNode(array $writableNodeIds = []): SystemTagsObjectMappingCollection {
 		return new SystemTagsObjectMappingCollection(
-			111,
+			'111',
 			'files',
 			$this->user,
 			$this->tagManager,
@@ -86,7 +84,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->createFile('555');
 	}
 
-	public function permissionsProvider() {
+	public static function permissionsProvider(): array {
 		return [
 			// invisible, tag does not exist for user
 			[false, true, '\Sabre\DAV\Exception\PreconditionFailed'],
@@ -95,10 +93,8 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider permissionsProvider
-	 */
-	public function testAssignTagNoPermission($userVisible, $userAssignable, $expectedException): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('permissionsProvider')]
+	public function testAssignTagNoPermission(bool $userVisible, bool $userAssignable, string $expectedException): void {
 		$tag = new SystemTag('1', 'Test', $userVisible, $userAssignable);
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
@@ -133,7 +129,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['555'])
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 
 		$this->getNode()->createFile('555');
 	}
@@ -146,7 +142,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	public function testGetChild(): void {
-		$tag = new SystemTag(555, 'TheTag', true, false);
+		$tag = new SystemTag('555', 'TheTag', true, false);
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
 			->with($tag)
@@ -172,7 +168,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	public function testGetChildNonVisible(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
-		$tag = new SystemTag(555, 'TheTag', false, false);
+		$tag = new SystemTag('555', 'TheTag', false, false);
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
 			->with($tag)
@@ -210,7 +206,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', 'badid')
-			->will($this->throwException(new \InvalidArgumentException()));
+			->willThrowException(new \InvalidArgumentException());
 
 		$this->getNode()->getChild('badid');
 	}
@@ -222,15 +218,15 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '777')
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 
 		$this->getNode()->getChild('777');
 	}
 
 	public function testGetChildren(): void {
-		$tag1 = new SystemTag(555, 'TagOne', true, false);
-		$tag2 = new SystemTag(556, 'TagTwo', true, true);
-		$tag3 = new SystemTag(557, 'InvisibleTag', false, true);
+		$tag1 = new SystemTag('555', 'TagOne', true, false);
+		$tag2 = new SystemTag('556', 'TagTwo', true, true);
+		$tag3 = new SystemTag('557', 'InvisibleTag', false, true);
 
 		$this->tagMapper->expects($this->once())
 			->method('getTagIdsForObjects')
@@ -265,7 +261,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	public function testChildExistsWithVisibleTag(): void {
-		$tag = new SystemTag(555, 'TagOne', true, false);
+		$tag = new SystemTag('555', 'TagOne', true, false);
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
@@ -286,7 +282,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	}
 
 	public function testChildExistsWithInvisibleTag(): void {
-		$tag = new SystemTag(555, 'TagOne', false, false);
+		$tag = new SystemTag('555', 'TagOne', false, false);
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
@@ -314,7 +310,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '555')
-			->will($this->throwException(new TagNotFoundException()));
+			->willThrowException(new TagNotFoundException());
 
 		$this->assertFalse($this->getNode()->childExists('555'));
 	}
@@ -326,7 +322,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '555')
-			->will($this->throwException(new \InvalidArgumentException()));
+			->willThrowException(new \InvalidArgumentException());
 
 		$this->getNode()->childExists('555');
 	}

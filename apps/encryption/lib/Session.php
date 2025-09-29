@@ -1,24 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\Encryption;
 
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCP\ISession;
 
 class Session {
-
 	public const NOT_INITIALIZED = '0';
 	public const INIT_EXECUTED = '1';
 	public const INIT_SUCCESSFUL = '2';
 
-	/**
-	 * @param ISession $session
-	 */
 	public function __construct(
 		protected ISession $session,
 	) {
@@ -29,7 +28,7 @@ class Session {
 	 *
 	 * @param string $status INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INITIALIZED
 	 */
-	public function setStatus($status) {
+	public function setStatus(string $status): void {
 		$this->session->set('encryptionInitialized', $status);
 	}
 
@@ -38,7 +37,7 @@ class Session {
 	 *
 	 * @return string init status INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INITIALIZED
 	 */
-	public function getStatus() {
+	public function getStatus(): string {
 		$status = $this->session->get('encryptionInitialized');
 		if (is_null($status)) {
 			$status = self::NOT_INITIALIZED;
@@ -49,10 +48,8 @@ class Session {
 
 	/**
 	 * check if encryption was initialized successfully
-	 *
-	 * @return bool
 	 */
-	public function isReady() {
+	public function isReady(): bool {
 		$status = $this->getStatus();
 		return $status === self::INIT_SUCCESSFUL;
 	}
@@ -63,20 +60,18 @@ class Session {
 	 * @return string $privateKey The user's plaintext private key
 	 * @throws Exceptions\PrivateKeyMissingException
 	 */
-	public function getPrivateKey() {
+	public function getPrivateKey(): string {
 		$key = $this->session->get('privateKey');
 		if (is_null($key)) {
-			throw new PrivateKeyMissingException('please try to log-out and log-in again', 0);
+			throw new PrivateKeyMissingException('please try to log-out and log-in again');
 		}
 		return $key;
 	}
 
 	/**
 	 * check if private key is set
-	 *
-	 * @return boolean
 	 */
-	public function isPrivateKeySet() {
+	public function isPrivateKeySet(): bool {
 		$key = $this->session->get('privateKey');
 		if (is_null($key)) {
 			return false;
@@ -92,17 +87,14 @@ class Session {
 	 *
 	 * @note this should only be set on login
 	 */
-	public function setPrivateKey($key) {
+	public function setPrivateKey(string $key): void {
 		$this->session->set('privateKey', $key);
 	}
 
 	/**
 	 * store data needed for the decrypt all operation in the session
-	 *
-	 * @param string $user
-	 * @param string $key
 	 */
-	public function prepareDecryptAll($user, $key) {
+	public function prepareDecryptAll(string $user, string $key): void {
 		$this->session->set('decryptAll', true);
 		$this->session->set('decryptAllKey', $key);
 		$this->session->set('decryptAllUid', $user);
@@ -110,10 +102,8 @@ class Session {
 
 	/**
 	 * check if we are in decrypt all mode
-	 *
-	 * @return bool
 	 */
-	public function decryptAllModeActivated() {
+	public function decryptAllModeActivated(): bool {
 		$decryptAll = $this->session->get('decryptAll');
 		return ($decryptAll === true);
 	}
@@ -121,10 +111,9 @@ class Session {
 	/**
 	 * get uid used for decrypt all operation
 	 *
-	 * @return string
 	 * @throws \Exception
 	 */
-	public function getDecryptAllUid() {
+	public function getDecryptAllUid(): string {
 		$uid = $this->session->get('decryptAllUid');
 		if (is_null($uid) && $this->decryptAllModeActivated()) {
 			throw new \Exception('No uid found while in decrypt all mode');
@@ -138,10 +127,9 @@ class Session {
 	/**
 	 * get private key for decrypt all operation
 	 *
-	 * @return string
 	 * @throws PrivateKeyMissingException
 	 */
-	public function getDecryptAllKey() {
+	public function getDecryptAllKey(): string {
 		$privateKey = $this->session->get('decryptAllKey');
 		if (is_null($privateKey) && $this->decryptAllModeActivated()) {
 			throw new PrivateKeyMissingException('No private key found while in decrypt all mode');
@@ -155,7 +143,7 @@ class Session {
 	/**
 	 * remove keys from session
 	 */
-	public function clear() {
+	public function clear(): void {
 		$this->session->remove('publicSharePrivateKey');
 		$this->session->remove('privateKey');
 		$this->session->remove('encryptionInitialized');

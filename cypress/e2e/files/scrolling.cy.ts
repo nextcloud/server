@@ -3,36 +3,23 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { User } from '@nextcloud/cypress'
 import { calculateViewportHeight, enableGridMode, getRowForFile } from './FilesUtils.ts'
 import { beFullyInViewport, notBeFullyInViewport } from '../core-utils.ts'
 
-describe('files: Scrolling to selected file in file list', { testIsolation: true }, () => {
+describe('files: Scrolling to selected file in file list', () => {
 	const fileIds = new Map<number, string>()
-	let user: User
 	let viewportHeight: number
 
 	before(() => {
-		cy.createRandomUser().then(($user) => {
-			user = $user
-
-			cy.rm(user, '/welcome.txt')
-			for (let i = 1; i <= 10; i++) {
-				cy.uploadContent(user, new Blob([]), 'text/plain', `/${i}.txt`)
-					.then((response) => fileIds.set(i, Number.parseInt(response.headers['oc-fileid']).toString()))
-			}
-
-			cy.login(user)
-			cy.viewport(1200, 800)
-			// Calculate height to ensure that those 10 elements can not be rendered in one list (only 6 will fit the screen)
-			calculateViewportHeight(6)
-				.then((height) => { viewportHeight = height })
-		})
+		initFilesAndViewport(fileIds)
+			.then((_viewportHeight) => {
+				cy.log(`Saving viewport height to ${_viewportHeight}px`)
+				viewportHeight = _viewportHeight
+			})
 	})
 
 	beforeEach(() => {
 		cy.viewport(1200, viewportHeight)
-		cy.login(user)
 	})
 
 	it('Can see first file in list', () => {
@@ -123,41 +110,17 @@ describe('files: Scrolling to selected file in file list', { testIsolation: true
 	}
 })
 
-describe('files: Scrolling to selected file in file list (GRID MODE)', { testIsolation: true }, () => {
+describe('files: Scrolling to selected file in file list (GRID MODE)', () => {
 	const fileIds = new Map<number, string>()
-	let user: User
 	let viewportHeight: number
 
 	before(() => {
-		cy.wrap(Cypress.automation('remote:debugger:protocol', {
-			command: 'Network.clearBrowserCache',
-		  }))
-
-		cy.createRandomUser().then(($user) => {
-			user = $user
-
-			cy.rm(user, '/welcome.txt')
-			for (let i = 1; i <= 12; i++) {
-				cy.uploadContent(user, new Blob([]), 'text/plain', `/${i}.txt`)
-					.then((response) => fileIds.set(i, Number.parseInt(response.headers['oc-fileid']).toString()))
-			}
-
-			// Set grid mode
-			cy.login(user)
-			cy.visit('/apps/files')
-			enableGridMode()
-
-			// 768px width will limit the columns to 3
-			cy.viewport(768, 800)
-			// Calculate height to ensure that those 12 elements can not be rendered in one list (only 3 will fit the screen)
-			calculateViewportHeight(3)
-				.then((height) => { viewportHeight = height })
-		})
+		initFilesAndViewport(fileIds, true)
+			.then((_viewportHeight) => { viewportHeight = _viewportHeight })
 	})
 
 	beforeEach(() => {
 		cy.viewport(768, viewportHeight)
-		cy.login(user)
 	})
 
 	// First row
@@ -228,9 +191,7 @@ describe('files: Scrolling to selected file in file list (GRID MODE)', { testIso
 					.and(beOverlappedByTableHeader)
 			}
 
-			// see footer is only shown partly
 			cy.get('tfoot')
-				.should(notBeFullyInViewport)
 				.contains('span', '12 files')
 				.should('be.visible')
 		})
@@ -289,4 +250,35 @@ function beOverlappedByTableHeader($el: JQuery<HTMLElement>, expected = true) {
  */
 function notBeOverlappedByTableHeader($el: JQuery<HTMLElement>) {
 	return beOverlappedByTableHeader($el, false)
+}
+
+function initFilesAndViewport(fileIds: Map<number, string>, gridMode = false): Cypress.Chainable<number> {
+	return cy.createRandomUser().then((user) => {
+		cy.rm(user, '/welcome.txt')
+
+		// Create files with names 1.txt, 2.txt, ..., 10.txt
+		const count = gridMode ? 12 : 10
+		for (let i = 1; i <= count; i++) {
+			cy.uploadContent(user, new Blob([]), 'text/plain', `/${i}.txt`)
+				.then((response) => fileIds.set(i, Number.parseInt(response.headers['oc-fileid']).toString()))
+		}
+
+		cy.login(user)
+		cy.viewport(1200, 800)
+
+		cy.visit('/apps/files')
+
+		// If grid mode is requested, enable it
+		if (gridMode) {
+			enableGridMode()
+		}
+
+		// Calculate height to ensure that those 10 elements can not be rendered in one list (only 6 will fit the screen, 3 in grid mode)
+		return calculateViewportHeight(gridMode ? 3 : 6)
+			.then((height) => {
+				// Set viewport height to the calculated height
+				cy.log(`Setting viewport height to ${height}px`)
+				cy.wrap(height)
+			})
+	})
 }

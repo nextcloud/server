@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -27,7 +28,7 @@ class SearchResultTest extends TestCase {
 		$this->search = new Search($this->container);
 	}
 
-	public function dataAddResultSet() {
+	public static function dataAddResultSet(): array {
 		return [
 			[[], ['exact' => []]],
 			[['users' => ['exact' => null, 'loose' => []]], ['exact' => ['users' => []], 'users' => []]],
@@ -37,10 +38,10 @@ class SearchResultTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataAddResultSet
 	 * @param array $toAdd
 	 * @param array $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataAddResultSet')]
 	public function testAddResultSet(array $toAdd, array $expected): void {
 		$result = new SearchResult();
 
@@ -51,7 +52,7 @@ class SearchResultTest extends TestCase {
 		$this->assertEquals($expected, $result->asArray());
 	}
 
-	public function dataHasResult() {
+	public static function dataHasResult(): array {
 		$result = ['value' => ['shareWith' => 'l1']];
 		return [
 			[[],'users', 'n1', false],
@@ -66,12 +67,12 @@ class SearchResultTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataHasResult
 	 * @param array $toAdd
 	 * @param string $type
 	 * @param string $id
 	 * @param bool $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataHasResult')]
 	public function testHasResult(array $toAdd, $type, $id, $expected): void {
 		$result = new SearchResult();
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,7 +12,7 @@ use OCP\Server;
 use OCP\Share_Backend_Collection;
 
 class Folder extends File implements Share_Backend_Collection {
-	public function getChildren($itemSource) {
+	public function getChildren($itemSource): array {
 		$children = [];
 		$parents = [$itemSource];
 
@@ -21,15 +22,15 @@ class Folder extends File implements Share_Backend_Collection {
 			->where(
 				$qb->expr()->eq('mimetype', $qb->createNamedParameter('httpd/unix-directory'))
 			);
-		$result = $qb->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
+		$result = $qb->executeQuery();
 
-		if ($row = $result->fetchRow()) {
+		if (($row = $result->fetch()) !== false) {
 			$mimetype = (int)$row['id'];
 		} else {
 			$mimetype = -1;
 		}
+		$result->closeCursor();
+
 		while (!empty($parents)) {
 			$qb = Server::get(IDBConnection::class)->getQueryBuilder();
 
@@ -43,7 +44,7 @@ class Folder extends File implements Share_Backend_Collection {
 					$qb->expr()->in('parent', $parents)
 				);
 
-			$result = $qb->execute();
+			$result = $qb->executeQuery();
 
 			$parents = [];
 			while ($file = $result->fetch()) {

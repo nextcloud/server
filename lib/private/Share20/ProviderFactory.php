@@ -1,32 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Share20;
 
 use OC\Share20\Exception\ProviderException;
-use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCA\FederatedFileSharing\Notifications;
-use OCA\FederatedFileSharing\TokenHandler;
-use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCA\Talk\Share\RoomShareProvider;
-use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Defaults;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Federation\ICloudFederationFactory;
-use OCP\Files\IRootFolder;
-use OCP\Http\Client\IClientService;
-use OCP\IServerContainer;
-use OCP\L10N\IFactory;
-use OCP\Mail\IMailer;
-use OCP\Security\IHasher;
-use OCP\Security\ISecureRandom;
-use OCP\Share\IManager;
+use OCP\App\IAppManager;
+use OCP\Server;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
@@ -38,30 +27,22 @@ use Psr\Log\LoggerInterface;
  * @package OC\Share20
  */
 class ProviderFactory implements IProviderFactory {
-	/** @var DefaultShareProvider */
-	private $defaultProvider = null;
-	/** @var FederatedShareProvider */
-	private $federatedProvider = null;
-	/** @var ShareByMailProvider */
-	private $shareByMailProvider;
-	/** @var \OCA\Circles\ShareByCircleProvider */
-	private $shareByCircleProvider = null;
-	/** @var bool */
-	private $circlesAreNotAvailable = false;
-	/** @var \OCA\Talk\Share\RoomShareProvider */
+	private ?DefaultShareProvider $defaultProvider = null;
+	private ?FederatedShareProvider $federatedProvider = null;
+	private ?ShareByMailProvider $shareByMailProvider = null;
+	/**
+	 * @psalm-suppress UndefinedDocblockClass
+	 * @var ?RoomShareProvider
+	 */
 	private $roomShareProvider = null;
 
-	private $registeredShareProviders = [];
+	private array $registeredShareProviders = [];
 
-	private $shareProviders = [];
+	private array $shareProviders = [];
 
-	/**
-	 * IProviderFactory constructor.
-	 *
-	 * @param IServerContainer $serverContainer
-	 */
 	public function __construct(
-		private IServerContainer $serverContainer,
+		protected IAppManager $appManager,
+		protected LoggerInterface $logger,
 	) {
 	}
 
@@ -71,81 +52,24 @@ class ProviderFactory implements IProviderFactory {
 
 	/**
 	 * Create the default share provider.
-	 *
-	 * @return DefaultShareProvider
 	 */
-	protected function defaultShareProvider() {
-		if ($this->defaultProvider === null) {
-			$this->defaultProvider = new DefaultShareProvider(
-				$this->serverContainer->getDatabaseConnection(),
-				$this->serverContainer->getUserManager(),
-				$this->serverContainer->getGroupManager(),
-				$this->serverContainer->get(IRootFolder::class),
-				$this->serverContainer->get(IMailer::class),
-				$this->serverContainer->get(Defaults::class),
-				$this->serverContainer->get(IFactory::class),
-				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->get(ITimeFactory::class),
-				$this->serverContainer->get(LoggerInterface::class),
-				$this->serverContainer->get(IManager::class),
-			);
-		}
-
-		return $this->defaultProvider;
+	protected function defaultShareProvider(): DefaultShareProvider {
+		return Server::get(DefaultShareProvider::class);
 	}
 
 	/**
 	 * Create the federated share provider
-	 *
-	 * @return FederatedShareProvider
 	 */
-	protected function federatedShareProvider() {
+	protected function federatedShareProvider(): ?FederatedShareProvider {
 		if ($this->federatedProvider === null) {
 			/*
 			 * Check if the app is enabled
 			 */
-			$appManager = $this->serverContainer->getAppManager();
-			if (!$appManager->isEnabledForUser('federatedfilesharing')) {
+			if (!$this->appManager->isEnabledForUser('federatedfilesharing')) {
 				return null;
 			}
 
-			/*
-			 * TODO: add factory to federated sharing app
-			 */
-			$l = $this->serverContainer->getL10N('federatedfilesharing');
-			$addressHandler = new AddressHandler(
-				$this->serverContainer->getURLGenerator(),
-				$l,
-				$this->serverContainer->getCloudIdManager()
-			);
-			$notifications = new Notifications(
-				$addressHandler,
-				$this->serverContainer->get(IClientService::class),
-				$this->serverContainer->get(\OCP\OCS\IDiscoveryService::class),
-				$this->serverContainer->getJobList(),
-				\OC::$server->getCloudFederationProviderManager(),
-				\OC::$server->get(ICloudFederationFactory::class),
-				$this->serverContainer->get(IEventDispatcher::class),
-				$this->serverContainer->get(LoggerInterface::class),
-			);
-			$tokenHandler = new TokenHandler(
-				$this->serverContainer->get(ISecureRandom::class)
-			);
-
-			$this->federatedProvider = new FederatedShareProvider(
-				$this->serverContainer->getDatabaseConnection(),
-				$addressHandler,
-				$notifications,
-				$tokenHandler,
-				$l,
-				$this->serverContainer->get(IRootFolder::class),
-				$this->serverContainer->getConfig(),
-				$this->serverContainer->getUserManager(),
-				$this->serverContainer->getCloudIdManager(),
-				$this->serverContainer->getGlobalScaleConfig(),
-				$this->serverContainer->getCloudFederationProviderManager(),
-				$this->serverContainer->get(LoggerInterface::class),
-			);
+			$this->federatedProvider = Server::get(FederatedShareProvider::class);
 		}
 
 		return $this->federatedProvider;
@@ -153,90 +77,34 @@ class ProviderFactory implements IProviderFactory {
 
 	/**
 	 * Create the federated share provider
-	 *
-	 * @return ShareByMailProvider
 	 */
-	protected function getShareByMailProvider() {
+	protected function getShareByMailProvider(): ?ShareByMailProvider {
 		if ($this->shareByMailProvider === null) {
 			/*
 			 * Check if the app is enabled
 			 */
-			$appManager = $this->serverContainer->getAppManager();
-			if (!$appManager->isEnabledForUser('sharebymail')) {
+			if (!$this->appManager->isEnabledForUser('sharebymail')) {
 				return null;
 			}
 
-			$settingsManager = new SettingsManager($this->serverContainer->getConfig());
-
-			$this->shareByMailProvider = new ShareByMailProvider(
-				$this->serverContainer->getConfig(),
-				$this->serverContainer->getDatabaseConnection(),
-				$this->serverContainer->get(ISecureRandom::class),
-				$this->serverContainer->getUserManager(),
-				$this->serverContainer->get(IRootFolder::class),
-				$this->serverContainer->getL10N('sharebymail'),
-				$this->serverContainer->get(LoggerInterface::class),
-				$this->serverContainer->get(IMailer::class),
-				$this->serverContainer->getURLGenerator(),
-				$this->serverContainer->getActivityManager(),
-				$settingsManager,
-				$this->serverContainer->get(Defaults::class),
-				$this->serverContainer->get(IHasher::class),
-				$this->serverContainer->get(IEventDispatcher::class),
-				$this->serverContainer->get(IManager::class)
-			);
+			$this->shareByMailProvider = Server::get(ShareByMailProvider::class);
 		}
 
 		return $this->shareByMailProvider;
 	}
 
-
-	/**
-	 * Create the circle share provider
-	 *
-	 * @return FederatedShareProvider
-	 *
-	 * @suppress PhanUndeclaredClassMethod
-	 */
-	protected function getShareByCircleProvider() {
-		if ($this->circlesAreNotAvailable) {
-			return null;
-		}
-
-		if (!$this->serverContainer->getAppManager()->isEnabledForUser('circles') ||
-			!class_exists('\OCA\Circles\ShareByCircleProvider')
-		) {
-			$this->circlesAreNotAvailable = true;
-			return null;
-		}
-
-		if ($this->shareByCircleProvider === null) {
-			$this->shareByCircleProvider = new \OCA\Circles\ShareByCircleProvider(
-				$this->serverContainer->getDatabaseConnection(),
-				$this->serverContainer->get(ISecureRandom::class),
-				$this->serverContainer->getUserManager(),
-				$this->serverContainer->get(IRootFolder::class),
-				$this->serverContainer->getL10N('circles'),
-				$this->serverContainer->get(LoggerInterface::class),
-				$this->serverContainer->getURLGenerator()
-			);
-		}
-
-		return $this->shareByCircleProvider;
-	}
-
 	/**
 	 * Create the room share provider
 	 *
-	 * @return RoomShareProvider
+	 * @psalm-suppress UndefinedDocblockClass
+	 * @return ?RoomShareProvider
 	 */
 	protected function getRoomShareProvider() {
 		if ($this->roomShareProvider === null) {
 			/*
 			 * Check if the app is enabled
 			 */
-			$appManager = $this->serverContainer->getAppManager();
-			if (!$appManager->isEnabledForUser('spreed')) {
+			if (!$this->appManager->isEnabledForUser('spreed')) {
 				return null;
 			}
 
@@ -244,9 +112,9 @@ class ProviderFactory implements IProviderFactory {
 				/**
 				 * @psalm-suppress UndefinedClass
 				 */
-				$this->roomShareProvider = $this->serverContainer->get(RoomShareProvider::class);
+				$this->roomShareProvider = Server::get(RoomShareProvider::class);
 			} catch (\Throwable $e) {
-				$this->serverContainer->get(LoggerInterface::class)->error(
+				$this->logger->error(
 					$e->getMessage(),
 					['exception' => $e]
 				);
@@ -272,8 +140,6 @@ class ProviderFactory implements IProviderFactory {
 			$provider = $this->federatedShareProvider();
 		} elseif ($id === 'ocMailShare') {
 			$provider = $this->getShareByMailProvider();
-		} elseif ($id === 'ocCircleShare') {
-			$provider = $this->getShareByCircleProvider();
 		} elseif ($id === 'ocRoomShare') {
 			$provider = $this->getRoomShareProvider();
 		}
@@ -281,10 +147,10 @@ class ProviderFactory implements IProviderFactory {
 		foreach ($this->registeredShareProviders as $shareProvider) {
 			try {
 				/** @var IShareProvider $instance */
-				$instance = $this->serverContainer->get($shareProvider);
+				$instance = Server::get($shareProvider);
 				$this->shareProviders[$instance->identifier()] = $instance;
 			} catch (\Throwable $e) {
-				$this->serverContainer->get(LoggerInterface::class)->error(
+				$this->logger->error(
 					$e->getMessage(),
 					['exception' => $e]
 				);
@@ -308,9 +174,9 @@ class ProviderFactory implements IProviderFactory {
 	public function getProviderForType($shareType) {
 		$provider = null;
 
-		if ($shareType === IShare::TYPE_USER ||
-			$shareType === IShare::TYPE_GROUP ||
-			$shareType === IShare::TYPE_LINK
+		if ($shareType === IShare::TYPE_USER
+			|| $shareType === IShare::TYPE_GROUP
+			|| $shareType === IShare::TYPE_LINK
 		) {
 			$provider = $this->defaultShareProvider();
 		} elseif ($shareType === IShare::TYPE_REMOTE || $shareType === IShare::TYPE_REMOTE_GROUP) {
@@ -318,7 +184,7 @@ class ProviderFactory implements IProviderFactory {
 		} elseif ($shareType === IShare::TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
-			$provider = $this->getShareByCircleProvider();
+			$provider = $this->getProvider('ocCircleShare');
 		} elseif ($shareType === IShare::TYPE_ROOM) {
 			$provider = $this->getRoomShareProvider();
 		} elseif ($shareType === IShare::TYPE_DECK) {
@@ -341,10 +207,6 @@ class ProviderFactory implements IProviderFactory {
 		if ($shareByMail !== null) {
 			$shares[] = $shareByMail;
 		}
-		$shareByCircle = $this->getShareByCircleProvider();
-		if ($shareByCircle !== null) {
-			$shares[] = $shareByCircle;
-		}
 		$roomShare = $this->getRoomShareProvider();
 		if ($roomShare !== null) {
 			$shares[] = $roomShare;
@@ -353,9 +215,9 @@ class ProviderFactory implements IProviderFactory {
 		foreach ($this->registeredShareProviders as $shareProvider) {
 			try {
 				/** @var IShareProvider $instance */
-				$instance = $this->serverContainer->get($shareProvider);
+				$instance = Server::get($shareProvider);
 			} catch (\Throwable $e) {
-				$this->serverContainer->get(LoggerInterface::class)->error(
+				$this->logger->error(
 					$e->getMessage(),
 					['exception' => $e]
 				);

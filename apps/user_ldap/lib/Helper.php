@@ -9,7 +9,7 @@ namespace OCA\User_LDAP;
 
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Server;
 
@@ -18,7 +18,7 @@ class Helper {
 	protected CappedMemoryCache $sanitizeDnCache;
 
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IDBConnection $connection,
 	) {
 		$this->sanitizeDnCache = new CappedMemoryCache(10000);
@@ -45,21 +45,37 @@ class Helper {
 	 * except the default (first) server shall be connected to.
 	 *
 	 */
-	public function getServerConfigurationPrefixes($activeConfigurations = false): array {
+	public function getServerConfigurationPrefixes(bool $activeConfigurations = false): array {
+		$all = $this->getAllServerConfigurationPrefixes();
+		if (!$activeConfigurations) {
+			return $all;
+		}
+		return array_values(array_filter(
+			$all,
+			fn (string $prefix): bool => ($this->appConfig->getValueString('user_ldap', $prefix . 'ldap_configuration_active') === '1')
+		));
+	}
+
+	protected function getAllServerConfigurationPrefixes(): array {
+		$unfilled = ['UNFILLED'];
+		$prefixes = $this->appConfig->getValueArray('user_ldap', 'configuration_prefixes', $unfilled);
+		if ($prefixes !== $unfilled) {
+			return $prefixes;
+		}
+
+		/* Fallback to browsing key for migration from Nextcloud<32 */
 		$referenceConfigkey = 'ldap_configuration_active';
 
 		$keys = $this->getServersConfig($referenceConfigkey);
 
 		$prefixes = [];
 		foreach ($keys as $key) {
-			if ($activeConfigurations && $this->config->getAppValue('user_ldap', $key, '0') !== '1') {
-				continue;
-			}
-
 			$len = strlen($key) - strlen($referenceConfigkey);
 			$prefixes[] = substr($key, 0, $len);
 		}
-		asort($prefixes);
+		sort($prefixes);
+
+		$this->appConfig->setValueArray('user_ldap', 'configuration_prefixes', $prefixes);
 
 		return $prefixes;
 	}
@@ -68,46 +84,45 @@ class Helper {
 	 *
 	 * determines the host for every configured connection
 	 *
-	 * @return array an array with configprefix as keys
+	 * @return array<string,string> an array with configprefix as keys
 	 *
 	 */
-	public function getServerConfigurationHosts() {
+	public function getServerConfigurationHosts(): array {
+		$prefixes = $this->getServerConfigurationPrefixes();
+
 		$referenceConfigkey = 'ldap_host';
-
-		$keys = $this->getServersConfig($referenceConfigkey);
-
 		$result = [];
-		foreach ($keys as $key) {
-			$len = strlen($key) - strlen($referenceConfigkey);
-			$prefix = substr($key, 0, $len);
-			$result[$prefix] = $this->config->getAppValue('user_ldap', $key);
+		foreach ($prefixes as $prefix) {
+			$result[$prefix] = $this->appConfig->getValueString('user_ldap', $prefix . $referenceConfigkey);
 		}
 
 		return $result;
 	}
 
 	/**
-	 * return the next available configuration prefix
-	 *
-	 * @return string
+	 * return the next available configuration prefix and register it as used
 	 */
-	public function getNextServerConfigurationPrefix() {
-		$serverConnections = $this->getServerConfigurationPrefixes();
+	public function getNextServerConfigurationPrefix(): string {
+		$prefixes = $this->getServerConfigurationPrefixes();
 
-		if (count($serverConnections) === 0) {
-			return 's01';
+		if (count($prefixes) === 0) {
+			$prefix = 's01';
+		} else {
+			sort($prefixes);
+			$lastKey = array_pop($prefixes);
+			$lastNumber = (int)str_replace('s', '', $lastKey);
+			$prefix = 's' . str_pad((string)($lastNumber + 1), 2, '0', STR_PAD_LEFT);
 		}
 
-		sort($serverConnections);
-		$lastKey = array_pop($serverConnections);
-		$lastNumber = (int)str_replace('s', '', $lastKey);
-		return 's' . str_pad((string)($lastNumber + 1), 2, '0', STR_PAD_LEFT);
+		$prefixes[] = $prefix;
+		$this->appConfig->setValueArray('user_ldap', 'configuration_prefixes', $prefixes);
+		return $prefix;
 	}
 
 	private function getServersConfig(string $value): array {
 		$regex = '/' . $value . '$/S';
 
-		$keys = $this->config->getAppKeys('user_ldap');
+		$keys = $this->appConfig->getKeys('user_ldap');
 		$result = [];
 		foreach ($keys as $key) {
 			if (preg_match($regex, $key) === 1) {
@@ -125,7 +140,9 @@ class Helper {
 	 * @return bool true on success, false otherwise
 	 */
 	public function deleteServerConfiguration($prefix) {
-		if (!in_array($prefix, self::getServerConfigurationPrefixes())) {
+		$prefixes = $this->getServerConfigurationPrefixes();
+		$index = array_search($prefix, $prefixes);
+		if ($index === false) {
 			return false;
 		}
 
@@ -144,7 +161,11 @@ class Helper {
 			$query->andWhere($query->expr()->notLike('configkey', $query->createNamedParameter('s%')));
 		}
 
-		$deletedRows = $query->execute();
+		$deletedRows = $query->executeStatement();
+
+		unset($prefixes[$index]);
+		$this->appConfig->setValueArray('user_ldap', 'configuration_prefixes', array_values($prefixes));
+
 		return $deletedRows !== 0;
 	}
 
@@ -152,10 +173,13 @@ class Helper {
 	 * checks whether there is one or more disabled LDAP configurations
 	 */
 	public function haveDisabledConfigurations(): bool {
-		$all = $this->getServerConfigurationPrefixes(false);
-		$active = $this->getServerConfigurationPrefixes(true);
-
-		return count($all) !== count($active) || count($all) === 0;
+		$all = $this->getServerConfigurationPrefixes();
+		foreach ($all as $prefix) {
+			if ($this->appConfig->getValueString('user_ldap', $prefix . 'ldap_configuration_active') !== '1') {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

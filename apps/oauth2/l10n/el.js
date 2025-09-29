@@ -12,9 +12,12 @@ OC.L10N.register(
     "Redirection URI" : "URI ανακατεύθυνσης",
     "Client Identifier" : "Αναγνωριστικό πελάτη",
     "Secret key" : "Μυστικό κλειδί",
+    "Delete client" : "Διαγραφή πελάτη",
+    "Make sure you store the secret key, it cannot be recovered." : "Βεβαιωθείτε ότι αποθηκεύετε το μυστικό κλειδί, δεν μπορεί να ανακτηθεί.",
     "Add client" : "Προσθήκη πελάτη",
     "Add" : "Προσθήκη",
     "Show client secret" : "Εμφάνιση μυστικού εφαρμογής υπολογιστή",
+    "Hide client secret" : "Απόκρυψη μυστικού εφαρμογής υπολογιστή",
     "Delete" : "Διαγραφή"
 },
 "nplurals=2; plural=(n != 1);");

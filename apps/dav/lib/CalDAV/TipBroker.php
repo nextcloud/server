@@ -97,7 +97,7 @@ class TipBroker extends Broker {
 			// Also If the meeting STATUS property was changed to CANCELLED
 			// we need to send the attendee a CANCEL message.
 			if (!$attendee['newInstances'] || $eventInfo['status'] === 'CANCELLED') {
-				
+
 				$message->method = $icalMsg->METHOD = 'CANCEL';
 				$message->significantChange = true;
 				// clone base event
@@ -108,7 +108,7 @@ class TipBroker extends Broker {
 				$event->DTSTAMP = gmdate('Ymd\\THis\\Z');
 				$event->SEQUENCE = $message->sequence;
 				$icalMsg->add($event);
-				
+
 			} else {
 				// The attendee gets the updated event body
 				$message->method = $icalMsg->METHOD = 'REQUEST';
@@ -124,11 +124,11 @@ class TipBroker extends Broker {
 				$oldAttendeeInstances = array_keys($attendee['oldInstances']);
 				$newAttendeeInstances = array_keys($attendee['newInstances']);
 
-				$message->significantChange =
-					$attendee['forceSend'] === 'REQUEST' ||
-					count($oldAttendeeInstances) !== count($newAttendeeInstances) ||
-					count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0 ||
-					$oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
+				$message->significantChange
+					= $attendee['forceSend'] === 'REQUEST'
+					|| count($oldAttendeeInstances) !== count($newAttendeeInstances)
+					|| count(array_diff($oldAttendeeInstances, $newAttendeeInstances)) > 0
+					|| $oldEventInfo['significantChangeHash'] !== $eventInfo['significantChangeHash'];
 
 				foreach ($attendee['newInstances'] as $instanceId => $instanceInfo) {
 					$currentEvent = clone $eventInfo['instances'][$instanceId];

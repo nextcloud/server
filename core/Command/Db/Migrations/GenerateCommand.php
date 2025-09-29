@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
@@ -22,8 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class GenerateCommand extends Command implements CompletionAwareInterface {
-	protected static $_templateSimple =
-		'<?php
+	protected static $_templateSimple
+		= '<?php
 
 declare(strict_types=1);
 
@@ -38,6 +39,7 @@ use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
+use Override;
 
 /**
  * FIXME Auto-generated migration step: Please modify to your needs!
@@ -49,6 +51,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param Closure(): ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 */
+	#[Override]
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 	}
 
@@ -58,6 +61,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
+	#[Override]
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 {{schemabody}}
 	}
@@ -67,6 +71,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 * @param Closure(): ISchemaWrapper $schemaClosure
 	 * @param array $options
 	 */
+	#[Override]
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 	}
 }

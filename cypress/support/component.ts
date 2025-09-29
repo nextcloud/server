@@ -33,6 +33,11 @@ Cypress.Commands.add('mockInitialState', (app: string, key: string, value: unkno
 })
 
 Cypress.Commands.add('unmockInitialState', (app?: string, key?: string) => {
+	cy.window().then(($window) => {
+		// @ts-expect-error internal value
+		delete $window._nc_initial_state
+	})
+
 	cy.document().then(($document) => {
 		$document.querySelectorAll('body > input[type="hidden"]' + (app ? `[id="initial-state-${app}-${key}"]` : ''))
 			.forEach((node) => $document.body.removeChild(node))

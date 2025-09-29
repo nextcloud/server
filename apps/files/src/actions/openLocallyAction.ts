@@ -13,71 +13,6 @@ import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconWeb from '@mdi/svg/svg/web.svg?raw'
 import { isPublicShare } from '@nextcloud/sharing/public'
 
-const confirmLocalEditDialog = (
-	localEditCallback: (openingLocally: boolean) => void = () => {},
-) => {
-	let callbackCalled = false
-
-	return (new DialogBuilder())
-		.setName(t('files', 'Open file locally'))
-		.setText(t('files', 'The file should now open on your device. If it doesn\'t, please check that you have the desktop app installed.'))
-		.setButtons([
-			{
-				label: t('files', 'Retry and close'),
-				type: 'secondary',
-				callback: () => {
-					callbackCalled = true
-					localEditCallback(true)
-				},
-			},
-			{
-				label: t('files', 'Open online'),
-				icon: IconWeb,
-				type: 'primary',
-				callback: () => {
-					callbackCalled = true
-					localEditCallback(false)
-				},
-			},
-		])
-		.build()
-		.show()
-		.then(() => {
-			// Ensure the callback is called even if the dialog is dismissed in other ways
-			if (!callbackCalled) {
-				localEditCallback(false)
-			}
-		})
-}
-
-const attemptOpenLocalClient = async (path: string) => {
-	openLocalClient(path)
-	confirmLocalEditDialog(
-		(openLocally: boolean) => {
-			if (!openLocally) {
-				window.OCA.Viewer.open({ path })
-				return
-			}
-			openLocalClient(path)
-		},
-	)
-}
-
-const openLocalClient = async function(path: string) {
-	const link = generateOcsUrl('apps/files/api/v1') + '/openlocaleditor?format=json'
-
-	try {
-		const result = await axios.post(link, { path })
-		const uid = getCurrentUser()?.uid
-		let url = `nc://open/${uid}@` + window.location.host + encodePath(path)
-		url += '?token=' + result.data.ocs.data.token
-
-		window.open(url, '_self')
-	} catch (error) {
-		showError(t('files', 'Failed to redirect to client'))
-	}
-}
-
 export const action = new FileAction({
 	id: 'edit-locally',
 	displayName: () => t('files', 'Open locally'),
@@ -99,9 +34,81 @@ export const action = new FileAction({
 	},
 
 	async exec(node: Node) {
-		attemptOpenLocalClient(node.path)
+		await attemptOpenLocalClient(node.path)
 		return null
 	},
 
 	order: 25,
 })
+
+/**
+ * Try to open the path in the Nextcloud client.
+ *
+ * If this fails a dialog is shown with 3 options:
+ * 1. Retry: If it fails no further dialog is shown.
+ * 2. Open online: The viewer is used to open the file.
+ * 3. Close the dialog and nothing happens (abort).
+ *
+ * @param path - The path to open
+ */
+async function attemptOpenLocalClient(path: string) {
+	await openLocalClient(path)
+	const result = await confirmLocalEditDialog()
+	if (result === 'local') {
+		await openLocalClient(path)
+	} else if (result === 'online') {
+		window.OCA.Viewer.open({ path })
+	}
+}
+
+/**
+ * Try to open a file in the Nextcloud client.
+ * There is no way to get notified if this action was successfull.
+ *
+ * @param path - Path to open
+ */
+async function openLocalClient(path: string): Promise<void> {
+	const link = generateOcsUrl('apps/files/api/v1') + '/openlocaleditor?format=json'
+
+	try {
+		const result = await axios.post(link, { path })
+		const uid = getCurrentUser()?.uid
+		let url = `nc://open/${uid}@` + window.location.host + encodePath(path)
+		url += '?token=' + result.data.ocs.data.token
+
+		window.open(url, '_self')
+	} catch (error) {
+		showError(t('files', 'Failed to redirect to client'))
+	}
+}
+
+/**
+ * Open the confirmation dialog.
+ */
+async function confirmLocalEditDialog(): Promise<'online'|'local'|false> {
+	let result: 'online'|'local'|false = false
+	const dialog = (new DialogBuilder())
+		.setName(t('files', 'Open file locally'))
+		.setText(t('files', 'The file should now open on your device. If it doesn\'t, please check that you have the desktop app installed.'))
+		.setButtons([
+			{
+				label: t('files', 'Retry and close'),
+				type: 'secondary',
+				callback: () => {
+					result = 'local'
+				},
+			},
+			{
+				label: t('files', 'Open online'),
+				icon: IconWeb,
+				type: 'primary',
+				callback: () => {
+					result = 'online'
+				},
+			},
+		])
+		.build()
+
+	await dialog.show()
+	return result
+}

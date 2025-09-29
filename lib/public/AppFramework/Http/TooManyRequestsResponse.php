@@ -8,7 +8,8 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
-use OCP\Template;
+use OCP\Server;
+use OCP\Template\ITemplateManager;
 
 /**
  * A generic 429 response showing an 404 error page as well to the end-user
@@ -34,7 +35,7 @@ class TooManyRequestsResponse extends Response {
 	 * @since 19.0.0
 	 */
 	public function render() {
-		$template = new Template('core', '429', 'blank');
+		$template = Server::get(ITemplateManager::class)->getTemplate('core', '429', TemplateResponse::RENDER_AS_BLANK);
 		return $template->fetchPage();
 	}
 }

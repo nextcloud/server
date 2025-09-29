@@ -41,17 +41,6 @@ OC.L10N.register(
     "Unable to update share by mail config" : "No se puede actualizar la configuración de compartir por correo",
     "Allows people to share a personalized link to a file or folder by putting in an email address." : "Permite a los usuarios compartir un enlace personalizado a un archivo o carpeta colocando una dirección de correo electrónico.",
     "Send password by mail" : "La contraseña ha sido enviada por correo",
-    "Reply to initiator" : "Responder al remitente",
-    "%1$s shared »%2$s« with you" : "%1$s compartió »%2$s« contigo",
-    "%1$s shared »%2$s« with you." : "%1$s compartió »%2$s« contigo.",
-    "Click the button below to open it." : "Haga click en el botón de abajo para abrirlo.",
-    "Open »%s«" : "Abrir »%s«",
-    "Password to access »%1$s« shared to you by %2$s" : "Contraseña para acceder a »%1$s« compartido con usted por %2$s",
-    "Password to access »%s«" : "Contraseña para acceder  »%s«",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s compartió »%2$s« contigo y quiere añadir:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s compartió »%2$s« contigo y quiere añadir",
-    "»%s« added a note to a file shared with you" : "%s añadió una nota a un archivo compartido con Ud.",
-    "You just shared »%1$s« with %2$s. The share was already sent to the recipient. Due to the security policies defined by the administrator of %3$s each share needs to be protected by password and it is not allowed to send the password directly to the recipient. Therefore you need to forward the password manually to the recipient." : "Acaba de compartir »%1$s« con %2$s. El recurso compartido ya ha sido enviado al destinatario. Debido a las políticas de seguridad definidas por el administrador de %3$s, cada recurso compartido debe estar protegido con contraseña y no se permite enviar la contraseña directamente al destinatario. Por lo tanto, debe enviarle manualmente la contraseña.",
-    "Password to access »%1$s« shared by you with %2$s" : "Contraseña para acceder a »%1$s« compartido por usted con %2$s"
+    "Reply to initiator" : "Responder al remitente"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

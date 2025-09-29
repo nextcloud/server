@@ -116,7 +116,7 @@ class DAV extends Common {
 				// inject mock for testing
 				$this->certManager = \OC::$server->getCertificateManager();
 			}
-			$this->root = $parameters['root'] ?? '/';
+			$this->root = rawurldecode($parameters['root'] ?? '/');
 			$this->root = '/' . ltrim($this->root, '/');
 			$this->root = rtrim($this->root, '/') . '/';
 		} else {
@@ -191,7 +191,7 @@ class DAV extends Common {
 		if ($this->secure) {
 			$baseUri .= 's';
 		}
-		$baseUri .= '://' . $this->host . $this->root;
+		$baseUri .= '://' . $this->host . $this->encodePath($this->root);
 		return $baseUri;
 	}
 
@@ -350,7 +350,13 @@ class DAV extends Common {
 					}
 				}
 
-				return $response->getBody();
+				$content = $response->getBody();
+
+				if ($content === null || is_string($content)) {
+					return false;
+				}
+
+				return $content;
 			case 'w':
 			case 'wb':
 			case 'a':
@@ -390,6 +396,8 @@ class DAV extends Common {
 					$this->writeBack($tmpFile, $path);
 				});
 		}
+
+		return false;
 	}
 
 	public function writeBack(string $tmpFile, string $path): void {

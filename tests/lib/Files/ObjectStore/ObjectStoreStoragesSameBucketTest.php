@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,14 +10,15 @@ namespace Test\Files\ObjectStore;
 
 use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
-use Test\Files\Storage\StoragesTest;
+use OCP\Files\ObjectStore\IObjectStore;
+use Test\Files\Storage\StoragesTestCase;
 
 /**
  * @group DB
  */
-class ObjectStoreStoragesSameBucketTest extends StoragesTest {
+class ObjectStoreStoragesSameBucketTest extends StoragesTestCase {
 	/**
-	 * @var \OCP\Files\ObjectStore\IObjectStore
+	 * @var IObjectStore
 	 */
 	private $objectStore;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -125,9 +126,9 @@ class ChangePasswordController extends Controller {
 
 		$currentUser = $this->userSession->getUser();
 		$targetUser = $this->userManager->get($username);
-		if ($currentUser === null || $targetUser === null ||
-			!($this->groupManager->isAdmin($this->userId) ||
-			 $this->groupManager->getSubAdmin()->isUserAccessible($currentUser, $targetUser))
+		if ($currentUser === null || $targetUser === null
+			|| !($this->groupManager->isAdmin($this->userId)
+			 || $this->groupManager->getSubAdmin()->isUserAccessible($currentUser, $targetUser))
 		) {
 			return new JSONResponse([
 				'status' => 'error',

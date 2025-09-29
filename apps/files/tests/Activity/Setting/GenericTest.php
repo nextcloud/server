@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,7 +14,7 @@ use OCP\Server;
 use Test\TestCase;
 
 class GenericTest extends TestCase {
-	public function dataSettings() {
+	public static function dataSettings(): array {
 		return [
 			[FavoriteAction::class],
 			[FileChanged::class],
@@ -20,40 +22,28 @@ class GenericTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataSettings
-	 * @param string $settingClass
-	 */
-	public function testImplementsInterface($settingClass): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSettings')]
+	public function testImplementsInterface(string $settingClass): void {
 		$setting = Server::get($settingClass);
 		$this->assertInstanceOf(ISetting::class, $setting);
 	}
 
-	/**
-	 * @dataProvider dataSettings
-	 * @param string $settingClass
-	 */
-	public function testGetIdentifier($settingClass): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSettings')]
+	public function testGetIdentifier(string $settingClass): void {
 		/** @var ISetting $setting */
 		$setting = Server::get($settingClass);
 		$this->assertIsString($setting->getIdentifier());
 	}
 
-	/**
-	 * @dataProvider dataSettings
-	 * @param string $settingClass
-	 */
-	public function testGetName($settingClass): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSettings')]
+	public function testGetName(string $settingClass): void {
 		/** @var ISetting $setting */
 		$setting = Server::get($settingClass);
 		$this->assertIsString($setting->getName());
 	}
 
-	/**
-	 * @dataProvider dataSettings
-	 * @param string $settingClass
-	 */
-	public function testGetPriority($settingClass): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSettings')]
+	public function testGetPriority(string $settingClass): void {
 		/** @var ISetting $setting */
 		$setting = Server::get($settingClass);
 		$priority = $setting->getPriority();
@@ -62,41 +52,29 @@ class GenericTest extends TestCase {
 		$this->assertLessThanOrEqual(100, $priority);
 	}
 
-	/**
-	 * @dataProvider dataSettings
-	 * @param string $settingClass
-	 */
-	public function testCanChangeStream($settingClass): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSettings')]
+	public function testCanChangeStream(string $settingClass): void {
 		/** @var ISetting $setting */
 		$setting = Server::get($settingClass);
 		$this->assertIsBool($setting->canChangeStream());
 	}
 
-	/**
-	 * @dataProvider dataSettings
-	 * @param string $settingClass
-	 */
-	public function testIsDefaultEnabledStream($settingClass): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSettings')]
+	public function testIsDefaultEnabledStream(string $settingClass): void {
 		/** @var ISetting $setting */
 		$setting = Server::get($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledStream());
 	}
 
-	/**
-	 * @dataProvider dataSettings
-	 * @param string $settingClass
-	 */
-	public function testCanChangeMail($settingClass): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSettings')]
+	public function testCanChangeMail(string $settingClass): void {
 		/** @var ISetting $setting */
 		$setting = Server::get($settingClass);
 		$this->assertIsBool($setting->canChangeMail());
 	}
 
-	/**
-	 * @dataProvider dataSettings
-	 * @param string $settingClass
-	 */
-	public function testIsDefaultEnabledMail($settingClass): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSettings')]
+	public function testIsDefaultEnabledMail(string $settingClass): void {
 		/** @var ISetting $setting */
 		$setting = Server::get($settingClass);
 		$this->assertIsBool($setting->isDefaultEnabledMail());

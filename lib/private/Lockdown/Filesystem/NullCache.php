@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,20 +22,23 @@ class NullCache implements ICache {
 	}
 
 	public function get($file) {
-		return $file !== '' ? null :
-			new CacheEntry([
-				'fileid' => -1,
-				'parent' => -1,
-				'name' => '',
-				'path' => '',
-				'size' => '0',
-				'mtime' => time(),
-				'storage_mtime' => time(),
-				'etag' => '',
-				'mimetype' => FileInfo::MIMETYPE_FOLDER,
-				'mimepart' => 'httpd',
-				'permissions' => Constants::PERMISSION_READ
-			]);
+		if ($file !== '') {
+			return false;
+		}
+
+		return 	new CacheEntry([
+			'fileid' => -1,
+			'parent' => -1,
+			'name' => '',
+			'path' => '',
+			'size' => '0',
+			'mtime' => time(),
+			'storage_mtime' => time(),
+			'etag' => '',
+			'mimetype' => FileInfo::MIMETYPE_FOLDER,
+			'mimepart' => 'httpd',
+			'permissions' => Constants::PERMISSION_READ
+		]);
 	}
 
 	public function getFolderContents($folder) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -6,15 +7,21 @@
 
 namespace Test\Preview;
 
+use OC\Files\Storage\Temporary;
 use OC\Preview\BackgroundCleanupJob;
 use OC\Preview\Storage\Root;
 use OC\PreviewManager;
+use OC\SystemConfig;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\File;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
+use OCP\IPreview;
+use OCP\Server;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
@@ -28,25 +35,12 @@ use Test\Traits\UserTrait;
 class BackgroundCleanupJobTest extends \Test\TestCase {
 	use MountProviderTrait;
 	use UserTrait;
-
-	/** @var string */
-	private $userId;
-
-	/** @var bool */
-	private $trashEnabled;
-
-	/** @var IDBConnection */
-	private $connection;
-
-	/** @var PreviewManager */
-	private $previewManager;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IMimeTypeLoader */
-	private $mimeTypeLoader;
-
+	private string $userId;
+	private bool $trashEnabled;
+	private IDBConnection $connection;
+	private PreviewManager $previewManager;
+	private IRootFolder $rootFolder;
+	private IMimeTypeLoader $mimeTypeLoader;
 	private ITimeFactory $timeFactory;
 
 	protected function setUp(): void {
@@ -55,27 +49,27 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$this->userId = $this->getUniqueID();
 		$user = $this->createUser($this->userId, $this->userId);
 
-		$storage = new \OC\Files\Storage\Temporary([]);
+		$storage = new Temporary([]);
 		$this->registerMount($this->userId, $storage, '');
 
 		$this->loginAsUser($this->userId);
 		$this->logout();
 		$this->loginAsUser($this->userId);
 
-		$appManager = \OC::$server->getAppManager();
+		$appManager = Server::get(IAppManager::class);
 		$this->trashEnabled = $appManager->isEnabledForUser('files_trashbin', $user);
 		$appManager->disableApp('files_trashbin');
 
-		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->previewManager = \OC::$server->getPreviewManager();
-		$this->rootFolder = \OC::$server->get(IRootFolder::class);
-		$this->mimeTypeLoader = \OC::$server->getMimeTypeLoader();
-		$this->timeFactory = \OCP\Server::get(ITimeFactory::class);
+		$this->connection = Server::get(IDBConnection::class);
+		$this->previewManager = Server::get(IPreview::class);
+		$this->rootFolder = Server::get(IRootFolder::class);
+		$this->mimeTypeLoader = Server::get(IMimeTypeLoader::class);
+		$this->timeFactory = Server::get(ITimeFactory::class);
 	}
 
 	protected function tearDown(): void {
 		if ($this->trashEnabled) {
-			$appManager = \OC::$server->getAppManager();
+			$appManager = Server::get(IAppManager::class);
 			$appManager->enableApp('files_trashbin');
 		}
 
@@ -86,8 +80,8 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 	private function getRoot(): Root {
 		return new Root(
-			\OC::$server->get(IRootFolder::class),
-			\OC::$server->getSystemConfig()
+			Server::get(IRootFolder::class),
+			Server::get(SystemConfig::class)
 		);
 	}
 
@@ -182,7 +176,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 			$this->markTestSkipped('old previews are not supported for sharded setups');
 			return;
 		}
-		$appdata = \OC::$server->getAppDataDir('preview');
+		$appdata = Server::get(IAppDataFactory::class)->get('preview');
 
 		$f1 = $appdata->newFolder('123456781');
 		$f1->newFile('foo.jpg', 'foo');
@@ -198,7 +192,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$appdata->getFolder('/')->newFile('not-a-directory', 'foo');
 		$appdata->getFolder('/')->newFile('133742', 'bar');
 
-		$appdata = \OC::$server->getAppDataDir('preview');
+		$appdata = Server::get(IAppDataFactory::class)->get('preview');
 		// AppData::getDirectoryListing filters all non-folders
 		$this->assertSame(3, count($appdata->getDirectoryListing()));
 		try {
@@ -215,7 +209,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
 		$job->run([]);
 
-		$appdata = \OC::$server->getAppDataDir('preview');
+		$appdata = Server::get(IAppDataFactory::class)->get('preview');
 
 		// Check if the files created above are still present
 		// Remember: AppData::getDirectoryListing filters all non-folders

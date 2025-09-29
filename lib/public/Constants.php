@@ -18,12 +18,6 @@ namespace OCP;
  */
 class Constants {
 	/**
-	 * CRUDS permissions.
-	 * @since 8.0.0
-	 */
-	public const PERMISSION_CREATE = 4;
-
-	/**
 	 * @since 8.0.0
 	 */
 	public const PERMISSION_READ = 1;
@@ -32,6 +26,12 @@ class Constants {
 	 * @since 8.0.0
 	 */
 	public const PERMISSION_UPDATE = 2;
+
+	/**
+	 * CRUDS permissions.
+	 * @since 8.0.0
+	 */
+	public const PERMISSION_CREATE = 4;
 
 	/**
 	 * @since 8.0.0

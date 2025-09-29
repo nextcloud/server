@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "접근 권한 부여",
-    "Error configuring OAuth1" : "OAuth1 설정 오류",
-    "Please provide a valid app key and secret." : "올바른 앱 키와 비밀 값을 입력하십시오.",
     "Error configuring OAuth2" : "OAuth2 설정 오류",
     "Generate keys" : "키 생성",
     "Error generating key pair" : "키 쌍을 생성하는 중 오류 발생",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "비밀 키",
     "Builtin" : "내장",
     "None" : "없음",
-    "OAuth1" : "OAuth1",
-    "App key" : "앱 키",
-    "App secret" : "앱 비밀 값",
     "OAuth2" : "OAuth2",
     "Client ID" : "클라이언트 ID",
     "Client secret" : "클라이언트 비밀 값",
@@ -133,7 +128,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "알 수 없는 백엔드: {backendName}",
     "Admin defined" : "관리자 지정",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "설정된 저장소가 많아 자동 상태 확인이 비활성화되었습니다. 클릭하여 상태를 확인하십시오",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "이 외부 저장소를 해제하겠습니까? Nextcloud에서 이 저장소에 더 이상 접근할 수 없게 되며, 연결된 모든 동기화 클라이언트에서 이 저장소의 파일이 사라질 것입니다. 단, 저장소에 있는 파일 자체는 삭제되지 않습니다.",
     "Delete storage?" : "저장소를 삭제하시겠습니까?",
     "Click to recheck the configuration" : "설정을 다시 확인하려면 클릭",
     "Saved" : "저장됨",
@@ -151,6 +145,11 @@ OC.L10N.register(
     "Advanced settings" : "고급 설정",
     "Allow people to mount external storage" : "사용자가 외부 저장소를 마운트하도록 허용",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "전역 인증 정보를 사용하여 같은 인증 정보를 사용하는 여러 외부 저장소에 인증할 수 있습니다.",
-    "Submit" : "제출"
+    "Error configuring OAuth1" : "OAuth1 설정 오류",
+    "Please provide a valid app key and secret." : "올바른 앱 키와 비밀 값을 입력하십시오.",
+    "OAuth1" : "OAuth1",
+    "App key" : "앱 키",
+    "App secret" : "앱 비밀 값",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "이 외부 저장소를 해제하겠습니까? Nextcloud에서 이 저장소에 더 이상 접근할 수 없게 되며, 연결된 모든 동기화 클라이언트에서 이 저장소의 파일이 사라질 것입니다. 단, 저장소에 있는 파일 자체는 삭제되지 않습니다."
 },
 "nplurals=1; plural=0;");

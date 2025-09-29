@@ -7,7 +7,6 @@ OC.L10N.register(
     "View folder" : "Näytä kansio",
     "Set file reminders" : "Aseta tiedostomuistutuksia",
     "Set reminder for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\"",
-    "Set reminder at custom date & time" : "Aseta muistutus mukautetulle päivälle ja ajankohdalle",
     "Clear reminder" : "Tyhjennä muistutus",
     "Please choose a valid date & time" : "Valitse kelvollinen päivä ja aika",
     "Reminder set for \"{fileName}\"" : "Muistutus asetettu tiedostolle \"{fileName}\"",
@@ -17,7 +16,6 @@ OC.L10N.register(
     "Cancel" : "Peruuta",
     "Set reminder" : "Aseta muistutus",
     "Reminder set" : "Muistutus asetettu",
-    "Set custom reminder" : "Aseta mukautettu muistutus",
     "Later today" : "Myöhemmin tänään",
     "Set reminder for later today" : "Aseta muistutus myöhemmälle ajankohdalle tälle päivälle",
     "Tomorrow" : "Huomenna",
@@ -25,6 +23,8 @@ OC.L10N.register(
     "This weekend" : "Tämä viikonloppu",
     "Set reminder for this weekend" : "Aseta muistutus tälle viikonlopulle",
     "Next week" : "Seuraava viikko",
-    "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle"
+    "Set reminder for next week" : "Aseta muistutus seuraavalle viikolle",
+    "Set reminder at custom date & time" : "Aseta muistutus mukautetulle päivälle ja ajankohdalle",
+    "Set custom reminder" : "Aseta mukautettu muistutus"
 },
 "nplurals=2; plural=(n != 1);");

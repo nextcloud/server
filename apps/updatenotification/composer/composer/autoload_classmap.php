@@ -18,7 +18,6 @@ return array(
     'OCA\\UpdateNotification\\Listener\\AppUpdateEventListener' => $baseDir . '/../lib/Listener/AppUpdateEventListener.php',
     'OCA\\UpdateNotification\\Listener\\BeforeTemplateRenderedEventListener' => $baseDir . '/../lib/Listener/BeforeTemplateRenderedEventListener.php',
     'OCA\\UpdateNotification\\Manager' => $baseDir . '/../lib/Manager.php',
-    'OCA\\UpdateNotification\\Migration\\Version011901Date20240305120000' => $baseDir . '/../lib/Migration/Version011901Date20240305120000.php',
     'OCA\\UpdateNotification\\Notification\\AppUpdateNotifier' => $baseDir . '/../lib/Notification/AppUpdateNotifier.php',
     'OCA\\UpdateNotification\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\UpdateNotification\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',

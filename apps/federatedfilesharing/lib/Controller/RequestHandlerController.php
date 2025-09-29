@@ -145,9 +145,9 @@ class RequestHandlerController extends OCSController {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	public function reShare(int $id, ?string $token = null, ?string $shareWith = null, ?int $remoteId = 0) {
-		if ($token === null ||
-			$shareWith === null ||
-			$remoteId === null
+		if ($token === null
+			|| $shareWith === null
+			|| $remoteId === null
 		) {
 			throw new OCSBadRequestException();
 		}
@@ -370,8 +370,8 @@ class RequestHandlerController extends OCSController {
 			$ocmPermissions[] = 'read';
 		}
 
-		if (($ncPermissions & Constants::PERMISSION_CREATE) ||
-			($ncPermissions & Constants::PERMISSION_UPDATE)) {
+		if (($ncPermissions & Constants::PERMISSION_CREATE)
+			|| ($ncPermissions & Constants::PERMISSION_UPDATE)) {
 			$ocmPermissions[] = 'write';
 		}
 

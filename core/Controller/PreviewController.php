@@ -18,6 +18,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -68,7 +69,7 @@ class PreviewController extends Controller {
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode = 'fill',
-		bool $mimeFallback = false): Http\Response {
+		bool $mimeFallback = false): Response {
 		if ($file === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -137,7 +138,7 @@ class PreviewController extends Controller {
 		bool $a,
 		bool $forceIcon,
 		string $mode,
-		bool $mimeFallback = false) : Http\Response {
+		bool $mimeFallback = false) : Response {
 		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -151,15 +152,12 @@ class PreviewController extends Controller {
 
 		// Is this header is set it means our UI is doing a preview for no-download shares
 		// we check a header so we at least prevent people from using the link directly (obfuscation)
-		$isNextcloudPreview = $this->request->getHeader('X-NC-Preview') === 'true';
+		$isNextcloudPreview = $this->request->getHeader('x-nc-preview') === 'true';
 		$storage = $node->getStorage();
 		if ($isNextcloudPreview === false && $storage->instanceOfStorage(ISharedStorage::class)) {
 			/** @var ISharedStorage $storage */
 			$share = $storage->getShare();
-			$attributes = $share->getAttributes();
-			// No "allow preview" header set, so we must check if
-			// the share has not explicitly disabled download permissions
-			if ($attributes?->getAttribute('permissions', 'download') === false) {
+			if (!$share->canSeeContent()) {
 				return new DataResponse([], Http::STATUS_FORBIDDEN);
 			}
 		}

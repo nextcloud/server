@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -21,12 +22,17 @@ use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
+use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
+use OC\Files\View;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
@@ -40,7 +46,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @package Test\Files\Node
  */
-class FolderTest extends NodeTest {
+class FolderTest extends NodeTestCase {
 	protected function createTestNode($root, $view, $path, array $data = [], $internalPath = '', $storage = null) {
 		$view->expects($this->any())
 			->method('getRoot')
@@ -67,7 +73,7 @@ class FolderTest extends NodeTest {
 	public function testGetDirectoryContent(): void {
 		$manager = $this->createMock(Manager::class);
 		/**
-		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
+		 * @var View|\PHPUnit\Framework\MockObject\MockObject $view
 		 */
 		$root = $this->getMockBuilder(Root::class)
 			->setConstructorArgs([$manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
@@ -150,7 +156,7 @@ class FolderTest extends NodeTest {
 
 		$root->method('get')
 			->with('/bar/foo/asd')
-			->will($this->throwException(new NotFoundException()));
+			->willThrowException(new NotFoundException());
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$this->assertFalse($node->nodeExists('asd'));
@@ -168,7 +174,7 @@ class FolderTest extends NodeTest {
 
 		$view->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]));
 
 		$view->method('mkdir')
 			->with('/bar/foo/asd')
@@ -192,7 +198,7 @@ class FolderTest extends NodeTest {
 
 		$view->method('getFileInfo')
 			->with('/foobar')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]));
 
 		$view->method('mkdir')
 			->with('/foobar/asd/sdf')
@@ -206,7 +212,7 @@ class FolderTest extends NodeTest {
 
 
 	public function testNewFolderNotPermitted(): void {
-		$this->expectException(\OCP\Files\NotPermittedException::class);
+		$this->expectException(NotPermittedException::class);
 
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
@@ -218,7 +224,7 @@ class FolderTest extends NodeTest {
 
 		$view->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_READ]));
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$node->newFolder('asd');
@@ -236,21 +242,21 @@ class FolderTest extends NodeTest {
 
 		$view->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_ALL]));
 
 		$view->method('touch')
 			->with('/bar/foo/asd')
 			->willReturn(true);
 
 		$node = new Folder($root, $view, '/bar/foo');
-		$child = new \OC\Files\Node\File($root, $view, '/bar/foo/asd', null, $node);
+		$child = new File($root, $view, '/bar/foo/asd', null, $node);
 		$result = $node->newFile('asd');
 		$this->assertEquals($child, $result);
 	}
 
 
 	public function testNewFileNotPermitted(): void {
-		$this->expectException(\OCP\Files\NotPermittedException::class);
+		$this->expectException(NotPermittedException::class);
 
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
@@ -262,7 +268,7 @@ class FolderTest extends NodeTest {
 
 		$view->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
+			->willReturn($this->getFileInfo(['permissions' => Constants::PERMISSION_READ]));
 
 		$node = new Folder($root, $view, '/bar/foo');
 		$node->newFile('asd');
@@ -337,7 +343,7 @@ class FolderTest extends NodeTest {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
-			->setMethods(['getUser', 'getMountsIn', 'getMount'])
+			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 		$root->expects($this->any())
@@ -499,10 +505,10 @@ class FolderTest extends NodeTest {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
-			->setMethods(['getMountsIn', 'getMount'])
+			->onlyMethods(['getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$storage = $this->createMock(Storage::class);
 		$mount = new MountPoint($storage, '/bar');
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
@@ -548,10 +554,10 @@ class FolderTest extends NodeTest {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
-			->setMethods(['getMountsIn', 'getMount'])
+			->onlyMethods(['getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$storage = $this->createMock(Storage::class);
 		$mount = new MountPoint($storage, '/bar');
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
@@ -593,10 +599,10 @@ class FolderTest extends NodeTest {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
-			->setMethods(['getMountsIn', 'getMount'])
+			->onlyMethods(['getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$storage = $this->createMock(Storage::class);
 		$mount = new MountPoint($storage, '/bar');
 		$storage->method('getId')->willReturn('');
 		$cache = $this->getMockBuilder(Cache::class)->setConstructorArgs([$storage])->getMock();
@@ -637,10 +643,10 @@ class FolderTest extends NodeTest {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
-			->setMethods(['getMountsIn', 'getMount'])
+			->onlyMethods(['getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
+		$storage = $this->createMock(Storage::class);
 		$mount1 = new MountPoint($storage, '/bar');
 		$mount2 = new MountPoint($storage, '/bar/foo/asd');
 		$storage->method('getId')->willReturn('');
@@ -681,7 +687,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals('/bar/foo/asd/foo/qwerty', $result[1]->getPath());
 	}
 
-	public function uniqueNameProvider() {
+	public static function uniqueNameProvider(): array {
 		return [
 			// input, existing, expected
 			['foo', [], 'foo'],
@@ -690,15 +696,13 @@ class FolderTest extends NodeTest {
 		];
 	}
 
-	/**
-	 * @dataProvider uniqueNameProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('uniqueNameProvider')]
 	public function testGetUniqueName($name, $existingFiles, $expected): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
-			->setMethods(['getUser', 'getMountsIn', 'getMount'])
+			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
@@ -723,10 +727,10 @@ class FolderTest extends NodeTest {
 		$view = $this->getRootViewMock();
 		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\Node\Root $root */
 		$root = $this->getMockBuilder(Root::class)
-			->setMethods(['getUser', 'getMountsIn', 'getMount'])
+			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\FileInfo $folderInfo */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|FileInfo $folderInfo */
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
@@ -753,14 +757,14 @@ class FolderTest extends NodeTest {
 			'mtime' => $baseTime,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 		$id2 = $cache->put('bar/foo/old.txt', [
 			'storage_mtime' => $baseTime - 100,
 			'mtime' => $baseTime - 100,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'permissions' => \OCP\Constants::PERMISSION_READ,
+			'permissions' => Constants::PERMISSION_READ,
 		]);
 		$cache->put('bar/asd/outside.txt', [
 			'storage_mtime' => $baseTime,
@@ -773,7 +777,7 @@ class FolderTest extends NodeTest {
 			'mtime' => $baseTime - 600,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 
 		$node = new Folder($root, $view, $folderPath, $folderInfo);
@@ -792,10 +796,10 @@ class FolderTest extends NodeTest {
 		$view = $this->getRootViewMock();
 		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\Node\Root $root */
 		$root = $this->getMockBuilder(Root::class)
-			->setMethods(['getUser', 'getMountsIn', 'getMount'])
+			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\FileInfo $folderInfo */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|FileInfo $folderInfo */
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
@@ -830,7 +834,7 @@ class FolderTest extends NodeTest {
 			'mimetype' => 'text/plain',
 			'size' => 3,
 			'parent' => $id1,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 		$id3 = $cache->put('bar/foo/folder/asd.txt', [
 			'storage_mtime' => $baseTime - 100,
@@ -838,7 +842,7 @@ class FolderTest extends NodeTest {
 			'mimetype' => 'text/plain',
 			'size' => 3,
 			'parent' => $id1,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 
 		$node = new Folder($root, $view, $folderPath, $folderInfo);
@@ -859,10 +863,10 @@ class FolderTest extends NodeTest {
 		$view = $this->getRootViewMock();
 		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\Node\Root $root */
 		$root = $this->getMockBuilder(Root::class)
-			->setMethods(['getUser', 'getMountsIn', 'getMount'])
+			->onlyMethods(['getUser', 'getMountsIn', 'getMount'])
 			->setConstructorArgs([$manager, $view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
-		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Files\FileInfo $folderInfo */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|FileInfo $folderInfo */
 		$folderInfo = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()->getMock();
 
@@ -891,7 +895,7 @@ class FolderTest extends NodeTest {
 			'mtime' => $baseTime,
 			'mimetype' => 'text/plain',
 			'size' => 3,
-			'permissions' => \OCP\Constants::PERMISSION_ALL,
+			'permissions' => Constants::PERMISSION_ALL,
 		]);
 
 		$cache->put('outside.txt', [
@@ -910,7 +914,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals([$id1], $ids);
 	}
 
-	public function offsetLimitProvider() {
+	public static function offsetLimitProvider(): array {
 		return [
 			[0, 10, ['/bar/foo/foo1', '/bar/foo/foo2', '/bar/foo/foo3', '/bar/foo/foo4', '/bar/foo/sub1/foo5', '/bar/foo/sub1/foo6', '/bar/foo/sub2/foo7', '/bar/foo/sub2/foo8'], []],
 			[0, 5, ['/bar/foo/foo1', '/bar/foo/foo2', '/bar/foo/foo3', '/bar/foo/foo4', '/bar/foo/sub1/foo5'], []],
@@ -931,14 +935,14 @@ class FolderTest extends NodeTest {
 	}
 
 	/**
-	 * @dataProvider offsetLimitProvider
 	 * @param int $offset
 	 * @param int $limit
 	 * @param string[] $expectedPaths
 	 * @param ISearchOrder[] $ordering
 	 * @throws NotFoundException
-	 * @throws \OCP\Files\InvalidPathException
+	 * @throws InvalidPathException
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('offsetLimitProvider')]
 	public function testSearchSubStoragesLimitOffset(int $offset, int $limit, array $expectedPaths, array $ordering): void {
 		if (!$ordering) {
 			$ordering = [new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'fileid')];

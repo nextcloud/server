@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -32,7 +33,9 @@ class SessionCredentials extends AuthMechanism {
 			->setText($l->t('Log-in credentials, save in session'))
 			->addParameters([
 				(new DefinitionParameter('password', $l->t('Password')))
-					->setType(DefinitionParameter::VALUE_PASSWORD),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			]);
 	}
 

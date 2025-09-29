@@ -159,8 +159,8 @@ abstract class Entity {
 		if (property_exists($this, $name)) {
 			return $this->$name;
 		} else {
-			throw new \BadFunctionCallException($name .
-				' is not a valid attribute');
+			throw new \BadFunctionCallException($name
+				. ' is not a valid attribute');
 		}
 	}
 
@@ -180,8 +180,8 @@ abstract class Entity {
 		} elseif ($this->isGetterForBoolProperty($methodName)) {
 			return $this->getter(lcfirst(substr($methodName, 2)));
 		} else {
-			throw new \BadFunctionCallException($methodName .
-				' does not exist');
+			throw new \BadFunctionCallException($methodName
+				. ' does not exist');
 		}
 	}
 

@@ -200,9 +200,13 @@ export default {
 			const apps = [...this.$store.getters.getAllApps, ...exApps]
 				.filter(app => app.name.toLowerCase().search(this.search.toLowerCase()) !== -1)
 				.sort(function(a, b) {
-					const sortStringA = '' + (a.active ? 0 : 1) + (a.update ? 0 : 1) + a.name
-					const sortStringB = '' + (b.active ? 0 : 1) + (b.update ? 0 : 1) + b.name
-					return OC.Util.naturalSortCompare(sortStringA, sortStringB)
+					const natSortDiff = OC.Util.naturalSortCompare(a, b)
+					if (natSortDiff === 0) {
+						const sortStringA = '' + (a.active ? 0 : 1) + (a.update ? 0 : 1)
+						const sortStringB = '' + (b.active ? 0 : 1) + (b.update ? 0 : 1)
+						return Number(sortStringA) - Number(sortStringB)
+					}
+					return natSortDiff
 				})
 
 			if (this.category === 'installed') {
@@ -388,12 +392,12 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 	}
 
 	&__bundle-header {
+		color: var(--color-main-text);
 		margin-block: 0;
 		margin-inline: 50px 10px;
 		font-weight: bold;
 		font-size: 20px;
 		line-height: 30px;
-		color: var(--color-text-light);
 	}
 }
 

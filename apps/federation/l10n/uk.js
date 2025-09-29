@@ -2,11 +2,18 @@ OC.L10N.register(
     "federation",
     {
     "Added to the list of trusted servers" : "Сервер додано до списку довірених серверів",
+    "No server found with ID: %s" : "Не знайдено сервер з ідентифікатором: %s",
+    "Could not remove server" : "Не вдалося видалити сервер",
     "Server is already in the list of trusted servers." : "Сервер вже знаходиться в переліку довірених серверів",
     "No server to federate with found" : "Не знайдено жодного сервера для об'єднання",
     "Could not add server" : "Не вдалося додати сервер",
     "Trusted servers" : "Довірені сервера",
     "Federation" : "Об'єднання",
+    "Federation allows you to connect with other trusted servers to exchange the account directory." : "Об'єднання хмар дозволяє з'єднуватися з іншими довіреними серверами й обмінюватися обліковими даними користувачів.",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing." : "Об'єднання хмар дозволяє з'єднуватися з іншими довіреними серверами й обмінюватися обліковими даними користувачів. Так, це може бути корисно для автоматичної підстановки зовнішніх користувачів під час надання у спільний доступ ресурсів об'єднаних хмар.",
+    "External documentation for Federated Cloud Sharing" : "Документація з надання доступу у об'єднаних хмарах",
+    "Federation allows you to connect with other trusted servers to exchange the account directory. For example this will be used to auto-complete external accounts for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Об'єднання хмар дозволяє з'єднуватися з іншими довіреними серверами й обмінюватися обліковими даними користувачів. Так, це може бути корисно для автоматичної підстановки зовнішніх користувачів під час надання у спільний доступ ресурсів об'єднаних хмар. Необов'язково додавати сервер яко довірений для створення спільного ресурсу між об'єднаними хмарами.",
+    "Each server must validate the other. This process may require a few cron cycles." : "Кожен сервер має підтвердити один одного. Цей процес може вимагати кількох циклів виконання cron.",
     "+ Add trusted server" : "Додати довірений сервер",
     "Trusted server" : "Довірений сервер",
     "Add" : "Додати"

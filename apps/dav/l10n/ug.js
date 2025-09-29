@@ -230,7 +230,6 @@ OC.L10N.register(
     "Failed to load availability" : "ئىشلىتىشچانلىقىنى يۈكلىيەلمىدى",
     "Saved availability" : "تېجەشلىك",
     "Failed to save availability" : "ئىشلەتكىلى بولمىدى",
-    "Time zone:" : "ۋاقىت رايونى:",
     "to" : "to",
     "Delete slot" : "ئورۇننى ئۆچۈرۈڭ",
     "No working hours set" : "خىزمەت ۋاقتى بېكىتىلمىدى",
@@ -239,6 +238,10 @@ OC.L10N.register(
     "Pick a start time for {dayName}" : "{dayName} نىڭ باشلىنىش ۋاقتىنى تاللاڭ",
     "Pick a end time for {dayName}" : "{dayName} نىڭ ئاخىرقى ۋاقتىنى تاللاڭ",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "بارلىق ئۇقتۇرۇشلارنى ئاۋازسىز قىلىش ئۈچۈن ئىشلەتكۈچى ھالىتىنى ئاپتوماتىك ھالدا «ئاۋارە قىلماڭ» قىلىپ تەڭشەڭ.",
+    "Cancel" : "بىكار قىلىش",
+    "Import" : "ئەكىر",
+    "Error while saving settings" : "تەڭشەكلەرنى ساقلاش جەريانىدا خاتالىق",
+    "Reset to default" : "سۈكۈتتىكى ھالىتىگە قايتىڭ",
     "Availability" : "ئىشلەتكىلى بولىدۇ",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "ئەگەر خىزمەت ۋاقتىڭىزنى تەڭشىسىڭىز ، باشقىلار يىغىن زاكاز قىلغاندا سىزنىڭ ئىشتىن چۈشكەن ۋاقتىڭىزنى كۆرىدۇ.",
     "Absence" : "يوق",
@@ -260,9 +263,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "تەكلىپنى قوبۇل قىلامسىز؟",
     "Tentative" : "Tentative",
     "Your attendance was updated successfully." : "سىزنىڭ قاتنىشىشىڭىز مۇۋەپپەقىيەتلىك يېڭىلاندى.",
-    "Time:" : "ۋاقىت:",
-    "Could not open file" : "ھۆججەت ئاچالمىدى",
-    "Invalid chunk name" : "ئىناۋەتسىز",
-    "Could not rename part file assembled from chunks" : "بۆلەكلەردىن يىغىلغان قىسمەن ھۆججەتنىڭ نامىنى ئۆزگەرتەلمىدى"
+    "Time zone:" : "ۋاقىت رايونى:"
 },
 "nplurals=2; plural=(n != 1);");

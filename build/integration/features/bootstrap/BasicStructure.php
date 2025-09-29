@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -19,6 +20,7 @@ trait BasicStructure {
 	use Avatar;
 	use Download;
 	use Mail;
+	use Theming;
 
 	/** @var string */
 	private $currentUser = '';
@@ -192,8 +194,8 @@ trait BasicStructure {
 		$options = [];
 		if ($this->currentUser === 'admin') {
 			$options['auth'] = ['admin', 'admin'];
-		} elseif (strpos($this->currentUser, 'guest') !== 0) {
-			$options['auth'] = [$this->currentUser, self::TEST_PASSWORD];
+		} elseif (strpos($this->currentUser, 'anonymous') !== 0) {
+			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
 		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();

@@ -73,7 +73,7 @@ const getTypePresets = async () => [
 	{
 		id: 'image',
 		// TRANSLATORS: This is for filtering files, e.g. PNG or JPEG, so photos, drawings, or images in general
-		label: t('files', 'Photos and images'),
+		label: t('files', 'Images'),
 		icon: svgImage,
 		mime: ['image'],
 	},

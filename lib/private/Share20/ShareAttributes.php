@@ -32,8 +32,8 @@ class ShareAttributes implements IAttributes {
 	 * @inheritdoc
 	 */
 	public function getAttribute(string $scope, string $key): mixed {
-		if (\array_key_exists($scope, $this->attributes) &&
-			\array_key_exists($key, $this->attributes[$scope])) {
+		if (\array_key_exists($scope, $this->attributes)
+			&& \array_key_exists($key, $this->attributes[$scope])) {
 			return $this->attributes[$scope][$key];
 		}
 		return null;

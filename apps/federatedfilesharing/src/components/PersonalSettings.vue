@@ -5,7 +5,7 @@
 
 <template>
 	<NcSettingsSection :name="t('federatedfilesharing', 'Federated Cloud')"
-		:description="t('federatedfilesharing', 'You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com')"
+		:description="t('federatedfilesharing', 'You can share with anyone who uses a {productName} server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com', { productName })"
 		:doc-url="docUrlFederated">
 		<NcInputField class="federated-cloud__cloud-id"
 			readonly
@@ -16,30 +16,36 @@
 			:trailing-button-label="copyLinkTooltip"
 			@trailing-button-click="copyCloudId">
 			<template #trailing-button-icon>
-				<IconCheck v-if="isCopied" :size="20" fill-color="var(--color-success)" />
+				<IconCheck v-if="isCopied" :size="20" fill-color="var(--color-border-success)" />
 				<IconClipboard v-else :size="20" />
 			</template>
 		</NcInputField>
 
 		<p class="social-button">
 			{{ t('federatedfilesharing', 'Share it so your friends can share files with you:') }}<br>
-			<NcButton @click="goTo(shareFacebookUrl)">
+			<NcButton :href="shareFacebookUrl">
 				{{ t('federatedfilesharing', 'Facebook') }}
 				<template #icon>
 					<img class="social-button__icon social-button__icon--bright" :src="urlFacebookIcon">
 				</template>
 			</NcButton>
 			<NcButton :aria-label="t('federatedfilesharing', 'X (formerly Twitter)')"
-				@click="goTo(shareXUrl)">
+				:href="shareXUrl">
 				{{ t('federatedfilesharing', 'formerly Twitter') }}
 				<template #icon>
 					<img class="social-button__icon" :src="urlXIcon">
 				</template>
 			</NcButton>
-			<NcButton @click="goTo(shareMastodonUrl)">
+			<NcButton :href="shareMastodonUrl">
 				{{ t('federatedfilesharing', 'Mastodon') }}
 				<template #icon>
 					<img class="social-button__icon" :src="urlMastodonIcon">
+				</template>
+			</NcButton>
+			<NcButton :href="shareBlueSkyUrl">
+				{{ t('federatedfilesharing', 'Bluesky') }}
+				<template #icon>
+					<img class="social-button__icon" :src="urlBlueSkyIcon">
 				</template>
 			</NcButton>
 			<NcButton class="social-button__website-button"
@@ -58,7 +64,7 @@
 					:href="reference"
 					:style="backgroundStyle">
 					<span :style="linkStyle" />
-					{{ t('federatedfilesharing', 'Share with me via Nextcloud') }}
+					{{ t('federatedfilesharing', 'Share with me via {productName}', { productName }) }}
 				</a>
 			</p>
 
@@ -97,10 +103,12 @@ export default {
 		return {
 			t,
 
+			productName: window.OC.theme.productName,
 			cloudId: loadState<string>('federatedfilesharing', 'cloudId'),
 			reference: loadState<string>('federatedfilesharing', 'reference'),
 			urlFacebookIcon: imagePath('core', 'facebook'),
 			urlMastodonIcon: imagePath('core', 'mastodon'),
+			urlBlueSkyIcon: imagePath('core', 'bluesky'),
 			urlXIcon: imagePath('core', 'x'),
 		}
 	},
@@ -130,6 +138,9 @@ export default {
 		shareFacebookUrl() {
 			return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(this.reference)}`
 		},
+		shareBlueSkyUrl() {
+			return `https://bsky.app/intent/compose?text=${encodeURIComponent(this.messageWithURL)}`
+		},
 		logoPathAbsolute() {
 			return window.location.protocol + '//' + window.location.host + this.logoPath
 		},
@@ -146,14 +157,14 @@ export default {
 </a>`
 		},
 		copyLinkTooltip() {
-			return this.isCopied ? t('federatedfilesharing', 'Cloud ID copied to the clipboard') : t('federatedfilesharing', 'Copy to clipboard')
+			return this.isCopied ? t('federatedfilesharing', 'Cloud ID copied') : t('federatedfilesharing', 'Copy')
 		},
 	},
 	methods: {
 		async copyCloudId(): Promise<void> {
 			try {
 				await navigator.clipboard.writeText(this.cloudId)
-				showSuccess(t('federatedfilesharing', 'Cloud ID copied to the clipboard'))
+				showSuccess(t('federatedfilesharing', 'Cloud ID copied'))
 			} catch (e) {
 				// no secure context or really old browser - need a fallback
 				window.prompt(t('federatedfilesharing', 'Clipboard not available. Please copy the cloud ID manually.'), this.reference)
@@ -176,7 +187,7 @@ export default {
 	.social-button {
 		margin-top: 0.5rem;
 
-		button {
+		button, a {
 			display: inline-flex;
 			margin-inline-start: 0.5rem;
 			margin-top: 1rem;

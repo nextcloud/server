@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "5 2 * * *"
 
+permissions:
+  contents: read
+
 concurrency:
   group: files-external-sftp-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -40,7 +43,6 @@ jobs:
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
 
     strategy:
-      # do not stop on another job's failure
       fail-fast: false
       matrix:
         php-versions: ['8.1', '8.4']
@@ -53,8 +55,9 @@ jobs:
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
+          persist-credentials: false
           submodules: true
 
       - name: Set up sftpd
@@ -64,7 +67,7 @@ jobs:
           if [[ '${{ matrix.sftpd }}' == 'openssh' ]]; then docker run -p 2222:22 --name sftp -d -v /tmp/sftp:/home/test atmoz/sftp 'test:test:::data'; fi
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@9e72090525849c5e82e596468b86eb55e9cc5401 #v2.32.0
+        uses: shivammathur/setup-php@ec406be512d7077f68eed36e63f4d91bc006edc4 #v2.35.4
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
@@ -85,13 +88,20 @@ jobs:
         run: composer run test:files_external -- \
           apps/files_external/tests/Storage/SftpTest.php \
           apps/files_external/tests/Storage/SFTP_KeyTest.php \
-          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+          --log-junit junit.xml \
+          ${{ matrix.coverage && '--coverage-clover ./clover.xml' || '' }}
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v5.4.0
+        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5.5.0
         with:
           files: ./clover.xml
+          flags: phpunit-files-external-sftp
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@47f89e9acb64b76debcd5ea40642d25a4adced9f # v1.1.1
+        with:
           flags: phpunit-files-external-sftp
 
       - name: sftpd logs

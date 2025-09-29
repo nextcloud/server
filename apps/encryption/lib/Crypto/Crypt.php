@@ -342,9 +342,8 @@ class Crypt {
 	 * @param string $privateKey
 	 * @param string $password
 	 * @param string $uid for regular users, empty for system keys
-	 * @return false|string
 	 */
-	public function decryptPrivateKey($privateKey, $password = '', $uid = '') {
+	public function decryptPrivateKey($privateKey, $password = '', $uid = '') : string|false {
 		$header = $this->parseHeader($privateKey);
 
 		if (isset($header['cipher'])) {

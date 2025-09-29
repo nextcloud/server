@@ -1,12 +1,15 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Files\SimpleFS;
 
+use OCP\Files\GenericFileException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Lock\LockedException;
 
 /**
  * This interface allows to manage simple files.
@@ -49,8 +52,10 @@ interface ISimpleFile {
 	/**
 	 * Get the content
 	 *
-	 * @throws NotPermittedException
+	 * @throws GenericFileException
+	 * @throws LockedException
 	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 * @since 11.0.0
 	 */
 	public function getContent(): string;
@@ -59,8 +64,10 @@ interface ISimpleFile {
 	 * Overwrite the file
 	 *
 	 * @param string|resource $data
-	 * @throws NotPermittedException
+	 * @throws GenericFileException
+	 * @throws LockedException
 	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 * @since 11.0.0
 	 */
 	public function putContent($data): void;

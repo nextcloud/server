@@ -149,9 +149,9 @@ export default {
 	}
 
 	label {
-		color: var(--color-text-lighter);
-		width: 150px;
+		color: var(--color-text-maxcontrast);
 		line-height: 50px;
+		width: 150px;
 	}
 
 	&__select {

@@ -51,7 +51,7 @@
     "Basic encryption module" : "Základný šifrovací modul",
     "Your private key password no longer matches your log-in password." : "Heslo vášho súkromného kľúča sa nezhoduje v vašim prihlasovacím heslom.",
     "Set your old private key password to your current log-in password:" : "Zmeňte si vaše staré heslo súkromného kľúča na rovnaké, aké je vaše aktuálne prihlasovacie heslo:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Ak si nepamätáte svoje staré heslo, môžete požiadať administrátora o obnovenie svojich súborov.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Ak si nepamätáte svoje staré heslo, môžete požiadať administrátora o obnovenie vašich súborov.",
     "Old log-in password" : "Staré prihlasovacie heslo",
     "Current log-in password" : "Súčasné prihlasovacie heslo",
     "Update Private Key Password" : "Aktualizovať heslo súkromného kľúča",

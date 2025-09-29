@@ -18,7 +18,6 @@ import Backbone from 'backbone'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
-import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'select2'
 import 'select2/select2.css'
@@ -29,7 +28,7 @@ import 'strengthify/strengthify.css'
 import OC from './OC/index.js'
 import OCP from './OCP/index.js'
 import OCA from './OCA/index.js'
-import { getToken as getRequestToken } from './OC/requesttoken.js'
+import { getRequestToken } from './OC/requesttoken.ts'
 
 const warnIfNotTesting = function() {
 	if (window.TESTING === undefined) {
@@ -81,8 +80,6 @@ setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will b
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window.dav = dav
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
-// Global md5 only required for: apps/files/js/file-upload.js
-setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
 window.OC = OC

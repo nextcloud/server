@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -46,6 +47,10 @@ class Result extends BaseResult {
 		 */
 		public string $authorName,
 		string $path,
+		/**
+		 * @deprecated 20.0.0
+		 */
+		public int $fileId,
 	) {
 		parent::__construct(
 			$comment->getId(),

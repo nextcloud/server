@@ -1,0 +1,28 @@
+{ "translations": {
+    "restored" : "imehifadhiwa upya",
+    "Deleted files" : "Faili zilizofutwa",
+    "Deleted files and folders in the trash bin (may expire during export if you are low on storage space)" : "Faili na folda zilizofutwa kwenye pipa la tupio (zinaweza kuisha wakati wa kuhamisha ikiwa huna nafasi ya kuhifadhi)",
+    "This application enables people to restore files that were deleted from the system." : "Programu hii inawawezesha watu kurejesha faili ambazo zilifutwa kutoka kwa mfumo.",
+    "This application enables people to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the people file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent an account from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Programu hii inawawezesha watu kurejesha faili ambazo zilifutwa kutoka kwa mfumo. Inaonyesha orodha ya faili zilizofutwa katika kiolesura cha wavuti, na ina chaguo za kurejesha faili hizo zilizofutwa kwenye saraka za faili za watu au kuziondoa kabisa kwenye mfumo. Kurejesha faili pia hurejesha matoleo ya faili zinazohusiana, ikiwa programu ya matoleo imewezeshwa. Faili inapofutwa kutoka kwa sehemu, inaweza kurejeshwa kwa njia ile ile, ingawa haishirikiwi tena. Kwa chaguomsingi, faili hizi husalia kwenye pipa la taka kwa siku 30.\nIli kuzuia akaunti kukosa nafasi ya diski, programu ya faili zilizofutwa haitatumia zaidi ya 50% ya nafasi ya bure inayopatikana kwa sasa ya faili zilizofutwa. Ikiwa faili zilizofutwa zitazidi kikomo hiki, programu hufuta faili za zamani zaidi hadi iwe chini ya kikomo hiki. Maelezo zaidi yanapatikana katika hati za Faili Zilizofutwa.",
+    "Restore" : "Hifadhi upya",
+    "Not enough free space to restore the file/folder" : "Hakuna nafasi ya kutosha ya kurejesha faili/folda",
+    "Empty deleted files" : "Safisha faili zilizofutwa",
+    "Confirm permanent deletion" : "Thibitisha ufutaji wa kudumu",
+    "Are you sure you want to permanently delete all files and folders in the trash? This cannot be undone." : "Je, una uhakika unataka kufuta kabisa faili na folda zote kwenye tupio? Hili haliwezi kutenduliwa.",
+    "Cancel" : "Ghairi",
+    "Original location" : "Mahali pa asili",
+    "Deleted by" : "Imefutwa na",
+    "Deleted" : "Vilivyofutwa",
+    "few seconds ago" : "sekunde chache zilizopita",
+    "A long time ago" : "Muda mrefu uliopita",
+    "Unknown" : "Haijulikani",
+    "All files" : "Faili zote",
+    "You" : "Wewe",
+    "List of files that have been deleted." : "Orodha ya faili ambazo zimefutwa.",
+    "No deleted files" : "Hakuna faili zilizofutwa",
+    "Files and folders you have deleted will show up here" : "Faili na folda ambazo umefuta zitaonekana hapa",
+    "All files have been permanently deleted" : "Faili zote zimefutwa kabisa",
+    "Failed to empty deleted files" : "Imeshindwa kufuta faili zilizofutwa",
+    "Deletion cancelled" : "Ufutaji umesitishwa"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -28,6 +28,7 @@
     "Apps" : "Aplicacions",
     "Settings" : "Paramètres",
     "Log out" : "Desconnexion",
+    "Accounts" : "Accounts",
     "Email" : "Corrièl",
     "Mail %s" : "Mail %s",
     "Phone" : "Telefòn",
@@ -40,7 +41,6 @@
     "Profile picture" : "Imatge de perfil",
     "About" : "A prepaus",
     "Headline" : "Títol",
-    "Organisation" : "Organizacion",
     "Role" : "Ròtle",
     "Additional settings" : "Paramètres addicionals",
     "Set an admin password." : "Definir un senhal admin.",
@@ -67,10 +67,11 @@
     "a safe home for all your data" : "un ostal segur per vòstras donadas",
     "Authentication error" : "Error d’autentificacion",
     "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible",
+    "Images" : "Imatges",
+    "Question" : "Question",
     "Chat" : "Messatjariá",
     "Text" : "Tèxt",
     "Translate" : "Tradurre",
-    "Users" : "Utilizaires",
-    "Open »%s«" : "Dobrir « %s »"
+    "Organisation" : "Organizacion"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

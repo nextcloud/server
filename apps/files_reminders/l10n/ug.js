@@ -7,7 +7,6 @@ OC.L10N.register(
     "View folder" : "ھۆججەت قىسقۇچنى كۆرۈش",
     "Set file reminders" : "ھۆججەت ئەسكەرتىشلىرىنى بەلگىلەڭ",
     "Set reminder for \"{fileName}\"" : "\"{fileName}\" ئۈچۈن ئەسكەرتىش بەلگىلەڭ",
-    "Set reminder at custom date & time" : "ئىختىيارى چېسلا ۋە ۋاقىتتا ئەسكەرتىش بەلگىلەڭ",
     "Clear reminder" : "ئەسكەرتىش",
     "Please choose a valid date & time" : "ئىناۋەتلىك چېسلا ۋە ۋاقىتنى تاللاڭ",
     "Reminder set for \"{fileName}\"" : "\"{fileName}\" ئۈچۈن ئەسكەرتىش",
@@ -18,7 +17,6 @@ OC.L10N.register(
     "Cancel" : "بىكار قىلىش",
     "Set reminder" : "ئەسكەرتىش بەلگىلەڭ",
     "Reminder set" : "ئەسكەرتىش",
-    "Set custom reminder" : "ئىختىيارى ئەسكەرتىش بەلگىلەڭ",
     "Later today" : "بۈگۈن بۈگۈن",
     "Set reminder for later today" : "بۈگۈنگە ئەسكەرتىش بەلگىلەڭ",
     "Tomorrow" : "ئەتە",
@@ -26,6 +24,8 @@ OC.L10N.register(
     "This weekend" : "بۇ ھەپتە ئاخىرى",
     "Set reminder for this weekend" : "بۇ ھەپتە ئاخىرىدا ئەسكەرتىش بەلگىلەڭ",
     "Next week" : "كېلەر ھەپتە",
-    "Set reminder for next week" : "كېلەر ھەپتە ئەسكەرتىش بەلگىلەڭ"
+    "Set reminder for next week" : "كېلەر ھەپتە ئەسكەرتىش بەلگىلەڭ",
+    "Set reminder at custom date & time" : "ئىختىيارى چېسلا ۋە ۋاقىتتا ئەسكەرتىش بەلگىلەڭ",
+    "Set custom reminder" : "ئىختىيارى ئەسكەرتىش بەلگىلەڭ"
 },
 "nplurals=2; plural=(n != 1);");

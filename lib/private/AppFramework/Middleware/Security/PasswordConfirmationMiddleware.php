@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -79,8 +80,12 @@ class PasswordConfirmationMiddleware extends Middleware {
 
 		if ($this->isPasswordConfirmationStrict($reflectionMethod)) {
 			$authHeader = $this->request->getHeader('Authorization');
+			if (!str_starts_with(strtolower($authHeader), 'basic ')) {
+				throw new NotConfirmedException('Required authorization header missing');
+			}
 			[, $password] = explode(':', base64_decode(substr($authHeader, 6)), 2);
-			$loginResult = $this->userManager->checkPassword($user->getUid(), $password);
+			$loginName = $this->session->get('loginname');
+			$loginResult = $this->userManager->checkPassword($loginName, $password);
 			if ($loginResult === false) {
 				throw new NotConfirmedException();
 			}

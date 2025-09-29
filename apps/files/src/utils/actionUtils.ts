@@ -49,7 +49,7 @@ export const executeAction = async (action: FileAction) => {
 	try {
 		// Set the loading marker
 		Vue.set(currentNode, 'status', NodeStatus.LOADING)
-		activeStore.setActiveAction(action)
+		activeStore.activeAction = action
 
 		const success = await action.exec(currentNode, currentView, currentDir)
 
@@ -59,16 +59,16 @@ export const executeAction = async (action: FileAction) => {
 		}
 
 		if (success) {
-			showSuccess(t('files', '"{displayName}" action executed successfully', { displayName }))
+			showSuccess(t('files', '{displayName}: done', { displayName }))
 			return
 		}
-		showError(t('files', '"{displayName}" action failed', { displayName }))
+		showError(t('files', '{displayName}: failed', { displayName }))
 	} catch (error) {
 		logger.error('Error while executing action', { action, error })
-		showError(t('files', '"{displayName}" action failed', { displayName }))
+		showError(t('files', '{displayName}: failed', { displayName }))
 	} finally {
 		// Reset the loading marker
 		Vue.set(currentNode, 'status', undefined)
-		activeStore.clearActiveAction()
+		activeStore.activeAction = undefined
 	}
 }

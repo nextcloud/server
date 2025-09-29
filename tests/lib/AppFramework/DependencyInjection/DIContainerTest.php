@@ -18,18 +18,18 @@ use OCP\AppFramework\Middleware;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IRequestId;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @group DB
  */
 class DIContainerTest extends \Test\TestCase {
-	/** @var DIContainer|\PHPUnit\Framework\MockObject\MockObject */
-	private $container;
+	private DIContainer&MockObject $container;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->container = $this->getMockBuilder(DIContainer::class)
-			->setMethods(['isAdminUser'])
+			->onlyMethods(['isAdminUser'])
 			->setConstructorArgs(['name'])
 			->getMock();
 	}
@@ -45,11 +45,13 @@ class DIContainerTest extends \Test\TestCase {
 
 	public function testProvidesAppName(): void {
 		$this->assertTrue(isset($this->container['AppName']));
+		$this->assertTrue(isset($this->container['appName']));
 	}
 
 
 	public function testAppNameIsSetCorrectly(): void {
 		$this->assertEquals('name', $this->container['AppName']);
+		$this->assertEquals('name', $this->container['appName']);
 	}
 
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware(): void {

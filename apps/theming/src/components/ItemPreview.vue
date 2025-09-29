@@ -157,7 +157,8 @@ export default {
 	}
 
 	&-warning {
-		color: var(--color-warning);
+		background-color: var(--color-warning);
+		color: var(--color-warning-text);
 	}
 }
 

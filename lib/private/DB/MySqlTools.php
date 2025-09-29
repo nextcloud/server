@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -45,7 +46,7 @@ class MySqlTools {
 			return false;
 		}
 
-		return str_contains($row, 'maria') && version_compare($row, '10.3', '>=') ||
-			!str_contains($row, 'maria') && version_compare($row, '8.0', '>=');
+		return str_contains($row, 'maria') && version_compare($row, '10.3', '>=')
+			|| !str_contains($row, 'maria') && version_compare($row, '8.0', '>=');
 	}
 }

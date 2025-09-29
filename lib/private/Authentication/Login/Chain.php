@@ -13,7 +13,6 @@ class Chain {
 		private PreLoginHookCommand $preLoginHookCommand,
 		private UserDisabledCheckCommand $userDisabledCheckCommand,
 		private UidLoginCommand $uidLoginCommand,
-		private EmailLoginCommand $emailLoginCommand,
 		private LoggedInCheckCommand $loggedInCheckCommand,
 		private CompleteLoginCommand $completeLoginCommand,
 		private CreateSessionTokenCommand $createSessionTokenCommand,
@@ -31,7 +30,6 @@ class Chain {
 		$chain
 			->setNext($this->userDisabledCheckCommand)
 			->setNext($this->uidLoginCommand)
-			->setNext($this->emailLoginCommand)
 			->setNext($this->loggedInCheckCommand)
 			->setNext($this->completeLoginCommand)
 			->setNext($this->flowV2EphemeralSessionsCommand)

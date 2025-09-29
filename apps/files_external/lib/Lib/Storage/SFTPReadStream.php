@@ -53,7 +53,7 @@ class SFTPReadStream implements File {
 		} else {
 			throw new \BadMethodCallException('Invalid context, "' . $name . '" options not set');
 		}
-		if (isset($context['session']) and $context['session'] instanceof \phpseclib\Net\SFTP) {
+		if (isset($context['session']) && $context['session'] instanceof \phpseclib\Net\SFTP) {
 			$this->sftp = $context['session'];
 		} else {
 			throw new \BadMethodCallException('Invalid context, session not set');

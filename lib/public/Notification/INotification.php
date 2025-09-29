@@ -8,11 +8,9 @@ declare(strict_types=1);
  */
 namespace OCP\Notification;
 
-/**
- * Interface INotification
- *
- * @since 9.0.0
- */
+use OCP\AppFramework\Attribute\Consumable;
+
+#[Consumable(since: '9.0.0')]
 interface INotification {
 	/**
 	 * @param string $app

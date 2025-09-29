@@ -49,8 +49,8 @@ class PaginatePlugin extends ServerPlugin {
 		}
 		$url = $request->getUrl();
 		if (
-			$request->hasHeader(self::PAGINATE_HEADER) &&
-			(!$request->hasHeader(self::PAGINATE_TOKEN_HEADER) || !$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER)))
+			$request->hasHeader(self::PAGINATE_HEADER)
+			&& (!$request->hasHeader(self::PAGINATE_TOKEN_HEADER) || !$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER)))
 		) {
 			$pageSize = (int)$request->getHeader(self::PAGINATE_COUNT_HEADER) ?: $this->pageSize;
 			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);
@@ -68,9 +68,9 @@ class PaginatePlugin extends ServerPlugin {
 	public function onMethod(RequestInterface $request, ResponseInterface $response) {
 		$url = $this->server->httpRequest->getUrl();
 		if (
-			$request->hasHeader(self::PAGINATE_TOKEN_HEADER) &&
-			$request->hasHeader(self::PAGINATE_OFFSET_HEADER) &&
-			$this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER))
+			$request->hasHeader(self::PAGINATE_TOKEN_HEADER)
+			&& $request->hasHeader(self::PAGINATE_OFFSET_HEADER)
+			&& $this->cache->exists($url, $request->getHeader(self::PAGINATE_TOKEN_HEADER))
 		) {
 			$token = $request->getHeader(self::PAGINATE_TOKEN_HEADER);
 			$offset = (int)$request->getHeader(self::PAGINATE_OFFSET_HEADER);

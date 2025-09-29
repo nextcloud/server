@@ -64,8 +64,10 @@ class ReminderService {
 	/**
 	 * @throws NodeNotFoundException
 	 */
-	public function getDueForUser(IUser $user, int $fileId): ?RichReminder {
-		$this->checkNode($user, $fileId);
+	public function getDueForUser(IUser $user, int $fileId, bool $checkNode = true): ?RichReminder {
+		if ($checkNode) {
+			$this->checkNode($user, $fileId);
+		}
 		/** @var null|false|Reminder $cachedReminder */
 		$cachedReminder = $this->cache->get("{$user->getUID()}-$fileId");
 		if ($cachedReminder === false) {

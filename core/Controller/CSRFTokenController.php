@@ -34,6 +34,8 @@ class CSRFTokenController extends Controller {
 	 *
 	 * 200: CSRF token returned
 	 * 403: Strict cookie check failed
+	 *
+	 * @NoTwoFactorRequired
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]

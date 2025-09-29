@@ -45,7 +45,6 @@
     "Basic encryption module" : "Mòdulu de tzifradura base",
     "Your private key password no longer matches your log-in password." : " Sa crae privada non currispondet prus cun sa crae de intrada.",
     "Set your old private key password to your current log-in password:" : "Cunfigura sa crae privada betza comente crae de intrada atuale:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Si non t'ammentas sa crae betza ddi podes pedire a s'amministradore tuo de ti recuperare is archìvios.",
     "Old log-in password" : "Crae betza de intrada",
     "Current log-in password" : " Crae de intrada atuale",
     "Update Private Key Password" : " Agiorna sa crae de sa crae privada",

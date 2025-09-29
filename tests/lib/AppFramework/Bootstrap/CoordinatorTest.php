@@ -11,6 +11,7 @@ namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Support\CrashReport\Registry;
+use OCA\Settings\AppInfo\Application;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -76,7 +77,7 @@ class CoordinatorTest extends TestCase {
 		$appId = 'settings';
 		$this->serverContainer->expects($this->once())
 			->method('query')
-			->with(\OCA\Settings\AppInfo\Application::class)
+			->with(Application::class)
 			->willThrowException(new QueryException(''));
 		$this->logger->expects($this->once())
 			->method('error');
@@ -86,10 +87,10 @@ class CoordinatorTest extends TestCase {
 
 	public function testBootAppNotBootable(): void {
 		$appId = 'settings';
-		$mockApp = $this->createMock(\OCA\Settings\AppInfo\Application::class);
+		$mockApp = $this->createMock(Application::class);
 		$this->serverContainer->expects($this->once())
 			->method('query')
-			->with(\OCA\Settings\AppInfo\Application::class)
+			->with(Application::class)
 			->willReturn($mockApp);
 
 		$this->coordinator->bootApp($appId);
@@ -110,7 +111,7 @@ class CoordinatorTest extends TestCase {
 		};
 		$this->serverContainer->expects($this->once())
 			->method('query')
-			->with(\OCA\Settings\AppInfo\Application::class)
+			->with(Application::class)
 			->willReturn($mockApp);
 
 		$this->coordinator->bootApp($appId);

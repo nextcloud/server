@@ -30,8 +30,9 @@ class LoadAdditionalScriptsListener implements IEventListener {
 			return;
 		}
 
-		if (!$this->appManager->isEnabledForUser('notifications')) {
-			$this->logger->error('Failed to register the `files_reminders` app. This could happen due to the `notifications` app being disabled.', ['app' => 'files_reminders']);
+		if (!$this->appManager->isEnabledForUser(Application::APP_ID)
+			|| !$this->appManager->isEnabledForUser('notifications')
+		) {
 			return;
 		}
 

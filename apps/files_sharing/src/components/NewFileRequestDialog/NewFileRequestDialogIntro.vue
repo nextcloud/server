@@ -78,7 +78,7 @@ import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 
 import IconFolder from 'vue-material-design-icons/Folder.vue'
-import IconInfo from 'vue-material-design-icons/Information.vue'
+import IconInfo from 'vue-material-design-icons/InformationOutline.vue'
 import IconLock from 'vue-material-design-icons/Lock.vue'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import NcTextField from '@nextcloud/vue/components/NcTextField'

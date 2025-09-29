@@ -14,18 +14,13 @@ use OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\EventDispatcher\Event;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class RegistryUpdaterTest extends TestCase {
-
-	/** @var IRegistry */
-	private $registry;
-
-	/** @var BackupCodesProvider */
-	private $provider;
-
-	/** @var RegistryUpdater */
-	private $listener;
+	private IRegistry&MockObject $registry;
+	private BackupCodesProvider&MockObject $provider;
+	private RegistryUpdater $listener;
 
 	protected function setUp(): void {
 		parent::setUp();

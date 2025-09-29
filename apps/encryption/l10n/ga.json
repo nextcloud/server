@@ -51,7 +51,7 @@
     "Basic encryption module" : "Bun-mhodúl criptithe",
     "Your private key password no longer matches your log-in password." : "Ní mheaitseálann do phasfhocal eochrach príobháidí do phasfhocal logáil-isteach a thuilleadh.",
     "Set your old private key password to your current log-in password:" : "Socraigh do shean phasfhocal eochair phríobháideach le do phasfhocal logáil-isteach reatha:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Mura cuimhin leat do shean phasfhocal is féidir leat iarraidh ar do riarthóir do chuid comhad a athshlánú.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Mura cuimhin leat do sheanphasfhocal is féidir leat iarraidh ar do riarthóir do chuid comhad a athshlánú.",
     "Old log-in password" : "Sean phasfhocal logáil isteach",
     "Current log-in password" : "Pasfhocal logáil isteach reatha",
     "Update Private Key Password" : "Nuashonraigh Pasfhocal Eochair Phríobháideach",

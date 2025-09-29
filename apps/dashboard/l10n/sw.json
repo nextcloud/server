@@ -1,0 +1,27 @@
+{ "translations": {
+    "Dashboard" : " Dashibodi",
+    "Dashboard app" : "Programu ya Dashibodi",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Anza siku yako ukiwa na taarifa\n\nDashibodi ya Nextcloud ndiyo kianzio chako cha siku, ikikupa muhtasari wa miadi yako ijayo, barua pepe za dharura, ujumbe wa gumzo, tiketi zinazoingia, twiti za hivi punde na mengi zaidi! Watu wanaweza kuongeza wijeti wanazopenda na kubadilisha usuli kwa kupenda kwao.",
+    "Weather" : "Hali ya hewa",
+    "Status" : "Wadhifa",
+    "Good morning" : "Habari za asubuhi",
+    "Good morning, {name}" : "Habari za asubuhi, {name}",
+    "Good afternoon" : "Habari za mchana",
+    "Good afternoon, {name}" : "Habari za mchana, {name}",
+    "Good evening" : "Habari za jioni",
+    "Good evening, {name}" : "Habari za jioni, {name}",
+    "Hello" : "Hello",
+    "Hello, {name}" : "Hello, {name}",
+    "Happy birthday 🥳🤩🎂🎉" : "Heri ya siku ya kuzaliwa 🥳🤩🎂🎉",
+    "Happy birthday, {name} 🥳🤩🎂🎉" : "Heri ya siku ya kuzaliwa, {name} 🥳🤩🎂🎉",
+    "Customize" : "Geuza kukufaa",
+    "Edit widgets" : "Hariri wijeti",
+    "Get more widgets from the App Store" : "Pata wijeti zaidi kutoka kwenye hifadhi ya Programu",
+    "Weather service" : "Huduma ya hali ya hewa",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Kwa faragha yako, data ya hali ya hewa inaombwa na seva yako ya {productName} kwa niaba yako ili huduma ya hali ya hewa isipokee taarifa za kibinafsi.",
+    "Weather data from Met.no" : "Data za hali ya hewa kutoka Met.no",
+    "geocoding with Nominatim" : "geocoding na Nominatim",
+    "elevation data from OpenTopoData" : "data ya mwinuko kutoka OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Kwa faragha yako, data ya hali ya hewa inaombwa na seva yako ya Nextcloud kwa niaba yako ili huduma ya hali ya hewa isipokee taarifa za kibinafsi."
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

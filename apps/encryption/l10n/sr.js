@@ -53,7 +53,7 @@ OC.L10N.register(
     "Basic encryption module" : "Основни модул за шифровање",
     "Your private key password no longer matches your log-in password." : "Лозинка вашег личног кључа више није иста као ваша лозинка за пријаву.",
     "Set your old private key password to your current log-in password:" : "Поставите стару лозинку личног кључа као тренутну лозинку за пријаву:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Ако се не сећате старе лозинке, можете затражити од администратора да опорави ваше фајлове.",
+    "If you do not remember your old password you can ask your administrator to recover your files." : "Ако се не сећате старе лозинке, можете затражити од администратора да опорави ваше фајлове.",
     "Old log-in password" : "Стара лозинка за пријаву",
     "Current log-in password" : "Тренутна лозинка за пријаву",
     "Update Private Key Password" : "Ажурирај лозинку личног кључа",

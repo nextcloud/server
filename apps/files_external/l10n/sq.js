@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Akordoji hyrje",
-    "Error configuring OAuth1" : "Gabim gjatë formësimit të OAuth1",
-    "Please provide a valid app key and secret." : "Ju lutemi jepni një kyç dhe një të fshehtë aplikacioni të vlefshme.",
     "Error configuring OAuth2" : "Gabim gjatë formësimit të OAuth2",
     "Generate keys" : "Prodho kyçe",
     "Error generating key pair" : "Gabim gjatë prodhimit të çiftit të kyçeve",
@@ -22,9 +20,6 @@ OC.L10N.register(
     "Secret key" : "Kyç i fshehtë",
     "Builtin" : "I brendshëm",
     "None" : "Asnjë",
-    "OAuth1" : "OAuth1",
-    "App key" : "Kyç aplikacioni",
-    "App secret" : "E fshehtë aplikacioni",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID klienti",
     "Client secret" : "E fshehtë klienti",
@@ -95,6 +90,10 @@ OC.L10N.register(
     "Available for" : "E gatshme për",
     "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
-    "Submit" : "Dërgo"
+    "Error configuring OAuth1" : "Gabim gjatë formësimit të OAuth1",
+    "Please provide a valid app key and secret." : "Ju lutemi jepni një kyç dhe një të fshehtë aplikacioni të vlefshme.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Kyç aplikacioni",
+    "App secret" : "E fshehtë aplikacioni"
 },
 "nplurals=2; plural=(n != 1);");

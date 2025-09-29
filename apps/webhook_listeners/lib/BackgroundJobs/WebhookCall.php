@@ -74,7 +74,8 @@ class WebhookCall extends QueuedJob {
 				} elseif (!$exApp['enabled']) {
 					throw new RuntimeException('ExApp ' . $exAppId . ' is disabled.');
 				}
-				$response = $appApiFunctions->exAppRequest($exAppId, $webhookUri, $webhookListener->getUserId(), $webhookListener->getHttpMethod(), [], $options);
+				$userId = ($data['user'] ?? [])['uid'] ?? null;
+				$response = $appApiFunctions->exAppRequest($exAppId, $webhookUri, $userId, $webhookListener->getHttpMethod(), [], $options);
 				if (is_array($response) && isset($response['error'])) {
 					throw new RuntimeException(sprintf('Error during request to ExApp(%s): %s', $exAppId, $response['error']));
 				}

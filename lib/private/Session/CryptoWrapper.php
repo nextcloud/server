@@ -59,7 +59,7 @@ class CryptoWrapper {
 					[
 						'expires' => 0,
 						'path' => $webRoot,
-						'domain' => '',
+						'domain' => \OCP\Server::get(\OCP\IConfig::class)->getSystemValueString('cookie_domain'),
 						'secure' => $secureCookie,
 						'httponly' => true,
 						'samesite' => 'Lax',

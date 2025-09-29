@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,9 +8,15 @@
 
 namespace Test\Files\Cache;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem as Filesystem;
+use OC\Files\Storage\Storage;
+use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OCP\Files\Mount\IMountManager;
+use OCP\IUserManager;
+use OCP\Server;
 
 /**
  * Class UpdaterLegacyTest
@@ -20,17 +27,17 @@ use OCP\Files\Mount\IMountManager;
  */
 class UpdaterLegacyTest extends \Test\TestCase {
 	/**
-	 * @var \OC\Files\Storage\Storage $storage
+	 * @var Storage $storage
 	 */
 	private $storage;
 
 	/**
-	 * @var \OC\Files\Cache\Scanner $scanner
+	 * @var Scanner $scanner
 	 */
 	private $scanner;
 
 	/**
-	 * @var \OC\Files\Cache\Cache $cache
+	 * @var Cache $cache
 	 */
 	private $cache;
 
@@ -39,7 +46,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storage = new \OC\Files\Storage\Temporary([]);
+		$this->storage = new Temporary([]);
 		$textData = "dummy file data\n";
 		$imgData = file_get_contents(\OC::$SERVERROOT . '/core/img/logo/logo.png');
 		$this->storage->mkdir('folder');
@@ -56,13 +63,13 @@ class UpdaterLegacyTest extends \Test\TestCase {
 			self::$user = $this->getUniqueID();
 		}
 
-		\OC::$server->getUserManager()->createUser(self::$user, 'NotAnEasyPassword123456+');
+		Server::get(IUserManager::class)->createUser(self::$user, 'NotAnEasyPassword123456+');
 		$this->loginAsUser(self::$user);
 
 		Filesystem::init(self::$user, '/' . self::$user . '/files');
 
 		/** @var IMountManager $manager */
-		$manager = \OC::$server->get(IMountManager::class);
+		$manager = Server::get(IMountManager::class);
 		$manager->removeMount('/' . self::$user);
 
 		Filesystem::mount($this->storage, [], '/' . self::$user . '/files');
@@ -76,7 +83,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		}
 
 		$result = false;
-		$user = \OC::$server->getUserManager()->get(self::$user);
+		$user = Server::get(IUserManager::class)->get(self::$user);
 		if ($user !== null) {
 			$result = $user->delete();
 		}
@@ -122,7 +129,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 	}
 
 	public function testWriteWithMountPoints(): void {
-		$storage2 = new \OC\Files\Storage\Temporary([]);
+		$storage2 = new Temporary([]);
 		$storage2->getScanner()->scan(''); //initialize etags
 		$cache2 = $storage2->getCache();
 		Filesystem::mount($storage2, [], '/' . self::$user . '/files/folder/substorage');
@@ -183,7 +190,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 	}
 
 	public function testDeleteWithMountPoints(): void {
-		$storage2 = new \OC\Files\Storage\Temporary([]);
+		$storage2 = new Temporary([]);
 		$cache2 = $storage2->getCache();
 		Filesystem::mount($storage2, [], '/' . self::$user . '/files/folder/substorage');
 		Filesystem::file_put_contents('folder/substorage/foo.txt', 'asd');
@@ -239,7 +246,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 	}
 
 	public function testRenameWithMountPoints(): void {
-		$storage2 = new \OC\Files\Storage\Temporary([]);
+		$storage2 = new Temporary([]);
 		$cache2 = $storage2->getCache();
 		Filesystem::mount($storage2, [], '/' . self::$user . '/files/folder/substorage');
 		Filesystem::file_put_contents('folder/substorage/foo.txt', 'asd');

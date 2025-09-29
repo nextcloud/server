@@ -134,9 +134,9 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcRichText from '@nextcloud/vue/components/NcRichText'
-import AccountIcon from 'vue-material-design-icons/Account.vue'
+import AccountIcon from 'vue-material-design-icons/AccountOutline.vue'
 import MapMarkerIcon from 'vue-material-design-icons/MapMarker.vue'
-import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 
 interface IProfileAction {
 	target: string
@@ -461,9 +461,11 @@ $content-max-width: 640px;
 	flex-direction: column;
 	gap: 8px 0;
 	margin-top: 20px;
+	max-width: 300px;
 
 	&__primary {
 		margin: 0 auto;
+		max-width: 100%;
 
 		&__icon {
 			filter: var(--primary-invert-if-dark);

@@ -16,9 +16,9 @@ OC.L10N.register(
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar aplicação",
     "Weather service" : "Metereologia",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para sua privacidade, os dados de metereologia são requisitados pelo seu servidor Nextcloud em seu nome para que, desta forma, o serviço de metereologia não receba quaisquer dados pessoais.",
     "Weather data from Met.no" : "Dados Metereológicos de Met.no",
     "geocoding with Nominatim" : "geocodificação com Nominatim",
-    "elevation data from OpenTopoData" : "dados de elevação de OpenTopoData"
+    "elevation data from OpenTopoData" : "dados de elevação de OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para sua privacidade, os dados de metereologia são requisitados pelo seu servidor Nextcloud em seu nome para que, desta forma, o serviço de metereologia não receba quaisquer dados pessoais."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

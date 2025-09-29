@@ -3,74 +3,84 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ActiveStore } from '../types.ts'
-import type { FileAction, Node, View } from '@nextcloud/files'
+import type { FileAction, View, Node, Folder } from '@nextcloud/files'
 
-import { defineStore } from 'pinia'
-import { getNavigation } from '@nextcloud/files'
 import { subscribe } from '@nextcloud/event-bus'
+import { getNavigation } from '@nextcloud/files'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 import logger from '../logger.ts'
 
-export const useActiveStore = function(...args) {
-	const store = defineStore('active', {
-		state: () => ({
-			_initialized: false,
-			activeNode: null,
-			activeView: null,
-			activeAction: null,
-		} as ActiveStore),
+export const useActiveStore = defineStore('active', () => {
+	/**
+	 * The currently active action
+	 */
+	const activeAction = ref<FileAction>()
 
-		actions: {
-			setActiveNode(node: Node) {
-				if (!node) {
-					throw new Error('Use clearActiveNode to clear the active node')
-				}
-				logger.debug('Setting active node', { node })
-				this.activeNode = node
-			},
+	/**
+	 * The currently active folder
+	 */
+	const activeFolder = ref<Folder>()
 
-			clearActiveNode() {
-				this.activeNode = null
-			},
+	/**
+	 * The current active node within the folder
+	 */
+	const activeNode = ref<Node>()
 
-			onDeletedNode(node: Node) {
-				if (this.activeNode && this.activeNode.source === node.source) {
-					this.clearActiveNode()
-				}
-			},
+	/**
+	 * The current active view
+	 */
+	const activeView = ref<View>()
 
-			setActiveAction(action: FileAction) {
-				this.activeAction = action
-			},
+	initialize()
 
-			clearActiveAction() {
-				this.activeAction = null
-			},
+	/**
+	 * Unset the active node if deleted
+	 *
+	 * @param node - The node thats deleted
+	 * @private
+	 */
+	function onDeletedNode(node: Node) {
+		if (activeNode.value && activeNode.value.source === node.source) {
+			activeNode.value = undefined
+		}
+	}
 
-			onChangedView(view: View|null = null) {
-				logger.debug('Setting active view', { view })
-				this.activeView = view
-				this.clearActiveNode()
-			},
-		},
-	})
+	/**
+	 * Callback to update the current active view
+	 *
+	 * @param view - The new active view
+	 * @private
+	 */
+	function onChangedView(view: View|null = null) {
+		logger.debug('Setting active view', { view })
+		activeView.value = view ?? undefined
+		activeNode.value = undefined
+	}
 
-	const activeStore = store(...args)
-	const navigation = getNavigation()
+	/**
+	 * Initalize the store - connect all event listeners.
+	 * @private
+	 */
+	function initialize() {
+		const navigation = getNavigation()
 
-	// Make sure we only register the listeners once
-	if (!activeStore._initialized) {
-		subscribe('files:node:deleted', activeStore.onDeletedNode)
+		// Make sure we only register the listeners once
+		subscribe('files:node:deleted', onDeletedNode)
 
-		activeStore._initialized = true
-		activeStore.onChangedView(navigation.active)
+		onChangedView(navigation.active)
 
 		// Or you can react to changes of the current active view
 		navigation.addEventListener('updateActive', (event) => {
-			activeStore.onChangedView(event.detail)
+			onChangedView(event.detail)
 		})
 	}
 
-	return activeStore
-}
+	return {
+		activeAction,
+		activeFolder,
+		activeNode,
+		activeView,
+	}
+})

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -71,9 +72,7 @@ class AppDiscoverFetcherTest extends FetcherBase {
 		$this->assertEquals([], $this->fetcher->get());
 	}
 
-	/**
-	 * @dataProvider dataGetETag
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetETag')]
 	public function testGetEtag(?string $expected, bool $throws, string $content = ''): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		if (!$throws) {
@@ -104,7 +103,7 @@ class AppDiscoverFetcherTest extends FetcherBase {
 		}
 	}
 
-	public function dataGetETag(): array {
+	public static function dataGetETag(): array {
 		return [
 			'file not found' => [null, true],
 			'empty file' => [null, false, ''],

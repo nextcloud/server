@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Conceder l'accesu",
-    "Error configuring OAuth1" : "Hebo un error al configurar l'OAuth1",
-    "Please provide a valid app key and secret." : "Forni una clave y un secretu d'aplicación válidos.",
     "Error configuring OAuth2" : "Hebo un error al configurar l'OAuth2",
     "Generate keys" : "Xenerar les claves",
     "Error generating key pair" : "Hebo un error al xenerar el par de claves",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "Clave del secretu",
     "Builtin" : "Integrada",
     "None" : "Nada",
-    "OAuth1" : "OAuth1",
-    "App key" : "Clave d'aplicación",
-    "App secret" : "Secretu d'aplicación",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID de veceru",
     "Client secret" : "Secretu de veceru",
@@ -127,7 +122,6 @@ OC.L10N.register(
     "Disconnect" : "Desconectar",
     "Admin defined" : "Opción definida pola alministración",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La comprobación del estáu automática ta desactivada pola mor del númberu grande d'almacenamientos configuraos, cala pa comprobar l'estáu",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿De xuru que quies desconectar esti almacenamientu esternu? Esta aición va facer que l'almacenamientu dexe de tar disponible en Nextcloud y va facer que se desanicien los ficheros y carpetes en cualesquier veceru sincronizáu que tea conectáu mas nun se va desaniciar nengún ficheru nin carpeta del almacenamientu esternu.",
     "Delete storage?" : "¿Quies desaniciar l'almacenamientu?",
     "Click to recheck the configuration" : "Calca pa volver comprobar la configuración",
     "Saved" : "Guardóse",
@@ -145,6 +139,11 @@ OC.L10N.register(
     "Advanced settings" : "Configuración avanzada",
     "Allow people to mount external storage" : "Permitir a otros montar l'almacenamientu esternu",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Pues usar les credenciales globales p'autenticate en múltiples almacenamientos esternos que tengan les meses credenciales.",
-    "Submit" : "Unviar"
+    "Error configuring OAuth1" : "Hebo un error al configurar l'OAuth1",
+    "Please provide a valid app key and secret." : "Forni una clave y un secretu d'aplicación válidos.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Clave d'aplicación",
+    "App secret" : "Secretu d'aplicación",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿De xuru que quies desconectar esti almacenamientu esternu? Esta aición va facer que l'almacenamientu dexe de tar disponible en Nextcloud y va facer que se desanicien los ficheros y carpetes en cualesquier veceru sincronizáu que tea conectáu mas nun se va desaniciar nengún ficheru nin carpeta del almacenamientu esternu."
 },
 "nplurals=2; plural=(n != 1);");

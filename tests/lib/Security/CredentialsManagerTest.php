@@ -17,9 +17,7 @@ use OCP\Server;
  * @group DB
  */
 class CredentialsManagerTest extends \Test\TestCase {
-	/**
-	 * @dataProvider credentialsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('credentialsProvider')]
 	public function testWithDB($userId, $identifier): void {
 		$credentialsManager = Server::get(ICredentialsManager::class);
 
@@ -34,9 +32,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->assertSame(1, $removedRows);
 	}
 
-	/**
-	 * @dataProvider credentialsProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('credentialsProvider')]
 	public function testUpdate($userId, $identifier): void {
 		$credentialsManager = Server::get(ICredentialsManager::class);
 
@@ -50,7 +46,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->assertSame($secretsRev, $received);
 	}
 
-	public function credentialsProvider(): array {
+	public static function credentialsProvider(): array {
 		return [
 			[
 				'alice',

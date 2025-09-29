@@ -10,7 +10,6 @@
     "Print backup codes" : "Нөөц кодыг хэвлэх",
     "Regenerate backup codes" : "Нөөц кодыг дахин сэргээх",
     "If you regenerate backup codes, you automatically invalidate old codes." : "хэрвээ нөөц кодыг дахин сэргээх бол, та хуучин кодыг автоматаар хүчингүй болгоно",
-    "Submit" : "мэдэгдэх",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Эдгээр нь таны нөөц код юм. Дараа нь дахин кодыг уншиж чадахгүй тул та тэдгээрийг хадгалах буюу хэвлэх боломжтой"
+    "Submit" : "мэдэгдэх"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

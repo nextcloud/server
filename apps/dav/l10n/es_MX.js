@@ -211,7 +211,6 @@ OC.L10N.register(
     "Failed to load availability" : "No se pudo cargar la disponibilidad",
     "Saved availability" : "Disponibilidad guardada",
     "Failed to save availability" : "No se pudo guardar la disponibilidad",
-    "Time zone:" : "Zona horaria:",
     "to" : "para",
     "Delete slot" : "Eliminar ranura",
     "No working hours set" : "No se han establecido las horas de trabajo",
@@ -220,6 +219,10 @@ OC.L10N.register(
     "Pick a start time for {dayName}" : "Elija una hora de inicio para {dayName}",
     "Pick a end time for {dayName}" : "Elija una hora fin para {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Establecer automáticamente el estado de usuario como \"No molestar\" fuera de la disponibilidad para silenciar todas las notificaciones.",
+    "Cancel" : "Cancelar",
+    "Import" : "Importar",
+    "Error while saving settings" : "Error al guardar la configuración",
+    "Reset to default" : "Restablecer al predeterminado",
     "Availability" : "Disponibilidad",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Si configura sus horas laborales, otras personas verán cuándo está fuera de la oficina cuando agenden una reunión.",
     "Absence" : "Ausencia",
@@ -241,9 +244,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "¿Acepta la invitación?",
     "Tentative" : "Tentativo",
     "Your attendance was updated successfully." : "Su asistencia se actualizó correctamente.",
-    "Time:" : "Hora:",
-    "Could not open file" : "No se pudo abrir el archivo",
-    "Invalid chunk name" : "Nombre de fragmento inválido",
-    "Could not rename part file assembled from chunks" : "No se pudo renombrar el archivo parcial ensamblado por fragmentos"
+    "Time zone:" : "Zona horaria:"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

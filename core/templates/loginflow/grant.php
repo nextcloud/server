@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-script('core', 'login/grant');
+\OCP\Util::addScript('core', 'login/grant', 'core');
 style('core', 'login/authpicker');
 
 /** @var array $_ */
@@ -35,6 +35,7 @@ $urlGenerator = $_['urlGenerator'];
 			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 			<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />
 			<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />
+			<input type="hidden" name="providedRedirectUri" value="<?php p($_['providedRedirectUri']) ?>">
 			<?php if ($_['direct']) { ?>
 			<input type="hidden" name="direct" value="1" />
 			<?php } ?>

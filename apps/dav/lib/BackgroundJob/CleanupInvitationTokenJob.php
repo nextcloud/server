@@ -25,11 +25,11 @@ class CleanupInvitationTokenJob extends TimedJob {
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 	}
 
-	public function run($argument) {
+	public function run($argument): void {
 		$query = $this->db->getQueryBuilder();
 		$query->delete('calendar_invitations')
 			->where($query->expr()->lt('expiration',
 				$query->createNamedParameter($this->time->getTime())))
-			->execute();
+			->executeStatement();
 	}
 }

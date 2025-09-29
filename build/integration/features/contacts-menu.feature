@@ -71,8 +71,6 @@ Feature: contacts-menu
     And searched contact "1" is named "Test name"
     And searched contact "2" is named "user2"
 
-
-
   Scenario: users can not be found by display name if visibility is private
     Given user "user0" exists
     And user "user1" exists
@@ -80,11 +78,11 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | displayname | Test name |
-      | displaynameScope | private |
+      | displaynameScope | v2-private |
     And Logging in using web as "user2"
     And Sending a "PUT" to "/settings/users/user2/settings" with requesttoken
       | displayname | Another test name |
-      | displaynameScope | contacts |
+      | displaynameScope | v2-federated |
     When Logging in using web as "user0"
     And searching for contacts matching with "test"
     # Disabled because it regularly fails on drone:
@@ -98,11 +96,11 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | email | test@example.com |
-      | emailScope | private |
+      | emailScope | v2-private |
     And Logging in using web as "user2"
     And Sending a "PUT" to "/settings/users/user2/settings" with requesttoken
       | email | another_test@example.com |
-      | emailScope | contacts |
+      | emailScope | v2-federated |
     # Disabled because it regularly fails on drone:
     # When Logging in using web as "user0"
     # And searching for contacts matching with "test"
@@ -116,15 +114,15 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | displayname | Test name |
-      | displaynameScope | contacts |
+      | displaynameScope | v2-federated |
       | email | test@example.com |
-      | emailScope | private |
+      | emailScope | v2-private |
     And Logging in using web as "user2"
     And Sending a "PUT" to "/settings/users/user2/settings" with requesttoken
       | displayname | Another test name |
-      | displaynameScope | private |
+      | displaynameScope | v2-private |
       | email | another_test@example.com |
-      | emailScope | contacts |
+      | emailScope | v2-federated |
     When Logging in using web as "user0"
     And searching for contacts matching with "test"
     Then the list of searched contacts has "2" contacts
@@ -140,9 +138,9 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | displayname | Test name |
-      | displaynameScope | private |
+      | displaynameScope | v2-private |
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
-      | displaynameScope | contacts |
+      | displaynameScope | v2-federated |
     When Logging in using web as "user0"
     And searching for contacts matching with "test"
     Then the list of searched contacts has "1" contacts
@@ -154,9 +152,9 @@ Feature: contacts-menu
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
       | email | test@example.com |
-      | emailScope | private |
+      | emailScope | v2-private |
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
-      | emailScope | contacts |
+      | emailScope | v2-federated |
     # Disabled because it regularly fails on drone:
     # When Logging in using web as "user0"
     # And searching for contacts matching with "test"
@@ -170,7 +168,7 @@ Feature: contacts-menu
     And user "user1" exists
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
-      | displaynameScope | private |
+      | displaynameScope | v2-private |
     And As an "admin"
     And sending "PUT" to "/cloud/users/user1" with
       | key | displayname |
@@ -185,7 +183,7 @@ Feature: contacts-menu
     And user "user1" exists
     And Logging in using web as "user1"
     And Sending a "PUT" to "/settings/users/user1/settings" with requesttoken
-      | emailScope | private |
+      | emailScope | v2-private |
     And As an "admin"
     And sending "PUT" to "/cloud/users/user1" with
       | key | email |

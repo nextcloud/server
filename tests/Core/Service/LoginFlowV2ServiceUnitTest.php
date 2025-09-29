@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -14,6 +15,7 @@ use OC\Core\Data\LoginFlowV2Credentials;
 use OC\Core\Data\LoginFlowV2Tokens;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Db\LoginFlowV2Mapper;
+use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -29,25 +31,25 @@ use Test\TestCase;
  * Unit tests for \OC\Core\Service\LoginFlowV2Service
  */
 class LoginFlowV2ServiceUnitTest extends TestCase {
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	private $config;
 
-	/** @var \OCP\Security\ICrypto */
+	/** @var ICrypto */
 	private $crypto;
 
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 
-	/** @var \OC\Core\Db\LoginFlowV2Mapper */
+	/** @var LoginFlowV2Mapper */
 	private $mapper;
 
-	/** @var \OCP\Security\ISecureRandom */
+	/** @var ISecureRandom */
 	private $secureRandom;
 
-	/** @var \OC\Core\Service\LoginFlowV2Service */
+	/** @var LoginFlowV2Service */
 	private $subjectUnderTest;
 
-	/** @var \OCP\AppFramework\Utility\ITimeFactory */
+	/** @var ITimeFactory */
 	private $timeFactory;
 
 	/** @var \OC\Authentication\Token\IProvider */
@@ -65,26 +67,13 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	 * Code was moved to separate function to keep setUp function small and clear.
 	 */
 	private function setupSubjectUnderTest(): void {
-		$this->config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->crypto = $this->getMockBuilder(ICrypto::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->mapper = $this->getMockBuilder(LoginFlowV2Mapper::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->logger = $this->getMockBuilder(LoggerInterface::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->tokenProvider = $this->getMockBuilder(IProvider::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)
-			->disableOriginalConstructor()->getMock();
-
-		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)
-			->disableOriginalConstructor()->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->crypto = $this->createMock(ICrypto::class);
+		$this->mapper = $this->createMock(LoginFlowV2Mapper::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->tokenProvider = $this->createMock(IProvider::class);
+		$this->secureRandom = $this->createMock(ISecureRandom::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
 		$this->subjectUnderTest = new LoginFlowV2Service(
 			$this->mapper,
@@ -126,10 +115,13 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 	/*
 	 * Tests for poll
 	 */
-
-	public function testPollApptokenCouldNotBeDecrypted(): void {
+	public function testPollPrivateKeyCouldNotBeDecrypted(): void {
 		$this->expectException(LoginFlowV2NotFoundException::class);
 		$this->expectExceptionMessage('Apptoken could not be decrypted');
+
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willThrowException(new \Exception('HMAC mismatch'));
 
 		/*
 		 * Cannot be mocked, because functions like getLoginName are magic functions.
@@ -146,6 +138,32 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			->willReturn($loginFlowV2);
 
 		$this->subjectUnderTest->poll('');
+	}
+
+	public function testPollApptokenCouldNotBeDecrypted(): void {
+		$this->expectException(LoginFlowV2NotFoundException::class);
+		$this->expectExceptionMessage('Apptoken could not be decrypted');
+
+		/*
+		 * Cannot be mocked, because functions like getLoginName are magic functions.
+		 * To be able to set internal properties, we have to use the real class here.
+		 */
+		[$encrypted, $privateKey,] = $this->getOpenSSLEncryptedPublicAndPrivateKey('test');
+		$loginFlowV2 = new LoginFlowV2();
+		$loginFlowV2->setLoginName('test');
+		$loginFlowV2->setServer('test');
+		$loginFlowV2->setAppPassword('broken#' . $encrypted);
+		$loginFlowV2->setPrivateKey('encrypted(test)');
+
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->willReturn($privateKey);
+
+		$this->mapper->expects($this->once())
+			->method('getByPollToken')
+			->willReturn($loginFlowV2);
+
+		$this->subjectUnderTest->poll('test');
 	}
 
 	public function testPollInvalidToken(): void {
@@ -235,6 +253,57 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			->willThrowException(new DoesNotExistException(''));
 
 		$this->subjectUnderTest->getByLoginToken('test_token');
+	}
+
+	public function testGetByLoginTokenClientForbidden() {
+		$this->expectException(LoginFlowV2ClientForbiddenException::class);
+		$this->expectExceptionMessage('Client not allowed');
+
+		$allowedClients = [
+			'/Custom Allowed Client/i'
+		];
+
+		$this->config->expects($this->exactly(1))
+			->method('getSystemValue')
+			->willReturn($this->returnCallback(function ($key) use ($allowedClients) {
+				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
+				return $key == 'core.login_flow_v2.allowed_user_agents' ? $allowedClients : '';
+			}));
+
+		$loginFlowV2 = new LoginFlowV2();
+		$loginFlowV2->setClientName('Rogue Curl Client/1.0');
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willReturn($loginFlowV2);
+
+		$this->subjectUnderTest->getByLoginToken('test_token');
+	}
+
+	public function testGetByLoginTokenClientAllowed() {
+		$allowedClients = [
+			'/Foo Allowed Client/i',
+			'/Custom Allowed Client/i'
+		];
+
+		$loginFlowV2 = new LoginFlowV2();
+		$loginFlowV2->setClientName('Custom Allowed Client Curl Client/1.0');
+
+		$this->config->expects($this->exactly(1))
+			->method('getSystemValue')
+			->willReturn($this->returnCallback(function ($key) use ($allowedClients) {
+				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
+				return $key == 'core.login_flow_v2.allowed_user_agents' ? $allowedClients : '';
+			}));
+
+		$this->mapper->expects($this->once())
+			->method('getByLoginToken')
+			->willReturn($loginFlowV2);
+
+		$result = $this->subjectUnderTest->getByLoginToken('test_token');
+
+		$this->assertTrue($result instanceof LoginFlowV2);
+		$this->assertEquals('Custom Allowed Client Curl Client/1.0', $result->getClientName());
 	}
 
 	/*

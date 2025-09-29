@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/types'
+import type { AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/browser'
 
 import { startAuthentication as startWebauthnAuthentication } from '@simplewebauthn/browser'
 import { generateUrl } from '@nextcloud/router'
@@ -27,7 +27,7 @@ export async function startAuthentication(loginName: string) {
 		logger.error('No valid credentials returned for webauthn')
 		throw new NoValidCredentials()
 	}
-	return await startWebauthnAuthentication(data)
+	return await startWebauthnAuthentication({ optionsJSON: data })
 }
 
 /**

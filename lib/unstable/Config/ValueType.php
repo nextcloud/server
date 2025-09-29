@@ -16,30 +16,44 @@ use UnhandledMatchError;
  * Listing of available value type for typed config value
  *
  * @experimental 31.0.0
+ * @deprecated 32.0.0  use \OCP\Config\ValueType
+ * @see \OCP\Config\ValueType
  */
 enum ValueType: int {
 	/**
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\ValueType
+	 * @see \OCP\Config\ValueType
 	 */
 	case MIXED = 0;
 	/**
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\ValueType
+	 * @see \OCP\Config\ValueType
 	 */
 	case STRING = 1;
 	/**
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\ValueType
+	 * @see \OCP\Config\ValueType
 	 */
 	case INT = 2;
 	/**
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\ValueType
+	 * @see \OCP\Config\ValueType
 	 */
 	case FLOAT = 3;
 	/**
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\ValueType
+	 * @see \OCP\Config\ValueType
 	 */
 	case BOOL = 4;
 	/**
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\ValueType
+	 * @see \OCP\Config\ValueType
 	 */
 	case ARRAY = 5;
 
@@ -52,6 +66,10 @@ enum ValueType: int {
 	 * @throws IncorrectTypeException
 	 *
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\ValueType
+	 * @see \OCP\Config\ValueType
+	 * @psalm-suppress DeprecatedConstant
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public static function fromStringDefinition(string $definition): self {
 		try {
@@ -75,6 +93,10 @@ enum ValueType: int {
 	 * @throws IncorrectTypeException
 	 *
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\ValueType
+	 * @see \OCP\Config\ValueType
+	 * @psalm-suppress DeprecatedConstant
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function getDefinition(): string {
 		try {
@@ -98,6 +120,10 @@ enum ValueType: int {
 	 * @throws IncorrectTypeException
 	 *
 	 * @experimental 31.0.0
+	 * @deprecated 32.0.0  use \OCP\Config\ValueType
+	 * @see \OCP\Config\ValueType
+	 * @psalm-suppress DeprecatedConstant
+	 * @psalm-suppress DeprecatedClass
 	 */
 	public function toAppConfigFlag(): int {
 		try {

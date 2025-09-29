@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -12,6 +13,7 @@ use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\DAV\Sharing\Plugin;
 use OCP\IConfig;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
 use Sabre\DAV\SimpleCollection;
 use Sabre\HTTP\Request;
@@ -19,31 +21,25 @@ use Sabre\HTTP\Response;
 use Test\TestCase;
 
 class PluginTest extends TestCase {
-
-	/** @var Plugin */
-	private $plugin;
-	/** @var Server */
-	private $server;
-	/** @var IShareable | \PHPUnit\Framework\MockObject\MockObject */
-	private $book;
+	private Plugin $plugin;
+	private Server $server;
+	private IShareable&MockObject $book;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var Auth | \PHPUnit\Framework\MockObject\MockObject $authBackend */
-		$authBackend = $this->getMockBuilder(Auth::class)->disableOriginalConstructor()->getMock();
-		$authBackend->method('isDavAuthenticated')->willReturn(true);
-
-		/** @var IRequest $request */
-		$request = $this->getMockBuilder(IRequest::class)->disableOriginalConstructor()->getMock();
+		$authBackend = $this->createMock(Auth::class);
+		$authBackend->method('isDavAuthenticated')
+			->willReturn(true);
+		$request = $this->createMock(IRequest::class);
 		$config = $this->createMock(IConfig::class);
 		$this->plugin = new Plugin($authBackend, $request, $config);
 
 		$root = new SimpleCollection('root');
 		$this->server = new \Sabre\DAV\Server($root);
-		/** @var SimpleCollection $node */
-		$this->book = $this->getMockBuilder(IShareable::class)->disableOriginalConstructor()->getMock();
-		$this->book->method('getName')->willReturn('addressbook1.vcf');
+		$this->book = $this->createMock(IShareable::class);
+		$this->book->method('getName')
+			->willReturn('addressbook1.vcf');
 		$root->addChild($this->book);
 		$this->plugin->initialize($this->server);
 	}

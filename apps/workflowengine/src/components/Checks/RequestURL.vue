@@ -4,7 +4,8 @@
 -->
 <template>
 	<div>
-		<NcSelect :value="currentValue"
+		<NcSelect v-model="newValue"
+			:value="currentValue"
 			:placeholder="t('workflowengine', 'Select a request URL')"
 			label="label"
 			:clearable="false"
@@ -45,6 +46,19 @@ export default {
 	mixins: [
 		valueMixin,
 	],
+	props: {
+		modelValue: {
+			type: String,
+			default: '',
+		},
+		operator: {
+			type: String,
+			default: '',
+		},
+	},
+
+	emits: ['update:model-value'],
+
 	data() {
 		return {
 			newValue: '',
@@ -62,7 +76,7 @@ export default {
 			return [...this.predefinedTypes, this.customValue]
 		},
 		placeholder() {
-			if (this.check.operator === 'matches' || this.check.operator === '!matches') {
+			if (this.operator === 'matches' || this.operator === '!matches') {
 				return '/^https\\:\\/\\/localhost\\/index\\.php$/i'
 			}
 			return 'https://localhost/index.php'
@@ -102,12 +116,12 @@ export default {
 			// TODO: check if value requires a regex and set the check operator according to that
 			if (value !== null) {
 				this.newValue = value.id
-				this.$emit('input', this.newValue)
+				this.$emit('update:model-value', this.newValue)
 			}
 		},
 		updateCustom(event) {
 			this.newValue = event.target.value
-			this.$emit('input', this.newValue)
+			this.$emit('update:model-value', this.newValue)
 		},
 	},
 }

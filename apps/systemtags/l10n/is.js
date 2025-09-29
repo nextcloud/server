@@ -66,14 +66,13 @@ OC.L10N.register(
     "{displayName} (hidden)" : "{displayName} (falið)",
     "{displayName} (restricted)" : "{displayName} (takmarkað)",
     "Failed to apply tags changes" : "Mistókst að virkja breytingar á merkjum",
-    "File tags modification canceled" : "Hætt við breytingar á merkjum skráa",
     "Manage tags" : "Sýsla með merki",
     "Applying tags changes…" : "Virkja breytingar á merkjum…",
     "Search or create tag" : "Leita eða búa til merki",
     "Change tag color" : "Breyta lit merkis",
     "Create new tag" : "Búa til nýtt merki",
     "Cancel" : "Hætta við",
-    "Apply changes" : "Virkja breytingar",
+    "Apply" : "Virkja",
     "Failed to load tags" : "Mistókst að hlaða inn merkjum",
     "Failed to load selected tags" : "Mistókst að hlaða inn völdum merkjum",
     "Failed to select tag" : "Ekki tókst að velja merki",
@@ -93,7 +92,7 @@ OC.L10N.register(
     "Failed to load tags for file" : "Mistókst að hlaða inn merkjum af skrá",
     "Failed to set tag for file" : "Mistókst að setja merki á skrá",
     "Failed to delete tag for file" : "Mistókst að eyða merki á skrá",
-    "This file has the tag {tag}" : "Þessi skrá er með merkið {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Þessi skrá er með merkin {firstTags} og {lastTag}"
+    "File tags modification canceled" : "Hætt við breytingar á merkjum skráa",
+    "Apply changes" : "Virkja breytingar"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -45,7 +45,6 @@
     "Basic encryption module" : "Mòdul de xifratge bàsic",
     "Your private key password no longer matches your log-in password." : "La clau privada ja no es correspon amb la contrasenya d'inici de sessió:",
     "Set your old private key password to your current log-in password:" : "Establiu la vostra antiga clau privada a l'actual contrasenya d'accés:",
-    " If you don't remember your old password you can ask your administrator to recover your files." : "Si no recordeu la contrasenya anterior podeu demanar a l'administrador que recuperi els vostres fitxers.",
     "Old log-in password" : "Contrasenya antiga d’inici de sessió",
     "Current log-in password" : "Contrasenya actual d’inici de sessió",
     "Update Private Key Password" : "Actualitza la contrasenya de clau privada",

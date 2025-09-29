@@ -51,7 +51,7 @@
 			<NcActionButton :close-after-click="true"
 				@click="toggleStarred(!fileInfo.isFavourited)">
 				<template #icon>
-					<NcIconSvgWrapper :path="fileInfo.isFavourited ? mdiStarOutline : mdiStar" />
+					<NcIconSvgWrapper :path="fileInfo.isFavourited ? mdiStar : mdiStarOutline" />
 				</template>
 				{{ fileInfo.isFavourited ? t('files', 'Remove from favorites') : t('files', 'Add to favorites') }}
 			</NcActionButton>
@@ -59,8 +59,10 @@
 			And inject themselves here. -->
 			<NcActionButton v-if="isSystemTagsEnabled"
 				:close-after-click="true"
-				icon="icon-tag"
 				@click="toggleTags">
+				<template #icon>
+					<NcIconSvgWrapper :path="mdiTagMultipleOutline" />
+				</template>
 				{{ t('files', 'Tags') }}
 			</NcActionButton>
 		</template>
@@ -93,6 +95,8 @@
 	</NcAppSidebar>
 </template>
 <script lang="ts">
+import type { INode } from '@nextcloud/files'
+
 import { davRemoteURL, davRootPath, File, Folder, formatFileSize } from '@nextcloud/files'
 import { defineComponent } from 'vue'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -101,7 +105,7 @@ import { fetchNode } from '../services/WebdavClient.ts'
 import { generateUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { getCurrentUser } from '@nextcloud/auth'
-import { mdiStar, mdiStarOutline } from '@mdi/js'
+import { mdiStar, mdiStarOutline, mdiTagMultipleOutline } from '@mdi/js'
 import { ShareType } from '@nextcloud/sharing'
 import { showError } from '@nextcloud/dialogs'
 import $ from 'jquery'
@@ -144,6 +148,7 @@ export default defineComponent({
 
 			mdiStar,
 			mdiStarOutline,
+			mdiTagMultipleOutline,
 		}
 	},
 
@@ -156,7 +161,7 @@ export default defineComponent({
 			error: null,
 			loading: true,
 			fileInfo: null,
-			node: null,
+			node: null as INode | null,
 			isFullScreen: false,
 			hasLowHeight: false,
 		}

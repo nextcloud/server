@@ -14,15 +14,12 @@ use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class StatusesControllerTest extends TestCase {
-
-	/** @var StatusService|\PHPUnit\Framework\MockObject\MockObject */
-	private $service;
-
-	/** @var StatusesController */
-	private $controller;
+	private StatusService&MockObject $service;
+	private StatusesController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();

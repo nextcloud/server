@@ -89,6 +89,7 @@ abstract class Controller {
 	 * @return string the responder type
 	 * @since 7.0.0
 	 * @since 9.1.0 Added default parameter
+	 * @deprecated 33.0.0 Use {@see \OCP\IRequest::getFormat} instead
 	 */
 	public function getResponderByHTTPHeader($acceptHeader, $default = 'json') {
 		$headers = explode(',', $acceptHeader);
@@ -135,7 +136,7 @@ abstract class Controller {
 
 			return $responder($response);
 		}
-		throw new \DomainException('No responder registered for format ' .
-			$format . '!');
+		throw new \DomainException('No responder registered for format '
+			. $format . '!');
 	}
 }

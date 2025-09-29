@@ -137,6 +137,11 @@ return [
 			'verb' => 'GET'
 		],
 		[
+			'name' => 'Template#listTemplateFields',
+			'url' => '/api/v1/templates/fields/{fileId}',
+			'verb' => 'GET'
+		],
+		[
 			'name' => 'Template#create',
 			'url' => '/api/v1/templates/create',
 			'verb' => 'POST'

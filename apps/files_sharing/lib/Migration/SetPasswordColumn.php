@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -48,7 +49,7 @@ class SetPasswordColumn implements IRepairStep {
 			->set('password', 'share_with')
 			->where($query->expr()->eq('share_type', $query->createNamedParameter(IShare::TYPE_LINK)))
 			->andWhere($query->expr()->isNotNull('share_with'));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 
 		if ($result === 0) {
 			// No link updated, no need to run the second query
@@ -61,7 +62,7 @@ class SetPasswordColumn implements IRepairStep {
 			->set('share_with', $clearQuery->createNamedParameter(null))
 			->where($clearQuery->expr()->eq('share_type', $clearQuery->createNamedParameter(IShare::TYPE_LINK)));
 
-		$clearQuery->execute();
+		$clearQuery->executeStatement();
 	}
 
 	protected function shouldRun() {

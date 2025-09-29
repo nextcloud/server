@@ -1,15 +1,19 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\WorkflowEngine;
 
+use OCP\AppFramework\Attribute\Consumable;
+
 /**
  * Interface IManager
  *
  * @since 9.1
  */
+#[Consumable(since: '9.1')]
 interface IManager {
 	/**
 	 * @since 18.0.0

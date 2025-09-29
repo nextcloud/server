@@ -75,9 +75,9 @@ OC.L10N.register(
     "Background and login image" : "صورة الخلفية و تسجيل الدخول",
     "Advanced options" : "الخيارات المتقدمة",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "قم بتثبيت ImageMagick و التي هي امتداد لـ PHP مع دعم صور SVG لإنشاء الرموز المفضلة تلقائيًا بناءً على الشعار واللون اللذيْن تمّ تحميلهما.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "الوصول الشامل مهم جدا بالنسبة لنا. نحن نتبع معايير ويب صارمة ونتأكد من أن كل شيء يمكن إستعماله حتى دون الحاجة للفأرة أو إلى أي برامج مساعدة مثل برامج قراءة الشاشة. هدفنا أن نكون متوافقين مع {guidelines} توجيهات تسهيل إستعمال محتوى الويب {linkend} 2.1 بمستوى AA، ومتوافقين مع مظهر تباين الألوان العالي بمستوى يصل حتى إلى AAA.",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "يعد الوصول الشامل أمرًا مهمًا للغاية بالنسبة لنا. نتبع معايير الويب ونتأكد من أن كل شيء قابل للاستخدام أيضًا بدون ماوس؛ ويدعم البرامج المساعدة مثل برامج قراءة الشاشة. نحن نرغب في أن نكون متوافقين مع{linkstart} قواعد تسهيل الوصول لمحتوى الوِب {linkend} الإصدار 2.1 على المستوى AA، مع تيمة التباين العالي حتى في المستوى AA .",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "إذا واجهك أيّ إشكالٍ، فلا تتردد في الإبلاغ عنه على {issuetracker} تطبيقنا لمتابعة الإشكالات {linkend}. وإذا كنت ترغب في المشاركة، فانتقل إلى {designteam} فريق التصميم لدينا {linkend}!",
-    ". Unable to apply the setting." : ". غير قادر على تطبيق الإعداد.",
+    "Unable to apply the setting." : "يتعذّر تطبيق الإعدادات.",
     "Appearance and accessibility settings" : "إعدادات المظهر وسهولة الوصول",
     "Misc accessibility options" : "خيارات متفرقة للوصول",
     "Enable blur background filter (may increase GPU load)" : "تمكين فلتر تضبيب الخلفية (يمكن أن يتسبب في زيادة العبء على المعالج الرسومي  GPU)",
@@ -119,10 +119,7 @@ OC.L10N.register(
     "Reset to default" : "اعادة تعيين الافتراضيات",
     "Upload" : "تحميل",
     "Remove background image" : "إزالة صورة الخلفية",
-    "Color" : "لون",
-    "Background" : "خلفية الشاشة",
-    "Set a custom background" : "تعيين خلفية مخصصة",
-    "Change color" : "غيّر اللون",
-    "No background" : "لا خلفية"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "الوصول الشامل مهم جدا بالنسبة لنا. نحن نتبع معايير ويب صارمة ونتأكد من أن كل شيء يمكن إستعماله حتى دون الحاجة للفأرة أو إلى أي برامج مساعدة مثل برامج قراءة الشاشة. هدفنا أن نكون متوافقين مع {guidelines} توجيهات تسهيل إستعمال محتوى الويب {linkend} 2.1 بمستوى AA، ومتوافقين مع مظهر تباين الألوان العالي بمستوى يصل حتى إلى AAA.",
+    ". Unable to apply the setting." : ". غير قادر على تطبيق الإعداد."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

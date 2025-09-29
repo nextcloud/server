@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -28,7 +29,10 @@ class Version1004Date20170924124212 extends SimpleMigrationStep {
 		$table->addIndex(['addressbookid', 'uri'], 'cards_abiduri');
 
 		$table = $schema->getTable('cards_properties');
-		$table->addIndex(['addressbookid'], 'cards_prop_abid');
+		// Removed later on
+		// $table->addIndex(['addressbookid'], 'cards_prop_abid');
+		// Added later on
+		$table->addIndex(['addressbookid', 'name', 'value'], 'cards_prop_abid_name_value', );
 
 		return $schema;
 	}

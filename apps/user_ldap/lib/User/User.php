@@ -175,9 +175,9 @@ class User {
 		$cacheKey = 'getUserProfile-' . $username;
 		$profileCached = $this->connection->getFromCache($cacheKey);
 		// honoring profile disabled in config.php and check if user profile was refreshed
-		if ($this->config->getSystemValueBool('profile.enabled', true) &&
-			($profileCached === null) && // no cache or TTL not expired
-			!$this->wasRefreshed('profile')) {
+		if ($this->config->getSystemValueBool('profile.enabled', true)
+			&& ($profileCached === null) // no cache or TTL not expired
+			&& !$this->wasRefreshed('profile')) {
 			// check current data
 			$profileValues = [];
 			//User Profile Field - Phone number
@@ -515,7 +515,7 @@ class User {
 	 * fetch all the user's attributes in one call and use the fetched values in this function.
 	 * The expected value for that parameter is a string describing the quota for the user. Valid
 	 * values are 'none' (unlimited), 'default' (the Nextcloud's default quota), '1234' (quota in
-	 * bytes), '1234 MB' (quota in MB - check the \OC_Helper::computerFileSize method for more info)
+	 * bytes), '1234 MB' (quota in MB - check the \OCP\Util::computerFileSize method for more info)
 	 *
 	 * fetches the quota from LDAP and stores it as Nextcloud user value
 	 * @param ?string $valueFromLDAP the quota attribute's value can be passed,
@@ -563,7 +563,7 @@ class User {
 	}
 
 	private function verifyQuotaValue(string $quotaValue): bool {
-		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
+		return $quotaValue === 'none' || $quotaValue === 'default' || Util::computerFileSize($quotaValue) !== false;
 	}
 
 	/**
@@ -742,16 +742,18 @@ class User {
 			//retrieve relevant user attributes
 			$result = $this->access->search('objectclass=*', $this->dn, ['pwdpolicysubentry', 'pwdgraceusetime', 'pwdreset', 'pwdchangedtime']);
 
-			if (array_key_exists('pwdpolicysubentry', $result[0])) {
-				$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
-				if ($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)) {
-					$ppolicyDN = $pwdPolicySubentry[0];//custom ppolicy DN
+			if (!empty($result)) {
+				if (array_key_exists('pwdpolicysubentry', $result[0])) {
+					$pwdPolicySubentry = $result[0]['pwdpolicysubentry'];
+					if ($pwdPolicySubentry && (count($pwdPolicySubentry) > 0)) {
+						$ppolicyDN = $pwdPolicySubentry[0];//custom ppolicy DN
+					}
 				}
-			}
 
-			$pwdGraceUseTime = array_key_exists('pwdgraceusetime', $result[0]) ? $result[0]['pwdgraceusetime'] : [];
-			$pwdReset = array_key_exists('pwdreset', $result[0]) ? $result[0]['pwdreset'] : [];
-			$pwdChangedTime = array_key_exists('pwdchangedtime', $result[0]) ? $result[0]['pwdchangedtime'] : [];
+				$pwdGraceUseTime = array_key_exists('pwdgraceusetime', $result[0]) ? $result[0]['pwdgraceusetime'] : [];
+				$pwdReset = array_key_exists('pwdreset', $result[0]) ? $result[0]['pwdreset'] : [];
+				$pwdChangedTime = array_key_exists('pwdchangedtime', $result[0]) ? $result[0]['pwdchangedtime'] : [];
+			}
 
 			//retrieve relevant password policy attributes
 			$cacheKey = 'ppolicyAttributes' . $ppolicyDN;

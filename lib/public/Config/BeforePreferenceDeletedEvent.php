@@ -8,11 +8,10 @@ declare(strict_types=1);
 
 namespace OCP\Config;
 
+use OCP\AppFramework\Attribute\Listenable;
 use OCP\EventDispatcher\Event;
 
-/**
- * @since 25.0.0
- */
+#[Listenable(since: '25.0.0')]
 class BeforePreferenceDeletedEvent extends Event {
 	protected string $userId;
 	protected string $appId;

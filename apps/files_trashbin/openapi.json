@@ -97,12 +97,8 @@
                         "in": "query",
                         "description": "Whether to not crop the preview",
                         "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 ],
@@ -131,6 +127,24 @@
                         "content": {
                             "application/json": {
                                 "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Current user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

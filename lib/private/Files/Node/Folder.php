@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -29,6 +30,8 @@ use OCP\IUserManager;
 class Folder extends Node implements \OCP\Files\Folder {
 
 	private ?IUserManager $userManager = null;
+
+	private bool $wasDeleted = false;
 
 	/**
 	 * Creates a Folder that represents a non-existing path
@@ -126,8 +129,21 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
-			if (!$this->view->mkdir($fullPath) && !$this->view->is_dir($fullPath)) {
-				throw new NotPermittedException('Could not create folder "' . $fullPath . '"');
+			if (!$this->view->mkdir($fullPath)) {
+				// maybe another concurrent process created the folder already
+				if (!$this->view->is_dir($fullPath)) {
+					throw new NotPermittedException('Could not create folder "' . $fullPath . '"');
+				} else {
+					// we need to ensure we don't return before the concurrent request has finished updating the cache
+					$tries = 5;
+					while (!$this->view->getFileInfo($fullPath)) {
+						if ($tries < 1) {
+							throw new NotPermittedException('Could not create folder "' . $fullPath . '", folder exists but unable to get cache entry');
+						}
+						usleep(5 * 1000);
+						$tries--;
+					}
+				}
 			}
 			$parent = dirname($fullPath) === $this->getPath() ? $this : null;
 			$node = new Folder($this->root, $this->view, $fullPath, null, $parent);
@@ -148,6 +164,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($path === '') {
 			throw new NotPermittedException('Could not create as provided path is empty');
 		}
+		$this->recreateIfNeeded();
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
@@ -363,6 +380,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$this->view->rmdir($this->path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $this->path, $fileInfo);
 			$this->sendHooks(['postDelete'], [$nonExisting]);
+			$this->wasDeleted = true;
 		} else {
 			throw new NotPermittedException('No delete permission for path "' . $this->path . '"');
 		}
@@ -446,5 +464,20 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 
 		return $this->search($query);
+	}
+
+	public function verifyPath($fileName, $readonly = false): void {
+		$this->view->verifyPath(
+			$this->getPath(),
+			$fileName,
+			$readonly,
+		);
+	}
+
+	private function recreateIfNeeded(): void {
+		if ($this->wasDeleted) {
+			$this->newFolder('');
+			$this->wasDeleted = false;
+		}
 	}
 }

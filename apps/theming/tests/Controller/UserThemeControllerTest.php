@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -27,25 +29,17 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UserThemeControllerTest extends TestCase {
-	/** @var UserThemeController */
-	private $userThemeController;
-
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var IUserSession|MockObject */
-	private $userSession;
-	/** @var ThemeService|MockObject */
-	private $themesService;
-	/** @var ThemingDefaults */
-	private $themingDefaults;
-	/** @var BackgroundService|MockObject */
-	private $backgroundService;
+	private IRequest&MockObject $request;
+	private IConfig&MockObject $config;
+	private IUserSession&MockObject $userSession;
+	private ThemesService&MockObject $themesService;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private BackgroundService&MockObject $backgroundService;
+	private UserThemeController $userThemeController;
 
 
 	/** @var ITheme[] */
-	private $themes;
+	private array $themes;
 
 	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
@@ -85,7 +79,7 @@ class UserThemeControllerTest extends TestCase {
 		parent::setUp();
 	}
 
-	public function dataTestThemes() {
+	public static function dataTestThemes(): array {
 		return [
 			['default'],
 			['light'],
@@ -98,13 +92,8 @@ class UserThemeControllerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataTestThemes
-	 *
-	 * @param string $themeId
-	 * @param string $exception
-	 */
-	public function testEnableTheme($themeId, ?string $exception = null): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestThemes')]
+	public function testEnableTheme(string $themeId, ?string $exception = null): void {
 		$this->themesService
 			->expects($this->any())
 			->method('getThemes')
@@ -118,13 +107,8 @@ class UserThemeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->userThemeController->enableTheme($themeId));
 	}
 
-	/**
-	 * @dataProvider dataTestThemes
-	 *
-	 * @param string $themeId
-	 * @param string $exception
-	 */
-	public function testDisableTheme($themeId, ?string $exception = null): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestThemes')]
+	public function testDisableTheme(string $themeId, ?string $exception = null): void {
 		$this->themesService
 			->expects($this->any())
 			->method('getThemes')

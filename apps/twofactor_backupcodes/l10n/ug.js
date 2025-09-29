@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "زاپاسلاش كودىنى ئەسلىگە كەلتۈرسىڭىز ، كونا كودلارنى ئاپتوماتىك ئىناۋەتسىز قىلىسىز.",
     "{name} backup codes" : "{name} زاپاسلاش كودى",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "ئىككى ئامىللىق دەلىللەشنى تەڭشىگەندە ساقلىغان زاپاسلاش كودىدىن بىرنى ئىشلىتىڭ.",
-    "Submit" : "يوللاڭ",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "بۇلار سىزنىڭ زاپاسلاش كودىڭىز. كېيىن كودلارنى قايتا ئوقۇيالمىغاچقا ساقلىۋېلىڭ ۋە ياكى بېسىڭ"
+    "Submit" : "يوللاڭ"
 },
 "nplurals=2; plural=(n != 1);");

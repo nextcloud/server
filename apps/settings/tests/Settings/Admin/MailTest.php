@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -21,8 +22,8 @@ class MailTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
+		$this->config = $this->createMock(IConfig::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->admin = new Mail(
 			$this->config,
@@ -37,7 +38,7 @@ class MailTest extends TestCase {
 		];
 	}
 
-	/** @dataProvider dataGetForm */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetForm')]
 	public function testGetForm(bool $sendmail) {
 		$finder = $this->createMock(IBinaryFinder::class);
 		$finder->expects(self::once())

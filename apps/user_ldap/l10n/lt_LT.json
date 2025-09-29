@@ -164,7 +164,6 @@
     "UUID Attribute for Groups:" : "UUID požymis grupėms:",
     "Username-LDAP User Mapping" : "Naudotojo vardo - LDAP naudotojo sąsaja",
     "Clear Username-LDAP User Mapping" : "Išvalyti naudotojo vardo - LDAP naudotojo sąsają",
-    "Invalid configuration. Please have a look at the logs for further details." : "Neteisinga konfigūracija. Išsamesnei informacijai, žiūrėkite žurnalus.",
-    " Could not set configuration %s" : "Nepavyko nustatyti konfigūracijos %s"
+    "Invalid configuration. Please have a look at the logs for further details." : "Neteisinga konfigūracija. Išsamesnei informacijai, žiūrėkite žurnalus."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

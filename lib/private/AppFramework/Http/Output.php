@@ -13,14 +13,9 @@ use OCP\AppFramework\Http\IOutput;
  * Very thin wrapper class to make output testable
  */
 class Output implements IOutput {
-	/** @var string */
-	private $webRoot;
-
-	/**
-	 * @param $webRoot
-	 */
-	public function __construct($webRoot) {
-		$this->webRoot = $webRoot;
+	public function __construct(
+		private string $webRoot,
+	) {
 	}
 
 	/**

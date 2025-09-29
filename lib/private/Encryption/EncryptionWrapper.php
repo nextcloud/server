@@ -75,15 +75,6 @@ class EncryptionWrapper {
 				\OC::$server->getGroupManager(),
 				\OC::$server->getConfig()
 			);
-			$update = new Update(
-				new View(),
-				$util,
-				Filesystem::getMountManager(),
-				$this->manager,
-				$fileHelper,
-				$this->logger,
-				$uid
-			);
 			return new Encryption(
 				$parameters,
 				$this->manager,
@@ -92,7 +83,6 @@ class EncryptionWrapper {
 				$fileHelper,
 				$uid,
 				$keyStorage,
-				$update,
 				$mountManager,
 				$this->arrayCache
 			);

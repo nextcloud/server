@@ -21,15 +21,17 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Lockdown\ILockdownManager;
 use OCP\User\Events\BeforePasswordUpdatedEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
+use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
 
 /**
- * @template-implements IEventListener<UserCreatedEvent|UserDeletedEvent|UserLoggedInEvent|UserLoggedOutEvent|BeforePasswordUpdatedEvent|PasswordUpdatedEvent|BeforePasswordResetEvent|PasswordResetEvent>
+ * @template-implements IEventListener<UserCreatedEvent|UserDeletedEvent|UserLoggedInEvent|UserLoggedInWithCookieEvent|UserLoggedOutEvent|BeforePasswordUpdatedEvent|PasswordUpdatedEvent|BeforePasswordResetEvent|PasswordResetEvent>
  */
 class UserEventsListener implements IEventListener {
 
@@ -42,6 +44,7 @@ class UserEventsListener implements IEventListener {
 		private IUserSession $userSession,
 		private SetupManager $setupManager,
 		private PassphraseService $passphraseService,
+		private ILockdownManager $lockdownManager,
 	) {
 	}
 
@@ -50,7 +53,7 @@ class UserEventsListener implements IEventListener {
 			$this->onUserCreated($event->getUid(), $event->getPassword());
 		} elseif ($event instanceof UserDeletedEvent) {
 			$this->onUserDeleted($event->getUid());
-		} elseif ($event instanceof UserLoggedInEvent) {
+		} elseif ($event instanceof UserLoggedInEvent || $event instanceof UserLoggedInWithCookieEvent) {
 			$this->onUserLogin($event->getUser(), $event->getPassword());
 		} elseif ($event instanceof UserLoggedOutEvent) {
 			$this->onUserLogout();
@@ -69,6 +72,11 @@ class UserEventsListener implements IEventListener {
 	 * Startup encryption backend upon user login
 	 */
 	private function onUserLogin(IUser $user, ?string $password): void {
+		// Do not try to setup filesystem if the current request does not have permissions to access it
+		if (!$this->lockdownManager->canAccessFilesystem()) {
+			return;
+		}
+
 		// ensure filesystem is loaded
 		$this->setupManager->setupForUser($user);
 		if ($this->util->isMasterKeyEnabled() === false) {

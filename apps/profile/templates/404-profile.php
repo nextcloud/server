@@ -8,7 +8,7 @@
 /** @var \OCP\Defaults $theme */
 // @codeCoverageIgnoreStart
 if (!isset($_)) { //standalone  page is not supported anymore - redirect to /
-	require_once '../../lib/base.php';
+	require_once '../../../lib/base.php';
 
 	$urlGenerator = \OCP\Server::get(\OCP\IURLGenerator::class);
 	header('Location: ' . $urlGenerator->getAbsoluteURL('/'));

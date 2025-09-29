@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -103,7 +104,7 @@ class ViewConfig {
 		if (!in_array($key, $this->getAllowedConfigKeys())) {
 			throw new \InvalidArgumentException('Unknown config key');
 		}
-	
+
 		if (!in_array($value, $this->getAllowedConfigValues($key))
 			&& !empty($this->getAllowedConfigValues($key))) {
 			throw new \InvalidArgumentException('Invalid config value');
@@ -132,7 +133,7 @@ class ViewConfig {
 
 		$userId = $this->user->getUID();
 		$configs = json_decode($this->config->getUserValue($userId, Application::APP_ID, self::CONFIG_KEY, '[]'), true);
-		
+
 		if (!isset($configs[$view])) {
 			$configs[$view] = [];
 		}
@@ -158,7 +159,7 @@ class ViewConfig {
 		$userId = $this->user->getUID();
 		$configs = json_decode($this->config->getUserValue($userId, Application::APP_ID, self::CONFIG_KEY, '[]'), true);
 		$views = array_keys($configs);
-		
+
 		return array_reduce($views, function ($carry, $view) use ($configs) {
 			$carry[$view] = $this->getConfig($view);
 			return $carry;

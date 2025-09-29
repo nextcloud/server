@@ -14,6 +14,7 @@ describe('Versions download', () => {
 	before(() => {
 		randomFileName = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 10) + '.txt'
 
+		cy.runOccCommand('config:app:set --value no core shareapi_allow_view_without_download')
 		cy.createRandomUser()
 			.then((_user) => {
 				user = _user
@@ -22,6 +23,10 @@ describe('Versions download', () => {
 				cy.visit('/apps/files')
 				openVersionsPanel(randomFileName)
 			})
+	})
+
+	after(() => {
+		cy.runOccCommand('config:app:delete core shareapi_allow_view_without_download')
 	})
 
 	it('Download versions and assert their content', () => {
@@ -52,31 +57,36 @@ describe('Versions download', () => {
 		})
 
 		it('Does not work without download permission through direct API access', () => {
-			let hostname: string
 			let fileId: string|undefined
 			let versionId: string|undefined
 
 			setupTestSharedFileFromUser(user, randomFileName, { download: false })
-				.then(recipient => {
+				.then((recipient) => {
 					openVersionsPanel(randomFileName)
 
-					cy.url().then(url => { hostname = new URL(url).hostname })
-					getRowForFile(randomFileName).invoke('attr', 'data-cy-files-list-row-fileid').then(_fileId => { fileId = _fileId })
-					cy.get('[data-files-versions-version]').eq(1).invoke('attr', 'data-files-versions-version').then(_versionId => { versionId = _versionId })
+					getRowForFile(randomFileName)
+						.should('be.visible')
+						.invoke('attr', 'data-cy-files-list-row-fileid')
+						.then(($fileId) => { fileId = $fileId })
 
+					cy.get('[data-files-versions-version]')
+						.eq(1)
+						.invoke('attr', 'data-files-versions-version')
+						.then(($versionId) => { versionId = $versionId })
+
+					cy.logout()
 					cy.then(() => {
-						cy.logout()
-						cy.request({
+						const base = Cypress.config('baseUrl')!.replace(/\/index\.php\/?$/, '')
+						return cy.request({
+							url: `${base}/remote.php/dav/versions/${recipient.userId}/versions/${fileId}/${versionId}`,
 							auth: { user: recipient.userId, pass: recipient.password },
 							headers: {
 								cookie: '',
 							},
-							url: `http://${hostname}/remote.php/dav/versions/${recipient.userId}/versions/${fileId}/${versionId}`,
 							failOnStatusCode: false,
 						})
-							.then(({ status }) => {
-								expect(status).to.equal(403)
-							})
+					}).then(({ status }) => {
+						expect(status).to.equal(403)
 					})
 				})
 		})

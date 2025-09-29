@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -13,7 +14,6 @@ use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\App\AppStore\Version\VersionParser;
 use OC\App\DependencyAnalyzer;
-use OC\App\Platform;
 use OC\Installer;
 use OCA\AppAPI\Service\ExAppsPageService;
 use OCP\App\AppPathNotFoundException;
@@ -22,7 +22,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
-use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -44,7 +43,9 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Security\RateLimiting\ILimiter;
 use OCP\Server;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -128,10 +129,11 @@ class AppSettingsController extends Controller {
 	 * @param string $image
 	 * @throws \Exception
 	 */
-	#[PublicPage]
 	#[NoCSRFRequired]
-	public function getAppDiscoverMedia(string $fileName): Response {
-		$etag = $this->discoverFetcher->getETag() ?? date('Y-m');
+	public function getAppDiscoverMedia(string $fileName, ILimiter $limiter, IUserSession $session): Response {
+		$getEtag = $this->discoverFetcher->getETag() ?? date('Y-m');
+		$etag = trim($getEtag, '"');
+
 		$folder = null;
 		try {
 			$folder = $this->appData->getFolder('app-discover-cache');
@@ -158,6 +160,26 @@ class AppSettingsController extends Controller {
 		$file = reset($file);
 		// If not found request from Web
 		if ($file === false) {
+			$user = $session->getUser();
+			// this route is not public thus we can assume a user is logged-in
+			assert($user !== null);
+			// Register a user request to throttle fetching external data
+			// this will prevent using the server for DoS of other systems.
+			$limiter->registerUserRequest(
+				'settings-discover-media',
+				// allow up to 24 media requests per hour
+				// this should be a sane default when a completely new section is loaded
+				// keep in mind browsers request all files from a source-set
+				24,
+				60 * 60,
+				$user,
+			);
+
+			if (!$this->checkCanDownloadMedia($fileName)) {
+				$this->logger->warning('Tried to load media files for app discover section from untrusted source');
+				return new NotFoundResponse(Http::STATUS_BAD_REQUEST);
+			}
+
 			try {
 				$client = $this->clientService->newClient();
 				$fileResponse = $client->get($fileName);
@@ -177,6 +199,31 @@ class AppSettingsController extends Controller {
 		// cache for 7 days
 		$response->cacheFor(604800, false, true);
 		return $response;
+	}
+
+	private function checkCanDownloadMedia(string $filename): bool {
+		$urlInfo = parse_url($filename);
+		if (!isset($urlInfo['host']) || !isset($urlInfo['path'])) {
+			return false;
+		}
+
+		// Always allowed hosts
+		if ($urlInfo['host'] === 'nextcloud.com') {
+			return true;
+		}
+
+		// Hosts that need further verification
+		// Github is only allowed if from our organization
+		$ALLOWED_HOSTS = ['github.com', 'raw.githubusercontent.com'];
+		if (!in_array($urlInfo['host'], $ALLOWED_HOSTS)) {
+			return false;
+		}
+
+		if (str_starts_with($urlInfo['path'], '/nextcloud/') || str_starts_with($urlInfo['path'], '/nextcloud-gmbh/')) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -313,7 +360,7 @@ class AppSettingsController extends Controller {
 		$this->fetchApps();
 		$apps = $this->getAllApps();
 
-		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
+		$dependencyAnalyzer = Server::get(DependencyAnalyzer::class);
 
 		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
 		if (!is_array($ignoreMaxApps)) {
@@ -520,24 +567,18 @@ class AppSettingsController extends Controller {
 				$appId = $this->appManager->cleanAppId($appId);
 
 				// Check if app is already downloaded
-				/** @var Installer $installer */
-				$installer = Server::get(Installer::class);
-				$isDownloaded = $installer->isDownloaded($appId);
-
-				if (!$isDownloaded) {
-					$installer->downloadApp($appId);
+				if (!$this->installer->isDownloaded($appId)) {
+					$this->installer->downloadApp($appId);
 				}
 
-				$installer->installApp($appId);
+				$this->installer->installApp($appId);
 
 				if (count($groups) > 0) {
 					$this->appManager->enableAppForGroups($appId, $this->getGroupList($groups));
 				} else {
 					$this->appManager->enableApp($appId);
 				}
-				if (\OC_App::shouldUpgrade($appId)) {
-					$updateRequired = true;
-				}
+				$updateRequired = $updateRequired || $this->appManager->isUpgradeRequired($appId);
 			}
 			return new JSONResponse(['data' => ['update_required' => $updateRequired]]);
 		} catch (\Throwable $e) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
@@ -10,6 +11,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\User\Session;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -44,16 +46,14 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataSetCORSAPIHeader(): array {
+	public static function dataSetCORSAPIHeader(): array {
 		return [
 			['testSetCORSAPIHeader'],
 			['testSetCORSAPIHeaderAttribute'],
 		];
 	}
 
-	/**
-	 * @dataProvider dataSetCORSAPIHeader
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSetCORSAPIHeader')]
 	public function testSetCORSAPIHeader(string $method): void {
 		$request = new Request(
 			[
@@ -89,16 +89,14 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->assertFalse(array_key_exists('Access-Control-Allow-Origin', $headers));
 	}
 
-	public function dataNoOriginHeaderNoCORSHEADER(): array {
+	public static function dataNoOriginHeaderNoCORSHEADER(): array {
 		return [
 			['testNoOriginHeaderNoCORSHEADER'],
 			['testNoOriginHeaderNoCORSHEADERAttribute'],
 		];
 	}
 
-	/**
-	 * @dataProvider dataNoOriginHeaderNoCORSHEADER
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoOriginHeaderNoCORSHEADER')]
 	public function testNoOriginHeaderNoCORSHEADER(string $method): void {
 		$request = new Request(
 			[],
@@ -113,18 +111,16 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->assertFalse(array_key_exists('Access-Control-Allow-Origin', $headers));
 	}
 
-	public function dataCorsIgnoredIfWithCredentialsHeaderPresent(): array {
+	public static function dataCorsIgnoredIfWithCredentialsHeaderPresent(): array {
 		return [
 			['testCorsIgnoredIfWithCredentialsHeaderPresent'],
 			['testCorsAttributeIgnoredIfWithCredentialsHeaderPresent'],
 		];
 	}
 
-	/**
-	 * @dataProvider dataCorsIgnoredIfWithCredentialsHeaderPresent
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCorsIgnoredIfWithCredentialsHeaderPresent')]
 	public function testCorsIgnoredIfWithCredentialsHeaderPresent(string $method): void {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
+		$this->expectException(SecurityException::class);
 
 		$request = new Request(
 			[
@@ -143,7 +139,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->afterController($this->controller, $method, $response);
 	}
 
-	public function dataNoCORSOnAnonymousPublicPage(): array {
+	public static function dataNoCORSOnAnonymousPublicPage(): array {
 		return [
 			['testNoCORSOnAnonymousPublicPage'],
 			['testNoCORSOnAnonymousPublicPageAttribute'],
@@ -152,9 +148,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataNoCORSOnAnonymousPublicPage
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataNoCORSOnAnonymousPublicPage')]
 	public function testNoCORSOnAnonymousPublicPage(string $method): void {
 		$request = new Request(
 			[],
@@ -177,7 +171,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->beforeController($this->controller, $method);
 	}
 
-	public function dataCORSShouldNeverAllowCookieAuth(): array {
+	public static function dataCORSShouldNeverAllowCookieAuth(): array {
 		return [
 			['testCORSShouldNeverAllowCookieAuth'],
 			['testCORSShouldNeverAllowCookieAuthAttribute'],
@@ -186,9 +180,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCORSShouldNeverAllowCookieAuth
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCORSShouldNeverAllowCookieAuth')]
 	public function testCORSShouldNeverAllowCookieAuth(string $method): void {
 		$request = new Request(
 			[],
@@ -211,16 +203,14 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->beforeController($this->controller, $method);
 	}
 
-	public function dataCORSShouldRelogin(): array {
+	public static function dataCORSShouldRelogin(): array {
 		return [
 			['testCORSShouldRelogin'],
 			['testCORSAttributeShouldRelogin'],
 		];
 	}
 
-	/**
-	 * @dataProvider dataCORSShouldRelogin
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCORSShouldRelogin')]
 	public function testCORSShouldRelogin(string $method): void {
 		$request = new Request(
 			['server' => [
@@ -242,18 +232,16 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware->beforeController($this->controller, $method);
 	}
 
-	public function dataCORSShouldFailIfPasswordLoginIsForbidden(): array {
+	public static function dataCORSShouldFailIfPasswordLoginIsForbidden(): array {
 		return [
 			['testCORSShouldFailIfPasswordLoginIsForbidden'],
 			['testCORSAttributeShouldFailIfPasswordLoginIsForbidden'],
 		];
 	}
 
-	/**
-	 * @dataProvider dataCORSShouldFailIfPasswordLoginIsForbidden
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCORSShouldFailIfPasswordLoginIsForbidden')]
 	public function testCORSShouldFailIfPasswordLoginIsForbidden(string $method): void {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
+		$this->expectException(SecurityException::class);
 
 		$request = new Request(
 			['server' => [
@@ -268,25 +256,23 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
-			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordLoginForbiddenException));
+			->willThrowException(new PasswordLoginForbiddenException);
 		$this->reflector->reflect($this->controller, $method);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler, $this->logger);
 
 		$middleware->beforeController($this->controller, $method);
 	}
 
-	public function dataCORSShouldNotAllowCookieAuth(): array {
+	public static function dataCORSShouldNotAllowCookieAuth(): array {
 		return [
 			['testCORSShouldNotAllowCookieAuth'],
 			['testCORSAttributeShouldNotAllowCookieAuth'],
 		];
 	}
 
-	/**
-	 * @dataProvider dataCORSShouldNotAllowCookieAuth
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCORSShouldNotAllowCookieAuth')]
 	public function testCORSShouldNotAllowCookieAuth(string $method): void {
-		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\SecurityException::class);
+		$this->expectException(SecurityException::class);
 
 		$request = new Request(
 			['server' => [

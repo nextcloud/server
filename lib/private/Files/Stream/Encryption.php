@@ -312,8 +312,8 @@ class Encryption extends Wrapper {
 
 			// for seekable streams the pointer is moved back to the beginning of the encrypted block
 			// flush will start writing there when the position moves to another block
-			$positionInFile = (int)floor($this->position / $this->unencryptedBlockSize) *
-				$this->util->getBlockSize() + $this->headerSize;
+			$positionInFile = (int)floor($this->position / $this->unencryptedBlockSize)
+				* $this->util->getBlockSize() + $this->headerSize;
 			$resultFseek = $this->parentStreamSeek($positionInFile);
 
 			// only allow writes on seekable streams, or at the end of the encrypted stream
@@ -336,8 +336,8 @@ class Encryption extends Wrapper {
 					// if $data doesn't fit the current block, the fill the current block and reiterate
 					// after the block is filled, it is flushed and $data is updatedxxx
 				} else {
-					$this->cache = substr($this->cache, 0, $blockPosition) .
-						substr($data, 0, $this->unencryptedBlockSize - $blockPosition);
+					$this->cache = substr($this->cache, 0, $blockPosition)
+						. substr($data, 0, $this->unencryptedBlockSize - $blockPosition);
 					$this->flush();
 					$this->position += ($this->unencryptedBlockSize - $blockPosition);
 					$length += ($this->unencryptedBlockSize - $blockPosition);

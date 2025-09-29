@@ -22,6 +22,7 @@ namespace OCA\Files_Sharing;
  *     file_target: string,
  *     has_preview: bool,
  *     hide_download: 0|1,
+ *     is_trusted_server?: bool,
  *     is-mount-root: bool,
  *     id: string,
  *     item_mtime: int,

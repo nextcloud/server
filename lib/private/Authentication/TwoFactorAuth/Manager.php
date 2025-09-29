@@ -308,8 +308,8 @@ class Manager {
 		// First check if the session tells us we should do 2FA (99% case)
 		if (!$this->session->exists(self::SESSION_UID_KEY)) {
 			// Check if the session tells us it is 2FA authenticated already
-			if ($this->session->exists(self::SESSION_UID_DONE) &&
-				$this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
+			if ($this->session->exists(self::SESSION_UID_DONE)
+				&& $this->session->get(self::SESSION_UID_DONE) === $user->getUID()) {
 				return false;
 			}
 

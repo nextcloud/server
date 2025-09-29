@@ -8,7 +8,6 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
-use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\DB\Exception;
 use OCP\IL10N;
 use OCP\Server;
@@ -38,8 +37,8 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		parent::__construct($carddavBackend, $addressBookInfo);
 
 
-		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME &&
-			$this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {
+		if ($this->addressBookInfo['{DAV:}displayname'] === CardDavBackend::PERSONAL_ADDRESSBOOK_NAME
+			&& $this->getName() === CardDavBackend::PERSONAL_ADDRESSBOOK_URI) {
 			$this->addressBookInfo['{DAV:}displayname'] = $l10n->t('Contacts');
 		}
 	}
@@ -234,9 +233,6 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	}
 
 	public function getChanges($syncToken, $syncLevel, $limit = null) {
-		if (!$syncToken && $limit) {
-			throw new UnsupportedLimitOnInitialSyncException();
-		}
 
 		return parent::getChanges($syncToken, $syncLevel, $limit);
 	}
@@ -250,7 +246,12 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		}
 
 		try {
-			return $this->carddavBackend->moveCard($sourceNode->getAddressbookId(), (int)$this->addressBookInfo['id'], $sourceNode->getUri(), $sourceNode->getOwner());
+			return $this->carddavBackend->moveCard(
+				$sourceNode->getAddressbookId(),
+				$sourceNode->getUri(),
+				$this->getResourceId(),
+				$targetName,
+			);
 		} catch (Exception $e) {
 			// Avoid injecting LoggerInterface everywhere
 			Server::get(LoggerInterface::class)->error('Could not move calendar object: ' . $e->getMessage(), ['exception' => $e]);

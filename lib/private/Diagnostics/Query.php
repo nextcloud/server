@@ -56,7 +56,7 @@ class Query implements IQuery {
 	public function getStart() {
 		return $this->start;
 	}
-	
+
 	/**
 	 * @return float
 	 */

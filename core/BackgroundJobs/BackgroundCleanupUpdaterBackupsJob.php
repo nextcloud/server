@@ -10,6 +10,7 @@ namespace OC\Core\BackgroundJobs;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
+use OCP\Files;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
@@ -70,7 +71,7 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 
 			foreach ($dirList as $dir) {
 				$this->log->info("Removing $dir ...");
-				$result = \OC_Helper::rmdirr($dir);
+				$result = Files::rmdirr($dir);
 				if (!$result) {
 					$this->log->error('Could not remove updater backup folder $dir');
 				}

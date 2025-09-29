@@ -24,12 +24,14 @@ export default function(node: Node) {
 		sharePermissions: node.attributes['share-permissions'],
 		shareAttributes: JSON.parse(node.attributes['share-attributes'] || '[]'),
 		type: node.type === 'file' ? 'file' : 'dir',
+		attributes: node.attributes,
 	})
 
 	// TODO remove when no more legacy backbone is used
 	fileInfo.get = (key) => fileInfo[key]
 	fileInfo.isDirectory = () => fileInfo.mimetype === 'httpd/unix-directory'
 	fileInfo.canEdit = () => Boolean(fileInfo.permissions & OC.PERMISSION_UPDATE)
+	fileInfo.node = node
 
 	return fileInfo
 }

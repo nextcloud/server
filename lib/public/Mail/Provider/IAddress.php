@@ -17,7 +17,7 @@ namespace OCP\Mail\Provider;
  *
  */
 interface IAddress {
-	
+
 	/**
 	 * sets the mail address
 	 *

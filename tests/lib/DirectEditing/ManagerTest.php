@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,6 +23,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -124,7 +126,7 @@ class ManagerTest extends TestCase {
 		$this->editor = new Editor();
 
 		$this->random = $this->createMock(ISecureRandom::class);
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = Server::get(IDBConnection::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->userFolder = $this->createMock(Folder::class);
@@ -173,8 +175,10 @@ class ManagerTest extends TestCase {
 		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->withConsecutive(['/File.txt'], ['/'])
-			->willReturnOnConsecutiveCalls(false, true);
+			->willReturnMap([
+				['/File.txt', false],
+				['/', true],
+			]);
 		$this->userFolder
 			->method('get')
 			->with('/')
@@ -198,8 +202,10 @@ class ManagerTest extends TestCase {
 		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->withConsecutive(['/File.txt'], ['/'])
-			->willReturnOnConsecutiveCalls(false, true);
+			->willReturnMap([
+				['/File.txt', false],
+				['/', true],
+			]);
 		$this->userFolder
 			->method('get')
 			->with('/')
@@ -226,11 +232,12 @@ class ManagerTest extends TestCase {
 		$this->random->expects($this->once())
 			->method('generate')
 			->willReturn($expectedToken);
-		$folder = $this->createMock(Folder::class);
 		$this->userFolder
 			->method('nodeExists')
-			->withConsecutive(['/File.txt'], ['/'])
-			->willReturnOnConsecutiveCalls(false, true);
+			->willReturnMap([
+				['/File.txt', false],
+				['/', true],
+			]);
 		$this->userFolder
 			->method('get')
 			->with('/File.txt')
@@ -277,8 +284,10 @@ class ManagerTest extends TestCase {
 			]);
 		$this->userFolder
 			->method('nodeExists')
-			->withConsecutive(['/File.txt'], ['/'])
-			->willReturnOnConsecutiveCalls(false, true);
+			->willReturnMap([
+				['/File.txt', false],
+				['/', true],
+			]);
 		$this->userFolder
 			->method('get')
 			->with('/')

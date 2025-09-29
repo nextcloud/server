@@ -5,6 +5,7 @@ OC.L10N.register(
     "This application automatically maintains older versions of files that are changed." : "Esta aplicación mantiene automáticamente versiones anteriores de archivos que fueron cambiados. ",
     "Current version" : "Versión actual",
     "Initial version" : "Versión inicial",
+    "You" : "Usted",
     "Name this version" : "Nombrar esta versión",
     "Edit version name" : "Editar el nombre de la versión",
     "Compare to current version" : "Comparar con la versión actual",

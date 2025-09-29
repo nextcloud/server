@@ -13,23 +13,22 @@ namespace OC\Core\Controller;
 use OC\Core\ResponseDefinitions;
 use OC\Files\SimpleFS\SimpleFile;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\ExAppRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
-use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\StreamResponse;
+use OCP\AppFramework\OCSController;
 use OCP\Files\File;
-use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Lock\LockedException;
-use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\PreConditionNotMetException;
@@ -45,7 +44,7 @@ use stdClass;
  * @psalm-import-type CoreTaskProcessingTask from ResponseDefinitions
  * @psalm-import-type CoreTaskProcessingTaskType from ResponseDefinitions
  */
-class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
+class TaskProcessingApiController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -54,6 +53,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		private ?string $userId,
 		private IRootFolder $rootFolder,
 		private IAppData $appData,
+		private IMimeTypeDetector $mimeTypeDetector,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -65,7 +65,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: Task types returned
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasktypes', root: '/taskprocessing')]
 	public function taskTypes(): DataResponse {
 		/** @var array<string, CoreTaskProcessingTaskType> $taskTypes */
@@ -155,9 +155,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 412: Scheduling task is not possible
 	 * 401: Cannot schedule task because it references files in its input that the user doesn't have access to
 	 */
-	#[PublicPage]
 	#[UserRateLimit(limit: 20, period: 120)]
-	#[AnonRateLimit(limit: 5, period: 120)]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/taskprocessing')]
 	public function schedule(
 		array $input, string $type, string $appId, string $customId = '',
@@ -198,7 +197,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Task returned
 	 * 404: Task not found
 	 */
-	#[PublicPage]
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/task/{id}', root: '/taskprocessing')]
 	public function getTask(int $id): DataResponse {
 		try {
@@ -300,20 +299,22 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $taskId The id of the task
 	 * @param int $fileId The file id of the file to retrieve
-	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return StreamResponse<Http::STATUS_OK, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: File content returned
 	 * 404: Task or file not found
 	 */
 	#[NoAdminRequired]
-	#[Http\Attribute\NoCSRFRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/{taskId}/file/{fileId}', root: '/taskprocessing')]
-	public function getFileContents(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
+	public function getFileContents(int $taskId, int $fileId): StreamResponse|DataResponse {
 		try {
 			$task = $this->taskProcessingManager->getUserTask($taskId, $this->userId);
 			return $this->getFileContentsInternal($task, $fileId);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (LockedException) {
+			return new DataResponse(['message' => $this->l->t('Node is locked')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -324,19 +325,21 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 *
 	 * @param int $taskId The id of the task
 	 * @param int $fileId The file id of the file to retrieve
-	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return StreamResponse<Http::STATUS_OK, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: File content returned
 	 * 404: Task or file not found
 	 */
 	#[ExAppRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks_provider/{taskId}/file/{fileId}', root: '/taskprocessing')]
-	public function getFileContentsExApp(int $taskId, int $fileId): Http\DataDownloadResponse|DataResponse {
+	public function getFileContentsExApp(int $taskId, int $fileId): StreamResponse|DataResponse {
 		try {
 			$task = $this->taskProcessingManager->getTask($taskId);
 			return $this->getFileContentsInternal($task, $fileId);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (LockedException) {
+			return new DataResponse(['message' => $this->l->t('Node is locked')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
@@ -379,13 +382,12 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	/**
 	 * @throws NotPermittedException
 	 * @throws NotFoundException
-	 * @throws GenericFileException
 	 * @throws LockedException
 	 *
-	 * @return DataDownloadResponse<Http::STATUS_OK, string, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return StreamResponse<Http::STATUS_OK, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 */
-	private function getFileContentsInternal(Task $task, int $fileId): Http\DataDownloadResponse|DataResponse {
-		$ids = $this->extractFileIdsFromTask($task);
+	private function getFileContentsInternal(Task $task, int $fileId): StreamResponse|DataResponse {
+		$ids = $this->taskProcessingManager->extractFileIdsFromTask($task);
 		if (!in_array($fileId, $ids)) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
 		}
@@ -401,46 +403,25 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		} elseif (!$node instanceof File) {
 			throw new NotFoundException('Node is not a file');
 		}
-		return new Http\DataDownloadResponse($node->getContent(), $node->getName(), $node->getMimeType());
-	}
 
-	/**
-	 * @param Task $task
-	 * @return list<int>
-	 * @throws NotFoundException
-	 */
-	private function extractFileIdsFromTask(Task $task): array {
-		$ids = [];
-		$taskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
-		if (!isset($taskTypes[$task->getTaskTypeId()])) {
-			throw new NotFoundException('Could not find task type');
-		}
-		$taskType = $taskTypes[$task->getTaskTypeId()];
-		foreach ($taskType['inputShape'] + $taskType['optionalInputShape'] as $key => $descriptor) {
-			if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
-				/** @var int|list<int> $inputSlot */
-				$inputSlot = $task->getInput()[$key];
-				if (is_array($inputSlot)) {
-					$ids = array_merge($inputSlot, $ids);
-				} else {
-					$ids[] = $inputSlot;
+		$contentType = $node->getMimeType();
+		if (function_exists('mime_content_type')) {
+			$mimeType = mime_content_type($node->fopen('rb'));
+			if ($mimeType !== false) {
+				$mimeType = $this->mimeTypeDetector->getSecureMimeType($mimeType);
+				if ($mimeType !== 'application/octet-stream') {
+					$contentType = $mimeType;
 				}
 			}
 		}
-		if ($task->getOutput() !== null) {
-			foreach ($taskType['outputShape'] + $taskType['optionalOutputShape'] as $key => $descriptor) {
-				if (in_array(EShapeType::getScalarType($descriptor->getShapeType()), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true)) {
-					/** @var int|list<int> $outputSlot */
-					$outputSlot = $task->getOutput()[$key];
-					if (is_array($outputSlot)) {
-						$ids = array_merge($outputSlot, $ids);
-					} else {
-						$ids[] = $outputSlot;
-					}
-				}
-			}
-		}
-		return $ids;
+
+		$response = new StreamResponse($node->fopen('rb'));
+		$response->addHeader(
+			'Content-Disposition',
+			'attachment; filename="' . rawurldecode($node->getName()) . '"'
+		);
+		$response->addHeader('Content-Type', $contentType);
+		return $response;
 	}
 
 	/**
@@ -551,23 +532,51 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'GET', url: '/tasks_provider/next', root: '/taskprocessing')]
 	public function getNextScheduledTask(array $providerIds, array $taskTypeIds): DataResponse {
 		try {
+			$providerIdsBasedOnTaskTypesWithNull = array_unique(array_map(function ($taskTypeId) {
+				try {
+					return $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId();
+				} catch (Exception) {
+					return null;
+				}
+			}, $taskTypeIds));
+
+			$providerIdsBasedOnTaskTypes = array_filter($providerIdsBasedOnTaskTypesWithNull, fn ($providerId) => $providerId !== null);
+
 			// restrict $providerIds to providers that are configured as preferred for the passed task types
-			$providerIds = array_values(array_intersect(array_unique(array_map(fn ($taskTypeId) => $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId(), $taskTypeIds)), $providerIds));
+			$possibleProviderIds = array_values(array_intersect($providerIdsBasedOnTaskTypes, $providerIds));
+
 			// restrict $taskTypeIds to task types that can actually be run by one of the now restricted providers
-			$taskTypeIds = array_values(array_filter($taskTypeIds, fn ($taskTypeId) => in_array($this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId(), $providerIds, true)));
-			if (count($providerIds) === 0 || count($taskTypeIds) === 0) {
+			$possibleTaskTypeIds = array_values(array_filter($taskTypeIds, function ($taskTypeId) use ($possibleProviderIds) {
+				try {
+					$providerForTaskType = $this->taskProcessingManager->getPreferredProvider($taskTypeId)->getId();
+				} catch (Exception) {
+					// no provider found for task type
+					return false;
+				}
+				return in_array($providerForTaskType, $possibleProviderIds, true);
+			}));
+
+			if (count($possibleProviderIds) === 0 || count($possibleTaskTypeIds) === 0) {
 				throw new NotFoundException();
 			}
 
 			$taskIdsToIgnore = [];
 			while (true) {
-				$task = $this->taskProcessingManager->getNextScheduledTask($taskTypeIds, $taskIdsToIgnore);
-				$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
-				if (in_array($provider->getId(), $providerIds, true)) {
-					if ($this->taskProcessingManager->lockTask($task)) {
-						break;
+				// Until we find a task whose task type is set to be provided by the providers requested with this request
+				// Or no scheduled task is found anymore (given the taskIds to ignore)
+				$task = $this->taskProcessingManager->getNextScheduledTask($possibleTaskTypeIds, $taskIdsToIgnore);
+				try {
+					$provider = $this->taskProcessingManager->getPreferredProvider($task->getTaskTypeId());
+					if (in_array($provider->getId(), $possibleProviderIds, true)) {
+						if ($this->taskProcessingManager->lockTask($task)) {
+							break;
+						}
 					}
+				} catch (Exception) {
+					// There is no provider set for the task type of this task
+					// proceed to ignore this task
 				}
+
 				$taskIdsToIgnore[] = (int)$task->getId();
 			}
 

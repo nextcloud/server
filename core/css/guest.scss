@@ -263,10 +263,10 @@ input[type='password'],
 input[type='email'] {
 	width: 266px;
 	padding: 5px 10px;
-	color: var(--color-text-lighter);
-	cursor: text;
 	font-family: inherit;
 	font-weight: normal;
+	color: var(--color-text-maxcontrast);
+	cursor: text;
 	margin-inline: 0;
 }
 
@@ -808,7 +808,7 @@ a.legal {
 }
 
 .notecard {
-	color: var(--color-text-light);
+	color: var(--color-main-text);
 	background-color: var(--note-background);
 	border-inline-start: 4px solid var(--note-theme);
 	border-radius: var(--border-radius);
@@ -817,18 +817,18 @@ a.legal {
 	text-align: start;
 
 	&.success {
-		--note-background: rgba(var(--color-success-rgb), 0.1);
+		--note-background: var(--color-success-rgb);
 		--note-theme: var(--color-success);
 	}
 
 	&.error {
-		--note-background: rgba(var(--color-error-rgb), 0.1);
-		--note-theme: var(--color-error);
+		--note-background: var(--color-error);
+		--note-theme: var(--color-error-text);
 	}
 
 	&.warning {
-		--note-background: rgba(var(--color-warning-rgb), 0.1);
-		--note-theme: var(--color-warning);
+		--note-background: var(--color-warning);
+		--note-theme: var(--color-warning-text);
 	}
 
 	&:last-child {

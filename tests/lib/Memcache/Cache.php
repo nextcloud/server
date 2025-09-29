@@ -8,9 +8,11 @@
 
 namespace Test\Memcache;
 
+use OCP\IMemcache;
+
 abstract class Cache extends \Test\Cache\TestCache {
 	/**
-	 * @var \OCP\IMemcache cache;
+	 * @var IMemcache cache;
 	 */
 	protected $instance;
 

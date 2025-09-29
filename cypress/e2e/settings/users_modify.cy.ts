@@ -181,47 +181,6 @@ describe('Settings: Change user properties', function() {
 		})
 	})
 
-	it('Can set manager of a user', function() {
-		// create the manager
-		let manager: User
-		cy.createRandomUser().then(($user) => { manager = $user })
-
-		// open the User settings as admin
-		cy.login(admin)
-		cy.visit('/settings/users')
-
-		// toggle edit button into edit mode
-		toggleEditButton(user, true)
-
-		getUserListRow(user.userId)
-			.find('[data-cy-user-list-cell-manager]')
-			.scrollIntoView()
-
-		getUserListRow(user.userId).find('[data-cy-user-list-cell-manager]').within(() => {
-			// see that the user has no manager
-			cy.get('.vs__selected').should('not.exist')
-			// Open the dropdown menu
-			cy.get('[role="combobox"]').click({ force: true })
-			// select the manager
-			cy.contains('li', manager.userId).click({ force: true })
-
-			// Handle password confirmation on time out
-			handlePasswordConfirmation(admin.password)
-
-			// see that the user has a manager set
-			cy.get('.vs__selected').should('exist').and('contain.text', manager.userId)
-		})
-
-		// see that the changes are loading
-		waitLoading('[data-cy-user-list-input-manager]')
-
-		// finish editing the user
-		toggleEditButton(user, false)
-
-		// validate the manager is set
-		cy.getUserData(user).then(($result) => expect($result.body).to.contain(`<manager>${manager.userId}</manager>`))
-	})
-
 	it('Can make user a subadmin of a group', function() {
 		// create a group
 		const groupName = 'userstestgroup'
@@ -239,6 +198,8 @@ describe('Settings: Change user properties', function() {
 			cy.get('.vs__selected').should('not.exist')
 			// Open the dropdown menu
 			cy.get('[role="combobox"]').click({ force: true })
+			// Search for the group
+			cy.get('[role="combobox"]').type('userstestgroup')
 			// select the group
 			cy.contains('li', groupName).click({ force: true })
 

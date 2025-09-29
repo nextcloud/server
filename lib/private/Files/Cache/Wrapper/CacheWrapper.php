@@ -37,7 +37,10 @@ class CacheWrapper extends Cache {
 		}
 	}
 
-	protected function getCache() {
+	public function getCache(): ICache {
+		if (!$this->cache) {
+			throw new \Exception('Source cache not initialized');
+		}
 		return $this->cache;
 	}
 
@@ -202,7 +205,12 @@ class CacheWrapper extends Cache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$this->getCache()->clear();
+		$cache = $this->getCache();
+		if ($cache instanceof Cache) {
+			$cache->clear();
+		} else {
+			$cache->remove('');
+		}
 	}
 
 	/**
@@ -252,7 +260,9 @@ class CacheWrapper extends Cache {
 	 * @return int[]
 	 */
 	public function getAll() {
-		return $this->getCache()->getAll();
+		/** @var Cache $cache */
+		$cache = $this->getCache();
+		return $cache->getAll();
 	}
 
 	/**

@@ -122,8 +122,8 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 			throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
 		} catch (TagAlreadyExistsException $e) {
 			throw new Conflict(
-				'Tag with the properties "' . $name . '", ' .
-				$userVisible . ', ' . $userAssignable . ' already exists'
+				'Tag with the properties "' . $name . '", '
+				. $userVisible . ', ' . $userAssignable . ' already exists'
 			);
 		}
 	}
@@ -176,15 +176,15 @@ class SystemTagNode implements \Sabre\DAV\ICollection {
 	public function createFile($name, $data = null) {
 		throw new MethodNotAllowed();
 	}
-	
+
 	public function createDirectory($name) {
 		throw new MethodNotAllowed();
 	}
-	
+
 	public function getChild($name) {
 		return new SystemTagObjectType($this->tag, $name, $this->tagManager, $this->tagMapper);
 	}
-	
+
 	public function childExists($name) {
 		$objectTypes = $this->tagMapper->getAvailableObjectTypes();
 		return in_array($name, $objectTypes);

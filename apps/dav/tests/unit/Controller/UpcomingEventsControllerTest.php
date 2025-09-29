@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\Tests\Unit\DAV\Service;
+namespace OCA\DAV\Tests\unit\DAV\Service;
 
 use OCA\DAV\CalDAV\UpcomingEvent;
 use OCA\DAV\CalDAV\UpcomingEventsService;
@@ -17,9 +17,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class UpcomingEventsControllerTest extends TestCase {
-
-	private IRequest|MockObject $request;
-	private UpcomingEventsService|MockObject $service;
+	private IRequest&MockObject $request;
+	private UpcomingEventsService&MockObject $service;
 
 	protected function setUp(): void {
 		parent::setUp();

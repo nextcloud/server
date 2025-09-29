@@ -56,7 +56,7 @@ class Image implements IImage {
 		$this->appConfig = $appConfig ?? Server::get(IAppConfig::class);
 		$this->config = $config ?? Server::get(IConfig::class);
 
-		if (\OC_Util::fileInfoLoaded()) {
+		if (class_exists(finfo::class)) {
 			$this->fileInfo = new finfo(FILEINFO_MIME_TYPE);
 		}
 	}
@@ -699,11 +699,11 @@ class Image implements IImage {
 					fclose($fp);
 					unset($fp);
 
-					$headerFormat = 'A4Riff/' . // get n string
-						'I1Filesize/' . // get integer (file size but not actual size)
-						'A4Webp/' . // get n string
-						'A4Vp/' . // get n string
-						'A74Chunk';
+					$headerFormat = 'A4Riff/' // get n string
+						. 'I1Filesize/' // get integer (file size but not actual size)
+						. 'A4Webp/' // get n string
+						. 'A4Vp/' // get n string
+						. 'A74Chunk';
 
 					$header = unpack($headerFormat, $data);
 					unset($data, $headerFormat);
@@ -898,7 +898,7 @@ class Image implements IImage {
 		}
 
 		// preserve transparency
-		if ($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
+		if ($this->imageType === IMAGETYPE_GIF || $this->imageType === IMAGETYPE_PNG) {
 			$alpha = imagecolorallocatealpha($process, 0, 0, 0, 127);
 			if ($alpha === false) {
 				$alpha = null;
@@ -930,7 +930,7 @@ class Image implements IImage {
 		}
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
-		if ($widthOrig === $heightOrig and $size == 0) {
+		if ($widthOrig === $heightOrig && $size == 0) {
 			return true;
 		}
 		$ratioOrig = $widthOrig / $heightOrig;
@@ -957,7 +957,7 @@ class Image implements IImage {
 		}
 
 		// preserve transparency
-		if ($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
+		if ($this->imageType === IMAGETYPE_GIF || $this->imageType === IMAGETYPE_PNG) {
 			$alpha = imagecolorallocatealpha($process, 0, 0, 0, 127);
 			if ($alpha === false) {
 				$alpha = null;
@@ -1018,7 +1018,7 @@ class Image implements IImage {
 		}
 
 		// preserve transparency
-		if ($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
+		if ($this->imageType === IMAGETYPE_GIF || $this->imageType === IMAGETYPE_PNG) {
 			$alpha = imagecolorallocatealpha($process, 0, 0, 0, 127);
 			if ($alpha === false) {
 				$alpha = null;

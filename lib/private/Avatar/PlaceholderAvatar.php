@@ -14,6 +14,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
+use OCP\IConfig;
 use OCP\IImage;
 use Psr\Log\LoggerInterface;
 
@@ -27,9 +28,10 @@ class PlaceholderAvatar extends Avatar {
 	public function __construct(
 		private ISimpleFolder $folder,
 		private User $user,
+		IConfig $config,
 		LoggerInterface $logger,
 	) {
-		parent::__construct($logger);
+		parent::__construct($config, $logger);
 	}
 
 	/**
@@ -87,8 +89,9 @@ class PlaceholderAvatar extends Avatar {
 				throw new NotFoundException;
 			}
 
-			if (!$data = $this->generateAvatarFromSvg($size, $darkTheme)) {
-				$data = $this->generateAvatar($this->getDisplayName(), $size, $darkTheme);
+			$userDisplayName = $this->getDisplayName();
+			if (!$data = $this->generateAvatarFromSvg($userDisplayName, $size, $darkTheme)) {
+				$data = $this->generateAvatar($userDisplayName, $size, $darkTheme);
 			}
 
 			try {

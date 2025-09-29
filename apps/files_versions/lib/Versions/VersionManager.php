@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\Files_Versions\Versions;
 
+use OCA\Files_Versions\Db\VersionEntity;
+use OCA\Files_Versions\Events\VersionCreatedEvent;
 use OCA\Files_Versions\Events\VersionRestoredEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
@@ -60,8 +62,8 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 
 		foreach ($backends as $type => $backendsForType) {
 			if (
-				$storage->instanceOfStorage($type) &&
-				($foundType === '' || is_subclass_of($type, $foundType))
+				$storage->instanceOfStorage($type)
+				&& ($foundType === '' || is_subclass_of($type, $foundType))
 			) {
 				foreach ($backendsForType as $backend) {
 					/** @var IVersionBackend $backend */
@@ -110,6 +112,11 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 		return $backend->getVersionFile($user, $sourceFile, $revision);
 	}
 
+	public function getRevision(Node $node): int {
+		$backend = $this->getBackendForStorage($node->getStorage());
+		return $backend->getRevision($node);
+	}
+
 	public function useBackendForStorage(IStorage $storage): bool {
 		return false;
 	}
@@ -124,7 +131,16 @@ class VersionManager implements IVersionManager, IDeletableVersionBackend, INeed
 	public function createVersionEntity(File $file): void {
 		$backend = $this->getBackendForStorage($file->getStorage());
 		if ($backend instanceof INeedSyncVersionBackend) {
-			$backend->createVersionEntity($file);
+			$versionEntity = $backend->createVersionEntity($file);
+
+			if ($versionEntity instanceof VersionEntity) {
+				foreach ($backend->getVersionsForFile($file->getOwner(), $file) as $version) {
+					if ($version->getRevisionId() === $versionEntity->getTimestamp()) {
+						$this->dispatcher->dispatchTyped(new VersionCreatedEvent($file, $version));
+						break;
+					}
+				}
+			}
 		}
 	}
 

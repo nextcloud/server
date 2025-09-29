@@ -13,51 +13,78 @@ use OC\InitialStateService;
 use OC\TemplateLayout;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\INavigationManager;
+use OCP\ServerVersion;
+use OCP\Template\ITemplateManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class TemplateLayoutTest extends \Test\TestCase {
+	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
+	private IAppManager&MockObject $appManager;
+	private InitialStateService&MockObject $initialState;
+	private INavigationManager&MockObject $navigationManager;
+	private ITemplateManager&MockObject $templateManager;
+	private ServerVersion&MockObject $serverVersion;
 
+	private TemplateLayout $templateLayout;
 
-	/** @dataProvider dataVersionHash */
+	protected function setUp(): void {
+		parent::setUp();
+
+		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->initialState = $this->createMock(InitialStateService::class);
+		$this->navigationManager = $this->createMock(INavigationManager::class);
+		$this->templateManager = $this->createMock(ITemplateManager::class);
+		$this->serverVersion = $this->createMock(ServerVersion::class);
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataVersionHash')]
 	public function testVersionHash($path, $file, $installed, $debug, $expected): void {
-		$appManager = $this->createMock(IAppManager::class);
-		$appManager->expects(self::any())
+		$this->appManager->expects(self::any())
 			->method('getAppVersion')
 			->willReturnCallback(fn ($appId) => match ($appId) {
 				'shippedApp' => 'shipped_1',
 				'otherApp' => 'other_2',
 				default => "$appId",
 			});
-		$appManager->expects(self::any())
+		$this->appManager->expects(self::any())
 			->method('isShipped')
 			->willReturnCallback(fn (string $app) => $app === 'shippedApp');
 
-		$config = $this->createMock(IConfig::class);
-		$config->expects(self::atLeastOnce())
+		$this->config->expects(self::atLeastOnce())
 			->method('getSystemValueBool')
 			->willReturnMap([
 				['installed', false, $installed],
 				['debug', false, $debug],
 			]);
-		$config->expects(self::any())
+		$this->config->expects(self::any())
 			->method('getAppValue')
 			->with('theming', 'cachebuster', '0')
 			->willReturn('42');
 
-		$initialState = $this->createMock(InitialStateService::class);
-
-		$this->overwriteService(IConfig::class, $config);
-		$this->overwriteService(IAppManager::class, $appManager);
-		$this->overwriteService(InitialStateService::class, $initialState);
-
-		$layout = $this->getMockBuilder(TemplateLayout::class)
+		$this->templateLayout = $this->getMockBuilder(TemplateLayout::class)
 			->onlyMethods(['getAppNamefromPath'])
-			->setConstructorArgs([TemplateResponse::RENDER_AS_ERROR])
+			->setConstructorArgs([
+				$this->config,
+				$this->appConfig,
+				$this->appManager,
+				$this->initialState,
+				$this->navigationManager,
+				$this->templateManager,
+				$this->serverVersion,
+			])
 			->getMock();
+
+		$layout = $this->templateLayout->getPageTemplate(TemplateResponse::RENDER_AS_ERROR, '');
 
 		self::invokePrivate(TemplateLayout::class, 'versionHash', ['version_hash']);
 
-		$layout->expects(self::any())
+		$this->templateLayout->expects(self::any())
 			->method('getAppNamefromPath')
 			->willReturnCallback(fn ($appName) => match($appName) {
 				'apps/shipped' => 'shippedApp',
@@ -65,7 +92,7 @@ class TemplateLayoutTest extends \Test\TestCase {
 				default => false,
 			});
 
-		$hash = self::invokePrivate($layout, 'getVersionHashSuffix', [$path, $file]);
+		$hash = self::invokePrivate($this->templateLayout, 'getVersionHashSuffix', [$path, $file]);
 		self::assertEquals($expected, $hash);
 	}
 

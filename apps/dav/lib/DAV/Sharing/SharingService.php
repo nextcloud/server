@@ -52,12 +52,9 @@ abstract class SharingService {
 	}
 
 	/**
-	 * @param array $oldShares
-	 * @return bool
+	 * @param string[] $principals
 	 */
-	public function hasGroupShare(array $oldShares): bool {
-		return !empty(array_filter($oldShares, function (array $share) {
-			return $share['{http://owncloud.org/ns}group-share'] === true;
-		}));
+	public function getSharesByPrincipals(array $principals): array {
+		return $this->mapper->getSharesByPrincipals($principals, $this->getResourceType());
 	}
 }

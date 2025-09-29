@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -37,7 +38,7 @@ abstract class LogDetails {
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
 		if ($this->config->getValue('installed', false)) {
-			$user = \OC_User::getUser() ?? '--';
+			$user = \OC_User::getUser() ?: '--';
 		} else {
 			$user = '--';
 		}
@@ -59,6 +60,10 @@ abstract class LogDetails {
 			'userAgent',
 			'version'
 		);
+		$clientReqId = $request->getHeader('X-Request-Id');
+		if ($clientReqId !== '') {
+			$entry['clientReqId'] = $clientReqId;
+		}
 
 		if (is_array($message)) {
 			// Exception messages are extracted and the exception is put into a separate field

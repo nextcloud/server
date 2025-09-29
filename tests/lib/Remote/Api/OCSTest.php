@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,6 +7,7 @@
 
 namespace Test\Remote\Api;
 
+use OC\ForbiddenException;
 use OC\Memcache\ArrayCache;
 use OC\Remote\Api\OCS;
 use OC\Remote\Credentials;
@@ -52,7 +54,7 @@ class OCSTest extends TestCase {
 		$this->assertEquals('user', $user->getUserId());
 	}
 
-	
+
 	public function testGetUserInvalidResponse(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Invalid user response, expected field email not found');
@@ -66,9 +68,9 @@ class OCSTest extends TestCase {
 		$client->getUser('user');
 	}
 
-	
+
 	public function testInvalidPassword(): void {
-		$this->expectException(\OC\ForbiddenException::class);
+		$this->expectException(ForbiddenException::class);
 
 		$client = $this->getOCSClient();
 

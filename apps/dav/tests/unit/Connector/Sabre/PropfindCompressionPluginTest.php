@@ -14,8 +14,7 @@ use Sabre\HTTP\Response;
 use Test\TestCase;
 
 class PropfindCompressionPluginTest extends TestCase {
-	/** @var PropfindCompressionPlugin */
-	private $plugin;
+	private PropfindCompressionPlugin $plugin;
 
 	protected function setUp(): void {
 		parent::setUp();

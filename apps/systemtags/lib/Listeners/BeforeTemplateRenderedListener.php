@@ -9,18 +9,29 @@ namespace OCA\SystemTags\Listeners;
 
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\SystemTags\AppInfo\Application;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\IAppConfig;
 use OCP\Util;
 
 /**
  * @template-implements IEventListener<BeforeTemplateRenderedEvent>
  */
 class BeforeTemplateRenderedListener implements IEventListener {
+	public function __construct(
+		private IAppConfig $appConfig,
+		private IInitialState $initialState,
+	) {
+	}
+
 	public function handle(Event $event): void {
 		if (!$event instanceof BeforeTemplateRenderedEvent) {
 			return;
 		}
 		Util::addInitScript(Application::APP_ID, 'init');
+
+		$restrictSystemTagsCreationToAdmin = $this->appConfig->getValueBool(Application::APP_ID, 'restrict_creation_to_admin', false);
+		$this->initialState->provideInitialState('restrictSystemTagsCreationToAdmin', $restrictSystemTagsCreationToAdmin);
 	}
 }

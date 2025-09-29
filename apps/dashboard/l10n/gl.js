@@ -16,14 +16,14 @@ OC.L10N.register(
     "Hello, {name}" : "Ola, {name}",
     "Happy birthday 🥳🤩🎂🎉" : "Feliz aniversario 🥳🤩🎂🎉",
     "Happy birthday, {name} 🥳🤩🎂🎉" : "Feliz aniversario, {name} 🥳🤩🎂🎉",
-    "\"{title} icon\"" : "«icona {title}»",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar trebellos",
     "Get more widgets from the App Store" : "Obter máis trebellos na tenda de aplicacións",
     "Weather service" : "Servizo meteorolóxico",
-    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para a súa privacidade, o servidor de Nextcloud solicita os datos meteorolóxicos no seu nome para que o servizo meteorolóxico non reciba información persoal.",
+    "For your privacy, the weather data is requested by your {productName} server on your behalf so the weather service receives no personal information." : "Para a súa privacidade, o servidor de {productName} solicita os datos meteorolóxicos no seu nome para que o servizo meteorolóxico non reciba información persoal.",
     "Weather data from Met.no" : "Datos meteorolóxicos de Met.no",
     "geocoding with Nominatim" : "xeocodificación con Nominatim",
-    "elevation data from OpenTopoData" : "datos de elevación de OpenTopoData"
+    "elevation data from OpenTopoData" : "datos de elevación de OpenTopoData",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Para a súa privacidade, o servidor de Nextcloud solicita os datos meteorolóxicos no seu nome para que o servizo meteorolóxico non reciba información persoal."
 },
 "nplurals=2; plural=(n != 1);");

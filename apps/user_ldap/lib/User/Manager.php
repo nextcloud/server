@@ -109,6 +109,7 @@ class Manager {
 		$baseAttributes = array_merge(Access::UUID_ATTRIBUTES, ['dn', 'uid', 'samaccountname', 'memberof']);
 		$attributes = [
 			$this->access->getConnection()->ldapExpertUUIDUserAttr,
+			$this->access->getConnection()->ldapExpertUsernameAttr,
 			$this->access->getConnection()->ldapQuotaAttribute,
 			$this->access->getConnection()->ldapEmailAttribute,
 			$this->access->getConnection()->ldapUserDisplayName,

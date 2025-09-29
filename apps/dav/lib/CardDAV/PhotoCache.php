@@ -1,10 +1,13 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\CardDAV;
 
+use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -19,6 +22,7 @@ use Sabre\VObject\Property\Binary;
 use Sabre\VObject\Reader;
 
 class PhotoCache {
+	private ?IAppData $photoCacheAppData = null;
 
 	/** @var array */
 	public const ALLOWED_CONTENT_TYPES = [
@@ -27,14 +31,12 @@ class PhotoCache {
 		'image/gif' => 'gif',
 		'image/vnd.microsoft.icon' => 'ico',
 		'image/webp' => 'webp',
+		'image/avif' => 'avif',
 	];
 
-	/**
-	 * PhotoCache constructor.
-	 */
 	public function __construct(
-		protected IAppData $appData,
-		protected LoggerInterface $logger,
+		private IAppDataFactory $appDataFactory,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -141,13 +143,12 @@ class PhotoCache {
 	private function getFolder(int $addressBookId, string $cardUri, bool $createIfNotExists = true): ISimpleFolder {
 		$hash = md5($addressBookId . ' ' . $cardUri);
 		try {
-			return $this->appData->getFolder($hash);
+			return $this->getPhotoCacheAppData()->getFolder($hash);
 		} catch (NotFoundException $e) {
 			if ($createIfNotExists) {
-				return $this->appData->newFolder($hash);
-			} else {
-				throw $e;
+				return $this->getPhotoCacheAppData()->newFolder($hash);
 			}
+			throw $e;
 		}
 	}
 
@@ -263,5 +264,12 @@ class PhotoCache {
 		} catch (NotFoundException $e) {
 			// that's OK, nothing to do
 		}
+	}
+
+	private function getPhotoCacheAppData(): IAppData {
+		if ($this->photoCacheAppData === null) {
+			$this->photoCacheAppData = $this->appDataFactory->get('dav-photocache');
+		}
+		return $this->photoCacheAppData;
 	}
 }

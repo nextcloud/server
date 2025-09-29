@@ -257,12 +257,19 @@ class WeatherStatusService {
 		];
 		$url = 'https://nominatim.openstreetmap.org/search';
 		$results = $this->requestJSON($url, $params);
-		if ($results['error'] !== null) {
-			return $results;
+
+		if (isset($results['error'])) {
+			return ['error' => (string)$results['error']];
 		}
-		if (count($results) > 0) {
-			return $results[0];
+
+		if (count($results) > 0 && is_array($results[0])) {
+			return [
+				'display_name' => (string)($results[0]['display_name'] ?? null),
+				'lat' => (string)($results[0]['lat'] ?? null),
+				'lon' => (string)($results[0]['lon'] ?? null),
+			];
 		}
+
 		return ['error' => $this->l10n->t('No result.')];
 	}
 

@@ -18,7 +18,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "Kui genereerid varukoodid uuesti, muudad vanad koodid automaatselt kehtetuks.",
     "{name} backup codes" : "{name} varukoodid",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Kasuta üht kaheastmelise autentimise seadistamisel salvestatud varukoodidest.",
-    "Submit" : "Saada",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Need on su varukoodid. Palun salvesta ja/või trüki need välja, sest rohkem sa neid vaadata ei saa."
+    "Submit" : "Saada"
 },
 "nplurals=2; plural=(n != 1);");

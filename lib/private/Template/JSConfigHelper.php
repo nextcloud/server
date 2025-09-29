@@ -10,6 +10,7 @@ namespace OC\Template;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
+use OC\Core\AppInfo\ConfigLexicon;
 use OC\Files\FilenameValidator;
 use OC\Share\Share;
 use OCA\Provisioning_API\Controller\AUserDataOCSController;
@@ -22,6 +23,7 @@ use OCP\Authentication\Token\IToken;
 use OCP\Constants;
 use OCP\Defaults;
 use OCP\Files\FileInfo;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
@@ -30,6 +32,7 @@ use OCP\ILogger;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Server;
 use OCP\ServerVersion;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Share\IManager as IShareManager;
@@ -49,6 +52,7 @@ class JSConfigHelper {
 		protected ISession $session,
 		protected ?IUser $currentUser,
 		protected IConfig $config,
+		protected readonly IAppConfig $appConfig,
 		protected IGroupManager $groupManager,
 		protected IniGetWrapper $iniWrapper,
 		protected IURLGenerator $urlGenerator,
@@ -66,9 +70,11 @@ class JSConfigHelper {
 
 			$backend = $this->currentUser->getBackend();
 			if ($backend instanceof IPasswordConfirmationBackend) {
-				$userBackendAllowsPasswordConfirmation = $backend->canConfirmPassword($uid);
+				$userBackendAllowsPasswordConfirmation = $backend->canConfirmPassword($uid) && $this->canUserValidatePassword();
 			} elseif (isset($this->excludedUserBackEnds[$this->currentUser->getBackendClassName()])) {
 				$userBackendAllowsPasswordConfirmation = false;
+			} else {
+				$userBackendAllowsPasswordConfirmation = $this->canUserValidatePassword();
 			}
 		} else {
 			$uid = null;
@@ -91,13 +97,12 @@ class JSConfigHelper {
 			}
 		}
 
-		$enableLinkPasswordByDefault = $this->config->getAppValue('core', 'shareapi_enable_link_password_by_default', 'no');
-		$enableLinkPasswordByDefault = $enableLinkPasswordByDefault === 'yes';
-		$defaultExpireDateEnabled = $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
+		$enableLinkPasswordByDefault = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_PASSWORD_DEFAULT);
+		$defaultExpireDateEnabled = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_DEFAULT);
 		$defaultExpireDate = $enforceDefaultExpireDate = null;
 		if ($defaultExpireDateEnabled) {
 			$defaultExpireDate = (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
-			$enforceDefaultExpireDate = $this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
+			$enforceDefaultExpireDate = $this->appConfig->getValueBool('core', ConfigLexicon::SHARE_LINK_EXPIRE_DATE_ENFORCED);
 		}
 		$outgoingServer2serverShareEnabled = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 
@@ -160,6 +165,8 @@ class JSConfigHelper {
 			'versionstring' => $this->serverVersion->getVersionString(),
 			'enable_non-accessible_features' => $this->config->getSystemValueBool('enable_non-accessible_features', true),
 		];
+
+		$shareManager = Server::get(IShareManager::class);
 
 		$array = [
 			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
@@ -235,11 +242,11 @@ class JSConfigHelper {
 					'defaultExpireDateEnforced' => $enforceDefaultExpireDate,
 					'enforcePasswordForPublicLink' => Util::isPublicLinkPasswordRequired(),
 					'enableLinkPasswordByDefault' => $enableLinkPasswordByDefault,
-					'sharingDisabledForUser' => Util::isSharingDisabledForUser(),
+					'sharingDisabledForUser' => $shareManager->sharingDisabledForUser($uid),
 					'resharingAllowed' => Share::isResharingAllowed(),
 					'remoteShareAllowed' => $outgoingServer2serverShareEnabled,
 					'federatedCloudShareDoc' => $this->urlGenerator->linkToDocs('user-sharing-federated'),
-					'allowGroupSharing' => \OC::$server->get(IShareManager::class)->allowGroupSharing(),
+					'allowGroupSharing' => $shareManager->allowGroupSharing(),
 					'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
 					'defaultInternalExpireDate' => $defaultInternalExpireDate,
 					'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,

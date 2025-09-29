@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,7 +18,7 @@ use OCA\Files_External\Lib\Storage\OwnCloud;
  * @package OCA\Files_External\Tests
  */
 class OwnCloudFunctionsTest extends \Test\TestCase {
-	public function configUrlProvider() {
+	public static function configUrlProvider(): array {
 		return [
 			[
 				[
@@ -85,10 +87,8 @@ class OwnCloudFunctionsTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider configUrlProvider
-	 */
-	public function testConfig($config, $expectedUri): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('configUrlProvider')]
+	public function testConfig(array $config, string $expectedUri): void {
 		$config['user'] = 'someuser';
 		$config['password'] = 'somepassword';
 		$instance = new OwnCloud($config);

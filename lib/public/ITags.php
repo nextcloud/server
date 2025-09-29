@@ -184,20 +184,26 @@ interface ITags {
 	 *
 	 * @param int $objid The id of the object
 	 * @param string $tag The id or name of the tag
+	 * @param string $path The optional path of the node. Used when dispatching the favorite change event.
 	 * @return boolean Returns false on database error.
 	 * @since 6.0.0
+	 * @since 31.0.0 Added the $path argument.
+	 * @since 33.0.0 Change $path default value from '' to null.
 	 */
-	public function tagAs($objid, $tag);
+	public function tagAs($objid, $tag, ?string $path = null);
 
 	/**
 	 * Delete single tag/object relation from the db
 	 *
 	 * @param int $objid The id of the object
 	 * @param string $tag The id or name of the tag
+	 * @param string $path The optional path of the node. Used when dispatching the favorite change event.
 	 * @return boolean
 	 * @since 6.0.0
+	 * @since 31.0.0 Added the $path argument.
+	 * @since 33.0.0 Change $path default value from '' to null.
 	 */
-	public function unTag($objid, $tag);
+	public function unTag($objid, $tag, ?string $path = null);
 
 	/**
 	 * Delete tags from the database

@@ -7,7 +7,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { View, getNavigation } from '@nextcloud/files'
 import { getContents } from '../services/systemtags.js'
 
-import svgTagMultiple from '@mdi/svg/svg/tag-multiple.svg?raw'
+import svgTagMultiple from '@mdi/svg/svg/tag-multiple-outline.svg?raw'
 
 export const systemTagsViewId = 'tags'
 

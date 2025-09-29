@@ -29,7 +29,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class SubadminMiddlewareTest extends \Test\TestCase {
 	private SubadminMiddleware $subadminMiddleware;
-
 	private IUserSession&MockObject $userSession;
 	private ISubAdmin&MockObject $subAdminManager;
 	private ControllerMethodReflector&MockObject $reflector;
@@ -38,8 +37,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->reflector = $this->getMockBuilder(ControllerMethodReflector::class)
-			->disableOriginalConstructor()->getMock();
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->subAdminManager = $this->createMock(ISubAdmin::class);
 		$this->l10n = $this->createMock(IL10N::class);
@@ -51,8 +49,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			$this->l10n,
 		);
 
-		$this->controller = $this->getMockBuilder(Controller::class)
-			->disableOriginalConstructor()->getMock();
+		$this->controller = $this->createMock(Controller::class);
 
 		$this->userSession
 			->expects(self::any())
@@ -67,10 +64,10 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->reflector
 			->expects($this->exactly(2))
 			->method('hasAnnotation')
-			->withConsecutive(
-				['NoSubAdminRequired'],
-				['AuthorizedAdminSetting'],
-			)->willReturn(false);
+			->willReturnMap([
+				['NoSubAdminRequired', false],
+				['AuthorizedAdminSetting', false],
+			]);
 
 		$this->subAdminManager
 			->expects(self::once())
@@ -99,10 +96,10 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->reflector
 			->expects($this->exactly(2))
 			->method('hasAnnotation')
-			->withConsecutive(
-				['NoSubAdminRequired'],
-				['AuthorizedAdminSetting'],
-			)->willReturn(false);
+			->willReturnMap([
+				['NoSubAdminRequired', false],
+				['AuthorizedAdminSetting', false],
+			]);
 
 		$this->subAdminManager
 			->expects(self::once())

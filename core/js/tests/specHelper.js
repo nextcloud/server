@@ -85,10 +85,14 @@ window._oc_appswebroots = {
 	"files": window.webroot + '/apps/files/',
 	"files_sharing": window.webroot + '/apps/files_sharing/'
 };
+
+window.OC ??= {};
+
 OC.config = {
 	session_lifetime: 600 * 1000,
 	session_keepalive: false,
 	blacklist_files_regex: '\.(part|filepart)$',
+	version: '32.0.0',
 };
 OC.appConfig = {
 	core: {}
@@ -111,6 +115,10 @@ window.Snap.prototype = {
 
 window.isPhantom = /phantom/i.test(navigator.userAgent);
 document.documentElement.lang = navigator.language;
+const el = document.createElement('input');
+el.id = 'initial-state-core-config';
+el.value = btoa(JSON.stringify(window.OC.config))
+document.body.append(el);
 
 // global setup for all tests
 (function setupTests() {

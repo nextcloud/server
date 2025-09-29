@@ -12,27 +12,18 @@ namespace Test\Support\CrashReport;
 use Exception;
 use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\QueryException;
-use OCP\IServerContainer;
 use OCP\Support\CrashReport\ICollectBreadcrumbs;
 use OCP\Support\CrashReport\IMessageReporter;
 use OCP\Support\CrashReport\IReporter;
 use Test\TestCase;
 
 class RegistryTest extends TestCase {
-	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
-	private $serverContainer;
-
-	/** @var Registry */
-	private $registry;
+	private Registry $registry;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->serverContainer = $this->createMock(IServerContainer::class);
-
-		$this->registry = new Registry(
-			$this->serverContainer
-		);
+		$this->registry = new Registry();
 	}
 
 	/**
@@ -45,13 +36,10 @@ class RegistryTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testRegisterLazyCantLoad(): void {
+	public function testRegisterLazy(): void {
 		$reporterClass = '\OCA\MyApp\Reporter';
 		$reporter = $this->createMock(IReporter::class);
-		$this->serverContainer->expects($this->once())
-			->method('query')
-			->with($reporterClass)
-			->willReturn($reporter);
+		$this->overwriteService($reporterClass, $reporter);
 		$reporter->expects($this->once())
 			->method('report');
 		$exception = new Exception('test');
@@ -60,16 +48,17 @@ class RegistryTest extends TestCase {
 		$this->registry->delegateReport($exception);
 	}
 
-	public function testRegisterLazy(): void {
+	/**
+	 * Doesn't assert anything, just checks whether anything "explodes"
+	 */
+	public function testRegisterLazyCantLoad(): void {
 		$reporterClass = '\OCA\MyApp\Reporter';
-		$this->serverContainer->expects($this->once())
-			->method('query')
-			->with($reporterClass)
-			->willThrowException(new QueryException());
+		/* We do not register reporterClass in DI, so it will throw a QueryException queried */
 		$exception = new Exception('test');
 
 		$this->registry->registerLazy($reporterClass);
 		$this->registry->delegateReport($exception);
+		$this->addToAssertionCount(1);
 	}
 
 	public function testDelegateBreadcrumbCollection(): void {

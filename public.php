@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use OC\ServiceUnavailableException;
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,6 +16,7 @@ use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Server;
+use OCP\Template\ITemplateManager;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 
@@ -87,14 +90,14 @@ try {
 	require_once $file;
 } catch (Exception $ex) {
 	$status = 500;
-	if ($ex instanceof \OC\ServiceUnavailableException) {
+	if ($ex instanceof ServiceUnavailableException) {
 		$status = 503;
 	}
 	//show the user a detailed error page
 	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
-	OC_Template::printExceptionErrorPage($ex, $status);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, $status);
 } catch (Error $ex) {
 	//show the user a detailed error page
 	Server::get(LoggerInterface::class)->error($ex->getMessage(), ['app' => 'public', 'exception' => $ex]);
-	OC_Template::printExceptionErrorPage($ex, 500);
+	Server::get(ITemplateManager::class)->printExceptionErrorPage($ex, 500);
 }

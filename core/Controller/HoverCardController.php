@@ -13,6 +13,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Share\IShare;
@@ -20,7 +21,7 @@ use OCP\Share\IShare;
 /**
  * @psalm-import-type CoreContactsAction from ResponseDefinitions
  */
-class HoverCardController extends \OCP\AppFramework\OCSController {
+class HoverCardController extends OCSController {
 	public function __construct(
 		IRequest $request,
 		private IUserSession $userSession,

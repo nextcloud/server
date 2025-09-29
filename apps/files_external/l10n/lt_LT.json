@@ -1,7 +1,5 @@
 { "translations": {
     "Grant access" : "Suteikti prieigą",
-    "Error configuring OAuth1" : "Klaida, konfigūruojant OAuth1",
-    "Please provide a valid app key and secret." : "Prašome naudoti teisingus trečiųjų šalių programinės įrangos identifikacijos numerį ir slaptažodį.",
     "Error configuring OAuth2" : "Klaida, konfigūruojant OAuth2",
     "Generate keys" : "Generuoti raktus",
     "Error generating key pair" : "Klaida generuojant raktų porą",
@@ -19,9 +17,6 @@
     "Secret key" : "Slaptasis raktas",
     "Builtin" : "Įtaisytasis",
     "None" : "Nėra",
-    "OAuth1" : "OAuth1",
-    "App key" : "Trečiųjų šalių programinės įrangos identifikacijos raktas",
-    "App secret" : "Trečiųjų šalių programinės įrangos slaptažodis",
     "OAuth2" : "OAuth2",
     "Client ID" : "Kliento ID",
     "Client secret" : "Trečiųjų šalių programinės įrangos kliento identifikacijos raktas",
@@ -105,6 +100,10 @@
     "Available for" : "Prieinamas",
     "Add storage" : "Pridėti saugyklą",
     "Advanced settings" : "Išplėstiniai nustatymai",
-    "Submit" : "Pateikti"
+    "Error configuring OAuth1" : "Klaida, konfigūruojant OAuth1",
+    "Please provide a valid app key and secret." : "Prašome naudoti teisingus trečiųjų šalių programinės įrangos identifikacijos numerį ir slaptažodį.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Trečiųjų šalių programinės įrangos identifikacijos raktas",
+    "App secret" : "Trečiųjų šalių programinės įrangos slaptažodis"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

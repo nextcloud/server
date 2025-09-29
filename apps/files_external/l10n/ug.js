@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "زىيارەت قىلىش ھوقۇقى",
-    "Error configuring OAuth1" : "OAuth1 نى تەڭشەشتە خاتالىق",
-    "Please provide a valid app key and secret." : "ئۈنۈملۈك ئەپ ئاچقۇچى ۋە مەخپىي تەمىنلەڭ.",
     "Error configuring OAuth2" : "OAuth2 نى تەڭشەشتە خاتالىق",
     "Generate keys" : "ئاچقۇچ ھاسىل قىلىڭ",
     "Error generating key pair" : "ئاچقۇچ جۈپ ھاسىل قىلىشتا خاتالىق",
@@ -24,9 +22,6 @@ OC.L10N.register(
     "Secret key" : "مەخپىي ئاچقۇچ",
     "Builtin" : "Builtin",
     "None" : "يوق",
-    "OAuth1" : "OAuth1",
-    "App key" : "ئەپ ئاچقۇچى",
-    "App secret" : "ئەپ مەخپىيىتى",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Client secret",
@@ -132,7 +127,6 @@ OC.L10N.register(
     "Unknown backend: {backendName}" : "نامەلۇم ئارقا بەت: end backendName}",
     "Admin defined" : "باشقۇرغۇچى ئېنىقلاندى",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "تەڭشەلگەن دۇكانلارنىڭ كۆپلىكى سەۋەبىدىن ئاپتوماتىك ھالەتنى تەكشۈرۈش چەكلەنگەن ، ھالەتنى تەكشۈرۈش ئۈچۈن چېكىڭ",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "بۇ سىرتقى ساقلاشنى ئۈزۈۋېتىشنى خالامسىز؟ ئۇ Nextcloud دا ساقلاشنى ئىشلەتكىلى بولمايدۇ ھەمدە بۇ ھۆججەت ۋە ھۆججەت قىسقۇچلارنىڭ نۆۋەتتىكى ئۇلانغان ، ئەمما سىرتقى ساقلاشنىڭ ئۆزىدىكى ھۆججەت ۋە ھۆججەت قىسقۇچلارنى ئۆچۈرمەيدۇ.",
     "Delete storage?" : "ساقلاشنى ئۆچۈرەمسىز؟",
     "Click to recheck the configuration" : "بۇ تەڭشەكنى قايتا تەكشۈرۈڭ",
     "Saved" : "ساقلاندى",
@@ -150,6 +144,11 @@ OC.L10N.register(
     "Advanced settings" : "ئىلغار تەڭشەكلەر",
     "Allow people to mount external storage" : "كىشىلەرنىڭ سىرتقى ساقلىغۇچ ئورنىتىشىغا يول قويۇڭ",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "يەرشارى كىنىشكىسى ئوخشاش سالاھىيەتكە ئىگە كۆپ خىل تاشقى دۇكانلار بىلەن دەلىللەشكە ئىشلىتىلىدۇ.",
-    "Submit" : "يوللاڭ"
+    "Error configuring OAuth1" : "OAuth1 نى تەڭشەشتە خاتالىق",
+    "Please provide a valid app key and secret." : "ئۈنۈملۈك ئەپ ئاچقۇچى ۋە مەخپىي تەمىنلەڭ.",
+    "OAuth1" : "OAuth1",
+    "App key" : "ئەپ ئاچقۇچى",
+    "App secret" : "ئەپ مەخپىيىتى",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "بۇ سىرتقى ساقلاشنى ئۈزۈۋېتىشنى خالامسىز؟ ئۇ Nextcloud دا ساقلاشنى ئىشلەتكىلى بولمايدۇ ھەمدە بۇ ھۆججەت ۋە ھۆججەت قىسقۇچلارنىڭ نۆۋەتتىكى ئۇلانغان ، ئەمما سىرتقى ساقلاشنىڭ ئۆزىدىكى ھۆججەت ۋە ھۆججەت قىسقۇچلارنى ئۆچۈرمەيدۇ."
 },
 "nplurals=2; plural=(n != 1);");

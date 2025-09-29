@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -15,60 +16,39 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
-
-	/**
-	 * @var SystemTagsObjectTypeCollection
-	 */
-	private $node;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var Folder
-	 */
-	private $userFolder;
+	private ISystemTagManager&MockObject $tagManager;
+	private ISystemTagObjectMapper&MockObject $tagMapper;
+	private Folder&MockObject $userFolder;
+	private SystemTagsObjectTypeCollection $node;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
-			->getMock();
-		$this->tagMapper = $this->getMockBuilder(ISystemTagObjectMapper::class)
-			->getMock();
+		$this->tagManager = $this->createMock(ISystemTagManager::class);
+		$this->tagMapper = $this->createMock(ISystemTagObjectMapper::class);
 
-		$user = $this->getMockBuilder(IUser::class)
-			->getMock();
+		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('testuser');
-		$userSession = $this->getMockBuilder(IUserSession::class)
-			->getMock();
+		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($user);
-		$groupManager = $this->getMockBuilder(IGroupManager::class)
-			->getMock();
+		$groupManager = $this->createMock(IGroupManager::class);
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
 			->willReturn(true);
 
-		$this->userFolder = $this->getMockBuilder(Folder::class)
-			->getMock();
+		$this->userFolder = $this->createMock(Folder::class);
 		$userFolder = $this->userFolder;
 
 		$closure = function ($name) use ($userFolder) {
-			$node = $userFolder->getFirstNodeById(intval($name));
+			$node = $userFolder->getFirstNodeById((int)$name);
 			return $node !== null;
 		};
 		$writeAccessClosure = function ($name) use ($userFolder) {

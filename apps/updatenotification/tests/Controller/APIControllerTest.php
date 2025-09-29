@@ -55,9 +55,7 @@ class APIControllerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @dataProvider dataGetAppChangelog
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetAppChangelog')]
 	public function testGetAppChangelogEntry(
 		array $params,
 		bool $hasChanges,

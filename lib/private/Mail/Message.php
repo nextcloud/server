@@ -316,7 +316,7 @@ class Message implements IMessage {
 	public function getAutoSubmitted(): string {
 		$headers = $this->symfonyEmail->getHeaders();
 
-		return $headers->has(AutoSubmitted::HEADER) ?
-			$headers->get(AutoSubmitted::HEADER)->getBodyAsString() : AutoSubmitted::VALUE_NO;
+		return $headers->has(AutoSubmitted::HEADER)
+			? $headers->get(AutoSubmitted::HEADER)->getBodyAsString() : AutoSubmitted::VALUE_NO;
 	}
 }

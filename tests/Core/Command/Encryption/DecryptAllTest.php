@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -17,13 +18,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class DecryptAllTest extends TestCase {
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	protected $config;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IAppManager */
 	protected $appManager;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
@@ -73,12 +74,16 @@ class DecryptAllTest extends TestCase {
 	public function testMaintenanceAndTrashbin(): void {
 		// on construct we enable single-user-mode and disable the trash bin
 		// on destruct we disable single-user-mode again and enable the trash bin
+		$calls = [
+			['maintenance', true],
+			['maintenance', false],
+		];
 		$this->config->expects($this->exactly(2))
 			->method('setSystemValue')
-			->withConsecutive(
-				['maintenance', true],
-				['maintenance', false],
-			);
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->appManager->expects($this->once())
 			->method('disableApp')
 			->with('files_trashbin');
@@ -105,9 +110,7 @@ class DecryptAllTest extends TestCase {
 		$this->invokePrivate($instance, 'resetMaintenanceAndTrashbin');
 	}
 
-	/**
-	 * @dataProvider dataTestExecute
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataTestExecute')]
 	public function testExecute($encryptionEnabled, $continue): void {
 		$instance = new DecryptAll(
 			$this->encryptionManager,
@@ -127,12 +130,16 @@ class DecryptAllTest extends TestCase {
 			->willReturn('user1');
 
 		if ($encryptionEnabled) {
+			$calls = [
+				['core', 'encryption_enabled', 'no'],
+				['core', 'encryption_enabled', 'yes'],
+			];
 			$this->config->expects($this->exactly(2))
 				->method('setAppValue')
-				->withConsecutive(
-					['core', 'encryption_enabled', 'no'],
-					['core', 'encryption_enabled', 'yes'],
-				);
+				->willReturnCallback(function () use (&$calls): void {
+					$expected = array_shift($calls);
+					$this->assertEquals($expected, func_get_args());
+				});
 			$this->questionHelper->expects($this->once())
 				->method('ask')
 				->willReturn($continue);
@@ -152,7 +159,7 @@ class DecryptAllTest extends TestCase {
 		$this->invokePrivate($instance, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function dataTestExecute() {
+	public static function dataTestExecute(): array {
 		return [
 			[true, true],
 			[true, false],
@@ -174,13 +181,16 @@ class DecryptAllTest extends TestCase {
 		);
 
 		// make sure that we enable encryption again after a exception was thrown
+		$calls = [
+			['core', 'encryption_enabled', 'no'],
+			['core', 'encryption_enabled', 'yes'],
+		];
 		$this->config->expects($this->exactly(2))
 			->method('setAppValue')
-			->withConsecutive(
-				['core', 'encryption_enabled', 'no'],
-				['core', 'encryption_enabled', 'yes'],
-			);
-
+			->willReturnCallback(function () use (&$calls): void {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+			});
 		$this->encryptionManager->expects($this->once())
 			->method('isEnabled')
 			->willReturn(true);
@@ -197,7 +207,7 @@ class DecryptAllTest extends TestCase {
 		$this->decryptAll->expects($this->once())
 			->method('decryptAll')
 			->with($this->consoleInput, $this->consoleOutput, 'user1')
-			->willReturnCallback(function () {
+			->willReturnCallback(function (): void {
 				throw new \Exception();
 			});
 

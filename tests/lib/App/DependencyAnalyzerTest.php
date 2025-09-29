@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
@@ -8,18 +9,13 @@ namespace Test\App;
 
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
-use OCP\IL10N;
 use Test\TestCase;
 
 class DependencyAnalyzerTest extends TestCase {
 	/** @var Platform|\PHPUnit\Framework\MockObject\MockObject */
 	private $platformMock;
 
-	/** @var IL10N */
-	private $l10nMock;
-
-	/** @var DependencyAnalyzer */
-	private $analyser;
+	private DependencyAnalyzer $analyser;
 
 	protected function setUp(): void {
 		$this->platformMock = $this->getMockBuilder(Platform::class)
@@ -54,26 +50,17 @@ class DependencyAnalyzerTest extends TestCase {
 			->method('getOcVersion')
 			->willReturn('8.0.2');
 
-		$this->l10nMock = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->l10nMock->expects($this->any())
-			->method('t')
-			->willReturnCallback(function ($text, $parameters = []) {
-				return vsprintf($text, $parameters);
-			});
-
-		$this->analyser = new DependencyAnalyzer($this->platformMock, $this->l10nMock);
+		$this->analyser = new DependencyAnalyzer($this->platformMock);
 	}
 
 	/**
-	 * @dataProvider providesPhpVersion
 	 *
 	 * @param string $expectedMissing
 	 * @param string $minVersion
 	 * @param string $maxVersion
 	 * @param string $intSize
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesPhpVersion')]
 	public function testPhpVersion($expectedMissing, $minVersion, $maxVersion, $intSize): void {
 		$app = [
 			'dependencies' => [
@@ -96,10 +83,10 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesDatabases
 	 * @param $expectedMissing
 	 * @param $databases
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesDatabases')]
 	public function testDatabases($expectedMissing, $databases): void {
 		$app = [
 			'dependencies' => [
@@ -115,11 +102,11 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesCommands
 	 *
 	 * @param string $expectedMissing
 	 * @param string|null $commands
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesCommands')]
 	public function testCommand($expectedMissing, $commands): void {
 		$app = [
 			'dependencies' => [
@@ -135,10 +122,10 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesLibs
 	 * @param $expectedMissing
 	 * @param $libs
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesLibs')]
 	public function testLibs($expectedMissing, $libs): void {
 		$app = [
 			'dependencies' => [
@@ -155,10 +142,10 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesOS
 	 * @param $expectedMissing
 	 * @param $oss
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesOS')]
 	public function testOS($expectedMissing, $oss): void {
 		$app = [
 			'dependencies' => []
@@ -174,10 +161,10 @@ class DependencyAnalyzerTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider providesOC
 	 * @param $expectedMissing
 	 * @param $oc
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesOC')]
 	public function testOC($expectedMissing, $oc): void {
 		$app = [
 			'dependencies' => []
@@ -195,7 +182,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesOC() {
+	public static function providesOC(): array {
 		return [
 			// no version -> no missing dependency
 			[
@@ -272,18 +259,6 @@ class DependencyAnalyzerTest extends TestCase {
 					'owncloud' => [
 						'@attributes' => [
 							'min-version' => '9'
-						],
-					],
-				],
-			],
-			[
-				[
-					'Server version 10 or higher is required.',
-				],
-				[
-					'nextcloud' => [
-						'@attributes' => [
-							'min-version' => '9.1',
 						],
 					],
 				],
@@ -383,18 +358,6 @@ class DependencyAnalyzerTest extends TestCase {
 			],
 			[
 				[
-					'Server version 10 or higher is required.',
-				],
-				[
-					'owncloud' => [
-						'@attributes' => [
-							'min-version' => '9.1',
-						],
-					],
-				],
-			],
-			[
-				[
 					'Server version 9.2 or higher is required.',
 				],
 				[
@@ -423,7 +386,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesOS() {
+	public static function providesOS(): array {
 		return [
 			[[], null],
 			[[], []],
@@ -435,7 +398,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesLibs() {
+	public static function providesLibs(): array {
 		return [
 			// we expect curl to exist
 			[[], 'curl'],
@@ -465,7 +428,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesCommands() {
+	public static function providesCommands(): array {
 		return [
 			[[], null],
 			// grep is known on linux
@@ -483,7 +446,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesDatabases() {
+	public static function providesDatabases(): array {
 		return [
 			// non BC - in case on databases are defined -> all are supported
 			[[], null],
@@ -496,7 +459,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	public function providesPhpVersion() {
+	public static function providesPhpVersion(): array {
 		return [
 			[[], null, null, null],
 			[[], '5.4', null, null],
@@ -507,5 +470,287 @@ class DependencyAnalyzerTest extends TestCase {
 			[['64bit or higher PHP required.'], null, null, 64],
 			[[], '5.4', '5.4', null],
 		];
+	}
+
+	public static function appVersionsProvider(): array {
+		return [
+			// exact match
+			[
+				'6.0.0.0',
+				[
+					'requiremin' => '6.0',
+					'requiremax' => '6.0',
+				],
+				true
+			],
+			// in-between match
+			[
+				'6.0.0.0',
+				[
+					'requiremin' => '5.0',
+					'requiremax' => '7.0',
+				],
+				true
+			],
+			// app too old
+			[
+				'6.0.0.0',
+				[
+					'requiremin' => '5.0',
+					'requiremax' => '5.0',
+				],
+				false
+			],
+			// app too new
+			[
+				'5.0.0.0',
+				[
+					'requiremin' => '6.0',
+					'requiremax' => '6.0',
+				],
+				false
+			],
+			// only min specified
+			[
+				'6.0.0.0',
+				[
+					'requiremin' => '6.0',
+				],
+				true
+			],
+			// only min specified fail
+			[
+				'5.0.0.0',
+				[
+					'requiremin' => '6.0',
+				],
+				false
+			],
+			// only min specified legacy
+			[
+				'6.0.0.0',
+				[
+					'require' => '6.0',
+				],
+				true
+			],
+			// only min specified legacy fail
+			[
+				'4.0.0.0',
+				[
+					'require' => '6.0',
+				],
+				false
+			],
+			// only max specified
+			[
+				'5.0.0.0',
+				[
+					'requiremax' => '6.0',
+				],
+				true
+			],
+			// only max specified fail
+			[
+				'7.0.0.0',
+				[
+					'requiremax' => '6.0',
+				],
+				false
+			],
+			// variations of versions
+			// single OC number
+			[
+				'4',
+				[
+					'require' => '4.0',
+				],
+				true
+			],
+			// multiple OC number
+			[
+				'4.3.1',
+				[
+					'require' => '4.3',
+				],
+				true
+			],
+			// single app number
+			[
+				'4',
+				[
+					'require' => '4',
+				],
+				true
+			],
+			// single app number fail
+			[
+				'4.3',
+				[
+					'require' => '5',
+				],
+				false
+			],
+			// complex
+			[
+				'5.0.0',
+				[
+					'require' => '4.5.1',
+				],
+				true
+			],
+			// complex fail
+			[
+				'4.3.1',
+				[
+					'require' => '4.3.2',
+				],
+				false
+			],
+			// two numbers
+			[
+				'4.3.1',
+				[
+					'require' => '4.4',
+				],
+				false
+			],
+			// one number fail
+			[
+				'4.3.1',
+				[
+					'require' => '5',
+				],
+				false
+			],
+			// pre-alpha app
+			[
+				'5.0.3',
+				[
+					'require' => '4.93',
+				],
+				true
+			],
+			// pre-alpha OC
+			[
+				'6.90.0.2',
+				[
+					'require' => '6.90',
+				],
+				true
+			],
+			// pre-alpha OC max
+			[
+				'6.90.0.2',
+				[
+					'requiremax' => '7',
+				],
+				true
+			],
+			// expect same major number match
+			[
+				'5.0.3',
+				[
+					'require' => '5',
+				],
+				true
+			],
+			// expect same major number match
+			[
+				'5.0.3',
+				[
+					'requiremax' => '5',
+				],
+				true
+			],
+			// dependencies versions before require*
+			[
+				'6.0.0.0',
+				[
+					'requiremin' => '5.0',
+					'requiremax' => '7.0',
+					'dependencies' => [
+						'owncloud' => [
+							'@attributes' => [
+								'min-version' => '7.0',
+								'max-version' => '7.0',
+							],
+						],
+					],
+				],
+				false
+			],
+			[
+				'6.0.0.0',
+				[
+					'requiremin' => '5.0',
+					'requiremax' => '7.0',
+					'dependencies' => [
+						'owncloud' => [
+							'@attributes' => [
+								'min-version' => '5.0',
+								'max-version' => '5.0',
+							],
+						],
+					],
+				],
+				false
+			],
+			[
+				'6.0.0.0',
+				[
+					'requiremin' => '5.0',
+					'requiremax' => '5.0',
+					'dependencies' => [
+						'owncloud' => [
+							'@attributes' => [
+								'min-version' => '5.0',
+								'max-version' => '7.0',
+							],
+						],
+					],
+				],
+				true
+			],
+			[
+				'9.2.0.0',
+				[
+					'dependencies' => [
+						'owncloud' => [
+							'@attributes' => [
+								'min-version' => '9.0',
+								'max-version' => '9.1',
+							],
+						],
+						'nextcloud' => [
+							'@attributes' => [
+								'min-version' => '9.1',
+								'max-version' => '9.2',
+							],
+						],
+					],
+				],
+				true
+			],
+			[
+				'9.2.0.0',
+				[
+					'dependencies' => [
+						'nextcloud' => [
+							'@attributes' => [
+								'min-version' => '9.1',
+								'max-version' => '9.2',
+							],
+						],
+					],
+				],
+				true
+			],
+		];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('appVersionsProvider')]
+	public function testServerVersion($ncVersion, $appInfo, $expectedResult): void {
+		$this->assertEquals($expectedResult, count($this->analyser->analyzeServerVersion($ncVersion, $appInfo, false)) === 0);
 	}
 }

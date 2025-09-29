@@ -132,7 +132,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 	 * @param string $principal
 	 * @return array
 	 */
-	protected function getAddressesForPrincipal($principal) {
+	public function getAddressesForPrincipal($principal) {
 		$result = parent::getAddressesForPrincipal($principal);
 
 		if ($result === null) {
@@ -261,7 +261,7 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		$principalUri = $aclPlugin->getPrincipalByUri($iTipMessage->recipient);
 		$calendarUserType = $this->getCalendarUserTypeForPrincipal($principalUri);
 		if (strcasecmp($calendarUserType, 'ROOM') !== 0 && strcasecmp($calendarUserType, 'RESOURCE') !== 0) {
-			$this->logger->debug('Calendar user type is room or resource, not processing further');
+			$this->logger->debug('Calendar user type is neither room nor resource, not processing further');
 			return;
 		}
 
@@ -372,8 +372,8 @@ EOF;
 					return null;
 				}
 
-				$isResourceOrRoom = str_starts_with($principalUrl, 'principals/calendar-resources') ||
-					str_starts_with($principalUrl, 'principals/calendar-rooms');
+				$isResourceOrRoom = str_starts_with($principalUrl, 'principals/calendar-resources')
+					|| str_starts_with($principalUrl, 'principals/calendar-rooms');
 
 				if (str_starts_with($principalUrl, 'principals/users')) {
 					[, $userId] = split($principalUrl);

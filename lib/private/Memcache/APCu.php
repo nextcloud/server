@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -100,7 +101,7 @@ class APCu extends Cache implements IMemcache {
 	 */
 	public function cas($key, $old, $new) {
 		// apc only does cas for ints
-		if (is_int($old) and is_int($new)) {
+		if (is_int($old) && is_int($new)) {
 			return apcu_cas($this->getPrefix() . $key, $old, $new);
 		} else {
 			return $this->casEmulated($key, $old, $new);

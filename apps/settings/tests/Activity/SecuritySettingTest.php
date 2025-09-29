@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,8 +13,8 @@ use Test\TestCase;
 class SecuritySettingTest extends TestCase {
 	private $l10n;
 
-	/** @var SecuritySetting */
-	private $setting;
+	/** @var  */
+	private SecuritySetting $setting;
 
 	protected function setUp(): void {
 		parent::setUp();

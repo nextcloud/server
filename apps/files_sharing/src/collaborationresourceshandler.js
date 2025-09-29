@@ -2,9 +2,10 @@
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { getCSPNonce } from '@nextcloud/auth'
 
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(OC.requestToken)
+__webpack_nonce__ = getCSPNonce()
 
 window.OCP.Collaboration.registerType('file', {
 	action: () => {

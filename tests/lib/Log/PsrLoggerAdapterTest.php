@@ -28,9 +28,7 @@ class PsrLoggerAdapterTest extends TestCase {
 		$this->loggerAdapter = new PsrLoggerAdapter($this->logger);
 	}
 
-	/**
-	 * @dataProvider dataPsrLoggingLevels
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPsrLoggingLevels')]
 	public function testLoggingWithPsrLogLevels(string $level, int $expectedLevel): void {
 		$this->logger->expects(self::once())
 			->method('log')
@@ -38,14 +36,12 @@ class PsrLoggerAdapterTest extends TestCase {
 		$this->loggerAdapter->log($level, 'test message', ['app' => 'test']);
 	}
 
-	/**
-	 * @dataProvider dataPsrLoggingLevels
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPsrLoggingLevels')]
 	public function testLogLevelToInt(string $level, int $expectedLevel): void {
 		$this->assertEquals($expectedLevel, PsrLoggerAdapter::logLevelToInt($level));
 	}
 
-	public function dataPsrLoggingLevels(): array {
+	public static function dataPsrLoggingLevels(): array {
 		return [
 			[LogLevel::ALERT, ILogger::ERROR],
 			[LogLevel::CRITICAL, ILogger::ERROR],
@@ -58,9 +54,7 @@ class PsrLoggerAdapterTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataInvalidLoggingLevel
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataInvalidLoggingLevel')]
 	public function testInvalidLoggingLevel($level): void {
 		$this->logger->expects(self::never())
 			->method('log');
@@ -69,7 +63,7 @@ class PsrLoggerAdapterTest extends TestCase {
 		$this->loggerAdapter->log($level, 'valid message');
 	}
 
-	public function dataInvalidLoggingLevel(): array {
+	public static function dataInvalidLoggingLevel(): array {
 		return [
 			// invalid string
 			['this is not a level'],

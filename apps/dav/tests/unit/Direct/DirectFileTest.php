@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\DAV\Tests\Unit\Direct;
+namespace OCA\DAV\Tests\unit\Direct;
 
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Direct\DirectFile;
@@ -14,28 +14,17 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\Forbidden;
 use Test\TestCase;
 
 class DirectFileTest extends TestCase {
-
-	/** @var Direct */
-	private $direct;
-
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
-	private $userFolder;
-
-	/** @var File|\PHPUnit\Framework\MockObject\MockObject */
-	private $file;
-
-	/** @var DirectFile */
-	private $directFile;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	private Direct $direct;
+	private IRootFolder&MockObject $rootFolder;
+	private Folder&MockObject $userFolder;
+	private File&MockObject $file;
+	private IEventDispatcher&MockObject $eventDispatcher;
+	private DirectFile $directFile;
 
 	protected function setUp(): void {
 		parent::setUp();

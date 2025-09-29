@@ -8,8 +8,8 @@ import { translate as t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
 import { isPublicShare } from '@nextcloud/sharing/public'
 
-import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
-import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
+import AccountGroupSvg from '@mdi/svg/svg/account-group-outline.svg?raw'
+import AccountPlusSvg from '@mdi/svg/svg/account-plus-outline.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
 
@@ -17,6 +17,7 @@ import { action as sidebarAction } from '../../../files/src/actions/sidebarActio
 import { generateAvatarSvg } from '../utils/AccountIcon'
 
 import './sharingStatusAction.scss'
+import { showError } from '@nextcloud/dialogs'
 
 const isExternal = (node: Node) => {
 	return node.attributes?.['is-federated'] ?? false
@@ -53,7 +54,7 @@ export const action = new FileAction({
 		const sharees = node.attributes.sharees?.sharee as { id: string, 'display-name': string, type: ShareType }[] | undefined
 		if (!sharees) {
 			// No sharees so just show the default message to create a new share
-			return t('files_sharing', 'Show sharing options')
+			return t('files_sharing', 'Sharing options')
 		}
 
 		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate
@@ -125,15 +126,23 @@ export const action = new FileAction({
 			return true
 		}
 
+		// You need share permissions to share this file
+		// and read permissions to see the sidebar
 		return (node.permissions & Permission.SHARE) !== 0
+			&& (node.permissions & Permission.READ) !== 0
 	},
 
 	async exec(node: Node, view: View, dir: string) {
 		// You need read permissions to see the sidebar
 		if ((node.permissions & Permission.READ) !== 0) {
 			window.OCA?.Files?.Sidebar?.setActiveTab?.('sharing')
-			return sidebarAction.exec(node, view, dir)
+			sidebarAction.exec(node, view, dir)
+			return null
 		}
+
+		// Should not happen as the enabled check should prevent this
+		// leaving it here for safety or in case someone calls this action directly
+		showError(t('files_sharing', 'You do not have enough permissions to share this file.'))
 		return null
 	},
 

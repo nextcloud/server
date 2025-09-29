@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -7,7 +8,13 @@
 
 namespace Test\Files\Storage;
 
+use OC\Files\Storage\Local;
 use OC\Files\Storage\Wrapper\Jail;
+use OCP\Files;
+use OCP\Files\ForbiddenException;
+use OCP\Files\StorageNotAvailableException;
+use OCP\ITempManager;
+use OCP\Server;
 
 /**
  * Class LocalTest
@@ -25,12 +32,12 @@ class LocalTest extends Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
+		$this->tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
+		$this->instance = new Local(['datadir' => $this->tmpDir]);
 	}
 
 	protected function tearDown(): void {
-		\OC_Helper::rmdirr($this->tmpDir);
+		Files::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}
 
@@ -54,19 +61,19 @@ class LocalTest extends Storage {
 	public function testInvalidArgumentsEmptyArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		new \OC\Files\Storage\Local([]);
+		new Local([]);
 	}
 
 
 	public function testInvalidArgumentsNoArray(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
-		new \OC\Files\Storage\Local([]);
+		new Local([]);
 	}
 
 
 	public function testDisallowSymlinksOutsideDatadir(): void {
-		$this->expectException(\OCP\Files\ForbiddenException::class);
+		$this->expectException(ForbiddenException::class);
 
 		$subDir1 = $this->tmpDir . 'sub1';
 		$subDir2 = $this->tmpDir . 'sub2';
@@ -76,7 +83,7 @@ class LocalTest extends Storage {
 
 		symlink($subDir2, $sym);
 
-		$storage = new \OC\Files\Storage\Local(['datadir' => $subDir1]);
+		$storage = new Local(['datadir' => $subDir1]);
 
 		$storage->file_put_contents('sym/foo', 'bar');
 	}
@@ -90,7 +97,7 @@ class LocalTest extends Storage {
 
 		symlink($subDir2, $sym);
 
-		$storage = new \OC\Files\Storage\Local(['datadir' => $subDir1]);
+		$storage = new Local(['datadir' => $subDir1]);
 
 		$storage->file_put_contents('sym/foo', 'bar');
 		$this->addToAssertionCount(1);
@@ -128,12 +135,12 @@ class LocalTest extends Storage {
 	}
 
 	public function testUnavailableExternal(): void {
-		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
-		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir . '/unexist', 'isExternal' => true]);
+		$this->expectException(StorageNotAvailableException::class);
+		$this->instance = new Local(['datadir' => $this->tmpDir . '/unexist', 'isExternal' => true]);
 	}
 
 	public function testUnavailableNonExternal(): void {
-		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir . '/unexist']);
+		$this->instance = new Local(['datadir' => $this->tmpDir . '/unexist']);
 		// no exception thrown
 		$this->assertNotNull($this->instance);
 	}

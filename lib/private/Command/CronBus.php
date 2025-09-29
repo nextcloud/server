@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -43,7 +44,7 @@ class CronBus extends AsyncBus {
 	private function serializeCommand($command): string {
 		if ($command instanceof \Closure) {
 			return serialize(new SerializableClosure($command));
-		} elseif (is_callable($command) or $command instanceof ICommand) {
+		} elseif (is_callable($command) || $command instanceof ICommand) {
 			return serialize($command);
 		} else {
 			throw new \InvalidArgumentException('Invalid command');

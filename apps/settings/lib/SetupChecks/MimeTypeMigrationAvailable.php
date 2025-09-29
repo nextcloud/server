@@ -10,18 +10,15 @@ namespace OCA\Settings\SetupChecks;
 
 use OC\Repair\RepairMimeTypes;
 use OCP\IL10N;
-use OCP\L10N\IFactory;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\SetupCheck\SetupResult;
 
 class MimeTypeMigrationAvailable implements ISetupCheck {
-	private IL10N $l10n;
 
 	public function __construct(
-		IFactory $l10nFactory,
 		private RepairMimeTypes $repairMimeTypes,
+		private IL10N $l10n,
 	) {
-		$this->l10n = $l10nFactory->get('core');
 	}
 
 	public function getCategory(): string {

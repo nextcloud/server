@@ -36,10 +36,7 @@ class BruteforceAllowList {
 			return false;
 		}
 
-		$keys = $this->appConfig->getKeys('bruteForce');
-		$keys = array_filter($keys, static fn ($key): bool => str_starts_with($key, 'whitelist_'));
-
-		foreach ($keys as $key) {
+		foreach ($this->appConfig->searchKeys('bruteForce', 'whitelist_') as $key) {
 			$rangeString = $this->appConfig->getValueString('bruteForce', $key);
 			try {
 				$range = $this->factory->rangeFromString($rangeString);

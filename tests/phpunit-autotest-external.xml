@@ -1,39 +1,30 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
+ - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  - SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
  - SPDX-License-Identifier: AGPL-3.0-only
 -->
-<phpunit bootstrap="bootstrap.php"
-		 verbose="true"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 bootstrap="bootstrap.php"
 		 timeoutForSmallTests="900"
 		 timeoutForMediumTests="900"
 		 timeoutForLargeTests="900"
->
-	<testsuite name='ownCloud files external'>
-		<directory suffix=".php">../apps/files_external/tests</directory>
+		 cacheDirectory=".phpunit.cache"
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
+	<testsuite name="Nextcloud files external">
+		<directory>../apps/files_external/tests</directory>
 		<!-- exclude backends as they are called separately -->
 		<exclude>../apps/files_external/tests/Storage/</exclude>
 	</testsuite>
-	<!-- filters for code coverage -->
-	<filter>
-		<!-- whitelist processUncoveredFilesFromWhitelist="true" -->
-		<whitelist>
+	<source>
+		<include>
 			<file>../lib/private/Files/Storage/DAV.php</file>
-			<directory suffix=".php">../apps/files_external</directory>
-			<exclude>
-				<directory suffix=".php">../apps/files_external/l10n</directory>
-				<directory suffix=".php">../apps/files_external/3rdparty</directory>
-				<directory suffix=".php">../apps/files_external/tests</directory>
-			</exclude>
-		</whitelist>
-	</filter>
-	<!--<listeners>
-		<listener class="StartSessionListener" file="startsessionlistener.php" />
-	  <listener class="TestCleanupListener" file="testcleanuplistener.php">
-		<arguments>
-			<string>detail</string>
-		</arguments>
-	  </listener>
-	</listeners>-->
+			<directory>../apps/files_external</directory>
+		</include>
+		<exclude>
+			<directory>../apps/files_external/l10n</directory>
+			<directory>../apps/files_external/3rdparty</directory>
+			<directory>../apps/files_external/tests</directory>
+		</exclude>
+	</source>
 </phpunit>
-

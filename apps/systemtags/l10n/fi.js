@@ -60,6 +60,7 @@ OC.L10N.register(
     "Loading …" : "Ladataan…",
     "Manage tags" : "Hallitse tunnisteita",
     "Cancel" : "Peruuta",
+    "Apply" : "Toteuta",
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
     "Failed to select tag" : "Tunnisteen valitseminen epäonnistui",
     "Loading collaborative tags …" : "Ladataan yhteistyöllisiä tunnisteita…",
@@ -67,8 +68,6 @@ OC.L10N.register(
     "Open in Files" : "Avaa tiedostosovelluksessa",
     "No tags found" : "Tunnisteita ei löytynyt",
     "Tags you have created will show up here." : "Luomasi tunnisteet näkyvät täällä.",
-    "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu",
-    "This file has the tag {tag}" : "Tällä tiedostolla on tunniste {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tällä tiedostolla on tunnisteet {firstTags} ja {lastTag}"
+    "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu"
 },
 "nplurals=2; plural=(n != 1);");

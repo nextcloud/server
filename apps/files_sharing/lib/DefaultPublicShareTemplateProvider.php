@@ -24,6 +24,7 @@ use OCP\Constants;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -49,6 +50,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		private Defaults $defaults,
 		private IConfig $config,
 		private IRequest $request,
+		private ITemplateManager $templateManager,
 		private IInitialState $initialState,
 		private IAppConfig $appConfig,
 	) {
@@ -70,8 +72,10 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 
 			$ownerNameProperty = $ownerAccount->getProperty(IAccountManager::PROPERTY_DISPLAYNAME);
 			if ($ownerNameProperty->getScope() === IAccountManager::SCOPE_PUBLISHED) {
-				$ownerName = $owner->getDisplayName();
 				$ownerId = $owner->getUID();
+				$ownerName = $owner->getDisplayName();
+				$this->initialState->provideInitialState('owner', $ownerId);
+				$this->initialState->provideInitialState('ownerDisplayName', $ownerName);
 			}
 		}
 
@@ -89,6 +93,9 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 				'disclaimer',
 				$this->appConfig->getValueString('core', 'shareapi_public_link_disclaimertext'),
 			);
+			// file drops do not request the root folder so we need to provide label and note if available
+			$this->initialState->provideInitialState('label', $share->getLabel());
+			$this->initialState->provideInitialState('note', $share->getNote());
 		}
 		// Set up initial state
 		$this->initialState->provideInitialState('isPublic', true);
@@ -102,18 +109,19 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		Util::addInitScript(Application::APP_ID, 'init');
 		Util::addInitScript(Application::APP_ID, 'init-public');
 		Util::addScript('files', 'main');
+		Util::addScript(Application::APP_ID, 'public-nickname-handler');
 
 		// Add file-request script if needed
 		$attributes = $share->getAttributes();
 		$isFileRequest = $attributes?->getAttribute('fileRequest', 'enabled') === true;
-		if ($isFileRequest) {
-			Util::addScript(Application::APP_ID, 'public-file-request');
-		}
+		$this->initialState->provideInitialState('isFileRequest', $isFileRequest);
 
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
 		}
+
+		$this->initialState->provideInitialState('templates', $this->templateManager->listCreators());
 
 		// Allow external apps to register their scripts
 		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($share));
@@ -145,18 +153,15 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 
 		// Create the header action menu
 		$headerActions = [];
-		if ($view !== 'public-file-drop') {
+		if ($view !== 'public-file-drop' && !$share->getHideDownload()) {
 			// The download URL is used for the "download" header action as well as in some cases for the direct link
-			$downloadUrl = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', [
-				'token' => $token,
-				'filename' => ($shareNode instanceof File) ? $shareNode->getName() : null,
-			]);
+			$downloadUrl = $this->urlGenerator->getAbsoluteURL('/public.php/dav/files/' . $token . '/?accept=zip');
 
 			// If not a file drop, then add the download header action
 			$headerActions[] = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $downloadUrl, 0, (string)$shareNode->getSize());
 
 			// If remote sharing is enabled also add the remote share action to the menu
-			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled() && !$share->getHideDownload()) {
+			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 				$headerActions[] = new ExternalShareMenuAction(
 					// TRANSLATORS The placeholder refers to the software product name as in 'Add to your Nextcloud'
 					$this->l10n->t('Add to your %s', [$this->defaults->getProductName()]),

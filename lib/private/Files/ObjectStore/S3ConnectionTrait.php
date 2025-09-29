@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -39,6 +40,7 @@ trait S3ConnectionTrait {
 		// Default to 5 like the S3 SDK does
 		$this->concurrency = $params['concurrency'] ?? 5;
 		$this->proxy = $params['proxy'] ?? false;
+		$this->connectTimeout = $params['connect_timeout'] ?? 5;
 		$this->timeout = $params['timeout'] ?? 15;
 		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
 		$this->uploadPartSize = $params['uploadPartSize'] ?? 524288000;
@@ -102,10 +104,13 @@ trait S3ConnectionTrait {
 			'use_arn_region' => false,
 			'http' => [
 				'verify' => $this->getCertificateBundlePath(),
-				// Timeout for the connection to S3 server, not for the request.
-				'connect_timeout' => 5
+				'connect_timeout' => $this->connectTimeout,
 			],
 			'use_aws_shared_config_files' => false,
+			'retries' => [
+				'mode' => 'standard',
+				'max_attempts' => 5,
+			],
 		];
 
 		if ($this->params['s3-accelerate']) {
@@ -128,7 +133,7 @@ trait S3ConnectionTrait {
 				$logger->debug('Bucket "' . $this->bucket . '" This bucket name is not dns compatible, it may contain invalid characters.',
 					['app' => 'objectstore']);
 			}
-	
+
 			if ($this->params['verify_bucket_exists'] && !$this->connection->doesBucketExist($this->bucket)) {
 				try {
 					$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
@@ -185,10 +190,12 @@ trait S3ConnectionTrait {
 		return function () {
 			$key = empty($this->params['key']) ? null : $this->params['key'];
 			$secret = empty($this->params['secret']) ? null : $this->params['secret'];
+			$sessionToken = empty($this->params['session_token']) ? null : $this->params['session_token'];
 
 			if ($key && $secret) {
 				return Create::promiseFor(
-					new Credentials($key, $secret)
+					// a null sessionToken match the default signature of the constructor
+					new Credentials($key, $secret, $sessionToken)
 				);
 			}
 

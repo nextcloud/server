@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -9,6 +10,7 @@ namespace Test\Files\Type;
 
 use OC\Files\Type\Loader;
 use OCP\IDBConnection;
+use OCP\Server;
 use Test\TestCase;
 
 class LoaderTest extends TestCase {
@@ -16,7 +18,7 @@ class LoaderTest extends TestCase {
 	protected Loader $loader;
 
 	protected function setUp(): void {
-		$this->db = \OC::$server->get(IDBConnection::class);
+		$this->db = Server::get(IDBConnection::class);
 		$this->loader = new Loader($this->db);
 	}
 
@@ -26,7 +28,7 @@ class LoaderTest extends TestCase {
 			->where($deleteMimetypes->expr()->like(
 				'mimetype', $deleteMimetypes->createPositionalParameter('testing/%')
 			));
-		$deleteMimetypes->execute();
+		$deleteMimetypes->executeStatement();
 	}
 
 
@@ -36,7 +38,7 @@ class LoaderTest extends TestCase {
 			->values([
 				'mimetype' => $qb->createPositionalParameter('testing/mymimetype')
 			]);
-		$qb->execute();
+		$qb->executeStatement();
 
 		$this->assertTrue($this->loader->exists('testing/mymimetype'));
 		$mimetypeId = $this->loader->getId('testing/mymimetype');
@@ -61,7 +63,7 @@ class LoaderTest extends TestCase {
 			->from('mimetypes')
 			->where($qb->expr()->eq('id', $qb->createPositionalParameter($mimetypeId)));
 
-		$result = $qb->execute();
+		$result = $qb->executeQuery();
 		$mimetype = $result->fetch();
 		$result->closeCursor();
 		$this->assertEquals('testing/mymimetype', $mimetype['mimetype']);

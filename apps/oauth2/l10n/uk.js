@@ -13,6 +13,7 @@ OC.L10N.register(
     "Client Identifier" : "Ідентифікатор клієнта",
     "Secret key" : "Пароль",
     "Delete client" : "Вилучити клієнта",
+    "Make sure you store the secret key, it cannot be recovered." : "Обов'язково збережіть секретний ключ, його неможливо відновити.",
     "Add client" : "Додати клієнта",
     "Add" : "Додати",
     "Show client secret" : "Показати ключ клієнта",

@@ -65,6 +65,7 @@ OC.L10N.register(
     "Loading …" : "Betöltés…",
     "Manage tags" : "Címkék kezelése",
     "Cancel" : "Mégse",
+    "Apply" : "Alkalmaz",
     "Failed to load tags" : "A címkék betöltése sikertelen",
     "Failed to load selected tags" : "A kiválasztott címkék betöltése sikertelen",
     "Failed to select tag" : "A címke kiválasztása sikertelen",
@@ -77,8 +78,6 @@ OC.L10N.register(
     "No tags found" : "Nem találhatók címkék",
     "Tags you have created will show up here." : "A saját címkék itt jelennek meg.",
     "Failed to load last used tags" : "A legutóbb használt címkék betöltése sikertelen",
-    "Missing \"Content-Location\" header" : "Hiányzó „Content-Location” fejléc",
-    "This file has the tag {tag}" : "Ennek a fájlnak ez a címkéje: {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Ennek a fájlnak ezek a címkéi: {firstTags} és {lastTag}"
+    "Missing \"Content-Location\" header" : "Hiányzó „Content-Location” fejléc"
 },
 "nplurals=2; plural=(n != 1);");

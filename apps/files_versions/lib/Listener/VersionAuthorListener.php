@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Files_Versions\Listener;
 
 use OC\Files\Node\Folder;
+use OCA\Files_Versions\Sabre\Plugin;
 use OCA\Files_Versions\Versions\IMetadataVersionBackend;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\EventDispatcher\Event;
@@ -47,8 +48,9 @@ class VersionAuthorListener implements IEventListener {
 		}
 		// check if our version manager supports setting the metadata
 		if ($this->versionManager instanceof IMetadataVersionBackend) {
+			$revision = $this->versionManager->getRevision($node);
 			$author = $user->getUID();
-			$this->versionManager->setMetadataValue($node, $node->getMTime(), 'author', $author);
+			$this->versionManager->setMetadataValue($node, $revision, Plugin::AUTHOR, $author);
 		}
 	}
 }

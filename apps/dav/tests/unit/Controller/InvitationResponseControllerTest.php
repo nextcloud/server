@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\Tests\Unit\DAV\Controller;
+namespace OCA\DAV\Tests\unit\DAV\Controller;
 
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCA\DAV\Controller\InvitationResponseController;
@@ -18,24 +18,16 @@ use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 
 class InvitationResponseControllerTest extends TestCase {
-	/** @var InvitationResponseController */
-	private $controller;
-
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	private $dbConnection;
-
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	private $timeFactory;
-
-	/** @var InvitationResponseServer|\PHPUnit\Framework\MockObject\MockObject */
-	private $responseServer;
+	private IDBConnection&MockObject $dbConnection;
+	private IRequest&MockObject $request;
+	private ITimeFactory&MockObject $timeFactory;
+	private InvitationResponseServer&MockObject $responseServer;
+	private InvitationResponseController $controller;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -43,9 +35,7 @@ class InvitationResponseControllerTest extends TestCase {
 		$this->dbConnection = $this->createMock(IDBConnection::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->responseServer = $this->getMockBuilder(InvitationResponseServer::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->responseServer = $this->createMock(InvitationResponseServer::class);
 
 		$this->controller = new InvitationResponseController(
 			'appName',
@@ -56,16 +46,14 @@ class InvitationResponseControllerTest extends TestCase {
 		);
 	}
 
-	public function attendeeProvider(): array {
+	public static function attendeeProvider(): array {
 		return [
 			'local attendee' => [false],
 			'external attendee' => [true]
 		];
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testAccept(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -127,9 +115,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testAcceptSequence(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -191,9 +177,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testAcceptRecurrenceId(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -283,9 +267,7 @@ EOF;
 		$this->assertEquals([], $response->getParams());
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testDecline(bool $isExternalAttendee): void {
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -354,9 +336,7 @@ EOF;
 		$this->assertEquals(['token' => 'TOKEN123'], $response->getParams());
 	}
 
-	/**
-	 * @dataProvider attendeeProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('attendeeProvider')]
 	public function testProcessMoreOptionsResult(bool $isExternalAttendee): void {
 		$this->request->expects($this->once())
 			->method('getParam')
@@ -424,7 +404,7 @@ EOF;
 		$this->assertTrue($called);
 	}
 
-	private function buildQueryExpects($token, $return, $time): void {
+	private function buildQueryExpects(string $token, ?array $return, int $time): void {
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
 		$stmt = $this->createMock(IResult::class);
 		$expr = $this->createMock(IExpressionBuilder::class);

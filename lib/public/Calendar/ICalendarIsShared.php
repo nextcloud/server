@@ -14,7 +14,7 @@ namespace OCP\Calendar;
  * @since 31.0.0
  */
 interface ICalendarIsShared {
-	
+
 	/**
 	 * Indicates whether the calendar is shared with the current user
 	 *

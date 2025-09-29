@@ -47,8 +47,8 @@ class AppSearch implements IProvider {
 		$result = [];
 		foreach ($entries as $entry) {
 			if (
-				stripos($entry['name'], $term) === false &&
-				stripos($entry['id'], $term) === false
+				stripos($entry['name'], $term) === false
+				&& stripos($entry['id'], $term) === false
 			) {
 				continue;
 			}

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -17,7 +19,7 @@ use OCA\Files_External\Lib\Storage\Swift;
  * @package OCA\Files_External\Tests\Storage
  */
 class SwiftTest extends \Test\Files\Storage\Storage {
-	private $config;
+	use ConfigurableStorageTrait;
 
 	/**
 	 * @var Swift instance
@@ -27,10 +29,7 @@ class SwiftTest extends \Test\Files\Storage\Storage {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = include('files_external/tests/config.swift.php');
-		if (!is_array($this->config) or !$this->config['run']) {
-			$this->markTestSkipped('OpenStack Object Storage backend not configured');
-		}
+		$this->loadConfig('files_external/tests/config.swift.php');
 		$this->instance = new Swift($this->config);
 	}
 

@@ -22,30 +22,20 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\UserInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class GroupsControllerTest extends \Test\TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	protected $request;
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userManager;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $groupManager;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $userSession;
-	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
-	protected $accountManager;
-	/** @var ISubAdmin|\PHPUnit\Framework\MockObject\MockObject */
-	protected $subAdminManager;
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $l10nFactory;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-
-	/** @var GroupsController|\PHPUnit\Framework\MockObject\MockObject */
-	protected $api;
+	protected IRequest&MockObject $request;
+	protected IUserManager&MockObject $userManager;
+	protected IConfig&MockObject $config;
+	protected Manager&MockObject $groupManager;
+	protected IUserSession&MockObject $userSession;
+	protected IAccountManager&MockObject $accountManager;
+	protected ISubAdmin&MockObject $subAdminManager;
+	protected IFactory&MockObject $l10nFactory;
+	protected LoggerInterface&MockObject $logger;
+	protected GroupsController&MockObject $api;
 
 	private IRootFolder $rootFolder;
 
@@ -82,16 +72,12 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->rootFolder,
 				$this->logger
 			])
-			->setMethods(['fillStorageInfo'])
+			->onlyMethods(['fillStorageInfo'])
 			->getMock();
 	}
 
-	/**
-	 * @param string $gid
-	 * @return IGroup|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private function createGroup($gid) {
-		$group = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+	private function createGroup(string $gid): IGroup&MockObject {
+		$group = $this->createMock(IGroup::class);
 		$group
 			->method('getGID')
 			->willReturn($gid);
@@ -116,7 +102,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/**
 	 * @param string $uid
-	 * @return IUser|\PHPUnit\Framework\MockObject\MockObject
+	 * @return IUser&MockObject
 	 */
 	private function createUser($uid) {
 		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -165,7 +151,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			});
 	}
 
-	public function dataGetGroups() {
+	public static function dataGetGroups(): array {
 		return [
 			[null, 0, 0],
 			['foo', 0, 0],
@@ -175,14 +161,8 @@ class GroupsControllerTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetGroups
-	 *
-	 * @param string|null $search
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 */
-	public function testGetGroups($search, $limit, $offset): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetGroups')]
+	public function testGetGroups(?string $search, int $limit, int $offset): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 
 		$search = $search === null ? '' : $search;
@@ -198,12 +178,12 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataGetGroups
 	 *
 	 * @param string|null $search
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetGroups')]
 	public function testGetGroupsDetails($search, $limit, $offset): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 
@@ -509,7 +489,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getUserGroups')
 			->willReturn([$group]);
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject */
+		/** @var MockObject */
 		$this->subAdminManager->expects($this->any())
 			->method('isSubAdminOfGroup')
 			->willReturn(false);
@@ -554,7 +534,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getUserGroups')
 			->willReturn([$group]);
 
-		/** @var \PHPUnit\Framework\MockObject\MockObject */
+		/** @var MockObject */
 		$this->subAdminManager->expects($this->any())
 			->method('isSubAdminOfGroup')
 			->willReturn(false);

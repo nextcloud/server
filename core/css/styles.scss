@@ -113,7 +113,7 @@ body {
 .two-factor-link {
 	display: inline-block;
 	padding: 12px;
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 }
 
 .float-spinner {
@@ -335,7 +335,7 @@ body[dir='rtl'] #dbpassword {
 		color: white !important;
 		font-weight: bold !important;
 		&.button {
-			color: var(--color-text-lighter) !important;
+			color: var(--color-text-maxcontrast) !important;
 			display: inline-block;
 			text-align: center;
 		}
@@ -355,7 +355,7 @@ body[dir='rtl'] #dbpassword {
 }
 
 .warning-input {
-	border-color: var(--color-error) !important;
+	border-color: var(--color-error-text) !important;
 }
 
 /* fixes for update page TODO should be fixed some time in a proper way */
@@ -499,7 +499,7 @@ code {
 	.ui-datepicker-calendar {
 		th {
 			font-weight: normal;
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 			opacity: .8;
 			width: 26px;
 			padding: 2px;
@@ -522,7 +522,7 @@ code {
 
 			&.ui-datepicker-week-end:not(.ui-state-disabled) :not(.ui-state-hover),
 			.ui-priority-secondary:not(.ui-state-hover) {
-				color: var(--color-text-lighter);
+				color: var(--color-text-maxcontrast);
 				opacity: .8;
 			}
 		}
@@ -589,7 +589,7 @@ body[dir='rtl'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
 	.ui-timepicker-table {
 		th {
 			font-weight: normal;
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 			opacity: .8;
 			&.periods {
 				padding: 0;
@@ -611,7 +611,7 @@ body[dir='rtl'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
 			}
 
 			&.ui-timepicker-minutes:not(.ui-state-hover) {
-				color: var(--color-text-lighter);
+				color: var(--color-text-maxcontrast);
 			}
 
 			&.ui-timepicker-hours {

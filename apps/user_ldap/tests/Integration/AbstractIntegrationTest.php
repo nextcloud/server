@@ -16,7 +16,6 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\IAvatarManager;
 use OCP\IConfig;
-use OCP\IDBConnection;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Server;
@@ -125,7 +124,7 @@ abstract class AbstractIntegrationTest {
 	 * initializes the test Helper
 	 */
 	protected function initHelper() {
-		$this->helper = new Helper(Server::get(IConfig::class), Server::get(IDBConnection::class));
+		$this->helper = Server::get(Helper::class);
 	}
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -75,8 +76,8 @@ class Updater {
 			foreach ($subShares as $subShare) {
 				$shareCacheEntry = $shareSources[$subShare->getNodeId()] ?? null;
 				if (
-					$shareCacheEntry &&
-					str_starts_with($shareCacheEntry->getPath(), $sourceInternalPath . '/')
+					$shareCacheEntry
+					&& str_starts_with($shareCacheEntry->getPath(), $sourceInternalPath . '/')
 				) {
 					$shares[] = $subShare;
 				}
@@ -95,9 +96,9 @@ class Updater {
 		//Ownership is moved over
 		foreach ($shares as $share) {
 			if (
-				$share->getShareType() !== IShare::TYPE_USER &&
-				$share->getShareType() !== IShare::TYPE_GROUP &&
-				$share->getShareType() !== IShare::TYPE_ROOM
+				$share->getShareType() !== IShare::TYPE_USER
+				&& $share->getShareType() !== IShare::TYPE_GROUP
+				&& $share->getShareType() !== IShare::TYPE_ROOM
 			) {
 				continue;
 			}

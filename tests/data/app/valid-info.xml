@@ -22,7 +22,6 @@
 	<types>
 		<filesystem/>
 	</types>
-	<ocsid>166047</ocsid>
 	<dependencies>
 		<php min-version="5.4" max-version="5.5"/>
 		<database min-version="3.0">sqlite</database>

@@ -9,10 +9,13 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 
 use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Federation\FederatedCalendarMapper;
+use OCA\DAV\CalDAV\Federation\FederationSharingService;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\Sharing\Backend as SharingBackend;
 use OCA\DAV\CalDAV\Sharing\Service;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\RemoteUserPrincipalBackend;
 use OCA\DAV\DAV\Sharing\SharingMapper;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
@@ -44,15 +47,20 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 
 	protected CalDavBackend $backend;
-	protected Principal|MockObject $principal;
-	protected IUserManager|MockObject $userManager;
-	protected IGroupManager|MockObject $groupManager;
-	protected IEventDispatcher|MockObject $dispatcher;
-	private LoggerInterface|MockObject $logger;
-	private IConfig|MockObject $config;
+	protected Principal&MockObject $principal;
+	protected IUserManager&MockObject $userManager;
+	protected IGroupManager&MockObject $groupManager;
+	protected IEventDispatcher&MockObject $dispatcher;
+	private LoggerInterface&MockObject $logger;
+	private IConfig&MockObject $config;
 	private ISecureRandom $random;
 	protected SharingBackend $sharingBackend;
 	protected IDBConnection $db;
+	protected RemoteUserPrincipalBackend&MockObject $remoteUserPrincipalBackend;
+	protected FederationSharingService&MockObject $federationSharingService;
+	protected FederatedCalendarMapper&MockObject $federatedCalendarMapper;
+	protected ICacheFactory $cacheFactory;
+
 	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	public const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
 	public const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
@@ -77,9 +85,9 @@ abstract class AbstractCalDavBackend extends TestCase {
 				$this->createMock(IConfig::class),
 				$this->createMock(IFactory::class)
 			])
-			->setMethods(['getPrincipalByPath', 'getGroupMembership', 'findByUri'])
+			->onlyMethods(['getPrincipalPropertiesByPath', 'getGroupMembership', 'findByUri'])
 			->getMock();
-		$this->principal->expects($this->any())->method('getPrincipalByPath')
+		$this->principal->expects($this->any())->method('getPrincipalPropertiesByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend',
 				'{DAV:}displayname' => 'User\'s displayname',
@@ -92,13 +100,19 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->random = Server::get(ISecureRandom::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->remoteUserPrincipalBackend = $this->createMock(RemoteUserPrincipalBackend::class);
+		$this->federationSharingService = $this->createMock(FederationSharingService::class);
+		$this->federatedCalendarMapper = $this->createMock(FederatedCalendarMapper::class);
 		$this->sharingBackend = new SharingBackend(
 			$this->userManager,
 			$this->groupManager,
 			$this->principal,
+			$this->remoteUserPrincipalBackend,
 			$this->createMock(ICacheFactory::class),
 			new Service(new SharingMapper($this->db)),
+			$this->federationSharingService,
 			$this->logger);
+		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->backend = new CalDavBackend(
 			$this->db,
 			$this->principal,
@@ -108,6 +122,8 @@ abstract class AbstractCalDavBackend extends TestCase {
 			$this->dispatcher,
 			$this->config,
 			$this->sharingBackend,
+			$this->federatedCalendarMapper,
+			$this->cacheFactory,
 			false,
 		);
 
@@ -143,7 +159,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		}
 	}
 
-	protected function createTestCalendar() {
+	protected function createTestCalendar(): int {
 		$this->dispatcher->expects(self::any())
 			->method('dispatchTyped');
 
@@ -160,9 +176,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->assertEquals('#1C4587FF', $color);
 		$this->assertEquals('Example', $calendars[0]['uri']);
 		$this->assertEquals('Example', $calendars[0]['{DAV:}displayname']);
-		$calendarId = $calendars[0]['id'];
-
-		return $calendarId;
+		return (int)$calendars[0]['id'];
 	}
 
 	protected function createTestSubscription() {

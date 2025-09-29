@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud GmbH
@@ -6,14 +7,15 @@
  */
 namespace OC\DB;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use OC\App\InfoParser;
-use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\DB\ISchemaWrapper;
@@ -38,7 +40,12 @@ class MigrationService {
 	/**
 	 * @throws \Exception
 	 */
-	public function __construct(string $appName, Connection $connection, ?IOutput $output = null, ?AppLocator $appLocator = null, ?LoggerInterface $logger = null) {
+	public function __construct(
+		string $appName,
+		Connection $connection,
+		?IOutput $output = null,
+		?LoggerInterface $logger = null,
+	) {
 		$this->appName = $appName;
 		$this->connection = $connection;
 		if ($logger === null) {
@@ -57,10 +64,8 @@ class MigrationService {
 			$this->migrationsNamespace = 'OC\\Core\\Migrations';
 			$this->checkOracle = true;
 		} else {
-			if ($appLocator === null) {
-				$appLocator = new AppLocator();
-			}
-			$appPath = $appLocator->getAppPath($appName);
+			$appManager = Server::get(IAppManager::class);
+			$appPath = $appManager->getAppPath($appName);
 			$namespace = App::buildAppNamespace($appName);
 			$this->migrationsPath = "$appPath/lib/Migration";
 			$this->migrationsNamespace = $namespace . '\\Migration';
@@ -199,9 +204,9 @@ class MigrationService {
 			if ($versionA !== $versionB) {
 				return ($versionA < $versionB) ? -1 : 1;
 			}
-			return ($matchA[2] < $matchB[2]) ? -1 : 1;
+			return strnatcmp($matchA[2], $matchB[2]);
 		}
-		return (basename($a) < basename($b)) ? -1 : 1;
+		return strnatcmp(basename($a), basename($b));
 	}
 
 	/**
@@ -250,7 +255,7 @@ class MigrationService {
 
 		$toBeExecuted = [];
 		foreach ($availableMigrations as $v) {
-			if ($to !== 'latest' && $v > $to) {
+			if ($to !== 'latest' && ($this->sortMigrations($v, $to) > 0)) {
 				continue;
 			}
 			if ($this->shallBeExecuted($v, $knownMigrations)) {
@@ -572,8 +577,11 @@ class MigrationService {
 						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
 					}
 
-					if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
-						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
+					if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+						// Oracle doesn't support boolean column with non-null value
+						if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
+							$thing->setNotnull(false);
+						}
 					}
 
 					$sourceColumn = null;
@@ -727,7 +735,7 @@ class MigrationService {
 		}
 	}
 
-	private function ensureMigrationsAreLoaded() {
+	private function ensureMigrationsAreLoaded(): void {
 		if (empty($this->migrations)) {
 			$this->migrations = $this->findMigrations();
 		}

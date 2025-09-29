@@ -15,6 +15,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OCA\Settings\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
@@ -53,6 +54,45 @@ class DeclarativeSettingsController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	public function setValue(string $app, string $formId, string $fieldId, mixed $value): DataResponse {
+		return $this->saveValue($app, $formId, $fieldId, $value);
+	}
+
+	/**
+	 * Sets a declarative settings value.
+	 * Password confirmation is required for sensitive values.
+	 *
+	 * @param string $app ID of the app
+	 * @param string $formId ID of the form
+	 * @param string $fieldId ID of the field
+	 * @param mixed $value Value to be saved
+	 * @return DataResponse<Http::STATUS_OK, null, array{}>
+	 * @throws NotLoggedInException Not logged in or not an admin user
+	 * @throws NotAdminException Not logged in or not an admin user
+	 * @throws OCSBadRequestException Invalid arguments to save value
+	 *
+	 * 200: Value set successfully
+	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
+	public function setSensitiveValue(string $app, string $formId, string $fieldId, mixed $value): DataResponse {
+		return $this->saveValue($app, $formId, $fieldId, $value);
+	}
+
+	/**
+	 * Sets a declarative settings value.
+	 *
+	 * @param string $app ID of the app
+	 * @param string $formId ID of the form
+	 * @param string $fieldId ID of the field
+	 * @param mixed $value Value to be saved
+	 * @return DataResponse<Http::STATUS_OK, null, array{}>
+	 * @throws NotLoggedInException Not logged in or not an admin user
+	 * @throws NotAdminException Not logged in or not an admin user
+	 * @throws OCSBadRequestException Invalid arguments to save value
+	 *
+	 * 200: Value set successfully
+	 */
+	private function saveValue(string $app, string $formId, string $fieldId, mixed $value): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
 			throw new NotLoggedInException();

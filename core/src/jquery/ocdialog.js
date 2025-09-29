@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import $ from 'jquery'
+import { isA11yActivation } from '@nextcloud/vue/functions/a11y'
 import { createFocusTrap } from 'focus-trap'
-import { isA11yActivation } from '../Util/a11y.js'
+import $ from 'jquery'
 
 $.widget('oc.ocdialog', {
 	options: {

@@ -13,29 +13,23 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\InitialStateProvider;
 use OCP\IInitialStateService;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class InitialStateService implements IInitialStateService {
-	/** @var LoggerInterface */
-	private $logger;
 
 	/** @var string[][] */
-	private $states = [];
+	private array $states = [];
 
 	/** @var Closure[][] */
-	private $lazyStates = [];
+	private array $lazyStates = [];
 
-	/** @var Coordinator */
-	private $bootstrapCoordinator;
 
-	/** @var IServerContainer */
-	private $container;
-
-	public function __construct(LoggerInterface $logger, Coordinator $bootstrapCoordinator, IServerContainer $container) {
-		$this->logger = $logger;
-		$this->bootstrapCoordinator = $bootstrapCoordinator;
-		$this->container = $container;
+	public function __construct(
+		private LoggerInterface $logger,
+		private Coordinator $bootstrapCoordinator,
+		private ContainerInterface $container,
+	) {
 	}
 
 	public function provideInitialState(string $appName, string $key, $data): void {

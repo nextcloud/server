@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,14 +11,15 @@ namespace Test\Traits;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Server;
+use OCP\UserInterface;
 
 class DummyUser extends User {
-	private string $uid;
-
-	public function __construct(string $uid) {
-		$this->uid = $uid;
-		parent::__construct($uid, null, Server::get(IEventDispatcher::class));
+	public function __construct(
+		private string $uid,
+	) {
+		parent::__construct($this->uid, null, Server::get(IEventDispatcher::class));
 	}
 
 	public function getUID(): string {
@@ -30,7 +32,7 @@ class DummyUser extends User {
  */
 trait UserTrait {
 	/**
-	 * @var \Test\Util\User\Dummy|\OCP\UserInterface
+	 * @var \Test\Util\User\Dummy|UserInterface
 	 */
 	protected $userBackend;
 
@@ -41,10 +43,10 @@ trait UserTrait {
 
 	protected function setUpUserTrait() {
 		$this->userBackend = new \Test\Util\User\Dummy();
-		\OC::$server->getUserManager()->registerBackend($this->userBackend);
+		Server::get(IUserManager::class)->registerBackend($this->userBackend);
 	}
 
 	protected function tearDownUserTrait() {
-		\OC::$server->getUserManager()->removeBackend($this->userBackend);
+		Server::get(IUserManager::class)->removeBackend($this->userBackend);
 	}
 }

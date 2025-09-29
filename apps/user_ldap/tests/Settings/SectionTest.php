@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -8,15 +10,13 @@ namespace OCA\User_LDAP\Tests\Settings;
 use OCA\User_LDAP\Settings\Section;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SectionTest extends TestCase {
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $url;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l;
-	/** @var Section */
-	private $section;
+	private IURLGenerator&MockObject $url;
+	private IL10N&MockObject $l;
+	private Section $section;
 
 	protected function setUp(): void {
 		parent::setUp();

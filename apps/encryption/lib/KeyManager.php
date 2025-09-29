@@ -23,7 +23,7 @@ class KeyManager {
 	private string $recoveryKeyId;
 	private string $publicShareKeyId;
 	private string $masterKeyId;
-	private string $keyId;
+	private ?string $keyUid;
 	private string $publicKeyId = 'publicKey';
 	private string $privateKeyId = 'privateKey';
 	private string $shareKeyId = 'shareKey';
@@ -62,7 +62,7 @@ class KeyManager {
 			$this->config->setAppValue('encryption', 'masterKeyId', $this->masterKeyId);
 		}
 
-		$this->keyId = $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : false;
+		$this->keyUid = $userSession->isLoggedIn() ? $userSession->getUser()?->getUID() : null;
 	}
 
 	/**
@@ -136,7 +136,11 @@ class KeyManager {
 		if (!$this->session->isPrivateKeySet()) {
 			$masterKey = $this->getSystemPrivateKey($this->masterKeyId);
 			$decryptedMasterKey = $this->crypt->decryptPrivateKey($masterKey, $this->getMasterKeyPassword(), $this->masterKeyId);
-			$this->session->setPrivateKey($decryptedMasterKey);
+			if ($decryptedMasterKey === false) {
+				$this->logger->error('A public master key is available but decrypting it failed. This should never happen.');
+			} else {
+				$this->session->setPrivateKey($decryptedMasterKey);
+			}
 		}
 
 		// after the encryption key is available we are ready to go
@@ -211,8 +215,8 @@ class KeyManager {
 	 */
 	public function setRecoveryKey($password, $keyPair) {
 		// Save Public Key
-		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId() .
-			'.' . $this->publicKeyId,
+		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId()
+			. '.' . $this->publicKeyId,
 			$keyPair['publicKey'],
 			Encryption::ID);
 
@@ -347,11 +351,8 @@ class KeyManager {
 	/**
 	 * @param ?bool $useLegacyFileKey null means try both
 	 */
-	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
-		if ($uid === '') {
-			$uid = null;
-		}
-		$publicAccess = is_null($uid);
+	public function getFileKey(string $path, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
+		$publicAccess = ($this->keyUid === null);
 		$encryptedFileKey = '';
 		if ($useLegacyFileKey ?? true) {
 			$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId, Encryption::ID);
@@ -380,6 +381,7 @@ class KeyManager {
 			$privateKey = $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.' . $this->privateKeyId, Encryption::ID);
 			$privateKey = $this->crypt->decryptPrivateKey($privateKey);
 		} else {
+			$uid = $this->keyUid;
 			$shareKey = $this->getShareKey($path, $uid);
 			$privateKey = $this->session->getPrivateKey();
 		}
@@ -633,8 +635,8 @@ class KeyManager {
 			$publicKeys[$this->getPublicShareKeyId()] = $publicShareKey;
 		}
 
-		if ($this->recoveryKeyExists() &&
-			$this->util->isRecoveryEnabledForUser($uid)) {
+		if ($this->recoveryKeyExists()
+			&& $this->util->isRecoveryEnabledForUser($uid)) {
 			$publicKeys[$this->getRecoveryKeyId()] = $this->getRecoveryKey();
 		}
 

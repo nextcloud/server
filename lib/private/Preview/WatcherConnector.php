@@ -9,43 +9,33 @@ declare(strict_types=1);
 namespace OC\Preview;
 
 use OC\SystemConfig;
+use OCA\Files_Versions\Events\VersionRestoredEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 
 class WatcherConnector {
-	/** @var IRootFolder */
-	private $root;
-
-	/** @var SystemConfig */
-	private $config;
-
-	/**
-	 * WatcherConnector constructor.
-	 *
-	 * @param IRootFolder $root
-	 * @param SystemConfig $config
-	 */
-	public function __construct(IRootFolder $root,
-		SystemConfig $config) {
-		$this->root = $root;
-		$this->config = $config;
+	public function __construct(
+		private IRootFolder $root,
+		private SystemConfig $config,
+		private IEventDispatcher $dispatcher,
+	) {
 	}
 
-	/**
-	 * @return Watcher
-	 */
 	private function getWatcher(): Watcher {
 		return \OCP\Server::get(Watcher::class);
 	}
 
-	public function connectWatcher() {
+	public function connectWatcher(): void {
 		// Do not connect if we are not setup yet!
 		if ($this->config->getValue('instanceid', null) !== null) {
 			$this->root->listen('\OC\Files', 'postWrite', function (Node $node) {
 				$this->getWatcher()->postWrite($node);
 			});
 
-			\OC_Hook::connect('\OCP\Versions', 'rollback', $this->getWatcher(), 'versionRollback');
+			$this->dispatcher->addListener(VersionRestoredEvent::class, function (VersionRestoredEvent $event) {
+				$this->getWatcher()->versionRollback(['node' => $event->getVersion()->getSourceFile()]);
+			});
 		}
 	}
 }

@@ -11,10 +11,9 @@ namespace Test\Files\ObjectStore;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class FailDeleteObjectStore implements IObjectStore {
-	private $objectStore;
-
-	public function __construct(IObjectStore $objectStore) {
-		$this->objectStore = $objectStore;
+	public function __construct(
+		private IObjectStore $objectStore,
+	) {
 	}
 
 	public function getStorageId() {

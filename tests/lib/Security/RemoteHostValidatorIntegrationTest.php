@@ -37,7 +37,7 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 		);
 	}
 
-	public function localHostsData(): array {
+	public static function localHostsData(): array {
 		return [
 			['[::1]'],
 			['[::]'],
@@ -73,9 +73,7 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider localHostsData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('localHostsData')]
 	public function testLocalHostsWhenNotAllowed(string $host): void {
 		$this->config
 			->method('getSystemValueBool')
@@ -87,9 +85,7 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 		self::assertFalse($isValid);
 	}
 
-	/**
-	 * @dataProvider localHostsData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('localHostsData')]
 	public function testLocalHostsWhenAllowed(string $host): void {
 		$this->config
 			->method('getSystemValueBool')
@@ -101,7 +97,7 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 		self::assertTrue($isValid);
 	}
 
-	public function externalAddressesData():array {
+	public static function externalAddressesData():array {
 		return [
 			['8.8.8.8'],
 			['8.8.4.4'],
@@ -111,9 +107,7 @@ class RemoteHostValidatorIntegrationTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider externalAddressesData
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('externalAddressesData')]
 	public function testExternalHost(string $host): void {
 		$this->config
 			->method('getSystemValueBool')

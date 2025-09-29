@@ -44,7 +44,7 @@
 }
 
 .toast-error {
-	border-inline-start: 3px solid var(--color-error);
+	border-inline-start: 3px solid var(--color-border-error);
 }
 
 .toast-info {
@@ -52,9 +52,9 @@
 }
 
 .toast-warning {
-	border-inline-start: 3px solid var(--color-warning);
+	border-inline-start: 3px solid var(--color-warning-hover);
 }
 
 .toast-success {
-	border-inline-start: 3px solid var(--color-success);
+	border-inline-start: 3px solid var(--color-border-success);
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -14,7 +16,7 @@ use OCA\Files_External\Service\GlobalStoragesService;
 /**
  * @group DB
  */
-class GlobalStoragesServiceTest extends StoragesServiceTest {
+class GlobalStoragesServiceTest extends StoragesServiceTestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache, $this->eventDispatcher);
@@ -44,7 +46,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		]);
 	}
 
-	public function storageDataProvider() {
+	public static function storageDataProvider(): array {
 		return [
 			// all users
 			[
@@ -113,9 +115,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		];
 	}
 
-	/**
-	 * @dataProvider storageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('storageDataProvider')]
 	public function testAddStorage($storageParams): void {
 		$storage = $this->makeStorageConfig($storageParams);
 		$newStorage = $this->service->addStorage($storage);
@@ -137,9 +137,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$this->assertEquals($baseId + 1, $nextStorage->getId());
 	}
 
-	/**
-	 * @dataProvider storageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('storageDataProvider')]
 	public function testUpdateStorage($updatedStorageParams): void {
 		$updatedStorage = $this->makeStorageConfig($updatedStorageParams);
 		$storage = $this->makeStorageConfig([
@@ -166,13 +164,13 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 
 		$this->assertEquals($updatedStorage->getMountPoint(), $newStorage->getMountPoint());
 		$this->assertEquals($updatedStorage->getBackendOptions()['password'], $newStorage->getBackendOptions()['password']);
-		$this->assertEquals($updatedStorage->getApplicableUsers(), $newStorage->getApplicableUsers());
+		$this->assertEqualsCanonicalizing($updatedStorage->getApplicableUsers(), $newStorage->getApplicableUsers());
 		$this->assertEquals($updatedStorage->getApplicableGroups(), $newStorage->getApplicableGroups());
 		$this->assertEquals($updatedStorage->getPriority(), $newStorage->getPriority());
 		$this->assertEquals(0, $newStorage->getStatus());
 	}
 
-	public function hooksAddStorageDataProvider() {
+	public static function hooksAddStorageDataProvider(): array {
 		return [
 			// applicable all
 			[
@@ -279,9 +277,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		];
 	}
 
-	/**
-	 * @dataProvider hooksAddStorageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hooksAddStorageDataProvider')]
 	public function testHooksAddStorage($applicableUsers, $applicableGroups, $expectedCalls): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($applicableUsers);
@@ -301,7 +297,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		}
 	}
 
-	public function hooksUpdateStorageDataProvider() {
+	public static function hooksUpdateStorageDataProvider(): array {
 		return [
 			[
 				// nothing to multiple users and groups
@@ -417,15 +413,14 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		];
 	}
 
-	/**
-	 * @dataProvider hooksUpdateStorageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hooksUpdateStorageDataProvider')]
 	public function testHooksUpdateStorage(
-		$sourceApplicableUsers,
-		$sourceApplicableGroups,
-		$updatedApplicableUsers,
-		$updatedApplicableGroups,
-		$expectedCalls): void {
+		array $sourceApplicableUsers,
+		array $sourceApplicableGroups,
+		array $updatedApplicableUsers,
+		array $updatedApplicableGroups,
+		array $expectedCalls,
+	): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);
@@ -532,7 +527,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		}
 	}
 
-	public function hooksDeleteStorageDataProvider() {
+	public static function hooksDeleteStorageDataProvider(): array {
 		return [
 			[
 				['user1', 'user2'],
@@ -576,13 +571,12 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		];
 	}
 
-	/**
-	 * @dataProvider hooksDeleteStorageDataProvider
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('hooksDeleteStorageDataProvider')]
 	public function testHooksDeleteStorage(
-		$sourceApplicableUsers,
-		$sourceApplicableGroups,
-		$expectedCalls): void {
+		array $sourceApplicableUsers,
+		array $sourceApplicableGroups,
+		array $expectedCalls,
+	): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);

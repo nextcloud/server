@@ -27,11 +27,11 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider trustedDomainDataProvider
 	 * @param string $trustedDomains
 	 * @param string $testDomain
 	 * @param bool $result
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('trustedDomainDataProvider')]
 	public function testIsTrustedUrl($trustedDomains, $testDomain, $result): void {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
@@ -44,11 +44,11 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider trustedDomainDataProvider
 	 * @param string $trustedDomains
 	 * @param string $testDomain
 	 * @param bool $result
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('trustedDomainDataProvider')]
 	public function testIsTrustedDomain($trustedDomains, $testDomain, $result): void {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
@@ -63,7 +63,7 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	/**
 	 * @return array
 	 */
-	public function trustedDomainDataProvider() {
+	public static function trustedDomainDataProvider(): array {
 		$trustedHostTestList = [
 			'host.one.test',
 			'host.two.test',

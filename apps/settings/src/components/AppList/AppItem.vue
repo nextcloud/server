@@ -100,7 +100,7 @@
 				:aria-label="enableButtonTooltip"
 				type="primary"
 				:disabled="!app.canInstall || installing || isLoading || !defaultDeployDaemonAccessible || isInitializing || isDeploying"
-				@click.stop="enable(app.id)">
+				@click.stop="enableButtonAction">
 				{{ enableButtonText }}
 			</NcButton>
 			<NcButton v-else-if="!app.active"
@@ -111,6 +111,10 @@
 				@click.stop="forceEnable(app.id)">
 				{{ forceEnableButtonText }}
 			</NcButton>
+
+			<DaemonSelectionDialog v-if="app?.app_api && showSelectDaemonModal"
+				:show.sync="showSelectDaemonModal"
+				:app="app" />
 		</component>
 	</component>
 </template>
@@ -126,6 +130,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcIconSvgWrapper from '@nextcloud/vue/components/NcIconSvgWrapper'
 import { mdiCogOutline } from '@mdi/js'
 import { useAppApiStore } from '../../store/app-api-store.ts'
+import DaemonSelectionDialog from '../AppAPI/DaemonSelectionDialog.vue'
 
 export default {
 	name: 'AppItem',
@@ -134,6 +139,7 @@ export default {
 		AppScore,
 		NcButton,
 		NcIconSvgWrapper,
+		DaemonSelectionDialog,
 	},
 	mixins: [AppManagement, SvgFilterMixin],
 	props: {
@@ -177,6 +183,7 @@ export default {
 			isSelected: false,
 			scrolled: false,
 			screenshotLoaded: false,
+			showSelectDaemonModal: false,
 		}
 	},
 	computed: {
@@ -218,6 +225,23 @@ export default {
 
 		getDataItemHeaders(columnName) {
 			return this.useBundleView ? [this.headers, columnName].join(' ') : null
+		},
+		showSelectionModal() {
+			this.showSelectDaemonModal = true
+		},
+		async enableButtonAction() {
+			if (!this.app?.app_api) {
+				this.enable(this.app.id)
+				return
+			}
+			await this.appApiStore.fetchDockerDaemons()
+			if (this.appApiStore.dockerDaemons.length === 1 && this.app.needsDownload) {
+				this.enable(this.app.id, this.appApiStore.dockerDaemons[0])
+			} else if (this.app.needsDownload) {
+				this.showSelectionModal()
+			} else {
+				this.enable(this.app.id, this.app.daemon)
+			}
 		},
 	},
 }

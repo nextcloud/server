@@ -6,7 +6,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\DAV\Tests\Command;
+namespace OCA\DAV\Tests\unit\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -28,23 +28,12 @@ class DeleteCalendarTest extends TestCase {
 	public const USER = 'user';
 	public const NAME = 'calendar';
 
-	/** @var CalDavBackend|MockObject */
-	private $calDav;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var IL10N|MockObject */
-	private $l10n;
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var DeleteCalendar */
-	private $command;
-	
-	/** @var MockObject|LoggerInterface */
-	private $logger;
+	private CalDavBackend&MockObject $calDav;
+	private IConfig&MockObject $config;
+	private IL10N&MockObject $l10n;
+	private IUserManager&MockObject $userManager;
+	private LoggerInterface&MockObject $logger;
+	private DeleteCalendar $command;
 
 	protected function setUp(): void {
 		parent::setUp();

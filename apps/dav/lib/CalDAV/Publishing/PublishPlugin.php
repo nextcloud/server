@@ -1,11 +1,14 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Publishing;
 
+use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\CalendarHome;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
 use OCP\AppFramework\Http;
 use OCP\IConfig;
@@ -90,6 +93,20 @@ class PublishPlugin extends ServerPlugin {
 	}
 
 	public function propFind(PropFind $propFind, INode $node) {
+		if ($node instanceof CalendarHome && $propFind->getDepth() === 1) {
+			$backend = $node->getCalDAVBackend();
+			if ($backend instanceof CalDavBackend) {
+				$calendars = array_filter(
+					$node->getChildren(),
+					static fn ($child) => $child instanceof Calendar,
+				);
+				$resourceIds = array_map(
+					static fn (Calendar $calendar) => $calendar->getResourceId(),
+					$calendars,
+				);
+				$backend->preloadPublishStatuses($resourceIds);
+			}
+		}
 		if ($node instanceof Calendar) {
 			$propFind->handle('{' . self::NS_CALENDARSERVER . '}publish-url', function () use ($node) {
 				if ($node->getPublishStatus()) {

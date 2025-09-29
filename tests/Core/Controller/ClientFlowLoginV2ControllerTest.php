@@ -11,9 +11,12 @@ namespace Test\Core\Controller;
 use OC\Core\Controller\ClientFlowLoginV2Controller;
 use OC\Core\Data\LoginFlowV2Credentials;
 use OC\Core\Db\LoginFlowV2;
+use OC\Core\Exception\LoginFlowV2ClientForbiddenException;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -56,6 +59,12 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->l = $this->createMock(IL10N::class);
+		$this->l
+			->expects($this->any())
+			->method('t')
+			->willReturnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
 		$this->controller = new ClientFlowLoginV2Controller(
 			'core',
 			$this->request,
@@ -104,7 +113,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$result = $this->controller->landing('token');
 
 		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
-		$this->assertInstanceOf(Http\StandaloneTemplateResponse::class, $result);
+		$this->assertInstanceOf(StandaloneTemplateResponse::class, $result);
 	}
 
 	public function testLandingValid(): void {
@@ -122,7 +131,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 		$result = $this->controller->landing('token');
 
-		$this->assertInstanceOf(Http\RedirectResponse::class, $result);
+		$this->assertInstanceOf(RedirectResponse::class, $result);
 		$this->assertSame(Http::STATUS_SEE_OTHER, $result->getStatus());
 		$this->assertSame('https://server/path', $result->getRedirectURL());
 	}
@@ -148,6 +157,22 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$result = $this->controller->showAuthPickerPage();
 
 		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
+	}
+
+	public function testShowAuthPickerForbiddenUserClient() {
+		$this->session->method('get')
+			->with('client.flow.v2.login.token')
+			->willReturn('loginToken');
+
+		$this->loginFlowV2Service->method('getByLoginToken')
+			->with('loginToken')
+			->willThrowException(new LoginFlowV2ClientForbiddenException());
+
+		$result = $this->controller->showAuthPickerPage();
+
+		$this->assertInstanceOf(StandaloneTemplateResponse::class, $result);
+		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
+		$this->assertSame('Please use original client', $result->getParams()['message']);
 	}
 
 	public function testShowAuthPickerValidLoginToken(): void {
@@ -204,6 +229,29 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 		$result = $this->controller->grantPage('stateToken');
 		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
+	}
+
+	public function testGrantPageForbiddenUserClient() {
+		$this->session->method('get')
+			->willReturnCallback(function ($name) {
+				if ($name === 'client.flow.v2.state.token') {
+					return 'stateToken';
+				}
+				if ($name === 'client.flow.v2.login.token') {
+					return 'loginToken';
+				}
+				return null;
+			});
+
+		$this->loginFlowV2Service->method('getByLoginToken')
+			->with('loginToken')
+			->willThrowException(new LoginFlowV2ClientForbiddenException());
+
+		$result = $this->controller->grantPage('stateToken');
+
+		$this->assertInstanceOf(StandaloneTemplateResponse::class, $result);
+		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
+		$this->assertSame('Please use original client', $result->getParams()['message']);
 	}
 
 	public function testGrantPageValid(): void {
@@ -266,6 +314,29 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
 	}
 
+	public function testGenerateAppPasswordForbiddenUserClient() {
+		$this->session->method('get')
+			->willReturnCallback(function ($name) {
+				if ($name === 'client.flow.v2.state.token') {
+					return 'stateToken';
+				}
+				if ($name === 'client.flow.v2.login.token') {
+					return 'loginToken';
+				}
+				return null;
+			});
+
+		$this->loginFlowV2Service->method('getByLoginToken')
+			->with('loginToken')
+			->willThrowException(new LoginFlowV2ClientForbiddenException());
+
+		$result = $this->controller->generateAppPassword('stateToken');
+
+		$this->assertInstanceOf(StandaloneTemplateResponse::class, $result);
+		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
+		$this->assertSame('Please use original client', $result->getParams()['message']);
+	}
+
 	public function testGenerateAppPassworValid(): void {
 		$this->session->method('get')
 			->willReturnCallback(function ($name) {
@@ -286,7 +357,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$clearedState = false;
 		$clearedLogin = false;
 		$this->session->method('remove')
-			->willReturnCallback(function ($name) use (&$clearedLogin, &$clearedState) {
+			->willReturnCallback(function ($name) use (&$clearedLogin, &$clearedState): void {
 				if ($name === 'client.flow.v2.state.token') {
 					$clearedState = true;
 				}

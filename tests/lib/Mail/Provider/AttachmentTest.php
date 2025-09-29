@@ -29,7 +29,7 @@ class AttachmentTest extends TestCase {
 	}
 
 	public function testName(): void {
-		
+
 		// test set by constructor
 		$this->assertEquals('example1.txt', $this->attachment->getName());
 		// test set by setter
@@ -39,7 +39,7 @@ class AttachmentTest extends TestCase {
 	}
 
 	public function testType(): void {
-		
+
 		// test set by constructor
 		$this->assertEquals('text/plain', $this->attachment->getType());
 		// test set by setter
@@ -49,7 +49,7 @@ class AttachmentTest extends TestCase {
 	}
 
 	public function testContents(): void {
-		
+
 		// test set by constructor
 		$this->assertEquals('This is the contents of a file', $this->attachment->getContents());
 		// test set by setter
@@ -59,7 +59,7 @@ class AttachmentTest extends TestCase {
 	}
 
 	public function testEmbedded(): void {
-		
+
 		// test set by constructor
 		$this->assertEquals(false, $this->attachment->getEmbedded());
 		// test set by setter

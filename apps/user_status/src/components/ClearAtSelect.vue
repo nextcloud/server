@@ -14,6 +14,7 @@
 			:value="option"
 			:clearable="false"
 			placement="top"
+			label-outside
 			@option:selected="select" />
 	</div>
 </template>
@@ -72,12 +73,9 @@ export default {
 <style lang="scss" scoped>
 .clear-at-select {
 	display: flex;
-	margin-bottom: 10px;
+	gap: calc(2 * var(--default-grid-baseline));
 	align-items: center;
-
-	&__label {
-		margin-inline-end: 12px;
-	}
+	margin-block: 0 calc(2 * var(--default-grid-baseline));
 
 	&__select {
 		flex-grow: 1;

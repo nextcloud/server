@@ -77,7 +77,7 @@ class RedisFactory {
 			$this->instance = new \Redis();
 
 			$host = $config['host'] ?? '127.0.0.1';
-			$port = $config['port'] ?? ($host[0] !== '/' ? 6379 : null);
+			$port = $config['port'] ?? ($host[0] !== '/' ? 6379 : 0);
 
 			$this->eventLogger->start('connect:redis', 'Connect to redis and send AUTH, SELECT');
 			// Support for older phpredis versions not supporting connectionParameters
@@ -152,8 +152,8 @@ class RedisFactory {
 	}
 
 	public function isAvailable(): bool {
-		return \extension_loaded('redis') &&
-			\version_compare(\phpversion('redis'), self::REDIS_MINIMAL_VERSION, '>=');
+		return \extension_loaded('redis')
+			&& \version_compare(\phpversion('redis'), self::REDIS_MINIMAL_VERSION, '>=');
 	}
 
 	/**
@@ -163,7 +163,7 @@ class RedisFactory {
 	 * @return boolean
 	 */
 	private function isConnectionParametersSupported(): bool {
-		return \extension_loaded('redis') &&
-			\version_compare(\phpversion('redis'), self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
+		return \extension_loaded('redis')
+			&& \version_compare(\phpversion('redis'), self::REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION, '>=');
 	}
 }

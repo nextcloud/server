@@ -24,6 +24,7 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -85,7 +86,7 @@ class ShareByMailProviderTest extends TestCase {
 	private $settingsManager;
 
 	protected function setUp(): void {
-		$this->dbConn = \OC::$server->getDatabaseConnection();
+		$this->dbConn = Server::get(IDBConnection::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->mailer = $this->createMock(IMailer::class);
@@ -102,7 +103,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 
 		// Empty share table
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
 
 		$this->provider = new ShareByMailProvider(
 			$this->config,
@@ -124,9 +125,9 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->execute();
-		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
+		$this->dbConn->getQueryBuilder()->delete('share')->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->executeStatement();
+		$this->dbConn->getQueryBuilder()->delete('storages')->executeStatement();
 	}
 
 	/**
@@ -185,7 +186,7 @@ class ShareByMailProviderTest extends TestCase {
 			$qb->setValue('parent', $qb->expr()->literal($parent));
 		}
 
-		$this->assertEquals(1, $qb->execute());
+		$this->assertEquals(1, $qb->executeStatement());
 		return $qb->getLastInsertId();
 	}
 

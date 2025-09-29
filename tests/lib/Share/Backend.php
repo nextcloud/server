@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,8 +11,9 @@ namespace Test\Share;
 use OC\Share20\Manager;
 use OCP\Server;
 use OCP\Share\IShare;
+use OCP\Share_Backend;
 
-class Backend implements \OCP\Share_Backend {
+class Backend implements Share_Backend {
 	public const FORMAT_SOURCE = 0;
 	public const FORMAT_TARGET = 1;
 	public const FORMAT_PERMISSIONS = 2;

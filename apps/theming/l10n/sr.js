@@ -75,8 +75,9 @@ OC.L10N.register(
     "Background and login image" : "Позадина и слика пријављивања",
     "Advanced options" : "Напредне опције",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте ImageMagick PHP проширење са подшком за SVG слике да би било могуће аутоматско генерисање favicons према отпремљеном логоу и боји.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзални приступ нам је веома важан. Пратимо веб стандарде и проверавамо да све буде употребљиво и без миша а и са помоћним софтвером попут читача екрана. Циљ нам је да будемо усклађени са документом {guidelines}Смернице приступачности веб садржаја{linkend}  2.1 на АА нивоу а са темом високог контраста и на ААА нивоу.",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзални приступ нам је веома важан. Пратимо веб стандарде и проверавамо да све буде употребљиво и без миша а и са помоћним софтвером попут читача екрана. Циљ нам је да будемо усклађени са документом {linkstart}Смернице приступачности веб садржаја{linkend}  2.1 на АА нивоу, а са темом високог контраста чак и на ААА нивоу.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "У случају да наиђете на било какве проблеме, не оклевајте да их пријавите на {issuetracker}наш пратилац проблема{linkend}. А ако желите да се умешате, слободно се прикључите {designteam}нашем дизајн тиму{linkend}!",
+    "Unable to apply the setting." : "Подешавање није могло да се примени.",
     "Appearance and accessibility settings" : "Подешавања изгледа и приступачности",
     "Misc accessibility options" : "Разне опције приступаности",
     "Enable blur background filter (may increase GPU load)" : "Укључи филтер замућења позадине (може да повећа оптерећење GPU)",
@@ -118,10 +119,7 @@ OC.L10N.register(
     "Reset to default" : "Врати на подразумевано",
     "Upload" : "Отпреми",
     "Remove background image" : "Уклони позадинску слику",
-    "Color" : "Боја",
-    "Background" : "Позадина",
-    "Set a custom background" : "Постави пролагођену позадину",
-    "Change color" : "Промени боју",
-    "No background" : "Без позадине"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Универзални приступ нам је веома важан. Пратимо веб стандарде и проверавамо да све буде употребљиво и без миша а и са помоћним софтвером попут читача екрана. Циљ нам је да будемо усклађени са документом {guidelines}Смернице приступачности веб садржаја{linkend}  2.1 на АА нивоу а са темом високог контраста и на ААА нивоу.",
+    ". Unable to apply the setting." : ". Подешавање није могло да се примени."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

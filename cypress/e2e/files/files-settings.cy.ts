@@ -4,19 +4,63 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile } from './FilesUtils'
 
-const showHiddenFiles = () => {
-	// Open the files settings
-	cy.get('[data-cy-files-navigation-settings-button] a').click({ force: true })
-	// Toggle the hidden files setting
-	cy.get('[data-cy-files-settings-setting="show_hidden"]').within(() => {
-		cy.get('input').should('not.be.checked')
-		cy.get('input').check({ force: true })
+import { getRowForFile } from './FilesUtils.ts'
+
+describe('files: Set default view', { testIsolation: true }, () => {
+	beforeEach(() => {
+		cy.createRandomUser().then(($user) => {
+			cy.login($user)
+		})
 	})
-	// Close the dialog
-	cy.get('[data-cy-files-navigation-settings] button[aria-label="Close"]').click()
-}
+
+	it('Defaults to the "files" view', () => {
+		cy.visit('/apps/files')
+
+		// See URL and current view
+		cy.url().should('match', /\/apps\/files\/files/)
+		cy.get('[data-cy-files-content-breadcrumbs]')
+			.findByRole('button', {
+				name: 'All files',
+				description: 'Reload current directory',
+			})
+
+		// See the option is also selected
+		// Open the files settings
+		cy.findByRole('link', { name: 'Files settings' }).click({ force: true })
+		// Toggle the setting
+		cy.findByRole('dialog', { name: 'Files settings' })
+			.should('be.visible')
+			.within(() => {
+				cy.findByRole('group', { name: 'Default view' })
+					.findByRole('radio', { name: 'All files' })
+					.should('be.checked')
+			})
+	})
+
+	it('Can set it to personal files', () => {
+		cy.visit('/apps/files')
+
+		// Open the files settings
+		cy.findByRole('link', { name: 'Files settings' }).click({ force: true })
+		// Toggle the setting
+		cy.findByRole('dialog', { name: 'Files settings' })
+			.should('be.visible')
+			.within(() => {
+				cy.findByRole('group', { name: 'Default view' })
+					.findByRole('radio', { name: 'Personal files' })
+					.check({ force: true })
+			})
+
+		cy.visit('/apps/files')
+		cy.url().should('match', /\/apps\/files\/personal/)
+		cy.get('[data-cy-files-content-breadcrumbs]')
+			.findByRole('button', {
+				name: 'Personal files',
+				description: 'Reload current directory',
+			})
+	})
+})
 
 describe('files: Hide or show hidden files', { testIsolation: true }, () => {
 	let user: User
@@ -97,3 +141,18 @@ describe('files: Hide or show hidden files', { testIsolation: true }, () => {
 		})
 	})
 })
+
+/**
+ * Helper to toggle the hidden files settings
+ */
+function showHiddenFiles() {
+	// Open the files settings
+	cy.get('[data-cy-files-navigation-settings-button] a').click({ force: true })
+	// Toggle the hidden files setting
+	cy.get('[data-cy-files-settings-setting="show_hidden"]').within(() => {
+		cy.get('input').should('not.be.checked')
+		cy.get('input').check({ force: true })
+	})
+	// Close the dialog
+	cy.get('[data-cy-files-navigation-settings] button[aria-label="Close"]').click()
+}

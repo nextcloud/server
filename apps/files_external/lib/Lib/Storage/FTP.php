@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -264,7 +265,7 @@ class FTP extends Common {
 			case 'c':
 			case 'c+':
 				//emulate these
-				if ($useExisting and $this->file_exists($path)) {
+				if ($useExisting && $this->file_exists($path)) {
 					if (!$this->isUpdatable($path)) {
 						return false;
 					}

@@ -5,7 +5,7 @@
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { View, getNavigation, Column, registerFileAction } from '@nextcloud/files'
-import FolderNetworkSvg from '@mdi/svg/svg/folder-network.svg?raw'
+import FolderNetworkSvg from '@mdi/svg/svg/folder-network-outline.svg?raw'
 
 import { action as enterCredentialsAction } from './actions/enterCredentialsAction'
 import { action as inlineStorageCheckAction } from './actions/inlineStorageCheckAction'

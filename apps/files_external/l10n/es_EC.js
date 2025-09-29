@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Conceder acceso",
-    "Error configuring OAuth1" : "Se presentó un error al configurar OAuth1",
-    "Please provide a valid app key and secret." : "Por favor proporciona una llave de aplicación y secreto válidos.",
     "Error configuring OAuth2" : "Se presentó un error al configurar OAuth2",
     "Generate keys" : "Generar llaves",
     "Error generating key pair" : "Se presentó un error al generar el juego de llaves",
@@ -23,9 +21,6 @@ OC.L10N.register(
     "Secret key" : "Llave secreta",
     "Builtin" : "Integrado",
     "None" : "Ninguno",
-    "OAuth1" : "OAuth1",
-    "App key" : "Llave de la aplicación",
-    "App secret" : "Secreto de la aplicación",
     "OAuth2" : "OAuth2",
     "Client ID" : "ID del cliente",
     "Client secret" : "Secreto del cliente",
@@ -104,7 +99,6 @@ OC.L10N.register(
     "Disconnect" : "Desconectar",
     "Admin defined" : "Administrador definido",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "La verificación automática de estado está desactivada debido al gran número de almacenamientos configurados, haz clic para verificar el estado.",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿Estás seguro de que quieres desconectar este almacenamiento externo? Esto hará que el almacenamiento no esté disponible en Nextcloud y se eliminarán estos archivos y carpetas en cualquier cliente de sincronización que esté conectado actualmente, pero no se eliminarán archivos y carpetas en el almacenamiento externo en sí.",
     "Delete storage?" : "¿Borrar almacenamiento?",
     "Click to recheck the configuration" : "Haz click para volver a marcar la configuración",
     "Saved" : "Guardado",
@@ -119,6 +113,11 @@ OC.L10N.register(
     "Add storage" : "Agregar almacenamiento",
     "Advanced settings" : "Configuraciones avanzadas",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Las credenciales globales se pueden usar para autenticarse con múltiples almacenamientos externos que tienen las mismas credenciales.",
-    "Submit" : "Enviar"
+    "Error configuring OAuth1" : "Se presentó un error al configurar OAuth1",
+    "Please provide a valid app key and secret." : "Por favor proporciona una llave de aplicación y secreto válidos.",
+    "OAuth1" : "OAuth1",
+    "App key" : "Llave de la aplicación",
+    "App secret" : "Secreto de la aplicación",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "¿Estás seguro de que quieres desconectar este almacenamiento externo? Esto hará que el almacenamiento no esté disponible en Nextcloud y se eliminarán estos archivos y carpetas en cualquier cliente de sincronización que esté conectado actualmente, pero no se eliminarán archivos y carpetas en el almacenamiento externo en sí."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

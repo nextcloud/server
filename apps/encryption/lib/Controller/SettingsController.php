@@ -37,7 +37,7 @@ class SettingsController extends Controller {
 	 * @param Util $util
 	 */
 	public function __construct(
-		$AppName,
+		$appName,
 		IRequest $request,
 		private IL10N $l,
 		private IUserManager $userManager,
@@ -48,7 +48,7 @@ class SettingsController extends Controller {
 		private ISession $ocSession,
 		private Util $util,
 	) {
-		parent::__construct($AppName, $request);
+		parent::__construct($appName, $request);
 	}
 
 

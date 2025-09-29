@@ -65,7 +65,8 @@ export default {
 	flex-basis: 100%;
 	border-radius: var(--border-radius);
 	align-items: center;
-	min-height: 44px;
+	min-height: var(--default-clickable-area);
+	padding-inline: var(--default-grid-baseline);
 
 	&:hover,
 	&:focus {
@@ -77,7 +78,7 @@ export default {
 	}
 
 	&__icon {
-		flex-basis: 40px;
+		flex-basis: var(--default-clickable-area);
 		text-align: center;
 	}
 

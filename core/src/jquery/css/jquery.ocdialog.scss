@@ -4,9 +4,9 @@
  */
 .oc-dialog {
 	background: var(--color-main-background);
-	color: var(--color-text-light);
 	border-radius: var(--border-radius-large);
 	box-shadow: 0 0 30px var(--color-box-shadow);
+	color: var(--color-main-text);
 	padding: 24px;
 	z-index: 100001;
 	font-size: 100%;

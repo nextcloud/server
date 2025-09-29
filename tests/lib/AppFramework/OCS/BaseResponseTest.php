@@ -12,9 +12,9 @@ namespace Test\AppFramework\OCS;
 use OC\AppFramework\OCS\BaseResponse;
 
 class ArrayValue implements \JsonSerializable {
-	private $array;
-	public function __construct(array $array) {
-		$this->array = $array;
+	public function __construct(
+		private array $array,
+	) {
 	}
 
 	public function jsonSerialize(): mixed {
@@ -50,7 +50,7 @@ class BaseResponseTest extends \Test\TestCase {
 			$writer->outputMemory(true)
 		);
 	}
-	
+
 	public function testToXmlJsonSerializable(): void {
 		/** @var BaseResponse $response */
 		$response = $this->createMock(BaseResponse::class);

@@ -625,39 +625,6 @@ table.grid td.date {
 	margin-top: 20px;
 }
 
-#security-warning-state-ok,
-#security-warning-state-warning,
-#security-warning-state-failure,
-#security-warning-state-loading {
-	span {
-		vertical-align: middle;
-
-		&.message {
-			padding: 12px;
-		}
-
-		&.icon {
-			width: 32px;
-			height: 32px;
-			background-position: center center;
-			display: inline-block;
-			border-radius: 50%;
-		}
-
-		&.icon-checkmark-white {
-			background-color: var(--color-success);
-		}
-
-		&.icon-error-white {
-			background-color: var(--color-warning);
-		}
-
-		&.icon-close-white {
-			background-color: var(--color-error);
-		}
-	}
-}
-
 #shareAPI {
 	&.loading > div {
 		display: none;
@@ -799,81 +766,13 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
-#postsetupchecks {
-	ul {
-		margin-inline-start: 44px;
-		list-style: disc;
-
-		li {
-			margin: 10px 0;
-		}
-
-		ul {
-			list-style: circle;
-		}
-	}
-
-	.loading {
-		height: 50px;
-		background-position: left center;
-	}
-
-	.errors, .errors a {
-		color: var(--color-error);
-	}
-
-	.warnings, .warnings a {
-		color: var(--color-warning);
-	}
-
-	.hint {
-		margin: 20px 0;
-	}
-}
-
-#security-warning {
-	a {
-		text-decoration: underline;
-	}
-
-	.extra-top-margin {
-		margin-top: 12px;
-	}
-}
-
-.security-warning__heading {
-	display: flex;
-	flex-wrap: wrap;
-	margin-bottom: calc(var(--default-grid-baseline) * 8);
-
-	> h2 {
-		margin: 0;
-		font-size: 20px;
-		font-weight: bold;
-	}
-
-	> a {
-		width: 44px;
-	}
-}
-
-#admin-tips li {
-	list-style: initial;
-
-	a {
-		display: inline-block;
-		padding: 3px 0;
-	}
-}
-
 #warning {
 	color: red;
 }
 
 .settings-hint {
-	margin-top: -12px;
-	margin-bottom: 12px;
-	opacity: .7;
+	color: var(--color-text-maxcontrast);
+	margin-block: -12px 12px;
 }
 
 .animated {

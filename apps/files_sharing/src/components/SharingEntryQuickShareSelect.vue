@@ -36,8 +36,8 @@ import ShareDetails from '../mixins/ShareDetails.js'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import IconEyeOutline from 'vue-material-design-icons/EyeOutline.vue'
-import IconPencil from 'vue-material-design-icons/Pencil.vue'
-import IconFileUpload from 'vue-material-design-icons/FileUpload.vue'
+import IconPencil from 'vue-material-design-icons/PencilOutline.vue'
+import IconFileUpload from 'vue-material-design-icons/TrayArrowUp.vue'
 import IconTune from 'vue-material-design-icons/Tune.vue'
 
 import {

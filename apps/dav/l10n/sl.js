@@ -189,7 +189,6 @@ OC.L10N.register(
     "Failed to load availability" : "Nalaganje seznama razpoložljivih polj je spodletelo",
     "Saved availability" : "Čas razpoložljivosti je shranjen",
     "Failed to save availability" : "Shranjevanje časa razpoložljivosti je spodletelo",
-    "Time zone:" : "Časovni pas:",
     "to" : "do",
     "Delete slot" : "Izbriši možnost",
     "No working hours set" : "Ni navedenih delovnih ur",
@@ -198,6 +197,10 @@ OC.L10N.register(
     "Pick a start time for {dayName}" : "Izbor časa začetka za {dayName}",
     "Pick a end time for {dayName}" : "Izbor časa konca za {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Samodejno nastavi stanje uporabnika na »Ne moti« in zavračaj prikaz obvestil izven časa razpoložljivosti.",
+    "Cancel" : "Prekliči",
+    "Import" : "Uvozi",
+    "Error while saving settings" : "Prišlo je do napake med shranjevanjem nastavitev",
+    "Reset to default" : "Ponastavi na privzeto",
     "Availability" : "Razpoložljivost",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Če nastavite delovni čas, bodo drugi uporabniki pri izbiri časa sestanka videli, kdaj ste zasedeni.",
     "Absence" : "Odsotnost",
@@ -219,9 +222,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Ali želite sprejeti povabilo?",
     "Tentative" : "Začasno",
     "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena.",
-    "Time:" : "Čas:",
-    "Could not open file" : "Datoteke ni mogoče odpreti",
-    "Invalid chunk name" : "Neveljavno ime dela",
-    "Could not rename part file assembled from chunks" : "Ni mogoče preimenovati delne datoteke, združene iz delov."
+    "Time zone:" : "Časovni pas:"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

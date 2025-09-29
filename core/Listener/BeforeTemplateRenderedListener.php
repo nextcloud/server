@@ -37,7 +37,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 			Util::addScript('core', 'public');
 		}
 
-		\OC_Util::addStyle('server', null, true);
+		Util::addStyle('server', null, true);
 
 		if ($event instanceof BeforeLoginTemplateRenderedEvent) {
 			// todo: make login work without these

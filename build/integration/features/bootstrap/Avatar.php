@@ -1,9 +1,9 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -67,30 +67,11 @@ trait Avatar {
 	}
 
 	/**
-	 * @When logged in user gets temporary avatar
-	 */
-	public function loggedInUserGetsTemporaryAvatar() {
-		$this->loggedInUserGetsTemporaryAvatarWith('200');
-	}
-
-	/**
-	 * @When logged in user gets temporary avatar with :statusCode
-	 *
-	 * @param string $statusCode
-	 */
-	public function loggedInUserGetsTemporaryAvatarWith(string $statusCode) {
-		$this->sendingAToWithRequesttoken('GET', '/index.php/avatar/tmp');
-		$this->theHTTPStatusCodeShouldBe($statusCode);
-
-		$this->getLastAvatar();
-	}
-
-	/**
-	 * @When logged in user posts temporary avatar from file :source
+	 * @When logged in user posts avatar from file :source
 	 *
 	 * @param string $source
 	 */
-	public function loggedInUserPostsTemporaryAvatarFromFile(string $source) {
+	public function loggedInUserPostsAvatarFromFile(string $source) {
 		$file = \GuzzleHttp\Psr7\Utils::streamFor(fopen($source, 'r'));
 
 		$this->sendingAToWithRequesttoken('POST', '/index.php/avatar',
@@ -106,38 +87,13 @@ trait Avatar {
 	}
 
 	/**
-	 * @When logged in user posts temporary avatar from internal path :path
+	 * @When logged in user posts avatar from internal path :path
 	 *
 	 * @param string $path
 	 */
-	public function loggedInUserPostsTemporaryAvatarFromInternalPath(string $path) {
+	public function loggedInUserPostsAvatarFromInternalPath(string $path) {
 		$this->sendingAToWithRequesttoken('POST', '/index.php/avatar?path=' . $path);
 		$this->theHTTPStatusCodeShouldBe('200');
-	}
-
-	/**
-	 * @When logged in user crops temporary avatar
-	 *
-	 * @param TableNode $crop
-	 */
-	public function loggedInUserCropsTemporaryAvatar(TableNode $crop) {
-		$this->loggedInUserCropsTemporaryAvatarWith('200', $crop);
-	}
-
-	/**
-	 * @When logged in user crops temporary avatar with :statusCode
-	 *
-	 * @param string $statusCode
-	 * @param TableNode $crop
-	 */
-	public function loggedInUserCropsTemporaryAvatarWith(string $statusCode, TableNode $crop) {
-		$parameters = [];
-		foreach ($crop->getRowsHash() as $key => $value) {
-			$parameters[] = 'crop[' . $key . ']=' . $value;
-		}
-
-		$this->sendingAToWithRequesttoken('POST', '/index.php/avatar/cropped?' . implode('&', $parameters));
-		$this->theHTTPStatusCodeShouldBe($statusCode);
 	}
 
 	/**
@@ -240,10 +196,10 @@ trait Avatar {
 	}
 
 	private function isSameColor(array $firstColor, array $secondColor, int $allowedDelta = 1) {
-		if ($this->isSameColorComponent($firstColor['red'], $secondColor['red'], $allowedDelta) &&
-			$this->isSameColorComponent($firstColor['green'], $secondColor['green'], $allowedDelta) &&
-			$this->isSameColorComponent($firstColor['blue'], $secondColor['blue'], $allowedDelta) &&
-			$this->isSameColorComponent($firstColor['alpha'], $secondColor['alpha'], $allowedDelta)) {
+		if ($this->isSameColorComponent($firstColor['red'], $secondColor['red'], $allowedDelta)
+			&& $this->isSameColorComponent($firstColor['green'], $secondColor['green'], $allowedDelta)
+			&& $this->isSameColorComponent($firstColor['blue'], $secondColor['blue'], $allowedDelta)
+			&& $this->isSameColorComponent($firstColor['alpha'], $secondColor['alpha'], $allowedDelta)) {
 			return true;
 		}
 
@@ -251,8 +207,8 @@ trait Avatar {
 	}
 
 	private function isSameColorComponent(int $firstColorComponent, int $secondColorComponent, int $allowedDelta) {
-		if ($firstColorComponent >= ($secondColorComponent - $allowedDelta) &&
-			$firstColorComponent <= ($secondColorComponent + $allowedDelta)) {
+		if ($firstColorComponent >= ($secondColorComponent - $allowedDelta)
+			&& $firstColorComponent <= ($secondColorComponent + $allowedDelta)) {
 			return true;
 		}
 

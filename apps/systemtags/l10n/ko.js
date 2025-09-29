@@ -65,6 +65,7 @@ OC.L10N.register(
     "Loading …" : "불러오는 중 ...",
     "Manage tags" : "태그 관리하기",
     "Cancel" : "취소",
+    "Apply" : "적용",
     "Failed to load tags" : "태그 불러오기 실패",
     "Failed to load selected tags" : "선택 태그 불러오기 실패",
     "Failed to select tag" : "태그 선택 실패",
@@ -79,8 +80,6 @@ OC.L10N.register(
     "Failed to load last used tags" : "최근 사용된 태그 불러오기 실패",
     "Failed to load tags for file" : "파일에 대한 태그 불러오기 실패",
     "Failed to set tag for file" : "파일에 태그 지정하기 실패",
-    "Failed to delete tag for file" : "파일에 태그 지정 해제하기 실패",
-    "This file has the tag {tag}" : "이 파일에 {tag} 태그가 있음",
-    "This file has the tags {firstTags} and {lastTag}" : "이 파일에 {firstTags}와 {lastTag} 태그가 있음"
+    "Failed to delete tag for file" : "파일에 태그 지정 해제하기 실패"
 },
 "nplurals=1; plural=0;");

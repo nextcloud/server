@@ -16,7 +16,9 @@ OC.L10N.register(
     "We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Automaattisesti muodostettua salasanaa ei voi lähettää sinulle. Aseta kelvollinen sähköpostiosoite henkilökohtaisiin asetuksiisi ja yritä uudelleen.",
     "Failed to send share by email. Got an invalid email address" : "Jaon lähettäminen sähköpostitse epäonnistui. Virheellinen sähköpostiosoite",
     "Failed to send share by email" : "Jaon lähettäminen sähköpostitse epäonnistui",
+    "%1$s shared %2$s with you" : "%1$s jakoi kohteen %2$s kanssasi",
     "Note:" : "Huomioi:",
+    "Open %s" : "Avaa %s",
     "%1$s via %2$s" : "%1$s palvelun %2$s kautta",
     "It is protected with the following password:" : "Se on suojattu seuraavalla salasanalla:",
     "This password will expire at %s" : "Tämä salasana vanhenee %s",
@@ -24,14 +26,6 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Voit valita muun salasanan koska tahansa jakovalikossa.",
     "Could not find share" : "Jakoa ei löytynyt",
     "Send password by mail" : "Lähetä salasana sähköpostitse",
-    "Reply to initiator" : "Vastaa aloitteentekijälle",
-    "%1$s shared »%2$s« with you" : "%1$s jakoi kohteen »%2$s« kanssasi",
-    "%1$s shared »%2$s« with you." : "%1$s jakoi kohteen »%2$s« kanssasi.",
-    "Click the button below to open it." : "Napsauta alla olevaa linkkiä avataksesi sen.",
-    "Open »%s«" : "Avaa »%s«",
-    "Password to access »%s«" : "Salasana kohteen »%s« käyttöön",
-    "%1$s shared »%2$s« with you and wants to add:" : "%1$s jakoi kohteen »%2$s« kanssasi ja haluaa lisätä:",
-    "%1$s shared »%2$s« with you and wants to add" : "%1$s jakoi kohteen »%2$s« kanssasi ja haluaa lisätä",
-    "»%s« added a note to a file shared with you" : "»%s« lisäsi huomion jakamaasi tiedostoon"
+    "Reply to initiator" : "Vastaa aloitteentekijälle"
 },
 "nplurals=2; plural=(n != 1);");

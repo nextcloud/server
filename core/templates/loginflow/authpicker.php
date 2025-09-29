@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-script('core', 'login/authpicker');
+\OCP\Util::addScript('core', 'login/authpicker', 'core');
 style('core', 'login/authpicker');
 
 /** @var array $_ */
@@ -31,7 +31,7 @@ $urlGenerator = $_['urlGenerator'];
 	<br/>
 
 	<p id="redirect-link">
-		<form id="login-form" action="<?php p($urlGenerator->linkToRoute('core.ClientFlowLogin.grantPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState'], 'user' => $_['user'], 'direct' => $_['direct']])) ?>" method="get">
+		<form id="login-form" action="<?php p($urlGenerator->linkToRoute('core.ClientFlowLogin.grantPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState'], 'user' => $_['user'], 'direct' => $_['direct'], 'providedRedirectUri' => $_['providedRedirectUri']])) ?>" method="get">
 			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Log in')) ?>" disabled>
 		</form>
 	</p>

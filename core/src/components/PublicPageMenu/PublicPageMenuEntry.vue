@@ -11,14 +11,16 @@
 		role="presentation"
 		@click="$emit('click')">
 		<template #icon>
-			<div role="presentation" :class="['icon', icon, 'public-page-menu-entry__icon']" />
+			<slot v-if="$scopedSlots.icon" name="icon" />
+			<div v-else role="presentation" :class="['icon', icon, 'public-page-menu-entry__icon']" />
 		</template>
 	</NcListItem>
 </template>
 
 <script setup lang="ts">
-import NcListItem from '@nextcloud/vue/components/NcListItem'
 import { onMounted } from 'vue'
+
+import NcListItem from '@nextcloud/vue/components/NcListItem'
 
 const props = defineProps<{
 	/** Only emit click event but do not open href */
@@ -26,7 +28,7 @@ const props = defineProps<{
 	// menu entry props
 	id: string
 	label: string
-	icon: string
+	icon?: string
 	href: string
 	details?: string
 }>()

@@ -51,7 +51,7 @@ OC.L10N.register(
     "There was an error getting the weather status information." : "Beim Abrufen der Wetterstatusinformationen ist ein Fehler aufgetreten.",
     "No weather information found" : "Keine Wetterinformationen gefunden",
     "Location not found" : "Standort nicht gefunden",
-    "There was an error setting the location address." : "Es ist ein Fehler beim Festlegen der Standortadresse aufgetreten.",
+    "There was an error setting the location address." : "Fehler beim Festlegen der Standortadresse aufgetreten.",
     "There was an error setting the location." : "Es ist ein Fehler beim Festlegen des Standortes aufgetreten.",
     "There was an error saving the mode." : "Es ist ein Fehler beim Festlegen des Modus aufgetreten.",
     "There was an error using personal address." : "Es ist ein Fehler beim Verwenden der persönlichen Adresse aufgetreten.",

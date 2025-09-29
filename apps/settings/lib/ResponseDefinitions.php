@@ -20,6 +20,7 @@ namespace OCA\Settings;
  *   default: mixed,
  *   options?: list<string|array{name: string, value: mixed}>,
  *   value: string|int|float|bool|list<string>,
+ *   sensitive?: boolean,
  * }
  *
  * @psalm-type SettingsDeclarativeForm = array{

@@ -54,13 +54,13 @@ export const useFilesStore = function(...args) {
 
 		actions: {
 			/**
-			 * Get cached child nodes within a given path
+			 * Get cached directory matching a given path
 			 *
-			 * @param service The service (files view)
-			 * @param path The path relative within the service
-			 * @return Array of cached nodes within the path
+			 * @param service - The service (files view)
+			 * @param path - The path relative within the service
+			 * @return The folder if found
 			 */
-			getNodesByPath(service: string, path?: string): Node[] {
+			getDirectoryByPath(service: string, path?: string): Folder | undefined {
 				const pathsStore = usePathsStore()
 				let folder: Folder | undefined
 
@@ -73,6 +73,19 @@ export const useFilesStore = function(...args) {
 						folder = this.getNode(source) as Folder | undefined
 					}
 				}
+
+				return folder
+			},
+
+			/**
+			 * Get cached child nodes within a given path
+			 *
+			 * @param service - The service (files view)
+			 * @param path - The path relative within the service
+			 * @return Array of cached nodes within the path
+			 */
+			getNodesByPath(service: string, path?: string): Node[] {
+				const folder = this.getDirectoryByPath(service, path)
 
 				// If we found a cache entry and the cache entry was already loaded (has children) then use it
 				return (folder?._children ?? [])
@@ -141,7 +154,7 @@ export const useFilesStore = function(...args) {
 				}
 
 				// If we have only one node with the file ID, we can update it directly
-				if (node.source === nodes[0].source) {
+				if (nodes.length === 1 && node.source === nodes[0].source) {
 					this.updateNodes([node])
 					return
 				}

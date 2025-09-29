@@ -7,7 +7,6 @@ OC.L10N.register(
     "View folder" : "Rodyti aplanką",
     "Set file reminders" : "Nustatyti priminimus apie failus",
     "Set reminder for \"{fileName}\"" : "Nustatyti priminimą apie „{fileName}“",
-    "Set reminder at custom date & time" : "Nustatyti priminimą tinkintą datą ir laiką",
     "Clear reminder" : "Panaikinti priminimą",
     "Please choose a valid date & time" : "Pasirinkite tinkamą datą ir laiką",
     "Reminder set for \"{fileName}\"" : "Nustatytas priminimas apie „{fileName}“",
@@ -18,7 +17,6 @@ OC.L10N.register(
     "Cancel" : "Atsisakyti",
     "Set reminder" : "Nustatyti priminimą",
     "Reminder set" : "Priminimas nustatytas",
-    "Set custom reminder" : "Nustatyti tinkintą priminimą",
     "Later today" : "Šiandien vėliau",
     "Set reminder for later today" : "Nustatyti priminimą šiandien vėliau",
     "Tomorrow" : "Rytoj",
@@ -26,6 +24,8 @@ OC.L10N.register(
     "This weekend" : "Šį savaitgalį",
     "Set reminder for this weekend" : "Nustatyti priminimą šį savaitgalį",
     "Next week" : "Kitą savaitę",
-    "Set reminder for next week" : "Nustatyti priminimą kitą savaitę"
+    "Set reminder for next week" : "Nustatyti priminimą kitą savaitę",
+    "Set reminder at custom date & time" : "Nustatyti priminimą tinkintą datą ir laiką",
+    "Set custom reminder" : "Nustatyti tinkintą priminimą"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

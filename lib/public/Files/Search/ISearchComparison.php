@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -51,7 +52,7 @@ interface ISearchComparison extends ISearchOperator {
 	 * @since 28.0.0
 	 */
 	public const COMPARE_DEFINED = 'is-defined';
-	
+
 	/**
 	 * @since 29.0.0
 	 */

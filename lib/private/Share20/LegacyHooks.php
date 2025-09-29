@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -69,9 +70,9 @@ class LegacyHooks {
 		// Prepare hook
 		$shareType = $share->getShareType();
 		$sharedWith = '';
-		if ($shareType === IShare::TYPE_USER ||
-			$shareType === IShare::TYPE_GROUP ||
-			$shareType === IShare::TYPE_REMOTE) {
+		if ($shareType === IShare::TYPE_USER
+			|| $shareType === IShare::TYPE_GROUP
+			|| $shareType === IShare::TYPE_REMOTE) {
 			$sharedWith = $share->getSharedWith();
 		}
 
@@ -81,7 +82,7 @@ class LegacyHooks {
 			'itemSource' => $share->getNodeId(),
 			'shareType' => $shareType,
 			'shareWith' => $sharedWith,
-			'itemparent' => method_exists($share, 'getParent') ? $share->getParent() : '',
+			'itemparent' => $share->getParent(),
 			'uidOwner' => $share->getSharedBy(),
 			'fileSource' => $share->getNodeId(),
 			'fileTarget' => $share->getTarget()

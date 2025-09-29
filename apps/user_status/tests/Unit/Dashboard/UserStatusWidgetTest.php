@@ -16,33 +16,18 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UserStatusWidgetTest extends TestCase {
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-
-	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
-	private $dateTimeFormatter;
-
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
-	private $initialState;
-
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-
-	/** @var StatusService|\PHPUnit\Framework\MockObject\MockObject */
-	private $service;
-
-	/** @var UserStatusWidget */
-	private $widget;
+	private IL10N&MockObject $l10n;
+	private IDateTimeFormatter&MockObject $dateTimeFormatter;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IInitialState&MockObject $initialState;
+	private IUserManager&MockObject $userManager;
+	private IUserSession&MockObject $userSession;
+	private StatusService&MockObject $service;
+	private UserStatusWidget $widget;
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -11,6 +11,7 @@ use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Cache\Wrapper\JailPropagator;
 use OC\Files\Cache\Wrapper\JailWatcher;
 use OC\Files\Filesystem;
+use OCP\Files;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IWatcher;
@@ -253,7 +254,7 @@ class Jail extends Wrapper {
 			return $storage->writeStream($this->getUnjailedPath($path), $stream, $size);
 		} else {
 			$target = $this->fopen($path, 'w');
-			[$count, $result] = \OC_Helper::streamCopy($stream, $target);
+			$count = Files::streamCopy($stream, $target);
 			fclose($stream);
 			fclose($target);
 			return $count;

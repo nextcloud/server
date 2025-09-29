@@ -64,7 +64,8 @@ class Dispatcher {
 	 * @param LoggerInterface $logger
 	 * @param IEventLogger $eventLogger
 	 */
-	public function __construct(Http $protocol,
+	public function __construct(
+		Http $protocol,
 		MiddlewareDispatcher $middlewareDispatcher,
 		ControllerMethodReflector $reflector,
 		IRequest $request,
@@ -72,7 +73,8 @@ class Dispatcher {
 		ConnectionAdapter $connection,
 		LoggerInterface $logger,
 		IEventLogger $eventLogger,
-		ContainerInterface $appContainer) {
+		ContainerInterface $appContainer,
+	) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
 		$this->reflector = $reflector;
@@ -90,9 +92,11 @@ class Dispatcher {
 	 * @param Controller $controller the controller which will be called
 	 * @param string $methodName the method name which will be called on
 	 *                           the controller
-	 * @return array $array[0] contains a string with the http main header,
-	 *               $array[1] contains headers in the form: $key => value, $array[2] contains
-	 *               the response output
+	 * @return array $array[0] contains the http status header as a string,
+	 *               $array[1] contains response headers as an array,
+	 *               $array[2] contains response cookies as an array,
+	 *               $array[3] contains the response output as a string,
+	 *               $array[4] contains the response object
 	 * @throws \Exception
 	 */
 	public function dispatch(Controller $controller, string $methodName): array {
@@ -197,7 +201,18 @@ class Dispatcher {
 		}
 
 		$this->eventLogger->start('controller:' . get_class($controller) . '::' . $methodName, 'App framework controller execution');
-		$response = \call_user_func_array([$controller, $methodName], $arguments);
+		try {
+			$response = \call_user_func_array([$controller, $methodName], $arguments);
+		} catch (\TypeError $e) {
+			// Only intercept TypeErrors occuring on the first line, meaning that the invocation of the controller method failed.
+			// Any other TypeError happens inside the controller method logic and should be logged as normal.
+			if ($e->getFile() === $this->reflector->getFile() && $e->getLine() === $this->reflector->getStartLine()) {
+				$this->logger->debug('Failed to call controller method: ' . $e->getMessage(), ['exception' => $e]);
+				return new Response(Http::STATUS_BAD_REQUEST);
+			}
+
+			throw $e;
+		}
 		$this->eventLogger->end('controller:' . get_class($controller) . '::' . $methodName);
 
 		if (!($response instanceof Response)) {
@@ -206,14 +221,7 @@ class Dispatcher {
 
 		// format response
 		if ($response instanceof DataResponse || !($response instanceof Response)) {
-			// get format from the url format or request format parameter
-			$format = $this->request->getParam('format');
-
-			// if none is given try the first Accept header
-			if ($format === null) {
-				$headers = $this->request->getHeader('Accept');
-				$format = $controller->getResponderByHTTPHeader($headers, null);
-			}
+			$format = $this->request->getFormat();
 
 			if ($format !== null) {
 				$response = $controller->buildResponse($response, $format);

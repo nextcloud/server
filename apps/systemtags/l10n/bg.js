@@ -56,6 +56,7 @@ OC.L10N.register(
     "Loading …" : "Зареждане …",
     "Manage tags" : "Управление на маркери",
     "Cancel" : "Отказ",
+    "Apply" : "Приложи",
     "Failed to load tags" : "Неуспешно зареждане на етикети",
     "Failed to load selected tags" : "Неуспешно зареждане на избрани етикети",
     "Failed to select tag" : "Неуспешен избор на етикет",

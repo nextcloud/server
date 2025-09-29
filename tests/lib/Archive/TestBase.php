@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,6 +7,10 @@
  */
 
 namespace Test\Archive;
+
+use OCP\Files;
+use OCP\ITempManager;
+use OCP\Server;
 
 abstract class TestBase extends \Test\TestCase {
 	/**
@@ -56,7 +61,7 @@ abstract class TestBase extends \Test\TestCase {
 		$textFile = $dir . '/lorem.txt';
 		$this->assertEquals(file_get_contents($textFile), $this->instance->getFile('lorem.txt'));
 
-		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('.txt');
+		$tmpFile = Server::get(ITempManager::class)->getTemporaryFile('.txt');
 		$this->instance->extractFile('lorem.txt', $tmpFile);
 		$this->assertEquals(file_get_contents($textFile), file_get_contents($tmpFile));
 	}
@@ -90,7 +95,7 @@ abstract class TestBase extends \Test\TestCase {
 		$this->instance = $this->getNew();
 		$fh = $this->instance->getStream('lorem.txt', 'w');
 		$source = fopen($dir . '/lorem.txt', 'r');
-		\OCP\Files::streamCopy($source, $fh);
+		Files::streamCopy($source, $fh);
 		fclose($source);
 		fclose($fh);
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
@@ -110,13 +115,13 @@ abstract class TestBase extends \Test\TestCase {
 	public function testExtract(): void {
 		$dir = \OC::$SERVERROOT . '/tests/data';
 		$this->instance = $this->getExisting();
-		$tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$tmpDir = Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->instance->extract($tmpDir);
 		$this->assertEquals(true, file_exists($tmpDir . 'lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir . 'dir/lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir . 'logo-wide.png'));
 		$this->assertEquals(file_get_contents($dir . '/lorem.txt'), file_get_contents($tmpDir . 'lorem.txt'));
-		\OCP\Files::rmdirr($tmpDir);
+		Files::rmdirr($tmpDir);
 	}
 	public function testMoveRemove(): void {
 		$dir = \OC::$SERVERROOT . '/tests/data';

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -6,12 +7,13 @@
  */
 namespace Test\Comments;
 
+use OCP\Comments\ICommentsManagerFactory;
 use OCP\IServerContainer;
 
 /**
  * Class FakeFactory
  */
-class FakeFactory implements \OCP\Comments\ICommentsManagerFactory {
+class FakeFactory implements ICommentsManagerFactory {
 	public function __construct(IServerContainer $serverContainer) {
 	}
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-only
@@ -57,7 +58,13 @@ class MultipartRequestParser {
 	 */
 	private function parseBoundaryFromHeaders(string $contentType): string {
 		try {
+			if (!str_contains($contentType, ';')) {
+				throw new \InvalidArgumentException('No semicolon in header');
+			}
 			[$mimeType, $boundary] = explode(';', $contentType);
+			if (!str_contains($boundary, '=')) {
+				throw new \InvalidArgumentException('No equal in boundary header');
+			}
 			[$boundaryKey, $boundaryValue] = explode('=', $boundary);
 		} catch (\Exception $e) {
 			throw new BadRequest('Error while parsing boundary in Content-Type header.', Http::STATUS_BAD_REQUEST, $e);
@@ -134,7 +141,10 @@ class MultipartRequestParser {
 
 		$headers = $this->readPartHeaders();
 
-		$content = $this->readPartContent((int)$headers['content-length'], $headers['x-file-md5']);
+		$length = (int)$headers['content-length'];
+
+		$this->validateHash($length, $headers['x-file-md5'] ?? '', $headers['oc-checksum'] ?? '');
+		$content = $this->readPartContent($length);
 
 		return [$headers, $content];
 	}
@@ -184,8 +194,9 @@ class MultipartRequestParser {
 			throw new LengthRequired('The Content-Length header must not be null.');
 		}
 
-		if (!isset($headers['x-file-md5'])) {
-			throw new BadRequest('The X-File-MD5 header must not be null.');
+		// TODO: Drop $md5 condition when the latest desktop client that uses it is no longer supported.
+		if (!isset($headers['x-file-md5']) && !isset($headers['oc-checksum'])) {
+			throw new BadRequest('The hash headers must not be null.');
 		}
 
 		return $headers;
@@ -197,13 +208,7 @@ class MultipartRequestParser {
 	 * @throws Exception
 	 * @throws BadRequest
 	 */
-	private function readPartContent(int $length, string $md5): string {
-		$computedMd5 = $this->computeMd5Hash($length);
-
-		if ($md5 !== $computedMd5) {
-			throw new BadRequest('Computed md5 hash is incorrect.');
-		}
-
+	private function readPartContent(int $length): string {
 		if ($length === 0) {
 			$content = '';
 		} else {
@@ -225,12 +230,25 @@ class MultipartRequestParser {
 	}
 
 	/**
-	 * Compute the MD5 hash of the next x bytes.
+	 * Compute the MD5 or checksum hash of the next x bytes.
+	 * TODO: Drop $md5 argument when the latest desktop client that uses it is no longer supported.
 	 */
-	private function computeMd5Hash(int $length): string {
-		$context = hash_init('md5');
+	private function validateHash(int $length, string $fileMd5Header, string $checksumHeader): void {
+		if ($checksumHeader !== '') {
+			[$algorithm, $hash] = explode(':', $checksumHeader, 2);
+		} elseif ($fileMd5Header !== '') {
+			$algorithm = 'md5';
+			$hash = $fileMd5Header;
+		} else {
+			throw new BadRequest('No hash provided.');
+		}
+
+		$context = hash_init($algorithm);
 		hash_update_stream($context, $this->stream, $length);
 		fseek($this->stream, -$length, SEEK_CUR);
-		return hash_final($context);
+		$computedHash = hash_final($context);
+		if ($hash !== $computedHash) {
+			throw new BadRequest("Computed $algorithm hash is incorrect ($computedHash).");
+		}
 	}
 }

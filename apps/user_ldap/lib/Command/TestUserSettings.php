@@ -91,9 +91,9 @@ class TestUserSettings extends Command {
 
 			if (!$access->isDNPartOfBase($knownDn, $access->getConnection()->ldapBaseUsers)) {
 				$output->writeln(
-					"User <info>$knownDn</info> is not in one of the configured user bases: <info>" .
-					implode(',', $access->getConnection()->ldapBaseUsers) .
-					'</info>.'
+					"User <info>$knownDn</info> is not in one of the configured user bases: <info>"
+					. implode(',', $access->getConnection()->ldapBaseUsers)
+					. '</info>.'
 				);
 			}
 
@@ -101,6 +101,8 @@ class TestUserSettings extends Command {
 			$output->writeln('');
 
 			$attributeNames = [
+				'ldapBase',
+				'ldapBaseUsers',
 				'ldapExpertUsernameAttr',
 				'ldapUuidUserAttribute',
 				'ldapExpertUUIDUserAttr',
@@ -120,11 +122,17 @@ class TestUserSettings extends Command {
 				'ldapAttributeBiography',
 				'ldapAttributeBirthDate',
 				'ldapAttributePronouns',
+				'ldapGidNumber',
+				'hasGidNumber',
 			];
 			$output->writeln('Attributes set in configuration:');
 			foreach ($attributeNames as $attributeName) {
-				if ($connection->$attributeName !== '') {
-					$output->writeln("- $attributeName: <info>" . $connection->$attributeName . '</info>');
+				if (($connection->$attributeName !== '') && ($connection->$attributeName !== [])) {
+					if (\is_string($connection->$attributeName)) {
+						$output->writeln("- $attributeName: <info>" . $connection->$attributeName . '</info>');
+					} else {
+						$output->writeln("- $attributeName: <info>" . \json_encode($connection->$attributeName) . '</info>');
+					}
 				}
 			}
 
@@ -133,6 +141,9 @@ class TestUserSettings extends Command {
 			$attrs[] = strtolower($connection->ldapExpertUsernameAttr);
 			if ($connection->ldapUuidUserAttribute !== 'auto') {
 				$attrs[] = strtolower($connection->ldapUuidUserAttribute);
+			}
+			if ($connection->hasGidNumber) {
+				$attrs[] = strtolower($connection->ldapGidNumber);
 			}
 			$attrs[] = 'memberof';
 			$attrs = array_values(array_unique($attrs));
@@ -170,6 +181,7 @@ class TestUserSettings extends Command {
 			$output->writeln('Group information:');
 
 			$attributeNames = [
+				'ldapBaseGroups',
 				'ldapDynamicGroupMemberURL',
 				'ldapGroupFilter',
 				'ldapGroupMemberAssocAttr',

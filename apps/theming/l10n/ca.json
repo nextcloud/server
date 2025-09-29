@@ -73,15 +73,16 @@
     "Background and login image" : "Imatge de fons i d'inici de sessió",
     "Advanced options" : "Paràmetres avançats",
     "Install the ImageMagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió del PHP d'ImageMagick compatible amb imatges SVG per a generar automàticament icones de web a partir del logotip i del color pujats.",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accés universal és molt important per a nosaltres. Seguim els estàndards web i comprovem que tot es pugui utilitzar també sense el ratolí i amb programes d'assistència, com ara els lectors de pantalla. Volem complir les {guidelines}Pautes d'accessibilitat del contingut web{linkend} 2.1 a nivell AA i amb el tema de contrast alt fins i tot a nivell AAA.",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {linkstart}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accés universal és molt important per a nosaltres. Seguim els estàndards web i comprovem que tot es pugui utilitzar també sense ratolí i programari d'assistència com ara lectors de pantalla. Pretenem complir les {linkstart}Directrius d'accessibilitat de contingut web{linkend} 2.1 a nivell AA, amb el tema d'alt contrast fins i tot a nivell AAA.",
     "If you find any issues, do not hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si trobeu cap problema, no dubteu a informar-ne en el {issuetracker}nostre seguiment de problemes{linkend}. A més, si voleu participar, uniu-vos al {designteam}nostre equip de disseny{linkend}!",
+    "Unable to apply the setting." : "No es pot aplicar el paràmetre.",
     "Appearance and accessibility settings" : "Paràmetres d'aparença i accessibilitat",
     "Misc accessibility options" : "Diverses opcions d'accessibilitat",
-    "Enable blur background filter (may increase GPU load)" : "Activa el filtre de fons borrós (pot augmentar la càrrega de la GPU)",
+    "Enable blur background filter (may increase GPU load)" : "Habilita el filtre de fons borrós (pot augmentar la càrrega de la GPU)",
     "Customization has been disabled by your administrator" : "L'administrador ha inhabilitat la personalització",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Estableix un color primari per ressaltar els elements importants. El color utilitzat per a elements com els botons primaris pot variar una mica a mesura que s'ajusta per complir els requisits d'accessibilitat.",
     "Background and color" : "Fons i color",
-    "The background can be set to an image from the default set, a custom uploaded image, or a plain color." : "El fons es pot configurar amb una imatge del conjunt predeterminat, una imatge personalitzada carregada o un color normal.",
+    "The background can be set to an image from the default set, a custom uploaded image, or a plain color." : "El fons es pot configurar amb una imatge del conjunt per defecte, una imatge personalitzada carregada o un color normal.",
     "Keyboard shortcuts" : "Dreceres de teclat",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "En alguns casos, les dreceres de teclat poden interferir amb les eines d'accessibilitat. Per a permetre centrar-vos correctament en la vostra eina, podeu inhabilitar totes les dreceres de teclat aquí. Això també inhabilitarà totes les dreceres disponibles en les aplicacions.",
     "Disable all keyboard shortcuts" : "Inhabilita totes les dreceres de teclat",
@@ -116,10 +117,7 @@
     "Reset to default" : "Reinicialitza els valors per defecte",
     "Upload" : "Puja",
     "Remove background image" : "Suprimeix la imatge de fons",
-    "Color" : "Color",
-    "Background" : "Fons",
-    "Set a custom background" : "Definiu un fons personalitzat",
-    "Change color" : "Canvia el color",
-    "No background" : "Sense fons"
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accés universal és molt important per a nosaltres. Seguim els estàndards web i comprovem que tot es pugui utilitzar també sense el ratolí i amb programes d'assistència, com ara els lectors de pantalla. Volem complir les {guidelines}Pautes d'accessibilitat del contingut web{linkend} 2.1 a nivell AA i amb el tema de contrast alt fins i tot a nivell AAA.",
+    ". Unable to apply the setting." : ". No es pot aplicar el paràmetre."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

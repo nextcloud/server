@@ -10,15 +10,17 @@ declare(strict_types=1);
 
 namespace Test\Security\CSRF;
 
+use OC\Security\CSRF\CsrfToken;
+
 class CsrfTokenTest extends \Test\TestCase {
 	public function testGetEncryptedValue(): void {
-		$csrfToken = new \OC\Security\CSRF\CsrfToken('MyCsrfToken');
+		$csrfToken = new CsrfToken('MyCsrfToken');
 		$this->assertSame(33, strlen($csrfToken->getEncryptedValue()));
 		$this->assertSame(':', $csrfToken->getEncryptedValue()[16]);
 	}
 
 	public function testGetEncryptedValueStaysSameOnSecondRequest(): void {
-		$csrfToken = new \OC\Security\CSRF\CsrfToken('MyCsrfToken');
+		$csrfToken = new CsrfToken('MyCsrfToken');
 		$tokenValue = $csrfToken->getEncryptedValue();
 		$this->assertSame($tokenValue, $csrfToken->getEncryptedValue());
 		$this->assertSame($tokenValue, $csrfToken->getEncryptedValue());
@@ -29,7 +31,7 @@ class CsrfTokenTest extends \Test\TestCase {
 		$b = 'def';
 		$xorB64 = 'BQcF';
 		$tokenVal = sprintf('%s:%s', $xorB64, base64_encode($a));
-		$csrfToken = new \OC\Security\CSRF\CsrfToken($tokenVal);
+		$csrfToken = new CsrfToken($tokenVal);
 		$this->assertSame($b, $csrfToken->getDecryptedValue());
 	}
 }

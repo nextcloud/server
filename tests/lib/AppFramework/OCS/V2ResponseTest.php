@@ -15,15 +15,13 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 
 class V2ResponseTest extends \Test\TestCase {
-	/**
-	 * @dataProvider providesStatusCodes
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('providesStatusCodes')]
 	public function testStatusCodeMapper(int $expected, int $sc): void {
 		$response = new V2Response(new DataResponse([], $sc));
 		$this->assertEquals($expected, $response->getStatus());
 	}
 
-	public function providesStatusCodes(): array {
+	public static function providesStatusCodes(): array {
 		return [
 			[Http::STATUS_OK, 200],
 			[Http::STATUS_BAD_REQUEST, 104],

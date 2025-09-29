@@ -48,30 +48,6 @@ interface IAccountManager {
 	public const SCOPE_PUBLISHED = 'v2-published';
 
 	/**
-	 * Contact details only visible locally
-	 *
-	 * @since 15.0.0
-	 * @deprecated 21.0.1
-	 */
-	public const VISIBILITY_PRIVATE = 'private';
-
-	/**
-	 * Contact details visible on trusted federated servers.
-	 *
-	 * @since 15.0.0
-	 * @deprecated 21.0.1
-	 */
-	public const VISIBILITY_CONTACTS_ONLY = 'contacts';
-
-	/**
-	 * Contact details visible on trusted federated servers and in the public lookup server.
-	 *
-	 * @since 15.0.0
-	 * @deprecated 21.0.1
-	 */
-	public const VISIBILITY_PUBLIC = 'public';
-
-	/**
 	 * The list of allowed scopes
 	 *
 	 * @since 25.0.0
@@ -81,9 +57,6 @@ interface IAccountManager {
 		self::SCOPE_LOCAL,
 		self::SCOPE_FEDERATED,
 		self::SCOPE_PUBLISHED,
-		self::VISIBILITY_PRIVATE,
-		self::VISIBILITY_CONTACTS_ONLY,
-		self::VISIBILITY_PUBLIC,
 	];
 
 	/**
@@ -98,6 +71,7 @@ interface IAccountManager {
 
 	/**
 	 * @since 27.0.0
+	 * @deprecated 27.0.0 only added for backwards compatibility with provisioning_api UsersController::getCurrentUser
 	 */
 	public const PROPERTY_DISPLAYNAME_LEGACY = 'display-name';
 
@@ -123,8 +97,14 @@ interface IAccountManager {
 
 	/**
 	 * @since 15.0.0
+	 * @deprecated 32.0.0
 	 */
 	public const PROPERTY_TWITTER = 'twitter';
+
+	/**
+	 * @since 32.0.0
+	 */
+	public const PROPERTY_BLUESKY = 'bluesky';
 
 	/**
 	 * @since 26.0.0
@@ -186,6 +166,7 @@ interface IAccountManager {
 		self::PROPERTY_PRONOUNS,
 		self::PROPERTY_ROLE,
 		self::PROPERTY_TWITTER,
+		self::PROPERTY_BLUESKY,
 		self::PROPERTY_WEBSITE,
 	];
 

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -16,20 +18,21 @@ use OCA\Files_External\Lib\Storage\SFTP_Key;
  * @package OCA\Files_External\Tests\Storage
  */
 class SFTP_KeyTest extends \Test\Files\Storage\Storage {
-	private $config;
+	use ConfigurableStorageTrait;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.php');
-		if (! is_array($this->config) or ! isset($this->config['sftp_key']) or ! $this->config['sftp_key']['run']) {
-			$this->markTestSkipped('SFTP with key backend not configured');
-		}
+		$this->loadConfig('files_external/tests/config.php');
 		// Make sure we have an new empty folder to work in
 		$this->config['sftp_key']['root'] .= '/' . $id;
 		$this->instance = new SFTP_Key($this->config['sftp_key']);
 		$this->instance->mkdir('/');
+	}
+
+	protected function shouldRunConfig(mixed $config): bool {
+		return is_array($config) && ($config['sftp_key']['run'] ?? false);
 	}
 
 	protected function tearDown(): void {
@@ -40,7 +43,7 @@ class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	
+
 	public function testInvalidAddressShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -52,24 +55,24 @@ class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 		$this->assertTrue($this->instance->assertHostAddressValid('localhost'));
 	}
 
-	
+
 	public function testNegativePortNumberShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->instance->assertPortNumberValid('-1');
 	}
 
-	
+
 	public function testNonNumericalPortNumberShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->instance->assertPortNumberValid('a');
 	}
 
-	
+
 	public function testHighPortNumberShouldThrowException(): void {
 		$this->expectException(\InvalidArgumentException::class);
- 
+
 		$this->instance->assertPortNumberValid('65536');
 	}
 

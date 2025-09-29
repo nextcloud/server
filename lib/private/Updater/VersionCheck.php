@@ -105,17 +105,20 @@ class VersionCheck {
 	}
 
 	/**
-	 * @codeCoverageIgnore
-	 * @param string $url
-	 * @return resource|string
 	 * @throws \Exception
 	 */
-	protected function getUrlContent($url) {
-		$client = $this->clientService->newClient();
-		$response = $client->get($url, [
+	protected function getUrlContent(string $url): string {
+		$response = $this->clientService->newClient()->get($url, [
 			'timeout' => 5,
 		]);
-		return $response->getBody();
+
+		$content = $response->getBody();
+
+		// IResponse.getBody responds with null|resource if returning a stream response was requested.
+		// As that's not the case here, we can just ignore the psalm warning by adding an assertion.
+		assert(is_string($content));
+
+		return $content;
 	}
 
 	private function computeCategory(): int {

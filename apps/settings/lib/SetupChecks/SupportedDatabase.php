@@ -21,7 +21,7 @@ use OCP\SetupCheck\SetupResult;
 class SupportedDatabase implements ISetupCheck {
 
 	private const MIN_MARIADB = '10.6';
-	private const MAX_MARIADB = '11.4';
+	private const MAX_MARIADB = '11.8';
 	private const MIN_MYSQL = '8.0';
 	private const MAX_MYSQL = '8.4';
 	private const MIN_POSTGRES = '13';

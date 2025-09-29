@@ -184,8 +184,8 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		// Check for strict cookie requirement
-		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'StrictCookieRequired', StrictCookiesRequired::class) ||
-			!$this->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'StrictCookieRequired', StrictCookiesRequired::class)
+			|| !$this->hasAnnotationOrAttribute($reflectionMethod, 'NoCSRFRequired', NoCSRFRequired::class)) {
 			if (!$this->request->passesStrictCookieCheck()) {
 				throw new StrictCookieMissingException();
 			}

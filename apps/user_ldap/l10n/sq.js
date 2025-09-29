@@ -166,7 +166,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Përshoqërim Emër përdoruesi-Përdorues LDAP",
     "Clear Username-LDAP User Mapping" : "Pastro Përshoqërimin Emër përdoruesi-Përdorues LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Pastro Përshoqërimin Emër grupi-Grup LDAP",
-    "Invalid configuration. Please have a look at the logs for further details." : "Konfigurime të pavlefshme. Ju lutem shikoni hyrjet për detaje të mëtejshme.",
-    " Could not set configuration %s" : "S’vuri dot në punë formësimin %s"
+    "Invalid configuration. Please have a look at the logs for further details." : "Konfigurime të pavlefshme. Ju lutem shikoni hyrjet për detaje të mëtejshme."
 },
 "nplurals=2; plural=(n != 1);");

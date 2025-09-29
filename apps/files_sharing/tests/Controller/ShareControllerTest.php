@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -30,6 +31,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Template\ITemplateManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -67,6 +69,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private Manager&MockObject $shareManager;
 	private IPreview&MockObject $previewManager;
 	private IUserManager&MockObject $userManager;
+	private ITemplateManager&MockObject $templateManager;
 	private IInitialState&MockObject $initialState;
 	private IURLGenerator&MockObject $urlGenerator;
 	private ISecureRandom&MockObject $secureRandom;
@@ -86,6 +89,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->federatedShareProvider = $this->createMock(FederatedShareProvider::class);
 		$this->federatedShareProvider->expects($this->any())
@@ -113,6 +117,7 @@ class ShareControllerTest extends \Test\TestCase {
 					$this->defaults,
 					$this->config,
 					$this->createMock(IRequest::class),
+					$this->templateManager,
 					$this->initialState,
 					$this->appConfig,
 				)
@@ -175,7 +180,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getShareByToken')
 			->with('invalidtoken')
-			->will($this->throwException(new ShareNotFound()));
+			->willThrowException(new ShareNotFound());
 
 		$this->expectException(NotFoundException::class);
 
@@ -261,8 +266,12 @@ class ShareControllerTest extends \Test\TestCase {
 				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
 				// this share is not an image to the default preview is used
 				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
-				// for the direct link
-				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename ], 'downloadUrl'],
+			]);
+
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->willReturnMap([
+				['/public.php/dav/files/token/?accept=zip', 'downloadUrl'],
 			]);
 
 		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
@@ -330,6 +339,10 @@ class ShareControllerTest extends \Test\TestCase {
 			'filename' => $filename,
 			'view' => $view,
 			'fileId' => 111,
+			'owner' => 'ownerUID',
+			'ownerDisplayName' => 'ownerDisplay',
+			'isFileRequest' => false,
+			'templates' => [],
 		];
 
 		$response = $this->shareController->showShare();
@@ -393,6 +406,8 @@ class ShareControllerTest extends \Test\TestCase {
 			->setPassword('password')
 			->setShareOwner('ownerUID')
 			->setSharedBy('initiatorUID')
+			->setNote('The note')
+			->setLabel('A label')
 			->setNode($file)
 			->setTarget("/$filename")
 			->setToken('token');
@@ -470,6 +485,12 @@ class ShareControllerTest extends \Test\TestCase {
 			'filename' => $filename,
 			'view' => 'public-file-drop',
 			'disclaimer' => 'My disclaimer text',
+			'owner' => 'ownerUID',
+			'ownerDisplayName' => 'ownerDisplay',
+			'isFileRequest' => false,
+			'note' => 'The note',
+			'label' => 'A label',
+			'templates' => [],
 		];
 
 		$response = $this->shareController->showShare();
@@ -479,9 +500,9 @@ class ShareControllerTest extends \Test\TestCase {
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$expectedResponse = new PublicTemplateResponse('files', 'index');
-		$expectedResponse->setParams(['pageTitle' => $filename]);
+		$expectedResponse->setParams(['pageTitle' => 'A label']);
 		$expectedResponse->setContentSecurityPolicy($csp);
-		$expectedResponse->setHeaderTitle($filename);
+		$expectedResponse->setHeaderTitle('A label');
 		$expectedResponse->setHeaderDetails('shared by ownerDisplay');
 		$expectedResponse->setHeaderActions([
 			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', 'shareUrl'),
@@ -548,8 +569,12 @@ class ShareControllerTest extends \Test\TestCase {
 				['files_sharing.sharecontroller.showShare', ['token' => 'token'], 'shareUrl'],
 				// this share is not an image to the default preview is used
 				['files_sharing.PublicPreview.getPreview', ['x' => 256, 'y' => 256, 'file' => $share->getTarget(), 'token' => 'token'], 'previewUrl'],
-				// for the direct link
-				['files_sharing.sharecontroller.downloadShare', ['token' => 'token', 'filename' => $filename ], 'downloadUrl'],
+			]);
+
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->willReturnMap([
+				['/public.php/dav/files/token/?accept=zip', 'downloadUrl'],
 			]);
 
 		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
@@ -594,9 +619,9 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function ($text, $parameters) {
+			->willReturnCallback(function ($text, $parameters) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$this->defaults->expects(self::any())
 			->method('getProductName')

@@ -53,9 +53,9 @@ class FullTextSearchManager implements IFullTextSearchManager {
 	 * @since 16.0.0
 	 */
 	public function isAvailable(): bool {
-		if ($this->indexService === null ||
-			$this->providerService === null ||
-			$this->searchService === null) {
+		if ($this->indexService === null
+			|| $this->providerService === null
+			|| $this->searchService === null) {
 			return false;
 		}
 

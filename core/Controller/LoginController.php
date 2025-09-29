@@ -29,6 +29,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
@@ -42,6 +43,7 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 use OCP\Security\Bruteforce\IThrottler;
 use OCP\Security\ITrustedDomainHelper;
+use OCP\Server;
 use OCP\Util;
 
 class LoginController extends Controller {
@@ -91,8 +93,8 @@ class LoginController extends Controller {
 		$this->session->close();
 
 		if (
-			$this->request->getServerProtocol() === 'https' &&
-			!$this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_ANDROID_MOBILE_CHROME])
+			$this->request->getServerProtocol() === 'https'
+			&& !$this->request->isUserAgent([Request::USER_AGENT_CHROME, Request::USER_AGENT_ANDROID_MOBILE_CHROME])
 		) {
 			$response->addHeader('Clear-Site-Data', '"cache", "storage"');
 		}
@@ -111,7 +113,7 @@ class LoginController extends Controller {
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'GET', url: '/login')]
-	public function showLoginForm(?string $user = null, ?string $redirect_url = null): Http\Response {
+	public function showLoginForm(?string $user = null, ?string $redirect_url = null): Response {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 		}
@@ -224,7 +226,7 @@ class LoginController extends Controller {
 		// check if user_ldap is enabled, and the required classes exist
 		if ($this->appManager->isAppLoaded('user_ldap')
 			&& class_exists(Helper::class)) {
-			$helper = \OCP\Server::get(Helper::class);
+			$helper = Server::get(Helper::class);
 			$allPrefixes = $helper->getServerConfigurationPrefixes();
 			// check each LDAP server the user is connected too
 			foreach ($allPrefixes as $prefix) {

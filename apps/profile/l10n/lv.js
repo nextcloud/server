@@ -1,0 +1,11 @@
+OC.L10N.register(
+    "profile",
+    {
+    "Profile" : "Profils",
+    "This application provides the profile" : "Šī lietotne nodrošina profilu",
+    "Provides a customisable user profile interface." : "Nodrošina pielāgojamu lietotāja profila saskarni.",
+    "You have not added any info yet" : "Vēl nav pievienota nekāda informācija",
+    "{user} has not added any info yet" : "{user} vēl nav pievienojis nekādu informāciju ",
+    "Edit Profile" : "Labot profilu"
+},
+"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

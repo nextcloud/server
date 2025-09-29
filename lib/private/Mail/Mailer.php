@@ -8,9 +8,6 @@ declare(strict_types=1);
  */
 namespace OC\Mail;
 
-use Egulias\EmailValidator\EmailValidator;
-use Egulias\EmailValidator\Validation\NoRFCWarningsValidation;
-use Egulias\EmailValidator\Validation\RFCValidation;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IBinaryFinder;
@@ -21,6 +18,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\Events\BeforeMessageSent;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IEmailValidator;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use Psr\Log\LoggerInterface;
@@ -69,6 +67,7 @@ class Mailer implements IMailer {
 		private IL10N $l10n,
 		private IEventDispatcher $dispatcher,
 		private IFactory $l10nFactory,
+		private IEmailValidator $emailValidator,
 	) {
 	}
 
@@ -232,23 +231,12 @@ class Mailer implements IMailer {
 	}
 
 	/**
-	 * @deprecated 26.0.0 Implicit validation is done in \OC\Mail\Message::setRecipients
-	 *                    via \Symfony\Component\Mime\Address::__construct
-	 *
 	 * @param string $email Email address to be validated
 	 * @return bool True if the mail address is valid, false otherwise
+	 * @deprecated 26.0.0 use IEmailValidator.isValid instead
 	 */
 	public function validateMailAddress(string $email): bool {
-		if ($email === '') {
-			// Shortcut: empty addresses are never valid
-			return false;
-		}
-
-		$strictMailCheck = $this->config->getAppValue('core', 'enforce_strict_email_check', 'yes') === 'yes';
-		$validator = new EmailValidator();
-		$validation = $strictMailCheck ? new NoRFCWarningsValidation() : new RFCValidation();
-
-		return $validator->isValid($email, $validation);
+		return $this->emailValidator->isValid($email);
 	}
 
 	protected function getInstance(): MailerInterface {

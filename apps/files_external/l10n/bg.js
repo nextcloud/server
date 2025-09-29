@@ -2,8 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Grant access" : "Разреши достъпa",
-    "Error configuring OAuth1" : "Грешка при конфигурирането на OAuth1",
-    "Please provide a valid app key and secret." : "Моля да предоставете валиден ключ и тайна на приложението.",
     "Error configuring OAuth2" : "Грешка при конфигурирането на OAuth2",
     "Generate keys" : "Генериране на криптографски ключове",
     "Error generating key pair" : "Грешка при генериране на криптографски ключове",
@@ -23,9 +21,6 @@ OC.L10N.register(
     "Secret key" : "Секретен ключ",
     "Builtin" : "Вграден",
     "None" : "Няма",
-    "OAuth1" : "OAuth1",
-    "App key" : " Ключ на приложение",
-    "App secret" : "Тайна на приложение",
     "OAuth2" : "OAuth2",
     "Client ID" : "Client ID",
     "Client secret" : "Тайна на клиент",
@@ -91,7 +86,7 @@ OC.L10N.register(
     "Unknown" : "Неизвестен",
     "Scope" : "Обхват",
     "Personal" : "Личен",
-    "System" : "Системен",
+    "System" : "Системна информация",
     "(Group)" : "(Група)",
     "Compatibility with Mac NFD encoding (slow)" : "Съвместимост с кодиране на Mac NFD (бавно)",
     "Enable encryption" : "Включване на криптиране",
@@ -104,7 +99,6 @@ OC.L10N.register(
     "Disconnect" : "Прекъсване на връзката",
     "Admin defined" : "Дефиниран от администратор",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Автоматичната проверка на състоянието е деактивирана поради големия брой конфигурирани хранилища, щракнете, за проверка на състоянието",
-    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Наистина ли искате да изключите това външно хранилище? Това ще направи хранилището недостъпно в Nextcloud и ще доведе до изтриване на тези файлове и папки на всеки синхронизиран клиент, който е свързан в момента, но няма да изтрие никакви файлове и папки от самото външно хранилище.",
     "Delete storage?" : "Изтриване на хранилище?",
     "Click to recheck the configuration" : "Щракнете, за повторна  проверка на конфигурацията",
     "Saved" : "Запазено",
@@ -119,6 +113,11 @@ OC.L10N.register(
     "Add storage" : "Добави хранилище",
     "Advanced settings" : "Допълнителни настройки",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобалните идентификационни данни могат да се използват за удостоверяване с множество външни хранилища, които имат едни и същи идентификационни данни.",
-    "Submit" : "Изпращане"
+    "Error configuring OAuth1" : "Грешка при конфигурирането на OAuth1",
+    "Please provide a valid app key and secret." : "Моля да предоставете валиден ключ и тайна на приложението.",
+    "OAuth1" : "OAuth1",
+    "App key" : " Ключ на приложение",
+    "App secret" : "Тайна на приложение",
+    "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "Наистина ли искате да изключите това външно хранилище? Това ще направи хранилището недостъпно в Nextcloud и ще доведе до изтриване на тези файлове и папки на всеки синхронизиран клиент, който е свързан в момента, но няма да изтрие никакви файлове и папки от самото външно хранилище."
 },
 "nplurals=2; plural=(n != 1);");

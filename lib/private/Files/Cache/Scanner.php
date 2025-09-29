@@ -210,7 +210,7 @@ class Scanner extends BasicEmitter implements IScanner {
 					 * @var \OC\Files\Cache\CacheEntry $cacheData
 					 */
 					$newData = $this->array_diff_assoc_multi($data, $cacheData->getData());
-					
+
 					// make it known to the caller that etag has been changed and needs propagation
 					if (isset($newData['etag'])) {
 						$data['etag_changed'] = true;
@@ -351,23 +351,23 @@ class Scanner extends BasicEmitter implements IScanner {
 	 *
 	 */
 	protected function array_diff_assoc_multi(array $array1, array $array2) {
-		
+
 		$result = [];
 
 		foreach ($array1 as $key => $value) {
-		
+
 			// if $array2 doesn't have the same key, that's a result
 			if (!array_key_exists($key, $array2)) {
 				$result[$key] = $value;
 				continue;
 			}
-		
+
 			// if $array2's value for the same key is different, that's a result
 			if ($array2[$key] !== $value && !is_array($value)) {
 				$result[$key] = $value;
 				continue;
 			}
-		
+
 			if (is_array($value)) {
 				$nestedDiff = $this->array_diff_assoc_multi($value, $array2[$key]);
 				if (!empty($nestedDiff)) {

@@ -26,35 +26,16 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ReminderServiceTest extends TestCase {
-	/** @var Backend|MockObject */
-	private $backend;
-
-	/** @var NotificationProviderManager|MockObject */
-	private $notificationProviderManager;
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var IGroupManager|MockObject */
-	private $groupManager;
-
-	/** @var CalDavBackend|MockObject */
-	private $caldavBackend;
-
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var ReminderService */
-	private $reminderService;
-
-	/** @var MockObject|LoggerInterface */
-	private $logger;
-
-	/** @var MockObject|Principal */
-	private $principalConnector;
+	private Backend&MockObject $backend;
+	private NotificationProviderManager&MockObject $notificationProviderManager;
+	private IUserManager&MockObject $userManager;
+	private IGroupManager&MockObject $groupManager;
+	private CalDavBackend&MockObject $caldavBackend;
+	private ITimeFactory&MockObject $timeFactory;
+	private IConfig&MockObject $config;
+	private LoggerInterface&MockObject $logger;
+	private Principal&MockObject $principalConnector;
+	private ReminderService $reminderService;
 
 	public const CALENDAR_DATA = <<<EOD
 BEGIN:VCALENDAR
@@ -252,9 +233,7 @@ END:VTIMEZONE
 END:VCALENDAR
 ICS;
 
-
-	/** @var null|string */
-	private $oldTimezone;
+	private ?string $oldTimezone;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -305,13 +284,17 @@ ICS;
 			'component' => 'vevent',
 		];
 
-		$this->backend->expects($this->exactly(2))
+		$calls = [
+			[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1465429500, false],
+			[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', '35b3eae8e792aa2209f0b4e1a302f105', 'DISPLAY', false, 1465344000, false]
+		];
+		$this->backend->expects($this->exactly(count($calls)))
 			->method('insertReminder')
-			->withConsecutive(
-				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1465429500, false],
-				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', '35b3eae8e792aa2209f0b4e1a302f105', 'DISPLAY', false, 1465344000, false]
-			)
-			->willReturn(1);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return 1;
+			});
 
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
@@ -353,12 +336,7 @@ EOD;
 		];
 
 		$this->backend->expects($this->never())
-			->method('insertReminder')
-			->withConsecutive(
-				[1337, 42, 'wej2z68l9h', false, null, false, '5c70531aab15c92b52518ae10a2f78a4', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1465429500, false],
-				[1337, 42, 'wej2z68l9h', false, null, false, '5c70531aab15c92b52518ae10a2f78a4', '35b3eae8e792aa2209f0b4e1a302f105', 'DISPLAY', false, 1465344000, false]
-			)
-			->willReturn(1);
+			->method('insertReminder');
 
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
@@ -371,16 +349,20 @@ EOD;
 			'component' => 'vevent',
 		];
 
-		$this->backend->expects($this->exactly(5))
+		$calls = [
+			[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429500, false],
+			[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429620, true],
+			[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429740, true],
+			[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429860, true],
+			[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429980, true]
+		];
+		$this->backend->expects($this->exactly(count($calls)))
 			->method('insertReminder')
-			->withConsecutive(
-				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429500, false],
-				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429620, true],
-				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429740, true],
-				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429860, true],
-				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1465429980, true]
-			)
-			->willReturn(1);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return 1;
+			});
 
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
@@ -398,13 +380,17 @@ EOD;
 			'component' => 'vevent',
 		];
 
-		$this->backend->expects($this->exactly(2))
+		$calls = [
+			[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1467243900, false],
+			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467158400, false]
+		];
+		$this->backend->expects($this->exactly(count($calls)))
 			->method('insertReminder')
-			->withConsecutive(
-				[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1467243900, false],
-				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467158400, false]
-			)
-			->willReturn(1);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return 1;
+			});
 
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
@@ -521,17 +507,23 @@ EOD;
 			->willReturn([
 				'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => null,
 			]);
-		$this->backend->expects($this->exactly(6))
+
+		$calls = [
+			[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467243900, false],
+			[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467244020, true],
+			[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467244140, true],
+			[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467244260, true],
+			[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467244380, true],
+			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467158400, false]
+		];
+		$this->backend->expects($this->exactly(count($calls)))
 			->method('insertReminder')
-			->withConsecutive(
-				[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467243900, false],
-				[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467244020, true],
-				[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467244140, true],
-				[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467244260, true],
-				[1337, 42, 'wej2z68l9h', true, 1467244800, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467244380, true],
-				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467158400, false]
-			)
-			->willReturn(1);
+			->willReturnCallback(function () use (&$calls) {
+				$expected = array_shift($calls);
+				$this->assertEquals($expected, func_get_args());
+				return 1;
+			});
+
 		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->with()
@@ -556,9 +548,7 @@ EOD;
 		$expectedReminderTimstamp = (new DateTime('2023-02-04T08:00:00', new DateTimeZone('Europe/Vienna')))->getTimestamp();
 		$this->backend->expects(self::once())
 			->method('insertReminder')
-			->withConsecutive(
-				[1337, 42, self::anything(), false, self::anything(), false, self::anything(), self::anything(), self::anything(), true, $expectedReminderTimstamp, false],
-			)
+			->with(1337, 42, self::anything(), false, self::anything(), false, self::anything(), self::anything(), self::anything(), true, $expectedReminderTimstamp, false)
 			->willReturn(1);
 		$this->caldavBackend->expects(self::once())
 			->method('getCalendarById')
@@ -684,22 +674,22 @@ EOD;
 		$provider3 = $this->createMock(INotificationProvider::class);
 		$provider4 = $this->createMock(INotificationProvider::class);
 		$provider5 = $this->createMock(INotificationProvider::class);
-		$this->notificationProviderManager->expects($this->exactly(5))
+
+		$getProviderCalls = [
+			['EMAIL', $provider1],
+			['EMAIL', $provider2],
+			['DISPLAY', $provider3],
+			['EMAIL', $provider4],
+			['EMAIL', $provider5],
+		];
+		$this->notificationProviderManager->expects($this->exactly(count($getProviderCalls)))
 			->method('getProvider')
-			->withConsecutive(
-				['EMAIL'],
-				['EMAIL'],
-				['DISPLAY'],
-				['EMAIL'],
-				['EMAIL'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$provider1,
-				$provider2,
-				$provider3,
-				$provider4,
-				$provider5,
-			);
+			->willReturnCallback(function () use (&$getProviderCalls) {
+				$expected = array_shift($getProviderCalls);
+				$return = array_pop($expected);
+				$this->assertEquals($expected, func_get_args());
+				return $return;
+			});
 
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->exactly(5))
@@ -748,20 +738,36 @@ EOD;
 				return true;
 			}, 'Displayname 123', $user));
 
+		$removeReminderCalls = [
+			[1],
+			[2],
+			[3],
+			[4],
+			[5],
+		];
 		$this->backend->expects($this->exactly(5))
 			->method('removeReminder')
-			->withConsecutive([1], [2], [3], [4], [5]);
-		$this->backend->expects($this->exactly(6))
+			->willReturnCallback(function () use (&$removeReminderCalls): void {
+				$expected = array_shift($removeReminderCalls);
+				$this->assertEquals($expected, func_get_args());
+			});
+
+
+		$insertReminderCalls = [
+			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848700, false],
+			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848820, true],
+			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848940, true],
+			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849060, true],
+			[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849180, true],
+			[1337, 42, 'wej2z68l9h', true, 1468454400, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467763200, false],
+		];
+		$this->backend->expects($this->exactly(count($insertReminderCalls)))
 			->method('insertReminder')
-			->withConsecutive(
-				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848700, false],
-				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848820, true],
-				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467848940, true],
-				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849060, true],
-				[1337, 42, 'wej2z68l9h', true, 1467849600, false, 'fbdb2726bc0f7dfacac1d881c1453e20', 'ecacbf07d413c3c78d1ac7ad8c469602', 'EMAIL', true, 1467849180, true],
-				[1337, 42, 'wej2z68l9h', true, 1468454400, false, 'fbdb2726bc0f7dfacac1d881c1453e20', '8996992118817f9f311ac5cc56d1cc97', 'EMAIL', true, 1467763200, false],
-			)
-			->willReturn(99);
+			->willReturnCallback(function () use (&$insertReminderCalls) {
+				$expected = array_shift($insertReminderCalls);
+				$this->assertEquals($expected, func_get_args());
+				return 99;
+			});
 
 		$this->timeFactory->method('getDateTime')
 			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2016-06-08T00:00:00+00:00'));

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -103,7 +104,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 
 		$middleware = $this->getMockBuilder(SameSiteCookieMiddleware::class)
 			->setConstructorArgs([$this->request, $this->reflector])
-			->setMethods(['setSameSiteCookie'])
+			->onlyMethods(['setSameSiteCookie'])
 			->getMock();
 
 		$middleware->expects($this->once())

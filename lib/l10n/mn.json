@@ -14,6 +14,7 @@
     "Apps" : "Аппликэйшинууд",
     "Settings" : "Тохиргоо",
     "Log out" : "гаргах",
+    "Accounts" : "Accounts",
     "Email" : "Цахим шуудан",
     "Phone" : "Утас",
     "Twitter" : "Твиттер",
@@ -33,12 +34,8 @@
     "a safe home for all your data" : "Таны өгөгдлүүдийн аюулгүй гэр",
     "Authentication error" : "Нотолгооны алдаа",
     "Storage is temporarily not available" : "Хадгалах төхөөрөмж нь түр хугацаанд ашиглах боломжгүй байна",
+    "Images" : "Зургууд",
     "Summary" : "Хураангуй",
-    "Translate" : "Орчуулга",
-    "File name is a reserved word" : "Файлын нэр нь нийцгүй  үг",
-    "File name contains at least one invalid character" : "файлын нэр нь хамгийн багадаа нэг нь хүчингүй тэмдэгт агуулж байна",
-    "File name is too long" : "Файлын нэр хэтэрхий урт байна",
-    "Users" : "хэрэглэгч",
-    "Open »%s«" : "»%s« нээх"
+    "Translate" : "Орчуулга"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

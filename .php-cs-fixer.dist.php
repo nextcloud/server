@@ -14,11 +14,14 @@ $config = new Config();
 $config
 	->setParallelConfig(ParallelConfigFactory::detect())
 	->getFinder()
-	->exclude('config')
-	->exclude('3rdparty')
-	->exclude('build/stubs')
-	->exclude('composer')
-	->in(__DIR__);
+	->in(__DIR__)
+	->exclude([
+		'3rdparty',
+		'build/stubs',
+		'composer',
+	])
+;
+
 
 $ignoredEntries = shell_exec('git status --porcelain --ignored ' . escapeshellarg(__DIR__));
 $ignoredEntries = explode("\n", $ignoredEntries);

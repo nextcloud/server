@@ -273,7 +273,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -320,7 +320,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -367,7 +367,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('violates local access rules');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -457,7 +457,7 @@ class DnsPinMiddlewareTest extends TestCase {
 		$this->expectExceptionMessage('No DNS record found for www.example.com');
 
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);
@@ -480,7 +480,7 @@ class DnsPinMiddlewareTest extends TestCase {
 
 	public function testIgnoreSubdomainForSoaQuery(): void {
 		$mockHandler = new MockHandler([
-			static function (RequestInterface $request, array $options) {
+			static function (RequestInterface $request, array $options): void {
 				// The handler should not be called
 			},
 		]);

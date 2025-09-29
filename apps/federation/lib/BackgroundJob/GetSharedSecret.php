@@ -99,12 +99,11 @@ class GetSharedSecret extends Job {
 			$result = $this->httpClient->get(
 				$url,
 				[
-					'query' =>
-						[
-							'url' => $source,
-							'token' => $token,
-							'format' => 'json',
-						],
+					'query' => [
+						'url' => $source,
+						'token' => $token,
+						'format' => 'json',
+					],
 					'timeout' => 3,
 					'connect_timeout' => 3,
 					'verify' => !$this->config->getSystemValue('sharing.federation.allowSelfSignedCertificates', false),
@@ -115,9 +114,9 @@ class GetSharedSecret extends Job {
 		} catch (ClientException $e) {
 			$status = $e->getCode();
 			if ($status === Http::STATUS_FORBIDDEN) {
-				$this->logger->info($target . ' refused to exchange a shared secret with you.', ['app' => 'federation']);
+				$this->logger->info($target . ' refused to exchange a shared secret with you.');
 			} else {
-				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage(), ['app' => 'federation']);
+				$this->logger->info($target . ' responded with a ' . $status . ' containing: ' . $e->getMessage());
 			}
 		} catch (RequestException $e) {
 			$status = -1; // There is no status code if we could not connect
@@ -149,8 +148,7 @@ class GetSharedSecret extends Job {
 				);
 			} else {
 				$this->logger->error(
-					'remote server "' . $target . '"" does not return a valid shared secret. Received data: ' . $body,
-					['app' => 'federation']
+					'remote server "' . $target . '"" does not return a valid shared secret. Received data: ' . $body
 				);
 				$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);
 			}

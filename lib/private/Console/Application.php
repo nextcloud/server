@@ -74,8 +74,8 @@ class Application {
 
 		if ($this->memoryInfo->isMemoryLimitSufficient() === false) {
 			$output->getErrorOutput()->writeln(
-				'<comment>The current PHP memory limit ' .
-				'is below the recommended value of 512MB.</comment>'
+				'<comment>The current PHP memory limit '
+				. 'is below the recommended value of 512MB.</comment>'
 			);
 		}
 

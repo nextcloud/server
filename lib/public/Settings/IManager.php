@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -45,6 +46,12 @@ interface IManager {
 	 * @since 29.0.0
 	 */
 	public const SETTINGS_PERSONAL = 'personal';
+
+	/**
+	 * @since 33.0.0
+	 * For settings only used for delegation but not appearing in settings menu
+	 */
+	public const SETTINGS_DELEGATION = 'delegation';
 
 	/**
 	 * @psalm-param self::SETTINGS_* $type
@@ -117,4 +124,11 @@ interface IManager {
 	 * @since 25.0.0
 	 */
 	public function getSection(string $type, string $sectionId): ?IIconSection;
+
+	/**
+	 * Return admin delegated settings, sorted by priority and grouped by section
+	 * @return array<string, array{section:IIconSection,settings:list<IDelegatedSettings>}>
+	 * @since 33.0.0
+	 */
+	public function getAdminDelegatedSettings(): array;
 }

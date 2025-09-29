@@ -41,10 +41,20 @@ export const action = new FileAction({
 	async exec(node: Node) {
 		try {
 			const isRemote = !!node.attributes.remote
-			const url = generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/{id}', {
-				shareBase: isRemote ? 'remote_shares' : 'shares',
-				id: node.attributes.id,
-			})
+			const shareBase = isRemote ? 'remote_shares' : 'shares'
+			const id = node.attributes.id
+			let url: string
+			if (node.attributes.accepted === 0) {
+				url = generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/pending/{id}', {
+					shareBase,
+					id,
+				})
+			} else {
+				url = generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/{id}', {
+					shareBase,
+					id,
+				})
+			}
 			await axios.delete(url)
 
 			// Remove from current view

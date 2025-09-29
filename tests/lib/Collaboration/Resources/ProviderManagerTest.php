@@ -77,13 +77,14 @@ class ProviderManagerTest extends TestCase {
 	public function testGetResourceProvidersValidAndInvalidProvider(): void {
 		$this->serverContainer->expects($this->exactly(2))
 			->method('query')
-			->withConsecutive(
-				[$this->equalTo('InvalidResourceProvider')],
-				[$this->equalTo(ResourceProvider::class)],
-			)->willReturnOnConsecutiveCalls(
-				$this->throwException(new QueryException('A meaningful error message')),
-				$this->createMock(ResourceProvider::class),
-			);
+			->willReturnCallback(function (string $service) {
+				if ($service === 'InvalidResourceProvider') {
+					throw new QueryException('A meaningful error message');
+				}
+				if ($service === ResourceProvider::class) {
+					return $this->createMock(ResourceProvider::class);
+				}
+			});
 
 		$this->logger->expects($this->once())
 			->method('error');

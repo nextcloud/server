@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,11 +9,13 @@
 namespace Test;
 
 use OC\Files\Mount;
+use OC\Files\Mount\MountPoint;
+use OC\Files\Mount\MoveableMount;
 
 /**
  * Test moveable mount for mocking
  */
-class TestMoveableMountPoint extends Mount\MountPoint implements Mount\MoveableMount {
+class TestMoveableMountPoint extends MountPoint implements MoveableMount {
 	/**
 	 * Move the mount point to $target
 	 *

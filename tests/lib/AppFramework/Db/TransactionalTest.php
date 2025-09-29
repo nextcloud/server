@@ -28,14 +28,13 @@ class TransactionalTest extends TestCase {
 		$test = new class($this->db) {
 			use TTransactional;
 
-			private IDBConnection $db;
-
-			public function __construct(IDBConnection $db) {
-				$this->db = $db;
+			public function __construct(
+				private IDBConnection $db,
+			) {
 			}
 
 			public function fail(): void {
-				$this->atomic(function () {
+				$this->atomic(function (): void {
 					throw new RuntimeException('nope');
 				}, $this->db);
 			}
@@ -55,10 +54,9 @@ class TransactionalTest extends TestCase {
 		$test = new class($this->db) {
 			use TTransactional;
 
-			private IDBConnection $db;
-
-			public function __construct(IDBConnection $db) {
-				$this->db = $db;
+			public function __construct(
+				private IDBConnection $db,
+			) {
 			}
 
 			public function succeed(): int {

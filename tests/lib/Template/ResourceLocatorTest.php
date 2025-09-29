@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -60,11 +61,11 @@ class ResourceLocatorTest extends \Test\TestCase {
 		$locator->expects($this->once())
 			->method('doFind')
 			->with('foo')
-			->will($this->throwException(new ResourceNotFoundException('foo', 'map')));
+			->willThrowException(new ResourceNotFoundException('foo', 'map'));
 		$locator->expects($this->once())
 			->method('doFindTheme')
 			->with('foo')
-			->will($this->throwException(new ResourceNotFoundException('foo', 'map')));
+			->willThrowException(new ResourceNotFoundException('foo', 'map'));
 		$this->logger->expects($this->exactly(2))
 			->method('debug')
 			->with($this->stringContains('map/foo'));

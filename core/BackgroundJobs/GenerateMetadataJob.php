@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Core\BackgroundJobs;
 
+use OC\Files\Mount\MoveableMount;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\TimedJob;
@@ -83,7 +84,7 @@ class GenerateMetadataJob extends TimedJob {
 
 	private function scanFolder(Folder $folder): void {
 		// Do not scan share and other moveable mounts.
-		if ($folder->getMountPoint() instanceof \OC\Files\Mount\MoveableMount) {
+		if ($folder->getMountPoint() instanceof MoveableMount) {
 			return;
 		}
 
@@ -97,7 +98,8 @@ class GenerateMetadataJob extends TimedJob {
 			// Files are loaded in memory so very big files can lead to an OOM on the server
 			$nodeSize = $node->getSize();
 			$nodeLimit = $this->config->getSystemValueInt('metadata_max_filesize', self::DEFAULT_MAX_FILESIZE);
-			if ($nodeSize > $nodeLimit * 1000000) {
+			$nodeLimitMib = $nodeLimit * 1024 * 1024;
+			if ($nodeSize > $nodeLimitMib) {
 				$this->logger->debug('Skipping generating metadata for fileid ' . $node->getId() . " as its size exceeds configured 'metadata_max_filesize'.");
 				continue;
 			}

@@ -82,14 +82,14 @@
 .ui-widget-header .ui-state-highlight {
 	border: 1px solid var(--color-main-background);
 	background: var(--color-main-background) none;
-	color: var(--color-text-light);
+	color: var(--color-main-text);
 	font-weight: 600;
 }
 
 .ui-state-highlight a,
 .ui-widget-content .ui-state-highlight a,
 .ui-widget-header .ui-state-highlight a {
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 }
 
 .ui-state-error,
@@ -205,7 +205,7 @@
 		}
 
 		.ui-menu-item a {
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 			display: block;
 			padding: 4px;
 			padding-inline-start: 14px;

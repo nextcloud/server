@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -42,7 +43,7 @@ class SetupTest extends \Test\TestCase {
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->installer = $this->createMock(Installer::class);
 		$this->setupClass = $this->getMockBuilder(Setup::class)
-			->setMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
+			->onlyMethods(['class_exists', 'is_callable', 'getAvailableDbDriversForPdo'])
 			->setConstructorArgs([$this->config, $this->iniWrapper, $this->l10nFactory, $this->defaults, $this->logger, $this->random, $this->installer])
 			->getMock();
 	}
@@ -128,10 +129,10 @@ class SetupTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider findWebRootProvider
 	 * @param $url
 	 * @param $expected
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('findWebRootProvider')]
 	public function testFindWebRootCli($url, $expected): void {
 		$cliState = \OC::$CLI;
 
@@ -151,7 +152,7 @@ class SetupTest extends \Test\TestCase {
 		$this->assertSame($webRoot, $expected);
 	}
 
-	public function findWebRootProvider(): array {
+	public static function findWebRootProvider(): array {
 		return [
 			'https://www.example.com/nextcloud/' => ['https://www.example.com/nextcloud/', '/nextcloud'],
 			'https://www.example.com/nextcloud' => ['https://www.example.com/nextcloud', '/nextcloud'],

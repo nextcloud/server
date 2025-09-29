@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
@@ -43,7 +44,9 @@ class LoginCredentials extends AuthMechanism {
 			->setText($l->t('Log-in credentials, save in database'))
 			->addParameters([
 				(new DefinitionParameter('password', $l->t('Password')))
-					->setType(DefinitionParameter::VALUE_PASSWORD),
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_HIDDEN)
+					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			]);
 
 		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, StorePasswordListener::class);

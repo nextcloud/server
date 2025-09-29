@@ -8,6 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\Provisioning_API\Controller;
 
+use OC\App\AppStore\AppNotFoundException;
+use OC\Installer;
 use OC_App;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -16,6 +18,7 @@ use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
+use OCP\IAppConfig;
 use OCP\IRequest;
 
 class AppsController extends OCSController {
@@ -23,6 +26,8 @@ class AppsController extends OCSController {
 		string $appName,
 		IRequest $request,
 		private IAppManager $appManager,
+		private Installer $installer,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -108,10 +113,19 @@ class AppsController extends OCSController {
 	public function enable(string $app): DataResponse {
 		try {
 			$app = $this->verifyAppId($app);
+
+			if (!$this->installer->isDownloaded($app)) {
+				$this->installer->downloadApp($app);
+			}
+
+			if ($this->appConfig->getValueString($app, 'installed_version', '') === '') {
+				$this->installer->installApp($app);
+			}
+
 			$this->appManager->enableApp($app);
 		} catch (\InvalidArgumentException $e) {
 			throw new OCSException($e->getMessage(), OCSController::RESPOND_UNAUTHORISED);
-		} catch (AppPathNotFoundException $e) {
+		} catch (AppPathNotFoundException|AppNotFoundException $e) {
 			throw new OCSException('The request app was not found', OCSController::RESPOND_NOT_FOUND);
 		}
 		return new DataResponse();

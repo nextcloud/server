@@ -305,4 +305,24 @@ interface IRequest {
 	 * @since 8.1.0
 	 */
 	public function getServerHost(): string;
+
+	/**
+	 * If decoding the request content failed, throw an exception.
+	 * Currently only \JsonException for json decoding errors,
+	 * but in the future may throw other exceptions for other decoding issues.
+	 *
+	 * @throws \Exception
+	 * @since 32.0.0
+	 */
+	public function throwDecodingExceptionIfAny(): void;
+
+	/**
+	 * Returns the format of the response to this request.
+	 *
+	 * The `Accept` header and the `format` query parameter control the format.
+	 *
+	 * @return string|null
+	 * @since 33.0.0
+	 */
+	public function getFormat(): ?string;
 }

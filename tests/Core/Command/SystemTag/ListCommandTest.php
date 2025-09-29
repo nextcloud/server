@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -32,7 +33,7 @@ class ListCommandTest extends TestCase {
 		$this->systemTagManager = $this->createMock(ISystemTagManager::class);
 		$this->command = $this->getMockBuilder(ListCommand::class)
 			->setConstructorArgs([$this->systemTagManager])
-			->setMethods(['writeArrayInOutputFormat'])
+			->onlyMethods(['writeArrayInOutputFormat'])
 			->getMock();
 
 		$this->input = $this->createMock(InputInterface::class);

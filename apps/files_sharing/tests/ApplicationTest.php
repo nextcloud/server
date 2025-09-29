@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\AppInfo\Application;
@@ -19,17 +23,15 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ApplicationTest extends TestCase {
 	private Application $application;
 
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
+	private IUserSession&MockObject $userSession;
+	private IRootFolder&MockObject $rootFolder;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -40,56 +42,45 @@ class ApplicationTest extends TestCase {
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 	}
 
-	public function providesDataForCanGet(): array {
-		// normal file (sender) - can download directly
-		$senderFileStorage = $this->createMock(IStorage::class);
-		$senderFileStorage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(false);
-		$senderFile = $this->createMock(File::class);
-		$senderFile->method('getStorage')->willReturn($senderFileStorage);
-		$senderUserFolder = $this->createMock(Folder::class);
-		$senderUserFolder->method('get')->willReturn($senderFile);
-
-		$result[] = [ '/bar.txt', $senderUserFolder, true ];
-
-		// shared file (receiver) with attribute secure-view-enabled set false -
-		// can download directly
-		$receiverFileShareAttributes = $this->createMock(IAttributes::class);
-		$receiverFileShareAttributes->method('getAttribute')->with('permissions', 'download')->willReturn(true);
-		$receiverFileShare = $this->createMock(IShare::class);
-		$receiverFileShare->method('getAttributes')->willReturn($receiverFileShareAttributes);
-		$receiverFileStorage = $this->createMock(SharedStorage::class);
-		$receiverFileStorage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
-		$receiverFileStorage->method('getShare')->willReturn($receiverFileShare);
-		$receiverFile = $this->createMock(File::class);
-		$receiverFile->method('getStorage')->willReturn($receiverFileStorage);
-		$receiverUserFolder = $this->createMock(Folder::class);
-		$receiverUserFolder->method('get')->willReturn($receiverFile);
-
-		$result[] = [ '/share-bar.txt', $receiverUserFolder, true ];
-
-		// shared file (receiver) with attribute secure-view-enabled set true -
-		// cannot download directly
-		$secureReceiverFileShareAttributes = $this->createMock(IAttributes::class);
-		$secureReceiverFileShareAttributes->method('getAttribute')->with('permissions', 'download')->willReturn(false);
-		$secureReceiverFileShare = $this->createMock(IShare::class);
-		$secureReceiverFileShare->method('getAttributes')->willReturn($secureReceiverFileShareAttributes);
-		$secureReceiverFileStorage = $this->createMock(SharedStorage::class);
-		$secureReceiverFileStorage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
-		$secureReceiverFileStorage->method('getShare')->willReturn($secureReceiverFileShare);
-		$secureReceiverFile = $this->createMock(File::class);
-		$secureReceiverFile->method('getStorage')->willReturn($secureReceiverFileStorage);
-		$secureReceiverUserFolder = $this->createMock(Folder::class);
-		$secureReceiverUserFolder->method('get')->willReturn($secureReceiverFile);
-
-		$result[] = [ '/secure-share-bar.txt', $secureReceiverUserFolder, false ];
-
-		return $result;
+	public static function providesDataForCanGet(): array {
+		return [
+			'normal file (sender)' => [
+				'/bar.txt', IStorage::class, false, null, true
+			],
+			'shared file (receiver) with attribute secure-view-enabled set false' => [
+				'/share-bar.txt', SharedStorage::class, true, true, true
+			],
+			'shared file (receiver) with attribute secure-view-enabled set true' => [
+				'/secure-share-bar.txt', SharedStorage::class, true, false, false
+			],
+		];
 	}
 
-	/**
-	 * @dataProvider providesDataForCanGet
-	 */
-	public function testCheckDirectCanBeDownloaded(string $path, Folder $userFolder, bool $run): void {
+	#[DataProvider('providesDataForCanGet')]
+	public function testCheckDirectCanBeDownloaded(
+		string $path,
+		string $storageClass,
+		bool $instanceOfSharedStorage,
+		?bool $storageShareDownloadPermission,
+		bool $canDownloadDirectly,
+	): void {
+		$fileStorage = $this->createMock($storageClass);
+		$fileStorage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn($instanceOfSharedStorage);
+		if ($storageShareDownloadPermission !== null) {
+			$fileShareAttributes = $this->createMock(IAttributes::class);
+			$fileShareAttributes->method('getAttribute')->with('permissions', 'download')->willReturn($storageShareDownloadPermission);
+			$fileShare = $this->createMock(IShare::class);
+			$fileShare->method('getAttributes')->willReturn($fileShareAttributes);
+
+			$fileStorage->method('getShare')->willReturn($fileShare);
+		}
+
+		$file = $this->createMock(File::class);
+		$file->method('getStorage')->willReturn($fileStorage);
+
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('get')->willReturn($file);
+
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
 		$this->userSession->method('getUser')->willReturn($user);
@@ -104,10 +95,34 @@ class ApplicationTest extends TestCase {
 		);
 		$listener->handle($event);
 
-		$this->assertEquals($run, $event->isSuccessful());
+		$this->assertEquals($canDownloadDirectly, $event->isSuccessful());
 	}
 
-	public function providesDataForCanZip(): array {
+	public static function providesDataForCanZip(): array {
+		return [
+			'can download zipped 2 non-shared files inside non-shared folder' => [
+				'/folder', ['bar1.txt', 'bar2.txt'], 'nonSharedStorage', ['nonSharedStorage','nonSharedStorage'], true
+			],
+			'can download zipped non-shared folder' => [
+				'/', ['folder'], 'nonSharedStorage', ['nonSharedStorage','nonSharedStorage'], true
+			],
+			'cannot download zipped 1 non-shared file and 1 secure-shared inside non-shared folder' => [
+				'/folder', ['secured-bar1.txt', 'bar2.txt'], 'nonSharedStorage', ['nonSharedStorage','secureSharedStorage'], false,
+			],
+			'cannot download zipped secure-shared folder' => [
+				'/', ['secured-folder'], 'secureSharedStorage', [], false,
+			],
+		];
+	}
+
+	#[DataProvider('providesDataForCanZip')]
+	public function testCheckZipCanBeDownloaded(
+		string $dir,
+		array $files,
+		string $folderStorage,
+		array $directoryListing,
+		bool $downloadSuccessful,
+	): void {
 		// Mock: Normal file/folder storage
 		$nonSharedStorage = $this->createMock(IStorage::class);
 		$nonSharedStorage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(false);
@@ -121,56 +136,39 @@ class ApplicationTest extends TestCase {
 		$secureSharedStorage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
 		$secureSharedStorage->method('getShare')->willReturn($secureReceiverFileShare);
 
-		// 1. can download zipped 2 non-shared files inside non-shared folder
-		// 2. can download zipped non-shared folder
-		$sender1File = $this->createMock(File::class);
-		$sender1File->method('getStorage')->willReturn($nonSharedStorage);
-		$sender1Folder = $this->createMock(Folder::class);
-		$sender1Folder->method('getStorage')->willReturn($nonSharedStorage);
-		$sender1Folder->method('getDirectoryListing')->willReturn([$sender1File, $sender1File]);
-		$sender1RootFolder = $this->createMock(Folder::class);
-		$sender1RootFolder->method('getStorage')->willReturn($nonSharedStorage);
-		$sender1RootFolder->method('getDirectoryListing')->willReturn([$sender1Folder]);
-		$sender1UserFolder = $this->createMock(Folder::class);
-		$sender1UserFolder->method('get')->willReturn($sender1RootFolder);
+		$folder = $this->createMock(Folder::class);
+		if ($folderStorage === 'nonSharedStorage') {
+			$folder->method('getStorage')->willReturn($nonSharedStorage);
+		} elseif ($folderStorage === 'secureSharedStorage') {
+			$folder->method('getStorage')->willReturn($secureSharedStorage);
+		} else {
+			throw new \Exception('Unknown storage ' . $folderStorage);
+		}
+		if (count($directoryListing) > 0) {
+			$directoryListing = array_map(
+				function (string $fileStorage) use ($nonSharedStorage, $secureSharedStorage) {
+					$file = $this->createMock(File::class);
+					if ($fileStorage === 'nonSharedStorage') {
+						$file->method('getStorage')->willReturn($nonSharedStorage);
+					} elseif ($fileStorage === 'secureSharedStorage') {
+						$file->method('getStorage')->willReturn($secureSharedStorage);
+					} else {
+						throw new \Exception('Unknown storage ' . $fileStorage);
+					}
+					return $file;
+				},
+				$directoryListing
+			);
+			$folder->method('getDirectoryListing')->willReturn($directoryListing);
+		}
 
-		$return[] = [ '/folder', ['bar1.txt', 'bar2.txt'], $sender1UserFolder, true ];
-		$return[] = [ '/', ['folder'], $sender1UserFolder, true ];
+		$rootFolder = $this->createMock(Folder::class);
+		$rootFolder->method('getStorage')->willReturn($nonSharedStorage);
+		$rootFolder->method('getDirectoryListing')->willReturn([$folder]);
 
-		// 3. cannot download zipped 1 non-shared file and 1 secure-shared inside non-shared folder
-		$receiver1File = $this->createMock(File::class);
-		$receiver1File->method('getStorage')->willReturn($nonSharedStorage);
-		$receiver1SecureFile = $this->createMock(File::class);
-		$receiver1SecureFile->method('getStorage')->willReturn($secureSharedStorage);
-		$receiver1Folder = $this->createMock(Folder::class);
-		$receiver1Folder->method('getStorage')->willReturn($nonSharedStorage);
-		$receiver1Folder->method('getDirectoryListing')->willReturn([$receiver1File, $receiver1SecureFile]);
-		$receiver1RootFolder = $this->createMock(Folder::class);
-		$receiver1RootFolder->method('getStorage')->willReturn($nonSharedStorage);
-		$receiver1RootFolder->method('getDirectoryListing')->willReturn([$receiver1Folder]);
-		$receiver1UserFolder = $this->createMock(Folder::class);
-		$receiver1UserFolder->method('get')->willReturn($receiver1RootFolder);
+		$userFolder = $this->createMock(Folder::class);
+		$userFolder->method('get')->willReturn($rootFolder);
 
-		$return[] = [ '/folder', ['secured-bar1.txt', 'bar2.txt'], $receiver1UserFolder, false ];
-
-		// 4. cannot download zipped secure-shared folder
-		$receiver2Folder = $this->createMock(Folder::class);
-		$receiver2Folder->method('getStorage')->willReturn($secureSharedStorage);
-		$receiver2RootFolder = $this->createMock(Folder::class);
-		$receiver2RootFolder->method('getStorage')->willReturn($nonSharedStorage);
-		$receiver2RootFolder->method('getDirectoryListing')->willReturn([$receiver2Folder]);
-		$receiver2UserFolder = $this->createMock(Folder::class);
-		$receiver2UserFolder->method('get')->willReturn($receiver2RootFolder);
-
-		$return[] = [ '/', ['secured-folder'], $receiver2UserFolder, false ];
-
-		return $return;
-	}
-
-	/**
-	 * @dataProvider providesDataForCanZip
-	 */
-	public function testCheckZipCanBeDownloaded(string $dir, array $files, Folder $userFolder, bool $run): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('test');
 		$this->userSession->method('getUser')->willReturn($user);
@@ -186,9 +184,8 @@ class ApplicationTest extends TestCase {
 		);
 		$listener->handle($event);
 
-
-		$this->assertEquals($run, $event->isSuccessful());
-		$this->assertEquals($run, $event->getErrorMessage() === null);
+		$this->assertEquals($downloadSuccessful, $event->isSuccessful());
+		$this->assertEquals($downloadSuccessful, $event->getErrorMessage() === null);
 	}
 
 	public function testCheckFileUserNotFound(): void {

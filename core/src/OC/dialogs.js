@@ -9,7 +9,7 @@ import _ from 'underscore'
 import $ from 'jquery'
 
 import IconMove from '@mdi/svg/svg/folder-move.svg?raw'
-import IconCopy from '@mdi/svg/svg/folder-multiple.svg?raw'
+import IconCopy from '@mdi/svg/svg/folder-multiple-outline.svg?raw'
 
 import OC from './index.js'
 import { DialogBuilder, FilePickerType, getFilePickerBuilder, spawnDialog } from '@nextcloud/dialogs'
@@ -278,13 +278,13 @@ const Dialogs = {
 		} else {
 			builder.setButtonFactory((nodes, path) => {
 				const buttons = []
-				const node = nodes?.[0]?.attributes?.displayName || nodes?.[0]?.basename
-				const target = node || basename(path)
+				const [node] = nodes
+				const target = node?.displayname || node?.basename || basename(path)
 
 				if (type === FilePickerType.Choose) {
 					buttons.push({
 						callback: legacyCallback(callback, FilePickerType.Choose),
-						label: node && !this.multiSelect ? t('core', 'Choose {file}', { file: node }) : t('core', 'Choose'),
+						label: node && !this.multiSelect ? t('core', 'Choose {file}', { file: target }) : t('core', 'Choose'),
 						type: 'primary',
 					})
 				}

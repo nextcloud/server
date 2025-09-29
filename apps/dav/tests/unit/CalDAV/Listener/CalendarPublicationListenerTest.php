@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,20 +17,11 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CalendarPublicationListenerTest extends TestCase {
-
-	/** @var Backend|MockObject */
-	private $activityBackend;
-
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-
+	private Backend&MockObject $activityBackend;
+	private LoggerInterface&MockObject $logger;
 	private CalendarPublicationListener $calendarPublicationListener;
-
-	/** @var CalendarPublishedEvent|MockObject */
-	private $publicationEvent;
-
-	/** @var CalendarUnpublishedEvent|MockObject */
-	private $unpublicationEvent;
+	private CalendarPublishedEvent&MockObject $publicationEvent;
+	private CalendarUnpublishedEvent&MockObject $unpublicationEvent;
 
 	protected function setUp(): void {
 		parent::setUp();

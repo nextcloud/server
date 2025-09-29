@@ -19,6 +19,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\BeforeGetTemplatesEvent;
+use OCP\Files\Template\Field;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
@@ -125,6 +126,19 @@ class TemplateManager implements ITemplateManager {
 		}, $this->listCreators()));
 	}
 
+	public function listTemplateFields(int $fileId): array {
+		foreach ($this->listCreators() as $creator) {
+			$fields = $this->getTemplateFields($creator, $fileId);
+			if (empty($fields)) {
+				continue;
+			}
+
+			return $fields;
+		}
+
+		return [];
+	}
+
 	/**
 	 * @param string $filePath
 	 * @param string $templateId
@@ -187,6 +201,20 @@ class TemplateManager implements ITemplateManager {
 	 * @return list<Template>
 	 */
 	private function getTemplateFiles(TemplateFileCreator $type): array {
+		$templates = array_merge(
+			$this->getProviderTemplates($type),
+			$this->getUserTemplates($type)
+		);
+
+		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates, false));
+
+		return $templates;
+	}
+
+	/**
+	 * @return list<Template>
+	 */
+	private function getProviderTemplates(TemplateFileCreator $type): array {
 		$templates = [];
 		foreach ($this->getRegisteredProviders() as $provider) {
 			foreach ($type->getMimetypes() as $mimetype) {
@@ -195,11 +223,22 @@ class TemplateManager implements ITemplateManager {
 				}
 			}
 		}
+
+		return $templates;
+	}
+
+	/**
+	 * @return list<Template>
+	 */
+	private function getUserTemplates(TemplateFileCreator $type): array {
+		$templates = [];
+
 		try {
 			$userTemplateFolder = $this->getTemplateFolder();
 		} catch (\Exception $e) {
 			return $templates;
 		}
+
 		foreach ($type->getMimetypes() as $mimetype) {
 			foreach ($userTemplateFolder->searchByMime($mimetype) as $templateFile) {
 				$template = new Template(
@@ -212,9 +251,31 @@ class TemplateManager implements ITemplateManager {
 			}
 		}
 
-		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates));
-
 		return $templates;
+	}
+
+	/*
+	 * @return list<Field>
+	 */
+	private function getTemplateFields(TemplateFileCreator $type, int $fileId): array {
+		$providerTemplates = $this->getProviderTemplates($type);
+		$userTemplates = $this->getUserTemplates($type);
+
+		$matchedTemplates = array_filter(
+			array_merge($providerTemplates, $userTemplates),
+			function (Template $template) use ($fileId) {
+				return $template->jsonSerialize()['fileid'] === $fileId;
+			});
+
+		if (empty($matchedTemplates)) {
+			return [];
+		}
+
+		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($matchedTemplates, true));
+
+		return array_values(array_map(function (Template $template) {
+			return $template->jsonSerialize()['fields'] ?? [];
+		}, $matchedTemplates));
 	}
 
 	/**

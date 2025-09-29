@@ -16,6 +16,7 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
+use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
@@ -414,7 +415,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
-		$this->logQueryToFile($sql);
+		$this->logQueryToFile($sql, $params);
 		try {
 			return parent::executeQuery($sql, $params, $types, $qcp);
 		} catch (\Exception $e) {
@@ -461,7 +462,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
-		$this->logQueryToFile($sql);
+		$this->logQueryToFile($sql, $params);
 		try {
 			return (int)parent::executeStatement($sql, $params, $types);
 		} catch (\Exception $e) {
@@ -470,14 +471,19 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 	}
 
-	protected function logQueryToFile(string $sql): void {
+	protected function logQueryToFile(string $sql, array $params): void {
 		$logFile = $this->systemConfig->getValue('query_log_file');
 		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
 			$prefix = '';
 			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
 				$prefix .= Server::get(IRequestId::class)->getId() . "\t";
 			}
+
 			$postfix = '';
+			if ($this->systemConfig->getValue('query_log_file_parameters') === 'yes') {
+				$postfix .= '; ' . json_encode($params);
+			}
+
 			if ($this->systemConfig->getValue('query_log_file_backtrace') === 'yes') {
 				$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 				array_pop($trace);
@@ -889,9 +895,9 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function reconnectIfNeeded(): void {
 		if (
-			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
-			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
-			$this->isTransactionActive()
+			!isset($this->lastConnectionCheck[$this->getConnectionName()])
+			|| time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30
+			|| $this->isTransactionActive()
 		) {
 			return;
 		}
@@ -910,11 +916,13 @@ class Connection extends PrimaryReadReplicaConnection {
 	}
 
 	/**
-	 * @return IDBConnection::PLATFORM_MYSQL|IDBConnection::PLATFORM_ORACLE|IDBConnection::PLATFORM_POSTGRES|IDBConnection::PLATFORM_SQLITE
+	 * @return IDBConnection::PLATFORM_MYSQL|IDBConnection::PLATFORM_ORACLE|IDBConnection::PLATFORM_POSTGRES|IDBConnection::PLATFORM_SQLITE|IDBConnection::PLATFORM_MARIADB
 	 */
-	public function getDatabaseProvider(): string {
+	public function getDatabaseProvider(bool $strict = false): string {
 		$platform = $this->getDatabasePlatform();
-		if ($platform instanceof MySQLPlatform) {
+		if ($strict && $platform instanceof MariaDBPlatform) {
+			return IDBConnection::PLATFORM_MARIADB;
+		} elseif ($platform instanceof MySQLPlatform) {
 			return IDBConnection::PLATFORM_MYSQL;
 		} elseif ($platform instanceof OraclePlatform) {
 			return IDBConnection::PLATFORM_ORACLE;

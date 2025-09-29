@@ -38,15 +38,15 @@ Feature: webdav-related
 		Then the HTTP status code should be "204"
 		And Downloaded content when downloading file "/textfile0.txt" with range "bytes=0-6" should be "Welcome"
 
-  Scenario: Moving and overwriting it's parent
-    Given using old dav path
-    And As an "admin"
-    And user "user0" exists
-    And As an "user0"
-    And user "user0" created a folder "/test"
-    And user "user0" created a folder "/test/test"
-    When User "user0" moves file "/test/test" to "/test"
-    Then the HTTP status code should be "403"
+	Scenario: Moving and overwriting it's parent
+		Given using old dav path
+		And As an "admin"
+		And user "user0" exists
+		And As an "user0"
+		And user "user0" created a folder "/test"
+		And user "user0" created a folder "/test/test"
+		When User "user0" moves file "/test/test" to "/test"
+		Then the HTTP status code should be "403"
 
 	Scenario: Moving a file from shared folder to root folder
 		Given using old dav path
@@ -291,7 +291,6 @@ Feature: webdav-related
 			|X-Frame-Options|SAMEORIGIN|
 			|X-Permitted-Cross-Domain-Policies|none|
 			|X-Robots-Tag|noindex, nofollow|
-			|X-XSS-Protection|1; mode=block|
 		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
 	Scenario: Doing a GET with a web login should work without CSRF token on the old backend
@@ -706,7 +705,7 @@ Feature: webdav-related
 		And user "user0" uploads new chunk v2 file "2" to id "chunking-random"
 		And user "user0" uploads new chunk v2 file "4" to id "chunking-random"
 		And user "user0" moves new chunk v2 file with id "chunking-random"
-    Then the upload should fail on object storage
+		Then the upload should fail on object storage
 
 	@s3-multipart
 	Scenario: Upload chunked file with special characters with new chunking v2

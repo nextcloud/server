@@ -127,7 +127,7 @@ class Encryption implements IEncryptionModule {
 		/* If useLegacyFileKey is not specified in header, auto-detect, to be safe */
 		$useLegacyFileKey = (($header['useLegacyFileKey'] ?? '') == 'false' ? false : null);
 
-		$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user, $useLegacyFileKey, $this->session->decryptAllModeActivated());
+		$this->fileKey = $this->keyManager->getFileKey($this->path, $useLegacyFileKey, $this->session->decryptAllModeActivated());
 
 		// always use the version from the original file, also part files
 		// need to have a correct version number if they get moved over to the
@@ -322,7 +322,7 @@ class Encryption implements IEncryptionModule {
 	 * update encrypted file, e.g. give additional users access to the file
 	 *
 	 * @param string $path path to the file which should be updated
-	 * @param string $uid of the user who performs the operation
+	 * @param string $uid ignored
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 * @return bool
 	 */
@@ -335,7 +335,7 @@ class Encryption implements IEncryptionModule {
 			return false;
 		}
 
-		$fileKey = $this->keyManager->getFileKey($path, $uid, null);
+		$fileKey = $this->keyManager->getFileKey($path, null);
 
 		if (!empty($fileKey)) {
 			$publicKeys = [];
@@ -438,7 +438,7 @@ class Encryption implements IEncryptionModule {
 	 * @throws DecryptionFailedException
 	 */
 	public function isReadable($path, $uid) {
-		$fileKey = $this->keyManager->getFileKey($path, $uid, null);
+		$fileKey = $this->keyManager->getFileKey($path, null);
 		if (empty($fileKey)) {
 			$owner = $this->util->getOwner($path);
 			if ($owner !== $uid) {
@@ -446,8 +446,8 @@ class Encryption implements IEncryptionModule {
 				// error message because in this case it means that the file was
 				// shared with the user at a point where the user didn't had a
 				// valid private/public key
-				$msg = 'Encryption module "' . $this->getDisplayName() .
-					'" is not able to read ' . $path;
+				$msg = 'Encryption module "' . $this->getDisplayName()
+					. '" is not able to read ' . $path;
 				$hint = $this->l->t('Cannot read this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 				$this->logger->warning($msg);
 				throw new DecryptionFailedException($msg, $hint);

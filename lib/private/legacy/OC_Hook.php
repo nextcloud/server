@@ -40,7 +40,7 @@ class OC_Hook {
 
 		// don't connect hooks twice
 		foreach (self::$registered[$signalClass][$signalName] as $hook) {
-			if ($hook['class'] === $slotClass and $hook['name'] === $slotName) {
+			if ($hook['class'] === $slotClass && $hook['name'] === $slotName) {
 				return false;
 			}
 		}

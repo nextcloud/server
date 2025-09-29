@@ -72,11 +72,6 @@ class SecurityHeaders implements ISetupCheck {
 					}
 				}
 
-				$xssFields = array_map('trim', explode(';', $response->getHeader('X-XSS-Protection')));
-				if (!in_array('1', $xssFields) || !in_array('mode=block', $xssFields)) {
-					$msg .= $this->l10n->t('- The `%1$s` HTTP header does not contain `%2$s`. This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly.', ['X-XSS-Protection', '1; mode=block']) . "\n";
-				}
-
 				$referrerPolicy = $response->getHeader('Referrer-Policy');
 				if (!preg_match('/(no-referrer(-when-downgrade)?|strict-origin(-when-cross-origin)?|same-origin)(,|$)/', $referrerPolicy)) {
 					$msg .= $this->l10n->t(

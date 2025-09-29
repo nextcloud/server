@@ -53,8 +53,10 @@ OC.L10N.register(
     "Update" : "به روز رسانی",
     "Delete" : "حذف",
     "Reset" : "ریست",
+    "Loading …" : "در حال بارگذاری...",
     "Manage tags" : "مدیریت برچسب ها",
     "Cancel" : "منصرف شدن",
+    "Apply" : "اعمال",
     "Failed to load tags" : "بارگیری برچسب ها انجام نشد",
     "Failed to load selected tags" : "Failed to load selected tags",
     "Failed to select tag" : "Failed to select tag",
@@ -65,8 +67,6 @@ OC.L10N.register(
     "Open in Files" : "در فایل باز کنید",
     "No tags found" : "هیچ برچسبی یافت نشد",
     "Failed to load last used tags" : "Failed to load last used tags",
-    "Missing \"Content-Location\" header" : "Missing \"Content-Location\" header",
-    "This file has the tag {tag}" : "این فایل دارای تگ {tag} است",
-    "This file has the tags {firstTags} and {lastTag}" : "این فایل دارای تگ‌های {firstTags} و {lastTag} است."
+    "Missing \"Content-Location\" header" : "Missing \"Content-Location\" header"
 },
 "nplurals=2; plural=(n > 1);");

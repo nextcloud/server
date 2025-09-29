@@ -25,15 +25,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UpdateAvailableNotificationsTest extends TestCase {
-	private ServerVersion $serverVersion;
-	private IConfig|MockObject $config;
-	private IManager|MockObject $notificationManager;
-	private IGroupManager|MockObject $groupManager;
-	private IAppManager|MockObject $appManager;
-	private IAppConfig|MockObject $appConfig;
-	private ITimeFactory|MockObject $timeFactory;
-	private Installer|MockObject $installer;
-	private VersionCheck|MockObject $versionCheck;
+	private ServerVersion&MockObject $serverVersion;
+	private IConfig&MockObject $config;
+	private IManager&MockObject $notificationManager;
+	private IGroupManager&MockObject $groupManager;
+	private IAppManager&MockObject $appManager;
+	private IAppConfig&MockObject $appConfig;
+	private ITimeFactory&MockObject $timeFactory;
+	private Installer&MockObject $installer;
+	private VersionCheck&MockObject $versionCheck;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -50,10 +50,9 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	}
 
 	/**
-	 * @param array $methods
 	 * @return UpdateAvailableNotifications|MockObject
 	 */
-	protected function getJob(array $methods = []) {
+	protected function getJob(array $methods = []): UpdateAvailableNotifications {
 		if (empty($methods)) {
 			return new UpdateAvailableNotifications(
 				$this->timeFactory,
@@ -96,13 +95,12 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		$job->expects($this->once())
 			->method('checkAppUpdates');
 
-		$this->config->expects($this->exactly(2))
+		$this->config->expects(self::exactly(2))
 			->method('getSystemValueBool')
 			->willReturnMap([
-				['has_internet_connection', true, true],
 				['debug', false, true],
+				['has_internet_connection', true, true],
 			]);
-
 		self::invokePrivate($job, 'run', [null]);
 	}
 
@@ -117,14 +115,16 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		$job->expects($this->never())
 			->method('checkAppUpdates');
 
-		$this->config->method('getSystemValueBool')
+		$this->config
+			->expects(self::once())
+			->method('getSystemValueBool')
 			->with('has_internet_connection', true)
 			->willReturn(false);
 
 		self::invokePrivate($job, 'run', [null]);
 	}
 
-	public function dataCheckCoreUpdate(): array {
+	public static function dataCheckCoreUpdate(): array {
 		return [
 			['daily', null, null, null, null],
 			['git', null, null, null, null],
@@ -152,16 +152,8 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCheckCoreUpdate
-	 *
-	 * @param string $channel
-	 * @param mixed $versionCheck
-	 * @param null|string $version
-	 * @param null|string $readableVersion
-	 * @param null|int $errorDays
-	 */
-	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckCoreUpdate')]
+	public function testCheckCoreUpdate(string $channel, mixed $versionCheck, mixed $version, ?string $readableVersion, ?int $errorDays): void {
 		$job = $this->getJob([
 			'createNotifications',
 			'clearErrorNotifications',
@@ -212,10 +204,17 @@ class UpdateAvailableNotificationsTest extends TestCase {
 				->with('core', $version, $readableVersion);
 		}
 
+		$this->config->expects(self::any())
+			->method('getSystemValueBool')
+			->willReturnMap([
+				['updatechecker', true, true],
+				['has_internet_connection', true, true],
+			]);
+
 		self::invokePrivate($job, 'checkCoreUpdate');
 	}
 
-	public function dataCheckAppUpdates(): array {
+	public static function dataCheckAppUpdates(): array {
 		return [
 			[
 				['app1', 'app2'],
@@ -230,13 +229,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCheckAppUpdates
-	 *
-	 * @param string[] $apps
-	 * @param array $isUpdateAvailable
-	 * @param array $notifications
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCheckAppUpdates')]
 	public function testCheckAppUpdates(array $apps, array $isUpdateAvailable, array $notifications): void {
 		$job = $this->getJob([
 			'isUpdateAvailable',
@@ -263,7 +256,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		self::invokePrivate($job, 'checkAppUpdates');
 	}
 
-	public function dataCreateNotifications(): array {
+	public static function dataCreateNotifications(): array {
 		return [
 			['app1', '1.0.0', '1.0.0', false, false, null, null],
 			['app2', '1.0.1', '1.0.0', '1.0.0', true, ['user1'], [['user1']]],
@@ -271,18 +264,8 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider dataCreateNotifications
-	 *
-	 * @param string $app
-	 * @param string $version
-	 * @param string|false $lastNotification
-	 * @param string|false $callDelete
-	 * @param bool $createNotification
-	 * @param string[]|null $users
-	 * @param array|null $userNotifications
-	 */
-	public function testCreateNotifications(string $app, string $version, $lastNotification, $callDelete, $createNotification, $users, $userNotifications): void {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCreateNotifications')]
+	public function testCreateNotifications(string $app, string $version, string|false $lastNotification, string|false $callDelete, bool $createNotification, ?array $users, ?array $userNotifications): void {
 		$job = $this->getJob([
 			'deleteOutdatedNotifications',
 			'getUsersToNotify',
@@ -355,19 +338,14 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		self::invokePrivate($job, 'createNotifications', [$app, $version]);
 	}
 
-	public function dataGetUsersToNotify(): array {
+	public static function dataGetUsersToNotify(): array {
 		return [
 			[['g1', 'g2'], ['g1' => null, 'g2' => ['u1', 'u2']], ['u1', 'u2']],
 			[['g3', 'g4'], ['g3' => ['u1', 'u2'], 'g4' => ['u2', 'u3']], ['u1', 'u2', 'u3']],
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetUsersToNotify
-	 * @param string[] $groups
-	 * @param array $groupUsers
-	 * @param string[] $expected
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetUsersToNotify')]
 	public function testGetUsersToNotify(array $groups, array $groupUsers, array $expected): void {
 		$job = $this->getJob();
 
@@ -400,7 +378,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function dataDeleteOutdatedNotifications(): array {
+	public static function dataDeleteOutdatedNotifications(): array {
 		return [
 			['app1', '1.1.0'],
 			['app2', '1.2.0'],
@@ -408,10 +386,10 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataDeleteOutdatedNotifications
 	 * @param string $app
 	 * @param string $version
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataDeleteOutdatedNotifications')]
 	public function testDeleteOutdatedNotifications(string $app, string $version): void {
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())

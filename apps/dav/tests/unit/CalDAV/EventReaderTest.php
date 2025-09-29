@@ -23,7 +23,7 @@ class EventReaderTest extends TestCase {
 	private VCalendar $vCalendar1e;
 	private VCalendar $vCalendar2;
 	private VCalendar $vCalendar3;
-	
+
 	protected function setUp(): void {
 
 		parent::setUp();
@@ -151,7 +151,7 @@ class EventReaderTest extends TestCase {
 			'ROLE' => 'REQ-PARTICIPANT',
 			'RSVP' => 'TRUE'
 		]);
-		
+
 	}
 
 	public function testConstructFromCalendarString(): void {
@@ -188,19 +188,19 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar1a, $this->vCalendar1a->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T080000', (new DateTimeZone('America/Toronto')))), $er->startDateTime());
-		
+
 		/** test day part event with different start/end time zone */
 		// construct event reader
 		$er = new EventReader($this->vCalendar1b, $this->vCalendar1b->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T080000', (new DateTimeZone('America/Toronto')))), $er->startDateTime());
-		
+
 		/** test day part event with global time zone */
 		// construct event reader
 		$er = new EventReader($this->vCalendar1c, $this->vCalendar1c->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T080000', (new DateTimeZone('America/Toronto')))), $er->startDateTime());
-		
+
 		/** test day part event with no time zone */
 		// construct event reader
 		$er = new EventReader($this->vCalendar1d, $this->vCalendar1d->VEVENT[0]->UID->getValue());
@@ -212,13 +212,13 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar1e, $this->vCalendar1e->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T080000', (new DateTimeZone('America/Toronto')))), $er->startDateTime());
-		
+
 		/** test full day event */
 		// construct event reader
 		$er = new EventReader($this->vCalendar2, $this->vCalendar2->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T000000', (new DateTimeZone('America/Toronto')))), $er->startDateTime());
-		
+
 		/** test multi day event */
 		// construct event reader
 		$er = new EventReader($this->vCalendar3, $this->vCalendar3->VEVENT[0]->UID->getValue());
@@ -234,7 +234,7 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar1a, $this->vCalendar1a->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new DateTimeZone('America/Toronto')), $er->startTimeZone());
-		
+
 		/** test day part event with different start/end time zone */
 		// construct event reader
 		$er = new EventReader($this->vCalendar1b, $this->vCalendar1b->VEVENT[0]->UID->getValue());
@@ -264,7 +264,7 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar2, $this->vCalendar2->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new DateTimeZone('America/Toronto')), $er->startTimeZone());
-		
+
 		/** test multi day event */
 		// construct event reader
 		$er = new EventReader($this->vCalendar3, $this->vCalendar3->VEVENT[0]->UID->getValue());
@@ -280,19 +280,19 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar1a, $this->vCalendar1a->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T090000', (new DateTimeZone('America/Toronto')))), $er->endDateTime());
-		
+
 		/** test day part event with different start/end time zone */
 		// construct event reader
 		$er = new EventReader($this->vCalendar1b, $this->vCalendar1b->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T090000', (new DateTimeZone('America/Vancouver')))), $er->endDateTime());
-		
+
 		/** test day part event with global time zone */
 		// construct event reader
 		$er = new EventReader($this->vCalendar1c, $this->vCalendar1c->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T090000', (new DateTimeZone('America/Toronto')))), $er->endDateTime());
-		
+
 		/** test day part event with no time zone */
 		// construct event reader
 		$er = new EventReader($this->vCalendar1d, $this->vCalendar1d->VEVENT[0]->UID->getValue());
@@ -304,13 +304,13 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar1e, $this->vCalendar1e->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240701T090000', (new DateTimeZone('America/Toronto')))), $er->endDateTime());
-		
+
 		/** test full day event */
 		// construct event reader
 		$er = new EventReader($this->vCalendar2, $this->vCalendar2->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new \DateTime('20240702T000000', (new DateTimeZone('America/Toronto')))), $er->endDateTime());
-		
+
 		/** test multi day event */
 		// construct event reader
 		$er = new EventReader($this->vCalendar3, $this->vCalendar3->VEVENT[0]->UID->getValue());
@@ -326,7 +326,7 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar1a, $this->vCalendar1a->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new DateTimeZone('America/Toronto')), $er->endTimeZone());
-		
+
 		/** test day part event with different start/end time zone */
 		// construct event reader
 		$er = new EventReader($this->vCalendar1b, $this->vCalendar1b->VEVENT[0]->UID->getValue());
@@ -356,7 +356,7 @@ class EventReaderTest extends TestCase {
 		$er = new EventReader($this->vCalendar2, $this->vCalendar2->VEVENT[0]->UID->getValue());
 		// test set by constructor
 		$this->assertEquals((new DateTimeZone('America/Toronto')), $er->endTimeZone());
-		
+
 		/** test multi day event */
 		// construct event reader
 		$er = new EventReader($this->vCalendar3, $this->vCalendar3->VEVENT[0]->UID->getValue());

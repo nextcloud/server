@@ -8,7 +8,7 @@
 			:name="t('settings', 'Nothing to show')"
 			:description="t('settings', 'Could not load section content from app store.')">
 			<template #icon>
-				<NcIconSvgWrapper :path="mdiEyeOff" :size="64" />
+				<NcIconSvgWrapper :path="mdiEyeOffOutline" :size="64" />
 			</template>
 		</NcEmptyContent>
 		<NcEmptyContent v-else-if="elements.length === 0"
@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import type { IAppDiscoverElements } from '../../constants/AppDiscoverTypes.ts'
 
-import { mdiEyeOff } from '@mdi/js'
+import { mdiEyeOffOutline } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'

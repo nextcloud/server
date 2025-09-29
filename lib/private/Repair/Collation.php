@@ -97,11 +97,11 @@ class Collation implements IRepairStep {
 
 		// fetch tables by columns
 		$statement = $connection->executeQuery(
-			'SELECT DISTINCT(TABLE_NAME) AS `table`' .
-			'	FROM INFORMATION_SCHEMA . COLUMNS' .
-			'	WHERE TABLE_SCHEMA = ?' .
-			"	AND (COLLATION_NAME <> '" . $characterSet . "_bin' OR CHARACTER_SET_NAME <> '" . $characterSet . "')" .
-			"	AND TABLE_NAME LIKE '*PREFIX*%'",
+			'SELECT DISTINCT(TABLE_NAME) AS `table`'
+			. '	FROM INFORMATION_SCHEMA . COLUMNS'
+			. '	WHERE TABLE_SCHEMA = ?'
+			. "	AND (COLLATION_NAME <> '" . $characterSet . "_bin' OR CHARACTER_SET_NAME <> '" . $characterSet . "')"
+			. "	AND TABLE_NAME LIKE '*PREFIX*%'",
 			[$dbName]
 		);
 		$rows = $statement->fetchAll();
@@ -112,11 +112,11 @@ class Collation implements IRepairStep {
 
 		// fetch tables by collation
 		$statement = $connection->executeQuery(
-			'SELECT DISTINCT(TABLE_NAME) AS `table`' .
-			'	FROM INFORMATION_SCHEMA . TABLES' .
-			'	WHERE TABLE_SCHEMA = ?' .
-			"	AND TABLE_COLLATION <> '" . $characterSet . "_bin'" .
-			"	AND TABLE_NAME LIKE '*PREFIX*%'",
+			'SELECT DISTINCT(TABLE_NAME) AS `table`'
+			. '	FROM INFORMATION_SCHEMA . TABLES'
+			. '	WHERE TABLE_SCHEMA = ?'
+			. "	AND TABLE_COLLATION <> '" . $characterSet . "_bin'"
+			. "	AND TABLE_NAME LIKE '*PREFIX*%'",
 			[$dbName]
 		);
 		$rows = $statement->fetchAll();

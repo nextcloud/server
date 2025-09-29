@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace OCA\Theming\Tests\Migration;
 
-use NCU\Config\IUserConfig;
 use OCA\Theming\Migration\Version2006Date20240905111627;
 use OCP\BackgroundJob\IJobList;
+use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;

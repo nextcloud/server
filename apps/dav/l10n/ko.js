@@ -184,7 +184,6 @@ OC.L10N.register(
     "Failed to load availability" : "시간 조율 설정 불러오기 실패",
     "Saved availability" : "시간 조율 설정 저장함",
     "Failed to save availability" : "시간 조율 설정 저장 실패",
-    "Time zone:" : "시간대:",
     "to" : "에서",
     "Delete slot" : "시간대 삭제",
     "No working hours set" : "업무 시간이 설정되지 않음",
@@ -192,6 +191,10 @@ OC.L10N.register(
     "Pick a start time for {dayName}" : "{dayName} 시작 시각을 지정하십시오",
     "Pick a end time for {dayName}" : "{dayName} 종료 시각을 지정하십시오",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "다른 용무 중일 때 자동으로 사용자를 '방해 금지' 모드로 설정해 모든 알림을 음소거합니다.",
+    "Cancel" : "취소",
+    "Import" : "가져오기",
+    "Error while saving settings" : "설정 저장 중 오류 발생",
+    "Reset to default" : "기본값으로 초기화",
     "Availability" : "시간 조율",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "업무 시간을 설정하면, 다른 사람이 회의를 예약할 때 내 부재 중 시간을 확인할 수 있습니다.",
     "Absence" : "부재",
@@ -213,9 +216,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "초대를 수락하시겠습니까?",
     "Tentative" : "보류",
     "Your attendance was updated successfully." : "참석 정보를 업데이트했습니다.",
-    "Time:" : "시간:",
-    "Could not open file" : "파일을 열 수 없음",
-    "Invalid chunk name" : "잘못된 청크 이름",
-    "Could not rename part file assembled from chunks" : "청크에서 조합 된 부분 파일의 이름을 바꿀 수 없음"
+    "Time zone:" : "시간대:"
 },
 "nplurals=1; plural=0;");

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -80,12 +81,12 @@ class OCIFunctionBuilder extends FunctionBuilder {
 	public function octetLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
-		return new QueryFunction('LENGTHB(' . $quotedName . ')' . $alias);
+		return new QueryFunction('COALESCE(LENGTHB(' . $quotedName . '), 0)' . $alias);
 	}
 
 	public function charLength($field, $alias = ''): IQueryFunction {
 		$alias = $alias ? (' AS ' . $this->helper->quoteColumnName($alias)) : '';
 		$quotedName = $this->helper->quoteColumnName($field);
-		return new QueryFunction('LENGTH(' . $quotedName . ')' . $alias);
+		return new QueryFunction('COALESCE(LENGTH(' . $quotedName . '), 0)' . $alias);
 	}
 }

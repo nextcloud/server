@@ -16,17 +16,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class EventReminderJobTest extends TestCase {
-	/** @var ITimeFactory|MockObject */
-	private $time;
-
-	/** @var ReminderService|MockObject */
-	private $reminderService;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var EventReminderJob|MockObject */
-	private $backgroundJob;
+	private ITimeFactory&MockObject $time;
+	private ReminderService&MockObject $reminderService;
+	private IConfig&MockObject $config;
+	private EventReminderJob $backgroundJob;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,7 +35,7 @@ class EventReminderJobTest extends TestCase {
 		);
 	}
 
-	public function data(): array {
+	public static function data(): array {
 		return [
 			[true, true, true],
 			[true, false, false],
@@ -52,23 +45,19 @@ class EventReminderJobTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider data
 	 *
 	 * @param bool $sendEventReminders
 	 * @param bool $sendEventRemindersMode
 	 * @param bool $expectCall
 	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('data')]
 	public function testRun(bool $sendEventReminders, bool $sendEventRemindersMode, bool $expectCall): void {
 		$this->config->expects($this->exactly($sendEventReminders ? 2 : 1))
 			->method('getAppValue')
-			->withConsecutive(
-				['dav', 'sendEventReminders', 'yes'],
-				['dav', 'sendEventRemindersMode', 'backgroundjob'],
-			)
-			->willReturnOnConsecutiveCalls(
-				$sendEventReminders ? 'yes' : 'no',
-				$sendEventRemindersMode ? 'backgroundjob' : 'cron'
-			);
+			->willReturnMap([
+				['dav', 'sendEventReminders', 'yes', ($sendEventReminders ? 'yes' : 'no')],
+				['dav', 'sendEventRemindersMode', 'backgroundjob', ($sendEventRemindersMode ? 'backgroundjob' : 'cron')],
+			]);
 
 		if ($expectCall) {
 			$this->reminderService->expects($this->once())

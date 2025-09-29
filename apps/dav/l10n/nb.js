@@ -238,7 +238,6 @@ OC.L10N.register(
     "Failed to load availability" : "Feilet med laste inn arbeidstid",
     "Saved availability" : "Lagret arbeidstid",
     "Failed to save availability" : "Feilet ved lagring av arbeidstid",
-    "Time zone:" : "Tidssone:",
     "to" : "til",
     "Delete slot" : "Slett tidsluke",
     "No working hours set" : "Ingen arbeidstid satt",
@@ -247,6 +246,10 @@ OC.L10N.register(
     "Pick a start time for {dayName}" : "Velg et starttidspunkt for {dayName}",
     "Pick a end time for {dayName}" : "Velg et sluttidspunkt for {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Sett brukerstatus automatisk til «Ikke forstyrr» utenfor arbeidstid for å dempe alle varsler.",
+    "Cancel" : "Avbryt",
+    "Import" : "Importer",
+    "Error while saving settings" : "Feil ved lagring av innstillinger",
+    "Reset to default" : "Tilbakestill til standard",
     "Availability" : "Arbeidstid",
     "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Hvis du konfigurerer arbeidstiden din, vil andre personer se når du ikke er på kontoret når de bestiller et møte.",
     "Absence" : "Fravær",
@@ -268,9 +271,6 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Aksepterer du invitasjonen?",
     "Tentative" : "Foreløpig",
     "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
-    "Time:" : "Tid:",
-    "Could not open file" : "Kunne ikke åpne fil",
-    "Invalid chunk name" : "Ugyldig bitnavn",
-    "Could not rename part file assembled from chunks" : "Kunne ikke gi nytt navn til delfil satt sammen fra biter"
+    "Time zone:" : "Tidssone:"
 },
 "nplurals=2; plural=(n != 1);");

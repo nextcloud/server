@@ -15,7 +15,6 @@
     "If you regenerate backup codes, you automatically invalidate old codes." : "If you regenerate backup codes, you automatically invalidate old codes.",
     "{name} backup codes" : "{name} backup codes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use one of the backup codes you saved when setting up two-factor authentication.",
-    "Submit" : "Submit",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later"
+    "Submit" : "Submit"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

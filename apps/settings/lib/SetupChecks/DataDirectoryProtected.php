@@ -66,6 +66,6 @@ class DataDirectoryProtected implements ISetupCheck {
 			return SetupResult::warning($this->l10n->t('Could not check that the data directory is protected. Please check manually that your server does not allow access to the data directory.') . "\n" . $this->serverConfigHelp());
 		}
 		return SetupResult::success();
-		
+
 	}
 }

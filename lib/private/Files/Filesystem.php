@@ -8,6 +8,7 @@
 namespace OC\Files;
 
 use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\StorageFactory;
 use OC\User\NoUserException;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -29,8 +30,7 @@ class Filesystem {
 
 	private static ?CappedMemoryCache $normalizedPathCache = null;
 
-	/** @var string[]|null */
-	private static ?array $blacklist = null;
+	private static ?FilenameValidator $validator = null;
 
 	/**
 	 * classname which used for hooks handling
@@ -178,7 +178,9 @@ class Filesystem {
 		}
 
 		$mounts = self::getMountManager()->getAll();
-		if (!self::getLoader()->addStorageWrapper($wrapperName, $wrapper, $priority, $mounts)) {
+		/** @var StorageFactory $loader */
+		$loader = self::getLoader();
+		if (!$loader->addStorageWrapper($wrapperName, $wrapper, $priority, $mounts)) {
 			// do not re-wrap if storage with this name already existed
 			return;
 		}
@@ -388,30 +390,6 @@ class Filesystem {
 	}
 
 	/**
-	 * return the path to a local version of the file
-	 * we need this because we can't know if a file is stored local or not from
-	 * outside the filestorage and for some purposes a local file is needed
-	 */
-	public static function getLocalFile(string $path): string|false {
-		return self::$defaultInstance->getLocalFile($path);
-	}
-
-	/**
-	 * return path to file which reflects one visible in browser
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	public static function getLocalPath($path) {
-		$datadir = \OC_User::getHome(\OC_User::getUser()) . '/files';
-		$newpath = $path;
-		if (strncmp($newpath, $datadir, strlen($datadir)) == 0) {
-			$newpath = substr($path, strlen($datadir));
-		}
-		return $newpath;
-	}
-
-	/**
 	 * check if the requested path is valid
 	 *
 	 * @param string $path
@@ -431,16 +409,16 @@ class Filesystem {
 	/**
 	 * @param string $filename
 	 * @return bool
+	 *
+	 * @deprecated 30.0.0 - use \OC\Files\FilenameValidator::isForbidden
 	 */
 	public static function isFileBlacklisted($filename) {
-		$filename = self::normalizePath($filename);
-
-		if (self::$blacklist === null) {
-			self::$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', ['.htaccess']);
+		if (self::$validator === null) {
+			self::$validator = \OCP\Server::get(FilenameValidator::class);
 		}
 
-		$filename = strtolower(basename($filename));
-		return in_array($filename, self::$blacklist);
+		$filename = self::normalizePath($filename);
+		return self::$validator->isForbidden($filename);
 	}
 
 	/**

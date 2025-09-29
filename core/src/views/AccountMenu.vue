@@ -197,27 +197,18 @@ export default defineComponent({
 }
 
 .account-menu {
-	:deep(button) {
-		// Normally header menus are slightly translucent when not active
-		// this is generally ok but for the avatar this is weird so fix the opacity
-		opacity: 1 !important;
-
-		// The avatar is just the "icon" of the button
-		// So we add the focus-visible manually
-		&:focus-visible {
-			.account-menu__avatar {
-				border: var(--border-width-input-focused) solid var(--color-background-plain-text);
-			}
-		}
-	}
-
-	// Ensure we do not wast space, as the header menu sets a default width of 350px
-	:deep(.header-menu__content) {
-		width: fit-content !important;
+	:deep(*) {
+		// do not apply the alpha mask on the avatar div
+		mask: none !important;
 	}
 
 	&__avatar {
+		--account-menu-outline: var(--border-width-input) solid color-mix(in srgb, var(--color-background-plain-text), transparent 75%);
+		outline: var(--account-menu-outline);
+		position: fixed;
+
 		&:hover {
+			--account-menu-outline: none;
 			// Add hover styles similar to the focus-visible style
 			border: var(--border-width-input-focused) solid var(--color-background-plain-text);
 		}
@@ -233,6 +224,26 @@ export default defineComponent({
 			box-sizing: border-box;
 			// basically "fit-content"
 			flex: 0 1;
+		}
+	}
+
+	// Ensure we do not waste space, as the header menu sets a default width of 350px
+	:deep(.header-menu__content) {
+		width: fit-content !important;
+	}
+
+	:deep(button) {
+		// Normally header menus are slightly translucent when not active
+		// this is generally ok but for the avatar this is weird so fix the opacity
+		opacity: 1 !important;
+
+		// The avatar is just the "icon" of the button
+		// So we add the focus-visible manually
+		&:focus-visible {
+			.account-menu__avatar {
+				--account-menu-outline: none;
+				border: var(--border-width-input-focused) solid var(--color-background-plain-text);
+			}
 		}
 	}
 }

@@ -14,6 +14,7 @@
     "Apps" : "កម្មវិធី",
     "Settings" : "ការកំណត់",
     "Log out" : "ចាក​ចេញ",
+    "Accounts" : "Accounts",
     "Email" : "អ៊ីមែល",
     "Address" : "អាសយដ្ឋាន",
     "Profile picture" : "រូបភាព​ប្រវត្តិរូប",
@@ -61,7 +62,6 @@
     "Dec." : "ធ្នូ",
     "A valid password must be provided" : "ត្រូវ​ផ្ដល់​ពាក្យ​សម្ងាត់​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
     "Application is not enabled" : "មិន​បាន​បើក​កម្មវិធី",
-    "Authentication error" : "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ",
-    "Users" : "អ្នកប្រើ"
+    "Authentication error" : "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

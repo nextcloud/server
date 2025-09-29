@@ -11,7 +11,6 @@ namespace OCA\UserStatus\Tests\Listener;
 use OCA\DAV\CalDAV\Status\StatusService as CalendarStatusService;
 use OCA\UserStatus\Db\UserStatus;
 use OCA\UserStatus\Db\UserStatusMapper;
-use OCA\UserStatus\Listener\UserDeletedListener;
 use OCA\UserStatus\Listener\UserLiveStatusListener;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -24,20 +23,13 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class UserLiveStatusListenerTest extends TestCase {
+	private UserStatusMapper&MockObject $mapper;
+	private StatusService&MockObject $statusService;
+	private ITimeFactory&MockObject $timeFactory;
+	private CalendarStatusService&MockObject $calendarStatusService;
 
-	/** @var UserStatusMapper|MockObject */
-	private $mapper;
-	/** @var StatusService|MockObject */
-	private $statusService;
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-
-	/** @var UserDeletedListener */
-	private $listener;
-
-	private CalendarStatusService|MockObject $calendarStatusService;
-
-	private LoggerInterface|MockObject $logger;
+	private LoggerInterface&MockObject $logger;
+	private UserLiveStatusListener $listener;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -57,26 +49,17 @@ class UserLiveStatusListenerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @param string $userId
-	 * @param string $previousStatus
-	 * @param int $previousTimestamp
-	 * @param bool $previousIsUserDefined
-	 * @param string $eventStatus
-	 * @param int $eventTimestamp
-	 * @param bool $expectExisting
-	 * @param bool $expectUpdate
-	 *
-	 * @dataProvider handleEventWithCorrectEventDataProvider
-	 */
-	public function testHandleWithCorrectEvent(string $userId,
+	#[\PHPUnit\Framework\Attributes\DataProvider('handleEventWithCorrectEventDataProvider')]
+	public function testHandleWithCorrectEvent(
+		string $userId,
 		string $previousStatus,
 		int $previousTimestamp,
 		bool $previousIsUserDefined,
 		string $eventStatus,
 		int $eventTimestamp,
 		bool $expectExisting,
-		bool $expectUpdate): void {
+		bool $expectUpdate,
+	): void {
 		$userStatus = new UserStatus();
 
 		if ($expectExisting) {
@@ -143,7 +126,7 @@ class UserLiveStatusListenerTest extends TestCase {
 		}
 	}
 
-	public function handleEventWithCorrectEventDataProvider(): array {
+	public static function handleEventWithCorrectEventDataProvider(): array {
 		return [
 			['john.doe', 'offline', 0, false, 'online', 5000, true, true],
 			['john.doe', 'offline', 0, false, 'online', 5000, false, true],
