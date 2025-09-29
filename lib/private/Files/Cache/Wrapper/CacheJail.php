@@ -16,6 +16,8 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 /**
  * Jail to a subdirectory of the wrapped cache
@@ -93,6 +95,11 @@ class CacheJail extends CacheWrapper {
 	protected function formatCacheEntry($entry) {
 		if (isset($entry['path'])) {
 			$entry['path'] = $this->getJailedPath($entry['path']);
+			if ($entry['path'] === null) {
+				$logger = Server::get(LoggerInterface::class);
+				$ex = new \Exception('Formatted cache entry outside of jail');
+				$logger->warning($ex->getMessage(), ['exception' => $ex]);
+			}
 		}
 		return $entry;
 	}
