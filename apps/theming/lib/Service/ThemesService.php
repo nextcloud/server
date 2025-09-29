@@ -15,6 +15,7 @@ use OCA\Theming\Themes\DefaultTheme;
 use OCA\Theming\Themes\DyslexiaFont;
 use OCA\Theming\Themes\HighContrastTheme;
 use OCA\Theming\Themes\LightTheme;
+use OCA\Theming\Themes\ReducedMotion;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -34,6 +35,7 @@ class ThemesService {
 		HighContrastTheme $highContrastTheme,
 		DarkHighContrastTheme $darkHighContrastTheme,
 		DyslexiaFont $dyslexiaFont,
+		ReducedMotion $motionSickness,
 	) {
 
 		// Register themes
@@ -44,6 +46,7 @@ class ThemesService {
 			$highContrastTheme->getId() => $highContrastTheme,
 			$darkHighContrastTheme->getId() => $darkHighContrastTheme,
 			$dyslexiaFont->getId() => $dyslexiaFont,
+			$motionSickness->getId() => $motionSickness,
 		];
 	}
 
