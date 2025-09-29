@@ -3,8 +3,7 @@
 declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
- * SPDX-FileCopyrightText: 2025 ownCloud, Inc.
- * SPDX-License-Identifier: AGPL-3.0-only
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Versions\Tests;
 
@@ -16,7 +15,6 @@ class GetAutoExpireListTest extends \Test\TestCase {
 
 	/**
 	 * @throws ReflectionException
-	 * @since 32.0.0
 	 */
 	protected static function callGetAutoExpireList(int $time, array $versions): array {
 		$ref = new ReflectionClass(Storage::class);
@@ -27,7 +25,6 @@ class GetAutoExpireListTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @since 32.0.0
 	 * @dataProvider provideBucketKeepsLatest
 	 */
 	public function testBucketKeepsLatest(int $offset1, int $offset2, int $size1, int $size2) {
@@ -104,9 +101,6 @@ class GetAutoExpireListTest extends \Test\TestCase {
 		];
 	}
 
-	/**
-	 * @since 32.0.0
-	 */
 	public function testFiveDaysOfVersionsEveryTenMinutes() {
 		$now = time();
 		$versions = [];
@@ -125,9 +119,6 @@ class GetAutoExpireListTest extends \Test\TestCase {
 		$this->assertLessThanOrEqual(33, count($retained));
 	}
 
-	/**
-	 * @since 32.0.0
-	 */
 	public function testThirtyDaysOfVersionsEveryTenMinutes() {
 		$now = time();
 		$versions = [];
@@ -146,9 +137,6 @@ class GetAutoExpireListTest extends \Test\TestCase {
 		$this->assertLessThanOrEqual(60, count($retained));
 	}
 
-	/**
-	 * @since 32.0.0
-	 */
 	public function testYearOfVersionsEveryTenMinutes() {
 		$now = time();
 		$versions = [];
@@ -167,9 +155,6 @@ class GetAutoExpireListTest extends \Test\TestCase {
 		$this->assertLessThanOrEqual(140, count($retained));
 	}
 
-	/**
-	 * @since 32.0.0
-	 */
 	public function testMoreThanAYearOfVersionsEveryTenMinutesWithDeletion() {
 		$now = time();
 		$versions = [];
