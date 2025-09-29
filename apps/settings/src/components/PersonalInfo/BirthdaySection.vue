@@ -8,11 +8,13 @@
 			:input-id="inputId"
 			:readable="birthdate.readable" />
 
-		<NcDateTimePickerNative :id="inputId"
-			type="date"
-			label=""
+		<!-- Use non-native picker to ensure locale-consistent formatting across browsers -->
+		<NcDateTimePicker :id="inputId"
+			:type="'date'"
+			:format="formatDateLocalized"
+			:placeholder="placeholderLocalized"
 			:value="value"
-			@input="onInput" />
+			@update:value="onInput" />
 
 		<p class="property__helper-text-message">
 			{{ t('settings', 'Enter your date of birth') }}
@@ -22,13 +24,14 @@
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
+import { getCanonicalLocale } from '@nextcloud/l10n'
 import { NAME_READABLE_ENUM } from '../../constants/AccountPropertyConstants.js'
 import { savePrimaryAccountProperty } from '../../service/PersonalInfo/PersonalInfoService'
 import { handleError } from '../../utils/handlers'
 
 import debounce from 'debounce'
 
-import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePicker'
 import HeaderBar from './shared/HeaderBar.vue'
 
 const { birthdate } = loadState('settings', 'personalInfoParameters', {})
@@ -37,7 +40,7 @@ export default {
 	name: 'BirthdaySection',
 
 	components: {
-		NcDateTimePickerNative,
+		NcDateTimePicker,
 		HeaderBar,
 	},
 
@@ -57,15 +60,49 @@ export default {
 	},
 
 	computed: {
+		// Canonical BCP-47 locale (e.g., "de-CH") used by the native date input
+		canonicalLocale() {
+			return getCanonicalLocale()
+		},
+		// Intl formatter for localized date display
+		intlDtf() {
+			return new Intl.DateTimeFormat(this.canonicalLocale, {
+				year: 'numeric', month: '2-digit', day: '2-digit',
+			})
+		},
+		// A function the picker uses to format the visible value
+		formatDateLocalized() {
+			return (date) => (date instanceof Date ? this.intlDtf.format(date) : '')
+		},
+		// Localized placeholder like dd.mm.yyyy / dd/mm/yyyy etc.
+		placeholderLocalized() {
+			const probe = new Date(2001, 1, 3) // 03 Feb 2001
+			const parts = this.intlDtf.formatToParts(probe)
+			return parts.map(p => {
+				if (p.type === 'day') return 'dd'
+				if (p.type === 'month') return 'mm'
+				if (p.type === 'year') return 'yyyy'
+				return p.value
+			}).join('')
+		},
 		inputId() {
 			return `account-property-${birthdate.name}`
 		},
 		value: {
 			get() {
-				return new Date(this.birthdate.value)
+				if (!this.birthdate?.value) {
+					return null
+				}
+				const d = new Date(this.birthdate.value)
+				return isNaN(d.getTime()) ? null : d
 			},
 			/** @param {Date} value The date to set */
 			set(value) {
+				if (!(value instanceof Date) || isNaN(value.getTime())) {
+					// keep empty if not a valid date
+					this.birthdate.value = ''
+					return
+				}
 				const day = value.getDate().toString().padStart(2, '0')
 				const month = (value.getMonth() + 1).toString().padStart(2, '0')
 				const year = value.getFullYear()
