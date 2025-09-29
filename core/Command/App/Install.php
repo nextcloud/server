@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Core\Command\App;
 
 use OC\Installer;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -58,9 +59,11 @@ class Install extends Command {
 		$appId = $input->getArgument('app-id');
 		$forceEnable = (bool) $input->getOption('force');
 
-		if ($this->appManager->isInstalled($appId)) {
+		try {
+			$this->appManager->getAppPath($appId);
 			$output->writeln($appId . ' already installed');
 			return 1;
+		} catch (AppPathNotFoundException) {
 		}
 
 		try {
