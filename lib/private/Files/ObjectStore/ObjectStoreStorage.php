@@ -789,7 +789,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		} catch (S3MultipartUploadException|S3Exception $e) {
 			$this->objectStore->abortMultipartUpload($urn, $writeToken);
 			$this->logger->error(
-				'Could not compete multipart upload ' . $urn . ' with uploadId ' . $writeToken,
+				'Could not complete multipart upload ' . $urn . ' with uploadId ' . $writeToken,
 				[
 					'app' => 'objectstore',
 					'exception' => $e,
