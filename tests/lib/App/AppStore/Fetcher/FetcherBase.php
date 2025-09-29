@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -20,30 +22,21 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\Support\Subscription\IRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 abstract class FetcherBase extends TestCase {
-	/** @var Factory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appDataFactory;
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
-	protected $appData;
-	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
-	protected $clientService;
-	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
-	protected $timeFactory;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
-	protected $logger;
-	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
-	protected $registry;
-	/** @var Fetcher */
-	protected $fetcher;
-	/** @var string */
-	protected $fileName;
-	/** @var string */
-	protected $endpoint;
+	protected Factory&MockObject $appDataFactory;
+	protected IAppData&MockObject $appData;
+	protected IClientService&MockObject $clientService;
+	protected ITimeFactory&MockObject $timeFactory;
+	protected IConfig&MockObject $config;
+	protected LoggerInterface&MockObject $logger;
+	protected IRegistry&MockObject $registry;
+	protected Fetcher $fetcher;
+	protected string $fileName;
+	protected string $endpoint;
 
 	protected function setUp(): void {
 		parent::setUp();

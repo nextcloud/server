@@ -17,8 +17,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AccountPropertyCollectionTest extends TestCase {
-	/** @var IAccountPropertyCollection */
-	protected $collection;
+	protected IAccountPropertyCollection $collection;
 
 	protected const COLLECTION_NAME = 'my_multivalue_property';
 
@@ -28,10 +27,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->collection = new AccountPropertyCollection(self::COLLECTION_NAME);
 	}
 
-	/**
-	 * @return IAccountProperty|MockObject
-	 */
-	protected function makePropertyMock(string $propertyName): MockObject {
+	protected function makePropertyMock(string $propertyName): IAccountProperty&MockObject {
 		$mock = $this->createMock(IAccountProperty::class);
 		$mock->expects($this->any())
 			->method('getName')

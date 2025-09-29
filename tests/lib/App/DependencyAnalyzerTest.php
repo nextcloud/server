@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
@@ -9,11 +11,11 @@ namespace Test\App;
 
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class DependencyAnalyzerTest extends TestCase {
-	/** @var Platform|\PHPUnit\Framework\MockObject\MockObject */
-	private $platformMock;
+	private Platform&MockObject $platformMock;
 
 	private DependencyAnalyzer $analyser;
 

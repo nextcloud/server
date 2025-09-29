@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -24,14 +26,10 @@ use Test\TestCase;
  * @group DB
  */
 class HooksTest extends TestCase {
-	/** @var LoggerInterface|MockObject */
-	private $logger;
 
-	/** @var AccountManager|MockObject */
-	private $accountManager;
-
-	/** @var Hooks */
-	private $hooks;
+	private LoggerInterface&MockObject $logger;
+	private AccountManager&MockObject $accountManager;
+	private Hooks $hooks;
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -15,13 +17,12 @@ use OC\App\AppStore\Bundles\HubBundle;
 use OC\App\AppStore\Bundles\PublicSectorBundle;
 use OC\App\AppStore\Bundles\SocialSharingBundle;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class BundleFetcherTest extends TestCase {
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var BundleFetcher */
-	private $bundleFetcher;
+	private IL10N&MockObject $l10n;
+	private BundleFetcher $bundleFetcher;
 
 	protected function setUp(): void {
 		parent::setUp();
