@@ -114,7 +114,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.3.0
 	- license: MIT
 - axios
-	- version: 1.11.0
+	- version: 1.12.2
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -156,7 +156,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.6
 	- license: MIT
 - libphonenumber-js
-	- version: 1.12.17
+	- version: 1.12.23
 	- license: MIT
 - md5
 	- version: 2.3.0

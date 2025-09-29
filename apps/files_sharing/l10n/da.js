@@ -152,7 +152,7 @@ OC.L10N.register(
     "Request subject" : "Forespørgselsemne",
     "Birthday party photos, History assignment…" : "Fødselsdagsfest fotos, historik tildeling...",
     "Where should these files go?" : "Hvor skal disse filer hen?",
-    "Upload destination" : "Upload destination",
+    "Upload destination" : "Upload destinationsmappe",
     "Revert to default" : "Tilbage til standard",
     "The uploaded files are visible only to you unless you choose to share them." : "De uploadede filer er kun synlige for dig med mindre du vælger at dele dem.",
     "Add a note" : "Tilføj en bemærkning",

@@ -32,7 +32,6 @@ use Psr\Log\LoggerInterface;
  * }
  */
 class OC_Helper {
-	private static $templateManager;
 	private static ?ICacheFactory $cacheFactory = null;
 	private static ?bool $quotaIncludeExternalStorage = null;
 
@@ -64,17 +63,6 @@ class OC_Helper {
 				copy($src, $dest);
 			}
 		}
-	}
-
-	/**
-	 * @deprecated 18.0.0
-	 * @return \OC\Files\Type\TemplateManager
-	 */
-	public static function getFileTemplateManager() {
-		if (!self::$templateManager) {
-			self::$templateManager = new \OC\Files\Type\TemplateManager();
-		}
-		return self::$templateManager;
 	}
 
 	/**
@@ -115,18 +103,6 @@ class OC_Helper {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * copy the contents of one stream to another
-	 *
-	 * @param resource $source
-	 * @param resource $target
-	 * @return array the number of bytes copied and result
-	 * @deprecated 5.0.0 - Use \OCP\Files::streamCopy
-	 */
-	public static function streamCopy($source, $target) {
-		return \OCP\Files::streamCopy($source, $target, true);
 	}
 
 	/**
