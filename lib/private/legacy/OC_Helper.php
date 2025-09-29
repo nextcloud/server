@@ -106,18 +106,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * copy the contents of one stream to another
-	 *
-	 * @param resource $source
-	 * @param resource $target
-	 * @return array the number of bytes copied and result
-	 * @deprecated 5.0.0 - Use \OCP\Files::streamCopy
-	 */
-	public static function streamCopy($source, $target) {
-		return \OCP\Files::streamCopy($source, $target, true);
-	}
-
-	/**
 	 * Adds a suffix to the name in case the file exists
 	 *
 	 * @param string $path
