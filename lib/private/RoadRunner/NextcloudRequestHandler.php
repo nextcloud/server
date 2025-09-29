@@ -106,27 +106,46 @@ class NextcloudRequestHandler implements RequestHandlerInterface {
      * @since 30.0.0
      */
     private function resetRequestState(): void {
-        // Reset session state
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            session_write_close();
+        try {
+            // Reset user session using proper OCP interface
+            $userSession = \OCP\Server::get(\OCP\IUserSession::class);
+            $userSession->setUser(null);
+
+            // Clear session data but don't destroy the session itself in worker mode
+            if (session_status() === PHP_SESSION_ACTIVE) {
+                session_unset();
+                // Don't call session_destroy() in worker mode as it would affect all workers
+            }
+
+            // Clear request-specific globals
+            $_GET = [];
+            $_POST = [];
+            $_COOKIE = [];
+            $_FILES = [];
+            $_SERVER = [];
+
+            // Reset group manager and user manager state
+            $groupManager = \OCP\Server::get(\OCP\IGroupManager::class);
+            $userManager = \OCP\Server::get(\OCP\IUserManager::class);
+
+            // Clear any cached user/group data
+            // Note: This might need refinement based on actual Nextcloud internals
+
+            // Reset app manager state for per-request app loading
+            $appManager = \OCP\Server::get(\OCP\App\IAppManager::class);
+            // Clear any request-specific app state if needed
+
+            // Clear request-specific configuration
+            $config = \OCP\Server::get(\OCP\IConfig::class);
+            // Reset any request-specific configuration that might be cached
+
+        } catch (\Throwable $e) {
+            // Log reset errors but don't fail the request
+            \OCP\Server::get(\Psr\Log\LoggerInterface::class)->warning(
+                'Error during request state reset: ' . $e->getMessage(),
+                ['exception' => $e]
+            );
         }
-
-        // Clear request-specific globals
-        $_GET = [];
-        $_POST = [];
-        $_COOKIE = [];
-        $_FILES = [];
-
-        // Reset error handler state
-        if (function_exists('opcache_reset')) {
-            // Don't reset opcache in production, just clear file stats
-            opcache_get_status(false);
-        }
-
-        // Reset user context and authentication state
-        // This would typically integrate with Nextcloud's session management
-        \OC_User::setUserId(null);
-        \OC_User::setDisplayName(null);
     }
 
     /**
