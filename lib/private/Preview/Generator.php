@@ -582,16 +582,11 @@ class Generator {
 	 * @throws NotPermittedException
 	 */
 	private function getPreviewFolder(File $file) {
-		// Obtain file id outside of try catch block to prevent the creation of an existing folder
-		$fileId = (string)$file->getId();
-
-		try {
-			$folder = $this->appData->getFolder($fileId);
-		} catch (NotFoundException $e) {
-			$folder = $this->appData->newFolder($fileId);
+		try{
+			return $this->appData->newFolder((string)$file->getId());
+		} catch (NotPermittedException $e) {
+			throw new NotFoundException('Creation or access of preview directory not permitted!');
 		}
-
-		return $folder;
 	}
 
 	/**
