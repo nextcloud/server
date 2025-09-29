@@ -493,11 +493,11 @@ class View {
 	}
 
 	/**
- 	* Checks if a file or directory exists at the given path.
- 	*
-	* @param string $path
- 	* @return bool
- 	*/
+	 * Checks if a file or directory exists at the given path.
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
 	public function file_exists(string $path): bool {
 		if ($path === '/') {
 			return true;
@@ -507,13 +507,13 @@ class View {
 	}
 
 	/**
- 	* Gets the last modification time of a file or directory at the given path.
- 	*
- 	* @param string $path
- 	* @return int|false Returns the file modification time as an integer, or false on failure.
- 	*/
+	 * Gets the last modification time of a file or directory at the given path.
+	 *
+	 * @param string $path
+	 * @return int|false Returns the file modification time as an integer, or false on failure.
+	 */
 	public function filemtime(string $path): int|false {
-    	return $this->basicOperation('filemtime', $path);
+		return $this->basicOperation('filemtime', $path);
 	}
 
 	/**
