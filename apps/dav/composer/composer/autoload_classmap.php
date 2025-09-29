@@ -206,6 +206,7 @@ return array(
     'OCA\\DAV\\Comments\\EntityCollection' => $baseDir . '/../lib/Comments/EntityCollection.php',
     'OCA\\DAV\\Comments\\EntityTypeCollection' => $baseDir . '/../lib/Comments/EntityTypeCollection.php',
     'OCA\\DAV\\Comments\\RootCollection' => $baseDir . '/../lib/Comments/RootCollection.php',
+    'OCA\\DAV\\ConfigLexicon' => $baseDir . '/../lib/ConfigLexicon.php',
     'OCA\\DAV\\Connector\\LegacyDAVACL' => $baseDir . '/../lib/Connector/LegacyDAVACL.php',
     'OCA\\DAV\\Connector\\LegacyPublicAuth' => $baseDir . '/../lib/Connector/LegacyPublicAuth.php',
     'OCA\\DAV\\Connector\\Sabre\\AnonymousOptionsPlugin' => $baseDir . '/../lib/Connector/Sabre/AnonymousOptionsPlugin.php',
