@@ -113,16 +113,6 @@
       <code><![CDATA[$this->path]]></code>
     </DeprecatedProperty>
   </file>
-  <file src="apps/dashboard/lib/Controller/DashboardApiController.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/dashboard/lib/Service/DashboardService.php">
-    <DeprecatedMethod>
-      <code><![CDATA[getAppValue]]></code>
-    </DeprecatedMethod>
-  </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <DeprecatedMethod>
       <code><![CDATA[exec]]></code>
