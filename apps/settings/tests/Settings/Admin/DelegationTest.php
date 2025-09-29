@@ -12,9 +12,10 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Settings\IDelegatedSettings;
 use OCP\Settings\IManager;
-use OCP\Settings\ISettings;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -25,6 +26,7 @@ class DelegationTest extends TestCase {
 	private IGroupManager|MockObject $groupManager;
 	private AuthorizedGroupService|MockObject $authorizedGroupService;
 	private IURLGenerator|MockObject $urlGenerator;
+	private IL10N|MockObject $l10n;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -34,6 +36,7 @@ class DelegationTest extends TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->authorizedGroupService = $this->createMock(AuthorizedGroupService::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->delegation = new Delegation(
 			$this->settingManager,
@@ -41,15 +44,29 @@ class DelegationTest extends TestCase {
 			$this->groupManager,
 			$this->authorizedGroupService,
 			$this->urlGenerator,
+			$this->l10n,
 		);
 	}
 
-	public function testImplementsISettings(): void {
-		$this->assertInstanceOf(ISettings::class, $this->delegation);
+	public function testImplementsIDelegatedSettings(): void {
+		$this->assertInstanceOf(IDelegatedSettings::class, $this->delegation);
 	}
 
 	public function testGetPriority(): void {
 		$this->assertEquals(75, $this->delegation->getPriority());
+	}
+
+	public function testGetName(): void {
+		$this->l10n->expects($this->once())
+			->method('t')
+			->with('Delegation')
+			->willReturn('Delegation');
+
+		$this->assertEquals('Delegation', $this->delegation->getName());
+	}
+
+	public function testGetAuthorizedAppConfig(): void {
+		$this->assertEquals([], $this->delegation->getAuthorizedAppConfig());
 	}
 
 	public function testGetSection(): void {
