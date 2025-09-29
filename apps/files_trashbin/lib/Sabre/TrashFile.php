@@ -9,10 +9,16 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\Files_Trashbin\Trashbin;
+use OCP\Files\ForbiddenException;
+use Sabre\DAV\Exception\Forbidden;
 
 class TrashFile extends AbstractTrashFile {
 	public function get() {
-		return $this->data->getStorage()->fopen(Trashbin::getTrashFilename($this->data->getInternalPath(), $this->getDeletionTime()), 'rb');
+		try {
+			return $this->data->getStorage()->fopen(Trashbin::getTrashFilename($this->data->getInternalPath(), $this->getDeletionTime()), 'rb');
+		} catch (ForbiddenException) {
+			throw new Forbidden();
+		}
 	}
 
 	public function getName(): string {
