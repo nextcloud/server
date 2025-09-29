@@ -12,6 +12,7 @@ use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Installer;
 use OC\Repair;
 use OC\Repair\Events\RepairErrorEvent;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -426,7 +427,11 @@ class OC_App {
 					$info['level'] = self::supportedApp;
 				}
 
-				$appPath = self::getAppPath($app);
+				try {
+					$appPath = $appManager->getAppPath($app);
+				} catch (AppPathNotFoundException) {
+					$appPath = false;
+				}
 				if ($appPath !== false) {
 					$appIcon = $appPath . '/img/' . $app . '.svg';
 					if (file_exists($appIcon)) {

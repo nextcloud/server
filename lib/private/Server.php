@@ -1048,7 +1048,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getAppDataDir('js'),
 				$c->get(IURLGenerator::class),
 				$this->get(ICacheFactory::class),
-				$c->get(SystemConfig::class),
+				$c->get(\OCP\IConfig::class),
 				$c->get(LoggerInterface::class)
 			);
 		});

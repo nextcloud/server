@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace OC\Template;
 
-use OC\SystemConfig;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICache;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use Psr\Log\LoggerInterface;
 
@@ -26,14 +26,14 @@ class JSCombiner {
 		protected IAppData $appData,
 		protected IURLGenerator $urlGenerator,
 		protected ICacheFactory $cacheFactory,
-		protected SystemConfig $config,
+		protected IConfig $config,
 		protected LoggerInterface $logger,
 	) {
 		$this->depsCache = $this->cacheFactory->createDistributed('JS-' . md5($this->urlGenerator->getBaseUrl()));
 	}
 
 	public function process(string $root, string $file, string $app): bool {
-		if ($this->config->getValue('debug') || !$this->config->getValue('installed')) {
+		if ($this->config->getSystemValueBool('debug') || !$this->config->getSystemValueBool('installed')) {
 			return false;
 		}
 

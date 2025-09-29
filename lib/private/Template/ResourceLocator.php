@@ -18,7 +18,6 @@ abstract class ResourceLocator {
 
 	protected array $mapping;
 	protected string $serverroot;
-	protected string $webroot;
 
 	protected array $resources = [];
 
@@ -30,7 +29,6 @@ abstract class ResourceLocator {
 			\OC::$SERVERROOT => \OC::$WEBROOT
 		];
 		$this->serverroot = \OC::$SERVERROOT;
-		$this->webroot = \OC::$WEBROOT;
 
 		$this->theme = $config->getSystemValueString('theme', '');
 
@@ -53,7 +51,7 @@ abstract class ResourceLocator {
 			try {
 				$this->doFind($resource);
 			} catch (ResourceNotFoundException $e) {
-				$resourceApp = substr($resource, 0, strpos($resource, '/'));
+				[$resourceApp] = explode('/', $resource, 2);
 				$this->logger->debug('Could not find resource file "' . $e->getResourcePath() . '"', ['app' => $resourceApp]);
 			}
 		}
@@ -62,7 +60,7 @@ abstract class ResourceLocator {
 				try {
 					$this->doFindTheme($resource);
 				} catch (ResourceNotFoundException $e) {
-					$resourceApp = substr($resource, 0, strpos($resource, '/'));
+					[$resourceApp] = explode('/', $resource, 2);
 					$this->logger->debug('Could not find resource file in theme "' . $e->getResourcePath() . '"', ['app' => $resourceApp]);
 				}
 			}
