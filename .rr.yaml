@@ -1,0 +1,120 @@
+# RoadRunner Configuration for Nextcloud
+# Addresses GitHub issue #36290 - RoadRunner PHP webserver support
+
+version: "3"
+
+# RPC Configuration for RoadRunner management
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+# Server Configuration
+server:
+  command: "php worker.php"
+  user: ""
+  group: ""
+  env:
+    # Nextcloud specific environment variables
+    - "NC_environment=production"
+    - "OC_PASS_ENV_TO_PHP=1"
+
+# HTTP Configuration
+http:
+  address: 0.0.0.0:8080
+
+  # Middleware stack
+  middleware: ["static", "gzip", "headers"]
+
+  # Static file serving (for Nextcloud assets)
+  static:
+    dir: "."
+    forbid: [".htaccess", ".rr.yaml", "config/", "data/", "lib/private/"]
+    allow: [".css", ".js", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".woff", ".woff2", ".ttf", ".eot"]
+
+  # Request/Response headers
+  headers:
+    cors:
+      allowed_origin: "*"
+      allowed_headers: "*"
+      allowed_methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH,HEAD"
+      exposed_headers: "*"
+      allow_credentials: true
+
+    # Security headers for Nextcloud
+    response:
+      X-Content-Type-Options: "nosniff"
+      X-Frame-Options: "SAMEORIGIN"
+      X-XSS-Protection: "1; mode=block"
+      Referrer-Policy: "no-referrer"
+
+  # Worker Pool Configuration
+  pool:
+    num_workers: 4
+    max_jobs: 1000
+    allocate_timeout: 60s
+    destroy_timeout: 60s
+    supervisor:
+      watch_tick: 1s
+      ttl: 0s
+      idle_ttl: 10s
+      exec_ttl: 60s
+      max_worker_memory: 128
+
+# Logging Configuration
+logs:
+  level: info
+  output: stdout
+  err_output: stderr
+  channels:
+    http:
+      level: info
+    server:
+      level: info
+
+# Metrics Configuration (optional)
+metrics:
+  address: 127.0.0.1:2112
+  collect:
+    app_metric:
+      type: histogram
+      help: "Custom application metrics"
+
+# Auto-reload Configuration for Development
+reload:
+  interval: 1s
+  patterns: [".php", ".yaml", ".yml"]
+  services:
+    http:
+      recursive: true
+      ignore: ["vendor", "data", "config", ".git"]
+      patterns: [".php", ".yaml", ".yml"]
+      dirs: [".", "lib", "apps"]
+
+# Status Configuration
+status:
+  address: 127.0.0.1:2114
+
+# Health Check
+health:
+  address: 127.0.0.1:2115
+
+# KV store (optional, for caching)
+kv:
+  default:
+    driver: memory
+
+# Jobs/Queue support (optional)
+jobs:
+  consume: ["default"]
+  pipelines:
+    default:
+      driver: memory
+
+# WebSocket support (future enhancement)
+# websockets:
+#   path: "/ws"
+#   origin: "*"
+#
+# # Broadcasting support (future enhancement)
+# broadcast:
+#   default:
+#     driver: memory

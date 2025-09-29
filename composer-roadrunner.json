@@ -1,0 +1,90 @@
+{
+	"config": {
+		"vendor-dir": "lib/composer",
+		"optimize-autoloader": true,
+		"sort-packages": true,
+		"platform": {
+			"php": "8.1"
+		},
+		"allow-plugins": {
+			"bamarni/composer-bin-plugin": true
+		}
+	},
+	"autoload": {
+		"exclude-from-classmap": ["**/bamarni/composer-bin-plugin/**"],
+		"files": [
+			"lib/public/Log/functions.php"
+		],
+		"psr-4": {
+			"": "lib/private/legacy",
+			"OC\\": "lib/private",
+			"OC\\Core\\": "core/",
+			"OCP\\": "lib/public",
+			"NCU\\": "lib/unstable"
+		}
+	},
+	"require": {
+		"php": "^8.1",
+		"ext-ctype": "*",
+		"ext-curl": "*",
+		"ext-dom": "*",
+		"ext-fileinfo": "*",
+		"ext-gd": "*",
+		"ext-json": "*",
+		"ext-libxml": "*",
+		"ext-mbstring": "*",
+		"ext-openssl": "*",
+		"ext-pdo": "*",
+		"ext-posix": "*",
+		"ext-session": "*",
+		"ext-simplexml": "*",
+		"ext-xml": "*",
+		"ext-xmlreader": "*",
+		"ext-xmlwriter": "*",
+		"ext-zip": "*",
+		"ext-zlib": "*",
+		"psr/http-message": "^1.0|^2.0",
+		"psr/http-server-handler": "^1.0",
+		"psr/http-server-middleware": "^1.0",
+		"spiral/roadrunner-worker": "^3.0",
+		"spiral/roadrunner-http": "^3.0",
+		"nyholm/psr7": "^1.8"
+	},
+	"require-dev": {
+		"bamarni/composer-bin-plugin": "^1.4"
+	},
+	"suggest": {
+		"spiral/roadrunner": "High-performance application server and process manager for better performance"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all install",
+			"composer dump-autoload --no-dev"
+		],
+		"post-update-cmd": [
+			"[ $COMPOSER_DEV_MODE -eq 0 ] || composer bin all update --ansi",
+			"composer dump-autoload --no-dev"
+		],
+		"cs:fix": "php-cs-fixer fix",
+		"cs:check": "php-cs-fixer fix --dry-run --diff",
+		"lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/stubs/*' -print0 | xargs -0 -n1 php -l",
+		"psalm": "psalm --no-cache --threads=$(nproc)",
+		"psalm:ocp": "psalm --no-cache --threads=$(nproc) -c psalm-ocp.xml",
+		"psalm:ncu": "psalm --no-cache --threads=$(nproc) -c psalm-ncu.xml",
+		"psalm:security": "psalm --no-cache --threads=$(nproc) --taint-analysis --use-baseline=build/psalm-baseline-security.xml",
+		"psalm:update-baseline": "psalm --no-cache --threads=$(nproc) --update-baseline",
+		"serve": [
+			"Composer\\Config::disableProcessTimeout",
+			"PHP_CLI_SERVER_WORKERS=${NEXTCLOUD_WORKERS:=4} php -S ${NEXTCLOUD_HOST:=localhost}:${NEXTCLOUD_PORT:=8080} -t ./"
+		],
+		"roadrunner": [
+			"Composer\\Config::disableProcessTimeout",
+			"./rr serve -c .rr.yaml"
+		],
+		"test": "phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration tests/phpunit-autotest.xml",
+		"test:db": "@composer run test -- --group DB,SLOWDB",
+		"test:files_external": "phpunit --fail-on-warning --fail-on-risky --display-warnings --display-deprecations --display-phpunit-deprecations --colors=always --configuration tests/phpunit-autotest-external.xml",
+		"rector": "rector --config=build/rector.php && composer cs:fix",
+		"openapi": "./build/openapi-checker.sh"
+	}
+}
