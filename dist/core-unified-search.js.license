@@ -53,6 +53,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/event-bus
 	- version: 3.3.2
 	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 3.0.0
+	- license: GPL-3.0-or-later
 - @nextcloud/l10n
 	- version: 3.4.0
 	- license: GPL-3.0-or-later
