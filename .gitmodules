@@ -58,3 +58,6 @@
 [submodule "apps-external/notes"]
 	path = apps-external/notes
 	url = git@github.com:nextcloud/notes.git
+[submodule "apps-external/deck"]
+	path = apps-external/deck
+	url = git@github.com:nextcloud/deck.git
