@@ -65,7 +65,7 @@
     "Disable user theming" : "停用使用者佈景主題",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "雖然您可以選取並自訂您的站台，但使用者仍可以變更他們自己的背景與顏色。若您想要強制執行您的自訂，您可以將其開啟。",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "佈景主題讓您可以輕鬆自訂站台與支援客戶端的外觀與感覺。這對所有使用者都可以看見。",
-    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "除了背景影像以外，您也可以設定純色的背景顏色。若您使用背景影像，變更此顏色將會影像應用程式選單圖示的顏色。",
+    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "除了背景影像以外，您也可以設定純色的背景顏色。若您使用背景影像，變更此顏色將會影響應用程式選單圖示的顏色。",
     "Background color" : "背景顏色",
     "Upload new logo" : "上傳新的 Logo 標誌",
     "Logo" : "標誌",
