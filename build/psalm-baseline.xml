@@ -1339,27 +1339,6 @@
       <code><![CDATA[isReadyForUser]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/files_external/ajax/applicable.php">
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_JSON::callCheck()]]></code>
-      <code><![CDATA[\OC_JSON::checkAdminUser()]]></code>
-      <code><![CDATA[\OC_JSON::checkAppEnabled('files_external')]]></code>
-      <code><![CDATA[\OC_JSON::success($results)]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/files_external/ajax/oauth2.php">
-    <DeprecatedMethod>
-      <code><![CDATA[\OC_JSON::callCheck()]]></code>
-      <code><![CDATA[\OC_JSON::checkAppEnabled('files_external')]]></code>
-      <code><![CDATA[\OC_JSON::checkLoggedIn()]]></code>
-      <code><![CDATA[getL10N]]></code>
-    </DeprecatedMethod>
-  </file>
-  <file src="apps/files_external/appinfo/routes.php">
-    <InvalidScope>
-      <code><![CDATA[$this]]></code>
-    </InvalidScope>
-  </file>
   <file src="apps/files_external/lib/Command/Notify.php">
     <DeprecatedClass>
       <code><![CDATA[\OC_Util::normalizeUnicode($parent)]]></code>

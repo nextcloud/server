@@ -6,13 +6,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-
-$this->create('files_external_oauth2', 'apps/files_external/ajax/oauth2.php')
-	->actionInclude('files_external/ajax/oauth2.php');
-
-$this->create('files_external_list_applicable', '/apps/files_external/applicable')
-	->actionInclude('files_external/ajax/applicable.php');
-
 return [
 	'resources' => [
 		'global_storages' => ['url' => '/globalstorages'],
@@ -21,10 +14,19 @@ return [
 	],
 	'routes' => [
 		[
+			'name' => 'Ajax#getApplicableEntities',
+			'url' => '/ajax/applicable',
+			'verb' => 'GET',
+		],
+		[
+			'name' => 'Ajax#oauth2Callback',
+			'url' => '/ajax/oauth2.php',
+			'verb' => 'GET',
+		],
+		[
 			'name' => 'Ajax#getSshKeys',
 			'url' => '/ajax/public_key.php',
 			'verb' => 'POST',
-			'requirements' => [],
 		],
 		[
 			'name' => 'Ajax#saveGlobalCredentials',
