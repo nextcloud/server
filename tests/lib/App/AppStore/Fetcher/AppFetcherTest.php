@@ -2133,7 +2133,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->expects($this->once())
 			->method('get')
 			->with('https://apps.nextcloud.com/api/v1/apps.json', [
-				'timeout' => 60,
+				'timeout' => 120,
 				'headers' => [
 					'X-NC-Subscription-Key' => 'subscription-key',
 				],
@@ -2191,6 +2191,12 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->method('getSystemValueBool')
 			->willReturnArgument(1);
 
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['settings', 'appstore-fetcher-lastFailure', '0', '0'],
+				['settings', 'appstore-timeout', '120', '120'],
+			]);
+
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$folder
@@ -2218,7 +2224,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->expects($this->once())
 			->method('get')
 			->with('https://custom.appsstore.endpoint/api/v1/apps.json', [
-				'timeout' => 60,
+				'timeout' => 120,
 			])
 			->willReturn($response);
 		$response
