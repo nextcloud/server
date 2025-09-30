@@ -51,8 +51,8 @@ class CreateEmptyConfig extends Command {
 				$output->writeln('The prefix may only contain alphanumeric characters, dashes and underscores');
 				return self::FAILURE;
 			}
-			$availableConfigs = $this->helper->getServerConfigurationPrefixes();
-			if (in_array($configPrefix, $availableConfigs)) {
+			$configPrefix = $this->helper->registerNewServerConfigurationPrefix($configPrefix);
+			if ($configPrefix === false) {
 				$output->writeln('The prefix is already in use');
 				return self::FAILURE;
 			}
