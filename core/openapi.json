@@ -7407,7 +7407,7 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Maximum amount of entries, limited to 25",
+                        "description": "Maximum amount of entries (capped by configurable unified-search.max-results-per-request, default: 25)",
                         "schema": {
                             "type": "integer",
                             "format": "int64",
