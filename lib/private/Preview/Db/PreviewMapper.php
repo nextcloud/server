@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace OC\Preview\Db;
 
-use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
-use OCP\IPreview;
+use Override;
 
 /**
  * @template-extends QBMapper<Preview>
@@ -24,18 +24,74 @@ class PreviewMapper extends QBMapper {
 
 	private const TABLE_NAME = 'previews';
 	private const LOCATION_TABLE_NAME = 'preview_locations';
+	private const VERSION_TABLE_NAME = 'preview_versions';
 
 	public function __construct(
 		IDBConnection $db,
+		private readonly IMimeTypeLoader $mimeTypeLoader,
 	) {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
+	}
+
+	protected function mapRowToEntity(array $row): Entity {
+		$row['mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['mimetype_id']);
+		$row['source_mimetype'] = $this->mimeTypeLoader->getMimetypeById((int)$row['source_mimetype_id']);
+
+		return parent::mapRowToEntity($row);
+	}
+
+	#[Override]
+	public function insert(Entity $entity): Entity {
+		/** @var Preview $preview */
+		$preview = $entity;
+
+		$preview->setMimetypeId($this->mimeTypeLoader->getId($preview->getMimeType()));
+		$preview->setSourceMimetypeId($this->mimeTypeLoader->getId($preview->getSourceMimeType()));
+
+		if ($preview->getVersion() !== null && $preview->getVersion() !== '') {
+			$qb = $this->db->getQueryBuilder();
+			$qb->insert(self::VERSION_TABLE_NAME)
+				->values([
+					'version' => $preview->getVersion(),
+					'file_id' => $preview->getFileId(),
+				])
+				->executeStatement();
+			$entity->setVersionId($qb->getLastInsertId());
+		}
+		return parent::insert($preview);
+	}
+
+	#[Override]
+	public function update(Entity $entity): Entity {
+		/** @var Preview $preview */
+		$preview = $entity;
+
+		$preview->setMimetypeId($this->mimeTypeLoader->getId($preview->getMimeType()));
+		$preview->setSourceMimetypeId($this->mimeTypeLoader->getId($preview->getSourceMimeType()));
+
+		return parent::update($preview);
+	}
+
+	#[Override]
+	public function delete(Entity $entity): Entity {
+		/** @var Preview $preview */
+		$preview = $entity;
+		if ($preview->getVersion() !== null && $preview->getVersion() !== '') {
+			$qb = $this->db->getQueryBuilder();
+			$qb->delete(self::VERSION_TABLE_NAME)
+				->where($qb->expr()->eq('file_id', $qb->createNamedParameter($preview->getFileId())))
+				->andWhere($qb->expr()->eq('version', $qb->createNamedParameter($preview->getVersion())))
+				->executeStatement();
+		}
+
+		return parent::delete($entity);
 	}
 
 	/**
 	 * @return \Generator<Preview>
 	 * @throws Exception
 	 */
-	public function getAvailablePreviewForFile(int $fileId): \Generator {
+	public function getAvailablePreviewsForFile(int $fileId): \Generator {
 		$selectQb = $this->db->getQueryBuilder();
 		$this->joinLocation($selectQb)
 			->where($selectQb->expr()->eq('p.file_id', $selectQb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
@@ -82,10 +138,13 @@ class PreviewMapper extends QBMapper {
 	}
 
 	protected function joinLocation(IQueryBuilder $qb): IQueryBuilder {
-		return $qb->select('p.*', 'l.bucket_name', 'l.object_store_name')
+		return $qb->select('p.*', 'l.bucket_name', 'l.object_store_name', 'v.version')
 			->from(self::TABLE_NAME, 'p')
-			->leftJoin('p', 'preview_locations', 'l', $qb->expr()->eq(
+			->leftJoin('p', self::LOCATION_TABLE_NAME, 'l', $qb->expr()->eq(
 				'p.location_id', 'l.id'
+			))
+			->leftJoin('p', self::VERSION_TABLE_NAME, 'v', $qb->expr()->eq(
+				'p.version_id', 'v.id'
 			));
 	}
 
@@ -127,15 +186,15 @@ class PreviewMapper extends QBMapper {
 	}
 
 	/**
-	 * @param int[] $mimeTypes
+	 * @param string[] $mimeTypes
 	 * @return \Generator<Preview>
 	 */
 	public function getPreviewsForMimeTypes(array $mimeTypes): \Generator {
 		$qb = $this->db->getQueryBuilder();
 		$this->joinLocation($qb)
 			->where($qb->expr()->orX(
-				...array_map(function (int $mimeType) use ($qb) {
-					return $qb->expr()->eq('source_mimetype', $qb->createNamedParameter($mimeType, IQueryBuilder::PARAM_INT));
+				...array_map(function (string $mimeType) use ($qb): string {
+					return $qb->expr()->eq('source_mimetype_id', $qb->createNamedParameter($this->mimeTypeLoader->getId($mimeType), IQueryBuilder::PARAM_INT));
 				}, $mimeTypes)
 			));
 		return $this->yieldEntities($qb);

@@ -18,8 +18,7 @@ namespace OCP\Preview;
  */
 interface IVersionedPreviewFile {
 	/**
-	 * @return numeric
 	 * @since 17.0.0
 	 */
-	public function getPreviewVersion();
+	public function getPreviewVersion(): string;
 }

@@ -13,7 +13,6 @@ namespace Test\Preview;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OC\Preview\PreviewService;
-use OCP\IPreview;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -24,6 +23,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(PreviewService::class)]
 class PreviewServiceTest extends TestCase {
 	private PreviewService $previewService;
+	private PreviewMapper $previewMapper;
 
 	protected function setUp(): void {
 		$this->previewService = Server::get(PreviewService::class);
@@ -43,10 +43,10 @@ class PreviewServiceTest extends TestCase {
 			$preview->setWidth($i);
 			$preview->setHeight($i);
 			$preview->setMax(true);
-			$preview->setSourceMimetype(1);
+			$preview->setSourceMimeType('image/jpeg');
 			$preview->setCropped(true);
 			$preview->setEncrypted(false);
-			$preview->setMimetype(42);
+			$preview->setMimetype('image/jpeg');
 			$preview->setEtag('abc');
 			$preview->setMtime((new \DateTime())->getTimestamp());
 			$preview->setSize(0);

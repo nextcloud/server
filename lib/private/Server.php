@@ -308,6 +308,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Watcher(
 				$c->get(\OC\Preview\Storage\StorageFactory::class),
 				$c->get(PreviewMapper::class),
+				$c->get(IDBConnection::class),
 			);
 		});
 

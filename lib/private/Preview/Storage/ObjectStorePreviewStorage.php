@@ -15,6 +15,7 @@ use OC\Files\ObjectStore\PrimaryObjectStoreConfig;
 use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
+use OCP\Files\NotPermittedException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\IConfig;
 use Override;
@@ -41,15 +42,7 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function writePreview(Preview $preview, mixed $stream): false|int {
-		if (!is_resource($stream)) {
-			$fh = fopen('php://temp', 'w+');
-			fwrite($fh, $stream);
-			rewind($fh);
-
-			$stream = $fh;
-		}
-
+	public function writePreview(Preview $preview, mixed $stream): int {
 		$size = 0;
 		$countStream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size): void {
 			$size = $writtenSize;
@@ -61,7 +54,11 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 			'config' => $config,
 		] = $this->getObjectStoreForPreview($preview);
 
-		$store->writeObject($this->constructUrn($objectPrefix, $preview->getId()), $countStream);
+		try {
+			$store->writeObject($this->constructUrn($objectPrefix, $preview->getId()), $countStream);
+		} catch (\Exception $exception) {
+			throw new NotPermittedException('Unable to save preview to object store', previous: $exception);
+		}
 		return $size;
 	}
 
@@ -71,7 +68,11 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 			'objectPrefix' => $objectPrefix,
 			'store' => $store,
 		] = $this->getObjectStoreForPreview($preview);
-		return $store->readObject($this->constructUrn($objectPrefix, $preview->getId()));
+		try {
+			return $store->readObject($this->constructUrn($objectPrefix, $preview->getId()));
+		} catch (\Exception $exception) {
+			throw new NotPermittedException('Unable to read preview from object store', previous: $exception);
+		}
 	}
 
 	#[Override]
@@ -80,7 +81,11 @@ class ObjectStorePreviewStorage implements IPreviewStorage {
 			'objectPrefix' => $objectPrefix,
 			'store' => $store,
 		] = $this->getObjectStoreForPreview($preview);
-		$store->deleteObject($this->constructUrn($objectPrefix, $preview->getId()));
+		try {
+			$store->deleteObject($this->constructUrn($objectPrefix, $preview->getId()));
+		} catch (\Exception $exception) {
+			throw new NotPermittedException('Unable to delete preview from object store', previous: $exception);
+		}
 	}
 
 	#[Override]

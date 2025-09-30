@@ -74,7 +74,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 		$this->logout();
 
-		foreach ($this->previewService->getAvailablePreviewForFile(5) as $preview) {
+		foreach ($this->previewService->getAvailablePreviewsForFile(5) as $preview) {
 			$this->previewService->deletePreview($preview);
 		}
 

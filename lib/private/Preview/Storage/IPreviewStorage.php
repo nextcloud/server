@@ -10,32 +10,44 @@ declare(strict_types=1);
 
 namespace OC\Preview\Storage;
 
+use Exception;
 use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
 interface IPreviewStorage {
 	/**
-	 * @param resource|string $stream
+	 * @param resource $stream
 	 * @throws NotPermittedException
+	 * @throws NotFoundException
 	 */
-	public function writePreview(Preview $preview, mixed $stream): false|int;
+	public function writePreview(Preview $preview, mixed $stream): int;
 
 	/**
 	 * @param Preview $preview
-	 * @return resource|false
+	 * @return resource
+	 * @throws NotPermittedException
+	 * @throws NotFoundException
 	 */
 	public function readPreview(Preview $preview): mixed;
 
+	/**
+	 * @throws NotPermittedException
+	 */
 	public function deletePreview(Preview $preview): void;
 
 	/**
 	 * Migration helper
 	 *
 	 * To remove at some point
-	 * @throw \Exception
+	 * @throws Exception
 	 */
 	public function migratePreview(Preview $preview, SimpleFile $file): void;
 
+	/**
+	 * @throws NotPermittedException
+	 * @throws NotFoundException
+	 */
 	public function scan(): int;
 }

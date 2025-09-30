@@ -17,7 +17,8 @@ use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\DB\Exception;
 use OCP\Files\IMimeTypeDetector;
-use OCP\Files\IMimeTypeLoader;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -33,10 +34,8 @@ class LocalPreviewStorage implements IPreviewStorage {
 	public function __construct(
 		private readonly IConfig $config,
 		private readonly PreviewMapper $previewMapper,
-		private readonly StorageFactory $previewStorage,
 		private readonly IAppConfig $appConfig,
 		private readonly IDBConnection $connection,
-		private readonly IMimeTypeLoader $mimeTypeLoader,
 		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly LoggerInterface $logger,
 	) {
@@ -45,22 +44,28 @@ class LocalPreviewStorage implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function writePreview(Preview $preview, mixed $stream): false|int {
+	public function writePreview(Preview $preview, mixed $stream): int {
 		$previewPath = $this->constructPath($preview);
-		if (!$this->createParentFiles($previewPath)) {
-			return false;
-		}
+		$this->createParentFiles($previewPath);
 		return file_put_contents($previewPath, $stream);
 	}
 
 	#[Override]
 	public function readPreview(Preview $preview): mixed {
-		return @fopen($this->constructPath($preview), 'r');
+		$previewPath = $this->constructPath($preview);
+		$resource = @fopen($previewPath, 'r');
+		if ($resource === false) {
+			throw new NotFoundException('Unable to open preview stream at ' . $previewPath);
+		}
+		return $resource;
 	}
 
 	#[Override]
 	public function deletePreview(Preview $preview): void {
-		@unlink($this->constructPath($preview));
+		$previewPath = $this->constructPath($preview);
+		if (!@unlink($previewPath) && is_file($previewPath)) {
+			throw new NotPermittedException('Unable to delete preview at ' . $previewPath);
+		}
 	}
 
 	public function getPreviewRootFolder(): string {
@@ -68,19 +73,21 @@ class LocalPreviewStorage implements IPreviewStorage {
 	}
 
 	private function constructPath(Preview $preview): string {
-		return $this->getPreviewRootFolder() . implode('/', str_split(substr(md5((string)$preview->getFileId()), 0, 7))) . '/' . $preview->getFileId() . '/' . $preview->getName($this->mimeTypeLoader);
+		return $this->getPreviewRootFolder() . implode('/', str_split(substr(md5((string)$preview->getFileId()), 0, 7))) . '/' . $preview->getFileId() . '/' . $preview->getName();
 	}
 
-	private function createParentFiles(string $path): bool {
+	private function createParentFiles(string $path): void {
 		$dirname = dirname($path);
 		@mkdir($dirname, recursive: true);
-		return is_dir($dirname);
+		if (!is_dir($dirname)) {
+			throw new NotPermittedException("Unable to create directory '$dirname'");
+		}
 	}
 
 	#[Override]
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
 		// legacy flat directory
-		$sourcePath = $this->getPreviewRootFolder() . $preview->getFileId() . '/' . $preview->getName($this->mimeTypeLoader);
+		$sourcePath = $this->getPreviewRootFolder() . $preview->getFileId() . '/' . $preview->getName();
 		if (!file_exists($sourcePath)) {
 			return;
 		}
@@ -106,7 +113,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		$previewsFound = 0;
 		foreach (new RecursiveIteratorIterator($scanner) as $file) {
 			if ($file->isFile()) {
-				$preview = Preview::fromPath((string)$file, $this->mimeTypeDetector, $this->mimeTypeLoader);
+				$preview = Preview::fromPath((string)$file, $this->mimeTypeDetector);
 				if ($preview === false) {
 					$this->logger->error('Unable to parse preview information for ' . $file->getRealPath());
 					continue;

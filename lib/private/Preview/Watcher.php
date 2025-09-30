@@ -13,6 +13,7 @@ use OC\Preview\Storage\StorageFactory;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\Node;
+use OCP\IDBConnection;
 
 /**
  * Class Watcher
@@ -26,8 +27,9 @@ class Watcher {
 	 * Watcher constructor.
 	 */
 	public function __construct(
-		readonly private StorageFactory $storageFactory,
-		readonly private PreviewMapper $previewMapper,
+		private readonly StorageFactory $storageFactory,
+		private readonly PreviewMapper $previewMapper,
+		private readonly IDBConnection $connection,
 	) {
 	}
 
@@ -47,8 +49,14 @@ class Watcher {
 		}
 
 		[$node->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$nodeId]);
-		foreach ($previews as $preview) {
-			$this->storageFactory->deletePreview($preview);
+		$this->connection->beginTransaction();
+		try {
+			foreach ($previews as $preview) {
+				$this->storageFactory->deletePreview($preview);
+				$this->previewMapper->delete($preview);
+			}
+		} finally {
+			$this->connection->commit();
 		}
 	}
 

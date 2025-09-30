@@ -10,7 +10,6 @@ namespace OC\Core\Command\Preview;
 
 use OC\Preview\Db\Preview;
 use OC\Preview\PreviewService;
-use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IAvatarManager;
@@ -28,7 +27,6 @@ class ResetRenderedTexts extends Command {
 		protected readonly IUserManager $userManager,
 		protected readonly IAvatarManager $avatarManager,
 		private readonly PreviewService $previewService,
-		private readonly IMimeTypeLoader $mimeTypeLoader,
 	) {
 		parent::__construct();
 	}
@@ -93,7 +91,7 @@ class ResetRenderedTexts extends Command {
 		$previewsToDeleteCount = 0;
 
 		foreach ($this->getPreviewsToDelete() as $preview) {
-			$output->writeln('Deleting preview ' . $preview->getName($this->mimeTypeLoader) . ' for fileId ' . $preview->getFileId(), OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln('Deleting preview ' . $preview->getName() . ' for fileId ' . $preview->getFileId(), OutputInterface::VERBOSITY_VERBOSE);
 
 			$previewsToDeleteCount++;
 
@@ -112,9 +110,9 @@ class ResetRenderedTexts extends Command {
 	 */
 	private function getPreviewsToDelete(): \Generator {
 		return $this->previewService->getPreviewsForMimeTypes([
-			$this->mimeTypeLoader->getId('text/plain'),
-			$this->mimeTypeLoader->getId('text/markdown'),
-			$this->mimeTypeLoader->getId('text/x-markdown'),
+			'text/plain',
+			'text/markdown',
+			'text/x-markdown'
 		]);
 	}
 }

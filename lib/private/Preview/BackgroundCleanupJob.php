@@ -35,7 +35,7 @@ class BackgroundCleanupJob extends TimedJob {
 	public function run($argument): void {
 		foreach ($this->getDeletedFiles() as $fileId) {
 			$previewIds = [];
-			foreach ($this->previewService->getAvailablePreviewForFile($fileId) as $preview) {
+			foreach ($this->previewService->getAvailablePreviewsForFile($fileId) as $preview) {
 				$this->previewService->deletePreview($preview);
 			}
 		}

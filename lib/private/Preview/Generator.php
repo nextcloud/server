@@ -12,7 +12,6 @@ use OC\Preview\Storage\PreviewFile;
 use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
-use OCP\Files\IMimeTypeLoader;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -39,7 +38,6 @@ class Generator {
 		private LoggerInterface $logger,
 		private PreviewMapper $previewMapper,
 		private StorageFactory $storageFactory,
-		private IMimeTypeLoader $mimeTypeLoader,
 	) {
 	}
 
@@ -111,9 +109,9 @@ class Generator {
 
 		[$file->getId() => $previews] = $this->previewMapper->getAvailablePreviews([$file->getId()]);
 
-		$previewVersion = -1;
+		$previewVersion = null;
 		if ($file instanceof IVersionedPreviewFile) {
-			$previewVersion = (int)$file->getPreviewVersion();
+			$previewVersion = $file->getPreviewVersion();
 		}
 
 		// Get the max preview and infer the max preview sizes from that
@@ -152,7 +150,7 @@ class Generator {
 			// No need to generate a preview that is just the max preview
 			if ($width === $maxWidth && $height === $maxHeight) {
 				// ensure correct return value if this was the last one
-				$previewFile = new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper, $this->mimeTypeLoader);
+				$previewFile = new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper);
 				continue;
 			}
 
@@ -163,14 +161,14 @@ class Generator {
 					&& $preview->getVersion() === $previewVersion && $preview->isCropped() === $crop);
 
 				if ($preview) {
-					$previewFile = new PreviewFile($preview, $this->storageFactory, $this->previewMapper, $this->mimeTypeLoader);
+					$previewFile = new PreviewFile($preview, $this->storageFactory, $this->previewMapper);
 				} else {
 					if (!$this->previewManager->isMimeSupported($mimeType)) {
 						throw new NotFoundException();
 					}
 
 					if ($maxPreviewImage === null) {
-						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper, $this->mimeTypeLoader));
+						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
 					}
 
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
@@ -298,7 +296,7 @@ class Generator {
 	 * @param Preview[] $previews
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(array $previews, File $file, string $mimeType, int $version): Preview {
+	private function getMaxPreview(array $previews, File $file, string $mimeType, ?string $version): Preview {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previews as $preview) {
@@ -313,7 +311,7 @@ class Generator {
 		return $this->generateProviderPreview($file, $maxWidth, $maxHeight, false, true, $mimeType, $version);
 	}
 
-	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, int $version): Preview {
+	private function generateProviderPreview(File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, ?string $version): Preview {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
 			// Filter out providers that does not support this mime
@@ -353,14 +351,14 @@ class Generator {
 					$previewEntry = new Preview();
 					$previewEntry->setFileId($file->getId());
 					$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
-					$previewEntry->setSourceMimetype($this->mimeTypeLoader->getId($file->getMimeType()));
+					$previewEntry->setSourceMimeType($file->getMimeType());
 					$previewEntry->setWidth($preview->width());
 					$previewEntry->setHeight($preview->height());
 					$previewEntry->setVersion($version);
 					$previewEntry->setMax($max);
 					$previewEntry->setCropped($crop);
 					$previewEntry->setEncrypted(false);
-					$previewEntry->setMimetype($this->mimeTypeLoader->getId($preview->dataMimeType()));
+					$previewEntry->setMimetype($preview->dataMimeType());
 					$previewEntry->setEtag($file->getEtag());
 					$previewEntry->setMtime((new \DateTime())->getTimestamp());
 					$previewEntry->setSize(0);
@@ -468,7 +466,7 @@ class Generator {
 		bool $crop,
 		int $maxWidth,
 		int $maxHeight,
-		?int $version,
+		?string $version,
 		bool $cacheResult,
 	): ISimpleFile {
 		$preview = $maxPreview;
@@ -508,21 +506,21 @@ class Generator {
 		$previewEntry->setFileId($file->getId());
 		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
 		$previewEntry->setWidth($width);
-		$previewEntry->setSourceMimetype($this->mimeTypeLoader->getId($file->getMimeType()));
+		$previewEntry->setSourceMimeType($file->getMimeType());
 		$previewEntry->setHeight($height);
 		$previewEntry->setVersion($version);
 		$previewEntry->setMax(false);
 		$previewEntry->setCropped($crop);
 		$previewEntry->setEncrypted(false);
-		$previewEntry->setMimetype($this->mimeTypeLoader->getId($preview->dataMimeType()));
+		$previewEntry->setMimeType($preview->dataMimeType());
 		$previewEntry->setEtag($file->getEtag());
 		$previewEntry->setMtime((new \DateTime())->getTimestamp());
 		$previewEntry->setSize(0);
 		if ($cacheResult) {
 			$previewEntry = $this->savePreview($previewEntry, $preview);
-			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper, $this->mimeTypeLoader);
+			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper);
 		} else {
-			return new InMemoryFile($previewEntry->getName($this->mimeTypeLoader), $preview->data());
+			return new InMemoryFile($previewEntry->getName(), $preview->data());
 		}
 	}
 
@@ -540,7 +538,10 @@ class Generator {
 			if ($preview instanceof IStreamImage) {
 				$size = $this->storageFactory->writePreview($previewEntry, $preview->resource());
 			} else {
-				$size = $this->storageFactory->writePreview($previewEntry, $preview->data());
+				$stream = fopen('php://temp', 'w+');
+				fwrite($stream, $preview->data());
+				rewind($stream);
+				$size = $this->storageFactory->writePreview($previewEntry, $stream);
 			}
 			if (!$size) {
 				throw new \RuntimeException('Unable to write preview file');

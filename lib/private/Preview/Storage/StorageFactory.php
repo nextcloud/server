@@ -25,7 +25,7 @@ class StorageFactory implements IPreviewStorage {
 	}
 
 	#[Override]
-	public function writePreview(Preview $preview, mixed $stream): false|int {
+	public function writePreview(Preview $preview, mixed $stream): int {
 		return $this->getBackend()->writePreview($preview, $stream);
 	}
 

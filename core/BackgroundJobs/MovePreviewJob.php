@@ -17,24 +17,26 @@ use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
+use OCP\DB\IResult;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use Override;
 use Psr\Log\LoggerInterface;
 
 class MovePreviewJob extends TimedJob {
 	private IAppData $appData;
+	private string $previewRootPath;
 
 	public function __construct(
 		ITimeFactory $time,
 		private readonly IAppConfig $appConfig,
+		private readonly IConfig $config,
 		private readonly PreviewMapper $previewMapper,
 		private readonly StorageFactory $storageFactory,
 		private readonly IDBConnection $connection,
@@ -49,6 +51,7 @@ class MovePreviewJob extends TimedJob {
 		$this->appData = $appDataFactory->get('preview');
 		$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 		$this->setInterval(24 * 60 * 60);
+		$this->previewRootPath = 'appdata_' . $this->config->getSystemValueString('instanceid') . '/preview/';
 	}
 
 	#[Override]
@@ -57,49 +60,22 @@ class MovePreviewJob extends TimedJob {
 			return;
 		}
 
-		$emptyHierarchicalPreviewFolders = false;
-
 		$startTime = time();
 		while (true) {
-			// Check new hierarchical preview folders first
-			if (!$emptyHierarchicalPreviewFolders) {
-				$qb = $this->connection->getQueryBuilder();
-				$qb->select('*')
-					->from('filecache')
-					->where($qb->expr()->like('path', $qb->createNamedParameter('appdata_%/preview/%/%/%/%/%/%/%/%/%')))
-					->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
-					->setMaxResults(100);
-
-				$result = $qb->executeQuery();
-				while ($row = $result->fetch()) {
-					$pathSplit = explode('/', $row['path']);
-					assert(count($pathSplit) >= 2);
-					$fileId = $pathSplit[count($pathSplit) - 2];
-					$this->processPreviews($fileId, false);
-				}
-			}
-
-			// And then the flat preview folder (legacy)
-			$emptyHierarchicalPreviewFolders = true;
 			$qb = $this->connection->getQueryBuilder();
-			$qb->select('*')
+			$qb->select('path')
 				->from('filecache')
-				->where($qb->expr()->like('path', $qb->createNamedParameter('appdata_%/preview/%/%.%')))
+				// Hierarchical preview folder structure
+				->where($qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%/%/%/%/%/%/%/%')))
+				// Legacy flat preview folder structure
+				->orWhere($qb->expr()->like('path', $qb->createNamedParameter($this->previewRootPath . '%/%.%')))
 				->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
 				->setMaxResults(100);
 
 			$result = $qb->executeQuery();
-			$foundOldPreview = false;
-			while ($row = $result->fetch()) {
-				$pathSplit = explode('/', $row['path']);
-				assert(count($pathSplit) >= 2);
-				$fileId = $pathSplit[count($pathSplit) - 2];
-				array_pop($pathSplit);
-				$this->processPreviews($fileId, true);
-				$foundOldPreview = true;
-			}
+			$foundPreviews = $this->processQueryResult($result);
 
-			if (!$foundOldPreview) {
+			if (!$foundPreviews) {
 				break;
 			}
 
@@ -109,20 +85,46 @@ class MovePreviewJob extends TimedJob {
 			}
 		}
 
-		try {
-			// Delete any leftover preview directory
-			$this->appData->getFolder('.')->delete();
-		} catch (NotFoundException) {
-			// ignore
-		}
 		$this->appConfig->setValueBool('core', 'previewMovedDone', true);
+	}
+
+	private function processQueryResult(IResult $result): bool {
+		$foundPreview = false;
+		$fileIds = [];
+		$flatFileIds = [];
+		while ($row = $result->fetch()) {
+			$pathSplit = explode('/', $row['path']);
+			assert(count($pathSplit) >= 2);
+			$fileId = (int)$pathSplit[count($pathSplit) - 2];
+			if (count($pathSplit) === 11) {
+				// Hierarchical structure
+				if (!in_array($fileId, $fileIds)) {
+					$fileIds[] = $fileId;
+				}
+			} else {
+				// Flat structure
+				if (!in_array($fileId, $flatFileIds)) {
+					$flatFileIds[] = $fileId;
+				}
+			}
+			$foundPreview = true;
+		}
+
+		foreach ($fileIds as $fileId) {
+			$this->processPreviews($fileId, flatPath: false);
+		}
+
+		foreach ($flatFileIds as $fileId) {
+			$this->processPreviews($fileId, flatPath: true);
+		}
+		return $foundPreview;
 	}
 
 	/**
 	 * @param array<string|int, string[]> $previewFolders
 	 */
-	private function processPreviews(int|string $fileId, bool $simplePaths): void {
-		$internalPath = $this->getInternalFolder((string)$fileId, $simplePaths);
+	private function processPreviews(int $fileId, bool $flatPath): void {
+		$internalPath = $this->getInternalFolder((string)$fileId, $flatPath);
 		$folder = $this->appData->getFolder($internalPath);
 
 		/**
@@ -133,7 +135,7 @@ class MovePreviewJob extends TimedJob {
 		foreach ($folder->getDirectoryListing() as $previewFile) {
 			$path = $fileId . '/' . $previewFile->getName();
 			/** @var SimpleFile $previewFile */
-			$preview = Preview::fromPath($path, $this->mimeTypeDetector, $this->mimeTypeLoader);
+			$preview = Preview::fromPath($path, $this->mimeTypeDetector);
 			if (!$preview) {
 				$this->logger->error('Unable to import old preview at path.');
 				continue;
@@ -160,23 +162,30 @@ class MovePreviewJob extends TimedJob {
 
 		if (count($result) > 0) {
 			foreach ($previewFiles as $previewFile) {
+				/** @var Preview $preview */
 				$preview = $previewFile['preview'];
 				/** @var SimpleFile $file */
 				$file = $previewFile['file'];
 				$preview->setStorageId($result[0]['storage']);
 				$preview->setEtag($result[0]['etag']);
-				$preview->setSourceMimetype($result[0]['mimetype']);
+				$preview->setSourceMimeType($this->mimeTypeLoader->getMimetypeById((int)$result[0]['mimetype']));
 				try {
 					$preview = $this->previewMapper->insert($preview);
-				} catch (Exception $e) {
+				} catch (Exception) {
 					// We already have this preview in the preview table, skip
+					$qb->delete('filecache')
+						->where($qb->expr()->eq('fileid', $qb->createNamedParameter($file->getId())))
+						->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
+						->executeStatement();
 					continue;
 				}
 
 				try {
 					$this->storageFactory->migratePreview($preview, $file);
+					$qb = $this->connection->getQueryBuilder();
 					$qb->delete('filecache')
 						->where($qb->expr()->eq('fileid', $qb->createNamedParameter($file->getId())))
+						->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
 						->executeStatement();
 					// Do not call $file->delete() as this will also delete the file from the file system
 				} catch (\Exception $e) {
@@ -184,35 +193,51 @@ class MovePreviewJob extends TimedJob {
 					throw $e;
 				}
 			}
+		} else {
+			// No matching fileId, delete preview
+			try {
+				$this->connection->beginTransaction();
+				foreach ($previewFiles as $previewFile) {
+					/** @var SimpleFile $file */
+					$file = $previewFile['file'];
+					$file->delete();
+				}
+				$this->connection->commit();
+			} catch (Exception) {
+				$this->connection->rollback();
+			}
 		}
 
-		$this->deleteFolder($internalPath, $folder);
+		$this->deleteFolder($internalPath);
 	}
 
-	public static function getInternalFolder(string $name, bool $simplePaths): string {
-		if ($simplePaths) {
-			return '/' . $name;
+	public static function getInternalFolder(string $name, bool $flatPath): string {
+		if ($flatPath) {
+			return $name;
 		}
 		return implode('/', str_split(substr(md5($name), 0, 7))) . '/' . $name;
 	}
 
-	private function deleteFolder(string $path, ISimpleFolder $folder): void {
-		$folder->delete();
-
+	private function deleteFolder(string $path): void {
 		$current = $path;
 
 		while (true) {
+			$appDataPath = $this->previewRootPath . $current;
+			$qb = $this->connection->getQueryBuilder();
+			$qb->delete('filecache')
+				->where($qb->expr()->eq('path_hash', $qb->createNamedParameter(md5($appDataPath))))
+				->hintShardKey('storage', $this->rootFolder->getMountPoint()->getNumericStorageId())
+				->executeStatement();
+
 			$current = dirname($current);
 			if ($current === '/' || $current === '.' || $current === '') {
 				break;
 			}
 
-
 			$folder = $this->appData->getFolder($current);
 			if (count($folder->getDirectoryListing()) !== 0) {
 				break;
 			}
-			$folder->delete();
 		}
 	}
 }

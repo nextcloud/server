@@ -14,7 +14,6 @@ use OC\Preview\GeneratorHelper;
 use OC\Preview\Storage\StorageFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
-use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -22,9 +21,16 @@ use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\BeforePreviewFetchedEvent;
 use OCP\Preview\IProviderV2;
+use OCP\Preview\IVersionedPreviewFile;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
+
+abstract class VersionedPreviewFile implements IVersionedPreviewFile, File {
+
+}
 
 class GeneratorTest extends TestCase {
 	private IConfig&MockObject $config;
@@ -35,7 +41,6 @@ class GeneratorTest extends TestCase {
 	private LoggerInterface&MockObject $logger;
 	private StorageFactory&MockObject $storageFactory;
 	private PreviewMapper&MockObject $previewMapper;
-	private IMimeTypeLoader&MockObject $mimeTypeLoader;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -47,12 +52,6 @@ class GeneratorTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->previewMapper = $this->createMock(PreviewMapper::class);
 		$this->storageFactory = $this->createMock(StorageFactory::class);
-		$this->mimeTypeLoader = $this->createMock(IMimeTypeLoader::class);
-		$this->mimeTypeLoader->method('getId')
-			->willReturnCallback(fn ($mimeType) => $mimeType === 'image/png' ? 42 : 43);
-		$this->mimeTypeLoader->method('getMimetypeById')
-			->with(42)
-			->willReturn('image/png');
 
 		$this->generator = new Generator(
 			$this->config,
@@ -62,14 +61,18 @@ class GeneratorTest extends TestCase {
 			$this->logger,
 			$this->previewMapper,
 			$this->storageFactory,
-			$this->mimeTypeLoader,
 		);
 	}
 
-	private function getFile(int $fileId, string $mimeType): File {
+	private function getFile(int $fileId, string $mimeType, bool $hasVersion = false): File {
 		$mountPoint = $this->createMock(IMountPoint::class);
 		$mountPoint->method('getNumericStorageId')->willReturn(42);
-		$file = $this->createMock(File::class);
+		if ($hasVersion) {
+			$file = $this->createMock(VersionedPreviewFile::class);
+			$file->method('getPreviewVersion')->willReturn('abc');
+		} else {
+			$file = $this->createMock(File::class);
+		}
 		$file->method('isReadable')
 			->willReturn(true);
 		$file->method('getMimeType')
@@ -81,8 +84,10 @@ class GeneratorTest extends TestCase {
 		return $file;
 	}
 
-	public function testGetCachedPreview(): void {
-		$file = $this->getFile(42, 'myMimeType');
+	#[TestWith([true])]
+	#[TestWith([false])]
+	public function testGetCachedPreview(bool $hasPreview): void {
+		$file = $this->getFile(42, 'myMimeType', $hasPreview);
 
 		$this->previewManager->method('isMimeSupported')
 			->with($this->equalTo('myMimeType'))
@@ -93,20 +98,20 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setHeight(1000);
 		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
-		$maxPreview->setVersion(-1);
 		$maxPreview->setCropped(false);
 		$maxPreview->setStorageId(1);
-		$maxPreview->setMimetype($this->mimeTypeLoader->getId('image/png'));
+		$maxPreview->setVersion($hasPreview ? 'abc' : null);
+		$maxPreview->setMimeType('image/png');
 
 		$previewFile = new Preview();
 		$previewFile->setWidth(256);
 		$previewFile->setHeight(256);
 		$previewFile->setMax(false);
 		$previewFile->setSize(1000);
-		$previewFile->setVersion(-1);
+		$previewFile->setVersion($hasPreview ? 'abc' : null);
 		$previewFile->setCropped(false);
 		$previewFile->setStorageId(1);
-		$previewFile->setMimetype($this->mimeTypeLoader->getId('image/png'));
+		$previewFile->setMimeType('image/png');
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -120,12 +125,14 @@ class GeneratorTest extends TestCase {
 			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
 		$result = $this->generator->getPreview($file, 100, 100);
-		$this->assertSame('256-256.png', $result->getName());
+		$this->assertSame($hasPreview ? 'abc-256-256.png' : '256-256.png', $result->getName());
 		$this->assertSame(1000, $result->getSize());
 	}
 
-	public function testGetNewPreview(): void {
-		$file = $this->getFile(42, 'myMimeType');
+	#[TestWith([true])]
+	#[TestWith([false])]
+	public function testGetNewPreview(bool $hasVersion): void {
+		$file = $this->getFile(42, 'myMimeType', $hasVersion);
 
 		$this->previewManager->method('isMimeSupported')
 			->with($this->equalTo('myMimeType'))
@@ -196,13 +203,6 @@ class GeneratorTest extends TestCase {
 		$image->method('data')
 			->willReturn('my data');
 
-		$maxPreview = new Preview();
-		$maxPreview->setWidth(2048);
-		$maxPreview->setHeight(2048);
-		$maxPreview->setMax(true);
-		$maxPreview->setSize(1000);
-		$maxPreview->setMimetype($this->mimeTypeLoader->getId('image/png'));
-
 		$this->previewMapper->method('insert')
 			->willReturnCallback(fn (Preview $preview): Preview => $preview);
 
@@ -210,16 +210,28 @@ class GeneratorTest extends TestCase {
 			->willReturnCallback(fn (Preview $preview): Preview => $preview);
 
 		$this->storageFactory->method('writePreview')
-			->willReturnCallback(function (Preview $preview, string $data): int {
-				switch ($preview->getName($this->mimeTypeLoader)) {
-					case '2048-2048-max.png':
-						$this->assertSame('my data', $data);
-						return 1000;
-					case '256-256.png':
-						$this->assertSame('my resized data', $data);
-						return 1000;
+			->willReturnCallback(function (Preview $preview, mixed $data) use ($hasVersion): int {
+				$data = stream_get_contents($data);
+				if ($hasVersion) {
+					switch ($preview->getName()) {
+						case 'abc-2048-2048-max.png':
+							$this->assertSame('my data', $data);
+							return 1000;
+						case 'abc-256-256.png':
+							$this->assertSame('my resized data', $data);
+							return 1000;
+					}
+				} else {
+					switch ($preview->getName()) {
+						case '2048-2048-max.png':
+							$this->assertSame('my data', $data);
+							return 1000;
+						case '256-256.png':
+							$this->assertSame('my resized data', $data);
+							return 1000;
+					}
 				}
-				$this->fail('file name is wrong:' . $preview->getName($this->mimeTypeLoader));
+				$this->fail('file name is wrong:' . $preview->getName());
 			});
 
 		$image = $this->getMockImage(2048, 2048, 'my resized data');
@@ -231,7 +243,7 @@ class GeneratorTest extends TestCase {
 			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL, null));
 
 		$result = $this->generator->getPreview($file, 100, 100);
-		$this->assertSame('256-256.png', $result->getName());
+		$this->assertSame($hasVersion ? 'abc-256-256.png' : '256-256.png', $result->getName());
 		$this->assertSame(1000, $result->getSize());
 	}
 
@@ -249,8 +261,8 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setHeight(2048);
 		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
-		$maxPreview->setVersion(-1);
-		$maxPreview->setMimetype(42);
+		$maxPreview->setVersion(null);
+		$maxPreview->setMimetype('image/png');
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -273,8 +285,8 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setHeight(2048);
 		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
-		$maxPreview->setVersion(-1);
-		$maxPreview->setMimetype($this->mimeTypeLoader->getId('image/png'));
+		$maxPreview->setVersion(null);
+		$maxPreview->setMimeType('image/png');
 
 		$previewFile = new Preview();
 		$previewFile->setWidth(1024);
@@ -282,8 +294,8 @@ class GeneratorTest extends TestCase {
 		$previewFile->setMax(false);
 		$previewFile->setSize(1000);
 		$previewFile->setCropped(true);
-		$previewFile->setVersion(-1);
-		$previewFile->setMimetype($this->mimeTypeLoader->getId('image/png'));
+		$previewFile->setVersion(null);
+		$previewFile->setMimeType('image/png');
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -321,7 +333,7 @@ class GeneratorTest extends TestCase {
 		$this->generator->getPreview($file, 100, 100);
 	}
 
-	private function getMockImage(int $width, int $height, $data = null) {
+	private function getMockImage(int $width, int $height, string $data = '') {
 		$image = $this->createMock(IImage::class);
 		$image->method('height')->willReturn($width);
 		$image->method('width')->willReturn($height);
@@ -378,7 +390,7 @@ class GeneratorTest extends TestCase {
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSize')]
+	#[DataProvider('dataSize')]
 	public function testCorrectSize(int $maxX, int $maxY, int $reqX, int $reqY, bool $crop, string $mode, int $expectedX, int $expectedY): void {
 		$file = $this->getFile(42, 'myMimeType');
 
@@ -391,11 +403,11 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setHeight($maxY);
 		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
-		$maxPreview->setVersion(-1);
-		$maxPreview->setMimetype(42);
+		$maxPreview->setVersion(null);
+		$maxPreview->setMimeType('image/png');
 
-		$this->assertSame($maxPreview->getName($this->mimeTypeLoader), $maxX . '-' . $maxY . '-max.png');
-		$this->assertSame($maxPreview->getMimetypeValue($this->mimeTypeLoader), 'image/png');
+		$this->assertSame($maxPreview->getName(), $maxX . '-' . $maxY . '-max.png');
+		$this->assertSame($maxPreview->getMimeType(), 'image/png');
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -415,7 +427,7 @@ class GeneratorTest extends TestCase {
 
 		$this->previewMapper->method('insert')
 			->willReturnCallback(function (Preview $preview) use ($filename): Preview {
-				$this->assertSame($preview->getName($this->mimeTypeLoader), $filename);
+				$this->assertSame($preview->getName(), $filename);
 				return $preview;
 			});
 
@@ -431,7 +443,7 @@ class GeneratorTest extends TestCase {
 
 		$result = $this->generator->getPreview($file, $reqX, $reqY, $crop, $mode);
 		if ($expectedX === $maxX && $expectedY === $maxY) {
-			$this->assertSame($maxPreview->getName($this->mimeTypeLoader), $result->getName());
+			$this->assertSame($maxPreview->getName(), $result->getName());
 		} else {
 			$this->assertSame($filename, $result->getName());
 		}

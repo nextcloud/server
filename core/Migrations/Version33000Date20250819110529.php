@@ -37,6 +37,14 @@ class Version33000Date20250819110529 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['id']);
 		}
 
+		if (!$schema->hasTable('preview_versions')) {
+			$table = $schema->createTable('preview_versions');
+			$table->addColumn('id', Types::BIGINT, ['autoincrement' => true, 'notnull' => true, 'length' => 20, 'unsigned' => true]);
+			$table->addColumn('file_id', Types::BIGINT, ['notnull' => true, 'length' => 20, 'unsigned' => true]);
+			$table->addColumn('version', Types::STRING, ['notnull' => true, 'default' => '', 'length' => 1024]);
+			$table->setPrimaryKey(['id']);
+		}
+
 		if (!$schema->hasTable('previews')) {
 			$table = $schema->createTable('previews');
 			$table->addColumn('id', Types::BIGINT, ['autoincrement' => true, 'notnull' => true, 'length' => 20, 'unsigned' => true]);
@@ -46,18 +54,18 @@ class Version33000Date20250819110529 extends SimpleMigrationStep {
 			$table->addColumn('location_id', Types::BIGINT, ['notnull' => false, 'length' => 20, 'unsigned' => true]);
 			$table->addColumn('width', Types::INTEGER, ['notnull' => true, 'unsigned' => true]);
 			$table->addColumn('height', Types::INTEGER, ['notnull' => true, 'unsigned' => true]);
-			$table->addColumn('mimetype', Types::INTEGER, ['notnull' => true]);
-			$table->addColumn('source_mimetype', Types::INTEGER, ['notnull' => true]);
+			$table->addColumn('mimetype_id', Types::INTEGER, ['notnull' => true]);
+			$table->addColumn('source_mimetype_id', Types::INTEGER, ['notnull' => true]);
 			$table->addColumn('max', Types::BOOLEAN, ['notnull' => true, 'default' => false]);
 			$table->addColumn('cropped', Types::BOOLEAN, ['notnull' => true, 'default' => false]);
 			$table->addColumn('encrypted', Types::BOOLEAN, ['notnull' => true, 'default' => false]);
 			$table->addColumn('etag', Types::STRING, ['notnull' => true, 'length' => 40, 'fixed' => true]);
 			$table->addColumn('mtime', Types::INTEGER, ['notnull' => true, 'unsigned' => true]);
 			$table->addColumn('size', Types::INTEGER, ['notnull' => true, 'unsigned' => true]);
-			$table->addColumn('version', Types::BIGINT, ['notnull' => true, 'default' => -1]); // can not be null otherwise unique index doesn't work
+			$table->addColumn('version_id', Types::BIGINT, ['notnull' => true, 'default' => -1]);
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['file_id']);
-			$table->addUniqueIndex(['file_id', 'width', 'height', 'mimetype', 'cropped', 'version'], 'previews_file_uniq_idx');
+			$table->addUniqueIndex(['file_id', 'width', 'height', 'mimetype_id', 'cropped', 'version_id'], 'previews_file_uniq_idx');
 		}
 
 		return $schema;
