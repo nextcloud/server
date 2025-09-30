@@ -66,7 +66,7 @@ abstract class Fetcher {
 		}
 
 		$options = [
-			'timeout' => 60,
+			'timeout' => (int)$this->config->getAppValue('settings', 'appstore-timeout', '120')
 		];
 
 		if ($ETag !== '') {
