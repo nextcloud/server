@@ -3,7 +3,7 @@
     "info": {
         "title": "webhook_listeners",
         "version": "0.0.1",
-        "description": "Nextcloud webhook support",
+        "description": "Send notifications to external services whenever something important happens, like when files are changed or updated.",
         "license": {
             "name": "agpl"
         }
