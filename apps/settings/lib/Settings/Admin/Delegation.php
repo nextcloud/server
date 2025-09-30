@@ -26,6 +26,11 @@ class Delegation implements IDelegatedSettings {
 		private IURLGenerator $urlGenerator,
 		private IL10N $l10n,
 	) {
+		// Settings manager is cloned in order to preserve the filtered state.
+		// Prevent initSettingState to reload already filtered delegated states of settingManager for current user.
+		// Fixes rendering of delegated sections in apps/settings/templates/settings/frame.php
+		// While browsing to /settings/admin/admindelegation
+		$this->settingManager = clone $settingManager;
 	}
 
 	/**
