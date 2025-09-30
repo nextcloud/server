@@ -11,14 +11,15 @@ use Doctrine\DBAL\Exception;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Hooks\BasicEmitter;
-use OC\SystemConfig;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\ForbiddenException;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IReliableEtagStorage;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -65,19 +66,15 @@ class Scanner extends BasicEmitter implements IScanner {
 
 	protected IDBConnection $connection;
 
-	private string $previewFolder;
-
 	public function __construct(\OC\Files\Storage\Storage $storage) {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
-		/** @var SystemConfig $config */
-		$config = \OC::$server->get(SystemConfig::class);
-		$this->cacheActive = !$config->getValue('filesystem_cache_readonly', false);
-		$this->useTransactions = !$config->getValue('filescanner_no_transactions', false);
-		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
-		$this->connection = \OC::$server->get(IDBConnection::class);
-		$this->previewFolder = 'appdata_' . $config->getValue('instanceid', '') . '/preview';
+		$config = Server::get(IConfig::class);
+		$this->cacheActive = !$config->getSystemValueBool('filesystem_cache_readonly', false);
+		$this->useTransactions = !$config->getSystemValueBool('filescanner_no_transactions', false);
+		$this->lockingProvider = Server::get(ILockingProvider::class);
+		$this->connection = Server::get(IDBConnection::class);
 	}
 
 	/**
@@ -414,11 +411,6 @@ class Scanner extends BasicEmitter implements IScanner {
 		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', [$path, $this->storageId]);
 		$size = 0;
 		$childQueue = $this->handleChildren($path, $recursive, $reuse, $folderId, $lock, $size, $etagChanged);
-
-		if (str_starts_with($path, $this->previewFolder)) {
-			// Preview scanning is handled in LocalPreviewStorage
-			return 0;
-		}
 
 		foreach ($childQueue as $child => [$childId, $childSize]) {
 			// "etag changed" propagates up, but not down, so we pass `false` to the children even if we already know that the etag of the current folder changed

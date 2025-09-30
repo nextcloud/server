@@ -46,7 +46,7 @@ class PreviewServiceTest extends TestCase {
 			$preview->setSourceMimetype(1);
 			$preview->setCropped(true);
 			$preview->setEncrypted(false);
-			$preview->setMimetype(IPreview::MIMETYPE_JPEG);
+			$preview->setMimetype(42);
 			$preview->setEtag('abc');
 			$preview->setMtime((new \DateTime())->getTimestamp());
 			$preview->setSize(0);

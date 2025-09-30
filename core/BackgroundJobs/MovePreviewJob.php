@@ -19,12 +19,15 @@ use OCP\BackgroundJob\TimedJob;
 use OCP\DB\Exception;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use Override;
+use Psr\Log\LoggerInterface;
 
 class MovePreviewJob extends TimedJob {
 	private IAppData $appData;
@@ -36,6 +39,9 @@ class MovePreviewJob extends TimedJob {
 		private readonly StorageFactory $storageFactory,
 		private readonly IDBConnection $connection,
 		private readonly IRootFolder $rootFolder,
+		private readonly IMimeTypeDetector $mimeTypeDetector,
+		private readonly IMimeTypeLoader $mimeTypeLoader,
+		private readonly LoggerInterface $logger,
 		IAppDataFactory $appDataFactory,
 	) {
 		parent::__construct($time);
@@ -125,8 +131,13 @@ class MovePreviewJob extends TimedJob {
 		$previewFiles = [];
 
 		foreach ($folder->getDirectoryListing() as $previewFile) {
+			$path = $fileId . '/' . $previewFile->getName();
 			/** @var SimpleFile $previewFile */
-			$preview = Preview::fromPath($fileId . '/' . $previewFile->getName());
+			$preview = Preview::fromPath($path, $this->mimeTypeDetector, $this->mimeTypeLoader);
+			if (!$preview) {
+				$this->logger->error('Unable to import old preview at path.');
+				continue;
+			}
 			$preview->setSize($previewFile->getSize());
 			$preview->setMtime($previewFile->getMtime());
 			$preview->setOldFileId($previewFile->getId());

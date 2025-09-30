@@ -12,6 +12,7 @@ namespace Test\Preview;
 
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
+use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 use OCP\IPreview;
 use OCP\Server;
@@ -23,10 +24,12 @@ use Test\TestCase;
 class PreviewMapperTest extends TestCase {
 	private PreviewMapper $previewMapper;
 	private IDBConnection $connection;
+	private IMimeTypeLoader $mimeTypeLoader;
 
 	public function setUp(): void {
 		$this->previewMapper = Server::get(PreviewMapper::class);
 		$this->connection = Server::get(IDBConnection::class);
+		$this->mimeTypeLoader = Server::get(IMimeTypeLoader::class);
 	}
 
 	public function testGetAvailablePreviews(): void {
@@ -72,7 +75,7 @@ class PreviewMapperTest extends TestCase {
 		$preview->setHeight(100);
 		$preview->setSize(100);
 		$preview->setMtime(time());
-		$preview->setMimetype(IPreview::MIMETYPE_PNG);
+		$preview->setMimetype($this->mimeTypeLoader->getId('image/jpeg'));
 		$preview->setEtag('abcdefg');
 
 		if ($locationId !== null) {

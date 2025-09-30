@@ -8,7 +8,18 @@ declare(strict_types=1);
  */
 namespace OC\Files\Cache;
 
+use OCP\IConfig;
+use OCP\Server;
+
 class LocalRootScanner extends Scanner {
+	private string $previewFolder;
+
+	public function __construct(\OC\Files\Storage\Storage $storage) {
+		parent::__construct($storage);
+		$config = Server::get(IConfig::class);
+		$this->previewFolder = 'appdata_' . $config->getSystemValueString('instanceid', '') . '/preview';
+	}
+
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		if ($this->shouldScanPath($file)) {
 			return parent::scanFile($file, $reuseExisting, $parentId, $cacheData, $lock, $data);
@@ -27,6 +38,9 @@ class LocalRootScanner extends Scanner {
 
 	private function shouldScanPath(string $path): bool {
 		$path = trim($path, '/');
+		if (str_starts_with($path, $this->previewFolder)) {
+			return false;
+		}
 		return $path === '' || str_starts_with($path, 'appdata_') || str_starts_with($path, '__groupfolders');
 	}
 }

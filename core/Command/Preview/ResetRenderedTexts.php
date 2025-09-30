@@ -93,7 +93,7 @@ class ResetRenderedTexts extends Command {
 		$previewsToDeleteCount = 0;
 
 		foreach ($this->getPreviewsToDelete() as $preview) {
-			$output->writeln('Deleting preview ' . $preview->getName() . ' for fileId ' . $preview->getFileId(), OutputInterface::VERBOSITY_VERBOSE);
+			$output->writeln('Deleting preview ' . $preview->getName($this->mimeTypeLoader) . ' for fileId ' . $preview->getFileId(), OutputInterface::VERBOSITY_VERBOSE);
 
 			$previewsToDeleteCount++;
 

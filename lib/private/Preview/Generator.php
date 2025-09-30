@@ -152,7 +152,7 @@ class Generator {
 			// No need to generate a preview that is just the max preview
 			if ($width === $maxWidth && $height === $maxHeight) {
 				// ensure correct return value if this was the last one
-				$previewFile = new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper);
+				$previewFile = new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper, $this->mimeTypeLoader);
 				continue;
 			}
 
@@ -163,14 +163,14 @@ class Generator {
 					&& $preview->getVersion() === $previewVersion && $preview->isCropped() === $crop);
 
 				if ($preview) {
-					$previewFile = new PreviewFile($preview, $this->storageFactory, $this->previewMapper);
+					$previewFile = new PreviewFile($preview, $this->storageFactory, $this->previewMapper, $this->mimeTypeLoader);
 				} else {
 					if (!$this->previewManager->isMimeSupported($mimeType)) {
 						throw new NotFoundException();
 					}
 
 					if ($maxPreviewImage === null) {
-						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper));
+						$maxPreviewImage = $this->helper->getImage(new PreviewFile($maxPreview, $this->storageFactory, $this->previewMapper, $this->mimeTypeLoader));
 					}
 
 					$this->logger->debug('Cached preview not found for file {path}, generating a new preview.', ['path' => $file->getPath()]);
@@ -350,7 +350,21 @@ class Generator {
 				}
 
 				try {
-					return $this->savePreview($file, $preview->width(), $preview->height(), $crop, $max, $preview, $version);
+					$previewEntry = new Preview();
+					$previewEntry->setFileId($file->getId());
+					$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
+					$previewEntry->setSourceMimetype($this->mimeTypeLoader->getId($file->getMimeType()));
+					$previewEntry->setWidth($preview->width());
+					$previewEntry->setHeight($preview->height());
+					$previewEntry->setVersion($version);
+					$previewEntry->setMax($max);
+					$previewEntry->setCropped($crop);
+					$previewEntry->setEncrypted(false);
+					$previewEntry->setMimetype($this->mimeTypeLoader->getId($preview->dataMimeType()));
+					$previewEntry->setEtag($file->getEtag());
+					$previewEntry->setMtime((new \DateTime())->getTimestamp());
+					$previewEntry->setSize(0);
+					return $this->savePreview($previewEntry, $preview);
 				} catch (NotPermittedException) {
 					throw new NotFoundException();
 				}
@@ -359,21 +373,6 @@ class Generator {
 
 		throw new NotFoundException('No provider successfully handled the preview generation');
 	}
-
-	private function generatePath(int $width, int $height, bool $crop, bool $max, string $mimeType, int $version): string {
-		$path = ($version !== -1 ? $version . '-' : '') . $width . '-' . $height;
-		if ($crop) {
-			$path .= '-crop';
-		}
-		if ($max) {
-			$path .= '-max';
-		}
-
-		$ext = $this->getExtension($mimeType);
-		$path .= '.' . $ext;
-		return $path;
-	}
-
 
 	/**
 	 * @psalm-param IPreview::MODE_* $mode
@@ -505,30 +504,25 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
-		$path = $this->generatePath($width, $height, $crop, false, $preview->dataMimeType(), $version);
+		$previewEntry = new Preview();
+		$previewEntry->setFileId($file->getId());
+		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
+		$previewEntry->setWidth($width);
+		$previewEntry->setSourceMimetype($this->mimeTypeLoader->getId($file->getMimeType()));
+		$previewEntry->setHeight($height);
+		$previewEntry->setVersion($version);
+		$previewEntry->setMax(false);
+		$previewEntry->setCropped($crop);
+		$previewEntry->setEncrypted(false);
+		$previewEntry->setMimetype($this->mimeTypeLoader->getId($preview->dataMimeType()));
+		$previewEntry->setEtag($file->getEtag());
+		$previewEntry->setMtime((new \DateTime())->getTimestamp());
+		$previewEntry->setSize(0);
 		if ($cacheResult) {
-			$previewEntry = $this->savePreview($file, $width, $height, $crop, false, $preview, $version);
-			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper);
+			$previewEntry = $this->savePreview($previewEntry, $preview);
+			return new PreviewFile($previewEntry, $this->storageFactory, $this->previewMapper, $this->mimeTypeLoader);
 		} else {
-			return new InMemoryFile($path, $preview->data());
-		}
-	}
-
-	/**
-	 * @throws \InvalidArgumentException
-	 */
-	private function getExtension(string $mimeType): string {
-		switch ($mimeType) {
-			case 'image/png':
-				return 'png';
-			case 'image/jpeg':
-				return 'jpg';
-			case 'image/webp':
-				return 'webp';
-			case 'image/gif':
-				return 'gif';
-			default:
-				throw new \InvalidArgumentException('Not a valid mimetype: "' . $mimeType . '"');
+			return new InMemoryFile($previewEntry->getName($this->mimeTypeLoader), $preview->data());
 		}
 	}
 
@@ -538,35 +532,7 @@ class Generator {
 	 * @throws NotPermittedException
 	 * @throws \OCP\DB\Exception
 	 */
-	public function savePreview(File $file, int $width, int $height, bool $crop, bool $max, IImage $preview, int $version): Preview {
-		$previewEntry = new Preview();
-		$previewEntry->setFileId($file->getId());
-		$previewEntry->setStorageId($file->getMountPoint()->getNumericStorageId());
-		$previewEntry->setWidth($width);
-		$previewEntry->setSourceMimetype($this->mimeTypeLoader->getId($file->getMimeType()));
-		$previewEntry->setHeight($height);
-		$previewEntry->setVersion($version);
-		$previewEntry->setMax($max);
-		$previewEntry->setCropped($crop);
-		$previewEntry->setEncrypted(false);
-		switch ($preview->dataMimeType()) {
-			case 'image/jpeg':
-				$previewEntry->setMimetype(IPreview::MIMETYPE_JPEG);
-				break;
-			case 'image/gif':
-				$previewEntry->setMimetype(IPreview::MIMETYPE_GIF);
-				break;
-			case 'image/webp':
-				$previewEntry->setMimetype(IPreview::MIMETYPE_WEBP);
-				break;
-			default:
-				$previewEntry->setMimetype(IPreview::MIMETYPE_PNG);
-				break;
-		}
-		$previewEntry->setEtag($file->getEtag());
-		$previewEntry->setMtime((new \DateTime())->getTimestamp());
-		$previewEntry->setSize(0);
-
+	public function savePreview(Preview $previewEntry, IImage $preview): Preview {
 		$previewEntry = $this->previewMapper->insert($previewEntry);
 
 		// we need to save to DB first

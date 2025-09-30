@@ -12,6 +12,7 @@ namespace OC\Preview\Storage;
 
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\SimpleFS\ISimpleFile;
 use Override;
 
@@ -20,12 +21,13 @@ class PreviewFile implements ISimpleFile {
 		private readonly Preview $preview,
 		private readonly IPreviewStorage $storage,
 		private readonly PreviewMapper $previewMapper,
+		private readonly IMimeTypeLoader $mimeTypeLoader,
 	) {
 	}
 
 	#[Override]
 	public function getName(): string {
-		return $this->preview->getName();
+		return $this->preview->getName($this->mimeTypeLoader);
 	}
 
 	#[Override]
@@ -61,12 +63,12 @@ class PreviewFile implements ISimpleFile {
 
 	#[Override]
 	public function getMimeType(): string {
-		return $this->preview->getMimetypeValue();
+		return $this->preview->getMimetypeValue($this->mimeTypeLoader);
 	}
 
 	#[Override]
 	public function getExtension(): string {
-		return $this->preview->getExtension();
+		return $this->preview->getExtension($this->mimeTypeLoader);
 	}
 
 	#[Override]

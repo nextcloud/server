@@ -47,7 +47,12 @@ class GeneratorTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->previewMapper = $this->createMock(PreviewMapper::class);
 		$this->storageFactory = $this->createMock(StorageFactory::class);
-		$this->mimetypeLoader = $this->createMock(IMimeTypeLoader::class);
+		$this->mimeTypeLoader = $this->createMock(IMimeTypeLoader::class);
+		$this->mimeTypeLoader->method('getId')
+			->willReturnCallback(fn ($mimeType) => $mimeType === 'image/png' ? 42 : 43);
+		$this->mimeTypeLoader->method('getMimetypeById')
+			->with(42)
+			->willReturn('image/png');
 
 		$this->generator = new Generator(
 			$this->config,
@@ -57,7 +62,7 @@ class GeneratorTest extends TestCase {
 			$this->logger,
 			$this->previewMapper,
 			$this->storageFactory,
-			$this->mimetypeLoader,
+			$this->mimeTypeLoader,
 		);
 	}
 
@@ -91,7 +96,7 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setVersion(-1);
 		$maxPreview->setCropped(false);
 		$maxPreview->setStorageId(1);
-		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
+		$maxPreview->setMimetype($this->mimeTypeLoader->getId('image/png'));
 
 		$previewFile = new Preview();
 		$previewFile->setWidth(256);
@@ -101,7 +106,7 @@ class GeneratorTest extends TestCase {
 		$previewFile->setVersion(-1);
 		$previewFile->setCropped(false);
 		$previewFile->setStorageId(1);
-		$previewFile->setMimetype(IPreview::MIMETYPE_PNG);
+		$previewFile->setMimetype($this->mimeTypeLoader->getId('image/png'));
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -130,7 +135,7 @@ class GeneratorTest extends TestCase {
 			->with($this->equalTo([42]))
 			->willReturn([42 => []]);
 
-		$this->config->method('getSystemValue')
+		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
@@ -196,7 +201,7 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setHeight(2048);
 		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
-		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
+		$maxPreview->setMimetype($this->mimeTypeLoader->getId('image/png'));
 
 		$this->previewMapper->method('insert')
 			->willReturnCallback(fn (Preview $preview): Preview => $preview);
@@ -206,7 +211,7 @@ class GeneratorTest extends TestCase {
 
 		$this->storageFactory->method('writePreview')
 			->willReturnCallback(function (Preview $preview, string $data): int {
-				switch ($preview->getName()) {
+				switch ($preview->getName($this->mimeTypeLoader)) {
 					case '2048-2048-max.png':
 						$this->assertSame('my data', $data);
 						return 1000;
@@ -214,7 +219,7 @@ class GeneratorTest extends TestCase {
 						$this->assertSame('my resized data', $data);
 						return 1000;
 				}
-				$this->fail('file name is wrong:' . $preview->getName());
+				$this->fail('file name is wrong:' . $preview->getName($this->mimeTypeLoader));
 			});
 
 		$image = $this->getMockImage(2048, 2048, 'my resized data');
@@ -245,7 +250,7 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
 		$maxPreview->setVersion(-1);
-		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
+		$maxPreview->setMimetype(42);
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -269,7 +274,7 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
 		$maxPreview->setVersion(-1);
-		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
+		$maxPreview->setMimetype($this->mimeTypeLoader->getId('image/png'));
 
 		$previewFile = new Preview();
 		$previewFile->setWidth(1024);
@@ -278,7 +283,7 @@ class GeneratorTest extends TestCase {
 		$previewFile->setSize(1000);
 		$previewFile->setCropped(true);
 		$previewFile->setVersion(-1);
-		$previewFile->setMimetype(IPreview::MIMETYPE_PNG);
+		$previewFile->setMimetype($this->mimeTypeLoader->getId('image/png'));
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -316,7 +321,7 @@ class GeneratorTest extends TestCase {
 		$this->generator->getPreview($file, 100, 100);
 	}
 
-	private function getMockImage($width, $height, $data = null) {
+	private function getMockImage(int $width, int $height, $data = null) {
 		$image = $this->createMock(IImage::class);
 		$image->method('height')->willReturn($width);
 		$image->method('width')->willReturn($height);
@@ -387,10 +392,10 @@ class GeneratorTest extends TestCase {
 		$maxPreview->setMax(true);
 		$maxPreview->setSize(1000);
 		$maxPreview->setVersion(-1);
-		$maxPreview->setMimetype(IPreview::MIMETYPE_PNG);
+		$maxPreview->setMimetype(42);
 
-		$this->assertSame($maxPreview->getName(), $maxX . '-' . $maxY . '-max.png');
-		$this->assertSame($maxPreview->getMimetypeValue(), 'image/png');
+		$this->assertSame($maxPreview->getName($this->mimeTypeLoader), $maxX . '-' . $maxY . '-max.png');
+		$this->assertSame($maxPreview->getMimetypeValue($this->mimeTypeLoader), 'image/png');
 
 		$this->previewMapper->method('getAvailablePreviews')
 			->with($this->equalTo([42]))
@@ -410,7 +415,7 @@ class GeneratorTest extends TestCase {
 
 		$this->previewMapper->method('insert')
 			->willReturnCallback(function (Preview $preview) use ($filename): Preview {
-				$this->assertSame($preview->getName(), $filename);
+				$this->assertSame($preview->getName($this->mimeTypeLoader), $filename);
 				return $preview;
 			});
 
@@ -426,7 +431,7 @@ class GeneratorTest extends TestCase {
 
 		$result = $this->generator->getPreview($file, $reqX, $reqY, $crop, $mode);
 		if ($expectedX === $maxX && $expectedY === $maxY) {
-			$this->assertSame($maxPreview->getName(), $result->getName());
+			$this->assertSame($maxPreview->getName($this->mimeTypeLoader), $result->getName());
 		} else {
 			$this->assertSame($filename, $result->getName());
 		}

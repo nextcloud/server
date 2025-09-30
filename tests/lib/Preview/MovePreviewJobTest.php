@@ -17,12 +17,15 @@ use OC\Preview\Storage\StorageFactory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\IAppData;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Server;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -35,6 +38,9 @@ class MovePreviewJobTest extends TestCase {
 	private StorageFactory $storageFactory;
 	private PreviewService $previewService;
 	private IDBConnection $db;
+	private IMimeTypeLoader&MockObject $mimeTypeLoader;
+	private IMimeTypeDetector&MockObject $mimeTypeDetector;
+	private LoggerInterface&MockObject $logger;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -75,6 +81,12 @@ class MovePreviewJobTest extends TestCase {
 				'permissions' => $qb->createNamedParameter(0),
 				'checksum' => $qb->createNamedParameter('abcdefg'),
 			])->executeStatement();
+
+		$this->mimeTypeDetector = $this->createMock(IMimeTypeDetector::class);
+		$this->mimeTypeDetector->method('detectPath')->willReturn('image/png');
+		$this->mimeTypeLoader = $this->createMock(IMimeTypeLoader::class);
+		$this->mimeTypeLoader->method('getId')->with('image/png')->willReturn(42);
+		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
 	public function tearDown(): void {
@@ -105,7 +117,10 @@ class MovePreviewJobTest extends TestCase {
 			$this->storageFactory,
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
-			Server::get(IAppDataFactory::class)
+			$this->mimeTypeDetector,
+			$this->mimeTypeLoader,
+			$this->logger,
+			Server::get(IAppDataFactory::class),
 		);
 		$this->invokePrivate($job, 'run', [[]]);
 		$this->assertEquals(0, count($this->previewAppData->getDirectoryListing()));
@@ -133,6 +148,9 @@ class MovePreviewJobTest extends TestCase {
 			$this->storageFactory,
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
+			$this->mimeTypeDetector,
+			$this->mimeTypeLoader,
+			$this->logger,
 			Server::get(IAppDataFactory::class)
 		);
 		$this->invokePrivate($job, 'run', [[]]);
@@ -169,6 +187,9 @@ class MovePreviewJobTest extends TestCase {
 			$this->storageFactory,
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
+			$this->mimeTypeDetector,
+			$this->mimeTypeLoader,
+			$this->logger,
 			Server::get(IAppDataFactory::class)
 		);
 		$this->invokePrivate($job, 'run', [[]]);

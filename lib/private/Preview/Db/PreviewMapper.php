@@ -13,6 +13,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 use OCP\IPreview;
 
@@ -24,7 +25,9 @@ class PreviewMapper extends QBMapper {
 	private const TABLE_NAME = 'previews';
 	private const LOCATION_TABLE_NAME = 'preview_locations';
 
-	public function __construct(IDBConnection $db) {
+	public function __construct(
+		IDBConnection $db,
+	) {
 		parent::__construct($db, self::TABLE_NAME, Preview::class);
 	}
 
@@ -55,23 +58,6 @@ class PreviewMapper extends QBMapper {
 			$previews[$preview->getFileId()][] = $preview;
 		}
 		return $previews;
-	}
-
-	public function getPreview(int $fileId, int $width, int $height, string $mode, int $mimetype = IPreview::MIMETYPE_JPEG): ?Preview {
-		$selectQb = $this->db->getQueryBuilder();
-		$this->joinLocation($selectQb)
-			->where(
-				$selectQb->expr()->eq('file_id', $selectQb->createNamedParameter($fileId)),
-				$selectQb->expr()->eq('width', $selectQb->createNamedParameter($width)),
-				$selectQb->expr()->eq('height', $selectQb->createNamedParameter($height)),
-				$selectQb->expr()->eq('mode', $selectQb->createNamedParameter($mode)),
-				$selectQb->expr()->eq('mimetype', $selectQb->createNamedParameter($mimetype)),
-			);
-		try {
-			return $this->findEntity($selectQb);
-		} catch (DoesNotExistException) {
-			return null;
-		}
 	}
 
 	/**

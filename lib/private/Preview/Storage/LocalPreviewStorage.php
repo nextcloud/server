@@ -16,10 +16,13 @@ use OC\Files\SimpleFS\SimpleFile;
 use OC\Preview\Db\Preview;
 use OC\Preview\Db\PreviewMapper;
 use OCP\DB\Exception;
+use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IMimeTypeLoader;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use Override;
+use Psr\Log\LoggerInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -33,6 +36,9 @@ class LocalPreviewStorage implements IPreviewStorage {
 		private readonly StorageFactory $previewStorage,
 		private readonly IAppConfig $appConfig,
 		private readonly IDBConnection $connection,
+		private readonly IMimeTypeLoader $mimeTypeLoader,
+		private readonly IMimeTypeDetector $mimeTypeDetector,
+		private readonly LoggerInterface $logger,
 	) {
 		$this->instanceId = $this->config->getSystemValueString('instanceid');
 		$this->rootFolder = $this->config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
@@ -62,7 +68,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 	}
 
 	private function constructPath(Preview $preview): string {
-		return $this->getPreviewRootFolder() . implode('/', str_split(substr(md5((string)$preview->getFileId()), 0, 7))) . '/' . $preview->getFileId() . '/' . $preview->getName();
+		return $this->getPreviewRootFolder() . implode('/', str_split(substr(md5((string)$preview->getFileId()), 0, 7))) . '/' . $preview->getFileId() . '/' . $preview->getName($this->mimeTypeLoader);
 	}
 
 	private function createParentFiles(string $path): bool {
@@ -74,7 +80,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 	#[Override]
 	public function migratePreview(Preview $preview, SimpleFile $file): void {
 		// legacy flat directory
-		$sourcePath = $this->getPreviewRootFolder() . $preview->getFileId() . '/' . $preview->getName();
+		$sourcePath = $this->getPreviewRootFolder() . $preview->getFileId() . '/' . $preview->getName($this->mimeTypeLoader);
 		if (!file_exists($sourcePath)) {
 			return;
 		}
@@ -88,7 +94,7 @@ class LocalPreviewStorage implements IPreviewStorage {
 		$this->createParentFiles($destinationPath);
 		$ok = rename($sourcePath, $destinationPath);
 		if (!$ok) {
-			throw new LogicException('Failed to copy ' . $sourcePath . ' to ' . $destinationPath);
+			throw new LogicException('Failed to move ' . $sourcePath . ' to ' . $destinationPath);
 		}
 	}
 
@@ -100,7 +106,11 @@ class LocalPreviewStorage implements IPreviewStorage {
 		$previewsFound = 0;
 		foreach (new RecursiveIteratorIterator($scanner) as $file) {
 			if ($file->isFile()) {
-				$preview = Preview::fromPath((string)$file);
+				$preview = Preview::fromPath((string)$file, $this->mimeTypeDetector, $this->mimeTypeLoader);
+				if ($preview === false) {
+					$this->logger->error('Unable to parse preview information for ' . $file->getRealPath());
+					continue;
+				}
 				try {
 					$preview->setSize($file->getSize());
 					$preview->setMtime($file->getMtime());
@@ -139,7 +149,15 @@ class LocalPreviewStorage implements IPreviewStorage {
 					$this->previewMapper->insert($preview);
 
 					// Move old flat preview to new format
-					$this->previewStorage->migratePreview($preview, $file);
+					$dirName = str_replace($this->getPreviewRootFolder(), '', $file->getPath());
+					if (preg_match('/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9a-e]\/[0-9]+/', $dirName) !== 1) {
+						$previewPath = $this->constructPath($preview);
+						$this->createParentFiles($previewPath);
+						$ok = rename($file->getRealPath(), $previewPath);
+						if (!$ok) {
+							throw new LogicException('Failed to move ' . $file->getRealPath() . ' to ' . $previewPath);
+						}
+					}
 				} catch (Exception $e) {
 					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 						throw $e;
